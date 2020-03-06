@@ -91,7 +91,6 @@ class InvoiceService extends BaseService
                 $data['client_id'] = $client->id;
             }
         }
-
         return $this->invoiceRepo->save($data, $invoice);
     }
 

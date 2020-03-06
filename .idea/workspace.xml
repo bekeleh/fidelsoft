@@ -2,15 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/527bc45df3fa2af96d90a4f383fb083c672c04b1.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/a43b836ebc6785dac57ba96424891e397a715c54.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Services/InvoiceService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/InvoiceService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/1Q5blw0YhNNn3qGpMGizE3xoZ6vlUyJpelvm8PSW" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/sessions/u5YkrKZ16bgSzwvIXkcUZ8LcmtE5gKktKwAsxbUV" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/u5YkrKZ16bgSzwvIXkcUZ8LcmtE5gKktKwAsxbUV" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -285,8 +279,16 @@
       <workItem from="1582726832083" duration="3989000" />
       <workItem from="1582893196126" duration="7062000" />
       <workItem from="1582979415030" duration="9127000" />
-      <workItem from="1583503192189" duration="4423000" />
+      <workItem from="1583503192189" duration="4847000" />
     </task>
+    <task id="LOCAL-00001" summary="202003060614">
+      <created>1583507671758</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1583507671759</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -294,8 +296,14 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="202003060614" />
+    <option name="LAST_COMMIT_MESSAGE" value="202003060614" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="345" y="25" key="CommitChangelistDialog2" timestamp="1583507669597">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="345" y="25" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1583507669597" />
     <state width="1397" height="222" key="GridCell.Tab.0.bottom" timestamp="1582731316355">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
@@ -320,6 +328,10 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="555" y="354" key="NewPhpFileDialog/0.0.1440.860@0.0.1440.860" timestamp="1582902619168" />
+    <state x="312" y="163" key="Vcs.Push.Dialog.v2" timestamp="1583507679215">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="312" y="163" key="Vcs.Push.Dialog.v2/0.0.1440.860@0.0.1440.860" timestamp="1583507679215" />
     <state x="415" y="254" key="com.intellij.ide.util.TipDialog" timestamp="1583503192280">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
