@@ -1,91 +1,52 @@
+<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+
 <p align="center">
-    <img src="https://raw.githubusercontent.com/hillelcoren/invoice-ninja/master/public/images/round_logo.png" alt="Sublime's custom image"/>
+<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
-# Invoice Ninja
+## About Laravel
 
-[![Build Status](https://travis-ci.org/invoiceninja/invoiceninja.svg?branch=master)](https://travis-ci.org/invoiceninja/invoiceninja)
-[![Docs](https://readthedocs.org/projects/invoice-ninja/badge/?version=latest)](https://invoice-ninja.readthedocs.io/en/latest/?badge=latest)
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
 
-## [Hosted](https://www.invoiceninja.com) | [Self-Hosted](https://www.invoiceninja.org)
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-### We're on Slack, join us at [slack.invoiceninja.com](http://slack.invoiceninja.com)
+Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb combination of simplicity, elegance, and innovation give you tools you need to build any application with which you are tasked.
 
-All Pro and Enterprise features from the hosted app are included in the open-source code. We offer a $20 per year white-label license to remove our branding for personal use.
+## Learning Laravel
 
-The self-host zip includes all third party libraries whereas downloading the code from GitHub requires using Composer to install the dependencies.
+Laravel has the most extensive and thorough documentation and video tutorial library of any modern web application framework. The [Laravel documentation](https://laravel.com/docs) is thorough, complete, and makes it a breeze to get started learning the framework.
 
-* [Features](https://www.invoiceninja.com/invoicing-features/)
-* [Videos](https://www.youtube.com/channel/UCXAHcBvhW05PDtWYIq7WDFA/videos)
-* [User Guide](https://invoice-ninja.readthedocs.io/en/latest/)
-* [Support Forum](https://www.invoiceninja.com/forums/forum/support/)
+If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 900 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
 
-## Affiliates Programs
-* Referral Program (we pay you)
-	* $100 per sign up paid over 3 years - [Learn more](https://www.invoiceninja.com/referral-program/)
-* White-Label Reseller (you pay us)
-	* Hosted: $500 annually and either 10% of revenue or $1/user/month
-	* Self-Hosted: Contact us for volume license pricing
+## Laravel Sponsors
 
-## Mobile Apps
-* Current: [github.com/invoiceninja/flutter-mobile](https://github.com/invoiceninja/flutter-mobile)
-    * [iPhone](https://itunes.apple.com/us/app/invoice-ninja/id1435514417?ls=1&mt=8)
-    * [Android](https://play.google.com/store/apps/details?id=com.invoiceninja.flutter)
-* Legacy
-    * [iPhone](https://itunes.apple.com/us/app/invoice-ninja/id1220337560?ls=1&mt=8)
-    * [Android](https://play.google.com/store/apps/details?id=com.invoiceninja.invoiceninja)
+We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](http://patreon.com/taylorotwell):
 
-## Installation Options
-* [Ansible](https://github.com/invoiceninja/ansible-installer)
-* [Self-Host Zip](https://invoice-ninja.readthedocs.io/en/latest/install.html)
-* [Docker File](https://hub.docker.com/r/invoiceninja/invoiceninja/)
-* [Cloudron](https://cloudron.io/store/com.invoiceninja.cloudronapp.html)
-* [Softaculous](https://www.softaculous.com/apps/ecommerce/Invoice_Ninja)
-
-## Recommended Providers
-* [Stripe](https://stripe.com/)
-* [Postmark](https://postmarkapp.com/)
-
-## Development
-* [API Documentation](https://invoice-ninja.readthedocs.io/en/latest/api.html)
-* [PHP SDK](https://github.com/invoiceninja/sdk-php)
-* [Zend Framework](https://github.com/alexz707/InvoiceNinjaModule)
-* [Custom Module](https://invoice-ninja.readthedocs.io/en/latest/custom_modules.html) | [Watch Video](https://www.youtube.com/watch?v=8jJ-PYuq85k)
-
-## Third Party Modules
-* [Event Scheduler](https://github.com/cytech/Scheduler-InvoiceNinja)
-* [Manufacturer Module](https://github.com/dicarlosystems/manufacturer-invoiceninja)
-
-> Feel free to email us for help if you're working on a module, we're happy to provide developer support.
-
-## Third Party Tools
-* [InvoicePlane Import](https://github.com/turbo124/Plane2Ninja)
-* [Toggl Sync](https://github.com/Matth--/toggl-invoiceninja-sync)
-* [Shopping Cart](https://github.com/Scifabric/invoiceninjashoppingcart)
-
-## Third Party Developers
-* [Some Techie](https://www.sometechie.com/customize-invoice-ninja/)
+- **[Vehikl](http://vehikl.com)**
+- **[Tighten Co.](https://tighten.co)**
+- **[British Software Development](https://www.britishsoftware.co)**
+- **[Styde](https://styde.net)**
+- **[Codecourse](https://www.codecourse.com)**
+- [Fragrantica](https://www.fragrantica.com)
+- [SOFTonSOFA](https://softonsofa.com/)
 
 ## Contributing
-All contributors are welcome!  
-For information on how contribute to Invoice Ninja, please see our [contributing guide](CONTRIBUTING.md).
 
-## Credits
-* [Hillel Coren](https://hillelcoren.com/)
-* [David Bomba](https://github.com/turbo124)
-* [All contributors](https://github.com/invoiceninja/invoiceninja/graphs/contributors)
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
 
-**Special thanks to:**
-* [Troels Liebe Bentsen](https://github.com/tlbdk)
-* [Jeramy Simpson](https://github.com/JeramyMywork) - [MyWork](https://www.mywork.com.au)
-* [Sigitas Limontas](https://lt.linkedin.com/in/sigitaslimontas)
-* [Joshua Dwire](https://github.com/joshuadwire) - [Some Techie](https://www.sometechie.com)
-* [Holger Lösken](https://github.com/codedge) - [codedge](http://codedge.de)
-* [Samuel Laulhau](https://github.com/lalop) - [Lalop](http://lalop.co/)
-* [Alexander Zamponi](https://github.com/alexz707)
-* [Matthieu Calie](https://github.com/Matth--)
-* [Suhas Sunil Gaikwad](https://github.com/Suhas-Gaikwad) - (Security)
+## Security Vulnerabilities
+
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
 
 ## License
-Invoice Ninja is released under the Attribution Assurance License.  
-See [LICENSE](LICENSE) for details.
+
+The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
