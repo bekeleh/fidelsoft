@@ -2,11 +2,11 @@
     <link href="<?php echo e(asset('css/built.css')); ?>?no_cache=<?php echo e(NINJA_VERSION); ?>" rel="stylesheet" type="text/css"/>
 
     <?php if(Utils::isNinjaDev()): ?>
-        <style type="text/css">
-            .nav-footer {
-                <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?> background-color: #50C878 !important;
-            <?php else: ?> background-color: #FD6A02 !important;
-            <?php endif; ?>
+    <style type="text/css">
+        .nav-footer {
+        <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?> background-color: #50C878 !important;
+        <?php else: ?> background-color: #FD6A02 !important;
+        <?php endif; ?>
 
 
 

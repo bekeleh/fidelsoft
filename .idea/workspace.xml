@@ -2,26 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/CGTIPa8RG9kXv2wm5exxq8yhOj6UYpLBbajIuLxg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/ac3b73e0e67910e958e92283943f06c42646ee23.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/f547a17c9dfbe8ffb7324c9fd9be39f5b7def1c5.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AccountController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AccountController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Libraries/Utils.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Libraries/Utils.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/TaskListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/TaskListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Account.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Account.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/EntityModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/EntityModel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Vendor.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Vendor.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/VendorContact.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/VendorContact.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ProductController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ProductController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/ProductDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/ProductDatatable.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/header.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/master.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/master.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/Ca7m59IKsfuOVe0BhFxVs5llw9g6I8XMbgQ904qJ" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/CGTIPa8RG9kXv2wm5exxq8yhOj6UYpLBbajIuLxg" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/CGTIPa8RG9kXv2wm5exxq8yhOj6UYpLBbajIuLxg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/sessions/sJGiotUZLbbIeYSgNlyz3dXQNAjIWuaEhDIPJQqB" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/sJGiotUZLbbIeYSgNlyz3dXQNAjIWuaEhDIPJQqB" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/3d4796057765b5a7517531f2f8b487ab7f709a24.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/3d4796057765b5a7517531f2f8b487ab7f709a24.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/8ce6cefdf35b74990328199dc12bea150d4c6322.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/8ce6cefdf35b74990328199dc12bea150d4c6322.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/9d8aefb15fbe9a910b39a0f97aae647e7c0ca4f1.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/9d8aefb15fbe9a910b39a0f97aae647e7c0ca4f1.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -298,7 +285,7 @@
       <workItem from="1582893196126" duration="7062000" />
       <workItem from="1582979415030" duration="9127000" />
       <workItem from="1583503192189" duration="5036000" />
-      <workItem from="1583562610753" duration="15743000" />
+      <workItem from="1583562610753" duration="17142000" />
     </task>
     <task id="LOCAL-00001" summary="202003060614">
       <created>1583507671758</created>
@@ -356,7 +343,14 @@
       <option name="project" value="LOCAL" />
       <updated>1583575354618</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="202003070614">
+      <created>1583579155506</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1583579155506</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -375,10 +369,10 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="312" y="89" key="#Notifications/0.0.1440.860@0.0.1440.860" timestamp="1583575389600" />
-    <state x="345" y="25" key="CommitChangelistDialog2" timestamp="1583575352294">
+    <state x="345" y="25" key="CommitChangelistDialog2" timestamp="1583579153095">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="345" y="25" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1583575352294" />
+    <state x="345" y="25" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1583579153095" />
     <state width="1397" height="222" key="GridCell.Tab.0.bottom" timestamp="1582731316355">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
@@ -395,18 +389,18 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state width="1397" height="222" key="GridCell.Tab.0.right/0.0.1440.860@0.0.1440.860" timestamp="1582731316355" />
-    <state x="527" y="245" key="NewPhpClassDialog" timestamp="1583563590313">
+    <state x="527" y="245" key="NewPhpClassDialog" timestamp="1583581216122">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="527" y="245" key="NewPhpClassDialog/0.0.1440.860@0.0.1440.860" timestamp="1583563590313" />
+    <state x="527" y="245" key="NewPhpClassDialog/0.0.1440.860@0.0.1440.860" timestamp="1583581216122" />
     <state x="555" y="354" key="NewPhpFileDialog" timestamp="1582902619168">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="555" y="354" key="NewPhpFileDialog/0.0.1440.860@0.0.1440.860" timestamp="1582902619168" />
-    <state x="312" y="163" key="Vcs.Push.Dialog.v2" timestamp="1583575996329">
+    <state x="312" y="163" key="Vcs.Push.Dialog.v2" timestamp="1583579346966">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="312" y="163" key="Vcs.Push.Dialog.v2/0.0.1440.860@0.0.1440.860" timestamp="1583575996329" />
+    <state x="312" y="163" key="Vcs.Push.Dialog.v2/0.0.1440.860@0.0.1440.860" timestamp="1583579346966" />
     <state x="442" y="234" key="com.intellij.ide.util.TipDialog" timestamp="1583562684518">
       <screen x="0" y="0" width="1440" height="860" />
     </state>

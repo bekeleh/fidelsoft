@@ -23,12 +23,6 @@ class ProductDatatable extends EntityDatatable
                 },
             ],
             [
-                'qty',
-                function ($model) {
-                    return $model->qty;
-                },
-            ],
-            [
                 'notes',
                 function ($model) {
                     return $this->showWithTooltip($model->notes);

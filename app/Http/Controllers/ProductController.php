@@ -119,7 +119,7 @@ class ProductController extends BaseController
     }
 
     /**
-     * @param \App\Http\Controllers\ProductRequest $request
+     * @param ProductRequest $request
      * @return \Illuminate\Contracts\View\View
      */
     public function create(ProductRequest $request)
@@ -140,7 +140,7 @@ class ProductController extends BaseController
     }
 
     /**
-     * @param \App\Http\Controllers\ProductRequest $request
+     * @param ProductRequest $request
      * @return RedirectResponse
      */
     public function store(ProductRequest $request)
@@ -149,7 +149,7 @@ class ProductController extends BaseController
     }
 
     /**
-     * @param \App\Http\Controllers\ProductRequest $request
+     * @param ProductRequest $request
      * @param $publicId
      *
      * @return RedirectResponse
