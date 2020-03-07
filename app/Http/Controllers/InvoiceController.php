@@ -85,7 +85,6 @@ class InvoiceController extends BaseController
 
     public function edit(InvoiceRequest $request, $publicId, $clone = false)
     {
-        dd('...edit invoice');
         $account = Auth::user()->account;
         $invoice = $request->entity()->load('invitations', 'account.country', 'client.contacts', 'client.country', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'payments');
 
@@ -241,7 +240,6 @@ class InvoiceController extends BaseController
 
     private static function getViewModel($invoice)
     {
-        dd('get view model');
         $account = Auth::user()->account;
         $recurringHelp = '';
         $recurringDueDateHelp = '';
@@ -321,7 +319,7 @@ class InvoiceController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account->load('country'),
-            'products' => Product::scope()->orderBy('product_key')->get(),
+            'products' => Product::scope()->orderBy('product_key')->where('qty', '>', '0')->get(),
             'taxRateOptions' => $taxRateOptions,
             'sizes' => Cache::get('sizes'),
             'invoiceDesigns' => InvoiceDesign::getDesigns(),
@@ -470,7 +468,6 @@ class InvoiceController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param int $id
      * @param mixed $publicId
      *
      * @return Response
@@ -485,7 +482,6 @@ class InvoiceController extends BaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
      * @param mixed $entityType
      *
      * @return Response

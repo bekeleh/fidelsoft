@@ -251,7 +251,6 @@ class InvoiceApiController extends BaseAPIController
 
     private function prepareData($data, $client)
     {
-        dd('prepater data..');
         $account = Auth::user()->account;
         $account->loadLocalizationSettings($client);
 
@@ -324,7 +323,6 @@ class InvoiceApiController extends BaseAPIController
 
     private function prepareItem($item)
     {
-        dd('prepare data...');
         // if only the product key is set we'll load the cost and notes
         if (!empty($item['product_key'])) {
             $product = Product::findProductByKey($item['product_key']);
@@ -429,7 +427,6 @@ class InvoiceApiController extends BaseAPIController
      */
     public function update(UpdateInvoiceAPIRequest $request, $publicId)
     {
-        dd('update invoice...');
         if ($request->action == ACTION_CONVERT) {
             $quote = $request->entity();
             $invoice = $this->invoiceRepo->cloneInvoice($quote, $quote->id);
@@ -477,7 +474,6 @@ class InvoiceApiController extends BaseAPIController
      */
     public function destroy(UpdateInvoiceAPIRequest $request)
     {
-        dd('delete invoice');
         $invoice = $request->entity();
 
         $this->invoiceRepo->delete($invoice);
