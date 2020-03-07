@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TaxRateRequest;
-use App\Http\Requests\CreateTaxRateRequest;
-use App\Http\Requests\UpdateTaxRateRequest;
 use App\Models\TaxRate;
 use App\Ninja\Repositories\TaxRateRepository;
 
@@ -51,9 +49,10 @@ class TaxRateApiController extends BaseAPIController
      */
     public function index()
     {
+        dd('index..');
         $taxRates = TaxRate::scope()
-                        ->withTrashed()
-                        ->orderBy('created_at', 'desc');
+            ->withTrashed()
+            ->orderBy('created_at', 'desc');
 
         return $this->listResponse($taxRates);
     }
@@ -80,9 +79,12 @@ class TaxRateApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
+     * @param TaxRateRequest $request
+     * @return
      */
     public function show(TaxRateRequest $request)
     {
+        dd('show..');
         return $this->itemResponse($request->entity());
     }
 
@@ -107,8 +109,10 @@ class TaxRateApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
+     * @param TaxRateRequest $request
+     * @return
      */
-    public function store(CreateTaxRateRequest $request)
+    public function store(TaxRateRequest $request)
     {
         $taxRate = $this->taxRateRepo->save($request->input());
 
@@ -143,9 +147,11 @@ class TaxRateApiController extends BaseAPIController
      *   )
      * )
      *
+     * @param TaxRateRequest $request
      * @param mixed $publicId
+     * @return
      */
-    public function update(UpdateTaxRateRequest $request, $publicId)
+    public function update(TaxRateRequest $request, $publicId)
     {
         if ($request->action) {
             return $this->handleAction($request);
@@ -180,8 +186,10 @@ class TaxRateApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
+     * @param TaxRateRequest $request
+     * @return
      */
-    public function destroy(UpdateTaxRateRequest $request)
+    public function destroy(TaxRateRequest $request)
     {
         $entity = $request->entity();
 

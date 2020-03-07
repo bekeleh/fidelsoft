@@ -7,6 +7,7 @@
     {!! Former::open($url)->autocomplete('off')->method($method)->addClass('warn-on-exit user-form')->rules(array(
         'first_name' => 'required',
         'last_name' => 'required',
+        'username' => 'required',
         'email' => 'required|email',
     )); !!}
 
@@ -24,9 +25,9 @@
             <h3 class="panel-title">{!! trans('texts.user_details') !!}</h3>
         </div>
         <div class="panel-body form-padding-right">
-
             {!! Former::text('first_name') !!}
             {!! Former::text('last_name') !!}
+            {!! Former::text('username') !!}
             {!! Former::text('email') !!}
 
         </div>
@@ -41,7 +42,7 @@
             @if ( ! Utils::hasFeature(FEATURE_USER_PERMISSIONS))
                 <div class="alert alert-warning">{{ trans('texts.upgrade_for_permissions') }}</div>
                 <script type="text/javascript">
-                    $(function() {
+                    $(function () {
                         $('input[type=checkbox]').prop('disabled', true);
                     })
                 </script>
@@ -54,7 +55,7 @@
                 ->help(trans('texts.administrator_help')) !!}
 
             <div class="panel-body">
-                <table class="table table-striped dataTable" >
+                <table class="table table-striped dataTable">
                     <thead>
                     <th></th>
                     <th style="padding-bottom:0px">{!! Former::checkbox('create')
@@ -77,8 +78,8 @@
                     @foreach (json_decode(PERMISSION_ENTITIES,1) as $permissionEntity)
 
                         <?php
-                        if($user)
-                            $permissions = json_decode($user->permissions,1);
+                        if ($user)
+                            $permissions = json_decode($user->permissions, 1);
                         else
                             $permissions = [];
                         ?>
@@ -102,9 +103,14 @@
                                   ->check(is_array($permissions) && in_array('edit_' . $permissionEntity, $permissions, FALSE) ? true : false) !!}</td>
                         </tr>
                     @endforeach
-                    <tr><td><input type="checkbox" id="view_contact" value="view_contact" name="permissions[view_contact]" style="display:none">
-                            <input type="checkbox" id="edit_contact" value="edit_contact" name="permissions[edit_contact]" style="display:none">
-                            <input type="checkbox" id="create_contact" value="create_contact" name="permissions[create_contact]" style="display:none"></td></tr>
+                    <tr>
+                        <td><input type="checkbox" id="view_contact" value="view_contact"
+                                   name="permissions[view_contact]" style="display:none">
+                            <input type="checkbox" id="edit_contact" value="edit_contact"
+                                   name="permissions[edit_contact]" style="display:none">
+                            <input type="checkbox" id="create_contact" value="create_contact"
+                                   name="permissions[create_contact]" style="display:none"></td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -144,15 +150,15 @@
 
     $("input[type='checkbox'][id^='view_']").each(function() {
 
-        var entity = $(this).attr('id')
-                            .replace('create_',"")
-                            .replace('view_',"")
-                            .replace('edit_',"")
-                            .replace(']',"")
-        .replace('[',""); //get entity name
+    var entity = $(this).attr('id')
+    .replace('create_',"")
+    .replace('view_',"")
+    .replace('edit_',"")
+    .replace(']',"")
+    .replace('[',""); //get entity name
 
-        setCheckboxEditValue(entity);
-        setContactPermission();
+    setCheckboxEditValue(entity);
+    setContactPermission();
 
     });
 
@@ -166,76 +172,76 @@
 
     $("input[type='checkbox'][id^='view_']").change(function(){
 
-        var entity = $(this).attr('id')
-                            .replace('create_',"")
-                            .replace('view_',"")
-                            .replace('edit_',"")
-                            .replace(']',"")
-                            .replace('[',""); //get entity name
+    var entity = $(this).attr('id')
+    .replace('create_',"")
+    .replace('view_',"")
+    .replace('edit_',"")
+    .replace(']',"")
+    .replace('[',""); //get entity name
 
-        setCheckboxEditValue(entity);
-        setContactPermission();
+    setCheckboxEditValue(entity);
+    setContactPermission();
 
     });
 
     $('#edit_client, #view_client, #create_client').change(function() {
-        switch($(this).val()) {
-            case 'create_client':
-                $('#create_contact').prop('disabled', false); //set state of edit checkbox
-                $('#create_contact').prop('checked', $('#create_client').is(':checked') );
-            break;
+    switch($(this).val()) {
+    case 'create_client':
+    $('#create_contact').prop('disabled', false); //set state of edit checkbox
+    $('#create_contact').prop('checked', $('#create_client').is(':checked') );
+    break;
 
-            case 'view_client':
-                $('#view_contact').prop('disabled', false); //set state of edit checkbox
-                $('#view_contact').prop('checked', $('#view_client').is(':checked') );
-            break;
+    case 'view_client':
+    $('#view_contact').prop('disabled', false); //set state of edit checkbox
+    $('#view_contact').prop('checked', $('#view_client').is(':checked') );
+    break;
 
-            case 'edit_client':
-                $('#edit_contact').prop('disabled', false); //set state of edit checkbox
-                $('#edit_contact').prop('checked', $('#edit_client').is(':checked') );
-            break;
-        }
+    case 'edit_client':
+    $('#edit_contact').prop('disabled', false); //set state of edit checkbox
+    $('#edit_contact').prop('checked', $('#edit_client').is(':checked') );
+    break;
+    }
 
     });
 
     $('#create_all, #view_all, #edit_all').change(function(){
 
-        var checked = $(this).is(':checked');
-        var permission_type = $(this).val();
+    var checked = $(this).is(':checked');
+    var permission_type = $(this).val();
 
-        $("input[type='checkbox'][id^=" + permission_type + "]").each(function() {
+    $("input[type='checkbox'][id^=" + permission_type + "]").each(function() {
 
-            var entity = $(this).attr('id')
-                                .replace('create_',"")
-                                .replace('view_',"")
-                                .replace('edit_',"")
-                                .replace(']',"")
-                                .replace('[',""); //get entity name
+    var entity = $(this).attr('id')
+    .replace('create_',"")
+    .replace('view_',"")
+    .replace('edit_',"")
+    .replace(']',"")
+    .replace('[',""); //get entity name
 
-            $('#' + permission_type + entity).prop('checked', checked); //set state of edit checkbox
+    $('#' + permission_type + entity).prop('checked', checked); //set state of edit checkbox
 
-            setCheckboxEditValue(entity);
-            setContactPermission();
+    setCheckboxEditValue(entity);
+    setContactPermission();
 
-        });
+    });
 
     });
 
     function setCheckboxEditValue(entity) {
 
-        if(!$('#view_' + entity).is(':checked')) {
-            $('#edit_' + entity).prop('checked', false); //remove checkbox value from edit dependant on View state.
-        }
+    if(!$('#view_' + entity).is(':checked')) {
+    $('#edit_' + entity).prop('checked', false); //remove checkbox value from edit dependant on View state.
+    }
 
-        $('#edit_' + entity).prop('disabled', !$('#view_' + entity).is(':checked')); //set state of edit checkbox
+    $('#edit_' + entity).prop('disabled', !$('#view_' + entity).is(':checked')); //set state of edit checkbox
 
     }
 
     function setContactPermission() {
 
-        $('#view_contact').prop('checked', $('#view_client').is(':checked') );
-        $('#edit_contact').prop('checked', $('#edit_client').is(':checked') );
-        $('#create_contact').prop('checked', $('#create_client').is(':checked') );
+    $('#view_contact').prop('checked', $('#view_client').is(':checked') );
+    $('#edit_contact').prop('checked', $('#edit_client').is(':checked') );
+    $('#create_contact').prop('checked', $('#create_client').is(':checked') );
 
     }
 @stop

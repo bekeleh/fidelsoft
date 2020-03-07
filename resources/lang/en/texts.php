@@ -1,7 +1,35 @@
 <?php
 
 $LANG = array(
-
+    /*
+       |--------------------------------------------------------------------------
+       | sales type trans
+       |--------------------------------------------------------------------------
+       */
+    'sale_types' => 'Sales Type',
+    'sale_type' => 'Sales Type',
+    'new_sale_type' => 'New Sales Type',
+    'create_sale_type' => 'Create Sales Type',
+    'edit_sale_type' => 'Edit Sales Type',
+    'clone_sale_type' => 'Clone Sales Type',
+    'archive_sale_type' => 'Archive Sales Type',
+    'delete_sale_type' => 'Delete Sales Type',
+    'restore_sale_type' => 'Restore Sales Type',
+    'updated_sale_type' => 'Successfully updated sales type',
+    'created_sale_type' => 'Successfully created sales type',
+    'archived_sale_type' => 'Successfully archived sales type',
+    'sale_type_settings' => 'Sale Type Settings',
+    /*
+    |--------------------------------------------------------------------------
+    | sales type trans
+    |--------------------------------------------------------------------------
+    */
+    'item_prices' => 'Item Price',
+    /*
+    |--------------------------------------------------------------------------
+    | Miscellaneous trans
+    |--------------------------------------------------------------------------
+    */
     'organization' => 'Organization',
     'name' => 'Name',
     'website' => 'Website',
@@ -17,6 +45,7 @@ $LANG = array(
     'first_name' => 'First Name',
     'last_name' => 'Last Name',
     'phone' => 'Phone',
+    'username' => 'Username',
     'email' => 'Email',
     'additional_info' => 'Additional Info',
     'payment_terms' => 'Payment Terms',
@@ -36,6 +65,8 @@ $LANG = array(
     'discount' => 'Discount',
     'taxes' => 'Taxes',
     'tax' => 'Tax',
+    'tax_rate1' => 'Tax Rate',
+    'tax_rate2' => 'Tax Rate',
     'item' => 'Item',
     'description' => 'Description',
     'unit_cost' => 'Unit Cost',
@@ -981,6 +1012,7 @@ $LANG = array(
     'quote_message_button' => 'To view your quote for :amount, click the button below.',
     'payment_message_button' => 'Thank you for your payment of :amount.',
     'payment_type_direct_debit' => 'Direct Debit',
+    'payment_type_CBE Birr' => 'CBE Birr',
     'bank_accounts' => 'Credit Cards & Banks',
     'add_bank_account' => 'Add Bank Account',
     'setup_account' => 'Setup Account',
@@ -1954,6 +1986,7 @@ $LANG = array(
 
     'currency_symbol' => 'Symbol',
     'currency_code' => 'Code',
+    'currency_ethiopia_birr' => 'Ethiopia Birr',
 
     'buy_license' => 'Buy License',
     'apply_license' => 'Apply License',

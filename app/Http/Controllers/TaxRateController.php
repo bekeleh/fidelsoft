@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateTaxRateRequest;
-use App\Http\Requests\UpdateTaxRateRequest;
+use App\Http\Requests\TaxRateRequest;
 use App\Models\TaxRate;
 use App\Ninja\Repositories\TaxRateRepository;
 use App\Services\TaxRateService;
-use Auth;
-use Input;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\View;
 use Redirect;
-use Session;
-use URL;
-use View;
 
 class TaxRateController extends BaseController
 {
@@ -40,28 +38,28 @@ class TaxRateController extends BaseController
     public function edit($publicId)
     {
         $data = [
-          'taxRate' => TaxRate::scope($publicId)->firstOrFail(),
-          'method' => 'PUT',
-          'url' => 'tax_rates/'.$publicId,
-          'title' => trans('texts.edit_tax_rate'),
+            'taxRate' => TaxRate::scope($publicId)->firstOrFail(),
+            'method' => 'PUT',
+            'url' => 'tax_rates/' . $publicId,
+            'title' => trans('texts.edit_tax_rate'),
         ];
 
-        return View::make('accounts.tax_rate', $data);
+        return View::make('tax_rates.tax_rate', $data);
     }
 
     public function create()
     {
         $data = [
-          'taxRate' => null,
-          'method' => 'POST',
-          'url' => 'tax_rates',
-          'title' => trans('texts.create_tax_rate'),
+            'taxRate' => null,
+            'method' => 'POST',
+            'url' => 'tax_rates',
+            'title' => trans('texts.create_tax_rate'),
         ];
 
-        return View::make('accounts.tax_rate', $data);
+        return View::make('tax_rates.tax_rate', $data);
     }
 
-    public function store(CreateTaxRateRequest $request)
+    public function store(TaxRateRequest $request)
     {
         $this->taxRateRepo->save($request->input());
 
@@ -70,7 +68,7 @@ class TaxRateController extends BaseController
         return Redirect::to('settings/' . ACCOUNT_TAX_RATES);
     }
 
-    public function update(UpdateTaxRateRequest $request, $publicId)
+    public function update(TaxRateRequest $request, $publicId)
     {
         $this->taxRateRepo->save($request->input(), $request->entity());
 

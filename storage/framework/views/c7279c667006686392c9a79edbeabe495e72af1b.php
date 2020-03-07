@@ -24,26 +24,20 @@
 
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
-
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
-
                     <?php echo Former::text('product_key')->label('texts.product'); ?>
 
                     <?php echo Former::text('qty')->label('texts.qty'); ?>
 
                     <?php echo Former::textarea('notes')->rows(6); ?>
 
-
                     <?php echo $__env->make('partials/custom_fields', ['entityType' => ENTITY_PRODUCT], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-
                     <?php echo Former::text('cost'); ?>
-
 
                     <?php if($account->invoice_item_taxes): ?>
                         <?php echo $__env->make('partials.tax_rates', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                     <?php endif; ?>
-
                 </div>
             </div>
         </div>
@@ -87,9 +81,7 @@
     <?php endif; ?>
     <?php echo Former::close(); ?>
 
-
     <script type="text/javascript">
-
         $(function () {
             $('#product_key').focus();
         });
@@ -104,9 +96,7 @@
                 submitAction('delete');
             });
         }
-
     </script>
-
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

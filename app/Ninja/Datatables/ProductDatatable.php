@@ -2,10 +2,9 @@
 
 namespace App\Ninja\Datatables;
 
-use Auth;
-use Str;
-use URL;
-use Utils;
+use App\Libraries\Utils;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 
 class ProductDatatable extends EntityDatatable
 {
@@ -42,11 +41,17 @@ class ProductDatatable extends EntityDatatable
                 },
             ],
             [
-                'tax_rate',
+                'tax_rate1',
                 function ($model) {
-                    return $model->tax_rate ? ($model->tax_name . ' ' . $model->tax_rate . '%') : '';
+                    return $model->tax_rate1 ? ($model->tax_name1 . ' ' . $model->tax_rate1 . '%') : '';
                 },
-                $account->invoice_item_taxes,
+//                $account->invoice_item_taxes,
+            ],
+            [
+                'tax_rate2',
+                function ($model) {
+                    return $model->tax_rate2 ? ($model->tax_name2 . ' ' . $model->tax_rate2 . '%') : '';
+                },
             ],
             [
                 'custom_value1',
@@ -61,7 +66,25 @@ class ProductDatatable extends EntityDatatable
                     return $model->custom_value2;
                 },
                 $account->customLabel('product2')
-            ]
+            ],
+            [
+                'created_at',
+                function ($model) {
+                    return Utils::timestampToDateString(strtotime($model->created_at));
+                },
+            ],
+            [
+                'updated_at',
+                function ($model) {
+                    return Utils::timestampToDateString(strtotime($model->updated_at));
+                },
+            ],
+            //            [
+//                'date_deleted',
+//                function ($model) {
+//                    return Utils::timestampToDateString(strtotime($model->deleted_at));
+//                },
+//            ],
         ];
     }
 

@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreatePaymentTermRequest;
 use App\Http\Requests\PaymentTermRequest;
-use App\Http\Requests\UpdatePaymentTermRequest;
 use App\Libraries\Utils;
 use App\Models\PaymentTerm;
 use App\Ninja\Repositories\PaymentTermRepository;
@@ -50,37 +48,37 @@ class PaymentTermApiController extends BaseAPIController
 
     public function index()
     {
-
         $paymentTerms = PaymentTerm::scope()
-            ->orWhere('account_id',0)
+            ->orWhere('account_id', 0)
             ->orderBy('num_days', 'asc');
-
         return $this->listResponse($paymentTerms);
     }
 
-        /**
-         * @SWG\Get(
-         *   path="/paymentTerms/{payment_term_id}",
-         *   summary="Retrieve a payment term",
-         *   operationId="getPaymentTermId",
-         *   tags={"payment term"},
-         *   @SWG\Parameter(
-         *     in="path",
-         *     name="payment_term_id",
-         *     type="integer",
-         *     required=true
-         *   ),
-         *   @SWG\Response(
-         *     response=200,
-         *     description="A single payment term",
-         *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/PaymentTerm"))
-         *   ),
-         *   @SWG\Response(
-         *     response="default",
-         *     description="an ""unexpected"" error"
-         *   )
-         * )
-         */
+    /**
+     * @SWG\Get(
+     *   path="/paymentTerms/{payment_term_id}",
+     *   summary="Retrieve a payment term",
+     *   operationId="getPaymentTermId",
+     *   tags={"payment term"},
+     *   @SWG\Parameter(
+     *     in="path",
+     *     name="payment_term_id",
+     *     type="integer",
+     *     required=true
+     *   ),
+     *   @SWG\Response(
+     *     response=200,
+     *     description="A single payment term",
+     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/PaymentTerm"))
+     *   ),
+     *   @SWG\Response(
+     *     response="default",
+     *     description="an ""unexpected"" error"
+     *   )
+     * )
+     * @param PaymentTermRequest $request
+     * @return
+     */
 
     public function show(PaymentTermRequest $request)
     {
@@ -88,29 +86,31 @@ class PaymentTermApiController extends BaseAPIController
     }
 
 
-        /**
-         * @SWG\Post(
-         *   path="/paymentTerms",
-         *   summary="Create a payment Term",
-         *   operationId="createPaymentTerm",
-         *   tags={"payment term"},
-         *   @SWG\Parameter(
-         *     in="body",
-         *     name="payment term",
-         *     @SWG\Schema(ref="#/definitions/PaymentTerm")
-         *   ),
-         *   @SWG\Response(
-         *     response=200,
-         *     description="New payment Term",
-         *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/PaymentTerm"))
-         *   ),
-         *   @SWG\Response(
-         *     response="default",
-         *     description="an ""unexpected"" error"
-         *   )
-         * )
-         */
-    public function store(CreatePaymentTermRequest $request)
+    /**
+     * @SWG\Post(
+     *   path="/paymentTerms",
+     *   summary="Create a payment Term",
+     *   operationId="createPaymentTerm",
+     *   tags={"payment term"},
+     *   @SWG\Parameter(
+     *     in="body",
+     *     name="payment term",
+     *     @SWG\Schema(ref="#/definitions/PaymentTerm")
+     *   ),
+     *   @SWG\Response(
+     *     response=200,
+     *     description="New payment Term",
+     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/PaymentTerm"))
+     *   ),
+     *   @SWG\Response(
+     *     response="default",
+     *     description="an ""unexpected"" error"
+     *   )
+     * )
+     * @param PaymentTermRequest $request
+     * @return
+     */
+    public function store(PaymentTermRequest $request)
     {
 
         $paymentTerm = PaymentTerm::createNew();
@@ -150,8 +150,9 @@ class PaymentTermApiController extends BaseAPIController
 
         $paymentTerm = PaymentTerm::where('num_days', $numDays)->first();
 
-        if(!$paymentTerm || $paymentTerm->account_id == 0)
-            return $this->errorResponse(['message'=>'Cannot delete a default or non existent Payment Term'], 400);
+        if (!$paymentTerm || $paymentTerm->account_id == 0)
+            $message = trans('Cannot delete a default or non existent Payment Term');
+        return $this->errorResponse(['message' => $message], 400);
 
         $this->paymentTermRepo->archive($paymentTerm);
 

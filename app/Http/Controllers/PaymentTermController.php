@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreatePaymentTermRequest;
-use App\Http\Requests\UpdatePaymentTermRequest;
+use App\Http\Requests\PaymentTermRequest;
+use App\Libraries\Utils;
 use App\Models\PaymentTerm;
 use App\Services\PaymentTermService;
-use Auth;
-use Input;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\View;
 use Redirect;
-use Session;
-use URL;
-use Utils;
-use View;
 
 class PaymentTermController extends BaseController
 {
@@ -34,7 +34,7 @@ class PaymentTermController extends BaseController
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function index()
     {
@@ -42,7 +42,7 @@ class PaymentTermController extends BaseController
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getDatatable()
     {
@@ -59,10 +59,10 @@ class PaymentTermController extends BaseController
     public function edit($publicId)
     {
         $data = [
-          'paymentTerm' => PaymentTerm::scope($publicId)->firstOrFail(),
-          'method' => 'PUT',
-          'url' => 'payment_terms/'.$publicId,
-          'title' => trans('texts.edit_payment_term'),
+            'paymentTerm' => PaymentTerm::scope($publicId)->firstOrFail(),
+            'method' => 'PUT',
+            'url' => 'payment_terms/' . $publicId,
+            'title' => trans('texts.edit_payment_term'),
         ];
 
         return View::make('accounts.payment_term', $data);
@@ -74,29 +74,31 @@ class PaymentTermController extends BaseController
     public function create()
     {
         $data = [
-          'paymentTerm' => null,
-          'method' => 'POST',
-          'url' => 'payment_terms',
-          'title' => trans('texts.create_payment_term'),
+            'paymentTerm' => null,
+            'method' => 'POST',
+            'url' => 'payment_terms',
+            'title' => trans('texts.create_payment_term'),
         ];
 
         return View::make('accounts.payment_term', $data);
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
+     * @param PaymentTermRequest $request
+     * @return RedirectResponse
      */
-    public function store(CreatePaymentTermRequest $request)
+    public function store(PaymentTermRequest $request)
     {
         return $this->save();
     }
 
     /**
+     * @param PaymentTermRequest $request
      * @param $publicId
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function update(UpdatePaymentTermRequest $request, $publicId)
+    public function update(PaymentTermRequest $request, $publicId)
     {
         return $this->save($publicId);
     }
@@ -104,7 +106,7 @@ class PaymentTermController extends BaseController
     /**
      * @param bool $publicId
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     private function save($publicId = false)
     {
@@ -125,7 +127,7 @@ class PaymentTermController extends BaseController
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function bulk()
     {

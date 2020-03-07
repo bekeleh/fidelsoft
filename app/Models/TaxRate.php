@@ -3,13 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laracasts\Presenter\PresentableTrait;
 
 /**
  * Class TaxRate.
  */
 class TaxRate extends EntityModel
 {
+    use PresentableTrait;
     use SoftDeletes;
+    /**
+     * @var string
+     */
+    protected $presenter = 'App\Ninja\Presenters\TaxRatePresenter';
     /**
      * @var array
      */

@@ -2,24 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\ProductRequest;
-use App\Http\Requests\UpdateProductRequest;
+use App\Libraries\Utils;
 use App\Models\Product;
 use App\Models\TaxRate;
 use App\Ninja\Datatables\ProductDatatable;
 use App\Ninja\Repositories\ProductRepository;
 use App\Services\ProductService;
-use Auth;
-use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Input;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\View;
+use Exception;
 use Redirect;
-use Session;
-use URL;
-use Utils;
-use View;
 
 /**
  * Class ProductController.
@@ -45,7 +42,6 @@ class ProductController extends BaseController
     public function __construct(ProductService $productService, ProductRepository $productRepo)
     {
         //parent::__construct();
-
         $this->productService = $productService;
         $this->productRepo = $productRepo;
     }
@@ -123,7 +119,7 @@ class ProductController extends BaseController
     }
 
     /**
-     * @param ProductRequest $request
+     * @param \App\Http\Controllers\ProductRequest $request
      * @return \Illuminate\Contracts\View\View
      */
     public function create(ProductRequest $request)
@@ -144,21 +140,21 @@ class ProductController extends BaseController
     }
 
     /**
-     * @param CreateProductRequest $request
+     * @param \App\Http\Controllers\ProductRequest $request
      * @return RedirectResponse
      */
-    public function store(CreateProductRequest $request)
+    public function store(ProductRequest $request)
     {
         return $this->save();
     }
 
     /**
-     * @param UpdateProductRequest $request
+     * @param \App\Http\Controllers\ProductRequest $request
      * @param $publicId
      *
      * @return RedirectResponse
      */
-    public function update(UpdateProductRequest $request, $publicId)
+    public function update(ProductRequest $request, $publicId)
     {
         return $this->save($publicId);
     }
@@ -175,7 +171,6 @@ class ProductController extends BaseController
         } else {
             $product = Product::createNew();
         }
-
         $this->productRepo->save(Input::all(), $product);
 
         $message = $productPublicId ? trans('texts.updated_product') : trans('texts.created_product');

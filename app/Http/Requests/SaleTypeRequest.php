@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Models\TaxRate;
+use App\Models\SaleType;
 
-class TaxRateRequest extends EntityRequest
+class SaleTypeRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_TAX_RATE;
+    protected $entityType = ENTITY_SALE_TYPE;
 
     public function authorize()
     {
@@ -20,8 +20,7 @@ class TaxRateRequest extends EntityRequest
         switch ($this->method()) {
             case 'POST':
             {
-                $rules['name'] = 'required|string|max:90|unique:tax_rates,name';
-                $rules['rate'] = 'numeric|required';
+                $rules['name'] = 'required|string|max:90|unique:sale_types,name';
                 $rules['note'] = 'nullable';
                 $rules['is_deleted'] = 'boolean';
                 $rules['note'] = 'nullable';
@@ -30,10 +29,9 @@ class TaxRateRequest extends EntityRequest
             case 'PUT':
             case 'PATCH':
             {
-                $taxRate = TaxRate::find((int)request()->segment(2));
-                if ($taxRate) {
-                    $rules['name'] = 'required|string|max:90|unique:tax_rates,name,' . $taxRate->id . ',id';
-                    $rules['rate'] = 'numeric|required';
+                $saleType = SaleType::find((int)request()->segment(2));
+                if ($saleType) {
+                    $rules['name'] = 'required|string|max:90|unique:sale_types,name,' . $saleType->id . ',id';
                     $rules['is_deleted'] = 'boolean';
                     $rules['note'] = 'nullable';
                     break;

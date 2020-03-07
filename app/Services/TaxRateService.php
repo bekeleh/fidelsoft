@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Ninja\Datatables\TaxRateDatatable;
 use App\Ninja\Repositories\TaxRateRepository;
+use Illuminate\Http\JsonResponse;
 
 /**
  * Class TaxRateService.
@@ -43,7 +44,8 @@ class TaxRateService extends BaseService
     /**
      * @param $accountId
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
+     * @throws \Exception
      */
     public function getDatatable($accountId)
     {

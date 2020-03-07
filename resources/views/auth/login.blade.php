@@ -1,15 +1,11 @@
 @extends('login')
-
 @section('form')
-
     @include('partials.warn_session', ['redirectTo' => '/logout?reason=inactive'])
-
     <div class="container">
-
-        {!! Former::open('login')
-                ->rules(['email' => 'required|email', 'password' => 'required'])
-                ->addClass('form-signin') !!}
-
+        {!! Former::open('login')->addClass('form-signin')->rules([
+            'username' => 'required',
+            'password' => 'required'
+            ]) !!}
         <h2 class="form-signin-heading">
             @if (strstr(session('url.intended'), 'time_tracker'))
                 {{ trans('texts.time_tracker_login') }}
@@ -18,7 +14,6 @@
             @endif
         </h2>
         <hr class="green">
-
         @if (count($errors->all()))
             <div class="alert alert-danger">
                 @foreach ($errors->all() as $error)
@@ -47,7 +42,7 @@
         @endif
 
         <div>
-            {!! Former::text('email')->placeholder(trans('texts.email_address'))->raw() !!}
+            {!! Former::text('username')->placeholder(trans('texts.username'))->raw() !!}
             {!! Former::password('password')->placeholder(trans('texts.password'))->raw() !!}
         </div>
 
@@ -60,9 +55,10 @@
                 <p>{{ trans('texts.login_or_existing') }}</p>
                 @foreach (App\Services\AuthService::$providers as $provider)
                     <div class="col-md-3 col-xs-6">
-                        <a href="{{ URL::to('auth/' . $provider) }}" class="btn btn-primary btn-lg" title="{{ $provider }}"
+                        <a href="{{ URL::to('auth/' . $provider) }}" class="btn btn-primary btn-lg"
+                           title="{{ $provider }}"
                            id="{{ strtolower($provider) }}LoginButton">
-                            @if($provider == SOCIAL_GITHUB)
+                            @if($provider == SOCIAL_GITHUB_123)
                                 <i class="fa fa-github-alt"></i>
                             @else
                                 <i class="fa fa-{{ strtolower($provider) }}"></i>
@@ -72,7 +68,6 @@
                 @endforeach
             </div>
         @endif
-
         <div class="row meta">
             @if (Utils::isWhiteLabel())
                 <center>
@@ -86,7 +81,7 @@
                     @if (Utils::isTimeTracker())
                         {!! link_to('#', trans('texts.self_host_login'), ['onclick' => 'setSelfHostUrl()']) !!}
                     @else
-                        {!! link_to(NINJA_WEB_URL.'/knowledgebase/', trans('texts.knowledge_base'), ['target' => '_blank']) !!}
+                        {!! link_to(NINJA_WEB_URL.'/', trans('texts.knowledge_base'), ['target' => '_blank']) !!}
                     @endif
                 </div>
             @endif
@@ -100,61 +95,61 @@
                     <p>{{trans('texts.login_create_an_account')}}</p>
                 </div>
                 <div class="col-md-3 col-xs-12">
-                    {!! Button::primary(trans('texts.sign_up_now'))->asLinkTo(URL::to('/invoice_now?sign_up=true'))->withAttributes(['class' => 'blue'])->large()->submit()->block() !!}
+                    {!! Button::primary(trans('texts.sign_up_now'))->asLinkTo(URL::to('/invoice_now?sign_up=true'))
+                        ->withAttributes(['class' => 'blue'])
+                        ->large()->submit()->block() !!}
                 </div>
             </div>
         @endif
     </div>
-
-
     <script type="text/javascript">
-        $(function() {
-            if ($('#email').val()) {
+        $(function () {
+            if ($('#username').val()) {
                 $('#password').focus();
             } else {
-                $('#email').focus();
+                $('#username').focus();
             }
 
             @if (Utils::isTimeTracker())
-                if (isStorageSupported()) {
-                    var selfHostUrl = localStorage.getItem('last:time_tracker:url');
-                    if (selfHostUrl) {
-                        location.href = selfHostUrl;
-                        return;
-                    }
-                    $('#email').change(function() {
-                        localStorage.setItem('last:time_tracker:email', $('#email').val());
-                    })
-                    var email = localStorage.getItem('last:time_tracker:email');
-                    if (email) {
-                        $('#email').val(email);
-                        $('#password').focus();
-                    }
+            if (isStorageSupported()) {
+                var selfHostUrl = localStorage.getItem('last:time_tracker:url');
+                if (selfHostUrl) {
+                    location.href = selfHostUrl;
+                    return;
                 }
+                $('#username').change(function () {
+                    localStorage.setItem('last:time_tracker:username', $('#username').val());
+                })
+                var username = localStorage.getItem('last:time_tracker:username');
+                if (username) {
+                    $('#username').val(username);
+                    $('#password').focus();
+                }
+            }
             @endif
         })
 
         @if (Utils::isTimeTracker())
-            function setSelfHostUrl() {
-                if (! isStorageSupported()) {
-                    swal("{{ trans('texts.local_storage_required') }}");
+        function setSelfHostUrl() {
+            if (!isStorageSupported()) {
+                swal("{{ trans('texts.local_storage_required') }}");
+                return;
+            }
+            swal({
+                title: "{{ trans('texts.set_self_hoat_url') }}",
+                input: 'text',
+                showCancelButton: true,
+                confirmButtonText: 'Save',
+            }).then(function (value) {
+                if (!value || value.indexOf('http') !== 0) {
+                    swal("{{ trans('texts.invalid_url') }}")
                     return;
                 }
-                swal({
-                    title: "{{ trans('texts.set_self_hoat_url') }}",
-                    input: 'text',
-                    showCancelButton: true,
-                    confirmButtonText: 'Save',
-                }).then(function (value) {
-                    if (! value || value.indexOf('http') !== 0) {
-                        swal("{{ trans('texts.invalid_url') }}")
-                        return;
-                    }
-                    value = value.replace(/\/+$/, '') + '/time_tracker';
-                    localStorage.setItem('last:time_tracker:url', value);
-                    location.reload();
-                }).catch(swal.noop);
-            }
+                value = value.replace(/\/+$/, '') + '/time_tracker';
+                localStorage.setItem('last:time_tracker:url', value);
+                location.reload();
+            }).catch(swal.noop);
+        }
         @endif
 
     </script>
