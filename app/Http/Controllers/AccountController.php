@@ -1249,7 +1249,7 @@ class AccountController extends BaseController
      */
     private function saveLocalization()
     {
-        /** @var \App\Models\Account $account */
+        /** @var Account $account */
         $account = Auth::user()->account;
 
         $account->timezone_id = Input::get('timezone_id') ? Input::get('timezone_id') : null;
@@ -1544,7 +1544,7 @@ class AccountController extends BaseController
             return trans('texts.create_invoice_for_sample');
         }
 
-        /** @var \App\Models\Account $account */
+        /** @var Account $account */
         $account = Auth::user()->account;
         $invoice = $invitation->invoice;
 

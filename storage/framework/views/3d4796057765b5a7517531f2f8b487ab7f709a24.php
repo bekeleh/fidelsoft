@@ -4,10 +4,8 @@
     <?php if(Utils::isNinjaDev()): ?>
         <style type="text/css">
             .nav-footer {
-                <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?>
-                              background-color: #50C878 !important;
-                <?php else: ?>
-                              background-color: #FD6A02 !important;
+                <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?> background-color: #50C878 !important;
+            <?php else: ?> background-color: #FD6A02 !important;
             <?php endif; ?>
 
 
@@ -25,9 +23,7 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('head'); ?>
-
     <script type="text/javascript">
-
         function checkForEnter(event) {
             if (event.keyCode === 13) {
                 event.preventDefault();
@@ -259,13 +255,10 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('body'); ?>
-
     <?php if(Utils::isNinjaProd() && ! Request::is('settings/account_management')): ?>
         <?php echo $__env->make('partials.upgrade_modal', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
     <?php endif; ?>
-
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="height:60px;">
-
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
                 <span class="sr-only">Toggle navigation</span>
@@ -281,7 +274,6 @@
                 </div>
             </a>
         </div>
-
         <a id="right-menu-toggle" class="menu-toggle hide-phone pull-right" title="<?php echo e(trans('texts.toggle_history')); ?>"
            style="cursor:pointer">
             <div class="fa fa-bars"></div>
@@ -402,6 +394,8 @@
                     'dashboard' => false,
                     'clients' => false,
                     'products' => false,
+                    'stores' => false,
+                    'sale_types' => false,
                     'invoices' => false,
                     'payments' => false,
                     'recurring_invoices' => 'recurring',
@@ -432,7 +426,7 @@
                 <?php $__currentLoopData = [
                     'dashboard',
                     'clients',
-                    'products',
+                    'vendors',
                     'invoices',
                     'payments',
                     'recurring_invoices',
@@ -442,7 +436,11 @@
                     'projects',
                     'tasks',
                     'expenses',
-                    'vendors',
+                    'products',
+                    'stocks',
+                    'stores',
+                    'item_prices',
+                    'sale_types',
                 ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <?php if(!Auth::user()->account->isModuleEnabled(substr($option, 0, -1))): ?>
                         <?php echo e(''); ?>

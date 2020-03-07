@@ -2,25 +2,27 @@
 
 namespace App\Libraries;
 
-use DB;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use App;
-use Auth;
-use Cache;
-use Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Carbon\Carbon;
 use DateTime;
 use DateTimeZone;
 use Exception;
-use Input;
+use Illuminate\Support\Facades\Input;
 use Log;
-use Request;
-use Schema;
-use Session;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Session;
 use stdClass;
-use View;
+use Illuminate\Contracts\View\View;
 use WePay;
 
 class Utils
 {
+    protected $account = false;
     private static $weekdayNames = [
         'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
     ];
@@ -72,7 +74,7 @@ class Utils
 
     public static function isSelfHost()
     {
-        return ! static::isNinjaProd();
+        return !static::isNinjaProd();
     }
 
     public static function isNinjaProd()
@@ -113,45 +115,45 @@ class Utils
         return strlen(preg_replace('/[^\/]/', '', url('/'))) == 2;
     }
 
-	public static function clientViewCSS()
-	{
-		$account = false;
+    public static function clientViewCSS()
+    {
+        $account = false;
 
-		if (Auth::check()) {
-			$account = Auth::user()->account;
-		} elseif ($contactKey = session('contact_key')) {
-			if ($contact = \App\Models\Contact::whereContactKey($contactKey)->first()) {
-				$account = $contact->account;
-			}
-		}
+        if (Auth::check()) {
+            $account = Auth::user()->account;
+        } elseif ($contactKey = session('contact_key')) {
+            if ($contact = \App\Models\Contact::whereContactKey($contactKey)->first()) {
+                $account = $contact->account;
+            }
+        }
 
-		if ( !$account && ! self::isNinja()) {
-			// For self-hosted accounts, pick the first account
-			$account = \App\Models\Account::first();
-		}
+        if (!$account && !self::isNinja()) {
+            // For self-hosted accounts, pick the first account
+            $account = \App\Models\Account::first();
+        }
 
-		return $account ? $account->clientViewCSS() : '';
-	}
+        return $account ? $account->clientViewCSS() : '';
+    }
 
-	public static function getAccountFontsUrl($protocol = '')
-	{
-		$account = false;
+    public static function getAccountFontsUrl($protocol = '')
+    {
+        $account = false;
 
-		if (Auth::check()) {
-			$account = Auth::user()->account;
-		} elseif ($contactKey = session('contact_key')) {
-			if ($contact = \App\Models\Contact::whereContactKey($contactKey)->first()) {
-				$account = $contact->account;
-			}
-		}
+        if (Auth::check()) {
+            $account = Auth::user()->account;
+        } elseif ($contactKey = session('contact_key')) {
+            if ($contact = \App\Models\Contact::whereContactKey($contactKey)->first()) {
+                $account = $contact->account;
+            }
+        }
 
-		if ( !$account && ! self::isNinja()) {
-			// For self-hosted accounts, pick the first account
-			$account = \App\Models\Account::first();
-		}
+        if (!$account && !self::isNinja()) {
+            // For self-hosted accounts, pick the first account
+            $account = \App\Models\Account::first();
+        }
 
-		return $account ? $account->getFontsUrl($protocol) : false;
-	}
+        return $account ? $account->getFontsUrl($protocol) : false;
+    }
 
     public static function isWhiteLabel()
     {
@@ -233,7 +235,7 @@ class Utils
 
     public static function isPaidPro()
     {
-        return static::isPro() && ! static::isTrial();
+        return static::isPro() && !static::isTrial();
     }
 
     public static function isEnglish()
@@ -247,14 +249,14 @@ class Utils
             return $info;
         }
 
-        $mysqlVersion = DB::select( DB::raw("select version() as version") )[0]->version;
+        $mysqlVersion = DB::select(DB::raw("select version() as version"))[0]->version;
         $accountKey = Auth::check() ? Auth::user()->account->account_key : '';
 
         $info = "App Version: v" . NINJA_VERSION . "\\n" .
-                "White Label: " . (Utils::isWhiteLabel() ? 'Yes' : 'No') . " - {$accountKey}\\n" .
-                "Server OS: " . php_uname('s') . ' ' . php_uname('r') . "\\n" .
-                "PHP Version: " . phpversion() . "\\n" .
-                "MySQL Version: " . $mysqlVersion;
+            "White Label: " . (Utils::isWhiteLabel() ? 'Yes' : 'No') . " - {$accountKey}\\n" .
+            "Server OS: " . php_uname('s') . ' ' . php_uname('r') . "\\n" .
+            "PHP Version: " . phpversion() . "\\n" .
+            "MySQL Version: " . $mysqlVersion;
 
         session(['DEBUG_INFO' => $info]);
 
@@ -279,7 +281,7 @@ class Utils
 
     public static function getNewsFeedResponse($userType = false)
     {
-        if (! $userType) {
+        if (!$userType) {
             $userType = self::getUserType();
         }
 
@@ -294,8 +296,8 @@ class Utils
     public static function getProLabel($feature)
     {
         if (Auth::check()
-                && ! Auth::user()->isPro()
-                && $feature == ACCOUNT_ADVANCED_SETTINGS) {
+            && !Auth::user()->isPro()
+            && $feature == ACCOUNT_ADVANCED_SETTINGS) {
             return '&nbsp;<sup class="pro-label">PRO</sup>';
         } else {
             return '';
@@ -376,11 +378,11 @@ class Utils
 
     public static function fatalError($message = false, $exception = false)
     {
-        if (! $message) {
+        if (!$message) {
             $message = 'An error occurred, please try again later.';
         }
 
-        static::logError($message.' '.$exception);
+        static::logError($message . ' ' . $exception);
 
         $data = [
             'showBreadcrumbs' => false,
@@ -395,7 +397,7 @@ class Utils
         $class = get_class($exception);
         $code = method_exists($exception, 'getStatusCode') ? $exception->getStatusCode() : $exception->getCode();
 
-        return  "***{$class}*** [{$code}] : {$exception->getFile()} [Line {$exception->getLine()}] => {$exception->getMessage()}";
+        return "***{$class}*** [{$code}] : {$exception->getFile()} [Line {$exception->getLine()}] => {$exception->getMessage()}";
     }
 
     public static function logError($error, $context = 'PHP', $info = false)
@@ -413,9 +415,9 @@ class Utils
         $data = static::prepareErrorData($context);
 
         if ($info) {
-            Log::info($error."\n", $data);
+            Log::info($error . "\n", $data);
         } else {
-            Log::error($error."\n", $data);
+            Log::error($error . "\n", $data);
         }
     }
 
@@ -451,13 +453,13 @@ class Utils
         $data = [];
         $filename = storage_path('logs/laravel-error.log');
 
-        if (! file_exists($filename)) {
+        if (!file_exists($filename)) {
             return $data;
         }
 
         $errors = file($filename);
 
-        for ($i=count($errors)-1; $i>=0; $i--) {
+        for ($i = count($errors) - 1; $i >= 0; $i--) {
             $data[] = $errors[$i];
             if (count($data) >= 10) {
                 break;
@@ -512,25 +514,25 @@ class Utils
 
         if ($locale) {
             $data['industries'] = Cache::get('industries')->each(function ($industry) {
-                $industry->name = trans('texts.industry_'.$industry->name);
+                $industry->name = trans('texts.industry_' . $industry->name);
             })->sortBy(function ($industry) {
                 return $industry->name;
             })->values();
 
             $data['countries'] = Cache::get('countries')->each(function ($country) {
-                $country->name = trans('texts.country_'.$country->name);
+                $country->name = trans('texts.country_' . $country->name);
             })->sortBy(function ($country) {
                 return $country->name;
             })->values();
 
             $data['paymentTypes'] = Cache::get('paymentTypes')->each(function ($pType) {
-                $pType->name = trans('texts.payment_type_'.$pType->name);
+                $pType->name = trans('texts.payment_type_' . $pType->name);
             })->sortBy(function ($pType) {
                 return $pType->name;
             })->values();
 
             $data['languages'] = Cache::get('languages')->each(function ($lang) {
-                $lang->name = trans('texts.lang_'.$lang->name);
+                $lang->name = trans('texts.lang_' . $lang->name);
             })->sortBy(function ($lang) {
                 return $lang->name;
             })->values();
@@ -549,7 +551,7 @@ class Utils
     {
         $cache = Cache::get($type);
 
-        if (! $cache) {
+        if (!$cache) {
             static::logError("Cache for {$type} is not set");
 
             return null;
@@ -566,7 +568,7 @@ class Utils
     {
         $value = floatval($value);
 
-        if (! $currencyId) {
+        if (!$currencyId) {
             $currencyId = Session::get(SESSION_CURRENCY, DEFAULT_CURRENCY);
         }
 
@@ -581,15 +583,15 @@ class Utils
     {
         $value = floatval($value);
 
-        if (! $currencyId) {
+        if (!$currencyId) {
             $currencyId = Session::get(SESSION_CURRENCY, DEFAULT_CURRENCY);
         }
 
-        if (! $decorator) {
+        if (!$decorator) {
             $decorator = Session::get(SESSION_CURRENCY_DECORATOR, CURRENCY_DECORATOR_SYMBOL);
         }
 
-        if (! $countryId && Auth::check()) {
+        if (!$countryId && Auth::check()) {
             $countryId = Auth::user()->account->country_id;
         }
 
@@ -616,7 +618,7 @@ class Utils
 
         if ($decorator == CURRENCY_DECORATOR_NONE) {
             return $value;
-        } elseif ($decorator == CURRENCY_DECORATOR_CODE || ! $symbol) {
+        } elseif ($decorator == CURRENCY_DECORATOR_CODE || !$symbol) {
             return "{$value} {$code}";
         } elseif ($swapSymbol) {
             return "{$value} " . trim($symbol);
@@ -627,7 +629,7 @@ class Utils
 
     public static function pluralize($string, $count)
     {
-        $field = $count == 1 ? $string : $string.'s';
+        $field = $count == 1 ? $string : $string . 's';
         $string = trans("texts.$field", ['count' => $count]);
 
         return $string;
@@ -635,7 +637,7 @@ class Utils
 
     public static function pluralizeEntityType($type)
     {
-        if (! self::isNinjaProd()) {
+        if (!self::isNinjaProd()) {
             if ($module = \Module::find($type)) {
                 return $module->get('plural', $type);
             }
@@ -688,7 +690,7 @@ class Utils
 
     public static function toArray($data)
     {
-        return json_decode(json_encode((array) $data), true);
+        return json_decode(json_encode((array)$data), true);
     }
 
     public static function toSpaceCase($string)
@@ -729,7 +731,7 @@ class Utils
 
     public static function dateToString($date)
     {
-        if (! $date) {
+        if (!$date) {
             return false;
         }
 
@@ -747,7 +749,7 @@ class Utils
 
     public static function timestampToString($timestamp, $timezone, $format)
     {
-        if (! $timestamp) {
+        if (!$timestamp) {
             return '';
         }
         $date = Carbon::createFromTimeStamp($timestamp);
@@ -763,14 +765,14 @@ class Utils
 
     public static function toSqlDate($date, $formatResult = true)
     {
-        if (! $date) {
+        if (!$date) {
             return;
         }
 
         $format = Session::get(SESSION_DATE_FORMAT, DEFAULT_DATE_FORMAT);
         $dateTime = DateTime::createFromFormat($format, $date);
 
-        if (! $dateTime) {
+        if (!$dateTime) {
             return $date;
         } else {
             return $formatResult ? $dateTime->format('Y-m-d') : $dateTime;
@@ -779,14 +781,14 @@ class Utils
 
     public static function fromSqlDate($date, $formatResult = true)
     {
-        if (! $date || $date == '0000-00-00') {
+        if (!$date || $date == '0000-00-00') {
             return '';
         }
 
         $format = Session::get(SESSION_DATE_FORMAT, DEFAULT_DATE_FORMAT);
         $dateTime = DateTime::createFromFormat('Y-m-d', $date);
 
-        if (! $dateTime) {
+        if (!$dateTime) {
             return $date;
         } else {
             return $formatResult ? $dateTime->format($format) : $dateTime;
@@ -795,7 +797,7 @@ class Utils
 
     public static function fromSqlDateTime($date, $formatResult = true)
     {
-        if (! $date || $date == '0000-00-00 00:00:00') {
+        if (!$date || $date == '0000-00-00 00:00:00') {
             return '';
         }
 
@@ -832,14 +834,14 @@ class Utils
 
     public static function processVariables($str, $client = false)
     {
-        if (! $str) {
+        if (!$str) {
             return '';
         }
 
         $variables = ['MONTH', 'QUARTER', 'YEAR'];
         for ($i = 0; $i < count($variables); $i++) {
             $variable = $variables[$i];
-            $regExp = '/:'.$variable.'[+-]?[\d]*/';
+            $regExp = '/:' . $variable . '[+-]?[\d]*/';
             preg_match_all($regExp, $str, $matches);
             $matches = $matches[0];
             if (count($matches) == 0) {
@@ -917,7 +919,7 @@ class Utils
             $quarter = 4;
         }
 
-        return 'Q'.$quarter;
+        return 'Q' . $quarter;
     }
 
     private static function getYear($offset)
@@ -937,7 +939,7 @@ class Utils
         if ($model->client_name) {
             return $model->client_name;
         } elseif ($model->first_name || $model->last_name) {
-            return $model->first_name.' '.$model->last_name;
+            return $model->first_name . ' ' . $model->last_name;
         } else {
             return $model->email ?: '';
         }
@@ -959,7 +961,7 @@ class Utils
     public static function getPersonDisplayName($firstName, $lastName, $email)
     {
         if ($firstName || $lastName) {
-            return $firstName.' '.$lastName;
+            return $firstName . ' ' . $lastName;
         } elseif ($email) {
             return $email;
         } else {
@@ -997,22 +999,22 @@ class Utils
     public static function getApiHeaders($count = 0)
     {
         return [
-          'Content-Type' => 'application/json',
-          //'Access-Control-Allow-Origin' => '*',
-          //'Access-Control-Allow-Methods' => 'GET',
-          //'Access-Control-Allow-Headers' => 'Origin, Content-Type, Accept, Authorization, X-Requested-With',
-          //'Access-Control-Allow-Credentials' => 'true',
-          'X-Total-Count' => $count,
-          'X-Ninja-Version' => NINJA_VERSION,
-          //'X-Rate-Limit-Limit' - The number of allowed requests in the current period
-          //'X-Rate-Limit-Remaining' - The number of remaining requests in the current period
-          //'X-Rate-Limit-Reset' - The number of seconds left in the current period,
+            'Content-Type' => 'application/json',
+            //'Access-Control-Allow-Origin' => '*',
+            //'Access-Control-Allow-Methods' => 'GET',
+            //'Access-Control-Allow-Headers' => 'Origin, Content-Type, Accept, Authorization, X-Requested-With',
+            //'Access-Control-Allow-Credentials' => 'true',
+            'X-Total-Count' => $count,
+            'X-Ninja-Version' => NINJA_VERSION,
+            //'X-Rate-Limit-Limit' - The number of allowed requests in the current period
+            //'X-Rate-Limit-Remaining' - The number of remaining requests in the current period
+            //'X-Rate-Limit-Reset' - The number of seconds left in the current period,
         ];
     }
 
     public static function isEmpty($value)
     {
-        return ! $value || $value == '0' || $value == '0.00' || $value == '0,00';
+        return !$value || $value == '0' || $value == '0.00' || $value == '0,00';
     }
 
     public static function startsWith($haystack, $needle)
@@ -1073,7 +1075,7 @@ class Utils
     public static function transFlowText($key)
     {
         $str = trans("texts.$key");
-        if (! in_array(App::getLocale(), ['de', 'fr'])) {
+        if (!in_array(App::getLocale(), ['de', 'fr'])) {
             $str = strtolower($str);
         }
 
@@ -1082,7 +1084,7 @@ class Utils
 
     public static function getSubdomain($url = false)
     {
-        if (! $url) {
+        if (!$url) {
             $url = Request::server('HTTP_HOST');
         }
 
@@ -1195,7 +1197,7 @@ class Utils
 
     public static function formatWebsite($link)
     {
-        if (! $link) {
+        if (!$link) {
             return '';
         }
 
@@ -1217,7 +1219,7 @@ class Utils
 
     public static function copyContext($entity1, $entity2)
     {
-        if (! $entity2) {
+        if (!$entity2) {
             return $entity1;
         }
 
@@ -1243,7 +1245,7 @@ class Utils
 
     public static function addHttp($url)
     {
-        if (! preg_match('~^(?:f|ht)tps?://~i', $url)) {
+        if (!preg_match('~^(?:f|ht)tps?://~i', $url)) {
             $url = 'http://' . $url;
         }
 
@@ -1270,9 +1272,9 @@ class Utils
     /**
      * Gets an array of weekday names (in English).
      *
+     * @return Collection
      * @see getTranslatedWeekdayNames()
      *
-     * @return \Illuminate\Support\Collection
      */
     public static function getWeekdayNames()
     {
@@ -1282,12 +1284,12 @@ class Utils
     /**
      * Gets an array of translated weekday names.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public static function getTranslatedWeekdayNames()
     {
         return collect(static::$weekdayNames)->transform(function ($day) {
-            return trans('texts.'.strtolower($day));
+            return trans('texts.' . strtolower($day));
         });
     }
 
@@ -1370,7 +1372,8 @@ class Utils
         return round($tax1 + $tax2, 2);
     }
 
-    public static function roundSignificant($value, $precision = 2) {
+    public static function roundSignificant($value, $precision = 2)
+    {
         if (round($value, 3) != $value) {
             $precision = 4;
         } elseif (round($value, 2) != $value) {
@@ -1390,21 +1393,22 @@ class Utils
     // http://stackoverflow.com/a/14238078/497368
     public static function isInterlaced($filename)
     {
-       $handle = fopen($filename, 'r');
-       $contents = fread($handle, 32);
-       fclose($handle);
-       return( ord($contents[28]) != 0 );
+        $handle = fopen($filename, 'r');
+        $contents = fread($handle, 32);
+        fclose($handle);
+        return (ord($contents[28]) != 0);
     }
 
     //Source: https://stackoverflow.com/questions/3302857/algorithm-to-get-the-excel-like-column-name-of-a-number
     public static function num2alpha($n)
     {
-        for($r = ""; $n >= 0; $n = intval($n / 26) - 1)
-            $r = chr($n%26 + 0x41) . $r;
+        for ($r = ""; $n >= 0; $n = intval($n / 26) - 1)
+            $r = chr($n % 26 + 0x41) . $r;
         return $r;
     }
 
-    public static function brewerColor($number) {
+    public static function brewerColor($number)
+    {
         $colors = [
             '#0B629E',
             '#43365B',
@@ -1419,12 +1423,13 @@ class Utils
             '#F48568',
             '#3495C6',
         ];
-        $number = ($number-1) % count($colors);
+        $number = ($number - 1) % count($colors);
 
         return $colors[$number];
     }
 
-    public static function brewerColorRGB($number) {
+    public static function brewerColorRGB($number)
+    {
         $color = static::brewerColor($number);
         list($r, $g, $b) = sscanf($color, "#%02x%02x%02x");
         return "{$r},{$g},{$b}";
@@ -1436,48 +1441,49 @@ class Utils
      * @return string
      * Source: https://stackoverflow.com/questions/3371697/replacing-accented-characters-php/16427125#16427125
      */
-    public static function normalizeChars($s) {
+    public static function normalizeChars($s)
+    {
         $replace = array(
-            'ъ'=>'-', 'Ь'=>'-', 'Ъ'=>'-', 'ь'=>'-',
-            'Ă'=>'A', 'Ą'=>'A', 'À'=>'A', 'Ã'=>'A', 'Á'=>'A', 'Æ'=>'A', 'Â'=>'A', 'Å'=>'A', 'Ä'=>'Ae',
-            'Þ'=>'B',
-            'Ć'=>'C', 'ץ'=>'C', 'Ç'=>'C',
-            'È'=>'E', 'Ę'=>'E', 'É'=>'E', 'Ë'=>'E', 'Ê'=>'E',
-            'Ğ'=>'G',
-            'İ'=>'I', 'Ï'=>'I', 'Î'=>'I', 'Í'=>'I', 'Ì'=>'I',
-            'Ł'=>'L',
-            'Ñ'=>'N', 'Ń'=>'N',
-            'Ø'=>'O', 'Ó'=>'O', 'Ò'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'Oe',
-            'Ş'=>'S', 'Ś'=>'S', 'Ș'=>'S', 'Š'=>'S',
-            'Ț'=>'T',
-            'Ù'=>'U', 'Û'=>'U', 'Ú'=>'U', 'Ü'=>'Ue',
-            'Ý'=>'Y',
-            'Ź'=>'Z', 'Ž'=>'Z', 'Ż'=>'Z',
-            'â'=>'a', 'ǎ'=>'a', 'ą'=>'a', 'á'=>'a', 'ă'=>'a', 'ã'=>'a', 'Ǎ'=>'a', 'а'=>'a', 'А'=>'a', 'å'=>'a', 'à'=>'a', 'א'=>'a', 'Ǻ'=>'a', 'Ā'=>'a', 'ǻ'=>'a', 'ā'=>'a', 'ä'=>'ae', 'æ'=>'ae', 'Ǽ'=>'ae', 'ǽ'=>'ae',
-            'б'=>'b', 'ב'=>'b', 'Б'=>'b', 'þ'=>'b',
-            'ĉ'=>'c', 'Ĉ'=>'c', 'Ċ'=>'c', 'ć'=>'c', 'ç'=>'c', 'ц'=>'c', 'צ'=>'c', 'ċ'=>'c', 'Ц'=>'c', 'Č'=>'c', 'č'=>'c', 'Ч'=>'ch', 'ч'=>'ch',
-            'ד'=>'d', 'ď'=>'d', 'Đ'=>'d', 'Ď'=>'d', 'đ'=>'d', 'д'=>'d', 'Д'=>'D', 'ð'=>'d',
-            'є'=>'e', 'ע'=>'e', 'е'=>'e', 'Е'=>'e', 'Ə'=>'e', 'ę'=>'e', 'ĕ'=>'e', 'ē'=>'e', 'Ē'=>'e', 'Ė'=>'e', 'ė'=>'e', 'ě'=>'e', 'Ě'=>'e', 'Є'=>'e', 'Ĕ'=>'e', 'ê'=>'e', 'ə'=>'e', 'è'=>'e', 'ë'=>'e', 'é'=>'e',
-            'ф'=>'f', 'ƒ'=>'f', 'Ф'=>'f',
-            'ġ'=>'g', 'Ģ'=>'g', 'Ġ'=>'g', 'Ĝ'=>'g', 'Г'=>'g', 'г'=>'g', 'ĝ'=>'g', 'ğ'=>'g', 'ג'=>'g', 'Ґ'=>'g', 'ґ'=>'g', 'ģ'=>'g',
-            'ח'=>'h', 'ħ'=>'h', 'Х'=>'h', 'Ħ'=>'h', 'Ĥ'=>'h', 'ĥ'=>'h', 'х'=>'h', 'ה'=>'h',
-            'î'=>'i', 'ï'=>'i', 'í'=>'i', 'ì'=>'i', 'į'=>'i', 'ĭ'=>'i', 'ı'=>'i', 'Ĭ'=>'i', 'И'=>'i', 'ĩ'=>'i', 'ǐ'=>'i', 'Ĩ'=>'i', 'Ǐ'=>'i', 'и'=>'i', 'Į'=>'i', 'י'=>'i', 'Ї'=>'i', 'Ī'=>'i', 'І'=>'i', 'ї'=>'i', 'і'=>'i', 'ī'=>'i', 'ĳ'=>'ij', 'Ĳ'=>'ij',
-            'й'=>'j', 'Й'=>'j', 'Ĵ'=>'j', 'ĵ'=>'j', 'я'=>'ja', 'Я'=>'ja', 'Э'=>'je', 'э'=>'je', 'ё'=>'jo', 'Ё'=>'jo', 'ю'=>'ju', 'Ю'=>'ju',
-            'ĸ'=>'k', 'כ'=>'k', 'Ķ'=>'k', 'К'=>'k', 'к'=>'k', 'ķ'=>'k', 'ך'=>'k',
-            'Ŀ'=>'l', 'ŀ'=>'l', 'Л'=>'l', 'ł'=>'l', 'ļ'=>'l', 'ĺ'=>'l', 'Ĺ'=>'l', 'Ļ'=>'l', 'л'=>'l', 'Ľ'=>'l', 'ľ'=>'l', 'ל'=>'l',
-            'מ'=>'m', 'М'=>'m', 'ם'=>'m', 'м'=>'m',
-            'ñ'=>'n', 'н'=>'n', 'Ņ'=>'n', 'ן'=>'n', 'ŋ'=>'n', 'נ'=>'n', 'Н'=>'n', 'ń'=>'n', 'Ŋ'=>'n', 'ņ'=>'n', 'ŉ'=>'n', 'Ň'=>'n', 'ň'=>'n',
-            'о'=>'o', 'О'=>'o', 'ő'=>'o', 'õ'=>'o', 'ô'=>'o', 'Ő'=>'o', 'ŏ'=>'o', 'Ŏ'=>'o', 'Ō'=>'o', 'ō'=>'o', 'ø'=>'o', 'ǿ'=>'o', 'ǒ'=>'o', 'ò'=>'o', 'Ǿ'=>'o', 'Ǒ'=>'o', 'ơ'=>'o', 'ó'=>'o', 'Ơ'=>'o', 'œ'=>'oe', 'Œ'=>'oe', 'ö'=>'oe',
-            'פ'=>'p', 'ף'=>'p', 'п'=>'p', 'П'=>'p',
-            'ק'=>'q',
-            'ŕ'=>'r', 'ř'=>'r', 'Ř'=>'r', 'ŗ'=>'r', 'Ŗ'=>'r', 'ר'=>'r', 'Ŕ'=>'r', 'Р'=>'r', 'р'=>'r',
-            'ș'=>'s', 'с'=>'s', 'Ŝ'=>'s', 'š'=>'s', 'ś'=>'s', 'ס'=>'s', 'ş'=>'s', 'С'=>'s', 'ŝ'=>'s', 'Щ'=>'sch', 'щ'=>'sch', 'ш'=>'sh', 'Ш'=>'sh', 'ß'=>'ss',
-            'т'=>'t', 'ט'=>'t', 'ŧ'=>'t', 'ת'=>'t', 'ť'=>'t', 'ţ'=>'t', 'Ţ'=>'t', 'Т'=>'t', 'ț'=>'t', 'Ŧ'=>'t', 'Ť'=>'t', '™'=>'tm',
-            'ū'=>'u', 'у'=>'u', 'Ũ'=>'u', 'ũ'=>'u', 'Ư'=>'u', 'ư'=>'u', 'Ū'=>'u', 'Ǔ'=>'u', 'ų'=>'u', 'Ų'=>'u', 'ŭ'=>'u', 'Ŭ'=>'u', 'Ů'=>'u', 'ů'=>'u', 'ű'=>'u', 'Ű'=>'u', 'Ǖ'=>'u', 'ǔ'=>'u', 'Ǜ'=>'u', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'У'=>'u', 'ǚ'=>'u', 'ǜ'=>'u', 'Ǚ'=>'u', 'Ǘ'=>'u', 'ǖ'=>'u', 'ǘ'=>'u', 'ü'=>'ue',
-            'в'=>'v', 'ו'=>'v', 'В'=>'v',
-            'ש'=>'w', 'ŵ'=>'w', 'Ŵ'=>'w',
-            'ы'=>'y', 'ŷ'=>'y', 'ý'=>'y', 'ÿ'=>'y', 'Ÿ'=>'y', 'Ŷ'=>'y',
-            'Ы'=>'y', 'ž'=>'z', 'З'=>'z', 'з'=>'z', 'ź'=>'z', 'ז'=>'z', 'ż'=>'z', 'ſ'=>'z', 'Ж'=>'zh', 'ж'=>'zh'
+            'ъ' => '-', 'Ь' => '-', 'Ъ' => '-', 'ь' => '-',
+            'Ă' => 'A', 'Ą' => 'A', 'À' => 'A', 'Ã' => 'A', 'Á' => 'A', 'Æ' => 'A', 'Â' => 'A', 'Å' => 'A', 'Ä' => 'Ae',
+            'Þ' => 'B',
+            'Ć' => 'C', 'ץ' => 'C', 'Ç' => 'C',
+            'È' => 'E', 'Ę' => 'E', 'É' => 'E', 'Ë' => 'E', 'Ê' => 'E',
+            'Ğ' => 'G',
+            'İ' => 'I', 'Ï' => 'I', 'Î' => 'I', 'Í' => 'I', 'Ì' => 'I',
+            'Ł' => 'L',
+            'Ñ' => 'N', 'Ń' => 'N',
+            'Ø' => 'O', 'Ó' => 'O', 'Ò' => 'O', 'Ô' => 'O', 'Õ' => 'O', 'Ö' => 'Oe',
+            'Ş' => 'S', 'Ś' => 'S', 'Ș' => 'S', 'Š' => 'S',
+            'Ț' => 'T',
+            'Ù' => 'U', 'Û' => 'U', 'Ú' => 'U', 'Ü' => 'Ue',
+            'Ý' => 'Y',
+            'Ź' => 'Z', 'Ž' => 'Z', 'Ż' => 'Z',
+            'â' => 'a', 'ǎ' => 'a', 'ą' => 'a', 'á' => 'a', 'ă' => 'a', 'ã' => 'a', 'Ǎ' => 'a', 'а' => 'a', 'А' => 'a', 'å' => 'a', 'à' => 'a', 'א' => 'a', 'Ǻ' => 'a', 'Ā' => 'a', 'ǻ' => 'a', 'ā' => 'a', 'ä' => 'ae', 'æ' => 'ae', 'Ǽ' => 'ae', 'ǽ' => 'ae',
+            'б' => 'b', 'ב' => 'b', 'Б' => 'b', 'þ' => 'b',
+            'ĉ' => 'c', 'Ĉ' => 'c', 'Ċ' => 'c', 'ć' => 'c', 'ç' => 'c', 'ц' => 'c', 'צ' => 'c', 'ċ' => 'c', 'Ц' => 'c', 'Č' => 'c', 'č' => 'c', 'Ч' => 'ch', 'ч' => 'ch',
+            'ד' => 'd', 'ď' => 'd', 'Đ' => 'd', 'Ď' => 'd', 'đ' => 'd', 'д' => 'd', 'Д' => 'D', 'ð' => 'd',
+            'є' => 'e', 'ע' => 'e', 'е' => 'e', 'Е' => 'e', 'Ə' => 'e', 'ę' => 'e', 'ĕ' => 'e', 'ē' => 'e', 'Ē' => 'e', 'Ė' => 'e', 'ė' => 'e', 'ě' => 'e', 'Ě' => 'e', 'Є' => 'e', 'Ĕ' => 'e', 'ê' => 'e', 'ə' => 'e', 'è' => 'e', 'ë' => 'e', 'é' => 'e',
+            'ф' => 'f', 'ƒ' => 'f', 'Ф' => 'f',
+            'ġ' => 'g', 'Ģ' => 'g', 'Ġ' => 'g', 'Ĝ' => 'g', 'Г' => 'g', 'г' => 'g', 'ĝ' => 'g', 'ğ' => 'g', 'ג' => 'g', 'Ґ' => 'g', 'ґ' => 'g', 'ģ' => 'g',
+            'ח' => 'h', 'ħ' => 'h', 'Х' => 'h', 'Ħ' => 'h', 'Ĥ' => 'h', 'ĥ' => 'h', 'х' => 'h', 'ה' => 'h',
+            'î' => 'i', 'ï' => 'i', 'í' => 'i', 'ì' => 'i', 'į' => 'i', 'ĭ' => 'i', 'ı' => 'i', 'Ĭ' => 'i', 'И' => 'i', 'ĩ' => 'i', 'ǐ' => 'i', 'Ĩ' => 'i', 'Ǐ' => 'i', 'и' => 'i', 'Į' => 'i', 'י' => 'i', 'Ї' => 'i', 'Ī' => 'i', 'І' => 'i', 'ї' => 'i', 'і' => 'i', 'ī' => 'i', 'ĳ' => 'ij', 'Ĳ' => 'ij',
+            'й' => 'j', 'Й' => 'j', 'Ĵ' => 'j', 'ĵ' => 'j', 'я' => 'ja', 'Я' => 'ja', 'Э' => 'je', 'э' => 'je', 'ё' => 'jo', 'Ё' => 'jo', 'ю' => 'ju', 'Ю' => 'ju',
+            'ĸ' => 'k', 'כ' => 'k', 'Ķ' => 'k', 'К' => 'k', 'к' => 'k', 'ķ' => 'k', 'ך' => 'k',
+            'Ŀ' => 'l', 'ŀ' => 'l', 'Л' => 'l', 'ł' => 'l', 'ļ' => 'l', 'ĺ' => 'l', 'Ĺ' => 'l', 'Ļ' => 'l', 'л' => 'l', 'Ľ' => 'l', 'ľ' => 'l', 'ל' => 'l',
+            'מ' => 'm', 'М' => 'm', 'ם' => 'm', 'м' => 'm',
+            'ñ' => 'n', 'н' => 'n', 'Ņ' => 'n', 'ן' => 'n', 'ŋ' => 'n', 'נ' => 'n', 'Н' => 'n', 'ń' => 'n', 'Ŋ' => 'n', 'ņ' => 'n', 'ŉ' => 'n', 'Ň' => 'n', 'ň' => 'n',
+            'о' => 'o', 'О' => 'o', 'ő' => 'o', 'õ' => 'o', 'ô' => 'o', 'Ő' => 'o', 'ŏ' => 'o', 'Ŏ' => 'o', 'Ō' => 'o', 'ō' => 'o', 'ø' => 'o', 'ǿ' => 'o', 'ǒ' => 'o', 'ò' => 'o', 'Ǿ' => 'o', 'Ǒ' => 'o', 'ơ' => 'o', 'ó' => 'o', 'Ơ' => 'o', 'œ' => 'oe', 'Œ' => 'oe', 'ö' => 'oe',
+            'פ' => 'p', 'ף' => 'p', 'п' => 'p', 'П' => 'p',
+            'ק' => 'q',
+            'ŕ' => 'r', 'ř' => 'r', 'Ř' => 'r', 'ŗ' => 'r', 'Ŗ' => 'r', 'ר' => 'r', 'Ŕ' => 'r', 'Р' => 'r', 'р' => 'r',
+            'ș' => 's', 'с' => 's', 'Ŝ' => 's', 'š' => 's', 'ś' => 's', 'ס' => 's', 'ş' => 's', 'С' => 's', 'ŝ' => 's', 'Щ' => 'sch', 'щ' => 'sch', 'ш' => 'sh', 'Ш' => 'sh', 'ß' => 'ss',
+            'т' => 't', 'ט' => 't', 'ŧ' => 't', 'ת' => 't', 'ť' => 't', 'ţ' => 't', 'Ţ' => 't', 'Т' => 't', 'ț' => 't', 'Ŧ' => 't', 'Ť' => 't', '™' => 'tm',
+            'ū' => 'u', 'у' => 'u', 'Ũ' => 'u', 'ũ' => 'u', 'Ư' => 'u', 'ư' => 'u', 'Ū' => 'u', 'Ǔ' => 'u', 'ų' => 'u', 'Ų' => 'u', 'ŭ' => 'u', 'Ŭ' => 'u', 'Ů' => 'u', 'ů' => 'u', 'ű' => 'u', 'Ű' => 'u', 'Ǖ' => 'u', 'ǔ' => 'u', 'Ǜ' => 'u', 'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'У' => 'u', 'ǚ' => 'u', 'ǜ' => 'u', 'Ǚ' => 'u', 'Ǘ' => 'u', 'ǖ' => 'u', 'ǘ' => 'u', 'ü' => 'ue',
+            'в' => 'v', 'ו' => 'v', 'В' => 'v',
+            'ש' => 'w', 'ŵ' => 'w', 'Ŵ' => 'w',
+            'ы' => 'y', 'ŷ' => 'y', 'ý' => 'y', 'ÿ' => 'y', 'Ÿ' => 'y', 'Ŷ' => 'y',
+            'Ы' => 'y', 'ž' => 'z', 'З' => 'z', 'з' => 'z', 'ź' => 'z', 'ז' => 'z', 'ż' => 'z', 'ſ' => 'z', 'Ж' => 'zh', 'ж' => 'zh'
         );
         return strtr($s, $replace);
     }

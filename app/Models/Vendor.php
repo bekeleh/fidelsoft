@@ -6,9 +6,12 @@ use App\Events\VendorWasCreated;
 use App\Events\VendorWasDeleted;
 use App\Events\VendorWasUpdated;
 use DB;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
-use Utils;
+use App\Libraries\Utils;
 
 /**
  * Class Vendor.
@@ -130,7 +133,7 @@ class Vendor extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function account()
     {
@@ -146,7 +149,7 @@ class Vendor extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function payments()
     {
@@ -154,7 +157,7 @@ class Vendor extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function vendor_contacts()
     {
@@ -162,7 +165,7 @@ class Vendor extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function country()
     {
@@ -170,7 +173,7 @@ class Vendor extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function currency()
     {
@@ -178,7 +181,7 @@ class Vendor extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function language()
     {
@@ -186,7 +189,7 @@ class Vendor extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function size()
     {
@@ -194,7 +197,7 @@ class Vendor extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function industry()
     {
@@ -202,7 +205,7 @@ class Vendor extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function expenses()
     {
@@ -213,13 +216,13 @@ class Vendor extends EntityModel
      * @param $data
      * @param bool $isPrimary
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
     public function addVendorContact($data, $isPrimary = false)
     {
         $publicId = isset($data['public_id']) ? $data['public_id'] : (isset($data['id']) ? $data['id'] : false);
 
-        if (! $this->wasRecentlyCreated && $publicId && intval($publicId) > 0) {
+        if (!$this->wasRecentlyCreated && $publicId && intval($publicId) > 0) {
             $contact = VendorContact::scope($publicId)->whereVendorId($this->id)->firstOrFail();
         } else {
             $contact = VendorContact::createNew();
@@ -325,7 +328,7 @@ class Vendor extends EntityModel
             return $this->currency_id;
         }
 
-        if (! $this->account) {
+        if (!$this->account) {
             $this->load('account');
         }
 
@@ -338,11 +341,11 @@ class Vendor extends EntityModel
     public function getTotalExpenses()
     {
         return DB::table('expenses')
-                ->select('expense_currency_id', DB::raw('sum(expenses.amount + (expenses.amount * expenses.tax_rate1 / 100) + (expenses.amount * expenses.tax_rate2 / 100)) as amount'))
-                ->whereVendorId($this->id)
-                ->whereIsDeleted(false)
-                ->groupBy('expense_currency_id')
-                ->get();
+            ->select('expense_currency_id', DB::raw('sum(expenses.amount + (expenses.amount * expenses.tax_rate1 / 100) + (expenses.amount * expenses.tax_rate2 / 100)) as amount'))
+            ->whereVendorId($this->id)
+            ->whereIsDeleted(false)
+            ->groupBy('expense_currency_id')
+            ->get();
     }
 }
 

@@ -15,6 +15,9 @@ use Carbon\Carbon;
 use DateTime;
 use Eloquent;
 use Event;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 use Session;
@@ -289,7 +292,7 @@ class Account extends Eloquent
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function account_tokens()
     {
@@ -297,7 +300,7 @@ class Account extends Eloquent
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function users()
     {
@@ -305,7 +308,7 @@ class Account extends Eloquent
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function clients()
     {
@@ -313,7 +316,7 @@ class Account extends Eloquent
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function contacts()
     {
@@ -321,7 +324,7 @@ class Account extends Eloquent
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function invoices()
     {
@@ -329,7 +332,7 @@ class Account extends Eloquent
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function account_gateways()
     {
@@ -337,7 +340,7 @@ class Account extends Eloquent
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function account_gateway_settings()
     {
@@ -345,7 +348,7 @@ class Account extends Eloquent
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function account_email_settings()
     {
@@ -353,7 +356,7 @@ class Account extends Eloquent
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function bank_accounts()
     {
@@ -361,7 +364,7 @@ class Account extends Eloquent
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function tax_rates()
     {
@@ -369,7 +372,7 @@ class Account extends Eloquent
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function products()
     {
@@ -377,7 +380,7 @@ class Account extends Eloquent
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function defaultDocuments()
     {
@@ -390,7 +393,7 @@ class Account extends Eloquent
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function country()
     {
@@ -398,7 +401,7 @@ class Account extends Eloquent
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function timezone()
     {
@@ -406,7 +409,7 @@ class Account extends Eloquent
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function language()
     {
@@ -414,7 +417,7 @@ class Account extends Eloquent
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function date_format()
     {
@@ -422,7 +425,7 @@ class Account extends Eloquent
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function datetime_format()
     {
@@ -430,7 +433,7 @@ class Account extends Eloquent
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function size()
     {
@@ -438,7 +441,7 @@ class Account extends Eloquent
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function currency()
     {
@@ -446,7 +449,7 @@ class Account extends Eloquent
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function industry()
     {
@@ -454,7 +457,7 @@ class Account extends Eloquent
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function payment_type()
     {
@@ -478,7 +481,7 @@ class Account extends Eloquent
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function company()
     {
@@ -502,7 +505,7 @@ class Account extends Eloquent
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function custom_payment_terms()
     {
@@ -726,7 +729,6 @@ class Account extends Eloquent
     /**
      * @param $amount
      * @param null $client
-     * @param bool $hideSymbol
      * @param mixed $decorator
      *
      * @return string
@@ -1368,6 +1370,7 @@ class Account extends Eloquent
 
     /**
      * @return int
+     * @throws \Exception
      */
     public function getCountTrialDaysLeft()
     {
@@ -1403,7 +1406,7 @@ class Account extends Eloquent
     /**
      * @param $eventId
      *
-     * @return \Illuminate\Database\Eloquent\Model|null|static
+     * @return Model|null|static
      */
     public function getSubscriptions($eventId)
     {

@@ -7,9 +7,9 @@
         <style type="text/css">
             .nav-footer {
                 @if (config('mail.driver') == 'log' && ! config('services.postmark'))
-                              background-color: #50C878 !important;
+                                          background-color: #50C878 !important;
                 @else
-                              background-color: #FD6A02 !important;
+                                           background-color: #FD6A02 !important;
             @endif
 
 
@@ -27,9 +27,7 @@
 @stop
 
 @section('head')
-
     <script type="text/javascript">
-
         function checkForEnter(event) {
             if (event.keyCode === 13) {
                 event.preventDefault();
@@ -260,13 +258,10 @@
 @stop
 
 @section('body')
-
     @if (Utils::isNinjaProd() && ! Request::is('settings/account_management'))
         @include('partials.upgrade_modal')
     @endif
-
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="height:60px;">
-
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
                 <span class="sr-only">Toggle navigation</span>
@@ -282,7 +277,6 @@
                 </div>
             </a>
         </div>
-
         <a id="right-menu-toggle" class="menu-toggle hide-phone pull-right" title="{{ trans('texts.toggle_history') }}"
            style="cursor:pointer">
             <div class="fa fa-bars"></div>
@@ -396,6 +390,8 @@
                     'dashboard' => false,
                     'clients' => false,
                     'products' => false,
+                    'stores' => false,
+                    'sale_types' => false,
                     'invoices' => false,
                     'payments' => false,
                     'recurring_invoices' => 'recurring',
@@ -425,7 +421,7 @@
                 @foreach([
                     'dashboard',
                     'clients',
-                    'products',
+                     'vendors',
                     'invoices',
                     'payments',
                     'recurring_invoices',
@@ -435,7 +431,11 @@
                     'projects',
                     'tasks',
                     'expenses',
-                    'vendors',
+                    'products',
+                    'stocks',
+                    'stores',
+                    'item_prices',
+                    'sale_types',
                 ] as $option)
                     @if(!Auth::user()->account->isModuleEnabled(substr($option, 0, -1)))
                         {{ '' }}

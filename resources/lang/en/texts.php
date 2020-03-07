@@ -24,7 +24,7 @@ $LANG = array(
     | sales type trans
     |--------------------------------------------------------------------------
     */
-    'item_prices' => 'Item Price',
+    'item_prices' => 'Item Prices',
     /*
     |--------------------------------------------------------------------------
     | Miscellaneous trans
@@ -321,6 +321,8 @@ $LANG = array(
     'product_library' => 'Product Library',
     'product' => 'Product',
     'products' => 'Products',
+    'stocks' => 'Inventories',
+    'stores' => 'Stores',
     'fill_products' => 'Auto-fill products',
     'fill_products_help' => 'Selecting a product will automatically <b>fill in the description and cost</b>',
     'update_products' => 'Auto-update products',
@@ -551,7 +553,8 @@ $LANG = array(
     'auto_wrap' => 'Auto Line Wrap',
     'duplicate_post' => 'Warning: the previous page was submitted twice. The second submission had been ignored.',
     'view_documentation' => 'View Documentation',
-    'app_title' => 'Free Open-Source Online Invoicing',
+//    'app_title' => 'Free Open-Source Online Invoicing',
+    'app_title' => 'Ultimate Business Care ERP',
     'app_description' => 'Invoice Ninja is a free, open-source solution for invoicing and billing customers. With Invoice Ninja, you can easily build and send beautiful invoices from any device that has access to the web. Your clients can print your invoices, download them as pdf files, and even pay you online from within the system.',
     'rows' => 'rows',
     'www' => 'www',
@@ -935,7 +938,8 @@ $LANG = array(
     'expenses' => 'Expenses',
     'new_expense' => 'Enter Expense',
     'enter_expense' => 'Enter Expense',
-    'vendors' => 'Vendors',
+//    'vendors' => 'Vendors',
+    'vendors' => 'Suppliers',
     'new_vendor' => 'New Vendor',
     'payment_terms_net' => 'Net',
     'vendor' => 'Vendor',

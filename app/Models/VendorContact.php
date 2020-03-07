@@ -4,6 +4,7 @@ namespace App\Models;
 
 // vendor
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -50,7 +51,7 @@ class VendorContact extends EntityModel
     public static $fieldPhone = 'phone';
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function account()
     {

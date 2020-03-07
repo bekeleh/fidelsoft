@@ -6,12 +6,12 @@ use App\Events\UserSettingsChanged;
 use App\Events\UserSignedUp;
 use App\Libraries\Utils;
 use Event;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Laracasts\Presenter\PresentableTrait;
-use Session;
-use App\Models\LookupUser;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Session;
+use Laracasts\Presenter\PresentableTrait;
 
 /**
  * Class User.
@@ -79,7 +79,7 @@ class User extends Authenticatable
     protected $dates = ['deleted_at'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function account()
     {
@@ -87,7 +87,7 @@ class User extends Authenticatable
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function theme()
     {
@@ -153,7 +153,7 @@ class User extends Authenticatable
             true;
         }
 
-        return $this->account->isPro() && ! $this->account->isTrial();
+        return $this->account->isPro() && !$this->account->isTrial();
     }
 
     /**
@@ -210,7 +210,7 @@ class User extends Authenticatable
     public function getFullName()
     {
         if ($this->first_name || $this->last_name) {
-            return $this->first_name.' '.$this->last_name;
+            return $this->first_name . ' ' . $this->last_name;
         } else {
             return '';
         }
@@ -221,7 +221,7 @@ class User extends Authenticatable
      */
     public function showGreyBackground()
     {
-        return ! $this->theme_id || in_array($this->theme_id, [2, 3, 5, 6, 7, 8, 10, 11, 12]);
+        return !$this->theme_id || in_array($this->theme_id, [2, 3, 5, 6, 7, 8, 10, 11, 12]);
     }
 
     /**
@@ -313,7 +313,7 @@ class User extends Authenticatable
      */
     public static function onUpdatedUser($user)
     {
-        if (! $user->getOriginal('email')
+        if (!$user->getOriginal('email')
             || $user->getOriginal('email') == TEST_USERNAME
             || $user->getOriginal('username') == TEST_USERNAME
             || $user->getOriginal('email') == 'tests@bitrock.com') {
@@ -332,7 +332,6 @@ class User extends Authenticatable
     }
 
 
-
     /**
      * Checks to see if the user has the required permission.
      *
@@ -348,16 +347,16 @@ class User extends Authenticatable
             return true;
         } elseif (is_string($permission)) {
 
-            if( is_array(json_decode($this->permissions,1)) && in_array($permission, json_decode($this->permissions,1)) ) {
+            if (is_array(json_decode($this->permissions, 1)) && in_array($permission, json_decode($this->permissions, 1))) {
                 return true;
             }
 
         } elseif (is_array($permission)) {
 
             if ($requireAll)
-                return count(array_intersect($permission, json_decode($this->permissions,1))) == count( $permission );
+                return count(array_intersect($permission, json_decode($this->permissions, 1))) == count($permission);
             else
-                return count(array_intersect($permission, json_decode($this->permissions,1))) > 0;
+                return count(array_intersect($permission, json_decode($this->permissions, 1))) > 0;
 
         }
 
@@ -367,9 +366,9 @@ class User extends Authenticatable
 
     public function viewModel($model, $entityType)
     {
-        if($this->hasPermission('view_'.$entityType))
+        if ($this->hasPermission('view_' . $entityType))
             return true;
-        elseif($model->user_id == $this->id)
+        elseif ($model->user_id == $this->id)
             return true;
         else
             return false;
@@ -382,7 +381,7 @@ class User extends Authenticatable
      */
     public function owns($entity)
     {
-        return ! empty($entity->user_id) && $entity->user_id == $this->id;
+        return !empty($entity->user_id) && $entity->user_id == $this->id;
     }
 
     /**
@@ -400,9 +399,9 @@ class User extends Authenticatable
 
     public function caddAddUsers()
     {
-        if (! Utils::isNinjaProd()) {
+        if (!Utils::isNinjaProd()) {
             return true;
-        } elseif (! $this->hasFeature(FEATURE_USERS)) {
+        } elseif (!$this->hasFeature(FEATURE_USERS)) {
             return false;
         }
 
@@ -420,7 +419,7 @@ class User extends Authenticatable
     public function canCreateOrEdit($entityType, $entity = false)
     {
         return ($entity && $this->can('edit', $entity))
-            || (! $entity && $this->can('create', $entityType));
+            || (!$entity && $this->can('create', $entityType));
     }
 
     public function primaryAccount()
@@ -441,7 +440,7 @@ class User extends Authenticatable
 
     public function hasAcceptedLatestTerms()
     {
-        if (! NINJA_TERMS_VERSION) {
+        if (!NINJA_TERMS_VERSION) {
             return true;
         }
 
@@ -464,7 +463,7 @@ class User extends Authenticatable
 
     public function shouldNotify($invoice)
     {
-        if (! $this->email || ! $this->confirmed) {
+        if (!$this->email || !$this->confirmed) {
             return false;
         }
 
@@ -472,7 +471,7 @@ class User extends Authenticatable
             return false;
         }
 
-        if ($this->only_notify_owned && ! $this->ownsEntity($invoice)) {
+        if ($this->only_notify_owned && !$this->ownsEntity($invoice)) {
             return false;
         }
 
@@ -484,19 +483,18 @@ class User extends Authenticatable
         $data = [];
         $permissions = json_decode($this->permissions);
 
-        if (! $permissions) {
+        if (!$permissions) {
             return $data;
         }
 
-        $keys = array_values((array) $permissions);
+        $keys = array_values((array)$permissions);
         $values = array_fill(0, count($keys), true);
 
         return array_combine($keys, $values);
     }
 }
 
-User::created(function ($user)
-{
+User::created(function ($user) {
     LookupUser::createNew($user->account->account_key, [
         'email' => $user->email,
         'user_id' => $user->id,
@@ -521,9 +519,8 @@ User::updated(function ($user) {
     User::onUpdatedUser($user);
 });
 
-User::deleted(function ($user)
-{
-    if (! $user->email) {
+User::deleted(function ($user) {
+    if (!$user->email) {
         return;
     }
 

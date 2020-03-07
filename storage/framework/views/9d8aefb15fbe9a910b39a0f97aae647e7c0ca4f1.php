@@ -3,21 +3,22 @@
 <head>
     <!-- Source: https://github.com/invoiceninja/invoiceninja -->
     <!-- Version: <?php echo e(NINJA_VERSION); ?> -->
-    <?php if(env('MULTI_DB_ENABLED')): ?>
-    <!-- Authenticated: <?php echo e(Auth::check() ? 'Yes' : 'No'); ?> -->
-    <!-- Server: <?php echo e(session(SESSION_DB_SERVER, 'Unset')); ?> -->
+    <?php if (env('MULTI_DB_ENABLED')): ?>
+        <!-- Authenticated: <?php echo e(Auth::check() ? 'Yes' : 'No'); ?> -->
+        <!-- Server: <?php echo e(session(SESSION_DB_SERVER, 'Unset')); ?> -->
     <?php endif; ?>
-    <?php if(Session::has('error')): ?>
+    <?php if (Session::has('error')): ?>
         <!-- Error: <?php echo e(Session::get('error')); ?> -->
     <?php endif; ?>
     <meta charset="utf-8">
 
-    <?php if(Utils::isWhiteLabel() && ! auth()->check()): ?>
+    <?php if (Utils::isWhiteLabel() && !auth()->check()): ?>
         <title><?php echo e(trans('texts.client_portal')); ?></title>
         <link href="<?php echo e(asset('ic_cloud_circle.png')); ?>" rel="shortcut icon" type="image/png">
     <?php else: ?>
-        <title><?php echo e(isset($title) ? ($title . ' | Invoice Ninja') : ('Invoice Ninja | ' . trans('texts.app_title'))); ?></title>
-        <meta name="description" content="<?php echo e(isset($description) ? $description : trans('texts.app_description')); ?>"/>
+        <title><?php echo e(isset($title) ? ($title . ' | Care ERP') : ('Care ERP | ' . trans('texts.app_title'))); ?></title>
+        <meta name="description"
+              content="<?php echo e(isset($description) ? $description : trans('texts.app_description')); ?>"/>
         <link href="<?php echo e(asset('favicon-v2.png')); ?>" rel="shortcut icon" type="image/png">
 
         <meta property="og:site_name" content="Invoice Ninja"/>
@@ -77,12 +78,12 @@
                 return;
             }
             <?php if(Utils::isTravis()): ?>
-                if (errorMsg.indexOf('Attempting to change value of a readonly property') > -1) {
-                    return;
-                }
+            if (errorMsg.indexOf('Attempting to change value of a readonly property') > -1) {
+                return;
+            }
             <?php endif; ?>
             // Less than IE9 https://stackoverflow.com/a/14835682/497368
-            if (! document.addEventListener) {
+            if (!document.addEventListener) {
                 return;
             }
             try {
@@ -130,10 +131,10 @@
                 showCancelButton: true,
                 closeOnConfirm: false,
                 allowOutsideClick: true,
-            }).then(function() {
+            }).then(function () {
                 successCallback();
                 swal.close();
-            }).catch(function() {
+            }).catch(function () {
                 if (cancelCallback) {
                     cancelCallback();
                 }
@@ -142,7 +143,7 @@
 
         function showPasswordStrength(password, score) {
             if (password) {
-                var str = <?php echo json_encode(trans('texts.password_strength')); ?> + ': ';
+                var str = <?php echo json_encode(trans('texts.password_strength')); ?> +': ';
                 if (password.length < 8 || score < 50) {
                     str += <?php echo json_encode(trans('texts.strength_weak')); ?>;
                 } else if (score < 75) {
@@ -178,12 +179,12 @@
         <?php if(env('FACEBOOK_PIXEL')): ?>
         <!-- Facebook Pixel Code -->
         !function (f, b, e, v, n, t, s) {
-            if (f.fbq)return;
+            if (f.fbq) return;
             n = f.fbq = function () {
                 n.callMethod ?
-                        n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
             };
-            if (!f._fbq)f._fbq = n;
+            if (!f._fbq) f._fbq = n;
             n.push = n;
             n.loaded = !0;
             n.version = '2.0';
@@ -194,7 +195,7 @@
             s = b.getElementsByTagName(e)[0];
             s.parentNode.insertBefore(t, s)
         }(window,
-                document, 'script', '//connect.facebook.net/en_US/fbevents.js');
+            document, 'script', '//connect.facebook.net/en_US/fbevents.js');
 
         fbq('init', '<?php echo e(env('FACEBOOK_PIXEL')); ?>');
         fbq('track', "PageView");
@@ -218,7 +219,7 @@
         ;
         <?php endif; ?>
 
-                window._fbq = window._fbq || [];
+        window._fbq = window._fbq || [];
 
     </script>
 
@@ -226,27 +227,28 @@
         <link rel="stylesheet" type="text/css" href="<?php echo e(asset('css/cookieconsent.min.css')); ?>"/>
         <script src="<?php echo e(asset('js/cookieconsent.min.js')); ?>"></script>
         <script>
-        window.addEventListener("load", function(){
-            if (! window.cookieconsent) {
-                return;
-            }
-            window.cookieconsent.initialise({
-                "palette": {
-                    "popup": {
-                        "background": "#000"
-                    },
-                    "button": {
-                        "background": "#f1d600"
-                    },
-                },
-                "content": {
-                    "href": "<?php echo e(Utils::isNinja() ? config('ninja.privacy_policy_url.hosted') : 'https://cookiesandyou.com/'); ?>",
-                    "message": <?php echo json_encode(trans('texts.cookie_message')); ?>,
-                    "dismiss": <?php echo json_encode(trans('texts.got_it')); ?>,
-                    "link": <?php echo json_encode(trans('texts.learn_more')); ?>,
+            window.addEventListener("load", function () {
+                    if (!window.cookieconsent) {
+                        return;
+                    }
+                    window.cookieconsent.initialise({
+                        "palette": {
+                            "popup": {
+                                "background": "#000"
+                            },
+                            "button": {
+                                "background": "#f1d600"
+                            },
+                        },
+                        "content": {
+                            "href": "<?php echo e(Utils::isNinja() ? config('ninja.privacy_policy_url.hosted') : 'https://cookiesandyou.com/'); ?>",
+                            "message": <?php echo json_encode(trans('texts.cookie_message')); ?>,
+                            "dismiss": <?php echo json_encode(trans('texts.got_it')); ?>,
+                            "link": <?php echo json_encode(trans('texts.learn_more')); ?>,
+                        }
+                    })
                 }
-            })}
-        );
+            );
         </script>
     <?php endif; ?>
 
@@ -272,10 +274,10 @@
         (function (i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r;
             i[r] = i[r] || function () {
-                        (i[r].q = i[r].q || []).push(arguments)
-                    }, i[r].l = 1 * new Date();
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
             a = s.createElement(o),
-                    m = s.getElementsByTagName(o)[0];
+                m = s.getElementsByTagName(o)[0];
             a.async = 1;
             a.src = g;
             m.parentNode.insertBefore(a, m)
@@ -285,9 +287,10 @@
         ga('set', 'anonymizeIp', true);
 
         <?php if(request()->invitation_key || request()->proposal_invitation_key || request()->contact_key): ?>
-            ga('send', 'pageview', { 'page': '/client/portal' });
+        ga('send', 'pageview', {'page': '/client/portal'});
         <?php else: ?>
-            ga('send', 'pageview');
+        ga('send', 'pageview');
+
         <?php endif; ?>
 
         function trackEvent(category, action) {
@@ -306,8 +309,8 @@
 <script type="text/javascript">
     NINJA.formIsChanged = <?php echo e(isset($formIsChanged) && $formIsChanged ? 'true' : 'false'); ?>;
 
-    NINJA.parseFloat = function(str) {
-        if (! str) {
+    NINJA.parseFloat = function (str) {
+        if (!str) {
             return '';
         } else {
             str = str + '';
@@ -336,9 +339,9 @@
         });
 
         <?php if(Session::has('trackEventCategory') && Session::has('trackEventAction')): ?>
-            <?php if(Session::get('trackEventAction') === '/buy_pro_plan'): ?>
-                fbq('track', 'Purchase', {value: '<?php echo e(session('trackEventAmount')); ?>', currency: 'USD'});
-            <?php endif; ?>
+        <?php if(Session::get('trackEventAction') === '/buy_pro_plan'): ?>
+        fbq('track', 'Purchase', {value: '<?php echo e(session('trackEventAmount')); ?>', currency: 'USD'});
+        <?php endif; ?>
         <?php endif; ?>
 
         $('[data-toggle="tooltip"]').tooltip();
@@ -358,6 +361,7 @@
             return undefined;
         }
     });
+
     function openUrl(url, track) {
         trackEvent('/view_link', track ? track : url);
         window.open(url, '_blank');

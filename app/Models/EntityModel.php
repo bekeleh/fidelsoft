@@ -3,39 +3,22 @@
 namespace App\Models;
 
 use Str;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Eloquent;
-use Utils;
-use Validator;
+use App\Libraries\Utils;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Class EntityModel.
  */
 class EntityModel extends Eloquent
 {
-    /**
-     * @var bool
-     */
+
     public $timestamps = true;
-
-    /**
-     * @var bool
-     */
     protected static $hasPublicId = true;
-
-    /**
-     * @var array
-     */
     protected $hidden = ['id'];
-
-    /**
-     * @var bool
-     */
     public static $notifySubscriptions = true;
 
-    /**
-     * @var array
-     */
     public static $statuses = [
         STATUS_ACTIVE,
         STATUS_ARCHIVED,
@@ -102,7 +85,7 @@ class EntityModel extends Eloquent
      */
     public static function getPrivateId($publicId)
     {
-        if (! $publicId) {
+        if (!$publicId) {
             return null;
         }
 
@@ -120,7 +103,7 @@ class EntityModel extends Eloquent
      */
     public function getActivityKey()
     {
-        return '[' . $this->getEntityType().':'.$this->public_id.':'.$this->getDisplayName() . ']';
+        return '[' . $this->getEntityType() . ':' . $this->public_id . ':' . $this->getDisplayName() . ']';
     }
 
     public function entityKey()
@@ -160,16 +143,16 @@ class EntityModel extends Eloquent
     public function scopeScope($query, $publicId = false, $accountId = false)
     {
         // If 'false' is passed as the publicId return nothing rather than everything
-        if (func_num_args() > 1 && ! $publicId && ! $accountId) {
+        if (func_num_args() > 1 && !$publicId && !$accountId) {
             $query->where('id', '=', 0);
             return $query;
         }
 
-        if (! $accountId) {
+        if (!$accountId) {
             $accountId = Auth::user()->account_id;
         }
 
-        $query->where($this->getTable() .'.account_id', '=', $accountId);
+        $query->where($this->getTable() . '.account_id', '=', $accountId);
 
         if ($publicId) {
             if (is_array($publicId)) {
@@ -179,7 +162,7 @@ class EntityModel extends Eloquent
             }
         }
 
-        if (Auth::check() && method_exists($this, 'getEntityType') && ! Auth::user()->hasPermission('view_' . $this->getEntityType())  && $this->getEntityType() != ENTITY_TAX_RATE && $this->getEntityType() != ENTITY_DOCUMENT) {
+        if (Auth::check() && method_exists($this, 'getEntityType') && !Auth::user()->hasPermission('view_' . $this->getEntityType()) && $this->getEntityType() != ENTITY_TAX_RATE && $this->getEntityType() != ENTITY_DOCUMENT) {
             $query->where(Utils::pluralizeEntityType($this->getEntityType()) . '.user_id', '=', Auth::user()->id);
         }
 
@@ -189,10 +172,10 @@ class EntityModel extends Eloquent
     public function scopeWithActiveOrSelected($query, $id = false)
     {
         return $query->withTrashed()
-                      ->where(function ($query) use ($id) {
-                            $query->whereNull('deleted_at')
-                                  ->orWhere('id', '=', $id);
-                });
+            ->where(function ($query) use ($id) {
+                $query->whereNull('deleted_at')
+                    ->orWhere('id', '=', $id);
+            });
     }
 
     /**
@@ -228,7 +211,7 @@ class EntityModel extends Eloquent
      */
     public static function getClassName($entityType)
     {
-        if (! Utils::isNinjaProd()) {
+        if (!Utils::isNinjaProd()) {
             if ($module = \Module::find($entityType)) {
                 return "Modules\\{$module->getName()}\\Models\\{$module->getName()}";
             }
@@ -248,7 +231,7 @@ class EntityModel extends Eloquent
      */
     public static function getTransformerName($entityType)
     {
-        if (! Utils::isNinjaProd()) {
+        if (!Utils::isNinjaProd()) {
             if ($module = \Module::find($entityType)) {
                 return "Modules\\{$module->getName()}\\Transformers\\{$module->getName()}Transformer";
             }
@@ -260,7 +243,7 @@ class EntityModel extends Eloquent
     public function setNullValues()
     {
         foreach ($this->fillable as $field) {
-            if (strstr($field, '_id') && ! $this->$field) {
+            if (strstr($field, '_id') && !$this->$field) {
                 $this->$field = null;
             }
         }
@@ -289,7 +272,7 @@ class EntityModel extends Eloquent
      */
     public static function validate($data, $entityType = false, $entity = false)
     {
-        if (! $entityType) {
+        if (!$entityType) {
             $className = get_called_class();
             $entityBlank = new $className();
             $entityType = $entityBlank->getEntityType();
@@ -298,7 +281,7 @@ class EntityModel extends Eloquent
         // Use the API request if it exists
         $action = $entity ? 'update' : 'create';
         $requestClass = sprintf('App\\Http\\Requests\\%s%sAPIRequest', ucwords($action), Str::studly($entityType));
-        if (! class_exists($requestClass)) {
+        if (!class_exists($requestClass)) {
             $requestClass = sprintf('App\\Http\\Requests\\%s%sRequest', ucwords($action), Str::studly($entityType));
         }
 
@@ -309,7 +292,7 @@ class EntityModel extends Eloquent
         $request->setEntity($entity);
         $request->replace($data);
 
-        if (! $request->authorize()) {
+        if (!$request->authorize()) {
             return trans('texts.not_allowed');
         }
 
@@ -327,7 +310,9 @@ class EntityModel extends Eloquent
         $icons = [
             'dashboard' => 'tachometer',
             'clients' => 'users',
+            'vendors' => 'users',
             'products' => 'cube',
+            'stocks' => 'cubes',
             'invoices' => 'file-pdf-o',
             'payments' => 'credit-card',
             'recurring_invoices' => 'files-o',
@@ -337,7 +322,6 @@ class EntityModel extends Eloquent
             'proposals' => 'th-large',
             'tasks' => 'clock-o',
             'expenses' => 'file-image-o',
-            'vendors' => 'building',
             'settings' => 'cog',
             'self-update' => 'download',
             'reports' => 'th-list',
@@ -451,9 +435,9 @@ class EntityModel extends Eloquent
     }
 
     /**
-      * @param $method
-      * @param $params
-      */
+     * @param $method
+     * @param $params
+     */
     public function __call($method, $params)
     {
         if (count(config('modules.relations'))) {
