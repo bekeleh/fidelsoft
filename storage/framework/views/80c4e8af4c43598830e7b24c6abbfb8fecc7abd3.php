@@ -1,50 +1,56 @@
 <?php $__env->startSection('head'); ?>
     ##parent-placeholder-1a954628a960aaef81d7b2d4521929579f3541e6##
 
-    <?php echo $__env->make('money_script', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-<?php $__currentLoopData = Auth::user()->account->getFontFolders(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $font): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-  <script src="<?php echo e(asset('js/vfs_fonts/'.$font.'.js')); ?>" type="text/javascript"></script>
-<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-  <script src="<?php echo e(asset('pdf.built.js')); ?>?no_cache=<?php echo e(NINJA_VERSION); ?>" type="text/javascript"></script>
+<?php echo $__env->make('money_script', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php $__currentLoopData = Auth::user()->account->getFontFolders();
+$__env->addLoop($__currentLoopData);
+foreach ($__currentLoopData as $font): $__env->incrementLoopIndices();
+    $loop = $__env->getLastLoop(); ?>
+    <script src="<?php echo e(asset('js/vfs_fonts/' . $font . '.js')); ?>" type="text/javascript"></script>
+<?php endforeach;
+$__env->popLoop();
+$loop = $__env->getLastLoop(); ?>
+    <script src="<?php echo e(asset('pdf.built.js')); ?>?no_cache=<?php echo e(NINJA_VERSION); ?>"
+            type="text/javascript"></script>
 
-  <script>
+    <script>
 
-    var invoiceDesigns = <?php echo $invoiceDesigns; ?>;
-    var invoiceFonts = <?php echo $invoiceFonts; ?>;
-    var currentInvoice = <?php echo $invoice; ?>;
-    var versionsJson = <?php echo strip_tags($versionsJson); ?>;
+        var invoiceDesigns = <?php echo $invoiceDesigns; ?>;
+        var invoiceFonts = <?php echo $invoiceFonts; ?>;
+        var currentInvoice = <?php echo $invoice; ?>;
+        var versionsJson = <?php echo strip_tags($versionsJson); ?>;
 
-    function getPDFString(cb) {
+        function getPDFString(cb) {
 
-        var version = $('#version').val();
-        var invoice;
+            var version = $('#version').val();
+            var invoice;
 
-        <?php if($paymentId): ?>
+            <?php if($paymentId): ?>
             invoice = versionsJson[0];
-        <?php else: ?>
+            <?php else: ?>
             if (parseInt(version)) {
                 invoice = versionsJson[version];
             } else {
                 invoice = currentInvoice;
             }
-        <?php endif; ?>
+            <?php endif; ?>
 
-        invoice.image = window.accountLogo;
+            invoice.image = window.accountLogo;
 
-        var invoiceDesignId = parseInt(invoice.invoice_design_id);
-        var invoiceDesign = _.findWhere(invoiceDesigns, {id: invoiceDesignId});
-        if (!invoiceDesign) {
-            invoiceDesign = invoiceDesigns[0];
+            var invoiceDesignId = parseInt(invoice.invoice_design_id);
+            var invoiceDesign = _.findWhere(invoiceDesigns, {id: invoiceDesignId});
+            if (!invoiceDesign) {
+                invoiceDesign = invoiceDesigns[0];
+            }
+
+            generatePDF(invoice, invoiceDesign.javascript, true, cb);
         }
 
-        generatePDF(invoice, invoiceDesign.javascript, true, cb);
-    }
+        $(function () {
+            refreshPDF();
+        });
 
-    $(function() {
-      refreshPDF();
-    });
-
-  </script>
+    </script>
 
 <?php $__env->stopSection(); ?>
 

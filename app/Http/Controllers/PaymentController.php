@@ -5,56 +5,41 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreatePaymentRequest;
 use App\Http\Requests\PaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
+use App\Libraries\Utils;
 use App\Models\Client;
-use App\Models\Payment;
-use App\Models\Credit;
 use App\Models\Invoice;
+use App\Models\Payment;
+use App\Models\PaymentType;
 use App\Ninja\Datatables\PaymentDatatable;
 use App\Ninja\Mailers\ContactMailer;
 use App\Ninja\Repositories\PaymentRepository;
 use App\Services\PaymentService;
-use Auth;
-use Cache;
 use DropdownButton;
-use Input;
-use Session;
-use Utils;
-use View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\View;
 
 class PaymentController extends BaseController
 {
-    /**
-     * @var string
-     */
+
     protected $entityType = ENTITY_PAYMENT;
-
-    /**
-     * @var PaymentRepository
-     */
     protected $paymentRepo;
-
-    /**
-     * @var ContactMailer
-     */
     protected $contactMailer;
-
-    /**
-     * @var PaymentService
-     */
     protected $paymentService;
 
     /**
      * PaymentController constructor.
      *
      * @param PaymentRepository $paymentRepo
-     * @param ContactMailer     $contactMailer
-     * @param PaymentService    $paymentService
+     * @param ContactMailer $contactMailer
+     * @param PaymentService $paymentService
      */
-    public function __construct(
-        PaymentRepository $paymentRepo,
-        ContactMailer $contactMailer,
-        PaymentService $paymentService
-    ) {
+    public function __construct(PaymentRepository $paymentRepo, ContactMailer $contactMailer, PaymentService $paymentService)
+    {
         $this->paymentRepo = $paymentRepo;
         $this->contactMailer = $contactMailer;
         $this->paymentService = $paymentService;
@@ -75,7 +60,7 @@ class PaymentController extends BaseController
     /**
      * @param null $clientPublicId
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getDatatable($clientPublicId = null)
     {
@@ -92,11 +77,10 @@ class PaymentController extends BaseController
         $user = auth()->user();
         $account = $user->account;
 
-        $invoices = Invoice::scope()
-                    ->invoices()
-                    ->where('invoices.invoice_status_id', '!=', INVOICE_STATUS_PAID)
-                    ->with('client', 'invoice_status')
-                    ->orderBy('invoice_number')->get();
+        $invoices = Invoice::scope()->invoices()
+            ->where('invoices.invoice_status_id', '!=', INVOICE_STATUS_PAID)
+            ->with('client', 'invoice_status')
+            ->orderBy('invoice_number')->get();
 
         $clientPublicId = Input::old('client') ? Input::old('client') : ($request->client_id ?: 0);
         $invoicePublicId = Input::old('invoice') ? Input::old('invoice') : ($request->invoice_id ?: 0);
@@ -129,7 +113,7 @@ class PaymentController extends BaseController
     /**
      * @param $publicId
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function show($publicId)
     {
@@ -162,7 +146,7 @@ class PaymentController extends BaseController
         }
 
         $actions[] = DropdownButton::DIVIDER;
-        if (! $payment->trashed()) {
+        if (!$payment->trashed()) {
             $actions[] = ['url' => 'javascript:submitAction("archive")', 'label' => trans('texts.archive_payment')];
             $actions[] = ['url' => 'javascript:onDeleteClick()', 'label' => trans('texts.delete_payment')];
         } else {
@@ -173,15 +157,14 @@ class PaymentController extends BaseController
             'account' => Auth::user()->account,
             'client' => null,
             'invoice' => null,
-            'invoices' => Invoice::scope()
-                            ->invoices()
-                            ->whereIsPublic(true)
-                            ->with('client', 'invoice_status')
-                            ->orderBy('invoice_number')->get(),
+            'invoices' => Invoice::scope()->invoices()
+                ->whereIsPublic(true)
+                ->with('client', 'invoice_status')
+                ->orderBy('invoice_number')->get(),
             'payment' => $payment,
             'entity' => $payment,
             'method' => 'PUT',
-            'url' => 'payments/'.$payment->public_id,
+            'url' => 'payments/' . $payment->public_id,
             'title' => trans('texts.edit_payment'),
             'actions' => $actions,
             'paymentTypes' => Cache::get('paymentTypes'),
@@ -194,7 +177,7 @@ class PaymentController extends BaseController
     /**
      * @param CreatePaymentRequest $request
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function store(CreatePaymentRequest $request)
     {
@@ -203,7 +186,6 @@ class PaymentController extends BaseController
         $input = $request->input();
         $amount = Utils::parseFloat($input['amount']);
         $credit = false;
-
         // if the payment amount is more than the balance create a credit
         if ($amount > $request->invoice->balance) {
             $credit = true;
@@ -224,7 +206,7 @@ class PaymentController extends BaseController
     /**
      * @param UpdatePaymentRequest $request
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function update(UpdatePaymentRequest $request)
     {
@@ -257,7 +239,7 @@ class PaymentController extends BaseController
                 'refund_email' => Input::get('refund_email'),
             ]);
             if ($count > 0) {
-                $message = Utils::pluralize($action == 'refund' ? 'refunded_payment' : $action.'d_payment', $count);
+                $message = Utils::pluralize($action == 'refund' ? 'refunded_payment' : $action . 'd_payment', $count);
                 Session::flash('message', $message);
             }
         }

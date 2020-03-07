@@ -2,16 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/5fec0911aa4a5a9dfb6c239fe6cffad15247d66c.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/dd2deeb5ff3ff9a1c0364fa8013582c44e3d711b.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/InvoiceApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/InvoiceApiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/InvoiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/InvoiceController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Services/InvoiceService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/InvoiceService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/invoices/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/invoices/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Constants.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Constants.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PaymentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PaymentController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/StartupCheck.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/StartupCheck.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/PaymentType.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/PaymentType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/PaymentDrivers/StripePaymentDriver.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/PaymentDrivers/StripePaymentDriver.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/payments/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/payments/edit.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/sessions/Ca7m59IKsfuOVe0BhFxVs5llw9g6I8XMbgQ904qJ" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/Ca7m59IKsfuOVe0BhFxVs5llw9g6I8XMbgQ904qJ" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/sessions/sJGiotUZLbbIeYSgNlyz3dXQNAjIWuaEhDIPJQqB" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/sJGiotUZLbbIeYSgNlyz3dXQNAjIWuaEhDIPJQqB" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/68be9361ace2260e63a63d0db144d889104c1cd9.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/68be9361ace2260e63a63d0db144d889104c1cd9.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/72a1f99ea07329e97b538913d01038f2b575eefd.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/72a1f99ea07329e97b538913d01038f2b575eefd.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/86615bc9a6acc99db245c889510ff1ee3b78782f.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/86615bc9a6acc99db245c889510ff1ee3b78782f.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/04745a3998bf277d4e038fb6af6db06b785cddc5.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/04745a3998bf277d4e038fb6af6db06b785cddc5.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/2716ccdc7649fdb21982806d1299aa7327752514.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/2716ccdc7649fdb21982806d1299aa7327752514.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/80c4e8af4c43598830e7b24c6abbfb8fecc7abd3.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/80c4e8af4c43598830e7b24c6abbfb8fecc7abd3.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -287,7 +292,7 @@
       <workItem from="1582893196126" duration="7062000" />
       <workItem from="1582979415030" duration="9127000" />
       <workItem from="1583503192189" duration="5036000" />
-      <workItem from="1583562610753" duration="8698000" />
+      <workItem from="1583562610753" duration="11953000" />
     </task>
     <task id="LOCAL-00001" summary="202003060614">
       <created>1583507671758</created>
@@ -324,23 +329,39 @@
       <option name="project" value="LOCAL" />
       <updated>1583569276408</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="202003070614">
+      <created>1583572127053</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1583572127053</updated>
+    </task>
+    <task id="LOCAL-00007" summary="202003070614">
+      <created>1583572160765</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1583572160765</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="202003060614" />
     <MESSAGE value="202003070614" />
     <option name="LAST_COMMIT_MESSAGE" value="202003070614" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="345" y="25" key="CommitChangelistDialog2" timestamp="1583572140190">
+    <state x="345" y="25" key="CommitChangelistDialog2" timestamp="1583572159667">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="345" y="25" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1583572140190" />
+    <state x="345" y="25" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1583572159667" />
     <state width="1397" height="222" key="GridCell.Tab.0.bottom" timestamp="1582731316355">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
@@ -365,18 +386,18 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="555" y="354" key="NewPhpFileDialog/0.0.1440.860@0.0.1440.860" timestamp="1582902619168" />
-    <state x="312" y="163" key="Vcs.Push.Dialog.v2" timestamp="1583508141412">
+    <state x="312" y="163" key="Vcs.Push.Dialog.v2" timestamp="1583572198616">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="312" y="163" key="Vcs.Push.Dialog.v2/0.0.1440.860@0.0.1440.860" timestamp="1583508141412" />
+    <state x="312" y="163" key="Vcs.Push.Dialog.v2/0.0.1440.860@0.0.1440.860" timestamp="1583572198616" />
     <state x="442" y="234" key="com.intellij.ide.util.TipDialog" timestamp="1583562684518">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="442" y="234" key="com.intellij.ide.util.TipDialog/0.0.1440.860@0.0.1440.860" timestamp="1583562684518" />
-    <state x="417" y="162" width="849" height="536" key="find.popup" timestamp="1583570898846">
+    <state x="417" y="162" width="849" height="536" key="find.popup" timestamp="1583574538474">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="417" y="162" width="849" height="536" key="find.popup/0.0.1440.860@0.0.1440.860" timestamp="1583570898846" />
+    <state x="417" y="162" width="849" height="536" key="find.popup/0.0.1440.860@0.0.1440.860" timestamp="1583574538474" />
     <state x="383" y="180" width="672" height="678" key="search.everywhere.popup" timestamp="1583563140952">
       <screen x="0" y="0" width="1440" height="860" />
     </state>

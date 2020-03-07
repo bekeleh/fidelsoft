@@ -50,7 +50,7 @@ if (!defined('APP_NAME')) {
 
     $permissionEntities = [
         ENTITY_CLIENT,
-        //ENTITY_CONTACT,
+        ENTITY_CONTACT,
         ENTITY_CREDIT,
         ENTITY_EXPENSE,
         ENTITY_INVOICE,
@@ -464,6 +464,8 @@ if (!defined('APP_NAME')) {
     define('PAYMENT_TYPE_SEPA', 30);
     define('PAYMENT_TYPE_GOCARDLESS', 31);
     define('PAYMENT_TYPE_BITCOIN', 32);
+    define('PAYMENT_TYPE_CBE', 33);
+    define('PAYMENT_TYPE_Hello_Cash', 34);
 
     define('PAYMENT_METHOD_STATUS_NEW', 'new');
     define('PAYMENT_METHOD_STATUS_VERIFICATION_FAILED', 'verification_failed');
