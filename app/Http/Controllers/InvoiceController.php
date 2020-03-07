@@ -85,6 +85,7 @@ class InvoiceController extends BaseController
 
     public function edit(InvoiceRequest $request, $publicId, $clone = false)
     {
+        dd('...edit invoice');
         $account = Auth::user()->account;
         $invoice = $request->entity()->load('invitations', 'account.country', 'client.contacts', 'client.country', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'payments');
 
@@ -240,8 +241,8 @@ class InvoiceController extends BaseController
 
     private static function getViewModel($invoice)
     {
+        dd('get view model');
         $account = Auth::user()->account;
-
         $recurringHelp = '';
         $recurringDueDateHelp = '';
         $recurringDueDates = [];

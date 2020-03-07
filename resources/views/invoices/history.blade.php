@@ -4,49 +4,49 @@
     @parent
 
     @include('money_script')
-@foreach (Auth::user()->account->getFontFolders() as $font)
-  <script src="{{ asset('js/vfs_fonts/'.$font.'.js') }}" type="text/javascript"></script>
-@endforeach
-  <script src="{{ asset('pdf.built.js') }}?no_cache={{ NINJA_VERSION }}" type="text/javascript"></script>
+    @foreach (Auth::user()->account->getFontFolders() as $font)
+        <script src="{{ asset('js/vfs_fonts/'.$font.'.js') }}" type="text/javascript"></script>
+    @endforeach
+    <script src="{{ asset('pdf.built.js') }}?no_cache={{ NINJA_VERSION }}" type="text/javascript"></script>
 
-  <script>
+    <script>
 
-    var invoiceDesigns = {!! $invoiceDesigns !!};
-    var invoiceFonts = {!! $invoiceFonts !!};
-    var currentInvoice = {!! $invoice !!};
-    var versionsJson = {!! strip_tags($versionsJson) !!};
+        var invoiceDesigns = {!! $invoiceDesigns !!};
+        var invoiceFonts = {!! $invoiceFonts !!};
+        var currentInvoice = {!! $invoice !!};
+        var versionsJson = {!! strip_tags($versionsJson) !!};
 
-    function getPDFString(cb) {
+        function getPDFString(cb) {
 
-        var version = $('#version').val();
-        var invoice;
+            var version = $('#version').val();
+            var invoice;
 
-        @if ($paymentId)
-            invoice = versionsJson[0];
-        @else
+            @if ($paymentId)
+                invoice = versionsJson[0];
+            @else
             if (parseInt(version)) {
                 invoice = versionsJson[version];
             } else {
                 invoice = currentInvoice;
             }
-        @endif
+            @endif
 
-        invoice.image = window.accountLogo;
+                invoice.image = window.accountLogo;
 
-        var invoiceDesignId = parseInt(invoice.invoice_design_id);
-        var invoiceDesign = _.findWhere(invoiceDesigns, {id: invoiceDesignId});
-        if (!invoiceDesign) {
-            invoiceDesign = invoiceDesigns[0];
+            var invoiceDesignId = parseInt(invoice.invoice_design_id);
+            var invoiceDesign = _.findWhere(invoiceDesigns, {id: invoiceDesignId});
+            if (!invoiceDesign) {
+                invoiceDesign = invoiceDesigns[0];
+            }
+
+            generatePDF(invoice, invoiceDesign.javascript, true, cb);
         }
 
-        generatePDF(invoice, invoiceDesign.javascript, true, cb);
-    }
+        $(function () {
+            refreshPDF();
+        });
 
-    $(function() {
-      refreshPDF();
-    });
-
-  </script>
+    </script>
 
 @stop
 
