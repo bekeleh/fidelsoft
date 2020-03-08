@@ -3,13 +3,13 @@
 namespace App\Services;
 
 use App\Libraries\Utils;
-use App\Ninja\Datatables\ProductDatatable;
-use App\Ninja\Repositories\ProductRepository;
+use App\Ninja\Datatables\StoreDatatable;
+use App\Ninja\Repositories\StoreRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Exception;
 
-class ProductService extends BaseService
+class StoreService extends BaseService
 {
     /**
      * @var DatatableService
@@ -17,28 +17,28 @@ class ProductService extends BaseService
     protected $datatableService;
 
     /**
-     * @var ProductRepository
+     * @var StoreRepository
      */
-    protected $productRepo;
+    protected $storeRepo;
 
     /**
      * ProductService constructor.
      *
      * @param DatatableService $datatableService
-     * @param ProductRepository $productRepo
+     * @param StoreRepository $storeRepo
      */
-    public function __construct(DatatableService $datatableService, ProductRepository $productRepo)
+    public function __construct(DatatableService $datatableService, StoreRepository $storeRepo)
     {
         $this->datatableService = $datatableService;
-        $this->productRepo = $productRepo;
+        $this->storeRepo = $storeRepo;
     }
 
     /**
-     * @return ProductRepository
+     * @return StoreRepository
      */
     protected function getRepo()
     {
-        return $this->productRepo;
+        return $this->storeRepo;
     }
 
     /**
@@ -50,11 +50,11 @@ class ProductService extends BaseService
      */
     public function getDatatable($accountId, $search)
     {
-        $datatable = new ProductDatatable(true);
-        $query = $this->productRepo->find($accountId, $search);
+        $datatable = new StoreDatatable(true);
+        $query = $this->storeRepo->find($accountId, $search);
 
-        if (!Utils::hasPermission('view_product')) {
-            $query->where('products.user_id', '=', Auth::user()->id);
+        if (!Utils::hasPermission('view_store')) {
+            $query->where('stores.user_id', '=', Auth::user()->id);
         }
 
         return $this->datatableService->createDatatable($datatable, $query);

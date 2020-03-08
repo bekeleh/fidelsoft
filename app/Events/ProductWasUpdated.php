@@ -22,7 +22,8 @@ class ProductWasUpdated extends Event
     /**
      * Create a new event instance.
      *
-     * @return void
+     * @param Product $product
+     * @param null $input
      */
     public function __construct(Product $product, $input = null)
     {

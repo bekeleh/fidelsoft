@@ -4,13 +4,12 @@ namespace App\Models;
 
 use App;
 use App\Events\UserSettingsChanged;
-use App\Models\LookupAccount;
+use App\Libraries\Utils;
 use App\Models\Traits\GeneratesNumbers;
+use App\Models\Traits\HasCustomMessages;
+use App\Models\Traits\HasLogo;
 use App\Models\Traits\PresentsInvoice;
 use App\Models\Traits\SendsEmails;
-use App\Models\Traits\HasLogo;
-use App\Models\Traits\HasCustomMessages;
-use Cache;
 use Carbon\Carbon;
 use DateTime;
 use Eloquent;
@@ -19,12 +18,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Session;
 use Laracasts\Presenter\PresentableTrait;
-use Session;
-use Utils;
 
 /**
- * Class Account.
+ * Class Account Model.
  */
 class Account extends Eloquent
 {

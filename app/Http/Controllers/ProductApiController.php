@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
-use App\Http\Requests\CreateProductRequest;
-use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use App\Ninja\Repositories\ProductRepository;
+use Google\Cloud\Vision\V1\CreateProductRequest;
 
 /**
  * Class ProductApiController.
@@ -54,9 +53,7 @@ class ProductApiController extends BaseAPIController
      */
     public function index()
     {
-        $products = Product::scope()
-                        ->withTrashed()
-                        ->orderBy('updated_at', 'desc');
+        $products = Product::scope()->withTrashed()->orderBy('created_at', 'desc');
 
         return $this->listResponse($products);
     }
@@ -83,6 +80,8 @@ class ProductApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
+     * @param ProductRequest $request
+     * @return
      */
     public function show(ProductRequest $request)
     {
@@ -110,6 +109,8 @@ class ProductApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
+     * @param CreateProductRequest $request
+     * @return
      */
     public function store(CreateProductRequest $request)
     {
@@ -146,7 +147,9 @@ class ProductApiController extends BaseAPIController
      *   )
      * )
      *
+     * @param UpdateProductRequest $request
      * @param mixed $publicId
+     * @return
      */
     public function update(UpdateProductRequest $request, $publicId)
     {
@@ -183,13 +186,15 @@ class ProductApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
+     * @param UpdateProductRequest $request
+     * @return
      */
-     public function destroy(UpdateProductRequest $request)
-     {
-         $product = $request->entity();
+    public function destroy(UpdateProductRequest $request)
+    {
+        $product = $request->entity();
 
-         $this->productRepo->delete($product);
+        $this->productRepo->delete($product);
 
-         return $this->itemResponse($product);
-     }
+        return $this->itemResponse($product);
+    }
 }

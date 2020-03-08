@@ -2,11 +2,11 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Models\Product;
 use App\Events\ProductWasCreated;
 use App\Events\ProductWasUpdated;
-use Utils;
-use DB;
+use App\Libraries\Utils;
+use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 
 class ProductRepository extends BaseRepository
 {

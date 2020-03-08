@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Str;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
-use Eloquent;
+use Illuminate\Database\Eloquent\Model as Eloquent;
 use App\Libraries\Utils;
 use Illuminate\Support\Facades\Validator;
 
@@ -437,6 +437,7 @@ class EntityModel extends Eloquent
     /**
      * @param $method
      * @param $params
+     * @return mixed
      */
     public function __call($method, $params)
     {

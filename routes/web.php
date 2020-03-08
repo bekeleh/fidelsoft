@@ -252,12 +252,17 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
     Route::get('credits/create/{client_id?}/{invoice_id?}', 'CreditController@create');
     Route::get('api/credits/{client_id?}', 'CreditController@getDatatable');
     Route::post('credits/bulk', 'CreditController@bulk');
-
+//  product
     Route::get('products/{products}/clone', 'ProductController@cloneProduct');
     Route::get('api/products', 'ProductController@getDatatable');
     Route::resource('products', 'ProductController');
     Route::post('products/bulk', 'ProductController@bulk');
-
+//  store
+    Route::get('stores/{stores}/clone', 'StoreController@cloneStore');
+    Route::get('api/stores', 'StoreController@getDatatable');
+    Route::resource('stores', 'StoreController');
+    Route::post('stores/bulk', 'StoreController@bulk');
+//   account
     Route::get('/resend_confirmation', 'AccountController@resendConfirmation');
     Route::post('/update_setup', 'AppController@updateSetup');
 

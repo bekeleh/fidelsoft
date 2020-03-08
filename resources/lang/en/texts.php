@@ -15,10 +15,29 @@ $LANG = array(
     'archive_sale_type' => 'Archive Sales Type',
     'delete_sale_type' => 'Delete Sales Type',
     'restore_sale_type' => 'Restore Sales Type',
-    'updated_sale_type' => 'Successfully updated sales type',
-    'created_sale_type' => 'Successfully created sales type',
-    'archived_sale_type' => 'Successfully archived sales type',
+    'updated_sale_type' => 'Successfully Updated sales type',
+    'created_sale_type' => 'Successfully Created sales type',
+    'archived_sale_type' => 'Successfully Archived sales type',
     'sale_type_settings' => 'Sale Type Settings',
+    /*
+     |--------------------------------------------------------------------------
+     | store trans
+     |--------------------------------------------------------------------------
+     */
+    'store' => 'Store',
+    'stores' => 'Stores',
+    'store_code' => 'Store Code',
+    'new_store' => 'New Store',
+    'create_store' => 'Create Store',
+    'edit_store' => 'Edit Store',
+    'clone_store' => 'Clone Store',
+    'archive_store' => 'Archive Store',
+    'delete_store' => 'Delete Store',
+    'restore_store' => 'Restore Store',
+    'updated_store' => 'Successfully Updated Store',
+    'created_store' => 'Successfully Created Store',
+    'archived_store' => 'Successfully Archived Store',
+    'store_settings' => 'Store Settings',
     /*
     |--------------------------------------------------------------------------
     | sales type trans
@@ -32,6 +51,7 @@ $LANG = array(
     */
     'organization' => 'Organization',
     'name' => 'Name',
+    'code' => 'Code',
     'website' => 'Website',
     'work_phone' => 'Phone',
     'address' => 'Address',
@@ -322,7 +342,6 @@ $LANG = array(
     'product' => 'Product',
     'products' => 'Products',
     'stocks' => 'Inventory Adjustment',
-    'stores' => 'Stores',
     'fill_products' => 'Auto-fill products',
     'fill_products_help' => 'Selecting a product will automatically <b>fill in the description and cost</b>',
     'update_products' => 'Auto-update products',
@@ -1997,7 +2016,9 @@ $LANG = array(
     'submit' => 'Submit',
     'white_label_license_key' => 'License Key',
     'invalid_white_label_license' => 'The white label license is not valid',
-    'created_by' => 'Created by :name',
+    'created_by' => 'Created By',
+    'updated_by' => 'Updated By',
+    'deleted_by' => 'Deleted By',
     'modules' => 'Modules',
     'financial_year_start' => 'First Month of the Year',
     'authentication' => 'Authentication',

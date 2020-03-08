@@ -5,28 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
-class Product extends EntityModel
+class Store extends EntityModel
 {
-    protected $presenter = 'App\Ninja\Presenters\ProductPresenter';
+    protected $presenter = 'App\Ninja\Presenters\StorePresenter';
     use PresentableTrait;
     use SoftDeletes;
 
-    protected $table = 'Products';
+    protected $table = 'stores';
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
 
     protected $fillable = [
-        'product_key',
+        'name',
+        'store_code',
         'notes',
-        'cost',
         'created_by',
         'updated_by',
         'deleted_by',
-        'tax_name1',
-        'tax_rate1',
-        'tax_name2',
-        'tax_rate2',
-        'custom_value1',
-        'custom_value2',
     ];
     protected $hidden = [];
     protected $casts = [];
@@ -37,11 +31,9 @@ class Product extends EntityModel
     public static function getImportColumns()
     {
         return [
-            'product_key',
+            'name',
+            'store_code',
             'notes',
-            'cost',
-            'custom_value1',
-            'custom_value2',
         ];
     }
 
@@ -51,11 +43,8 @@ class Product extends EntityModel
     public static function getImportMap()
     {
         return [
-            'product|item' => 'product_key',
-            'notes|description|details' => 'notes',
-            'cost|amount|price' => 'cost',
-            'custom_value1' => 'custom_value1',
-            'custom_value2' => 'custom_value2',
+            'name|Name' => 'name',
+            'store_code|code' => 'store_code',
         ];
     }
 
@@ -64,7 +53,7 @@ class Product extends EntityModel
      */
     public function getEntityType()
     {
-        return ENTITY_PRODUCT;
+        return ENTITY_STORE;
     }
 
     /**
@@ -74,7 +63,7 @@ class Product extends EntityModel
      */
     public static function findProductByKey($key)
     {
-        return self::scope()->where('product_key', '=', $key)->first();
+        return self::scope()->where('name', '=', $key)->first();
     }
 
     /**
@@ -85,11 +74,20 @@ class Product extends EntityModel
         return $this->belongsTo('App\Models\User')->withTrashed();
     }
 
+    public function manager()
+    {
+        return $this->belongsTo('App\Models\User')->withTrashed();
+    }
+
     /**
      * -----------------------------------------------
      * BEGIN QUERY SCOPES
      * -----------------------------------------------
-     **/
+     * @param $query
+     * @param $date_from
+     * @param $date_to
+     * @return mixed
+     */
 
     public function scopeDateBetween($query, $date_from, $date_to)
     {
