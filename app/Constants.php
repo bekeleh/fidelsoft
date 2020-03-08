@@ -29,6 +29,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_TOKEN', 'token');
     define('ENTITY_TAX_RATE', 'tax_rate');
     define('ENTITY_PRODUCT', 'product');
+    define('ENTITY_LOCATION', 'location');
     define('ENTITY_STORE', 'store');
     define('ENTITY_ACTIVITY', 'activity');
     define('ENTITY_VENDOR', 'vendor');
@@ -57,6 +58,7 @@ if (!defined('APP_NAME')) {
         ENTITY_INVOICE,
         ENTITY_PAYMENT,
         ENTITY_PRODUCT,
+        ENTITY_LOCATION,
         ENTITY_STORE,
         ENTITY_PROJECT,
         ENTITY_PROPOSAL,
@@ -98,6 +100,7 @@ if (!defined('APP_NAME')) {
     define('ACCOUNT_EXPORT', 'export');
     define('ACCOUNT_TAX_RATES', 'tax_rates');
     define('ACCOUNT_PRODUCTS', 'products');
+    define('ACCOUNT_LOCATIONS', 'locations');
     define('ACCOUNT_STORES', 'stores');
     define('ACCOUNT_ADVANCED_SETTINGS', 'advanced_settings');
     define('ACCOUNT_INVOICE_SETTINGS', 'invoice_settings');

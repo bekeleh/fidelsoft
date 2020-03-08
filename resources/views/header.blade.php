@@ -7,16 +7,10 @@
         <style type="text/css">
             .nav-footer {
                 @if (config('mail.driver') == 'log' && ! config('services.postmark'))
-                                          background-color: #50C878 !important;
+                                              background-color: #50C878 !important;
                 @else
-                                           background-color: #FD6A02 !important;
+                                                background-color: #FD6A02 !important;
             @endif
-
-
-
-
-
-
 
 
 
@@ -391,6 +385,7 @@
                     'clients' => false,
                     'products' => false,
                     'stores' => false,
+                    'locations' => false,
                     'sale_types' => false,
                     'invoices' => false,
                     'payments' => false,
@@ -434,8 +429,8 @@
                     'products',
                     'stocks',
                     'stores',
+                    'locations',
                     'item_prices',
-                    'sale_types',
                 ] as $option)
                     @if(!Auth::user()->account->isModuleEnabled(substr($option, 0, -1)))
                         {{ '' }}
@@ -462,19 +457,19 @@
                                 <i class="fa fa-envelope"></i>
                             </a>
                         @endif
-                        <a href="{{ url(NINJA_FORUM_URL) }}" target="_blank" title="{{ trans('texts.support_forum') }}">
+                        <a href="#" target="_blank" title="{{ trans('texts.support_forum') }}">
                             <i class="fa fa-list-ul"></i>
                         </a>
                         <a href="javascript:showKeyboardShortcuts()" title="{{ trans('texts.help') }}">
                             <i class="fa fa-question-circle"></i>
                         </a>
-                        <a href="{{ url(SOCIAL_LINK_FACEBOOK) }}" target="_blank" title="Facebook">
+                        <a href="#" target="_blank" title="Facebook">
                             <i class="fa fa-facebook-square"></i>
                         </a>
-                        <a href="{{ url(SOCIAL_LINK_TWITTER) }}" target="_blank" title="Twitter">
+                        <a href="#" target="_blank" title="Twitter">
                             <i class="fa fa-twitter-square"></i>
                         </a>
-                        <a href="{{ url(SOCIAL_LINK_GITHUB) }}" target="_blank" title="GitHub">
+                        <a href="#" target="_blank" title="GitHub">
                             <i class="fa fa-github-square"></i>
                         </a>
                     </div>

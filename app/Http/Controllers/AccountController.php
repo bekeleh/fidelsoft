@@ -9,7 +9,9 @@ use App\Events\UserSignedUp;
 use App\Http\Requests\SaveClientPortalSettings;
 use App\Http\Requests\SaveEmailSettings;
 use App\Http\Requests\UpdateAccountRequest;
+use App\Libraries\Utils;
 use App\Models\Account;
+use App\Models\AccountEmailSettings;
 use App\Models\AccountGateway;
 use App\Models\Affiliate;
 use App\Models\Document;
@@ -18,11 +20,9 @@ use App\Models\GatewayType;
 use App\Models\Invoice;
 use App\Models\InvoiceDesign;
 use App\Models\License;
-use App\Models\PaymentTerm;
 use App\Models\Product;
 use App\Models\TaxRate;
 use App\Models\User;
-use App\Models\AccountEmailSettings;
 use App\Ninja\Mailers\ContactMailer;
 use App\Ninja\Mailers\UserMailer;
 use App\Ninja\Repositories\AccountRepository;
@@ -30,25 +30,23 @@ use App\Ninja\Repositories\ReferralRepository;
 use App\Services\AuthService;
 use App\Services\PaymentService;
 use App\Services\TemplateService;
+use Exception;
+use File;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Nwidart\Modules\Facades\Module;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use File;
-use Image;
 use Illuminate\Support\Facades\Input;
-use Redirect;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
-use stdClass;
-use Exception;
 use Illuminate\Support\Facades\URL;
-use App\Libraries\Utils;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
-use App\Jobs\PurgeClientData;
+use Image;
+use Nwidart\Modules\Facades\Module;
+use Redirect;
+use stdClass;
 
 /**
  * Class AccountController.
@@ -1212,7 +1210,7 @@ class AccountController extends BaseController
         } else {
             $user->first_name = trim(Input::get('first_name'));
             $user->last_name = trim(Input::get('last_name'));
-            $user->username = $email;
+            $user->username = trim(Input::get('username'));
             $user->email = $email;
             $user->phone = trim(Input::get('phone'));
             $user->dark_mode = Input::get('dark_mode');
@@ -1347,6 +1345,7 @@ class AccountController extends BaseController
         $rules = [
             'new_first_name' => 'required',
             'new_last_name' => 'required',
+            'new_username' => 'required',
             'new_password' => 'required|min:6',
             'new_email' => 'email|required|unique:users,email',
         ];
@@ -1363,6 +1362,7 @@ class AccountController extends BaseController
 
         $firstName = trim(Input::get('new_first_name'));
         $lastName = trim(Input::get('new_last_name'));
+        $username = trim(Input::get('new_username'));
         $email = trim(strtolower(Input::get('new_email')));
         $password = trim(Input::get('new_password'));
 
@@ -1384,6 +1384,7 @@ class AccountController extends BaseController
         } else {
             $user->first_name = $firstName;
             $user->last_name = $lastName;
+            $user->username = $username;
             $user->email = $email;
             $user->username = $user->email;
             $user->password = bcrypt($password);
@@ -1416,6 +1417,7 @@ class AccountController extends BaseController
         $license = new License();
         $license->first_name = Input::get('first_name');
         $license->last_name = Input::get('last_name');
+        $license->username = Input::get('username');
         $license->email = $email;
         $license->transaction_reference = Request::getClientIp();
         $license->license_key = Utils::generateLicense();
@@ -1439,6 +1441,7 @@ class AccountController extends BaseController
 
     /**
      * @return RedirectResponse
+     * @throws Exception
      */
     public function cancelAccount()
     {

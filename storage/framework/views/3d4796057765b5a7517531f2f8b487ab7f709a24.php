@@ -9,17 +9,9 @@
         <?php endif; ?>
 
 
-
-
-
-
-
-
-
-
-            }
-        </style>
-    <?php endif; ?>
+        }
+    </style>
+<?php endif; ?>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('head'); ?>
@@ -395,6 +387,7 @@
                     'clients' => false,
                     'products' => false,
                     'stores' => false,
+                    'locations' => false,
                     'sale_types' => false,
                     'invoices' => false,
                     'payments' => false,
@@ -439,8 +432,8 @@
                     'products',
                     'stocks',
                     'stores',
+                    'locations',
                     'item_prices',
-                    'sale_types',
                 ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <?php if(!Auth::user()->account->isModuleEnabled(substr($option, 0, -1))): ?>
                         <?php echo e(''); ?>
@@ -463,24 +456,24 @@
                 <?php echo $__env->make('partials.navigation_option', ['option' => 'settings'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 <li style="width:100%;">
                     <div class="nav-footer">
-                        <?php if(Auth::user()->registered): ?>
+                        <?php if (Auth::user()->registered): ?>
                             <a href="javascript:showContactUs()" title="<?php echo e(trans('texts.contact_us')); ?>">
                                 <i class="fa fa-envelope"></i>
                             </a>
                         <?php endif; ?>
-                        <a href="<?php echo e(url(NINJA_FORUM_URL)); ?>" target="_blank" title="<?php echo e(trans('texts.support_forum')); ?>">
+                        <a href="#" target="_blank" title="<?php echo e(trans('texts.support_forum')); ?>">
                             <i class="fa fa-list-ul"></i>
                         </a>
                         <a href="javascript:showKeyboardShortcuts()" title="<?php echo e(trans('texts.help')); ?>">
                             <i class="fa fa-question-circle"></i>
                         </a>
-                        <a href="<?php echo e(url(SOCIAL_LINK_FACEBOOK)); ?>" target="_blank" title="Facebook">
+                        <a href="#" target="_blank" title="Facebook">
                             <i class="fa fa-facebook-square"></i>
                         </a>
-                        <a href="<?php echo e(url(SOCIAL_LINK_TWITTER)); ?>" target="_blank" title="Twitter">
+                        <a href="#" target="_blank" title="Twitter">
                             <i class="fa fa-twitter-square"></i>
                         </a>
-                        <a href="<?php echo e(url(SOCIAL_LINK_GITHUB)); ?>" target="_blank" title="GitHub">
+                        <a href="#" target="_blank" title="GitHub">
                             <i class="fa fa-github-square"></i>
                         </a>
                     </div>

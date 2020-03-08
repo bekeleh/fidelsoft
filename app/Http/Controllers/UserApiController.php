@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
-use App\Http\Requests\CreateUserRequest;
-use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use App\Ninja\Repositories\UserRepository;
 use App\Ninja\Transformers\UserTransformer;
 use App\Services\UserService;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class UserApiController extends BaseAPIController
 {
@@ -46,8 +44,8 @@ class UserApiController extends BaseAPIController
     public function index()
     {
         $users = User::whereAccountId(Auth::user()->account_id)
-                        ->withTrashed()
-                        ->orderBy('created_at', 'desc');
+            ->withTrashed()
+            ->orderBy('created_at', 'desc');
 
         return $this->listResponse($users);
     }
@@ -74,6 +72,8 @@ class UserApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
+     * @param UserRequest $request
+     * @return
      */
     public function show(UserRequest $request)
     {
@@ -101,8 +101,10 @@ class UserApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
+     * @param UserRequest $request
+     * @return
      */
-    public function store(CreateUserRequest $request)
+    public function store(UserRequest $request)
     {
         return $this->save($request);
     }
@@ -135,9 +137,11 @@ class UserApiController extends BaseAPIController
      *   )
      * )
      *
+     * @param UserRequest $request
      * @param mixed $userPublicId
+     * @return
      */
-    public function update(UpdateUserRequest $request, $userPublicId)
+    public function update(UserRequest $request, $userPublicId)
     {
         $user = Auth::user();
 
@@ -185,8 +189,10 @@ class UserApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
+     * @param UserRequest $request
+     * @return
      */
-    public function destroy(UpdateUserRequest $request)
+    public function destroy(UserRequest $request)
     {
         $entity = $request->entity();
 

@@ -6,16 +6,17 @@ use App\Models\Invitation;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\User;
+use Laracasts\Presenter\Exceptions\PresenterException;
 
 class UserMailer extends Mailer
 {
     /**
-     * @param User      $user
+     * @param User $user
      * @param User|null $invitor
      */
     public function sendConfirmation(User $user, User $invitor = null)
     {
-        if (! $user->email) {
+        if (!$user->email) {
             return;
         }
 
@@ -39,15 +40,14 @@ class UserMailer extends Mailer
     }
 
     /**
-     * @param User      $user
-     * @param User|null $invitor
+     * @param User $user
      */
     public function sendEmailChanged(User $user)
     {
         $oldEmail = $user->getOriginal('email');
         $newEmail = $user->email;
 
-        if (! $oldEmail || ! $newEmail) {
+        if (!$oldEmail || !$newEmail) {
             return;
         }
 
@@ -64,10 +64,12 @@ class UserMailer extends Mailer
     }
 
     /**
-     * @param User    $user
+     * @param User $user
      * @param Invoice $invoice
      * @param $notificationType
      * @param Payment|null $payment
+     * @param bool $notes
+     * @throws PresenterException
      */
     public function sendNotification(
         User $user,
@@ -75,8 +77,9 @@ class UserMailer extends Mailer
         $notificationType,
         Payment $payment = null,
         $notes = false
-    ) {
-        if (! $user->shouldNotify($invoice)) {
+    )
+    {
+        if (!$user->shouldNotify($invoice)) {
             return;
         }
 
@@ -124,7 +127,7 @@ class UserMailer extends Mailer
         $invoice = $invitation->invoice;
         $entityType = $invoice->getEntityType();
 
-        if (! $user->email) {
+        if (!$user->email) {
             return;
         }
 
@@ -142,11 +145,14 @@ class UserMailer extends Mailer
     }
 
     /**
-     * @param Invitation $invitation
+     * @param $user
+     * @param $subject
+     * @param $message
+     * @param bool $data
      */
     public function sendMessage($user, $subject, $message, $data = false)
     {
-        if (! $user->email) {
+        if (!$user->email) {
             return;
         }
 
@@ -166,7 +172,7 @@ class UserMailer extends Mailer
 
     public function sendSecurityCode($user, $code)
     {
-        if (! $user->email) {
+        if (!$user->email) {
             return;
         }
 
@@ -182,7 +188,7 @@ class UserMailer extends Mailer
 
     public function sendPasswordReset($user, $token)
     {
-        if (! $user->email) {
+        if (!$user->email) {
             return;
         }
 
@@ -200,7 +206,7 @@ class UserMailer extends Mailer
         $user = $scheduledReport->user;
         $config = json_decode($scheduledReport->config);
 
-        if (! $user->email) {
+        if (!$user->email) {
             return;
         }
 
@@ -211,7 +217,7 @@ class UserMailer extends Mailer
             'primaryMessage' => trans('texts.scheduled_report_attached', ['type' => trans('texts.' . $config->report_type)]),
             'documents' => [[
                 'name' => $file->filename . '.' . $config->export_format,
-                'data' =>  $file->string($config->export_format),
+                'data' => $file->string($config->export_format),
             ]]
         ];
 

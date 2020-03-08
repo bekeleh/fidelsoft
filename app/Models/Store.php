@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
+/**
+ * Model Class Store.
+ */
 class Store extends EntityModel
 {
     protected $presenter = 'App\Ninja\Presenters\StorePresenter';
@@ -56,6 +59,11 @@ class Store extends EntityModel
         return ENTITY_STORE;
     }
 
+    public function getUpperAttributes()
+    {
+        return strtoupper($this->name);
+    }
+
     /**
      * @param $key
      *
@@ -77,6 +85,11 @@ class Store extends EntityModel
     public function manager()
     {
         return $this->belongsTo('App\Models\User')->withTrashed();
+    }
+
+    public function location()
+    {
+        return $this->belongsTo('App\Models\Location')->withTrashed();
     }
 
     /**

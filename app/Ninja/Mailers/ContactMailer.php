@@ -4,15 +4,15 @@ namespace App\Ninja\Mailers;
 
 use App\Events\InvoiceWasEmailed;
 use App\Events\QuoteWasEmailed;
+use App\Jobs\ConvertInvoiceToUbl;
 use App\Models\Invoice;
-use App\Models\Proposal;
 use App\Models\Payment;
 use App\Services\TemplateService;
-use App\Jobs\ConvertInvoiceToUbl;
+use Illuminate\Support\Facades\Cache;
 use Event;
-use Utils;
-use Cache;
+use Laracasts\Presenter\Exceptions\PresenterException;
 use Mail;
+use App\Libraries\Utils;
 
 class ContactMailer extends Mailer
 {
@@ -33,10 +33,11 @@ class ContactMailer extends Mailer
 
     /**
      * @param Invoice $invoice
-     * @param bool    $reminder
-     * @param bool    $pdfString
-     *
+     * @param bool $reminder
+     * @param bool $template
+     * @param bool $proposal
      * @return bool|null|string
+     * @throws PresenterException
      */
     public function sendInvoice(Invoice $invoice, $reminder = false, $template = false, $proposal = false)
     {
@@ -70,7 +71,7 @@ class ContactMailer extends Mailer
         $pdfString = false;
         $ublString = false;
 
-        if ($account->attachUBL() && ! $proposal) {
+        if ($account->attachUBL() && !$proposal) {
             $ublString = dispatch(new ConvertInvoiceToUbl($invoice));
         }
 
@@ -97,7 +98,7 @@ class ContactMailer extends Mailer
         $isFirst = true;
         $invitations = $proposal ? $proposal->invitations : $invoice->invitations;
         foreach ($invitations as $invitation) {
-            if ($account->attachPDF() && ! $proposal) {
+            if ($account->attachPDF() && !$proposal) {
                 $pdfString = $invoice->getPDFString($invitation);
             }
             $data = [
@@ -115,7 +116,7 @@ class ContactMailer extends Mailer
 
         $account->loadLocalizationSettings();
 
-        if ($sent === true && ! $proposal) {
+        if ($sent === true && !$proposal) {
             if ($invoice->isType(INVOICE_TYPE_QUOTE)) {
                 event(new QuoteWasEmailed($invoice, $reminder));
             } else {
@@ -128,16 +129,15 @@ class ContactMailer extends Mailer
 
     /**
      * @param Invitation $invitation
-     * @param Invoice    $invoice
+     * @param Invoice $invoice
      * @param $body
      * @param $subject
-     * @param $pdfString
-     * @param $documentStrings
      * @param mixed $reminder
      *
-     * @throws \Laracasts\Presenter\Exceptions\PresenterException
-     *
+     * @param $isFirst
+     * @param $extra
      * @return bool|string
+     * @throws PresenterException
      */
     private function sendInvitation(
         $invitation,
@@ -147,7 +147,8 @@ class ContactMailer extends Mailer
         $reminder,
         $isFirst,
         $extra
-    ) {
+    )
+    {
         $client = $invoice->client;
         $account = $invoice->account;
         $user = $invitation->user;
@@ -157,11 +158,11 @@ class ContactMailer extends Mailer
             $user = $account->users()->orderBy('id')->first();
         }
 
-        if (! $user->email || ! $user->registered) {
+        if (!$user->email || !$user->registered) {
             return trans('texts.email_error_user_unregistered');
-        } elseif (! $user->confirmed || $this->isThrottled($account)) {
+        } elseif (!$user->confirmed || $this->isThrottled($account)) {
             return trans('texts.email_error_user_unconfirmed');
-        } elseif (! $invitation->contact->email) {
+        } elseif (!$invitation->contact->email) {
             return trans('texts.email_error_invalid_contact_email');
         } elseif ($invitation->contact->trashed()) {
             return trans('texts.email_error_inactive_contact');
@@ -174,7 +175,7 @@ class ContactMailer extends Mailer
             'amount' => $invoice->getRequestedAmount(),
         ];
 
-        if (! $proposal) {
+        if (!$proposal) {
             // Let the client know they'll be billed later
             if ($client->autoBillLater()) {
                 $variables['autobill'] = $invoice->present()->autoBillEmailMessage();
@@ -211,7 +212,7 @@ class ContactMailer extends Mailer
             'tag' => $account->account_key,
         ];
 
-        if (! $proposal) {
+        if (!$proposal) {
             if ($account->attachPDF()) {
                 $data['pdfString'] = $extra['pdfString'];
                 $data['pdfFileName'] = $invoice->getFileName();
@@ -264,6 +265,8 @@ class ContactMailer extends Mailer
 
     /**
      * @param Payment $payment
+     * @param int $refunded
+     * @throws \Exception
      */
     public function sendPaymentConfirmation(Payment $payment, $refunded = 0)
     {
@@ -315,7 +318,7 @@ class ContactMailer extends Mailer
             'tag' => $account->account_key,
         ];
 
-        if (! $refunded && $account->attachPDF()) {
+        if (!$refunded && $account->attachPDF()) {
             $data['pdfString'] = $invoice->getPDFString();
             $data['pdfFileName'] = $invoice->getFileName();
         }
@@ -339,6 +342,7 @@ class ContactMailer extends Mailer
      * @param $amount
      * @param $license
      * @param $productId
+     * @throws \Exception
      */
     public function sendLicensePaymentConfirmation($name, $email, $amount, $license, $productId)
     {
@@ -364,7 +368,7 @@ class ContactMailer extends Mailer
 
     public function sendPasswordReset($contact, $token)
     {
-        if (! $contact->email) {
+        if (!$contact->email) {
             return;
         }
 
@@ -407,11 +411,11 @@ class ContactMailer extends Mailer
 
         if ($new_day_throttle > $day) {
             $errorEmail = env('ERROR_EMAIL');
-            if ($errorEmail && ! Cache::get("throttle_notified:{$key}")) {
+            if ($errorEmail && !Cache::get("throttle_notified:{$key}")) {
                 Mail::raw('Account Throttle', function ($message) use ($errorEmail, $account) {
                     $message->to($errorEmail)
-                            ->from(CONTACT_EMAIL)
-                            ->subject("Email throttle triggered for account " . $account->id);
+                        ->from(CONTACT_EMAIL)
+                        ->subject("Email throttle triggered for account " . $account->id);
                 });
             }
             Cache::put("throttle_notified:{$key}", true, 60 * 24);

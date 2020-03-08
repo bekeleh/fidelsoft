@@ -2,13 +2,12 @@
 
 namespace App\Ninja\Mailers;
 
-use App\Models\Invoice;
+use App\Libraries\Utils;
 use Exception;
 use Mail;
-use Utils;
-use Postmark\PostmarkClient;
-use Postmark\Models\PostmarkException;
 use Postmark\Models\PostmarkAttachment;
+use Postmark\Models\PostmarkException;
+use Postmark\PostmarkClient;
 
 /**
  * Class Mailer.
@@ -24,6 +23,7 @@ class Mailer
      * @param array $data
      *
      * @return bool|string
+     * @throws Exception
      */
     public function sendTo($toEmail, $fromEmail, $fromName, $subject, $view, $data = [])
     {
@@ -33,8 +33,8 @@ class Mailer
         }
 
         $views = [
-            'emails.'.$view.'_html',
-            'emails.'.$view.'_text',
+            'emails.' . $view . '_html',
+            'emails.' . $view . '_text',
         ];
 
         $toEmail = strtolower($toEmail);
@@ -46,7 +46,7 @@ class Mailer
         }
 
         // Optionally send for alternate domain
-        if (! empty($data['fromEmail'])) {
+        if (!empty($data['fromEmail'])) {
             $fromEmail = $data['fromEmail'];
         }
 
@@ -94,23 +94,23 @@ class Mailer
         try {
             $response = Mail::send($views, $data, function ($message) use ($toEmail, $fromEmail, $fromName, $replyEmail, $subject, $data) {
                 $message->to($toEmail)
-                        ->from($fromEmail, $fromName)
-                        ->replyTo($replyEmail, $fromName)
-                        ->subject($subject);
+                    ->from($fromEmail, $fromName)
+                    ->replyTo($replyEmail, $fromName)
+                    ->subject($subject);
 
                 // Optionally BCC the email
-                if (! empty($data['bccEmail'])) {
+                if (!empty($data['bccEmail'])) {
                     $message->bcc($data['bccEmail']);
                 }
 
                 // Handle invoice attachments
-                if (! empty($data['pdfString']) && ! empty($data['pdfFileName'])) {
+                if (!empty($data['pdfString']) && !empty($data['pdfFileName'])) {
                     $message->attachData($data['pdfString'], $data['pdfFileName']);
                 }
-                if (! empty($data['ublString']) && ! empty($data['ublFileName'])) {
+                if (!empty($data['ublString']) && !empty($data['ublFileName'])) {
                     $message->attachData($data['ublString'], $data['ublFileName']);
                 }
-                if (! empty($data['documents'])) {
+                if (!empty($data['documents'])) {
                     foreach ($data['documents'] as $document) {
                         $message->attachData($document['data'], $document['name']);
                     }
@@ -145,13 +145,13 @@ class Mailer
         }
 
         // Handle invoice attachments
-        if (! empty($data['pdfString']) && ! empty($data['pdfFileName'])) {
+        if (!empty($data['pdfString']) && !empty($data['pdfFileName'])) {
             $attachments[] = PostmarkAttachment::fromRawData($data['pdfString'], $data['pdfFileName']);
         }
-        if (! empty($data['ublString']) && ! empty($data['ublFileName'])) {
+        if (!empty($data['ublString']) && !empty($data['ublFileName'])) {
             $attachments[] = PostmarkAttachment::fromRawData($data['ublString'], $data['ublFileName']);
         }
-        if (! empty($data['documents'])) {
+        if (!empty($data['documents'])) {
             foreach ($data['documents'] as $document) {
                 $attachments[] = PostmarkAttachment::fromRawData($document['data'], $document['name']);
             }
@@ -169,11 +169,11 @@ class Mailer
                 'Attachments' => $attachments,
             ];
 
-            if (! empty($data['bccEmail'])) {
+            if (!empty($data['bccEmail'])) {
                 $message['Bcc'] = $data['bccEmail'];
             }
 
-            if (! empty($data['tag'])) {
+            if (!empty($data['tag'])) {
                 $message['Tag'] = $data['tag'];
             }
 
@@ -192,9 +192,9 @@ class Mailer
     }
 
     /**
-     * @param $response
      * @param $data
      *
+     * @param bool $messageId
      * @return bool
      */
     private function handleSuccess($data, $messageId = false)
@@ -204,7 +204,7 @@ class Mailer
             $invoice = $invitation->invoice;
             $notes = isset($data['notes']) ? $data['notes'] : false;
 
-            if (! empty($data['proposal'])) {
+            if (!empty($data['proposal'])) {
                 $invitation->markSent($messageId);
             } else {
                 $invoice->markInvitationSent($invitation, $messageId, true, $notes);
@@ -215,8 +215,8 @@ class Mailer
     }
 
     /**
-     * @param $exception
-     *
+     * @param $data
+     * @param $emailError
      * @return string
      */
     private function handleFailure($data, $emailError)
@@ -225,7 +225,7 @@ class Mailer
             $invitation = $data['invitation'];
             $invitation->email_error = $emailError;
             $invitation->save();
-        } elseif (! Utils::isNinjaProd()) {
+        } elseif (!Utils::isNinjaProd()) {
             Utils::logError($emailError);
         }
 

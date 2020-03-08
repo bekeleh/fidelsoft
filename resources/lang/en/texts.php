@@ -39,6 +39,24 @@ $LANG = array(
     'archived_store' => 'Successfully Archived Store',
     'store_settings' => 'Store Settings',
     /*
+ |--------------------------------------------------------------------------
+ | location trans
+ |--------------------------------------------------------------------------
+ */
+    'locations' => 'Locations',
+    'location_code' => 'Store Code',
+    'new_location' => 'New Location',
+    'create_location' => 'Create Location',
+    'edit_location' => 'Edit Location',
+    'clone_location' => 'Clone Location',
+    'archive_location' => 'Archive Location',
+    'delete_location' => 'Delete Location',
+    'restore_location' => 'Restore Location',
+    'updated_location' => 'Successfully Updated Location',
+    'created_location' => 'Successfully Created Location',
+    'archived_location' => 'Successfully Archived Location',
+    'location_settings' => 'Location Settings',
+    /*
     |--------------------------------------------------------------------------
     | sales type trans
     |--------------------------------------------------------------------------

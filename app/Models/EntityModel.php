@@ -313,6 +313,7 @@ class EntityModel extends Eloquent
             'vendors' => 'users',
             'products' => 'cube',
             'stocks' => 'cubes',
+            'location' => 'fa-map',
             'invoices' => 'file-pdf-o',
             'payments' => 'credit-card',
             'recurring_invoices' => 'files-o',

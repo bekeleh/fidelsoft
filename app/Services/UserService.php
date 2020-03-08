@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Ninja\Datatables\UserDatatable;
 use App\Ninja\Repositories\UserRepository;
+use Illuminate\Http\JsonResponse;
 
 /**
  * Class UserService.
@@ -43,7 +44,8 @@ class UserService extends BaseService
     /**
      * @param $accountId
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
+     * @throws \Exception
      */
     public function getDatatable($accountId)
     {

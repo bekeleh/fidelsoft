@@ -12,6 +12,11 @@ class StorePresenter extends EntityPresenter
         return $this->entity->user->getDisplayName();
     }
 
+    public function name()
+    {
+        return $this->entity->getUpperAttributes();
+    }
+
     public function skypeBot($account)
     {
         $store = $this->entity;
