@@ -38,6 +38,7 @@ $LANG = array(
     'created_store' => 'Successfully Created Store',
     'archived_store' => 'Successfully Archived Store',
     'store_settings' => 'Store Settings',
+    'select_location' => 'Please Select Location',
     /*
  |--------------------------------------------------------------------------
  | location trans

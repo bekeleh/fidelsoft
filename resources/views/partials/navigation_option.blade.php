@@ -1,5 +1,5 @@
+<!-- if settings or reports -->
 <li class="nav-{{ $option }} {{ Request::is("{$option}*") ? 'active' : '' }}">
-
     @if ($option == 'settings')
         <a type="button" class="btn btn-default btn-sm pull-right"
            title="{{ Utils::getReadableUrl(request()->path()) }}"
@@ -19,7 +19,6 @@
             <i class="fa fa-plus-circle" style="width:20px" title="{{ trans('texts.create_new') }}"></i>
         </a>
     @endif
-
     <a href="{{ url($option == 'recurring' ? 'recurring_invoice' : $option) }}"
        style="padding-top:6px; padding-bottom:6px"
        class="nav-link {{ Request::is("{$option}*") ? 'active' : '' }}">
@@ -28,5 +27,4 @@
         {{ ($option == 'recurring_invoices') ? trans('texts.recurring') : mtrans($option) }}
         {!! Utils::isTrial() && in_array($option, ['reports']) ? '&nbsp;<sup>' . trans('texts.pro') . '</sup>' : '' !!}
     </a>
-
 </li>

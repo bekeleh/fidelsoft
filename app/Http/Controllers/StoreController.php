@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRequest;
 use App\Libraries\Utils;
+use App\Models\Location;
 use App\Models\Store;
 use App\Ninja\Datatables\StoreDatatable;
 use App\Ninja\Repositories\StoreRepository;
@@ -92,6 +93,7 @@ class StoreController extends BaseController
 
         $account = Auth::user()->account;
         $store = Store::scope($publicId)->withTrashed()->firstOrFail();
+        $locations = Location::scope()->pluck('name', 'id');
 
         if ($clone) {
             $store->id = null;
@@ -107,6 +109,7 @@ class StoreController extends BaseController
         $data = [
             'account' => $account,
             'store' => $store,
+            'locations' => $locations,
             'entity' => $store,
             'method' => $method,
             'url' => $url,
@@ -122,17 +125,16 @@ class StoreController extends BaseController
      */
     public function create(StoreRequest $request)
     {
-
         $account = Auth::user()->account;
-
+        $locations = Location::scope()->pluck('name', 'id');
         $data = [
             'account' => $account,
             'store' => null,
+            'locations' => $locations,
             'method' => 'POST',
             'url' => 'stores',
             'title' => trans('texts.create_store'),
         ];
-
         return View::make('stores.store', $data);
     }
 

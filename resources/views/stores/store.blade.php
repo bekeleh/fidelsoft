@@ -5,7 +5,7 @@
     {!! Former::open($url)
             ->method($method)
             ->autocomplete('off')
-            ->rules(['name' => 'required|max:255'])
+            ->rules(['name' => 'required|max:255','location_id' => 'required' ])
             ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
 
     @if ($store)
@@ -13,9 +13,9 @@
     @endif
 
     <span style="display:none">
-        {!! Former::text('public_id') !!}
+            {!! Former::text('public_id') !!}
         {!! Former::text('action') !!}
-    </span>
+        </span>
 
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
@@ -23,6 +23,8 @@
                 <div class="panel-body form-padding-right">
                     {!! Former::text('name')->label('texts.name') !!}
                     {!! Former::text('store_code')->label('texts.code') !!}
+                    {!! Former::select('location_id')->addOption('Please select location','')
+                        ->label('texts.location')->fromQuery($locations, 'name', 'id') !!}
                     {!! Former::textarea('notes')->rows(6) !!}
                 </div>
             </div>

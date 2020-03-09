@@ -20,6 +20,7 @@ class Store extends EntityModel
     protected $fillable = [
         'name',
         'store_code',
+        'location_id',
         'notes',
         'created_by',
         'updated_by',
