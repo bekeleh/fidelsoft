@@ -108,10 +108,10 @@ class StoreApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
-     * @param CreateStoreRequest $request
+     * @param StoreRequest $request
      * @return
      */
-    public function store(CreateStoreRequest $request)
+    public function store(StoreRequest $request)
     {
         $store = $this->storeRepo->save($request->input());
 
@@ -146,11 +146,11 @@ class StoreApiController extends BaseAPIController
      *   )
      * )
      *
-     * @param UpdateStoreRequest $request
+     * @param StoreRequest $request
      * @param mixed $publicId
      * @return
      */
-    public function update(UpdateStoreRequest $request, $publicId)
+    public function update(StoreRequest $request, $publicId)
     {
         if ($request->action) {
             return $this->handleAction($request);
@@ -185,10 +185,10 @@ class StoreApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
-     * @param UpdateStoreRequest $request
+     * @param StoreRequest $request
      * @return
      */
-    public function destroy(UpdateStoreRequest $request)
+    public function destroy(StoreRequest $request)
     {
         $store = $request->entity();
 
