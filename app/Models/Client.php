@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
-use Carbon;
-use DB;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Laracasts\Presenter\PresentableTrait;
+use App\Libraries\Utils;
 use App\Models\Traits\HasCustomMessages;
-use Utils;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
+use Laracasts\Presenter\PresentableTrait;
 
 /**
  * Class Client.
@@ -125,7 +128,7 @@ class Client extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function account()
     {
@@ -141,7 +144,7 @@ class Client extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function invoices()
     {
@@ -149,7 +152,7 @@ class Client extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function quotes()
     {
@@ -157,7 +160,7 @@ class Client extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function publicQuotes()
     {
@@ -165,7 +168,7 @@ class Client extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function payments()
     {
@@ -173,7 +176,7 @@ class Client extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function contacts()
     {
@@ -181,7 +184,7 @@ class Client extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function country()
     {
@@ -189,7 +192,7 @@ class Client extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function shipping_country()
     {
@@ -197,7 +200,7 @@ class Client extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function currency()
     {
@@ -205,7 +208,7 @@ class Client extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function language()
     {
@@ -213,7 +216,7 @@ class Client extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function size()
     {
@@ -221,7 +224,7 @@ class Client extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function industry()
     {
@@ -229,7 +232,7 @@ class Client extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function credits()
     {
@@ -237,7 +240,7 @@ class Client extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function creditsWithBalance()
     {
@@ -264,7 +267,7 @@ class Client extends EntityModel
      * @param $data
      * @param bool $isPrimary
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
     public function addContact($data, $isPrimary = false)
     {
@@ -272,7 +275,7 @@ class Client extends EntityModel
 
         // check if this client wasRecentlyCreated to ensure a new contact is
         // always created even if the request includes a contact id
-        if (! $this->wasRecentlyCreated && $publicId && intval($publicId) > 0) {
+        if (!$this->wasRecentlyCreated && $publicId && intval($publicId) > 0) {
             $contact = Contact::scope($publicId)->whereClientId($this->id)->firstOrFail();
         } else {
             $contact = Contact::createNew();
@@ -286,7 +289,7 @@ class Client extends EntityModel
         }
 
         if ($this->account->isClientPortalPasswordEnabled()) {
-            if (! empty($data['password']) && $data['password'] != '-%unchanged%-') {
+            if (!empty($data['password']) && $data['password'] != '-%unchanged%-') {
                 $contact->password = bcrypt($data['password']);
             } elseif (empty($data['password'])) {
                 $contact->password = null;
@@ -330,9 +333,9 @@ class Client extends EntityModel
     public function getTotalCredit()
     {
         return DB::table('credits')
-                ->where('client_id', '=', $this->id)
-                ->whereNull('deleted_at')
-                ->sum('balance');
+            ->where('client_id', '=', $this->id)
+            ->whereNull('deleted_at')
+            ->sum('balance');
     }
 
     /**
@@ -348,7 +351,7 @@ class Client extends EntityModel
      */
     public function getPrimaryContact()
     {
-        if (! $this->relationLoaded('contacts')) {
+        if (!$this->relationLoaded('contacts')) {
             $this->load('contacts');
         }
 
@@ -467,7 +470,7 @@ class Client extends EntityModel
     {
         $accountGateway = $this->account->getGatewayByType(GATEWAY_TYPE_TOKEN);
 
-        if (! $accountGateway) {
+        if (!$accountGateway) {
             return false;
         }
 
@@ -519,7 +522,7 @@ class Client extends EntityModel
             return $this->currency_id;
         }
 
-        if (! $this->account) {
+        if (!$this->account) {
             $this->load('account');
         }
 
@@ -535,7 +538,7 @@ class Client extends EntityModel
             return $this->currency->code;
         }
 
-        if (! $this->account) {
+        if (!$this->account) {
             $this->load('account');
         }
 
@@ -548,7 +551,7 @@ class Client extends EntityModel
             return $country->iso_3166_2;
         }
 
-        if (! $this->account) {
+        if (!$this->account) {
             $this->load('account');
         }
 

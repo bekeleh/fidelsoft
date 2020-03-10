@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateExpenseRequest;
 use App\Http\Requests\ExpenseRequest;
 use App\Http\Requests\UpdateExpenseRequest;
+use App\Libraries\Utils;
 use App\Models\Client;
 use App\Models\Expense;
 use App\Models\ExpenseCategory;
@@ -14,15 +15,13 @@ use App\Ninja\Datatables\ExpenseDatatable;
 use App\Ninja\Repositories\ExpenseRepository;
 use App\Ninja\Repositories\InvoiceRepository;
 use App\Services\ExpenseService;
-use Auth;
-use Cache;
-use Input;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\View;
 use Redirect;
-use Request;
-use Session;
-use URL;
-use Utils;
-use View;
 
 class ExpenseController extends BaseController
 {
@@ -109,7 +108,7 @@ class ExpenseController extends BaseController
 
         $actions = [];
 
-        if (! $clone) {
+        if (!$clone) {
             $actions[] = ['url' => 'javascript:submitAction("clone")', 'label' => trans("texts.clone_expense")];
         }
         if ($expense->invoice) {
@@ -121,7 +120,7 @@ class ExpenseController extends BaseController
             $invoices = $expense->client_id ? $this->invoiceRepo->findOpenInvoices($expense->client_id) : [];
 
             foreach ($invoices as $invoice) {
-                $actions[] = ['url' => 'javascript:submitAction("add_to_invoice", '.$invoice->public_id.')', 'label' => trans('texts.add_to_invoice', ['invoice' => $invoice->invoice_number])];
+                $actions[] = ['url' => 'javascript:submitAction("add_to_invoice", ' . $invoice->public_id . ')', 'label' => trans('texts.add_to_invoice', ['invoice' => $invoice->invoice_number])];
             }
         }
 
@@ -130,7 +129,7 @@ class ExpenseController extends BaseController
         }
 
         $actions[] = \DropdownButton::DIVIDER;
-        if (! $expense->trashed()) {
+        if (!$expense->trashed()) {
             $actions[] = ['url' => 'javascript:submitAction("archive")', 'label' => trans('texts.archive_expense')];
             $actions[] = ['url' => 'javascript:onDeleteClick()', 'label' => trans('texts.delete_expense')];
         } else {
@@ -177,8 +176,7 @@ class ExpenseController extends BaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param int $id
-     *
+     * @param UpdateExpenseRequest $request
      * @return Response
      */
     public function update(UpdateExpenseRequest $request)
@@ -209,10 +207,10 @@ class ExpenseController extends BaseController
 
         // check for possible duplicate expense
         $duplcate = Expense::scope()
-                    ->whereAmount($request->amount)
-                    ->whereExpenseDate(Utils::toSqlDate($request->expense_date))
-                    ->orderBy('created_at')
-                    ->first();
+            ->whereAmount($request->amount)
+            ->whereExpenseDate(Utils::toSqlDate($request->expense_date))
+            ->orderBy('created_at')
+            ->first();
         if ($duplcate) {
             Session::flash('warning', trans('texts.duplicate_expense_warning',
                 ['link' => link_to($duplcate->present()->url, trans('texts.expense_link'), ['target' => '_blank'])]));
@@ -245,14 +243,14 @@ class ExpenseController extends BaseController
                             return redirect($referer)->withError(trans('texts.client_must_be_active'));
                         }
 
-                        if (! $clientPublicId) {
+                        if (!$clientPublicId) {
                             $clientPublicId = $expense->client->public_id;
                         } elseif ($clientPublicId != $expense->client->public_id) {
                             return redirect($referer)->withError(trans('texts.expense_error_multiple_clients'));
                         }
                     }
 
-                    if (! $currencyId) {
+                    if (!$currencyId) {
                         $currencyId = $expense->invoice_currency_id;
                     } elseif ($currencyId != $expense->invoice_currency_id && $expense->invoice_currency_id) {
                         return redirect($referer)->withError(trans('texts.expense_error_multiple_currencies'));
@@ -265,14 +263,14 @@ class ExpenseController extends BaseController
 
                 if ($action == 'invoice') {
                     return Redirect::to("invoices/create/{$clientPublicId}")
-                            ->with('expenseCurrencyId', $currencyId)
-                            ->with('expenses', $ids);
+                        ->with('expenseCurrencyId', $currencyId)
+                        ->with('expenses', $ids);
                 } else {
                     $invoiceId = Input::get('invoice_id');
 
                     return Redirect::to("invoices/{$invoiceId}/edit")
-                            ->with('expenseCurrencyId', $currencyId)
-                            ->with('expenses', $ids);
+                        ->with('expenseCurrencyId', $currencyId)
+                        ->with('expenses', $ids);
                 }
                 break;
 
@@ -281,7 +279,7 @@ class ExpenseController extends BaseController
         }
 
         if ($count > 0) {
-            $message = Utils::pluralize($action.'d_expense', $count);
+            $message = Utils::pluralize($action . 'd_expense', $count);
             Session::flash('message', $message);
         }
 

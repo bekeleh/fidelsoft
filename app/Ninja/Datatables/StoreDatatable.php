@@ -29,6 +29,21 @@ class StoreDatatable extends EntityDatatable
                 },
             ],
             [
+                'location',
+                function ($model) {
+                    if ($model->location_id) {
+                        if (Auth::user()->can('view', [ENTITY_LOCATION, $model]))
+                            return link_to("locations/{$model->location_id}", $model->name)->toHtml();
+                        else
+                            return $model->name;
+
+                    } else {
+                        return '';
+                    }
+                },
+                !$this->hideClient,
+            ],
+            [
                 'notes',
                 function ($model) {
                     return $this->showWithTooltip($model->notes);

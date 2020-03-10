@@ -23,8 +23,9 @@
                 <div class="panel-body form-padding-right">
                     {!! Former::text('name')->label('texts.name') !!}
                     {!! Former::text('store_code')->label('texts.code') !!}
-                    {!! Former::select('location_id')->addOption('Please select location','')
-                        ->label('texts.location')->fromQuery($locations, 'name', 'id') !!}
+                    {!! Former::select('location_id')->addOption('', '')
+                      ->label(trans('texts.location'))
+                      ->addGroupClass('location-select') !!}
                     {!! Former::textarea('notes')->rows(6) !!}
                 </div>
             </div>
@@ -64,8 +65,37 @@
     @endif
     {!! Former::close() !!}
     <script type="text/javascript">
+        var locations = {!! $locations !!};
+
+        var locationMap = {};
         $(function () {
             $('#name').focus();
+        });
+
+        $(function () {
+            var locationId = {{ $locationPublicId ?: 0 }};
+            var $locationSelect = $('select#location_id');
+            @if (Auth::user()->can('create', ENTITY_LOCATION))
+            $locationSelect.append(new Option("{{ trans('texts.create_location')}}: $name", '-1'));
+                    @endif
+            for (var i = 0; i < locations.length; i++) {
+                var location = locations[i];
+                locationMap[location.public_id] = location;
+                $locationSelect.append(new Option(location.name, location.public_id));
+            }
+            @include('partials/entity_combobox', ['entityType' => ENTITY_LOCATION])
+            if (locationId) {
+                var location = locationMap[locationId];
+                setComboboxValue($('.location-select'), location.public_id, location.name);
+            }
+            if (locationId) {
+                var location = locationMap[locationId];
+                setComboboxValue($('.expense-location-select'), location.public_id, location.name);
+            }
+
+            @if (!$locationPublicId)
+            $('.location-select input.form-control').focus();
+            @endif
         });
 
         function submitAction(action) {

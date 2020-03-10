@@ -12,13 +12,12 @@ use App\Models\Traits\PresentsInvoice;
 use App\Models\Traits\SendsEmails;
 use Carbon\Carbon;
 use DateTime;
-use Eloquent;
-use Event;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Session;
 use Laracasts\Presenter\PresentableTrait;
 

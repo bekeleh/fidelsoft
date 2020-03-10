@@ -93,7 +93,6 @@ class StoreController extends BaseController
 
         $account = Auth::user()->account;
         $store = Store::scope($publicId)->withTrashed()->firstOrFail();
-        $locations = Location::scope()->pluck('name', 'id');
 
         if ($clone) {
             $store->id = null;
@@ -107,16 +106,17 @@ class StoreController extends BaseController
         }
 
         $data = [
+            'locationPublicId' => $store->location ? $store->location->public_id : null,
             'account' => $account,
             'store' => $store,
-            'locations' => $locations,
+            'location' => null,
             'entity' => $store,
             'method' => $method,
             'url' => $url,
             'title' => trans('texts.edit_store'),
         ];
-
-        return View::make('stores.store', $data);
+        $data = array_merge($data, self::getViewModel($store));
+        return View::make('stores.edit', $data);
     }
 
     /**
@@ -125,17 +125,22 @@ class StoreController extends BaseController
      */
     public function create(StoreRequest $request)
     {
-        $account = Auth::user()->account;
-        $locations = Location::scope()->pluck('name', 'id');
+        if ($request->location_id != 0) {
+            $location = Location::scope($request->location_id)->firstOrFail();
+        } else {
+            $location = null;
+        }
         $data = [
-            'account' => $account,
+            'locationPublicId' => Input::old('location') ? Input::old('location') : $request->location_id,
             'store' => null,
-            'locations' => $locations,
+            'location' => $location,
             'method' => 'POST',
             'url' => 'stores',
             'title' => trans('texts.create_store'),
         ];
-        return View::make('stores.store', $data);
+        $data = array_merge($data, self::getViewModel());
+
+        return View::make('stores.edit', $data);
     }
 
     /**
@@ -212,5 +217,14 @@ class StoreController extends BaseController
         Session::flash('message', $message);
 
         return $this->returnBulk(ENTITY_STORE, $action, $ids);
+    }
+
+    private static function getViewModel($store = false)
+    {
+        return [
+            'data' => Input::old('data'),
+            'account' => Auth::user()->account,
+            'locations' => Location::scope()->withActiveOrSelected($store ? $store->location_id : false)->orderBy('name')->get(),
+        ];
     }
 }

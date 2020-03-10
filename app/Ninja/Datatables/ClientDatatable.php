@@ -2,9 +2,9 @@
 
 namespace App\Ninja\Datatables;
 
-use Auth;
-use URL;
-use Utils;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
+use App\Libraries\Utils;
 
 class ClientDatatable extends EntityDatatable
 {
@@ -67,16 +67,16 @@ class ClientDatatable extends EntityDatatable
             [
                 trans('texts.edit_client'),
                 function ($model) {
-                    if(Auth::user()->can('edit', [ENTITY_CLIENT, $model]))
+                    if (Auth::user()->can('edit', [ENTITY_CLIENT, $model]))
                         return URL::to("clients/{$model->public_id}/edit");
-                    elseif(Auth::user()->can('view', [ENTITY_CLIENT, $model]))
+                    elseif (Auth::user()->can('view', [ENTITY_CLIENT, $model]))
                         return URL::to("clients/{$model->public_id}");
                 },
             ],
             [
                 '--divider--', function () {
-                    return false;
-                },
+                return false;
+            },
                 function ($model) {
                     return Auth::user()->can('edit', [ENTITY_CLIENT, $model]) && (Auth::user()->can('create', ENTITY_TASK) || Auth::user()->can('create', ENTITY_INVOICE));
                 },
@@ -110,8 +110,8 @@ class ClientDatatable extends EntityDatatable
             ],
             [
                 '--divider--', function () {
-                    return false;
-                },
+                return false;
+            },
                 function ($model) {
                     return (Auth::user()->can('create', ENTITY_TASK) || Auth::user()->can('create', ENTITY_INVOICE)) && (Auth::user()->can('create', ENTITY_PAYMENT) || Auth::user()->can('create', ENTITY_CREDIT) || Auth::user()->can('create', ENTITY_EXPENSE));
                 },

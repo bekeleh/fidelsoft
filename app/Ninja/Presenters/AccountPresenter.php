@@ -2,13 +2,13 @@
 
 namespace App\Ninja\Presenters;
 
-use Carbon;
-use Domain;
-use App\Models\TaxRate;
+use App\Libraries\Utils;
 use App\Models\Account;
+use App\Models\TaxRate;
+use Carbon\Carbon;
+use Domain;
 use Laracasts\Presenter\Presenter;
 use stdClass;
-use Utils;
 
 /**
  * Class AccountPresenter.
@@ -223,9 +223,9 @@ class AccountPresenter extends Presenter
         $account = $this->entity;
         $data = [];
 
-        for ($i=1; $i<=3; $i++) {
+        for ($i = 1; $i <= 3; $i++) {
             $label = trans('texts.custom_design' . $i);
-            if (! $account->{'custom_design' . $i}) {
+            if (!$account->{'custom_design' . $i}) {
                 $label .= ' - ' . trans('texts.empty');
             }
 
@@ -253,7 +253,7 @@ class AccountPresenter extends Presenter
         $url .= '/client/login';
 
         if (Utils::isNinja()) {
-            if (! $account->subdomain) {
+            if (!$account->subdomain) {
                 $url .= '?account_key=' . $account->account_key;
             }
         } else {

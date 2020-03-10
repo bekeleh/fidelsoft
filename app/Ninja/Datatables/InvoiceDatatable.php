@@ -2,10 +2,10 @@
 
 namespace App\Ninja\Datatables;
 
+use App\Libraries\Utils;
 use App\Models\Invoice;
-use Auth;
-use URL;
-use Utils;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 
 class InvoiceDatatable extends EntityDatatable
 {
@@ -20,26 +20,23 @@ class InvoiceDatatable extends EntityDatatable
             [
                 $entityType == ENTITY_INVOICE ? 'invoice_number' : 'quote_number',
                 function ($model) use ($entityType) {
-                    if(Auth::user()->viewModel($model, $entityType)) {
+                    if (Auth::user()->viewModel($model, $entityType)) {
                         $str = link_to("{$entityType}s/{$model->public_id}/edit", $model->invoice_number, ['class' => Utils::getEntityRowClass($model)])->toHtml();
                         return $this->addNote($str, $model->private_notes);
-                    }
-                    else
+                    } else
                         return $model->invoice_number;
-
-
                 },
             ],
             [
                 'client_name',
                 function ($model) {
-                    if(Auth::user()->can('view', [ENTITY_CLIENT, $model]))
+                    if (Auth::user()->can('view', [ENTITY_CLIENT, $model]))
                         return link_to("clients/{$model->client_public_id}", Utils::getClientDisplayName($model))->toHtml();
                     else
                         return Utils::getClientDisplayName($model);
 
                 },
-                ! $this->hideClient,
+                !$this->hideClient,
             ],
             [
                 'date',
@@ -58,8 +55,8 @@ class InvoiceDatatable extends EntityDatatable
                 function ($model) {
                     return $model->partial > 0 ?
                         trans('texts.partial_remaining', [
-                            'partial' => Utils::formatMoney($model->partial, $model->currency_id, $model->country_id),
-                            'balance' => Utils::formatMoney($model->balance, $model->currency_id, $model->country_id), ]
+                                'partial' => Utils::formatMoney($model->partial, $model->currency_id, $model->country_id),
+                                'balance' => Utils::formatMoney($model->balance, $model->currency_id, $model->country_id),]
                         ) :
                         Utils::formatMoney($model->balance, $model->currency_id, $model->country_id);
                 },
@@ -127,8 +124,8 @@ class InvoiceDatatable extends EntityDatatable
             ],
             [
                 '--divider--', function () {
-                    return false;
-                },
+                return false;
+            },
                 function ($model) {
                     return Auth::user()->canCreateOrEdit(ENTITY_INVOICE);
                 },
@@ -139,7 +136,7 @@ class InvoiceDatatable extends EntityDatatable
                     return "javascript:submitForm_{$entityType}('markSent', {$model->public_id})";
                 },
                 function ($model) {
-                    return ! $model->is_public && Auth::user()->can('edit', [ENTITY_INVOICE, $model]);
+                    return !$model->is_public && Auth::user()->can('edit', [ENTITY_INVOICE, $model]);
                 },
             ],
             [
@@ -175,7 +172,7 @@ class InvoiceDatatable extends EntityDatatable
                     return URL::to("proposals/create/{$model->public_id}");
                 },
                 function ($model) use ($entityType) {
-                    return $entityType == ENTITY_QUOTE && ! $model->quote_invoice_id && $model->invoice_status_id < INVOICE_STATUS_APPROVED && Auth::user()->can('create', ENTITY_PROPOSAL);
+                    return $entityType == ENTITY_QUOTE && !$model->quote_invoice_id && $model->invoice_status_id < INVOICE_STATUS_APPROVED && Auth::user()->can('create', ENTITY_PROPOSAL);
                 },
             ],
             [
@@ -184,7 +181,7 @@ class InvoiceDatatable extends EntityDatatable
                     return "javascript:submitForm_quote('convert', {$model->public_id})";
                 },
                 function ($model) use ($entityType) {
-                    return $entityType == ENTITY_QUOTE && ! $model->quote_invoice_id && Auth::user()->can('edit', [ENTITY_INVOICE, $model]);
+                    return $entityType == ENTITY_QUOTE && !$model->quote_invoice_id && Auth::user()->can('edit', [ENTITY_INVOICE, $model]);
                 },
             ],
         ];
@@ -205,25 +202,25 @@ class InvoiceDatatable extends EntityDatatable
         if ($this->entityType == ENTITY_INVOICE || $this->entityType == ENTITY_QUOTE) {
             $actions[] = [
                 'label' => mtrans($this->entityType, 'download_' . $this->entityType),
-                'url' => 'javascript:submitForm_'.$this->entityType.'("download")',
+                'url' => 'javascript:submitForm_' . $this->entityType . '("download")',
             ];
             if (auth()->user()->isTrusted()) {
                 $actions[] = [
                     'label' => mtrans($this->entityType, 'email_' . $this->entityType),
-                    'url' => 'javascript:submitForm_'.$this->entityType.'("emailInvoice")',
+                    'url' => 'javascript:submitForm_' . $this->entityType . '("emailInvoice")',
                 ];
             }
             $actions[] = \DropdownButton::DIVIDER;
             $actions[] = [
                 'label' => mtrans($this->entityType, 'mark_sent'),
-                'url' => 'javascript:submitForm_'.$this->entityType.'("markSent")',
+                'url' => 'javascript:submitForm_' . $this->entityType . '("markSent")',
             ];
         }
 
         if ($this->entityType == ENTITY_INVOICE) {
             $actions[] = [
                 'label' => mtrans($this->entityType, 'mark_paid'),
-                'url' => 'javascript:submitForm_'.$this->entityType.'("markPaid")',
+                'url' => 'javascript:submitForm_' . $this->entityType . '("markPaid")',
             ];
         }
 

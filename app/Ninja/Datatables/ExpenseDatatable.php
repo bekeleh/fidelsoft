@@ -2,10 +2,10 @@
 
 namespace App\Ninja\Datatables;
 
+use App\Libraries\Utils;
 use App\Models\Expense;
-use Auth;
-use URL;
-use Utils;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 
 class ExpenseDatatable extends EntityDatatable
 {
@@ -28,7 +28,7 @@ class ExpenseDatatable extends EntityDatatable
                         return '';
                     }
                 },
-                ! $this->hideClient,
+                !$this->hideClient,
             ],
             [
                 'client_name',
@@ -43,7 +43,7 @@ class ExpenseDatatable extends EntityDatatable
                         return '';
                     }
                 },
-                ! $this->hideClient,
+                !$this->hideClient,
             ],
             [
                 'expense_date',
@@ -132,7 +132,7 @@ class ExpenseDatatable extends EntityDatatable
                     return "javascript:submitForm_expense('invoice', {$model->public_id})";
                 },
                 function ($model) {
-                    return ! $model->invoice_id && (! $model->deleted_at || $model->deleted_at == '0000-00-00') && Auth::user()->can('create', ENTITY_INVOICE);
+                    return !$model->invoice_id && (!$model->deleted_at || $model->deleted_at == '0000-00-00') && Auth::user()->can('create', ENTITY_INVOICE);
                 },
             ],
         ];

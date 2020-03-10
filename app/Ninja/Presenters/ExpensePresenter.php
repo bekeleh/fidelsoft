@@ -2,8 +2,8 @@
 
 namespace App\Ninja\Presenters;
 
-use Carbon;
-use Utils;
+use Carbon\Carbon;
+use App\Libraries\Utils;
 
 /**
  * Class ExpensePresenter.
@@ -61,7 +61,7 @@ class ExpensePresenter extends EntityPresenter
 
     public function payment_type()
     {
-        if (! $this->payment_type_id) {
+        if (!$this->payment_type_id) {
             return '';
         }
 
@@ -73,7 +73,7 @@ class ExpensePresenter extends EntityPresenter
         $data = parent::calendarEvent();
         $expense = $this->entity;
 
-        $data->title = trans('texts.expense')  . ' ' . $this->amount() . ' | ' . $this->category();
+        $data->title = trans('texts.expense') . ' ' . $this->amount() . ' | ' . $this->category();
 
         $data->title = trans('texts.expense') . ' ' . $this->amount();
         if ($category = $this->category()) {

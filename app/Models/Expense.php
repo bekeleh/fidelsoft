@@ -4,9 +4,10 @@ namespace App\Models;
 
 use App\Events\ExpenseWasCreated;
 use App\Events\ExpenseWasUpdated;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
-use Utils;
+use App\Libraries\Utils;
 
 /**
  * Class Expense.
@@ -89,7 +90,7 @@ class Expense extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function expense_category()
     {
@@ -97,7 +98,7 @@ class Expense extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function account()
     {
@@ -145,7 +146,7 @@ class Expense extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function payment_type()
     {
@@ -153,7 +154,7 @@ class Expense extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function recurring_expense()
     {
@@ -281,7 +282,6 @@ class Expense extends EntityModel
         $statuses[EXPENSE_STATUS_BILLED] = trans('texts.billed');
         $statuses[EXPENSE_STATUS_PAID] = trans('texts.paid');
         $statuses[EXPENSE_STATUS_UNPAID] = trans('texts.unpaid');
-
 
         return $statuses;
     }

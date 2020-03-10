@@ -31,11 +31,12 @@ class StoreRequest extends EntityRequest
             case 'PUT':
             case 'PATCH':
             {
-                $product = Store::where('public_id', (int)request()->segment(2))->first();
-                if ($product) {
-                    $rules['name'] = 'required|max:90|unique:stores,name,' . $product->id . ',id';
-//                    $rules['store_code'] = 'required|max:90|unique:stores,store_code,' . $product->id . ',id';
-                    $rules['location_id'] = 'required|exists:location,id';
+                $store = Store::where('public_id', (int)request()->segment(2))->first();
+                dd($store);
+                if ($store) {
+                    $rules['name'] = 'required|max:90|unique:stores,name,' . $store->id . ',id';
+//                    $rules['store_code'] = 'required|max:90|unique:stores,store_code,' . $store->id . ',id';
+                    $rules['location_id'] = 'required|exists:locations,id';
                     $rules['is_deleted'] = 'boolean';
                     $rules['notes'] = 'nullable';
                     break;

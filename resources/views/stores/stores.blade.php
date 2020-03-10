@@ -15,6 +15,7 @@
         ->addColumn('',
           trans('texts.name'),
           trans('texts.code'),
+          trans('texts.location'),
           trans('texts.notes'),
           trans('texts.created_by'),
           trans('texts.updated_by'),

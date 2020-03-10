@@ -21,8 +21,8 @@ class StoreRepository extends BaseRepository
 
     public function find($accountId, $filter = null)
     {
-        $query = DB::table('stores')->where('stores.account_id', '=', $accountId)->select('stores.*');
-
+        $query = DB::table('stores')->join('locations', 'locations.id', '=', 'stores.location_id')
+            ->where('stores.account_id', '=', $accountId)->select('stores.*');
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('stores.name', 'like', '%' . $filter . '%')

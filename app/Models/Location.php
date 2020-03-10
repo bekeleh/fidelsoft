@@ -93,6 +93,30 @@ class Location extends EntityModel
     }
 
     /**
+     * @return string
+     */
+    public function getRoute()
+    {
+        return "/locations/{$this->public_id}";
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDisplayName()
+    {
+        return $this->getName();
+    }
+
+    /**
      * -----------------------------------------------
      * BEGIN QUERY SCOPES
      * -----------------------------------------------

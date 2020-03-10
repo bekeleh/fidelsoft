@@ -27,11 +27,7 @@ class ExpenseRepository extends BaseRepository
 
     public function all()
     {
-        return Expense::scope()
-            ->with('user')
-            ->withTrashed()
-            ->where('is_deleted', '=', false)
-            ->get();
+        return Expense::scope()->with('user')->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
     public function findVendor($vendorPublicId)
@@ -54,7 +50,7 @@ class ExpenseRepository extends BaseRepository
 
     public function find($filter = null)
     {
-        $accountid = \Auth::user()->account_id;
+        $accountId = Auth::user()->account_id;
         $query = DB::table('expenses')
             ->join('accounts', 'accounts.id', '=', 'expenses.account_id')
             ->leftjoin('clients', 'clients.id', '=', 'expenses.client_id')
@@ -62,7 +58,7 @@ class ExpenseRepository extends BaseRepository
             ->leftjoin('vendors', 'vendors.id', '=', 'expenses.vendor_id')
             ->leftJoin('invoices', 'invoices.id', '=', 'expenses.invoice_id')
             ->leftJoin('expense_categories', 'expenses.expense_category_id', '=', 'expense_categories.id')
-            ->where('expenses.account_id', '=', $accountid)
+            ->where('expenses.account_id', '=', $accountId)
             ->where('contacts.deleted_at', '=', null)
             //->where('vendors.deleted_at', '=', null)
             //->where('clients.deleted_at', '=', null)

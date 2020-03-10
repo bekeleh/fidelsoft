@@ -2,19 +2,17 @@
 
 @section('head')
     @parent
-
-        @include('money_script')
-
-        <style type="text/css">
-            .input-group-addon {
-                min-width: 40px;
-            }
-        </style>
+    @include('money_script')
+    <style type="text/css">
+        .input-group-addon {
+            min-width: 40px;
+        }
+    </style>
 @stop
 
 @section('content')
 
-	{!! Former::open($url)
+    {!! Former::open($url)
             ->addClass('warn-on-exit main-form')
             ->onsubmit('return onFormSubmit(event)')
             ->autocomplete('off')
@@ -24,22 +22,22 @@
         {!! Former::text('data')->data_bind('value: ko.mapping.toJSON(model)') !!}
     </div>
 
-	@if ($expense)
-		{!! Former::populate($expense) !!}
+    @if ($expense)
+        {!! Former::populate($expense) !!}
         {!! Former::populateField('should_be_invoiced', intval($expense->should_be_invoiced)) !!}
 
         <div style="display:none">
             {!! Former::text('public_id') !!}
             {!! Former::text('invoice_id') !!}
         </div>
-	@endif
+    @endif
 
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-6">
 
-    				{!! Former::select('vendor_id')->addOption('', '')
+                    {!! Former::select('vendor_id')->addOption('', '')
                             ->label(trans('texts.vendor'))
                             ->addGroupClass('vendor-select') !!}
 
@@ -195,7 +193,7 @@
                     @endif
 
 
-	            </div>
+                </div>
                 <div class="col-md-6">
 
                     {!! Former::textarea('private_notes')->rows(! $isRecurring && $account->hasFeature(FEATURE_DOCUMENTS) ? 6 : 10) !!}
@@ -207,11 +205,13 @@
                                 {{trans('texts.documents')}}
                             </label>
                             <div class="col-lg-8 col-sm-8">
-                                <div role="tabpanel" class="tab-pane" id="attached-documents" style="position:relative;z-index:9">
+                                <div role="tabpanel" class="tab-pane" id="attached-documents"
+                                     style="position:relative;z-index:9">
                                     <div id="document-upload">
                                         <div class="dropzone">
                                             <div data-bind="foreach: documents">
-                                                <input type="hidden" name="document_ids[]" data-bind="value: public_id"/>
+                                                <input type="hidden" name="document_ids[]"
+                                                       data-bind="value: public_id"/>
                                             </div>
                                         </div>
                                     </div>
@@ -258,7 +258,7 @@
         @endif
     </center>
 
-	{!! Former::close() !!}
+    {!! Former::close() !!}
 
     <script type="text/javascript">
         var vendors = {!! $vendors !!};
@@ -269,7 +269,7 @@
         var vendorMap = {};
         var categoryMap = {};
 
-        for (var i=0; i<clients.length; i++) {
+        for (var i = 0; i < clients.length; i++) {
             var client = clients[i];
             clientMap[client.public_id] = client;
         }
@@ -303,17 +303,17 @@
         }
 
         function onDeleteClick() {
-            sweetConfirm(function() {
+            sweetConfirm(function () {
                 submitAction('delete');
             });
         }
 
-        $(function() {
+        $(function () {
             var vendorId = {{ $vendorPublicId ?: 0 }};
             var $vendorSelect = $('select#vendor_id');
             @if (Auth::user()->can('create', ENTITY_VENDOR))
-                $vendorSelect.append(new Option("{{ trans('texts.create_vendor')}}: $name", '-1'));
-            @endif
+            $vendorSelect.append(new Option("{{ trans('texts.create_vendor')}}: $name", '-1'));
+                    @endif
             for (var i = 0; i < vendors.length; i++) {
                 var vendor = vendors[i];
                 vendorMap[vendor.public_id] = vendor;
@@ -328,8 +328,8 @@
             var categoryId = {{ $categoryPublicId ?: 0 }};
             var $expense_categorySelect = $('select#expense_category_id');
             @if (Auth::user()->can('create', ENTITY_EXPENSE_CATEGORY))
-                $expense_categorySelect.append(new Option("{{ trans('texts.create_expense_category')}}: $name", '-1'));
-            @endif
+            $expense_categorySelect.append(new Option("{{ trans('texts.create_expense_category')}}: $name", '-1'));
+                    @endif
             for (var i = 0; i < categories.length; i++) {
                 var category = categories[i];
                 categoryMap[category.public_id] = category;
@@ -343,12 +343,12 @@
 
             $('#expense_date').datepicker('update', '{{ $expense ? Utils::fromSqlDate($expense->expense_date) : 'new Date()' }}');
 
-            $('.expense_date .input-group-addon').click(function() {
+            $('.expense_date .input-group-addon').click(function () {
                 toggleDatePicker('expense_date');
             });
 
             var $clientSelect = $('select#client_id');
-            for (var i=0; i<clients.length; i++) {
+            for (var i = 0; i < clients.length; i++) {
                 var client = clients[i];
                 var clientName = getClientDisplayName(client);
                 if (!clientName) {
@@ -356,86 +356,86 @@
                 }
                 $clientSelect.append(new Option(clientName, client.public_id));
             }
-            $clientSelect.combobox({highlighter: comboboxHighlighter}).change(function() {
+            $clientSelect.combobox({highlighter: comboboxHighlighter}).change(function () {
                 onClientChange();
             });
 
-            $('#invoice_currency_id, #expense_currency_id').on('change', function() {
-                setTimeout(function() {
+            $('#invoice_currency_id, #expense_currency_id').on('change', function () {
+                setTimeout(function () {
                     model.updateExchangeRate();
                 }, 1);
             })
 
             @if ($data)
-                // this means we failed so we'll reload the previous state
-                window.model = new ViewModel({!! $data !!});
+            // this means we failed so we'll reload the previous state
+            window.model = new ViewModel({!! $data !!});
             @else
-                // otherwise create blank model
-                window.model = new ViewModel({!! $expense !!});
+            // otherwise create blank model
+            window.model = new ViewModel({!! $expense !!});
             @endif
             ko.applyBindings(model);
 
             @if (!$expense && $clientPublicId)
-                onClientChange();
+            onClientChange();
             @endif
 
             @if (!$vendorPublicId)
-                $('.vendor-select input.form-control').focus();
+            $('.vendor-select input.form-control').focus();
             @else
-                $('#amount').focus();
+            $('#amount').focus();
             @endif
 
             @if ($isRecurring)
-                $('#start_date, #end_date').datepicker();
-                @if ($expense && $expense->start_date)
-                    $('#start_date').datepicker('update', '{{ $expense && $expense->start_date ? Utils::fromSqlDate($expense->start_date) : 'new Date()' }}');
-                @elseif (! $expense)
-                    $('#start_date').datepicker('update', new Date());
-                @endif
-                @if ($expense && $expense->end_date)
-                    $('#end_date').datepicker('update', '{{ Utils::fromSqlDate($expense->end_date) }}');
-                @endif
+            $('#start_date, #end_date').datepicker();
+            @if ($expense && $expense->start_date)
+            $('#start_date').datepicker('update', '{{ $expense && $expense->start_date ? Utils::fromSqlDate($expense->start_date) : 'new Date()' }}');
+            @elseif (! $expense)
+            $('#start_date').datepicker('update', new Date());
+            @endif
+            @if ($expense && $expense->end_date)
+            $('#end_date').datepicker('update', '{{ Utils::fromSqlDate($expense->end_date) }}');
+            @endif
 
-                $('.start_date .input-group-addon').click(function() {
-                    toggleDatePicker('start_date');
-                });
-                $('.end_date .input-group-addon').click(function() {
-                    toggleDatePicker('end_date');
-                });
+            $('.start_date .input-group-addon').click(function () {
+                toggleDatePicker('start_date');
+            });
+            $('.end_date .input-group-addon').click(function () {
+                toggleDatePicker('end_date');
+            });
             @else
-                $('#payment_type_id').combobox();
-                $('#mark_paid').click(function(event) {
-                    if ($('#mark_paid').is(':checked')) {
-                        $('#payment_date').datepicker('update', new Date());
-                        @if ($account->payment_type_id)
-                            setComboboxValue($('.payment-type-select'), {{ $account->payment_type_id }}, "{{ trans('texts.payment_type_' . $account->payment_type->name) }}");
-                        @endif
-                    } else {
-                        $('#payment_date').datepicker('update', false);
-                        setComboboxValue($('.payment-type-select'), '', '');
-                    }
-                })
+            $('#payment_type_id').combobox();
+            $('#mark_paid').click(function (event) {
+                if ($('#mark_paid').is(':checked')) {
+                    $('#payment_date').datepicker('update', new Date());
+                    @if ($account->payment_type_id)
+                    setComboboxValue($('.payment-type-select'), {{ $account->payment_type_id }}, "{{ trans('texts.payment_type_' . $account->payment_type->name) }}");
+                    @endif
+                } else {
+                    $('#payment_date').datepicker('update', false);
+                    setComboboxValue($('.payment-type-select'), '', '');
+                }
+            })
 
-                @if ($expense && $expense->payment_date)
-                    $('#payment_date').datepicker('update', '{{ Utils::fromSqlDate($expense->payment_date) }}');
-                @endif
+            @if ($expense && $expense->payment_date)
+            $('#payment_date').datepicker('update', '{{ Utils::fromSqlDate($expense->payment_date) }}');
+            @endif
 
-                $('.payment_date .input-group-addon').click(function() {
-                    toggleDatePicker('payment_date');
-                });
+            $('.payment_date .input-group-addon').click(function () {
+                toggleDatePicker('payment_date');
+            });
 
-                @if (Auth::user()->account->hasFeature(FEATURE_DOCUMENTS))
-                    $('.main-form').submit(function(){
-                        if($('#document-upload .fallback input').val())$(this).attr('enctype', 'multipart/form-data')
-                        else $(this).removeAttr('enctype')
-                    })
+            @if (Auth::user()->account->hasFeature(FEATURE_DOCUMENTS))
+            $('.main-form').submit(function () {
+                if ($('#document-upload .fallback input').val()) $(this).attr('enctype', 'multipart/form-data')
+                else $(this).removeAttr('enctype')
+            })
 
-                    @include('partials.dropzone', ['documentSource' => 'model.documents()'])
-                @endif
+            @include('partials.dropzone', ['documentSource' => 'model.documents()'])
+            @endif
             @endif
         });
 
-        var ViewModel = function(data) {
+        var ViewModel = function (data) {
             var self = this;
 
             self.expense_currency_id = ko.observable();
@@ -448,12 +448,12 @@
 
             @if ($isRecurring)
                 self.frequency_id = ko.observable({{ FREQUENCY_MONTHLY }});
-                self.start_date = ko.observable();
-                self.end_date = ko.observable();
+            self.start_date = ko.observable();
+            self.end_date = ko.observable();
             @else
                 self.convert_currency = ko.observable({{ ($expense && $expense->isExchanged()) ? 'true' : 'false' }});
-                self.mark_paid = ko.observable({{ $expense && $expense->isPaid() ? 'true' : 'false' }});
-            @endif
+            self.mark_paid = ko.observable({{ $expense && $expense->isPaid() ? 'true' : 'false' }});
+                    @endif
 
             var invoiceDocuments = false;
             if (isStorageSupported()) {
@@ -463,7 +463,7 @@
 
             self.mapping = {
                 'documents': {
-                    create: function(options) {
+                    create: function (options) {
                         return new DocumentModel(options.data);
                     }
                 }
@@ -482,7 +482,7 @@
                 read: function () {
                     return roundToTwo(self.amount() * self.exchange_rate()).toFixed(2);
                 },
-                write: function(value) {
+                write: function (value) {
                     // When changing the converted amount we're updating
                     // the exchange rate rather than change the amount
                     self.exchange_rate(roundSignificant(NINJA.parseFloat(value) / self.amount()));
@@ -490,7 +490,7 @@
                 }
             }, self);
 
-            self.updateExchangeRate = function() {
+            self.updateExchangeRate = function () {
                 var fromCode = self.expenseCurrencyCode();
                 var toCode = self.invoiceCurrencyCode();
                 if (currencyMap[fromCode].exchange_rate && currencyMap[toCode].exchange_rate) {
@@ -504,23 +504,23 @@
                 }
             }
 
-            self.getCurrency = function(currencyId) {
+            self.getCurrency = function (currencyId) {
                 return currencyMap[currencyId || self.account_currency_id()];
             };
 
-            self.expenseCurrencyCode = ko.computed(function() {
+            self.expenseCurrencyCode = ko.computed(function () {
                 return self.getCurrency(self.expense_currency_id()).code;
             });
 
-            self.invoiceCurrencyCode = ko.computed(function() {
+            self.invoiceCurrencyCode = ko.computed(function () {
                 return self.getCurrency(self.invoice_currency_id()).code;
             });
 
-            self.invoiceCurrencyName = ko.computed(function() {
+            self.invoiceCurrencyName = ko.computed(function () {
                 return self.getCurrency(self.invoice_currency_id()).name;
             });
 
-            self.enableExchangeRate = ko.computed(function() {
+            self.enableExchangeRate = ko.computed(function () {
                 if (self.convert_currency && self.convert_currency()) {
                     return true;
                 }
@@ -531,19 +531,20 @@
                     || expenseCurrencyId != self.account_currency_id();
             })
 
-            self.addDocument = function() {
+            self.addDocument = function () {
                 var documentModel = new DocumentModel();
                 self.documents.push(documentModel);
                 return documentModel;
             }
 
-            self.removeDocument = function(doc) {
-                 var public_id = doc.public_id?doc.public_id():doc;
-                 self.documents.remove(function(document) {
+            self.removeDocument = function (doc) {
+                var public_id = doc.public_id ? doc.public_id() : doc;
+                self.documents.remove(function (document) {
                     return document.public_id() == public_id;
                 });
             }
         };
+
         function DocumentModel(data) {
             var self = this;
             self.public_id = ko.observable(0);
@@ -552,7 +553,7 @@
             self.type = ko.observable('');
             self.url = ko.observable('');
 
-            self.update = function(data){
+            self.update = function (data) {
                 ko.mapping.fromJS(data, {}, this);
             }
 
@@ -563,16 +564,16 @@
 
         function addDocument(file) {
             file.index = model.documents().length;
-            model.addDocument({name:file.name, size:file.size, type:file.type});
-    	}
+            model.addDocument({name: file.name, size: file.size, type: file.type});
+        }
 
-    	function addedDocument(file, response) {
+        function addedDocument(file, response) {
             model.documents()[file.index].update(response.document);
-    	}
+        }
 
-    	function deleteDocument(file) {
+        function deleteDocument(file) {
             model.removeDocument(file.public_id);
-    	}
+        }
 
         function onInvoiceDocumentsChange() {
             if (isStorageSupported()) {

@@ -2,7 +2,7 @@
 
 namespace App\Ninja\Datatables;
 
-use URL;
+use Illuminate\Support\Facades\URL;
 
 class SubscriptionDatatable extends EntityDatatable
 {

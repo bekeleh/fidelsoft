@@ -29,7 +29,6 @@
             {!! Former::text('last_name') !!}
             {!! Former::text('username') !!}
             {!! Former::text('email') !!}
-
         </div>
     </div>
 

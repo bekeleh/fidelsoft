@@ -2,22 +2,23 @@
 
 namespace App\Libraries;
 
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use App;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
+use App\Models\Location;
 use Carbon\Carbon;
 use DateTime;
 use DateTimeZone;
 use Exception;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
-use Log;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Session;
 use stdClass;
-use Illuminate\Contracts\View\View;
 use WePay;
 
 class Utils
@@ -942,6 +943,15 @@ class Utils
             return $model->first_name . ' ' . $model->last_name;
         } else {
             return $model->email ?: '';
+        }
+    }
+
+    public static function getLocationName($id)
+    {
+        if ($id) {
+            $location = Location::where('id', $id)->first();
+            if ($location)
+                return $location->name ?: '';
         }
     }
 

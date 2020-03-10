@@ -17,6 +17,14 @@ class StorePresenter extends EntityPresenter
         return $this->entity->getUpperAttributes();
     }
 
+    /**
+     * @return string
+     */
+    public function location()
+    {
+        return $this->entity->location ? $this->entity->location->getDisplayName() : '';
+    }
+
     public function skypeBot($account)
     {
         $store = $this->entity;

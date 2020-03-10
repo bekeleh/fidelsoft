@@ -2,11 +2,11 @@
 
 namespace App\Ninja\Datatables;
 
+use App\Libraries\Utils;
 use App\Models\Task;
 use App\Models\TaskStatus;
-use Auth;
-use URL;
-use Utils;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 
 class TaskDatatable extends EntityDatatable
 {
@@ -25,7 +25,7 @@ class TaskDatatable extends EntityDatatable
                         return Utils::getClientDisplayName($model);
 
                 },
-                ! $this->hideClient,
+                !$this->hideClient,
             ],
             [
                 'project',
@@ -34,7 +34,6 @@ class TaskDatatable extends EntityDatatable
                         return $model->project_public_id ? link_to("projects/{$model->project_public_id}", $model->project)->toHtml() : '';
                     else
                         return $model->project;
-
                 },
             ],
             [
@@ -78,10 +77,10 @@ class TaskDatatable extends EntityDatatable
             [
                 trans('texts.edit_task'),
                 function ($model) {
-                    return URL::to('tasks/'.$model->public_id.'/edit');
+                    return URL::to('tasks/' . $model->public_id . '/edit');
                 },
                 function ($model) {
-                    return (! $model->deleted_at || $model->deleted_at == '0000-00-00') && Auth::user()->can('view', [ENTITY_TASK, $model]);
+                    return (!$model->deleted_at || $model->deleted_at == '0000-00-00') && Auth::user()->can('view', [ENTITY_TASK, $model]);
                 },
             ],
             [
@@ -99,7 +98,7 @@ class TaskDatatable extends EntityDatatable
                     return "javascript:submitForm_task('resume', {$model->public_id})";
                 },
                 function ($model) {
-                    return ! $model->is_running && Auth::user()->can('edit', [ENTITY_TASK, $model]);
+                    return !$model->is_running && Auth::user()->can('edit', [ENTITY_TASK, $model]);
                 },
             ],
             [
@@ -117,7 +116,7 @@ class TaskDatatable extends EntityDatatable
                     return "javascript:submitForm_task('invoice', {$model->public_id})";
                 },
                 function ($model) {
-                    return ! $model->is_running && ! $model->invoice_number && (! $model->deleted_at || $model->deleted_at == '0000-00-00') && Auth::user()->canCreateOrEdit(ENTITY_INVOICE);
+                    return !$model->is_running && !$model->invoice_number && (!$model->deleted_at || $model->deleted_at == '0000-00-00') && Auth::user()->canCreateOrEdit(ENTITY_INVOICE);
                 },
             ],
         ];
