@@ -206,8 +206,7 @@ class ExpenseController extends BaseController
         $data['documents'] = $request->file('documents');
 
         // check for possible duplicate expense
-        $duplcate = Expense::scope()
-            ->whereAmount($request->amount)
+        $duplcate = Expense::scope()->whereAmount($request->amount)
             ->whereExpenseDate(Utils::toSqlDate($request->expense_date))
             ->orderBy('created_at')
             ->first();

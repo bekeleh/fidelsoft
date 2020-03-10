@@ -15,6 +15,7 @@ class StoreRequest extends EntityRequest
 
     public function rules()
     {
+        dd($this->all());
         $this->sanitize();
         $rules = [];
         switch ($this->method()) {
@@ -32,7 +33,6 @@ class StoreRequest extends EntityRequest
             case 'PATCH':
             {
                 $store = Store::where('public_id', (int)request()->segment(2))->first();
-                dd($store);
                 if ($store) {
                     $rules['name'] = 'required|max:90|unique:stores,name,' . $store->id . ',id';
 //                    $rules['store_code'] = 'required|max:90|unique:stores,store_code,' . $store->id . ',id';
@@ -55,6 +55,9 @@ class StoreRequest extends EntityRequest
         $input = $this->all();
         if (!empty($input['name'])) {
             $input['name'] = filter_var($input['name'], FILTER_SANITIZE_STRING);
+        }
+        if (!empty($input['location_id'])) {
+            $input['location_id'] = filter_var($input['location_id'], FILTER_SANITIZE_STRING);
         }
         if (!empty($input['notes'])) {
             $input['notes'] = filter_var($input['notes'], FILTER_SANITIZE_STRING);

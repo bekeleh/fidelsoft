@@ -17,8 +17,8 @@ template: '
 <div class="combobox-container"><input type="hidden"/>
     <div class="input-group"><input type="text" id="<?php echo e($entityType); ?>_name"
                                     name="<?php echo e($entityType); ?>_name" autocomplete="off"/> <span
-            class="input-group-addon dropdown-toggle" data-dropdown="dropdown"> <span class="caret"/> <i
-                class="fa fa-times"></i> </span></div>
+                class="input-group-addon dropdown-toggle" data-dropdown="dropdown"> <span class="caret"/> <i
+                    class="fa fa-times"></i> </span></div>
 </div> ',
 matcher: function (item) {
 // if the user has entered a value show the 'Create ...' option

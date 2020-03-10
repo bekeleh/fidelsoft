@@ -9,13 +9,13 @@ use App\Models\Store;
 use App\Ninja\Datatables\StoreDatatable;
 use App\Ninja\Repositories\StoreRepository;
 use App\Services\StoreService;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
-use Exception;
 use Redirect;
 
 /**
@@ -104,7 +104,6 @@ class StoreController extends BaseController
             $url = 'stores/' . $publicId;
             $method = 'PUT';
         }
-
         $data = [
             'locationPublicId' => $store->location ? $store->location->public_id : null,
             'account' => $account,
@@ -116,6 +115,7 @@ class StoreController extends BaseController
             'title' => trans('texts.edit_store'),
         ];
         $data = array_merge($data, self::getViewModel($store));
+//        dd($data);
         return View::make('stores.edit', $data);
     }
 
@@ -139,7 +139,6 @@ class StoreController extends BaseController
             'title' => trans('texts.create_store'),
         ];
         $data = array_merge($data, self::getViewModel());
-
         return View::make('stores.edit', $data);
     }
 
@@ -149,6 +148,7 @@ class StoreController extends BaseController
      */
     public function store(StoreRequest $request)
     {
+        dd($request->all());
         return $this->save();
     }
 
@@ -177,6 +177,7 @@ class StoreController extends BaseController
             $store = Store::createNew();
             $store->created_by = auth::user()->username;
         }
+        dd(Input::all());
         $this->storeRepo->save(Input::all(), $store);
 
         $message = $storePublicId ? trans('texts.updated_store') : trans('texts.created_store');

@@ -106,7 +106,7 @@ $loop = $__env->getLastLoop(); ?>
             }
             if (locationId) {
                 var location = locationMap[locationId];
-                setComboboxValue($('.expense-location-select'), location.public_id, location.name);
+                setComboboxValue($('.location-select'), location.public_id, location.name);
             }
 
             <?php if(!$locationPublicId): ?>
