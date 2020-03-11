@@ -10,6 +10,9 @@
 
     @if ($store)
         {{ Former::populate($store) }}
+        <div style="display:none">
+            {!! Former::text('public_id') !!}
+        </div>
     @endif
 
     <span style="display:none">
@@ -81,21 +84,13 @@
             for (var i = 0; i < locations.length; i++) {
                 var location = locations[i];
                 locationMap[location.public_id] = location;
-                $locationSelect.append(new Option(location.name, location.public_id));
+                $locationSelect.append(new Option(getClientDisplayName(location), location.public_id));
             }
             @include('partials/entity_combobox', ['entityType' => ENTITY_LOCATION])
             if (locationId) {
                 var location = locationMap[locationId];
                 setComboboxValue($('.location-select'), location.public_id, location.name);
             }
-            if (locationId) {
-                var location = locationMap[locationId];
-                setComboboxValue($('.location-select'), location.public_id, location.name);
-            }
-
-            @if (!$locationPublicId)
-            $('.location-select input.form-control').focus();
-            @endif
         });
 
         function submitAction(action) {

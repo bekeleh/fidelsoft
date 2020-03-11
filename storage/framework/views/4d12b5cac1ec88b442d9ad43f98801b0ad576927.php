@@ -10,6 +10,10 @@
 <?php if ($store): ?>
     <?php echo e(Former::populate($store)); ?>
 
+    <div style="display:none">
+        <?php echo Former::text('public_id'); ?>
+
+    </div>
 <?php endif; ?>
 
     <span style="display:none">
@@ -97,21 +101,13 @@ $loop = $__env->getLastLoop(); ?>
             for (var i = 0; i < locations.length; i++) {
                 var location = locations[i];
                 locationMap[location.public_id] = location;
-                $locationSelect.append(new Option(location.name, location.public_id));
+                $locationSelect.append(new Option(getClientDisplayName(location), location.public_id));
             }
             <?php echo $__env->make('partials/entity_combobox', ['entityType' => ENTITY_LOCATION], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             if (locationId) {
                 var location = locationMap[locationId];
                 setComboboxValue($('.location-select'), location.public_id, location.name);
             }
-            if (locationId) {
-                var location = locationMap[locationId];
-                setComboboxValue($('.location-select'), location.public_id, location.name);
-            }
-
-            <?php if(!$locationPublicId): ?>
-            $('.location-select input.form-control').focus();
-            <?php endif; ?>
         });
 
         function submitAction(action) {

@@ -93,7 +93,6 @@ class ExpenseController extends BaseController
         ];
 
         $data = array_merge($data, self::getViewModel());
-
         return View::make('expenses.edit', $data);
     }
 

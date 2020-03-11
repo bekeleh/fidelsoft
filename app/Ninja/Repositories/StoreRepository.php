@@ -4,6 +4,7 @@ namespace App\Ninja\Repositories;
 
 use App\Events\StoreWasCreated;
 use App\Events\StoreWasUpdated;
+use App\Models\Location;
 use App\Models\Store;
 use Illuminate\Support\Facades\DB;
 
@@ -27,11 +28,21 @@ class StoreRepository extends BaseRepository
             $query->where(function ($query) use ($filter) {
                 $query->where('stores.name', 'like', '%' . $filter . '%')
                     ->orWhere('stores.notes', 'like', '%' . $filter . '%')
-                    ->orWhere('stores.store_code', 'like', '%' . $filter . '%');
+                    ->orWhere('stores.store_code', 'like', '%' . $filter . '%')
+                    ->orWhere('locations.name', 'like', '%' . $filter . '%');
             });
         }
 
         $this->applyFilters($query, ENTITY_STORE);
+
+        return $query;
+    }
+
+    public function findLocation($locationPublicId)
+    {
+        $locationId = Location::getPrivateId($locationPublicId);
+
+        $query = $this->find()->where('locations.location_id', '=', $locationId);
 
         return $query;
     }
@@ -50,7 +61,8 @@ class StoreRepository extends BaseRepository
         }
         $store->fill($data);
         $store->name = isset($data['name']) ? trim($data['name']) : '';
-        $store->name = isset($data['location_id']) ? trim($data['location_id']) : '';
+        $store->store_code = isset($data['store_code']) ? trim($data['store_code']) : '';
+        $store->location_id = isset($data['location_id']) ? trim($data['location_id']) : '';
         $store->notes = isset($data['notes']) ? trim($data['notes']) : '';
 //      save the data
         $store->save();

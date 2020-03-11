@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -28,7 +28,7 @@ class BaseService
      */
     public function bulk($ids, $action)
     {
-        if (! $ids) {
+        if (!$ids) {
             return 0;
         }
 

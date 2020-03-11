@@ -229,20 +229,20 @@
         <script src="<?php echo e(asset('js/cookieconsent.min.js')); ?>"></script>
         <script>
             window.addEventListener("load", function () {
-                if (!window.cookieconsent) {
-                    return;
-                }
-                window.cookieconsent.initialise({
-                    "palette": {
-                        "popup": {
-                            "background": "#000"
+                    if (!window.cookieconsent) {
+                        return;
+                    }
+                    window.cookieconsent.initialise({
+                        "palette": {
+                            "popup": {
+                                "background": "#000"
+                            },
+                            "button": {
+                                "background": "#f1d600"
+                            },
                         },
-                        "button": {
-                            "background": "#f1d600"
-                        },
-                    },
-                    "content": {
-                        "href": "<?php echo e(Utils::isNinja() ? config('ninja.privacy_policy_url.hosted') : 'https://cookiesandyou.com/'); ?>",
+                        "content": {
+                            "href": "<?php echo e(Utils::isNinja() ? config('ninja.privacy_policy_url.hosted') : 'https://cookiesandyou.com/'); ?>",
                             "message": <?php echo json_encode(trans('texts.cookie_message')); ?>,
                             "dismiss": <?php echo json_encode(trans('texts.got_it')); ?>,
                             "link": <?php echo json_encode(trans('texts.learn_more')); ?>,

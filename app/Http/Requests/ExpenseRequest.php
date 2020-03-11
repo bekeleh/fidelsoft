@@ -14,7 +14,7 @@ class ExpenseRequest extends EntityRequest
         $expense = parent::entity();
 
         // eager load the documents
-        if ($expense && method_exists($expense, 'documents') && ! $expense->relationLoaded('documents')) {
+        if ($expense && method_exists($expense, 'documents') && !$expense->relationLoaded('documents')) {
             $expense->load('documents');
         }
 
@@ -24,13 +24,13 @@ class ExpenseRequest extends EntityRequest
     public function sanitize()
     {
         $input = $this->all();
-
         // check if we're creating a new expense category
         if ($this->expense_category_id == '-1') {
             $data = [
                 'name' => trim($this->expense_category_name)
             ];
             if (ExpenseCategory::validate($data) === true) {
+                dd('expense request...');
                 $category = app('App\Ninja\Repositories\ExpenseCategoryRepository')->save($data);
                 $input['expense_category_id'] = $category->id;
             } else {

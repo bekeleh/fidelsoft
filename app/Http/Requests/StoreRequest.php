@@ -15,7 +15,6 @@ class StoreRequest extends EntityRequest
 
     public function rules()
     {
-        dd($this->all());
         $this->sanitize();
         $rules = [];
         switch ($this->method()) {
@@ -23,7 +22,7 @@ class StoreRequest extends EntityRequest
             {
                 $rules['name'] = 'required|max:90|unique:stores,name';
 //                $rules['store_code'] = 'required|max:90|unique:stores,store_code';
-                $rules['location_id'] = 'required|exists:locations,id';
+//                $rules['location_id'] = 'required|exists:locations,id';
                 $rules['notes'] = 'nullable';
                 $rules['is_deleted'] = 'boolean';
                 $rules['notes'] = 'nullable';
@@ -36,7 +35,7 @@ class StoreRequest extends EntityRequest
                 if ($store) {
                     $rules['name'] = 'required|max:90|unique:stores,name,' . $store->id . ',id';
 //                    $rules['store_code'] = 'required|max:90|unique:stores,store_code,' . $store->id . ',id';
-                    $rules['location_id'] = 'required|exists:locations,id';
+//                    $rules['location_id'] = 'required|exists:locations,id';
                     $rules['is_deleted'] = 'boolean';
                     $rules['notes'] = 'nullable';
                     break;

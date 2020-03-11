@@ -135,7 +135,6 @@ class ProductController extends BaseController
             'url' => 'products',
             'title' => trans('texts.create_product'),
         ];
-
         return View::make('products.product', $data);
     }
 
