@@ -99,7 +99,7 @@ class StoreController extends BaseController
             'entity' => $store,
             'method' => $method,
             'url' => $url,
-            'title' => 'Edit Store',
+            'title' => trans('texts.store.edit'),
             'locationPublicId' => $store->location ? $store->location->public_id : null,
         ];
 

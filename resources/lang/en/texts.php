@@ -24,10 +24,11 @@ $LANG = array(
      | store trans
      |--------------------------------------------------------------------------
      */
+    'store.edit' => 'Edit Store',
+    'new_store' => 'New Store',
     'store' => 'Store',
     'stores' => 'Stores',
     'store_code' => 'Store Code',
-    'new_store' => 'New Store',
     'create_store' => 'Create Store',
     'edit_store' => 'Edit Store',
     'clone_store' => 'Clone Store',

@@ -36,12 +36,10 @@ class StoreDatatable extends EntityDatatable
                             return link_to("locations/{$model->location_id}", $model->name)->toHtml();
                         else
                             return $model->name;
-
                     } else {
                         return '';
                     }
-                },
-                !$this->hideClient,
+                }
             ],
             [
                 'notes',

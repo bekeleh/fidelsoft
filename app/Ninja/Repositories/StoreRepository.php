@@ -28,8 +28,7 @@ class StoreRepository extends BaseRepository
             $query->where(function ($query) use ($filter) {
                 $query->where('stores.name', 'like', '%' . $filter . '%')
                     ->orWhere('stores.notes', 'like', '%' . $filter . '%')
-                    ->orWhere('stores.store_code', 'like', '%' . $filter . '%')
-                    ->orWhere('locations.name', 'like', '%' . $filter . '%');
+                    ->orWhere('stores.store_code', 'like', '%' . $filter . '%');
             });
         }
 
