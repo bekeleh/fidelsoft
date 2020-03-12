@@ -2,9 +2,9 @@
 
 namespace App\Ninja\Datatables;
 
-use Auth;
-use URL;
-use Utils;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
+use App\Libraries\Utils;
 
 class ProjectDatatable extends EntityDatatable
 {

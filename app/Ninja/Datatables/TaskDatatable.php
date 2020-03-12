@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\URL;
 class TaskDatatable extends EntityDatatable
 {
     public $entityType = ENTITY_TASK;
-    public $sortCol = 3;
+    public $sortCol = 1;
 
     public function columns()
     {

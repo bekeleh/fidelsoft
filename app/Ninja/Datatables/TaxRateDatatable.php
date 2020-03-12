@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\URL;
 class TaxRateDatatable extends EntityDatatable
 {
     public $entityType = ENTITY_TAX_RATE;
+    public $sortCol = 1;
 
     public function columns()
     {

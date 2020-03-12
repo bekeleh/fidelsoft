@@ -2,15 +2,14 @@
 
 namespace App\Ninja\Datatables;
 
-use App\Models\Expense;
-use Auth;
-use URL;
-use Utils;
+use App\Libraries\Utils;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 
 class RecurringExpenseDatatable extends EntityDatatable
 {
     public $entityType = ENTITY_RECURRING_EXPENSE;
-    public $sortCol = 3;
+    public $sortCol = 1;
 
     public function columns()
     {
@@ -28,7 +27,7 @@ class RecurringExpenseDatatable extends EntityDatatable
                         return '';
                     }
                 },
-                ! $this->hideClient,
+                !$this->hideClient,
             ],
             [
                 'client_name',
@@ -44,27 +43,27 @@ class RecurringExpenseDatatable extends EntityDatatable
                         return '';
                     }
                 },
-                ! $this->hideClient,
+                !$this->hideClient,
             ],
-/*
-            [
-                'expense_date',
-                function ($model) {
-                    if (! Auth::user()->can('viewByOwner', [ENTITY_EXPENSE, $model->user_id])) {
-                        return Utils::fromSqlDate($model->expense_date_sql);
-                    }
+            /*
+                        [
+                            'expense_date',
+                            function ($model) {
+                                if (! Auth::user()->can('viewByOwner', [ENTITY_EXPENSE, $model->user_id])) {
+                                    return Utils::fromSqlDate($model->expense_date_sql);
+                                }
 
-                    return link_to("expenses/{$model->public_id}/edit", Utils::fromSqlDate($model->expense_date_sql))->toHtml();
-                },
-            ],
-*/
+                                return link_to("expenses/{$model->public_id}/edit", Utils::fromSqlDate($model->expense_date_sql))->toHtml();
+                            },
+                        ],
+            */
             [
                 'frequency',
                 function ($model) {
                     $frequency = strtolower($model->frequency);
                     $frequency = preg_replace('/\s/', '_', $frequency);
 
-                    $str = link_to("recurring_expenses/{$model->public_id}/edit", trans('texts.freq_'.$frequency))->toHtml();
+                    $str = link_to("recurring_expenses/{$model->public_id}/edit", trans('texts.freq_' . $frequency))->toHtml();
                     return $this->addNote($str, $model->private_notes);
                 },
             ],

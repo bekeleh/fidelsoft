@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\URL;
 class SubscriptionDatatable extends EntityDatatable
 {
     public $entityType = ENTITY_SUBSCRIPTION;
-
+    public $sortCol = 1;
     public function columns()
     {
         return [

@@ -14,9 +14,10 @@ use App\Models\Vendor;
 use App\Models\VendorContact;
 use App\Ninja\Serializers\ArraySerializer;
 use App\Ninja\Transformers\AccountTransformer;
-use Auth;
 use Excel;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Item;
 
@@ -28,7 +29,7 @@ class ExportController extends BaseController
     /**
      * @param Request $request
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function doExport(Request $request)
     {
@@ -41,13 +42,13 @@ class ExportController extends BaseController
         } else {
             $fields = $request->all();
             $fields = array_filter(array_map(function ($key) {
-                if (! in_array($key, ['format', 'include', '_token'])) {
+                if (!in_array($key, ['format', 'include', '_token'])) {
                     return $key;
                 } else {
                     return null;
                 }
             }, array_keys($fields), $fields));
-            $fileName = $date. '-invoiceninja-' . implode('-', $fields);
+            $fileName = $date . '-invoiceninja-' . implode('-', $fields);
         }
 
         if ($format === 'JSON') {
@@ -63,7 +64,7 @@ class ExportController extends BaseController
      * @param $request
      * @param $fileName
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     private function returnJSON($request, $fileName)
     {
@@ -78,18 +79,18 @@ class ExportController extends BaseController
         $account = Auth::user()->account;
         $account->load(['clients' => function ($query) {
             $query->withArchived()
-                  ->with(['contacts', 'invoices' => function ($query) {
-                      $query->withArchived()
-                            ->with(['invoice_items', 'payments' => function ($query) {
-                                $query->withArchived();
-                            }]);
-                  }]);
+                ->with(['contacts', 'invoices' => function ($query) {
+                    $query->withArchived()
+                        ->with(['invoice_items', 'payments' => function ($query) {
+                            $query->withArchived();
+                        }]);
+                }]);
         }]);
 
         $resource = new Item($account, new AccountTransformer());
         $data = $manager->parseIncludes('clients.invoices.payments')
-                    ->createData($resource)
-                    ->toArray();
+            ->createData($resource)
+            ->toArray();
 
         return response()->json($data);
     }
@@ -124,14 +125,14 @@ class ExportController extends BaseController
 
         return Excel::create($fileName, function ($excel) use ($user, $data) {
             $excel->setTitle($data['title'])
-                  ->setCreator($user->getDisplayName())
-                  ->setLastModifiedBy($user->getDisplayName())
-                  ->setDescription('')
-                  ->setSubject('')
-                  ->setKeywords('')
-                  ->setCategory('')
-                  ->setManager('')
-                  ->setCompany($user->account->getDisplayName());
+                ->setCreator($user->getDisplayName())
+                ->setLastModifiedBy($user->getDisplayName())
+                ->setDescription('')
+                ->setSubject('')
+                ->setKeywords('')
+                ->setCategory('')
+                ->setManager('')
+                ->setCompany($user->account->getDisplayName());
 
             foreach ($data as $key => $val) {
                 if ($key === 'account' || $key === 'title' || $key === 'multiUser') {

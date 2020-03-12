@@ -4,14 +4,14 @@ namespace App\Ninja\Datatables;
 
 use App\Models\Payment;
 use App\Models\PaymentMethod;
-use Auth;
-use URL;
-use Utils;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
+use App\Libraries\Utils;
 
 class PaymentDatatable extends EntityDatatable
 {
     public $entityType = ENTITY_PAYMENT;
-    public $sortCol = 7;
+    public $sortCol = 1;
 
     protected static $refundableGateways = [
         GATEWAY_STRIPE,
@@ -30,24 +30,24 @@ class PaymentDatatable extends EntityDatatable
                     else
                         return $model->invoice_number;
 
-                    },
+                },
             ],
             [
                 'client_name',
                 function ($model) {
-                    if(Auth::user()->can('view', [ENTITY_CLIENT, ENTITY_CLIENT]))
+                    if (Auth::user()->can('view', [ENTITY_CLIENT, ENTITY_CLIENT]))
                         return $model->client_public_id ? link_to("clients/{$model->client_public_id}", Utils::getClientDisplayName($model))->toHtml() : '';
                     else
                         return Utils::getClientDisplayName($model);
 
 
                 },
-                ! $this->hideClient,
+                !$this->hideClient,
             ],
             [
                 'transaction_reference',
                 function ($model) {
-                    $str = $model->transaction_reference ? e($model->transaction_reference) : '<i>'.trans('texts.manual_entry').'</i>';
+                    $str = $model->transaction_reference ? e($model->transaction_reference) : '<i>' . trans('texts.manual_entry') . '</i>';
                     return $this->addNote($str, $model->private_notes);
                 },
             ],
@@ -81,8 +81,8 @@ class PaymentDatatable extends EntityDatatable
                                 $bankName = $bankData->name;
                             }
                         }
-                        if (! empty($bankName)) {
-                            return $bankName.'&nbsp; &bull;&bull;&bull;' . $model->last4;
+                        if (!empty($bankName)) {
+                            return $bankName . '&nbsp; &bull;&bull;&bull;' . $model->last4;
                         } elseif ($model->last4) {
                             return '<img height="22" src="' . URL::to('/images/credit_cards/ach.png') . '" alt="' . htmlentities($card_type) . '">&nbsp; &bull;&bull;&bull;' . $model->last4;
                         }
@@ -147,7 +147,7 @@ class PaymentDatatable extends EntityDatatable
                     $max_refund = $model->amount - $model->refunded;
                     $formatted = Utils::formatMoney($max_refund, $model->currency_id, $model->country_id);
                     $symbol = Utils::getFromCache($model->currency_id ? $model->currency_id : 1, 'currencies')->symbol;
-                    $local = in_array($model->gateway_id, [GATEWAY_BRAINTREE, GATEWAY_STRIPE, GATEWAY_WEPAY]) || ! $model->gateway_id ? 0 : 1;
+                    $local = in_array($model->gateway_id, [GATEWAY_BRAINTREE, GATEWAY_STRIPE, GATEWAY_WEPAY]) || !$model->gateway_id ? 0 : 1;
 
                     return "javascript:showRefundModal({$model->public_id}, '{$max_refund}', '{$formatted}', '{$symbol}', {$local})";
                 },

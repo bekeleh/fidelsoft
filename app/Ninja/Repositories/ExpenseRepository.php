@@ -183,10 +183,10 @@ class ExpenseRepository extends BaseRepository
         }
 
         if (!$expense->expense_currency_id) {
-            $expense->expense_currency_id = \Auth::user()->account->getCurrencyId();
+            $expense->expense_currency_id = Auth::user()->account->getCurrencyId();
         }
         if (!$expense->invoice_currency_id) {
-            $expense->invoice_currency_id = \Auth::user()->account->getCurrencyId();
+            $expense->invoice_currency_id = Auth::user()->account->getCurrencyId();
         }
 
         $rate = isset($input['exchange_rate']) ? Utils::parseFloat($input['exchange_rate']) : 1;

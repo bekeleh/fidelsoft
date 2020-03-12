@@ -2,11 +2,12 @@
 
 namespace App\Ninja\Datatables;
 
-use URL;
+use Illuminate\Support\Facades\URL;
 
 class BankAccountDatatable extends EntityDatatable
 {
     public $entityType = ENTITY_BANK_ACCOUNT;
+    public $sortCol = 1;
 
     public function columns()
     {

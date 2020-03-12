@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\URL;
 class ExpenseDatatable extends EntityDatatable
 {
     public $entityType = ENTITY_EXPENSE;
-    public $sortCol = 3;
+    public $sortCol = 1;
 
     public function columns()
     {

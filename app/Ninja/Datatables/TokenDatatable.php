@@ -2,11 +2,12 @@
 
 namespace App\Ninja\Datatables;
 
-use URL;
+use Illuminate\Support\Facades\URL;
 
 class TokenDatatable extends EntityDatatable
 {
     public $entityType = ENTITY_TOKEN;
+    public $sortCol = 1;
 
     public function columns()
     {

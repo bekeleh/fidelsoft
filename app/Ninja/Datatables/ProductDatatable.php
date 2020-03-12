@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\URL;
 class ProductDatatable extends EntityDatatable
 {
     public $entityType = ENTITY_PRODUCT;
-    public $sortCol = 4;
+    public $sortCol = 1;
 
     public function columns()
     {

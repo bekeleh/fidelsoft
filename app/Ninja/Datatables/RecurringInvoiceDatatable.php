@@ -10,7 +10,7 @@ use App\Models\Invoice;
 class RecurringInvoiceDatatable extends EntityDatatable
 {
     public $entityType = ENTITY_RECURRING_INVOICE;
-
+    public $sortCol = 1;
     public function columns()
     {
         return [

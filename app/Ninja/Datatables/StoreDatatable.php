@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\URL;
 class StoreDatatable extends EntityDatatable
 {
     public $entityType = ENTITY_STORE;
-    public $sortCol = 4;
+    public $sortCol = 1;
 
     public function columns()
     {

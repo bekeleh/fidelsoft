@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Client;
 use App\Ninja\Datatables\ActivityDatatable;
 use App\Ninja\Repositories\ActivityRepository;
+use Illuminate\Http\JsonResponse;
 
 /**
  * Class ActivityService.
@@ -36,7 +37,8 @@ class ActivityService extends BaseService
     /**
      * @param null $clientPublicId
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
+     * @throws \Exception
      */
     public function getDatatable($clientPublicId = null)
     {

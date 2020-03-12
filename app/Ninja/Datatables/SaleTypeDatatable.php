@@ -9,7 +9,7 @@ use App\Libraries\Utils;
 class SaleTypeDatatable extends EntityDatatable
 {
     public $entityType = ENTITY_SALE_TYPE;
-    public $sortCol = 4;
+    public $sortCol = 1;
 
     public function columns()
     {

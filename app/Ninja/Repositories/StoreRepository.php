@@ -6,6 +6,7 @@ use App\Events\StoreWasCreated;
 use App\Events\StoreWasUpdated;
 use App\Models\Location;
 use App\Models\Store;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class StoreRepository extends BaseRepository
@@ -20,19 +21,42 @@ class StoreRepository extends BaseRepository
         return Store::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
-    public function find($accountId, $filter = null)
+
+    public function find($filter = null)
     {
-        $query = DB::table('stores')->join('locations', 'locations.id', '=', 'stores.location_id')
-            ->where('stores.account_id', '=', $accountId)->select('stores.*');
+        $accountId = Auth::user()->account_id;
+        $query = DB::table('stores')
+            ->join('accounts', 'accounts.id', '=', 'stores.account_id')
+            ->join('locations', 'locations.id', '=', 'stores.location_id')
+            ->where('stores.account_id', '=', $accountId)
+            //->where('locations.deleted_at', '=', null)
+            ->select(
+                'stores.id',
+                'stores.public_id',
+                'stores.location_id',
+                'stores.name',
+                'stores.store_code',
+                'stores.is_deleted',
+                'stores.notes',
+                'stores.created_at',
+                'stores.updated_at',
+                'stores.deleted_at',
+                'stores.created_by',
+                'stores.updated_by',
+                'stores.deleted_by',
+                'locations.name as location_name'
+            );
+
+        $this->applyFilters($query, ENTITY_STORE);
+
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('stores.name', 'like', '%' . $filter . '%')
+                    ->orWhere('stores.store_code', 'like', '%' . $filter . '%')
                     ->orWhere('stores.notes', 'like', '%' . $filter . '%')
-                    ->orWhere('stores.store_code', 'like', '%' . $filter . '%');
+                    ->orWhere('locations.name', 'like', '%' . $filter . '%');
             });
         }
-
-        $this->applyFilters($query, ENTITY_STORE);
 
         return $query;
     }

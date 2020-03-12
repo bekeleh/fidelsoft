@@ -2,14 +2,14 @@
 
 namespace App\Ninja\Datatables;
 
-use Auth;
-use URL;
-use Utils;
+use App\Libraries\Utils;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 
 class VendorDatatable extends EntityDatatable
 {
     public $entityType = ENTITY_VENDOR;
-    public $sortCol = 4;
+    public $sortCol = 1;
 
     public function columns()
     {
@@ -62,8 +62,8 @@ class VendorDatatable extends EntityDatatable
             ],
             [
                 '--divider--', function () {
-                    return false;
-                },
+                return false;
+            },
                 function ($model) {
                     return Auth::user()->can('edit', [ENTITY_VENDOR, $model]) && Auth::user()->can('create', ENTITY_EXPENSE);
                 },
