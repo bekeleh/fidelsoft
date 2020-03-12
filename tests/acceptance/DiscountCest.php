@@ -53,7 +53,7 @@ class DiscountCest
 
         // create product
         $I->amOnPage('/products/create');
-        $I->fillField(['name' => 'product_key'], $productKey);
+        $I->fillField(['name' => 'name'], $productKey);
         $I->fillField(['name' => 'notes'], $this->faker->text(80));
         $I->fillField(['name' => 'cost'], $itemAmount);
         $I->selectOption('select[name=tax_select1]', $itemTaxName . ': ' . number_format($itemTaxRate, 3) . '%');

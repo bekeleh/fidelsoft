@@ -17,7 +17,7 @@ class SkrillPaymentDriver extends BasePaymentDriver
 
         $details = [];
         foreach ($this->invoice()->invoice_items as $item) {
-            $details[$item->product_key] = $item->notes;
+            $details[$item->name] = $item->notes;
         }
 
         $data['language'] = $locale;

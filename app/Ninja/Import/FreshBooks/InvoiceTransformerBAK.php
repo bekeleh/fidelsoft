@@ -35,9 +35,9 @@ class InvoiceTransformerBAK extends BaseTransformer
                 'invoice_date_sql' => $data->create_date,
                 'invoice_items' => [
                     [
-                        'product_key' => '',
+                        'name' => '',
                         'notes' => $this->getString($data, 'notes'),
-                        'cost' => (float) $data->amount,
+                        'cost' => (float)$data->amount,
                         'qty' => 1,
                     ],
                 ],

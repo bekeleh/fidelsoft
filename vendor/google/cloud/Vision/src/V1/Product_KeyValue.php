@@ -9,8 +9,8 @@ if (false) {
      * This class is deprecated. Use Google\Cloud\Vision\V1\Product\KeyValue instead.
      * @deprecated
      */
-    class Product_KeyValue {}
+    class nameValue {}
 }
 class_exists(Product\KeyValue::class);
-@trigger_error('Google\Cloud\Vision\V1\Product_KeyValue is deprecated and will be removed in a future release. Use Google\Cloud\Vision\V1\Product\KeyValue instead', E_USER_DEPRECATED);
+@trigger_error('Google\Cloud\Vision\V1\nameValue is deprecated and will be removed in a future release. Use Google\Cloud\Vision\V1\Product\KeyValue instead', E_USER_DEPRECATED);
 

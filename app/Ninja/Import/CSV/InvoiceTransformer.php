@@ -40,7 +40,7 @@ class InvoiceTransformer extends BaseTransformer
                 'due_date_sql' => $this->getDate($data, 'due_date'),
                 'invoice_items' => [
                     [
-                        'product_key' => $this->getString($data, 'item_product'),
+                        'name' => $this->getString($data, 'item_product'),
                         'notes' => $this->getString($data, 'item_notes') ?: $this->getProduct($data, 'item_product', 'notes', ''),
                         'cost' => $this->getFloat($data, 'item_cost') ?: $this->getProduct($data, 'item_product', 'cost', 0),
                         'qty' => $this->getFloat($data, 'item_quantity') ?: 1,

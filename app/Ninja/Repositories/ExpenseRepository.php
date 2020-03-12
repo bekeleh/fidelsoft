@@ -158,7 +158,7 @@ class ExpenseRepository extends BaseRepository
         $publicId = isset($input['public_id']) ? $input['public_id'] : false;
 
         if ($expense) {
-            // do nothing
+            $expense->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $expense = Expense::scope($publicId)->firstOrFail();
             if (Utils::isNinjaDev()) {
@@ -166,6 +166,7 @@ class ExpenseRepository extends BaseRepository
             }
         } else {
             $expense = Expense::createNew();
+            $expense->created_by = Auth::user()->username;
         }
 
         if ($expense->is_deleted) {

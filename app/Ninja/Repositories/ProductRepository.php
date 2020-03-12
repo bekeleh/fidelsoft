@@ -32,7 +32,7 @@ class ProductRepository extends BaseRepository
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
-                $query->where('products.product_key', 'like', '%' . $filter . '%')
+                $query->where('products.name', 'like', '%' . $filter . '%')
                     ->orWhere('products.notes', 'like', '%' . $filter . '%')
                     ->orWhere('products.custom_value1', 'like', '%' . $filter . '%')
                     ->orWhere('products.custom_value2', 'like', '%' . $filter . '%');
@@ -59,7 +59,7 @@ class ProductRepository extends BaseRepository
         }
 
         $product->fill($data);
-        $product->product_key = isset($data['product_key']) ? trim($data['product_key']) : '';
+        $product->name = isset($data['name']) ? ucwords(trim($data['name'])) : '';
         $product->notes = isset($data['notes']) ? trim($data['notes']) : '';
         $product->cost = isset($data['cost']) ? Utils::parseFloat($data['cost']) : 0;
         $product->save();
@@ -83,12 +83,12 @@ class ProductRepository extends BaseRepository
         $products = Product::scope()->get();
 
         foreach ($products as $product) {
-            if (!$product->product_key) {
+            if (!$product->name) {
                 continue;
             }
 
             $map[$product->id] = $product;
-            $similar = similar_text($productNameMeta, metaphone($product->product_key), $percent);
+            $similar = similar_text($productNameMeta, metaphone($product->name), $percent);
 
             if ($percent > $max) {
                 $productId = $product->id;

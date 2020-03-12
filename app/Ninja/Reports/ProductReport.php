@@ -68,7 +68,7 @@ class ProductReport extends AbstractReport
                         $this->isExport ? $client->getDisplayName() : $client->present()->link,
                         $this->isExport ? $invoice->invoice_number : $invoice->present()->link,
                         $this->isExport ? $invoice->invoice_date : $invoice->present()->invoice_date,
-                        $item->product_key,
+                        $item->name,
                         $item->notes,
                         $item->qty + 0,
                         Utils::roundSignificant($item->cost, 2),
@@ -89,7 +89,7 @@ class ProductReport extends AbstractReport
                     $this->data[] = $row;
 
                     if ($subgroup == 'product') {
-                        $dimension = $item->product_key;
+                        $dimension = $item->name;
                     } else {
                         $dimension = $this->getDimension($client);
                     }

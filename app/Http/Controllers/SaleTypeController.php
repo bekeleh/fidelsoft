@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SaleTypeRequest;
-use App\Models\SaleType;
+use App\Libraries\Utils;
 use App\Ninja\Datatables\SaleTypeDatatable;
 use App\Ninja\Repositories\SaleTypeRepository;
 use App\Services\SaleTypeService;
@@ -15,15 +15,17 @@ use Redirect;
 
 class SaleTypeController extends BaseController
 {
-    protected $saleTypeService;
+    // Stores
     protected $saleTypeRepo;
+    protected $saleTypeService;
+    protected $entityType = ENTITY_SALE_TYPE;
 
-    public function __construct(SaleTypeService $saleTypeService, SaleTypeRepository $saleTypeRepo)
+    public function __construct(SaleTypeRepository $saleTypeRepo, SaleTypeService $saleTypeService)
     {
-        //parent::__construct();
+        // parent::__construct();
 
-        $this->saleTypeService = $saleTypeService;
         $this->saleTypeRepo = $saleTypeRepo;
+        $this->saleTypeService = $saleTypeService;
     }
 
     /**
@@ -40,66 +42,116 @@ class SaleTypeController extends BaseController
         ]);
     }
 
-    public function getDatatable()
+    public function getDatatable($saleTypePublicId = null)
     {
         return $this->saleTypeService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
     }
 
-    public function edit($publicId)
-    {
-        $data = [
-            'saleType' => SaleType::scope($publicId)->firstOrFail(),
-            'method' => 'PUT',
-            'url' => 'sale_types/' . $publicId,
-            'title' => trans('texts.edit_sale_type'),
-        ];
-
-        return View::make('sale_types.edit', $data);
-    }
-
-    public function create()
+    public function create(SaleTypeRequest $request)
     {
         $data = [
             'saleType' => null,
             'method' => 'POST',
             'url' => 'sale_types',
-            'title' => trans('texts.create_sale_type'),
+            'title' => trans('texts.new_store'),
         ];
 
+        $data = array_merge($data, self::getViewModel());
         return View::make('sale_types.edit', $data);
     }
 
-    public function store(SaleTypeRequest $request)
-    {
-        $this->saleTypeRepo->save($request->input());
-
-        Session::flash('message', trans('texts.created_sale_type'));
-
-        return Redirect::to('settings/' . ACCOUNT_SALE_TYPES);
-    }
-
-    public function update(SaleTypeRequest $request, $publicId)
-    {
-        $this->saleTypeRepo->save($request->input(), $request->entity());
-
-        Session::flash('message', trans('texts.updated_sale_type'));
-
-        return Redirect::to('settings/' . ACCOUNT_SALE_TYPES);
-    }
-
-    public function cloneSaleType(SaleTypeRequest $request, $publicId)
+    public function cloneStore(SaleTypeRequest $request, $publicId)
     {
         return self::edit($request, $publicId, true);
     }
 
+    public function edit(SaleTypeRequest $request, $publicId = false, $clone = false)
+    {
+        $saleType = $request->entity();
+        if ($clone) {
+            $saleType->id = null;
+            $saleType->public_id = null;
+            $saleType->deleted_at = null;
+            $method = 'POST';
+            $url = 'sale_types';
+        } else {
+            $method = 'PUT';
+            $url = 'sale_types/' . $saleType->public_id;
+        }
+
+        $data = [
+            'saleType' => $saleType,
+            'entity' => $saleType,
+            'method' => $method,
+            'url' => $url,
+            'title' => trans('texts.sale_type.edit'),
+        ];
+
+        $data = array_merge($data, self::getViewModel($saleType));
+
+        return View::make('sale_types.edit', $data);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param SaleTypeRequest $request
+     * @return Response
+     */
+    public function update(SaleTypeRequest $request)
+    {
+        $data = $request->input();
+        $saleType = $this->saleTypeService->save($data, $request->entity());
+
+        Session::flash('message', trans('texts.updated_sale_type'));
+
+        $action = Input::get('action');
+        if (in_array($action, ['archive', 'delete', 'restore', 'invoice', 'add_to_invoice'])) {
+            return self::bulk();
+        }
+
+        if ($action == 'clone') {
+            return redirect()->to(sprintf('sale_types/%s/clone', $saleType->public_id));
+        } else {
+            return redirect()->to("sale_types/{$saleType->public_id}/edit");
+        }
+    }
+
+    public function store(SaleTypeRequest $request)
+    {
+        $data = $request->input();
+        $saleType = $this->saleTypeService->save($data);
+
+        Session::flash('message', trans('texts.created_sale_type'));
+
+        return redirect()->to("sale_types/{$saleType->public_id}/edit");
+    }
+
     public function bulk()
     {
-        $action = Input::get('bulk_action');
-        $ids = Input::get('bulk_public_id');
+        $action = Input::get('action');
+        $ids = Input::get('public_id') ? Input::get('public_id') : Input::get('ids');
+
         $count = $this->saleTypeService->bulk($ids, $action);
 
-        Session::flash('message', trans('texts.archived_sale_type'));
+        $message = Utils::pluralize($action . 'd_sale_type', $count);
+        Session::flash('message', $message);
 
-        return Redirect::to('settings/' . ACCOUNT_SALE_TYPES);
+        return $this->returnBulk(ENTITY_SALE_TYPE, $action, $ids);
+    }
+
+    private static function getViewModel($saleType = false)
+    {
+        return [
+            'data' => Input::old('data'),
+            'account' => Auth::user()->account,
+        ];
+    }
+
+    public function show($publicId)
+    {
+        Session::reflash();
+
+        return Redirect::to("sale_types/{$publicId}/edit");
     }
 }

@@ -56,11 +56,6 @@ class StoreService extends BaseService
         if (isset($data['location_id']) && $data['location_id']) {
             $data['location_id'] = Location::getPrivateId($data['location_id']);
         }
-        if ($store) {
-            $data['updated_by'] = auth::user()->username;
-        } else {
-            $data['created_by'] = auth::user()->username;
-        }
         return $this->storeRepo->save($data, $store);
     }
 
@@ -94,25 +89,6 @@ class StoreService extends BaseService
         $query = $this->storeRepo->findLocation($locationPublicId);
 
         if (!Utils::hasPermission('view_location')) {
-            $query->where('stores.user_id', '=', Auth::user()->id);
-        }
-
-        return $this->datatableService->createDatatable($datatable, $query);
-    }
-
-    /**
-     * @param $clientPublicId
-     *
-     * @return JsonResponse
-     * @throws Exception
-     */
-    public function getDatatableClient($clientPublicId)
-    {
-        $datatable = new StoreDatatable(true, true);
-
-        $query = $this->storeRepo->findClient($clientPublicId);
-
-        if (!Utils::hasPermission('view_client')) {
             $query->where('stores.user_id', '=', Auth::user()->id);
         }
 

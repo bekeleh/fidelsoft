@@ -165,10 +165,8 @@ class LocationController extends BaseController
     {
         if ($locationPublicId) {
             $location = Location::scope($locationPublicId)->withTrashed()->firstOrFail();
-            $location->updated_by = auth::user()->username;
         } else {
             $location = Location::createNew();
-            $location->created_by = auth::user()->username;
         }
         $this->locationRepo->save(Input::all(), $location);
 

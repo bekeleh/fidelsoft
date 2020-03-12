@@ -373,7 +373,7 @@ class BasePaymentDriver
             }
 
             $item = new Item([
-                'name' => $invoiceItem->product_key,
+                'name' => $invoiceItem->name,
                 'description' => substr($invoiceItem->notes, 0, 100),
                 'price' => $invoiceItem->cost,
                 'quantity' => $invoiceItem->qty,
@@ -743,7 +743,7 @@ class BasePaymentDriver
         } elseif ($invoice->account->isNinjaAccount()) {
             foreach ($invoice->invoice_items as $invoice_item) {
                 // Hacky, but invoices don't have meta fields to allow us to store this easily
-                if (1 == preg_match('/^Plan - (.+) \((.+)\)$/', $invoice_item->product_key, $matches)) {
+                if (1 == preg_match('/^Plan - (.+) \((.+)\)$/', $invoice_item->name, $matches)) {
                     $plan = strtolower($matches[1]);
                     $term = strtolower($matches[2]);
                     $price = $invoice_item->cost;

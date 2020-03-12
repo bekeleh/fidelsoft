@@ -544,7 +544,7 @@ class InvoiceRepository extends BaseRepository
 
         foreach ($data['invoice_items'] as $item) {
             $item = (array) $item;
-            if (! $item['cost'] && ! $item['product_key'] && ! $item['notes']) {
+            if (!$item['cost'] && !$item['name'] && !$item['notes']) {
                 continue;
             }
 
@@ -708,7 +708,7 @@ class InvoiceRepository extends BaseRepository
 
         foreach ($data['invoice_items'] as $item) {
             $item = (array) $item;
-            if (empty($item['cost']) && empty($item['product_key']) && empty($item['notes']) && empty($item['custom_value1']) && empty($item['custom_value2'])) {
+            if (empty($item['cost']) && empty($item['name']) && empty($item['notes']) && empty($item['custom_value1']) && empty($item['custom_value2'])) {
                 continue;
             }
 
@@ -733,17 +733,17 @@ class InvoiceRepository extends BaseRepository
             }
 
             if (Auth::check()) {
-                if ($productKey = trim($item['product_key'])) {
+                if ($productKey = trim($item['name'])) {
                     if ($account->update_products
-                        && ! $invoice->has_tasks
-                        && ! $invoice->has_expenses
-                        && ! in_array($productKey, Utils::trans(['surcharge', 'discount', 'fee', 'gateway_fee_item']))
+                        && !$invoice->has_tasks
+                        && !$invoice->has_expenses
+                        && !in_array($productKey, Utils::trans(['surcharge', 'discount', 'fee', 'gateway_fee_item']))
                     ) {
                         $product = Product::findProductByKey($productKey);
-                        if (! $product) {
+                        if (!$product) {
                             if (Auth::user()->can('create', ENTITY_PRODUCT)) {
                                 $product = Product::createNew();
-                                $product->product_key = trim($item['product_key']);
+                                $product->name = trim($item['name']);
                             } else {
                                 $product = null;
                             }
@@ -768,7 +768,7 @@ class InvoiceRepository extends BaseRepository
             $invoiceItem = InvoiceItem::createNew($invoice);
             $invoiceItem->fill($item);
             $invoiceItem->product_id = isset($product) ? $product->id : null;
-            $invoiceItem->product_key = isset($item['product_key']) ? (trim($invoice->is_recurring ? $item['product_key'] : Utils::processVariables($item['product_key']))) : '';
+            $invoiceItem->name = isset($item['name']) ? (trim($invoice->is_recurring ? $item['name'] : Utils::processVariables($item['name']))) : '';
             $invoiceItem->notes = trim($invoice->is_recurring ? $item['notes'] : Utils::processVariables($item['notes']));
             $invoiceItem->cost = Utils::parseFloat($item['cost']);
             $invoiceItem->qty = Utils::parseFloat($item['qty']);
@@ -956,18 +956,18 @@ class InvoiceRepository extends BaseRepository
             $cloneItem = InvoiceItem::createNew($invoice);
 
             foreach ([
-                'product_id',
-                'product_key',
-                'notes',
-                'cost',
-                'qty',
-                'tax_name1',
-                'tax_rate1',
-                'tax_name2',
-                'tax_rate2',
-                'custom_value1',
-                'custom_value2',
-                'discount',
+                         'product_id',
+                         'name',
+                         'notes',
+                         'cost',
+                         'qty',
+                         'tax_name1',
+                         'tax_rate1',
+                         'tax_name2',
+                         'tax_rate2',
+                         'custom_value1',
+                         'custom_value2',
+                         'discount',
             ] as $field) {
                 $cloneItem->$field = $item->$field;
             }
@@ -1143,7 +1143,7 @@ class InvoiceRepository extends BaseRepository
             $item->qty = $recurItem->qty;
             $item->cost = $recurItem->cost;
             $item->notes = Utils::processVariables($recurItem->notes, $client);
-            $item->product_key = Utils::processVariables($recurItem->product_key, $client);
+            $item->name = Utils::processVariables($recurItem->name, $client);
             $item->tax_name1 = $recurItem->tax_name1;
             $item->tax_rate1 = $recurItem->tax_rate1;
             $item->tax_name2 = $recurItem->tax_name2;
@@ -1295,7 +1295,7 @@ class InvoiceRepository extends BaseRepository
         }
 
         $item = [];
-        $item['product_key'] = trans('texts.fee');
+        $item['name'] = trans('texts.fee');
         $item['notes'] = trans('texts.late_fee_added', ['date' => $account->formatDate('now')]);
         $item['qty'] = 1;
         $item['cost'] = $fee;
@@ -1337,7 +1337,7 @@ class InvoiceRepository extends BaseRepository
         }
 
         $item = [];
-        $item['product_key'] = $feeItemLabel;
+        $item['name'] = $feeItemLabel;
         $item['notes'] = $feeDescriptionLabel;
         $item['qty'] = 1;
         $item['cost'] = $fee;

@@ -44,7 +44,7 @@ class TaxRatesCest
 
         // create product
         $I->amOnPage('/products/create');
-        $I->fillField(['name' => 'product_key'], $productKey);
+        $I->fillField(['name' => 'name'], $productKey);
         $I->fillField(['name' => 'notes'], $this->faker->text(80));
         $I->fillField(['name' => 'cost'], $itemCost);
         $I->selectOption('select[name=tax_select1]', $itemTaxName . ': ' . $itemTaxRate . '%');
@@ -107,7 +107,7 @@ class TaxRatesCest
 
        // create product
        $I->amOnPage('/products/create');
-       $I->fillField(['name' => 'product_key'], $productKey);
+       $I->fillField(['name' => 'name'], $productKey);
        $I->fillField(['name' => 'notes'], $this->faker->text(80));
        $I->fillField(['name' => 'cost'], $itemCost);
        $I->click('Save');

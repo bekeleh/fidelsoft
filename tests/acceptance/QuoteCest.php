@@ -60,7 +60,7 @@ class QuoteCest
 
         // create product
         $I->amOnPage('/products/create');
-        $I->fillField(['name' => 'product_key'], $productKey);
+        $I->fillField(['name' => 'name'], $productKey);
         $I->fillField(['name' => 'notes'], $this->faker->text(80));
         $I->fillField(['name' => 'cost'], $this->faker->numberBetween(1, 20));
         $I->click('Save');

@@ -100,7 +100,7 @@ class InvoiceService extends BaseService
         foreach ($items_data as $item_data) {
             if (!empty($item_data['qty'])) {
                 if ((int)$item_data['qty'] > 0) {
-                    $product = Product::scope($item_data['product_key'])->first();
+                    $product = Product::scope($item_data['name'])->first();
                     if ($product) {
                         $qty = (int)$product->qty - (int)$item_data['qty'];
                         if ($qty > 0) {

@@ -23,6 +23,7 @@ Route::post('email_invoice', 'InvoiceApiController@emailInvoice');
 Route::get('user_accounts', 'AccountApiController@getUserAccounts');
 Route::resource('products', 'ProductApiController');
 Route::resource('stores', 'StoreApiController');
+Route::resource('item_stores', 'ItemStoreApiController');
 Route::resource('locations', 'LocationApiController');
 Route::resource('sale_types', 'SaleTypeApiController');
 Route::resource('projects', 'ProjectApiController');

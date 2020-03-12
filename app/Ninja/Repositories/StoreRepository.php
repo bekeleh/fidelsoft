@@ -6,7 +6,6 @@ use App\Events\StoreWasCreated;
 use App\Events\StoreWasUpdated;
 use App\Models\Location;
 use App\Models\Store;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class StoreRepository extends BaseRepository
@@ -28,7 +27,7 @@ class StoreRepository extends BaseRepository
             ->join('accounts', 'accounts.id', '=', 'stores.account_id')
             ->join('locations', 'locations.id', '=', 'stores.location_id')
             ->where('stores.account_id', '=', $accountId)
-            //->where('locations.deleted_at', '=', null)
+            //->where('stores.deleted_at', '=', null)
             ->select(
                 'stores.id',
                 'stores.public_id',
@@ -74,15 +73,16 @@ class StoreRepository extends BaseRepository
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
 
         if ($store) {
-            // do nothing
+            $store->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $store = Store::scope($publicId)->withArchived()->firstOrFail();
             \Log::warning('Entity not set in store repo save');
         } else {
             $store = Store::createNew();
+            $store->created_by = Auth::user()->username;
         }
         $store->fill($data);
-        $store->name = isset($data['name']) ? trim($data['name']) : '';
+        $store->name = isset($data['name']) ? ucwords(trim($data['name'])) : '';
         $store->store_code = isset($data['store_code']) ? trim($data['store_code']) : '';
         $store->location_id = isset($data['location_id']) ? trim($data['location_id']) : '';
         $store->notes = isset($data['notes']) ? trim($data['notes']) : '';

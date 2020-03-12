@@ -14,12 +14,15 @@ class ItemStore extends EntityModel
     use PresentableTrait;
     use SoftDeletes;
 
-    protected $table = 'stores';
+    protected $appends = [];
+    protected $table = 'item_stores';
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
 
     protected $fillable = [
         'product_id',
         'store_id',
+        'bin',
+        'qty',
         'notes',
         'created_by',
         'updated_by',
@@ -29,39 +32,11 @@ class ItemStore extends EntityModel
     protected $casts = [];
 
     /**
-     * @return array
-     */
-    public static function getImportColumns()
-    {
-        return [
-            'name',
-            'store_code',
-            'notes',
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    public static function getImportMap()
-    {
-        return [
-            'name|Name' => 'name',
-            'store_code|code' => 'store_code',
-        ];
-    }
-
-    /**
      * @return mixed
      */
     public function getEntityType()
     {
         return ENTITY_ITEM_STORE;
-    }
-
-    public function getUpperAttributes()
-    {
-        return strtoupper($this->name);
     }
 
     /**
@@ -71,7 +46,7 @@ class ItemStore extends EntityModel
      */
     public static function findProductByKey($key)
     {
-        return self::scope()->where('name', '=', $key)->first();
+        return self::scope()->where('bin', '=', $key)->first();
     }
 
     /**
@@ -79,17 +54,17 @@ class ItemStore extends EntityModel
      */
     public function user()
     {
-        return $this->belongsTo('App\Models\User')->withTrashed();
+        return $this->belongsTo('App\Models\User', 'user_id')->withTrashed();
     }
 
-    public function manager()
+    public function store()
     {
-        return $this->belongsTo('App\Models\User')->withTrashed();
+        return $this->belongsTo('App\Models\Store', 'store_id')->withTrashed();
     }
 
-    public function location()
+    public function product()
     {
-        return $this->belongsTo('App\Models\Location')->withTrashed();
+        return $this->belongsTo('App\Models\Product', 'product_id')->withTrashed();
     }
 
     /**

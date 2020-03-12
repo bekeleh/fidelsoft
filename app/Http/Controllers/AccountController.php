@@ -586,7 +586,7 @@ class AccountController extends BaseController
             $invoiceItem->cost = 100;
             $invoiceItem->qty = 1;
             $invoiceItem->notes = 'Notes';
-            $invoiceItem->product_key = 'Item';
+            $invoiceItem->name = 'Item';
             $invoiceItem->discount = 10;
             $invoiceItem->tax_name1 = 'Tax';
             $invoiceItem->tax_rate1 = 10;
@@ -673,7 +673,7 @@ class AccountController extends BaseController
             'title' => trans('texts.client_portal'),
             'section' => ACCOUNT_CLIENT_PORTAL,
             'account' => $account,
-            'products' => Product::scope()->orderBy('product_key')->get(),
+            'products' => Product::scope()->orderBy('name')->get(),
             'gateway_types' => $options,
         ];
 

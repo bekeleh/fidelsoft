@@ -17,14 +17,14 @@ class ProductTransformer extends BaseTransformer
      */
     public function transform($data)
     {
-        if (empty($data->product_key)) {
+        if (empty($data->name)) {
             return false;
         }
 
         return new Item($data, function ($data) {
             return [
-                'public_id' => $this->getProduct($data, 'product_key', 'public_id'),
-                'product_key' => $this->getString($data, 'product_key'),
+                'public_id' => $this->getProduct($data, 'name', 'public_id'),
+                'name' => $this->getString($data, 'name'),
                 'notes' => $this->getString($data, 'notes'),
                 'cost' => $this->getFloat($data, 'cost'),
                 'custom_value1' => $this->getString($data, 'custom_value1'),

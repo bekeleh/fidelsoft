@@ -404,7 +404,7 @@ class AccountRepository
             $credit_item->qty = 1;
             $credit_item->cost = -$credit;
             $credit_item->notes = trans('texts.plan_credit_description');
-            $credit_item->product_key = trans('texts.plan_credit_product');
+            $credit_item->name = trans('texts.plan_credit_product');
             $invoice->invoice_items()->save($credit_item);
         }
 
@@ -419,7 +419,7 @@ class AccountRepository
         }
 
         // Don't change this without updating the regex in PaymentService->createPayment()
-        $item->product_key = 'Plan - '.ucfirst($plan).' ('.ucfirst($term).')';
+        $item->name = 'Plan - ' . ucfirst($plan) . ' (' . ucfirst($term) . ')';
         $invoice->invoice_items()->save($item);
 
         $invitation = Invitation::createNew($invoice);

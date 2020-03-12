@@ -105,7 +105,7 @@ if (!defined('APP_NAME')) {
     define('ACCOUNT_TAX_RATES', 'tax_rates');
     define('ACCOUNT_PRODUCTS', 'products');
     define('ACCOUNT_SALE_TYPES', 'sale_types');
-    define('ACCOUNT_ITEM_STORE', 'item_stores');
+    define('ACCOUNT_ITEM_STORES', 'item_stores');
     define('ACCOUNT_LOCATIONS', 'locations');
     define('ACCOUNT_STORES', 'stores');
     define('ACCOUNT_ADVANCED_SETTINGS', 'advanced_settings');

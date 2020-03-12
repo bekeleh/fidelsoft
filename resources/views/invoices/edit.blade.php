@@ -94,7 +94,7 @@
                 'client' => 'required',
                 'invoice_number' => 'required',
                 'invoice_date' => 'required',
-                'product_key' => 'max:255'
+                'name' => 'max:255'
             )) !!}
 
     @include('partials.autocomplete_fix')
@@ -997,7 +997,7 @@
             for (var i = 0; i < expenses.length; i++) {
                 var expense = expenses[i];
                 var item = model.invoice().addItem();
-                item.product_key(expense.expense_category ? expense.expense_category.name : '');
+                item.name(expense.expense_category ? expense.expense_category.name : '');
                 item.notes(expense.public_notes);
                 item.qty(1);
                 item.expense_public_id(expense.public_id);
@@ -1018,7 +1018,7 @@
             var productMap = {};
             for (var i = 0; i < products.length; i++) {
                 var product = products[i];
-                productMap[product.product_key] = product;
+                productMap[product.name] = product;
             }
             var selectedProducts =
                     {!! json_encode($selectedProducts) !!}

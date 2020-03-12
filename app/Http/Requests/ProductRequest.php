@@ -20,7 +20,7 @@ class ProductRequest extends EntityRequest
         switch ($this->method()) {
             case 'POST':
             {
-                $rules['product_key'] = 'required|max:90|unique:products,product_key';
+                $rules['name'] = 'required|max:90|unique:products,name';
                 $rules['notes'] = 'nullable';
                 $rules['is_deleted'] = 'boolean';
                 $rules['notes'] = 'nullable';
@@ -32,7 +32,7 @@ class ProductRequest extends EntityRequest
                 $product = Product::where('public_id', (int)request()->segment(2))->first();
 //                dd($product);
                 if ($product) {
-                    $rules['product_key'] = 'required|max:90|unique:products,product_key,' . $product->id . ',id';
+                    $rules['name'] = 'required|max:90|unique:products,name,' . $product->id . ',id';
                     $rules['is_deleted'] = 'boolean';
                     $rules['notes'] = 'nullable';
                     break;
@@ -49,8 +49,8 @@ class ProductRequest extends EntityRequest
     public function sanitize()
     {
         $input = $this->all();
-        if (!empty($input['product_key'])) {
-            $input['product_key'] = filter_var($input['product_key'], FILTER_SANITIZE_STRING);
+        if (!empty($input['name'])) {
+            $input['name'] = filter_var($input['name'], FILTER_SANITIZE_STRING);
         }
         if (!empty($input['notes'])) {
             $input['notes'] = filter_var($input['notes'], FILTER_SANITIZE_STRING);

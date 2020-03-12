@@ -331,7 +331,7 @@ trait PresentsInvoice
             'invoice_due_date',
             'quote_due_date',
             'service',
-            'product_key',
+            'name',
             'unit_cost',
             'custom_value1',
             'custom_value2',

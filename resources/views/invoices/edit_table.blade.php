@@ -35,7 +35,7 @@
         <td>
             <div id="scrollable-dropdown-menu">
                 <input type="text"
-                       data-bind="productTypeahead: product_key, items: $root.products, key: 'product_key', valueUpdate: 'afterkeydown', attr: {name: 'invoice_items[{{ $isTasks ? 'T' : '' }}' + $index() + '][product_key]'}"
+                       data-bind="productTypeahead: name, items: $root.products, key: 'name', valueUpdate: 'afterkeydown', attr: {name: 'invoice_items[{{ $isTasks ? 'T' : '' }}' + $index() + '][name]'}"
                        class="form-control invoice-item handled"/>
             </div>
         </td>

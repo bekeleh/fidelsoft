@@ -15,7 +15,7 @@ class Product extends EntityModel
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
 
     protected $fillable = [
-        'product_key',
+        'name',
         'notes',
         'cost',
         'created_by',
@@ -37,7 +37,7 @@ class Product extends EntityModel
     public static function getImportColumns()
     {
         return [
-            'product_key',
+            'name',
             'notes',
             'cost',
             'custom_value1',
@@ -51,7 +51,7 @@ class Product extends EntityModel
     public static function getImportMap()
     {
         return [
-            'product|item' => 'product_key',
+            'product|item' => 'name',
             'notes|description|details' => 'notes',
             'cost|amount|price' => 'cost',
             'custom_value1' => 'custom_value1',
@@ -74,7 +74,7 @@ class Product extends EntityModel
      */
     public static function findProductByKey($key)
     {
-        return self::scope()->where('product_key', '=', $key)->first();
+        return self::scope()->where('name', '=', $key)->first();
     }
 
     /**
@@ -82,7 +82,12 @@ class Product extends EntityModel
      */
     public function user()
     {
-        return $this->belongsTo('App\Models\User')->withTrashed();
+        return $this->belongsTo('App\Models\User', 'user_id')->withTrashed();
+    }
+
+    public function stores()
+    {
+        return $this->hasMany('App\Models\ItemStore', 'store_id')->withTrashed();
     }
 
     /**

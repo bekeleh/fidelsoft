@@ -2,10 +2,10 @@
 
 $LANG = array(
     /*
-       |--------------------------------------------------------------------------
-       | sales type trans
-       |--------------------------------------------------------------------------
-       */
+    |--------------------------------------------------------------------------
+    | sales type trans
+    |--------------------------------------------------------------------------
+    */
     'sale_types' => 'Sales Type',
     'sale_type' => 'Sales Type',
     'new_sale_type' => 'New Sales Type',
@@ -20,10 +20,10 @@ $LANG = array(
     'archived_sale_type' => 'Successfully Archived sales type',
     'sale_type_settings' => 'Sale Type Settings',
     /*
-     |--------------------------------------------------------------------------
-     | store trans
-     |--------------------------------------------------------------------------
-     */
+    |--------------------------------------------------------------------------
+    | store trans
+    |--------------------------------------------------------------------------
+    */
     'store.edit' => 'Edit Store',
     'new_store' => 'New Store',
     'store' => 'Store',
@@ -41,10 +41,10 @@ $LANG = array(
     'store_settings' => 'Store Settings',
     'select_location' => 'Please Select Location',
     /*
- |--------------------------------------------------------------------------
- | location trans
- |--------------------------------------------------------------------------
- */
+    |--------------------------------------------------------------------------
+    | location trans
+    |--------------------------------------------------------------------------
+    */
     'locations' => 'Locations',
     'location_code' => 'Store Code',
     'new_location' => 'New Location',
@@ -58,6 +58,27 @@ $LANG = array(
     'created_location' => 'Successfully Created Location',
     'archived_location' => 'Successfully Archived Location',
     'location_settings' => 'Location Settings',
+    /*
+    |--------------------------------------------------------------------------
+    | item store trans
+    |--------------------------------------------------------------------------
+    */
+    'item_store' => 'Item Store',
+    'item_stores' => 'Inventory Adjustment',
+    'bin' => 'Bin Name',
+    'product_name' => 'Product Name',
+    'store_name' => 'Store Name',
+    'new_item_store' => 'New Item Store',
+    'create_item_store' => 'Create Item Store',
+    'edit_item_store' => 'Edit Item Store',
+    'clone_item_store' => 'Clone Item Store',
+    'archive_item_store' => 'Archive Item Store',
+    'delete_item_store' => 'Delete Item Store',
+    'restore_item_store' => 'Restore Item Store',
+    'updated_item_store' => 'Successfully Updated Item Store',
+    'created_item_store' => 'Successfully Created Item Store',
+    'archived_item_store' => 'Successfully Archived Item Store',
+    'item_store_settings' => 'Item Store Settings',
     /*
     |--------------------------------------------------------------------------
     | sales type trans
@@ -168,13 +189,13 @@ $LANG = array(
     'no_items' => 'No items',
     'recurring_invoices' => 'Recurring Invoices',
     'recurring_help' => '<p>Automatically send clients the same invoices weekly, bi-monthly, monthly, quarterly or annually. </p>
-        <p>Use :MONTH, :QUARTER or :YEAR for dynamic dates. Basic math works as well, for example :MONTH-1.</p>
-        <p>Examples of dynamic invoice variables:</p>
-        <ul>
-          <li>"Gym membership for the month of :MONTH" >> "Gym membership for the month of July"</li>
-          <li>":YEAR+1 yearly subscription" >> "2015 Yearly Subscription"</li>
-          <li>"Retainer payment for :QUARTER+1" >> "Retainer payment for Q2"</li>
-        </ul>',
+<p>Use :MONTH, :QUARTER or :YEAR for dynamic dates. Basic math works as well, for example :MONTH-1.</p>
+<p>Examples of dynamic invoice variables:</p>
+<ul>
+<li>"Gym membership for the month of :MONTH" >> "Gym membership for the month of July"</li>
+<li>":YEAR+1 yearly subscription" >> "2015 Yearly Subscription"</li>
+<li>"Retainer payment for :QUARTER+1" >> "Retainer payment for Q2"</li>
+</ul>',
     'recurring_quotes' => 'Recurring Quotes',
     'in_total_revenue' => 'in total revenue',
     'billed_client' => 'billed client',
@@ -343,12 +364,12 @@ $LANG = array(
     'password' => 'Password',
     'pro_plan_product' => 'Pro Plan',
     'pro_plan_success' => 'Thanks for choosing Invoice Ninja\'s Pro plan!<p/>&nbsp;<br/>
-                          <b>Next Steps</b><p/>A payable invoice has been sent to the email
-                          address associated with your account. To unlock all of the awesome
-                          Pro features, please follow the instructions on the invoice to pay
-                          for a year of Pro-level invoicing.<p/>
-                          Can\'t find the invoice? Need further assistance? We\'re happy to help
-                          -- email us at contact@invoiceninja.com',
+          <b>Next Steps</b><p/>A payable invoice has been sent to the email
+          address associated with your account. To unlock all of the awesome
+          Pro features, please follow the instructions on the invoice to pay
+          for a year of Pro-level invoicing.<p/>
+          Can\'t find the invoice? Need further assistance? We\'re happy to help
+          -- email us at contact@invoiceninja.com',
     'unsaved_changes' => 'You have unsaved changes',
     'custom_fields' => 'Custom Fields',
     'company_fields' => 'Company Fields',
@@ -361,7 +382,6 @@ $LANG = array(
     'product_library' => 'Product Library',
     'product' => 'Product',
     'products' => 'Products',
-    'stocks' => 'Inventory Adjustment',
     'fill_products' => 'Auto-fill products',
     'fill_products_help' => 'Selecting a product will automatically <b>fill in the description and cost</b>',
     'update_products' => 'Auto-update products',
@@ -736,7 +756,7 @@ $LANG = array(
     'primary_user' => 'Primary User',
     'help' => 'Help',
     'customize_help' => '<p>We use :pdfmake_link to define the invoice designs declaratively. The pdfmake :playground_link provides a great way to see the library in action.</p>
-                        <p>If you need help figuring something out post a question to our :forum_link with the design you\'re using.</p>',
+        <p>If you need help figuring something out post a question to our :forum_link with the design you\'re using.</p>',
     'playground' => 'playground',
     'support_forum' => 'support forum',
     'invoice_due_date' => 'Due Date',
@@ -1021,18 +1041,18 @@ $LANG = array(
     'archive_payment_term' => 'Archive Payment Term',
     'recurring_due_dates' => 'Recurring Invoice Due Dates',
     'recurring_due_date_help' => '<p>Automatically sets a due date for the invoice.</p>
-        <p>Invoices on a monthly or yearly cycle set to be due on or before the day they are created will be due the next month. Invoices set to be due on the 29th or 30th in months that don\'t have that day will be due the last day of the month.</p>
-        <p>Invoices on a weekly cycle set to be due on the day of the week they are created will be due the next week.</p>
-        <p>For example:</p>
-        <ul>
-          <li>Today is the 15th, due date is 1st of the month. The due date should likely be the 1st of the next month.</li>
-          <li>Today is the 15th, due date is the last day of the month. The due date will be the last day of the this month.
+<p>Invoices on a monthly or yearly cycle set to be due on or before the day they are created will be due the next month. Invoices set to be due on the 29th or 30th in months that don\'t have that day will be due the last day of the month.</p>
+<p>Invoices on a weekly cycle set to be due on the day of the week they are created will be due the next week.</p>
+<p>For example:</p>
+<ul>
+<li>Today is the 15th, due date is 1st of the month. The due date should likely be the 1st of the next month.</li>
+<li>Today is the 15th, due date is the last day of the month. The due date will be the last day of the this month.
 </li>
-          <li>Today is the 15th, due date is the 15th day of the month. The due date will be the 15th day of <strong>next</strong> month.
+<li>Today is the 15th, due date is the 15th day of the month. The due date will be the 15th day of <strong>next</strong> month.
 </li>
-          <li>Today is the Friday, due date is the 1st Friday after. The due date will be next Friday, not today.
+<li>Today is the Friday, due date is the 1st Friday after. The due date will be next Friday, not today.
 </li>
-        </ul>',
+</ul>',
     'due' => 'Due',
     'next_due_on' => 'Due Next: :date',
     'use_client_terms' => 'Use client terms',
@@ -1150,7 +1170,7 @@ $LANG = array(
     'recurring_invoice_number' => 'Recurring Number',
     'recurring_invoice_number_prefix_help' => 'Speciy a prefix to be added to the invoice number for recurring invoices.',
 
-    // Client Passwords
+// Client Passwords
     'enable_portal_password' => 'Password Protect Invoices',
     'enable_portal_password_help' => 'Allows you to set a password for each contact. If a password is set, the contact will be required to enter a password before viewing invoices.',
     'send_portal_password' => 'Generate Automatically',
@@ -1163,7 +1183,7 @@ $LANG = array(
     'cost' => 'Cost',
     'create_invoice_for_sample' => 'Note: create your first invoice to see a preview here.',
 
-    // User Permissions
+// User Permissions
     'owner' => 'Owner',
     'administrator' => 'Administrator',
     'administrator_help' => 'Allow user to manage users, change settings and modify all records',
@@ -1195,7 +1215,7 @@ $LANG = array(
     'november' => 'November',
     'december' => 'December',
 
-    // Documents
+// Documents
     'documents_header' => 'Documents:',
     'email_documents_header' => 'Documents:',
     'email_documents_example_1' => 'Widgets Receipt.pdf',
@@ -1228,7 +1248,7 @@ $LANG = array(
     'enable_client_portal_dashboard' => 'Dashboard',
     'enable_client_portal_dashboard_help' => 'Show/hide the dashboard page in the client portal.',
 
-    // Plans
+// Plans
     'account_management' => 'Account Management',
     'plan_status' => 'Plan Status',
 
@@ -1285,7 +1305,7 @@ $LANG = array(
     'return_to_app' => 'Return To App',
 
 
-    // Payment updates
+// Payment updates
     'refund_payment' => 'Refund Payment',
     'refund_max' => 'Max:',
     'refund' => 'Refund',
@@ -1354,7 +1374,7 @@ $LANG = array(
     'payment_method_removed' => 'Removed payment method.',
     'bank_account_verification_help' => 'We have made two deposits into your account with the description "VERIFICATION". These deposits will take 1-2 business days to appear on your statement. Please enter the amounts below.',
     'bank_account_verification_next_steps' => 'We have made two deposits into your account with the description "VERIFICATION". These deposits will take 1-2 business days to appear on your statement.
-        Once you have the amounts, come back to this payment methods page and click "Complete Verification" next to the account.',
+Once you have the amounts, come back to this payment methods page and click "Complete Verification" next to the account.',
     'unknown_bank' => 'Unknown Bank',
     'ach_verification_delay_help' => 'You will be able to use the account after completing verification. Verification usually takes 1-2 business days.',
     'add_credit_card' => 'Add Credit Card',
@@ -1402,7 +1422,7 @@ $LANG = array(
     'ofx_file' => 'OFX File',
     'ofx_parse_failed' => 'Failed to parse OFX file',
 
-    // WePay
+// WePay
     'wepay' => 'WePay',
     'sign_up_with_wepay' => 'Sign up with WePay',
     'use_another_provider' => 'Use another provider',
@@ -1439,7 +1459,7 @@ $LANG = array(
     'product_file' => 'Product File',
     'import_products' => 'Import Products',
     'products_will_create' => 'products will be created',
-    'product_key' => 'Product',
+    'name' => 'Product',
     'created_products' => 'Successfully created/updated :count product(s)',
     'export_help' => 'Use JSON if you plan to import the data into Invoice Ninja.<br/>The file includes clients, products, invoices, quotes and payments.',
     'selfhost_export_help' => '<br/>We recommend using mysqldump to create a full backup.',
@@ -1484,7 +1504,7 @@ $LANG = array(
     'manual_entry' => 'Manual entry',
     'start_of_week' => 'First Day of the Week',
 
-    // Frequencies
+// Frequencies
     'freq_inactive' => 'Inactive',
     'freq_daily' => 'Daily',
     'freq_weekly' => 'Weekly',
@@ -1498,7 +1518,7 @@ $LANG = array(
     'freq_annually' => 'Annually',
     'freq_two_years' => 'Two years',
 
-    // Payment types
+// Payment types
     'payment_type_Apply Credit' => 'Apply Credit',
     'payment_type_Bank Transfer' => 'Bank Transfer',
     'payment_type_Cash' => 'Cash',
@@ -1530,7 +1550,7 @@ $LANG = array(
     'payment_type_Bitcoin' => 'Bitcoin',
     'payment_type_GoCardless' => 'GoCardless',
 
-    // Industries
+// Industries
     'industry_Accounting & Legal' => 'Accounting & Legal',
     'industry_Advertising' => 'Advertising',
     'industry_Aerospace' => 'Aerospace',
@@ -1564,7 +1584,7 @@ $LANG = array(
     'industry_Other' => 'Other',
     'industry_Photography' => 'Photography',
 
-    // Countries
+// Countries
     'country_Afghanistan' => 'Afghanistan',
     'country_Albania' => 'Albania',
     'country_Antarctica' => 'Antarctica',
@@ -1815,7 +1835,7 @@ $LANG = array(
     'country_Yemen' => 'Yemen',
     'country_Zambia' => 'Zambia',
 
-    // Languages
+// Languages
     'lang_Brazilian Portuguese' => 'Brazilian Portuguese',
     'lang_Croatian' => 'Croatian',
     'lang_Czech' => 'Czech',
@@ -1848,7 +1868,7 @@ $LANG = array(
     'lang_Chinese - Taiwan' => 'Chinese - Taiwan',
     'lang_Serbian' => 'Serbian',
 
-    // Industries
+// Industries
     'industry_Accounting & Legal' => 'Accounting & Legal',
     'industry_Advertising' => 'Advertising',
     'industry_Aerospace' => 'Aerospace',
@@ -1984,7 +2004,7 @@ $LANG = array(
     'total_expenses' => 'Total Expenses',
     'quote_to' => 'Quote to',
 
-    // Limits
+// Limits
     'limit' => 'Limit',
     'min_limit' => 'Min: :min',
     'max_limit' => 'Max: :max',
@@ -2057,7 +2077,7 @@ $LANG = array(
     'authorization' => 'Authorization',
     'signed' => 'Signed',
 
-    // BlueVine
+// BlueVine
     'bluevine_promo' => 'Get flexible business lines of credit and invoice factoring using BlueVine.',
     'bluevine_modal_label' => 'Sign up with BlueVine',
     'bluevine_modal_text' => '<h3>Fast funding for your business. No paperwork.</h3>
@@ -2222,7 +2242,7 @@ $LANG = array(
     'reports_help' => 'Shift + Click to sort by multiple columns, Ctrl + Click to clear the grouping.',
     'this_year' => 'This Year',
 
-    // Updated login screen
+// Updated login screen
     'ninja_tagline' => 'Ultimate care for your business',
     'login_or_existing' => 'Or login with a connected account.',
     'sign_up_now' => 'Sign Up Now',
@@ -2230,7 +2250,7 @@ $LANG = array(
     'login_create_an_account' => 'Create an Account!',
     'client_login' => 'Client Login',
 
-    // New Client Portal styling
+// New Client Portal styling
     'invoice_from' => 'Invoices From:',
     'email_alias_message' => 'We require each company to have a unique email address.<br/>Consider using an alias. ie, email+label@example.com',
     'full_name' => 'Full Name',
@@ -2974,7 +2994,7 @@ $LANG = array(
     'please_enter_your_email' => 'Please enter your email',
     'please_enter_your_password' => 'Please enter your password',
     'please_enter_your_url' => 'Please enter your URL',
-    'please_enter_a_product_key' => 'Please enter a product key',
+    'please_enter_a_name' => 'Please enter a product key',
     'an_error_occurred' => 'An error occurred',
     'overview' => 'Overview',
     'copied_to_clipboard' => 'Copied :value to the clipboard',

@@ -295,7 +295,7 @@ class InvoiceApiController extends BaseAPIController
         }
 
         // initialize the line items
-        if (!isset($data['invoice_items']) && (isset($data['product_key']) || isset($data['cost']) || isset($data['notes']) || isset($data['qty']))) {
+        if (!isset($data['invoice_items']) && (isset($data['name']) || isset($data['cost']) || isset($data['notes']) || isset($data['qty']))) {
             $data['invoice_items'] = [self::prepareItem($data)];
             // make sure the tax isn't applied twice (for the invoice and the line item)
             unset($data['invoice_items'][0]['tax_name1']);
@@ -305,11 +305,11 @@ class InvoiceApiController extends BaseAPIController
         } else {
             foreach ($data['invoice_items'] as $index => $item) {
                 // check for multiple products
-                if ($productKey = array_get($item, 'product_key')) {
+                if ($productKey = array_get($item, 'name')) {
                     $parts = explode(',', $productKey);
                     if (count($parts) > 1 && Product::findProductByKey($parts[0])) {
                         foreach ($parts as $index => $productKey) {
-                            $data['invoice_items'][$index] = self::prepareItem(['product_key' => $productKey]);
+                            $data['invoice_items'][$index] = self::prepareItem(['name' => $productKey]);
                         }
                         break;
                     }
@@ -324,8 +324,8 @@ class InvoiceApiController extends BaseAPIController
     private function prepareItem($item)
     {
         // if only the product key is set we'll load the cost and notes
-        if (!empty($item['product_key'])) {
-            $product = Product::findProductByKey($item['product_key']);
+        if (!empty($item['name'])) {
+            $product = Product::findProductByKey($item['name']);
             if ($product) {
                 $fields = [
                     'cost',
@@ -347,7 +347,7 @@ class InvoiceApiController extends BaseAPIController
 
         $fields = [
             'cost' => 0,
-            'product_key' => '',
+            'name' => '',
             'notes' => '',
             'qty' => 1,
         ];

@@ -7820,7 +7820,7 @@ return array(
     'Google\\Cloud\\Vision\\V1\\ProductSet' => $vendorDir . '/google/cloud/Vision/src/V1/ProductSet.php',
     'Google\\Cloud\\Vision\\V1\\ProductSetPurgeConfig' => $vendorDir . '/google/cloud/Vision/src/V1/ProductSetPurgeConfig.php',
     'Google\\Cloud\\Vision\\V1\\Product\\KeyValue' => $vendorDir . '/google/cloud/Vision/src/V1/Product/KeyValue.php',
-    'Google\\Cloud\\Vision\\V1\\Product_KeyValue' => $vendorDir . '/google/cloud/Vision/src/V1/Product_KeyValue.php',
+    'Google\\Cloud\\Vision\\V1\\nameValue' => $vendorDir . '/google/cloud/Vision/src/V1/nameValue.php',
     'Google\\Cloud\\Vision\\V1\\Property' => $vendorDir . '/google/cloud/Vision/src/V1/Property.php',
     'Google\\Cloud\\Vision\\V1\\PurgeProductsRequest' => $vendorDir . '/google/cloud/Vision/src/V1/PurgeProductsRequest.php',
     'Google\\Cloud\\Vision\\V1\\ReferenceImage' => $vendorDir . '/google/cloud/Vision/src/V1/ReferenceImage.php',

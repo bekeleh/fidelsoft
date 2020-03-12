@@ -3,7 +3,7 @@
 namespace App\Ninja\Reports;
 
 use App\Models\Activity;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class ActivityReport extends AbstractReport
 {

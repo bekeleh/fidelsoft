@@ -1445,7 +1445,7 @@ class Account extends Eloquent
 
                 foreach ($invoice->invoice_items as $invoiceItem) {
                     $invoiceItem->setVisible([
-                        'product_key',
+                        'name',
                         'cost',
                         'qty',
                         'discount',

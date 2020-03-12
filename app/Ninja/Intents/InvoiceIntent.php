@@ -79,7 +79,7 @@ class InvoiceIntent extends BaseIntent
 
                 if ($product) {
                     $item['qty'] = $qty;
-                    $item['product_key'] = $product->product_key;
+                    $item['name'] = $product->name;
                     $item['cost'] = $product->cost;
                     $item['notes'] = $product->notes;
 

@@ -87,13 +87,13 @@ class SettingsCest
 
         $productKey = $this->faker->text(10);
 
-        $I->fillField(['name' => 'product_key'], $productKey);
+        $I->fillField(['name' => 'name'], $productKey);
         $I->fillField(['name' => 'notes'], $this->faker->text(80));
         $I->fillField(['name' => 'cost'], $this->faker->numberBetween(1, 20));
         $I->click('Save');
 
         $I->seeResponseCodeIs(200);
-        $I->seeRecord('products', array('product_key' => $productKey));
+        $I->seeRecord('products', array('name' => $productKey));
     }
 
     public function updateProduct(FunctionalTester $I)
@@ -105,11 +105,11 @@ class SettingsCest
 
         $productKey = $this->faker->text(10);
 
-        $I->fillField(['name' => 'product_key'], $productKey);
+        $I->fillField(['name' => 'name'], $productKey);
         $I->click('Save');
 
         $I->seeResponseCodeIs(200);
-        $I->seeRecord('products', array('product_key' => $productKey));
+        $I->seeRecord('products', array('name' => $productKey));
     }
 
     /*

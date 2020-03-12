@@ -404,12 +404,12 @@ iframe.src = '{{ rtrim(SITE_URL ,'/') }}/' + parts[1] + '/' + parts[0].substring
 
     var products = {!! $products !!};
 
-    $(function() {
+    $(function () {
         var $productSelect = $('select#product');
-        for (var i=0; i<products.length; i++) {
+        for (var i = 0; i < products.length; i++) {
             var product = products[i];
 
-            $productSelect.append(new Option(formatMoney(product.cost) + ' - ' + product.product_key, product.public_id));
+            $productSelect.append(new Option(formatMoney(product.cost) + ' - ' + product.name, product.public_id));
         }
         $productSelect.combobox({highlighter: comboboxHighlighter});
 
@@ -417,9 +417,9 @@ iframe.src = '{{ rtrim(SITE_URL ,'/') }}/' + parts[1] + '/' + parts[0].substring
         updateBuyNowButtons();
     })
 
-	$('#enable_portal_password, #enable_client_portal, #require_invoice_signature, #require_quote_signature').change(updateCheckboxes);
+    $('#enable_portal_password, #enable_client_portal, #require_invoice_signature, #require_quote_signature').change(updateCheckboxes);
 
-	function updateCheckboxes() {
+    function updateCheckboxes() {
 		var checked = $('#enable_portal_password').is(':checked');
 		$('#send_portal_password').prop('disabled', ! checked);
 

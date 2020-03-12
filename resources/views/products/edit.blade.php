@@ -6,7 +6,7 @@
     {!! Former::open($url)
             ->method($method)
             ->autocomplete('off')
-            ->rules(['product_key' => 'required|max:255'])
+            ->rules(['name' => 'required|max:255'])
             ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
 
     @if ($product)
@@ -23,7 +23,7 @@
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
-                    {!! Former::text('product_key')->label('texts.product') !!}
+                    {!! Former::text('name')->label('texts.product') !!}
                     {!! Former::textarea('notes')->rows(6) !!}
                     @include('partials/custom_fields', ['entityType' => ENTITY_PRODUCT])
                     {!! Former::text('cost') !!}
@@ -70,7 +70,7 @@
     {!! Former::close() !!}
     <script type="text/javascript">
         $(function () {
-            $('#product_key').focus();
+            $('#name').focus();
         });
 
         function submitAction(action) {

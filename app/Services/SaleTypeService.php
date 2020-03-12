@@ -42,6 +42,17 @@ class SaleTypeService extends BaseService
     }
 
     /**
+     * @param $data
+     * @param null $saleType
+     *
+     * @return mixed|null
+     */
+    public function save($data, $saleType = null)
+    {
+        return $this->saleTypeRepo->save($data, $saleType);
+    }
+
+    /**
      * @param $accountId
      * @param mixed $search
      *

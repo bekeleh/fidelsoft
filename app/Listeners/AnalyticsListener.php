@@ -37,7 +37,7 @@ class AnalyticsListener
 
         $client = $payment->client;
         $amount = $payment->amount;
-        $item = $invoice->invoice_items->last()->product_key;
+        $item = $invoice->invoice_items->last()->name;
         $currencyCode = $client->getCurrencyCode();
 
         if ($account->isNinjaAccount() && \App::runningInConsole()) {

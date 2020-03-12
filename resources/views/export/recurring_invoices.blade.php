@@ -67,7 +67,7 @@
                 @if ($account->customLabel('invoice_text2'))
                     <td>{{ $invoice->custom_text_value2 }}</td>
                 @endif
-                <td>{{ $item->product_key }}</td>
+                <td>{{ $item->name }}</td>
                 <td>{{ $item->notes }}</td>
                 @if ($account->customLabel('product1'))
                     <td>{{ $item->custom_value1 }}</td>

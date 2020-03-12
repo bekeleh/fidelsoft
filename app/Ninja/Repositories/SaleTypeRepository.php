@@ -51,6 +51,7 @@ class SaleTypeRepository extends BaseRepository
             \Log::warning('Entity not set in sales_type repo save');
         } else {
             $saleType = SaleType::createNew();
+            $saleType->created_by = Auth::user()->username;
         }
 
         $saleType->fill($data);

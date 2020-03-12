@@ -5,6 +5,7 @@ namespace App\Ninja\Repositories;
 use App\Events\LocationWasCreated;
 use App\Events\LocationWasUpdated;
 use App\Models\Location;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class LocationRepository extends BaseRepository
@@ -26,8 +27,8 @@ class LocationRepository extends BaseRepository
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('locations.name', 'like', '%' . $filter . '%')
-                    ->orWhere('locations.notes', 'like', '%' . $filter . '%')
-                    ->orWhere('locations.location_code', 'like', '%' . $filter . '%');
+                    ->orWhere('locations.location_code', 'like', '%' . $filter . '%')
+                    ->orWhere('locations.notes', 'like', '%' . $filter . '%');
             });
         }
 
@@ -36,53 +37,54 @@ class LocationRepository extends BaseRepository
         return $query;
     }
 
-    public function save($data, $store = null)
+    public function save($data, $location = null)
     {
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
-
-        if ($store) {
-            // do nothing
+        if ($location) {
+            $location->updated_by = auth::user()->username;
         } elseif ($publicId) {
-            $store = Location::scope($publicId)->withArchived()->firstOrFail();
+            $location = Location::scope($publicId)->withArchived()->firstOrFail();
             \Log::warning('Entity not set in location repo save');
         } else {
-            $store = Location::createNew();
+            $location = Location::createNew();
+            $location->created_by = auth::user()->username;
         }
-        $store->fill($data);
-        $store->name = isset($data['name']) ? trim($data['name']) : '';
-        $store->notes = isset($data['notes']) ? trim($data['notes']) : '';
+        $location->fill($data);
+        $location->name = isset($data['name']) ? ucwords(trim($data['name'])) : '';
+        $location->location_code = isset($data['location_code']) ? trim($data['location_code']) : '';
+        $location->notes = isset($data['notes']) ? trim($data['notes']) : '';
 
-        $store->save();
+        $location->save();
 
         if ($publicId) {
-            event(new LocationWasUpdated($store, $data));
+            event(new LocationWasUpdated($location, $data));
         } else {
-            event(new LocationWasCreated($store, $data));
+            event(new LocationWasCreated($location, $data));
         }
-        return $store;
+        return $location;
     }
 
-    public function findPhonetically($storeName)
+    public function findPhonetically($locationName)
     {
-        $storeNameMeta = metaphone($storeName);
+        $locationNameMeta = metaphone($locationName);
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
-        $storeId = 0;
+        $locationId = 0;
         $locations = Location::scope()->get();
         if (!empty($locations)) {
-            foreach ($locations as $store) {
-                if (!$store->name) {
+            foreach ($locations as $location) {
+                if (!$location->name) {
                     continue;
                 }
-                $map[$store->id] = $store;
-                $similar = similar_text($storeNameMeta, metaphone($store->name), $percent);
+                $map[$location->id] = $location;
+                $similar = similar_text($locationNameMeta, metaphone($location->name), $percent);
                 if ($percent > $max) {
-                    $storeId = $store->id;
+                    $locationId = $location->id;
                     $max = $percent;
                 }
             }
         }
 
-        return ($storeId && isset($map[$storeId])) ? $map[$storeId] : null;
+        return ($locationId && isset($map[$locationId])) ? $map[$locationId] : null;
     }
 }

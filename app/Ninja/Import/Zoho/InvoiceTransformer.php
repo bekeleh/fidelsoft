@@ -37,14 +37,14 @@ class InvoiceTransformer extends BaseTransformer
                 'custom_taxes1' => false,
                 'invoice_items' => [
                     [
-                        'product_key' => $this->getString($data, 'item_name'),
+                        'name' => $this->getString($data, 'item_name'),
                         'notes' => $this->getString($data, 'item_desc'),
-                        'cost' => (float) $data->item_price,
-                        'qty' => (float) $data->quantity,
-                        'tax_name1' => (float) $data->item_tax1 ? trans('texts.tax') : '',
-                        'tax_rate1' => (float) $data->item_tax1,
-                        'tax_name2' => (float) $data->item_tax2 ? trans('texts.tax') : '',
-                        'tax_rate2' => (float) $data->item_tax2,
+                        'cost' => (float)$data->item_price,
+                        'qty' => (float)$data->quantity,
+                        'tax_name1' => (float)$data->item_tax1 ? trans('texts.tax') : '',
+                        'tax_rate1' => (float)$data->item_tax1,
+                        'tax_name2' => (float)$data->item_tax2 ? trans('texts.tax') : '',
+                        'tax_rate2' => (float)$data->item_tax2,
                     ],
                 ],
             ];
@@ -53,14 +53,14 @@ class InvoiceTransformer extends BaseTransformer
             // the discount as a separate line item
             if ((float) $data->discount_amount) {
                 $invoice['invoice_items'][] = [
-                    'product_key' => '',
+                    'name' => '',
                     'notes' => trans('texts.discount'),
-                    'cost' => (float) $data->discount_amount * -1,
+                    'cost' => (float)$data->discount_amount * -1,
                     'qty' => 1,
-                    'tax_name1' => (float) $data->item_tax1 ? trans('texts.tax') : '',
-                    'tax_rate1' => (float) $data->item_tax1,
-                    'tax_name2' => (float) $data->item_tax2 ? trans('texts.tax') : '',
-                    'tax_rate2' => (float) $data->item_tax2,
+                    'tax_name1' => (float)$data->item_tax1 ? trans('texts.tax') : '',
+                    'tax_rate1' => (float)$data->item_tax1,
+                    'tax_name2' => (float)$data->item_tax2 ? trans('texts.tax') : '',
+                    'tax_rate2' => (float)$data->item_tax2,
                 ];
             }
 

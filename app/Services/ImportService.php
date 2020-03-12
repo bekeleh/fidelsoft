@@ -202,7 +202,7 @@ class ImportService
 
         if ($includeData) {
             foreach ($json['products'] as $jsonProduct) {
-                if ($transformer->hasProduct($jsonProduct['product_key'])) {
+                if ($transformer->hasProduct($jsonProduct['name'])) {
                     continue;
                 }
 
@@ -997,7 +997,7 @@ class ImportService
      */
     private function addProductToMaps(Product $product)
     {
-        if ($key = strtolower(trim($product->product_key))) {
+        if ($key = strtolower(trim($product->name))) {
             $this->maps['product'][$key] = $product;
         }
     }

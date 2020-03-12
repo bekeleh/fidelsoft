@@ -17,7 +17,7 @@ class ProductPresenter extends EntityPresenter
         $product = $this->entity;
 
         $card = new HeroCard();
-        $card->setTitle($product->product_key);
+        $card->setTitle($product->name);
         $card->setSubitle($account->formatMoney($product->cost));
         $card->setText($product->notes);
 

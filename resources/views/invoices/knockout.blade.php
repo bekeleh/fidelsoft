@@ -825,7 +825,7 @@
 
     function ItemModel(data) {
         var self = this;
-        self.product_key = ko.observable('');
+        self.name = ko.observable('');
         self.notes = ko.observable('');
         self.cost = ko.observable(0);
         self.qty = ko.observable({{ $account->hasInvoiceField('product', 'product.quantity') ? 0 : 1 }});
@@ -932,7 +932,7 @@
         }
 
         this.isEmpty = function () {
-            return !self.product_key() && !self.notes() && !self.cost();
+            return !self.name() && !self.notes() && !self.cost();
         }
 
         this.onSelect = function () {
@@ -1042,7 +1042,7 @@
                     templates: {
                         suggestion: function (item) {
                             return '<div title="' + _.escape(item.notes) + '" style="border-bottom: solid 1px #CCC">'
-                                + _.escape(item.product_key) + "<br/>"
+                                + _.escape(item.name) + "<br/>"
                                 + roundSignificant(item.cost, true) + ' • '
                                 + _.escape(item.notes.substring(0, 100)) + '</div>'
                         }
@@ -1052,7 +1052,7 @@
                     templates: {
                         suggestion: function (item) {
                             return '<div title="' + _.escape(item.notes) + '" style="border-bottom: solid 1px #CCC">'
-                                + _.escape(item.product_key) + '</div>'
+                                + _.escape(item.name) + '</div>'
                         }
                     },
                     source: searchData(allBindings.items, allBindings.key),

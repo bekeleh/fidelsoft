@@ -82,12 +82,12 @@ You can also update a client by specifying a value for ‘id’. Next, here’s 
 .. code-block:: shell
 
   curl -X POST "ninja.test/api/v1/invoices" -H "Content-Type:application/json" \
-    -d '{"client_id":"1", "invoice_items":[{"product_key": "ITEM", "notes":"Test", "cost":10, "qty":1}]}' \
+    -d '{"client_id":"1", "invoice_items":[{"name": "ITEM", "notes":"Test", "cost":10, "qty":1}]}' \
     -H "X-Ninja-Token: TOKEN"
 
 If the email field is set we’ll search for a matching client, if no matches are found a new client will be created.
 
-If the product_key is set and matches an existing record the product fields will be auto-populated. You can use a comma-separated value to create an invoice with multiple products.
+If the name is set and matches an existing record the product fields will be auto-populated. You can use a comma-separated value to create an invoice with multiple products.
 
 Options
 ^^^^^^^

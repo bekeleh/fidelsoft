@@ -86,18 +86,19 @@
 
     var products = _.flatten(_.pluck(invoices, 'invoice_items'));
     products = d3.nest()
-    .key(function(d) {
-        return d.product_key + (d.invoice.client.currency && d.invoice.client.currency_id != accountCurrencyId ?
-        ' [' + d.invoice.client.currency.code + ']'
-        : '');
-    })
-    .sortKeys(d3.ascending)
-    .rollup(function(d) { return {
-        amount: d3.sum(d, function(g) {
-            var lineTotal = g.qty * g.cost;
-            var discount = parseFloat(g.discount);
-            if (discount != 0) {
-                if (parseInt(g.invoice.is_amount_discount)) {
+        .key(function (d) {
+            return d.name + (d.invoice.client.currency && d.invoice.client.currency_id != accountCurrencyId ?
+                ' [' + d.invoice.client.currency.code + ']'
+                : '');
+        })
+        .sortKeys(d3.ascending)
+        .rollup(function (d) {
+            return {
+                amount: d3.sum(d, function (g) {
+                    var lineTotal = g.qty * g.cost;
+                    var discount = parseFloat(g.discount);
+                    if (discount != 0) {
+                        if (parseInt(g.invoice.is_amount_discount)) {
                     lineTotal -= discount;
                 } else {
                     lineTotal -= (lineTotal * discount / 100);

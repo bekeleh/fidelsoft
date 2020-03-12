@@ -9195,7 +9195,7 @@ class ComposerStaticInita2ec56413ad33918b4b64922dcd3c5f0
         'Google\\Cloud\\Vision\\V1\\ProductSet' => __DIR__ . '/..' . '/google/cloud/Vision/src/V1/ProductSet.php',
         'Google\\Cloud\\Vision\\V1\\ProductSetPurgeConfig' => __DIR__ . '/..' . '/google/cloud/Vision/src/V1/ProductSetPurgeConfig.php',
         'Google\\Cloud\\Vision\\V1\\Product\\KeyValue' => __DIR__ . '/..' . '/google/cloud/Vision/src/V1/Product/KeyValue.php',
-        'Google\\Cloud\\Vision\\V1\\Product_KeyValue' => __DIR__ . '/..' . '/google/cloud/Vision/src/V1/Product_KeyValue.php',
+        'Google\\Cloud\\Vision\\V1\\nameValue' => __DIR__ . '/..' . '/google/cloud/Vision/src/V1/nameValue.php',
         'Google\\Cloud\\Vision\\V1\\Property' => __DIR__ . '/..' . '/google/cloud/Vision/src/V1/Property.php',
         'Google\\Cloud\\Vision\\V1\\PurgeProductsRequest' => __DIR__ . '/..' . '/google/cloud/Vision/src/V1/PurgeProductsRequest.php',
         'Google\\Cloud\\Vision\\V1\\ReferenceImage' => __DIR__ . '/..' . '/google/cloud/Vision/src/V1/ReferenceImage.php',

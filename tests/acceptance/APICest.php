@@ -71,7 +71,7 @@ class APICest
         $this->listEntities('tax_rates');
 
         $data = new stdClass;
-        $data->product_key = $this->faker->word;
+        $data->name = $this->faker->word;
         $data->notes = $this->faker->realText(100);
         $this->createEntity('product', $data);
         $this->listEntities('products');

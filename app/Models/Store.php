@@ -80,17 +80,22 @@ class Store extends EntityModel
      */
     public function user()
     {
-        return $this->belongsTo('App\Models\User')->withTrashed();
+        return $this->belongsTo('App\Models\User', 'user_id')->withTrashed();
     }
 
     public function manager()
     {
-        return $this->belongsTo('App\Models\User')->withTrashed();
+        return $this->belongsTo('App\Models\User', 'manager_id')->withTrashed();
     }
 
     public function location()
     {
-        return $this->belongsTo('App\Models\Location')->withTrashed();
+        return $this->belongsTo('App\Models\Location', 'location_id')->withTrashed();
+    }
+
+    public function products()
+    {
+        return $this->hasMany('App\Models\ItemStore', 'product_id')->withTrashed();
     }
 
     /**

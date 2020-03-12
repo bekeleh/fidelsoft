@@ -151,7 +151,7 @@ class StoreController extends BaseController
 
         $count = $this->storeService->bulk($ids, $action);
 
-        $message = Utils::pluralize($action . 'd_product', $count);
+        $message = Utils::pluralize($action . 'd_store', $count);
         Session::flash('message', $message);
 
         return $this->returnBulk(ENTITY_STORE, $action, $ids);

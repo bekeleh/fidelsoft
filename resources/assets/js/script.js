@@ -609,7 +609,7 @@ function calculateAmounts(invoice) {
         if (lineTotal) {
             total += lineTotal;
         }
-        if (!item.notes && !item.product_key && !item.cost) {
+        if (!item.notes && !item.name && !item.cost) {
             continue;
         }
         if (item.invoice_item_type_id == 2) {

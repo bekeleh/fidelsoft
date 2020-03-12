@@ -117,7 +117,7 @@ class ConvertInvoiceToUbl extends Job
             ->setInvoicedQuantity($item->qty)
             ->setLineExtensionAmount($item->costWithDiscount())
             ->setItem((new Item())
-                ->setName($item->product_key)
+                ->setName($item->name)
                 ->setDescription($item->description));
                 //->setSellersItemIdentification("1ABCD"));
 

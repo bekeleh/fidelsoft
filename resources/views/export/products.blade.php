@@ -18,7 +18,7 @@
         @if ($multiUser)
             <td>{{ $product->present()->user }}</td>
         @endif
-        <td>{{ $product->product_key }}</td>
+        <td>{{ $product->name }}</td>
         <td>{{ $product->notes }}</td>
         <td>{{ $product->cost }}</td>
         @if ($account->customLabel('product1'))

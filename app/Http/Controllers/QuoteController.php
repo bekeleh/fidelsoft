@@ -97,19 +97,19 @@ class QuoteController extends BaseController
         $account = Auth::user()->account;
 
         return [
-          'entityType' => ENTITY_QUOTE,
-          'account' => Auth::user()->account->load('country'),
-          'products' => Product::scope()->orderBy('product_key')->get(),
-          'taxRateOptions' => $account->present()->taxRateOptions,
-          'clients' => Client::scope()->with('contacts', 'country')->orderBy('name')->get(),
-          'taxRates' => TaxRate::scope()->orderBy('name')->get(),
-          'sizes' => Cache::get('sizes'),
-          'paymentTerms' => Cache::get('paymentTerms'),
-          'invoiceDesigns' => InvoiceDesign::getDesigns(),
-          'invoiceFonts' => Cache::get('fonts'),
-          'invoiceLabels' => Auth::user()->account->getInvoiceLabels(),
-          'isRecurring' => false,
-          'expenses' => collect(),
+            'entityType' => ENTITY_QUOTE,
+            'account' => Auth::user()->account->load('country'),
+            'products' => Product::scope()->orderBy('name')->get(),
+            'taxRateOptions' => $account->present()->taxRateOptions,
+            'clients' => Client::scope()->with('contacts', 'country')->orderBy('name')->get(),
+            'taxRates' => TaxRate::scope()->orderBy('name')->get(),
+            'sizes' => Cache::get('sizes'),
+            'paymentTerms' => Cache::get('paymentTerms'),
+            'invoiceDesigns' => InvoiceDesign::getDesigns(),
+            'invoiceFonts' => Cache::get('fonts'),
+            'invoiceLabels' => Auth::user()->account->getInvoiceLabels(),
+            'isRecurring' => false,
+            'expenses' => collect(),
         ];
     }
 

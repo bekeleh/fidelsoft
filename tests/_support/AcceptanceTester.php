@@ -81,7 +81,7 @@ class AcceptanceTester extends \Codeception\Actor
     function createProduct(\AcceptanceTester $I, $productKey, $cost, $taxName = '', $taxRate = '')
     {
         $I->amOnPage('/products/create');
-        $I->fillField(['name' => 'product_key'], $productKey);
+        $I->fillField(['name' => 'name'], $productKey);
         $I->fillField(['name' => 'cost'], $cost);
 
         if ($taxName && $taxRate) {

@@ -82,7 +82,7 @@ class GenerateStatementData
             $invoice = $invoices[$i];
             $item = new InvoiceItem();
             $item->id = $invoice->id;
-            $item->product_key = $invoice->invoice_number;
+            $item->name = $invoice->invoice_number;
             $item->custom_value1 = $invoice->invoice_date;
             $item->custom_value2 = $invoice->due_date;
             $item->notes = $invoice->amount;
@@ -119,7 +119,7 @@ class GenerateStatementData
         for ($i=0; $i<$payments->count(); $i++) {
             $payment = $payments[$i];
             $item = new InvoiceItem();
-            $item->product_key = $payment->invoice->invoice_number;
+            $item->name = $payment->invoice->invoice_number;
             $item->custom_value1 = $payment->payment_date;
             $item->custom_value2 = $payment->present()->payment_type;
             $item->cost = $payment->getCompletedAmount();
@@ -148,7 +148,7 @@ class GenerateStatementData
         }
 
         $item = new InvoiceItem();
-        $item->product_key = $ageGroups['age_group_0'];
+        $item->name = $ageGroups['age_group_0'];
         $item->notes = $ageGroups['age_group_30'];
         $item->custom_value1 = $ageGroups['age_group_60'];
         $item->custom_value1 = $ageGroups['age_group_90'];
