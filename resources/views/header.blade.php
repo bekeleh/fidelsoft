@@ -7,26 +7,10 @@
         <style type="text/css">
             .nav-footer {
                 @if (config('mail.driver') == 'log' && ! config('services.postmark'))
-                                                            background-color: #50C878 !important;
+                                                              background-color: #50C878 !important;
                 @else
-                                                               background-color: #FD6A02 !important;
+                                                                  background-color: #FD6A02 !important;
             @endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
             }
@@ -445,6 +429,7 @@
                     'stores',
                     'locations',
                     'item_prices',
+                    'sale_types',
                     'reports',
                     'settings',
                 ] as $option)

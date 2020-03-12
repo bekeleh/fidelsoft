@@ -48,18 +48,16 @@ class ProductDatatable extends EntityDatatable
                 },
             ],
             [
-                'custom_value1',
+                'created_by',
                 function ($model) {
-                    return $model->custom_value1;
+                    return $model->created_by;
                 },
-                $account->customLabel('product1')
             ],
             [
-                'custom_value2',
+                'updated_by',
                 function ($model) {
-                    return $model->custom_value2;
+                    return $model->updated_by;
                 },
-                $account->customLabel('product2')
             ],
             [
                 'created_at',

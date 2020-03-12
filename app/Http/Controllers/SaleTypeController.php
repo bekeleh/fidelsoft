@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SaleTypeRequest;
 use App\Models\SaleType;
+use App\Ninja\Datatables\SaleTypeDatatable;
 use App\Ninja\Repositories\SaleTypeRepository;
 use App\Services\SaleTypeService;
 use Illuminate\Support\Facades\Auth;
@@ -25,14 +26,23 @@ class SaleTypeController extends BaseController
         $this->saleTypeRepo = $saleTypeRepo;
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
     public function index()
     {
-        return Redirect::to('settings/' . ACCOUNT_SALE_TYPES);
+        return View::make('list_wrapper', [
+            'entityType' => ENTITY_SALE_TYPE,
+            'datatable' => new SaleTypeDatatable(),
+            'title' => trans('texts.sale_types'),
+        ]);
     }
 
     public function getDatatable()
     {
-        return $this->saleTypeService->getDatatable(Auth::user()->account_id);
+        return $this->saleTypeService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
     }
 
     public function edit($publicId)
@@ -44,7 +54,7 @@ class SaleTypeController extends BaseController
             'title' => trans('texts.edit_sale_type'),
         ];
 
-        return View::make('sale_types.sale_type', $data);
+        return View::make('sale_types.edit', $data);
     }
 
     public function create()
@@ -56,7 +66,7 @@ class SaleTypeController extends BaseController
             'title' => trans('texts.create_sale_type'),
         ];
 
-        return View::make('sale_types.sale_type', $data);
+        return View::make('sale_types.edit', $data);
     }
 
     public function store(SaleTypeRequest $request)
@@ -75,6 +85,11 @@ class SaleTypeController extends BaseController
         Session::flash('message', trans('texts.updated_sale_type'));
 
         return Redirect::to('settings/' . ACCOUNT_SALE_TYPES);
+    }
+
+    public function cloneSaleType(SaleTypeRequest $request, $publicId)
+    {
+        return self::edit($request, $publicId, true);
     }
 
     public function bulk()

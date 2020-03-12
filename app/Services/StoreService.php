@@ -56,6 +56,11 @@ class StoreService extends BaseService
         if (isset($data['location_id']) && $data['location_id']) {
             $data['location_id'] = Location::getPrivateId($data['location_id']);
         }
+        if ($store) {
+            $data['updated_by'] = auth::user()->username;
+        } else {
+            $data['created_by'] = auth::user()->username;
+        }
         return $this->storeRepo->save($data, $store);
     }
 
@@ -65,9 +70,9 @@ class StoreService extends BaseService
      * @return JsonResponse
      * @throws Exception
      */
-    public function getDatatable($search)
+    public function getDatatable($accountId, $search)
     {
-        $query = $this->storeRepo->find($search);
+        $query = $this->storeRepo->find($accountId, $search);
 
         if (!Utils::hasPermission('view_store')) {
             $query->where('stores.user_id', '=', Auth::user()->id);

@@ -6,6 +6,7 @@ use App\Events\SaleTypeWasCreated;
 use App\Events\SaleTypeWasUpdated;
 use App\Models\SaleType;
 use Illuminate\Support\Facades\DB;
+use Auth;
 
 class SaleTypeRepository extends BaseRepository
 {
@@ -24,16 +25,13 @@ class SaleTypeRepository extends BaseRepository
 
     public function find($accountId, $filter = null)
     {
-        $query = DB::table('sale_types')
-            ->where('sale_types.account_id', '=', $accountId)
-            ->select('sale_types.*');
+        $query = DB::table('sale_types')->select('sale_types.*')
+            ->where('sale_types.account_id', '=', $accountId);
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('sale_types.name', 'like', '%' . $filter . '%')
-                    ->orWhere('sale_types.notes', 'like', '%' . $filter . '%')
-                    ->orWhere('sale_types.custom_value1', 'like', '%' . $filter . '%')
-                    ->orWhere('sale_types.custom_value2', 'like', '%' . $filter . '%');
+                    ->orWhere('sale_types.notes', 'like', '%' . $filter . '%');
             });
         }
 
@@ -47,7 +45,7 @@ class SaleTypeRepository extends BaseRepository
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
 
         if ($saleType) {
-            // do nothing
+            $saleType->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $saleType = SaleType::scope($publicId)->withArchived()->firstOrFail();
             \Log::warning('Entity not set in sales_type repo save');

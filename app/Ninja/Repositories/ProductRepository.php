@@ -7,6 +7,7 @@ use App\Events\ProductWasUpdated;
 use App\Libraries\Utils;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
+use Auth;
 
 class ProductRepository extends BaseRepository
 {
@@ -26,8 +27,8 @@ class ProductRepository extends BaseRepository
     public function find($accountId, $filter = null)
     {
         $query = DB::table('products')
-            ->where('products.account_id', '=', $accountId)
-            ->select('products.*');
+            ->select('products.*')
+            ->where('products.account_id', '=', $accountId);
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
@@ -48,19 +49,19 @@ class ProductRepository extends BaseRepository
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
 
         if ($product) {
-            // do nothing
+            $product->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $product = Product::scope($publicId)->withArchived()->firstOrFail();
             \Log::warning('Entity not set in product repo save');
         } else {
             $product = Product::createNew();
+            $product->created_by = auth::user()->username;
         }
 
         $product->fill($data);
         $product->product_key = isset($data['product_key']) ? trim($data['product_key']) : '';
         $product->notes = isset($data['notes']) ? trim($data['notes']) : '';
         $product->cost = isset($data['cost']) ? Utils::parseFloat($data['cost']) : 0;
-        $product->qty = isset($data['qty']) ? Utils::parseFloat($data['qty']) : 1;
         $product->save();
 
         if ($publicId) {

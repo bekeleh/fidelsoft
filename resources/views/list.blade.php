@@ -113,6 +113,28 @@
                 });
             });
         </script>
+        <!-- store begin -->
+    @elseif ($entityType == ENTITY_STORE)
+        @if (Auth::user()->can('create', ENTITY_LOCATION))
+            {!! DropdownButton::normal(trans('texts.locations'))
+                ->withAttributes(['class'=>'locationsDropdown'])
+                ->withContents([
+                  ['label' => trans('texts.new_location'), 'url' => url('/locations/create')],
+                ]
+              )->split() !!}
+        @else
+            {!! DropdownButton::normal(trans('texts.locations'))
+                ->withAttributes(['class'=>'locationsDropdown'])
+                ->split() !!}
+        @endif
+        <script type="text/javascript">
+            $(function () {
+                $('.locationsDropdown:not(.dropdown-toggle)').click(function (event) {
+                    openUrlOnClick('{{ url('/locations') }}', event);
+                });
+            });
+        </script>
+        <!-- store end -->
     @elseif ($entityType == ENTITY_TASK)
         {!! Button::normal(trans('texts.kanban'))->asLinkTo(url('/tasks/kanban' . (! empty($clientId) ? ('/' . $clientId . (! empty($projectId) ? '/' . $projectId : '')) : '')))->appendIcon(Icon::create('th')) !!}
         {!! Button::normal(trans('texts.time_tracker'))->asLinkTo('javascript:openTimeTracker()')->appendIcon(Icon::create('time')) !!}

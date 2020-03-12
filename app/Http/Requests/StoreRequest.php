@@ -21,7 +21,7 @@ class StoreRequest extends EntityRequest
             case 'POST':
             {
                 $rules['name'] = 'required|max:90|unique:stores,name';
-//                $rules['store_code'] = 'required|max:90|unique:stores,store_code';
+                $rules['store_code'] = 'required|max:90|unique:stores,store_code';
 //                $rules['location_id'] = 'required|exists:locations,id';
                 $rules['notes'] = 'nullable';
                 $rules['is_deleted'] = 'boolean';
@@ -34,7 +34,7 @@ class StoreRequest extends EntityRequest
                 $store = Store::where('public_id', (int)request()->segment(2))->first();
                 if ($store) {
                     $rules['name'] = 'required|max:90|unique:stores,name,' . $store->id . ',id';
-//                    $rules['store_code'] = 'required|max:90|unique:stores,store_code,' . $store->id . ',id';
+                    $rules['store_code'] = 'required|max:90|unique:stores,store_code,' . $store->id . ',id';
 //                    $rules['location_id'] = 'required|exists:locations,id';
                     $rules['is_deleted'] = 'boolean';
                     $rules['notes'] = 'nullable';

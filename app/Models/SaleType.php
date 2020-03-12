@@ -31,8 +31,6 @@ class SaleType extends EntityModel
     protected $fillable = [
         'name',
         'notes',
-        'custom_value1',
-        'custom_value2',
         'created_by',
         'updated_by',
         'deleted_by',

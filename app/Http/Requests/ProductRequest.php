@@ -30,8 +30,9 @@ class ProductRequest extends EntityRequest
             case 'PATCH':
             {
                 $product = Product::where('public_id', (int)request()->segment(2))->first();
+//                dd($product);
                 if ($product) {
-                    $rules['product_key'] = 'required|max:90|unique:products,product_key,' . $product->id . ',public_id';
+                    $rules['product_key'] = 'required|max:90|unique:products,product_key,' . $product->id . ',id';
                     $rules['is_deleted'] = 'boolean';
                     $rules['notes'] = 'nullable';
                     break;

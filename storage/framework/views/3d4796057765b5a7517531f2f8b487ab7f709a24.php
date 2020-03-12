@@ -452,6 +452,7 @@
                     'stores',
                     'locations',
                     'item_prices',
+                    'sale_types',
                     'reports',
                     'settings',
                 ];

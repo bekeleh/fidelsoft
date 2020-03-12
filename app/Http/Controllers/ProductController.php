@@ -115,7 +115,7 @@ class ProductController extends BaseController
             'title' => trans('texts.edit_product'),
         ];
 
-        return View::make('products.product', $data);
+        return View::make('products.edit', $data);
     }
 
     /**
@@ -135,7 +135,7 @@ class ProductController extends BaseController
             'url' => 'products',
             'title' => trans('texts.create_product'),
         ];
-        return View::make('products.product', $data);
+        return View::make('products.edit', $data);
     }
 
     /**

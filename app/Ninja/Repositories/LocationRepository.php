@@ -27,7 +27,7 @@ class LocationRepository extends BaseRepository
             $query->where(function ($query) use ($filter) {
                 $query->where('locations.name', 'like', '%' . $filter . '%')
                     ->orWhere('locations.notes', 'like', '%' . $filter . '%')
-                    ->orWhere('locations.store_code', 'like', '%' . $filter . '%');
+                    ->orWhere('locations.location_code', 'like', '%' . $filter . '%');
             });
         }
 

@@ -141,6 +141,30 @@
                 });
             });
         </script>
+        <!-- store begin -->
+    <?php elseif ($entityType == ENTITY_STORE): ?>
+        <?php if (Auth::user()->can('create', ENTITY_LOCATION)): ?>
+            <?php echo DropdownButton::normal(trans('texts.locations'))
+                ->withAttributes(['class' => 'locationsDropdown'])
+                ->withContents([
+                        ['label' => trans('texts.new_location'), 'url' => url('/locations/create')],
+                    ]
+                )->split(); ?>
+
+        <?php else: ?>
+            <?php echo DropdownButton::normal(trans('texts.locations'))
+                ->withAttributes(['class' => 'locationsDropdown'])
+                ->split(); ?>
+
+        <?php endif; ?>
+        <script type="text/javascript">
+            $(function () {
+                $('.locationsDropdown:not(.dropdown-toggle)').click(function (event) {
+                    openUrlOnClick('<?php echo e(url('/locations')); ?>', event);
+                });
+            });
+        </script>
+        <!-- store end -->
     <?php elseif ($entityType == ENTITY_TASK): ?>
         <?php echo Button::normal(trans('texts.kanban'))->asLinkTo(url('/tasks/kanban' . (!empty($clientId) ? ('/' . $clientId . (!empty($projectId) ? '/' . $projectId : '')) : '')))->appendIcon(Icon::create('th')); ?>
 

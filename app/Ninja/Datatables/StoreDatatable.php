@@ -33,9 +33,9 @@ class StoreDatatable extends EntityDatatable
                 function ($model) {
                     if ($model->location_id) {
                         if (Auth::user()->can('view', [ENTITY_LOCATION, $model]))
-                            return link_to("locations/{$model->location_id}", $model->name)->toHtml();
+                            return link_to("locations/{$model->location_id}", $model->location_name)->toHtml();
                         else
-                            return $model->name;
+                            return $model->location_name;
                     } else {
                         return '';
                     }

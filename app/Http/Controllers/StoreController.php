@@ -45,7 +45,7 @@ class StoreController extends BaseController
 
     public function getDatatable($storePublicId = null)
     {
-        return $this->storeService->getDatatable(Input::get('sSearch'));
+        return $this->storeService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
     }
 
     public function getDatatableLocation($locationPublicId = null)
@@ -149,7 +149,7 @@ class StoreController extends BaseController
         $action = Input::get('action');
         $ids = Input::get('public_id') ? Input::get('public_id') : Input::get('ids');
 
-        $count = $this->productService->bulk($ids, $action);
+        $count = $this->storeService->bulk($ids, $action);
 
         $message = Utils::pluralize($action . 'd_product', $count);
         Session::flash('message', $message);

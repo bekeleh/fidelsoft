@@ -24,7 +24,6 @@
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
                     {!! Former::text('product_key')->label('texts.product') !!}
-                    {!! Former::text('qty')->label('texts.qty') !!}
                     {!! Former::textarea('notes')->rows(6) !!}
                     @include('partials/custom_fields', ['entityType' => ENTITY_PRODUCT])
                     {!! Former::text('cost') !!}
