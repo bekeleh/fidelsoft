@@ -10,7 +10,7 @@ use Laracasts\Presenter\PresentableTrait;
  */
 class ItemStore extends EntityModel
 {
-    protected $presenter = 'App\Ninja\Presenters\StockPresenter';
+    protected $presenter = 'App\Ninja\Presenters\ItemStorePresenter';
     use PresentableTrait;
     use SoftDeletes;
 

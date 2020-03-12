@@ -25,7 +25,6 @@ class DatatableService
     public function createDatatable(EntityDatatable $datatable, $query)
     {
         $table = Datatable::query($query);
-
         if ($datatable->isBulkEdit) {
             $table->addColumn('checkbox', function ($model) use ($datatable) {
                 $can_edit = Auth::user()->hasPermission('edit_' . $datatable->entityType) || (isset($model->user_id) && Auth::user()->id == $model->user_id);
@@ -34,7 +33,6 @@ class DatatableService
                     . '" ' . Utils::getEntityRowClass($model) . '>';
             });
         }
-
         foreach ($datatable->columns() as $column) {
             // set visible to true by default
             if (count($column) == 2) {
@@ -52,7 +50,6 @@ class DatatableService
         if (count($datatable->actions())) {
             $this->createDropdown($datatable, $table);
         }
-
         return $table->orderColumns($orderColumns)->make();
     }
 

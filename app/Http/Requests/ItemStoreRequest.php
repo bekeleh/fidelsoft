@@ -15,6 +15,7 @@ class ItemStoreRequest extends EntityRequest
 
     public function rules()
     {
+        dd($this->all());
         $this->sanitize();
         $rules = [];
         switch ($this->method()) {

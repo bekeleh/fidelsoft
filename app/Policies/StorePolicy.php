@@ -9,6 +9,6 @@ class StorePolicy extends EntityPolicy
 {
     public function tableName()
     {
-        return 'locations';
+        return 'stores';
     }
 }

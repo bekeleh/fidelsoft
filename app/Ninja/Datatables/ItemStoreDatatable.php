@@ -33,7 +33,7 @@ class ItemStoreDatatable extends EntityDatatable
                 'store_name',
                 function ($model) {
                     if ($model->store_id) {
-                        if (Auth::user()->can('view', [ENTITY_ITEM_STORE, $model]))
+                        if (Auth::user()->can('view', [ENTITY_STORE, $model]))
                             return link_to("stores/{$model->store_id}", $model->store_name)->toHtml();
                         else
                             return $model->store_name;
@@ -45,7 +45,14 @@ class ItemStoreDatatable extends EntityDatatable
             [
                 'bin',
                 function ($model) {
-                    return link_to('item_stores/' . $model->public_id . '/edit', $model->bin)->toHtml();
+                    if ($model->bin) {
+                        if (Auth::user()->can('view', [$model]))
+                            return link_to('item_stores/' . $model->public_id . '/edit', $model->bin)->toHtml();
+                        else
+                            return $model->bin;
+                    } else {
+                        return '';
+                    }
                 },
             ],
 

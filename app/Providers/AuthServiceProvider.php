@@ -13,6 +13,8 @@ use App\Models\Document;
 use App\Models\Expense;
 use App\Models\ExpenseCategory;
 use App\Models\Invoice;
+use App\Models\ItemStore;
+use App\Models\Location;
 use App\Models\Payment;
 use App\Models\PaymentTerm;
 use App\Models\Product;
@@ -23,6 +25,7 @@ use App\Models\ProposalSnippet;
 use App\Models\ProposalTemplate;
 use App\Models\Quote;
 use App\Models\RecurringExpense;
+use App\Models\Store;
 use App\Models\Subscription;
 use App\Models\Task;
 use App\Models\TaxRate;
@@ -38,6 +41,8 @@ use App\Policies\ExpenseCategoryPolicy;
 use App\Policies\ExpensePolicy;
 use App\Policies\GenericEntityPolicy;
 use App\Policies\InvoicePolicy;
+use App\Policies\ItemStorePolicy;
+use App\Policies\LocationPolicy;
 use App\Policies\PaymentPolicy;
 use App\Policies\PaymentTermPolicy;
 use App\Policies\ProductPolicy;
@@ -48,6 +53,7 @@ use App\Policies\ProposalSnippetPolicy;
 use App\Policies\ProposalTemplatePolicy;
 use App\Policies\QuotePolicy;
 use App\Policies\RecurringExpensePolicy;
+use App\Policies\StorePolicy;
 use App\Policies\SubscriptionPolicy;
 use App\Policies\TaskPolicy;
 use App\Policies\TaxRatePolicy;
@@ -77,6 +83,9 @@ class AuthServiceProvider extends ServiceProvider
         Task::class => TaskPolicy::class,
         Vendor::class => VendorPolicy::class,
         Product::class => ProductPolicy::class,
+        Location::class => LocationPolicy::class,
+        Store::class => StorePolicy::class,
+        ItemStore::class => ItemStorePolicy::class,
         TaxRate::class => TaxRatePolicy::class,
         AccountGateway::class => AccountGatewayPolicy::class,
         AccountToken::class => TokenPolicy::class,

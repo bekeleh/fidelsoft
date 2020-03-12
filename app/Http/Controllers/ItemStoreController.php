@@ -84,10 +84,11 @@ class ItemStoreController extends BaseController
         ];
 
         $data = array_merge($data, self::getViewModel());
+
         return View::make('item_stores.edit', $data);
     }
 
-    public function cloneStore(ItemStoreRequest $request, $publicId)
+    public function cloneItemStore(ItemStoreRequest $request, $publicId)
     {
         return self::edit($request, $publicId, true);
     }

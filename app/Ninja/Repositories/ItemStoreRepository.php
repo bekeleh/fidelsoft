@@ -37,6 +37,7 @@ class ItemStoreRepository extends BaseRepository
                 'item_stores.product_id',
                 'item_stores.store_id',
                 'item_stores.bin',
+                'item_stores.qty',
                 'item_stores.is_deleted',
                 'item_stores.notes',
                 'item_stores.created_at',
@@ -90,16 +91,16 @@ class ItemStoreRepository extends BaseRepository
             $itemStore->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $itemStore = ItemStore::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in store repo save');
+            \Log::warning('Entity not set in item store repo save');
         } else {
             $itemStore = ItemStore::createNew();
             $itemStore->created_by = Auth::user()->username;
         }
         $itemStore->fill($data);
-        $itemStore->bin = isset($data['name']) ? ucwords(trim($data['name'])) : '';
+        $itemStore->bin = isset($data['bin']) ? ucwords(trim($data['bin'])) : '';
         $itemStore->qty = isset($data['qty']) ? trim($data['qty']) : '';
-        $itemStore->product_id = isset($data['product_id']) ? trim($data['product_id']) : '';
-        $itemStore->store_id = isset($data['store_id']) ? trim($data['store_id']) : '';
+//        $itemStore->product_id = isset($data['product_id']) ? trim($data['product_id']) : '';
+//        $itemStore->store_id = isset($data['store_id']) ? trim($data['store_id']) : '';
         $itemStore->notes = isset($data['notes']) ? trim($data['notes']) : '';
 //      save the data
         $itemStore->save();

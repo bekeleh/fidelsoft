@@ -60,7 +60,6 @@ class ItemStoreService extends BaseService
         if (isset($data['store_id']) && $data['store_id']) {
             $data['store_id'] = Store::getPrivateId($data['store_id']);
         }
-
         return $this->itemStoreRepo->save($data, $store);
     }
 
@@ -72,13 +71,12 @@ class ItemStoreService extends BaseService
      */
     public function getDatatable($accountId, $search)
     {
+        $datatable = new ItemStoreDatatable(true);
         $query = $this->itemStoreRepo->find($accountId, $search);
-
-        if (!Utils::hasPermission('view_store')) {
-            $query->where('stores.user_id', '=', Auth::user()->id);
+        if (!Utils::hasPermission('view_item_store')) {
+            $query->where('item_stores.user_id', '=', Auth::user()->id);
         }
-
-        return $this->datatableService->createDatatable(new ItemStoreDatatable(), $query);
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 
     /**
