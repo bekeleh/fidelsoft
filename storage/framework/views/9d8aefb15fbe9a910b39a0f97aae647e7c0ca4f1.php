@@ -235,14 +235,14 @@
                 window.cookieconsent.initialise({
                     "palette": {
                         "popup": {
-                                "background": "#000"
-                            },
-                            "button": {
-                                "background": "#f1d600"
-                            },
+                            "background": "#000"
                         },
-                        "content": {
-                            "href": "<?php echo e(Utils::isNinja() ? config('ninja.privacy_policy_url.hosted') : 'https://cookiesandyou.com/'); ?>",
+                        "button": {
+                            "background": "#f1d600"
+                        },
+                    },
+                    "content": {
+                        "href": "<?php echo e(Utils::isNinja() ? config('ninja.privacy_policy_url.hosted') : 'https://cookiesandyou.com/'); ?>",
                             "message": <?php echo json_encode(trans('texts.cookie_message')); ?>,
                             "dismiss": <?php echo json_encode(trans('texts.got_it')); ?>,
                             "link": <?php echo json_encode(trans('texts.learn_more')); ?>,

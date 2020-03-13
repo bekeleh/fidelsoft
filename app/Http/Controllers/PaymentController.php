@@ -9,7 +9,6 @@ use App\Libraries\Utils;
 use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\Payment;
-use App\Models\PaymentType;
 use App\Ninja\Datatables\PaymentDatatable;
 use App\Ninja\Mailers\ContactMailer;
 use App\Ninja\Repositories\PaymentRepository;

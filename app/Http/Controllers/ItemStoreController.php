@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
 use Redirect;
 
 class ItemStoreController extends BaseController
@@ -153,6 +155,22 @@ class ItemStoreController extends BaseController
     public function store(ItemStoreRequest $request)
     {
         $data = $request->input();
+        $productId = $data['product_id'] = Product::getPrivateId($data['product_id']);
+        $storeId = $data['store_id'] = Store::getPrivateId($data['store_id']);
+        $validator = Validator::make($data, [
+                'product_id' => [
+                    'required',
+                    Rule::unique('item_stores')->where(function ($query) use ($productId, $storeId) {
+                        return $query->where('product_id', $productId)
+                            ->where('store_id', $storeId);
+                    }),
+                ],
+            ]
+        );
+        if ($validator->fails()) {
+            Session::flash('message', trans('This product already had been registered in the given store.'));
+            return redirect()->to("item_stores/create");
+        }
         $itemStore = $this->itemStoreService->save($data);
 
         Session::flash('message', trans('texts.created_item_store'));

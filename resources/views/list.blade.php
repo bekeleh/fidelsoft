@@ -112,7 +112,7 @@
                     openUrlOnClick('{{ url('/expense_categories') }}', event);
                 });
             });
-        </script>
+        </script><!-- /. expense -->
         <!-- store begin -->
     @elseif ($entityType == ENTITY_STORE)
         @if (Auth::user()->can('create', ENTITY_LOCATION))
@@ -133,8 +133,41 @@
                     openUrlOnClick('{{ url('/locations') }}', event);
                 });
             });
-        </script>
-        <!-- store end -->
+        </script><!-- /. store -->
+        <!-- item and store -->
+    @elseif ($entityType == ENTITY_ITEM_STORE)
+        @if (Auth::user()->can('create', [ENTITY_PRODUCT , ENTITY_STORE]))
+            {!! DropdownButton::normal(trans('texts.products'))
+                ->withAttributes(['class'=>'productsDropdown'])
+                ->withContents([
+                  ['label' => trans('texts.new_product'), 'url' => url('/products/create')],
+                ])->split() !!}
+            {!! DropdownButton::normal(trans('texts.stores'))
+                ->withAttributes(['class'=>'storesDropdown'])
+                ->withContents([
+                  ['label' => trans('texts.new_store'), 'url' => url('/stores/create')],
+                ])->split() !!}
+        @else
+            {!! DropdownButton::normal(trans('texts.products'))
+                ->withAttributes(['class'=>'productsDropdown'])
+                ->split() !!}
+            {!! DropdownButton::normal(trans('texts.stores'))
+                ->withAttributes(['class'=>'storesDropdown'])
+                ->split() !!}
+        @endif
+        <script type="text/javascript">
+            $(function () {
+                $('.productsDropdown:not(.dropdown-toggle)').click(function (event) {
+                    openUrlOnClick('{{ url('/products') }}', event);
+                });
+            });
+            $(function () {
+                $('.storesDropdown:not(.dropdown-toggle)').click(function (event) {
+                    openUrlOnClick('{{ url('/stores') }}', event);
+                });
+            });
+        </script><!-- /. item store -->
+
     @elseif ($entityType == ENTITY_TASK)
         {!! Button::normal(trans('texts.kanban'))->asLinkTo(url('/tasks/kanban' . (! empty($clientId) ? ('/' . $clientId . (! empty($projectId) ? '/' . $projectId : '')) : '')))->appendIcon(Icon::create('th')) !!}
         {!! Button::normal(trans('texts.time_tracker'))->asLinkTo('javascript:openTimeTracker()')->appendIcon(Icon::create('time')) !!}

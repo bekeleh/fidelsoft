@@ -30,7 +30,6 @@ class ExpenseRequest extends EntityRequest
                 'name' => trim($this->expense_category_name)
             ];
             if (ExpenseCategory::validate($data) === true) {
-                dd('expense request...');
                 $category = app('App\Ninja\Repositories\ExpenseCategoryRepository')->save($data);
                 $input['expense_category_id'] = $category->id;
             } else {

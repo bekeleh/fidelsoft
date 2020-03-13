@@ -46,10 +46,7 @@ class ItemStoreDatatable extends EntityDatatable
                 'bin',
                 function ($model) {
                     if ($model->bin) {
-                        if (Auth::user()->can('view', [$model]))
                             return link_to('item_stores/' . $model->public_id . '/edit', $model->bin)->toHtml();
-                        else
-                            return $model->bin;
                     } else {
                         return '';
                     }
@@ -61,7 +58,8 @@ class ItemStoreDatatable extends EntityDatatable
                 function ($model) {
                     return $model->qty;
                 },
-            ], [
+            ],
+            [
                 'notes',
                 function ($model) {
                     return $this->showWithTooltip($model->notes);

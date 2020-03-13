@@ -7,6 +7,7 @@ use App\Events\StoreWasUpdated;
 use App\Models\Location;
 use App\Models\Store;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class StoreRepository extends BaseRepository
 {
@@ -32,7 +33,7 @@ class StoreRepository extends BaseRepository
                 'stores.id',
                 'stores.public_id',
                 'stores.location_id',
-                'stores.name',
+                'stores.name as store_name',
                 'stores.store_code',
                 'stores.is_deleted',
                 'stores.notes',

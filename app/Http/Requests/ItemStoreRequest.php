@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Models\ItemStore;
-
 class ItemStoreRequest extends EntityRequest
 {
     protected $entityType = ENTITY_ITEM_STORE;
@@ -15,15 +13,15 @@ class ItemStoreRequest extends EntityRequest
 
     public function rules()
     {
-        dd($this->all());
         $this->sanitize();
         $rules = [];
         switch ($this->method()) {
             case 'POST':
             {
-                $rules['bin'] = 'required|max:90|unique:item_stores,bin';
-//                $rules['product_id'] = 'required|exists:products,id';
-//                $rules['store_id'] = 'required|exists:stores,id';
+                $rules['product_id'] = 'required|numeric';
+                $rules['store_id'] = 'required|numeric';
+                $rules['bin'] = 'required';
+                $rules['qty'] = 'numeric';
                 $rules['notes'] = 'nullable';
                 $rules['is_deleted'] = 'boolean';
                 $rules['notes'] = 'nullable';
@@ -32,17 +30,13 @@ class ItemStoreRequest extends EntityRequest
             case 'PUT':
             case 'PATCH':
             {
-                $store = ItemStore::where('public_id', (int)request()->segment(2))->first();
-                if ($store) {
-                    $rules['bin'] = 'required|max:90|unique:item_stores,bin,' . $store->id . ',id';
-//                    $rules['product_id'] = 'required|exists:products,id';
-//                $rules['store_id'] = 'required|exists:stores,id';
-                    $rules['is_deleted'] = 'boolean';
-                    $rules['notes'] = 'nullable';
-                    break;
-                } else {
-                    return;
-                }
+                $rules['product_id'] = 'required|numeric';
+                $rules['store_id'] = 'required|numeric';
+                $rules['bin'] = 'required';
+                $rules['qty'] = 'numeric';
+                $rules['is_deleted'] = 'boolean';
+                $rules['notes'] = 'nullable';
+                break;
             }
             default:
                 break;
@@ -50,7 +44,8 @@ class ItemStoreRequest extends EntityRequest
         return $rules;
     }
 
-    public function sanitize()
+    public
+    function sanitize()
     {
         $input = $this->all();
         if (!empty($input['bin'])) {

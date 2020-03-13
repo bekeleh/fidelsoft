@@ -17,9 +17,9 @@ class StoreDatatable extends EntityDatatable
 
         return [
             [
-                'name',
+                'store_name',
                 function ($model) {
-                    return link_to('stores/' . $model->public_id . '/edit', $model->name)->toHtml();
+                    return link_to('stores/' . $model->public_id . '/edit', $model->store_name)->toHtml();
                 },
             ],
             [

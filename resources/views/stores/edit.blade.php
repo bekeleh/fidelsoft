@@ -24,7 +24,7 @@
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
-                    {!! Former::text('name')->label('texts.name') !!}
+                    {!! Former::text('name')->label('texts.store_name') !!}
                     {!! Former::text('store_code')->label('texts.code') !!}
                     {!! Former::select('location_id')->addOption('', '')
                       ->label(trans('texts.location'))

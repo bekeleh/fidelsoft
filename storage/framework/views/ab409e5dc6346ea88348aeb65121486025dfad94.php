@@ -140,7 +140,7 @@
                     openUrlOnClick('<?php echo e(url('/expense_categories')); ?>', event);
                 });
             });
-        </script>
+        </script><!-- /. expense -->
         <!-- store begin -->
     <?php elseif ($entityType == ENTITY_STORE): ?>
         <?php if (Auth::user()->can('create', ENTITY_LOCATION)): ?>
@@ -163,8 +163,45 @@
                     openUrlOnClick('<?php echo e(url('/locations')); ?>', event);
                 });
             });
-        </script>
-        <!-- store end -->
+        </script><!-- /. store -->
+        <!-- item and store -->
+    <?php elseif ($entityType == ENTITY_ITEM_STORE): ?>
+        <?php if (Auth::user()->can('create', [ENTITY_PRODUCT, ENTITY_STORE])): ?>
+            <?php echo DropdownButton::normal(trans('texts.products'))
+                ->withAttributes(['class' => 'productsDropdown'])
+                ->withContents([
+                    ['label' => trans('texts.new_product'), 'url' => url('/products/create')],
+                ])->split(); ?>
+
+            <?php echo DropdownButton::normal(trans('texts.stores'))
+                ->withAttributes(['class' => 'storesDropdown'])
+                ->withContents([
+                    ['label' => trans('texts.new_store'), 'url' => url('/stores/create')],
+                ])->split(); ?>
+
+        <?php else: ?>
+            <?php echo DropdownButton::normal(trans('texts.products'))
+                ->withAttributes(['class' => 'productsDropdown'])
+                ->split(); ?>
+
+            <?php echo DropdownButton::normal(trans('texts.stores'))
+                ->withAttributes(['class' => 'storesDropdown'])
+                ->split(); ?>
+
+        <?php endif; ?>
+        <script type="text/javascript">
+            $(function () {
+                $('.productsDropdown:not(.dropdown-toggle)').click(function (event) {
+                    openUrlOnClick('<?php echo e(url('/products')); ?>', event);
+                });
+            });
+            $(function () {
+                $('.storesDropdown:not(.dropdown-toggle)').click(function (event) {
+                    openUrlOnClick('<?php echo e(url('/stores')); ?>', event);
+                });
+            });
+        </script><!-- /. item store -->
+
     <?php elseif ($entityType == ENTITY_TASK): ?>
         <?php echo Button::normal(trans('texts.kanban'))->asLinkTo(url('/tasks/kanban' . (!empty($clientId) ? ('/' . $clientId . (!empty($projectId) ? '/' . $projectId : '')) : '')))->appendIcon(Icon::create('th')); ?>
 

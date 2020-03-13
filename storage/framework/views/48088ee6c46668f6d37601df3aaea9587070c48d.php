@@ -236,10 +236,12 @@
                                     $loop = $__env->getLastLoop(); ?>
                                 </div>
                                 <div class="col-md-1">
-                                    <div style="border-right:thin solid #CCCCCC;height:90px;width:8px;margin-bottom:10px;"></div>
+                                    <div
+                                        style="border-right:thin solid #CCCCCC;height:90px;width:8px;margin-bottom:10px;"></div>
                                     <?php echo e(trans('texts.or')); ?>
 
-                                    <div style="border-right:thin solid #CCCCCC;height:90px;width:8px;margin-top:10px;"></div>
+                                    <div
+                                        style="border-right:thin solid #CCCCCC;height:90px;width:8px;margin-top:10px;"></div>
                                 </div>
                                 <div class="col-md-6">
                                     <?php else: ?>
@@ -340,10 +342,10 @@
         <span id="signUpFooter">
             <button type="button" class="btn btn-default" id="closeSignUpButton"
                     data-dismiss="modal"><?php echo e(trans('texts.close')); ?> <i
-                        class="glyphicon glyphicon-remove-circle"></i></button>
+                    class="glyphicon glyphicon-remove-circle"></i></button>
             <button type="button" class="btn btn-primary" id="saveSignUpButton" onclick="validateServerSignUp()"
                     disabled><?php echo e(trans('texts.save')); ?> <i
-                        class="glyphicon glyphicon-floppy-disk"></i></button>
+                    class="glyphicon glyphicon-floppy-disk"></i></button>
         </span>
                     </div>
                 </div>
