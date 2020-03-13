@@ -60,6 +60,25 @@ $LANG = array(
     'location_settings' => 'Location Settings',
     /*
     |--------------------------------------------------------------------------
+    | item category trans
+    |--------------------------------------------------------------------------
+    */
+    'item_category' => 'Item Category',
+    'item_categories' => 'Item Categories',
+    'item_category_name' => 'Category Name',
+    'new_item_category' => 'New Item Category',
+    'create_item_category' => 'Create Item Category',
+    'edit_item_category' => 'Edit Item Category',
+    'clone_item_category' => 'Clone Item Category',
+    'archive_item_category' => 'Archive Item Category',
+    'delete_item_category' => 'Delete Item Category',
+    'restore_item_category' => 'Restore Item Category',
+    'updated_item_category' => 'Successfully Updated Item Category',
+    'created_item_category' => 'Successfully Created Item Category',
+    'archived_item_category' => 'Successfully Archived Item Category',
+    'item_category_settings' => 'Item Category Settings',
+    /*
+    |--------------------------------------------------------------------------
     | item store trans
     |--------------------------------------------------------------------------
     */

@@ -288,8 +288,9 @@
                                     $__env->addLoop($__currentLoopData);
                                     foreach ($__currentLoopData as $item): $__env->incrementLoopIndices();
                                         $loop = $__env->getLastLoop(); ?>
-                                        <div class="currency currency_<?php echo e($item->currency_id ?: $account->getCurrencyId()); ?>"
-                                             style="display:none">
+                                        <div
+                                            class="currency currency_<?php echo e($item->currency_id ?: $account->getCurrencyId()); ?>"
+                                            style="display:none">
                                             <?php echo e(Utils::formatMoney($item->value, $item->currency_id)); ?>
 
                                         </div>
@@ -332,8 +333,9 @@
                                     $__env->addLoop($__currentLoopData);
                                     foreach ($__currentLoopData as $item): $__env->incrementLoopIndices();
                                         $loop = $__env->getLastLoop(); ?>
-                                        <div class="currency currency_<?php echo e($item->currency_id ?: $account->getCurrencyId()); ?>"
-                                             style="display:none">
+                                        <div
+                                            class="currency currency_<?php echo e($item->currency_id ?: $account->getCurrencyId()); ?>"
+                                            style="display:none">
                                             <?php echo e(Utils::formatMoney($item->value, $item->currency_id)); ?><br/>
                                         </div>
                                     <?php endforeach;
@@ -356,8 +358,9 @@
                                         $__env->addLoop($__currentLoopData);
                                         foreach ($__currentLoopData as $item): $__env->incrementLoopIndices();
                                             $loop = $__env->getLastLoop(); ?>
-                                            <div class="currency currency_<?php echo e($item->currency_id ?: $account->getCurrencyId()); ?>"
-                                                 style="display:none">
+                                            <div
+                                                class="currency currency_<?php echo e($item->currency_id ?: $account->getCurrencyId()); ?>"
+                                                style="display:none">
                                                 <?php echo e(Utils::formatMoney($item->invoice_avg, $item->currency_id)); ?>
                                                 <br/>
                                             </div>
@@ -401,8 +404,9 @@
                                     $__env->addLoop($__currentLoopData);
                                     foreach ($__currentLoopData as $item): $__env->incrementLoopIndices();
                                         $loop = $__env->getLastLoop(); ?>
-                                        <div class="currency currency_<?php echo e($item->currency_id ?: $account->getCurrencyId()); ?>"
-                                             style="display:none">
+                                        <div
+                                            class="currency currency_<?php echo e($item->currency_id ?: $account->getCurrencyId()); ?>"
+                                            style="display:none">
                                             <?php echo e(Utils::formatMoney($item->value, $item->currency_id)); ?><br/>
                                         </div>
                                     <?php endforeach;
@@ -470,7 +474,8 @@
                         foreach ($__currentLoopData as $activity): $__env->incrementLoopIndices();
                             $loop = $__env->getLastLoop(); ?>
                             <li class="list-group-item">
-                                <span style="color:#888;font-style:italic"><?php echo e(Utils::timestampToDateString(strtotime($activity->created_at))); ?>:</span>
+                                <span
+                                    style="color:#888;font-style:italic"><?php echo e(Utils::timestampToDateString(strtotime($activity->created_at))); ?>:</span>
                                 <?php echo $activity->getMessage(); ?>
 
                             </li>
@@ -491,8 +496,9 @@
                                     $__env->addLoop($__currentLoopData);
                                     foreach ($__currentLoopData as $item): $__env->incrementLoopIndices();
                                         $loop = $__env->getLastLoop(); ?>
-                                        <span class="currency currency_<?php echo e($item->currency_id ?: $account->getCurrencyId()); ?>"
-                                              style="display:none">
+                                        <span
+                                            class="currency currency_<?php echo e($item->currency_id ?: $account->getCurrencyId()); ?>"
+                                            style="display:none">
                                     <?php echo e(trans('texts.average_invoice')); ?>
 
                                             <?php echo e(Utils::formatMoney($item->invoice_avg, $item->currency_id)); ?> |

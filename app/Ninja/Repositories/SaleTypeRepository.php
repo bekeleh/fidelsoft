@@ -6,7 +6,7 @@ use App\Events\SaleTypeWasCreated;
 use App\Events\SaleTypeWasUpdated;
 use App\Models\SaleType;
 use Illuminate\Support\Facades\DB;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class SaleTypeRepository extends BaseRepository
 {
@@ -25,7 +25,8 @@ class SaleTypeRepository extends BaseRepository
 
     public function find($accountId, $filter = null)
     {
-        $query = DB::table('sale_types')->select('sale_types.*')
+        $query = DB::table('sale_types')
+            ->select('sale_types.*')
             ->where('sale_types.account_id', '=', $accountId);
 
         if ($filter) {

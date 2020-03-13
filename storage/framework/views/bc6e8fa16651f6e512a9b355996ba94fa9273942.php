@@ -1,6 +1,5 @@
 <?php $__env->startSection('content'); ?>
     ##parent-placeholder-040f06fd774092478d450774f5ba30c5da78acc8##
-
 <?php echo Former::open($url)
     ->method($method)
     ->autocomplete('off')
@@ -8,34 +7,30 @@
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit'); ?>
 
 
-<?php if ($product): ?>
-    <?php echo e(Former::populate($product)); ?>
+<?php if ($itemCategory): ?>
+    <?php echo e(Former::populate($itemCategory)); ?>
 
-    <?php echo e(Former::populateField('cost', Utils::roundSignificant($product->cost))); ?>
+    <div style="display:none">
+        <?php echo Former::text('public_id'); ?>
 
+    </div>
 <?php endif; ?>
 
     <span style="display:none">
-        <?php echo Former::text('public_id'); ?>
+            <?php echo Former::text('public_id'); ?>
 
-        <?php echo Former::text('action'); ?>
+            <?php echo Former::text('action'); ?>
 
-    </span>
+        </span>
 
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
-                    <?php echo Former::text('name')->label('texts.product'); ?>
+                    <?php echo Former::text('name')->label('texts.item_category_name'); ?>
 
                     <?php echo Former::textarea('notes')->rows(6); ?>
 
-                    <?php echo $__env->make('partials/custom_fields', ['entityType' => ENTITY_PRODUCT], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                    <?php echo Former::text('cost'); ?>
-
-                    <?php if ($account->invoice_item_taxes): ?>
-                        <?php echo $__env->make('partials.tax_rates', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -45,7 +40,7 @@
 $__env->addLoop($__currentLoopData);
 foreach ($__currentLoopData as $module): $__env->incrementLoopIndices();
     $loop = $__env->getLastLoop(); ?>
-    <?php if (View::exists($module->alias . '::products.edit')): ?>
+    <?php if (View::exists($module->alias . '::item_categories.edit')): ?>
         <div class="row">
             <div class="col-lg-10 col-lg-offset-1">
                 <div class="panel panel-default">
@@ -57,7 +52,7 @@ foreach ($__currentLoopData as $module): $__env->incrementLoopIndices();
                         </h3>
                     </div>
                     <div class="panel-body form-padding-right">
-                        <?php if ($__env->exists($module->alias . '::products.edit')) echo $__env->make($module->alias . '::products.edit', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        <?php if ($__env->exists($module->alias . '::item_categories.edit')) echo $__env->make($module->alias . '::item_categories.edit', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                     </div>
                 </div>
             </div>
@@ -66,16 +61,15 @@ foreach ($__currentLoopData as $module): $__env->incrementLoopIndices();
 <?php endforeach;
 $__env->popLoop();
 $loop = $__env->getLastLoop(); ?>
-
-<?php if (Auth::user()->canCreateOrEdit(ENTITY_PRODUCT, $product)): ?>
+<?php if (Auth::user()->canCreateOrEdit(ENTITY_ITEM_CATEGORY, $itemCategory)): ?>
     <center class="buttons">
-        <?php echo Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/products'))->appendIcon(Icon::create('remove-circle')); ?>
+        <?php echo Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/item_categories'))->appendIcon(Icon::create('remove-circle')); ?>
 
         <?php echo Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')); ?>
 
-        <?php if ($product): ?>
+        <?php if ($itemCategory): ?>
             <?php echo DropdownButton::normal(trans('texts.more_actions'))
-                ->withContents($product->present()->moreActions())
+                ->withContents($itemCategory->present()->moreActions())
                 ->large()
                 ->dropup(); ?>
 
@@ -84,22 +78,6 @@ $loop = $__env->getLastLoop(); ?>
 <?php endif; ?>
 <?php echo Former::close(); ?>
 
-    <script type="text/javascript">
-        $(function () {
-            $('#name').focus();
-        });
-
-        function submitAction(action) {
-            $('#action').val(action);
-            $('.main-form').submit();
-        }
-
-        function onDeleteClick() {
-            sweetConfirm(function () {
-                submitAction('delete');
-            });
-        }
-    </script>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

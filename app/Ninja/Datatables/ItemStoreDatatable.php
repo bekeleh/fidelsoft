@@ -46,7 +46,7 @@ class ItemStoreDatatable extends EntityDatatable
                 'bin',
                 function ($model) {
                     if ($model->bin) {
-                            return link_to('item_stores/' . $model->public_id . '/edit', $model->bin)->toHtml();
+                        return link_to('item_stores/' . $model->public_id . '/edit', $model->bin)->toHtml();
                     } else {
                         return '';
                     }

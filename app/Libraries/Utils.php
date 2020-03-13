@@ -650,6 +650,8 @@ class Utils
             return 'proposal_categories';
         } elseif ($type === ENTITY_TASK_STATUS) {
             return 'task_statuses';
+        } elseif ($type === ENTITY_ITEM_CATEGORY) {
+            return 'item_categories';
         } else {
             return $type . 's';
         }

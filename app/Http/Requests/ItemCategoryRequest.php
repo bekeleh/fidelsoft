@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Product;
+use App\Models\ItemCategory;
 
-class ProductRequest extends EntityRequest
+class ItemCategoryRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_PRODUCT;
+    protected $entityType = ENTITY_ITEM_CATEGORY;
 
     public function authorize()
     {
@@ -20,17 +20,17 @@ class ProductRequest extends EntityRequest
         switch ($this->method()) {
             case 'POST':
             {
-                $rules['name'] = 'required|max:90|unique:products,name';
-                $rules['is_deleted'] = 'boolean';
+                $rules['name'] = 'required|max:90|unique:item_categories,name';
                 $rules['notes'] = 'nullable';
+                $rules['is_deleted'] = 'boolean';
                 break;
             }
             case 'PUT':
             case 'PATCH':
             {
-                $product = Product::where('public_id', (int)request()->segment(2))->first();
-                if ($product) {
-                    $rules['name'] = 'required|max:90|unique:products,name,' . $product->id . ',id';
+                $itemCategory = ItemCategory::where('public_id', (int)request()->segment(2))->first();
+                if ($itemCategory) {
+                    $rules['name'] = 'required|max:90|unique:item_categories,name,' . $itemCategory->id . ',id';
                     $rules['is_deleted'] = 'boolean';
                     $rules['notes'] = 'nullable';
                     break;

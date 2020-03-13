@@ -113,6 +113,27 @@
                 });
             });
         </script><!-- /. expense -->
+        <!-- Entity product -->
+    @elseif ($entityType == ENTITY_PRODUCT)
+        @if (Auth::user()->can('create', ENTITY_ITEM_CATEGORY))
+            {!! DropdownButton::normal(trans('texts.item_categories'))
+                ->withAttributes(['class'=>'item_categoriesDropdown'])
+                ->withContents([
+                  ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
+                ]
+              )->split() !!}
+        @else
+            {!! DropdownButton::normal(trans('texts.item_categories'))
+                ->withAttributes(['class'=>'item_categoriesDropdown'])
+                ->split() !!}
+        @endif
+        <script type="text/javascript">
+            $(function () {
+                $('.item_categoriesDropdown:not(.dropdown-toggle)').click(function (event) {
+                    openUrlOnClick('{{ url('/item_categories') }}', event);
+                });
+            });
+        </script><!-- /. store -->
         <!-- store begin -->
     @elseif ($entityType == ENTITY_STORE)
         @if (Auth::user()->can('create', ENTITY_LOCATION))

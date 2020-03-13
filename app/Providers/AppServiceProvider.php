@@ -4,11 +4,11 @@ namespace App\Providers;
 
 use Form;
 use Illuminate\Support\ServiceProvider;
-use Request;
-use URL;
-use Utils;
-use Validator;
-use Queue;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\URL;
+use App\Libraries\Utils;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\Facades\Route;
 

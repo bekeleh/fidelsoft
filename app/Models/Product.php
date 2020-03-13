@@ -90,6 +90,11 @@ class Product extends EntityModel
         return $this->hasMany('App\Models\ItemStore', 'store_id')->withTrashed();
     }
 
+    public function category()
+    {
+        return $this->belongsTo('App\Models\ItemCategory', 'item_category_id')->withTrashed();
+    }
+
     /**
      * -----------------------------------------------
      * BEGIN QUERY SCOPES
