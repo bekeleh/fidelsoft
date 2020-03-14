@@ -1,18 +1,19 @@
 <?php $__env->startSection('head_css'); ?>
-    <link href="<?php echo e(asset('css/built.css')); ?>?no_cache=<?php echo e(NINJA_VERSION); ?>" rel="stylesheet"
-          type="text/css"/>
+    <link href="<?php echo e(asset('css/built.css')); ?>?no_cache=<?php echo e(NINJA_VERSION); ?>" rel="stylesheet" type="text/css"/>
 
-<?php if (Utils::isNinjaDev()): ?>
-    <style type="text/css">
-        .nav-footer {
-        <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?> background-color: #50C878 !important;
-        <?php else: ?> background-color: #FD6A02 !important;
-        <?php endif; ?>
+    <?php if(Utils::isNinjaDev()): ?>
+        <style type="text/css">
+            .nav-footer {
+                <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?>
+                                                              background-color: #50C878 !important;
+                <?php else: ?>
+                                                                  background-color: #FD6A02 !important;
+            <?php endif; ?>
 
 
-        }
-    </style>
-<?php endif; ?>
+            }
+        </style>
+    <?php endif; ?>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('head'); ?>
@@ -69,7 +70,7 @@
                             hint: true,
                             highlight: true,
                         }
-                        <?php if(Auth::check() && Auth::user()->account->customLabel('client1')): ?>
+                            <?php if(Auth::check() && Auth::user()->account->customLabel('client1')): ?>
                         , {
                             name: 'data',
                             limit: 3,
@@ -79,8 +80,8 @@
                                 header: '&nbsp;<span style="font-weight:600;font-size:16px"><?php echo e(Auth::user()->account->present()->customLabel('client1')); ?></span>'
                             }
                         }
-                        <?php endif; ?>
-                        <?php if(Auth::check() && Auth::user()->account->customLabel('client2')): ?>
+                            <?php endif; ?>
+                            <?php if(Auth::check() && Auth::user()->account->customLabel('client2')): ?>
                         , {
                             name: 'data',
                             limit: 3,
@@ -90,8 +91,8 @@
                                 header: '&nbsp;<span style="font-weight:600;font-size:16px"><?php echo e(Auth::user()->account->present()->customLabel('client2')); ?></span>'
                             }
                         }
-                        <?php endif; ?>
-                        <?php if(Auth::check() && Auth::user()->account->customLabel('invoice_text1')): ?>
+                            <?php endif; ?>
+                            <?php if(Auth::check() && Auth::user()->account->customLabel('invoice_text1')): ?>
                         , {
                             name: 'data',
                             limit: 3,
@@ -101,8 +102,8 @@
                                 header: '&nbsp;<span style="font-weight:600;font-size:16px"><?php echo e(Auth::user()->account->present()->customLabel('invoice_text1')); ?></span>'
                             }
                         }
-                        <?php endif; ?>
-                        <?php if(Auth::check() && Auth::user()->account->customLabel('invoice_text2')): ?>
+                            <?php endif; ?>
+                            <?php if(Auth::check() && Auth::user()->account->customLabel('invoice_text2')): ?>
                         , {
                             name: 'data',
                             limit: 3,
@@ -112,8 +113,8 @@
                                 header: '&nbsp;<span style="font-weight:600;font-size:16px"><?php echo e(Auth::user()->account->present()->customLabel('invoice_text2')); ?></span>'
                             }
                         }
-                        <?php endif; ?>
-                        <?php $__currentLoopData = ['clients', 'contacts', 'invoices', 'quotes', 'navigation']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <?php endif; ?>
+                            <?php $__currentLoopData = ['clients', 'contacts', 'invoices', 'quotes', 'navigation']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         , {
                             name: 'data',
                             limit: 3,
@@ -123,10 +124,10 @@
                                 header: '&nbsp;<span style="font-weight:600;font-size:16px"><?php echo e(trans("texts.{$type}")); ?></span>'
                             }
                         }
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                    ).on('typeahead:selected', function (element, datum, name) {
-                        window.location = datum.url;
-                    }).focus();
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            ).on('typeahead:selected', function (element, datum, name) {
+                            window.location = datum.url;
+                        }).focus();
                 });
 
                 request.error(function (httpObj, textStatus) {
@@ -205,7 +206,7 @@
                 }
             }
 
-            <?php if( !Utils::isTravis()): ?>
+            <?php if( ! Utils::isTravis()): ?>
             setupSidebar('left');
             setupSidebar('right');
             <?php endif; ?>
@@ -248,9 +249,9 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('body'); ?>
-<?php if (Utils::isNinjaProd() && !Request::is('settings/account_management')): ?>
-    <?php echo $__env->make('partials.upgrade_modal', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-<?php endif; ?>
+    <?php if(Utils::isNinjaProd() && ! Request::is('settings/account_management')): ?>
+        <?php echo $__env->make('partials.upgrade_modal', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php endif; ?>
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="height:60px;">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
@@ -259,17 +260,15 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="#" id="left-menu-toggle" class="menu-toggle"
-               title="<?php echo e(trans('texts.toggle_navigation')); ?>"
+            <a href="#" id="left-menu-toggle" class="menu-toggle" title="<?php echo e(trans('texts.toggle_navigation')); ?>"
                style="color:white;">
                 <div class="navbar-brand">
                     <i class="fa fa-bars hide-phone" style="width:32px;padding-top:2px;float:left"></i>CARE ERP
-
+                    
                 </div>
             </a>
         </div>
-        <a id="right-menu-toggle" class="menu-toggle hide-phone pull-right"
-           title="<?php echo e(trans('texts.toggle_history')); ?>"
+        <a id="right-menu-toggle" class="menu-toggle hide-phone pull-right" title="<?php echo e(trans('texts.toggle_history')); ?>"
            style="cursor:pointer">
             <div class="fa fa-bars"></div>
         </a>
@@ -277,15 +276,15 @@
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
             <div class="navbar-form navbar-right">
 
-                <?php if (Auth::check()): ?>
-                    <?php if (!Auth::user()->registered): ?>
-                        <?php if (!Auth::user()->confirmed): ?>
+                <?php if(Auth::check()): ?>
+                    <?php if(!Auth::user()->registered): ?>
+                        <?php if(!Auth::user()->confirmed): ?>
                             <?php echo Button::success(trans('texts.sign_up'))->withAttributes(array('id' => 'signUpButton', 'onclick' => 'showSignUp()', 'style' => 'max-width:100px;;overflow:hidden'))->small(); ?>
 
                             &nbsp;
                         <?php endif; ?>
-                    <?php elseif (Utils::isNinjaProd() && (!Auth::user()->isPro() || Auth::user()->isTrial())): ?>
-                        <?php if (Auth::user()->account->company->hasActivePromo()): ?>
+                    <?php elseif(Utils::isNinjaProd() && (!Auth::user()->isPro() || Auth::user()->isTrial())): ?>
+                        <?php if(Auth::user()->account->company->hasActivePromo()): ?>
                             <?php echo Button::warning(trans('texts.plan_upgrade'))->withAttributes(array('onclick' => 'showUpgradeModal()', 'style' => 'max-width:100px;overflow:hidden'))->small(); ?>
 
                             &nbsp;
@@ -301,7 +300,7 @@
                     <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                         <div id="myAccountButton" class="ellipsis"
                              style="max-width:<?php echo e(Utils::hasFeature(FEATURE_USERS) ? '130' : '100'); ?>px;">
-                            <?php if (session(SESSION_USER_ACCOUNTS) && count(session(SESSION_USER_ACCOUNTS))): ?>
+                            <?php if(session(SESSION_USER_ACCOUNTS) && count(session(SESSION_USER_ACCOUNTS))): ?>
                                 <?php echo e(Auth::user()->account->getDisplayName()); ?>
 
                             <?php else: ?>
@@ -312,12 +311,9 @@
                         </div>
                     </button>
                     <ul class="dropdown-menu user-accounts">
-                        <?php if (session(SESSION_USER_ACCOUNTS)): ?>
-                            <?php $__currentLoopData = session(SESSION_USER_ACCOUNTS);
-                            $__env->addLoop($__currentLoopData);
-                            foreach ($__currentLoopData as $item): $__env->incrementLoopIndices();
-                                $loop = $__env->getLastLoop(); ?>
-                                <?php if ($item->user_id == Auth::user()->id): ?>
+                        <?php if(session(SESSION_USER_ACCOUNTS)): ?>
+                            <?php $__currentLoopData = session(SESSION_USER_ACCOUNTS); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php if($item->user_id == Auth::user()->id): ?>
                                     <?php echo $__env->make('user_account', [
                                         'user_account_id' => $item->id,
                                         'user_id' => $item->user_id,
@@ -327,14 +323,9 @@
                                         'selected' => true,
                                     ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                                 <?php endif; ?>
-                            <?php endforeach;
-                            $__env->popLoop();
-                            $loop = $__env->getLastLoop(); ?>
-                            <?php $__currentLoopData = session(SESSION_USER_ACCOUNTS);
-                            $__env->addLoop($__currentLoopData);
-                            foreach ($__currentLoopData as $item): $__env->incrementLoopIndices();
-                                $loop = $__env->getLastLoop(); ?>
-                                <?php if ($item->user_id != Auth::user()->id): ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <?php $__currentLoopData = session(SESSION_USER_ACCOUNTS); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php if($item->user_id != Auth::user()->id): ?>
                                     <?php echo $__env->make('user_account', [
                                         'user_account_id' => $item->id,
                                         'user_id' => $item->user_id,
@@ -344,9 +335,7 @@
                                         'selected' => false,
                                     ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                                 <?php endif; ?>
-                            <?php endforeach;
-                            $__env->popLoop();
-                            $loop = $__env->getLastLoop(); ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         <?php else: ?>
                             <?php echo $__env->make('user_account', [
                                 'account_name' => Auth::user()->account->name ?: trans('texts.untitled'),
@@ -356,12 +345,12 @@
                             ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                         <?php endif; ?>
                         <li class="divider"></li>
-                        <?php if (Utils::isAdmin() && Auth::user()->confirmed && Utils::getResllerType() != RESELLER_ACCOUNT_COUNT): ?>
-                            <?php if (!session(SESSION_USER_ACCOUNTS) || count(session(SESSION_USER_ACCOUNTS)) < 5): ?>
+                        <?php if(Utils::isAdmin() && Auth::user()->confirmed && Utils::getResllerType() != RESELLER_ACCOUNT_COUNT): ?>
+                            <?php if(!session(SESSION_USER_ACCOUNTS) || count(session(SESSION_USER_ACCOUNTS)) < 5): ?>
                                 <li><?php echo link_to('#', trans('texts.add_company'), ['onclick' => 'showSignUp()']); ?></li>
                             <?php endif; ?>
                         <?php endif; ?>
-                        <li><?php echo link_to('#', trans('texts.logout'), array('onclick' => 'logout()')); ?></li>
+                        <li><?php echo link_to('#', trans('texts.logout'), array('onclick'=>'logout()')); ?></li>
                     </ul>
                 </div>
 
@@ -374,21 +363,21 @@
                        style="width: 280px;padding-top:0px;padding-bottom:0px;margin-right:12px;"
                        class="form-control"
                        placeholder="<?php echo e(trans('texts.search') . ': ' . trans('texts.search_hotkey')); ?>"/>
-                <?php if (env('SPEECH_ENABLED')): ?>
+                <?php if(env('SPEECH_ENABLED')): ?>
                     <?php echo $__env->make('partials/speech_recognition', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 <?php endif; ?>
             </div>
             <?php echo Former::close(); ?>
 
 
-            <?php if (false && Utils::isAdmin()): ?>
+            <?php if(false && Utils::isAdmin()): ?>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <?php $__env->startSection('self-updater'); ?>
-                        <a href="<?php echo e(URL::to('self-update')); ?>" class="dropdown-toggle">
+                            <a href="<?php echo e(URL::to('self-update')); ?>" class="dropdown-toggle">
                                 <span class="glyphicon glyphicon-cloud-download"
                                       title="<?php echo e(trans('texts.update_invoiceninja_title')); ?>"></span>
-                        </a>
+                            </a>
                         <?php echo $__env->yieldSection(); ?>
                     </li>
                 </ul>
@@ -415,15 +404,10 @@
                     'vendors' => false,
                     'reports' => false,
                     'settings' => false,
-                ];
-                $__env->addLoop($__currentLoopData);
-                foreach ($__currentLoopData as $key => $value): $__env->incrementLoopIndices();
-                    $loop = $__env->getLastLoop(); ?>
+                ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <?php echo Form::nav_link($key, $value ?: $key); ?>
 
-                <?php endforeach;
-                $__env->popLoop();
-                $loop = $__env->getLastLoop(); ?>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </ul>
         </div><!-- /.navbar-collapse -->
 
@@ -438,7 +422,7 @@
                 <?php $__currentLoopData = [
                     'dashboard',
                     'clients',
-                    'vendors',
+                     'vendors',
                     'invoices',
                     'payments',
                     'recurring_invoices',
@@ -456,39 +440,29 @@
                     'sale_types',
                     'reports',
                     'settings',
-                ];
-                $__env->addLoop($__currentLoopData);
-                foreach ($__currentLoopData as $option): $__env->incrementLoopIndices();
-                    $loop = $__env->getLastLoop(); ?>
-                    <?php if (!Auth::user()->account->isModuleEnabled(substr($option, 0, -1))): ?>
+                ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php if(!Auth::user()->account->isModuleEnabled(substr($option, 0, -1))): ?>
                         <?php echo e(''); ?>
 
                     <?php else: ?>
                         <?php echo $__env->make('partials.navigation_option', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                     <?php endif; ?>
-                <?php endforeach;
-                $__env->popLoop();
-                $loop = $__env->getLastLoop(); ?>
-                <?php if (!Utils::isNinjaProd()): ?>
-                    <?php $__currentLoopData = Module::collections();
-                    $__env->addLoop($__currentLoopData);
-                    foreach ($__currentLoopData as $module): $__env->incrementLoopIndices();
-                        $loop = $__env->getLastLoop(); ?>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <?php if( ! Utils::isNinjaProd()): ?>
+                    <?php $__currentLoopData = Module::collections(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $module): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <?php echo $__env->renderWhen(empty($module->get('no-sidebar')) || $module->get('no-sidebar') != '1', 'partials.navigation_option', [
                             'option' => $module->getAlias(),
                             'icon' => $module->get('icon', 'th-large'),
                         ], array_except(get_defined_vars(), array('__data', '__path'))); ?>
-                    <?php endforeach;
-                    $__env->popLoop();
-                    $loop = $__env->getLastLoop(); ?>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 <?php endif; ?>
-                <?php if (Auth::user()->hasPermission('view_reports')): ?>
+                <?php if(Auth::user()->hasPermission('view_reports')): ?>
                     <?php echo $__env->make('partials.navigation_option', ['option' => 'reports'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 <?php endif; ?>
                 <?php echo $__env->make('partials.navigation_option', ['option' => 'settings'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 <li style="width:100%;">
                     <div class="nav-footer">
-                        <?php if (Auth::user()->registered): ?>
+                        <?php if(Auth::user()->registered): ?>
                             <a href="javascript:showContactUs()" title="<?php echo e(trans('texts.contact_us')); ?>">
                                 <i class="fa fa-envelope"></i>
                             </a>
@@ -499,15 +473,15 @@
                         <a href="javascript:showKeyboardShortcuts()" title="<?php echo e(trans('texts.help')); ?>">
                             <i class="fa fa-question-circle"></i>
                         </a>
-                        <a href="#" target="_blank" title="Facebook">
-                            <i class="fa fa-facebook-square"></i>
-                        </a>
-                        <a href="#" target="_blank" title="Twitter">
-                            <i class="fa fa-twitter-square"></i>
-                        </a>
-                        <a href="#" target="_blank" title="Instagram">
-                            <i class="fa fa fa-instagram"></i>
-                        </a>
+                            <a href="#" target="_blank" title="Facebook">
+                                <i class="fa fa-facebook-square"></i>
+                            </a>
+                            <a href="#" target="_blank" title="Twitter">
+                                <i class="fa fa-twitter-square"></i>
+                            </a>
+                            <a href="#" target="_blank" title="Instagram">
+                                <i class="fa fa fa-instagram"></i>
+                            </a>
                     </div>
                 </li>
             </ul>
@@ -527,18 +501,18 @@
 
                 <?php echo $__env->make('partials.warn_session', ['redirectTo' => '/dashboard'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
-                <?php if (Session::has('warning')): ?>
+                <?php if(Session::has('warning')): ?>
                     <div class="alert alert-warning"><?php echo Session::get('warning'); ?></div>
-                <?php elseif (env('WARNING_MESSAGE')): ?>
+                <?php elseif(env('WARNING_MESSAGE')): ?>
                     <div class="alert alert-warning"><?php echo env('WARNING_MESSAGE'); ?></div>
                 <?php endif; ?>
 
-                <?php if (Session::has('message')): ?>
+                <?php if(Session::has('message')): ?>
                     <div class="alert alert-info alert-hide" style="z-index:9999">
                         <?php echo e(Session::get('message')); ?>
 
                     </div>
-                <?php elseif (Session::has('news_feed_message')): ?>
+                <?php elseif(Session::has('news_feed_message')): ?>
                     <div class="alert alert-info">
                         <?php echo Session::get('news_feed_message'); ?>
 
@@ -546,7 +520,7 @@
                     </div>
                 <?php endif; ?>
 
-                <?php if (Session::has('error')): ?>
+                <?php if(Session::has('error')): ?>
                     <div class="alert alert-danger"><?php echo Session::get('error'); ?></div>
                 <?php endif; ?>
 
@@ -554,8 +528,8 @@
                     <?php echo $__env->yieldContent('top-right'); ?>
                 </div>
 
-                <?php if (!isset($showBreadcrumbs) || $showBreadcrumbs): ?>
-                    <?php echo Form::breadcrumbs((!empty($entity) && $entity->exists) ? $entity->present()->statusLabel : false); ?>
+                <?php if(!isset($showBreadcrumbs) || $showBreadcrumbs): ?>
+                    <?php echo Form::breadcrumbs((! empty($entity) && $entity->exists) ? $entity->present()->statusLabel : false); ?>
 
                 <?php endif; ?>
 
@@ -564,17 +538,12 @@
                 <div class="row">
                     <div class="col-md-12">
 
-                        <?php if (Utils::isNinjaProd()): ?>
-                            <?php if (Auth::check() && Auth::user()->hasActivePromo()): ?>
-                                <?php echo trans('texts.promotion_footer', [
-                                    'link' => '<a href="javascript:showUpgradeModal()">' . trans('texts.click_here') . '</a>'
-                                ]); ?>
-
-                            <?php elseif (Auth::check() && Auth::user()->isTrial()): ?>
+                        <?php if(Utils::isNinjaProd()): ?>
+                            <?php if(Auth::check() && Auth::user()->hasActivePromo()): ?>
+                            <?php elseif(Auth::check() && Auth::user()->isTrial()): ?>
                                 <?php echo trans(Auth::user()->account->getCountTrialDaysLeft() == 0 ? 'texts.trial_footer_last_day' : 'texts.trial_footer', [
-                                    'count' => Auth::user()->account->getCountTrialDaysLeft(),
-                                    'link' => '<a href="javascript:showUpgradeModal()">' . trans('texts.click_here') . '</a>'
-                                ]); ?>
+                                        'count' => Auth::user()->account->getCountTrialDaysLeft(),
+                                    ]); ?>
 
                             <?php endif; ?>
                         <?php else: ?>
@@ -590,7 +559,7 @@
         <?php echo $__env->make('partials.sign_up', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
         <?php echo $__env->make('partials.keyboard_shortcuts', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
-        <?php if (auth()->check() && auth()->user()->registered && !auth()->user()->hasAcceptedLatestTerms()): ?>
+        <?php if(auth()->check() && auth()->user()->registered && ! auth()->user()->hasAcceptedLatestTerms()): ?>
             <?php echo $__env->make('partials.accept_terms', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
         <?php endif; ?>
 

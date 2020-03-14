@@ -17,6 +17,12 @@ class ProductDatatable extends EntityDatatable
 
         return [
             [
+                'item_category_name',
+                function ($model) {
+                    return link_to('item_categories/' . $model->public_id . '/edit', $model->item_category_name)->toHtml();
+                },
+            ],
+            [
                 'product_name',
                 function ($model) {
                     return link_to('products/' . $model->public_id . '/edit', $model->product_name)->toHtml();
@@ -32,12 +38,6 @@ class ProductDatatable extends EntityDatatable
                 'tag',
                 function ($model) {
                     return $model->tag;
-                },
-            ],
-            [
-                'item_category_name',
-                function ($model) {
-                    return link_to('item_categories/' . $model->public_id . '/edit', $model->item_category_name)->toHtml();
                 },
             ],
             [
