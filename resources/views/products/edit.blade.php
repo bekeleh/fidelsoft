@@ -97,12 +97,11 @@
                 categoryMap[category.public_id] = category;
                 $categorySelect.append(new Option(getClientDisplayName(category), category.public_id));
             }
-            @include('partials/entity_combobox', ['entityType' => 'category'])
+            @include('partials/entity_combobox', ['entityType' => ENTITY_CATEGORY])
             if (categoryId) {
                 var category = categoryMap[categoryId];
                 setComboboxValue($('.category-select'), category.public_id, category.name);
             }
-
             <!-- /. category  -->
         });
 

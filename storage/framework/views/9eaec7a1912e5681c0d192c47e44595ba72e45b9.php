@@ -117,12 +117,11 @@ $loop = $__env->getLastLoop(); ?>
                 categoryMap[category.public_id] = category;
                 $categorySelect.append(new Option(getClientDisplayName(category), category.public_id));
             }
-            <?php echo $__env->make('partials/entity_combobox', ['entityType' => 'category'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            <?php echo $__env->make('partials/entity_combobox', ['entityType' => ENTITY_CATEGORY], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             if (categoryId) {
                 var category = categoryMap[categoryId];
                 setComboboxValue($('.category-select'), category.public_id, category.name);
             }
-
             <!-- /. category  -->
         });
 
