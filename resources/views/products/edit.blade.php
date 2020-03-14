@@ -6,24 +6,33 @@
     {!! Former::open($url)
             ->method($method)
             ->autocomplete('off')
-            ->rules(['name' => 'required|max:255'])
+            ->rules(['name' => 'required|max:255','cost' => 'required|numeric','category_id' => 'required|numeric'])
             ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
 
     @if ($product)
         {{ Former::populate($product) }}
         {{ Former::populateField('cost', Utils::roundSignificant($product->cost)) }}
+        <div style="display:none">
+            {!! Former::text('public_id') !!}
+        </div>
     @endif
-
     <span style="display:none">
-        {!! Former::text('public_id') !!}
+            {!! Former::text('public_id') !!}
         {!! Former::text('action') !!}
-    </span>
+        </span>
 
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
                     {!! Former::text('name')->label('texts.product') !!}
+                    {!! Former::text('serial')->label('texts.serial') !!}
+                    {!! Former::text('tag')->label('texts.tag') !!}
+
+                    {!! Former::select('category_id')->addOption('', '')
+                       ->label(trans('texts.category'))
+                       ->addGroupClass('category-select') !!}
+
                     {!! Former::textarea('notes')->rows(6) !!}
                     @include('partials/custom_fields', ['entityType' => ENTITY_PRODUCT])
                     {!! Former::text('cost') !!}
@@ -69,10 +78,35 @@
     @endif
     {!! Former::close() !!}
     <script type="text/javascript">
+        var itemCategories = {!! $itemCategories !!};
+        var categoryMap = {};
+
         $(function () {
             $('#name').focus();
         });
 
+        $(function () {
+            <!-- category -->
+            var categoryId = {{ $itemCategoryPublicId ?: 0 }};
+            var $categorySelect = $('select#category_id');
+            @if (Auth::user()->can('create', ENTITY_ITEM_CATEGORY))
+            $categorySelect.append(new Option("{{ trans('texts.create_category')}}:$name", '-1'));
+                    @endif
+            for (var i = 0; i < itemCategories.length; i++) {
+                var category = itemCategories[i];
+                categoryMap[category.public_id] = category;
+                $categorySelect.append(new Option(getClientDisplayName(category), category.public_id));
+            }
+            @include('partials/entity_combobox', ['entityType' => 'category'])
+            if (categoryId) {
+                var category = categoryMap[categoryId];
+                setComboboxValue($('.category-select'), category.public_id, category.name);
+            }
+
+            <!-- /. category  -->
+        });
+
+        <!-- /. item category  -->
         function submitAction(action) {
             $('#action').val(action);
             $('.main-form').submit();

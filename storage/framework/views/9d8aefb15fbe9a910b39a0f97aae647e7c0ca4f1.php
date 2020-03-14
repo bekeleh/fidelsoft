@@ -229,12 +229,12 @@
         <script src="<?php echo e(asset('js/cookieconsent.min.js')); ?>"></script>
         <script>
             window.addEventListener("load", function () {
-                    if (!window.cookieconsent) {
-                        return;
-                    }
-                    window.cookieconsent.initialise({
-                        "palette": {
-                            "popup": {
+                if (!window.cookieconsent) {
+                    return;
+                }
+                window.cookieconsent.initialise({
+                    "palette": {
+                        "popup": {
                                 "background": "#000"
                             },
                             "button": {

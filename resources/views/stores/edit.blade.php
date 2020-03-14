@@ -69,13 +69,14 @@
     {!! Former::close() !!}
     <script type="text/javascript">
         var locations = {!! $locations !!};
-
         var locationMap = {};
+
         $(function () {
             $('#name').focus();
         });
 
         $(function () {
+            <!-- store location -->
             var locationId = {{ $locationPublicId ?: 0 }};
             var $locationSelect = $('select#location_id');
             @if (Auth::user()->can('create', ENTITY_LOCATION))
@@ -90,7 +91,7 @@
             if (locationId) {
                 var location = locationMap[locationId];
                 setComboboxValue($('.location-select'), location.public_id, location.name);
-            }
+            }<!-- /. store location  -->
         });
 
         function submitAction(action) {

@@ -59,13 +59,13 @@ class ItemCategoryApiController extends BaseAPIController
 
     /**
      * @SWG\Get(
-     *   path="/item_categories/{item_category_id}",
+     *   path="/item_categories/{category_id}",
      *   summary="Retrieve a item category",
      *   operationId="getItemCategory",
      *   tags={"item category"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="item_category_id",
+     *     name="category_id",
      *     type="integer",
      *     required=true
      *   ),
@@ -120,13 +120,13 @@ class ItemCategoryApiController extends BaseAPIController
 
     /**
      * @SWG\Put(
-     *   path="/item_categories/{item_category_id}",
+     *   path="/item_categories/{category_id}",
      *   summary="Update a item category",
      *   operationId="updateItemCategory",
      *   tags={"item category"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="item_category_id",
+     *     name="category_id",
      *     type="integer",
      *     required=true
      *   ),
@@ -165,13 +165,13 @@ class ItemCategoryApiController extends BaseAPIController
 
     /**
      * @SWG\Delete(
-     *   path="/item_categories/{item_category_id}",
+     *   path="/item_categories/{category_id}",
      *   summary="Delete a item category",
      *   operationId="deleteItemCategory",
      *   tags={"item category"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="item_category_id",
+     *     name="category_id",
      *     type="integer",
      *     required=true
      *   ),

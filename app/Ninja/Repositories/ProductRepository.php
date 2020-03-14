@@ -5,9 +5,10 @@ namespace App\Ninja\Repositories;
 use App\Events\ProductWasCreated;
 use App\Events\ProductWasUpdated;
 use App\Libraries\Utils;
+use App\Models\ItemCategory;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class ProductRepository extends BaseRepository
 {
@@ -27,19 +28,51 @@ class ProductRepository extends BaseRepository
     public function find($accountId, $filter = null)
     {
         $query = DB::table('products')
-            ->select('products.*')
-            ->where('products.account_id', '=', $accountId);
-
+            ->join('accounts', 'accounts.id', '=', 'products.account_id')
+            ->join('users', 'users.id', '=', 'products.user_id')
+            ->join('item_categories', 'item_categories.id', '=', 'products.category_id')
+            ->where('products.account_id', '=', $accountId)
+            //->where('products.deleted_at', '=', null)
+            ->select(
+                'products.id',
+                'products.public_id',
+                'products.name as product_name',
+                'products.serial',
+                'products.tag',
+                'products.cost',
+                'products.tax_name1',
+                'products.tax_name2',
+                'products.tax_rate1',
+                'products.tax_rate2',
+                'products.is_deleted',
+                'products.notes',
+                'products.notes',
+                'products.created_at',
+                'products.updated_at',
+                'products.deleted_at',
+                'products.created_by',
+                'products.updated_by',
+                'products.deleted_by',
+                'item_categories.name as item_category_name'
+            );
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('products.name', 'like', '%' . $filter . '%')
                     ->orWhere('products.notes', 'like', '%' . $filter . '%')
-                    ->orWhere('products.custom_value1', 'like', '%' . $filter . '%')
-                    ->orWhere('products.custom_value2', 'like', '%' . $filter . '%');
+                    ->orWhere('item_categories.name', 'like', '%' . $filter . '%');
             });
         }
 
         $this->applyFilters($query, ENTITY_PRODUCT);
+
+        return $query;
+    }
+
+    public function findItemCategory($itemCategoryPublicId)
+    {
+        $itemCategoryId = ItemCategory::getPrivateId($itemCategoryPublicId);
+
+        $query = $this->find()->where('item_categories.category_id', '=', $itemCategoryId);
 
         return $query;
     }
@@ -60,6 +93,9 @@ class ProductRepository extends BaseRepository
 
         $product->fill($data);
         $product->name = isset($data['name']) ? ucwords(trim($data['name'])) : '';
+        $product->serial = isset($data['serial']) ? ucwords(trim($data['serial'])) : '';
+        $product->tag = isset($data['tag']) ? ucwords(trim($data['tag'])) : '';
+        $product->category_id = isset($data['category_id']) ? trim($data['category_id']) : '';
         $product->notes = isset($data['notes']) ? trim($data['notes']) : '';
         $product->cost = isset($data['cost']) ? Utils::parseFloat($data['cost']) : 0;
         $product->save();

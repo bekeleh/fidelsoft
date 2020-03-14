@@ -63,9 +63,10 @@ $LANG = array(
     | item category trans
     |--------------------------------------------------------------------------
     */
+    'category' => 'Category',
     'item_category' => 'Item Category',
     'item_categories' => 'Item Categories',
-    'item_category_name' => 'Category Name',
+    'item_category_name' => 'Item Category',
     'new_item_category' => 'New Item Category',
     'create_item_category' => 'Create Item Category',
     'edit_item_category' => 'Edit Item Category',
@@ -148,6 +149,8 @@ $LANG = array(
     'tax_rate1' => 'Tax Rate',
     'tax_rate2' => 'Tax Rate',
     'item' => 'Item',
+    'serial' => 'Serial',
+    'tag' => 'Tag',
     'description' => 'Description',
     'unit_cost' => 'Unit Cost',
     'quantity' => 'Quantity',

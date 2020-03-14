@@ -6,6 +6,7 @@ namespace App\Ninja\Repositories;
 use App\Models\ItemCategory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ItemCategoryRepository extends BaseRepository
 {
@@ -67,7 +68,7 @@ class ItemCategoryRepository extends BaseRepository
             $itemCategory->created_by = Auth::user()->username;
         }
         $itemCategory->fill($data);
-        $itemCategory->name = isset($data['name']) ? ucwords(trim($data['name'])) : '';
+        $itemCategory->name = isset($data['name']) ? ucwords(Str::lower(trim($data['name']))) : '';
         $itemCategory->notes = isset($data['notes']) ? trim($data['notes']) : '';
         $itemCategory->save();
         return $itemCategory;

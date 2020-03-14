@@ -73,10 +73,10 @@ class User extends Authenticatable
         'slack_webhook_url',
     ];
 
-    /**
-     * @var array
-     */
+
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+
+    private $slack_webhook_url;
 
     /**
      * @return BelongsTo

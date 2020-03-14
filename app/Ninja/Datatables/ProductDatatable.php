@@ -17,21 +17,33 @@ class ProductDatatable extends EntityDatatable
 
         return [
             [
-                'name',
+                'product_name',
                 function ($model) {
-                    return link_to('products/' . $model->public_id . '/edit', $model->name)->toHtml();
+                    return link_to('products/' . $model->public_id . '/edit', $model->product_name)->toHtml();
+                },
+            ],
+            [
+                'serial',
+                function ($model) {
+                    return $model->serial;
+                },
+            ],
+            [
+                'tag',
+                function ($model) {
+                    return $model->tag;
+                },
+            ],
+            [
+                'item_category_name',
+                function ($model) {
+                    return link_to('item_categories/' . $model->public_id . '/edit', $model->item_category_name)->toHtml();
                 },
             ],
             [
                 'notes',
                 function ($model) {
                     return $this->showWithTooltip($model->notes);
-                },
-            ],
-            [
-                'cost',
-                function ($model) {
-                    return Utils::roundSignificant($model->cost);
                 },
             ],
             [

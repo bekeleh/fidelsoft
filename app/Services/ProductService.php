@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Libraries\Utils;
+use App\Models\ItemCategory;
+use App\Ninja\Datatables\ItemCategoryDatatable;
 use App\Ninja\Datatables\ProductDatatable;
 use App\Ninja\Repositories\ProductRepository;
 use Illuminate\Http\JsonResponse;
@@ -42,6 +44,20 @@ class ProductService extends BaseService
     }
 
     /**
+     * @param $data
+     * @param null $product
+     *
+     * @return mixed|null
+     */
+    public function save($data, $product = null)
+    {
+        if (isset($data['category_id']) && $data['category_id']) {
+            $data['category_id'] = ItemCategory::getPrivateId($data['category_id']);
+        }
+        return $this->productRepo->save($data, $product);
+    }
+
+    /**
      * @param $accountId
      * @param mixed $search
      *
@@ -54,6 +70,19 @@ class ProductService extends BaseService
         $query = $this->productRepo->find($accountId, $search);
 
         if (!Utils::hasPermission('view_product')) {
+            $query->where('products.user_id', '=', Auth::user()->id);
+        }
+
+        return $this->datatableService->createDatatable($datatable, $query);
+    }
+
+    public function getDatatableItemCategory($itemCategoryPublicId)
+    {
+        $datatable = new ItemCategoryDatatable(true, true);
+
+        $query = $this->productRepo->findItemCategory($itemCategoryPublicId);
+
+        if (!Utils::hasPermission('view_item_category')) {
             $query->where('products.user_id', '=', Auth::user()->id);
         }
 

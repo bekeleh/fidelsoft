@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Libraries\Utils;
 use App\Models\Client;
 use App\Models\Expense;
 use App\Ninja\Repositories\DashboardRepository;
-use Auth;
-use Utils;
-use View;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 
 /**
  * Class DashboardController.
  */
 class DashboardController extends BaseController
 {
+
+    private $dashboardRepo;
+
     public function __construct(DashboardRepository $dashboardRepo)
     {
         $this->dashboardRepo = $dashboardRepo;
@@ -44,7 +47,7 @@ class DashboardController extends BaseController
 
         $showBlueVinePromo = false;
         if ($user->is_admin && env('BLUEVINE_PARTNER_UNIQUE_ID')) {
-            $showBlueVinePromo = ! $account->company->bluevine_status
+            $showBlueVinePromo = !$account->company->bluevine_status
                 && $account->created_at <= date('Y-m-d', strtotime('-1 month'));
             if (request()->bluevine) {
                 $showBlueVinePromo = true;
@@ -125,7 +128,7 @@ class DashboardController extends BaseController
 
         array_map(function ($item) use (&$currencyIds) {
             $currencyId = intval($item['currency_id']);
-            if ($currencyId && ! in_array($currencyId, $currencyIds)) {
+            if ($currencyId && !in_array($currencyId, $currencyIds)) {
                 $currencyIds[] = $currencyId;
             }
         }, $data);
@@ -139,7 +142,7 @@ class DashboardController extends BaseController
 
         array_map(function ($item) use (&$currencyIds) {
             $currencyId = intval($item['expense_currency_id']);
-            if ($currencyId && ! in_array($currencyId, $currencyIds)) {
+            if ($currencyId && !in_array($currencyId, $currencyIds)) {
                 $currencyIds[] = $currencyId;
             }
         }, $data);

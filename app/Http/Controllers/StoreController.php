@@ -43,6 +43,13 @@ class StoreController extends BaseController
         ]);
     }
 
+    public function show($publicId)
+    {
+        Session::reflash();
+
+        return Redirect::to("stores/{$publicId}/edit");
+    }
+
     public function getDatatable($storePublicId = null)
     {
         return $this->storeService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
@@ -72,11 +79,6 @@ class StoreController extends BaseController
 
         $data = array_merge($data, self::getViewModel());
         return View::make('stores.edit', $data);
-    }
-
-    public function cloneStore(StoreRequest $request, $publicId)
-    {
-        return self::edit($request, $publicId, true);
     }
 
     public function edit(StoreRequest $request, $publicId = false, $clone = false)
@@ -157,6 +159,11 @@ class StoreController extends BaseController
         return $this->returnBulk(ENTITY_STORE, $action, $ids);
     }
 
+    public function cloneStore(StoreRequest $request, $publicId)
+    {
+        return self::edit($request, $publicId, true);
+    }
+
     private static function getViewModel($store = false)
     {
         return [
@@ -164,12 +171,5 @@ class StoreController extends BaseController
             'account' => Auth::user()->account,
             'locations' => Location::scope()->withActiveOrSelected($store ? $store->location_id : false)->orderBy('name')->get(),
         ];
-    }
-
-    public function show($publicId)
-    {
-        Session::reflash();
-
-        return Redirect::to("stores/{$publicId}/edit");
     }
 }

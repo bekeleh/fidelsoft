@@ -56,7 +56,7 @@ class ItemCategory extends EntityModel
 
     public function products()
     {
-        return $this->hasMany('App\Models\Product', 'item_category_id')->withTrashed();
+        return $this->hasMany('App\Models\Product', 'category_id')->withTrashed();
     }
 
     /**

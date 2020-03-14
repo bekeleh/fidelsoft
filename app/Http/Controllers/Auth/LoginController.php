@@ -2,24 +2,23 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\UserLoggedIn;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\ValidateTwoFactorRequest;
 use App\Libraries\Utils;
+use App\Models\User;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\User;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cookie;
-use App\Events\UserLoggedIn;
-use App\Http\Requests\ValidateTwoFactorRequest;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Session;
-Use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
@@ -33,7 +32,6 @@ class LoginController extends Controller
     | to conveniently provide its functionality to your applications.
     |
     */
-//    use ThrottlesLogins;
     use AuthenticatesUsers;
 
 
