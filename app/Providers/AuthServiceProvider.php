@@ -14,6 +14,7 @@ use App\Models\Expense;
 use App\Models\ExpenseCategory;
 use App\Models\Invoice;
 use App\Models\ItemCategory;
+use App\Models\ItemMovement;
 use App\Models\ItemStore;
 use App\Models\Location;
 use App\Models\Payment;
@@ -43,6 +44,7 @@ use App\Policies\ExpensePolicy;
 use App\Policies\GenericEntityPolicy;
 use App\Policies\InvoicePolicy;
 use App\Policies\ItemCategoryPolicy;
+use App\Policies\ItemMovementPolicy;
 use App\Policies\ItemStorePolicy;
 use App\Policies\LocationPolicy;
 use App\Policies\PaymentPolicy;
@@ -89,6 +91,7 @@ class AuthServiceProvider extends ServiceProvider
         Location::class => LocationPolicy::class,
         Store::class => StorePolicy::class,
         ItemStore::class => ItemStorePolicy::class,
+        ItemMovement::class => ItemMovementPolicy::class,
         TaxRate::class => TaxRatePolicy::class,
         AccountGateway::class => AccountGatewayPolicy::class,
         AccountToken::class => TokenPolicy::class,

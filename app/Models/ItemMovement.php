@@ -6,20 +6,23 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
- * Model Class Store.
+ * Model Class ItemMovement.
  */
-class ItemCategory extends EntityModel
+class ItemMovement extends EntityModel
 {
-    protected $presenter = 'App\Ninja\Presenters\ItemCategoryPresenter';
+    protected $presenter = 'App\Ninja\Presenters\ItemMovementPresenter';
     use PresentableTrait;
     use SoftDeletes;
 
-    protected $appends = [];
-    protected $table = 'item_categories';
+    protected $table = 'item_movements';
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
 
     protected $fillable = [
         'name',
+        'movable_id',
+        'movable_type',
+        'qty',
+        'qoh',
         'notes',
         'created_by',
         'updated_by',
@@ -28,27 +31,18 @@ class ItemCategory extends EntityModel
     protected $hidden = [];
     protected $casts = [];
 
+
     /**
      * @return mixed
      */
     public function getEntityType()
     {
-        return ENTITY_ITEM_CATEGORY;
+        return ENTITY_ITEM_MOVEMENT;
     }
 
-    /**
-     * @param $key
-     *
-     * @return mixed
-     */
-    public static function findItemCategoryByKey($key)
+    public function getUpperAttributes()
     {
-        return self::scope()->where('name', '=', $key)->first();
-    }
-
-    public function account()
-    {
-        return $this->belongsTo('App\Models\Account', 'account_id')->withTrashed();
+        return strtoupper($this->name);
     }
 
     /**
@@ -59,9 +53,30 @@ class ItemCategory extends EntityModel
         return $this->belongsTo('App\Models\User', 'user_id')->withTrashed();
     }
 
-    public function products()
+    public function account()
     {
-        return $this->hasMany('App\Models\Product', 'category_id')->withTrashed();
+        return $this->belongsTo('App\Models\Account', 'account_id')->withTrashed();
+    }
+
+    public function movable()
+    {
+        return $this->MorphTo();
+    }
+
+    public function itemStore()
+    {
+        return $this->belongsTo('\App\Models\ItemStore', 'movable_id')
+            ->where('movable_type', '=', ItemStore::class);
+    }
+
+    public function item()
+    {
+        return $this->belongsTo('\App\Models\Product', $this->movable());
+    }
+
+    public function store()
+    {
+        return $this->belongsTo('\App\Models\Store', $this->movable());
     }
 
     /**

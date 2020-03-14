@@ -22,7 +22,7 @@ class ItemPrice extends EntityModel
     /**
      * @var array
      */
-    protected $dates = ['start_date','end_date','deleted_at'];
+    protected $dates = ['start_date', 'end_date', 'deleted_at'];
     /**
      * @var array
      */
@@ -76,6 +76,11 @@ class ItemPrice extends EntityModel
     public static function findProductByKey($key)
     {
         return self::scope()->where('item_id', '=', $key)->first();
+    }
+
+    public function account()
+    {
+        return $this->belongsTo('App\Models\Account', 'account_id')->withTrashed();
     }
 
     /**

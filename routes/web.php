@@ -257,6 +257,11 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
     Route::get('api/products', 'ProductController@getDatatable');
     Route::resource('products', 'ProductController');
     Route::post('products/bulk', 'ProductController@bulk');
+//  item movement
+    Route::get('item_movements/{item_movements}/clone', 'ItemMovementController@cloneItemMovement');
+    Route::get('api/item_movements', 'ItemMovementController@getDatatable');
+    Route::resource('item_movements', 'ItemMovementController');
+    Route::post('item_movements/bulk', 'ItemMovementController@bulk');
 
 //  store
     Route::get('stores/{stores}/clone', 'StoreController@cloneStore');

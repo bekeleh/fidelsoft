@@ -80,6 +80,11 @@ class Product extends EntityModel
         return self::scope()->where('name', '=', $key)->first();
     }
 
+    public function account()
+    {
+        return $this->belongsTo('App\Models\Account', 'account_id')->withTrashed();
+    }
+
     /**
      * @return mixed
      */
@@ -96,6 +101,11 @@ class Product extends EntityModel
     public function itemCategory()
     {
         return $this->belongsTo('App\Models\ItemCategory', 'category_id')->withTrashed();
+    }
+
+    public function itemMovements()
+    {
+        return $this->morphMany('\App\Models\ItemMovement', 'movable', 'movable_type', 'movable_id');
     }
 
     /**

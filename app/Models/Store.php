@@ -75,6 +75,11 @@ class Store extends EntityModel
         return self::scope()->where('name', '=', $key)->first();
     }
 
+    public function account()
+    {
+        return $this->belongsTo('App\Models\Account', 'account_id')->withTrashed();
+    }
+
     /**
      * @return mixed
      */

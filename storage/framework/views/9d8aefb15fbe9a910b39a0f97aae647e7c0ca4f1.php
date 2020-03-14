@@ -2,23 +2,22 @@
 <html lang="<?php echo e(App::getLocale()); ?>">
 <head>
     <!-- Source: https://github.com/invoiceninja/invoiceninja -->
-    <!-- Version: <?php echo e(NINJA_VERSION); ?> -->
-    <?php if (env('MULTI_DB_ENABLED')): ?>
-        <!-- Authenticated: <?php echo e(Auth::check() ? 'Yes' : 'No'); ?> -->
-        <!-- Server: <?php echo e(session(SESSION_DB_SERVER, 'Unset')); ?> -->
-    <?php endif; ?>
-    <?php if (Session::has('error')): ?>
-        <!-- Error: <?php echo e(Session::get('error')); ?> -->
+<!-- Version: <?php echo e(NINJA_VERSION); ?> -->
+<?php if(env('MULTI_DB_ENABLED')): ?>
+    <!-- Authenticated: <?php echo e(Auth::check() ? 'Yes' : 'No'); ?> -->
+    <!-- Server: <?php echo e(session(SESSION_DB_SERVER, 'Unset')); ?> -->
+<?php endif; ?>
+<?php if(Session::has('error')): ?>
+    <!-- Error: <?php echo e(Session::get('error')); ?> -->
     <?php endif; ?>
     <meta charset="utf-8">
 
-    <?php if (Utils::isWhiteLabel() && !auth()->check()): ?>
+    <?php if(Utils::isWhiteLabel() && ! auth()->check()): ?>
         <title><?php echo e(trans('texts.client_portal')); ?></title>
         <link href="<?php echo e(asset('ic_cloud_circle.png')); ?>" rel="shortcut icon" type="image/png">
     <?php else: ?>
         <title><?php echo e(isset($title) ? ($title . ' | Care ERP') : ('Care ERP | ' . trans('texts.app_title'))); ?></title>
-        <meta name="description"
-              content="<?php echo e(isset($description) ? $description : trans('texts.app_description')); ?>"/>
+        <meta name="description" content="<?php echo e(isset($description) ? $description : trans('texts.app_description')); ?>"/>
         <link href="<?php echo e(asset('favicon-v2.png')); ?>" rel="shortcut icon" type="image/png">
 
         <meta property="og:site_name" content="Invoice Ninja"/>
@@ -39,7 +38,7 @@
         <meta name="theme-color" content="#ffffff">
     <?php endif; ?>
 
-    <!-- http://stackoverflow.com/questions/19012698/browser-cache-issues-in-laravel-4-application -->
+<!-- http://stackoverflow.com/questions/19012698/browser-cache-issues-in-laravel-4-application -->
     <meta http-equiv="cache-control" content="max-age=0"/>
     <meta http-equiv="cache-control" content="no-cache"/>
     <meta http-equiv="cache-control" content="no-store"/>
@@ -55,8 +54,7 @@
 
     <?php echo $__env->yieldContent('head_css'); ?>
 
-    <script src="<?php echo e(asset('built.js')); ?>?no_cache=<?php echo e(NINJA_VERSION); ?>"
-            type="text/javascript"></script>
+    <script src="<?php echo e(asset('built.js')); ?>?no_cache=<?php echo e(NINJA_VERSION); ?>" type="text/javascript"></script>
 
     <script type="text/javascript">
         var NINJA = NINJA || {};
@@ -220,21 +218,21 @@
         ;
         <?php endif; ?>
 
-        window._fbq = window._fbq || [];
+            window._fbq = window._fbq || [];
 
     </script>
 
-    <?php if (!request()->borderless): ?>
+    <?php if(! request()->borderless): ?>
         <link rel="stylesheet" type="text/css" href="<?php echo e(asset('css/cookieconsent.min.css')); ?>"/>
         <script src="<?php echo e(asset('js/cookieconsent.min.js')); ?>"></script>
         <script>
             window.addEventListener("load", function () {
-                if (!window.cookieconsent) {
-                    return;
-                }
-                window.cookieconsent.initialise({
-                    "palette": {
-                        "popup": {
+                    if (!window.cookieconsent) {
+                        return;
+                    }
+                    window.cookieconsent.initialise({
+                        "palette": {
+                            "popup": {
                                 "background": "#000"
                             },
                             "button": {
@@ -253,7 +251,7 @@
         </script>
     <?php endif; ?>
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
@@ -265,12 +263,12 @@
 
 <body class="body">
 
-<?php if (request()->phantomjs): ?>
+<?php if(request()->phantomjs): ?>
     <script>
         function trackEvent(category, action) {
         }
     </script>
-<?php elseif (Utils::isNinjaProd() && isset($_ENV['ANALYTICS_KEY']) && $_ENV['ANALYTICS_KEY']): ?>
+<?php elseif(Utils::isNinjaProd() && isset($_ENV['ANALYTICS_KEY']) && $_ENV['ANALYTICS_KEY']): ?>
     <script>
         (function (i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r;

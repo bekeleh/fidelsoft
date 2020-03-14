@@ -49,6 +49,11 @@ class ItemStore extends EntityModel
         return self::scope()->where('bin', '=', $key)->first();
     }
 
+    public function account()
+    {
+        return $this->belongsTo('App\Models\Account', 'account_id')->withTrashed();
+    }
+
     /**
      * @return mixed
      */
@@ -65,6 +70,11 @@ class ItemStore extends EntityModel
     public function product()
     {
         return $this->belongsTo('App\Models\Product', 'product_id')->withTrashed();
+    }
+
+    public function itemMovements()
+    {
+        return $this->morphMany('\App\Models\ItemMovement', 'movable', 'movable_type', 'movable_id');
     }
 
     /**
