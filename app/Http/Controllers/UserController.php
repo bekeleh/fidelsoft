@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Libraries\Utils;
 use App\Models\User;
 use App\Ninja\Mailers\ContactMailer;
 use App\Ninja\Mailers\UserMailer;
 use App\Ninja\Repositories\AccountRepository;
 use App\Services\UserService;
-use Auth;
-use Input;
-use Password;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
 use Redirect;
-use Request;
-use Session;
-use URL;
-use Utils;
-use Validator;
-use View;
 
 class UserController extends BaseController
 {
@@ -59,7 +58,6 @@ class UserController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param int $id
      * @param mixed $publicId
      *
      * @return Response
@@ -159,6 +157,7 @@ class UserController extends BaseController
      * Stores new account.
      *
      * @param mixed $userPublicId
+     * @return
      */
     public function save($userPublicId = false)
     {

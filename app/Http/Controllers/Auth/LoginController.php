@@ -58,17 +58,15 @@ class LoginController extends Controller
         if (!Utils::isNinja() && !User::count()) {
             return redirect()->to('/setup');
         }
-
         if (Utils::isNinja() && !Utils::isTravis()) {
             // make sure the user is on SITE_URL/login to ensure OAuth works
             $requestURL = request()->url();
             $loginURL = SITE_URL . '/login';
-            $subdomain = Utils::getSubdomain(request()->url());
-            if ($requestURL != $loginURL && !strstr($subdomain, 'webapp-')) {
+            $subDomain = Utils::getSubdomain(request()->url());
+            if ($requestURL != $loginURL && !strstr($subDomain, 'webapp-')) {
                 return redirect()->to($loginURL);
             }
         }
-
         return self::showLoginForm($request);
     }
 
@@ -119,7 +117,7 @@ class LoginController extends Controller
 
         $minutes = round($seconds / 60);
 
-        $message = Lang::get('auth/message.throttle', ['minutes' => $minutes]);
+        $message = Lang::get(trans('auth/message.throttle'), ['minutes' => $minutes]);
 
         return redirect()->back()
             ->withInput($request->only($this->username(), 'remember'))
@@ -156,7 +154,7 @@ class LoginController extends Controller
             }
             */
         } else {
-            $stacktrace = sprintf("%s %s %s %s\n", date('Y-m-d h:i:s'), $request->input('username'), Request::getClientIp(), array_get($_SERVER, 'HTTP_USER_AGENT'));
+            $stacktrace = sprintf("%s %s %s %s\n", date('Y-m-d h:i:s'), $request->input('username'), $request->getClientIp(), array_get($_SERVER, 'HTTP_USER_AGENT'));
             if (config('app.log') == 'single') {
                 file_put_contents(storage_path('logs/failed-logins.log'), $stacktrace, FILE_APPEND);
             } else {

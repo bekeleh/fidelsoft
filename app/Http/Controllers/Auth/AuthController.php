@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Ninja\Repositories\AccountRepository;
 use App\Services\AuthService;
@@ -38,7 +39,7 @@ class AuthController extends Controller
      * @param $provider
      * @param Request $request
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function oauthLogin($provider, Request $request)
     {
@@ -46,7 +47,7 @@ class AuthController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function oauthUnlink()
     {

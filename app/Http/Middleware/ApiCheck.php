@@ -2,14 +2,13 @@
 
 namespace App\Http\Middleware;
 
+use App\Libraries\Utils;
 use App\Models\AccountToken;
-use Auth;
-use Cache;
 use Closure;
-use Request;
-use Response;
-use Session;
-use Utils;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Response;
 
 /**
  * Class ApiCheck.
@@ -20,7 +19,7 @@ class ApiCheck
      * Handle an incoming request.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Closure                 $next
+     * @param \Closure $next
      *
      * @return mixed
      */
@@ -43,7 +42,7 @@ class ApiCheck
 
         if ($loggingIn) {
             // check API secret
-            if (! $hasApiSecret) {
+            if (!$hasApiSecret) {
                 sleep(ERROR_DELAY);
                 $error['error'] = ['message' => 'Invalid value for API_SECRET'];
 
@@ -67,13 +66,13 @@ class ApiCheck
             }
         }
 
-        if (! Utils::isNinja() && ! $loggingIn) {
+        if (!Utils::isNinja() && !$loggingIn) {
             return $next($request);
         }
 
         $isMobileApp = strpos(array_get($_SERVER, 'HTTP_USER_AGENT'), '(dart:io)') !== false;
 
-        if (! Utils::hasFeature(FEATURE_API) && ! $hasApiSecret && ! $isMobileApp) {
+        if (!Utils::hasFeature(FEATURE_API) && !$hasApiSecret && !$isMobileApp) {
             $error['error'] = ['message' => 'API requires pro plan'];
 
             return Response::json($error, 403, $headers);
