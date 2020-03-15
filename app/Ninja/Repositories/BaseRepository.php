@@ -62,7 +62,7 @@ class BaseRepository
      */
     public function restore($entity)
     {
-        if (! $entity->trashed()) {
+        if (!$entity->trashed()) {
             return;
         }
 
@@ -111,7 +111,7 @@ class BaseRepository
      */
     public function bulk($ids, $action)
     {
-        if (! $ids) {
+        if (!$ids) {
             return 0;
         }
 
@@ -149,7 +149,6 @@ class BaseRepository
     protected function applyFilters($query, $entityType, $table = false)
     {
         $table = Utils::pluralizeEntityType($table ?: $entityType);
-
         if ($filter = session('entity_state_filter:' . $entityType, STATUS_ACTIVE)) {
             $filters = explode(',', $filter);
             $query->where(function ($query) use ($filters, $table) {
@@ -162,7 +161,7 @@ class BaseRepository
                     $query->orWhere(function ($query) use ($table) {
                         $query->whereNotNull($table . '.deleted_at');
 
-                        if (! in_array($table, ['users'])) {
+                        if (!in_array($table, ['users'])) {
                             $query->where($table . '.is_deleted', '=', 0);
                         }
                     });
@@ -170,7 +169,7 @@ class BaseRepository
                 if (in_array(STATUS_DELETED, $filters)) {
                     $query->orWhere(function ($query) use ($table) {
                         $query->whereNotNull($table . '.deleted_at')
-                              ->where($table . '.is_deleted', '=', 1);
+                            ->where($table . '.is_deleted', '=', 1);
                     });
                 }
             });

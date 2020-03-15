@@ -83,4 +83,12 @@ class SaleType extends EntityModel
     {
         return $this->belongsMany('App\Models\ItemPrice')->withTrashed();
     }
+
+    /**
+     * @return mixed
+     */
+    public function clients()
+    {
+        return $this->hasMany('App\Models\Client')->withTrashed();
+    }
 }

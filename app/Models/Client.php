@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
- * Class Client.
+ * Model Class Client.
  */
 class Client extends EntityModel
 {
@@ -52,6 +52,7 @@ class Client extends EntityModel
         'industry_id',
         'currency_id',
         'language_id',
+        'sale_type_id',
         'payment_terms',
         'website',
         'invoice_number_counter',
@@ -221,6 +222,14 @@ class Client extends EntityModel
     public function size()
     {
         return $this->belongsTo('App\Models\Size');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function saleType()
+    {
+        return $this->belongsTo('App\Models\SaleType');
     }
 
     /**

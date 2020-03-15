@@ -31,6 +31,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_PRODUCT', 'product');
     define('ENTITY_LOCATION', 'location');
     define('ENTITY_STORE', 'store');
+    define('ENTITY_UNIT', 'unit');
     define('ENTITY_REPORT', 'report');
     define('ENTITY_ITEM_STORE', 'item_store');
     define('ENTITY_ITEM_MOVEMENT', 'item_movement');
@@ -66,6 +67,7 @@ if (!defined('APP_NAME')) {
         ENTITY_PRODUCT,
         ENTITY_LOCATION,
         ENTITY_STORE,
+        ENTITY_UNIT,
         ENTITY_ITEM_STORE,
         ENTITY_ITEM_MOVEMENT,
         ENTITY_ITEM_CATEGORY,
@@ -116,6 +118,7 @@ if (!defined('APP_NAME')) {
     define('ACCOUNT_ITEM_CATEGORIES', 'item_categories');
     define('ACCOUNT_LOCATIONS', 'locations');
     define('ACCOUNT_STORES', 'stores');
+    define('ACCOUNT_UNIT', 'units');
     define('ACCOUNT_ADVANCED_SETTINGS', 'advanced_settings');
     define('ACCOUNT_INVOICE_SETTINGS', 'invoice_settings');
     define('ACCOUNT_INVOICE_DESIGN', 'invoice_design');

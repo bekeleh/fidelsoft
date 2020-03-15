@@ -60,7 +60,7 @@ class ItemMovement extends EntityModel
 
     public function movable()
     {
-        return $this->MorphTo();
+        return $this->morphTo();
     }
 
     public function itemStore()

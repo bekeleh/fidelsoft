@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ItemMovementRequest;
 use App\Libraries\Utils;
-use App\Ninja\Datatables\StoreDatatable;
+use App\Ninja\Datatables\ItemMovementDatatable;
 use App\Ninja\Repositories\ItemMovementRepository;
 use App\Services\ItemMovementService;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +15,6 @@ use Redirect;
 
 class ItemMovementController extends BaseController
 {
-    // Stores
     protected $itemMovementRepo;
     protected $itemMovementService;
     protected $entityType = ENTITY_ITEM_MOVEMENT;
@@ -37,7 +36,7 @@ class ItemMovementController extends BaseController
     {
         return View::make('list_wrapper', [
             'entityType' => ENTITY_ITEM_MOVEMENT,
-            'datatable' => new StoreDatatable(),
+            'datatable' => new ItemMovementDatatable(),
             'title' => trans('texts.item_movement'),
         ]);
     }
@@ -58,7 +57,7 @@ class ItemMovementController extends BaseController
     {
 
         $data = [
-            '' => null,
+            'itemMovement' => null,
             'method' => 'POST',
             'url' => 'item_movements',
             'title' => trans('texts.new_item_movement'),
@@ -83,7 +82,7 @@ class ItemMovementController extends BaseController
         }
 
         $data = [
-            '' => $itemMovement,
+            'itemMovement' => $itemMovement,
             'entity' => $itemMovement,
             'method' => $method,
             'url' => $url,
@@ -110,7 +109,7 @@ class ItemMovementController extends BaseController
         Session::flash('message', trans('texts.updated_item_movement'));
 
         $action = Input::get('action');
-        if (in_array($action, ['archive', 'delete', 're', 'invoice', 'add_to_invoice'])) {
+        if (in_array($action, ['archive', 'delete', 'restore', 'invoice', 'add_to_invoice'])) {
             return self::bulk();
         }
 
@@ -126,7 +125,7 @@ class ItemMovementController extends BaseController
         $data = $request->input();
         $itemMovement = $this->itemMovementService->save($data);
 
-        Session::flash('message', trans('texts.created_'));
+        Session::flash('message', trans('texts.created_item_movement'));
 
         return redirect()->to("item_movements/{$itemMovement->public_id}/edit");
     }
@@ -138,7 +137,7 @@ class ItemMovementController extends BaseController
 
         $count = $this->itemMovementService->bulk($ids, $action);
 
-        $message = Utils::pluralize($action . 'd_', $count);
+        $message = Utils::pluralize($action . 'd_item_movement', $count);
         Session::flash('message', $message);
 
         return $this->returnBulk(ENTITY_ITEM_MOVEMENT, $action, $ids);

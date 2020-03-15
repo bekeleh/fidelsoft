@@ -23,40 +23,40 @@ class ItemMovementRepository extends BaseRepository
     {
         $query = DB::table('item_movements')
             ->join('accounts', 'accounts.id', '=', 'item_movements.account_id')
-            ->join('item_stores', function ($join) {
-                $join->on('item_stores.id', '=', 'item_movements.movable_id')
-                    ->join('products', 'products.id', '=', 'item_stores.product.id')
-                    ->select('products.name as product_name')
-                    ->join('stores', 'stores.id', '=', 'item_stores.store.id')
-                    ->select('stores.name as item_name');
-            })
+            ->join('item_stores', 'item_stores.id', '=', 'item_movements.movable_id')
+            ->join('products', 'products.id', '=', 'item_stores.product_id')
+            ->join('stores', 'stores.id', '=', 'item_stores.store_id')
             ->where('item_movements.account_id', '=', $accountId)
             //->where('item_movements.deleted_at', '=', null)
             ->select(
                 'item_movements.id',
                 'item_movements.public_id',
                 'item_movements.movable_id',
-                'item_movements.is_deleted',
+                'item_movements.qty',
+                'item_movements.qoh',
                 'item_movements.notes',
                 'item_movements.created_at',
                 'item_movements.updated_at',
                 'item_movements.deleted_at',
                 'item_movements.created_by',
                 'item_movements.updated_by',
-                'item_movements.deleted_by'
+                'item_movements.deleted_by',
+                'item_movements.is_deleted',
+                'products.name as item_name',
+                'stores.name as store_name'
             );
-
-        $this->applyFilters($query, ENTITY_ITEM_MOVEMENT);
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
-                $query->where('item_movements.name', 'like', '%' . $filter . '%')
-                    ->orWhere('item_movements.store_code', 'like', '%' . $filter . '%')
-                    ->orWhere('item_movements.notes', 'like', '%' . $filter . '%')
-                    ->orWhere('item_name.name', 'like', '%' . $filter . '%')
-                    ->orWhere('store_name.name', 'like', '%' . $filter . '%');
+                $query->Where('item_movements.notes', 'like', '%' . $filter . '%')
+                    ->orWhere('item_movements.created_by', 'like', '%' . $filter . '%')
+                    ->orWhere('item_movements.updated_by', 'like', '%' . $filter . '%')
+                    ->orWhere('products.name', 'like', '%' . $filter . '%')
+                    ->orWhere('stores.name', 'like', '%' . $filter . '%');
             });
         }
+
+        $this->applyFilters($query, ENTITY_ITEM_MOVEMENT);
 
         return $query;
     }

@@ -10,6 +10,7 @@ use App\Libraries\Utils;
 use App\Models\Activity;
 use App\Models\Client;
 use App\Models\Expense;
+use App\Models\Frequency;
 use App\Models\Invoice;
 use App\Models\InvoiceDesign;
 use App\Models\Payment;
@@ -98,7 +99,6 @@ class InvoiceController extends BaseController
             ->select('contacts.public_id')->pluck('public_id');
 
         $clients = Client::scope()->withTrashed()->with('contacts', 'country');
-
         if ($clone) {
             $entityType = $clone == INVOICE_TYPE_STANDARD ? ENTITY_INVOICE : ENTITY_QUOTE;
             $invoice->id = $invoice->public_id = null;
@@ -319,12 +319,12 @@ class InvoiceController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account->load('country'),
-            'products' => Product::scope()->orderBy('name')->where('qty', '>', '0')->get(),
+            'products' => Product::scope()->orderBy('name')->get(),
             'taxRateOptions' => $taxRateOptions,
             'sizes' => Cache::get('sizes'),
             'invoiceDesigns' => InvoiceDesign::getDesigns(),
             'invoiceFonts' => Cache::get('fonts'),
-            'frequencies' => \App\Models\Frequency::selectOptions(),
+            'frequencies' => Frequency::selectOptions(),
             'recurringDueDates' => $recurringDueDates,
             'recurringHelp' => $recurringHelp,
             'recurringDueDateHelp' => $recurringDueDateHelp,

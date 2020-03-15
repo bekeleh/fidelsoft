@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Libraries\Utils;
-use App\Ninja\Datatables\StoreDatatable;
+use App\Ninja\Datatables\ItemMovementDatatable;
 use App\Ninja\Repositories\ItemMovementRepository;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -69,7 +69,7 @@ class ItemMovementService extends BaseService
             $query->where('item_movements.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable(new StoreDatatable(), $query);
+        return $this->datatableService->createDatatable(new ItemMovementDatatable(), $query);
     }
 
 }

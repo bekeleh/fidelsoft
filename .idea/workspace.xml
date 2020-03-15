@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/ItemMovementApiController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/ItemMovementController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/ItemMovementRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Models/ItemMovement.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Ninja/Datatables/ItemMovementDatatable.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Ninja/Presenters/ItemMovementPresenter.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Ninja/Repositories/ItemMovementRepository.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Policies/ItemMovementPolicy.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Services/ItemMovementService.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/item_movements/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+    <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="202003140614">
+      <change afterPath="$PROJECT_DIR$/resources/views/UOM/edit.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/bvSQdjeXQPCmgbuO6n1gQwV2pns1ddlcsPNGKQxj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/04745a3998bf277d4e038fb6af6db06b785cddc5.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/0956fb495b4b6ea7f0889278248b8c30b2698808.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/18aa35b235b3b64d881ae8da46a146bf0c81710b.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/223623f4c443f6c65a66ebcb912df2e3d5a0ce00.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/2716ccdc7649fdb21982806d1299aa7327752514.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/626066e21669c3c0963be6662b0c23e18dd7881b.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/68be9361ace2260e63a63d0db144d889104c1cd9.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/6dcd1d5f1aa14ef39e4fff36c9391dd760543946.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/6fa524c879f672159ba6d0cd743d03590bc34db5.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/7ddbd6c01c668f22db3fedccd6e7756ae35c8288.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/ac3b73e0e67910e958e92283943f06c42646ee23.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/b9846eada7f26fa0e9e33f8ed9634cdb26032c0d.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/c7a35e3db127bbc14744963fc723e20043f97bff.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/c9e0f6f4159b676ba8afbee550091bc69d48cab4.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/f720fc908759975fc10416a41c59e3facf91da57.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Constants.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Constants.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/EntityModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/EntityModel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/ItemCategory.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ItemCategory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/ItemPrice.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ItemPrice.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/ItemStore.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ItemStore.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Location.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Location.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Product.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Store.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Store.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/InvoiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/InvoiceController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ItemMovementController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ItemMovementController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/ItemMovementRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/ItemMovementRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Libraries/Utils.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Libraries/Utils.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Client.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Client.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/GatewayType.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/GatewayType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/ItemMovement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ItemMovement.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/SaleType.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/SaleType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/ClientDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/ClientDatatable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/BaseRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/BaseRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/ClientRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/ClientRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/InvoiceRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/InvoiceRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/ItemMovementRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/ItemMovementRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/ItemStoreRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/ItemStoreRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/StoreRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/StoreRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/ItemMovementService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/ItemMovementService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/ItemStoreService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/ItemStoreService.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/header.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/PpB0w22zEyoz9j70NlAlo80VYVUprctGQrKg6Nfh" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/PpB0w22zEyoz9j70NlAlo80VYVUprctGQrKg6Nfh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/SYOTXWPr87oyFpE7HHU87BBCuMElYqpQwKCjre7T" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/SYOTXWPr87oyFpE7HHU87BBCuMElYqpQwKCjre7T" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/029ff1b83d4540237f7ba2370365a7966023941e.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/18aa35b235b3b64d881ae8da46a146bf0c81710b.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/3ad949682e6397c7d2bb6497650a80c20980f69f.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/3ad949682e6397c7d2bb6497650a80c20980f69f.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/3d4796057765b5a7517531f2f8b487ab7f709a24.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/3d4796057765b5a7517531f2f8b487ab7f709a24.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/48088ee6c46668f6d37601df3aaea9587070c48d.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/48088ee6c46668f6d37601df3aaea9587070c48d.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/4d12b5cac1ec88b442d9ad43f98801b0ad576927.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/626066e21669c3c0963be6662b0c23e18dd7881b.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/669a9edbbc727010eb9ae0922a564aad4eae71e6.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/669a9edbbc727010eb9ae0922a564aad4eae71e6.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/6fa524c879f672159ba6d0cd743d03590bc34db5.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/77cff8268ccf09519cd8515352e69c3bc16767dd.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/77cff8268ccf09519cd8515352e69c3bc16767dd.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/78e9d60e5e03b91904e56bc726c88b0e534825e8.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/78e9d60e5e03b91904e56bc726c88b0e534825e8.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/9d8aefb15fbe9a910b39a0f97aae647e7c0ca4f1.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/9d8aefb15fbe9a910b39a0f97aae647e7c0ca4f1.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/9eaec7a1912e5681c0d192c47e44595ba72e45b9.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/a36df17ab728dc6a3fffcb63d754b76a4de5ed91.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/a36df17ab728dc6a3fffcb63d754b76a4de5ed91.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/ab409e5dc6346ea88348aeb65121486025dfad94.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/ab409e5dc6346ea88348aeb65121486025dfad94.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/e50726394fb96b33e7a3fe023a9d5f8ff5a4dff4.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/e50726394fb96b33e7a3fe023a9d5f8ff5a4dff4.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/invoices/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/invoices/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/item_categories/stores.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/item_movements/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/item_movements/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/item_stores/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/item_stores/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/partials/email_templates.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/partials/email_templates.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/PpB0w22zEyoz9j70NlAlo80VYVUprctGQrKg6Nfh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/SYOTXWPr87oyFpE7HHU87BBCuMElYqpQwKCjre7T" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -271,20 +271,20 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/item_movements" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/UOM" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="terminal" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\wamp\www\invoiceninja\resources\views\products" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\wamp\www\invoiceninja\resources\views\UOM" />
       <recent name="C:\wamp\www\invoiceninja\resources\views\item_movements" />
       <recent name="C:\wamp\www\invoiceninja\resources\views\item_categories" />
       <recent name="C:\wamp\www\invoiceninja\resources\views\item_stores" />
       <recent name="C:\wamp\www\invoiceninja\resources\views\locations" />
-      <recent name="C:\wamp\www\invoiceninja\resources\views\stores" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\wamp\www\invoiceninja\resources\views\products" />
     </key>
   </component>
   <component name="RunManager" selected="Codeception.codeception.yml">
@@ -346,7 +346,9 @@
       <workItem from="1584044292386" duration="4664000" />
       <workItem from="1584091466973" duration="2595000" />
       <workItem from="1584100815292" duration="8192000" />
-      <workItem from="1584170182282" duration="26642000" />
+      <workItem from="1584170182282" duration="26845000" />
+      <workItem from="1584255192872" duration="442000" />
+      <workItem from="1584256017994" duration="17156000" />
     </task>
     <task id="LOCAL-00001" summary="202003060614">
       <created>1583507671758</created>
@@ -544,13 +546,22 @@
       <option name="project" value="LOCAL" />
       <updated>1584191619257</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="202003140614">
+      <created>1584200007955</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1584200007955</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="202003060614" />
     <MESSAGE value="202003070614" />
@@ -562,10 +573,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="202003140614" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="312" y="89" key="#Notifications" timestamp="1583925410071">
+    <state x="312" y="89" key="#Notifications" timestamp="1584274132899">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="312" y="89" key="#Notifications/0.0.1440.860@0.0.1440.860" timestamp="1583925410071" />
+    <state x="312" y="89" key="#Notifications/0.0.1440.860@0.0.1440.860" timestamp="1584274132899" />
     <state x="419" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1584007049504">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
@@ -578,10 +589,10 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="500" y="356" key="#com.jetbrains.php.lang.intentions.PhpImportClassDialog#/0.0.1440.860@0.0.1440.860" timestamp="1583994492849" />
-    <state x="345" y="25" key="CommitChangelistDialog2" timestamp="1584191616857">
+    <state x="345" y="25" key="CommitChangelistDialog2" timestamp="1584257058004">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="345" y="25" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1584191616857" />
+    <state x="345" y="25" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1584257058004" />
     <state x="500" y="177" key="FileChooserDialogImpl" timestamp="1584008814991">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
@@ -602,10 +613,10 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state width="1397" height="222" key="GridCell.Tab.0.right/0.0.1440.860@0.0.1440.860" timestamp="1582731316355" />
-    <state x="527" y="245" key="NewPhpClassDialog" timestamp="1583830739391">
+    <state x="527" y="245" key="NewPhpClassDialog" timestamp="1584257861288">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="527" y="245" key="NewPhpClassDialog/0.0.1440.860@0.0.1440.860" timestamp="1583830739391" />
+    <state x="527" y="245" key="NewPhpClassDialog/0.0.1440.860@0.0.1440.860" timestamp="1584257861288" />
     <state x="471" y="223" key="NewPhpFileDialog" timestamp="1584198062231">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
@@ -614,19 +625,19 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="221" y="73" key="SettingsEditor/0.0.1440.860@0.0.1440.860" timestamp="1584008816522" />
-    <state x="312" y="163" key="Vcs.Push.Dialog.v2" timestamp="1584190094905">
+    <state x="312" y="163" key="Vcs.Push.Dialog.v2" timestamp="1584200028046">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="312" y="163" key="Vcs.Push.Dialog.v2/0.0.1440.860@0.0.1440.860" timestamp="1584190094905" />
-    <state x="590" y="146" key="com.intellij.ide.util.TipDialog" timestamp="1584170191031">
+    <state x="312" y="163" key="Vcs.Push.Dialog.v2/0.0.1440.860@0.0.1440.860" timestamp="1584200028046" />
+    <state x="590" y="146" key="com.intellij.ide.util.TipDialog" timestamp="1584256036087">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="590" y="146" key="com.intellij.ide.util.TipDialog/0.0.1440.860@0.0.1440.860" timestamp="1584170191031" />
-    <state x="465" y="112" width="849" height="606" key="find.popup" timestamp="1584198785347">
+    <state x="590" y="146" key="com.intellij.ide.util.TipDialog/0.0.1440.860@0.0.1440.860" timestamp="1584256036087" />
+    <state x="465" y="112" width="849" height="606" key="find.popup" timestamp="1584265456858">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="441" y="95" width="806" height="536" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1584046794826" />
-    <state x="465" y="112" width="849" height="606" key="find.popup/0.0.1440.860@0.0.1440.860" timestamp="1584198785347" />
+    <state x="465" y="112" width="849" height="606" key="find.popup/0.0.1440.860@0.0.1440.860" timestamp="1584265456858" />
     <state x="376" y="195" key="run.anything.popup" timestamp="1584184043681">
       <screen x="0" y="0" width="1440" height="860" />
     </state>

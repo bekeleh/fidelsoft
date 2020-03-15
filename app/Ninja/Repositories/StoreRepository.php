@@ -46,8 +46,6 @@ class StoreRepository extends BaseRepository
                 'locations.name as location_name'
             );
 
-        $this->applyFilters($query, ENTITY_STORE);
-
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('stores.name', 'like', '%' . $filter . '%')
@@ -56,6 +54,8 @@ class StoreRepository extends BaseRepository
                     ->orWhere('locations.name', 'like', '%' . $filter . '%');
             });
         }
+
+        $this->applyFilters($query, ENTITY_STORE);
 
         return $query;
     }

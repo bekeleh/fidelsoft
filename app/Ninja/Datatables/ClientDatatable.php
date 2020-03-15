@@ -41,6 +41,12 @@ class ClientDatatable extends EntityDatatable
                 Auth::user()->account->clientNumbersEnabled()
             ],
             [
+                'sale_type',
+                function ($model) {
+                    return $model->sale_type;
+                },
+            ],
+            [
                 'client_created_at',
                 function ($model) {
                     return Utils::timestampToDateString(strtotime($model->created_at));

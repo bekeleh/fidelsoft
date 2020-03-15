@@ -54,12 +54,14 @@ class ItemStoreService extends BaseService
      */
     public function save($data, $store = null)
     {
-//        if (isset($data['product_id']) && $data['product_id']) {
-//            $data['product_id'] = Product::getPrivateId($data['product_id']);
-//        }
-//        if (isset($data['store_id']) && $data['store_id']) {
-//            $data['store_id'] = Store::getPrivateId($data['store_id']);
-//        }
+        if ($store) {
+            if (!empty($data['product_id'])) {
+                $data['product_id'] = Product::getPrivateId($data['product_id']);
+            }
+            if (!empty($data['store_id'])) {
+                $data['store_id'] = Store::getPrivateId($data['store_id']);
+            }
+        }
         return $this->itemStoreRepo->save($data, $store);
     }
 

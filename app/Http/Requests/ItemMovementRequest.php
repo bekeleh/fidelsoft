@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 class ItemMovementRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_STORE;
+    protected $entityType = ENTITY_ITEM_MOVEMENT;
 
     public function authorize()
     {
@@ -18,13 +18,15 @@ class ItemMovementRequest extends EntityRequest
         switch ($this->method()) {
             case 'POST':
             {
-
+                $rules['qty'] = 'numeric';
                 break;
             }
             case 'PUT':
             case 'PATCH':
             {
-
+                $rules['qty'] = 'numeric';
+                $rules['qoh'] = 'numeric';
+                break;
             }
             default:
                 break;
@@ -35,7 +37,9 @@ class ItemMovementRequest extends EntityRequest
     public function sanitize()
     {
         $input = $this->all();
-
+        if (!empty($input)) {
+            $input['qty'] = filter_var($input['qty'], FILTER_SANITIZE_STRING);
+        }
 
         $this->replace($input);
     }

@@ -551,7 +551,6 @@ class Utils
     public static function getFromCache($id, $type)
     {
         $cache = Cache::get($type);
-
         if (!$cache) {
             static::logError("Cache for {$type} is not set");
 

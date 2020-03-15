@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Cache;
-use Eloquent;
-use Utils;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\Model as Eloquent;
+use App\Libraries\Utils;
 
 /**
  * Class GatewayType.
@@ -26,11 +26,16 @@ class GatewayType extends Eloquent
 
     public static function getAliasFromId($id)
     {
-        return Utils::getFromCache($id, 'gatewayTypes')->alias;
+//            return Utils::getFromCache($id, 'gatewayTypes')->alias;
     }
 
     public static function getIdFromAlias($alias)
     {
-        return Cache::get('gatewayTypes')->where('alias', $alias)->first()->id;
+        $data = Cache::get('gatewayTypes')->where('alias', $alias)->first()->id;
+        if (!$data) {
+            return null;
+        }
+
+        return $data;
     }
 }

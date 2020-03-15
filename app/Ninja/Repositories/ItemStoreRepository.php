@@ -4,6 +4,7 @@ namespace App\Ninja\Repositories;
 
 use App\Events\ItemStoreWasCreated;
 use App\Events\ItemStoreWasUpdated;
+use App\Models\ItemMovement;
 use App\Models\ItemStore;
 use App\Models\Product;
 use App\Models\Store;
@@ -49,18 +50,17 @@ class ItemStoreRepository extends BaseRepository
                 'products.name as product_name',
                 'stores.name as store_name'
             );
-
-        $this->applyFilters($query, ENTITY_ITEM_STORE);
-
         if ($filter) {
             $query->where(function ($query) use ($filter) {
-                $query->where('item_stores.name', 'like', '%' . $filter . '%')
-                    ->orWhere('item_stores.store_code', 'like', '%' . $filter . '%')
-                    ->orWhere('item_stores.notes', 'like', '%' . $filter . '%')
+                $query->Where('item_stores.notes', 'like', '%' . $filter . '%')
+                    ->orWhere('item_stores.created_by', 'like', '%' . $filter . '%')
+                    ->orWhere('item_stores.updated_by', 'like', '%' . $filter . '%')
                     ->orWhere('products.name', 'like', '%' . $filter . '%')
                     ->orWhere('stores.name', 'like', '%' . $filter . '%');
             });
         }
+
+        $this->applyFilters($query, ENTITY_ITEM_STORE);
 
         return $query;
     }
@@ -86,24 +86,29 @@ class ItemStoreRepository extends BaseRepository
     public function save($data, $itemStore = null)
     {
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
-
         if ($itemStore) {
+//          quantity adjustment
+            $this->quantityAdjustment($data, $itemStore, $update = true);
+            $itemStore->fill(collect($data)->except('qty')->toArray());
+            $itemStore->bin = isset($data['bin']) ? ucwords(trim($data['bin'])) : '';
+            $itemStore->qty = isset($data['qty']) ? $data['qty'] + $itemStore->qty : '';
+            $itemStore->notes = isset($data['notes']) ? trim($data['notes']) : '';
             $itemStore->updated_by = Auth::user()->username;
+            $itemStore->save();
         } elseif ($publicId) {
             $itemStore = ItemStore::scope($publicId)->withArchived()->firstOrFail();
             \Log::warning('Entity not set in item store repo save');
         } else {
             $itemStore = ItemStore::createNew();
+            $itemStore->fill($data);
+            $itemStore->bin = isset($data['bin']) ? ucwords(trim($data['bin'])) : '';
+            $itemStore->qty = isset($data['qty']) ? trim($data['qty']) : '';
+            $itemStore->notes = isset($data['notes']) ? trim($data['notes']) : '';
             $itemStore->created_by = Auth::user()->username;
+            if ($itemStore->save()) {
+                $this->quantityAdjustment($data, $itemStore, $update = false);
+            }
         }
-        $itemStore->fill($data);
-        $itemStore->bin = isset($data['bin']) ? ucwords(trim($data['bin'])) : '';
-        $itemStore->qty = isset($data['qty']) ? trim($data['qty']) : '';
-//        $itemStore->product_id = isset($data['product_id']) ? trim($data['product_id']) : '';
-//        $itemStore->store_id = isset($data['store_id']) ? trim($data['store_id']) : '';
-        $itemStore->notes = isset($data['notes']) ? trim($data['notes']) : '';
-//      save the data
-        $itemStore->save();
 
         if ($publicId) {
             event(new ItemStoreWasUpdated($itemStore, $data));
@@ -111,6 +116,36 @@ class ItemStoreRepository extends BaseRepository
             event(new ItemStoreWasCreated($itemStore, $data));
         }
         return $itemStore;
+    }
+
+    public function quantityAdjustment($data, $itemStore = null, $update = false)
+    {
+        if ($update) {
+//         update quantity
+            $this->qoh = (int)$itemStore->qty;
+            if (!empty($data['qty'])) {
+                if ((int)$data['qty'] > 0) {
+                    $movable = ItemMovement::createNew();
+                    $movable->qty = (int)$data['qty'];
+                    $movable->qoh = ((int)$this->qoh) + ((int)$data['qty']);
+                    $movable->notes = 'quantity adjustment';
+                    $movable->updated_by = auth::user()->username;
+                    $itemStore->itemMovements()->save($movable);
+                }
+            }
+        } else {
+//           create new quantity
+            if (!empty($data['qty'])) {
+                if ((int)$data['qty'] > 0) {
+                    $movable = ItemMovement::createNew();
+                    $movable->qty = (int)$data['qty'];
+                    $movable->qoh = (int)$data['qty'];
+                    $movable->notes = 'quantity adjustment';
+                    $movable->updated_by = auth::user()->username;
+                    $itemStore->itemMovements()->save($movable);
+                }
+            }
+        }
     }
 
     public function findPhonetically($itemStoreName)
