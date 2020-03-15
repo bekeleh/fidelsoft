@@ -9,12 +9,11 @@ class ClientRequest extends EntityRequest
     public function entity()
     {
         $client = parent::entity();
-        
+
         // eager load the contacts
-        if ($client && ! $client->relationLoaded('contacts')) {
-            $client->load('contacts');
+        if ($client && !$client->relationLoaded('contacts')) {
+            $client->load(['contacts', 'saleType']);
         }
-         
         return $client;
     }
 }

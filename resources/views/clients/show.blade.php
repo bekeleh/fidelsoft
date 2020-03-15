@@ -163,18 +163,27 @@
                             • {{ trans('texts.is_not_sent_reminders') }}</br>
                         @endif
                     </div>
+                    <div class="text-muted" style="padding-top:8px">
+                        <h3>{{ trans('texts.sale_type') }}</h3>
+                        @if (isset($client->saleType))
+                            @if(Auth::user()->can('create', ENTITY_SALE_TYPE))
+                                <a href="{{URL('/sale_types').'/'.$client->saleType->id}}">{!! $client->saleType->name !!}</a>
+                            @else
+                                {!! $client->saleType->name !!}
+                            @endif
+                        @else
+                            <p>Client sale type not yet defined.</p>
+                        @endif
+                    </div>
                 </div>
-
                 <div class="col-md-3">
                     <h3>{{ trans('texts.address') }}</h3>
-
                     @if ($client->addressesMatch())
                         {!! $client->present()->address(ADDRESS_BILLING) !!}
                     @else
                         {!! $client->present()->address(ADDRESS_BILLING, true) !!}<br/>
                         {!! $client->present()->address(ADDRESS_SHIPPING, true) !!}
                     @endif
-
                 </div>
 
                 <div class="col-md-3">

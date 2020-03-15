@@ -2,10 +2,13 @@
 
 namespace App\Services;
 
+use App\Libraries\Utils;
 use App\Ninja\Datatables\ClientDatatable;
+use App\Ninja\Datatables\SaleTypeDatatable;
 use App\Ninja\Repositories\ClientRepository;
 use App\Ninja\Repositories\NinjaRepository;
-use Auth;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class ClientService.
@@ -27,7 +30,7 @@ class ClientService extends BaseService
      *
      * @param ClientRepository $clientRepo
      * @param DatatableService $datatableService
-     * @param NinjaRepository  $ninjaRepo
+     * @param NinjaRepository $ninjaRepo
      */
     public function __construct(ClientRepository $clientRepo, DatatableService $datatableService, NinjaRepository $ninjaRepo)
     {
@@ -63,13 +66,32 @@ class ClientService extends BaseService
      * @param $search
      * @param $userId
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getDatatable($search, $userId)
     {
         $datatable = new ClientDatatable();
 
         $query = $this->clientRepo->find($search, $userId);
+
+        return $this->datatableService->createDatatable($datatable, $query);
+    }
+
+    /**
+     * @param $saleTypePublicId
+     *
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function getDatatableSaleType($saleTypePublicId)
+    {
+        $datatable = new SaleTypeDatatable(true, true);
+
+        $query = $this->clientRepo->findSaleType($saleTypePublicId);
+
+        if (!Utils::hasPermission('view_sale_type')) {
+            $query->where('sale_types.user_id', '=', Auth::user()->id);
+        }
 
         return $this->datatableService->createDatatable($datatable, $query);
     }

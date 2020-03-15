@@ -10,7 +10,7 @@ class NinjaRepository
     {
         $account = Account::whereId($clientPublicId)->first();
 
-        if (! $account) {
+        if (!$account) {
             return;
         }
 

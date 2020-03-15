@@ -49,7 +49,10 @@
                         <h3 class="panel-title">{!! trans('texts.details') !!}</h3>
                     </div>
                     <div class="panel-body">
-                        {!! Former::text('name')->data_bind("attr { placeholder: placeholderName }") !!}
+                        {!! Former::select('sale_type_id')->addOption('', '')
+                            ->label(trans('texts.sale_type'))
+                            ->addGroupClass('sale-select') !!}
+                        {!! Former::text('name')->label('texts.client_name') ->data_bind("attr { placeholder: placeholderName }") !!}
                         {!! Former::text('id_number')->placeholder($account->clientNumbersEnabled() ? $account->getNextNumber() : ' ') !!}
                         {!! Former::text('vat_number') !!}
                         {!! Former::text('website') !!}
@@ -134,7 +137,7 @@
                     </div>
                     <div class="panel-body">
                         <div data-bind='template: { foreach: contacts,
-		                            beforeRemove: hideContact,
+		                          beforeRemove: hideContact,
 		                            afterAdd: showContact }'>
                             {!! Former::hidden('public_id')->data_bind("value: public_id, valueUpdate: 'afterkeydown',
                                     attr: {name: 'contacts[' + \$index() + '][public_id]'}") !!}
@@ -314,6 +317,27 @@
         </div>
         {!! Former::hidden('data')->data_bind("value: ko.toJSON(model)") !!}
         <script type="text/javascript">
+            var sales = {!! $saleTypes !!};
+            var saleMap = {};
+            $(function () {
+                <!-- sale type -->
+                var saleId = {{ $saleTypePublicId ?: 0 }};
+                var $saleSelect = $('select#sale_type_id');
+                @if (Auth::user()->can('create', ENTITY_SALE_TYPE))
+                $saleSelect.append(new Option("{{ trans('texts.create_sale')}}: $name", '-1'));
+                        @endif
+                for (var i = 0; i < sales.length; i++) {
+                    var sale = sales[i];
+                    saleMap[sale.public_id] = sale;
+                    $saleSelect.append(new Option(getClientDisplayName(sale), sale.public_id));
+                }
+                @include('partials/entity_combobox', ['entityType' => ENTITY_SALE])
+                if (saleId) {
+                    var sale = saleMap[saleId];
+                    setComboboxValue($('.sale-select'), sale.public_id, sale.name);
+                }
+            });
+            <!-- /. sale type  -->
             $(function () {
                 $('#country_id, #shipping_country_id').combobox();
 

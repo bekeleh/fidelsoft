@@ -7,6 +7,7 @@ use App\Events\ClientWasUpdated;
 use App\Jobs\PurgeClientData;
 use App\Models\Client;
 use App\Models\Contact;
+use App\Models\SaleType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -42,7 +43,7 @@ class ClientRepository extends BaseRepository
                 DB::raw('COALESCE(clients.country_id, accounts.country_id) country_id'),
                 DB::raw("CONCAT(COALESCE(contacts.first_name, ''), ' ', COALESCE(contacts.last_name, '')) contact"),
                 'clients.public_id',
-                'clients.name',
+                'clients.name as client_name',
                 'clients.private_notes',
                 'contacts.first_name',
                 'contacts.last_name',
@@ -55,7 +56,8 @@ class ClientRepository extends BaseRepository
                 'clients.deleted_at',
                 'clients.is_deleted',
                 'clients.user_id',
-                'clients.id_number'
+                'clients.id_number',
+                'sale_types.name as sale_type'
             );
 
         $this->applyFilters($query, ENTITY_CLIENT);
@@ -67,7 +69,7 @@ class ClientRepository extends BaseRepository
                     ->orWhere('contacts.first_name', 'like', '%' . $filter . '%')
                     ->orWhere('contacts.last_name', 'like', '%' . $filter . '%')
                     ->orWhere('contacts.email', 'like', '%' . $filter . '%')
-                    ->orWhere('sale_types.name as sale_type', 'like', '%' . $filter . '%');
+                    ->orWhere('sale_types.name', 'like', '%' . $filter . '%');
             });
         }
 
@@ -81,6 +83,15 @@ class ClientRepository extends BaseRepository
     public function purge($client)
     {
         dispatch(new PurgeClientData($client));
+    }
+
+    public function findSaleType($saleTypePublicId)
+    {
+        $saleTypeId = SaleType::getPrivateId($saleTypePublicId);
+
+        $query = $this->find()->where('sale_types.sale_type_id', '=', $saleTypeId);
+
+        return $query;
     }
 
     public function save($data, $client = null)

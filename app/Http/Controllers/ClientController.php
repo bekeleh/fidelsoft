@@ -5,26 +5,25 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ClientRequest;
 use App\Http\Requests\CreateClientRequest;
 use App\Http\Requests\UpdateClientRequest;
+use App\Jobs\Client\GenerateStatementData;
 use App\Jobs\LoadPostmarkHistory;
 use App\Jobs\ReactivatePostmarkEmail;
-use App\Jobs\Client\GenerateStatementData;
+use App\Libraries\Utils;
 use App\Models\Account;
 use App\Models\Client;
-use App\Models\Credit;
-use App\Models\Invoice;
 use App\Models\Expense;
+use App\Models\Invoice;
+use App\Models\SaleType;
 use App\Models\Task;
 use App\Ninja\Datatables\ClientDatatable;
 use App\Ninja\Repositories\ClientRepository;
 use App\Services\ClientService;
-use Auth;
-use Cache;
-use Input;
-use Redirect;
-use Session;
-use URL;
-use Utils;
-use View;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\View;
 
 class ClientController extends BaseController
 {
@@ -63,9 +62,15 @@ class ClientController extends BaseController
         return $this->clientService->getDatatable($search, $userId);
     }
 
+    public function getDatatableSaleType($saleTypePublicId = null)
+    {
+        return $this->clientService->getDatatableSaleType($saleTypePublicId);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
+     * @param CreateClientRequest $request
      * @return Response
      */
     public function store(CreateClientRequest $request)
@@ -80,8 +85,7 @@ class ClientController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param int $id
-     *
+     * @param ClientRequest $request
      * @return Response
      */
     public function show(ClientRequest $request)
@@ -95,32 +99,32 @@ class ClientController extends BaseController
 
         $actionLinks = [];
         if ($user->can('create', ENTITY_INVOICE)) {
-            $actionLinks[] = ['label' => trans('texts.new_invoice'), 'url' => URL::to('/invoices/create/'.$client->public_id)];
+            $actionLinks[] = ['label' => trans('texts.new_invoice'), 'url' => URL::to('/invoices/create/' . $client->public_id)];
         }
         if ($user->can('create', ENTITY_TASK)) {
-            $actionLinks[] = ['label' => trans('texts.new_task'), 'url' => URL::to('/tasks/create/'.$client->public_id)];
+            $actionLinks[] = ['label' => trans('texts.new_task'), 'url' => URL::to('/tasks/create/' . $client->public_id)];
         }
         if (Utils::hasFeature(FEATURE_QUOTES) && $user->can('create', ENTITY_QUOTE)) {
-            $actionLinks[] = ['label' => trans('texts.new_quote'), 'url' => URL::to('/quotes/create/'.$client->public_id)];
+            $actionLinks[] = ['label' => trans('texts.new_quote'), 'url' => URL::to('/quotes/create/' . $client->public_id)];
         }
         if ($user->can('create', ENTITY_RECURRING_INVOICE)) {
-            $actionLinks[] = ['label' => trans('texts.new_recurring_invoice'), 'url' => URL::to('/recurring_invoices/create/'.$client->public_id)];
+            $actionLinks[] = ['label' => trans('texts.new_recurring_invoice'), 'url' => URL::to('/recurring_invoices/create/' . $client->public_id)];
         }
 
-        if (! empty($actionLinks)) {
+        if (!empty($actionLinks)) {
             $actionLinks[] = \DropdownButton::DIVIDER;
         }
 
         if ($user->can('create', ENTITY_PAYMENT)) {
-            $actionLinks[] = ['label' => trans('texts.enter_payment'), 'url' => URL::to('/payments/create/'.$client->public_id)];
+            $actionLinks[] = ['label' => trans('texts.enter_payment'), 'url' => URL::to('/payments/create/' . $client->public_id)];
         }
 
         if ($user->can('create', ENTITY_CREDIT)) {
-            $actionLinks[] = ['label' => trans('texts.enter_credit'), 'url' => URL::to('/credits/create/'.$client->public_id)];
+            $actionLinks[] = ['label' => trans('texts.enter_credit'), 'url' => URL::to('/credits/create/' . $client->public_id)];
         }
 
         if ($user->can('create', ENTITY_EXPENSE)) {
-            $actionLinks[] = ['label' => trans('texts.enter_expense'), 'url' => URL::to('/expenses/create/'.$client->public_id)];
+            $actionLinks[] = ['label' => trans('texts.enter_expense'), 'url' => URL::to('/expenses/create/' . $client->public_id)];
         }
 
         $token = $client->getGatewayToken();
@@ -146,21 +150,28 @@ class ClientController extends BaseController
     /**
      * Show the form for creating a new resource.
      *
+     * @param ClientRequest $request
      * @return Response
      */
     public function create(ClientRequest $request)
     {
-        //Auth::user()->can('create', ENTITY_CLIENT);
+        if ($request->sale_type_id != 0) {
+            $saleType = SaleType::scope($request->sale_type_id)->firstOrFail();
+        } else {
+            $saleType = null;
+        }
 
         if (Client::scope()->withTrashed()->count() > Auth::user()->getMaxNumClients()) {
-            return View::make('error', ['hideHeader' => true, 'error' => "Sorry, you've exceeded the limit of ".Auth::user()->getMaxNumClients().' clients']);
+            return View::make('error', ['hideHeader' => true, 'error' => "Sorry, you've exceeded the limit of " . Auth::user()->getMaxNumClients() . ' clients']);
         }
 
         $data = [
+            'saleType' => $saleType,
             'client' => null,
             'method' => 'POST',
             'url' => 'clients',
             'title' => trans('texts.new_client'),
+            'saleTypePublicId' => Input::old('saleType') ? Input::old('saleType') : $request->sale_type_id,
         ];
 
         $data = array_merge($data, self::getViewModel());
@@ -171,20 +182,20 @@ class ClientController extends BaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
-     *
+     * @param ClientRequest $request
      * @return Response
      */
     public function edit(ClientRequest $request)
     {
-
         $client = $request->entity();
 
         $data = [
+            'saleType' => null,
             'client' => $client,
             'method' => 'PUT',
-            'url' => 'clients/'.$client->public_id,
+            'url' => 'clients/' . $client->public_id,
             'title' => trans('texts.edit_client'),
+            'saleTypePublicId' => $client->saleType ? $client->saleType->public_id : null,
         ];
 
         $data = array_merge($data, self::getViewModel());
@@ -194,11 +205,10 @@ class ClientController extends BaseController
                 $data['planDetails'] = $account->getPlanDetails(false, false);
             }
         }
-
         return View::make('clients.edit', $data);
     }
 
-    private static function getViewModel()
+    private static function getViewModel($client = false)
     {
         return [
             'data' => Input::old('data'),
@@ -206,14 +216,14 @@ class ClientController extends BaseController
             'sizes' => Cache::get('sizes'),
             'customLabel1' => Auth::user()->account->customLabel('client1'),
             'customLabel2' => Auth::user()->account->customLabel('client2'),
+            'saleTypes' => SaleType::scope()->withActiveOrSelected($client ? $client->sale_type_id : false)->orderBy('name')->get(),
         ];
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param int $id
-     *
+     * @param UpdateClientRequest $request
      * @return Response
      */
     public function update(UpdateClientRequest $request)
@@ -230,13 +240,13 @@ class ClientController extends BaseController
         $action = Input::get('action');
         $ids = Input::get('public_id') ? Input::get('public_id') : Input::get('ids');
 
-        if ($action == 'purge' && ! auth()->user()->is_admin) {
+        if ($action == 'purge' && !auth()->user()->is_admin) {
             return redirect('dashboard')->withError(trans('texts.not_authorized'));
         }
 
         $count = $this->clientService->bulk($ids, $action);
 
-        $message = Utils::pluralize($action.'d_client', $count);
+        $message = Utils::pluralize($action . 'd_client', $count);
         Session::flash('message', $message);
 
         if ($action == 'purge') {
@@ -254,7 +264,7 @@ class ClientController extends BaseController
         $account = Auth::user()->account;
         $client = Client::scope(request()->client_id)->with('contacts')->firstOrFail();
 
-        if (! $startDate) {
+        if (!$startDate) {
             $startDate = Utils::today(false)->modify('-6 month')->format('Y-m-d');
             $endDate = Utils::today(false)->format('Y-m-d');
         }

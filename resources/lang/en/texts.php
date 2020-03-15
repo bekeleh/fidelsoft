@@ -6,9 +6,11 @@ $LANG = array(
     | sales type trans
     |--------------------------------------------------------------------------
     */
+
     'sale_types' => 'Sale Types',
     'sale_type' => 'Sale Types',
     'new_sale_type' => 'New Sales Type',
+    'create_sale' => 'Create Sale',
     'create_sale_type' => 'Create Sales Type',
     'edit_sale_type' => 'Edit Sales Type',
     'clone_sale_type' => 'Clone Sales Type',
@@ -186,7 +188,7 @@ $LANG = array(
     'industry_id' => 'Industry',
     'private_notes' => 'Private Notes',
     'invoice' => 'Invoice',
-    'client' => 'Client',
+    'client_name' => 'Client Name',
     'invoice_date' => 'Invoice Date',
     'due_date' => 'Due Date',
     'invoice_number' => 'Invoice Number',
