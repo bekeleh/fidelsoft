@@ -2,18 +2,14 @@
 
 @section('head_css')
     <link href="{{ asset('css/built.css') }}?no_cache={{ NINJA_VERSION }}" rel="stylesheet" type="text/css"/>
-
     @if (Utils::isNinjaDev())
         <style type="text/css">
             .nav-footer {
                 @if (config('mail.driver') == 'log' && ! config('services.postmark'))
-                                                                background-color: #50C878 !important;
+                                                                 background-color: #50C878 !important;
                 @else
-                                                                    background-color: #FD6A02 !important;
+                                                                     background-color: #FD6A02 !important;
             @endif
-
-
-
 
             }
         </style>
@@ -468,15 +464,6 @@
                         </a>
                         <a href="javascript:showKeyboardShortcuts()" title="{{ trans('texts.help') }}">
                             <i class="fa fa-question-circle"></i>
-                        </a>
-                        <a href="#" target="_blank" title="Facebook">
-                            <i class="fa fa-facebook-square"></i>
-                        </a>
-                        <a href="#" target="_blank" title="Twitter">
-                            <i class="fa fa-twitter-square"></i>
-                        </a>
-                        <a href="#" target="_blank" title="Instagram">
-                            <i class="fa fa fa-instagram"></i>
                         </a>
                     </div>
                 </li>

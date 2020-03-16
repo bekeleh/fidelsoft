@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="<?php echo e(App::getLocale()); ?>">
 <head>
-    <!-- Source: https://github.com/invoiceninja/invoiceninja -->
-<!-- Version: <?php echo e(NINJA_VERSION); ?> -->
 <?php if(env('MULTI_DB_ENABLED')): ?>
     <!-- Authenticated: <?php echo e(Auth::check() ? 'Yes' : 'No'); ?> -->
     <!-- Server: <?php echo e(session(SESSION_DB_SERVER, 'Unset')); ?> -->
@@ -14,31 +12,26 @@
 
     <?php if(Utils::isWhiteLabel() && ! auth()->check()): ?>
         <title><?php echo e(trans('texts.client_portal')); ?></title>
-        <link href="<?php echo e(asset('ic_cloud_circle.png')); ?>" rel="shortcut icon" type="image/png">
+        
     <?php else: ?>
-        <title><?php echo e(isset($title) ? ($title . ' | Care ERP') : ('Care ERP | ' . trans('texts.app_title'))); ?></title>
+        <title><?php echo e(isset($title) ? ($title . ' | Care ERP') : ('Care ERP' )); ?></title>
         <meta name="description" content="<?php echo e(isset($description) ? $description : trans('texts.app_description')); ?>"/>
-        <link href="<?php echo e(asset('favicon-v2.png')); ?>" rel="shortcut icon" type="image/png">
+        
 
-        <meta property="og:site_name" content="Invoice Ninja"/>
+        <meta property="og:site_name" content="Care ERP"/>
         <meta property="og:url" content="<?php echo e(SITE_URL); ?>"/>
-        <meta property="og:title" content="Invoice Ninja"/>
+        <meta property="og:title" content="Care ERP"/>
         <meta property="og:image" content="<?php echo e(SITE_URL); ?>/images/round_logo.png"/>
-        <meta property="og:description" content="Simple, Intuitive Invoicing."/>
+        <meta property="og:description" content="Care ERP"/>
 
         <!-- http://realfavicongenerator.net -->
-        <link rel="apple-touch-icon" sizes="180x180" href="<?php echo e(url('apple-touch-icon.png')); ?>">
-        <link rel="icon" type="image/png" href="<?php echo e(url('favicon-32x32.png')); ?>" sizes="32x32">
-        <link rel="icon" type="image/png" href="<?php echo e(url('favicon-16x16.png')); ?>" sizes="16x16">
-        <link rel="manifest" href="<?php echo e(url('manifest.json')); ?>">
-        <link rel="mask-icon" href="<?php echo e(url('safari-pinned-tab.svg')); ?>" color="#3bc65c">
+        
+        
         <link rel="shortcut icon" href="<?php echo e(url('favicon.ico')); ?>">
-        <meta name="apple-mobile-web-app-title" content="Invoice Ninja">
-        <meta name="application-name" content="Invoice Ninja">
+        <meta name="apple-mobile-web-app-title" content="Care ERP">
+        <meta name="application-name" content="Care ERP">
         <meta name="theme-color" content="#ffffff">
     <?php endif; ?>
-
-<!-- http://stackoverflow.com/questions/19012698/browser-cache-issues-in-laravel-4-application -->
     <meta http-equiv="cache-control" content="max-age=0"/>
     <meta http-equiv="cache-control" content="no-cache"/>
     <meta http-equiv="cache-control" content="no-store"/>

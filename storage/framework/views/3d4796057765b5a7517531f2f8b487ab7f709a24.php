@@ -1,17 +1,13 @@
 <?php $__env->startSection('head_css'); ?>
     <link href="<?php echo e(asset('css/built.css')); ?>?no_cache=<?php echo e(NINJA_VERSION); ?>" rel="stylesheet" type="text/css"/>
-
     <?php if(Utils::isNinjaDev()): ?>
         <style type="text/css">
             .nav-footer {
                 <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?>
-                                                                background-color: #50C878 !important;
+                                                                 background-color: #50C878 !important;
                 <?php else: ?>
-                                                                    background-color: #FD6A02 !important;
+                                                                     background-color: #FD6A02 !important;
             <?php endif; ?>
-
-
-
 
             }
         </style>
@@ -476,15 +472,6 @@
                         </a>
                         <a href="javascript:showKeyboardShortcuts()" title="<?php echo e(trans('texts.help')); ?>">
                             <i class="fa fa-question-circle"></i>
-                        </a>
-                        <a href="#" target="_blank" title="Facebook">
-                            <i class="fa fa-facebook-square"></i>
-                        </a>
-                        <a href="#" target="_blank" title="Twitter">
-                            <i class="fa fa-twitter-square"></i>
-                        </a>
-                        <a href="#" target="_blank" title="Instagram">
-                            <i class="fa fa fa-instagram"></i>
                         </a>
                     </div>
                 </li>

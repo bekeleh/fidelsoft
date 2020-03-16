@@ -15,9 +15,9 @@ class VendorDatatable extends EntityDatatable
     {
         return [
             [
-                'name',
+                'vendor_name',
                 function ($model) {
-                    $str = link_to("vendors/{$model->public_id}", $model->name ?: '')->toHtml();
+                    $str = link_to("vendors/{$model->public_id}", $model->vendor_name ?: '')->toHtml();
                     return $this->addNote($str, $model->private_notes);
                 },
             ],

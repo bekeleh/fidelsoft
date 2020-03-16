@@ -3,17 +3,17 @@
 return [
 
     'video_urls' => [
-        'all' => env('NINJA_VIDEOS_URL', 'https://www.youtube.com/channel/UCXAHcBvhW05PDtWYIq7WDFA/videos'),
-        'custom_design' => env('NINJA_VIDEOS_CUSTOM_DESIGN_URL', 'https://www.youtube.com/watch?v=pXQ6jgiHodc'),
-        'getting_started' => env('NINJA_VIDEOS_GETTING_STARTED_URL', 'https://www.youtube.com/watch?v=i7fqfi5HWeo'),
+        'all' => env('NINJA_VIDEOS_URL', 'https://www.youtube.com/channel/UCXAHcBvhW/videos'),
+        'custom_design' => env('NINJA_VIDEOS_CUSTOM_DESIGN_URL', 'https://www.youtube.com/watch?v=pXQ6odc'),
+        'getting_started' => env('NINJA_VIDEOS_GETTING_STARTED_URL', 'https://www.youtube.com/watch?v=i7fqfHWeo'),
     ],
 
     // invoice locking feature
     'lock_sent_invoices' => env('LOCK_SENT_INVOICES'),
 
     // Marketing links
-    'time_tracker_web_url' => env('TIME_TRACKER_WEB_URL', 'https://www.invoiceninja.com/time-tracker'),
-    'knowledge_base_url' => env('KNOWLEDGE_BASE_URL', 'https://www.invoiceninja.com/knowledge-base/'),
+    'time_tracker_web_url' => env('TIME_TRACKER_WEB_URL', 'https://www.care.com/time-tracker'),
+    'knowledge_base_url' => env('KNOWLEDGE_BASE_URL', 'https://www.care.com/knowledge-base/'),
 
     // Hosted plan coupons
     'coupon_50_off' => env('COUPON_50_OFF', false),
@@ -27,13 +27,13 @@ return [
 
     // terms and privacy policy
     'terms_of_service_url' => [
-        'hosted' => env('TERMS_OF_SERVICE_URL', 'https://www.invoiceninja.com/terms/'),
-        'selfhost' => env('TERMS_OF_SERVICE_URL', 'https://www.invoiceninja.com/self-hosting-terms-service/'),
+        'hosted' => env('TERMS_OF_SERVICE_URL', 'https://www.care.com/terms/'),
+        'selfhost' => env('TERMS_OF_SERVICE_URL', 'https://www.care.com/self-hosting-terms-service/'),
     ],
 
     'privacy_policy_url' => [
-        'hosted' => env('PRIVACY_POLICY_URL', 'https://www.invoiceninja.com/privacy-policy/'),
-        'selfhost' => env('PRIVACY_POLICY_URL', 'https://www.invoiceninja.com/self-hosting-privacy-data-control/'),
+        'hosted' => env('PRIVACY_POLICY_URL', 'https://www.care.com/privacy-policy/'),
+        'selfhost' => env('PRIVACY_POLICY_URL', 'https://www.care.com/self-hosting-privacy-data-control/'),
     ],
 
 

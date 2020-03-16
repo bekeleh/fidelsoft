@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{App::getLocale()}}">
 <head>
-    <!-- Source: https://github.com/invoiceninja/invoiceninja -->
-<!-- Version: {{ NINJA_VERSION }} -->
 @if (env('MULTI_DB_ENABLED'))
     <!-- Authenticated: {{ Auth::check() ? 'Yes' : 'No' }} -->
     <!-- Server: {{ session(SESSION_DB_SERVER, 'Unset') }} -->
@@ -14,31 +12,26 @@
 
     @if (Utils::isWhiteLabel() && ! auth()->check())
         <title>{{ trans('texts.client_portal') }}</title>
-        <link href="{{ asset('ic_cloud_circle.png') }}" rel="shortcut icon" type="image/png">
+        {{--        <link href="{{ asset('ic_cloud_circle.png') }}" rel="shortcut icon" type="image/png">--}}
     @else
-        <title>{{ isset($title) ? ($title . ' | Care ERP') : ('Care ERP | ' . trans('texts.app_title')) }}</title>
+        <title>{{ isset($title) ? ($title . ' | Care ERP') : ('Care ERP' ) }}</title>
         <meta name="description" content="{{ isset($description) ? $description : trans('texts.app_description') }}"/>
-        <link href="{{ asset('favicon-v2.png') }}" rel="shortcut icon" type="image/png">
+        {{--        <link href="{{ asset('favicon-v2.png') }}" rel="shortcut icon" type="image/png">--}}
 
-        <meta property="og:site_name" content="Invoice Ninja"/>
+        <meta property="og:site_name" content="Care ERP"/>
         <meta property="og:url" content="{{ SITE_URL }}"/>
-        <meta property="og:title" content="Invoice Ninja"/>
+        <meta property="og:title" content="Care ERP"/>
         <meta property="og:image" content="{{ SITE_URL }}/images/round_logo.png"/>
-        <meta property="og:description" content="Simple, Intuitive Invoicing."/>
+        <meta property="og:description" content="Care ERP"/>
 
         <!-- http://realfavicongenerator.net -->
-        <link rel="apple-touch-icon" sizes="180x180" href="{{ url('apple-touch-icon.png') }}">
-        <link rel="icon" type="image/png" href="{{ url('favicon-32x32.png') }}" sizes="32x32">
-        <link rel="icon" type="image/png" href="{{ url('favicon-16x16.png') }}" sizes="16x16">
-        <link rel="manifest" href="{{ url('manifest.json') }}">
-        <link rel="mask-icon" href="{{ url('safari-pinned-tab.svg') }}" color="#3bc65c">
+        {{--        <link rel="manifest" href="{{ url('manifest.json') }}">--}}
+        {{--        <link rel="mask-icon" href="{{ url('safari-pinned-tab.svg') }}" color="#3bc65c">--}}
         <link rel="shortcut icon" href="{{ url('favicon.ico') }}">
-        <meta name="apple-mobile-web-app-title" content="Invoice Ninja">
-        <meta name="application-name" content="Invoice Ninja">
+        <meta name="apple-mobile-web-app-title" content="Care ERP">
+        <meta name="application-name" content="Care ERP">
         <meta name="theme-color" content="#ffffff">
     @endif
-
-<!-- http://stackoverflow.com/questions/19012698/browser-cache-issues-in-laravel-4-application -->
     <meta http-equiv="cache-control" content="max-age=0"/>
     <meta http-equiv="cache-control" content="no-cache"/>
     <meta http-equiv="cache-control" content="no-store"/>

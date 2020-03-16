@@ -386,7 +386,7 @@ if (!defined('APP_NAME')) {
     define('NINJA_GATEWAY_CONFIG', 'NINJA_GATEWAY_CONFIG');
     define('NINJA_WEB_URL', env('NINJA_WEB_URL', 'https://www.care.erp'));
     define('NINJA_APP_URL', env('NINJA_APP_URL', 'https://app.carerp.com'));
-    define('NINJA_DOCS_URL', env('NINJA_DOCS_URL', 'https://invoice-ninja.readthedocs.io/en/latest'));
+    define('NINJA_DOCS_URL', env('NINJA_DOCS_URL', 'https://care.readthedocs.io/en/latest'));
     define('NINJA_DATE', '2000-01-01');
     define('NINJA_VERSION', '4.5.7' . env('NINJA_VERSION_SUFFIX'));
     define('NINJA_TERMS_VERSION', '1.0.1');
@@ -398,10 +398,10 @@ if (!defined('APP_NAME')) {
     define('NINJA_FORUM_URL', env('NINJA_FORUM_URL', 'https://www.care.erp/forums/forum/support/'));
     define('NINJA_CONTACT_URL', env('NINJA_CONTACT_URL', 'https://www.care.erp/contact/'));
     define('NINJA_FROM_EMAIL', env('NINJA_FROM_EMAIL', 'contact.nassa@gmail.com'));
-    define('NINJA_IOS_APP_URL', 'https://itunes.apple.com/us/app/invoice-ninja/id1435514417?ls=1&mt=8');
+    define('NINJA_IOS_APP_URL', 'https://itunes.apple.com/us/app/care/id1435514417?ls=1&mt=8');
     define('NINJA_ANDROID_APP_URL', 'https://play.google.com/store/apps/details?id=com.carerp.flutter');
     define('RELEASES_URL', env('RELEASES_URL', 'https://github.com/carerp/carerp/releases'));
-    define('ZAPIER_URL', env('ZAPIER_URL', 'https://zapier.com/zapbook/invoice-ninja'));
+    define('ZAPIER_URL', env('ZAPIER_URL', 'https://zapier.com/zapbook/care'));
     define('OUTDATE_BROWSER_URL', env('OUTDATE_BROWSER_URL', 'http://browsehappy.com/'));
     define('PDFMAKE_DOCS', env('PDFMAKE_DOCS', 'http://pdfmake.org/playground.html'));
     define('PHANTOMJS_CLOUD', env('PHANTOMJS_CLOUD', 'http://api.phantomjscloud.com/api/browser/v2/'));
@@ -410,7 +410,7 @@ if (!defined('APP_NAME')) {
     define('EMAIL_MARKUP_URL', env('EMAIL_MARKUP_URL', 'https://developers.google.com/gmail/markup'));
     define('OFX_HOME_URL', env('OFX_HOME_URL', 'http://www.ofxhome.com/index.php/home/directory/all'));
     define('GOOGLE_ANALYITCS_URL', env('GOOGLE_ANALYITCS_URL', 'https://www.google-analytics.com/collect'));
-    define('TRANSIFEX_URL', env('TRANSIFEX_URL', 'https://www.transifex.com/invoice-ninja/invoice-ninja'));
+    define('TRANSIFEX_URL', env('TRANSIFEX_URL', 'https://www.transifex.com/care/care'));
     define('IP_LOOKUP_URL', env('IP_LOOKUP_URL', 'http://whatismyipaddress.com/ip/'));
     define('CHROME_PDF_HELP_URL', 'https://support.google.com/chrome/answer/6213030?hl=en');
     define('FIREFOX_PDF_HELP_URL', 'https://support.mozilla.org/en-US/kb/view-pdf-files-firefox');

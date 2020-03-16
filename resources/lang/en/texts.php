@@ -2206,7 +2206,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'bluevine_continue' => 'Continue to BlueVine',
     'bluevine_completed' => 'BlueVine signup completed',
 
-    'vendor_name' => 'Vendor',
+    'vendor_name' => 'Supplier Name',
     'entity_state' => 'State',
     'client_created_at' => 'Date Created',
     'postmark_error' => 'There was a problem sending the email through Postmark: :link',
