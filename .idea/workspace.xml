@@ -2,12 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/64fb12c2fd4a7ca147156d35bfc9dcd9a3a80ef1.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Constants.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Constants.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/list.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/list.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ClientPortalController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ClientPortalController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ClientPortalProposalController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ClientPortalProposalController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ContactApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ContactApiController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/invited/custom_gateway.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/invited/custom_gateway.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/invited/custom_message.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/invited/custom_message.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/invited/dashboard.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/invited/dashboard.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/invited/details.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/invited/details.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/invited/proposal.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/invited/proposal.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/public/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/public/header.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/sessions/mUq1IDeYFJYHpVhTFcE1ewDndAfnLJJ0DuwoDADK" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/mUq1IDeYFJYHpVhTFcE1ewDndAfnLJJ0DuwoDADK" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/ab409e5dc6346ea88348aeb65121486025dfad94.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/ab409e5dc6346ea88348aeb65121486025dfad94.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/f0df1fee8df6fd72b08d6cd22c66c8f1d0ff8fc4.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/f0df1fee8df6fd72b08d6cd22c66c8f1d0ff8fc4.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/f93f57e323d94fbcfcc395e612e7a946205aa21c.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/f93f57e323d94fbcfcc395e612e7a946205aa21c.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -310,7 +318,7 @@
       <workItem from="1584170182282" duration="26845000" />
       <workItem from="1584255192872" duration="442000" />
       <workItem from="1584256017994" duration="25820000" />
-      <workItem from="1584350581466" duration="9879000" />
+      <workItem from="1584350581466" duration="12103000" />
     </task>
     <task id="LOCAL-00001" summary="202003060614">
       <created>1583507671758</created>
@@ -543,7 +551,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584364577485</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="202003160614">
+      <created>1584365443589</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1584365443589</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -560,7 +575,8 @@
     <MESSAGE value="202003110614" />
     <MESSAGE value="202003120614" />
     <MESSAGE value="202003140614" />
-    <option name="LAST_COMMIT_MESSAGE" value="202003140614" />
+    <MESSAGE value="202003160614" />
+    <option name="LAST_COMMIT_MESSAGE" value="202003160614" />
   </component>
   <component name="WindowStateProjectService">
     <state x="312" y="89" key="#Notifications" timestamp="1584274132899">
@@ -579,10 +595,10 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="500" y="356" key="#com.jetbrains.php.lang.intentions.PhpImportClassDialog#/0.0.1440.860@0.0.1440.860" timestamp="1583994492849" />
-    <state x="345" y="25" key="CommitChangelistDialog2" timestamp="1584364572891">
+    <state x="345" y="25" key="CommitChangelistDialog2" timestamp="1584365441324">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="345" y="25" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1584364572891" />
+    <state x="345" y="25" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1584365441324" />
     <state x="500" y="177" key="FileChooserDialogImpl" timestamp="1584008814991">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
@@ -623,11 +639,11 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="590" y="146" key="com.intellij.ide.util.TipDialog/0.0.1440.860@0.0.1440.860" timestamp="1584350609332" />
-    <state x="444" y="112" width="849" height="606" key="find.popup" timestamp="1584364504063">
+    <state x="444" y="112" width="849" height="606" key="find.popup" timestamp="1584366738726">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="441" y="95" width="806" height="536" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1584046794826" />
-    <state x="444" y="112" width="849" height="606" key="find.popup/0.0.1440.860@0.0.1440.860" timestamp="1584364504063" />
+    <state x="444" y="112" width="849" height="606" key="find.popup/0.0.1440.860@0.0.1440.860" timestamp="1584366738726" />
     <state x="462" y="222" key="git4idea.merge.GitPullDialog" timestamp="1584364583844">
       <screen x="0" y="0" width="1440" height="860" />
     </state>

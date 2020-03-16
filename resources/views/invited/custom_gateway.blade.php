@@ -1,4 +1,5 @@
-<div class="modal fade" id="custom{{ $number }}GatewayModal" tabindex="-1" role="dialog" aria-labelledby="custom{{ $number }}GatewayModalLabel" aria-hidden="true">
+<div class="modal fade" id="custom{{ $number }}GatewayModal" tabindex="-1" role="dialog"
+     aria-labelledby="custom{{ $number }}GatewayModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

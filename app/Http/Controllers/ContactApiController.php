@@ -7,9 +7,6 @@ use App\Http\Requests\CreateContactRequest;
 use App\Http\Requests\UpdateContactRequest;
 use App\Models\Contact;
 use App\Ninja\Repositories\ContactRepository;
-use Input;
-use Response;
-use Utils;
 use App\Services\ContactService;
 
 class ContactApiController extends BaseAPIController
@@ -46,8 +43,8 @@ class ContactApiController extends BaseAPIController
     public function index()
     {
         $contacts = Contact::scope()
-                    ->withTrashed()
-                    ->orderBy('created_at', 'desc');
+            ->withTrashed()
+            ->orderBy('created_at', 'desc');
 
         return $this->listResponse($contacts);
     }
@@ -73,6 +70,8 @@ class ContactApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
+     * @param ContactRequest $request
+     * @return
      */
     public function show(ContactRequest $request)
     {
@@ -99,6 +98,8 @@ class ContactApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
+     * @param CreateContactRequest $request
+     * @return
      */
     public function store(CreateContactRequest $request)
     {
@@ -134,7 +135,9 @@ class ContactApiController extends BaseAPIController
      *   )
      * )
      *
+     * @param UpdateContactRequest $request
      * @param mixed $publicId
+     * @return
      */
     public function update(UpdateContactRequest $request, $publicId)
     {
@@ -170,6 +173,8 @@ class ContactApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
+     * @param UpdateContactRequest $request
+     * @return
      */
     public function destroy(UpdateContactRequest $request)
     {

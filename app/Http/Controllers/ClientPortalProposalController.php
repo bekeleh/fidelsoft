@@ -13,24 +13,24 @@ class ClientPortalProposalController extends BaseController
     private $invoiceRepo;
     private $paymentRepo;
     private $documentRepo;
-    private $propoosalRepo;
+    private $proposalRepo;
 
-    public function __construct(ProposalRepository $propoosalRepo)
+    public function __construct(ProposalRepository $proposalRepo)
     {
-        $this->propoosalRepo = $propoosalRepo;
+        $this->proposalRepo = $proposalRepo;
     }
 
     public function viewProposal($invitationKey)
     {
-        if (! $invitation = $this->propoosalRepo->findInvitationByKey($invitationKey)) {
+        if (!$invitation = $this->proposalRepo->findInvitationByKey($invitationKey)) {
             return $this->returnError(trans('texts.proposal_not_found'));
         }
 
         $account = $invitation->account;
         $proposal = $invitation->proposal;
         $invoiceInvitation = Invitation::whereContactId($invitation->contact_id)
-                ->whereInvoiceId($proposal->invoice_id)
-                ->firstOrFail();
+            ->whereInvoiceId($proposal->invoice_id)
+            ->firstOrFail();
 
         $data = [
             'proposal' => $proposal,
@@ -48,7 +48,7 @@ class ClientPortalProposalController extends BaseController
 
     public function downloadProposal($invitationKey)
     {
-        if (! $invitation = $this->propoosalRepo->findInvitationByKey($invitationKey)) {
+        if (!$invitation = $this->proposalRepo->findInvitationByKey($invitationKey)) {
             return $this->returnError(trans('texts.proposal_not_found'));
         }
 
@@ -62,12 +62,12 @@ class ClientPortalProposalController extends BaseController
     public function getProposalImage($accountKey, $documentKey)
     {
         $account = Account::whereAccountKey($accountKey)
-                        ->firstOrFail();
+            ->firstOrFail();
 
         $document = Document::whereAccountId($account->id)
-                        ->whereDocumentKey($documentKey)
-                        ->whereIsProposal(true)
-                        ->firstOrFail();
+            ->whereDocumentKey($documentKey)
+            ->whereIsProposal(true)
+            ->firstOrFail();
 
         return DocumentController::getDownloadResponse($document);
     }

@@ -1,8 +1,6 @@
 @extends('public.header')
-
 @section('head')
     @parent
-
     <style type="text/css">
         body {
             line-height: 1.5em;
@@ -247,39 +245,46 @@
             }
         }
 
-
         table.dataTable thead > tr > th, table.invoice-table thead > tr > th {
-            background-color: {{ $color }} !important;
+            background-color: {{ $color }}             !important;
         }
 
-        .pagination>.active>a,
-        .pagination>.active>span,
-        .pagination>.active>a:hover,
-        .pagination>.active>span:hover,
-        .pagination>.active>a:focus,
-        .pagination>.active>span:focus {
+        .pagination > .active > a,
+        .pagination > .active > span,
+        .pagination > .active > a:hover,
+        .pagination > .active > span:hover,
+        .pagination > .active > a:focus,
+        .pagination > .active > span:focus {
             background-color: {{ $color }};
             border-color: {{ $color }};
         }
 
-        table.table thead .sorting:after { content: '' !important }
-        table.table thead .sorting_asc:after { content: '' !important }
-        table.table thead .sorting_desc:after { content: '' !important }
-        table.table thead .sorting_asc_disabled:after { content: '' !important }
-        table.table thead .sorting_desc_disabled:after { content: '' !important }
+        table.table thead .sorting:after {
+            content: '' !important
+        }
 
+        table.table thead .sorting_asc:after {
+            content: '' !important
+        }
+
+        table.table thead .sorting_desc:after {
+            content: '' !important
+        }
+
+        table.table thead .sorting_asc_disabled:after {
+            content: '' !important
+        }
+
+        table.table thead .sorting_desc_disabled:after {
+            content: '' !important
+        }
     </style>
-
 @stop
-
 @section('content')
-
     <div class="container main-container">
-
         @if ($message = $client->customMessage(CUSTOM_MESSAGE_DASHBOARD))
             @include('invited.custom_message', ['message' => $message])
         @endif
-
         <div class="row" id="main-row">
             <div class="col-md-3" id="contact-details">
                 <h3>{{$client->name}}</h3>
@@ -354,26 +359,41 @@
                 <div class="pull-right">
                     {!! Button::success(strtoupper(trans("texts.edit_details")))->asLinkTo(URL::to('/client/details'))->withAttributes(['id' => 'editDetailsButton']) !!}
                     @if ($client->hasRecurringInvoices())
-                         &nbsp; {!! Button::primary(strtoupper(trans("texts.recurring")))->asLinkTo(URL::to('/client/invoices/recurring')) !!}
+                        &nbsp; {!! Button::primary(strtoupper(trans("texts.recurring")))->asLinkTo(URL::to('/client/invoices/recurring')) !!}
                     @endif
                     &nbsp; {!! Button::primary(strtoupper(trans("texts.view_statement")))->asLinkTo(URL::to('/client/statement')) !!}
                 </div>
             </div>
         </div>
-
-        <br/>
-
         <div class="row" id="account-row">
             <div class="col-md-2 invoices-from">
                 {{trans('texts.invoice_from')}}
             </div>
-            <div class="col-md-4 logo">
+            <!-- company logo -->
+            <div class="col-md-2 logo">
                 @if ($account->hasLogo())
                     {!! HTML::image($account->getLogoURL()) !!}
                 @else
                     <h2>{{ $account->name}}</h2>
                 @endif
-            </div>
+            </div><!-- /.log -->
+            <!-- contact info -->
+            <div class="col-md-3 phone-web-details">
+                <div class="inner">
+                    @if ($account->work_phone)
+                        {{ $account->work_phone }}<br/>
+                    @endif
+                    @if ($account->website)
+                        <a href="{{ \App\Libraries\Utils::addHttp($account->website) }}"
+                           target="_blank">{{ $account->website }}</a>
+                        <br/>
+                    @endif
+                    @if ($account->work_email)
+                        {!! HTML::mailto($account->work_email, $account->work_email) !!}<br/>
+                    @endif
+                </div>
+            </div><!-- /. end of contact info -->
+            <!-- invoice company address -->
             <div class="col-md-3 address-details">
                 @if ($account->address1)
                     {{ $account->address1 }}<br/>
@@ -387,25 +407,9 @@
                 @if ($account->country)
                     {{ $account->country->getName() }}
                 @endif
-            </div>
-            <div class="col-md-3 phone-web-details">
-                <div class="inner">
-                    @if ($account->work_phone)
-                        {{ $account->work_phone }}<br/>
-                    @endif
-                    @if ($account->website)
-                        <a href="{{ Utils::addHttp($account->website) }}" target="_blank">{{ $account->website }}</a>
-                        <br/>
-                    @endif
-                    @if ($account->work_email)
-                        {!! HTML::mailto($account->work_email, $account->work_email) !!}<br/>
-                    @endif
-                </div>
-            </div>
+            </div><!-- /. end of company address -->
         </div>
-
         <p>&nbsp;</p>
-
     </div>
 
 @stop

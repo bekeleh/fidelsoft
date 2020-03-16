@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Events\InvoiceInvitationWasViewed;
 use App\Events\QuoteInvitationWasViewed;
-use App\Models\Account;
+use App\Jobs\Client\GenerateStatementData;
+use App\Libraries\Utils;
 use App\Models\Contact;
 use App\Models\Document;
-use App\Models\Gateway;
-use App\Models\Invitation;
 use App\Models\PaymentMethod;
 use App\Ninja\Repositories\ActivityRepository;
 use App\Ninja\Repositories\CreditRepository;
@@ -17,27 +16,28 @@ use App\Ninja\Repositories\InvoiceRepository;
 use App\Ninja\Repositories\PaymentRepository;
 use App\Ninja\Repositories\TaskRepository;
 use App\Services\PaymentService;
-use App\Jobs\Client\GenerateStatementData;
-use Auth;
 use Barracuda\ArchiveStream\ZipArchive;
-use Cache;
 use Datatable;
 use Exception;
-use Input;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
 use Redirect;
-use Request;
-use Response;
-use Session;
-use URL;
-use Utils;
-use Validator;
-use View;
 
 class ClientPortalController extends BaseController
 {
     private $invoiceRepo;
     private $paymentRepo;
     private $documentRepo;
+    private $activityRepo;
+    private $paymentService;
+    private $creditRepo;
+    private $taskRepo;
 
     public function __construct(
         InvoiceRepository $invoiceRepo,
@@ -59,7 +59,7 @@ class ClientPortalController extends BaseController
 
     public function viewInvoice($invitationKey)
     {
-        if (! $invitation = $this->invoiceRepo->findInvoiceByInvitation($invitationKey)) {
+        if (!$invitation = $this->invoiceRepo->findInvoiceByInvitation($invitationKey)) {
             return $this->returnError();
         }
 
@@ -72,14 +72,14 @@ class ClientPortalController extends BaseController
             return redirect(request()->url() . (request()->borderless ? '?borderless=true' : ''));
         }
 
-        if (! $account->checkSubdomain(Request::server('HTTP_HOST'))) {
+        if (!$account->checkSubdomain(Request::server('HTTP_HOST'))) {
             return response()->view('error', [
                 'error' => trans('texts.invoice_not_found'),
             ]);
         }
 
-        if (! Input::has('phantomjs') && ! session('silent:' . $client->id) && ! Session::has($invitation->invitation_key)
-            && (! Auth::check() || Auth::user()->account_id != $invoice->account_id)) {
+        if (!Input::has('phantomjs') && !session('silent:' . $client->id) && !Session::has($invitation->invitation_key)
+            && (!Auth::check() || Auth::user()->account_id != $invoice->account_id)) {
             if ($invoice->isType(INVOICE_TYPE_QUOTE)) {
                 event(new QuoteInvitationWasViewed($invoice, $invitation));
             } else {
@@ -131,7 +131,7 @@ class ClientPortalController extends BaseController
             $paymentURL = $paymentTypes[0]['url'];
             if (in_array($paymentTypes[0]['gatewayTypeId'], [GATEWAY_TYPE_CUSTOM1, GATEWAY_TYPE_CUSTOM2, GATEWAY_TYPE_CUSTOM3])) {
                 // do nothing
-            } elseif (! $account->isGatewayConfigured(GATEWAY_PAYPAL_EXPRESS)) {
+            } elseif (!$account->isGatewayConfigured(GATEWAY_PAYPAL_EXPRESS)) {
                 $paymentURL = URL::to($paymentURL);
             }
         }
@@ -200,7 +200,7 @@ class ClientPortalController extends BaseController
 
     public function download($invitationKey)
     {
-        if (! $invitation = $this->invoiceRepo->findInvoiceByInvitation($invitationKey)) {
+        if (!$invitation = $this->invoiceRepo->findInvoiceByInvitation($invitationKey)) {
             return response()->view('error', [
                 'error' => trans('texts.invoice_not_found'),
                 'hideHeader' => true,
@@ -208,7 +208,7 @@ class ClientPortalController extends BaseController
         }
 
         $invoice = $invitation->invoice;
-        $decode = ! request()->base64;
+        $decode = !request()->base64;
         $pdfString = $invoice->getPDFString($invitation, $decode);
 
         header('Content-Type: application/pdf');
@@ -222,7 +222,7 @@ class ClientPortalController extends BaseController
 
     public function authorizeInvoice($invitationKey)
     {
-        if (! $invitation = $this->invoiceRepo->findInvoiceByInvitation($invitationKey)) {
+        if (!$invitation = $this->invoiceRepo->findInvoiceByInvitation($invitationKey)) {
             return RESULT_FAILURE;
         }
 
@@ -240,11 +240,11 @@ class ClientPortalController extends BaseController
     public function dashboard($contactKey = false)
     {
         if ($contactKey) {
-            if (! $contact = Contact::where('contact_key', '=', $contactKey)->first()) {
+            if (!$contact = Contact::where('contact_key', '=', $contactKey)->first()) {
                 return $this->returnError();
             }
             Session::put('contact_key', $contactKey); // track current contact
-        } elseif (! $contact = $this->getContact()) {
+        } elseif (!$contact = $this->getContact()) {
             return $this->returnError();
         }
 
@@ -259,9 +259,9 @@ class ClientPortalController extends BaseController
         $color = $account->primary_color ? $account->primary_color : '#0b4d78';
         $customer = false;
 
-        if (! $account->enable_client_portal) {
+        if (!$account->enable_client_portal) {
             return $this->returnError();
-        } elseif (! $account->enable_client_portal_dashboard) {
+        } elseif (!$account->enable_client_portal_dashboard) {
             session()->reflash();
             return redirect()->to('/client/invoices/');
         }
@@ -285,7 +285,7 @@ class ClientPortalController extends BaseController
 
     public function activityDatatable()
     {
-        if (! $contact = $this->getContact()) {
+        if (!$contact = $this->getContact()) {
             return $this->returnError();
         }
 
@@ -323,13 +323,13 @@ class ClientPortalController extends BaseController
 
     public function recurringInvoiceIndex()
     {
-        if (! $contact = $this->getContact()) {
+        if (!$contact = $this->getContact()) {
             return $this->returnError();
         }
 
         $account = $contact->account;
 
-        if (! $account->enable_client_portal) {
+        if (!$account->enable_client_portal) {
             return $this->returnError();
         }
 
@@ -356,13 +356,13 @@ class ClientPortalController extends BaseController
 
     public function invoiceIndex()
     {
-        if (! $contact = $this->getContact()) {
+        if (!$contact = $this->getContact()) {
             return $this->returnError();
         }
 
         $account = $contact->account;
 
-        if (! $account->enable_client_portal) {
+        if (!$account->enable_client_portal) {
             return $this->returnError();
         }
 
@@ -383,7 +383,7 @@ class ClientPortalController extends BaseController
 
     public function invoiceDatatable()
     {
-        if (! $contact = $this->getContact()) {
+        if (!$contact = $this->getContact()) {
             return '';
         }
 
@@ -392,7 +392,7 @@ class ClientPortalController extends BaseController
 
     public function recurringInvoiceDatatable()
     {
-        if (! $contact = $this->getContact()) {
+        if (!$contact = $this->getContact()) {
             return '';
         }
 
@@ -401,13 +401,13 @@ class ClientPortalController extends BaseController
 
     public function paymentIndex()
     {
-        if (! $contact = $this->getContact()) {
+        if (!$contact = $this->getContact()) {
             return $this->returnError();
         }
 
         $account = $contact->account;
 
-        if (! $account->enable_client_portal) {
+        if (!$account->enable_client_portal) {
             return $this->returnError();
         }
 
@@ -427,32 +427,32 @@ class ClientPortalController extends BaseController
 
     public function paymentDatatable()
     {
-        if (! $contact = $this->getContact()) {
+        if (!$contact = $this->getContact()) {
             return $this->returnError();
         }
         $payments = $this->paymentRepo->findForContact($contact->id, Input::get('sSearch'));
 
         return Datatable::query($payments)
-                ->addColumn('invoice_number', function ($model) {
-                    return $model->invitation_key ? link_to('/view/'.$model->invitation_key, $model->invoice_number)->toHtml() : $model->invoice_number;
-                })
-                ->addColumn('transaction_reference', function ($model) {
-                    return $model->transaction_reference ? e($model->transaction_reference) : '<i>'.trans('texts.manual_entry').'</i>';
-                })
-                ->addColumn('payment_type', function ($model) {
-                    return ($model->payment_type && ! $model->last4) ? $model->payment_type : ($model->account_gateway_id ? '<i>Online payment</i>' : '');
-                })
-                ->addColumn('amount', function ($model) {
-                    return Utils::formatMoney($model->amount, $model->currency_id, $model->country_id);
-                })
-                ->addColumn('payment_date', function ($model) {
-                    return Utils::dateToString($model->payment_date);
-                })
-                ->addColumn('status', function ($model) {
-                    return $this->getPaymentStatusLabel($model);
-                })
-                ->orderColumns('invoice_number', 'transaction_reference', 'payment_type', 'amount', 'payment_date')
-                ->make();
+            ->addColumn('invoice_number', function ($model) {
+                return $model->invitation_key ? link_to('/view/' . $model->invitation_key, $model->invoice_number)->toHtml() : $model->invoice_number;
+            })
+            ->addColumn('transaction_reference', function ($model) {
+                return $model->transaction_reference ? e($model->transaction_reference) : '<i>' . trans('texts.manual_entry') . '</i>';
+            })
+            ->addColumn('payment_type', function ($model) {
+                return ($model->payment_type && !$model->last4) ? $model->payment_type : ($model->account_gateway_id ? '<i>Online payment</i>' : '');
+            })
+            ->addColumn('amount', function ($model) {
+                return Utils::formatMoney($model->amount, $model->currency_id, $model->country_id);
+            })
+            ->addColumn('payment_date', function ($model) {
+                return Utils::dateToString($model->payment_date);
+            })
+            ->addColumn('status', function ($model) {
+                return $this->getPaymentStatusLabel($model);
+            })
+            ->orderColumns('invoice_number', 'transaction_reference', 'payment_type', 'amount', 'payment_date')
+            ->make();
     }
 
     private function getPaymentStatusLabel($model)
@@ -485,25 +485,25 @@ class ClientPortalController extends BaseController
 
     public function quoteIndex()
     {
-        if (! $contact = $this->getContact()) {
+        if (!$contact = $this->getContact()) {
             return $this->returnError();
         }
 
         $account = $contact->account;
 
-        if (! $account->enable_client_portal) {
+        if (!$account->enable_client_portal) {
             return $this->returnError();
         }
 
         $color = $account->primary_color ? $account->primary_color : '#0b4d78';
 
         $data = [
-          'color' => $color,
-          'account' => $account,
-          'title' => trans('texts.quotes'),
-          'entityType' => ENTITY_QUOTE,
-          'columns' => Utils::trans(['quote_number', 'quote_date', 'quote_total', 'due_date', 'status']),
-          'sortColumn' => 1,
+            'color' => $color,
+            'account' => $account,
+            'title' => trans('texts.quotes'),
+            'entityType' => ENTITY_QUOTE,
+            'columns' => Utils::trans(['quote_number', 'quote_date', 'quote_total', 'due_date', 'status']),
+            'sortColumn' => 1,
         ];
 
         return response()->view('public_list', $data);
@@ -511,7 +511,7 @@ class ClientPortalController extends BaseController
 
     public function quoteDatatable()
     {
-        if (! $contact = $this->getContact()) {
+        if (!$contact = $this->getContact()) {
             return false;
         }
 
@@ -520,25 +520,25 @@ class ClientPortalController extends BaseController
 
     public function creditIndex()
     {
-        if (! $contact = $this->getContact()) {
+        if (!$contact = $this->getContact()) {
             return $this->returnError();
         }
 
         $account = $contact->account;
 
-        if (! $account->enable_client_portal) {
+        if (!$account->enable_client_portal) {
             return $this->returnError();
         }
 
         $color = $account->primary_color ? $account->primary_color : '#0b4d78';
 
         $data = [
-          'color' => $color,
-          'account' => $account,
-          'title' => trans('texts.credits'),
-          'entityType' => ENTITY_CREDIT,
-          'columns' => Utils::trans(['credit_date', 'credit_amount', 'credit_balance', 'notes']),
-          'sortColumn' => 0,
+            'color' => $color,
+            'account' => $account,
+            'title' => trans('texts.credits'),
+            'entityType' => ENTITY_CREDIT,
+            'columns' => Utils::trans(['credit_date', 'credit_amount', 'credit_balance', 'notes']),
+            'sortColumn' => 0,
         ];
 
         return response()->view('public_list', $data);
@@ -546,7 +546,7 @@ class ClientPortalController extends BaseController
 
     public function creditDatatable()
     {
-        if (! $contact = $this->getContact()) {
+        if (!$contact = $this->getContact()) {
             return false;
         }
 
@@ -555,29 +555,29 @@ class ClientPortalController extends BaseController
 
     public function taskIndex()
     {
-        if (! $contact = $this->getContact()) {
+        if (!$contact = $this->getContact()) {
             return $this->returnError();
         }
 
         $account = $contact->account;
 
-        if (! $contact->client->show_tasks_in_portal) {
+        if (!$contact->client->show_tasks_in_portal) {
             return redirect()->to($account->enable_client_portal_dashboard ? '/client/dashboard' : '/client/payment_methods/');
         }
 
-        if (! $account->enable_client_portal) {
+        if (!$account->enable_client_portal) {
             return $this->returnError();
         }
 
         $color = $account->primary_color ? $account->primary_color : '#0b4d78';
 
         $data = [
-          'color' => $color,
-          'account' => $account,
-          'title' => trans('texts.tasks'),
-          'entityType' => ENTITY_TASK,
-          'columns' => Utils::trans(['project', 'date', 'duration', 'description']),
-          'sortColumn' => 1,
+            'color' => $color,
+            'account' => $account,
+            'title' => trans('texts.tasks'),
+            'entityType' => ENTITY_TASK,
+            'columns' => Utils::trans(['project', 'date', 'duration', 'description']),
+            'sortColumn' => 1,
         ];
 
         return response()->view('public_list', $data);
@@ -585,7 +585,7 @@ class ClientPortalController extends BaseController
 
     public function taskDatatable()
     {
-        if (! $contact = $this->getContact()) {
+        if (!$contact = $this->getContact()) {
             return false;
         }
 
@@ -594,25 +594,25 @@ class ClientPortalController extends BaseController
 
     public function documentIndex()
     {
-        if (! $contact = $this->getContact()) {
+        if (!$contact = $this->getContact()) {
             return $this->returnError();
         }
 
         $account = $contact->account;
 
-        if (! $account->enable_client_portal) {
+        if (!$account->enable_client_portal) {
             return $this->returnError();
         }
 
         $color = $account->primary_color ? $account->primary_color : '#0b4d78';
 
         $data = [
-          'color' => $color,
-          'account' => $account,
-          'title' => trans('texts.documents'),
-          'entityType' => ENTITY_DOCUMENT,
-          'columns' => Utils::trans(['invoice_number', 'name', 'document_date', 'document_size']),
-          'sortColumn' => 2,
+            'color' => $color,
+            'account' => $account,
+            'title' => trans('texts.documents'),
+            'entityType' => ENTITY_DOCUMENT,
+            'columns' => Utils::trans(['invoice_number', 'name', 'document_date', 'document_size']),
+            'sortColumn' => 2,
         ];
 
         return response()->view('public_list', $data);
@@ -620,7 +620,7 @@ class ClientPortalController extends BaseController
 
     public function documentDatatable()
     {
-        if (! $contact = $this->getContact()) {
+        if (!$contact = $this->getContact()) {
             return false;
         }
 
@@ -644,13 +644,13 @@ class ClientPortalController extends BaseController
     {
         $contactKey = session('contact_key');
 
-        if (! $contactKey) {
+        if (!$contactKey) {
             return false;
         }
 
         $contact = Contact::where('contact_key', '=', $contactKey)->first();
 
-        if (! $contact || $contact->is_deleted) {
+        if (!$contact || $contact->is_deleted) {
             return false;
         }
 
@@ -659,13 +659,13 @@ class ClientPortalController extends BaseController
 
     public function getDocumentVFSJS($publicId, $name)
     {
-        if (! $contact = $this->getContact()) {
+        if (!$contact = $this->getContact()) {
             return $this->returnError();
         }
 
         $document = Document::scope($publicId, $contact->account_id)->first();
 
-        if (! $document->isPDFEmbeddable()) {
+        if (!$document->isPDFEmbeddable()) {
             return Response::view('error', ['error' => 'Image does not exist!'], 404);
         }
 
@@ -676,7 +676,7 @@ class ClientPortalController extends BaseController
             $authorized = true;
         }
 
-        if (! $authorized) {
+        if (!$authorized) {
             return Response::view('error', ['error' => 'Not authorized'], 403);
         }
 
@@ -685,7 +685,7 @@ class ClientPortalController extends BaseController
         }
 
         $content = $document->preview ? $document->getRawPreview() : $document->getRaw();
-        $content = 'ninjaAddVFSDoc('.json_encode(intval($publicId).'/'.strval($name)).',"'.base64_encode($content).'")';
+        $content = 'ninjaAddVFSDoc(' . json_encode(intval($publicId) . '/' . strval($name)) . ',"' . base64_encode($content) . '")';
         $response = Response::make($content, 200);
         $response->header('content-type', 'text/javascript');
         $response->header('cache-control', 'max-age=31536000');
@@ -718,14 +718,14 @@ class ClientPortalController extends BaseController
                 break;
             }
 
-            if (! empty($toZip[$document->name])) {
+            if (!empty($toZip[$document->name])) {
                 // This name is taken
                 if ($toZip[$document->name]->hash != $document->hash) {
                     // 2 different files with the same name
                     $nameInfo = pathinfo($document->name);
 
                     for ($i = 1; ; $i++) {
-                        $name = $nameInfo['filename'].' ('.$i.').'.$nameInfo['extension'];
+                        $name = $nameInfo['filename'] . ' (' . $i . ').' . $nameInfo['extension'];
 
                         if (empty($toZip[$name])) {
                             $toZip[$name] = $document;
@@ -748,7 +748,7 @@ class ClientPortalController extends BaseController
 
     public function getInvoiceDocumentsZip($invitationKey)
     {
-        if (! $invitation = $this->invoiceRepo->findInvoiceByInvitation($invitationKey)) {
+        if (!$invitation = $this->invoiceRepo->findInvoiceByInvitation($invitationKey)) {
             return $this->returnError();
         }
 
@@ -758,11 +758,11 @@ class ClientPortalController extends BaseController
 
         $toZip = $this->getInvoiceZipDocuments($invoice);
 
-        if (! count($toZip)) {
+        if (!count($toZip)) {
             return Response::view('error', ['error' => 'No documents small enough'], 404);
         }
 
-        $zip = new ZipArchive($invitation->account->name.' Invoice '.$invoice->invoice_number.'.zip');
+        $zip = new ZipArchive($invitation->account->name . ' Invoice ' . $invoice->invoice_number . '.zip');
 
         return Response::stream(function () use ($toZip, $zip) {
             foreach ($toZip as $name => $document) {
@@ -784,7 +784,7 @@ class ClientPortalController extends BaseController
 
     public function getDocument($invitationKey, $publicId)
     {
-        if (! $invitation = $this->invoiceRepo->findInvoiceByInvitation($invitationKey)) {
+        if (!$invitation = $this->invoiceRepo->findInvoiceByInvitation($invitationKey)) {
             return $this->returnError();
         }
 
@@ -802,7 +802,7 @@ class ClientPortalController extends BaseController
             $authorized = true;
         }
 
-        if (! $authorized) {
+        if (!$authorized) {
             return Response::view('error', ['error' => 'Not authorized'], 403);
         }
 
@@ -811,7 +811,7 @@ class ClientPortalController extends BaseController
 
     public function paymentMethods()
     {
-        if (! $contact = $this->getContact()) {
+        if (!$contact = $this->getContact()) {
             return $this->returnError();
         }
 
@@ -841,7 +841,7 @@ class ClientPortalController extends BaseController
         $amount1 = Input::get('verification1');
         $amount2 = Input::get('verification2');
 
-        if (! $contact = $this->getContact()) {
+        if (!$contact = $this->getContact()) {
             return $this->returnError();
         }
 
@@ -862,7 +862,7 @@ class ClientPortalController extends BaseController
 
     public function removePaymentMethod($publicId)
     {
-        if (! $contact = $this->getContact()) {
+        if (!$contact = $this->getContact()) {
             return $this->returnError();
         }
 
@@ -886,7 +886,7 @@ class ClientPortalController extends BaseController
 
     public function setDefaultPaymentMethod()
     {
-        if (! $contact = $this->getContact()) {
+        if (!$contact = $this->getContact()) {
             return $this->returnError();
         }
 
@@ -926,7 +926,7 @@ class ClientPortalController extends BaseController
 
     public function setAutoBill()
     {
-        if (! $contact = $this->getContact()) {
+        if (!$contact = $this->getContact()) {
             return $this->returnError();
         }
 
@@ -952,7 +952,7 @@ class ClientPortalController extends BaseController
 
     public function showDetails()
     {
-        if (! $contact = $this->getContact()) {
+        if (!$contact = $this->getContact()) {
             return $this->returnError();
         }
 
@@ -967,14 +967,14 @@ class ClientPortalController extends BaseController
 
     public function updateDetails(\Illuminate\Http\Request $request)
     {
-        if (! $contact = $this->getContact()) {
+        if (!$contact = $this->getContact()) {
             return $this->returnError();
         }
 
         $client = $contact->client;
         $account = $contact->account;
 
-        if (! $account->enable_client_portal) {
+        if (!$account->enable_client_portal) {
             return $this->returnError();
         }
 
@@ -1011,15 +1011,16 @@ class ClientPortalController extends BaseController
             ->withMessage(trans('texts.updated_client_details'));
     }
 
-    public function statement() {
-        if (! $contact = $this->getContact()) {
+    public function statement()
+    {
+        if (!$contact = $this->getContact()) {
             return $this->returnError();
         }
 
         $client = $contact->client;
         $account = $contact->account;
 
-        if (! $account->enable_client_portal || ! $account->enable_client_portal_dashboard) {
+        if (!$account->enable_client_portal || !$account->enable_client_portal_dashboard) {
             return $this->returnError();
         }
 
@@ -1027,7 +1028,7 @@ class ClientPortalController extends BaseController
         $startDate = request()->start_date;
         $endDate = request()->end_date;
 
-        if (! $startDate) {
+        if (!$startDate) {
             $startDate = Utils::today(false)->modify('-6 month')->format('Y-m-d');
             $endDate = Utils::today(false)->format('Y-m-d');
         }

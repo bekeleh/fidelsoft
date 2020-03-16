@@ -1,6 +1,5 @@
 <?php $__env->startSection('head'); ?>
     ##parent-placeholder-1a954628a960aaef81d7b2d4521929579f3541e6##
-
     <style type="text/css">
         body {
             line-height: 1.5em;
@@ -245,39 +244,46 @@
             }
         }
 
-
         table.dataTable thead > tr > th, table.invoice-table thead > tr > th {
-            background-color: <?php echo e($color); ?> !important;
+            background-color: <?php echo e($color); ?>             !important;
         }
 
-        .pagination>.active>a,
-        .pagination>.active>span,
-        .pagination>.active>a:hover,
-        .pagination>.active>span:hover,
-        .pagination>.active>a:focus,
-        .pagination>.active>span:focus {
+        .pagination > .active > a,
+        .pagination > .active > span,
+        .pagination > .active > a:hover,
+        .pagination > .active > span:hover,
+        .pagination > .active > a:focus,
+        .pagination > .active > span:focus {
             background-color: <?php echo e($color); ?>;
             border-color: <?php echo e($color); ?>;
         }
 
-        table.table thead .sorting:after { content: '' !important }
-        table.table thead .sorting_asc:after { content: '' !important }
-        table.table thead .sorting_desc:after { content: '' !important }
-        table.table thead .sorting_asc_disabled:after { content: '' !important }
-        table.table thead .sorting_desc_disabled:after { content: '' !important }
+        table.table thead .sorting:after {
+            content: '' !important
+        }
 
+        table.table thead .sorting_asc:after {
+            content: '' !important
+        }
+
+        table.table thead .sorting_desc:after {
+            content: '' !important
+        }
+
+        table.table thead .sorting_asc_disabled:after {
+            content: '' !important
+        }
+
+        table.table thead .sorting_desc_disabled:after {
+            content: '' !important
+        }
     </style>
-
 <?php $__env->stopSection(); ?>
-
 <?php $__env->startSection('content'); ?>
-
     <div class="container main-container">
-
         <?php if($message = $client->customMessage(CUSTOM_MESSAGE_DASHBOARD)): ?>
             <?php echo $__env->make('invited.custom_message', ['message' => $message], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
         <?php endif; ?>
-
         <div class="row" id="main-row">
             <div class="col-md-3" id="contact-details">
                 <h3><?php echo e($client->name); ?></h3>
@@ -359,7 +365,7 @@
                     <?php echo Button::success(strtoupper(trans("texts.edit_details")))->asLinkTo(URL::to('/client/details'))->withAttributes(['id' => 'editDetailsButton']); ?>
 
                     <?php if($client->hasRecurringInvoices()): ?>
-                         &nbsp; <?php echo Button::primary(strtoupper(trans("texts.recurring")))->asLinkTo(URL::to('/client/invoices/recurring')); ?>
+                        &nbsp; <?php echo Button::primary(strtoupper(trans("texts.recurring")))->asLinkTo(URL::to('/client/invoices/recurring')); ?>
 
                     <?php endif; ?>
                     &nbsp; <?php echo Button::primary(strtoupper(trans("texts.view_statement")))->asLinkTo(URL::to('/client/statement')); ?>
@@ -367,22 +373,37 @@
                 </div>
             </div>
         </div>
-
-        <br/>
-
         <div class="row" id="account-row">
             <div class="col-md-2 invoices-from">
                 <?php echo e(trans('texts.invoice_from')); ?>
 
             </div>
-            <div class="col-md-4 logo">
+            <!-- company logo -->
+            <div class="col-md-2 logo">
                 <?php if($account->hasLogo()): ?>
                     <?php echo HTML::image($account->getLogoURL()); ?>
 
                 <?php else: ?>
                     <h2><?php echo e($account->name); ?></h2>
                 <?php endif; ?>
-            </div>
+            </div><!-- /.log -->
+            <!-- contact info -->
+            <div class="col-md-3 phone-web-details">
+                <div class="inner">
+                    <?php if($account->work_phone): ?>
+                        <?php echo e($account->work_phone); ?><br/>
+                    <?php endif; ?>
+                    <?php if($account->website): ?>
+                        <a href="<?php echo e(\App\Libraries\Utils::addHttp($account->website)); ?>"
+                           target="_blank"><?php echo e($account->website); ?></a>
+                        <br/>
+                    <?php endif; ?>
+                    <?php if($account->work_email): ?>
+                        <?php echo HTML::mailto($account->work_email, $account->work_email); ?><br/>
+                    <?php endif; ?>
+                </div>
+            </div><!-- /. end of contact info -->
+            <!-- invoice company address -->
             <div class="col-md-3 address-details">
                 <?php if($account->address1): ?>
                     <?php echo e($account->address1); ?><br/>
@@ -397,25 +418,9 @@
                     <?php echo e($account->country->getName()); ?>
 
                 <?php endif; ?>
-            </div>
-            <div class="col-md-3 phone-web-details">
-                <div class="inner">
-                    <?php if($account->work_phone): ?>
-                        <?php echo e($account->work_phone); ?><br/>
-                    <?php endif; ?>
-                    <?php if($account->website): ?>
-                        <a href="<?php echo e(Utils::addHttp($account->website)); ?>" target="_blank"><?php echo e($account->website); ?></a>
-                        <br/>
-                    <?php endif; ?>
-                    <?php if($account->work_email): ?>
-                        <?php echo HTML::mailto($account->work_email, $account->work_email); ?><br/>
-                    <?php endif; ?>
-                </div>
-            </div>
+            </div><!-- /. end of company address -->
         </div>
-
         <p>&nbsp;</p>
-
     </div>
 
 <?php $__env->stopSection(); ?>
