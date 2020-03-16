@@ -127,10 +127,21 @@
                 ->withAttributes(['class'=>'item_categoriesDropdown'])
                 ->split() !!}
         @endif
+        {!! DropdownButton::normal(trans('texts.units'))
+        ->withAttributes(['class'=>'unitsDropdown'])
+        ->withContents([
+          ['label' => trans('texts.new_unit'), 'url' => url('/units/create')],
+        ]
+      )->split() !!}
         <script type="text/javascript">
             $(function () {
                 $('.item_categoriesDropdown:not(.dropdown-toggle)').click(function (event) {
                     openUrlOnClick('{{ url('/item_categories') }}', event);
+                });
+            });
+            $(function () {
+                $('.unitsDropdown:not(.dropdown-toggle)').click(function (event) {
+                    openUrlOnClick('{{ url('/units') }}', event);
                 });
             });
         </script><!-- /. store -->

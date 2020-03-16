@@ -141,10 +141,22 @@
                 ->split(); ?>
 
         <?php endif; ?>
+        <?php echo DropdownButton::normal(trans('texts.units'))
+        ->withAttributes(['class'=>'unitsDropdown'])
+        ->withContents([
+          ['label' => trans('texts.new_unit'), 'url' => url('/units/create')],
+        ]
+      )->split(); ?>
+
         <script type="text/javascript">
             $(function () {
                 $('.item_categoriesDropdown:not(.dropdown-toggle)').click(function (event) {
                     openUrlOnClick('<?php echo e(url('/item_categories')); ?>', event);
+                });
+            });
+            $(function () {
+                $('.unitsDropdown:not(.dropdown-toggle)').click(function (event) {
+                    openUrlOnClick('<?php echo e(url('/units')); ?>', event);
                 });
             });
         </script><!-- /. store -->

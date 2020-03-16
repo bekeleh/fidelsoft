@@ -50,7 +50,7 @@
             </div>
         @endif
     @endforeach
-    @if (Auth::user()->canCreateOrEdit(ENTITY_units, $unit))
+    @if (Auth::user()->canCreateOrEdit(ENTITY_UNIT, $unit))
         <center class="buttons">
             {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/units'))->appendIcon(Icon::create('remove-circle')) !!}
             {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}

@@ -48,9 +48,8 @@ class ExpenseRepository extends BaseRepository
         return $query;
     }
 
-    public function find($filter = null)
+    public function find($accountId, $filter = null)
     {
-        $accountId = Auth::user()->account_id;
         $query = DB::table('expenses')
             ->join('accounts', 'accounts.id', '=', 'expenses.account_id')
             ->leftjoin('clients', 'clients.id', '=', 'expenses.client_id')
@@ -107,8 +106,6 @@ class ExpenseRepository extends BaseRepository
                 'clients.country_id as client_country_id'
             );
 
-        $this->applyFilters($query, ENTITY_EXPENSE);
-
         if ($statuses = session('entity_status_filter:' . ENTITY_EXPENSE)) {
             $statuses = explode(',', $statuses);
             $query->where(function ($query) use ($statuses) {
@@ -149,6 +146,8 @@ class ExpenseRepository extends BaseRepository
                     ->orWhere('expense_categories.name', 'like', '%' . $filter . '%');;
             });
         }
+
+        $this->applyFilters($query, ENTITY_EXPENSE);
 
         return $query;
     }

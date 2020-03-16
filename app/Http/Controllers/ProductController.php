@@ -7,6 +7,7 @@ use App\Libraries\Utils;
 use App\Models\ItemCategory;
 use App\Models\Product;
 use App\Models\TaxRate;
+use App\Models\Unit;
 use App\Ninja\Datatables\ProductDatatable;
 use App\Ninja\Repositories\ProductRepository;
 use App\Services\ProductService;
@@ -74,6 +75,11 @@ class ProductController extends BaseController
         return $this->productService->getDatatableItemCategory($itemCategoryPublicId);
     }
 
+    public function getDatatableUnit($unitPublicId = null)
+    {
+        return $this->productService->getDatatableUnit($unitPublicId);
+    }
+
     /**
      * @param ProductRequest $request
      * @return \Illuminate\Contracts\View\View
@@ -86,15 +92,22 @@ class ProductController extends BaseController
         } else {
             $itemCategory = null;
         }
+        if ($request->unit_id != 0) {
+            $unit = Unit::scope($request->unit_id)->firstOrFail();
+        } else {
+            $unit = null;
+        }
 
         $data = [
             'product' => null,
             'itemCategory' => $itemCategory,
+            'unit' => $unit,
             'method' => 'POST',
             'url' => 'products',
             'title' => trans('texts.create_product'),
             'taxRates' => $account->invoice_item_taxes ? TaxRate::scope()->whereIsInclusive(false)->get(['id', 'name', 'rate']) : null,
             'itemCategoryPublicId' => Input::old('itemCategory') ? Input::old('itemCategory') : $request->category_id,
+            'unitPublicId' => Input::old('unit') ? Input::old('unit') : $request->unit_id,
         ];
         $data = array_merge($data, self::getViewModel());
 
@@ -128,6 +141,7 @@ class ProductController extends BaseController
 
         $data = [
             'itemCategory' => null,
+            'unit' => null,
             'product' => $product,
             'taxRates' => $account->invoice_item_taxes ? TaxRate::scope()->whereIsInclusive(false)->get() : null,
             'entity' => $product,
@@ -135,6 +149,8 @@ class ProductController extends BaseController
             'url' => $url,
             'title' => trans('texts.edit_product'),
             'itemCategoryPublicId' => $product->itemCategory ? $product->itemCategory->public_id : null,
+            'unitPublicId' => $product->unit ? $product->unit->public_id : null,
+
         ];
         $data = array_merge($data, self::getViewModel($product));
 
@@ -186,6 +202,7 @@ class ProductController extends BaseController
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
             'itemCategories' => ItemCategory::scope()->withActiveOrSelected($product ? $product->category_id : false)->orderBy('name')->get(),
+            'units' => Unit::scope()->withActiveOrSelected($product ? $product->unit_id : false)->orderBy('name')->get(),
         ];
     }
 

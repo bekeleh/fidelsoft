@@ -7,6 +7,7 @@ use App\Events\ProductWasUpdated;
 use App\Libraries\Utils;
 use App\Models\ItemCategory;
 use App\Models\Product;
+use App\Models\Unit;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,6 +32,7 @@ class ProductRepository extends BaseRepository
             ->join('accounts', 'accounts.id', '=', 'products.account_id')
             ->join('users', 'users.id', '=', 'products.user_id')
             ->join('item_categories', 'item_categories.id', '=', 'products.category_id')
+            ->join('units', 'units.id', '=', 'products.unit_id')
             ->where('products.account_id', '=', $accountId)
             //->where('products.deleted_at', '=', null)
             ->select(
@@ -53,13 +55,15 @@ class ProductRepository extends BaseRepository
                 'products.created_by',
                 'products.updated_by',
                 'products.deleted_by',
-                'item_categories.name as item_category_name'
+                'item_categories.name as item_category_name',
+                'units.name as unit_name'
             );
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('products.name', 'like', '%' . $filter . '%')
                     ->orWhere('products.notes', 'like', '%' . $filter . '%')
-                    ->orWhere('item_categories.name', 'like', '%' . $filter . '%');
+                    ->orWhere('item_categories.name', 'like', '%' . $filter . '%')
+                    ->orWhere('units.name', 'like', '%' . $filter . '%');
             });
         }
 
@@ -73,6 +77,15 @@ class ProductRepository extends BaseRepository
         $itemCategoryId = ItemCategory::getPrivateId($itemCategoryPublicId);
 
         $query = $this->find()->where('item_categories.category_id', '=', $itemCategoryId);
+
+        return $query;
+    }
+
+    public function findUnit($unitPublicId)
+    {
+        $unitId = Unit::getPrivateId($unitPublicId);
+
+        $query = $this->find()->where('units.unit_id', '=', $unitId);
 
         return $query;
     }
@@ -96,6 +109,7 @@ class ProductRepository extends BaseRepository
         $product->serial = isset($data['serial']) ? ucwords(trim($data['serial'])) : '';
         $product->tag = isset($data['tag']) ? ucwords(trim($data['tag'])) : '';
         $product->category_id = isset($data['category_id']) ? trim($data['category_id']) : '';
+        $product->unit_id = isset($data['unit_id']) ? trim($data['unit_id']) : '';
         $product->notes = isset($data['notes']) ? trim($data['notes']) : '';
         $product->cost = isset($data['cost']) ? Utils::parseFloat($data['cost']) : 0;
         $product->save();

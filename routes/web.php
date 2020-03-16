@@ -284,6 +284,11 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
     Route::get('api/locations', 'LocationController@getDatatable');
     Route::resource('locations', 'LocationController');
     Route::post('locations/bulk', 'LocationController@bulk');
+//   unit
+    Route::get('units/{units}/clone', 'UnitController@cloneUnit');
+    Route::get('api/units', 'UnitController@getDatatable');
+    Route::resource('units', 'UnitController');
+    Route::post('units/bulk', 'UnitController@bulk');
     //   sales type
     Route::get('sale_types/{sale_types}/clone', 'SaleTypeController@cloneSaleType');
     Route::get('api/sale_types', 'SaleTypeController@getDatatable');

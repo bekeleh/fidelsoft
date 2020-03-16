@@ -103,6 +103,11 @@ class Product extends EntityModel
         return $this->belongsTo('App\Models\ItemCategory', 'category_id')->withTrashed();
     }
 
+    public function unit()
+    {
+        return $this->belongsTo('App\Models\Unit', 'unit_id')->withTrashed();
+    }
+
     public function itemMovements()
     {
         return $this->morphMany('\App\Models\ItemMovement', 'movable', 'movable_type', 'movable_id');

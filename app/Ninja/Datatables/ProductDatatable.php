@@ -41,6 +41,12 @@ class ProductDatatable extends EntityDatatable
                 },
             ],
             [
+                'unit_name',
+                function ($model) {
+                    return link_to('units/' . $model->public_id . '/edit', $model->unit_name)->toHtml();
+                },
+            ],
+            [
                 'notes',
                 function ($model) {
                     return $this->showWithTooltip($model->notes);

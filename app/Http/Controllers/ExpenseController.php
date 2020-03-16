@@ -60,7 +60,7 @@ class ExpenseController extends BaseController
 
     public function getDatatable($expensePublicId = null)
     {
-        return $this->expenseService->getDatatable(Input::get('sSearch'));
+        return $this->expenseService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
     }
 
     public function getDatatableVendor($vendorPublicId = null)

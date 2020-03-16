@@ -28,6 +28,7 @@ Route::resource('item_movements', 'ItemMovementApiController');
 Route::resource('item_categories', 'ItemCategoryApiController');
 Route::resource('locations', 'LocationApiController');
 Route::resource('sale_types', 'SaleTypeApiController');
+Route::resource('units', 'UnitApiController');
 Route::resource('projects', 'ProjectApiController');
 Route::resource('tax_rates', 'TaxRateApiController');
 Route::resource('users', 'UserApiController');

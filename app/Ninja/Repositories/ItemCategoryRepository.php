@@ -42,14 +42,14 @@ class ItemCategoryRepository extends BaseRepository
                 'item_categories.deleted_by'
             );
 
-        $this->applyFilters($query, ENTITY_ITEM_CATEGORY);
-
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('item_categories.name', 'like', '%' . $filter . '%')
                     ->orWhere('item_categories.notes', 'like', '%' . $filter . '%');
             });
         }
+
+        $this->applyFilters($query, ENTITY_ITEM_CATEGORY);
 
         return $query;
     }

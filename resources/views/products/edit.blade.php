@@ -6,7 +6,7 @@
     {!! Former::open($url)
             ->method($method)
             ->autocomplete('off')
-            ->rules(['name' => 'required|max:255','cost' => 'required|numeric','category_id' => 'required|numeric'])
+            ->rules(['name' => 'required|max:255','cost' => 'required|numeric','category_id' => 'required|numeric','unit_id' => 'required|numeric'])
             ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
 
     @if ($product)
@@ -32,6 +32,9 @@
                     {!! Former::select('category_id')->addOption('', '')
                        ->label(trans('texts.category'))
                        ->addGroupClass('category-select') !!}
+                    {!! Former::select('unit_id')->addOption('', '')
+                       ->label(trans('texts.unit'))
+                       ->addGroupClass('unit-select') !!}
 
                     {!! Former::textarea('notes')->rows(6) !!}
                     @include('partials/custom_fields', ['entityType' => ENTITY_PRODUCT])
@@ -79,7 +82,9 @@
     {!! Former::close() !!}
     <script type="text/javascript">
         var itemCategories = {!! $itemCategories !!};
+        var units = {!! $units !!};
         var categoryMap = {};
+        var unitMap = {};
 
         $(function () {
             $('#name').focus();
@@ -103,6 +108,22 @@
                 setComboboxValue($('.category-select'), category.public_id, category.name);
             }
             <!-- /. category  -->
+            <!--  unit  -->
+            var unitId = {{ $unitPublicId ?: 0 }};
+            var $unitSelect = $('select#unit_id');
+            @if (Auth::user()->can('create', ENTITY_UNIT))
+            $unitSelect.append(new Option("{{ trans('texts.create_unit')}}:$name", '-1'));
+                    @endif
+            for (var i = 0; i < units.length; i++) {
+                var unit = units[i];
+                unitMap[unit.public_id] = unit;
+                $unitSelect.append(new Option(getClientDisplayName(unit), unit.public_id));
+            }
+            @include('partials/entity_combobox', ['entityType' => ENTITY_UNIT])
+            if (unitId) {
+                var unit = unitMap[unitId];
+                setComboboxValue($('.unit-select'), unit.public_id, unit.name);
+            }
         });
 
         <!-- /. item category  -->

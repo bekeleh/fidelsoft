@@ -4,7 +4,9 @@ namespace App\Services;
 
 use App\Libraries\Utils;
 use App\Models\ItemCategory;
+use App\Models\Unit;
 use App\Ninja\Datatables\ItemCategoryDatatable;
+use App\Ninja\Datatables\UnitDatatable;
 use App\Ninja\Datatables\ProductDatatable;
 use App\Ninja\Repositories\ProductRepository;
 use Illuminate\Http\JsonResponse;
@@ -54,6 +56,9 @@ class ProductService extends BaseService
         if (isset($data['category_id']) && $data['category_id']) {
             $data['category_id'] = ItemCategory::getPrivateId($data['category_id']);
         }
+        if (isset($data['unit_id']) && $data['unit_id']) {
+            $data['unit_id'] = Unit::getPrivateId($data['unit_id']);
+        }
         return $this->productRepo->save($data, $product);
     }
 
@@ -83,6 +88,19 @@ class ProductService extends BaseService
         $query = $this->productRepo->findItemCategory($itemCategoryPublicId);
 
         if (!Utils::hasPermission('view_item_category')) {
+            $query->where('products.user_id', '=', Auth::user()->id);
+        }
+
+        return $this->datatableService->createDatatable($datatable, $query);
+    }
+
+    public function getDatatableUnit($unitPublicId)
+    {
+        $datatable = new UnitDatatable(true, true);
+
+        $query = $this->productRepo->findUnit($unitPublicId);
+
+        if (!Utils::hasPermission('view_unit')) {
             $query->where('products.user_id', '=', Auth::user()->id);
         }
 

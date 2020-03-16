@@ -90,24 +90,25 @@ $LANG = array(
     'item_category_settings' => 'Item Category Settings',
     /*
     |--------------------------------------------------------------------------
-    | item UOM trans
+    | item unit trans
     |--------------------------------------------------------------------------
     */
-    'UOM' => 'UOM',
-    'UOMs' => 'UOM',
-    'new_UOM' => 'New UOM',
-    'create_UOM' => 'Create UOM',
-    'edit_UOM' => 'Edit UOM',
-    'clone_UOM' => 'Clone UOM',
-    'archive_UOM' => 'Archive UOM',
-    'delete_UOM' => 'Delete UOM',
-    'deleted_UOM' => 'Deleted UOM',
-    'restore_UOM' => 'Restore UOM',
-    'restored_UOM' => 'Restored UOM',
-    'updated_UOM' => 'Successfully Updated UOM',
-    'created_UOM' => 'Successfully Created UOM',
-    'archived_UOM' => 'Successfully Archived UOM',
-    'UOM_settings' => 'UOM Settings',
+    'unit' => 'Unit',
+    'unit_name' => 'Unit of measure',
+    'units' => 'Unit of measure',
+    'new_unit' => 'New Unit',
+    'create_unit' => 'Create Unit',
+    'edit_unit' => 'Edit Unit',
+    'clone_unit' => 'Clone Unit',
+    'archive_unit' => 'Archive Unit',
+    'delete_unit' => 'Delete Unit',
+    'deleted_unit' => 'Deleted Unit',
+    'restore_unit' => 'Restore Unit',
+    'restored_unit' => 'Restored Unit',
+    'updated_unit' => 'Successfully Updated Unit',
+    'created_unit' => 'Successfully Created Unit',
+    'archived_unit' => 'Successfully Archived Unit',
+    'unit_settings' => 'Unit Settings',
     /*
     |--------------------------------------------------------------------------
     | item category trans
@@ -136,7 +137,7 @@ $LANG = array(
     |--------------------------------------------------------------------------
     */
     'item_stores' => 'Inventory Adjustment',
-    'bin' => 'Bin Name',
+    'bin' => 'Bin Location',
     'product_name' => 'Item Name',
     'store_name' => 'Store Name',
     'new_item_store' => 'New Item Store',

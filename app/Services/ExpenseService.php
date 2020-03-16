@@ -71,9 +71,9 @@ class ExpenseService extends BaseService
      * @return JsonResponse
      * @throws Exception
      */
-    public function getDatatable($search)
+    public function getDatatable($accountId, $search)
     {
-        $query = $this->expenseRepo->find($search);
+        $query = $this->expenseRepo->find($accountId, $search);
 
         if (!Utils::hasPermission('view_expense')) {
             $query->where('expenses.user_id', '=', Auth::user()->id);

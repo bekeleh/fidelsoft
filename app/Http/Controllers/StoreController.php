@@ -78,6 +78,7 @@ class StoreController extends BaseController
         ];
 
         $data = array_merge($data, self::getViewModel());
+
         return View::make('stores.edit', $data);
     }
 
