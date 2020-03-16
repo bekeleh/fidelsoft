@@ -115,24 +115,23 @@
         </script><!-- /. expense -->
         <!-- Entity product -->
     @elseif ($entityType == ENTITY_PRODUCT)
-        @if (Auth::user()->can('create', ENTITY_ITEM_CATEGORY))
-            {!! DropdownButton::normal(trans('texts.item_categories'))
-                ->withAttributes(['class'=>'item_categoriesDropdown'])
+        @if (Auth::user()->can('create', ENTITY_PRICE))
+            {!! DropdownButton::normal(trans('texts.maintenance'))
+            ->withAttributes(['class'=>'maintenanceDropdown'])
+            ->withContents([
+              ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
+              ['label' => trans('texts.new_unit'), 'url' => url('/units/create')],
+              ['label' => trans('texts.new_price'), 'url' => url('/prices/create')],
+            ])->split() !!}
+        @else
+            {!! DropdownButton::normal(trans('texts.maintenance'))
+                ->withAttributes(['class'=>'maintenanceDropdown'])
                 ->withContents([
                   ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
-                ]
-              )->split() !!}
-        @else
-            {!! DropdownButton::normal(trans('texts.item_categories'))
-                ->withAttributes(['class'=>'item_categoriesDropdown'])
-                ->split() !!}
+                  ['label' => trans('texts.new_unit'), 'url' => url('/units/create')],
+                  ['label' => trans('texts.new_price'), 'url' => url('/prices/create')],
+                ])->split() !!}
         @endif
-        {!! DropdownButton::normal(trans('texts.units'))
-        ->withAttributes(['class'=>'unitsDropdown'])
-        ->withContents([
-          ['label' => trans('texts.new_unit'), 'url' => url('/units/create')],
-        ]
-      )->split() !!}
         <script type="text/javascript">
             $(function () {
                 $('.item_categoriesDropdown:not(.dropdown-toggle)').click(function (event) {

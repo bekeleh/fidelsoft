@@ -111,6 +111,26 @@ $LANG = array(
     'unit_settings' => 'Unit Settings',
     /*
     |--------------------------------------------------------------------------
+    | item price trans
+    |--------------------------------------------------------------------------
+    */
+    'price' => 'Price',
+    'price_name' => 'Item Price',
+    'new_price' => 'New Price',
+    'create_price' => 'Create Price',
+    'edit_price' => 'Edit Price',
+    'clone_price' => 'Clone Price',
+    'archive_price' => 'Archive Price',
+    'delete_price' => 'Delete Price',
+    'deleted_price' => 'Deleted Price',
+    'restore_price' => 'Restore Price',
+    'restored_price' => 'Restored Price',
+    'updated_price' => 'Successfully Updated Price',
+    'created_price' => 'Successfully Created Price',
+    'archived_price' => 'Successfully Archived Price',
+    'price_settings' => 'Price Settings',
+    /*
+    |--------------------------------------------------------------------------
     | item category trans
     |--------------------------------------------------------------------------
     */
@@ -168,6 +188,7 @@ $LANG = array(
     'name' => 'Name',
     'code' => 'Code',
     'website' => 'Website',
+    'maintenance' => 'Maintenance',
     'work_phone' => 'Phone',
     'address' => 'Address',
     'address1' => 'Street',

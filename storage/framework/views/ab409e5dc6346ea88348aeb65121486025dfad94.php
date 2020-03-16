@@ -127,27 +127,25 @@
         </script><!-- /. expense -->
         <!-- Entity product -->
     <?php elseif($entityType == ENTITY_PRODUCT): ?>
-        <?php if(Auth::user()->can('create', ENTITY_ITEM_CATEGORY)): ?>
-            <?php echo DropdownButton::normal(trans('texts.item_categories'))
-                ->withAttributes(['class'=>'item_categoriesDropdown'])
-                ->withContents([
-                  ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
-                ]
-              )->split(); ?>
+        <?php if(Auth::user()->can('create', ENTITY_PRICE)): ?>
+            <?php echo DropdownButton::normal(trans('texts.maintenance'))
+            ->withAttributes(['class'=>'maintenanceDropdown'])
+            ->withContents([
+              ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
+              ['label' => trans('texts.new_unit'), 'url' => url('/units/create')],
+              ['label' => trans('texts.new_price'), 'url' => url('/prices/create')],
+            ])->split(); ?>
 
         <?php else: ?>
-            <?php echo DropdownButton::normal(trans('texts.item_categories'))
-                ->withAttributes(['class'=>'item_categoriesDropdown'])
-                ->split(); ?>
+            <?php echo DropdownButton::normal(trans('texts.maintenance'))
+                ->withAttributes(['class'=>'maintenanceDropdown'])
+                ->withContents([
+                  ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
+                  ['label' => trans('texts.new_unit'), 'url' => url('/units/create')],
+                  ['label' => trans('texts.new_price'), 'url' => url('/prices/create')],
+                ])->split(); ?>
 
         <?php endif; ?>
-        <?php echo DropdownButton::normal(trans('texts.units'))
-        ->withAttributes(['class'=>'unitsDropdown'])
-        ->withContents([
-          ['label' => trans('texts.new_unit'), 'url' => url('/units/create')],
-        ]
-      )->split(); ?>
-
         <script type="text/javascript">
             $(function () {
                 $('.item_categoriesDropdown:not(.dropdown-toggle)').click(function (event) {
