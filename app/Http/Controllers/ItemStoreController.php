@@ -9,6 +9,7 @@ use App\Models\Store;
 use App\Ninja\Datatables\ItemStoreDatatable;
 use App\Ninja\Repositories\StoreRepository;
 use App\Services\ItemStoreService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
@@ -127,6 +128,27 @@ class ItemStoreController extends BaseController
     }
 
     /**
+     * @param ItemStoreRequest $request
+     * @return RedirectResponse
+     */
+    public function store(ItemStoreRequest $request)
+    {
+        $data = $request->input();
+        $productId = $data['product_id'] = Product::getPrivateId($data['product_id']);
+        $storeId = $data['store_id'] = Store::getPrivateId($data['store_id']);
+        $validator = $this->validator($data, $productId, $storeId);
+        if ($validator->fails()) {
+            Session::flash('message', trans('This product already had been registered in the given store.'));
+            return redirect()->to("item_stores/create");
+        }
+        $itemStore = $this->itemStoreService->save($data);
+
+        Session::flash('message', trans('texts.created_item_store'));
+
+        return redirect()->to("item_stores/{$itemStore->public_id}/edit");
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param ItemStoreRequest $request
@@ -150,32 +172,6 @@ class ItemStoreController extends BaseController
         } else {
             return redirect()->to("item_stores/{$itemStore->public_id}/edit");
         }
-    }
-
-    public function store(ItemStoreRequest $request)
-    {
-        $data = $request->input();
-        $productId = $data['product_id'] = Product::getPrivateId($data['product_id']);
-        $storeId = $data['store_id'] = Store::getPrivateId($data['store_id']);
-        $validator = Validator::make($data, [
-                'product_id' => [
-                    'required',
-                    Rule::unique('item_stores')->where(function ($query) use ($productId, $storeId) {
-                        return $query->where('product_id', $productId)
-                            ->where('store_id', $storeId);
-                    }),
-                ],
-            ]
-        );
-        if ($validator->fails()) {
-            Session::flash('message', trans('This product already had been registered in the given store.'));
-            return redirect()->to("item_stores/create");
-        }
-        $itemStore = $this->itemStoreService->save($data);
-
-        Session::flash('message', trans('texts.created_item_store'));
-
-        return redirect()->to("item_stores/{$itemStore->public_id}/edit");
     }
 
     public function bulk()
@@ -206,5 +202,26 @@ class ItemStoreController extends BaseController
         Session::reflash();
 
         return Redirect::to("item_stores/{$publicId}/edit");
+    }
+
+    /**
+     * @param $data
+     * @param $productId
+     * @param $storeId
+     * @return mixed
+     */
+    public function validator($data, $productId, $storeId)
+    {
+        return Validator::make($data, [
+                'product_id' => [
+                    'required', 'numeric',
+                    Rule::unique('item_stores')
+                        ->where(function ($query) use ($productId, $storeId) {
+                            return $query->where('product_id', $productId)
+                                ->where('store_id', $storeId);
+                        }),
+                ],
+            ]
+        );
     }
 }
