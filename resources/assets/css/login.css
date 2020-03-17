@@ -209,7 +209,7 @@ hr.green {
     background-image: -o-linear-gradient(top, #474646 0%, #3d3d3d 100%);
     background-image: -webkit-gradient(linear, left top, left bottom, from(#474646), to(#3d3d3d));
     background-image: linear-gradient(to bottom, #474646 0%, #3d3d3d 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff337ab7', endColorstr='#ff265a88', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff25a186', endColorstr='#ff265a88', GradientType=0);
     filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
     background-repeat: repeat-x;
     border-color: #3d3d3d;
@@ -232,7 +232,7 @@ hr.green {
     background-image: -o-linear-gradient(top, #62c362 0%, #5cb85c 100%);
     background-image: -webkit-gradient(linear, left top, left bottom, from(#62c362), to(#5cb85c));
     background-image: linear-gradient(to bottom, #62c362 0%, #5cb85c 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff337ab7', endColorstr='#ff265a88', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff25a186', endColorstr='#ff265a88', GradientType=0);
     filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
     background-repeat: repeat-x;
     border-color: #5cb85c;
@@ -255,7 +255,7 @@ hr.green {
     background-image: -o-linear-gradient(top, #3e8ccc 0%, #377db6 100%);
     background-image: -webkit-gradient(linear, left top, left bottom, from(#3e8ccc), to(#377db6));
     background-image: linear-gradient(to bottom, #3e8ccc 0%, #377db6 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff337ab7', endColorstr='#ff265a88', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff25a186', endColorstr='#ff265a88', GradientType=0);
     filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
     background-repeat: repeat-x;
     border-color: #377db6;

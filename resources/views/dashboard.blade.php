@@ -271,7 +271,7 @@
                                 <div class="{{ $headerClass }}">
                                     {{ trans('texts.total_revenue') }}
                                 </div>
-                                <div class="revenue-div in-bold pull-right" style="color:#337ab7">
+                                <div class="revenue-div in-bold pull-right" style="color:#25a186">
                                 </div>
                                 <div class="in-bold">
                                     @if (count($paidToDate))
@@ -292,7 +292,7 @@
                                     </div>
                                 </div>
                                 <div class="range-label-div {{ $footerClass }} pull-right"
-                                     style="color:#337ab7;font-size:16px;display:none;">
+                                     style="color:#25a186;font-size:16px;display:none;">
                                     {{ trans('texts.last_30_days') }}
                                 </div>
                             </div>
@@ -307,7 +307,7 @@
                                     <div class="{{ $headerClass }}">
                                         {{ trans('texts.total_expenses') }}
                                     </div>
-                                    <div class="expenses-div in-bold pull-right" style="color:#337ab7">
+                                    <div class="expenses-div in-bold pull-right" style="color:#25a186">
                                     </div>
                                     <div class="in-bold">
                                         @foreach ($expenses as $item)
@@ -324,7 +324,7 @@
                                     <div class="{{ $headerClass }}">
                                         {{ trans('texts.average_invoice') }}
                                     </div>
-                                    <div class="average-div in-bold pull-right" style="color:#337ab7">
+                                    <div class="average-div in-bold pull-right" style="color:#25a186">
                                     </div>
                                     <div class="in-bold">
                                         @if (count($averageInvoice))
@@ -347,7 +347,7 @@
                                     </div>
                                 @endif
                                 <div class="range-label-div {{ $footerClass }} pull-right"
-                                     style="color:#337ab7;font-size:16px;display:none;">
+                                     style="color:#25a186;font-size:16px;display:none;">
                                     {{ trans('texts.last_30_days') }}
                                 </div>
                             </div>
@@ -361,7 +361,7 @@
                                 <div class="{{ $headerClass }}">
                                     {{ trans('texts.outstanding') }}
                                 </div>
-                                <div class="outstanding-div in-bold pull-right" style="color:#337ab7">
+                                <div class="outstanding-div in-bold pull-right" style="color:#25a186">
                                 </div>
                                 <div class="in-bold">
                                     @if (count($balances))
@@ -382,7 +382,7 @@
                                     </div>
                                 </div>
                                 <div class="range-label-div {{ $footerClass }} pull-right"
-                                     style="color:#337ab7;font-size:16px;display:none;">
+                                     style="color:#25a186;font-size:16px;display:none;">
                                     {{ trans('texts.last_30_days') }}
                                 </div>
                             </div>
@@ -446,7 +446,7 @@
                                                 {{ Utils::formatMoney($item->invoice_avg, $item->currency_id) }} |
                                 </span>
                                         @endforeach
-                                        <span class="average-div" style="color:#337ab7"/>
+                                        <span class="average-div" style="color:#25a186"/>
                                     </div>
                                 @endif
                                 <i class="glyphicon glyphicon-ok-sign"></i> {{ trans('texts.recent_payments') }}

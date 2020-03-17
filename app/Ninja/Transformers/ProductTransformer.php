@@ -17,6 +17,8 @@ class ProductTransformer extends EntityTransformer
      * @SWG\Property(property="qty", type="number", format="float", example=1)
      * @SWG\Property(property="updated_at", type="integer", example=1451160233, readOnly=true)
      * @SWG\Property(property="archived_at", type="integer", example=1451160233, readOnly=true)
+     * @param Product $product
+     * @return array
      */
     public function transform(Product $product)
     {
@@ -25,7 +27,6 @@ class ProductTransformer extends EntityTransformer
             'name' => $product->name,
             'notes' => $product->notes,
             'cost' => (float)$product->cost,
-            'qty' => (float)($product->qty ?: 0.0),
             'tax_name1' => $product->tax_name1 ?: '',
             'tax_rate1' => (float)$product->tax_rate1,
             'tax_name2' => $product->tax_name2 ?: '',

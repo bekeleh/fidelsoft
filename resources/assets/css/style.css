@@ -141,7 +141,7 @@ line-height: 20px;
 .datepicker table {font-size: 12px; border-spacing:2px;}
 .datepicker td, .datepicker th { width:30px; }
 .datepicker table tr td.active.active, .datepicker table tr td.active:hover.active {
-background-color: #337ab7;
+background-color: #25a186;
     background-image:none;
 }
 .datepicker table tr td.today { color: #333; background-color: #edd71e !important; background-image:none; text-shadow:none;}
@@ -156,7 +156,7 @@ padding: 20px;
 }
 .modal-header {
 border-bottom: none;
-background-color: #337ab7;
+background-color: #25a186;
     padding: 20px;
     color: #fff;
 }
@@ -257,7 +257,7 @@ margin-left: 0px;
 .btn i.glyphicon {  font-size: 16px; margin-left:7px; top: 2px; }
 
 .btn-primary i{
-xborder-color: #337ab7;
+xborder-color: #25a186;
 }
 
 .form-actions .btn,
@@ -402,14 +402,14 @@ background-color: #9b9b9b;
     color: #fff;
 }
 .navbar {
-  xbackground-color: #337ab7 !important;
+  xbackground-color: #25a186 !important;
   background-image: none;
   background-repeat: no-repeat;
   filter: none;
 }
 
 .navbar-collapse {
-    xbackground-color: #337ab7;
+    xbackground-color: #25a186;
 }
 
 .navbar {
@@ -1189,7 +1189,7 @@ div.panel-body div.panel-body {
     background: #f9f9f9;
 }
 .noUi-connect {
-    background: #286090;
+    background: #27AB73;
 }
 .noUi-origin {
     border-radius: 2px;
@@ -1419,5 +1419,5 @@ div.panel-body div.panel-body {
 }
 
 .input-group-addon .glyphicon-question-sign {
-    color: #117cc1;
+    color: #25a186;
 }

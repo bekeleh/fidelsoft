@@ -7,21 +7,17 @@ use App\Events\PaymentFailed;
 use App\Events\PaymentWasCreated;
 use App\Events\PaymentWasRefunded;
 use App\Events\PaymentWasVoided;
-use Event;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
-/**
- * Class Payment.
- */
+
 class Payment extends EntityModel
 {
     use PresentableTrait;
     use SoftDeletes;
 
-    /**
-     * @var array
-     */
     protected $fillable = [
         'transaction_reference',
         'private_notes',
@@ -56,7 +52,7 @@ class Payment extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function invitation()
     {
@@ -80,7 +76,7 @@ class Payment extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function account()
     {
@@ -88,7 +84,7 @@ class Payment extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function contact()
     {
@@ -96,7 +92,7 @@ class Payment extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function account_gateway()
     {
@@ -104,7 +100,7 @@ class Payment extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function payment_type()
     {
@@ -112,7 +108,7 @@ class Payment extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function payment_method()
     {
@@ -120,7 +116,7 @@ class Payment extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function payment_status()
     {
@@ -152,6 +148,8 @@ class Payment extends EntityModel
     /**
      * @param $query
      *
+     * @param $startDate
+     * @param $endDate
      * @return mixed
      */
     public function scopeDateRange($query, $startDate, $endDate)
@@ -231,7 +229,7 @@ class Payment extends EntityModel
             return false;
         }
 
-        if (! $amount) {
+        if (!$amount) {
             $amount = $this->amount;
         }
 
@@ -319,7 +317,7 @@ class Payment extends EntityModel
      */
     public function getBankDataAttribute()
     {
-        if (! $this->routing_number) {
+        if (!$this->routing_number) {
             return null;
         }
 
@@ -382,9 +380,9 @@ class Payment extends EntityModel
     public function invoiceJsonBackup()
     {
         $activity = Activity::wherePaymentId($this->id)
-                        ->whereActivityTypeId(ACTIVITY_TYPE_CREATE_PAYMENT)
-                        ->get(['json_backup'])
-                        ->first();
+            ->whereActivityTypeId(ACTIVITY_TYPE_CREATE_PAYMENT)
+            ->get(['json_backup'])
+            ->first();
 
         return $activity->json_backup;
     }

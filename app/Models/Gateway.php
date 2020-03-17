@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Eloquent;
 use Omnipay;
-use Utils;
+use App\Libraries\Utils;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class Gateway.
@@ -107,7 +108,7 @@ class Gateway extends Eloquent
      */
     public function getLogoUrl()
     {
-        return '/images/gateways/logo_'.$this->provider.'.png';
+        return '/images/gateways/logo_' . $this->provider . '.png';
     }
 
     /**
@@ -152,7 +153,7 @@ class Gateway extends Eloquent
             ->whereIn('id', static::$preferred)
             ->whereIn('id', $accountGatewaysIds);
 
-        if (! Utils::isNinja()) {
+        if (!Utils::isNinja()) {
             $query->where('id', '!=', GATEWAY_WEPAY);
         }
     }
@@ -169,7 +170,7 @@ class Gateway extends Eloquent
     }
 
     /**
-     * @return string|\Symfony\Component\Translation\TranslatorInterface
+     * @return string|TranslatorInterface
      */
     public function getHelp()
     {
@@ -193,7 +194,7 @@ class Gateway extends Eloquent
             $link = url('/gateways/create?wepay=true');
         }
 
-        $key = 'texts.gateway_help_'.$this->id;
+        $key = 'texts.gateway_help_' . $this->id;
         $str = trans($key, [
             'link' => "<a href='$link' >Click here</a>",
             'complete_link' => url('/complete'),

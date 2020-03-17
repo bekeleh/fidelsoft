@@ -2,7 +2,7 @@
 
 namespace App\Ninja\Presenters;
 
-use Utils;
+use App\Libraries\Utils;
 
 class ClientPresenter extends EntityPresenter
 {
@@ -28,7 +28,7 @@ class ClientPresenter extends EntityPresenter
     {
         $client = $this->entity;
 
-        if (! $client->website) {
+        if (!$client->website) {
             return '';
         }
 
@@ -49,7 +49,7 @@ class ClientPresenter extends EntityPresenter
     {
         $client = $this->entity;
 
-        if (! $client->payment_terms) {
+        if (!$client->payment_terms) {
             return '';
         }
 
@@ -83,6 +83,7 @@ class ClientPresenter extends EntityPresenter
     }
 
     /**
+     * @param string $addressType
      * @return string
      */
     public function getCityState($addressType = ADDRESS_BILLING)
@@ -108,11 +109,11 @@ class ClientPresenter extends EntityPresenter
      */
     public function taskRate()
     {
-      if (floatval($this->entity->task_rate)) {
-          return Utils::roundSignificant($this->entity->task_rate);
-      } else {
-          return '';
-      }
+        if (floatval($this->entity->task_rate)) {
+            return Utils::roundSignificant($this->entity->task_rate);
+        } else {
+            return '';
+        }
     }
 
     /**
@@ -120,11 +121,11 @@ class ClientPresenter extends EntityPresenter
      */
     public function defaultTaskRate()
     {
-      if ($rate = $this->taskRate()) {
-          return $rate;
-      } else {
-          return $this->entity->account->present()->taskRate;
-      }
+        if ($rate = $this->taskRate()) {
+            return $rate;
+        } else {
+            return $this->entity->account->present()->taskRate;
+        }
     }
 
 }

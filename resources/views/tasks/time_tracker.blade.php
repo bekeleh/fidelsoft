@@ -78,7 +78,7 @@
 
         span.link {
             cursor:pointer;
-            color:#337ab7;
+            color:#25a186;
             text-decoration:none;
         }
 

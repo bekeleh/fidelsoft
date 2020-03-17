@@ -5,19 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateVendorRequest;
 use App\Http\Requests\UpdateVendorRequest;
 use App\Http\Requests\VendorRequest;
+use App\Libraries\Utils;
 use App\Models\Account;
 use App\Models\Vendor;
 use App\Ninja\Datatables\VendorDatatable;
 use App\Ninja\Repositories\VendorRepository;
 use App\Services\VendorService;
-use Auth;
-use Cache;
-use Input;
-use Redirect;
-use Session;
-use URL;
-use Utils;
-use View;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\View;
 
 class VendorController extends BaseController
 {
@@ -55,6 +53,7 @@ class VendorController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
+     * @param CreateVendorRequest $request
      * @return Response
      */
     public function store(CreateVendorRequest $request)
@@ -69,8 +68,7 @@ class VendorController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param int $id
-     *
+     * @param VendorRequest $request
      * @return Response
      */
     public function show(VendorRequest $request)
@@ -97,12 +95,13 @@ class VendorController extends BaseController
     /**
      * Show the form for creating a new resource.
      *
+     * @param VendorRequest $request
      * @return Response
      */
     public function create(VendorRequest $request)
     {
         if (Vendor::scope()->count() > Auth::user()->getMaxNumVendors()) {
-            return View::make('error', ['hideHeader' => true, 'error' => "Sorry, you've exceeded the limit of ".Auth::user()->getMaxNumVendors().' vendors']);
+            return View::make('error', ['hideHeader' => true, 'error' => "Sorry, you've exceeded the limit of " . Auth::user()->getMaxNumVendors() . ' vendors']);
         }
 
         $data = [
@@ -120,8 +119,7 @@ class VendorController extends BaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
-     *
+     * @param VendorRequest $request
      * @return Response
      */
     public function edit(VendorRequest $request)
@@ -131,7 +129,7 @@ class VendorController extends BaseController
         $data = [
             'vendor' => $vendor,
             'method' => 'PUT',
-            'url' => 'vendors/'.$vendor->public_id,
+            'url' => 'vendors/' . $vendor->public_id,
             'title' => trans('texts.edit_vendor'),
         ];
 
@@ -157,8 +155,7 @@ class VendorController extends BaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param int $id
-     *
+     * @param UpdateVendorRequest $request
      * @return Response
      */
     public function update(UpdateVendorRequest $request)
@@ -176,7 +173,7 @@ class VendorController extends BaseController
         $ids = Input::get('public_id') ? Input::get('public_id') : Input::get('ids');
         $count = $this->vendorService->bulk($ids, $action);
 
-        $message = Utils::pluralize($action.'d_vendor', $count);
+        $message = Utils::pluralize($action . 'd_vendor', $count);
         Session::flash('message', $message);
 
         return $this->returnBulk($this->entityType, $action, $ids);

@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use App\Jobs\ExportReportResults;
 use App\Jobs\LoadPostmarkStats;
 use App\Jobs\RunReport;
+use App\Libraries\Utils;
 use App\Models\Account;
 use App\Models\ScheduledReport;
-use Auth;
-use Input;
-use Utils;
-use View;
-use Carbon;
-use Validator;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
 
 
 /**
@@ -26,12 +26,12 @@ class ReportController extends BaseController
     public function d3()
     {
         $message = '';
-        $fileName = storage_path().'/dataviz_sample.txt';
+        $fileName = storage_path() . '/dataviz_sample.txt';
 
         if (Auth::user()->account->hasFeature(FEATURE_REPORTS)) {
             $account = Account::where('id', '=', Auth::user()->account->id)
-                            ->with(['clients.invoices.invoice_items', 'clients.contacts', 'clients.currency'])
-                            ->first();
+                ->with(['clients.invoices.invoice_items', 'clients.contacts', 'clients.currency'])
+                ->first();
             $account = $account->hideFieldsForViz();
             $clients = $account->clients;
         } elseif (file_exists($fileName)) {
@@ -54,13 +54,12 @@ class ReportController extends BaseController
      */
     public function showReports()
     {
-        if (! Auth::user()->hasPermission('view_reports')) {
+        if (!Auth::user()->hasPermission('view_reports')) {
             return redirect('/');
         }
 
         $action = Input::get('action');
         $format = Input::get('format');
-
         if (Input::get('report_type')) {
             $reportType = Input::get('report_type');
             $dateField = Input::get('date_field');
@@ -111,7 +110,9 @@ class ReportController extends BaseController
                 'start_date' => $params['startDate'],
                 'end_date' => $params['endDate'],
             ];
+
             $report = dispatch(new RunReport(auth()->user(), $reportType, $config, $isExport));
+            //there is a problem in $report returns...
             $params = array_merge($params, $report->exportParams);
             switch ($action) {
                 case 'export':

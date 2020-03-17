@@ -2,48 +2,114 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/1RohcovKuEd1pAoekkoaManqYB8zP1urpZZb5oLe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/A6gogPH2kvISa5u7g2mDUawS6hxDuGMkUU6VwayS" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/Gk1WgEN6puAszANx2u9OwnYqmQU2TMVfiQ3XMSIc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/HQQLMlsF0j0uO1B5EghiGGquGYotgvuRcDAX2VHc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/K5yKL9Gnn5qJjX5C0g720kIECDysA1aSH69OVpyA" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/KmgBJXEftr9tfx2JpgivXw9E9cNJzXxjYcDqglgB" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/aXZkAzuj5jbPpZw1EqyxbWfxPYRhuqW5aB9FpgIM" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/cH5IhJCelav43RVijnlzwfdInTMGjuB3bNFMyBjK" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/eaCXvJx1da0gaPLoFrOyxI0ldspcviNJG6wLfOA2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/hZAp03UaE170nawrMGbugYtZ5hbXaBGljHZzSmG0" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/ibN9V8jzY9Kl5XLDrgrQNfQaLMLcBJn4aZntO6w9" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/jjuW0DInmLra5k531lbNmr9ks5bAi5ayoErGkosc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/pHQj7q9K0l2VoftKXRZ7CfpJTuO5KJI2TwBA5yW1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/rQza76BOeSsGX3nQogHjsLylG5FxwTGnDMu39Ot5" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/tVYPuOOQW6cKhWett0KapwCsyTYvmgg62sx7NJtI" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/tZJiflvCU5ecwdiL4H6UTAX0xgB2n3XYahldGR1y" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/029ff1b83d4540237f7ba2370365a7966023941e.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/18aa35b235b3b64d881ae8da46a146bf0c81710b.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/2759f8bbc5059c82614447a82a67b42367cd4189.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/3a4d2fd6236610a28286a82e718a7c0416b0a805.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/3d4796057765b5a7517531f2f8b487ab7f709a24.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/4b2809918bd8a7ad9e90bfe4e05d4618b79dea97.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/626066e21669c3c0963be6662b0c23e18dd7881b.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/669a9edbbc727010eb9ae0922a564aad4eae71e6.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/6dcd1d5f1aa14ef39e4fff36c9391dd760543946.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/6fa524c879f672159ba6d0cd743d03590bc34db5.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/77cff8268ccf09519cd8515352e69c3bc16767dd.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/8fc4a4c0734a85fec366102b3d88f7f2e3c56b54.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/9d8aefb15fbe9a910b39a0f97aae647e7c0ca4f1.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/a36df17ab728dc6a3fffcb63d754b76a4de5ed91.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/a8e214552cb3a46e8d7fa956c4cd32193ea2dc29.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/ab409e5dc6346ea88348aeb65121486025dfad94.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/b333d68d8131407c1a83803c03303577f0efa06a.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/c18fa3865e1151b9981fcdd9ba5c37d38cbef917.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/cf32b45de7e49e7683cae2c79b2aa6cb2da88c16.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/d9de4565e57fbd52b1dabb5d564f858db50637f7.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/e50726394fb96b33e7a3fe023a9d5f8ff5a4dff4.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ItemStoreController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ItemStoreController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/errors/400.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/errors/400.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/errors/503.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/errors/503.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ReportController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ReportController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/VendorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/VendorController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Jobs/RunReport.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/RunReport.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/AccountGateway.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/AccountGateway.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Gateway.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Gateway.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Payment.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Payment.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Presenters/ClientPresenter.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Presenters/ClientPresenter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Presenters/EntityPresenter.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Presenters/EntityPresenter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Reports/InvoiceReport.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Reports/InvoiceReport.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Transformers/ProductTransformer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Transformers/ProductTransformer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootstrap/cache/packages.php" beforeDir="false" afterPath="$PROJECT_DIR$/bootstrap/cache/packages.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootstrap/cache/services.php" beforeDir="false" afterPath="$PROJECT_DIR$/bootstrap/cache/services.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/app.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/app.min.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.min.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/bootstrap.min.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/bootstrap.min.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/built.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/built.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/built.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/built.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/built.login.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/built.login.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/built.login.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/built.login.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/built.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/built.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/built.min.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/built.min.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/built.public.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/built.public.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/built.public.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/built.public.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/built.public.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/built.public.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/built.public.min.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/built.public.min.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/login.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/login.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/login.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/assets/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/resources/assets/css/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/assets/css/colors.css" beforeDir="false" afterPath="$PROJECT_DIR$/resources/assets/css/colors.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/assets/css/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/resources/assets/css/login.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/assets/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/resources/assets/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/assets/css/typeahead.js-bootstrap.css" beforeDir="false" afterPath="$PROJECT_DIR$/resources/assets/css/typeahead.js-bootstrap.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/dashboard.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/dashboard.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/partials/white_label.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/partials/white_label.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/tasks/time_tracker.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/tasks/time_tracker.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/vendors/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/vendors/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/vendors/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/vendors/show.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/cache/9b/20/9b20934eac1c5157c6350b983215466eb38d5289" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/sessions/GUGQpvEuhJM9jjjsFVh4yGIogt1uUgwCAwgeJ7Al" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/GUGQpvEuhJM9jjjsFVh4yGIogt1uUgwCAwgeJ7Al" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/02733a1b7b6c56eb68cfba58a3f682125370e12c.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/029ff1b83d4540237f7ba2370365a7966023941e.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/18aa35b235b3b64d881ae8da46a146bf0c81710b.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/2759f8bbc5059c82614447a82a67b42367cd4189.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/3a4d2fd6236610a28286a82e718a7c0416b0a805.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/3ad949682e6397c7d2bb6497650a80c20980f69f.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/3d4796057765b5a7517531f2f8b487ab7f709a24.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/48088ee6c46668f6d37601df3aaea9587070c48d.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/4c881c5bce0e08d497492577cac022599e397464.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/4d12b5cac1ec88b442d9ad43f98801b0ad576927.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/5852f0c0cf9369b55910f5c9393d37c4e1c3e682.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/5d4be74eb2a11ff837c8ca67ff1010d631d00e4d.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/626066e21669c3c0963be6662b0c23e18dd7881b.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/669a9edbbc727010eb9ae0922a564aad4eae71e6.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/6dcd1d5f1aa14ef39e4fff36c9391dd760543946.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/6fa524c879f672159ba6d0cd743d03590bc34db5.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/77cff8268ccf09519cd8515352e69c3bc16767dd.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/78e9d60e5e03b91904e56bc726c88b0e534825e8.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/7ddbd6c01c668f22db3fedccd6e7756ae35c8288.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/8fc4a4c0734a85fec366102b3d88f7f2e3c56b54.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/9d8aefb15fbe9a910b39a0f97aae647e7c0ca4f1.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/9eaec7a1912e5681c0d192c47e44595ba72e45b9.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/a36df17ab728dc6a3fffcb63d754b76a4de5ed91.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/a8e214552cb3a46e8d7fa956c4cd32193ea2dc29.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/ab409e5dc6346ea88348aeb65121486025dfad94.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/b333d68d8131407c1a83803c03303577f0efa06a.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/bde6e4d84a93a1d5c3f3b3d6339314a2e8095126.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/c18fa3865e1151b9981fcdd9ba5c37d38cbef917.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/c7a35e3db127bbc14744963fc723e20043f97bff.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/cf32b45de7e49e7683cae2c79b2aa6cb2da88c16.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/e50726394fb96b33e7a3fe023a9d5f8ff5a4dff4.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/f0df1fee8df6fd72b08d6cd22c66c8f1d0ff8fc4.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/f93f57e323d94fbcfcc395e612e7a946205aa21c.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/faead894d2dc1fcaa12761fd4ed6ce069585a589.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/views/500.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/views/500.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/symfony/debug/ExceptionHandler.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/symfony/debug/ExceptionHandler.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/symfony/debug/Tests/ExceptionHandlerTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/symfony/debug/Tests/ExceptionHandlerTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Support/Str.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Support/Str.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/phpunit/php-code-coverage/src/Report/Html/Renderer/Template/css/bootstrap.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/phpunit/php-code-coverage/src/Report/Html/Renderer/Template/css/bootstrap.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/twbs/bootstrap/dist/css/bootstrap-theme.css" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/twbs/bootstrap/dist/css/bootstrap-theme.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/twbs/bootstrap/dist/css/bootstrap-theme.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/twbs/bootstrap/dist/css/bootstrap-theme.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/twbs/bootstrap/dist/css/bootstrap-theme.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/twbs/bootstrap/dist/css/bootstrap-theme.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/twbs/bootstrap/dist/css/bootstrap-theme.min.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/twbs/bootstrap/dist/css/bootstrap-theme.min.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/twbs/bootstrap/dist/css/bootstrap.css" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/twbs/bootstrap/dist/css/bootstrap.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/twbs/bootstrap/dist/css/bootstrap.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/twbs/bootstrap/dist/css/bootstrap.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/twbs/bootstrap/dist/css/bootstrap.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/twbs/bootstrap/dist/css/bootstrap.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/twbs/bootstrap/dist/css/bootstrap.min.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/twbs/bootstrap/dist/css/bootstrap.min.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/_includes/css/less.html" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/_includes/css/less.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/assets/css/docs.css" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/assets/css/docs.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/assets/css/docs.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/assets/css/docs.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/assets/css/docs.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/assets/css/docs.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/assets/css/docs.min.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/assets/css/docs.min.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/assets/js/customize.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/assets/js/customize.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/assets/js/raw-files.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/assets/js/raw-files.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/assets/less/featurettes.less" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/assets/less/featurettes.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/assets/less/swatches.less" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/assets/less/swatches.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/dist/css/bootstrap-theme.css" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/dist/css/bootstrap-theme.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/dist/css/bootstrap-theme.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/dist/css/bootstrap-theme.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/dist/css/bootstrap-theme.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/dist/css/bootstrap-theme.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/dist/css/bootstrap-theme.min.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/dist/css/bootstrap-theme.min.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/dist/css/bootstrap.css" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/dist/css/bootstrap.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/dist/css/bootstrap.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/dist/css/bootstrap.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/dist/css/bootstrap.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/dist/css/bootstrap.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/dist/css/bootstrap.min.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/twbs/bootstrap/docs/dist/css/bootstrap.min.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/twbs/bootstrap/less/variables.less" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/twbs/bootstrap/less/variables.less" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -347,7 +413,7 @@
       <workItem from="1584255192872" duration="442000" />
       <workItem from="1584256017994" duration="25820000" />
       <workItem from="1584350581466" duration="17334000" />
-      <workItem from="1584426181524" duration="10179000" />
+      <workItem from="1584426181524" duration="18768000" />
     </task>
     <task id="LOCAL-00001" summary="202003060614">
       <created>1583507671758</created>
@@ -615,7 +681,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584433655162</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="202003170614">
+      <created>1584448661480</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1584448661480</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -657,10 +730,10 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="622" y="0" key="#com.jetbrains.php.refactoring.extractMethod.PhpExtractMethodDialog#method1/0.0.1440.860@0.0.1440.860" timestamp="1584443627388" />
-    <state x="345" y="25" key="CommitChangelistDialog2" timestamp="1584433650285">
+    <state x="345" y="25" key="CommitChangelistDialog2" timestamp="1584448658859">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="345" y="25" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1584433650285" />
+    <state x="345" y="25" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1584448658859" />
     <state x="500" y="177" key="FileChooserDialogImpl" timestamp="1584008814991">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
@@ -701,11 +774,11 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="590" y="146" key="com.intellij.ide.util.TipDialog/0.0.1440.860@0.0.1440.860" timestamp="1584426877723" />
-    <state x="444" y="112" width="849" height="606" key="find.popup" timestamp="1584448623895">
+    <state x="355" y="65" width="849" height="606" key="find.popup" timestamp="1584459793219">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="441" y="95" width="806" height="536" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1584046794826" />
-    <state x="444" y="112" width="849" height="606" key="find.popup/0.0.1440.860@0.0.1440.860" timestamp="1584448623895" />
+    <state x="355" y="65" width="849" height="606" key="find.popup/0.0.1440.860@0.0.1440.860" timestamp="1584459793219" />
     <state x="462" y="222" key="git4idea.merge.GitPullDialog" timestamp="1584364583844">
       <screen x="0" y="0" width="1440" height="860" />
     </state>

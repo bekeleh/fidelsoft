@@ -30,7 +30,7 @@ hr.green {
 }
 
 .btn-primary, .btn-primary.green {
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff337ab7', endColorstr='#ff265a88', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff25a186', endColorstr='#ff265a88', GradientType=0);
     background-repeat: repeat-x
 }
 
@@ -241,7 +241,7 @@ hr.green {
     background-image: -o-linear-gradient(top, #3e8ccc 0, #377db6 100%);
     background-image: -webkit-gradient(linear, left top, left bottom, from(#3e8ccc), to(#377db6));
     background-image: linear-gradient(to bottom, #3e8ccc 0, #377db6 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff337ab7', endColorstr='#ff265a88', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff25a186', endColorstr='#ff265a88', GradientType=0);
     filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
     background-repeat: repeat-x;
     border-color: #377db6

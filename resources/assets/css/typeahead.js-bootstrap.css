@@ -62,7 +62,7 @@
 .twitter-typeahead .tt-suggestion:focus,
 .twitter-typeahead .tt-cursor {
   cursor: hand !important;
-  background-color: #337ab7;
+  background-color: #25a186;
   color: white;
 }
 

@@ -60,7 +60,7 @@ class EntityPresenter extends Presenter
             case 'warning':
                 return '#f0ad4e';
             case 'primary':
-                return '#337ab7';
+                return '#25a186';
             case 'info':
                 return '#5bc0de';
             default:
