@@ -1,4 +1,4 @@
-2020-03-17 03:21:19 Undefined property: Illuminate\Foundation\Bus\PendingDispatch::$count (View: C:\wamp\www\invoiceninja\resources\views\projects\show.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:14 Undefined property: Illuminate\Foundation\Bus\PendingDispatch::$count (View: C:\wamp\www\invoiceninja\resources\views\projects\show.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -63,7 +63,7 @@
 #62 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #63 {main}
 
-2020-03-17 03:21:19 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:14 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -132,7 +132,7 @@
 #66 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #67 {main}
 
-2020-03-17 03:21:19 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:14 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -198,7 +198,7 @@
 #63 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #64 {main}
 
-2020-03-17 03:21:19 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:14 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -261,7 +261,7 @@
 #60 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #61 {main}
 
-2020-03-17 03:21:19 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:14 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -321,7 +321,7 @@
 #57 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #58 {main}
 
-2020-03-17 03:21:19 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:14 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -378,7 +378,7 @@
 #54 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #55 {main}
 
-2020-03-17 03:21:19 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:14 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -432,7 +432,7 @@
 #51 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #52 {main}
 
-2020-03-17 03:21:19 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:14 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -483,7 +483,7 @@
 #48 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #49 {main}
 
-2020-03-17 03:21:19 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:14 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -530,7 +530,7 @@
 #44 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #45 {main}
 
-2020-03-17 03:21:19 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:14 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -574,7 +574,7 @@
 #41 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #42 {main}
 
-2020-03-17 03:21:19 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:14 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -615,7 +615,7 @@
 #38 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #39 {main}
 
-2020-03-17 03:21:19 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:14 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -653,7 +653,7 @@
 #35 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #36 {main}
 
-2020-03-17 03:21:19 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:14 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -688,7 +688,7 @@
 #32 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #33 {main}
 
-2020-03-17 03:21:19 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:14 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -716,7 +716,7 @@
 #25 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #26 {main}
 
-2020-03-17 03:21:19 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:14 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -741,7 +741,7 @@
 #22 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #23 {main}
 
-2020-03-17 03:21:19 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:14 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -763,7 +763,7 @@
 #19 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #20 {main}
 
-2020-03-17 03:21:19 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:14 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -782,7 +782,7 @@
 #16 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #17 {main}
 
-2020-03-17 03:21:19 Uncaught ErrorException: A non-numeric value encountered in C:\wamp\www\invoiceninja\storage\framework\views\cf32b45de7e49e7683cae2c79b2aa6cb2da88c16.php:3
+2020-03-17 03:51:14 Uncaught ErrorException: A non-numeric value encountered in C:\wamp\www\invoiceninja\storage\framework\views\cf32b45de7e49e7683cae2c79b2aa6cb2da88c16.php:3
 Stack trace:
 #0 C:\wamp\www\invoiceninja\storage\framework\views\cf32b45de7e49e7683cae2c79b2aa6cb2da88c16.php(3): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError(2, 'A non-numeric v...', 'C:\\wamp\\www\\inv...', 3, Array)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(43): include('C:\\wamp\\www\\inv...')
@@ -791,7 +791,7 @@ Stack trace:
 #4 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
 #5 C:\wamp\www\invoiceninj: #0 {main}
 
-2020-03-17 03:22:26 Undefined property: Illuminate\Foundation\Bus\PendingDispatch::$count (View: C:\wamp\www\invoiceninja\resources\views\projects\show.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:29 Undefined property: Illuminate\Foundation\Bus\PendingDispatch::$count (View: C:\wamp\www\invoiceninja\resources\views\projects\show.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -856,7 +856,7 @@ Stack trace:
 #62 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #63 {main}
 
-2020-03-17 03:22:26 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:29 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -925,7 +925,7 @@ Stack trace:
 #66 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #67 {main}
 
-2020-03-17 03:22:26 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:29 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -991,7 +991,7 @@ Stack trace:
 #63 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #64 {main}
 
-2020-03-17 03:22:26 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:29 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -1054,7 +1054,7 @@ Stack trace:
 #60 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #61 {main}
 
-2020-03-17 03:22:26 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:29 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -1114,7 +1114,7 @@ Stack trace:
 #57 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #58 {main}
 
-2020-03-17 03:22:26 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:29 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -1171,7 +1171,7 @@ Stack trace:
 #54 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #55 {main}
 
-2020-03-17 03:22:26 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:29 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -1225,7 +1225,7 @@ Stack trace:
 #51 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #52 {main}
 
-2020-03-17 03:22:26 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:29 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -1276,7 +1276,7 @@ Stack trace:
 #48 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #49 {main}
 
-2020-03-17 03:22:26 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:29 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -1323,7 +1323,7 @@ Stack trace:
 #44 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #45 {main}
 
-2020-03-17 03:22:26 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:29 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -1367,7 +1367,7 @@ Stack trace:
 #41 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #42 {main}
 
-2020-03-17 03:22:26 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:29 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -1408,7 +1408,7 @@ Stack trace:
 #38 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #39 {main}
 
-2020-03-17 03:22:26 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:29 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -1446,7 +1446,7 @@ Stack trace:
 #35 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #36 {main}
 
-2020-03-17 03:22:26 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:29 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -1481,7 +1481,7 @@ Stack trace:
 #32 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #33 {main}
 
-2020-03-17 03:22:26 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:29 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -1509,7 +1509,7 @@ Stack trace:
 #25 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #26 {main}
 
-2020-03-17 03:22:26 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:29 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -1534,7 +1534,7 @@ Stack trace:
 #22 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #23 {main}
 
-2020-03-17 03:22:26 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:29 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -1556,7 +1556,7 @@ Stack trace:
 #19 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #20 {main}
 
-2020-03-17 03:22:26 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
+2020-03-17 03:51:29 A non-numeric value encountered (View: C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\views\500.blade.php): #0 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(45): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 1)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('C:\\wamp\\www\\inv...', Array)
 #2 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(137): Illuminate\View\Engines\CompilerEngine->get('C:\\wamp\\www\\inv...', Array)
 #3 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\View.php(120): Illuminate\View\View->getContents()
@@ -1575,7 +1575,7 @@ Stack trace:
 #16 C:\wamp\www\invoiceninja\server.php(21): require_once('C:\\wamp\\www\\inv...')
 #17 {main}
 
-2020-03-17 03:22:26 Uncaught ErrorException: A non-numeric value encountered in C:\wamp\www\invoiceninja\storage\framework\views\cf32b45de7e49e7683cae2c79b2aa6cb2da88c16.php:3
+2020-03-17 03:51:29 Uncaught ErrorException: A non-numeric value encountered in C:\wamp\www\invoiceninja\storage\framework\views\cf32b45de7e49e7683cae2c79b2aa6cb2da88c16.php:3
 Stack trace:
 #0 C:\wamp\www\invoiceninja\storage\framework\views\cf32b45de7e49e7683cae2c79b2aa6cb2da88c16.php(3): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError(2, 'A non-numeric v...', 'C:\\wamp\\www\\inv...', 3, Array)
 #1 C:\wamp\www\invoiceninja\vendor\laravel\framework\src\Illuminate\View\Engines\PhpEngine.php(43): include('C:\\wamp\\www\\inv...')

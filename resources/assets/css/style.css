@@ -665,13 +665,13 @@ div.no-padding-or-border span {
 .navbar-default .navbar-nav > .active > a:hover,
 .navbar-default .navbar-nav > .active > a:focus {
     color: #ffffff;
-    background-color: #3276b1;
+    background-color: #25A088;
 }
 .navbar-default .navbar-nav > .open > a,
 .navbar-default .navbar-nav > .open > a:hover,
 .navbar-default .navbar-nav > .open > a:focus {
     color: #ffffff;
-    background-color: #3276b1;
+    background-color: #25A088;
 }
 .navbar-default .navbar-nav > .dropdown > a .caret {
     border-top-color: #ecf0f1;
@@ -689,11 +689,11 @@ div.no-padding-or-border span {
     border-bottom-color: #ffffff;
 }
 .navbar-default .navbar-toggle {
-    border-color: #3276b1;
+    border-color: #25A088;
 }
 .navbar-default .navbar-toggle:hover,
 .navbar-default .navbar-toggle:focus {
-    background-color: #3276b1;
+    background-color: #25A088;
 }
 .navbar-default .navbar-toggle .icon-bar {
     background-color: #ecf0f1;

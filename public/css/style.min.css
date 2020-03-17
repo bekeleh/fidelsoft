@@ -696,7 +696,7 @@ div.discount-group span {
 
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .navbar-nav > .open > a:hover {
     color: #fff;
-    background-color: #3276b1
+    background-color: #25A088
 }
 
 .navbar-default .navbar-nav > .dropdown > a .caret {
@@ -710,11 +710,11 @@ div.discount-group span {
 }
 
 .navbar-default .navbar-toggle {
-    border-color: #3276b1
+    border-color: #25A088
 }
 
 .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
-    background-color: #3276b1
+    background-color: #25A088
 }
 
 .navbar-default .navbar-toggle .icon-bar {

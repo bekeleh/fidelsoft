@@ -6457,7 +6457,7 @@ table.table thead .sorting:after, table.table thead .sorting_asc_disabled:after,
 
 .datepicker table tr td.active.active, .datepicker table tr td.active.disabled.active, .datepicker table tr td.active.disabled:active, .datepicker table tr td.active.disabled:focus, .datepicker table tr td.active.disabled:hover, .datepicker table tr td.active.disabled:hover.active, .datepicker table tr td.active.disabled:hover:active, .datepicker table tr td.active.disabled:hover:focus, .datepicker table tr td.active.disabled:hover:hover, .datepicker table tr td.active:active, .datepicker table tr td.active:focus, .datepicker table tr td.active:hover, .datepicker table tr td.active:hover.active, .datepicker table tr td.active:hover:active, .datepicker table tr td.active:hover:focus, .datepicker table tr td.active:hover:hover, .open .dropdown-toggle.datepicker table tr td.active, .open .dropdown-toggle.datepicker table tr td.active.disabled, .open .dropdown-toggle.datepicker table tr td.active.disabled:hover, .open .dropdown-toggle.datepicker table tr td.active:hover {
     color: #fff;
-    background-color: #3276b1;
+    background-color: #25A088;
     border-color: #285e8e
 }
 
@@ -6496,7 +6496,7 @@ table.table thead .sorting:after, table.table thead .sorting_asc_disabled:after,
 
 .datepicker table tr td span.active.active, .datepicker table tr td span.active.disabled.active, .datepicker table tr td span.active.disabled:active, .datepicker table tr td span.active.disabled:focus, .datepicker table tr td span.active.disabled:hover, .datepicker table tr td span.active.disabled:hover.active, .datepicker table tr td span.active.disabled:hover:active, .datepicker table tr td span.active.disabled:hover:focus, .datepicker table tr td span.active.disabled:hover:hover, .datepicker table tr td span.active:active, .datepicker table tr td span.active:focus, .datepicker table tr td span.active:hover, .datepicker table tr td span.active:hover.active, .datepicker table tr td span.active:hover:active, .datepicker table tr td span.active:hover:focus, .datepicker table tr td span.active:hover:hover, .open .dropdown-toggle.datepicker table tr td span.active, .open .dropdown-toggle.datepicker table tr td span.active.disabled, .open .dropdown-toggle.datepicker table tr td span.active.disabled:hover, .open .dropdown-toggle.datepicker table tr td span.active:hover {
     color: #fff;
-    background-color: #3276b1;
+    background-color: #25A088;
     border-color: #285e8e
 }
 
@@ -12905,7 +12905,7 @@ div.no-padding-or-border span {
 
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .navbar-nav > .open > a:hover {
     color: #fff;
-    background-color: #3276b1
+    background-color: #25A088
 }
 
 .navbar-default .navbar-nav > .dropdown > a .caret {
@@ -12919,11 +12919,11 @@ div.no-padding-or-border span {
 }
 
 .navbar-default .navbar-toggle {
-    border-color: #3276b1
+    border-color: #25A088
 }
 
 .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
-    background-color: #3276b1
+    background-color: #25A088
 }
 
 .navbar-default .navbar-toggle .icon-bar {
