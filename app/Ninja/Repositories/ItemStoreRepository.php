@@ -29,6 +29,7 @@ class ItemStoreRepository extends BaseRepository
         $query = DB::table('item_stores')
             ->join('accounts', 'accounts.id', '=', 'item_stores.account_id')
             ->join('products', 'products.id', '=', 'item_stores.product_id')
+            ->join('item_categories', 'item_categories.id', '=', 'products.category_id')
             ->join('stores', 'stores.id', '=', 'item_stores.store_id')
             ->where('item_stores.account_id', '=', $accountId)
             //->where('item_stores.deleted_at', '=', null)
@@ -39,6 +40,7 @@ class ItemStoreRepository extends BaseRepository
                 'item_stores.store_id',
                 'item_stores.bin',
                 'item_stores.qty',
+                'item_stores.reorder_level',
                 'item_stores.is_deleted',
                 'item_stores.notes',
                 'item_stores.created_at',
@@ -48,6 +50,7 @@ class ItemStoreRepository extends BaseRepository
                 'item_stores.updated_by',
                 'item_stores.deleted_by',
                 'products.name as product_name',
+                'item_categories.name as category_name',
                 'stores.name as store_name'
             );
         if ($filter) {
@@ -55,6 +58,7 @@ class ItemStoreRepository extends BaseRepository
                 $query->Where('item_stores.notes', 'like', '%' . $filter . '%')
                     ->orWhere('item_stores.created_by', 'like', '%' . $filter . '%')
                     ->orWhere('item_stores.updated_by', 'like', '%' . $filter . '%')
+                    ->orWhere('item_categories.name', 'like', '%' . $filter . '%')
                     ->orWhere('products.name', 'like', '%' . $filter . '%')
                     ->orWhere('stores.name', 'like', '%' . $filter . '%');
             });
@@ -92,6 +96,7 @@ class ItemStoreRepository extends BaseRepository
             $itemStore->fill(collect($data)->except('qty')->toArray());
             $itemStore->bin = isset($data['bin']) ? ucwords(trim($data['bin'])) : '';
             $itemStore->qty = isset($data['qty']) ? $data['qty'] + $itemStore->qty : '';
+            $itemStore->reorder_level = isset($data['reorder_level']) ? $data['reorder_level'] + $itemStore->reorder_level : '';
             $itemStore->notes = isset($data['notes']) ? trim($data['notes']) : '';
             $itemStore->updated_by = Auth::user()->username;
             $itemStore->save();
@@ -103,6 +108,7 @@ class ItemStoreRepository extends BaseRepository
             $itemStore->fill($data);
             $itemStore->bin = isset($data['bin']) ? ucwords(trim($data['bin'])) : '';
             $itemStore->qty = isset($data['qty']) ? trim($data['qty']) : '';
+            $itemStore->reorder_level = isset($data['reorder_level']) ? trim($data['reorder_level']) : '';
             $itemStore->notes = isset($data['notes']) ? trim($data['notes']) : '';
             $itemStore->created_by = Auth::user()->username;
             if ($itemStore->save()) {

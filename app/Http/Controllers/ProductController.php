@@ -120,11 +120,11 @@ class ProductController extends BaseController
      *
      * @param bool $clone
      * @return \Illuminate\Contracts\View\View
+     * @throws Exception
      */
     public function edit(ProductRequest $request, $publicId, $clone = false)
     {
         Auth::user()->can('view', [ENTITY_PRODUCT, $request->entity()]);
-
         $account = Auth::user()->account;
         $product = Product::scope($publicId)->withTrashed()->firstOrFail();
 
@@ -153,7 +153,6 @@ class ProductController extends BaseController
 
         ];
         $data = array_merge($data, self::getViewModel($product));
-
         return View::make('products.edit', $data);
     }
 

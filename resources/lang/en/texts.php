@@ -7,8 +7,8 @@ $LANG = array(
     |--------------------------------------------------------------------------
     */
 
-    'sale_types' => 'Sale Types',
-    'sale_type' => 'Sale Types',
+    'sale_types' => 'Sales Type',
+    'sale_type' => 'Sales Type',
     'new_sale_type' => 'New Sales Type',
     'create_sale' => 'Create Sale',
     'create_sale_type' => 'Create Sales Type',
@@ -158,8 +158,10 @@ $LANG = array(
     */
     'item_stores' => 'Inventory Adjustment',
     'bin' => 'Bin Location',
-    'product_name' => 'Item Name',
+    'reorder_level' => 'Reorder Level',
+    'product_name' => 'Item Number',
     'store_name' => 'Store Name',
+    'category_name' => 'Item Category',
     'new_item_store' => 'New Item Store',
     'create_item_store' => 'Create Item Store',
     'edit_item_store' => 'Edit Item Store',
@@ -179,6 +181,15 @@ $LANG = array(
     |--------------------------------------------------------------------------
     */
     'item_prices' => 'Item Prices',
+    /*
+    |--------------------------------------------------------------------------
+    | inventory trans
+    |--------------------------------------------------------------------------
+    */
+    'product' => 'Product',
+    'products' => 'Inventory',
+
+
     /*
     |--------------------------------------------------------------------------
     | Miscellaneous trans
@@ -224,7 +235,7 @@ $LANG = array(
     'tax_rate1' => 'Tax Rate',
     'tax_rate2' => 'Tax Rate',
     'item' => 'Item',
-    'serial' => 'Serial',
+    'barcode' => 'Barcode',
     'tag' => 'Tag',
     'description' => 'Description',
     'unit_cost' => 'Unit Cost',
@@ -477,8 +488,6 @@ $LANG = array(
     'set_name' => 'Set your company name',
     'view_as_recipient' => 'View as recipient',
     'product_library' => 'Product Library',
-    'product' => 'Product',
-    'products' => 'Products',
     'fill_products' => 'Auto-fill products',
     'fill_products_help' => 'Selecting a product will automatically <b>fill in the description and cost</b>',
     'update_products' => 'Auto-update products',
@@ -2003,7 +2012,6 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'vendor_contacts' => 'Vendor Contacts',
     'all' => 'All',
     'selected' => 'Selected',
-    'category' => 'Category',
     'categories' => 'Categories',
     'new_expense_category' => 'New Expense Category',
     'edit_category' => 'Edit Category',
@@ -2663,7 +2671,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'comments' => 'comments',
 
     'item_product' => 'Item Product',
-    'item_name' => 'Item Name',
+    'item_name' => 'Item Number',
     'item_notes' => 'Item Notes',
     'item_cost' => 'Item Cost',
     'item_quantity' => 'Item Quantity',

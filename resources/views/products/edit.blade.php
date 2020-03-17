@@ -25,8 +25,8 @@
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
-                    {!! Former::text('name')->label('texts.product') !!}
-                    {!! Former::text('serial')->label('texts.serial') !!}
+                    {!! Former::text('name')->label('texts.item_name') !!}
+                    {!! Former::text('barcode')->label('texts.barcode') !!}
                     {!! Former::text('tag')->label('texts.tag') !!}
 
                     {!! Former::select('category_id')->addOption('', '')
@@ -124,9 +124,8 @@
                 var unit = unitMap[unitId];
                 setComboboxValue($('.unit-select'), unit.public_id, unit.name);
             }
-        });
+        });<!-- /. item unit  -->
 
-        <!-- /. item category  -->
         function submitAction(action) {
             $('#action').val(action);
             $('.main-form').submit();

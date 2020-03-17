@@ -6,10 +6,12 @@
         <style type="text/css">
             .nav-footer {
                 @if (config('mail.driver') == 'log' && ! config('services.postmark'))
-                                                                 background-color: #50C878 !important;
+                                                                            background-color: #50C878 !important;
                 @else
-                                                                     background-color: #FD6A02 !important;
+                                                                                background-color: #FD6A02 !important;
             @endif
+
+
 
             }
         </style>
@@ -240,13 +242,9 @@
                     $('html, body').animate({scrollTop: scrollto}, 0);
                 }
             }
-
         });
-
     </script>
-
 @stop
-
 @section('body')
     @if (Utils::isNinjaProd() && ! Request::is('settings/account_management'))
         @include('partials.upgrade_modal')
@@ -271,10 +269,8 @@
            style="cursor:pointer">
             <div class="fa fa-bars"></div>
         </a>
-
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
             <div class="navbar-form navbar-right">
-
                 @if (Auth::check())
                     @if (!Auth::user()->registered)
                         @if (!Auth::user()->confirmed)
@@ -291,7 +287,6 @@
                         @endif
                     @endif
                 @endif
-
                 <div class="btn-group user-dropdown">
                     <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                         <div id="myAccountButton" class="ellipsis"
@@ -347,9 +342,7 @@
                         <li>{!! link_to('#', trans('texts.logout'), array('onclick'=>'logout()')) !!}</li>
                     </ul>
                 </div>
-
             </div>
-
             {!! Former::open('/handle_command')->id('search-form')->addClass('navbar-form navbar-right')->role('search') !!}
             <div class="form-group has-feedback">
                 <input type="text" name="command" id="search"
@@ -361,7 +354,6 @@
                 @endif
             </div>
             {!! Former::close() !!}
-
             @if (false && Utils::isAdmin())
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
@@ -374,17 +366,12 @@
                     </li>
                 </ul>
             @endif
-
             <ul class="nav navbar-nav hide-non-phone" style="font-weight: bold">
                 @foreach ([
                     'dashboard' => false,
                     'clients' => false,
                     'products' => false,
-                    'stores' => false,
-                    'item_stores' => false,
-                    'item_movements' => false,
                     'locations' => false,
-                    'sale_types' => false,
                     'invoices' => false,
                     'payments' => false,
                     'recurring_invoices' => 'recurring',
@@ -402,12 +389,9 @@
                 @endforeach
             </ul>
         </div><!-- /.navbar-collapse -->
-
     </nav>
-
     <div id="wrapper"
          class='{{ session(SESSION_LEFT_SIDEBAR) ? 'toggled-left' : '' }} {{ session(SESSION_RIGHT_SIDEBAR, true) ? 'toggled-right' : '' }}'>
-
         <!-- Sidebar -->
         <div id="left-sidebar-wrapper" class="hide-phone">
             <ul class="sidebar-nav {{ Auth::user()->dark_mode ? 'sidebar-nav-dark' : 'sidebar-nav-light' }}">
@@ -425,14 +409,6 @@
                     'tasks',
                     'expenses',
                     'products',
-                    'item_stores',
-                    'item_movements',
-                    'stores',
-                    'locations',
-                    'item_prices',
-                    'sale_types',
-                    'reports',
-                    'settings',
                 ] as $option)
                     @if(!Auth::user()->account->isModuleEnabled(substr($option, 0, -1)))
                         {{ '' }}
@@ -452,43 +428,38 @@
                     @include('partials.navigation_option', ['option' => 'reports'])
                 @endif
                 @include('partials.navigation_option', ['option' => 'settings'])
-                <li style="width:100%;">
-                    <div class="nav-footer">
-                        @if (Auth::user()->registered)
-                            <a href="javascript:showContactUs()" title="{{ trans('texts.contact_us') }}">
-                                <i class="fa fa-envelope"></i>
-                            </a>
-                        @endif
-                        <a href="#" target="_blank" title="{{ trans('texts.support_forum') }}">
-                            <i class="fa fa-list-ul"></i>
-                        </a>
-                        <a href="javascript:showKeyboardShortcuts()" title="{{ trans('texts.help') }}">
-                            <i class="fa fa-question-circle"></i>
-                        </a>
-                    </div>
-                </li>
+                {{--                <li style="width:100%;">--}}
+                {{--                    <div class="nav-footer">--}}
+                {{--                        @if (Auth::user()->registered)--}}
+                {{--                            <a href="javascript:showContactUs()" title="{{ trans('texts.contact_us') }}">--}}
+                {{--                                <i class="fa fa-envelope"></i>--}}
+                {{--                            </a>--}}
+                {{--                        @endif--}}
+                {{--                        <a href="#" target="_blank" title="{{ trans('texts.support_forum') }}">--}}
+                {{--                            <i class="fa fa-list-ul"></i>--}}
+                {{--                        </a>--}}
+                {{--                        <a href="javascript:showKeyboardShortcuts()" title="{{ trans('texts.help') }}">--}}
+                {{--                            <i class="fa fa-question-circle"></i>--}}
+                {{--                        </a>--}}
+                {{--                    </div>--}}
+                {{--                </li>--}}
             </ul>
         </div>
         <!-- /#left-sidebar-wrapper -->
-
         <div id="right-sidebar-wrapper" class="hide-phone" style="overflow-y:hidden">
             <ul class="sidebar-nav {{ Auth::user()->dark_mode ? 'sidebar-nav-dark' : 'sidebar-nav-light' }}">
                 {!! \App\Libraries\HistoryUtils::renderHtml(Auth::user()->account_id) !!}
             </ul>
         </div>
-
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="container-fluid">
-
                 @include('partials.warn_session', ['redirectTo' => '/dashboard'])
-
                 @if (Session::has('warning'))
                     <div class="alert alert-warning">{!! Session::get('warning') !!}</div>
                 @elseif (env('WARNING_MESSAGE'))
                     <div class="alert alert-warning">{!! env('WARNING_MESSAGE') !!}</div>
                 @endif
-
                 @if (Session::has('message'))
                     <div class="alert alert-info alert-hide" style="z-index:9999">
                         {{ Session::get('message') }}
@@ -499,24 +470,19 @@
                         <a href="#" onclick="hideMessage()" class="pull-right">{{ trans('texts.hide') }}</a>
                     </div>
                 @endif
-
                 @if (Session::has('error'))
                     <div class="alert alert-danger">{!! Session::get('error') !!}</div>
                 @endif
-
                 <div class="pull-right">
                     @yield('top-right')
                 </div>
-
                 @if (!isset($showBreadcrumbs) || $showBreadcrumbs)
                     {!! Form::breadcrumbs((! empty($entity) && $entity->exists) ? $entity->present()->statusLabel : false) !!}
                 @endif
-
                 @yield('content')
                 <br/>
                 <div class="row">
                     <div class="col-md-12">
-
                         @if (Utils::isNinjaProd())
                             @if (Auth::check() && Auth::user()->hasActivePromo())
                             @elseif (Auth::check() && Auth::user()->isTrial())
@@ -530,20 +496,13 @@
                     </div>
                 </div>
             </div>
-            <!-- /#page-content-wrapper -->
+            <!-- /. #page-content-wrapper -->
         </div>
-
-        @include('partials.contact_us')
-        @include('partials.sign_up')
-        @include('partials.keyboard_shortcuts')
-
+        {{--        @include('partials.contact_us')--}}
+        {{--        @include('partials.sign_up')--}}
+        {{--        @include('partials.keyboard_shortcuts')--}}
         @if (auth()->check() && auth()->user()->registered && ! auth()->user()->hasAcceptedLatestTerms())
             @include('partials.accept_terms')
         @endif
-
     </div>
-
-    <p>&nbsp;</p>
-
-
 @stop

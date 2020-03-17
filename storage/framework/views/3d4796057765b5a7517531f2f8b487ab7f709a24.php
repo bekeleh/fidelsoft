@@ -4,10 +4,12 @@
         <style type="text/css">
             .nav-footer {
                 <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?>
-                                                                 background-color: #50C878 !important;
+                                                                            background-color: #50C878 !important;
                 <?php else: ?>
-                                                                     background-color: #FD6A02 !important;
+                                                                                background-color: #FD6A02 !important;
             <?php endif; ?>
+
+
 
             }
         </style>
@@ -239,13 +241,9 @@
                     $('html, body').animate({scrollTop: scrollto}, 0);
                 }
             }
-
         });
-
     </script>
-
 <?php $__env->stopSection(); ?>
-
 <?php $__env->startSection('body'); ?>
     <?php if(Utils::isNinjaProd() && ! Request::is('settings/account_management')): ?>
         <?php echo $__env->make('partials.upgrade_modal', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
@@ -270,10 +268,8 @@
            style="cursor:pointer">
             <div class="fa fa-bars"></div>
         </a>
-
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
             <div class="navbar-form navbar-right">
-
                 <?php if(Auth::check()): ?>
                     <?php if(!Auth::user()->registered): ?>
                         <?php if(!Auth::user()->confirmed): ?>
@@ -293,7 +289,6 @@
                         <?php endif; ?>
                     <?php endif; ?>
                 <?php endif; ?>
-
                 <div class="btn-group user-dropdown">
                     <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                         <div id="myAccountButton" class="ellipsis"
@@ -351,9 +346,7 @@
                         <li><?php echo link_to('#', trans('texts.logout'), array('onclick'=>'logout()')); ?></li>
                     </ul>
                 </div>
-
             </div>
-
             <?php echo Former::open('/handle_command')->id('search-form')->addClass('navbar-form navbar-right')->role('search'); ?>
 
             <div class="form-group has-feedback">
@@ -367,7 +360,6 @@
             </div>
             <?php echo Former::close(); ?>
 
-
             <?php if(false && Utils::isAdmin()): ?>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
@@ -380,17 +372,12 @@
                     </li>
                 </ul>
             <?php endif; ?>
-
             <ul class="nav navbar-nav hide-non-phone" style="font-weight: bold">
                 <?php $__currentLoopData = [
                     'dashboard' => false,
                     'clients' => false,
                     'products' => false,
-                    'stores' => false,
-                    'item_stores' => false,
-                    'item_movements' => false,
                     'locations' => false,
-                    'sale_types' => false,
                     'invoices' => false,
                     'payments' => false,
                     'recurring_invoices' => 'recurring',
@@ -409,12 +396,9 @@
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </ul>
         </div><!-- /.navbar-collapse -->
-
     </nav>
-
     <div id="wrapper"
          class='<?php echo e(session(SESSION_LEFT_SIDEBAR) ? 'toggled-left' : ''); ?> <?php echo e(session(SESSION_RIGHT_SIDEBAR, true) ? 'toggled-right' : ''); ?>'>
-
         <!-- Sidebar -->
         <div id="left-sidebar-wrapper" class="hide-phone">
             <ul class="sidebar-nav <?php echo e(Auth::user()->dark_mode ? 'sidebar-nav-dark' : 'sidebar-nav-light'); ?>">
@@ -432,14 +416,6 @@
                     'tasks',
                     'expenses',
                     'products',
-                    'item_stores',
-                    'item_movements',
-                    'stores',
-                    'locations',
-                    'item_prices',
-                    'sale_types',
-                    'reports',
-                    'settings',
                 ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <?php if(!Auth::user()->account->isModuleEnabled(substr($option, 0, -1))): ?>
                         <?php echo e(''); ?>
@@ -460,44 +436,39 @@
                     <?php echo $__env->make('partials.navigation_option', ['option' => 'reports'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 <?php endif; ?>
                 <?php echo $__env->make('partials.navigation_option', ['option' => 'settings'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                <li style="width:100%;">
-                    <div class="nav-footer">
-                        <?php if(Auth::user()->registered): ?>
-                            <a href="javascript:showContactUs()" title="<?php echo e(trans('texts.contact_us')); ?>">
-                                <i class="fa fa-envelope"></i>
-                            </a>
-                        <?php endif; ?>
-                        <a href="#" target="_blank" title="<?php echo e(trans('texts.support_forum')); ?>">
-                            <i class="fa fa-list-ul"></i>
-                        </a>
-                        <a href="javascript:showKeyboardShortcuts()" title="<?php echo e(trans('texts.help')); ?>">
-                            <i class="fa fa-question-circle"></i>
-                        </a>
-                    </div>
-                </li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
             </ul>
         </div>
         <!-- /#left-sidebar-wrapper -->
-
         <div id="right-sidebar-wrapper" class="hide-phone" style="overflow-y:hidden">
             <ul class="sidebar-nav <?php echo e(Auth::user()->dark_mode ? 'sidebar-nav-dark' : 'sidebar-nav-light'); ?>">
                 <?php echo \App\Libraries\HistoryUtils::renderHtml(Auth::user()->account_id); ?>
 
             </ul>
         </div>
-
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="container-fluid">
-
                 <?php echo $__env->make('partials.warn_session', ['redirectTo' => '/dashboard'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-
                 <?php if(Session::has('warning')): ?>
                     <div class="alert alert-warning"><?php echo Session::get('warning'); ?></div>
                 <?php elseif(env('WARNING_MESSAGE')): ?>
                     <div class="alert alert-warning"><?php echo env('WARNING_MESSAGE'); ?></div>
                 <?php endif; ?>
-
                 <?php if(Session::has('message')): ?>
                     <div class="alert alert-info alert-hide" style="z-index:9999">
                         <?php echo e(Session::get('message')); ?>
@@ -510,25 +481,20 @@
                         <a href="#" onclick="hideMessage()" class="pull-right"><?php echo e(trans('texts.hide')); ?></a>
                     </div>
                 <?php endif; ?>
-
                 <?php if(Session::has('error')): ?>
                     <div class="alert alert-danger"><?php echo Session::get('error'); ?></div>
                 <?php endif; ?>
-
                 <div class="pull-right">
                     <?php echo $__env->yieldContent('top-right'); ?>
                 </div>
-
                 <?php if(!isset($showBreadcrumbs) || $showBreadcrumbs): ?>
                     <?php echo Form::breadcrumbs((! empty($entity) && $entity->exists) ? $entity->present()->statusLabel : false); ?>
 
                 <?php endif; ?>
-
                 <?php echo $__env->yieldContent('content'); ?>
                 <br/>
                 <div class="row">
                     <div class="col-md-12">
-
                         <?php if(Utils::isNinjaProd()): ?>
                             <?php if(Auth::check() && Auth::user()->hasActivePromo()): ?>
                             <?php elseif(Auth::check() && Auth::user()->isTrial()): ?>
@@ -543,22 +509,15 @@
                     </div>
                 </div>
             </div>
-            <!-- /#page-content-wrapper -->
+            <!-- /. #page-content-wrapper -->
         </div>
-
-        <?php echo $__env->make('partials.contact_us', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-        <?php echo $__env->make('partials.sign_up', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-        <?php echo $__env->make('partials.keyboard_shortcuts', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-
+        
+        
+        
         <?php if(auth()->check() && auth()->user()->registered && ! auth()->user()->hasAcceptedLatestTerms()): ?>
             <?php echo $__env->make('partials.accept_terms', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
         <?php endif; ?>
-
     </div>
-
-    <p>&nbsp;</p>
-
-
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

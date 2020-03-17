@@ -39,7 +39,7 @@ class ProductRepository extends BaseRepository
                 'products.id',
                 'products.public_id',
                 'products.name as product_name',
-                'products.serial',
+                'products.barcode',
                 'products.tag',
                 'products.cost',
                 'products.tax_name1',
@@ -61,6 +61,8 @@ class ProductRepository extends BaseRepository
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('products.name', 'like', '%' . $filter . '%')
+                    ->orWhere('products.barcode', 'like', '%' . $filter . '%')
+                    ->orWhere('products.tag', 'like', '%' . $filter . '%')
                     ->orWhere('products.notes', 'like', '%' . $filter . '%')
                     ->orWhere('item_categories.name', 'like', '%' . $filter . '%')
                     ->orWhere('units.name', 'like', '%' . $filter . '%');
@@ -106,7 +108,7 @@ class ProductRepository extends BaseRepository
 
         $product->fill($data);
         $product->name = isset($data['name']) ? ucwords(trim($data['name'])) : '';
-        $product->serial = isset($data['serial']) ? ucwords(trim($data['serial'])) : '';
+        $product->barcode = isset($data['barcode']) ? ucwords(trim($data['barcode'])) : '';
         $product->tag = isset($data['tag']) ? ucwords(trim($data['tag'])) : '';
         $product->category_id = isset($data['category_id']) ? trim($data['category_id']) : '';
         $product->unit_id = isset($data['unit_id']) ? trim($data['unit_id']) : '';

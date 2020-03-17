@@ -127,23 +127,29 @@
         </script><!-- /. expense -->
         <!-- Entity product -->
     <?php elseif($entityType == ENTITY_PRODUCT): ?>
-        <?php if(Auth::user()->can('create', ENTITY_PRICE)): ?>
+        <?php if(Auth::user()->can('create', [ENTITY_PRICE,ENTITY_SALE_TYPE])): ?>
             <?php echo DropdownButton::normal(trans('texts.maintenance'))
             ->withAttributes(['class'=>'maintenanceDropdown'])
             ->withContents([
-              ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
-              ['label' => trans('texts.new_unit'), 'url' => url('/units/create')],
-              ['label' => trans('texts.new_price'), 'url' => url('/prices/create')],
+                ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores/create')],
+                ['label' => trans('texts.new_store'), 'url' => url('/stores/create')],
+                ['label' => trans('texts.new_price'), 'url' => url('/prices/create')],
+                ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types/create')],
+                ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
+                ['label' => trans('texts.new_unit'), 'url' => url('/units/create')],
             ])->split(); ?>
 
         <?php else: ?>
             <?php echo DropdownButton::normal(trans('texts.maintenance'))
-                ->withAttributes(['class'=>'maintenanceDropdown'])
-                ->withContents([
-                  ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
-                  ['label' => trans('texts.new_unit'), 'url' => url('/units/create')],
-                  ['label' => trans('texts.new_price'), 'url' => url('/prices/create')],
-                ])->split(); ?>
+            ->withAttributes(['class'=>'maintenanceDropdown'])
+            ->withContents([
+            ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores/create')],
+            ['label' => trans('texts.new_store'), 'url' => url('/stores/create')],
+            ['label' => trans('texts.new_price'), 'url' => url('/prices/create')],
+            ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types/create')],
+            ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
+            ['label' => trans('texts.new_unit'), 'url' => url('/units/create')],
+            ])->split(); ?>
 
         <?php endif; ?>
         <script type="text/javascript">
@@ -157,11 +163,16 @@
                     openUrlOnClick('<?php echo e(url('/units')); ?>', event);
                 });
             });
+            $(function () {
+                $('.unitsDropdown:not(.dropdown-toggle)').click(function (event) {
+                    openUrlOnClick('<?php echo e(url('/sale_types')); ?>', event);
+                });
+            });
         </script><!-- /. store -->
         <!-- store begin -->
     <?php elseif($entityType == ENTITY_STORE): ?>
         <?php if(Auth::user()->can('create', ENTITY_LOCATION)): ?>
-            <?php echo DropdownButton::normal(trans('texts.locations'))
+            <?php echo DropdownButton::normal(trans('texts.maintenance'))
                 ->withAttributes(['class'=>'locationsDropdown'])
                 ->withContents([
                   ['label' => trans('texts.new_location'), 'url' => url('/locations/create')],
@@ -184,29 +195,30 @@
         <!-- item and store -->
     <?php elseif($entityType == ENTITY_ITEM_STORE): ?>
         <?php if(Auth::user()->can('create', [ENTITY_PRODUCT , ENTITY_STORE])): ?>
-            <?php echo DropdownButton::normal(trans('texts.products'))
-                ->withAttributes(['class'=>'productsDropdown'])
-                ->withContents([
-                  ['label' => trans('texts.new_product'), 'url' => url('/products/create')],
-                ])->split(); ?>
-
-            <?php echo DropdownButton::normal(trans('texts.stores'))
-                ->withAttributes(['class'=>'storesDropdown'])
-                ->withContents([
-                  ['label' => trans('texts.new_store'), 'url' => url('/stores/create')],
-                ])->split(); ?>
+            <?php echo DropdownButton::normal(trans('texts.maintenance'))
+            ->withAttributes(['class'=>'storesDropdown'])
+            ->withContents([
+            ['label' => trans('texts.new_item_movement'), 'url' => url('/item_movements/create')],
+            ['label' => trans('texts.new_product'), 'url' => url('/products/create')],
+            ['label' => trans('texts.new_store'), 'url' => url('/stores/create')],
+            ])->split(); ?>
 
         <?php else: ?>
-            <?php echo DropdownButton::normal(trans('texts.products'))
-                ->withAttributes(['class'=>'productsDropdown'])
-                ->split(); ?>
-
             <?php echo DropdownButton::normal(trans('texts.stores'))
-                ->withAttributes(['class'=>'storesDropdown'])
-                ->split(); ?>
+            ->withAttributes(['class'=>'storesDropdown'])
+            ->withContents([
+            ['label' => trans('texts.new_item_movement'), 'url' => url('/item_movements/create')],
+            ['label' => trans('texts.new_product'), 'url' => url('/products/create')],
+            ['label' => trans('texts.new_store'), 'url' => url('/stores/create')],
+            ])->split(); ?>
 
         <?php endif; ?>
         <script type="text/javascript">
+            $(function () {
+                $('.productsDropdown:not(.dropdown-toggle)').click(function (event) {
+                    openUrlOnClick('<?php echo e(url('/item_movements')); ?>', event);
+                });
+            });
             $(function () {
                 $('.productsDropdown:not(.dropdown-toggle)').click(function (event) {
                     openUrlOnClick('<?php echo e(url('/products')); ?>', event);

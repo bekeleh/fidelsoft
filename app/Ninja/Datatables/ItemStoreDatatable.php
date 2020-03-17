@@ -17,6 +17,19 @@ class ItemStoreDatatable extends EntityDatatable
 
         return [
             [
+                'category_name',
+                function ($model) {
+                    if ($model->product_id) {
+                        if (Auth::user()->can('view', [ENTITY_ITEM_CATEGORY, $model]))
+                            return link_to("item_categories/{$model->product_id}", $model->category_name)->toHtml();
+                        else
+                            return $model->category_name;
+                    } else {
+                        return '';
+                    }
+                }
+            ],
+            [
                 'product_name',
                 function ($model) {
                     if ($model->product_id) {
@@ -52,11 +65,16 @@ class ItemStoreDatatable extends EntityDatatable
                     }
                 },
             ],
-
             [
                 'qty',
                 function ($model) {
                     return $model->qty;
+                },
+            ],
+            [
+                'reorder_level',
+                function ($model) {
+                    return $model->reorder_level;
                 },
             ],
             [

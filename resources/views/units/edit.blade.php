@@ -63,4 +63,17 @@
         </center>
     @endif
     {!! Former::close() !!}
+    <script type="text/javascript">
+
+        function submitAction(action) {
+            $('#action').val(action);
+            $('.main-form').submit();
+        }
+
+        function onDeleteClick() {
+            sweetConfirm(function () {
+                submitAction('delete');
+            });
+        }
+    </script>
 @stop

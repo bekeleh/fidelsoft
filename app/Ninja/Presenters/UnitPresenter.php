@@ -24,7 +24,7 @@ class UnitPresenter extends EntityPresenter
         $actions = [];
 
         if (!$unit->trashed()) {
-            if (auth()->user()->can('create', ENTITY_ITEM_CATEGORY)) {
+            if (auth()->user()->can('create', ENTITY_UNIT)) {
                 $actions[] = ['url' => 'javascript:submitAction("clone")', 'label' => trans('texts.clone_unit')];
             }
             if (count($actions)) {

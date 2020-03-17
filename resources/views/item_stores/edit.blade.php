@@ -28,6 +28,7 @@
                     {!! Former::select('store_id')->addOption('', '')->label(trans('texts.store'))->addGroupClass('store-select') !!}
                     {!! Former::text('bin')->label('texts.bin') !!}
                     {!! Former::text('qty')->label('texts.qty') !!}
+                    {!! Former::text('reorder_level')->label('texts.reorder_level') !!}
                     {!! Former::textarea('notes')->rows(6) !!}
                 </div>
             </div>

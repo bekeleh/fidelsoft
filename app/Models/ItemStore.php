@@ -23,6 +23,7 @@ class ItemStore extends EntityModel
         'store_id',
         'bin',
         'qty',
+        'reorder_level',
         'notes',
         'created_by',
         'updated_by',

@@ -29,9 +29,9 @@ class ProductDatatable extends EntityDatatable
                 },
             ],
             [
-                'serial',
+                'barcode',
                 function ($model) {
-                    return $model->serial;
+                    return $model->barcode;
                 },
             ],
             [
