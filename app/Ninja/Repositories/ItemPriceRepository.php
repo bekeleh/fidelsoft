@@ -4,10 +4,12 @@ namespace App\Ninja\Repositories;
 
 use App\Events\ItemPriceWasCreated;
 use App\Events\ItemPriceWasUpdated;
+use App\Models\Product;
 use App\Models\SaleType;
 use App\Models\ItemPrice;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ItemPriceRepository extends BaseRepository
 {
@@ -21,19 +23,18 @@ class ItemPriceRepository extends BaseRepository
         return ItemPrice::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
-
     public function find($accountId, $filter = null)
     {
         $query = DB::table('item_prices')
             ->join('accounts', 'accounts.id', '=', 'item_prices.account_id')
             ->join('sale_types', 'sale_types.id', '=', 'item_prices.sale_type_id')
-            ->join('products', 'products.id', '=', 'products.item_id')
+            ->join('products', 'products.id', '=', 'item_prices.product_id')
             ->where('item_prices.account_id', '=', $accountId)
             //->where('item_prices.deleted_at', '=', null)
             ->select(
                 'item_prices.id',
                 'item_prices.public_id',
-                'item_prices.item_id',
+                'item_prices.product_id',
                 'item_prices.sale_type_id',
                 'item_prices.price',
                 'item_prices.start_date',
@@ -46,8 +47,8 @@ class ItemPriceRepository extends BaseRepository
                 'item_prices.created_by',
                 'item_prices.updated_by',
                 'item_prices.deleted_by',
-                'products.name as item_name',
-                'sale_types.name as sale_type_name'
+                'sale_types.name as sale_type_name',
+                'products.name as item_name'
             );
 
         if ($filter) {
@@ -59,7 +60,16 @@ class ItemPriceRepository extends BaseRepository
             });
         }
 
-        $this->applyFilters($query, ENTITY_PRICE);
+        $this->applyFilters($query, ENTITY_ITEM_PRICE);
+
+        return $query;
+    }
+
+    public function findItem($itemPublicId)
+    {
+        $itemId = Product::getPrivateId($itemPublicId);
+
+        $query = $this->find()->where('products.product_id', '=', $itemId);
 
         return $query;
     }
@@ -81,15 +91,15 @@ class ItemPriceRepository extends BaseRepository
             $itemPrice->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $itemPrice = ItemPrice::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in price repo save');
+            Log::warning('Entity not set in price repo save');
         } else {
             $itemPrice = ItemPrice::createNew();
             $itemPrice->created_by = Auth::user()->username;
         }
         $itemPrice->fill($data);
-        $itemPrice->name = isset($data['name']) ? ucwords(trim($data['name'])) : '';
-        $itemPrice->store_code = isset($data['store_code']) ? trim($data['store_code']) : '';
-        $itemPrice->sale_type_id = isset($data['sale_type_id']) ? trim($data['sale_type_id']) : '';
+        $itemPrice->price = isset($data['price']) ? trim($data['price']) : '';
+        $itemPrice->start_date = isset($data['start_date']) ? trim($data['start_date']) : '';
+        $itemPrice->end_date = isset($data['end_date']) ? trim($data['end_date']) : '';
         $itemPrice->notes = isset($data['notes']) ? trim($data['notes']) : '';
 //      save the data
         $itemPrice->save();

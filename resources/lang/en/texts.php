@@ -6,7 +6,7 @@ $LANG = array(
     | sales type trans
     |--------------------------------------------------------------------------
     */
-
+    'sale_type_name' => 'Sale Type Name',
     'sale_types' => 'Sales Type',
     'sale_type' => 'Sales Type',
     'new_sale_type' => 'New Sales Type',
@@ -52,7 +52,8 @@ $LANG = array(
     |--------------------------------------------------------------------------
     */
     'locations' => 'Locations',
-    'location_code' => 'Store Code',
+    'location_name' => 'Location Name',
+    'location_code' => 'Location Code',
     'new_location' => 'New Location',
     'create_location' => 'Create Location',
     'edit_location' => 'Edit Location',
@@ -114,21 +115,23 @@ $LANG = array(
     | item price trans
     |--------------------------------------------------------------------------
     */
-    'price' => 'Price',
-    'price_name' => 'Item Price',
-    'new_price' => 'New Price',
-    'create_price' => 'Create Price',
-    'edit_price' => 'Edit Price',
-    'clone_price' => 'Clone Price',
-    'archive_price' => 'Archive Price',
-    'delete_price' => 'Delete Price',
-    'deleted_price' => 'Deleted Price',
-    'restore_price' => 'Restore Price',
-    'restored_price' => 'Restored Price',
-    'updated_price' => 'Successfully Updated Price',
-    'created_price' => 'Successfully Created Price',
-    'archived_price' => 'Successfully Archived Price',
-    'price_settings' => 'Price Settings',
+    'item_price' => 'Item Price',
+    'item_prices' => 'Item Prices',
+    'product_price' => 'Item Price',
+    'new_item_price' => 'New Item Price',
+    'create_item_price' => 'Create Item Price',
+    'edit_item_price' => 'Edit Item Price',
+    'clone_item_price' => 'Clone Item Price',
+    'archive_item_price' => 'Archive Item Price',
+    'delete_item_price' => 'Delete Item Price',
+    'deleted_item_price' => 'Deleted Item Price',
+    'restore_item_price' => 'Restore Item Price',
+    'restored_item_price' => 'Restored Item Price',
+    'updated_item_price' => 'Successfully Updated Item Price',
+    'created_item_price' => 'Successfully Created Item Price',
+    'archived_item_price' => 'Successfully Archived Item Price',
+    'item_price_settings' => 'Price Settings',
+    'item_price_unique' => 'This item prices already had been taken.',
     /*
     |--------------------------------------------------------------------------
     | item category trans
@@ -159,7 +162,9 @@ $LANG = array(
     'item_stores' => 'Inventory Adjustment',
     'bin' => 'Bin Location',
     'reorder_level' => 'Reorder Level',
-    'product_name' => 'Item Number',
+    'EOQ' => 'EOQ',
+    'item_name' => 'Item Number',
+    'product_name' => 'Item Name',
     'store_name' => 'Store Name',
     'category_name' => 'Item Category',
     'new_item_store' => 'New Item Store',
@@ -175,12 +180,7 @@ $LANG = array(
     'created_item_store' => 'Successfully Created Item Store',
     'archived_item_store' => 'Successfully Archived Item Store',
     'item_store_settings' => 'Item Store Settings',
-    /*
-    |--------------------------------------------------------------------------
-    | sales type trans
-    |--------------------------------------------------------------------------
-    */
-    'item_prices' => 'Item Prices',
+
     /*
     |--------------------------------------------------------------------------
     | inventory trans

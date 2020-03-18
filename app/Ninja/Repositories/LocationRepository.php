@@ -22,12 +22,26 @@ class LocationRepository extends BaseRepository
 
     public function find($accountId, $filter = null)
     {
-        $query = DB::table('locations')->where('locations.account_id', '=', $accountId)->select('locations.*');
+        $query = DB::table('locations')
+            ->select(
+                'locations.id',
+                'locations.public_id',
+                'locations.name as location_name',
+                'locations.code as location_code',
+                'locations.is_deleted',
+                'locations.notes',
+                'locations.created_at',
+                'locations.updated_at',
+                'locations.deleted_at',
+                'locations.created_by',
+                'locations.updated_by',
+                'locations.deleted_by'
+            )->where('locations.account_id', '=', $accountId);
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('locations.name', 'like', '%' . $filter . '%')
-                    ->orWhere('locations.location_code', 'like', '%' . $filter . '%')
+                    ->orWhere('locations.code', 'like', '%' . $filter . '%')
                     ->orWhere('locations.notes', 'like', '%' . $filter . '%');
             });
         }
@@ -51,9 +65,8 @@ class LocationRepository extends BaseRepository
         }
         $location->fill($data);
         $location->name = isset($data['name']) ? ucwords(trim($data['name'])) : '';
-        $location->location_code = isset($data['location_code']) ? trim($data['location_code']) : '';
+        $location->code = isset($data['code']) ? trim($data['code']) : '';
         $location->notes = isset($data['notes']) ? trim($data['notes']) : '';
-
         $location->save();
 
         if ($publicId) {

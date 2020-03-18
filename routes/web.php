@@ -274,10 +274,15 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
     Route::resource('item_categories', 'ItemCategoryController');
     Route::post('item_categories/bulk', 'ItemCategoryController@bulk');
     // item store
-    Route::get('item_stores/{item_stores}/clone', 'ItemStoreController@cloneItemStore');
+    Route::get('item_stores/{item_stores}/clone', 'ItemStoreController@cloneItemPrice');
     Route::resource('item_stores', 'ItemStoreController');
     Route::get('api/item_stores', 'ItemStoreController@getDatatable');
     Route::post('item_stores/bulk', 'ItemStoreController@bulk');
+    // item price
+    Route::get('item_prices/{item_prices}/clone', 'ItemPriceController@cloneItemPrice');
+    Route::resource('item_prices', 'ItemPriceController');
+    Route::get('api/item_prices', 'ItemPriceController@getDatatable');
+    Route::post('item_prices/bulk', 'ItemPriceController@bulk');
 
 //   location
     Route::get('locations/{locations}/clone', 'LocationController@cloneLocation');

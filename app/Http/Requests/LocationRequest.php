@@ -21,7 +21,7 @@ class LocationRequest extends EntityRequest
             case 'POST':
             {
                 $rules['name'] = 'required|max:90|unique:locations,name';
-                $rules['location_code'] = 'required|max:90|unique:locations,location_code';
+                $rules['code'] = 'required|max:90|unique:locations,code';
                 $rules['notes'] = 'nullable';
                 $rules['is_deleted'] = 'boolean';
                 $rules['notes'] = 'nullable';
@@ -33,7 +33,7 @@ class LocationRequest extends EntityRequest
                 $product = Location::where('public_id', (int)request()->segment(2))->first();
                 if ($product) {
                     $rules['name'] = 'required|max:90|unique:locations,name,' . $product->id . ',id';
-                    $rules['location_code'] = 'required|max:90|unique:locations,location_code,' . $product->id . ',id';
+                    $rules['code'] = 'required|max:90|unique:locations,code,' . $product->id . ',id';
                     $rules['is_deleted'] = 'boolean';
                     $rules['notes'] = 'nullable';
                     break;

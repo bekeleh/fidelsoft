@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\URL;
 
 class ItemPriceDatatable extends EntityDatatable
 {
-    public $entityType = ENTITY_PRICE;
+    public $entityType = ENTITY_ITEM_PRICE;
     public $sortCol = 1;
 
     public function columns()
@@ -17,7 +17,7 @@ class ItemPriceDatatable extends EntityDatatable
 
         return [
             [
-                'sale_type',
+                'sale_type_name',
                 function ($model) {
                     if ($model->sale_type_id) {
                         if (Auth::user()->can('view', [ENTITY_SALE_TYPE, $model]))
@@ -36,7 +36,7 @@ class ItemPriceDatatable extends EntityDatatable
                 },
             ],
             [
-                'price',
+                'item_price',
                 function ($model) {
                     return $this->showWithTooltip($model->price);
                 },
@@ -44,7 +44,7 @@ class ItemPriceDatatable extends EntityDatatable
             [
                 'start_date',
                 function ($model) {
-                    return Utils::timestampToDateString(strtotime($model->start_date));
+                    return Utils::fromSqlDate($model->start_date);
                 },
             ],
             [
@@ -107,7 +107,7 @@ class ItemPriceDatatable extends EntityDatatable
                     return URL::to("prices/{$model->public_id}/clone");
                 },
                 function ($model) {
-                    return Auth::user()->can('create', ENTITY_PRICE);
+                    return Auth::user()->can('create', ENTITY_ITEM_PRICE);
                 },
             ],
         ];

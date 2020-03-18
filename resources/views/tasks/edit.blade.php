@@ -2,22 +2,16 @@
 
 @section('head')
     @parent
-
     <script src="{{ asset('js/jquery.datetimepicker.js') }}" type="text/javascript"></script>
     <link href="{{ asset('css/jquery.datetimepicker.css') }}" rel="stylesheet" type="text/css"/>
 @stop
-
 @section('content')
-
     <style type="text/css">
-
         input.time-input {
             width: 100%;
             font-size: 14px !important;
         }
-
     </style>
-
     @if ($errors->first('time_log'))
         <div class="alert alert-danger">
             <li>{{ trans('texts.task_errors') }}  </li>
@@ -25,11 +19,12 @@
     @endif
 
     {!! Former::open($url)
-            ->addClass('col-lg-10 col-lg-offset-1 warn-on-exit task-form')
-            ->onsubmit('return onFormSubmit(event)')
-            ->autocomplete('off')
-            ->method($method) !!}
-
+    ->addClass('col-lg-10 col-lg-offset-1 warn-on-exit task-form')
+    ->onsubmit('return onFormSubmit(event)')
+    ->autocomplete('off')
+    ->method($method) !!}
+    <!-- notification -->
+    @include('notifications')
     @if ($task)
         {!! Former::populate($task) !!}
         {!! Former::populateField('id', $task->public_id) !!}
@@ -46,33 +41,27 @@
 
     <div class="row" onkeypress="formEnterClick(event)">
         <div class="col-md-12">
-
             <div class="panel panel-default">
                 <div class="panel-body">
-
                     @if ($task && $task->invoice_id)
                         {!! Former::plaintext()
-                                ->label('client')
-                                ->value($task->client->present()->link) !!}
+                        ->label('client')
+                        ->value($task->client->present()->link) !!}
                         @if ($task->project)
                             {!! Former::plaintext()
-                                    ->label('project')
-                                    ->value($task->present()->project) !!}
+                            ->label('project')
+                            ->value($task->present()->project) !!}
                         @endif
                     @else
                         {!! Former::select('client')->addOption('', '')->addGroupClass('client-select') !!}
                         {!! Former::select('project_id')
-                                ->addOption('', '')
-                                ->addGroupClass('project-select')
-                                ->label(trans('texts.project')) !!}
+                        ->addOption('', '')
+                        ->addGroupClass('project-select')
+                        ->label(trans('texts.project')) !!}
                     @endif
-
                     @include('partials/custom_fields', ['entityType' => ENTITY_TASK])
-
                     {!! Former::textarea('description')->rows(4) !!}
-
                     @if ($task)
-
                         <div class="form-group simple-time" id="editDetailsLink">
                             <label for="simple-time" class="control-label col-lg-4 col-sm-4">
                             </label>
@@ -106,8 +95,8 @@
 
                     @else
                         {!! Former::radios('task_type')->radios([
-                                trans('texts.timer') => array('name' => 'task_type', 'value' => 'timer'),
-                                trans('texts.manual') => array('name' => 'task_type', 'value' => 'manual'),
+                        trans('texts.timer') => array('name' => 'task_type', 'value' => 'timer'),
+                        trans('texts.manual') => array('name' => 'task_type', 'value' => 'manual'),
                         ])->inline()->check('timer')->label('&nbsp;') !!}
                     @endif
 
@@ -139,25 +128,22 @@
                                     <td style="padding: 0px 12px 12px 0 !important; width:100px">
                                         <input type="text" data-bind="value: duration.pretty, visible: !isEmpty()"
                                                class="form-control duration">
+                                        <a href="#"
+                                           data-bind="click: function() { setNow(), $root.refresh() }, visible: isEmpty()">{{ trans('texts.set_now') }}</a>
+                                    </td>
+                                    <td style="width:30px" class="td-icon">
+                                        <i style="width:12px;cursor:pointer"
+                                           data-bind="click: $root.removeItem, visible: actionsVisible() &amp;&amp; !isEmpty()"
+                                           class="fa fa-minus-circle redlink" title="Remove item"/>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <a href="#"
-                           data-bind="click: function() { setNow(), $root.refresh() }, visible: isEmpty()">{{ trans('texts.set_now') }}</a>
-                        </td>
-                        <td style="width:30px" class="td-icon">
-                            <i style="width:12px;cursor:pointer"
-                               data-bind="click: $root.removeItem, visible: actionsVisible() &amp;&amp; !isEmpty()"
-                               class="fa fa-minus-circle redlink" title="Remove item"/>
-                        </td>
-                        </tr>
-                        </tbody>
-                        </table>
                     </div>
                 </div>
-
             </div>
         </div>
-
-    </div>
     </div>
     <center class="buttons">
         @if (Auth::user()->canCreateOrEdit(ENTITY_TASK, $task))
@@ -178,9 +164,9 @@
                         {!! Button::success(trans('texts.save'))->large()->appendIcon(Icon::create('floppy-disk'))->withAttributes(['id' => 'save-button']) !!}
                         {!! Button::primary(trans('texts.resume'))->large()->appendIcon(Icon::create('play'))->withAttributes(['id' => 'resume-button']) !!}
                         {!! DropdownButton::normal(trans('texts.more_actions'))
-                              ->withContents($actions)
-                              ->large()
-                              ->dropup() !!}
+                        ->withContents($actions)
+                        ->large()
+                        ->dropup() !!}
                     @else
                         {!! Button::success(trans('texts.start'))->large()->appendIcon(Icon::create('play'))->withAttributes(['id' => 'start-button']) !!}
                         {!! Button::success(trans('texts.save'))->large()->appendIcon(Icon::create('floppy-disk'))->withAttributes(['id' => 'save-button', 'style' => 'display:none']) !!}
@@ -208,7 +194,7 @@
         ko.bindingHandlers.dateTimePicker = {
             init: function (element, valueAccessor, allBindingsAccessor) {
                 var value = ko.utils.unwrapObservable(valueAccessor());
-                // http://xdsoft.net/jqplugins/datetimepicker/
+// http://xdsoft.net/jqplugins/datetimepicker/
                 $(element).datetimepicker({
                     lang: '{{ $appLanguage }}',
                     lazyInit: true,
@@ -222,7 +208,7 @@
                         $(element).datetimepicker({
                             value: current_time
                         });
-                        // set end to an hour after the start time
+// set end to an hour after the start time
                         if ($(element).hasClass('time-input-start')) {
                             var timeModel = ko.dataFor(element);
                             if (!timeModel.endTime()) {
@@ -559,7 +545,7 @@
                 }
             });
 
-            // setup clients and project comboboxes
+// setup clients and project comboboxes
             var clientId = {{ $clientPublicId }};
             var projectId = {{ $projectPublicId }};
 
@@ -635,7 +621,7 @@
                 if (projectId == '-1') {
                     $('input[name=project_name]').val(projectName);
                 } else if (projectId) {
-                    // when selecting a project make sure the client is loaded
+// when selecting a project make sure the client is loaded
                     var project = projectMap[projectId];
                     if (project && project.client) {
                         var client = clientMap[project.client.public_id];

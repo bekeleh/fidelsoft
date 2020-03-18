@@ -5,32 +5,43 @@
     {!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['bin' => 'required|max:90','product_id' => 'required' ,'store_id' => 'required','qty' => 'required|numeric' ])
+    ->rules(['product_id' => 'required','sale_type_id' => 'required','price' => 'required|numeric','start_date' => 'required|date', 'end_date' => 'required|date', ])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     <!-- notification -->
     @include('notifications')
-    @if ($itemStore)
-        {{ Former::populate($itemStore) }}
+    @if ($itemPrice)
+        {{ Former::populate($itemPrice) }}
         <div style="display:none">
             {!! Former::text('public_id') !!}
         </div>
     @endif
-
     <span style="display:none">
 {!! Former::text('public_id') !!}
         {!! Former::text('action') !!}
 </span>
-
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
-                    {!! Former::select('product_id')->addOption('', '')->label(trans('texts.product'))->addGroupClass('product-select') !!}
-                    {!! Former::select('store_id')->addOption('', '')->label(trans('texts.store'))->addGroupClass('store-select') !!}
-                    {!! Former::text('bin')->label('texts.bin') !!}
-                    {!! Former::text('qty')->label('texts.qty') !!}
-                    {!! Former::text('reorder_level')->label('texts.reorder_level') !!}
-                    {!! Former::text('EOQ')->label('texts.EOQ') !!}
+                    {!! Former::select('sale_type_id')->addOption('', '')
+                    ->label(trans('texts.sale_type'))
+                    ->addGroupClass('sale-type-select') !!}
+                    {!! Former::select('product_id')->addOption('', '')
+                    ->label(trans('texts.product_name'))
+                    ->addGroupClass('product-select') !!}
+                    {!! Former::text('price')->label('texts.item_price') !!}
+
+                    {!! Former::text('start_date')
+               ->data_bind("datePicker: start_date, valueUpdate: 'afterkeydown'")
+               ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
+               ->appendIcon('calendar')
+               ->addGroupClass('start_date')
+               ->data_date_start_date($itemPrice ? false : $account->formatDate($account->getDateTime())) !!}
+
+                    {!! Former::text('end_date')
+                    ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
+                    ->addGroupClass('end_date')
+                    ->append('<i class="glyphicon glyphicon-calendar"></i>') !!}
                     {!! Former::textarea('notes')->rows(6) !!}
                 </div>
             </div>
@@ -38,7 +49,7 @@
     </div>
 
     @foreach(Module::getOrdered() as $module)
-        @if(View::exists($module->alias . '::item_stores.edit'))
+        @if(View::exists($module->alias . '::item_prices.edit'))
             <div class="row">
                 <div class="col-lg-10 col-lg-offset-1">
                     <div class="panel panel-default">
@@ -49,20 +60,20 @@
                             </h3>
                         </div>
                         <div class="panel-body form-padding-right">
-                            @includeIf($module->alias . '::item_stores.edit')
+                            @includeIf($module->alias . '::item_prices.edit')
                         </div>
                     </div>
                 </div>
             </div>
         @endif
     @endforeach
-    @if (Auth::user()->canCreateOrEdit(ENTITY_ITEM_STORE, $itemStore))
+    @if (Auth::user()->canCreateOrEdit(ENTITY_SALE_TYPE, $itemPrice))
         <center class="buttons">
-            {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/item_stores'))->appendIcon(Icon::create('remove-circle')) !!}
+            {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/item_prices'))->appendIcon(Icon::create('remove-circle')) !!}
             {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
-            @if ($itemStore)
+            @if ($itemPrice)
                 {!! DropdownButton::normal(trans('texts.more_actions'))
-                ->withContents($itemStore->present()->moreActions())
+                ->withContents($itemPrice->present()->moreActions())
                 ->large()
                 ->dropup() !!}
             @endif
@@ -71,16 +82,17 @@
     {!! Former::close() !!}
     <script type="text/javascript">
         var products = {!! $products !!};
-        var stores = {!! $stores !!};
-
         var productMap = {};
-        var storeMap = {};
+        <!-- types type -->
+        var types = {!! $saleTypes !!};
+        var typeMap = {};
+
         $(function () {
-            $('#bin').focus();
+            $('#name').focus();
         });
 
         $(function () {
-// product
+            <!-- product -->
             var productId = {{ $productPublicId ?: 0 }};
             var $productSelect = $('select#product_id');
             @if (Auth::user()->can('create', ENTITY_PRODUCT))
@@ -95,23 +107,25 @@
             if (productId) {
                 var product = productMap[productId];
                 setComboboxValue($('.product-select'), product.public_id, product.name);
-            }
-// store
-            var storeId = {{ $storePublicId ?: 0 }};
-            var $storeSelect = $('select#store_id');
-            @if (Auth::user()->can('create', ENTITY_STORE))
-            $storeSelect.append(new Option("{{ trans('texts.create_store')}}: $name", '-1'));
+            }<!-- /. product  -->
+
+            var typeId = {{ $saleTypePublicId ?: 0 }};
+            var $sale_typeSelect = $('select#sale_type_id');
+            @if (Auth::user()->can('create', ENTITY_SALE_TYPE))
+            $sale_typeSelect.append(new Option("{{ trans('texts.create_sale_type')}}: $name", '-1'));
                     @endif
-            for (var i = 0; i < stores.length; i++) {
-                var store = stores[i];
-                storeMap[store.public_id] = store;
-                $storeSelect.append(new Option(getClientDisplayName(store), store.public_id));
+            for (var i = 0; i < types.length; i++) {
+                var type = types[i];
+                typeMap[type.public_id] = type;
+                $sale_typeSelect.append(new Option(type.name, type.public_id));
             }
-            @include('partials/entity_combobox', ['entityType' => ENTITY_STORE])
-            if (storeId) {
-                var store = storeMap[storeId];
-                setComboboxValue($('.store-select'), store.public_id, store.name);
+            @include('partials/entity_combobox', ['entityType' => ENTITY_SALE_TYPE])
+            if (typeId) {
+                var type = typeMap[typeId];
+                setComboboxValue($('.sale-type-select'), type.public_id, type.name);
             }
+
+
         });
 
         function submitAction(action) {
@@ -124,5 +138,7 @@
                 submitAction('delete');
             });
         }
+        $('#start_date').datepicker('update', '{{ $itemPrice ? Utils::fromSqlDate($itemPrice->start_date) : '' }}');
+        $('#end_date').datepicker('update', '{{ $itemPrice ? Utils::fromSqlDate($itemPrice->end_date) : '' }}');
     </script>
 @stop

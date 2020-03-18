@@ -4,12 +4,12 @@
     @parent
     @include('accounts.nav', ['selected' => ACCOUNT_TAX_RATES])
     {!! Former::open($url)->method($method)
-        ->rules([
-          'name' => 'required',
-          'rate' => 'required',
-          'is_inclusive' => 'required',
-         ])
-        ->addClass('warn-on-exit') !!}
+    ->rules([
+    'name' => 'required',
+    'rate' => 'required',
+    'is_inclusive' => 'required',
+    ])
+    ->addClass('warn-on-exit') !!}
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">{!! $title !!}</h3>
@@ -18,6 +18,8 @@
             <div class="col-lg-10 col-lg-offset-1">
                 <div class="panel panel-default">
                     <div class="panel-body form-padding-right">
+                        <!-- notification -->
+                        @include('notifications')
                         @if ($taxRate)
                             {{ Former::populate($taxRate) }}
                             {{ Former::populateField('is_inclusive', intval($taxRate->is_inclusive)) }}
@@ -27,11 +29,11 @@
 
                         @if (! $taxRate && ! auth()->user()->account->inclusive_taxes)
                             {!! Former::radios('is_inclusive')->radios([
-                                    trans('texts.exclusive') . ': 100 + 10% = 100 + 10' => array('name' => 'is_inclusive', 'value' => 0),
-                                    trans('texts.inclusive') . ':&nbsp; 100 + 10% = 90.91 + 9.09' => array('name' => 'is_inclusive', 'value' => 1),
-                                ])->check(0)
-                                  ->label('type')
-                                  ->help('tax_rate_type_help') !!}
+                            trans('texts.exclusive') . ': 100 + 10% = 100 + 10' => array('name' => 'is_inclusive', 'value' => 0),
+                            trans('texts.inclusive') . ':&nbsp; 100 + 10% = 90.91 + 9.09' => array('name' => 'is_inclusive', 'value' => 1),
+                            ])->check(0)
+                            ->label('type')
+                            ->help('tax_rate_type_help') !!}
                         @endif
                     </div>
                 </div>

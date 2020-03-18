@@ -15,16 +15,17 @@
 @section('content')
 
     {!! Former::open($url)
-        ->addClass('col-lg-10 col-lg-offset-1 warn-on-exit main-form')
-        ->onsubmit('return onFormSubmit(event)')
-        ->method($method)
-        ->autocomplete('off')
-        ->rules(array(
-            'client' => 'required',
-            'invoice' => 'required',
-            'amount' => 'required',
-        )) !!}
-
+    ->addClass('col-lg-10 col-lg-offset-1 warn-on-exit main-form')
+    ->onsubmit('return onFormSubmit(event)')
+    ->method($method)
+    ->autocomplete('off')
+    ->rules(array(
+    'client' => 'required',
+    'invoice' => 'required',
+    'amount' => 'required',
+    )) !!}
+    <!-- notification -->
+    @include('notifications')
     @if ($payment)
         {!! Former::populate($payment) !!}
     @else
@@ -34,10 +35,9 @@
     @endif
 
     <span style="display:none">
-        {!! Former::text('public_id') !!}
+{!! Former::text('public_id') !!}
         {!! Former::text('action') !!}
-    </span>
-
+</span>
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
 
@@ -60,46 +60,46 @@
 
                     @if (!$payment || !$payment->account_gateway_id)
                         {!! Former::select('payment_type_id')
-                               ->addOption('','')
-                               ->fromQuery($paymentTypes, 'name', 'id')
-                               ->addGroupClass('payment-type-select') !!}
+                        ->addOption('','')
+                        ->fromQuery($paymentTypes, 'name', 'id')
+                        ->addGroupClass('payment-type-select') !!}
                     @endif
 
                     {!! Former::text('payment_date')
-                                ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT))
-                                ->addGroupClass('payment_date')
-                                ->append('<i class="glyphicon glyphicon-calendar"></i>') !!}
+                    ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT))
+                    ->addGroupClass('payment_date')
+                    ->append('<i class="glyphicon glyphicon-calendar"></i>') !!}
                     {!! Former::text('transaction_reference')->value(date('dmYYhis').str_random(5).rand()) !!}
                     {!! Former::textarea('private_notes') !!}
 
                     @if (!$payment || ($payment && ! $payment->isExchanged()))
                         {!! Former::checkbox('convert_currency')
-                                ->text(trans('texts.convert_currency'))
-                                ->data_bind('checked: convert_currency')
-                                ->label(' ')
-                                ->value(1) !!}
+                        ->text(trans('texts.convert_currency'))
+                        ->data_bind('checked: convert_currency')
+                        ->label(' ')
+                        ->value(1) !!}
                     @endif
 
                     <div style="display:none" data-bind="visible: enableExchangeRate">
                         <br/>
                         {!! Former::select('exchange_currency_id')->addOption('','')
-                                ->label(trans('texts.currency'))
-                                ->data_placeholder(Utils::getFromCache($account->getCurrencyId(), 'currencies')->name)
-                                ->data_bind('combobox: exchange_currency_id, disable: true')
-                                ->fromQuery($currencies, 'name', 'id') !!}
+                        ->label(trans('texts.currency'))
+                        ->data_placeholder(Utils::getFromCache($account->getCurrencyId(), 'currencies')->name)
+                        ->data_bind('combobox: exchange_currency_id, disable: true')
+                        ->fromQuery($currencies, 'name', 'id') !!}
                         {!! Former::text('exchange_rate')
-                                ->data_bind("value: exchange_rate, enable: enableExchangeRate, valueUpdate: 'afterkeydown'") !!}
+                        ->data_bind("value: exchange_rate, enable: enableExchangeRate, valueUpdate: 'afterkeydown'") !!}
                         {!! Former::text('')
-                                ->label(trans('texts.converted_amount'))
-                                ->data_bind("value: convertedAmount, enable: enableExchangeRate")
-                                ->append('<span data-bind="html: exchangeCurrencyCode"></span>') !!}
+                        ->label(trans('texts.converted_amount'))
+                        ->data_bind("value: convertedAmount, enable: enableExchangeRate")
+                        ->append('<span data-bind="html: exchangeCurrencyCode"></span>') !!}
                     </div>
                     @if (!$payment)
                         {!! Former::checkbox('email_receipt')
-                                ->onchange('onEmailReceiptChange()')
-                                ->label('&nbsp;')
-                                ->text(trans('texts.email_receipt'))
-                                ->value(1) !!}
+                        ->onchange('onEmailReceiptChange()')
+                        ->label('&nbsp;')
+                        ->text(trans('texts.email_receipt'))
+                        ->value(1) !!}
                     @endif
 
                 </div>
@@ -117,9 +117,9 @@
 
             @if ($payment)
                 {!! DropdownButton::normal(trans('texts.more_actions'))
-                      ->withContents($actions)
-                      ->large()
-                      ->dropup() !!}
+                ->withContents($actions)
+                ->large()
+                ->dropup() !!}
             @endif
 
         </center>
@@ -355,8 +355,8 @@
                 var expenseCurrencyId = self.expense_currency_id() || self.account_currency_id();
                 var invoiceCurrencyId = self.invoice_currency_id() || self.account_currency_id();
                 return expenseCurrencyId != invoiceCurrencyId
-                    || invoiceCurrencyId != self.account_currency_id()
-                    || expenseCurrencyId != self.account_currency_id();
+                || invoiceCurrencyId != self.account_currency_id()
+                || expenseCurrencyId != self.account_currency_id();
                 */
             })
         };

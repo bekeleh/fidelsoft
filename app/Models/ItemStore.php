@@ -24,6 +24,7 @@ class ItemStore extends EntityModel
         'bin',
         'qty',
         'reorder_level',
+        'EOQ',
         'notes',
         'created_by',
         'updated_by',
@@ -78,19 +79,32 @@ class ItemStore extends EntityModel
         return $this->morphMany('\App\Models\ItemMovement', 'movable', 'movable_type', 'movable_id');
     }
 
-    /**
-     * -----------------------------------------------
-     * BEGIN QUERY SCOPES
-     * -----------------------------------------------
-     * @param $query
-     * @param $date_from
-     * @param $date_to
-     * @return mixed
-     */
-
-    public function scopeDateBetween($query, $date_from, $date_to)
+    public static function calcStatusLabel($qoh, $reorderLevel)
     {
-        return $query->whereBetween('created_at', [$date_from, $date_to]);
+        if ($qoh) {
+            if (floatval($qoh) > 0) {
+                $label = $qoh;
+            } else {
+                $label = $qoh;
+            }
+        }
+        return $label;
+    }
+
+    public static function calcStatusClass($qoh, $reorderLevel)
+    {
+        if (!empty($qoh) && !empty($reorderLevel)) {
+            if (floatval($qoh) > floatval($reorderLevel)) {
+//                return 'default';
+                return 'success';
+            } else {
+                return 'danger';
+            }
+        } elseif (!empty($qoh)) {
+            return 'primary';
+        } else {
+            return 'warning';
+        }
     }
 
 }

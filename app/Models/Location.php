@@ -19,7 +19,7 @@ class Location extends EntityModel
 
     protected $fillable = [
         'name',
-        'location_code',
+        'code',
         'notes',
         'created_by',
         'updated_by',

@@ -15,16 +15,15 @@
     @if ($errors->first('contacts'))
         <div class="alert alert-danger">{{ trans($errors->first('contacts')) }}</div>
     @endif
-
     <div class="row">
-
-        {!! Former::open($url)
-                ->autocomplete('off')
-                ->rules(
-                    ['email' => 'email']
-                )->addClass('col-md-12 warn-on-exit')
-                ->method($method) !!}
-
+    {!! Former::open($url)
+    ->autocomplete('off')
+    ->rules(
+    ['email' => 'email']
+    )->addClass('col-md-12 warn-on-exit')
+    ->method($method) !!}
+    <!-- notification -->
+        @include('notifications')
         @include('partials.autocomplete_fix')
 
         @if ($client)
@@ -41,7 +40,6 @@
                 {!! Former::populateField('id_number', $account->getNextNumber()) !!}
             @endif
         @endif
-
         <div class="row">
             <div class="col-md-6">
                 <div class="panel panel-default" style="min-height: 380px">
@@ -50,8 +48,8 @@
                     </div>
                     <div class="panel-body">
                         {!! Former::select('sale_type_id')->addOption('', '')
-                            ->label(trans('texts.sale_type'))
-                            ->addGroupClass('sale-select') !!}
+                        ->label(trans('texts.sale_type'))
+                        ->addGroupClass('sale-select') !!}
                         {!! Former::text('name')->label('texts.client_name') ->data_bind("attr { placeholder: placeholderName }") !!}
                         {!! Former::text('id_number')->placeholder($account->clientNumbersEnabled() ? $account->getNextNumber() : ' ') !!}
                         {!! Former::text('vat_number') !!}
@@ -95,10 +93,10 @@
                                 {!! Former::text('city') !!}
                                 {!! Former::text('state') !!}
                                 {!! Former::text('postal_code')
-                                        ->oninput(config('ninja.google_maps_api_key') ? 'lookupPostalCode()' : '') !!}
+                                ->oninput(config('ninja.google_maps_api_key') ? 'lookupPostalCode()' : '') !!}
                                 {!! Former::select('country_id')->addOption('','')
-                                    ->autocomplete('off')
-                                    ->fromQuery($countries, 'name', 'id') !!}
+                                ->autocomplete('off')
+                                ->fromQuery($countries, 'name', 'id') !!}
 
                                 <div class="form-group" id="copyShippingDiv" style="display:none;">
                                     <label for="city" class="control-label col-lg-4 col-sm-4"></label>
@@ -113,11 +111,11 @@
                                 {!! Former::text('shipping_city')->label('city') !!}
                                 {!! Former::text('shipping_state')->label('state') !!}
                                 {!! Former::text('shipping_postal_code')
-                                        ->oninput(config('ninja.google_maps_api_key') ? 'lookupPostalCode(true)' : '')
-                                        ->label('postal_code') !!}
+                                ->oninput(config('ninja.google_maps_api_key') ? 'lookupPostalCode(true)' : '')
+                                ->label('postal_code') !!}
                                 {!! Former::select('shipping_country_id')->addOption('','')
-                                    ->autocomplete('off')
-                                    ->fromQuery($countries, 'name', 'id')->label('country_id') !!}
+                                ->autocomplete('off')
+                                ->fromQuery($countries, 'name', 'id')->label('country_id') !!}
 
                                 <div class="form-group" id="copyBillingDiv" style="display:none;">
                                     <label for="city" class="control-label col-lg-4 col-sm-4"></label>
@@ -137,50 +135,50 @@
                     </div>
                     <div class="panel-body">
                         <div data-bind='template: { foreach: contacts,
-		                          beforeRemove: hideContact,
-		                            afterAdd: showContact }'>
+beforeRemove: hideContact,
+afterAdd: showContact }'>
                             {!! Former::hidden('public_id')->data_bind("value: public_id, valueUpdate: 'afterkeydown',
-                                    attr: {name: 'contacts[' + \$index() + '][public_id]'}") !!}
+                            attr: {name: 'contacts[' + \$index() + '][public_id]'}") !!}
                             {!! Former::text('first_name')->data_bind("value: first_name, valueUpdate: 'afterkeydown',
-                                    attr: {name: 'contacts[' + \$index() + '][first_name]'}") !!}
+                            attr: {name: 'contacts[' + \$index() + '][first_name]'}") !!}
                             {!! Former::text('last_name')->data_bind("value: last_name, valueUpdate: 'afterkeydown',
-                                    attr: {name: 'contacts[' + \$index() + '][last_name]'}") !!}
+                            attr: {name: 'contacts[' + \$index() + '][last_name]'}") !!}
                             {!! Former::text('email')->data_bind("value: email, valueUpdate: 'afterkeydown',
-                                    attr: {name: 'contacts[' + \$index() + '][email]', id:'email'+\$index()}") !!}
+                            attr: {name: 'contacts[' + \$index() + '][email]', id:'email'+\$index()}") !!}
                             {!! Former::text('phone')->data_bind("value: phone, valueUpdate: 'afterkeydown',
-                                    attr: {name: 'contacts[' + \$index() + '][phone]'}") !!}
+                            attr: {name: 'contacts[' + \$index() + '][phone]'}") !!}
                             @if ($account->hasFeature(FEATURE_CLIENT_PORTAL_PASSWORD) && $account->enable_portal_password)
                                 {!! Former::password('password')->data_bind("value: password()?'-%unchanged%-':'', valueUpdate: 'afterkeydown',
-                                    attr: {name: 'contacts[' + \$index() + '][password]'}")->autocomplete('new-password')->data_lpignore('true') !!}
+                                attr: {name: 'contacts[' + \$index() + '][password]'}")->autocomplete('new-password')->data_lpignore('true') !!}
                             @endif
                             @if (Auth::user()->hasFeature(FEATURE_INVOICE_SETTINGS))
                                 @if ($account->customLabel('contact1'))
                                     @include('partials.custom_field', [
-                                        'field' => 'custom_contact1',
-                                        'label' => $account->customLabel('contact1'),
-                                        'databind' => "value: custom_value1, valueUpdate: 'afterkeydown',
-                                                attr: {name: 'contacts[' + \$index() + '][custom_value1]'}",
+                                    'field' => 'custom_contact1',
+                                    'label' => $account->customLabel('contact1'),
+                                    'databind' => "value: custom_value1, valueUpdate: 'afterkeydown',
+                                    attr: {name: 'contacts[' + \$index() + '][custom_value1]'}",
                                     ])
                                 @endif
                                 @if ($account->customLabel('contact2'))
                                     @include('partials.custom_field', [
-                                        'field' => 'custom_contact2',
-                                        'label' => $account->customLabel('contact2'),
-                                        'databind' => "value: custom_value2, valueUpdate: 'afterkeydown',
-                                                attr: {name: 'contacts[' + \$index() + '][custom_value2]'}",
+                                    'field' => 'custom_contact2',
+                                    'label' => $account->customLabel('contact2'),
+                                    'databind' => "value: custom_value2, valueUpdate: 'afterkeydown',
+                                    attr: {name: 'contacts[' + \$index() + '][custom_value2]'}",
                                     ])
                                 @endif
                             @endif
 
                             <div class="form-group">
                                 <div class="col-lg-8 col-lg-offset-4 bold">
-						<span class="redlink bold" data-bind="visible: $parent.contacts().length > 1">
-							{!! link_to('#', trans('texts.remove_contact').' -', array('data-bind'=>'click: $parent.removeContact')) !!}
-						</span>
+<span class="redlink bold" data-bind="visible: $parent.contacts().length > 1">
+{!! link_to('#', trans('texts.remove_contact').' -', array('data-bind'=>'click: $parent.removeContact')) !!}
+</span>
                                     <span data-bind="visible: $index() === ($parent.contacts().length - 1)"
                                           class="pull-right greenlink bold">
-							{!! link_to('#', trans('texts.add_contact').' +', array('onclick'=>'return addContact()')) !!}
-						</span>
+{!! link_to('#', trans('texts.add_contact').' +', array('onclick'=>'return addContact()')) !!}
+</span>
                                 </div>
                             </div>
                         </div>
@@ -216,29 +214,29 @@
                         <div class="tab-content" style="padding-top:24px;">
                             <div role="tabpanel" class="tab-pane active" id="settings">
                                 {!! Former::select('currency_id')->addOption('','')
-                                    ->placeholder($account->currency ? trans('texts.currency_'.Str::slug($account->currency->name, '_')) : '')
-                                    ->fromQuery($currencies, 'name', 'id') !!}
+                                ->placeholder($account->currency ? trans('texts.currency_'.Str::slug($account->currency->name, '_')) : '')
+                                ->fromQuery($currencies, 'name', 'id') !!}
                                 {!! Former::select('language_id')->addOption('','')
-                                    ->placeholder($account->language ? trans('texts.lang_'.$account->language->name) : '')
-                                    ->fromQuery($languages, 'name', 'id') !!}
+                                ->placeholder($account->language ? trans('texts.lang_'.$account->language->name) : '')
+                                ->fromQuery($languages, 'name', 'id') !!}
                                 {!! Former::select('payment_terms')->addOption('','')
-                                    ->fromQuery(\App\Models\PaymentTerm::getSelectOptions(), 'name', 'num_days')
-                                    ->placeholder($account->present()->paymentTerms)
-                                    ->help(trans('texts.payment_terms_help') . ' | ' . link_to('/settings/payment_terms', trans('texts.customize_options'))) !!}
+                                ->fromQuery(\App\Models\PaymentTerm::getSelectOptions(), 'name', 'num_days')
+                                ->placeholder($account->present()->paymentTerms)
+                                ->help(trans('texts.payment_terms_help') . ' | ' . link_to('/settings/payment_terms', trans('texts.customize_options'))) !!}
                                 @if ($account->isModuleEnabled(ENTITY_TASK))
                                     {!! Former::text('task_rate')
-                                            ->placeholder($account->present()->taskRate)
-                                            ->help('task_rate_help') !!}
+                                    ->placeholder($account->present()->taskRate)
+                                    ->help('task_rate_help') !!}
                                     {!! Former::checkbox('show_tasks_in_portal')
-                                        ->text(trans('texts.show_tasks_in_portal'))
-                                        ->label('client_portal')
-                                        ->value(1) !!}
+                                    ->text(trans('texts.show_tasks_in_portal'))
+                                    ->label('client_portal')
+                                    ->value(1) !!}
                                 @endif
                                 @if ($account->hasReminders())
                                     {!! Former::checkbox('send_reminders')
-                                        ->text('send_client_reminders')
-                                        ->label('reminders')
-                                        ->value(1) !!}
+                                    ->text('send_client_reminders')
+                                    ->label('reminders')
+                                    ->value(1) !!}
                                 @endif
                             </div>
                             <div role="tabpanel" class="tab-pane" id="notes">
@@ -249,16 +247,16 @@
                                 <div role="tabpanel" class="tab-pane" id="messages">
                                     @foreach (App\Models\Account::$customMessageTypes as $type)
                                         {!! Former::textarea('custom_messages[' . $type . ']')
-                                                ->placeholder($account->customMessage($type))
-                                                ->label($type) !!}
+                                        ->placeholder($account->customMessage($type))
+                                        ->label($type) !!}
                                     @endforeach
                                 </div>
                             @endif
                             <div role="tabpanel" class="tab-pane" id="classify">
                                 {!! Former::select('size_id')->addOption('','')
-                                    ->fromQuery($sizes, 'name', 'id') !!}
+                                ->fromQuery($sizes, 'name', 'id') !!}
                                 {!! Former::select('industry_id')->addOption('','')
-                                    ->fromQuery($industries, 'name', 'id') !!}
+                                ->fromQuery($industries, 'name', 'id') !!}
                             </div>
                         </div>
                     </div>
@@ -284,26 +282,26 @@
                                 @endif
                             @endif
                             {!! Former::select('plan')
-                                        ->addOption(trans('texts.plan_free'), PLAN_FREE)
-                                        ->addOption(trans('texts.plan_pro'), PLAN_PRO)
-                                        ->addOption(trans('texts.plan_enterprise'), PLAN_ENTERPRISE)!!}
+                            ->addOption(trans('texts.plan_free'), PLAN_FREE)
+                            ->addOption(trans('texts.plan_pro'), PLAN_PRO)
+                            ->addOption(trans('texts.plan_enterprise'), PLAN_ENTERPRISE)!!}
                             {!! Former::select('plan_term')
-                                        ->addOption()
-                                        ->addOption(trans('texts.plan_term_yearly'), PLAN_TERM_YEARLY)
-                                        ->addOption(trans('texts.plan_term_monthly'), PLAN_TERM_MONTHLY)!!}
+                            ->addOption()
+                            ->addOption(trans('texts.plan_term_yearly'), PLAN_TERM_YEARLY)
+                            ->addOption(trans('texts.plan_term_monthly'), PLAN_TERM_MONTHLY)!!}
                             {!! Former::text('plan_price') !!}
                             {!! Former::text('plan_started')
-                                        ->data_date_format('yyyy-mm-dd')
-                                        ->addGroupClass('plan_start_date')
-                                        ->append('<i class="glyphicon glyphicon-calendar"></i>') !!}
+                            ->data_date_format('yyyy-mm-dd')
+                            ->addGroupClass('plan_start_date')
+                            ->append('<i class="glyphicon glyphicon-calendar"></i>') !!}
                             {!! Former::text('plan_paid')
-                                        ->data_date_format('yyyy-mm-dd')
-                                        ->addGroupClass('plan_paid_date')
-                                        ->append('<i class="glyphicon glyphicon-calendar"></i>') !!}
+                            ->data_date_format('yyyy-mm-dd')
+                            ->addGroupClass('plan_paid_date')
+                            ->append('<i class="glyphicon glyphicon-calendar"></i>') !!}
                             {!! Former::text('plan_expires')
-                                        ->data_date_format('yyyy-mm-dd')
-                                        ->addGroupClass('plan_expire_date')
-                                        ->append('<i class="glyphicon glyphicon-calendar"></i>') !!}
+                            ->data_date_format('yyyy-mm-dd')
+                            ->addGroupClass('plan_expire_date')
+                            ->append('<i class="glyphicon glyphicon-calendar"></i>') !!}
                             <script type="text/javascript">
                                 $(function () {
                                     $('#plan_started, #plan_paid, #plan_expires').datepicker();
@@ -331,7 +329,7 @@
                     saleMap[sale.public_id] = sale;
                     $saleSelect.append(new Option(getClientDisplayName(sale), sale.public_id));
                 }
-                @include('partials/entity_combobox', ['entityType' => ENTITY_SALE])
+                @include('partials/entity_combobox', ['entityType' => ENTITY_SALE_TYPE])
                 if (saleId) {
                     var sale = saleMap[saleId];
                     setComboboxValue($('.sale-select'), sale.public_id, sale.name);
@@ -341,7 +339,7 @@
             $(function () {
                 $('#country_id, #shipping_country_id').combobox();
 
-                // show/hide copy buttons if address is set
+// show/hide copy buttons if address is set
                 $('#billing_address').change(function () {
                     $('#copyBillingDiv').toggle(isAddressSet());
                 });
@@ -349,7 +347,7 @@
                     $('#copyShippingDiv').toggle(isAddressSet(true));
                 });
 
-                // button handles to copy the address
+// button handles to copy the address
                 $('#copyBillingDiv button').click(function () {
                     copyAddress();
                     $('#copyBillingDiv').hide();
@@ -359,7 +357,7 @@
                     $('#copyShippingDiv').hide();
                 });
 
-                // show/hide buttons based on loaded values
+// show/hide buttons based on loaded values
                 if ({{ $client && $client->hasAddress() ? 'true' : 'false' }}) {
                     $('#copyBillingDiv').show();
                 }

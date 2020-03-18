@@ -9,20 +9,19 @@
     @endif
 @stop
 @section('content')
-
     @if ($errors->first('vendor_contacts'))
         <div class="alert alert-danger">{{ trans($errors->first('vendor_contacts')) }}</div>
     @endif
     <div class="row">
-
-        {!! Former::open($url)
-                ->autocomplete('off')
-                ->rules([
-                    'name' => 'required',
-                    'email' => 'required|email'
-                ])->addClass('col-md-12 warn-on-exit')
-                ->method($method) !!}
-
+    {!! Former::open($url)
+    ->autocomplete('off')
+    ->rules([
+    'name' => 'required',
+    'email' => 'required|email'
+    ])->addClass('col-md-12 warn-on-exit')
+    ->method($method) !!}
+    <!-- notification -->
+        @include('notifications')
         @include('partials.autocomplete_fix')
         @if ($vendor)
             {!! Former::populate($vendor) !!}
@@ -53,10 +52,10 @@
                         {!! Former::text('city') !!}
                         {!! Former::text('state') !!}
                         {!! Former::text('postal_code')
-                                ->oninput(config('ninja.google_maps_api_key') ? 'lookupPostalCode()' : '') !!}
+                        ->oninput(config('ninja.google_maps_api_key') ? 'lookupPostalCode()' : '') !!}
                         {!! Former::select('country_id')->addOption('','')
-                            ->autocomplete('off')
-                            ->fromQuery($countries, 'name', 'id') !!}
+                        ->autocomplete('off')
+                        ->fromQuery($countries, 'name', 'id') !!}
                     </div>
                 </div>
             </div>
@@ -67,27 +66,27 @@
                     </div>
                     <div class="panel-body">
                         <div data-bind='template: { foreach: vendor_contacts,
-		                            beforeRemove: hideContact,
-		                            afterAdd: showContact }'>
+beforeRemove: hideContact,
+afterAdd: showContact }'>
                             {!! Former::hidden('public_id')->data_bind("value: public_id, valueUpdate: 'afterkeydown',
-                                    attr: {name: 'vendor_contacts[' + \$index() + '][public_id]'}") !!}
+                            attr: {name: 'vendor_contacts[' + \$index() + '][public_id]'}") !!}
                             {!! Former::text('first_name')->data_bind("value: first_name, valueUpdate: 'afterkeydown',
-                                    attr: {name: 'vendor_contacts[' + \$index() + '][first_name]'}") !!}
+                            attr: {name: 'vendor_contacts[' + \$index() + '][first_name]'}") !!}
                             {!! Former::text('last_name')->data_bind("value: last_name, valueUpdate: 'afterkeydown',
-                                    attr: {name: 'vendor_contacts[' + \$index() + '][last_name]'}") !!}
+                            attr: {name: 'vendor_contacts[' + \$index() + '][last_name]'}") !!}
                             {!! Former::text('email')->data_bind("value: email, valueUpdate: 'afterkeydown',
-                                    attr: {name: 'vendor_contacts[' + \$index() + '][email]', id:'email'+\$index()}") !!}
+                            attr: {name: 'vendor_contacts[' + \$index() + '][email]', id:'email'+\$index()}") !!}
                             {!! Former::text('phone')->data_bind("value: phone, valueUpdate: 'afterkeydown',
-                                    attr: {name: 'vendor_contacts[' + \$index() + '][phone]'}") !!}
+                            attr: {name: 'vendor_contacts[' + \$index() + '][phone]'}") !!}
                             <div class="form-group">
                                 <div class="col-lg-8 col-lg-offset-4 bold">
-						<span class="redlink bold" data-bind="visible: $parent.vendor_contacts().length > 1">
-							{!! link_to('#', trans('texts.remove_contact').' -', array('data-bind'=>'click: $parent.removeContact')) !!}
-						</span>
+<span class="redlink bold" data-bind="visible: $parent.vendor_contacts().length > 1">
+{!! link_to('#', trans('texts.remove_contact').' -', array('data-bind'=>'click: $parent.removeContact')) !!}
+</span>
                                     <span data-bind="visible: $index() === ($parent.vendor_contacts().length - 1)"
                                           class="pull-right greenlink bold">
-							{!! link_to('#', trans('texts.add_contact').' +', array('onclick'=>'return addContact()')) !!}
-						</span>
+{!! link_to('#', trans('texts.add_contact').' +', array('onclick'=>'return addContact()')) !!}
+</span>
                                 </div>
                             </div>
                         </div>
@@ -99,8 +98,8 @@
                     </div>
                     <div class="panel-body">
                         {!! Former::select('currency_id')->addOption('','')
-                            ->placeholder($account->currency ? $account->currency->name : '')
-                            ->fromQuery($currencies, 'name', 'id') !!}
+                        ->placeholder($account->currency ? $account->currency->name : '')
+                        ->fromQuery($currencies, 'name', 'id') !!}
                         {!! Former::textarea('private_notes')->rows(6) !!}
                     </div>
                 </div>

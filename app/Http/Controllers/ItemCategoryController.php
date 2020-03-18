@@ -74,11 +74,6 @@ class ItemCategoryController extends BaseController
         return $this->itemCategoryService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
     }
 
-    public function cloneItemCategory(ItemCategoryRequest $request, $publicId)
-    {
-        return self::edit($request, $publicId, true);
-    }
-
     /**
      * @param ItemCategoryRequest $request
      * @param $publicId
@@ -91,6 +86,7 @@ class ItemCategoryController extends BaseController
         Auth::user()->can('view', [ENTITY_ITEM_CATEGORY, $request->entity()]);
 
         $account = Auth::user()->account;
+
         $itemCategory = ItemCategory::scope($publicId)->withTrashed()->firstOrFail();
 
         if ($clone) {
@@ -183,6 +179,11 @@ class ItemCategoryController extends BaseController
         } else {
             return redirect()->to("item_categories/{$itemCategory->public_id}/edit");
         }
+    }
+
+    public function cloneItemCategory(ItemCategoryRequest $request, $publicId)
+    {
+        return self::edit($request, $publicId, true);
     }
 
     /**

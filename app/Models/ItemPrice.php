@@ -22,12 +22,13 @@ class ItemPrice extends EntityModel
     /**
      * @var array
      */
-    protected $dates = ['start_date', 'end_date', 'deleted_at'];
+//    protected $dates = ['start_date', 'end_date', 'deleted_at'];
+    protected $dates = ['deleted_at'];
     /**
      * @var array
      */
     protected $fillable = [
-        'item_id',
+        'product_id',
         'sale_type_id',
         'price',
         'start_date',
@@ -65,10 +66,10 @@ class ItemPrice extends EntityModel
      */
     public function getEntityType()
     {
-        return ENTITY_PRICE;
+        return ENTITY_ITEM_PRICE;
     }
 
-    public static function findPriceByKey($key)
+    public static function findItemPriceByKey($key)
     {
         return self::scope()->where('name', '=', $key)->first();
     }

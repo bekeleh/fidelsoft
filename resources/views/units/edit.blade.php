@@ -3,23 +3,22 @@
 @section('content')
     @parent
     {!! Former::open($url)
-            ->method($method)
-            ->autocomplete('off')
-            ->rules(['name' => 'required|max:255'])
-            ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
-
+    ->method($method)
+    ->autocomplete('off')
+    ->rules(['name' => 'required|max:255'])
+    ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
+    <!-- notification -->
+    @include('notifications')
     @if ($unit)
         {{ Former::populate($unit) }}
         <div style="display:none">
             {!! Former::text('public_id') !!}
         </div>
     @endif
-
     <span style="display:none">
-            {!! Former::text('public_id') !!}
+{!! Former::text('public_id') !!}
         {!! Former::text('action') !!}
-        </span>
-
+</span>
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
@@ -30,7 +29,6 @@
             </div>
         </div>
     </div>
-
     @foreach(Module::getOrdered() as $module)
         @if(View::exists($module->alias . '::units.edit'))
             <div class="row">
@@ -56,9 +54,9 @@
             {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
             @if ($unit)
                 {!! DropdownButton::normal(trans('texts.more_actions'))
-                        ->withContents($unit->present()->moreActions())
-                        ->large()
-                        ->dropup() !!}
+                ->withContents($unit->present()->moreActions())
+                ->large()
+                ->dropup() !!}
             @endif
         </center>
     @endif

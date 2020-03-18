@@ -4,9 +4,10 @@ namespace App\Models;
 
 use App\Events\TaskWasCreated;
 use App\Events\TaskWasUpdated;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
-use Utils;
+use App\Libraries\Utils;
 
 /**
  * Class Task.
@@ -42,7 +43,7 @@ class Task extends EntityModel
     protected $presenter = 'App\Ninja\Presenters\TaskPresenter';
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function account()
     {
@@ -50,7 +51,7 @@ class Task extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function invoice()
     {
@@ -129,6 +130,8 @@ class Task extends EntityModel
     /**
      * @param $task
      *
+     * @param int $startTimeCutoff
+     * @param int $endTimeCutoff
      * @return int
      */
     public static function calcDuration($task, $startTimeCutoff = 0, $endTimeCutoff = 0)
@@ -138,7 +141,7 @@ class Task extends EntityModel
 
         foreach ($parts as $part) {
             $startTime = $part[0];
-            if (count($part) == 1 || ! $part[1]) {
+            if (count($part) == 1 || !$part[1]) {
                 $endTime = time();
             } else {
                 $endTime = $part[1];
@@ -158,6 +161,8 @@ class Task extends EntityModel
     }
 
     /**
+     * @param int $startTimeCutoff
+     * @param int $endTimeCutoff
      * @return int
      */
     public function getDuration($startTimeCutoff = 0, $endTimeCutoff = 0)
@@ -191,7 +196,7 @@ class Task extends EntityModel
         $parts = json_decode($this->time_log) ?: [];
         $part = $parts[count($parts) - 1];
 
-        if (count($part) == 1 || ! $part[1]) {
+        if (count($part) == 1 || !$part[1]) {
             return time() - $part[0];
         } else {
             return 0;

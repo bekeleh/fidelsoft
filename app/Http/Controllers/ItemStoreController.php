@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ItemStoreRequest;
 use App\Libraries\Utils;
+use App\Models\ItemStore;
 use App\Models\Product;
 use App\Models\Store;
 use App\Ninja\Datatables\ItemStoreDatatable;
@@ -91,42 +92,6 @@ class ItemStoreController extends BaseController
         return View::make('item_stores.edit', $data);
     }
 
-    public function cloneItemStore(ItemStoreRequest $request, $publicId)
-    {
-        return self::edit($request, $publicId, true);
-    }
-
-    public function edit(ItemStoreRequest $request, $publicId = false, $clone = false)
-    {
-        $itemStore = $request->entity();
-        if ($clone) {
-            $itemStore->id = null;
-            $itemStore->public_id = null;
-            $itemStore->deleted_at = null;
-            $method = 'POST';
-            $url = 'item_stores';
-        } else {
-            $method = 'PUT';
-            $url = 'item_stores/' . $itemStore->public_id;
-        }
-
-        $data = [
-            'product' => null,
-            'store' => null,
-            'itemStore' => $itemStore,
-            'entity' => $itemStore,
-            'method' => $method,
-            'url' => $url,
-            'title' => trans('texts.item_store.edit'),
-            'productPublicId' => $itemStore->product ? $itemStore->product->public_id : null,
-            'storePublicId' => $itemStore->store ? $itemStore->store->public_id : null,
-        ];
-
-        $data = array_merge($data, self::getViewModel($itemStore));
-
-        return View::make('item_stores.edit', $data);
-    }
-
     /**
      * @param ItemStoreRequest $request
      * @return RedirectResponse
@@ -146,6 +111,40 @@ class ItemStoreController extends BaseController
         Session::flash('message', trans('texts.created_item_store'));
 
         return redirect()->to("item_stores/{$itemStore->public_id}/edit");
+    }
+
+    public function edit(ItemStoreRequest $request, $publicId = false, $clone = false)
+    {
+        Auth::user()->can('view', [ENTITY_ITEM_STORE, $request->entity()]);
+
+        $itemStore = ItemStore::scope($publicId)->withTrashed()->firstOrFail();
+
+        if ($clone) {
+            $itemStore->id = null;
+            $itemStore->public_id = null;
+            $itemStore->deleted_at = null;
+            $method = 'POST';
+            $url = 'item_stores';
+        } else {
+            $method = 'PUT';
+            $url = 'item_stores/' . $itemStore->public_id;
+        }
+
+        $data = [
+            'product' => null,
+            'store' => null,
+            'itemStore' => $itemStore,
+            'entity' => $itemStore,
+            'method' => $method,
+            'url' => $url,
+            'title' => trans('texts.edit_item_store'),
+            'productPublicId' => $itemStore->product ? $itemStore->product->public_id : null,
+            'storePublicId' => $itemStore->store ? $itemStore->store->public_id : null,
+        ];
+
+        $data = array_merge($data, self::getViewModel($itemStore));
+
+        return View::make('item_stores.edit', $data);
     }
 
     /**
@@ -172,6 +171,11 @@ class ItemStoreController extends BaseController
         } else {
             return redirect()->to("item_stores/{$itemStore->public_id}/edit");
         }
+    }
+
+    public function cloneItemStore(ItemStoreRequest $request, $publicId)
+    {
+        return self::edit($request, $publicId, true);
     }
 
     public function bulk()

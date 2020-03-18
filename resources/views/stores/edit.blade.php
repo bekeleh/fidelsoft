@@ -3,23 +3,22 @@
 @section('content')
     @parent
     {!! Former::open($url)
-            ->method($method)
-            ->autocomplete('off')
-            ->rules(['name' => 'required|max:255','location_id' => 'required' ])
-            ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
-
+    ->method($method)
+    ->autocomplete('off')
+    ->rules(['name' => 'required|max:255','location_id' => 'required' ])
+    ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
+    <!-- notification -->
+    @include('notifications')
     @if ($store)
         {{ Former::populate($store) }}
         <div style="display:none">
             {!! Former::text('public_id') !!}
         </div>
     @endif
-
     <span style="display:none">
-            {!! Former::text('public_id') !!}
+{!! Former::text('public_id') !!}
         {!! Former::text('action') !!}
-        </span>
-
+</span>
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
@@ -27,14 +26,13 @@
                     {!! Former::text('name')->label('texts.store_name') !!}
                     {!! Former::text('store_code')->label('texts.code') !!}
                     {!! Former::select('location_id')->addOption('', '')
-                      ->label(trans('texts.location'))
-                      ->addGroupClass('location-select') !!}
+                    ->label(trans('texts.location'))
+                    ->addGroupClass('location-select') !!}
                     {!! Former::textarea('notes')->rows(6) !!}
                 </div>
             </div>
         </div>
     </div>
-
     @foreach(Module::getOrdered() as $module)
         @if(View::exists($module->alias . '::stores.edit'))
             <div class="row">
@@ -60,9 +58,9 @@
             {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
             @if ($store)
                 {!! DropdownButton::normal(trans('texts.more_actions'))
-                        ->withContents($store->present()->moreActions())
-                        ->large()
-                        ->dropup() !!}
+                ->withContents($store->present()->moreActions())
+                ->large()
+                ->dropup() !!}
             @endif
         </center>
     @endif

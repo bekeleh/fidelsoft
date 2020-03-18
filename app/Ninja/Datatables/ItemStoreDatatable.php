@@ -3,6 +3,7 @@
 namespace App\Ninja\Datatables;
 
 use App\Libraries\Utils;
+use App\Models\ItemStore;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 
@@ -68,13 +69,19 @@ class ItemStoreDatatable extends EntityDatatable
             [
                 'qty',
                 function ($model) {
-                    return $model->qty;
+                    return self::getStatusLabel($model);
                 },
             ],
             [
                 'reorder_level',
                 function ($model) {
                     return $model->reorder_level;
+                },
+            ],
+            [
+                'EOQ',
+                function ($model) {
+                    return $model->EOQ;
                 },
             ],
             [
@@ -135,5 +142,13 @@ class ItemStoreDatatable extends EntityDatatable
                 },
             ],
         ];
+    }
+
+    private function getStatusLabel($model)
+    {
+//        $label = ItemStore::calcStatusLabel($model->qty, $model->reorder_level);
+        $class = ItemStore::calcStatusClass($model->qty, $model->reorder_level);
+
+        return "<h4><div class=\"label label-{$class}\">$model->qty</div></h4>";
     }
 }

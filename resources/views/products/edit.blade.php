@@ -2,13 +2,13 @@
 
 @section('content')
     @parent
-
     {!! Former::open($url)
-            ->method($method)
-            ->autocomplete('off')
-            ->rules(['name' => 'required|max:255','cost' => 'required|numeric','category_id' => 'required|numeric','unit_id' => 'required|numeric'])
-            ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
-
+    ->method($method)
+    ->autocomplete('off')
+    ->rules(['name' => 'required|max:255','cost' => 'required|numeric','category_id' => 'required|numeric','unit_id' => 'required|numeric'])
+    ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
+    <!-- notification -->
+    @include('notifications')
     @if ($product)
         {{ Former::populate($product) }}
         {{ Former::populateField('cost', Utils::roundSignificant($product->cost)) }}
@@ -17,10 +17,9 @@
         </div>
     @endif
     <span style="display:none">
-            {!! Former::text('public_id') !!}
+{!! Former::text('public_id') !!}
         {!! Former::text('action') !!}
-        </span>
-
+</span>
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
@@ -30,11 +29,11 @@
                     {!! Former::text('tag')->label('texts.tag') !!}
 
                     {!! Former::select('category_id')->addOption('', '')
-                       ->label(trans('texts.category'))
-                       ->addGroupClass('category-select') !!}
+                    ->label(trans('texts.category'))
+                    ->addGroupClass('category-select') !!}
                     {!! Former::select('unit_id')->addOption('', '')
-                       ->label(trans('texts.unit'))
-                       ->addGroupClass('unit-select') !!}
+                    ->label(trans('texts.unit'))
+                    ->addGroupClass('unit-select') !!}
 
                     {!! Former::textarea('notes')->rows(6) !!}
                     @include('partials/custom_fields', ['entityType' => ENTITY_PRODUCT])
@@ -73,9 +72,9 @@
             {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
             @if ($product)
                 {!! DropdownButton::normal(trans('texts.more_actions'))
-                        ->withContents($product->present()->moreActions())
-                        ->large()
-                        ->dropup() !!}
+                ->withContents($product->present()->moreActions())
+                ->large()
+                ->dropup() !!}
             @endif
         </center>
     @endif

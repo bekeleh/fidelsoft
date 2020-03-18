@@ -74,47 +74,6 @@ class LocationController extends BaseController
         return $this->locationService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
     }
 
-    public function cloneLocation(LocationRequest $request, $publicId)
-    {
-        return self::edit($request, $publicId, true);
-    }
-
-    /**
-     * @param LocationRequest $request
-     * @param $publicId
-     *
-     * @param bool $clone
-     * @return \Illuminate\Contracts\View\View
-     */
-    public function edit(LocationRequest $request, $publicId, $clone = false)
-    {
-        Auth::user()->can('view', [ENTITY_LOCATION, $request->entity()]);
-
-        $account = Auth::user()->account;
-        $location = Location::scope($publicId)->withTrashed()->firstOrFail();
-
-        if ($clone) {
-            $location->id = null;
-            $location->public_id = null;
-            $location->deleted_at = null;
-            $url = 'locations';
-            $method = 'POST';
-        } else {
-            $url = 'locations/' . $publicId;
-            $method = 'PUT';
-        }
-
-        $data = [
-            'account' => $account,
-            'location' => $location,
-            'entity' => $location,
-            'method' => $method,
-            'url' => $url,
-            'title' => trans('texts.edit_location'),
-        ];
-
-        return View::make('locations.location', $data);
-    }
 
     /**
      * @param LocationRequest $request
@@ -122,18 +81,17 @@ class LocationController extends BaseController
      */
     public function create(LocationRequest $request)
     {
-
-        $account = Auth::user()->account;
-
+        Auth::user()->can('create', [ENTITY_LOCATION, $request->entity()]);
         $data = [
-            'account' => $account,
             'location' => null,
             'method' => 'POST',
             'url' => 'locations',
             'title' => trans('texts.create_location'),
         ];
 
-        return View::make('locations.location', $data);
+        $data = array_merge($data, self::getViewModel());
+
+        return View::make('locations.edit', $data);
     }
 
     /**
@@ -142,7 +100,43 @@ class LocationController extends BaseController
      */
     public function store(LocationRequest $request)
     {
-        return $this->save();
+        $data = $request->input();
+
+        $location = $this->locationService->save($data);
+
+//        Session::flash('message', trans('texts.created_location'));
+
+        return redirect()->to("locations/{$location->public_id}/edit")->with('success', trans('texts.created_location'));
+    }
+
+    public function edit(LocationRequest $request, $publicId, $clone = false)
+    {
+        Auth::user()->can('edit', [ENTITY_LOCATION, $request->entity()]);
+
+        $location = Location::scope($publicId)->withTrashed()->firstOrFail();
+
+        if ($clone) {
+            $location->id = null;
+            $location->public_id = null;
+            $location->deleted_at = null;
+            $method = 'POST';
+            $url = 'locations';
+        } else {
+            $method = 'PUT';
+            $url = 'locations/' . $location->public_id;
+        }
+
+        $data = [
+            'location' => $location,
+            'entity' => $location,
+            'method' => $method,
+            'url' => $url,
+            'title' => trans('texts.edit_location'),
+        ];
+
+        $data = array_merge($data, self::getViewModel($location));
+
+        return View::make('locations.edit', $data);
     }
 
     /**
@@ -153,35 +147,20 @@ class LocationController extends BaseController
      */
     public function update(LocationRequest $request, $publicId)
     {
-        return $this->save($publicId);
-    }
+        $data = $request->input();
+        $location = $this->locationService->save($data, $request->entity());
 
-    /**
-     * @param bool $locationPublicId
-     *
-     * @return RedirectResponse
-     */
-    private function save($locationPublicId = false)
-    {
-        if ($locationPublicId) {
-            $location = Location::scope($locationPublicId)->withTrashed()->firstOrFail();
-        } else {
-            $location = Location::createNew();
-        }
-        $this->locationRepo->save(Input::all(), $location);
+//        Session::flash('message', trans('texts.updated_location'));
 
-        $message = $locationPublicId ? trans('texts.updated_location') : trans('texts.created_location');
-        Session::flash('message', $message);
-
-        $action = request('action');
-        if (in_array($action, ['archive', 'delete', 'relocation', 'invoice'])) {
+        $action = Input::get('action');
+        if (in_array($action, ['archive', 'delete', 'restore', 'invoice', 'add_to_invoice'])) {
             return self::bulk();
         }
 
         if ($action == 'clone') {
-            return redirect()->to(sprintf('locations/%s/clone', $location->public_id));
+            return redirect()->to(sprintf('locations/%s/clone', $location->public_id))->with('success', trans('texts.clone_location'));
         } else {
-            return redirect()->to("locations/{$location->public_id}/edit");
+            return redirect()->to("locations/{$location->public_id}/edit")->with('success', trans('texts.updated_location'));
         }
     }
 
@@ -205,8 +184,21 @@ class LocationController extends BaseController
         }
 
         $message = Utils::pluralize($action . 'd_location', $count);
-        Session::flash('message', $message);
+//        Session::flash('message', $message);
 
-        return $this->returnBulk(ENTITY_LOCATION, $action, $ids);
+        return $this->returnBulk(ENTITY_LOCATION, $action, $ids)->with('success', $message);
+    }
+
+    public function cloneLocation(LocationRequest $request, $publicId)
+    {
+        return self::edit($request, $publicId, true);
+    }
+
+    private static function getViewModel($location = false)
+    {
+        return [
+            'data' => Input::old('data'),
+            'account' => Auth::user()->account,
+        ];
     }
 }

@@ -1,16 +1,16 @@
 @extends('header')
 
 @section('content')
-
     {!! Former::open($url)
-            ->addClass('col-lg-10 col-lg-offset-1 warn-on-exit main-form')
-            ->autocomplete('off')
-            ->method($method)
-            ->rules([
-                'name' => 'required',
-                'client_id' => 'required',
-            ]) !!}
-
+    ->addClass('col-lg-10 col-lg-offset-1 warn-on-exit main-form')
+    ->autocomplete('off')
+    ->method($method)
+    ->rules([
+    'name' => 'required',
+    'client_id' => 'required',
+    ]) !!}
+    <!-- notification -->
+    @include('notifications')
     @if ($project)
         {!! Former::populate($project) !!}
         {!! Former::populateField('task_rate', floatval($project->task_rate) ? Utils::roundSignificant($project->task_rate) : '') !!}
@@ -18,60 +18,50 @@
     @endif
 
     <span style="display:none">
-        {!! Former::text('public_id') !!}
+{!! Former::text('public_id') !!}
         {!! Former::text('action') !!}
-    </span>
-
+</span>
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
-
             <div class="panel panel-default">
                 <div class="panel-body">
-
                     @if ($project)
                         {!! Former::plaintext('client_name')
-                                ->value($project->client ? $project->client->present()->link : '') !!}
+                        ->value($project->client ? $project->client->present()->link : '') !!}
                     @else
                         {!! Former::select('client_id')
-                                ->addOption('', '')
-                                ->label(trans('texts.client_name'))
-                                ->addGroupClass('client-select') !!}
+                        ->addOption('', '')
+                        ->label(trans('texts.client_name'))
+                        ->addGroupClass('client-select') !!}
                     @endif
-
                     {!! Former::text('name') !!}
-
                     {!! Former::text('due_date')
-                                ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
-                                ->addGroupClass('due_date')
-                                ->append('<i class="glyphicon glyphicon-calendar"></i>') !!}
+                    ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
+                    ->addGroupClass('due_date')
+                    ->append('<i class="glyphicon glyphicon-calendar"></i>') !!}
 
                     {!! Former::text('budgeted_hours') !!}
 
                     {!! Former::text('task_rate')
-                            ->placeholder($project && $project->client->task_rate ? $project->client->present()->taskRate : $account->present()->taskRate)
-                             ->help('task_rate_help') !!}
+                    ->placeholder($project && $project->client->task_rate ? $project->client->present()->taskRate : $account->present()->taskRate)
+                    ->help('task_rate_help') !!}
 
                     @include('partials/custom_fields', ['entityType' => ENTITY_PROJECT])
 
                     {!! Former::textarea('private_notes')->rows(4) !!}
-
                 </div>
             </div>
 
         </div>
     </div>
-
     @if(Auth::user()->canCreateOrEdit(ENTITY_PROJECT))
         <center class="buttons">
             {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/projects'))->appendIcon(Icon::create('remove-circle')) !!}
             {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
         </center>
     @endif
-
     {!! Former::close() !!}
-
     <script>
-
         var clients = {!! $clients !!};
         var clientMap = {};
 

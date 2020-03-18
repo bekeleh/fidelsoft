@@ -295,7 +295,6 @@
         }
     </script>
 @endif
-
 @yield('body')
 
 <script type="text/javascript">

@@ -295,7 +295,6 @@
         }
     </script>
 <?php endif; ?>
-
 <?php echo $__env->yieldContent('body'); ?>
 
 <script type="text/javascript">

@@ -17,9 +17,9 @@ class LocationDatatable extends EntityDatatable
 
         return [
             [
-                'name',
+                'location_name',
                 function ($model) {
-                    return link_to('locations/' . $model->public_id . '/edit', $model->name)->toHtml();
+                    return link_to('locations/' . $model->public_id . '/edit', $model->location_name)->toHtml();
                 },
             ],
             [

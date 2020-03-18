@@ -41,6 +41,7 @@ class ItemStoreRepository extends BaseRepository
                 'item_stores.bin',
                 'item_stores.qty',
                 'item_stores.reorder_level',
+                'item_stores.EOQ',
                 'item_stores.is_deleted',
                 'item_stores.notes',
                 'item_stores.created_at',
@@ -97,6 +98,7 @@ class ItemStoreRepository extends BaseRepository
             $itemStore->bin = isset($data['bin']) ? ucwords(trim($data['bin'])) : '';
             $itemStore->qty = isset($data['qty']) ? $data['qty'] + $itemStore->qty : '';
             $itemStore->reorder_level = isset($data['reorder_level']) ? $data['reorder_level'] + $itemStore->reorder_level : '';
+            $itemStore->EOQ = isset($data['EOQ']) ? trim($data['EOQ']) : '';
             $itemStore->notes = isset($data['notes']) ? trim($data['notes']) : '';
             $itemStore->updated_by = Auth::user()->username;
             $itemStore->save();
@@ -109,6 +111,7 @@ class ItemStoreRepository extends BaseRepository
             $itemStore->bin = isset($data['bin']) ? ucwords(trim($data['bin'])) : '';
             $itemStore->qty = isset($data['qty']) ? trim($data['qty']) : '';
             $itemStore->reorder_level = isset($data['reorder_level']) ? trim($data['reorder_level']) : '';
+            $itemStore->EOQ = isset($data['EOQ']) ? trim($data['EOQ']) : '';
             $itemStore->notes = isset($data['notes']) ? trim($data['notes']) : '';
             $itemStore->created_by = Auth::user()->username;
             if ($itemStore->save()) {

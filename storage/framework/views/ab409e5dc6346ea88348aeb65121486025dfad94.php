@@ -127,28 +127,30 @@
         </script><!-- /. expense -->
         <!-- Entity product -->
     <?php elseif($entityType == ENTITY_PRODUCT): ?>
-        <?php if(Auth::user()->can('create', [ENTITY_PRICE,ENTITY_SALE_TYPE])): ?>
+        <?php if(Auth::user()->can('create', [ENTITY_ITEM_PRICE,ENTITY_SALE_TYPE])): ?>
             <?php echo DropdownButton::normal(trans('texts.maintenance'))
             ->withAttributes(['class'=>'maintenanceDropdown'])
             ->withContents([
-                ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores/create')],
+                ['label' => trans('texts.new_location'), 'url' => url('/locations/create')],
                 ['label' => trans('texts.new_store'), 'url' => url('/stores/create')],
-                ['label' => trans('texts.new_price'), 'url' => url('/prices/create')],
                 ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types/create')],
+                ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores/create')],
+                ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices/create')],
                 ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
-                ['label' => trans('texts.new_unit'), 'url' => url('/units/create')],
+                ['label' => trans('texts.new_unit'), 'url' => url('/units/create')]
             ])->split(); ?>
 
         <?php else: ?>
             <?php echo DropdownButton::normal(trans('texts.maintenance'))
             ->withAttributes(['class'=>'maintenanceDropdown'])
             ->withContents([
-            ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores/create')],
-            ['label' => trans('texts.new_store'), 'url' => url('/stores/create')],
-            ['label' => trans('texts.new_price'), 'url' => url('/prices/create')],
-            ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types/create')],
-            ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
-            ['label' => trans('texts.new_unit'), 'url' => url('/units/create')],
+                ['label' => trans('texts.new_location'), 'url' => url('/locations/create')],
+                ['label' => trans('texts.new_store'), 'url' => url('/stores/create')],
+                ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types/create')],
+                ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores/create')],
+                ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices/create')],
+                ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
+                ['label' => trans('texts.new_unit'), 'url' => url('/units/create')]
             ])->split(); ?>
 
         <?php endif; ?>

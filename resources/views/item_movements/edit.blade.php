@@ -2,12 +2,13 @@
 
 @section('content')
     @parent
-
     {!! Former::open($url)
-            ->method($method)
-            ->autocomplete('off')
-            ->rules([])
-            ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
+    ->method($method)
+    ->autocomplete('off')
+    ->rules([])
+    ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
+    <!-- notification -->
+    @include('notifications')
     @if ($itemMovement)
         {{ Former::populate($itemMovement) }}
         <div style="display:none">
@@ -15,9 +16,9 @@
         </div>
     @endif
     <span style="display:none">
-            {!! Former::text('public_id') !!}
+{!! Former::text('public_id') !!}
         {!! Former::text('action') !!}
-        </span>
+</span>
 
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
@@ -57,9 +58,9 @@
             {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
             @if ($itemMovement)
                 {!! DropdownButton::normal(trans('texts.more_actions'))
-                        ->withContents($itemMovement->present()->moreActions())
-                        ->large()
-                        ->dropup() !!}
+                ->withContents($itemMovement->present()->moreActions())
+                ->large()
+                ->dropup() !!}
             @endif
         </center>
     @endif

@@ -37,8 +37,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_ITEM_MOVEMENT', 'item_movement');
     define('ENTITY_ITEM_CATEGORY', 'item_category');
     define('ENTITY_CATEGORY', 'category');
-    define('ENTITY_SALE', 'sale');
-    define('ENTITY_PRICE', 'price');
+    define('ENTITY_ITEM_PRICE', 'item_price');
     define('ENTITY_SALE_TYPE', 'sale_type');
     define('ENTITY_ACTIVITY', 'activity');
     define('ENTITY_VENDOR', 'vendor');
@@ -69,7 +68,7 @@ if (!defined('APP_NAME')) {
         ENTITY_PRODUCT,
         ENTITY_LOCATION,
         ENTITY_STORE,
-        ENTITY_PRICE,
+        ENTITY_ITEM_PRICE,
         ENTITY_UNIT,
         ENTITY_ITEM_STORE,
         ENTITY_ITEM_MOVEMENT,
@@ -121,7 +120,7 @@ if (!defined('APP_NAME')) {
     define('ACCOUNT_ITEM_CATEGORIES', 'item_categories');
     define('ACCOUNT_LOCATIONS', 'locations');
     define('ACCOUNT_STORES', 'stores');
-    define('ACCOUNT_PRICES', 'prices');
+    define('ACCOUNT_PRICES', 'item_prices');
     define('ACCOUNT_UNIT', 'units');
     define('ACCOUNT_ADVANCED_SETTINGS', 'advanced_settings');
     define('ACCOUNT_INVOICE_SETTINGS', 'invoice_settings');

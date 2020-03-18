@@ -42,6 +42,17 @@ class LocationService extends BaseService
     }
 
     /**
+     * @param $data
+     * @param null $location
+     *
+     * @return mixed|null
+     */
+    public function save($data, $location = null)
+    {
+        return $this->locationRepo->save($data, $location);
+    }
+
+    /**
      * @param $accountId
      * @param mixed $search
      *
