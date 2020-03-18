@@ -28,7 +28,7 @@ class ItemPrice extends EntityModel
      */
     protected $fillable = [
         'item_id',
-        'sales_type_id',
+        'sale_type_id',
         'price',
         'start_date',
         'end_date',
@@ -65,17 +65,12 @@ class ItemPrice extends EntityModel
      */
     public function getEntityType()
     {
-        return ENTITY_ITEM_PRICE;
+        return ENTITY_PRICE;
     }
 
-    /**
-     * @param $key
-     *
-     * @return mixed
-     */
-    public static function findProductByKey($key)
+    public static function findPriceByKey($key)
     {
-        return self::scope()->where('item_id', '=', $key)->first();
+        return self::scope()->where('name', '=', $key)->first();
     }
 
     public function account()
@@ -83,11 +78,8 @@ class ItemPrice extends EntityModel
         return $this->belongsTo('App\Models\Account', 'account_id')->withTrashed();
     }
 
-    /**
-     * @return mixed
-     */
-    public function salesType()
+    public function user()
     {
-        return $this->belongsTo('App\Models\SaleType')->withTrashed();
+        return $this->belongsTo('App\Models\User', 'user_id')->withTrashed();
     }
 }

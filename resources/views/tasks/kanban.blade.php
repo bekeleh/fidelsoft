@@ -64,7 +64,7 @@
         }
 
         .kanban-column-row .fa-circle {
-            float:right;
+            float: right;
             padding-top: 10px;
             padding-right: 8px;
         }
@@ -109,17 +109,44 @@
 
         .kanban-column .editing .view {
             display: none;
-        }​
+        }
 
-        .project-group0 { color: #000000; }
-        .project-group1 { color: #1c9f77; }
-        .project-group2 { color: #d95d02; }
-        .project-group3 { color: #716cb1; }
-        .project-group4 { color: #e62a8b; }
-        .project-group5 { color: #5fa213; }
-        .project-group6 { color: #e6aa04; }
-        .project-group7 { color: #a87821; }
-        .project-group8 { color: #676767; }
+        ​
+        .project-group0 {
+            color: #000000;
+        }
+
+        .project-group1 {
+            color: #1c9f77;
+        }
+
+        .project-group2 {
+            color: #d95d02;
+        }
+
+        .project-group3 {
+            color: #716cb1;
+        }
+
+        .project-group4 {
+            color: #e62a8b;
+        }
+
+        .project-group5 {
+            color: #5fa213;
+        }
+
+        .project-group6 {
+            color: #e6aa04;
+        }
+
+        .project-group7 {
+            color: #a87821;
+        }
+
+        .project-group8 {
+            color: #676767;
+        }
 
     </style>
 
@@ -128,7 +155,7 @@
 @section('top-right')
     <div class="form-group">
         <input type="text" data-bind="value: filter" placeholder="{{ trans('texts.filter') }}" id="filter"
-            class="form-control" style="background-color: #FFFFFF !important"/>
+               class="form-control" style="background-color: #FFFFFF !important"/>
     </div>
 @stop
 
@@ -178,7 +205,7 @@
         };
 
         ko.bindingHandlers.selected = {
-            update: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+            update: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
                 var selected = ko.utils.unwrapObservable(valueAccessor());
                 if (selected) element.select();
             }
@@ -195,14 +222,14 @@
             self.filter_project_id = ko.observable();
             self.is_sending_request = ko.observable(false);
 
-            for (var i=0; i<statuses.length; i++) {
+            for (var i = 0; i < statuses.length; i++) {
                 var status = statuses[i];
                 var statusModel = new StatusModel(status);
                 statusMap[status.public_id] = statusModel;
                 self.statuses.push(statusModel);
             }
 
-            for (var i=0; i<projects.length; i++) {
+            for (var i = 0; i < projects.length; i++) {
                 var project = projects[i];
                 projectMap[project.public_id] = new ProjectModel(project);
                 projectList.push({
@@ -213,12 +240,12 @@
                 })
             }
 
-            for (var i=0; i<clients.length; i++) {
+            for (var i = 0; i < clients.length; i++) {
                 var client = clients[i];
                 clientMap[client.public_id] = new ClientModel(client);
                 var tokens = [client.name];
                 if (client.contacts.length) {
-                    $.each(client.contacts, function(i, contact) {
+                    $.each(client.contacts, function (i, contact) {
                         tokens.push(contact.first_name, contact.last_name, contact.email);
                     });
                 }
@@ -230,14 +257,14 @@
                 })
             }
 
-            for (var i=0; i<tasks.length; i++) {
+            for (var i = 0; i < tasks.length; i++) {
                 var task = tasks[i];
                 var taskModel = new TaskModel(task);
                 var statusModel = false;
                 if (task.task_status) {
                     var statusModel = statusMap[task.task_status.public_id];
                 }
-                if (! statusModel) {
+                if (!statusModel) {
                     statusModel = self.statuses()[0];
                 }
                 if (statusModel) {
@@ -245,33 +272,33 @@
                 }
             }
 
-            self.startNewStatus = function() {
+            self.startNewStatus = function () {
                 self.is_adding_status(true);
                 $('#newStatusName').val('').focus();
             }
 
-            self.cancelNewStatus = function() {
+            self.cancelNewStatus = function () {
                 self.is_adding_status(false);
             }
 
-            self.saveNewStatus = function() {
+            self.saveNewStatus = function () {
                 var statusModel = new StatusModel({
                     name: self.new_status(),
                     sort_order: self.statuses().length,
                 })
                 var url = '{{ url('/task_statuses') }}';
                 var data = statusModel.toData();
-                self.ajax('post', url, data, function(response) {
+                self.ajax('post', url, data, function (response) {
                     statusModel.public_id(response.public_id);
                     self.statuses.push(statusModel);
                     self.is_adding_status(false);
                 })
             }
 
-            self.ajax = function(method, url, data, callback) {
+            self.ajax = function (method, url, data, callback) {
                 // prevent more than one request per second
                 if (model.is_sending_request()) {
-                    setTimeout(function() {
+                    setTimeout(function () {
                         self.ajax(method, url, data, callback);
                     }, 1500);
                     return;
@@ -285,27 +312,27 @@
                     accepts: {
                         json: 'application/json'
                     },
-                    success: function(response) {
+                    success: function (response) {
                         callback(response);
                     },
-                    error: function(error) {
+                    error: function (error) {
                         swal("{{ trans('texts.error_refresh_page') }}");
                     },
-                }).always(function() {
-                    setTimeout(function() {
+                }).always(function () {
+                    setTimeout(function () {
                         model.is_sending_request(false);
                     }, 1500);
                 });
             }
 
-            self.onStatusDragged = function(dragged) {
+            self.onStatusDragged = function (dragged) {
                 var status = dragged.item;
                 status.sort_order(dragged.targetIndex);
 
                 var url = '{{ url('/task_statuses') }}/' + status.public_id();
                 var data = status.toData();
 
-                model.ajax('put', url, data, function(response) {
+                model.ajax('put', url, data, function (response) {
                     // do nothing
                 });
             }
@@ -322,57 +349,57 @@
             self.tasks = ko.observableArray();
             self.new_task = new TaskModel();
 
-            self.toData = function() {
+            self.toData = function () {
                 return 'name=' + encodeURIComponent(self.name()) +
                     '&sort_order=' + self.sort_order();
             }
 
-            self.onHeaderMouseOver = function() {
+            self.onHeaderMouseOver = function () {
                 self.is_header_hovered(true);
             }
 
-            self.onHeaderMouseOut = function() {
+            self.onHeaderMouseOut = function () {
                 self.is_header_hovered(false);
             }
 
-            self.startEditStatus = function() {
+            self.startEditStatus = function () {
                 self.is_editing_status(true);
             }
 
-            self.saveEditStatus = function() {
+            self.saveEditStatus = function () {
                 if (self.name() == self.name.orig()) {
                     self.is_editing_status(false);
                 } else {
                     var url = '{{ url('/task_statuses') }}/' + self.public_id();
                     var data = 'name=' + encodeURIComponent(self.name());
-                    model.ajax('put', url, data, function(response) {
+                    model.ajax('put', url, data, function (response) {
                         self.name.orig(self.name());
                         self.is_editing_status(false);
                     })
                 }
             }
 
-            self.onTaskDragged = function(dragged) {
+            self.onTaskDragged = function (dragged) {
                 var task = dragged.item;
                 task.task_status_sort_order(dragged.targetIndex);
                 task.task_status_id(self.public_id());
 
                 var url = '{{ url('/task_status_order') }}/' + task.public_id();
                 var data = task.toData();
-                model.ajax('put', url, data, function(response) {
+                model.ajax('put', url, data, function (response) {
                     // do nothing
                 });
             }
 
-            self.archiveStatus = function() {
-                sweetConfirm(function() {
+            self.archiveStatus = function () {
+                sweetConfirm(function () {
                     var url = '{{ url('/task_statuses') }}/' + self.public_id();
-                    model.ajax('delete', url, null, function(response) {
+                    model.ajax('delete', url, null, function (response) {
                         model.statuses.remove(self);
                         if (model.statuses().length) {
                             var firstStatus = model.statuses()[0];
                             var adjustment = firstStatus.tasks().length;
-                            for (var i=0; i<self.tasks().length; i++) {
+                            for (var i = 0; i < self.tasks().length; i++) {
                                 var task = self.tasks()[i];
                                 task.task_status_id(firstStatus.public_id());
                                 task.task_status_sort_order(task.task_status_sort_order() + adjustment);
@@ -385,17 +412,17 @@
                 }, "{{ trans('texts.delete_status')}}");
             }
 
-            self.cancelNewTask = function() {
+            self.cancelNewTask = function () {
                 if (self.new_task.is_blank()) {
                     self.new_task.description('');
                 }
                 self.new_task.is_editing_task(false);
             }
 
-            self.saveNewTask = function() {
+            self.saveNewTask = function () {
                 var task = self.new_task;
                 var description = (task.description() || '').trim();
-                if (! description) {
+                if (!description) {
                     return false;
                 }
                 var task = new TaskModel({
@@ -416,7 +443,7 @@
 
                 var url = '{{ url('/tasks') }}';
                 var data = task.toData();
-                model.ajax('post', url, data, function(response) {
+                model.ajax('post', url, data, function (response) {
                     task.public_id(response.public_id);
                     self.tasks.push(task);
                     self.new_task.reset();
@@ -443,50 +470,50 @@
             self.task_status_sort_order = ko.observable();
             self.is_panel_hovered = ko.observable(false);
 
-            self.projectColor = ko.computed(function() {
-                if (! self.project()) {
+            self.projectColor = ko.computed(function () {
+                if (!self.project()) {
                     return '';
                 }
                 var projectId = self.project().public_id();
-                var colorNum = (projectId-1) % 8;
-                return 'project-group' + (colorNum+1);
+                var colorNum = (projectId - 1) % 8;
+                return 'project-group' + (colorNum + 1);
             })
 
-            self.startEditTask = function() {
+            self.startEditTask = function () {
                 self.description.orig(self.description());
                 self.is_editing_task(true);
                 $('.kanban-column-row.editing textarea').focus();
             }
 
-            self.onPanelMouseOver = function() {
+            self.onPanelMouseOver = function () {
                 self.is_panel_hovered(true);
             }
 
-            self.onPanelMouseOut = function() {
+            self.onPanelMouseOut = function () {
                 self.is_panel_hovered(false);
             }
 
-            self.toData = function() {
+            self.toData = function () {
                 var data = 'description=' + encodeURIComponent(self.description()) +
                     '&task_status_id=' + self.task_status_id() +
                     '&task_status_sort_order=' + self.task_status_sort_order();
 
-                if (! self.public_id() && self.client()) {
+                if (!self.public_id() && self.client()) {
                     data += '&client_id=' + self.client().public_id();
                 }
 
-                if (! self.public_id() && self.project()) {
+                if (!self.public_id() && self.project()) {
                     data += '&project_id=' + self.project().public_id();
                 }
 
                 return data;
             }
 
-            self.matchesFilter = function(filter, clientId, projectId) {
+            self.matchesFilter = function (filter, clientId, projectId) {
                 if (filter) {
                     filter = filter.toLowerCase();
                     var parts = filter.split(' ');
-                    for (var i=0; i<parts.length; i++) {
+                    for (var i = 0; i < parts.length; i++) {
                         var part = parts[i];
                         var isMatch = false;
                         if (self.description()) {
@@ -506,20 +533,20 @@
                                 isMatch = true;
                             }
                         }
-                        if (! isMatch) {
+                        if (!isMatch) {
                             return false;
                         }
                     }
                 }
 
                 if (clientId) {
-                    if (! self.client() || self.client().public_id() != clientId) {
+                    if (!self.client() || self.client().public_id() != clientId) {
                         return false;
                     }
                 }
 
                 if (projectId) {
-                    if (! self.project() || self.project().public_id() != projectId) {
+                    if (!self.project() || self.project().public_id() != projectId) {
                         return false;
                     }
                 }
@@ -527,7 +554,7 @@
                 return true;
             }
 
-            self.cancelEditTask = function() {
+            self.cancelEditTask = function () {
                 if (self.is_blank()) {
                     self.description('');
                 } else {
@@ -537,24 +564,24 @@
                 self.is_editing_task(false);
             }
 
-            self.saveEditTask = function() {
+            self.saveEditTask = function () {
                 var description = (self.description() || '').trim();
-                if (! description) {
+                if (!description) {
                     return false;
                 }
 
                 var url = '{{ url('/tasks') }}/' + self.public_id();
                 var data = self.toData();
-                model.ajax('put', url, data, function(response) {
+                model.ajax('put', url, data, function (response) {
                     self.is_editing_task(false);
                 });
             }
 
-            self.viewTask = function() {
+            self.viewTask = function () {
                 window.open('{{ url('/tasks') }}/' + self.public_id() + '/edit', 'task');
             }
 
-            self.reset = function() {
+            self.reset = function () {
                 self.is_editing_task(false);
                 self.is_blank(true);
                 self.client(false);
@@ -564,12 +591,12 @@
 
             self.mapping = {
                 'project': {
-                    create: function(options) {
+                    create: function (options) {
                         return projectMap[options.data.public_id];
                     }
                 },
                 'client': {
-                    create: function(options) {
+                    create: function (options) {
                         return clientMap[options.data.public_id];
                     }
                 }
@@ -598,7 +625,7 @@
             self.name = ko.observable();
             self.contacts = ko.observableArray();
 
-            self.displayName = ko.computed(function() {
+            self.displayName = ko.computed(function () {
                 if (self.name()) {
                     return self.name();
                 }
@@ -610,7 +637,7 @@
 
             self.mapping = {
                 'contacts': {
-                    create: function(options) {
+                    create: function (options) {
                         return new ContactModel(options.data);
                     }
                 }
@@ -633,7 +660,7 @@
                 ko.mapping.fromJS(data, {}, this);
             }
 
-            self.displayName = ko.computed(function() {
+            self.displayName = ko.computed(function () {
                 if (self.first_name() || self.last_name()) {
                     return (self.first_name() || '') + ' ' + (self.last_name() || '');
                 } else {
@@ -642,11 +669,11 @@
             });
         }
 
-        $(function() {
+        $(function () {
             $('#filter').typeahead({
                 hint: true,
                 highlight: true,
-            },{
+            }, {
                 name: 'data',
                 limit: 4,
                 display: 'value',
@@ -654,7 +681,7 @@
                 templates: {
                     header: '&nbsp;<span style="font-weight:600;font-size:15px">{{ trans('texts.clients') }}</span>'
                 }
-            },{
+            }, {
                 name: 'data',
                 limit: 4,
                 display: 'value',
@@ -662,7 +689,7 @@
                 templates: {
                     header: '&nbsp;<span style="font-weight:600;font-size:15px">{{ trans('texts.projects') }}</span>'
                 }
-            }).on('typeahead:selected', function(element, datum, name) {
+            }).on('typeahead:selected', function (element, datum, name) {
                 model.filter(false);
                 if (datum.type == 'client') {
                     model.filter_client_id(datum.id);
@@ -673,7 +700,7 @@
                 }
             });
 
-            $('#filter').on('input', function() {
+            $('#filter').on('input', function () {
                 model.filter($('#filter').val());
                 model.filter_client_id(false);
                 model.filter_project_id(false);
@@ -717,30 +744,39 @@
 
 
     <div class="kanban" style="display: none">
-        <div data-bind="sortable: { data: statuses, as: 'status', afterMove: onStatusDragged, allowDrop: true, connectClass: 'connect-column' }" style="float:left">
+        <div data-bind="sortable: { data: statuses, as: 'status', afterMove: onStatusDragged, allowDrop: true, connectClass: 'connect-column' }"
+             style="float:left">
             <div class="well kanban-column">
 
-                <div class="kanban-column-header" data-bind="css: { editing: is_editing_status }, event: { mouseover: onHeaderMouseOver, mouseout: onHeaderMouseOut }">
+                <div class="kanban-column-header"
+                     data-bind="css: { editing: is_editing_status }, event: { mouseover: onHeaderMouseOver, mouseout: onHeaderMouseOut }">
                     <div class="pull-left" data-bind="event: { click: startEditStatus }">
-                        <div class="view" data-bind="text: name().length > 24 ? name().substring(0, 24) + '...' : name()"></div>
+                        <div class="view"
+                             data-bind="text: name().length > 24 ? name().substring(0, 24) + '...' : name()"></div>
                         <input class="edit" type="text" data-bind="value: name, valueUpdate: 'afterkeydown', hasfocus: is_editing_status, selected: is_editing_status,
                                 event: { blur: saveEditStatus }, enterkey: saveEditStatus, escapekey: saveEditStatus"/>
                     </div>
-                    <div class="pull-right" data-bind="click: archiveStatus, visible: is_header_hovered() &amp;&amp; ! is_editing_status()">
+                    <div class="pull-right"
+                         data-bind="click: archiveStatus, visible: is_header_hovered() &amp;&amp; ! is_editing_status()">
                         <i class="fa fa-times" title="{{ trans('texts.archive') }}"></i>
-                    </div><br/>
+                    </div>
+                    <br/>
                 </div>
 
-                <div data-bind="sortable: { data: tasks, as: 'task', afterMove: onTaskDragged, allowDrop: true, connectClass: 'connect-row' }" style="min-height:28px;">
-                    <div class="kanban-column-row" data-bind="css: { editing: is_editing_task }, visible: task.matchesFilter($root.filter(), $root.filter_client_id(), $root.filter_project_id())">
+                <div data-bind="sortable: { data: tasks, as: 'task', afterMove: onTaskDragged, allowDrop: true, connectClass: 'connect-row' }"
+                     style="min-height:28px;">
+                    <div class="kanban-column-row"
+                         data-bind="css: { editing: is_editing_task }, visible: task.matchesFilter($root.filter(), $root.filter_client_id(), $root.filter_project_id())">
                         <div class="view" data-bind="event: { click: startEditTask }">
-                            <div class="panel" data-bind="css: { running: is_running, hovered: is_panel_hovered }, event: { mouseover: onPanelMouseOver, mouseout: onPanelMouseOut }">
+                            <div class="panel"
+                                 data-bind="css: { running: is_running, hovered: is_panel_hovered }, event: { mouseover: onPanelMouseOver, mouseout: onPanelMouseOut }">
                                 <i class="fa fa-circle" data-bind="visible: project, css: projectColor"></i>
                                 <div data-bind="text: description() &amp;&amp; description().length > 100 ? description().substring(0, 100) + '...' : description()"></div>
                             </div>
                         </div>
                         <div class="edit">
-                            <textarea data-bind="value: description, valueUpdate: 'afterkeydown', enterkey: saveEditTask, escapekey: cancelEditTask"></textarea>
+                            <textarea
+                                    data-bind="value: description, valueUpdate: 'afterkeydown', enterkey: saveEditTask, escapekey: cancelEditTask"></textarea>
                             <div class="pull-right">
                                 <button type='button' class='btn btn-default btn-sm' data-bind="click: cancelEditTask">
                                     {{ trans('texts.cancel') }}
@@ -757,16 +793,19 @@
                     </div>
                 </div>
 
-                <div class="kanban-column-row" data-bind="css: { editing: new_task.is_editing_task }, with: new_task" style="padding-bottom:6px">
+                <div class="kanban-column-row" data-bind="css: { editing: new_task.is_editing_task }, with: new_task"
+                     style="padding-bottom:6px">
                     <div class="view" data-bind="event: { click: startEditTask }">
                         <a href="#" class="text-muted" style="font-size:13px" data-bind="visible: is_blank">
                             {{ trans('texts.new_task') }}...
                         </a>
                     </div>
                     <div class="edit">
-                        <textarea data-bind="value: description, valueUpdate: 'afterkeydown', enterkey: $parent.saveNewTask, escapekey: $parent.cancelNewTask"></textarea>
+                        <textarea
+                                data-bind="value: description, valueUpdate: 'afterkeydown', enterkey: $parent.saveNewTask, escapekey: $parent.cancelNewTask"></textarea>
                         <div class="pull-right">
-                            <button type='button' class='btn btn-default btn-sm' data-bind="click: $parent.cancelNewTask">
+                            <button type='button' class='btn btn-default btn-sm'
+                                    data-bind="click: $parent.cancelNewTask">
                                 {{ trans('texts.cancel') }}
                             </button>
                             <button type='button' class='btn btn-success btn-sm' data-bind="click: $parent.saveNewTask">
@@ -793,11 +832,11 @@
                         <button type='button' class='btn btn-default btn-sm' data-bind="click: cancelNewStatus">
                             {{ trans('texts.cancel') }}
                         </button>
-                        <!--
+                    <!--
                         <button type='button' class='btn btn-success btn-sm' data-bind="click: saveNewStatus">
                             {{ trans('texts.save') }}
-                        </button>
-                        -->
+                            </button>
+-->
                     </div>
                 </div>
             </div>

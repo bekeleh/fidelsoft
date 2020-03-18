@@ -71,7 +71,7 @@ class SaleType extends EntityModel
      *
      * @return mixed
      */
-    public static function findProductByKey($key)
+    public static function findSaleTypeByKey($key)
     {
         return self::scope()->where('name', '=', $key)->first();
     }
@@ -81,7 +81,7 @@ class SaleType extends EntityModel
      */
     public function itemPrices()
     {
-        return $this->belongsMany('App\Models\ItemPrice')->withTrashed();
+        return $this->hasMany('App\Models\ItemPrice', 'sale_type_id');
     }
 
     /**
