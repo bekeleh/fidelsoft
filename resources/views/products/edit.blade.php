@@ -7,8 +7,6 @@
     ->autocomplete('off')
     ->rules(['name' => 'required|max:255','cost' => 'required|numeric','category_id' => 'required|numeric','unit_id' => 'required|numeric'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
-    <!-- notification -->
-    @include('notifications')
     @if ($product)
         {{ Former::populate($product) }}
         {{ Former::populateField('cost', Utils::roundSignificant($product->cost)) }}

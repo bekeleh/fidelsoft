@@ -3,15 +3,12 @@
 @section('onReady')
     $('input#name').focus();
 @stop
-
 @section('head')
     @if (config('ninja.google_maps_api_key'))
         @include('partials.google_geocode')
     @endif
 @stop
-
 @section('content')
-
     @if ($errors->first('contacts'))
         <div class="alert alert-danger">{{ trans($errors->first('contacts')) }}</div>
     @endif
@@ -22,10 +19,7 @@
     ['email' => 'email']
     )->addClass('col-md-12 warn-on-exit')
     ->method($method) !!}
-    <!-- notification -->
-        @include('notifications')
         @include('partials.autocomplete_fix')
-
         @if ($client)
             {!! Former::populate($client) !!}
             {!! Former::populateField('task_rate', floatval($client->task_rate) ? Utils::roundSignificant($client->task_rate) : '') !!}

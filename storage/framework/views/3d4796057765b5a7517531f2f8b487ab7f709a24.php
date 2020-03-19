@@ -4,10 +4,11 @@
         <style type="text/css">
             .nav-footer {
                 <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?>
-                                                                               background-color: #50C878 !important;
+                                                                                     background-color: #50C878 !important;
                 <?php else: ?>
-                                                                                   background-color: #FD6A02 !important;
+                                                                                         background-color: #FD6A02 !important;
             <?php endif; ?>
+
 
 
             }
@@ -244,9 +245,9 @@
     </script>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('body'); ?>
-    <?php if(Utils::isNinjaProd() && ! Request::is('settings/account_management')): ?>
-        <?php echo $__env->make('partials.upgrade_modal', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-    <?php endif; ?>
+    
+    
+    
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="height:60px;">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
@@ -465,25 +466,12 @@
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <?php echo $__env->make('partials.warn_session', ['redirectTo' => '/dashboard'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                <?php if(Session::has('warning')): ?>
-                    <div class="alert alert-warning"><?php echo Session::get('warning'); ?></div>
-                <?php elseif(env('WARNING_MESSAGE')): ?>
-                    <div class="alert alert-warning"><?php echo env('WARNING_MESSAGE'); ?></div>
-                <?php endif; ?>
-                <?php if(Session::has('message')): ?>
-                    <div class="alert alert-info alert-hide" style="z-index:9999">
-                        <?php echo e(Session::get('message')); ?>
-
-                    </div>
-                <?php elseif(Session::has('news_feed_message')): ?>
+                <?php if(Session::has('news_feed_message')): ?>
                     <div class="alert alert-info">
                         <?php echo Session::get('news_feed_message'); ?>
 
                         <a href="#" onclick="hideMessage()" class="pull-right"><?php echo e(trans('texts.hide')); ?></a>
                     </div>
-                <?php endif; ?>
-                <?php if(Session::has('error')): ?>
-                    <div class="alert alert-danger"><?php echo Session::get('error'); ?></div>
                 <?php endif; ?>
                 <div class="pull-right">
                     <?php echo $__env->yieldContent('top-right'); ?>
@@ -492,6 +480,8 @@
                     <?php echo Form::breadcrumbs((! empty($entity) && $entity->exists) ? $entity->present()->statusLabel : false); ?>
 
                 <?php endif; ?>
+            <!-- notification -->
+                <?php echo $__env->make('notifications', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 <?php echo $__env->yieldContent('content'); ?>
                 <br/>
                 <div class="row">

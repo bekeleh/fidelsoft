@@ -6,10 +6,11 @@
         <style type="text/css">
             .nav-footer {
                 @if (config('mail.driver') == 'log' && ! config('services.postmark'))
-                                                                               background-color: #50C878 !important;
+                                                                                     background-color: #50C878 !important;
                 @else
-                                                                                   background-color: #FD6A02 !important;
+                                                                                         background-color: #FD6A02 !important;
             @endif
+
 
 
             }
@@ -245,9 +246,9 @@
     </script>
 @stop
 @section('body')
-    @if (Utils::isNinjaProd() && ! Request::is('settings/account_management'))
-        @include('partials.upgrade_modal')
-    @endif
+    {{--    @if (Utils::isNinjaProd() && ! Request::is('settings/account_management'))--}}
+    {{--        @include('partials.upgrade_modal')--}}
+    {{--    @endif--}}
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="height:60px;">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
@@ -456,23 +457,11 @@
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 @include('partials.warn_session', ['redirectTo' => '/dashboard'])
-                @if (Session::has('warning'))
-                    <div class="alert alert-warning">{!! Session::get('warning') !!}</div>
-                @elseif (env('WARNING_MESSAGE'))
-                    <div class="alert alert-warning">{!! env('WARNING_MESSAGE') !!}</div>
-                @endif
-                @if (Session::has('message'))
-                    <div class="alert alert-info alert-hide" style="z-index:9999">
-                        {{ Session::get('message') }}
-                    </div>
-                @elseif (Session::has('news_feed_message'))
+                @if (Session::has('news_feed_message'))
                     <div class="alert alert-info">
                         {!! Session::get('news_feed_message') !!}
                         <a href="#" onclick="hideMessage()" class="pull-right">{{ trans('texts.hide') }}</a>
                     </div>
-                @endif
-                @if (Session::has('error'))
-                    <div class="alert alert-danger">{!! Session::get('error') !!}</div>
                 @endif
                 <div class="pull-right">
                     @yield('top-right')
@@ -480,6 +469,8 @@
                 @if (!isset($showBreadcrumbs) || $showBreadcrumbs)
                     {!! Form::breadcrumbs((! empty($entity) && $entity->exists) ? $entity->present()->statusLabel : false) !!}
                 @endif
+            <!-- notification -->
+                @include('notifications')
                 @yield('content')
                 <br/>
                 <div class="row">

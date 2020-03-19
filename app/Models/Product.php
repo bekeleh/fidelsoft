@@ -118,15 +118,4 @@ class Product extends EntityModel
         return $this->morphMany('\App\Models\ItemMovement', 'movable', 'movable_type', 'movable_id');
     }
 
-    /**
-     * -----------------------------------------------
-     * BEGIN QUERY SCOPES
-     * -----------------------------------------------
-     **/
-
-    public function scopeDateBetween($query, $date_from, $date_to)
-    {
-        return $query->whereBetween('created_at', [$date_from, $date_to]);
-    }
-
 }

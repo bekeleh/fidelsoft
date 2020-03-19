@@ -7,8 +7,6 @@
     ->autocomplete('off')
     ->rules([])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
-    <!-- notification -->
-    @include('notifications')
     @if ($itemMovement)
         {{ Former::populate($itemMovement) }}
         <div style="display:none">

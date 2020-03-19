@@ -9,7 +9,6 @@ use App\Models\SaleType;
 use App\Ninja\Datatables\ItemPriceDatatable;
 use App\Ninja\Repositories\ItemPriceRepository;
 use App\Services\ItemPriceService;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
@@ -32,11 +31,6 @@ class ItemPriceController extends BaseController
         $this->itemPriceService = $itemPriceService;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
     public function index()
     {
         return View::make('list_wrapper', [
@@ -90,18 +84,14 @@ class ItemPriceController extends BaseController
         return View::make('item_prices.edit', $data);
     }
 
-    /**
-     * @param ItemPriceRequest $request
-     * @return RedirectResponse
-     */
     public function store(ItemPriceRequest $request)
     {
         $data = $request->input();
-        $productId = $data['product_id'] = Product::getPrivateId($data['product_id']);
-        $saleTypeId = $data['sale_type_id'] = SaleType::getPrivateId($data['sale_type_id']);
-        $validator = $this->validator($data, $productId, $saleTypeId);
-        if ($validator->fails()) {
+        if ($this->validator($data)->fails()) {
             return redirect()->to("item_prices/create")->with('error', trans('texts.item_price_unique'));
+        }
+        if ($this->dateValidator($data)) {
+            return redirect()->to("item_prices/{$request->public_id}/edit")->with('warning', trans('texts.warning_invalid_date'));
         }
         $itemPrice = $this->itemPriceService->save($data);
 
@@ -139,18 +129,14 @@ class ItemPriceController extends BaseController
         return View::make('item_prices.edit', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param ItemPriceRequest $request
-     * @return Response
-     */
     public function update(ItemPriceRequest $request)
     {
         $data = $request->input();
 
+        if ($this->dateValidator($data)) {
+            return redirect()->to("item_prices/{$request->public_id}/edit")->with('warning', trans('texts.warning_invalid_date'));
+        }
         $itemPrice = $this->itemPriceService->save($data, $request->entity());
-
         $action = Input::get('action');
         if (in_array($action, ['archive', 'delete', 'restore', 'invoice', 'add_to_invoice'])) {
             return self::bulk();
@@ -197,15 +183,12 @@ class ItemPriceController extends BaseController
         return Redirect::to("item_prices/{$publicId}/edit");
     }
 
-    /**
-     * @param $data
-     * @param $productId
-     * @param $saleTypeId
-     * @return mixed
-     */
-    public function validator($data, $productId, $saleTypeId)
+
+    public function validator($data)
     {
-        return Validator::make($data, [
+        $productId = $data['product_id'] = Product::getPrivateId($data['product_id']);
+        $saleTypeId = $data['sale_type_id'] = SaleType::getPrivateId($data['sale_type_id']);
+        $validator = Validator::make($data, [
                 'product_id' => [
                     'required', 'numeric',
                     Rule::unique('item_prices')
@@ -216,5 +199,16 @@ class ItemPriceController extends BaseController
                 ],
             ]
         );
+
+        return $validator;
+    }
+
+    public function dateValidator($data)
+    {
+        $data['start_date'] = isset($data['start_date']) ? Utils::toSqlDate(trim($data['start_date'])) : '';
+        $data['end_date'] = isset($data['end_date']) ? Utils::toSqlDate(trim($data['end_date'])) : '';
+        if ($data['start_date'] >= $data['end_date']) {
+            return true;
+        }
     }
 }

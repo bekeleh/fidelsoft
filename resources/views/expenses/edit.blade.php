@@ -16,8 +16,6 @@
     ->onsubmit('return onFormSubmit(event)')
     ->autocomplete('off')
     ->method($method) !!}
-    <!-- notification -->
-    @include('notifications')
     <div style="display:none">
         {!! Former::text('action') !!}
         {!! Former::text('data')->data_bind('value: ko.mapping.toJSON(model)') !!}

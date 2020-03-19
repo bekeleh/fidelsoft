@@ -7,8 +7,6 @@
     ->autocomplete('off')
     ->rules(['product_id' => 'required','sale_type_id' => 'required','price' => 'required|numeric','start_date' => 'required|date', 'end_date' => 'required|date', ])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
-    <!-- notification -->
-    @include('notifications')
     @if ($itemPrice)
         {{ Former::populate($itemPrice) }}
         <div style="display:none">
@@ -23,19 +21,20 @@
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
-                    {!! Former::select('sale_type_id')->addOption('', '')
-                    ->label(trans('texts.sale_type'))
-                    ->addGroupClass('sale-type-select') !!}
                     {!! Former::select('product_id')->addOption('', '')
                     ->label(trans('texts.product_name'))
                     ->addGroupClass('product-select') !!}
+                    {!! Former::select('sale_type_id')->addOption('', '')
+                    ->label(trans('texts.sale_type'))
+                    ->addGroupClass('sale-type-select') !!}
+
                     {!! Former::text('price')->label('texts.item_price') !!}
 
                     {!! Former::text('start_date')
-               ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
-               ->appendIcon('calendar')
-               ->addGroupClass('start_date')
-               !!}
+                    ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
+                    ->appendIcon('calendar')
+                    ->addGroupClass('start_date')
+                    !!}
                     {!! Former::text('end_date')
                     ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
                     ->addGroupClass('end_date')

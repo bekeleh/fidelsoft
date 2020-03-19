@@ -2,19 +2,18 @@
 
 @section('content')
     {!! Former::open($url)
-		->addClass('col-lg-10 col-lg-offset-1 warn-on-exit')
-		->method($method)
-		->rules([
-		    'client_id' => 'required',
-            'amount' => 'required',
-           ]) !!}
+    ->addClass('col-lg-10 col-lg-offset-1 warn-on-exit')
+    ->method($method)
+    ->rules([
+    'client_id' => 'required',
+    'amount' => 'required',
+    ]) !!}
     @if ($credit)
         {!! Former::populate($credit) !!}
         <div style="display:none">
             {!! Former::text('public_id') !!}
         </div>
     @endif
-
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
 
@@ -25,25 +24,20 @@
                         {!! Former::plaintext()->label('client')->value($client->present()->link) !!}
                     @else
                         {!! Former::select('client_id')
-                                ->label('client')
-                                ->addOption('', '')
-                                ->addGroupClass('client-select') !!}
+                        ->label('client')
+                        ->addOption('', '')
+                        ->addGroupClass('client-select') !!}
                     @endif
-
                     {!! Former::text('amount') !!}
-
                     @if ($credit)
                         {!! Former::text('balance') !!}
                     @endif
-
                     {!! Former::text('credit_date')
-                                ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
-                                ->addGroupClass('credit_date')
-                                ->append('<i class="glyphicon glyphicon-calendar"></i>') !!}
-
+                    ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
+                    ->addGroupClass('credit_date')
+                    ->append('<i class="glyphicon glyphicon-calendar"></i>') !!}
                     {!! Former::textarea('public_notes')->rows(4) !!}
                     {!! Former::textarea('private_notes')->rows(4) !!}
-
                 </div>
             </div>
 

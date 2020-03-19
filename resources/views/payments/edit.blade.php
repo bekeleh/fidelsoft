@@ -24,8 +24,6 @@
     'invoice' => 'required',
     'amount' => 'required',
     )) !!}
-    <!-- notification -->
-    @include('notifications')
     @if ($payment)
         {!! Former::populate($payment) !!}
     @else

@@ -44,7 +44,7 @@ class ItemPriceDatatable extends EntityDatatable
             [
                 'start_date',
                 function ($model) {
-                    return Utils::fromSqlDate($model->start_date);
+                    return Utils::timestampToDateString(strtotime($model->start_date));
                 },
             ],
             [

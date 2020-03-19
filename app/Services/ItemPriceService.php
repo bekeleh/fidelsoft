@@ -62,6 +62,9 @@ class ItemPriceService extends BaseService
                 $data['sale_type_id'] = SaleType::getPrivateId($data['sale_type_id']);
             }
         }
+        $data['start_date'] = isset($data['start_date']) ? Utils::toSqlDate(trim($data['start_date'])) : '';
+        $data['end_date'] = isset($data['end_date']) ? Utils::toSqlDate(trim($data['end_date'])) : '';
+
         return $this->itemPriceRepo->save($data, $itemPrice);
     }
 

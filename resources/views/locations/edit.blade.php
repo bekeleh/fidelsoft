@@ -8,8 +8,6 @@
             ->rules(['name' => 'required|max:255'])
             ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit')
              !!}
-    <!-- notification -->
-    @include('notifications')
     <!-- Main content area-->
     @if ($location)
         {{ Former::populate($location) }}
