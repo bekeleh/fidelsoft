@@ -83,4 +83,14 @@ class ItemPrice extends EntityModel
     {
         return $this->belongsTo('App\Models\User', 'user_id')->withTrashed();
     }
+
+    public function product()
+    {
+        return $this->belongsTo('App\Models\Product', 'product_id')->withTrashed();
+    }
+
+    public function saleType()
+    {
+        return $this->belongsTo('App\Models\SaleType', 'sale_type_id')->withTrashed();
+    }
 }

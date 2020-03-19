@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Libraries\Utils;
+use App\Models\Product;
 use App\Models\SaleType;
 use App\Ninja\Datatables\ItemPriceDatatable;
 use App\Ninja\Repositories\ItemPriceRepository;
@@ -55,7 +56,7 @@ class ItemPriceService extends BaseService
     {
         if ($itemPrice) {
             if (!empty($data['product_id'])) {
-                $data['product_id'] = SaleType::getPrivateId($data['product_id']);
+                $data['product_id'] = Product::getPrivateId($data['product_id']);
             }
             if (!empty($data['sale_type_id'])) {
                 $data['sale_type_id'] = SaleType::getPrivateId($data['sale_type_id']);

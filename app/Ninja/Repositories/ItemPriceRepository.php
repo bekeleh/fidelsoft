@@ -96,12 +96,8 @@ class ItemPriceRepository extends BaseRepository
             $itemPrice = ItemPrice::createNew();
             $itemPrice->created_by = Auth::user()->username;
         }
+
         $itemPrice->fill($data);
-        $itemPrice->price = isset($data['price']) ? trim($data['price']) : '';
-        $itemPrice->start_date = isset($data['start_date']) ? trim($data['start_date']) : '';
-        $itemPrice->end_date = isset($data['end_date']) ? trim($data['end_date']) : '';
-        $itemPrice->notes = isset($data['notes']) ? trim($data['notes']) : '';
-//      save the data
         $itemPrice->save();
 
         if ($publicId) {

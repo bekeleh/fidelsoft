@@ -48,11 +48,11 @@ class ItemPriceRequest extends EntityRequest
     function sanitize()
     {
         $input = $this->all();
-        if (!empty($input['effective_date'])) {
-            $input['effective_date'] = filter_var($input['effective_date'], FILTER_SANITIZE_STRING);
+        if (!empty($input['start_date'])) {
+            $input['start_date'] = filter_var($input['start_date'], FILTER_SANITIZE_STRING);
         }
-        if (!empty($input['due_date'])) {
-            $input['due_date'] = filter_var($input['due_date'], FILTER_SANITIZE_STRING);
+        if (!empty($input['end_date'])) {
+            $input['end_date'] = filter_var($input['end_date'], FILTER_SANITIZE_STRING);
         }
         if (!empty($input['price'])) {
             $input['price'] = filter_var($input['price'], FILTER_SANITIZE_STRING);

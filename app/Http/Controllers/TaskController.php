@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\TaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Libraries\Utils;
 use App\Models\Client;
 use App\Models\Project;
 use App\Models\Task;
@@ -13,53 +14,41 @@ use App\Ninja\Datatables\TaskDatatable;
 use App\Ninja\Repositories\InvoiceRepository;
 use App\Ninja\Repositories\TaskRepository;
 use App\Services\TaskService;
-use Auth;
 use DropdownButton;
-use Input;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\View;
 use Redirect;
-use Request;
-use Session;
-use URL;
-use Utils;
-use View;
 
 /**
  * Class TaskController.
  */
 class TaskController extends BaseController
 {
-    /**
-     * @var TaskRepository
-     */
+
     protected $taskRepo;
-
-    /**
-     * @var TaskService
-     */
     protected $taskService;
-
-    /**
-     * @var
-     */
     protected $entityType = ENTITY_TASK;
-
-    /**
-     * @var InvoiceRepository
-     */
     protected $invoiceRepo;
 
     /**
      * TaskController constructor.
      *
-     * @param TaskRepository    $taskRepo
+     * @param TaskRepository $taskRepo
      * @param InvoiceRepository $invoiceRepo
-     * @param TaskService       $taskService
+     * @param TaskService $taskService
      */
     public function __construct(
         TaskRepository $taskRepo,
         InvoiceRepository $invoiceRepo,
         TaskService $taskService
-    ) {
+    )
+    {
         // parent::__construct();
 
         $this->taskRepo = $taskRepo;
@@ -82,7 +71,8 @@ class TaskController extends BaseController
     /**
      * @param null $clientPublicId
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @param null $projectPublicId
+     * @return JsonResponse
      */
     public function getDatatable($clientPublicId = null, $projectPublicId = null)
     {
@@ -94,7 +84,7 @@ class TaskController extends BaseController
      *
      * @param CreateTaskRequest $request
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function store(CreateTaskRequest $request)
     {
@@ -104,7 +94,7 @@ class TaskController extends BaseController
     /**
      * @param $publicId
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function show($publicId)
     {
@@ -152,7 +142,7 @@ class TaskController extends BaseController
         $this->checkTimezone();
         $task = $request->entity();
 
-        if (! $task) {
+        if (!$task) {
             return redirect('/');
         }
 
@@ -166,12 +156,12 @@ class TaskController extends BaseController
             $invoices = $task->client_id ? $this->invoiceRepo->findOpenInvoices($task->client_id) : [];
 
             foreach ($invoices as $invoice) {
-                $actions[] = ['url' => 'javascript:submitAction("add_to_invoice", '.$invoice->public_id.')', 'label' => trans('texts.add_to_invoice', ['invoice' => e($invoice->invoice_number)])];
+                $actions[] = ['url' => 'javascript:submitAction("add_to_invoice", ' . $invoice->public_id . ')', 'label' => trans('texts.add_to_invoice', ['invoice' => e($invoice->invoice_number)])];
             }
         }
 
         $actions[] = DropdownButton::DIVIDER;
-        if (! $task->trashed()) {
+        if (!$task->trashed()) {
             $actions[] = ['url' => 'javascript:submitAction("archive")', 'label' => trans('texts.archive_task')];
             $actions[] = ['url' => 'javascript:onDeleteClick()', 'label' => trans('texts.delete_task')];
         } else {
@@ -184,7 +174,7 @@ class TaskController extends BaseController
             'clientPublicId' => $task->client ? $task->client->public_id : 0,
             'projectPublicId' => $task->project ? $task->project->public_id : 0,
             'method' => 'PUT',
-            'url' => 'tasks/'.$task->public_id,
+            'url' => 'tasks/' . $task->public_id,
             'title' => trans('texts.edit_task'),
             'actions' => $actions,
             'timezone' => Auth::user()->account->timezone ? Auth::user()->account->timezone->name : DEFAULT_TIMEZONE,
@@ -201,7 +191,7 @@ class TaskController extends BaseController
      *
      * @param UpdateTaskRequest $request
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function update(UpdateTaskRequest $request)
     {
@@ -211,6 +201,7 @@ class TaskController extends BaseController
     }
 
     /**
+     * @param bool $task
      * @return array
      */
     private static function getViewModel($task = false)
@@ -223,9 +214,10 @@ class TaskController extends BaseController
     }
 
     /**
+     * @param $request
      * @param null $publicId
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     private function save($request, $publicId = null)
     {
@@ -256,7 +248,7 @@ class TaskController extends BaseController
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function bulk()
     {
@@ -288,7 +280,7 @@ class TaskController extends BaseController
                         return redirect($referer)->withError(trans('texts.client_must_be_active'));
                     }
 
-                    if (! $clientPublicId) {
+                    if (!$clientPublicId) {
                         $clientPublicId = $task->client->public_id;
                     } elseif ($clientPublicId != $task->client->public_id) {
                         return redirect($referer)->withError(trans('texts.task_error_multiple_clients'));
@@ -324,7 +316,7 @@ class TaskController extends BaseController
             if (request()->wantsJson()) {
                 return response()->json($count);
             } else {
-                $message = Utils::pluralize($action.'d_task', $count);
+                $message = Utils::pluralize($action . 'd_task', $count);
                 Session::flash('message', $message);
 
                 return $this->returnBulk($this->entityType, $action, $ids);
@@ -334,7 +326,7 @@ class TaskController extends BaseController
 
     private function checkTimezone()
     {
-        if (! Auth::user()->account->timezone) {
+        if (!Auth::user()->account->timezone) {
             $link = link_to('/settings/localization?focus=timezone_id', trans('texts.click_here'), ['target' => '_blank']);
             Session::now('warning', trans('texts.timezone_unset', ['link' => $link]));
         }

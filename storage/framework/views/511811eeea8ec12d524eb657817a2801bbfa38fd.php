@@ -38,17 +38,15 @@
 
 
                     <?php echo Former::text('start_date')
-               ->data_bind("datePicker: start_date, valueUpdate: 'afterkeydown'")
                ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
                ->appendIcon('calendar')
-               ->addGroupClass('start_date')
-               ->data_date_start_date($itemPrice ? false : $account->formatDate($account->getDateTime())); ?>
-
+               ->addGroupClass('start_date'); ?>
 
                     <?php echo Former::text('end_date')
                     ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
                     ->addGroupClass('end_date')
-                    ->append('<i class="glyphicon glyphicon-calendar"></i>'); ?>
+                    ->appendIcon('calendar'); ?>
+
 
                     <?php echo Former::textarea('notes')->rows(6); ?>
 
@@ -152,6 +150,7 @@
                 submitAction('delete');
             });
         }
+
         $('#start_date').datepicker('update', '<?php echo e($itemPrice ? Utils::fromSqlDate($itemPrice->start_date) : ''); ?>');
         $('#end_date').datepicker('update', '<?php echo e($itemPrice ? Utils::fromSqlDate($itemPrice->end_date) : ''); ?>');
     </script>

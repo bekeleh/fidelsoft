@@ -78,12 +78,45 @@ class EntityModel extends Eloquent
         }
     }
 
+    public static function withCategory($relatedName)
+    {
+        if (!$relatedName) {
+            return null;
+        }
+        $className = get_called_class();
+        if ($relatedName != '') {
+            $query = $className::scope()->with($relatedName)->orderBy('name')->get();
+
+            return self::getNameWithCategory($query, $relatedName);
+        }
+        return null;
+    }
+
+    public static function getNameWithCategory($query, $relatedName)
+    {
+        foreach ($query as $subQuery) {
+            $name_str = '';
+            if ($subQuery->name != '') {
+                if ($subQuery->$relatedName->name != '') {
+                    $name_str .= e($subQuery->name) . ' (' . e($subQuery->$relatedName->name) . ')';
+                } else {
+                    $name_str .= e($subQuery->name);
+                }
+            }
+            $subQuery->name = $name_str;
+        }
+
+        return ($query);
+
+    }
+
     /**
      * @param $publicId
      *
      * @return mixed
      */
-    public static function getPrivateId($publicId)
+    public
+    static function getPrivateId($publicId)
     {
         if (!$publicId) {
             return null;
@@ -101,22 +134,26 @@ class EntityModel extends Eloquent
     /**
      * @return string
      */
-    public function getActivityKey()
+    public
+    function getActivityKey()
     {
         return '[' . $this->getEntityType() . ':' . $this->public_id . ':' . $this->getDisplayName() . ']';
     }
 
-    public function entityKey()
+    public
+    function entityKey()
     {
         return $this->public_id . ':' . $this->getEntityType();
     }
 
-    public function subEntityType()
+    public
+    function subEntityType()
     {
         return $this->getEntityType();
     }
 
-    public function isEntityType($type)
+    public
+    function isEntityType($type)
     {
         return $this->getEntityType() === $type;
     }
@@ -140,7 +177,8 @@ class EntityModel extends Eloquent
      *
      * @return mixed
      */
-    public function scopeScope($query, $publicId = false, $accountId = false)
+    public
+    function scopeScope($query, $publicId = false, $accountId = false)
     {
         // If 'false' is passed as the publicId return nothing rather than everything
         if (func_num_args() > 1 && !$publicId && !$accountId) {
@@ -169,7 +207,8 @@ class EntityModel extends Eloquent
         return $query;
     }
 
-    public function scopeWithActiveOrSelected($query, $id = false)
+    public
+    function scopeWithActiveOrSelected($query, $id = false)
     {
         return $query->withTrashed()
             ->where(function ($query) use ($id) {
@@ -183,7 +222,8 @@ class EntityModel extends Eloquent
      *
      * @return mixed
      */
-    public function scopeWithArchived($query)
+    public
+    function scopeWithArchived($query)
     {
         return $query->withTrashed()->where('is_deleted', '=', false);
     }
@@ -191,7 +231,8 @@ class EntityModel extends Eloquent
     /**
      * @return mixed
      */
-    public function getName()
+    public
+    function getName()
     {
         return $this->public_id;
     }
@@ -199,7 +240,8 @@ class EntityModel extends Eloquent
     /**
      * @return mixed
      */
-    public function getDisplayName()
+    public
+    function getDisplayName()
     {
         return $this->getName();
     }
@@ -209,7 +251,8 @@ class EntityModel extends Eloquent
      *
      * @return string
      */
-    public static function getClassName($entityType)
+    public
+    static function getClassName($entityType)
     {
         if (!Utils::isNinjaProd()) {
             if ($module = \Module::find($entityType)) {
@@ -229,7 +272,8 @@ class EntityModel extends Eloquent
      *
      * @return string
      */
-    public static function getTransformerName($entityType)
+    public
+    static function getTransformerName($entityType)
     {
         if (!Utils::isNinjaProd()) {
             if ($module = \Module::find($entityType)) {
@@ -240,7 +284,8 @@ class EntityModel extends Eloquent
         return 'App\\Ninja\\Transformers\\' . ucwords(Utils::toCamelCase($entityType)) . 'Transformer';
     }
 
-    public function setNullValues()
+    public
+    function setNullValues()
     {
         foreach ($this->fillable as $field) {
             if (strstr($field, '_id') && !$this->$field) {
@@ -249,12 +294,13 @@ class EntityModel extends Eloquent
         }
     }
 
-    // converts "App\Models\Client" to "client_id"
+// converts "App\Models\Client" to "client_id"
 
     /**
      * @return string
      */
-    public function getKeyField()
+    public
+    function getKeyField()
     {
         $class = get_class($this);
         $parts = explode('\\', $class);
@@ -270,7 +316,8 @@ class EntityModel extends Eloquent
      * TODO Remove $entityType parameter
      * @return bool|string
      */
-    public static function validate($data, $entityType = false, $entity = false)
+    public
+    static function validate($data, $entityType = false, $entity = false)
     {
         if (!$entityType) {
             $className = get_called_class();
@@ -305,7 +352,8 @@ class EntityModel extends Eloquent
         }
     }
 
-    public static function getIcon($entityType)
+    public
+    static function getIcon($entityType)
     {
         $icons = [
             'dashboard' => 'tachometer',
@@ -336,7 +384,8 @@ class EntityModel extends Eloquent
         return array_get($icons, $entityType);
     }
 
-    public function loadFromRequest()
+    public
+    function loadFromRequest()
     {
         foreach (static::$requestFields as $field) {
             if ($value = request()->$field) {
@@ -345,8 +394,9 @@ class EntityModel extends Eloquent
         }
     }
 
-    // isDirty return true if the field's new value is the same as the old one
-    public function isChanged()
+// isDirty return true if the field's new value is the same as the old one
+    public
+    function isChanged()
     {
         foreach ($this->fillable as $field) {
             if ($this->$field != $this->getOriginal($field)) {
@@ -357,7 +407,8 @@ class EntityModel extends Eloquent
         return false;
     }
 
-    public static function getFormUrl($entityType)
+    public
+    static function getFormUrl($entityType)
     {
         if (in_array($entityType, [ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_TEMPLATE])) {
             return str_replace('_', 's/', Utils::pluralizeEntityType($entityType));
@@ -366,7 +417,8 @@ class EntityModel extends Eloquent
         }
     }
 
-    public static function getStates($entityType = false)
+    public
+    static function getStates($entityType = false)
     {
         $data = [];
 
@@ -377,36 +429,42 @@ class EntityModel extends Eloquent
         return $data;
     }
 
-    public static function getStatuses($entityType = false)
+    public
+    static function getStatuses($entityType = false)
     {
         return [];
     }
 
-    public static function getStatesFor($entityType = false)
+    public
+    static function getStatesFor($entityType = false)
     {
         $class = static::getClassName($entityType);
 
         return $class::getStates($entityType);
     }
 
-    public static function getStatusesFor($entityType = false)
+    public
+    static function getStatusesFor($entityType = false)
     {
         $class = static::getClassName($entityType);
 
         return $class::getStatuses($entityType);
     }
 
-    public function statusClass()
+    public
+    function statusClass()
     {
         return '';
     }
 
-    public function statusLabel()
+    public
+    function statusLabel()
     {
         return '';
     }
 
-    public function save(array $options = [])
+    public
+    function save(array $options = [])
     {
         try {
             return parent::save($options);
@@ -430,7 +488,8 @@ class EntityModel extends Eloquent
         }
     }
 
-    public function equalTo($obj)
+    public
+    function equalTo($obj)
     {
         if (empty($obj->id)) {
             return false;
@@ -444,7 +503,8 @@ class EntityModel extends Eloquent
      * @param $params
      * @return mixed
      */
-    public function __call($method, $params)
+    public
+    function __call($method, $params)
     {
         if (count(config('modules.relations'))) {
             $entityType = $this->getEntityType();

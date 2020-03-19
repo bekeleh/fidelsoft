@@ -11,10 +11,10 @@ use App\Models\Project;
 use App\Ninja\Datatables\ProjectDatatable;
 use App\Ninja\Repositories\ProjectRepository;
 use App\Services\ProjectService;
-use Auth;
-use Input;
-use Session;
-use View;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\View;
 
 class ProjectController extends BaseController
 {
@@ -138,7 +138,7 @@ class ProjectController extends BaseController
                 }])
                 ->get();
             foreach ($projects as $project) {
-                if (! $clientPublicId) {
+                if (!$clientPublicId) {
                     $clientPublicId = $project->client->public_id;
                 }
                 if ($lastClientId && $lastClientId != $project->client_id) {

@@ -3,8 +3,7 @@
 namespace App\Ninja\Repositories;
 
 use App\Models\TaxRate;
-use DB;
-use Utils;
+use Illuminate\Support\Facades\DB;
 
 class TaxRateRepository extends BaseRepository
 {
@@ -21,15 +20,15 @@ class TaxRateRepository extends BaseRepository
     public function find($accountId)
     {
         return DB::table('tax_rates')
-                ->where('tax_rates.account_id', '=', $accountId)
-                ->where('tax_rates.deleted_at', '=', null)
-                ->select(
-                    'tax_rates.public_id',
-                    'tax_rates.name',
-                    'tax_rates.rate',
-                    'tax_rates.deleted_at',
-                    'tax_rates.is_inclusive'
-                );
+            ->where('tax_rates.account_id', '=', $accountId)
+            ->where('tax_rates.deleted_at', '=', null)
+            ->select(
+                'tax_rates.public_id',
+                'tax_rates.name',
+                'tax_rates.rate',
+                'tax_rates.deleted_at',
+                'tax_rates.is_inclusive'
+            );
     }
 
     public function save($data, $taxRate = null)

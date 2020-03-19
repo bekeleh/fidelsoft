@@ -32,7 +32,7 @@ class ItemPriceDatatable extends EntityDatatable
             [
                 'item_name',
                 function ($model) {
-                    return link_to('prices/' . $model->public_id . '/edit', $model->item_name)->toHtml();
+                    return link_to('products/' . $model->public_id . '/edit', $model->item_name)->toHtml();
                 },
             ],
             [
@@ -96,15 +96,15 @@ class ItemPriceDatatable extends EntityDatatable
     {
         return [
             [
-                uctrans('texts.edit_price'),
+                uctrans('texts.edit_item_price'),
                 function ($model) {
-                    return URL::to("prices/{$model->public_id}/edit");
+                    return URL::to("item_prices/{$model->public_id}/edit");
                 },
             ],
             [
-                trans('texts.clone_price'),
+                trans('texts.clone_item_price'),
                 function ($model) {
-                    return URL::to("prices/{$model->public_id}/clone");
+                    return URL::to("item_prices/{$model->public_id}/clone");
                 },
                 function ($model) {
                     return Auth::user()->can('create', ENTITY_ITEM_PRICE);

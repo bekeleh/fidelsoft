@@ -131,7 +131,7 @@ class ItemPriceController extends BaseController
             'url' => $url,
             'title' => trans('texts.edit_item_price'),
             'productPublicId' => $itemPrice->product ? $itemPrice->product->public_id : null,
-            'saleTypePublicId' => $itemPrice->store ? $itemPrice->store->public_id : null,
+            'saleTypePublicId' => $itemPrice->saleType ? $itemPrice->saleType->public_id : null,
         ];
 
         $data = array_merge($data, self::getViewModel($itemPrice));
@@ -159,7 +159,7 @@ class ItemPriceController extends BaseController
         if ($action == 'clone') {
             return redirect()->to(sprintf('item_prices/%s/clone', $itemPrice->public_id))->with('success', trans('texts.clone_item_price'));;
         } else {
-            return redirect()->to("item_prices/{$itemPrice->public_id}/edit")->with('success', trans('texts.update_item_price'));
+            return redirect()->to("item_prices/{$itemPrice->public_id}/edit")->with('success', trans('texts.updated_item_price'));
         }
     }
 
@@ -185,7 +185,7 @@ class ItemPriceController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
-            'products' => Product::scope()->withActiveOrSelected($itemPrice ? $itemPrice->product_id : false)->orderBy('name')->get(),
+            'products' => Product::withCategory('itemCategory'),
             'saleTypes' => SaleType::scope()->withActiveOrSelected($itemPrice ? $itemPrice->sale_type_id : false)->orderBy('name')->get(),
         ];
     }

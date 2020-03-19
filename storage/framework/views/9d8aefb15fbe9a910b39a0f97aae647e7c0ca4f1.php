@@ -295,6 +295,7 @@
         }
     </script>
 <?php endif; ?>
+
 <?php echo $__env->yieldContent('body'); ?>
 
 <script type="text/javascript">
@@ -358,7 +359,5 @@
         window.open(url, '_blank');
     }
 </script>
-
 </body>
-
 </html>

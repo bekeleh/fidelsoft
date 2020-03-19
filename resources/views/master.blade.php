@@ -295,6 +295,7 @@
         }
     </script>
 @endif
+
 @yield('body')
 
 <script type="text/javascript">
@@ -357,7 +358,5 @@
         window.open(url, '_blank');
     }
 </script>
-
 </body>
-
 </html>

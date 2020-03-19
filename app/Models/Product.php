@@ -98,6 +98,11 @@ class Product extends EntityModel
         return $this->hasMany('App\Models\ItemStore', 'store_id')->withTrashed();
     }
 
+    public function itemPrices()
+    {
+        return $this->hasMany('App\Models\ItemPrice', 'product_id')->withTrashed();
+    }
+
     public function itemCategory()
     {
         return $this->belongsTo('App\Models\ItemCategory', 'category_id')->withTrashed();
