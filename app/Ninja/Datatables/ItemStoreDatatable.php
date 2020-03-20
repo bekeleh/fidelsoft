@@ -18,26 +18,26 @@ class ItemStoreDatatable extends EntityDatatable
 
         return [
             [
-                'category_name',
+                'item_name',
                 function ($model) {
                     if ($model->product_id) {
-                        if (Auth::user()->can('view', [ENTITY_ITEM_CATEGORY, $model]))
-                            return link_to("item_categories/{$model->product_id}", $model->category_name)->toHtml();
+                        if (Auth::user()->can('view', [ENTITY_PRODUCT, $model]))
+                            return link_to("products/{$model->product_id}", $model->item_name)->toHtml();
                         else
-                            return $model->category_name;
+                            return $model->item_name;
                     } else {
                         return '';
                     }
                 }
             ],
             [
-                'product_name',
+                'item_category_name',
                 function ($model) {
                     if ($model->product_id) {
-                        if (Auth::user()->can('view', [ENTITY_PRODUCT, $model]))
-                            return link_to("products/{$model->product_id}", $model->product_name)->toHtml();
+                        if (Auth::user()->can('view', [ENTITY_ITEM_CATEGORY, $model]))
+                            return link_to("item_categories/{$model->product_id}", $model->item_category_name)->toHtml();
                         else
-                            return $model->product_name;
+                            return $model->item_category_name;
                     } else {
                         return '';
                     }
@@ -146,7 +146,6 @@ class ItemStoreDatatable extends EntityDatatable
 
     private function getStatusLabel($model)
     {
-//        $label = ItemStore::calcStatusLabel($model->qty, $model->reorder_level);
         $class = ItemStore::calcStatusClass($model->qty, $model->reorder_level);
 
         return "<h4><div class=\"label label-{$class}\">$model->qty</div></h4>";

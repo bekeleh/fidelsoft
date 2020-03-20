@@ -21,6 +21,8 @@ class ProductRequest extends EntityRequest
             case 'POST':
             {
                 $rules['name'] = 'required|max:90|unique:products,name';
+                $rules['item_category_id'] = 'required|numeric';
+                $rules['unit'] = 'required|numeric';
                 $rules['is_deleted'] = 'boolean';
                 $rules['notes'] = 'nullable';
                 break;
@@ -29,8 +31,11 @@ class ProductRequest extends EntityRequest
             case 'PATCH':
             {
                 $product = Product::where('public_id', (int)request()->segment(2))->first();
+                dd($product);
                 if ($product) {
                     $rules['name'] = 'required|max:90|unique:products,name,' . $product->id . ',id';
+                    $rules['item_category_id'] = 'required|numeric';
+                    $rules['unit'] = 'required|numeric';
                     $rules['is_deleted'] = 'boolean';
                     $rules['notes'] = 'nullable';
                     break;

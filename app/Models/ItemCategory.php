@@ -61,22 +61,7 @@ class ItemCategory extends EntityModel
 
     public function products()
     {
-        return $this->hasMany('App\Models\Product', 'category_id')->withTrashed();
-    }
-
-    /**
-     * -----------------------------------------------
-     * BEGIN QUERY SCOPES
-     * -----------------------------------------------
-     * @param $query
-     * @param $date_from
-     * @param $date_to
-     * @return mixed
-     */
-
-    public function scopeDateBetween($query, $date_from, $date_to)
-    {
-        return $query->whereBetween('created_at', [$date_from, $date_to]);
+        return $this->hasMany('App\Models\Product', 'item_category_id')->withTrashed();
     }
 
 }

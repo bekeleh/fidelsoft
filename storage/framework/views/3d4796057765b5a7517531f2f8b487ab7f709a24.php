@@ -4,10 +4,14 @@
         <style type="text/css">
             .nav-footer {
                 <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?>
-                                                                                     background-color: #50C878 !important;
+                                                                                         background-color: #50C878 !important;
                 <?php else: ?>
-                                                                                         background-color: #FD6A02 !important;
+                                                                                             background-color: #FD6A02 !important;
             <?php endif; ?>
+
+
+
+
 
 
 
@@ -131,7 +135,7 @@
                 });
 
                 request.error(function (httpObj, textStatus) {
-                    // if the session has expried show login page
+                    // if the session has expired show login page
                     if (httpObj.status == 401) {
                         location.reload();
                     }
@@ -140,10 +144,10 @@
         }
 
         $(function () {
-            // auto-logout after 8 hours
+            // auto-logout after 2 hours
             window.setTimeout(function () {
                 window.location = '<?php echo e(URL::to('/logout?reason=inactive')); ?>';
-            }, <?php echo e(1000 * env('AUTO_LOGOUT_SECONDS', (60 * 60 * 8))); ?>);
+            }, <?php echo e(1000 * env('AUTO_LOGOUT_SECONDS', (60 * 60 * 2))); ?>);
 
             // auto-hide status alerts
             window.setTimeout(function () {

@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\ItemPrice;
+use Google\Auth\Cache\Item;
+
 class ItemPriceRequest extends EntityRequest
 {
     protected $entityType = ENTITY_ITEM_PRICE;
@@ -15,6 +18,7 @@ class ItemPriceRequest extends EntityRequest
     {
         $this->sanitize();
         $rules = [];
+        dd($this->all());
         switch ($this->method()) {
             case 'POST':
             {
@@ -30,6 +34,8 @@ class ItemPriceRequest extends EntityRequest
             case 'PUT':
             case 'PATCH':
             {
+                $itemPrice = ItemPrice::find((int)request()->segment(2));
+                dd($itemPrice);
                 $rules['product_id'] = 'required|numeric';
                 $rules['sale_type_id'] = 'required|numeric';
                 $rules['price'] = 'required|numeric';

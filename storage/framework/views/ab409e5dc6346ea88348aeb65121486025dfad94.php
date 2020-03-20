@@ -1,5 +1,5 @@
 <?php echo Former::open(\App\Models\EntityModel::getFormUrl($entityType) . '/bulk')
-		->addClass('listForm_' . $entityType); ?>
+->addClass('listForm_' . $entityType); ?>
 
 
 <div style="display:none">
@@ -20,32 +20,32 @@
     <?php endif; ?>
 
     <?php echo DropdownButton::normal(trans('texts.archive'))
-            ->withContents($datatable->bulkActions())
-            ->withAttributes(['class'=>'archive'])
-            ->split(); ?>
+    ->withContents($datatable->bulkActions())
+    ->withAttributes(['class'=>'archive'])
+    ->split(); ?>
 
 
     &nbsp;
     <span id="statusWrapper_<?php echo e($entityType); ?>" style="display:none">
-		<select class="form-control" style="width: 220px" id="statuses_<?php echo e($entityType); ?>" multiple="true">
-			<?php if(count(\App\Models\EntityModel::getStatusesFor($entityType))): ?>
-                <optgroup label="<?php echo e(trans('texts.entity_state')); ?>">
-					<?php $__currentLoopData = \App\Models\EntityModel::getStatesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-				</optgroup>
-                <optgroup label="<?php echo e(trans('texts.status')); ?>">
-					<?php $__currentLoopData = \App\Models\EntityModel::getStatusesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-				</optgroup>
-            <?php else: ?>
-                <?php $__currentLoopData = \App\Models\EntityModel::getStatesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            <?php endif; ?>
-		</select>
-	</span>
+<select class="form-control" style="width: 220px" id="statuses_<?php echo e($entityType); ?>" multiple="true">
+<?php if(count(\App\Models\EntityModel::getStatusesFor($entityType))): ?>
+        <optgroup label="<?php echo e(trans('texts.entity_state')); ?>">
+<?php $__currentLoopData = \App\Models\EntityModel::getStatesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+</optgroup>
+        <optgroup label="<?php echo e(trans('texts.status')); ?>">
+<?php $__currentLoopData = \App\Models\EntityModel::getStatusesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+</optgroup>
+    <?php else: ?>
+        <?php $__currentLoopData = \App\Models\EntityModel::getStatesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    <?php endif; ?>
+</select>
+</span>
 </div>
 
 <div id="top_right_buttons" class="pull-right">
@@ -55,18 +55,18 @@
 
     <?php if($entityType == ENTITY_PROPOSAL): ?>
         <?php echo DropdownButton::normal(trans('texts.proposal_templates'))
-            ->withAttributes(['class'=>'templatesDropdown'])
-            ->withContents([
-              ['label' => trans('texts.new_proposal_template'), 'url' => url('/proposals/templates/create')],
-            ]
-          )->split(); ?>
+        ->withAttributes(['class'=>'templatesDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_proposal_template'), 'url' => url('/proposals/templates/create')],
+        ]
+        )->split(); ?>
 
         <?php echo DropdownButton::normal(trans('texts.proposal_snippets'))
-            ->withAttributes(['class'=>'snippetsDropdown'])
-            ->withContents([
-              ['label' => trans('texts.new_proposal_snippet'), 'url' => url('/proposals/snippets/create')],
-            ]
-          )->split(); ?>
+        ->withAttributes(['class'=>'snippetsDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_proposal_snippet'), 'url' => url('/proposals/snippets/create')],
+        ]
+        )->split(); ?>
 
         <script type="text/javascript">
             $(function () {
@@ -80,11 +80,11 @@
         </script>
     <?php elseif($entityType == ENTITY_PROPOSAL_SNIPPET): ?>
         <?php echo DropdownButton::normal(trans('texts.proposal_categories'))
-            ->withAttributes(['class'=>'categoriesDropdown'])
-            ->withContents([
-              ['label' => trans('texts.new_proposal_category'), 'url' => url('/proposals/categories/create')],
-            ]
-          )->split(); ?>
+        ->withAttributes(['class'=>'categoriesDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_proposal_category'), 'url' => url('/proposals/categories/create')],
+        ]
+        )->split(); ?>
 
         <script type="text/javascript">
             $(function () {
@@ -95,24 +95,24 @@
         </script>
     <?php elseif($entityType == ENTITY_EXPENSE): ?>
         <?php echo DropdownButton::normal(trans('texts.recurring'))
-            ->withAttributes(['class'=>'recurringDropdown'])
-            ->withContents([
-              ['label' => trans('texts.new_recurring_expense'), 'url' => url('/recurring_expenses/create')],
-            ]
-          )->split(); ?>
+        ->withAttributes(['class'=>'recurringDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_recurring_expense'), 'url' => url('/recurring_expenses/create')],
+        ]
+        )->split(); ?>
 
         <?php if(Auth::user()->can('create', ENTITY_EXPENSE_CATEGORY)): ?>
             <?php echo DropdownButton::normal(trans('texts.categories'))
-                ->withAttributes(['class'=>'categoriesDropdown'])
-                ->withContents([
-                  ['label' => trans('texts.new_expense_category'), 'url' => url('/expense_categories/create')],
-                ]
-              )->split(); ?>
+            ->withAttributes(['class'=>'categoriesDropdown'])
+            ->withContents([
+            ['label' => trans('texts.new_expense_category'), 'url' => url('/expense_categories/create')],
+            ]
+            )->split(); ?>
 
         <?php else: ?>
             <?php echo DropdownButton::normal(trans('texts.categories'))
-                ->withAttributes(['class'=>'categoriesDropdown'])
-                ->split(); ?>
+            ->withAttributes(['class'=>'categoriesDropdown'])
+            ->split(); ?>
 
         <?php endif; ?>
         <script type="text/javascript">
@@ -131,26 +131,13 @@
             <?php echo DropdownButton::normal(trans('texts.maintenance'))
             ->withAttributes(['class'=>'maintenanceDropdown'])
             ->withContents([
-                ['label' => trans('texts.new_location'), 'url' => url('/locations/create')],
-                ['label' => trans('texts.new_store'), 'url' => url('/stores/create')],
-                ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types/create')],
-                ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores/create')],
-                ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices/create')],
-                ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
-                ['label' => trans('texts.new_unit'), 'url' => url('/units/create')]
-            ])->split(); ?>
-
-        <?php else: ?>
-            <?php echo DropdownButton::normal(trans('texts.maintenance'))
-            ->withAttributes(['class'=>'maintenanceDropdown'])
-            ->withContents([
-                ['label' => trans('texts.new_location'), 'url' => url('/locations/create')],
-                ['label' => trans('texts.new_store'), 'url' => url('/stores/create')],
-                ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types/create')],
-                ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores/create')],
-                ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices/create')],
-                ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
-                ['label' => trans('texts.new_unit'), 'url' => url('/units/create')]
+        ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices/create')],
+        ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores/create')],
+        ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types/create')],
+        ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
+        ['label' => trans('texts.new_unit'), 'url' => url('/units/create')],
+        ['label' => trans('texts.new_store'), 'url' => url('/stores/create')],
+        ['label' => trans('texts.new_location'), 'url' => url('/locations/create')]
             ])->split(); ?>
 
         <?php endif; ?>
@@ -170,21 +157,83 @@
                     openUrlOnClick('<?php echo e(url('/sale_types')); ?>', event);
                 });
             });
-        </script><!-- /. store -->
+        </script><!-- /. product -->
+        <!-- Entity Item price -->
+    <?php elseif($entityType == ENTITY_ITEM_PRICE): ?>
+        <?php echo DropdownButton::normal(trans('texts.maintenance'))
+        ->withAttributes(['class'=>'maintenanceDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_product'), 'url' => url('/products/create')],
+        ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores/create')],
+        ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types/create')],
+        ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
+        ['label' => trans('texts.new_unit'), 'url' => url('/units/create')],
+        ['label' => trans('texts.new_store'), 'url' => url('/stores/create')],
+        ['label' => trans('texts.new_location'), 'url' => url('/locations/create')]
+        ])->split(); ?>
+
+        <script type="text/javascript">
+            $(function () {
+                $('.item_categoriesDropdown:not(.dropdown-toggle)').click(function (event) {
+                    openUrlOnClick('<?php echo e(url('/item_categories')); ?>', event);
+                });
+            });
+            $(function () {
+                $('.unitsDropdown:not(.dropdown-toggle)').click(function (event) {
+                    openUrlOnClick('<?php echo e(url('/units')); ?>', event);
+                });
+            });
+            $(function () {
+                $('.unitsDropdown:not(.dropdown-toggle)').click(function (event) {
+                    openUrlOnClick('<?php echo e(url('/sale_types')); ?>', event);
+                });
+            });
+        </script><!-- /. item price -->
+        <!-- Entity Item store -->
+    <?php elseif($entityType == ENTITY_ITEM_STORE): ?>
+        <?php echo DropdownButton::normal(trans('texts.maintenance'))
+        ->withAttributes(['class'=>'maintenanceDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_product'), 'url' => url('/products/create')],
+        ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices/create')],
+        ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types/create')],
+        ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
+        ['label' => trans('texts.new_unit'), 'url' => url('/units/create')],
+        ['label' => trans('texts.new_store'), 'url' => url('/stores/create')],
+        ['label' => trans('texts.new_location'), 'url' => url('/locations/create')]
+        ])->split(); ?>
+
+        <script type="text/javascript">
+            $(function () {
+                $('.item_categoriesDropdown:not(.dropdown-toggle)').click(function (event) {
+                    openUrlOnClick('<?php echo e(url('/item_categories')); ?>', event);
+                });
+            });
+            $(function () {
+                $('.unitsDropdown:not(.dropdown-toggle)').click(function (event) {
+                    openUrlOnClick('<?php echo e(url('/units')); ?>', event);
+                });
+            });
+            $(function () {
+                $('.unitsDropdown:not(.dropdown-toggle)').click(function (event) {
+                    openUrlOnClick('<?php echo e(url('/sale_types')); ?>', event);
+                });
+            });
+        </script><!-- /. item store -->
         <!-- store begin -->
     <?php elseif($entityType == ENTITY_STORE): ?>
         <?php if(Auth::user()->can('create', ENTITY_LOCATION)): ?>
             <?php echo DropdownButton::normal(trans('texts.maintenance'))
-                ->withAttributes(['class'=>'locationsDropdown'])
-                ->withContents([
-                  ['label' => trans('texts.new_location'), 'url' => url('/locations/create')],
-                ]
-              )->split(); ?>
+            ->withAttributes(['class'=>'locationsDropdown'])
+            ->withContents([
+            ['label' => trans('texts.new_location'), 'url' => url('/locations/create')],
+            ]
+            )->split(); ?>
 
         <?php else: ?>
             <?php echo DropdownButton::normal(trans('texts.locations'))
-                ->withAttributes(['class'=>'locationsDropdown'])
-                ->split(); ?>
+            ->withAttributes(['class'=>'locationsDropdown'])
+            ->split(); ?>
 
         <?php endif; ?>
         <script type="text/javascript">
@@ -242,24 +291,24 @@
 
     <?php if(Auth::user()->can('create', $entityType) && empty($vendorId)): ?>
         <?php echo Button::primary(mtrans($entityType, "new_{$entityType}"))
-            ->asLinkTo(url(
-                (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_TEMPLATE]) ? str_replace('_', 's/', Utils::pluralizeEntityType($entityType)) : Utils::pluralizeEntityType($entityType)) .
-                '/create/' . (isset($clientId) ? ($clientId . (isset($projectId) ? '/' . $projectId : '')) : '')
-            ))
-            ->appendIcon(Icon::create('plus-sign')); ?>
+        ->asLinkTo(url(
+        (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_TEMPLATE]) ? str_replace('_', 's/', Utils::pluralizeEntityType($entityType)) : Utils::pluralizeEntityType($entityType)) .
+        '/create/' . (isset($clientId) ? ($clientId . (isset($projectId) ? '/' . $projectId : '')) : '')
+        ))
+        ->appendIcon(Icon::create('plus-sign')); ?>
 
     <?php endif; ?>
 
 </div>
 
 <?php echo Datatable::table()
-	->addColumn(Utils::trans($datatable->columnFields(), $datatable->entityType))
-	->setUrl(empty($url) ? url('api/' . Utils::pluralizeEntityType($entityType)) : $url)
-	->setCustomValues('entityType', Utils::pluralizeEntityType($entityType))
-	->setCustomValues('clientId', isset($clientId) && $clientId && empty($projectId))
-	->setOptions('sPaginationType', 'bootstrap')
-    ->setOptions('aaSorting', [[isset($clientId) ? ($datatable->sortCol-1) : $datatable->sortCol, 'desc']])
-	->render('datatable'); ?>
+->addColumn(Utils::trans($datatable->columnFields(), $datatable->entityType))
+->setUrl(empty($url) ? url('api/' . Utils::pluralizeEntityType($entityType)) : $url)
+->setCustomValues('entityType', Utils::pluralizeEntityType($entityType))
+->setCustomValues('clientId', isset($clientId) && $clientId && empty($projectId))
+->setOptions('sPaginationType', 'bootstrap')
+->setOptions('aaSorting', [[isset($clientId) ? ($datatable->sortCol-1) : $datatable->sortCol, 'desc']])
+->render('datatable'); ?>
 
 
 <?php if($entityType == ENTITY_PAYMENT): ?>
@@ -272,14 +321,14 @@
 <style type="text/css">
 
     <?php $__currentLoopData = $datatable->rightAlignIndices(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-		.listForm_<?php echo e($entityType); ?> table.dataTable td:nth-child(<?php echo e($index); ?>) {
+.listForm_<?php echo e($entityType); ?> table.dataTable td:nth-child(<?php echo e($index); ?>) {
         text-align: right;
     }
 
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-	<?php $__currentLoopData = $datatable->centerAlignIndices(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-		.listForm_<?php echo e($entityType); ?> table.dataTable td:nth-child(<?php echo e($index); ?>) {
+<?php $__currentLoopData = $datatable->centerAlignIndices(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+.listForm_<?php echo e($entityType); ?> table.dataTable td:nth-child(<?php echo e($index); ?>) {
         text-align: center;
     }
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -291,7 +340,7 @@
     var submittedForm;
 
     function submitForm_<?php echo e($entityType); ?>(action, id) {
-        // prevent duplicate form submissions
+// prevent duplicate form submissions
         if (submittedForm) {
             swal("<?php echo e(trans('texts.processing_request')); ?>")
             return;
@@ -315,7 +364,7 @@
 
     $(function () {
 
-        // Handle datatable filtering
+// Handle datatable filtering
         var tableFilter = '';
         var searchTimeout = false;
 
@@ -347,7 +396,7 @@
             }
         });
 
-        // Enable/disable bulk action buttons
+// Enable/disable bulk action buttons
         window.onDatatableReady_<?php echo e(Utils::pluralizeEntityType($entityType)); ?> = function () {
             $(':checkbox').click(function () {
                 setBulkActionsEnabled_<?php echo e($entityType); ?>();
@@ -385,10 +434,10 @@
             $('.listForm_<?php echo e($entityType); ?> button.archive').not('.dropdown-toggle').text(buttonLabel);
         }
 
-        // Setup state/status filter
+// Setup state/status filter
         $('#statuses_<?php echo e($entityType); ?>').select2({
             placeholder: "<?php echo e(trans('texts.status')); ?>",
-            //allowClear: true,
+//allowClear: true,
             templateSelection: function (data, container) {
                 if (data.id == 'archived') {
                     $(container).css('color', '#fff');

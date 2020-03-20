@@ -29,7 +29,7 @@ class ItemStoreRepository extends BaseRepository
         $query = DB::table('item_stores')
             ->join('accounts', 'accounts.id', '=', 'item_stores.account_id')
             ->join('products', 'products.id', '=', 'item_stores.product_id')
-            ->join('item_categories', 'item_categories.id', '=', 'products.category_id')
+            ->join('item_categories', 'item_categories.id', '=', 'products.item_category_id')
             ->join('stores', 'stores.id', '=', 'item_stores.store_id')
             ->where('item_stores.account_id', '=', $accountId)
             //->where('item_stores.deleted_at', '=', null)
@@ -50,8 +50,8 @@ class ItemStoreRepository extends BaseRepository
                 'item_stores.created_by',
                 'item_stores.updated_by',
                 'item_stores.deleted_by',
-                'products.name as product_name',
-                'item_categories.name as category_name',
+                'products.name as item_name',
+                'item_categories.name as item_category_name',
                 'stores.name as store_name'
             );
         if ($filter) {

@@ -1,5 +1,5 @@
 {!! Former::open(\App\Models\EntityModel::getFormUrl($entityType) . '/bulk')
-		->addClass('listForm_' . $entityType) !!}
+->addClass('listForm_' . $entityType) !!}
 
 <div style="display:none">
     {!! Former::text('action')->id('action_' . $entityType) !!}
@@ -15,31 +15,31 @@
     @endif
 
     {!! DropdownButton::normal(trans('texts.archive'))
-            ->withContents($datatable->bulkActions())
-            ->withAttributes(['class'=>'archive'])
-            ->split() !!}
+    ->withContents($datatable->bulkActions())
+    ->withAttributes(['class'=>'archive'])
+    ->split() !!}
 
     &nbsp;
     <span id="statusWrapper_{{ $entityType }}" style="display:none">
-		<select class="form-control" style="width: 220px" id="statuses_{{ $entityType }}" multiple="true">
-			@if (count(\App\Models\EntityModel::getStatusesFor($entityType)))
-                <optgroup label="{{ trans('texts.entity_state') }}">
-					@foreach (\App\Models\EntityModel::getStatesFor($entityType) as $key => $value)
-                        <option value="{{ $key }}">{{ $value }}</option>
-                    @endforeach
-				</optgroup>
-                <optgroup label="{{ trans('texts.status') }}">
-					@foreach (\App\Models\EntityModel::getStatusesFor($entityType) as $key => $value)
-                        <option value="{{ $key }}">{{ $value }}</option>
-                    @endforeach
-				</optgroup>
-            @else
-                @foreach (\App\Models\EntityModel::getStatesFor($entityType) as $key => $value)
-                    <option value="{{ $key }}">{{ $value }}</option>
-                @endforeach
-            @endif
-		</select>
-	</span>
+<select class="form-control" style="width: 220px" id="statuses_{{ $entityType }}" multiple="true">
+@if (count(\App\Models\EntityModel::getStatusesFor($entityType)))
+        <optgroup label="{{ trans('texts.entity_state') }}">
+@foreach (\App\Models\EntityModel::getStatesFor($entityType) as $key => $value)
+                <option value="{{ $key }}">{{ $value }}</option>
+            @endforeach
+</optgroup>
+        <optgroup label="{{ trans('texts.status') }}">
+@foreach (\App\Models\EntityModel::getStatusesFor($entityType) as $key => $value)
+                <option value="{{ $key }}">{{ $value }}</option>
+            @endforeach
+</optgroup>
+    @else
+        @foreach (\App\Models\EntityModel::getStatesFor($entityType) as $key => $value)
+            <option value="{{ $key }}">{{ $value }}</option>
+        @endforeach
+    @endif
+</select>
+</span>
 </div>
 
 <div id="top_right_buttons" class="pull-right">
@@ -49,17 +49,17 @@
 
     @if ($entityType == ENTITY_PROPOSAL)
         {!! DropdownButton::normal(trans('texts.proposal_templates'))
-            ->withAttributes(['class'=>'templatesDropdown'])
-            ->withContents([
-              ['label' => trans('texts.new_proposal_template'), 'url' => url('/proposals/templates/create')],
-            ]
-          )->split() !!}
+        ->withAttributes(['class'=>'templatesDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_proposal_template'), 'url' => url('/proposals/templates/create')],
+        ]
+        )->split() !!}
         {!! DropdownButton::normal(trans('texts.proposal_snippets'))
-            ->withAttributes(['class'=>'snippetsDropdown'])
-            ->withContents([
-              ['label' => trans('texts.new_proposal_snippet'), 'url' => url('/proposals/snippets/create')],
-            ]
-          )->split() !!}
+        ->withAttributes(['class'=>'snippetsDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_proposal_snippet'), 'url' => url('/proposals/snippets/create')],
+        ]
+        )->split() !!}
         <script type="text/javascript">
             $(function () {
                 $('.templatesDropdown:not(.dropdown-toggle)').click(function (event) {
@@ -72,11 +72,11 @@
         </script>
     @elseif ($entityType == ENTITY_PROPOSAL_SNIPPET)
         {!! DropdownButton::normal(trans('texts.proposal_categories'))
-            ->withAttributes(['class'=>'categoriesDropdown'])
-            ->withContents([
-              ['label' => trans('texts.new_proposal_category'), 'url' => url('/proposals/categories/create')],
-            ]
-          )->split() !!}
+        ->withAttributes(['class'=>'categoriesDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_proposal_category'), 'url' => url('/proposals/categories/create')],
+        ]
+        )->split() !!}
         <script type="text/javascript">
             $(function () {
                 $('.categoriesDropdown:not(.dropdown-toggle)').click(function (event) {
@@ -86,22 +86,22 @@
         </script>
     @elseif ($entityType == ENTITY_EXPENSE)
         {!! DropdownButton::normal(trans('texts.recurring'))
-            ->withAttributes(['class'=>'recurringDropdown'])
-            ->withContents([
-              ['label' => trans('texts.new_recurring_expense'), 'url' => url('/recurring_expenses/create')],
-            ]
-          )->split() !!}
+        ->withAttributes(['class'=>'recurringDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_recurring_expense'), 'url' => url('/recurring_expenses/create')],
+        ]
+        )->split() !!}
         @if (Auth::user()->can('create', ENTITY_EXPENSE_CATEGORY))
             {!! DropdownButton::normal(trans('texts.categories'))
-                ->withAttributes(['class'=>'categoriesDropdown'])
-                ->withContents([
-                  ['label' => trans('texts.new_expense_category'), 'url' => url('/expense_categories/create')],
-                ]
-              )->split() !!}
+            ->withAttributes(['class'=>'categoriesDropdown'])
+            ->withContents([
+            ['label' => trans('texts.new_expense_category'), 'url' => url('/expense_categories/create')],
+            ]
+            )->split() !!}
         @else
             {!! DropdownButton::normal(trans('texts.categories'))
-                ->withAttributes(['class'=>'categoriesDropdown'])
-                ->split() !!}
+            ->withAttributes(['class'=>'categoriesDropdown'])
+            ->split() !!}
         @endif
         <script type="text/javascript">
             $(function () {
@@ -119,25 +119,13 @@
             {!! DropdownButton::normal(trans('texts.maintenance'))
             ->withAttributes(['class'=>'maintenanceDropdown'])
             ->withContents([
-                ['label' => trans('texts.new_location'), 'url' => url('/locations/create')],
-                ['label' => trans('texts.new_store'), 'url' => url('/stores/create')],
-                ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types/create')],
-                ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores/create')],
-                ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices/create')],
-                ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
-                ['label' => trans('texts.new_unit'), 'url' => url('/units/create')]
-            ])->split() !!}
-        @else
-            {!! DropdownButton::normal(trans('texts.maintenance'))
-            ->withAttributes(['class'=>'maintenanceDropdown'])
-            ->withContents([
-                ['label' => trans('texts.new_location'), 'url' => url('/locations/create')],
-                ['label' => trans('texts.new_store'), 'url' => url('/stores/create')],
-                ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types/create')],
-                ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores/create')],
-                ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices/create')],
-                ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
-                ['label' => trans('texts.new_unit'), 'url' => url('/units/create')]
+        ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices/create')],
+        ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores/create')],
+        ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types/create')],
+        ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
+        ['label' => trans('texts.new_unit'), 'url' => url('/units/create')],
+        ['label' => trans('texts.new_store'), 'url' => url('/stores/create')],
+        ['label' => trans('texts.new_location'), 'url' => url('/locations/create')]
             ])->split() !!}
         @endif
         <script type="text/javascript">
@@ -156,20 +144,80 @@
                     openUrlOnClick('{{ url('/sale_types') }}', event);
                 });
             });
-        </script><!-- /. store -->
+        </script><!-- /. product -->
+        <!-- Entity Item price -->
+    @elseif ($entityType == ENTITY_ITEM_PRICE)
+        {!! DropdownButton::normal(trans('texts.maintenance'))
+        ->withAttributes(['class'=>'maintenanceDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_product'), 'url' => url('/products/create')],
+        ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores/create')],
+        ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types/create')],
+        ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
+        ['label' => trans('texts.new_unit'), 'url' => url('/units/create')],
+        ['label' => trans('texts.new_store'), 'url' => url('/stores/create')],
+        ['label' => trans('texts.new_location'), 'url' => url('/locations/create')]
+        ])->split() !!}
+        <script type="text/javascript">
+            $(function () {
+                $('.item_categoriesDropdown:not(.dropdown-toggle)').click(function (event) {
+                    openUrlOnClick('{{ url('/item_categories') }}', event);
+                });
+            });
+            $(function () {
+                $('.unitsDropdown:not(.dropdown-toggle)').click(function (event) {
+                    openUrlOnClick('{{ url('/units') }}', event);
+                });
+            });
+            $(function () {
+                $('.unitsDropdown:not(.dropdown-toggle)').click(function (event) {
+                    openUrlOnClick('{{ url('/sale_types') }}', event);
+                });
+            });
+        </script><!-- /. item price -->
+        <!-- Entity Item store -->
+    @elseif ($entityType == ENTITY_ITEM_STORE)
+        {!! DropdownButton::normal(trans('texts.maintenance'))
+        ->withAttributes(['class'=>'maintenanceDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_product'), 'url' => url('/products/create')],
+        ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices/create')],
+        ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types/create')],
+        ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
+        ['label' => trans('texts.new_unit'), 'url' => url('/units/create')],
+        ['label' => trans('texts.new_store'), 'url' => url('/stores/create')],
+        ['label' => trans('texts.new_location'), 'url' => url('/locations/create')]
+        ])->split() !!}
+        <script type="text/javascript">
+            $(function () {
+                $('.item_categoriesDropdown:not(.dropdown-toggle)').click(function (event) {
+                    openUrlOnClick('{{ url('/item_categories') }}', event);
+                });
+            });
+            $(function () {
+                $('.unitsDropdown:not(.dropdown-toggle)').click(function (event) {
+                    openUrlOnClick('{{ url('/units') }}', event);
+                });
+            });
+            $(function () {
+                $('.unitsDropdown:not(.dropdown-toggle)').click(function (event) {
+                    openUrlOnClick('{{ url('/sale_types') }}', event);
+                });
+            });
+        </script><!-- /. item store -->
         <!-- store begin -->
     @elseif ($entityType == ENTITY_STORE)
         @if (Auth::user()->can('create', ENTITY_LOCATION))
             {!! DropdownButton::normal(trans('texts.maintenance'))
-                ->withAttributes(['class'=>'locationsDropdown'])
-                ->withContents([
-                  ['label' => trans('texts.new_location'), 'url' => url('/locations/create')],
-                ]
-              )->split() !!}
+            ->withAttributes(['class'=>'locationsDropdown'])
+            ->withContents([
+            ['label' => trans('texts.new_location'), 'url' => url('/locations/create')],
+            ]
+            )->split() !!}
         @else
             {!! DropdownButton::normal(trans('texts.locations'))
-                ->withAttributes(['class'=>'locationsDropdown'])
-                ->split() !!}
+            ->withAttributes(['class'=>'locationsDropdown'])
+            ->split() !!}
         @endif
         <script type="text/javascript">
             $(function () {
@@ -222,23 +270,23 @@
 
     @if (Auth::user()->can('create', $entityType) && empty($vendorId))
         {!! Button::primary(mtrans($entityType, "new_{$entityType}"))
-            ->asLinkTo(url(
-                (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_TEMPLATE]) ? str_replace('_', 's/', Utils::pluralizeEntityType($entityType)) : Utils::pluralizeEntityType($entityType)) .
-                '/create/' . (isset($clientId) ? ($clientId . (isset($projectId) ? '/' . $projectId : '')) : '')
-            ))
-            ->appendIcon(Icon::create('plus-sign')) !!}
+        ->asLinkTo(url(
+        (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_TEMPLATE]) ? str_replace('_', 's/', Utils::pluralizeEntityType($entityType)) : Utils::pluralizeEntityType($entityType)) .
+        '/create/' . (isset($clientId) ? ($clientId . (isset($projectId) ? '/' . $projectId : '')) : '')
+        ))
+        ->appendIcon(Icon::create('plus-sign')) !!}
     @endif
 
 </div>
 
 {!! Datatable::table()
-	->addColumn(Utils::trans($datatable->columnFields(), $datatable->entityType))
-	->setUrl(empty($url) ? url('api/' . Utils::pluralizeEntityType($entityType)) : $url)
-	->setCustomValues('entityType', Utils::pluralizeEntityType($entityType))
-	->setCustomValues('clientId', isset($clientId) && $clientId && empty($projectId))
-	->setOptions('sPaginationType', 'bootstrap')
-    ->setOptions('aaSorting', [[isset($clientId) ? ($datatable->sortCol-1) : $datatable->sortCol, 'desc']])
-	->render('datatable') !!}
+->addColumn(Utils::trans($datatable->columnFields(), $datatable->entityType))
+->setUrl(empty($url) ? url('api/' . Utils::pluralizeEntityType($entityType)) : $url)
+->setCustomValues('entityType', Utils::pluralizeEntityType($entityType))
+->setCustomValues('clientId', isset($clientId) && $clientId && empty($projectId))
+->setOptions('sPaginationType', 'bootstrap')
+->setOptions('aaSorting', [[isset($clientId) ? ($datatable->sortCol-1) : $datatable->sortCol, 'desc']])
+->render('datatable') !!}
 
 @if ($entityType == ENTITY_PAYMENT)
     @include('partials/refund_payment')
@@ -249,14 +297,14 @@
 <style type="text/css">
 
     @foreach ($datatable->rightAlignIndices() as $index)
-		.listForm_{{ $entityType }} table.dataTable td:nth-child({{ $index }}) {
+.listForm_{{ $entityType }} table.dataTable td:nth-child({{ $index }}) {
         text-align: right;
     }
 
     @endforeach
 
-	@foreach ($datatable->centerAlignIndices() as $index)
-		.listForm_{{ $entityType }} table.dataTable td:nth-child({{ $index }}) {
+@foreach ($datatable->centerAlignIndices() as $index)
+.listForm_{{ $entityType }} table.dataTable td:nth-child({{ $index }}) {
         text-align: center;
     }
     @endforeach
@@ -268,7 +316,7 @@
     var submittedForm;
 
     function submitForm_{{ $entityType }}(action, id) {
-        // prevent duplicate form submissions
+// prevent duplicate form submissions
         if (submittedForm) {
             swal("{{ trans('texts.processing_request') }}")
             return;
@@ -292,7 +340,7 @@
 
     $(function () {
 
-        // Handle datatable filtering
+// Handle datatable filtering
         var tableFilter = '';
         var searchTimeout = false;
 
@@ -324,7 +372,7 @@
             }
         });
 
-        // Enable/disable bulk action buttons
+// Enable/disable bulk action buttons
         window.onDatatableReady_{{ Utils::pluralizeEntityType($entityType) }} = function () {
             $(':checkbox').click(function () {
                 setBulkActionsEnabled_{{ $entityType }}();
@@ -362,10 +410,10 @@
             $('.listForm_{{ $entityType }} button.archive').not('.dropdown-toggle').text(buttonLabel);
         }
 
-        // Setup state/status filter
+// Setup state/status filter
         $('#statuses_{{ $entityType }}').select2({
             placeholder: "{{ trans('texts.status') }}",
-            //allowClear: true,
+//allowClear: true,
             templateSelection: function (data, container) {
                 if (data.id == 'archived') {
                     $(container).css('color', '#fff');

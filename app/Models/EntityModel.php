@@ -256,6 +256,22 @@ class EntityModel extends Eloquent
         return 'App\\Models\\' . ucwords(Utils::toCamelCase($entityType));
     }
 
+    public static function getStatusClass($primaryValue, $secondaryValue)
+    {
+        if (!empty($primaryValue) && !empty($secondaryValue)) {
+            if (floatval($primaryValue) > floatval($secondaryValue)) {
+//                return 'default';
+                return 'success';
+            } else {
+                return 'danger';
+            }
+        } elseif (!empty($primaryValue)) {
+            return 'primary';
+        } else {
+            return 'warning';
+        }
+    }
+
     /**
      * @param $entityType
      *

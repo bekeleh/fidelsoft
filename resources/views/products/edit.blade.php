@@ -5,7 +5,7 @@
     {!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['name' => 'required|max:255','cost' => 'required|numeric','category_id' => 'required|numeric','unit_id' => 'required|numeric'])
+    ->rules(['name' => 'required|max:255','cost' => 'required|numeric','item_category_id' => 'required|numeric','unit_id' => 'required|numeric'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     @if ($product)
         {{ Former::populate($product) }}
@@ -23,19 +23,20 @@
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
                     {!! Former::text('name')->label('texts.item_name') !!}
-                    {!! Former::text('barcode')->label('texts.barcode') !!}
-                    {!! Former::text('tag')->label('texts.tag') !!}
 
-                    {!! Former::select('category_id')->addOption('', '')
-                    ->label(trans('texts.category'))
+                    {!! Former::select('item_category_id')->addOption('', '')
+                    ->label(trans('texts.item_category'))
                     ->addGroupClass('category-select') !!}
+
                     {!! Former::select('unit_id')->addOption('', '')
                     ->label(trans('texts.unit'))
                     ->addGroupClass('unit-select') !!}
 
+                    {!! Former::text('barcode')->label('texts.barcode') !!}
+                    {!! Former::text('tag')->label('texts.tag') !!}
+                    {!! Former::text('cost')->label('item_cost') !!}
                     {!! Former::textarea('notes')->rows(6) !!}
                     @include('partials/custom_fields', ['entityType' => ENTITY_PRODUCT])
-                    {!! Former::text('cost') !!}
                     @if ($account->invoice_item_taxes)
                         @include('partials.tax_rates')
                     @endif
@@ -78,7 +79,7 @@
     @endif
     {!! Former::close() !!}
     <script type="text/javascript">
-        var itemCategories = {!! $itemCategories !!};
+        var categories = {!! $itemCategories !!};
         var units = {!! $units !!};
         var categoryMap = {};
         var unitMap = {};
@@ -90,12 +91,12 @@
         $(function () {
             <!-- category -->
             var categoryId = {{ $itemCategoryPublicId ?: 0 }};
-            var $categorySelect = $('select#category_id');
+            var $categorySelect = $('select#item_category_id');
             @if (Auth::user()->can('create', ENTITY_ITEM_CATEGORY))
             $categorySelect.append(new Option("{{ trans('texts.create_category')}}:$name", '-1'));
                     @endif
-            for (var i = 0; i < itemCategories.length; i++) {
-                var category = itemCategories[i];
+            for (var i = 0; i < categories.length; i++) {
+                var category = categories[i];
                 categoryMap[category.public_id] = category;
                 $categorySelect.append(new Option(getClientDisplayName(category), category.public_id));
             }
@@ -105,6 +106,7 @@
                 setComboboxValue($('.category-select'), category.public_id, category.name);
             }
             <!-- /. category  -->
+
             <!--  unit  -->
             var unitId = {{ $unitPublicId ?: 0 }};
             var $unitSelect = $('select#unit_id');

@@ -3,11 +3,9 @@
     <?php echo Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['name' => 'required|max:255','cost' => 'required|numeric','category_id' => 'required|numeric','unit_id' => 'required|numeric'])
+    ->rules(['name' => 'required|max:255','cost' => 'required|numeric','item_category_id' => 'required|numeric','unit_id' => 'required|numeric'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit'); ?>
 
-    <!-- notification -->
-    <?php echo $__env->make('notifications', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
     <?php if($product): ?>
         <?php echo e(Former::populate($product)); ?>
 
@@ -30,25 +28,26 @@
                 <div class="panel-body form-padding-right">
                     <?php echo Former::text('name')->label('texts.item_name'); ?>
 
-                    <?php echo Former::text('barcode')->label('texts.barcode'); ?>
 
-                    <?php echo Former::text('tag')->label('texts.tag'); ?>
-
-
-                    <?php echo Former::select('category_id')->addOption('', '')
-                    ->label(trans('texts.category'))
+                    <?php echo Former::select('item_category_id')->addOption('', '')
+                    ->label(trans('texts.item_category'))
                     ->addGroupClass('category-select'); ?>
+
 
                     <?php echo Former::select('unit_id')->addOption('', '')
                     ->label(trans('texts.unit'))
                     ->addGroupClass('unit-select'); ?>
 
 
+                    <?php echo Former::text('barcode')->label('texts.barcode'); ?>
+
+                    <?php echo Former::text('tag')->label('texts.tag'); ?>
+
+                    <?php echo Former::text('cost')->label('item_cost'); ?>
+
                     <?php echo Former::textarea('notes')->rows(6); ?>
 
                     <?php echo $__env->make('partials/custom_fields', ['entityType' => ENTITY_PRODUCT], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                    <?php echo Former::text('cost'); ?>
-
                     <?php if($account->invoice_item_taxes): ?>
                         <?php echo $__env->make('partials.tax_rates', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                     <?php endif; ?>
@@ -96,7 +95,7 @@
     <?php echo Former::close(); ?>
 
     <script type="text/javascript">
-        var itemCategories = <?php echo $itemCategories; ?>;
+        var categories = <?php echo $itemCategories; ?>;
         var units = <?php echo $units; ?>;
         var categoryMap = {};
         var unitMap = {};
@@ -108,12 +107,12 @@
         $(function () {
             <!-- category -->
             var categoryId = <?php echo e($itemCategoryPublicId ?: 0); ?>;
-            var $categorySelect = $('select#category_id');
+            var $categorySelect = $('select#item_category_id');
             <?php if(Auth::user()->can('create', ENTITY_ITEM_CATEGORY)): ?>
             $categorySelect.append(new Option("<?php echo e(trans('texts.create_category')); ?>:$name", '-1'));
                     <?php endif; ?>
-            for (var i = 0; i < itemCategories.length; i++) {
-                var category = itemCategories[i];
+            for (var i = 0; i < categories.length; i++) {
+                var category = categories[i];
                 categoryMap[category.public_id] = category;
                 $categorySelect.append(new Option(getClientDisplayName(category), category.public_id));
             }
@@ -123,6 +122,7 @@
                 setComboboxValue($('.category-select'), category.public_id, category.name);
             }
             <!-- /. category  -->
+
             <!--  unit  -->
             var unitId = <?php echo e($unitPublicId ?: 0); ?>;
             var $unitSelect = $('select#unit_id');

@@ -3,6 +3,7 @@
 namespace App\Ninja\Datatables;
 
 use App\Libraries\Utils;
+use App\Models\ItemPrice;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 
@@ -17,6 +18,18 @@ class ItemPriceDatatable extends EntityDatatable
 
         return [
             [
+                'item_name',
+                function ($model) {
+                    return link_to('products/' . $model->public_id . '/edit', $model->item_name)->toHtml();
+                },
+            ],
+            [
+                'item_category_name',
+                function ($model) {
+                    return link_to('item_categories/' . $model->public_id . '/edit', $model->item_category_name)->toHtml();
+                },
+            ],
+            [
                 'sale_type_name',
                 function ($model) {
                     if ($model->sale_type_id) {
@@ -30,15 +43,15 @@ class ItemPriceDatatable extends EntityDatatable
                 }
             ],
             [
-                'item_name',
+                'item_price',
                 function ($model) {
-                    return link_to('products/' . $model->public_id . '/edit', $model->item_name)->toHtml();
+                    return self::getStatusLabel($model);
                 },
             ],
             [
-                'item_price',
+                'item_cost',
                 function ($model) {
-                    return $this->showWithTooltip($model->price);
+                    return $model->item_cost;
                 },
             ],
             [
@@ -111,5 +124,13 @@ class ItemPriceDatatable extends EntityDatatable
                 },
             ],
         ];
+    }
+
+    private function getStatusLabel($model)
+    {
+
+        $class = ItemPrice::getStatusClass($model->item_price, $model->item_cost);
+
+        return "<h4><div class=\"label label-{$class}\">$model->item_price</div></h4>";
     }
 }

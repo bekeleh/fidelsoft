@@ -31,17 +31,17 @@ class ProductRepository extends BaseRepository
         $query = DB::table('products')
             ->join('accounts', 'accounts.id', '=', 'products.account_id')
             ->join('users', 'users.id', '=', 'products.user_id')
-            ->join('item_categories', 'item_categories.id', '=', 'products.category_id')
+            ->join('item_categories', 'item_categories.id', '=', 'products.item_category_id')
             ->join('units', 'units.id', '=', 'products.unit_id')
             ->where('products.account_id', '=', $accountId)
             //->where('products.deleted_at', '=', null)
             ->select(
                 'products.id',
                 'products.public_id',
-                'products.name as product_name',
+                'products.name as item_name',
                 'products.barcode',
                 'products.tag',
-                'products.cost',
+                'products.cost as item_cost',
                 'products.tax_name1',
                 'products.tax_name2',
                 'products.tax_rate1',
@@ -78,7 +78,7 @@ class ProductRepository extends BaseRepository
     {
         $itemCategoryId = ItemCategory::getPrivateId($itemCategoryPublicId);
 
-        $query = $this->find()->where('item_categories.category_id', '=', $itemCategoryId);
+        $query = $this->find()->where('item_categories.item_category_id', '=', $itemCategoryId);
 
         return $query;
     }
@@ -110,7 +110,7 @@ class ProductRepository extends BaseRepository
         $product->name = isset($data['name']) ? ucwords(trim($data['name'])) : '';
         $product->barcode = isset($data['barcode']) ? ucwords(trim($data['barcode'])) : '';
         $product->tag = isset($data['tag']) ? ucwords(trim($data['tag'])) : '';
-        $product->category_id = isset($data['category_id']) ? trim($data['category_id']) : '';
+        $product->item_category_id = isset($data['item_category_id']) ? trim($data['item_category_id']) : '';
         $product->unit_id = isset($data['unit_id']) ? trim($data['unit_id']) : '';
         $product->notes = isset($data['notes']) ? trim($data['notes']) : '';
         $product->cost = isset($data['cost']) ? Utils::parseFloat($data['cost']) : 0;

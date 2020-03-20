@@ -53,8 +53,8 @@ class ProductService extends BaseService
      */
     public function save($data, $product = null)
     {
-        if (isset($data['category_id']) && $data['category_id']) {
-            $data['category_id'] = ItemCategory::getPrivateId($data['category_id']);
+        if (isset($data['item_category_id']) && $data['item_category_id']) {
+            $data['item_category_id'] = ItemCategory::getPrivateId($data['item_category_id']);
         }
         if (isset($data['unit_id']) && $data['unit_id']) {
             $data['unit_id'] = Unit::getPrivateId($data['unit_id']);

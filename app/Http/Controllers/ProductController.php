@@ -11,13 +11,13 @@ use App\Models\Unit;
 use App\Ninja\Datatables\ProductDatatable;
 use App\Ninja\Repositories\ProductRepository;
 use App\Services\ProductService;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
-use Exception;
 use Redirect;
 
 /**
@@ -87,8 +87,8 @@ class ProductController extends BaseController
     public function create(ProductRequest $request)
     {
         $account = Auth::user()->account;
-        if ($request->category_id != 0) {
-            $itemCategory = ItemCategory::scope($request->category_id)->firstOrFail();
+        if ($request->item_category_id != 0) {
+            $itemCategory = ItemCategory::scope($request->item_category_id)->firstOrFail();
         } else {
             $itemCategory = null;
         }
@@ -106,7 +106,7 @@ class ProductController extends BaseController
             'url' => 'products',
             'title' => trans('texts.create_product'),
             'taxRates' => $account->invoice_item_taxes ? TaxRate::scope()->whereIsInclusive(false)->get(['id', 'name', 'rate']) : null,
-            'itemCategoryPublicId' => Input::old('itemCategory') ? Input::old('itemCategory') : $request->category_id,
+            'itemCategoryPublicId' => Input::old('itemCategory') ? Input::old('itemCategory') : $request->item_category_id,
             'unitPublicId' => Input::old('unit') ? Input::old('unit') : $request->unit_id,
         ];
         $data = array_merge($data, self::getViewModel());
@@ -165,10 +165,9 @@ class ProductController extends BaseController
     {
         $data = $request->input();
         $product = $this->productService->save($data);
+//        Session::flash('message', trans('texts.created_product'));
 
-        Session::flash('message', trans('texts.created_product'));
-
-        return redirect()->to("products/{$product->public_id}/edit");
+        return redirect()->to("products/{$product->public_id}/edit")->with('success', trans('texts.created_product'));
     }
 
     /**
@@ -181,7 +180,7 @@ class ProductController extends BaseController
 
         $product = $this->productService->save($data, $request->entity());
 
-        Session::flash('message', trans('texts.updated_product'));
+//        Session::flash('message', trans('texts.updated_product'));
 
         $action = Input::get('action');
         if (in_array($action, ['archive', 'delete', 'restore', 'invoice', 'add_to_invoice'])) {
@@ -189,9 +188,9 @@ class ProductController extends BaseController
         }
 
         if ($action == 'clone') {
-            return redirect()->to(sprintf('products/%s/clone', $product->public_id));
+            return redirect()->to(sprintf('products/%s/clone', $product->public_id))->with('success', trans('texts.clone_product'));
         } else {
-            return redirect()->to("products/{$product->public_id}/edit");
+            return redirect()->to("products/{$product->public_id}/edit")->with('success', trans('texts.updated_product'));
         }
     }
 
@@ -200,7 +199,7 @@ class ProductController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
-            'itemCategories' => ItemCategory::scope()->withActiveOrSelected($product ? $product->category_id : false)->orderBy('name')->get(),
+            'itemCategories' => ItemCategory::scope()->withActiveOrSelected($product ? $product->item_category_id : false)->orderBy('name')->get(),
             'units' => Unit::scope()->withActiveOrSelected($product ? $product->unit_id : false)->orderBy('name')->get(),
         ];
     }

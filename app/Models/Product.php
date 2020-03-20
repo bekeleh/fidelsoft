@@ -20,7 +20,7 @@ class Product extends EntityModel
         'tag',
         'notes',
         'cost',
-        'category_id',
+        'item_category_id',
         'created_by',
         'updated_by',
         'deleted_by',
@@ -105,7 +105,7 @@ class Product extends EntityModel
 
     public function itemCategory()
     {
-        return $this->belongsTo('App\Models\ItemCategory', 'category_id')->withTrashed();
+        return $this->belongsTo('App\Models\ItemCategory', 'item_category_id')->withTrashed();
     }
 
     public function unit()

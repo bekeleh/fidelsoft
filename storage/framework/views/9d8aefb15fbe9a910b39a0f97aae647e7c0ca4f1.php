@@ -16,7 +16,7 @@
     <?php else: ?>
         <title><?php echo e(isset($title) ? ($title . ' | Care ERP') : ('Care ERP' )); ?></title>
         <meta name="description" content="<?php echo e(isset($description) ? $description : trans('texts.app_description')); ?>"/>
-        
+        <link href="<?php echo e(asset('favicon-v2.gif')); ?>" rel="shortcut icon" type="image/gif">
 
         <meta property="og:site_name" content="Care ERP"/>
         <meta property="og:url" content="<?php echo e(SITE_URL); ?>"/>

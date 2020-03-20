@@ -16,7 +16,7 @@
     @else
         <title>{{ isset($title) ? ($title . ' | Care ERP') : ('Care ERP' ) }}</title>
         <meta name="description" content="{{ isset($description) ? $description : trans('texts.app_description') }}"/>
-        {{--        <link href="{{ asset('favicon-v2.png') }}" rel="shortcut icon" type="image/png">--}}
+        <link href="{{ asset('favicon-v2.gif') }}" rel="shortcut icon" type="image/gif">
 
         <meta property="og:site_name" content="Care ERP"/>
         <meta property="og:url" content="{{ SITE_URL }}"/>

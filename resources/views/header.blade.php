@@ -6,10 +6,14 @@
         <style type="text/css">
             .nav-footer {
                 @if (config('mail.driver') == 'log' && ! config('services.postmark'))
-                                                                                     background-color: #50C878 !important;
+                                                                                         background-color: #50C878 !important;
                 @else
-                                                                                         background-color: #FD6A02 !important;
+                                                                                             background-color: #FD6A02 !important;
             @endif
+
+
+
+
 
 
 
@@ -133,7 +137,7 @@
                 });
 
                 request.error(function (httpObj, textStatus) {
-                    // if the session has expried show login page
+                    // if the session has expired show login page
                     if (httpObj.status == 401) {
                         location.reload();
                     }
@@ -142,10 +146,10 @@
         }
 
         $(function () {
-            // auto-logout after 8 hours
+            // auto-logout after 2 hours
             window.setTimeout(function () {
                 window.location = '{{ URL::to('/logout?reason=inactive') }}';
-            }, {{ 1000 * env('AUTO_LOGOUT_SECONDS', (60 * 60 * 8)) }});
+            }, {{ 1000 * env('AUTO_LOGOUT_SECONDS', (60 * 60 * 2)) }});
 
             // auto-hide status alerts
             window.setTimeout(function () {
@@ -261,7 +265,7 @@
                style="color:white;">
                 <div class="navbar-brand">
                     <i class="fa fa-bars hide-phone" style="width:32px;padding-top:2px;float:left"></i>CARE ERP
-                    {{--                    <img src="{{ asset('images/invoiceninja-logo.png') }}" width="193" height="25" style="float:left"/>--}}
+                    {{--                    <img src="{{ asset('images/erp.png') }}" width="193" height="25" style="float:left"/>--}}
                 </div>
             </a>
         </div>
