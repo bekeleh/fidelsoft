@@ -33,7 +33,7 @@ class ProductRequest extends EntityRequest
                 $product = Product::where('public_id', (int)request()->segment(2))->first();
                 dd($product);
                 if ($product) {
-                    $rules['name'] = 'required|max:90|unique:products,name,' . $product->id . ',id';
+                    $rules['name'] = 'required|max:90|unique:products,name,' . $product->id . ',id,item_category_id,' . $product->item_category_id;
                     $rules['item_category_id'] = 'required|numeric';
                     $rules['unit'] = 'required|numeric';
                     $rules['is_deleted'] = 'boolean';

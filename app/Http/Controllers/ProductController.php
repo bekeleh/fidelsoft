@@ -11,8 +11,6 @@ use App\Models\Unit;
 use App\Ninja\Datatables\ProductDatatable;
 use App\Ninja\Repositories\ProductRepository;
 use App\Services\ProductService;
-use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -25,14 +23,8 @@ use Redirect;
  */
 class ProductController extends BaseController
 {
-    /**
-     * @var ProductService
-     */
-    protected $productService;
 
-    /**
-     * @var ProductRepository
-     */
+    protected $productService;
     protected $productRepo;
 
     /**
@@ -48,9 +40,6 @@ class ProductController extends BaseController
         $this->productRepo = $productRepo;
     }
 
-    /**
-     * @return RedirectResponse
-     */
     public function index()
     {
         return View::make('list_wrapper', [
@@ -61,10 +50,6 @@ class ProductController extends BaseController
         ]);
     }
 
-    /**
-     * @return JsonResponse
-     * @throws Exception
-     */
     public function getDatatable()
     {
         return $this->productService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
@@ -80,10 +65,6 @@ class ProductController extends BaseController
         return $this->productService->getDatatableUnit($unitPublicId);
     }
 
-    /**
-     * @param ProductRequest $request
-     * @return \Illuminate\Contracts\View\View
-     */
     public function create(ProductRequest $request)
     {
         $account = Auth::user()->account;
@@ -114,14 +95,6 @@ class ProductController extends BaseController
         return View::make('products.edit', $data);
     }
 
-    /**
-     * @param ProductRequest $request
-     * @param $publicId
-     *
-     * @param bool $clone
-     * @return \Illuminate\Contracts\View\View
-     * @throws Exception
-     */
     public function edit(ProductRequest $request, $publicId, $clone = false)
     {
         Auth::user()->can('view', [ENTITY_PRODUCT, $request->entity()]);
@@ -170,10 +143,6 @@ class ProductController extends BaseController
         return redirect()->to("products/{$product->public_id}/edit")->with('success', trans('texts.created_product'));
     }
 
-    /**
-     * @param ProductRequest $request
-     * @return RedirectResponse
-     */
     public function update(ProductRequest $request)
     {
         $data = $request->input();
