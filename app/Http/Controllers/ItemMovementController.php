@@ -27,11 +27,6 @@ class ItemMovementController extends BaseController
         $this->itemMovementService = $itemMovementService;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
     public function index()
     {
         return View::make('list_wrapper', [
@@ -94,19 +89,11 @@ class ItemMovementController extends BaseController
         return View::make('item_movements.edit', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param ItemMovementRequest $request
-     * @return Response
-     */
     public function update(ItemMovementRequest $request)
     {
         $data = $request->input();
 
         $itemMovement = $this->itemMovementService->save($data, $request->entity());
-
-        Session::flash('message', trans('texts.updated_item_movement'));
 
         $action = Input::get('action');
         if (in_array($action, ['archive', 'delete', 'restore', 'invoice', 'add_to_invoice'])) {
@@ -114,20 +101,19 @@ class ItemMovementController extends BaseController
         }
 
         if ($action == 'clone') {
-            return redirect()->to(sprintf('item_movements/%s/clone', $itemMovement->public_id));
+            return redirect()->to(sprintf('item_movements/%s/clone', $itemMovement->public_id))->with('sucess', trans('texts.clone_item_movement'));
         } else {
-            return redirect()->to("item_movements/{$itemMovement->public_id}/edit");
+            return redirect()->to("item_movements/{$itemMovement->public_id}/edit")->with('success', trans('texts.updated_item_movement'));
         }
     }
 
     public function store(ItemMovementRequest $request)
     {
         $data = $request->input();
+
         $itemMovement = $this->itemMovementService->save($data);
 
-        Session::flash('message', trans('texts.created_item_movement'));
-
-        return redirect()->to("item_movements/{$itemMovement->public_id}/edit");
+        return redirect()->to("item_movements/{$itemMovement->public_id}/edit")->with('success', trans('texts.created_item_movement'));
     }
 
     public function bulk()
@@ -138,9 +124,8 @@ class ItemMovementController extends BaseController
         $count = $this->itemMovementService->bulk($ids, $action);
 
         $message = Utils::pluralize($action . 'd_item_movement', $count);
-        Session::flash('message', $message);
 
-        return $this->returnBulk(ENTITY_ITEM_MOVEMENT, $action, $ids);
+        return $this->returnBulk(ENTITY_ITEM_MOVEMENT, $action, $ids)->with('message', $message);
     }
 
     public function cloneItemMovement(ItemMovementRequest $request, $publicId)

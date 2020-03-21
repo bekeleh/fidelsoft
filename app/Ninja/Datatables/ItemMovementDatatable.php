@@ -23,6 +23,12 @@ class ItemMovementDatatable extends EntityDatatable
                 },
             ],
             [
+                'item_category_name',
+                function ($model) {
+                    return link_to('item_categories/' . $model->public_id . '/edit', $model->item_category_name)->toHtml();
+                },
+            ],
+            [
                 'store_name',
                 function ($model) {
                     return link_to('item_movements/' . $model->public_id . '/edit', $model->store_name)->toHtml();

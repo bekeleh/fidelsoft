@@ -3,7 +3,7 @@
     <?php echo Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules([])
+    ->rules(['qty'=>'required|numeric','qoh'=>'required|numeric','notes'=>'required'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit'); ?>
 
     <?php if($itemMovement): ?>
@@ -25,9 +25,9 @@
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
-                    <?php echo Former::text('qty')->label('texts.qty'); ?>
+                    <?php echo Former::text('qty')->label('texts.qty')->readonly(); ?>
 
-                    <?php echo Former::text('qoh')->label('texts.qoh'); ?>
+                    <?php echo Former::text('qoh')->label('texts.qoh')->readonly(); ?>
 
                     <?php echo Former::textarea('notes')->rows(6); ?>
 

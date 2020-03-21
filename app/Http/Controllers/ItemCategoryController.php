@@ -8,13 +8,10 @@ use App\Models\ItemCategory;
 use App\Ninja\Datatables\ItemCategoryDatatable;
 use App\Ninja\Repositories\ItemCategoryRepository;
 use App\Services\ItemCategoryService;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
-use Exception;
 use Redirect;
 
 /**
@@ -45,9 +42,6 @@ class ItemCategoryController extends BaseController
         $this->itemCategoryRepo = $itemCategoryRepo;
     }
 
-    /**
-     * @return RedirectResponse
-     */
     public function index()
     {
         return View::make('list_wrapper', [
@@ -65,22 +59,11 @@ class ItemCategoryController extends BaseController
         return Redirect::to("item_categories/$publicId/edit");
     }
 
-    /**
-     * @return JsonResponse
-     * @throws Exception
-     */
     public function getDatatable()
     {
         return $this->itemCategoryService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
     }
 
-    /**
-     * @param ItemCategoryRequest $request
-     * @param $publicId
-     *
-     * @param bool $clone
-     * @return \Illuminate\Contracts\View\View
-     */
     public function edit(ItemCategoryRequest $request, $publicId, $clone = false)
     {
         Auth::user()->can('view', [ENTITY_ITEM_CATEGORY, $request->entity()]);
@@ -112,10 +95,6 @@ class ItemCategoryController extends BaseController
         return View::make('item_categories.edit', $data);
     }
 
-    /**
-     * @param ItemCategoryRequest $request
-     * @return \Illuminate\Contracts\View\View
-     */
     public function create(ItemCategoryRequest $request)
     {
 
@@ -132,31 +111,16 @@ class ItemCategoryController extends BaseController
         return View::make('item_categories.edit', $data);
     }
 
-    /**
-     * @param ItemCategoryRequest $request
-     * @return RedirectResponse
-     */
     public function store(ItemCategoryRequest $request)
     {
         return $this->save();
     }
 
-    /**
-     * @param ItemCategoryRequest $request
-     * @param $publicId
-     *
-     * @return RedirectResponse
-     */
     public function update(ItemCategoryRequest $request, $publicId)
     {
         return $this->save($publicId);
     }
 
-    /**
-     * @param bool $itemCategoryPublicId
-     *
-     * @return RedirectResponse
-     */
     private function save($itemCategoryPublicId = false)
     {
         if ($itemCategoryPublicId) {
@@ -166,18 +130,15 @@ class ItemCategoryController extends BaseController
         }
         $this->itemCategoryRepo->save(Input::all(), $itemCategory);
 
-        $message = $itemCategoryPublicId ? trans('texts.updated_item_category') : trans('texts.created_item_category');
-        Session::flash('message', $message);
-
         $action = request('action');
         if (in_array($action, ['archive', 'delete', 'relocation', 'invoice'])) {
             return self::bulk();
         }
 
         if ($action == 'clone') {
-            return redirect()->to(sprintf('item_categories/%s/clone', $itemCategory->public_id));
+            return redirect()->to(sprintf('item_categories/%s/clone', $itemCategory->public_id))->with('success', trans('texts.clone_item_category'));
         } else {
-            return redirect()->to("item_categories/{$itemCategory->public_id}/edit");
+            return redirect()->to("item_categories/{$itemCategory->public_id}/edit")->with('success', trans('texts.updated_item_category'));
         }
     }
 
@@ -186,9 +147,6 @@ class ItemCategoryController extends BaseController
         return self::edit($request, $publicId, true);
     }
 
-    /**
-     * @return RedirectResponse
-     */
     public function bulk()
     {
         $action = Input::get('action');
@@ -196,8 +154,7 @@ class ItemCategoryController extends BaseController
         $count = $this->itemCategoryService->bulk($ids, $action);
 
         $message = Utils::pluralize($action . 'd_item_categories', $count);
-        Session::flash('message', $message);
 
-        return $this->returnBulk(ENTITY_ITEM_CATEGORY, $action, $ids);
+        return $this->returnBulk(ENTITY_ITEM_CATEGORY, $action, $ids)->with('message', $message);
     }
 }

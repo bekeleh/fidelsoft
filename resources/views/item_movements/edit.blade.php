@@ -5,7 +5,7 @@
     {!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules([])
+    ->rules(['qty'=>'required|numeric','qoh'=>'required|numeric','notes'=>'required'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     @if ($itemMovement)
         {{ Former::populate($itemMovement) }}
@@ -22,8 +22,8 @@
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
-                    {!! Former::text('qty')->label('texts.qty') !!}
-                    {!! Former::text('qoh')->label('texts.qoh') !!}
+                    {!! Former::text('qty')->label('texts.qty')->readonly() !!}
+                    {!! Former::text('qoh')->label('texts.qoh')->readonly() !!}
                     {!! Former::textarea('notes')->rows(6) !!}
                 </div>
             </div>
