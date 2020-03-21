@@ -35,9 +35,9 @@ class ProductDatatable extends EntityDatatable
                 },
             ],
             [
-                'tag',
+                'item_tag',
                 function ($model) {
-                    return $model->tag;
+                    return $model->item_tag;
                 },
             ],
             [

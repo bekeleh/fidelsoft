@@ -40,8 +40,8 @@ class ProductRepository extends BaseRepository
                 'products.public_id',
                 'products.name as item_name',
                 'products.barcode',
-                'products.tag',
-                'products.cost as item_cost',
+                'products.item_tag',
+                'products.item_cost',
                 'products.tax_name1',
                 'products.tax_name2',
                 'products.tax_rate1',
@@ -62,7 +62,7 @@ class ProductRepository extends BaseRepository
             $query->where(function ($query) use ($filter) {
                 $query->where('products.name', 'like', '%' . $filter . '%')
                     ->orWhere('products.barcode', 'like', '%' . $filter . '%')
-                    ->orWhere('products.tag', 'like', '%' . $filter . '%')
+                    ->orWhere('products.item_tag', 'like', '%' . $filter . '%')
                     ->orWhere('products.notes', 'like', '%' . $filter . '%')
                     ->orWhere('item_categories.name', 'like', '%' . $filter . '%')
                     ->orWhere('units.name', 'like', '%' . $filter . '%');
@@ -109,11 +109,11 @@ class ProductRepository extends BaseRepository
         $product->fill($data);
         $product->name = isset($data['name']) ? ucwords(trim($data['name'])) : '';
         $product->barcode = isset($data['barcode']) ? ucwords(trim($data['barcode'])) : '';
-        $product->tag = isset($data['tag']) ? ucwords(trim($data['tag'])) : '';
+        $product->item_tag = isset($data['item_tag']) ? ucwords(trim($data['item_tag'])) : '';
         $product->item_category_id = isset($data['item_category_id']) ? trim($data['item_category_id']) : '';
         $product->unit_id = isset($data['unit_id']) ? trim($data['unit_id']) : '';
         $product->notes = isset($data['notes']) ? trim($data['notes']) : '';
-        $product->cost = isset($data['cost']) ? Utils::parseFloat($data['cost']) : 0;
+        $product->item_cost = isset($data['item_cost']) ? Utils::parseFloat($data['item_cost']) : 0;
         $product->save();
 
         if ($publicId) {

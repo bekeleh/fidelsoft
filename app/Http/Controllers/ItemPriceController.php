@@ -87,12 +87,7 @@ class ItemPriceController extends BaseController
     public function store(ItemPriceRequest $request)
     {
         $data = $request->input();
-        if ($this->validator($data)->fails()) {
-            return redirect()->to("item_prices/create")->with('error', trans('texts.item_price_unique'));
-        }
-        if ($this->dateValidator($data)) {
-            return redirect()->to("item_prices/{$request->public_id}/edit")->with('warning', trans('texts.warning_invalid_date'));
-        }
+
         $itemPrice = $this->itemPriceService->save($data);
 
         return redirect()->to("item_prices/{$itemPrice->public_id}/edit")->with('success', trans('texts.created_item_price'));
@@ -184,24 +179,24 @@ class ItemPriceController extends BaseController
     }
 
 
-    public function validator($data)
-    {
-        $productId = $data['product_id'] = Product::getPrivateId($data['product_id']);
-        $saleTypeId = $data['sale_type_id'] = SaleType::getPrivateId($data['sale_type_id']);
-        $validator = Validator::make($data, [
-                'product_id' => [
-                    'required', 'numeric',
-                    Rule::unique('item_prices')
-                        ->where(function ($query) use ($productId, $saleTypeId) {
-                            return $query->where('product_id', $productId)
-                                ->where('sale_type_id', $saleTypeId);
-                        }),
-                ],
-            ]
-        );
-
-        return $validator;
-    }
+//    public function validator($data)
+//    {
+//        $productId = $data['product_id'] = Product::getPrivateId($data['product_id']);
+//        $saleTypeId = $data['sale_type_id'] = SaleType::getPrivateId($data['sale_type_id']);
+//        $validator = Validator::make($data, [
+//                'product_id' => [
+//                    'required', 'numeric',
+//                    Rule::unique('item_prices')
+//                        ->where(function ($query) use ($productId, $saleTypeId) {
+//                            return $query->where('product_id', $productId)
+//                                ->where('sale_type_id', $saleTypeId);
+//                        }),
+//                ],
+//            ]
+//        );
+//
+//        return $validator;
+//    }
 
     public function dateValidator($data)
     {

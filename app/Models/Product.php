@@ -17,9 +17,9 @@ class Product extends EntityModel
     protected $fillable = [
         'name',
         'barcode',
-        'tag',
+        'item_tag',
         'notes',
-        'cost',
+        'item_cost',
         'item_category_id',
         'created_by',
         'updated_by',
@@ -42,7 +42,7 @@ class Product extends EntityModel
         return [
             'name',
             'notes',
-            'cost',
+            'item_cost',
             'custom_value1',
             'custom_value2',
         ];
@@ -56,7 +56,7 @@ class Product extends EntityModel
         return [
             'product|item' => 'name',
             'notes|description|details' => 'notes',
-            'cost|amount|price' => 'cost',
+            'item_cost|amount|price' => 'item_cost',
             'custom_value1' => 'custom_value1',
             'custom_value2' => 'custom_value2',
         ];

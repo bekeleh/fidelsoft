@@ -3,12 +3,10 @@
 namespace App\Services;
 
 use App\Libraries\Utils;
-use App\Models\Product;
-use App\Models\Store;
 use App\Ninja\Datatables\ItemStoreDatatable;
+use App\Ninja\Datatables\ProductDatatable;
+use App\Ninja\Datatables\StoreDatatable;
 use App\Ninja\Repositories\ItemStoreRepository;
-use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -46,31 +44,13 @@ class ItemStoreService extends BaseService
         return $this->itemStoreRepo;
     }
 
-    /**
-     * @param $data
-     * @param null $store
-     *
-     * @return mixed|null
-     */
+
     public function save($data, $store = null)
     {
-        if ($store) {
-            if (!empty($data['product_id'])) {
-                $data['product_id'] = Product::getPrivateId($data['product_id']);
-            }
-            if (!empty($data['store_id'])) {
-                $data['store_id'] = Store::getPrivateId($data['store_id']);
-            }
-        }
         return $this->itemStoreRepo->save($data, $store);
     }
 
-    /**
-     * @param $search
-     *
-     * @return JsonResponse
-     * @throws Exception
-     */
+
     public function getDatatable($accountId, $search)
     {
         $datatable = new ItemStoreDatatable(true);
@@ -81,10 +61,7 @@ class ItemStoreService extends BaseService
         return $this->datatableService->createDatatable($datatable, $query);
     }
 
-    /**
-     * @param $productPublicId
-     * @return JsonResponse
-     */
+
     public function getDatatableProduct($productPublicId)
     {
         $datatable = new ProductDatatable(true, true);
@@ -98,10 +75,7 @@ class ItemStoreService extends BaseService
         return $this->datatableService->createDatatable($datatable, $query);
     }
 
-    /**
-     * @param $storePublicId
-     * @return JsonResponse
-     */
+
     public function getDatatableStore($storePublicId)
     {
         $datatable = new StoreDatatable(true, true);

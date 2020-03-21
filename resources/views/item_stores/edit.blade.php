@@ -5,10 +5,8 @@
     {!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['bin' => 'required|max:90','product_id' => 'required' ,'store_id' => 'required','qty' => 'required|numeric' ])
+    ->rules(['bin' => 'required|max:90','product_id' => 'required' ,'store_id' => 'required','qty' => 'required|numeric','reorder_level' => 'required|numeric' ])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
-    <!-- notification -->
-    @include('notifications')
     @if ($itemStore)
         {{ Former::populate($itemStore) }}
         <div style="display:none">

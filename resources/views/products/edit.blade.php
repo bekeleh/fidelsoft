@@ -5,11 +5,11 @@
     {!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['name' => 'required|max:255','cost' => 'required|numeric','item_category_id' => 'required|numeric','unit_id' => 'required|numeric'])
+    ->rules(['name' => 'required|max:255','item_cost' => 'required|numeric','item_category_id' => 'required|numeric','unit_id' => 'required|numeric'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     @if ($product)
         {{ Former::populate($product) }}
-        {{ Former::populateField('cost', Utils::roundSignificant($product->cost)) }}
+        {{ Former::populateField('item_cost', Utils::roundSignificant($product->item_cost)) }}
         <div style="display:none">
             {!! Former::text('public_id') !!}
         </div>
@@ -33,8 +33,8 @@
                     ->addGroupClass('unit-select') !!}
 
                     {!! Former::text('barcode')->label('texts.barcode') !!}
-                    {!! Former::text('tag')->label('texts.tag') !!}
-                    {!! Former::text('cost')->label('item_cost') !!}
+                    {!! Former::text('item_tag')->label('texts.item_tag') !!}
+                    {!! Former::text('item_cost')->label('item_cost') !!}
                     {!! Former::textarea('notes')->rows(6) !!}
                     @include('partials/custom_fields', ['entityType' => ENTITY_PRODUCT])
                     @if ($account->invoice_item_taxes)

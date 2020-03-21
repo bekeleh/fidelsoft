@@ -91,15 +91,12 @@ class ItemStoreRepository extends BaseRepository
     public function save($data, $itemStore = null)
     {
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
+
         if ($itemStore) {
 //          quantity adjustment
             $this->quantityAdjustment($data, $itemStore, $update = true);
             $itemStore->fill(collect($data)->except('qty')->toArray());
-            $itemStore->bin = isset($data['bin']) ? ucwords(trim($data['bin'])) : '';
             $itemStore->qty = isset($data['qty']) ? $data['qty'] + $itemStore->qty : '';
-            $itemStore->reorder_level = isset($data['reorder_level']) ? $data['reorder_level'] + $itemStore->reorder_level : '';
-            $itemStore->EOQ = isset($data['EOQ']) ? trim($data['EOQ']) : '';
-            $itemStore->notes = isset($data['notes']) ? trim($data['notes']) : '';
             $itemStore->updated_by = Auth::user()->username;
             $itemStore->save();
         } elseif ($publicId) {
@@ -108,12 +105,9 @@ class ItemStoreRepository extends BaseRepository
         } else {
             $itemStore = ItemStore::createNew();
             $itemStore->fill($data);
-            $itemStore->bin = isset($data['bin']) ? ucwords(trim($data['bin'])) : '';
             $itemStore->qty = isset($data['qty']) ? trim($data['qty']) : '';
-            $itemStore->reorder_level = isset($data['reorder_level']) ? trim($data['reorder_level']) : '';
-            $itemStore->EOQ = isset($data['EOQ']) ? trim($data['EOQ']) : '';
-            $itemStore->notes = isset($data['notes']) ? trim($data['notes']) : '';
             $itemStore->created_by = Auth::user()->username;
+
             if ($itemStore->save()) {
                 $this->quantityAdjustment($data, $itemStore, $update = false);
             }

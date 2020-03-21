@@ -28,7 +28,7 @@
                     ->label(trans('texts.sale_type'))
                     ->addGroupClass('sale-type-select') !!}
 
-                    {!! Former::text('price')->label('texts.item_price') !!}
+                    {!! Former::text('item_price')->label('texts.item_price') !!}
 
                     {!! Former::text('start_date')
                     ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))

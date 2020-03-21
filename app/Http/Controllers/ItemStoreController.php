@@ -10,13 +10,10 @@ use App\Models\Store;
 use App\Ninja\Datatables\ItemStoreDatatable;
 use App\Ninja\Repositories\StoreRepository;
 use App\Services\ItemStoreService;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Validator;
 use Redirect;
 
 class ItemStoreController extends BaseController
@@ -92,25 +89,13 @@ class ItemStoreController extends BaseController
         return View::make('item_stores.edit', $data);
     }
 
-    /**
-     * @param ItemStoreRequest $request
-     * @return RedirectResponse
-     */
     public function store(ItemStoreRequest $request)
     {
         $data = $request->input();
-        $productId = $data['product_id'] = Product::getPrivateId($data['product_id']);
-        $storeId = $data['store_id'] = Store::getPrivateId($data['store_id']);
-        $validator = $this->validator($data, $productId, $storeId);
-        if ($validator->fails()) {
-            Session::flash('message', trans('This product already had been registered in the given store.'));
-            return redirect()->to("item_stores/create");
-        }
+
         $itemStore = $this->itemStoreService->save($data);
 
-        Session::flash('message', trans('texts.created_item_store'));
-
-        return redirect()->to("item_stores/{$itemStore->public_id}/edit");
+        return redirect()->to("item_stores/{$itemStore->public_id}/edit")->with('success', trans('texts.created_item_store'));
     }
 
     public function edit(ItemStoreRequest $request, $publicId = false, $clone = false)
@@ -147,19 +132,11 @@ class ItemStoreController extends BaseController
         return View::make('item_stores.edit', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param ItemStoreRequest $request
-     * @return Response
-     */
     public function update(ItemStoreRequest $request)
     {
         $data = $request->input();
 
         $itemStore = $this->itemStoreService->save($data, $request->entity());
-
-        Session::flash('message', trans('texts.updated_item_store'));
 
         $action = Input::get('action');
         if (in_array($action, ['archive', 'delete', 'restore', 'invoice', 'add_to_invoice'])) {
@@ -167,9 +144,9 @@ class ItemStoreController extends BaseController
         }
 
         if ($action == 'clone') {
-            return redirect()->to(sprintf('item_stores/%s/clone', $itemStore->public_id));
+            return redirect()->to(sprintf('item_stores/%s/clone', $itemStore->public_id))->with('success', trans('texts.clone_item_store'));
         } else {
-            return redirect()->to("item_stores/{$itemStore->public_id}/edit");
+            return redirect()->to("item_stores/{$itemStore->public_id}/edit")->with('success', trans('texts.updated_item_store'));
         }
     }
 
@@ -186,9 +163,8 @@ class ItemStoreController extends BaseController
         $count = $this->itemStoreService->bulk($ids, $action);
 
         $message = Utils::pluralize($action . 'd_item_store', $count);
-        Session::flash('message', $message);
 
-        return $this->returnBulk(ENTITY_ITEM_STORE, $action, $ids);
+        return $this->returnBulk(ENTITY_ITEM_STORE, $action, $ids)->with('message', $message);
     }
 
     private static function getViewModel($itemStore = false)
@@ -196,7 +172,7 @@ class ItemStoreController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
-            'products' => Product::scope()->withActiveOrSelected($itemStore ? $itemStore->product_id : false)->orderBy('name')->get(),
+            'products' => Product::withCategory('itemCategory'),
             'stores' => Store::scope()->withActiveOrSelected($itemStore ? $itemStore->store_id : false)->orderBy('name')->get(),
         ];
     }
@@ -206,26 +182,5 @@ class ItemStoreController extends BaseController
         Session::reflash();
 
         return Redirect::to("item_stores/{$publicId}/edit");
-    }
-
-    /**
-     * @param $data
-     * @param $productId
-     * @param $storeId
-     * @return mixed
-     */
-    public function validator($data, $productId, $storeId)
-    {
-        return Validator::make($data, [
-                'product_id' => [
-                    'required', 'numeric',
-                    Rule::unique('item_stores')
-                        ->where(function ($query) use ($productId, $storeId) {
-                            return $query->where('product_id', $productId)
-                                ->where('store_id', $storeId);
-                        }),
-                ],
-            ]
-        );
     }
 }

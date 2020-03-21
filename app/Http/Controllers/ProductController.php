@@ -129,16 +129,10 @@ class ProductController extends BaseController
         return View::make('products.edit', $data);
     }
 
-
-    /**
-     * @param ProductRequest $request
-     * @return RedirectResponse
-     */
     public function store(ProductRequest $request)
     {
         $data = $request->input();
         $product = $this->productService->save($data);
-//        Session::flash('message', trans('texts.created_product'));
 
         return redirect()->to("products/{$product->public_id}/edit")->with('success', trans('texts.created_product'));
     }
@@ -146,10 +140,7 @@ class ProductController extends BaseController
     public function update(ProductRequest $request)
     {
         $data = $request->input();
-
         $product = $this->productService->save($data, $request->entity());
-
-//        Session::flash('message', trans('texts.updated_product'));
 
         $action = Input::get('action');
         if (in_array($action, ['archive', 'delete', 'restore', 'invoice', 'add_to_invoice'])) {
@@ -205,8 +196,7 @@ class ProductController extends BaseController
         }
 
         $message = Utils::pluralize($action . 'd_product', $count);
-        Session::flash('message', $message);
 
-        return $this->returnBulk(ENTITY_PRODUCT, $action, $ids);
+        return $this->returnBulk(ENTITY_PRODUCT, $action, $ids)->with('message', $message);
     }
 }

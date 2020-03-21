@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\ItemCategory;
 use App\Models\Product;
 
 class ProductRequest extends EntityRequest
@@ -20,9 +21,14 @@ class ProductRequest extends EntityRequest
         switch ($this->method()) {
             case 'POST':
             {
-                $rules['name'] = 'required|max:90|unique:products,name';
+                $input = $this->all();
+                $itemCategoryId = ItemCategory::getPrivateId($input['item_category_id']);
+                $rules['name'] = 'required|unique:products,name,' . $this->id . ',id,item_category_id,' . $itemCategoryId;
                 $rules['item_category_id'] = 'required|numeric';
-                $rules['unit'] = 'required|numeric';
+                $rules['barcode'] = 'nullable';
+                $rules['item_tag'] = 'nullable';
+                $rules['unit_id'] = 'required|numeric';
+                $rules['item_cost'] = 'required|numeric';
                 $rules['is_deleted'] = 'boolean';
                 $rules['notes'] = 'nullable';
                 break;
@@ -31,11 +37,13 @@ class ProductRequest extends EntityRequest
             case 'PATCH':
             {
                 $product = Product::where('public_id', (int)request()->segment(2))->first();
-                dd($product);
                 if ($product) {
-                    $rules['name'] = 'required|max:90|unique:products,name,' . $product->id . ',id,item_category_id,' . $product->item_category_id;
+                    $rules['name'] = 'required|unique:products,name,' . $product->id . ',id,item_category_id,' . $product->item_category_id;
                     $rules['item_category_id'] = 'required|numeric';
-                    $rules['unit'] = 'required|numeric';
+                    $rules['barcode'] = 'nullable';
+                    $rules['item_tag'] = 'nullable';
+                    $rules['unit_id'] = 'required|numeric';
+                    $rules['item_cost'] = 'required|numeric';
                     $rules['is_deleted'] = 'boolean';
                     $rules['notes'] = 'nullable';
                     break;

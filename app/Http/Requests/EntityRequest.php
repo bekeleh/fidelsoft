@@ -72,4 +72,5 @@ class EntityRequest extends FormRequest
     {
         return [];
     }
+
 }
