@@ -2,12 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/Models/HoldReason.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ItemPriceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ItemPriceController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/ItemPriceRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/ItemPriceRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Services/ItemPriceService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/ItemPriceService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Constants.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Constants.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Client.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Client.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/ExpenseCategory.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ExpenseCategory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/ItemCategory.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ItemCategory.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/sessions/RaBC2Gzcq5XYC6UayIJHYW0NCabdRCMKRxqPHXxE" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/RaBC2Gzcq5XYC6UayIJHYW0NCabdRCMKRxqPHXxE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/sxBjHvn1WUqMjASw3PPwp7PT7QtiSZ9r9zgse23L" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/sxBjHvn1WUqMjASw3PPwp7PT7QtiSZ9r9zgse23L" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -329,14 +330,7 @@
       <workItem from="1584512497223" duration="28280000" />
       <workItem from="1584603645198" duration="19531000" />
       <workItem from="1584683803873" duration="28491000" />
-      <workItem from="1584772807433" duration="7268000" />
-    </task>
-    <task id="LOCAL-00002" summary="202003060614">
-      <created>1583508072719</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1583508072719</updated>
+      <workItem from="1584772807433" duration="8487000" />
     </task>
     <task id="LOCAL-00003" summary="202003060614">
       <created>1583508136819</created>
@@ -674,7 +668,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584778714518</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="202003210614">
+      <created>1584782085529</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1584782085530</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -723,10 +724,10 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="622" y="0" key="#com.jetbrains.php.refactoring.extractMethod.PhpExtractMethodDialog#method1/0.0.1440.860@0.0.1440.860" timestamp="1584443627388" />
-    <state x="345" y="25" key="CommitChangelistDialog2" timestamp="1584778712065">
+    <state x="345" y="25" key="CommitChangelistDialog2" timestamp="1584782083348">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="345" y="25" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1584778712065" />
+    <state x="345" y="25" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1584782083348" />
     <state x="500" y="177" key="FileChooserDialogImpl" timestamp="1584008814991">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
@@ -751,18 +752,18 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="527" y="245" key="NewPhpClassDialog/0.0.1440.860@0.0.1440.860" timestamp="1584257861288" />
-    <state x="471" y="223" key="NewPhpFileDialog" timestamp="1584773232630">
+    <state x="471" y="223" key="NewPhpFileDialog" timestamp="1584784900985">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="471" y="223" key="NewPhpFileDialog/0.0.1440.860@0.0.1440.860" timestamp="1584773232630" />
+    <state x="471" y="223" key="NewPhpFileDialog/0.0.1440.860@0.0.1440.860" timestamp="1584784900985" />
     <state x="221" y="73" key="SettingsEditor" timestamp="1584008816522">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="221" y="73" key="SettingsEditor/0.0.1440.860@0.0.1440.860" timestamp="1584008816522" />
-    <state x="312" y="163" key="Vcs.Push.Dialog.v2" timestamp="1584693739759">
+    <state x="312" y="163" key="Vcs.Push.Dialog.v2" timestamp="1584782102020">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="312" y="163" key="Vcs.Push.Dialog.v2/0.0.1440.860@0.0.1440.860" timestamp="1584693739759" />
+    <state x="312" y="163" key="Vcs.Push.Dialog.v2/0.0.1440.860@0.0.1440.860" timestamp="1584782102020" />
     <state x="430" y="164" key="com.intellij.ide.util.TipDialog" timestamp="1584772843930">
       <screen x="0" y="0" width="1440" height="860" />
     </state>

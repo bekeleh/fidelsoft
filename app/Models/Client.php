@@ -53,6 +53,7 @@ class Client extends EntityModel
         'currency_id',
         'language_id',
         'sale_type_id',
+        'hold_reason_id',
         'payment_terms',
         'website',
         'invoice_number_counter',
@@ -230,6 +231,14 @@ class Client extends EntityModel
     public function saleType()
     {
         return $this->belongsTo('App\Models\SaleType');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function holdReason()
+    {
+        return $this->belongsTo('App\Models\HoldReason');
     }
 
     /**
