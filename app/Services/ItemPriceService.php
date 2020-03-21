@@ -54,17 +54,6 @@ class ItemPriceService extends BaseService
      */
     public function save($data, $itemPrice = null)
     {
-//        if ($itemPrice) {
-//            if (!empty($data['product_id'])) {
-//                $data['product_id'] = Product::getPrivateId($data['product_id']);
-//            }
-//            if (!empty($data['sale_type_id'])) {
-//                $data['sale_type_id'] = SaleType::getPrivateId($data['sale_type_id']);
-//            }
-//        }
-        $data['start_date'] = isset($data['start_date']) ? Utils::toSqlDate(trim($data['start_date'])) : '';
-        $data['end_date'] = isset($data['end_date']) ? Utils::toSqlDate(trim($data['end_date'])) : '';
-
         return $this->itemPriceRepo->save($data, $itemPrice);
     }
 

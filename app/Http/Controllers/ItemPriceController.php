@@ -126,10 +126,8 @@ class ItemPriceController extends BaseController
     {
         $data = $request->input();
 
-//        if ($this->dateValidator($data)) {
-//            return redirect()->to("item_prices/{$request->public_id}/edit")->with('warning', trans('texts.warning_invalid_date'));
-//        }
         $itemPrice = $this->itemPriceService->save($data, $request->entity());
+
         $action = Input::get('action');
         if (in_array($action, ['archive', 'delete', 'restore', 'invoice', 'add_to_invoice'])) {
             return self::bulk();
@@ -174,34 +172,5 @@ class ItemPriceController extends BaseController
         Session::reflash();
 
         return Redirect::to("item_prices/{$publicId}/edit");
-    }
-
-
-//    public function validator($data)
-//    {
-//        $productId = $data['product_id'] = Product::getPrivateId($data['product_id']);
-//        $saleTypeId = $data['sale_type_id'] = SaleType::getPrivateId($data['sale_type_id']);
-//        $validator = Validator::make($data, [
-//                'product_id' => [
-//                    'required', 'numeric',
-//                    Rule::unique('item_prices')
-//                        ->where(function ($query) use ($productId, $saleTypeId) {
-//                            return $query->where('product_id', $productId)
-//                                ->where('sale_type_id', $saleTypeId);
-//                        }),
-//                ],
-//            ]
-//        );
-//
-//        return $validator;
-//    }
-
-    public function dateValidator($data)
-    {
-        $data['start_date'] = isset($data['start_date']) ? Utils::toSqlDate(trim($data['start_date'])) : '';
-        $data['end_date'] = isset($data['end_date']) ? Utils::toSqlDate(trim($data['end_date'])) : '';
-        if ($data['start_date'] >= $data['end_date']) {
-            return true;
-        }
     }
 }

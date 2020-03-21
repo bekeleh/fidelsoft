@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Libraries\Utils;
 use App\Models\ItemPrice;
 use App\Models\Product;
 use App\Models\SaleType;
@@ -29,6 +30,8 @@ class ItemPriceRequest extends EntityRequest
                 $rules['qty'] = 'numeric';
                 $rules['reorder_level'] = 'numeric';
                 $rules['EOQ'] = 'numeric';
+                $rules['start_date'] = 'required|date';
+                $rules['end_date'] = 'required|date|after:start_date';
                 $rules['notes'] = 'nullable';
                 $rules['is_deleted'] = 'boolean';
                 $rules['notes'] = 'nullable';
@@ -45,6 +48,8 @@ class ItemPriceRequest extends EntityRequest
                     $rules['qty'] = 'numeric';
                     $rules['reorder_level'] = 'numeric';
                     $rules['EOQ'] = 'numeric';
+                    $rules['start_date'] = 'required|date';
+                    $rules['end_date'] = 'required|date|after:start_date';
                     $rules['is_deleted'] = 'boolean';
                     $rules['notes'] = 'nullable';
                     break;
@@ -94,10 +99,18 @@ class ItemPriceRequest extends EntityRequest
         if (!empty($input['sale_type_id'])) {
             $input['sale_type_id'] = SaleType::getPrivateId($input['sale_type_id']);
         }
+        if (!empty($input['start_date'])) {
+            $input['start_date'] = Utils::toSqlDate($input['start_date']);
+        }
+        if (!empty($input['end_date'])) {
+            $input['end_date'] = Utils::toSqlDate($input['end_date']);
+        }
         if (!empty($input['product_id']) && !empty($input['sale_type_id'])) {
             $this->request->add([
                 'product_id' => $input['product_id'],
                 'sale_type_id' => $input['sale_type_id'],
+                'start_date' => $input['start_date'],
+                'end_date' => $input['end_date'],
             ]);
         }
         return $this->request->all();
