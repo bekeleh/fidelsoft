@@ -101,9 +101,8 @@ class SaleTypeController extends BaseController
     public function update(SaleTypeRequest $request)
     {
         $data = $request->input();
-        $saleType = $this->saleTypeService->save($data, $request->entity());
 
-        Session::flash('message', trans('texts.updated_sale_type'));
+        $saleType = $this->saleTypeService->save($data, $request->entity());
 
         $action = Input::get('action');
         if (in_array($action, ['archive', 'delete', 'restore', 'invoice', 'add_to_invoice'])) {
@@ -111,20 +110,19 @@ class SaleTypeController extends BaseController
         }
 
         if ($action == 'clone') {
-            return redirect()->to(sprintf('sale_types/%s/clone', $saleType->public_id));
+            return redirect()->to(sprintf('sale_types/%s/clone', $saleType->public_id))->with('success', trans('texts.clone_sale_type'));
         } else {
-            return redirect()->to("sale_types/{$saleType->public_id}/edit");
+            return redirect()->to("sale_types/{$saleType->public_id}/edit")->with('success', trans('texts.updated_sale_type'));
         }
     }
 
     public function store(SaleTypeRequest $request)
     {
         $data = $request->input();
+
         $saleType = $this->saleTypeService->save($data);
 
-        Session::flash('message', trans('texts.created_sale_type'));
-
-        return redirect()->to("sale_types/{$saleType->public_id}/edit");
+        return redirect()->to("sale_types/{$saleType->public_id}/edit")->with('success', trans('texts.created_sale_type'));
     }
 
     public function bulk()
@@ -135,9 +133,8 @@ class SaleTypeController extends BaseController
         $count = $this->saleTypeService->bulk($ids, $action);
 
         $message = Utils::pluralize($action . 'd_sale_type', $count);
-        Session::flash('message', $message);
 
-        return $this->returnBulk(ENTITY_SALE_TYPE, $action, $ids);
+        return $this->returnBulk(ENTITY_SALE_TYPE, $action, $ids)->with('message', $message);
     }
 
     private static function getViewModel($saleType = false)

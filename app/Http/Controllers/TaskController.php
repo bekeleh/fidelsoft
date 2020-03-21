@@ -15,7 +15,6 @@ use App\Ninja\Repositories\InvoiceRepository;
 use App\Ninja\Repositories\TaskRepository;
 use App\Services\TaskService;
 use DropdownButton;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -56,9 +55,7 @@ class TaskController extends BaseController
         $this->taskService = $taskService;
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
+
     public function index()
     {
         return View::make('list_wrapper', [
@@ -68,34 +65,18 @@ class TaskController extends BaseController
         ]);
     }
 
-    /**
-     * @param null $clientPublicId
-     *
-     * @param null $projectPublicId
-     * @return JsonResponse
-     */
+
     public function getDatatable($clientPublicId = null, $projectPublicId = null)
     {
         return $this->taskService->getDatatable($clientPublicId, $projectPublicId, Input::get('sSearch'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param CreateTaskRequest $request
-     *
-     * @return RedirectResponse
-     */
+
     public function store(CreateTaskRequest $request)
     {
         return $this->save($request);
     }
 
-    /**
-     * @param $publicId
-     *
-     * @return RedirectResponse
-     */
     public function show($publicId)
     {
         Session::reflash();
@@ -103,13 +84,6 @@ class TaskController extends BaseController
         return Redirect::to("tasks/{$publicId}/edit");
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @param TaskRequest $request
-     *
-     * @return \Illuminate\Contracts\View\View
-     */
     public function create(TaskRequest $request)
     {
         $this->checkTimezone();
@@ -130,13 +104,6 @@ class TaskController extends BaseController
         return View::make('tasks.edit', $data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param TaskRequest $request
-     *
-     * @return \Illuminate\Contracts\View\View
-     */
     public function edit(TaskRequest $request)
     {
         $this->checkTimezone();
@@ -186,13 +153,6 @@ class TaskController extends BaseController
         return View::make('tasks.edit', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param UpdateTaskRequest $request
-     *
-     * @return RedirectResponse
-     */
     public function update(UpdateTaskRequest $request)
     {
         $task = $request->entity();
@@ -200,10 +160,6 @@ class TaskController extends BaseController
         return $this->save($request, $task->public_id);
     }
 
-    /**
-     * @param bool $task
-     * @return array
-     */
     private static function getViewModel($task = false)
     {
         return [
@@ -213,12 +169,6 @@ class TaskController extends BaseController
         ];
     }
 
-    /**
-     * @param $request
-     * @param null $publicId
-     *
-     * @return RedirectResponse
-     */
     private function save($request, $publicId = null)
     {
         $action = Input::get('action');

@@ -45,9 +45,6 @@ class LocationController extends BaseController
         $this->locationRepo = $locationRepo;
     }
 
-    /**
-     * @return RedirectResponse
-     */
     public function index()
     {
         return View::make('list_wrapper', [
@@ -65,20 +62,11 @@ class LocationController extends BaseController
         return Redirect::to("locations/$publicId/edit");
     }
 
-    /**
-     * @return JsonResponse
-     * @throws Exception
-     */
     public function getDatatable()
     {
         return $this->locationService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
     }
 
-
-    /**
-     * @param LocationRequest $request
-     * @return \Illuminate\Contracts\View\View
-     */
     public function create(LocationRequest $request)
     {
         Auth::user()->can('create', [ENTITY_LOCATION, $request->entity()]);
@@ -94,17 +82,11 @@ class LocationController extends BaseController
         return View::make('locations.edit', $data);
     }
 
-    /**
-     * @param LocationRequest $request
-     * @return RedirectResponse
-     */
     public function store(LocationRequest $request)
     {
         $data = $request->input();
 
         $location = $this->locationService->save($data);
-
-//        Session::flash('message', trans('texts.created_location'));
 
         return redirect()->to("locations/{$location->public_id}/edit")->with('success', trans('texts.created_location'));
     }
@@ -139,18 +121,11 @@ class LocationController extends BaseController
         return View::make('locations.edit', $data);
     }
 
-    /**
-     * @param LocationRequest $request
-     * @param $publicId
-     *
-     * @return RedirectResponse
-     */
     public function update(LocationRequest $request, $publicId)
     {
         $data = $request->input();
-        $location = $this->locationService->save($data, $request->entity());
 
-//        Session::flash('message', trans('texts.updated_location'));
+        $location = $this->locationService->save($data, $request->entity());
 
         $action = Input::get('action');
         if (in_array($action, ['archive', 'delete', 'restore', 'invoice', 'add_to_invoice'])) {
@@ -164,9 +139,6 @@ class LocationController extends BaseController
         }
     }
 
-    /**
-     * @return RedirectResponse
-     */
     public function bulk()
     {
         $action = Input::get('action');
@@ -184,7 +156,6 @@ class LocationController extends BaseController
         }
 
         $message = Utils::pluralize($action . 'd_location', $count);
-//        Session::flash('message', $message);
 
         return $this->returnBulk(ENTITY_LOCATION, $action, $ids)->with('success', $message);
     }

@@ -5,7 +5,7 @@
     {!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['name' => 'required|max:255','item_cost' => 'required|numeric','item_category_id' => 'required|numeric','unit_id' => 'required|numeric'])
+    ->rules(['name' => 'required|max:255','item_cost' => 'required|numeric','item_category_id' => 'required|numeric','unit_id' => 'required|numeric','notes' => 'required|string'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     @if ($product)
         {{ Former::populate($product) }}
@@ -26,7 +26,7 @@
 
                     {!! Former::select('item_category_id')->addOption('', '')
                     ->label(trans('texts.item_category'))
-                    ->addGroupClass('category-select') !!}
+                    ->addGroupClass('item-category-select') !!}
 
                     {!! Former::select('unit_id')->addOption('', '')
                     ->label(trans('texts.unit'))
@@ -91,19 +91,19 @@
         $(function () {
             <!-- category -->
             var categoryId = {{ $itemCategoryPublicId ?: 0 }};
-            var $categorySelect = $('select#item_category_id');
+            var $item_categorySelect = $('select#item_category_id');
             @if (Auth::user()->can('create', ENTITY_ITEM_CATEGORY))
-            $categorySelect.append(new Option("{{ trans('texts.create_category')}}:$name", '-1'));
+            $item_categorySelect.append(new Option("{{ trans('texts.create_item_category')}}:$name", '-1'));
                     @endif
             for (var i = 0; i < categories.length; i++) {
                 var category = categories[i];
                 categoryMap[category.public_id] = category;
-                $categorySelect.append(new Option(getClientDisplayName(category), category.public_id));
+                $item_categorySelect.append(new Option(getClientDisplayName(category), category.public_id));
             }
-            @include('partials/entity_combobox', ['entityType' => ENTITY_CATEGORY])
+            @include('partials/entity_combobox', ['entityType' => ENTITY_ITEM_CATEGORY])
             if (categoryId) {
                 var category = categoryMap[categoryId];
-                setComboboxValue($('.category-select'), category.public_id, category.name);
+                setComboboxValue($('.item-category-select'), category.public_id, category.name);
             }
             <!-- /. category  -->
 

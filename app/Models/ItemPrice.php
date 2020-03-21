@@ -30,7 +30,7 @@ class ItemPrice extends EntityModel
     protected $fillable = [
         'product_id',
         'sale_type_id',
-        'price',
+        'item_price',
         'start_date',
         'end_date',
         'notes',

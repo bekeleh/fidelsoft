@@ -5,7 +5,7 @@
     {!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['product_id' => 'required','sale_type_id' => 'required','price' => 'required|numeric','start_date' => 'required|date', 'end_date' => 'required|date', ])
+    ->rules(['product_id' => 'required','sale_type_id' => 'required','item_price' => 'required|numeric','start_date' => 'required|date', 'end_date' => 'required|date','notes' => 'required', ])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     @if ($itemPrice)
         {{ Former::populate($itemPrice) }}

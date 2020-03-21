@@ -12,9 +12,7 @@ use App\Services\ItemPriceService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
-use Illuminate\Validation\Rule;
 use Redirect;
 
 class ItemPriceController extends BaseController
@@ -128,9 +126,9 @@ class ItemPriceController extends BaseController
     {
         $data = $request->input();
 
-        if ($this->dateValidator($data)) {
-            return redirect()->to("item_prices/{$request->public_id}/edit")->with('warning', trans('texts.warning_invalid_date'));
-        }
+//        if ($this->dateValidator($data)) {
+//            return redirect()->to("item_prices/{$request->public_id}/edit")->with('warning', trans('texts.warning_invalid_date'));
+//        }
         $itemPrice = $this->itemPriceService->save($data, $request->entity());
         $action = Input::get('action');
         if (in_array($action, ['archive', 'delete', 'restore', 'invoice', 'add_to_invoice'])) {

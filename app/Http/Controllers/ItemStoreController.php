@@ -16,9 +16,11 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use Redirect;
 
+/**
+ * Class ItemStoreController.
+ */
 class ItemStoreController extends BaseController
 {
-    // Stores
     protected $itemStoreRepo;
     protected $itemStoreService;
     protected $entityType = ENTITY_ITEM_STORE;
@@ -31,11 +33,7 @@ class ItemStoreController extends BaseController
         $this->itemStoreService = $itemStoreService;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
+
     public function index()
     {
         return View::make('list_wrapper', [

@@ -36,7 +36,6 @@ if (!defined('APP_NAME')) {
     define('ENTITY_ITEM_STORE', 'item_store');
     define('ENTITY_ITEM_MOVEMENT', 'item_movement');
     define('ENTITY_ITEM_CATEGORY', 'item_category');
-    define('ENTITY_CATEGORY', 'category');
     define('ENTITY_ITEM_PRICE', 'item_price');
     define('ENTITY_SALE_TYPE', 'sale_type');
     define('ENTITY_ACTIVITY', 'activity');

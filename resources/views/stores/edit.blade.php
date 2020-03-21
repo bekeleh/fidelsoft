@@ -5,10 +5,8 @@
     {!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['name' => 'required|max:255','location_id' => 'required' ])
+    ->rules(['name' => 'required|max:255','location_id' => 'required','store_code' => 'required' ,'notes' => 'required' ])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
-    <!-- notification -->
-    @include('notifications')
     @if ($store)
         {{ Former::populate($store) }}
         <div style="display:none">

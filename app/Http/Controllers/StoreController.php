@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRequest;
 use App\Libraries\Utils;
+use App\Models\Location;
 use App\Ninja\Datatables\StoreDatatable;
 use App\Ninja\Repositories\StoreRepository;
 use App\Services\StoreService;
-use App\Models\Location;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
@@ -111,19 +111,11 @@ class StoreController extends BaseController
         return View::make('stores.edit', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param StoreRequest $request
-     * @return Response
-     */
     public function update(StoreRequest $request)
     {
         $data = $request->input();
 
         $store = $this->storeService->save($data, $request->entity());
-
-        Session::flash('message', trans('texts.updated_store'));
 
         $action = Input::get('action');
         if (in_array($action, ['archive', 'delete', 'restore', 'invoice', 'add_to_invoice'])) {
@@ -131,20 +123,19 @@ class StoreController extends BaseController
         }
 
         if ($action == 'clone') {
-            return redirect()->to(sprintf('stores/%s/clone', $store->public_id));
+            return redirect()->to(sprintf('stores/%s/clone', $store->public_id))->with('success', trans('texts.clone_store'));
         } else {
-            return redirect()->to("stores/{$store->public_id}/edit");
+            return redirect()->to("stores/{$store->public_id}/edit")->with('success', trans('texts.updated_store'));
         }
     }
 
     public function store(StoreRequest $request)
     {
         $data = $request->input();
+
         $store = $this->storeService->save($data);
 
-        Session::flash('message', trans('texts.created_store'));
-
-        return redirect()->to("stores/{$store->public_id}/edit");
+        return redirect()->to("stores/{$store->public_id}/edit")->with('success', trans('texts.created_store'));
     }
 
     public function bulk()
@@ -155,9 +146,8 @@ class StoreController extends BaseController
         $count = $this->storeService->bulk($ids, $action);
 
         $message = Utils::pluralize($action . 'd_store', $count);
-        Session::flash('message', $message);
 
-        return $this->returnBulk(ENTITY_STORE, $action, $ids);
+        return $this->returnBulk(ENTITY_STORE, $action, $ids)->with('message', $message);
     }
 
     public function cloneStore(StoreRequest $request, $publicId)
