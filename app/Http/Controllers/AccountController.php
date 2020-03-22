@@ -343,10 +343,13 @@ class AccountController extends BaseController
         $data = [
             'account' => Account::with('users')->findOrFail(Auth::user()->account_id),
             'sizes' => Cache::get('sizes'),
+            'industries' => Cache::get('industries'),
+            'countries' => Cache::get('countries'),
+            'paymentTypes' => Cache::get('paymentTypes'),
             'title' => trans('texts.company_details'),
         ];
 
-        return View::make('accounts.details', $data);
+        return View::make('companies.details', $data);
     }
 
     private function showAccountManagement()
@@ -1001,8 +1004,14 @@ class AccountController extends BaseController
 
     public function updateDetails(UpdateAccountRequest $request)
     {
+//      update the company detail
+        $data = $request->input();
         $account = Auth::user()->account;
-        $this->accountRepo->save($request->input(), $account);
+        $account->fill($data);
+        $account->name = isset($data['name']) ? ucwords($data['name']) : '';
+//        $this->accountRepo->save($request->input(), $account);
+
+        $account->save($data);
 
         /* Logo image file */
         if ($uploaded = Input::file('logo')) {
@@ -1080,15 +1089,16 @@ class AccountController extends BaseController
 
         event(new UserSettingsChanged());
 
-        Session::flash('message', trans('texts.updated_settings'));
+//        Session::flash('message', trans('texts.updated_settings'));
 
-        return Redirect::to('settings/' . ACCOUNT_COMPANY_DETAILS);
+        return Redirect::to('settings/' . ACCOUNT_COMPANY_DETAILS)->with('success', trans('texts.updated_settings'));
     }
 
     public function saveUserDetails()
     {
-        /** @var User $user */
+//      update user detail
         $user = Auth::user();
+
         $email = trim(strtolower(Input::get('email')));
 
         if (!LookupUser::validateField('email', $email, $user)) {
@@ -1110,8 +1120,8 @@ class AccountController extends BaseController
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $user->first_name = trim(Input::get('first_name'));
-            $user->last_name = trim(Input::get('last_name'));
+            $user->first_name = ucfirst(trim(Input::get('first_name')));
+            $user->last_name = ucfirst(trim(Input::get('last_name')));
             $user->username = trim(Input::get('username'));
             $user->email = $email;
             $user->phone = trim(Input::get('phone'));
@@ -1146,7 +1156,8 @@ class AccountController extends BaseController
 
     private function saveLocalization()
     {
-        /** @var Account $account */
+//      Update company localization
+
         $account = Auth::user()->account;
 
         $account->timezone_id = Input::get('timezone_id') ? Input::get('timezone_id') : null;
@@ -1247,8 +1258,8 @@ class AccountController extends BaseController
             return '';
         }
 
-        $firstName = trim(Input::get('new_first_name'));
-        $lastName = trim(Input::get('new_last_name'));
+        $firstName = ucfirst(trim(Input::get('new_first_name')));
+        $lastName = ucfirst(trim(Input::get('new_last_name')));
         $username = trim(Input::get('new_username'));
         $email = trim(strtolower(Input::get('new_email')));
         $password = trim(Input::get('new_password'));
@@ -1318,7 +1329,7 @@ class AccountController extends BaseController
     {
         $this->dispatch(new \App\Jobs\PurgeAccountData());
 
-        return redirect('/settings/account_management')->withMessage(trans('texts.purge_successful'));
+        return redirect('/settings/account_management')->with('success', trans('texts.purge_successful'));
     }
 
     public function cancelAccount()
@@ -1368,7 +1379,7 @@ class AccountController extends BaseController
             Session::flash('warning', trans('texts.plan_refunded'));
         }
 
-        return Redirect::to('/')->with('clearGuestKey', true);
+        return Redirect::to('/')->with('clearGuestKey', true)->with('success', trans('texts.plan_refunded'));
     }
 
     public function resendConfirmation()

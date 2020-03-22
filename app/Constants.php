@@ -80,6 +80,8 @@ if (!defined('APP_NAME')) {
         ENTITY_SALE_TYPE,
         ENTITY_REPORT,
         ENTITY_TASK,
+        ENTITY_HOLD_REASON,
+        ENTITY_TAX_RATE,
         ENTITY_VENDOR,
         ENTITY_RECURRING_INVOICE,
     ];

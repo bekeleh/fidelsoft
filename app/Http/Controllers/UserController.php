@@ -190,8 +190,8 @@ class UserController extends BaseController
         }
 
         if ($userPublicId) {
-            $user->first_name = trim(Input::get('first_name'));
-            $user->last_name = trim(Input::get('last_name'));
+            $user->first_name = ucfirst(trim(Input::get('first_name')));
+            $user->last_name = ucfirst(trim(Input::get('last_name')));
             $user->username = trim(Input::get('username'));
             $user->email = trim(Input::get('email'));
             if (Auth::user()->hasFeature(FEATURE_USER_PERMISSIONS)) {
@@ -204,8 +204,8 @@ class UserController extends BaseController
                 ->orderBy('public_id', 'DESC')->first();
             $user = new User();
             $user->account_id = Auth::user()->account_id;
-            $user->first_name = trim(Input::get('first_name'));
-            $user->last_name = trim(Input::get('last_name'));
+            $user->first_name = ucfirst(trim(Input::get('first_name')));
+            $user->last_name = ucfirst(trim(Input::get('last_name')));
             $user->username = trim(Input::get('username'));
             $user->email = trim(Input::get('email'));
             $user->registered = true;
@@ -227,9 +227,7 @@ class UserController extends BaseController
             $message = trans('texts.updated_user');
         }
 
-        Session::flash('message', $message);
-
-        return Redirect::to('users/' . $user->public_id . '/edit');
+        return Redirect::to('users/' . $user->public_id . '/edit')->with('success', $message);
     }
 
     private function formatUserPermissions(array $permissions)
