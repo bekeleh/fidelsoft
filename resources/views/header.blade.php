@@ -6,10 +6,19 @@
         <style type="text/css">
             .nav-footer {
                 @if (config('mail.driver') == 'log' && ! config('services.postmark'))
-                                                                                         background-color: #50C878 !important;
+                                                                                                         background-color: #50C878 !important;
                 @else
-                                                                                             background-color: #FD6A02 !important;
+                                                                                                             background-color: #FD6A02 !important;
             @endif
+
+
+
+
+
+
+
+
+
 
 
 
@@ -264,7 +273,7 @@
             <a href="#" id="left-menu-toggle" class="menu-toggle" title="{{ trans('texts.toggle_navigation') }}"
                style="color:white;">
                 <div class="navbar-brand">
-                    <i class="fa fa-bars hide-phone" style="width:32px;padding-top:2px;float:left"></i>CARE ERP
+                    <i class="fa fa-bars hide-phone" style="width:32px;padding-top:2px;float:left"></i>HARON ERP
                     {{--                    <img src="{{ asset('images/erp.png') }}" width="193" height="25" style="float:left"/>--}}
                 </div>
             </a>
@@ -347,6 +356,7 @@
                     </ul>
                 </div>
             </div>
+
             {!! Former::open('/handle_command')->id('search-form')->addClass('navbar-form navbar-right')->role('search') !!}
             <div class="form-group has-feedback">
                 <input type="text" name="command" id="search"
@@ -358,18 +368,7 @@
                 @endif
             </div>
             {!! Former::close() !!}
-            @if (false && Utils::isAdmin())
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        @section('self-updater')
-                            <a href="{{ URL::to('self-update') }}" class="dropdown-toggle">
-                                <span class="glyphicon glyphicon-cloud-download"
-                                      title="{{ trans('texts.update_invoiceninja_title') }}"></span>
-                            </a>
-                        @show
-                    </li>
-                </ul>
-            @endif
+
             <ul class="nav navbar-nav hide-non-phone" style="font-weight: bold">
                 @foreach ([
                     'dashboard' => false,
@@ -434,21 +433,6 @@
                     @include('partials.navigation_option', ['option' => 'reports'])
                 @endif
                 @include('partials.navigation_option', ['option' => 'settings'])
-                {{--                <li style="width:100%;">--}}
-                {{--                    <div class="nav-footer">--}}
-                {{--                        @if (Auth::user()->registered)--}}
-                {{--                            <a href="javascript:showContactUs()" title="{{ trans('texts.contact_us') }}">--}}
-                {{--                                <i class="fa fa-envelope"></i>--}}
-                {{--                            </a>--}}
-                {{--                        @endif--}}
-                {{--                        <a href="#" target="_blank" title="{{ trans('texts.support_forum') }}">--}}
-                {{--                            <i class="fa fa-list-ul"></i>--}}
-                {{--                        </a>--}}
-                {{--                        <a href="javascript:showKeyboardShortcuts()" title="{{ trans('texts.help') }}">--}}
-                {{--                            <i class="fa fa-question-circle"></i>--}}
-                {{--                        </a>--}}
-                {{--                    </div>--}}
-                {{--                </li>--}}
             </ul>
         </div>
         <!-- /#left-sidebar-wrapper -->
@@ -494,9 +478,6 @@
             </div>
             <!-- /. #page-content-wrapper -->
         </div>
-        {{--        @include('partials.contact_us')--}}
-        {{--        @include('partials.sign_up')--}}
-        {{--        @include('partials.keyboard_shortcuts')--}}
         @if (auth()->check() && auth()->user()->registered && ! auth()->user()->hasAcceptedLatestTerms())
             @include('partials.accept_terms')
         @endif

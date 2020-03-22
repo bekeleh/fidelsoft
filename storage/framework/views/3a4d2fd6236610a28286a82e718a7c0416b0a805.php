@@ -2,7 +2,7 @@
 
 
 
-<?php echo link_to('https://www.careerp.com/?tm_source=powered_by', 'Care E-business Solution PLC', ['target' => '_blank', 'title' => trans('texts.created_by', ['name' => 'Care ERP Team'])]); ?> -
+<?php echo link_to('https://www.careerp.com/?tm_source=powered_by', 'Care E-business Solution PLC', ['target' => '_blank', 'title' => trans('texts.created_by', ['name' => 'HARON ERP Team'])]); ?> -
 <?php echo link_to(RELEASES_URL, 'v' . NINJA_VERSION, ['target' => '_blank', 'title' => trans('texts.trello_roadmap')]); ?> |
 
 <?php if(Auth::user()->account->hasFeature(FEATURE_WHITE_LABEL)): ?>

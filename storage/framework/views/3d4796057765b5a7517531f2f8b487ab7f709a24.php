@@ -4,10 +4,19 @@
         <style type="text/css">
             .nav-footer {
                 <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?>
-                                                                                         background-color: #50C878 !important;
+                                                                                                         background-color: #50C878 !important;
                 <?php else: ?>
-                                                                                             background-color: #FD6A02 !important;
+                                                                                                             background-color: #FD6A02 !important;
             <?php endif; ?>
+
+
+
+
+
+
+
+
+
 
 
 
@@ -263,7 +272,7 @@
             <a href="#" id="left-menu-toggle" class="menu-toggle" title="<?php echo e(trans('texts.toggle_navigation')); ?>"
                style="color:white;">
                 <div class="navbar-brand">
-                    <i class="fa fa-bars hide-phone" style="width:32px;padding-top:2px;float:left"></i>CARE ERP
+                    <i class="fa fa-bars hide-phone" style="width:32px;padding-top:2px;float:left"></i>HARON ERP
                     
                 </div>
             </a>
@@ -351,6 +360,7 @@
                     </ul>
                 </div>
             </div>
+
             <?php echo Former::open('/handle_command')->id('search-form')->addClass('navbar-form navbar-right')->role('search'); ?>
 
             <div class="form-group has-feedback">
@@ -364,18 +374,7 @@
             </div>
             <?php echo Former::close(); ?>
 
-            <?php if(false && Utils::isAdmin()): ?>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <?php $__env->startSection('self-updater'); ?>
-                            <a href="<?php echo e(URL::to('self-update')); ?>" class="dropdown-toggle">
-                                <span class="glyphicon glyphicon-cloud-download"
-                                      title="<?php echo e(trans('texts.update_invoiceninja_title')); ?>"></span>
-                            </a>
-                        <?php echo $__env->yieldSection(); ?>
-                    </li>
-                </ul>
-            <?php endif; ?>
+
             <ul class="nav navbar-nav hide-non-phone" style="font-weight: bold">
                 <?php $__currentLoopData = [
                     'dashboard' => false,
@@ -442,21 +441,6 @@
                     <?php echo $__env->make('partials.navigation_option', ['option' => 'reports'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 <?php endif; ?>
                 <?php echo $__env->make('partials.navigation_option', ['option' => 'settings'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
             </ul>
         </div>
         <!-- /#left-sidebar-wrapper -->
@@ -506,9 +490,6 @@
             </div>
             <!-- /. #page-content-wrapper -->
         </div>
-        
-        
-        
         <?php if(auth()->check() && auth()->user()->registered && ! auth()->user()->hasAcceptedLatestTerms()): ?>
             <?php echo $__env->make('partials.accept_terms', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
         <?php endif; ?>

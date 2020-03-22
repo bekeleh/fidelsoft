@@ -18,11 +18,6 @@ class AppLanguageComposer
         $view->with('appLanguage', $this->getLanguage());
     }
 
-    /**
-     * Get the language from the current locale.
-     *
-     * @return string
-     */
     private function getLanguage()
     {
         $code = app()->getLocale();

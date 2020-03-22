@@ -14,22 +14,22 @@
         <title><?php echo e(trans('texts.client_portal')); ?></title>
         
     <?php else: ?>
-        <title><?php echo e(isset($title) ? ($title . ' | Care ERP') : ('Care ERP' )); ?></title>
+        <title><?php echo e(isset($title) ? ($title . ' | HARON ERP') : ('HARON ERP' )); ?></title>
         <meta name="description" content="<?php echo e(isset($description) ? $description : trans('texts.app_description')); ?>"/>
         <link href="<?php echo e(asset('favicon-v2.gif')); ?>" rel="shortcut icon" type="image/gif">
 
-        <meta property="og:site_name" content="Care ERP"/>
+        <meta property="og:site_name" content="HARON ERP"/>
         <meta property="og:url" content="<?php echo e(SITE_URL); ?>"/>
-        <meta property="og:title" content="Care ERP"/>
+        <meta property="og:title" content="HARON ERP"/>
         <meta property="og:image" content="<?php echo e(SITE_URL); ?>/images/round_logo.png"/>
-        <meta property="og:description" content="Care ERP"/>
+        <meta property="og:description" content="HARON ERP"/>
 
         <!-- http://realfavicongenerator.net -->
         
         
         <link rel="shortcut icon" href="<?php echo e(url('favicon.ico')); ?>">
-        <meta name="apple-mobile-web-app-title" content="Care ERP">
-        <meta name="application-name" content="Care ERP">
+        <meta name="apple-mobile-web-app-title" content="HARON ERP">
+        <meta name="application-name" content="HARON ERP">
         <meta name="theme-color" content="#ffffff">
     <?php endif; ?>
     <meta http-equiv="cache-control" content="max-age=0"/>
@@ -114,8 +114,8 @@
         function sweetConfirm(successCallback, text, title, cancelCallback) {
             title = title || <?php echo json_encode(trans("texts.are_you_sure")); ?>;
             swal({
-                //type: "warning",
-                //confirmButtonColor: "#DD6B55",
+                type: "warning",
+                confirmButtonColor: "#DD6B55",
                 title: title,
                 text: text,
                 cancelButtonText: <?php echo json_encode(trans("texts.no")); ?>,

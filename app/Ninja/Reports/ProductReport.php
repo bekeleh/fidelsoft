@@ -3,8 +3,8 @@
 namespace App\Ninja\Reports;
 
 use App\Models\Client;
-use Auth;
-use Utils;
+use Illuminate\Support\Facades\Auth;
+use App\Libraries\Utils;
 
 class ProductReport extends AbstractReport
 {
@@ -16,8 +16,7 @@ class ProductReport extends AbstractReport
             'invoice_date' => [],
             'product' => [],
             'description' => [],
-            'qty' => [],
-            'cost' => [],
+            'item_cost' => [],
             //'tax_rate1',
             //'tax_rate2',
         ];
@@ -49,17 +48,17 @@ class ProductReport extends AbstractReport
         $subgroup = $this->options['subgroup'];
 
         $clients = Client::scope()
-                        ->orderBy('name')
-                        ->withArchived()
-                        ->with('contacts', 'user')
-                        ->with(['invoices' => function ($query) use ($statusIds) {
-                            $query->invoices()
-                                  ->withArchived()
-                                  ->statusIds($statusIds)
-                                  ->where('invoice_date', '>=', $this->startDate)
-                                  ->where('invoice_date', '<=', $this->endDate)
-                                  ->with(['invoice_items']);
-                        }]);
+            ->orderBy('name')
+            ->withArchived()
+            ->with('contacts', 'user')
+            ->with(['invoices' => function ($query) use ($statusIds) {
+                $query->invoices()
+                    ->withArchived()
+                    ->statusIds($statusIds)
+                    ->where('invoice_date', '>=', $this->startDate)
+                    ->where('invoice_date', '<=', $this->endDate)
+                    ->with(['invoice_items']);
+            }]);
 
         foreach ($clients->get() as $client) {
             foreach ($client->invoices as $invoice) {

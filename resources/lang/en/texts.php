@@ -743,7 +743,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'duplicate_post' => 'the previous page was submitted twice. The second submission had been ignored.',
     'view_documentation' => 'View Documentation',
 //    'app_title' => 'Free Open-Source Online Invoicing',
-    'app_title' => 'Ultimate Business Care ERP',
+    'app_title' => 'Ultimate Business HARON ERP',
     'app_description' => 'Invoice Ninja is a free, open-source solution for invoicing and billing customers. With Invoice Ninja, you can easily build and send beautiful invoices from any device that has access to the web. Your clients can print your invoices, download them as pdf files, and even pay you online from within the system.',
     'rows' => 'rows',
     'www' => 'www',
@@ -2373,7 +2373,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'this_year' => 'This Year',
 
 // Updated login screen
-    'ninja_tagline' => 'Ultimate care for your business',
+    'tag_line' => 'Ultimate care for your business',
     'login_or_existing' => 'Or login with a connected account.',
     'sign_up_now' => 'Sign Up Now',
     'not_a_member_yet' => 'Not a member yet?',

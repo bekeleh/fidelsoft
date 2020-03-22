@@ -14,22 +14,22 @@
         <title>{{ trans('texts.client_portal') }}</title>
         {{--        <link href="{{ asset('ic_cloud_circle.png') }}" rel="shortcut icon" type="image/png">--}}
     @else
-        <title>{{ isset($title) ? ($title . ' | Care ERP') : ('Care ERP' ) }}</title>
+        <title>{{ isset($title) ? ($title . ' | HARON ERP') : ('HARON ERP' ) }}</title>
         <meta name="description" content="{{ isset($description) ? $description : trans('texts.app_description') }}"/>
         <link href="{{ asset('favicon-v2.gif') }}" rel="shortcut icon" type="image/gif">
 
-        <meta property="og:site_name" content="Care ERP"/>
+        <meta property="og:site_name" content="HARON ERP"/>
         <meta property="og:url" content="{{ SITE_URL }}"/>
-        <meta property="og:title" content="Care ERP"/>
+        <meta property="og:title" content="HARON ERP"/>
         <meta property="og:image" content="{{ SITE_URL }}/images/round_logo.png"/>
-        <meta property="og:description" content="Care ERP"/>
+        <meta property="og:description" content="HARON ERP"/>
 
         <!-- http://realfavicongenerator.net -->
         {{--        <link rel="manifest" href="{{ url('manifest.json') }}">--}}
         {{--        <link rel="mask-icon" href="{{ url('safari-pinned-tab.svg') }}" color="#3bc65c">--}}
         <link rel="shortcut icon" href="{{ url('favicon.ico') }}">
-        <meta name="apple-mobile-web-app-title" content="Care ERP">
-        <meta name="application-name" content="Care ERP">
+        <meta name="apple-mobile-web-app-title" content="HARON ERP">
+        <meta name="application-name" content="HARON ERP">
         <meta name="theme-color" content="#ffffff">
     @endif
     <meta http-equiv="cache-control" content="max-age=0"/>
@@ -114,8 +114,8 @@
         function sweetConfirm(successCallback, text, title, cancelCallback) {
             title = title || {!! json_encode(trans("texts.are_you_sure")) !!};
             swal({
-                //type: "warning",
-                //confirmButtonColor: "#DD6B55",
+                type: "warning",
+                confirmButtonColor: "#DD6B55",
                 title: title,
                 text: text,
                 cancelButtonText: {!! json_encode(trans("texts.no")) !!},

@@ -2,13 +2,13 @@
 
 namespace App\Ninja\Intents\WebApp;
 
-use App\Ninja\Intents\ProductIntent;
+use App\Ninja\Intents\StoreIntent;
 
-class CreateProductIntent extends ProductIntent
+class CreateStoreIntent extends StoreIntent
 {
     public function process()
     {
-        $url = '/products/create';
+        $url = '/stores/create';
 
 
         return redirect($url);

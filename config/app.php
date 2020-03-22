@@ -4,7 +4,7 @@ use App\Libraries\Utils;
 
 return [
 
-    'name' => env('APP_NAME', 'CARE ERP'),
+    'name' => env('APP_NAME', 'HARON ERP'),
 
     /*
     |--------------------------------------------------------------------------

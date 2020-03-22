@@ -4,16 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Libraries\CurlUtils;
 use App\Libraries\Skype\SkypeResponse;
+use App\Libraries\Utils;
 use App\Models\SecurityCode;
 use App\Models\User;
 use App\Ninja\Intents\BaseIntent;
 use App\Ninja\Mailers\UserMailer;
-use Auth;
-use Cache;
-use DB;
 use Exception;
-use Input;
-use Utils;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
 
 class BotController extends Controller
 {
@@ -102,6 +102,7 @@ class BotController extends Controller
     public function handleCommand()
     {
         $command = request()->command;
+
         $data = $this->parseMessage($command);
 
         try {
