@@ -284,6 +284,7 @@ class AccountRepository
             ENTITY_PROPOSAL,
             ENTITY_SALE_TYPE,
             ENTITY_UNIT,
+            ENTITY_TAX_RATE,
             ENTITY_HOLD_REASON,
             ENTITY_STORE,
             ENTITY_LOCATION,

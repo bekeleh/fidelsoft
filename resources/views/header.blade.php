@@ -260,7 +260,7 @@
 @stop
 @section('body')
     {{--    @if (Utils::isNinjaProd() && ! Request::is('settings/account_management'))--}}
-    {{--        @include('partials.upgrade_modal')--}}
+{{--            @include('partials.upgrade_modal')--}}
     {{--    @endif--}}
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="height:60px;">
         <div class="navbar-header">

@@ -259,7 +259,7 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('body'); ?>
     
-    
+
     
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="height:60px;">
         <div class="navbar-header">

@@ -62,75 +62,43 @@ class User extends Authenticatable
 
     private $slack_webhook_url;
 
-    /**
-     * @return BelongsTo
-     */
+
     public function account()
     {
         return $this->belongsTo('App\Models\Account');
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function theme()
     {
         return $this->belongsTo('App\Models\Theme');
     }
 
-    /**
-     * @param $value
-     */
-    public function setEmailAttribute($value)
-    {
-        $this->attributes['email'] = $this->attributes['username'] = $value;
-    }
-
-    /**
-     * @return mixed|string
-     */
     public function getName()
     {
         return $this->getDisplayName();
     }
 
-    /**
-     * @return mixed
-     */
     public function getPersonType()
     {
         return PERSON_USER;
     }
 
-    /**
-     * Get the e-mail address where password reminders are sent.
-     *
-     * @return string
-     */
+
     public function getReminderEmail()
     {
         return $this->email;
     }
 
-    /**
-     * @return mixed
-     */
     public function isPro()
     {
         return $this->account->isPro();
     }
 
-    /**
-     * @return mixed
-     */
     public function isEnterprise()
     {
         return $this->account->isEnterprise();
     }
 
-    /**
-     * @return mixed
-     */
     public function isTrusted()
     {
         if (Utils::isSelfHost()) {
@@ -140,43 +108,27 @@ class User extends Authenticatable
         return $this->account->isPro() && !$this->account->isTrial();
     }
 
-    /**
-     * @return mixed
-     */
     public function hasActivePromo()
     {
         return $this->account->hasActivePromo();
     }
 
-    /**
-     * @param $feature
-     *
-     * @return mixed
-     */
     public function hasFeature($feature)
     {
         return $this->account->hasFeature($feature);
     }
 
-    /**
-     * @return mixed
-     */
     public function isTrial()
     {
         return $this->account->isTrial();
     }
 
-    /**
-     * @return int
-     */
     public function maxInvoiceDesignId()
     {
         return $this->hasFeature(FEATURE_MORE_INVOICE_DESIGNS) ? 13 : COUNT_FREE_DESIGNS;
     }
 
-    /**
-     * @return mixed|string
-     */
+
     public function getDisplayName()
     {
         if ($this->getFullName()) {
@@ -188,9 +140,6 @@ class User extends Authenticatable
         }
     }
 
-    /**
-     * @return string
-     */
     public function getFullName()
     {
         if ($this->first_name || $this->last_name) {
@@ -200,28 +149,17 @@ class User extends Authenticatable
         }
     }
 
-    /**
-     * @return bool
-     */
     public function showGreyBackground()
     {
         return !$this->theme_id || in_array($this->theme_id, [2, 3, 5, 6, 7, 8, 10, 11, 12]);
     }
 
-    /**
-     * @return mixed
-     */
+
     public function getRequestsCount()
     {
         return Session::get(SESSION_COUNTER, 0);
     }
 
-    /**
-     * @param bool $success
-     * @param bool $forced
-     *
-     * @return bool
-     */
     public function afterSave($success = true, $forced = false)
     {
         if ($this->email) {
@@ -231,9 +169,7 @@ class User extends Authenticatable
         }
     }
 
-    /**
-     * @return mixed
-     */
+
     public function getMaxNumClients()
     {
         if ($this->hasFeature(FEATURE_MORE_CLIENTS)) {
@@ -247,9 +183,6 @@ class User extends Authenticatable
         return MAX_NUM_CLIENTS;
     }
 
-    /**
-     * @return mixed
-     */
     public function getMaxNumVendors()
     {
         if ($this->hasFeature(FEATURE_MORE_CLIENTS)) {
@@ -276,9 +209,6 @@ class User extends Authenticatable
         }
     }
 
-    /**
-     * @param $user
-     */
     public static function onUpdatingUser($user)
     {
         if ($user->password != $user->getOriginal('password')) {
@@ -292,14 +222,10 @@ class User extends Authenticatable
         }
     }
 
-    /**
-     * @param $user
-     */
     public static function onUpdatedUser($user)
     {
         if (!$user->getOriginal('email')
             || $user->getOriginal('email') == TEST_USERNAME
-            || $user->getOriginal('username') == TEST_USERNAME
             || $user->getOriginal('email') == 'tests@bitrock.com') {
             event(new UserSignedUp());
         }

@@ -72,6 +72,7 @@
             $('#unlinkModal').modal('show');
             return false;
         }
+
         function unlinkAccount() {
             window.location = '{{ URL::to('/unlink_account') }}' + '/' + NINJA.unlink.userAccountId + '/' + NINJA.unlink.userId;
         }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Libraries\Utils;
+use App\Models\LookupUser;
 use App\Models\User;
 use App\Ninja\Mailers\ContactMailer;
 use App\Ninja\Mailers\UserMailer;
@@ -95,9 +96,6 @@ class UserController extends BaseController
         return $this->save();
     }
 
-    /**
-     * Displays the form for account creation.
-     */
     public function create()
     {
         if (!Auth::user()->registered) {
@@ -153,12 +151,6 @@ class UserController extends BaseController
         return Redirect::to('settings/' . ACCOUNT_USER_MANAGEMENT);
     }
 
-    /**
-     * Stores new account.
-     *
-     * @param mixed $userPublicId
-     * @return
-     */
     public function save($userPublicId = false)
     {
 
@@ -191,7 +183,7 @@ class UserController extends BaseController
                 ->withInput();
         }
 
-        if (!\App\Models\LookupUser::validateField('email', Input::get('email'), $user)) {
+        if (!LookupUser::validateField('email', Input::get('email'), $user)) {
             return Redirect::to($userPublicId ? 'users/edit' : 'users/create')
                 ->withError(trans('texts.email_taken'))
                 ->withInput();
@@ -258,12 +250,6 @@ class UserController extends BaseController
         return Redirect::to('settings/' . ACCOUNT_USER_MANAGEMENT);
     }
 
-    /**
-     * Attempt to confirm account with code.
-     *
-     * @param string $code
-     * @return
-     */
     public function confirm($code)
     {
         $user = User::where('confirmation_code', '=', $code)->get()->first();

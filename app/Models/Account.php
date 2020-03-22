@@ -204,7 +204,7 @@ class Account extends Eloquent
         ACCOUNT_EMAIL_SETTINGS,
         ACCOUNT_TEMPLATES_AND_REMINDERS,
         ACCOUNT_BANKS,
-        //ACCOUNT_REPORTS,
+        ACCOUNT_REPORTS,
         ACCOUNT_DATA_VISUALIZATIONS,
         ACCOUNT_API_TOKENS,
         ACCOUNT_USER_MANAGEMENT,
@@ -216,6 +216,7 @@ class Account extends Eloquent
         ENTITY_QUOTE => 4,
         ENTITY_TASK => 8,
         ENTITY_EXPENSE => 16,
+        ENTITY_PRODUCT => 18,
     ];
 
     public static $dashboardSections = [
@@ -1736,6 +1737,7 @@ class Account extends Eloquent
             ENTITY_VENDOR,
             ENTITY_PROJECT,
             ENTITY_PROPOSAL,
+            ENTITY_PRODUCT,
         ])) {
             return true;
         }
