@@ -14,6 +14,7 @@ use App\Models\Client;
 use App\Models\Expense;
 use App\Models\Invoice;
 use App\Models\SaleType;
+use App\Models\HoldReason;
 use App\Models\Task;
 use App\Ninja\Datatables\ClientDatatable;
 use App\Ninja\Repositories\ClientRepository;
@@ -39,11 +40,6 @@ class ClientController extends BaseController
         $this->clientService = $clientService;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
     public function index()
     {
         return View::make('list_wrapper', [
@@ -67,27 +63,20 @@ class ClientController extends BaseController
         return $this->clientService->getDatatableSaleType($saleTypePublicId);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param CreateClientRequest $request
-     * @return Response
-     */
+    public function getDatatableHoldReason($holdReasonPublicId = null)
+    {
+        return $this->clientService->getDatatableHoldReason($holdReasonPublicId);
+    }
+
+
     public function store(CreateClientRequest $request)
     {
         $client = $this->clientService->save($request->input());
 
-        Session::flash('message', trans('texts.created_client'));
-
-        return redirect()->to($client->getRoute());
+        return redirect()->to($client->getRoute())->with('success', trans('texts.created_client'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param ClientRequest $request
-     * @return Response
-     */
+
     public function show(ClientRequest $request)
     {
 
@@ -147,12 +136,7 @@ class ClientController extends BaseController
         return View::make('clients.show', $data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @param ClientRequest $request
-     * @return Response
-     */
+
     public function create(ClientRequest $request)
     {
         if ($request->sale_type_id != 0) {
@@ -172,6 +156,7 @@ class ClientController extends BaseController
             'url' => 'clients',
             'title' => trans('texts.new_client'),
             'saleTypePublicId' => Input::old('saleType') ? Input::old('saleType') : $request->sale_type_id,
+            'holdReasonPublicId' => Input::old('holdReason') ? Input::old('holdReason') : $request->hold_reason_id,
         ];
 
         $data = array_merge($data, self::getViewModel());
@@ -179,12 +164,6 @@ class ClientController extends BaseController
         return View::make('clients.edit', $data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param ClientRequest $request
-     * @return Response
-     */
     public function edit(ClientRequest $request)
     {
         $client = $request->entity();
@@ -196,6 +175,7 @@ class ClientController extends BaseController
             'url' => 'clients/' . $client->public_id,
             'title' => trans('texts.edit_client'),
             'saleTypePublicId' => $client->saleType ? $client->saleType->public_id : null,
+            'holdReasonPublicId' => $client->holdReason ? $client->holdReason->public_id : null,
         ];
 
         $data = array_merge($data, self::getViewModel());
@@ -217,22 +197,15 @@ class ClientController extends BaseController
             'customLabel1' => Auth::user()->account->customLabel('client1'),
             'customLabel2' => Auth::user()->account->customLabel('client2'),
             'saleTypes' => SaleType::scope()->withActiveOrSelected($client ? $client->sale_type_id : false)->orderBy('name')->get(),
+            'holdReasons' => HoldReason::scope()->withActiveOrSelected($client ? $client->hold_reason_id : false)->orderBy('reason')->get(),
         ];
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param UpdateClientRequest $request
-     * @return Response
-     */
     public function update(UpdateClientRequest $request)
     {
         $client = $this->clientService->save($request->input(), $request->entity());
 
-        Session::flash('message', trans('texts.updated_client'));
-
-        return redirect()->to($client->getRoute());
+        return redirect()->to($client->getRoute())->with('success', trans('texts.updated_client'));
     }
 
     public function bulk()
@@ -247,10 +220,9 @@ class ClientController extends BaseController
         $count = $this->clientService->bulk($ids, $action);
 
         $message = Utils::pluralize($action . 'd_client', $count);
-        Session::flash('message', $message);
 
         if ($action == 'purge') {
-            return redirect('dashboard')->withMessage($message);
+            return redirect('dashboard')->withMessage($message)->with('message', $message);
         } else {
             return $this->returnBulk(ENTITY_CLIENT, $action, $ids);
         }

@@ -47,6 +47,12 @@ class ClientDatatable extends EntityDatatable
                 },
             ],
             [
+                'hold_reason',
+                function ($model) {
+                    return $model->hold_reason;
+                },
+            ],
+            [
                 'client_created_at',
                 function ($model) {
                     return Utils::timestampToDateString(strtotime($model->created_at));

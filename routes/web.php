@@ -294,11 +294,16 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
     Route::get('api/units', 'UnitController@getDatatable');
     Route::resource('units', 'UnitController');
     Route::post('units/bulk', 'UnitController@bulk');
-    //   sales type
+//       sales type
     Route::get('sale_types/{sale_types}/clone', 'SaleTypeController@cloneSaleType');
     Route::get('api/sale_types', 'SaleTypeController@getDatatable');
     Route::resource('sale_types', 'SaleTypeController');
     Route::post('sale_types/bulk', 'SaleTypeController@bulk');
+//    hold reason
+    Route::get('hold_reasons/{hold_reasons}/clone', 'HoldReasonController@cloneSaleType');
+    Route::get('api/hold_reasons', 'HoldReasonController@getDatatable');
+    Route::resource('hold_reasons', 'HoldReasonController');
+    Route::post('hold_reasons/bulk', 'HoldReasonController@bulk');
 //   account
     Route::get('/resend_confirmation', 'AccountController@resendConfirmation');
     Route::post('/update_setup', 'AppController@updateSetup');

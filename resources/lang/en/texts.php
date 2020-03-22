@@ -1,6 +1,7 @@
 <?php
 
 $LANG = array(
+
     /*
     |--------------------------------------------------------------------------
     | sales type trans
@@ -46,6 +47,31 @@ $LANG = array(
     'archived_store' => 'Successfully Archived Store',
     'store_settings' => 'Store Settings',
     'select_location' => 'Please Select Location',
+    /*
+    |--------------------------------------------------------------------------
+    | hold reason trans
+    |--------------------------------------------------------------------------
+    */
+    'reason' => 'Hold Reason',
+    'hold_reason.edit' => 'Edit Hold Reason',
+    'new_hold_reason' => 'New Hold Reason',
+    'hold_reason' => 'Hold reason',
+    'hold_reasons' => 'Hold reasons',
+    'hold_reason_code' => 'Hold Reason Code',
+    'create_hold_reason' => 'Create Hold Reason',
+    'edit_hold_reason' => 'Edit Hold Reason',
+    'clone_hold_reason' => 'Clone Hold Reason',
+    'archive_hold_reason' => 'Archive Hold Reason',
+    'delete_hold_reason' => 'Delete Hold Reason',
+    'deleted_hold_reason' => 'Deleted Hold Reason',
+    'restore_hold_reason' => 'Restore Hold Reason',
+    'restored_hold_reason' => 'Restored Hold Reason',
+    'allow_invoice' => 'Allow Invoice',
+    'updated_hold_reason' => 'Successfully Updated Hold Reason',
+    'created_hold_reason' => 'Successfully Created Hold Reason',
+    'archived_hold_reason' => 'Successfully Archived Hold Reason',
+    'hold_reason_settings' => 'Hold Reason Settings',
+    'select_hold_reason' => 'Please Select Hold Reason',
     /*
     |--------------------------------------------------------------------------
     | location trans
@@ -180,7 +206,6 @@ $LANG = array(
     'created_item_store' => 'Successfully Created Item Store',
     'archived_item_store' => 'Successfully Archived Item Store',
     'item_store_settings' => 'Item Store Settings',
-
     /*
     |--------------------------------------------------------------------------
     | inventory trans
@@ -188,7 +213,6 @@ $LANG = array(
     */
     'product' => 'Product',
     'products' => 'Inventory',
-
 
     /*
     |--------------------------------------------------------------------------
@@ -472,12 +496,12 @@ $LANG = array(
     'password' => 'Password',
     'pro_plan_product' => 'Pro Plan',
     'pro_plan_success' => 'Thanks for choosing Invoice Ninja\'s Pro plan!<p/>&nbsp;<br/>
-          <b>Next Steps</b><p/>A payable invoice has been sent to the email
-          address associated with your account. To unlock all of the awesome
-          Pro features, please follow the instructions on the invoice to pay
-          for a year of Pro-level invoicing.<p/>
-          Can\'t find the invoice? Need further assistance? We\'re happy to help
-          -- email us at contact@invoiceninja.com',
+<b>Next Steps</b><p/>A payable invoice has been sent to the email
+address associated with your account. To unlock all of the awesome
+Pro features, please follow the instructions on the invoice to pay
+for a year of Pro-level invoicing.<p/>
+Can\'t find the invoice? Need further assistance? We\'re happy to help
+-- email us at contact@invoiceninja.com',
     'unsaved_changes' => 'You have unsaved changes',
     'custom_fields' => 'Custom Fields',
     'company_fields' => 'Company Fields',
@@ -862,7 +886,7 @@ $LANG = array(
     'primary_user' => 'Primary User',
     'help' => 'Help',
     'customize_help' => '<p>We use :pdfmake_link to define the invoice designs declaratively. The pdfmake :playground_link provides a great way to see the library in action.</p>
-        <p>If you need help figuring something out post a question to our :forum_link with the design you\'re using.</p>',
+<p>If you need help figuring something out post a question to our :forum_link with the design you\'re using.</p>',
     'playground' => 'playground',
     'support_forum' => 'support forum',
     'invoice_due_date' => 'Due Date',
@@ -2781,7 +2805,6 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'local_storage_required' => 'Error: local storage is not available.',
     'your_password_reset_link' => 'Your Password Reset Link',
     'subdomain_taken' => 'The subdomain is already in use',
-    'client_login' => 'Client Login',
     'converted_amount' => 'Converted Amount',
     'default' => 'Default',
     'shipping_address' => 'Shipping Address',
@@ -3334,5 +3357,3 @@ Once you have the amounts, come back to this payment methods page and click "Com
 );
 
 return $LANG;
-
-?>

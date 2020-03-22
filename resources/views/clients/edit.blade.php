@@ -13,12 +13,13 @@
         <div class="alert alert-danger">{{ trans($errors->first('contacts')) }}</div>
     @endif
     <div class="row">
-    {!! Former::open($url)
-    ->autocomplete('off')
-    ->rules(
-    ['email' => 'email']
-    )->addClass('col-md-12 warn-on-exit')
-    ->method($method) !!}
+        {!! Former::open($url)
+        ->autocomplete('off')
+        ->rules(
+        ['email' => 'required|email','sale_type_id'=>'required','hold_reason_id'=>'required']
+        )->addClass('col-md-12 warn-on-exit')
+        ->method($method) !!}
+
         @include('partials.autocomplete_fix')
         @if ($client)
             {!! Former::populate($client) !!}
@@ -43,7 +44,10 @@
                     <div class="panel-body">
                         {!! Former::select('sale_type_id')->addOption('', '')
                         ->label(trans('texts.sale_type'))
-                        ->addGroupClass('sale-select') !!}
+                        ->addGroupClass('sale-type-select') !!}
+                        {!! Former::select('hold_reason_id')->addOption('', '')
+                        ->label(trans('texts.hold_reason'))
+                        ->addGroupClass('hold-reason-select') !!}
                         {!! Former::text('name')->label('texts.client_name') ->data_bind("attr { placeholder: placeholderName }") !!}
                         {!! Former::text('id_number')->placeholder($account->clientNumbersEnabled() ? $account->getNextNumber() : ' ') !!}
                         {!! Former::text('vat_number') !!}
@@ -309,27 +313,48 @@ afterAdd: showContact }'>
         </div>
         {!! Former::hidden('data')->data_bind("value: ko.toJSON(model)") !!}
         <script type="text/javascript">
-            var sales = {!! $saleTypes !!};
-            var saleMap = {};
+            var types = {!! $saleTypes !!};
+            var reasons = {!! $holdReasons !!};
+
+            var typeMap = {};
+            var reasonMap = {};
+
             $(function () {
                 <!-- sale type -->
                 var saleId = {{ $saleTypePublicId ?: 0 }};
-                var $saleSelect = $('select#sale_type_id');
+                var $sale_typeSelect = $('select#sale_type_id');
                 @if (Auth::user()->can('create', ENTITY_SALE_TYPE))
-                $saleSelect.append(new Option("{{ trans('texts.create_sale')}}: $name", '-1'));
+                $sale_typeSelect.append(new Option("{{ trans('texts.create_sale_type')}}: $name", '-1'));
                         @endif
-                for (var i = 0; i < sales.length; i++) {
-                    var sale = sales[i];
-                    saleMap[sale.public_id] = sale;
-                    $saleSelect.append(new Option(getClientDisplayName(sale), sale.public_id));
+                for (var i = 0; i < types.length; i++) {
+                    var type = types[i];
+                    typeMap[type.public_id] = type;
+                    $sale_typeSelect.append(new Option(getClientDisplayName(type), type.public_id));
                 }
                 @include('partials/entity_combobox', ['entityType' => ENTITY_SALE_TYPE])
                 if (saleId) {
-                    var sale = saleMap[saleId];
-                    setComboboxValue($('.sale-select'), sale.public_id, sale.name);
+                    var type = typeMap[saleId];
+                    setComboboxValue($('.sale-type-select'), type.public_id, type.name);
+                }
+            });<!-- /. sale type  -->
+            $(function () {
+                <!-- hold reason -->
+                var reasonId = {{ $holdReasonPublicId ?: 0 }};
+                var $hold_reasonSelect = $('select#hold_reason_id');
+                @if (Auth::user()->can('create', ENTITY_HOLD_REASON))
+                $hold_reasonSelect.append(new Option("{{ trans('texts.create_hold_reason')}}: $name", '-1'));
+                        @endif
+                for (var i = 0; i < reasons.length; i++) {
+                    var reason = reasons[i];
+                    reasonMap[reason.public_id] = reason;
+                    $hold_reasonSelect.append(new Option(getClientDisplayName(reason), reason.public_id));
+                }
+                @include('partials/entity_combobox', ['entityType' => ENTITY_HOLD_REASON])
+                if (reasonId) {
+                    var reason = reasonMap[reasonId];
+                    setComboboxValue($('.hold-reason-select'), reason.public_id, reason.name);
                 }
             });
-            <!-- /. sale type  -->
             $(function () {
                 $('#country_id, #shipping_country_id').combobox();
 

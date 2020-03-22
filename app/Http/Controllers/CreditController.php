@@ -5,17 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateCreditRequest;
 use App\Http\Requests\CreditRequest;
 use App\Http\Requests\UpdateCreditRequest;
+use App\Libraries\Utils;
 use App\Models\Client;
 use App\Models\Credit;
 use App\Ninja\Datatables\CreditDatatable;
 use App\Ninja\Repositories\CreditRepository;
 use App\Services\CreditService;
-use Input;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\View;
 use Redirect;
-use Session;
-use URL;
-use Utils;
-use View;
 
 class CreditController extends BaseController
 {
@@ -77,7 +76,7 @@ class CreditController extends BaseController
             'clientPublicId' => $credit->client->public_id,
             'credit' => $credit,
             'method' => 'PUT',
-            'url' => 'credits/'.$publicId,
+            'url' => 'credits/' . $publicId,
             'title' => 'Edit Credit',
             'clients' => null,
         ];
@@ -126,7 +125,7 @@ class CreditController extends BaseController
         $count = $this->creditService->bulk($ids, $action);
 
         if ($count > 0) {
-            $message = Utils::pluralize($action.'d_credit', $count);
+            $message = Utils::pluralize($action . 'd_credit', $count);
             Session::flash('message', $message);
         }
 

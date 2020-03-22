@@ -256,6 +256,15 @@ class EntityModel extends Eloquent
         return 'App\\Models\\' . ucwords(Utils::toCamelCase($entityType));
     }
 
+    public static function trueFalseFormatter($value)
+    {
+        if (($value) && (($value == 'true') || ($value == '1'))) {
+            return '<i class="fa fa-check text-success"></i>';
+        } else {
+            return '<i class="fa fa-times text-danger"></i>';
+        }
+    }
+
     public static function getStatusClass($primaryValue, $secondaryValue)
     {
         if (!empty($primaryValue) && !empty($secondaryValue)) {

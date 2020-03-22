@@ -8,6 +8,7 @@
 ['label' => trans('texts.new_item_movement'), 'url' => url('/item_movements/create')],
 ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types/create')],
 ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
+['label' => trans('texts.new_hold_reason'), 'url' => url('/hold_reasons/create')],
 ['label' => trans('texts.new_unit'), 'url' => url('/units/create')],
 ['label' => trans('texts.new_store'), 'url' => url('/stores/create')],
 ['label' => trans('texts.new_location'), 'url' => url('/locations/create')]
@@ -18,6 +19,7 @@
 ->withContents([
 ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types/create')],
 ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
+['label' => trans('texts.new_hold_reason'), 'url' => url('/hold_reasons/create')],
 ['label' => trans('texts.new_unit'), 'url' => url('/units/create')],
 ['label' => trans('texts.new_store'), 'url' => url('/stores/create')],
 ['label' => trans('texts.new_location'), 'url' => url('/locations/create')]

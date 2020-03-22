@@ -34,6 +34,7 @@ class ClientRepository extends BaseRepository
             ->join('accounts', 'accounts.id', '=', 'clients.account_id')
             ->join('contacts', 'contacts.client_id', '=', 'clients.id')
             ->join('sale_types', 'sale_types.id', '=', 'clients.sale_type_id')
+            ->join('hold_reasons', 'hold_reasons.id', '=', 'clients.hold_reason_id')
             ->where('clients.account_id', '=', Auth::user()->account_id)
             ->where('contacts.is_primary', '=', true)
             ->where('contacts.deleted_at', '=', null)
@@ -57,7 +58,8 @@ class ClientRepository extends BaseRepository
                 'clients.is_deleted',
                 'clients.user_id',
                 'clients.id_number',
-                'sale_types.name as sale_type'
+                'sale_types.name as sale_type',
+                'hold_reasons.reason as hold_reason'
             );
 
         $this->applyFilters($query, ENTITY_CLIENT);
@@ -69,7 +71,8 @@ class ClientRepository extends BaseRepository
                     ->orWhere('contacts.first_name', 'like', '%' . $filter . '%')
                     ->orWhere('contacts.last_name', 'like', '%' . $filter . '%')
                     ->orWhere('contacts.email', 'like', '%' . $filter . '%')
-                    ->orWhere('sale_types.name', 'like', '%' . $filter . '%');
+                    ->orWhere('sale_types.name', 'like', '%' . $filter . '%')
+                    ->orWhere('hold_reasons.reason', 'like', '%' . $filter . '%');
             });
         }
 
@@ -90,6 +93,15 @@ class ClientRepository extends BaseRepository
         $saleTypeId = SaleType::getPrivateId($saleTypePublicId);
 
         $query = $this->find()->where('sale_types.sale_type_id', '=', $saleTypeId);
+
+        return $query;
+    }
+
+    public function findHoldReason($holdReasonPublicId)
+    {
+        $holdReasonId = HoldReason::getPrivateId($holdReasonPublicId);
+
+        $query = $this->find()->where('hold_reasons.hold_reason_id', '=', $holdReasonId);
 
         return $query;
     }
