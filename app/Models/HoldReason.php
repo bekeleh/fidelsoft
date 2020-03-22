@@ -21,6 +21,7 @@ class HoldReason extends EntityModel
     protected $fillable = [
         'name',
         'notes',
+        'allow_invoice',
         'created_by',
         'updated_by',
         'deleted_by',
@@ -59,5 +60,12 @@ class HoldReason extends EntityModel
     public function getRoute()
     {
         return "/hold_reasons/{$this->public_id}/edit";
+    }
+
+    public static function getSelectOptions()
+    {
+        $allowInvoice = ['0' => 'deny', '1' => 'allow'];
+
+        return $allowInvoice;
     }
 }

@@ -59,7 +59,7 @@ class ClientRepository extends BaseRepository
                 'clients.user_id',
                 'clients.id_number',
                 'sale_types.name as sale_type',
-                'hold_reasons.reason as hold_reason'
+                'hold_reasons.name as hold_reason'
             );
 
         $this->applyFilters($query, ENTITY_CLIENT);
@@ -72,7 +72,7 @@ class ClientRepository extends BaseRepository
                     ->orWhere('contacts.last_name', 'like', '%' . $filter . '%')
                     ->orWhere('contacts.email', 'like', '%' . $filter . '%')
                     ->orWhere('sale_types.name', 'like', '%' . $filter . '%')
-                    ->orWhere('hold_reasons.reason', 'like', '%' . $filter . '%');
+                    ->orWhere('hold_reasons.name', 'like', '%' . $filter . '%');
             });
         }
 

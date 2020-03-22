@@ -16,25 +16,28 @@
 
     <label for="trashed" style="font-weight:normal; margin-left: 10px;">
         <input id="trashed" type="checkbox" onclick="setTrashVisible()"
-                {!! Session::get('entity_state_filter:user', STATUS_ACTIVE) != 'active' ? 'checked' : ''!!}/> {!! trans('texts.show_archived_users')!!}
+                {!! Session::get('entity_state_filter:user', STATUS_ACTIVE) != 'active' ? 'checked' : ''!!}/>
+        {!! trans('texts.show_archived_users')!!}
     </label>
 
     @include('partials.bulk_form', ['entityType' => ENTITY_USER])
+    {{--
+    ->setOptions('aoColumnDefs', [['bSortable'=>false, 'aTargets'=>[4]]])
+    ->setOptions('aoColumns', [[ "sWidth"=> "20%" ], [ "sWidth"=> "45%" ], ["sWidth"=> "20%"], ["sWidth"=> "15%" ]])
+    --}}
 
     {!! Datatable::table()
-        ->addColumn(
-          trans('texts.name'),
-          trans('texts.username'),
-          trans('texts.email'),
-          trans('texts.user_state'),
-          trans('texts.action'))
-        ->setUrl(url('api/users/'))
-        ->setOptions('sPaginationType', 'bootstrap')
-        ->setOptions('bFilter', false)
-        ->setOptions('bAutoWidth', false)
-        ->setOptions('aoColumns', [[ "sWidth"=> "20%" ], [ "sWidth"=> "45%" ], ["sWidth"=> "20%"], ["sWidth"=> "15%" ]])
-        ->setOptions('aoColumnDefs', [['bSortable'=>false, 'aTargets'=>[4]]])
-        ->render('datatable') !!}
+    ->addColumn(
+    trans('texts.name'),
+    trans('texts.username'),
+    trans('texts.email'),
+    trans('texts.user_state'),
+    trans('texts.action'))
+    ->setUrl(url('api/users/'))
+    ->setOptions('sPaginationType', 'bootstrap')
+    ->setOptions('bFilter', true)
+    ->setOptions('bAutoWidth', true)
+    ->render('datatable') !!}
 
     <script>
         window.onDatatableReady = actionListHandler;

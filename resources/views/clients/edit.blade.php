@@ -45,9 +45,11 @@
                         {!! Former::select('sale_type_id')->addOption('', '')
                         ->label(trans('texts.sale_type'))
                         ->addGroupClass('sale-type-select') !!}
+
                         {!! Former::select('hold_reason_id')->addOption('', '')
                         ->label(trans('texts.hold_reason'))
                         ->addGroupClass('hold-reason-select') !!}
+
                         {!! Former::text('name')->label('texts.client_name') ->data_bind("attr { placeholder: placeholderName }") !!}
                         {!! Former::text('id_number')->placeholder($account->clientNumbersEnabled() ? $account->getNextNumber() : ' ') !!}
                         {!! Former::text('vat_number') !!}
@@ -71,7 +73,6 @@
                         <h3 class="panel-title">{!! trans('texts.address') !!}</h3>
                     </div>
                     <div class="panel-body">
-
                         <div role="tabpanel">
                             <ul class="nav nav-tabs" role="tablist" style="border: none">
                                 <li role="presentation" class="active">
@@ -133,8 +134,8 @@
                     </div>
                     <div class="panel-body">
                         <div data-bind='template: { foreach: contacts,
-beforeRemove: hideContact,
-afterAdd: showContact }'>
+                                beforeRemove: hideContact,
+                                afterAdd: showContact }'>
                             {!! Former::hidden('public_id')->data_bind("value: public_id, valueUpdate: 'afterkeydown',
                             attr: {name: 'contacts[' + \$index() + '][public_id]'}") !!}
                             {!! Former::text('first_name')->data_bind("value: first_name, valueUpdate: 'afterkeydown',
@@ -170,13 +171,13 @@ afterAdd: showContact }'>
 
                             <div class="form-group">
                                 <div class="col-lg-8 col-lg-offset-4 bold">
-<span class="redlink bold" data-bind="visible: $parent.contacts().length > 1">
-{!! link_to('#', trans('texts.remove_contact').' -', array('data-bind'=>'click: $parent.removeContact')) !!}
-</span>
+                                <span class="redlink bold" data-bind="visible: $parent.contacts().length > 1">
+                                {!! link_to('#', trans('texts.remove_contact').' -', array('data-bind'=>'click: $parent.removeContact')) !!}
+                                </span>
                                     <span data-bind="visible: $index() === ($parent.contacts().length - 1)"
                                           class="pull-right greenlink bold">
-{!! link_to('#', trans('texts.add_contact').' +', array('onclick'=>'return addContact()')) !!}
-</span>
+                                {!! link_to('#', trans('texts.add_contact').' +', array('onclick'=>'return addContact()')) !!}
+                                </span>
                                 </div>
                             </div>
                         </div>
@@ -214,13 +215,17 @@ afterAdd: showContact }'>
                                 {!! Former::select('currency_id')->addOption('','')
                                 ->placeholder($account->currency ? trans('texts.currency_'.Str::slug($account->currency->name, '_')) : '')
                                 ->fromQuery($currencies, 'name', 'id') !!}
+
                                 {!! Former::select('language_id')->addOption('','')
                                 ->placeholder($account->language ? trans('texts.lang_'.$account->language->name) : '')
                                 ->fromQuery($languages, 'name', 'id') !!}
+
                                 {!! Former::select('payment_terms')->addOption('','')
                                 ->fromQuery(\App\Models\PaymentTerm::getSelectOptions(), 'name', 'num_days')
                                 ->placeholder($account->present()->paymentTerms)
-                                ->help(trans('texts.payment_terms_help') . ' | ' . link_to('/settings/payment_terms', trans('texts.customize_options'))) !!}
+                                ->help(trans('texts.payment_terms_help') . ' | ' . link_to('/settings/payment_terms', trans('texts.customize_options')))
+                                 !!}
+
                                 @if ($account->isModuleEnabled(ENTITY_TASK))
                                     {!! Former::text('task_rate')
                                     ->placeholder($account->present()->taskRate)

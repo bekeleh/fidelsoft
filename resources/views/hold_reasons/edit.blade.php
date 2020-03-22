@@ -5,7 +5,7 @@
     {!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['reason' => 'required|max:255','notes' => 'required|max:255'])
+    ->rules(['name' => 'required|max:255','allow_invoice' => 'required','notes' => 'required|max:255'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     @if ($holdReason)
         {{ Former::populate($holdReason) }}
@@ -23,7 +23,10 @@
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
-                    {!! Former::text('reason')->label('texts.hold_reason') !!}
+                    {!! Former::text('name')->label('texts.hold_reason') !!}
+                    {!! Former::select('allow_invoice')
+                             ->placeholder(trans('texts.select_hold_reason'))
+                             ->fromQuery(\App\Models\HoldReason::getSelectOptions(), 'name', 'id') !!}
                     {!! Former::textarea('notes')->rows(6) !!}
                 </div>
             </div>

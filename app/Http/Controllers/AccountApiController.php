@@ -5,21 +5,16 @@ namespace App\Http\Controllers;
 use App\Events\UserSignedUp;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateAccountRequest;
-use App\Models\Account;
+use App\Libraries\Utils;
 use App\Models\User;
 use App\Ninja\OAuth\OAuth;
 use App\Ninja\Repositories\AccountRepository;
 use App\Ninja\Transformers\AccountTransformer;
 use App\Ninja\Transformers\UserAccountTransformer;
-use App\Services\AuthService;
-use Auth;
-use Cache;
-use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 use Socialite;
-use Utils;
 
 class AccountApiController extends BaseAPIController
 {
@@ -46,7 +41,7 @@ class AccountApiController extends BaseAPIController
 
     public function register(RegisterRequest $request)
     {
-        if (! \App\Models\LookupUser::validateField('email', $request->email)) {
+        if (!LookupUser::validateField('email', $request->email)) {
             return $this->errorResponse(['message' => trans('texts.email_taken')], 500);
         }
 
@@ -72,9 +67,9 @@ class AccountApiController extends BaseAPIController
             // TODO remove token_name check once legacy apps are deactivated
             if ($user->google_2fa_secret && strpos($request->token_name, 'invoice-ninja-') !== false) {
                 $secret = \Crypt::decrypt($user->google_2fa_secret);
-                if (! $request->one_time_password) {
+                if (!$request->one_time_password) {
                     return $this->errorResponse(['message' => 'OTP_REQUIRED'], 401);
-                } elseif (! \Google2FA::verifyKey($secret, $request->one_time_password)) {
+                } elseif (!\Google2FA::verifyKey($secret, $request->one_time_password)) {
                     return $this->errorResponse(['message' => 'Invalid one time password'], 401);
                 }
             }
@@ -174,7 +169,7 @@ class AccountApiController extends BaseAPIController
             if ($devices[$x]['email'] == $request->email) {
                 $devices[$x]['token'] = $request->token; //update
                 $devices[$x]['device'] = $request->device;
-                    $account->devices = json_encode($devices);
+                $account->devices = json_encode($devices);
                 $account->save();
                 $devices[$x]['account_key'] = $account->account_key;
 
@@ -202,15 +197,15 @@ class AccountApiController extends BaseAPIController
         return $this->response($newDevice);
     }
 
-    public function removeDeviceToken(Request $request) {
+    public function removeDeviceToken(Request $request)
+    {
 
         $account = Auth::user()->account;
 
         $devices = json_decode($account->devices, true);
 
-        for($x=0; $x<count($devices); $x++)
-        {
-            if($request->token == $devices[$x]['token'])
+        for ($x = 0; $x < count($devices); $x++) {
+            if ($request->token == $devices[$x]['token'])
                 unset($devices[$x]);
         }
 
@@ -275,13 +270,13 @@ class AccountApiController extends BaseAPIController
         if ($user) {
             Auth::login($user);
             return $this->processLogin($request);
-        }
-        else
+        } else
             return $this->errorResponse(['message' => 'Invalid credentials'], 401);
 
     }
 
-    public function iosSubscriptionStatus() {
+    public function iosSubscriptionStatus()
+    {
 
         //stubbed for iOS callbacks
 

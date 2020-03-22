@@ -12,9 +12,9 @@ use App\Libraries\Utils;
 use App\Models\Account;
 use App\Models\Client;
 use App\Models\Expense;
+use App\Models\HoldReason;
 use App\Models\Invoice;
 use App\Models\SaleType;
-use App\Models\HoldReason;
 use App\Models\Task;
 use App\Ninja\Datatables\ClientDatatable;
 use App\Ninja\Repositories\ClientRepository;
@@ -22,7 +22,6 @@ use App\Services\ClientService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 
@@ -84,7 +83,7 @@ class ClientController extends BaseController
         $user = Auth::user();
         $account = $user->account;
 
-        //$user->can('view', [ENTITY_CLIENT, $client]);
+        $user->can('view', [ENTITY_CLIENT, $client]);
 
         $actionLinks = [];
         if ($user->can('create', ENTITY_INVOICE)) {
@@ -144,6 +143,11 @@ class ClientController extends BaseController
         } else {
             $saleType = null;
         }
+        if ($request->hold_reason_id != 0) {
+            $holdReason = HoldReason::scope($request->hold_reason_id)->firstOrFail();
+        } else {
+            $holdReason = null;
+        }
 
         if (Client::scope()->withTrashed()->count() > Auth::user()->getMaxNumClients()) {
             return View::make('error', ['hideHeader' => true, 'error' => "Sorry, you've exceeded the limit of " . Auth::user()->getMaxNumClients() . ' clients']);
@@ -151,6 +155,7 @@ class ClientController extends BaseController
 
         $data = [
             'saleType' => $saleType,
+            'holdReason' => $holdReason,
             'client' => null,
             'method' => 'POST',
             'url' => 'clients',
@@ -170,6 +175,7 @@ class ClientController extends BaseController
 
         $data = [
             'saleType' => null,
+            'holdReason' => null,
             'client' => $client,
             'method' => 'PUT',
             'url' => 'clients/' . $client->public_id,
@@ -197,7 +203,7 @@ class ClientController extends BaseController
             'customLabel1' => Auth::user()->account->customLabel('client1'),
             'customLabel2' => Auth::user()->account->customLabel('client2'),
             'saleTypes' => SaleType::scope()->withActiveOrSelected($client ? $client->sale_type_id : false)->orderBy('name')->get(),
-            'holdReasons' => HoldReason::scope()->withActiveOrSelected($client ? $client->hold_reason_id : false)->orderBy('reason')->get(),
+            'holdReasons' => HoldReason::scope()->withActiveOrSelected($client ? $client->hold_reason_id : false)->orderBy('name')->get(),
         ];
     }
 

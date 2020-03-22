@@ -31,7 +31,7 @@ class HoldReasonRepository extends BaseRepository
             ->select(
                 'hold_reasons.id',
                 'hold_reasons.public_id',
-                'hold_reasons.reason',
+                'hold_reasons.name as hold_reason',
                 'hold_reasons.allow_invoice',
                 'hold_reasons.is_deleted',
                 'hold_reasons.notes',
@@ -45,7 +45,7 @@ class HoldReasonRepository extends BaseRepository
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
-                $query->where('hold_reasons.reason', 'like', '%' . $filter . '%')
+                $query->where('hold_reasons.name', 'like', '%' . $filter . '%')
                     ->orWhere('hold_reasons.notes', 'like', '%' . $filter . '%');
             });
         }
@@ -69,9 +69,10 @@ class HoldReasonRepository extends BaseRepository
             $holdReason->created_by = Auth::user()->username;
         }
         $holdReason->fill($data);
-        $holdReason->reason = isset($data['reason']) ? ucwords(Str::lower(trim($data['reason']))) : '';
-        $holdReason->notes = isset($data['notes']) ? trim($data['notes']) : '';
+        $holdReason->name = isset($data['name']) ? (ucwords(trim($data['name']))) : '';
+
         $holdReason->save();
+
         return $holdReason;
     }
 

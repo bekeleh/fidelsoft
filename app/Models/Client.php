@@ -21,19 +21,11 @@ class Client extends EntityModel
     use SoftDeletes;
     use HasCustomMessages;
 
-    /**
-     * @var string
-     */
+
     protected $presenter = 'App\Ninja\Presenters\ClientPresenter';
 
-    /**
-     * @var array
-     */
     protected $dates = ['deleted_at'];
 
-    /**
-     * @var array
-     */
     protected $fillable = [
         'name',
         'id_number',
@@ -71,9 +63,7 @@ class Client extends EntityModel
         'custom_messages',
     ];
 
-    /**
-     * @return array
-     */
+
     public static function getImportColumns()
     {
         return [
@@ -102,9 +92,7 @@ class Client extends EntityModel
         ];
     }
 
-    /**
-     * @return array
-     */
+
     public static function getImportMap()
     {
         return [
@@ -129,164 +117,120 @@ class Client extends EntityModel
         ];
     }
 
-    /**
-     * @return BelongsTo
-     */
+
     public function account()
     {
         return $this->belongsTo('App\Models\Account');
     }
 
-    /**
-     * @return mixed
-     */
+
     public function user()
     {
         return $this->belongsTo('App\Models\User')->withTrashed();
     }
 
-    /**
-     * @return HasMany
-     */
+
     public function invoices()
     {
         return $this->hasMany('App\Models\Invoice');
     }
 
-    /**
-     * @return HasMany
-     */
+
     public function quotes()
     {
         return $this->hasMany('App\Models\Invoice')->where('invoice_type_id', '=', INVOICE_TYPE_QUOTE);
     }
 
-    /**
-     * @return HasMany
-     */
+
     public function publicQuotes()
     {
         return $this->hasMany('App\Models\Invoice')->where('invoice_type_id', '=', INVOICE_TYPE_QUOTE)->whereIsPublic(true);
     }
 
-    /**
-     * @return HasMany
-     */
     public function payments()
     {
         return $this->hasMany('App\Models\Payment');
     }
 
-    /**
-     * @return HasMany
-     */
+
     public function contacts()
     {
         return $this->hasMany('App\Models\Contact');
     }
 
-    /**
-     * @return BelongsTo
-     */
+
     public function country()
     {
         return $this->belongsTo('App\Models\Country');
     }
 
-    /**
-     * @return BelongsTo
-     */
+
     public function shipping_country()
     {
         return $this->belongsTo('App\Models\Country');
     }
 
-    /**
-     * @return BelongsTo
-     */
+
     public function currency()
     {
         return $this->belongsTo('App\Models\Currency');
     }
 
-    /**
-     * @return BelongsTo
-     */
+
     public function language()
     {
         return $this->belongsTo('App\Models\Language');
     }
 
-    /**
-     * @return BelongsTo
-     */
+
     public function size()
     {
         return $this->belongsTo('App\Models\Size');
     }
 
-    /**
-     * @return BelongsTo
-     */
+
     public function saleType()
     {
         return $this->belongsTo('App\Models\SaleType');
     }
 
-    /**
-     * @return BelongsTo
-     */
+
     public function holdReason()
     {
         return $this->belongsTo('App\Models\HoldReason');
     }
 
-    /**
-     * @return BelongsTo
-     */
+
     public function industry()
     {
         return $this->belongsTo('App\Models\Industry');
     }
 
-    /**
-     * @return HasMany
-     */
+
     public function credits()
     {
         return $this->hasMany('App\Models\Credit');
     }
 
-    /**
-     * @return HasMany
-     */
+
     public function creditsWithBalance()
     {
         return $this->hasMany('App\Models\Credit')->where('balance', '>', 0);
     }
 
-    /**
-     * @return mixed
-     */
+
     public function expenses()
     {
         return $this->hasMany('App\Models\Expense', 'client_id', 'id')->withTrashed();
     }
 
-    /**
-     * @return mixed
-     */
+
     public function activities()
     {
         return $this->hasMany('App\Models\Activity', 'client_id', 'id')->orderBy('id', 'desc');
     }
 
-    /**
-     * @param $data
-     * @param bool $isPrimary
-     *
-     * @return Model
-     */
+
     public function addContact($data, $isPrimary = false)
     {
         $publicId = isset($data['public_id']) ? $data['public_id'] : (isset($data['id']) ? $data['id'] : false);
@@ -321,10 +265,7 @@ class Client extends EntityModel
         return $this->contacts()->save($contact);
     }
 
-    /**
-     * @param $balanceAdjustment
-     * @param $paidToDateAdjustment
-     */
+
     public function updateBalances($balanceAdjustment, $paidToDateAdjustment)
     {
         if ($balanceAdjustment == 0 && $paidToDateAdjustment == 0) {
@@ -337,36 +278,25 @@ class Client extends EntityModel
         $this->save();
     }
 
-    /**
-     * @return string
-     */
+
     public function getRoute()
     {
         return "/clients/{$this->public_id}";
     }
 
-    /**
-     * @return float|int
-     */
+
     public function getTotalCredit()
     {
-        return DB::table('credits')
-            ->where('client_id', '=', $this->id)
+        return DB::table('credits')->where('client_id', '=', $this->id)
             ->whereNull('deleted_at')
             ->sum('balance');
     }
 
-    /**
-     * @return mixed
-     */
     public function getName()
     {
         return $this->name;
     }
 
-    /**
-     * @return mixed
-     */
     public function getPrimaryContact()
     {
         if (!$this->relationLoaded('contacts')) {
@@ -382,9 +312,6 @@ class Client extends EntityModel
         return false;
     }
 
-    /**
-     * @return mixed|string
-     */
     public function getDisplayName()
     {
         if ($this->name) {
@@ -394,9 +321,6 @@ class Client extends EntityModel
         }
     }
 
-    /**
-     * @return string
-     */
     public function getCityState()
     {
         $swap = $this->country && $this->country->swap_postal_code;
@@ -404,25 +328,16 @@ class Client extends EntityModel
         return Utils::cityStateZip($this->city, $this->state, $this->postal_code, $swap);
     }
 
-    /**
-     * @return mixed
-     */
     public function getEntityType()
     {
         return ENTITY_CLIENT;
     }
 
-    /**
-     * @return bool
-     */
     public function showMap()
     {
         return $this->hasAddress() && env('GOOGLE_MAPS_ENABLED') !== false;
     }
 
-    /**
-     * @return bool
-     */
     public function addressesMatch()
     {
         $fields = [
@@ -443,9 +358,6 @@ class Client extends EntityModel
         return true;
     }
 
-    /**
-     * @return bool
-     */
     public function hasAddress($shipping = false)
     {
         $fields = [
@@ -469,9 +381,6 @@ class Client extends EntityModel
         return false;
     }
 
-    /**
-     * @return string
-     */
     public function getDateCreated()
     {
         if ($this->created_at == '0000-00-00 00:00:00') {
@@ -481,9 +390,6 @@ class Client extends EntityModel
         }
     }
 
-    /**
-     * @return bool
-     */
     public function getGatewayToken()
     {
         $accountGateway = $this->account->getGatewayByType(GATEWAY_TYPE_TOKEN);
@@ -495,9 +401,6 @@ class Client extends EntityModel
         return AccountGatewayToken::clientAndGateway($this->id, $accountGateway->id)->first();
     }
 
-    /**
-     * @return bool
-     */
     public function defaultPaymentMethod()
     {
         if ($token = $this->getGatewayToken()) {
@@ -507,9 +410,7 @@ class Client extends EntityModel
         return false;
     }
 
-    /**
-     * @return bool
-     */
+
     public function autoBillLater()
     {
         if ($token = $this->getGatewayToken()) {
@@ -523,17 +424,11 @@ class Client extends EntityModel
         return false;
     }
 
-    /**
-     * @return mixed
-     */
     public function getAmount()
     {
         return $this->balance + $this->paid_to_date;
     }
 
-    /**
-     * @return mixed
-     */
     public function getCurrencyId()
     {
         if ($this->currency_id) {
@@ -547,9 +442,6 @@ class Client extends EntityModel
         return $this->account->currency_id ?: DEFAULT_CURRENCY;
     }
 
-    /**
-     * @return string
-     */
     public function getCurrencyCode()
     {
         if ($this->currency) {
@@ -576,12 +468,6 @@ class Client extends EntityModel
         return $this->account->country ? $this->account->country->iso_3166_2 : 'US';
     }
 
-
-    /**
-     * @param $isQuote
-     *
-     * @return mixed
-     */
     public function getCounter($isQuote)
     {
         return $isQuote ? $this->quote_number_counter : $this->invoice_number_counter;
@@ -593,17 +479,11 @@ class Client extends EntityModel
         $this->save();
     }
 
-    /**
-     * @return bool
-     */
     public function hasAutoBillConfigurableInvoices()
     {
         return $this->invoices()->whereIsPublic(true)->whereIn('auto_bill', [AUTO_BILL_OPT_IN, AUTO_BILL_OPT_OUT])->count() > 0;
     }
 
-    /**
-     * @return bool
-     */
     public function hasRecurringInvoices()
     {
         return $this->invoices()->whereIsPublic(true)->whereIsRecurring(true)->count() > 0;

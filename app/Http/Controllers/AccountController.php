@@ -20,8 +20,10 @@ use App\Models\GatewayType;
 use App\Models\Invoice;
 use App\Models\InvoiceDesign;
 use App\Models\License;
+use App\Models\LookupUser;
 use App\Models\Product;
 use App\Models\TaxRate;
+use App\Models\LookupAccount;
 use App\Models\User;
 use App\Ninja\Mailers\ContactMailer;
 use App\Ninja\Mailers\UserMailer;
@@ -110,6 +112,7 @@ class AccountController extends BaseController
         }
 
         Auth::login($user, true);
+
         event(new UserSignedUp());
 
         if ($account && $account->language_id && $account->language_id != DEFAULT_LANGUAGE) {
@@ -719,11 +722,10 @@ class AccountController extends BaseController
         }
 
         $account->enabled_modules = $modules ? array_sum($modules) : 0;
+
         $account->save();
 
-        Session::flash('message', trans('texts.updated_settings'));
-
-        return Redirect::to('settings/' . ACCOUNT_MANAGEMENT);
+        return Redirect::to('settings/' . ACCOUNT_MANAGEMENT)->with('success', trans('texts.updated_settings'));
     }
 
 
@@ -749,10 +751,9 @@ class AccountController extends BaseController
     public function saveClientPortalSettings(SaveClientPortalSettings $request)
     {
         $account = $request->user()->account;
-
         // check subdomain is unique in the lookup tables
         if (request()->subdomain) {
-            if (!\App\Models\LookupAccount::validateField('subdomain', request()->subdomain, $account)) {
+            if (!LookupAccount::validateField('subdomain', request()->subdomain, $account)) {
                 return Redirect::to('settings/' . ACCOUNT_CLIENT_PORTAL)
                     ->withError(trans('texts.subdomain_taken'))
                     ->withInput();
@@ -1090,7 +1091,7 @@ class AccountController extends BaseController
         $user = Auth::user();
         $email = trim(strtolower(Input::get('email')));
 
-        if (!\App\Models\LookupUser::validateField('email', $email, $user)) {
+        if (!LookupUser::validateField('email', $email, $user)) {
             return Redirect::to('settings/' . ACCOUNT_USER_DETAILS)
                 ->withError(trans('texts.email_taken'))
                 ->withInput();
@@ -1207,7 +1208,7 @@ class AccountController extends BaseController
         $email = trim(strtolower(Input::get('email')));
         $user = Auth::user();
 
-        if (!\App\Models\LookupUser::validateField('email', $email, $user)) {
+        if (!LookupUser::validateField('email', $email, $user)) {
             return 'taken';
         }
 
@@ -1252,7 +1253,7 @@ class AccountController extends BaseController
         $email = trim(strtolower(Input::get('new_email')));
         $password = trim(Input::get('new_password'));
 
-        if (!\App\Models\LookupUser::validateField('email', $email, $user)) {
+        if (!LookupUser::validateField('email', $email, $user)) {
             return '';
         }
 
