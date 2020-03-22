@@ -2,32 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/public/logo/zg4ylmzDkdkPOT8yoKQw9LTWaoZJx79h.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/companies/details.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/SN6F3s33LZ7oZnKytyJxGUt7z6JcGFVm76HwABfm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/x7bnCPToADGsghthSh12UkHegJd2V9hrs2zXvQ7p" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/287362df845dd6e7d6d2f00e04eb2e9c0dff7016.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/6ccb2866e8ded85eb86fab80547581825285bd38.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/8497dfd801d96a0181fca5f51ca973fa5a1499c5.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/9eaec7a1912e5681c0d192c47e44595ba72e45b9.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/c3d5d49abca2e3d255906a209a0e2635e54bd40d.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/c4d94f5ed698bc388f911f998e2ee7ecf9e6f7a3.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/e30ad997b18a329ba04aeaf0c2657f9a93943447.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/f527a8a729e657f038d62d6911b2d10c60180a07.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/fd6393c643fcc4771c3d0f3cd90bb98e15dfc778.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/fe27ac0ec39d04dbe254c8dddbb0f5570059f695.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/ffda98e482db70ba758eca6eb5ca834cd792ac27.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/c7a35e3db127bbc14744963fc723e20043f97bff.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Constants.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Constants.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AccountController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AccountController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/NinjaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/NinjaController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Industry.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Industry.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Size.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Size.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/accounts/details.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/HojjrGgdvohqTmcgVOneMgVSnA5uhyFkCCSJVUwd" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/HojjrGgdvohqTmcgVOneMgVSnA5uhyFkCCSJVUwd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/lnbPHwKwdjcvDX7gmaaFJBF3ma0vyKHt6r2jvsT7" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/lnbPHwKwdjcvDX7gmaaFJBF3ma0vyKHt6r2jvsT7" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/EntityModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/EntityModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/SN6F3s33LZ7oZnKytyJxGUt7z6JcGFVm76HwABfm" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/SN6F3s33LZ7oZnKytyJxGUt7z6JcGFVm76HwABfm" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -355,21 +333,7 @@
       <workItem from="1584798406880" duration="5092000" />
       <workItem from="1584862946703" duration="649000" />
       <workItem from="1584863606663" duration="1287000" />
-      <workItem from="1584864936364" duration="17866000" />
-    </task>
-    <task id="LOCAL-00009" summary="202003070614">
-      <created>1583579155506</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1583579155506</updated>
-    </task>
-    <task id="LOCAL-00010" summary="202003070614">
-      <created>1583581344438</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1583581344438</updated>
+      <workItem from="1584864936364" duration="18221000" />
     </task>
     <task id="LOCAL-00011" summary="202003080614">
       <created>1583660154931</created>
@@ -700,7 +664,21 @@
       <option name="project" value="LOCAL" />
       <updated>1584880559382</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="2020-03-22 6:12">
+      <created>1584885514278</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1584885514278</updated>
+    </task>
+    <task id="LOCAL-00059" summary="2020-03-22 6:12">
+      <created>1584885749257</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1584885749257</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -751,10 +729,10 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="622" y="0" key="#com.jetbrains.php.refactoring.extractMethod.PhpExtractMethodDialog#method1/0.0.1440.860@0.0.1440.860" timestamp="1584443627388" />
-    <state x="349" y="13" key="CommitChangelistDialog2" timestamp="1584885720369">
+    <state x="349" y="13" key="CommitChangelistDialog2" timestamp="1584885755335">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1584885720369" />
+    <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1584885755335" />
     <state x="500" y="177" key="FileChooserDialogImpl" timestamp="1584881689405">
       <screen x="0" y="0" width="1440" height="860" />
     </state>

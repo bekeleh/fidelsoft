@@ -25,11 +25,7 @@ class EntityModel extends Eloquent
         STATUS_DELETED,
     ];
 
-    /**
-     * @param null $context
-     *
-     * @return mixed
-     */
+
     public static function createNew($context = null)
     {
         $className = get_called_class();
@@ -110,11 +106,7 @@ class EntityModel extends Eloquent
 
     }
 
-    /**
-     * @param $publicId
-     *
-     * @return mixed
-     */
+
     public static function getPrivateId($publicId)
     {
         if (!$publicId) {
@@ -130,9 +122,6 @@ class EntityModel extends Eloquent
         }
     }
 
-    /**
-     * @return string
-     */
     public function getActivityKey()
     {
         return '[' . $this->getEntityType() . ':' . $this->public_id . ':' . $this->getDisplayName() . ']';
@@ -165,13 +154,7 @@ class EntityModel extends Eloquent
     }
     */
 
-    /**
-     * @param $query
-     * @param bool $publicId
-     * @param bool $accountId
-     *
-     * @return mixed
-     */
+
     public function scopeScope($query, $publicId = false, $accountId = false)
     {
         // If 'false' is passed as the publicId return nothing rather than everything
@@ -210,37 +193,24 @@ class EntityModel extends Eloquent
             });
     }
 
-    /**
-     * @param $query
-     *
-     * @return mixed
-     */
     public function scopeWithArchived($query)
     {
         return $query->withTrashed()->where('is_deleted', '=', false);
     }
 
-    /**
-     * @return mixed
-     */
+
     public function getName()
     {
         return $this->public_id;
     }
 
-    /**
-     * @return mixed
-     */
+
     public function getDisplayName()
     {
         return $this->getName();
     }
 
-    /**
-     * @param $entityType
-     *
-     * @return string
-     */
+
     public static function getClassName($entityType)
     {
         if (!Utils::isNinjaProd()) {
@@ -281,11 +251,7 @@ class EntityModel extends Eloquent
         }
     }
 
-    /**
-     * @param $entityType
-     *
-     * @return string
-     */
+
     public static function getTransformerName($entityType)
     {
         if (!Utils::isNinjaProd()) {
@@ -306,13 +272,8 @@ class EntityModel extends Eloquent
         }
     }
 
-// converts "App\Models\Client" to "client_id"
 
-    /**
-     * @return string
-     */
-    public
-    function getKeyField()
+    public function getKeyField()
     {
         $class = get_class($this);
         $parts = explode('\\', $class);
@@ -326,13 +287,7 @@ class EntityModel extends Eloquent
 
     }
 
-    /**
-     * @param $data
-     * @param $entityType
-     * @param mixed $entity
-     * TODO Remove $entityType parameter
-     * @return bool|string
-     */
+
     public static function validate($data, $entityType = false, $entity = false)
     {
         if (!$entityType) {
@@ -502,11 +457,6 @@ class EntityModel extends Eloquent
         return $this->id == $obj->id && $this->getEntityType() == $obj->entityType;
     }
 
-    /**
-     * @param $method
-     * @param $params
-     * @return mixed
-     */
     public function __call($method, $params)
     {
         if (count(config('modules.relations'))) {
