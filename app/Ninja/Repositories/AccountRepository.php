@@ -31,7 +31,7 @@ class AccountRepository
 {
     public function create($firstName = '', $lastName = '', $email = '', $password = '', $company = false)
     {
-        if (! $company) {
+        if (!$company) {
             if (Utils::isNinja()) {
                 $this->checkForSpammer();
             }
@@ -101,23 +101,23 @@ class AccountRepository
         $account->save();
 
         $user = new User();
-        if (! $firstName && ! $lastName && ! $email && ! $password) {
+        if (!$firstName && !$lastName && !$email && !$password) {
             $user->password = strtolower(str_random(RANDOM_KEY_LENGTH));
             $user->username = strtolower(str_random(RANDOM_KEY_LENGTH));
         } else {
             $user->first_name = $firstName;
             $user->last_name = $lastName;
             $user->email = $user->username = $email;
-            if (! $password) {
+            if (!$password) {
                 $password = strtolower(str_random(RANDOM_KEY_LENGTH));
             }
             $user->password = bcrypt($password);
         }
 
-        $user->confirmed = ! Utils::isNinja();
-        $user->registered = ! Utils::isNinja() || $email;
+        $user->confirmed = !Utils::isNinja();
+        $user->registered = !Utils::isNinja() || $email;
 
-        if (! $user->confirmed) {
+        if (!$user->confirmed) {
             $user->confirmation_code = strtolower(str_random(RANDOM_KEY_LENGTH));
         }
 
@@ -145,8 +145,8 @@ class AccountRepository
         if ($count > 10 && $errorEmail = env('ERROR_EMAIL')) {
             \Mail::raw($ip, function ($message) use ($ip, $errorEmail) {
                 $message->to($errorEmail)
-                        ->from(CONTACT_EMAIL)
-                        ->subject('Duplicate company for IP: ' . $ip);
+                    ->from(CONTACT_EMAIL)
+                    ->subject('Duplicate company for IP: ' . $ip);
             });
             if ($count >= 15) {
                 abort();
@@ -190,23 +190,23 @@ class AccountRepository
 
         if ($user->hasPermission(['view_client', 'view_invoice'], true)) {
             $clients = Client::scope()
-                        ->with('contacts', 'invoices')
-                        ->withTrashed()
-                        ->with(['contacts', 'invoices' => function ($query) use ($user) {
-                            $query->withTrashed();
-                        }])->get();
+                ->with('contacts', 'invoices')
+                ->withTrashed()
+                ->with(['contacts', 'invoices' => function ($query) use ($user) {
+                    $query->withTrashed();
+                }])->get();
         } else {
             $clients = Client::scope()
-                        ->where('user_id', '=', $user->id)
-                        ->withTrashed()
-                        ->with(['contacts', 'invoices' => function ($query) use ($user) {
-                            $query->withTrashed()
-                                  ->where('user_id', '=', $user->id);
-                        }])->get();
+                ->where('user_id', '=', $user->id)
+                ->withTrashed()
+                ->with(['contacts', 'invoices' => function ($query) use ($user) {
+                    $query->withTrashed()
+                        ->where('user_id', '=', $user->id);
+                }])->get();
         }
 
         foreach ($clients as $client) {
-            if (! $client->is_deleted) {
+            if (!$client->is_deleted) {
                 if ($client->name) {
                     $data['clients'][] = [
                         'value' => ($client->id_number ? $client->id_number . ': ' : '') . $client->name,
@@ -282,6 +282,15 @@ class AccountRepository
             ENTITY_CREDIT,
             ENTITY_PROJECT,
             ENTITY_PROPOSAL,
+            ENTITY_SALE_TYPE,
+            ENTITY_UNIT,
+            ENTITY_HOLD_REASON,
+            ENTITY_STORE,
+            ENTITY_LOCATION,
+            ENTITY_ITEM_CATEGORY,
+            ENTITY_ITEM_STORE,
+            ENTITY_ITEM_PRICE,
+            ENTITY_ITEM_MOVEMENT,
         ];
 
         foreach ($entityTypes as $entityType) {
@@ -312,7 +321,7 @@ class AccountRepository
 
         $settings = array_merge(Account::$basicSettings, Account::$advancedSettings);
 
-        if (! Utils::isNinjaProd()) {
+        if (!Utils::isNinjaProd()) {
             $settings[] = ACCOUNT_SYSTEM_SETTINGS;
         }
 
@@ -483,10 +492,10 @@ class AccountRepository
         $ninjaAccount = $this->getNinjaAccount();
         $ninjaUser = $ninjaAccount->getPrimaryUser();
         $client = Client::whereAccountId($ninjaAccount->id)
-                    ->wherePublicId($account->id)
-                    ->first();
+            ->wherePublicId($account->id)
+            ->first();
 
-        if (! $client) {
+        if (!$client) {
             $client = new Client();
             $client->public_id = $account->id;
             $client->account_id = $ninjaAccount->id;
@@ -514,8 +523,8 @@ class AccountRepository
     public function findByKey($key)
     {
         $account = Account::whereAccountKey($key)
-                    ->with('clients.invoices.invoice_items', 'clients.contacts')
-                    ->firstOrFail();
+            ->with('clients.invoices.invoice_items', 'clients.contacts')
+            ->firstOrFail();
 
         return $account;
     }
@@ -529,7 +538,7 @@ class AccountRepository
 
     public function updateUserFromOauth($user, $firstName, $lastName, $email, $providerId, $oauthUserId)
     {
-        if (! LookupUser::validateField('oauth_user_key', $providerId . '-' . $oauthUserId)) {
+        if (!LookupUser::validateField('oauth_user_key', $providerId . '-' . $oauthUserId)) {
             return trans('texts.oauth_taken');
         }
 
@@ -538,8 +547,8 @@ class AccountRepository
             return trans('texts.oauth_taken');
         }
 
-        if (! $user->registered) {
-            $rules = ['email' => 'email|required|unique:users,email,'.$user->id.',id'];
+        if (!$user->registered) {
+            $rules = ['email' => 'email|required|unique:users,email,' . $user->id . ',id'];
             $validator = Validator::make(['email' => $email], $rules);
 
             if ($validator->fails()) {
@@ -547,7 +556,7 @@ class AccountRepository
                 return $messages->first('email');
             }
 
-            if (! LookupUser::validateField('email', $email, $user)) {
+            if (!LookupUser::validateField('email', $email, $user)) {
                 return trans('texts.email_taken');
             }
 
@@ -568,7 +577,7 @@ class AccountRepository
 
     public function registerNinjaUser($user)
     {
-        if (! $user || $user->email == TEST_USERNAME) {
+        if (!$user || $user->email == TEST_USERNAME) {
             return false;
         }
 
@@ -581,7 +590,7 @@ class AccountRepository
         ];
 
         foreach ($fields as $key => $value) {
-            $data .= $key.'='.$value.'&';
+            $data .= $key . '=' . $value . '&';
         }
         rtrim($data, '&');
 
@@ -597,8 +606,8 @@ class AccountRepository
     public function findUserByOauth($providerId, $oauthUserId)
     {
         return User::where('oauth_user_id', $oauthUserId)
-                    ->where('oauth_provider_id', $providerId)
-                    ->first();
+            ->where('oauth_provider_id', $providerId)
+            ->first();
     }
 
     public function findUsers($user, $with = null)
@@ -627,22 +636,22 @@ class AccountRepository
 
     public function findUserAccounts($userId1, $userId2 = false)
     {
-        if (! Schema::hasTable('user_accounts')) {
+        if (!Schema::hasTable('user_accounts')) {
             return false;
         }
 
         $query = UserAccount::where('user_id1', '=', $userId1)
-                                ->orWhere('user_id2', '=', $userId1)
-                                ->orWhere('user_id3', '=', $userId1)
-                                ->orWhere('user_id4', '=', $userId1)
-                                ->orWhere('user_id5', '=', $userId1);
+            ->orWhere('user_id2', '=', $userId1)
+            ->orWhere('user_id3', '=', $userId1)
+            ->orWhere('user_id4', '=', $userId1)
+            ->orWhere('user_id5', '=', $userId1);
 
         if ($userId2) {
             $query->orWhere('user_id1', '=', $userId2)
-                    ->orWhere('user_id2', '=', $userId2)
-                    ->orWhere('user_id3', '=', $userId2)
-                    ->orWhere('user_id4', '=', $userId2)
-                    ->orWhere('user_id5', '=', $userId2);
+                ->orWhere('user_id2', '=', $userId2)
+                ->orWhere('user_id3', '=', $userId2)
+                ->orWhere('user_id4', '=', $userId2)
+                ->orWhere('user_id5', '=', $userId2);
         }
 
         return $query->first(['id', 'user_id1', 'user_id2', 'user_id3', 'user_id4', 'user_id5']);
@@ -650,7 +659,7 @@ class AccountRepository
 
     public function getUserAccounts($record, $with = null)
     {
-        if (! $record) {
+        if (!$record) {
             return false;
         }
 
@@ -663,7 +672,7 @@ class AccountRepository
         }
 
         $users = User::with('account')
-                    ->whereIn('id', $userIds);
+            ->whereIn('id', $userIds);
 
         if ($with) {
             $users->with($with);
@@ -674,7 +683,7 @@ class AccountRepository
 
     public function prepareUsersData($record)
     {
-        if (! $record) {
+        if (!$record) {
             return false;
         }
 
@@ -709,7 +718,7 @@ class AccountRepository
 
         if ($record) {
             foreach ([$userId1, $userId2] as $userId) {
-                if (! $record->hasUserId($userId)) {
+                if (!$record->hasUserId($userId)) {
                     $record->setUserId($userId);
                 }
             }
@@ -744,7 +753,7 @@ class AccountRepository
 
         $user = User::whereId($userId)->first();
 
-        if (! $user->public_id && $user->account->hasMultipleAccounts()) {
+        if (!$user->public_id && $user->account->hasMultipleAccounts()) {
             $company = Company::create();
             $company->save();
             $user->account->company_id = $company->id;
@@ -759,13 +768,13 @@ class AccountRepository
 
     public function findWithFees()
     {
-        return Account::whereHas('account_email_settings', function($query) {
+        return Account::whereHas('account_email_settings', function ($query) {
             $query->where('late_fee1_amount', '>', 0)
-                    ->orWhere('late_fee1_percent', '>', 0)
-                    ->orWhere('late_fee2_amount', '>', 0)
-                    ->orWhere('late_fee2_percent', '>', 0)
-                    ->orWhere('late_fee3_amount', '>', 0)
-                    ->orWhere('late_fee3_percent', '>', 0);
+                ->orWhere('late_fee1_percent', '>', 0)
+                ->orWhere('late_fee2_amount', '>', 0)
+                ->orWhere('late_fee2_percent', '>', 0)
+                ->orWhere('late_fee3_amount', '>', 0)
+                ->orWhere('late_fee3_percent', '>', 0);
         })->get();
     }
 

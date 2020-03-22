@@ -16,7 +16,7 @@ class BaseIntent
     public function __construct($state, $data)
     {
         //if (true) {
-        if (! $state || is_string($state)) {
+        if (!$state || is_string($state)) {
             $state = new stdClass();
             foreach (['current', 'previous'] as $reference) {
                 $state->$reference = new stdClass();
@@ -31,7 +31,7 @@ class BaseIntent
         $this->data = $data;
 
         // If they're viewing a client set it as the current state
-        if (! $this->hasField('Filter', 'all')) {
+        if (!$this->hasField('Filter', 'all')) {
             $url = url()->previous();
             preg_match('/clients\/(\d*)/', $url, $matches);
             if (count($matches) >= 2) {
@@ -46,7 +46,7 @@ class BaseIntent
 
     public static function createIntent($platform, $state, $data)
     {
-        if (! count($data->intents)) {
+        if (!count($data->intents)) {
             throw new Exception(trans('texts.intent_not_found'));
         }
 
@@ -60,7 +60,7 @@ class BaseIntent
             }
         }
 
-        if ($state && ! $entityType) {
+        if ($state && !$entityType) {
             $entityType = $state->current->entityType;
         }
         $entityType = $entityType ?: 'client';
@@ -76,7 +76,7 @@ class BaseIntent
             $className = "App\\Ninja\\Intents\\{$intent}Intent";
         }
 
-        if (! class_exists($className)) {
+        if (!class_exists($className)) {
             throw new Exception(trans('texts.intent_not_supported'));
         }
 
@@ -109,7 +109,7 @@ class BaseIntent
 
     protected function loadStates($entityType)
     {
-        $states = array_filter($this->getFields('Filter'), function($state) {
+        $states = array_filter($this->getFields('Filter'), function ($state) {
             return in_array($state, [STATUS_ACTIVE, STATUS_ARCHIVED, STATUS_DELETED]);
         });
 
@@ -136,7 +136,7 @@ class BaseIntent
 
     public function setStateEntities($entityType, $entities)
     {
-        if (! is_array($entities)) {
+        if (!is_array($entities)) {
             $entities = [$entities];
         }
 
@@ -197,7 +197,7 @@ class BaseIntent
             }
         }
 
-        if (! $client) {
+        if (!$client) {
             $client = $this->state->current->client;
         }
 
@@ -222,7 +222,7 @@ class BaseIntent
     {
         $data = [];
 
-        if (! isset($this->data->compositeEntities)) {
+        if (!isset($this->data->compositeEntities)) {
             return [];
         }
 
@@ -313,7 +313,7 @@ class BaseIntent
         } else {
             if ($content instanceof \Illuminate\Database\Eloquent\Collection) {
                 // do nothing
-            } elseif (! is_array($content)) {
+            } elseif (!is_array($content)) {
                 $content = [$content];
             }
 

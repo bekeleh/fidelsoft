@@ -21,32 +21,20 @@ class User extends Authenticatable
     use SoftDeletes;
     use Notifiable;
 
-    /**
-     * @var string
-     */
+
     protected $presenter = 'App\Ninja\Presenters\UserPresenter';
 
-    /**
-     * @var array
-     */
+
     public static $all_permissions = [
         'create_all' => 0b0001,
         'view_all' => 0b0010,
         'edit_all' => 0b0100,
     ];
 
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
+
     protected $table = 'users';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+
     protected $fillable = [
         'first_name',
         'last_name',
@@ -56,11 +44,7 @@ class User extends Authenticatable
         'phone',
     ];
 
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
+
     protected $hidden = [
         'password',
         'remember_token',
@@ -323,23 +307,12 @@ class User extends Authenticatable
         event(new UserSettingsChanged($user));
     }
 
-    /**
-     * @return bool
-     */
+
     public function isEmailBeingChanged()
     {
         return Utils::isNinjaProd() && $this->email != $this->getOriginal('email');
     }
 
-
-    /**
-     * Checks to see if the user has the required permission.
-     *
-     * @param mixed $permission Either a single permission or an array of possible permissions
-     * @param mixed $requireAll - True to require all permissions, false to require only one
-     *
-     * @return bool
-     */
 
     public function hasPermission($permission, $requireAll = false)
     {
@@ -374,19 +347,13 @@ class User extends Authenticatable
             return false;
     }
 
-    /**
-     * @param $entity
-     *
-     * @return bool
-     */
+
     public function owns($entity)
     {
         return !empty($entity->user_id) && $entity->user_id == $this->id;
     }
 
-    /**
-     * @return bool|mixed
-     */
+
     public function filterId()
     {   //todo permissions
         return $this->hasPermission('view_all') ? false : $this->id;

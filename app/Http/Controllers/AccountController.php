@@ -31,8 +31,6 @@ use App\Services\AuthService;
 use App\Services\PaymentService;
 use App\Services\TemplateService;
 use Exception;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Input;
@@ -83,9 +81,7 @@ class AccountController extends BaseController
         $this->paymentService = $paymentService;
     }
 
-    /**
-     * @return RedirectResponse
-     */
+
     public function getStarted()
     {
         $user = false;
@@ -131,9 +127,7 @@ class AccountController extends BaseController
         return Redirect::to($redirectTo)->with('sign_up', Input::get('sign_up'));
     }
 
-    /**
-     * @return RedirectResponse
-     */
+
     public function changePlan()
     {
         $user = Auth::user();
@@ -233,9 +227,7 @@ class AccountController extends BaseController
         return RESULT_SUCCESS;
     }
 
-    /**
-     * @return JsonResponse
-     */
+
     public function getSearchData()
     {
         $data = $this->accountRepo->getSearchData(Auth::user());
@@ -243,11 +235,6 @@ class AccountController extends BaseController
         return Response::json($data);
     }
 
-    /**
-     * @param bool $section
-     *
-     * @return \Illuminate\Contracts\View\View|RedirectResponse
-     */
     public function showSection($section = false)
     {
         if (!Auth::user()->is_admin) {
@@ -302,9 +289,6 @@ class AccountController extends BaseController
         }
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View|RedirectResponse
-     */
     private function showSystemSettings()
     {
         if (Utils::isNinjaProd()) {
@@ -320,9 +304,7 @@ class AccountController extends BaseController
         return View::make('accounts.system_settings', $data);
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
+
     private function showInvoiceSettings()
     {
         $account = Auth::user()->account;
@@ -347,9 +329,6 @@ class AccountController extends BaseController
         return View::make('accounts.invoice_settings', $data);
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
     private function showCompanyDetails()
     {
         // check that logo is less than the max file size
@@ -367,9 +346,6 @@ class AccountController extends BaseController
         return View::make('accounts.details', $data);
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
     private function showAccountManagement()
     {
         $account = Auth::user()->account;
@@ -393,9 +369,6 @@ class AccountController extends BaseController
         return View::make('accounts.management', $data);
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
     public function showUserDetails()
     {
         if (!auth()->user()->registered) {
@@ -419,9 +392,6 @@ class AccountController extends BaseController
         return View::make('accounts.user_details', $data);
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
     private function showLocalization()
     {
         $data = [
@@ -437,9 +407,6 @@ class AccountController extends BaseController
         return View::make('accounts.localization', $data);
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
     private function showBankAccounts()
     {
         $account = auth()->user()->account;
@@ -451,9 +418,6 @@ class AccountController extends BaseController
         ]);
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View|RedirectResponse
-     */
     private function showOnlinePayments()
     {
         $account = Auth::user()->account;
@@ -482,9 +446,6 @@ class AccountController extends BaseController
         ]);
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
     private function showProducts()
     {
         $data = [
@@ -495,9 +456,6 @@ class AccountController extends BaseController
         return View::make('products.products', $data);
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
     private function showTaxRates()
     {
         $data = [
@@ -511,9 +469,6 @@ class AccountController extends BaseController
         return View::make('accounts.tax_rates', $data);
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
     private function showPaymentTerms()
     {
         $data = [
@@ -524,11 +479,7 @@ class AccountController extends BaseController
         return View::make('accounts.payment_terms', $data);
     }
 
-    /**
-     * @param $section
-     *
-     * @return \Illuminate\Contracts\View\View
-     */
+
     private function showInvoiceDesign($section)
     {
         $account = Auth::user()->account->load('country');
@@ -633,9 +584,6 @@ class AccountController extends BaseController
         return View::make("accounts.{$section}", $data);
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
     private function showClientPortal()
     {
         $account = Auth::user()->account->load('country');
@@ -679,9 +627,7 @@ class AccountController extends BaseController
         return View::make('accounts.client_portal', $data);
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
+
     private function showTemplates()
     {
         $account = Auth::user()->account->load('country');
@@ -703,11 +649,6 @@ class AccountController extends BaseController
         return View::make('accounts.templates_and_reminders', $data);
     }
 
-    /**
-     * @param $section
-     *
-     * @return RedirectResponse
-     */
     public function doSection($section)
     {
         if ($section === ACCOUNT_LOCALIZATION) {
@@ -737,9 +678,6 @@ class AccountController extends BaseController
         }
     }
 
-    /**
-     * @return RedirectResponse
-     */
     private function saveAccountManagement()
     {
         $user = Auth::user();
@@ -788,9 +726,7 @@ class AccountController extends BaseController
         return Redirect::to('settings/' . ACCOUNT_MANAGEMENT);
     }
 
-    /**
-     * @return RedirectResponse
-     */
+
     private function saveCustomizeDesign()
     {
         $designId = intval(Input::get('design_id')) ?: CUSTOM_DESIGN1;
@@ -810,10 +746,6 @@ class AccountController extends BaseController
         return Redirect::to('settings/' . ACCOUNT_CUSTOMIZE_DESIGN . '?design_id=' . $designId);
     }
 
-    /**
-     * @param SaveClientPortalSettings $request
-     * @return RedirectResponse
-     */
     public function saveClientPortalSettings(SaveClientPortalSettings $request)
     {
         $account = $request->user()->account;
@@ -851,10 +783,6 @@ class AccountController extends BaseController
             ->with('message', trans('texts.updated_settings'));
     }
 
-    /**
-     * @param SaveEmailSettings $request
-     * @return $this|RedirectResponse
-     */
     public function saveEmailSettings(SaveEmailSettings $request)
     {
         $account = $request->user()->account;
@@ -869,9 +797,6 @@ class AccountController extends BaseController
             ->with('message', trans('texts.updated_settings'));
     }
 
-    /**
-     * @return RedirectResponse
-     */
     private function saveEmailTemplates()
     {
         if (Auth::user()->account->hasFeature(FEATURE_EMAIL_TEMPLATES_REMINDERS)) {
@@ -911,9 +836,6 @@ class AccountController extends BaseController
         return Redirect::to('settings/' . ACCOUNT_TEMPLATES_AND_REMINDERS);
     }
 
-    /**
-     * @return RedirectResponse
-     */
     private function saveTaxRates()
     {
         $account = Auth::user()->account;
@@ -925,9 +847,6 @@ class AccountController extends BaseController
         return Redirect::to('settings/' . ACCOUNT_TAX_RATES);
     }
 
-    /**
-     * @return RedirectResponse
-     */
     private function saveProducts()
     {
         $account = Auth::user()->account;
@@ -943,9 +862,6 @@ class AccountController extends BaseController
         return Redirect::to('settings/' . ACCOUNT_PRODUCTS);
     }
 
-    /**
-     * @return $this|RedirectResponse
-     */
     private function saveInvoiceSettings()
     {
         if (Auth::user()->account->hasFeature(FEATURE_INVOICE_SETTINGS)) {
@@ -1028,9 +944,6 @@ class AccountController extends BaseController
         return Redirect::to('settings/' . ACCOUNT_INVOICE_SETTINGS);
     }
 
-    /**
-     * @return RedirectResponse
-     */
     private function saveInvoiceDesign()
     {
         if (Auth::user()->account->hasFeature(FEATURE_CUSTOMIZE_INVOICE_DESIGN)) {
@@ -1065,9 +978,6 @@ class AccountController extends BaseController
         return Redirect::to('settings/' . ACCOUNT_INVOICE_DESIGN);
     }
 
-    /**
-     * @return RedirectResponse
-     */
     private function saveNotifications()
     {
         $user = Auth::user();
@@ -1088,11 +998,6 @@ class AccountController extends BaseController
         return Redirect::to('settings/' . ACCOUNT_NOTIFICATIONS);
     }
 
-    /**
-     * @param UpdateAccountRequest $request
-     *
-     * @return RedirectResponse
-     */
     public function updateDetails(UpdateAccountRequest $request)
     {
         $account = Auth::user()->account;
@@ -1179,9 +1084,6 @@ class AccountController extends BaseController
         return Redirect::to('settings/' . ACCOUNT_COMPANY_DETAILS);
     }
 
-    /**
-     * @return $this|RedirectResponse
-     */
     public function saveUserDetails()
     {
         /** @var User $user */
@@ -1241,9 +1143,6 @@ class AccountController extends BaseController
         }
     }
 
-    /**
-     * @return RedirectResponse
-     */
     private function saveLocalization()
     {
         /** @var Account $account */
@@ -1267,9 +1166,6 @@ class AccountController extends BaseController
         return Redirect::to('settings/' . ACCOUNT_LOCALIZATION);
     }
 
-    /**
-     * @return RedirectResponse
-     */
     private function saveOnlinePayments()
     {
         $account = Auth::user()->account;
@@ -1287,9 +1183,6 @@ class AccountController extends BaseController
         return Redirect::to('settings/' . ACCOUNT_PAYMENTS);
     }
 
-    /**
-     * @return RedirectResponse
-     */
     public function removeLogo()
     {
         $account = Auth::user()->account;
@@ -1309,9 +1202,6 @@ class AccountController extends BaseController
         return Redirect::to('settings/' . ACCOUNT_COMPANY_DETAILS);
     }
 
-    /**
-     * @return string
-     */
     public function checkEmail()
     {
         $email = trim(strtolower(Input::get('email')));
@@ -1332,9 +1222,6 @@ class AccountController extends BaseController
         }
     }
 
-    /**
-     * @return string
-     */
     public function submitSignup()
     {
         $user = Auth::user();
@@ -1401,9 +1288,6 @@ class AccountController extends BaseController
         }
     }
 
-    /**
-     * @return mixed
-     */
     public function doRegister()
     {
         $affiliate = Affiliate::where('affiliate_key', '=', SELF_HOST_AFFILIATE_KEY)->first();
@@ -1428,9 +1312,7 @@ class AccountController extends BaseController
         return RESULT_SUCCESS;
     }
 
-    /**
-     * @return RedirectResponse
-     */
+
     public function purgeData()
     {
         $this->dispatch(new \App\Jobs\PurgeAccountData());
@@ -1438,10 +1320,6 @@ class AccountController extends BaseController
         return redirect('/settings/account_management')->withMessage(trans('texts.purge_successful'));
     }
 
-    /**
-     * @return RedirectResponse
-     * @throws Exception
-     */
     public function cancelAccount()
     {
         if ($reason = trim(Input::get('reason'))) {
@@ -1492,9 +1370,6 @@ class AccountController extends BaseController
         return Redirect::to('/')->with('clearGuestKey', true);
     }
 
-    /**
-     * @return RedirectResponse
-     */
     public function resendConfirmation()
     {
         /** @var User $user */
@@ -1504,12 +1379,6 @@ class AccountController extends BaseController
         return Redirect::to('/settings/' . ACCOUNT_USER_DETAILS)->with('message', trans('texts.confirmation_resent'));
     }
 
-    /**
-     * @param $section
-     * @param bool $subSection
-     *
-     * @return RedirectResponse
-     */
     public function redirectLegacy($section, $subSection = false)
     {
         if ($section === 'details') {
@@ -1530,11 +1399,6 @@ class AccountController extends BaseController
         return Redirect::to("/settings/$section/", 301);
     }
 
-    /**
-     * @param TemplateService $templateService
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function previewEmail(TemplateService $templateService)
     {
         $template = Input::get('template');

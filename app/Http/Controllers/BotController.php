@@ -107,7 +107,9 @@ class BotController extends Controller
 
         try {
             $intent = BaseIntent::createIntent(BOT_PLATFORM_WEB_APP, false, $data);
+
             return $intent->process();
+
         } catch (Exception $exception) {
             $message = sprintf('"%s"<br/>%s', $command, $exception->getMessage());
             return redirect()->back()->withWarning($message);
