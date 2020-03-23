@@ -21,7 +21,9 @@ class ExpenseCategoryRepository extends BaseRepository
     public function find($filter = null)
     {
         $query = DB::table('expense_categories')
-            ->where('expense_categories.account_id', '=', Auth::user()->account_id)
+//             ->join('expense_categories.id,'=',)
+//            ->where('expense_categories.account_id', '=', Auth::user()->account_id)
+//            ->where('expense_categories.deleted_at', '=', null)
             ->select(
                 'expense_categories.name as category',
                 'expense_categories.public_id',
@@ -36,28 +38,35 @@ class ExpenseCategoryRepository extends BaseRepository
                 'expense_categories.is_deleted'
             );
 
-        $this->applyFilters($query, ENTITY_EXPENSE_CATEGORY);
-
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('expense_categories.name', 'like', '%' . $filter . '%');
             });
         }
 
+        $this->applyFilters($query, ENTITY_EXPENSE_CATEGORY);
+
         return $query;
     }
 
-    public function save($input, $category = false)
+    public function save($data, $expenseCategory = false)
     {
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
+        if ($expenseCategory) {
+            $expenseCategory->updated_by = Auth::user()->username;
 
-        if (!$category) {
-            $category = ExpenseCategory::createNew();
+        } elseif ($publicId) {
+            $expenseCategory = ExpenseCategory::scope($publicId)->withArchived()->firstOrFail();
+            \Log::warning('Entity not set in expense category repo save');
+        } else {
+            $expenseCategory = ExpenseCategory::createNew();
+            $expenseCategory->created_by = Auth::user()->name;
         }
 
-        $category->fill($input);
-        $category->save();
+        $expenseCategory->fill($data);
 
-        return $category;
+        $expenseCategory->save();
+
+        return $expenseCategory;
     }
 }

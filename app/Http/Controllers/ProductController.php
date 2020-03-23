@@ -132,6 +132,7 @@ class ProductController extends BaseController
     public function store(ProductRequest $request)
     {
         $data = $request->input();
+
         $product = $this->productService->save($data);
 
         return redirect()->to("products/{$product->public_id}/edit")->with('success', trans('texts.created_product'));

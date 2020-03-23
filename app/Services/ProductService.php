@@ -53,6 +53,7 @@ class ProductService extends BaseService
     public function getDatatable($accountId, $search)
     {
         $datatable = new ProductDatatable(true);
+
         $query = $this->productRepo->find($accountId, $search);
 
         if (!Utils::hasPermission('view_product')) {

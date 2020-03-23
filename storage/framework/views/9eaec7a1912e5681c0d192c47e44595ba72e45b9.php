@@ -29,12 +29,14 @@
                     <?php echo Former::text('name')->label('texts.item_name'); ?>
 
 
-                    <?php echo Former::select('item_category_id')->addOption('', '')
+                    <?php echo Former::select('item_category_id')
+                    ->placeholder(trans('texts.select_item_category'))
                     ->label(trans('texts.item_category'))
                     ->addGroupClass('item-category-select'); ?>
 
 
-                    <?php echo Former::select('unit_id')->addOption('', '')
+                    <?php echo Former::select('unit_id')
+                    ->placeholder(trans('texts.select_item_unit'))
                     ->label(trans('texts.unit'))
                     ->addGroupClass('unit-select'); ?>
 

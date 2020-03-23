@@ -21,6 +21,7 @@ class Product extends EntityModel
         'notes',
         'item_cost',
         'item_category_id',
+        'unit_id',
         'created_by',
         'updated_by',
         'deleted_by',

@@ -24,10 +24,10 @@ class ItemCategoryRepository extends BaseRepository
     public function find($accountId, $filter = null)
     {
         $query = DB::table('item_categories')
-            ->join('accounts', 'accounts.id', '=', 'item_categories.account_id')
+//            ->join('accounts', 'accounts.id', '=', 'item_categories.account_id')
             ->join('users', 'users.id', '=', 'item_categories.user_id')
             ->where('item_categories.account_id', '=', $accountId)
-            //->where('item_categories.deleted_at', '=', null)
+//            ->where('item_categories.deleted_at', '=', null)
             ->select(
                 'item_categories.id',
                 'item_categories.public_id',
