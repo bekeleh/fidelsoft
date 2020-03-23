@@ -23,7 +23,7 @@ class ProductRequest extends EntityRequest
             case 'POST':
             {
                 $this->validationData();
-                $rules['name'] = 'required|unique:products,name,' . $this->id . ',id,item_category_id,' . $this->item_category_id;
+                $rules['name'] = 'required|unique:products,name,' . $this->id . ',id,item_category_id,' . $this->item_category_id . ',account_id,' . $this->account_id;
                 $rules['item_category_id'] = 'required|numeric';
                 $rules['barcode'] = 'nullable';
                 $rules['item_tag'] = 'nullable';
@@ -37,9 +37,9 @@ class ProductRequest extends EntityRequest
             case 'PATCH':
             {
                 $this->validationData();
-                $product = Product::where('public_id', (int)request()->segment(2))->first();
+                $product = Product::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
                 if ($product) {
-                    $rules['name'] = 'required|unique:products,name,' . $product->id . ',id,item_category_id,' . $product->item_category_id;
+                    $rules['name'] = 'required|unique:products,name,' . $product->id . ',id,item_category_id,' . $product->item_category_id . ',account_id,' . $product->account_id;
                     $rules['item_category_id'] = 'required|numeric';
                     $rules['barcode'] = 'nullable';
                     $rules['item_tag'] = 'nullable';
@@ -84,6 +84,7 @@ class ProductRequest extends EntityRequest
             $this->request->add([
                 'item_category_id' => $input['item_category_id'],
                 'unit_id' => $input['unit_id'],
+                'account_id' => Product::getAccountId()
             ]);
         }
         return $this->request->all();
