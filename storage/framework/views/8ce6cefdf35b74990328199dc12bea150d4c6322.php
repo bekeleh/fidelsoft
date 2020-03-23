@@ -3,7 +3,7 @@
     <?php echo $__env->make('accounts.nav', ['selected' => ACCOUNT_USER_MANAGEMENT, 'advanced' => true], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
     <?php if(Utils::hasFeature(FEATURE_USERS)): ?>
-        <?php if(Auth::user()->caddAddUsers()): ?>
+        <?php if(Auth::user()->canAddUsers()): ?>
             <div class="pull-right">
                 <?php echo Button::primary(trans('texts.add_user'))->asLinkTo(URL::to('/users/create'))->appendIcon(Icon::create('plus-sign')); ?>
 

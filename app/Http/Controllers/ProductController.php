@@ -140,6 +140,7 @@ class ProductController extends BaseController
     public function update(ProductRequest $request)
     {
         $data = $request->input();
+
         $product = $this->productService->save($data, $request->entity());
 
         $action = Input::get('action');

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Libraries\Utils;
-use App\Models\LookupUser;
 use App\Models\User;
 use App\Ninja\Mailers\ContactMailer;
 use App\Ninja\Mailers\UserMailer;
@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Redirect;
 
@@ -51,23 +50,47 @@ class UserController extends BaseController
         $user->force_pdfjs = true;
         $user->save();
 
-        Session::flash('message', trans('texts.updated_settings'));
-
-        return Redirect::to('/dashboard');
+        return Redirect::to('/dashboard')->with('success', trans('texts.updated_settings'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param mixed $publicId
-     *
-     * @return Response
-     */
-    public function show($publicId)
+    public function create()
     {
-        Session::reflash();
+        if (!Auth::user()->registered) {
 
-        return redirect("users/$publicId/edit");
+            return Redirect::to('settings/' . ACCOUNT_USER_MANAGEMENT)->with('error', trans('texts.register_to_add_user'));
+        }
+
+        if (!Auth::user()->confirmed) {
+
+            return Redirect::to('settings/' . ACCOUNT_USER_MANAGEMENT)->with('error', trans('texts.confirmation_required', ['link' => link_to('/resend_confirmation', trans('texts.click_here'))]));
+        }
+
+        if (Utils::isNinja() && !Auth::user()->canAddUsers()) {
+
+            return Redirect::to('settings/' . ACCOUNT_USER_MANAGEMENT)->with('error', trans('texts.max_users_reached'));
+        }
+
+        $data = [
+            'user' => null,
+            'method' => 'POST',
+            'url' => 'users',
+        ];
+
+        return View::make('users.edit', $data);
+    }
+
+    public function store(UserRequest $request)
+    {
+        $data = $request->input();
+
+        if (!Auth::user()->hasFeature(FEATURE_USERS)) {
+            return Redirect::to('settings/' . ACCOUNT_USER_MANAGEMENT);
+        }
+
+        $user = $this->userService->save($data);
+
+        return redirect()->to("users/{$user->public_id}/edit")->with('success', trans('texts.created_user'));
+
     }
 
     public function edit($publicId)
@@ -86,43 +109,35 @@ class UserController extends BaseController
         return View::make('users.edit', $data);
     }
 
-    public function update($publicId)
+    public function update(UserRequest $request)
     {
-        return $this->save($publicId);
+        $data = $request->input();
+
+        if (!Auth::user()->hasFeature(FEATURE_USERS)) {
+            return Redirect::to('settings/' . ACCOUNT_USER_MANAGEMENT);
+        }
+
+        $user = $this->userService->save($data, $request->entity());
+
+        $action = Input::get('action');
+        if (in_array($action, ['archive', 'delete', 'restore'])) {
+            return self::bulk();
+        }
+
+        if ($action == 'clone') {
+
+            return redirect()->to(sprintf('users/%s/clone', $user->public_id))->with('success', trans('texts.clone_user'));
+        } else {
+
+            return redirect()->to("users/{$user->public_id}/edit")->with('success', trans('texts.updated_user'));
+        }
     }
 
-    public function store()
+    public function show($publicId)
     {
-        return $this->save();
-    }
+        Session::reflash();
 
-    public function create()
-    {
-        if (!Auth::user()->registered) {
-            Session::flash('error', trans('texts.register_to_add_user'));
-
-            return Redirect::to('settings/' . ACCOUNT_USER_MANAGEMENT);
-        }
-
-        if (!Auth::user()->confirmed) {
-            Session::flash('error', trans('texts.confirmation_required', ['link' => link_to('/resend_confirmation', trans('texts.click_here'))]));
-
-            return Redirect::to('settings/' . ACCOUNT_USER_MANAGEMENT);
-        }
-
-        if (Utils::isNinja() && !Auth::user()->caddAddUsers()) {
-            Session::flash('error', trans('texts.max_users_reached'));
-
-            return Redirect::to('settings/' . ACCOUNT_USER_MANAGEMENT);
-        }
-
-        $data = [
-            'user' => null,
-            'method' => 'POST',
-            'url' => 'users',
-        ];
-
-        return View::make('users.edit', $data);
+        return redirect("users/$publicId/edit");
     }
 
     public function bulk()
@@ -131,109 +146,38 @@ class UserController extends BaseController
         $id = Input::get('bulk_public_id');
 
         $user = User::where('account_id', '=', Auth::user()->account_id)
-            ->where('public_id', '=', $id)
-            ->withTrashed()
-            ->firstOrFail();
+            ->where('public_id', '=', $id)->withTrashed()->firstOrFail();
 
         if ($action === 'archive') {
             $user->delete();
         } else {
-            if (!Auth::user()->caddAddUsers()) {
-                return Redirect::to('settings/' . ACCOUNT_USER_MANAGEMENT)
-                    ->with('error', trans('texts.max_users_reached'));
+            if (!Auth::user()->canAddUsers()) {
+                return Redirect::to('settings/' . ACCOUNT_USER_MANAGEMENT)->with('error', trans('texts.max_users_reached'));
             }
 
             $user->restore();
         }
 
-        Session::flash('message', trans("texts.{$action}d_user"));
-
-        return Redirect::to('settings/' . ACCOUNT_USER_MANAGEMENT);
+        return Redirect::to('settings/' . ACCOUNT_USER_MANAGEMENT)->with('message', trans("texts.{$action}d_user"));
     }
 
-    public function save($userPublicId = false)
+    public function save(UserRequest $request, $userPublicId = false)
     {
+        $data = $request->input();
 
         if (!Auth::user()->hasFeature(FEATURE_USERS)) {
             return Redirect::to('settings/' . ACCOUNT_USER_MANAGEMENT);
         }
 
-        $rules = [
-            'first_name' => 'required',
-            'last_name' => 'required',
-        ];
 
-        if ($userPublicId) {
-            $user = User::where('account_id', '=', Auth::user()->account_id)
-                ->where('public_id', '=', $userPublicId)
-                ->withTrashed()
-                ->firstOrFail();
+//        if (!$user->confirmed && Input::get('action') === 'email') {
+//            $this->userMailer->sendConfirmation($user, Auth::user());
+//            $message = trans('texts.sent_invite');
+//        } else {
+//            $message = trans('texts.updated_user');
+//        }
 
-            $rules['email'] = 'required|email|unique:users,email,' . $user->id . ',id';
-        } else {
-            $user = false;
-            $rules['email'] = 'required|email|unique:users';
-        }
-
-        $validator = Validator::make(Input::all(), $rules);
-
-        if ($validator->fails()) {
-            return Redirect::to($userPublicId ? 'users/edit' : 'users/create')
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        if (!LookupUser::validateField('email', Input::get('email'), $user)) {
-            return Redirect::to($userPublicId ? 'users/edit' : 'users/create')
-                ->withError(trans('texts.email_taken'))
-                ->withInput();
-        }
-
-        if ($userPublicId) {
-            $user->first_name = ucfirst(trim(Input::get('first_name')));
-            $user->last_name = ucfirst(trim(Input::get('last_name')));
-            $user->username = trim(Input::get('username'));
-            $user->email = trim(Input::get('email'));
-            if (Auth::user()->hasFeature(FEATURE_USER_PERMISSIONS)) {
-                $user->is_admin = boolval(Input::get('is_admin'));
-                $user->permissions = self::formatUserPermissions(Input::get('permissions'));
-            }
-        } else {
-            $lastUser = User::withTrashed()
-                ->where('account_id', '=', Auth::user()->account_id)
-                ->orderBy('public_id', 'DESC')->first();
-            $user = new User();
-            $user->account_id = Auth::user()->account_id;
-            $user->first_name = ucfirst(trim(Input::get('first_name')));
-            $user->last_name = ucfirst(trim(Input::get('last_name')));
-            $user->username = trim(Input::get('username'));
-            $user->email = trim(Input::get('email'));
-            $user->registered = true;
-            $user->password = strtolower(str_random(RANDOM_KEY_LENGTH));
-            $user->confirmation_code = strtolower(str_random(RANDOM_KEY_LENGTH));
-            $user->public_id = $lastUser->public_id + 1;
-            if (Auth::user()->hasFeature(FEATURE_USER_PERMISSIONS)) {
-                $user->is_admin = boolval(Input::get('is_admin'));
-                $user->permissions = self::formatUserPermissions(Input::get('permissions'));
-            }
-        }
-
-        $user->save();
-
-        if (!$user->confirmed && Input::get('action') === 'email') {
-            $this->userMailer->sendConfirmation($user, Auth::user());
-            $message = trans('texts.sent_invite');
-        } else {
-            $message = trans('texts.updated_user');
-        }
-
-        return Redirect::to('users/' . $user->public_id . '/edit')->with('success', $message);
-    }
-
-    private function formatUserPermissions(array $permissions)
-    {
-
-        return json_encode(array_diff(array_values($permissions), [0]));
+//        return Redirect::to('users/' . $user->public_id . '/edit')->with('success', $message);
 
     }
 
@@ -243,9 +187,8 @@ class UserController extends BaseController
             ->where('public_id', '=', $userPublicId)->firstOrFail();
 
         $this->userMailer->sendConfirmation($user, Auth::user());
-        Session::flash('message', trans('texts.sent_invite'));
 
-        return Redirect::to('settings/' . ACCOUNT_USER_MANAGEMENT);
+        return Redirect::to('settings/' . ACCOUNT_USER_MANAGEMENT)->with('message', trans('texts.sent_invite'));
     }
 
     public function confirm($code)

@@ -45,30 +45,13 @@ class ProductService extends BaseService
         return $this->productRepo;
     }
 
-    /**
-     * @param $data
-     * @param null $product
-     *
-     * @return mixed|null
-     */
+
     public function save($data, $product = null)
     {
-        if (isset($data['item_category_id']) && $data['item_category_id']) {
-            $data['item_category_id'] = ItemCategory::getPrivateId($data['item_category_id']);
-        }
-        if (isset($data['unit_id']) && $data['unit_id']) {
-            $data['unit_id'] = Unit::getPrivateId($data['unit_id']);
-        }
+
         return $this->productRepo->save($data, $product);
     }
 
-    /**
-     * @param $accountId
-     * @param mixed $search
-     *
-     * @return JsonResponse
-     * @throws Exception
-     */
     public function getDatatable($accountId, $search)
     {
         $datatable = new ProductDatatable(true);
