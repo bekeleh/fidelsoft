@@ -124,7 +124,7 @@
         ->appendIcon(Icon::create('plus-sign')) !!}
     @endif
 <!-- navigation menu -->
-    @include('menu')
+    {{--    @include('menu')--}}
 </div>
 
 {!! Datatable::table()

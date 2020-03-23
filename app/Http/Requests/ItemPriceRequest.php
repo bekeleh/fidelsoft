@@ -24,7 +24,7 @@ class ItemPriceRequest extends EntityRequest
             case 'POST':
             {
                 $this->validationData();
-                $rules['product_id'] = 'required|unique:item_prices,product_id,' . $this->id . ',id,sale_type_id,' . $this->sale_type_id;
+                $rules['product_id'] = 'required|unique:item_prices,product_id,' . $this->id . ',id,sale_type_id,' . $this->sale_type_id . ',account_id,' . $this->account_id;
                 $rules['sale_type_id'] = 'required|numeric';
                 $rules['item_price'] = 'required|numeric';
                 $rules['qty'] = 'numeric';
@@ -41,9 +41,9 @@ class ItemPriceRequest extends EntityRequest
             case 'PATCH':
             {
                 $this->validationData();
-                $itemPrice = ItemPrice::where('public_id', (int)request()->segment(2))->first();
+                $itemPrice = ItemPrice::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
                 if ($itemPrice) {
-                    $rules['product_id'] = 'required|unique:item_prices,product_id,' . $itemPrice->id . ',id,sale_type_id,' . $itemPrice->sale_type_id;
+                    $rules['product_id'] = 'required|unique:item_prices,product_id,' . $itemPrice->id . ',id,sale_type_id,' . $itemPrice->sale_type_id . ',account_id,' . $itemPrice->account_id;
                     $rules['item_price'] = 'required|numeric';
                     $rules['qty'] = 'numeric';
                     $rules['reorder_level'] = 'numeric';
@@ -111,6 +111,7 @@ class ItemPriceRequest extends EntityRequest
                 'sale_type_id' => $input['sale_type_id'],
                 'start_date' => $input['start_date'],
                 'end_date' => $input['end_date'],
+                'account_id' => Product::getAccountId(),
             ]);
         }
         return $this->request->all();
