@@ -192,20 +192,13 @@ class AccountController extends BaseController
 
             $company->trial_plan = null;
             $company->plan = $plan;
+
             $company->save();
 
-            Session::flash('message', trans('texts.updated_plan'));
-
-            return Redirect::to('settings/account_management');
+            return Redirect::to('settings/account_management')->with('message', trans('texts.updated_plan'));
         }
     }
 
-    /**
-     * @param $entityType
-     * @param mixed $filter
-     *
-     * @return mixed
-     */
     public function setEntityFilter($entityType, $filter = '')
     {
         if ($filter == 'true') {
@@ -505,7 +498,7 @@ class AccountController extends BaseController
             $client->city = 'Addis Ababa';
             $client->state = 'AA';
             $client->postal_code = '10000';
-            $client->work_phone = '(251) 555-0000';
+            $client->work_phone = '(011) 2-526-9854';
             $client->work_email = 'sample@example.com';
             $client->balance = 100;
             $client->vat_number = $account->vat_number ? '1234567890' : '';
@@ -725,10 +718,10 @@ class AccountController extends BaseController
         }
 
         $account->enabled_modules = $modules ? array_sum($modules) : 0;
-
+        $message = trans('texts.updated_settings');
         $account->save();
 
-        return Redirect::to('settings/' . ACCOUNT_MANAGEMENT)->with('success', trans('texts.updated_settings'));
+        return Redirect::to('settings/' . ACCOUNT_MANAGEMENT)->with('success', $message);
     }
 
 
@@ -744,11 +737,9 @@ class AccountController extends BaseController
             }
             $account->$field = Input::get('custom_design');
             $account->save();
-
-            Session::flash('message', trans('texts.updated_settings'));
         }
 
-        return Redirect::to('settings/' . ACCOUNT_CUSTOMIZE_DESIGN . '?design_id=' . $designId);
+        return Redirect::to('settings/' . ACCOUNT_CUSTOMIZE_DESIGN . '?design_id=' . $designId)->with('message', trans('texts.updated_settings'));
     }
 
     public function saveClientPortalSettings(SaveClientPortalSettings $request)
@@ -762,7 +753,6 @@ class AccountController extends BaseController
                     ->withInput();
             }
         }
-
 
         (bool)$fireUpdateSubdomainEvent = false;
 
@@ -782,9 +772,7 @@ class AccountController extends BaseController
             event(new SubdomainWasUpdated($account));
         }
 
-
-        return redirect('settings/' . ACCOUNT_CLIENT_PORTAL)
-            ->with('message', trans('texts.updated_settings'));
+        return redirect('settings/' . ACCOUNT_CLIENT_PORTAL)->with('message', trans('texts.updated_settings'));
     }
 
     public function saveEmailSettings(SaveEmailSettings $request)
@@ -797,8 +785,7 @@ class AccountController extends BaseController
         $settings->fill($request->all());
         $settings->save();
 
-        return redirect('settings/' . ACCOUNT_EMAIL_SETTINGS)
-            ->with('message', trans('texts.updated_settings'));
+        return redirect('settings/' . ACCOUNT_EMAIL_SETTINGS)->with('message', trans('texts.updated_settings'));
     }
 
     private function saveEmailTemplates()
@@ -833,11 +820,9 @@ class AccountController extends BaseController
 
             $account->save();
             $account->account_email_settings->save();
-
-            Session::flash('message', trans('texts.updated_settings'));
         }
 
-        return Redirect::to('settings/' . ACCOUNT_TEMPLATES_AND_REMINDERS);
+        return Redirect::to('settings/' . ACCOUNT_TEMPLATES_AND_REMINDERS)->with('message', trans('texts.updated_settings'));
     }
 
     private function saveTaxRates()
@@ -846,9 +831,7 @@ class AccountController extends BaseController
         $account->fill(Input::all());
         $account->save();
 
-        Session::flash('message', trans('texts.updated_settings'));
-
-        return Redirect::to('settings/' . ACCOUNT_TAX_RATES);
+        return Redirect::to('settings/' . ACCOUNT_TAX_RATES)->with('message', trans('texts.updated_settings'));
     }
 
     private function saveProducts()
@@ -861,9 +844,7 @@ class AccountController extends BaseController
         $account->convert_products = Input::get('convert_products') ? true : false;
         $account->save();
 
-        Session::flash('message', trans('texts.updated_settings'));
-
-        return Redirect::to('settings/' . ACCOUNT_PRODUCTS);
+        return Redirect::to('settings/' . ACCOUNT_PRODUCTS)->with('message', trans('texts.updated_settings'));
     }
 
     private function saveInvoiceSettings()

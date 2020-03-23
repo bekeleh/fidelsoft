@@ -41,7 +41,7 @@ class UserController extends BaseController
 
     public function getDatatable()
     {
-        return $this->userService->getDatatable(Auth::user()->account_id);
+        return $this->userService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
     }
 
     public function forcePDFJS()

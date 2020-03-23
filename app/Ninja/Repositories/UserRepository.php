@@ -7,7 +7,6 @@ use App\Events\UserWasUpdated;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Input;
 
 class UserRepository extends BaseRepository
 {
@@ -16,13 +15,31 @@ class UserRepository extends BaseRepository
         return 'App\Models\User';
     }
 
-    public function find($accountId)
+    public function find($accountId, $filter = null)
     {
-        $query = DB::table('users')->where('users.account_id', '=', $accountId);
+        $query = DB::table('users')
+//            ->join('users', 'users.id', '=', 'users.user_id')
+//            ->where('users.deleted_at', '=', null)
+//            ->where('users.account_id', '=', $accountId)
+            ->select(
+                'users.public_id',
+                'users.first_name',
+                'users.last_name',
+                'users.username',
+                'users.email',
+                'users.confirmed',
+                'users.public_id',
+                'users.deleted_at',
+                'users.is_admin',
+                'users.permissions');
+
+        if ($filter) {
+            $query->where(function ($query) use ($filter) {
+                $query->where('users.name', 'like', '%' . $filter . '%');
+            });
+        }
 
         $this->applyFilters($query, ENTITY_USER);
-
-        $query->select('users.public_id', 'users.first_name', 'users.last_name', 'users.username', 'users.email', 'users.confirmed', 'users.public_id', 'users.deleted_at', 'users.is_admin', 'users.permissions');
 
         return $query;
     }

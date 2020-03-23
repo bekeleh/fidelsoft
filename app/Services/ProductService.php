@@ -45,10 +45,8 @@ class ProductService extends BaseService
         return $this->productRepo;
     }
 
-
     public function save($data, $product = null)
     {
-
         return $this->productRepo->save($data, $product);
     }
 

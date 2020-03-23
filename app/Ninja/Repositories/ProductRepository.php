@@ -114,6 +114,7 @@ class ProductRepository extends BaseRepository
         $product->unit_id = isset($data['unit_id']) ? trim($data['unit_id']) : '';
         $product->notes = isset($data['notes']) ? trim($data['notes']) : '';
         $product->item_cost = isset($data['item_cost']) ? Utils::parseFloat($data['item_cost']) : 0;
+        dd($product);
         $product->save();
 
         if ($publicId) {

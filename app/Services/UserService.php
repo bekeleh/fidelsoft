@@ -49,10 +49,10 @@ class UserService extends BaseService
         return $this->userRepo->save($data, $user);
     }
 
-    public function getDatatable($accountId)
+    public function getDatatable($accountId, $search)
     {
         $datatable = new UserDatatable(false);
-        $query = $this->userRepo->find($accountId);
+        $query = $this->userRepo->find($accountId, $search);
         if (!Utils::hasPermission('view_user')) {
             $query->where('users.user_id', '=', Auth::user()->id);
         }

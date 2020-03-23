@@ -177,9 +177,6 @@ class ProductController extends BaseController
         return self::edit($request, $publicId, true);
     }
 
-    /**
-     * @return RedirectResponse
-     */
     public function bulk()
     {
         $action = Input::get('action');

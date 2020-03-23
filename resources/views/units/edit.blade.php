@@ -5,10 +5,8 @@
     {!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['name' => 'required|max:255'])
+    ->rules(['name' => 'required|max:50','notes' => 'required|max:255'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
-    <!-- notification -->
-    @include('notifications')
     @if ($unit)
         {{ Former::populate($unit) }}
         <div style="display:none">
@@ -23,7 +21,7 @@
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
-                    {!! Former::text('name')->label('texts.name') !!}
+                    {!! Former::text('name')->label('texts.unit_name') !!}
                     {!! Former::textarea('notes')->rows(6) !!}
                 </div>
             </div>
