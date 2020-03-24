@@ -23,7 +23,6 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
     use PresentableTrait;
     use SoftDeletes;
     use Notifiable;
-    use Authorizable, CanResetPassword;
     use Authenticatable, Authorizable, CanResetPassword;
 
 

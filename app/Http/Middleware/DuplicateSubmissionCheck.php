@@ -10,12 +10,7 @@ use Illuminate\Http\Request;
  */
 class DuplicateSubmissionCheck
 {
-    /**
-     * @param Request $request
-     * @param Closure $next
-     *
-     * @return mixed
-     */
+
     public function handle(Request $request, Closure $next)
     {
         if ($request->is('api/v1/*')

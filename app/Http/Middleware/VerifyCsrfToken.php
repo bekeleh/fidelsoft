@@ -25,14 +25,6 @@ class VerifyCsrfToken extends BaseVerifier
         'hook/bot/*',
     ];
 
-    /**
-     * Handle an incoming request.
-     *
-     * @param Request $request
-     * @param Closure $next
-     *
-     * @return mixed
-     */
     public function handle($request, Closure $next)
     {
         foreach ($this->openRoutes as $route) {

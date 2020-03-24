@@ -3,24 +3,16 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use Log;
-use Utils;
+use Illuminate\Support\Facades\Log;
+use App\Libraries\Utils;
 
 /**
  * Class QueryLogging.
  */
 class QueryLogging
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param Request $request
-     * @param Closure $next
-     *
-     * @return mixed
-     */
     public function handle(Request $request, Closure $next)
     {
         // Enable query logging for development

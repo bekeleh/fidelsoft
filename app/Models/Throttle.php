@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
-
-class Throttle extends Eloquent
+class Throttle extends EntityModel
 {
 
     protected $table = 'throttle';

@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -125,13 +126,12 @@ class LoginController extends Controller
         }
 
         $auth = Auth::attempt(['username' => $request->input('username'), 'password' => $request->input('password'), 'activated' => 1]);
-        dd($auth);
         if (!$auth) {
             if (!$lockedOut) {
                 $this->incrementLoginAttempts($request);
             }
             Log::debug("Authentication failed.");
-            return redirect()->back()->withInput()->with('error', trans('admin/auth/message.account_not_found'));
+            return redirect()->back()->withInput()->with('error', trans('auth/message.account_not_found'));
         } else {
             $this->clearLoginAttempts($request);
         }
@@ -140,7 +140,7 @@ class LoginController extends Controller
             $user->save();
         }
         // Redirect to the users page
-        return redirect()->intended()->with('success', trans('admin/auth/message.signin.success'));
+        return redirect()->intended()->with('success', trans('auth/message.signin.success'));
     }
 
     protected function validator(array $data)

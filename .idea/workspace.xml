@@ -2,9 +2,33 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/Events/UserWasCreated.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Events/UserWasDeleted.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Events/UserWasUpdated.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/cache/47/6a/476a8016b9c182da5a163d2302c73df7f7c287ea" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/cache/4a/37/4a375d22a16586a71c6173f9364ebc9dde80c7f8" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/cache/87/bd/87bd152839e93eeb2bc54a83951bd2a948b2f8f2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/cache/90/13/901381ebd3930dcb7c149b58ae0130b638ec3c3d" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/FY8mQLYcUyLqTBQF9AdH1iljlHvXAeTZIixxzAZ7" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/FbFpf6bTqyG7o3LyHuJlTWMFG63rmFwB7DNOEzix" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/4c881c5bce0e08d497492577cac022599e397464.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/faead894d2dc1fcaa12761fd4ed6ce069585a589.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/Authenticate.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/Authenticate.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/DatabaseLookup.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/DatabaseLookup.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/DuplicateSubmissionCheck.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/DuplicateSubmissionCheck.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/PermissionsRequired.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/PermissionsRequired.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/QueryLogging.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/QueryLogging.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/RedirectIfAuthenticated.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/RedirectIfAuthenticated.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/VerifyCsrfToken.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/VerifyCsrfToken.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Throttle.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Throttle.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/auth/general.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/auth/message.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
     </list>
@@ -336,14 +360,10 @@
       <workItem from="1584863606663" duration="1287000" />
       <workItem from="1584864936364" duration="18221000" />
       <workItem from="1585040140028" duration="5701000" />
-      <workItem from="1585056216162" duration="8529000" />
-    </task>
-    <task id="LOCAL-00020" summary="202003120614">
-      <created>1583996063159</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1583996063159</updated>
+      <workItem from="1585056216162" duration="8658000" />
+      <workItem from="1585079175604" duration="214000" />
+      <workItem from="1585079678323" duration="1252000" />
+      <workItem from="1585080962845" duration="2608000" />
     </task>
     <task id="LOCAL-00021" summary="202003120614">
       <created>1583996195848</created>
@@ -681,7 +701,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585064089861</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary="2020-03-24 11:58">
+      <created>1585064947821</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1585064947821</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -733,10 +760,10 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="622" y="0" key="#com.jetbrains.php.refactoring.extractMethod.PhpExtractMethodDialog#method1/0.0.1440.860@0.0.1440.860" timestamp="1584443627388" />
-    <state x="349" y="13" key="CommitChangelistDialog2" timestamp="1585064087170">
+    <state x="349" y="13" key="CommitChangelistDialog2" timestamp="1585064946018">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1585064087170" />
+    <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1585064946018" />
     <state x="500" y="177" key="FileChooserDialogImpl" timestamp="1584881689405">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
@@ -773,9 +800,10 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="312" y="163" key="Vcs.Push.Dialog.v2/0.0.1440.860@0.0.1440.860" timestamp="1584785076905" />
-    <state x="430" y="164" key="com.intellij.ide.util.TipDialog" timestamp="1585056216193">
-      <screen x="0" y="0" width="1440" height="860" />
+    <state x="408" y="139" key="com.intellij.ide.util.TipDialog" timestamp="1585080963251">
+      <screen x="0" y="0" width="1366" height="728" />
     </state>
+    <state x="408" y="139" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1585080963251" />
     <state x="430" y="164" key="com.intellij.ide.util.TipDialog/0.0.1440.860@0.0.1440.860" timestamp="1585056216193" />
     <state x="215" y="69" width="849" height="606" key="find.popup" timestamp="1584882842574">
       <screen x="0" y="0" width="1440" height="860" />

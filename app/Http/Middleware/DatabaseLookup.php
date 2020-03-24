@@ -10,14 +10,14 @@ use App\Models\LookupInvitation;
 use App\Models\LookupProposalInvitation;
 use App\Models\LookupAccountToken;
 use App\Models\LookupUser;
-use Auth;
-use Utils;
+use Illuminate\Support\Facades\Auth;
+use App\Libraries\Utils;
 
 class DatabaseLookup
 {
     public function handle(Request $request, Closure $next, $guard = 'user')
     {
-        if (! env('MULTI_DB_ENABLED')) {
+        if (!env('MULTI_DB_ENABLED')) {
             return $next($request);
         }
 
@@ -30,7 +30,7 @@ class DatabaseLookup
                 } else {
                     // do nothing
                 }
-            } elseif (! Auth::check() && $email = $request->email) {
+            } elseif (!Auth::check() && $email = $request->email) {
                 LookupUser::setServerByField('email', $email);
             } else {
                 Auth::logout();
