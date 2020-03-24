@@ -87,7 +87,7 @@ class StoreRepository extends BaseRepository
         $store->store_code = isset($data['store_code']) ? trim($data['store_code']) : '';
         $store->location_id = isset($data['location_id']) ? trim($data['location_id']) : '';
         $store->notes = isset($data['notes']) ? trim($data['notes']) : '';
-//      save the data
+
         $store->save();
 
         if ($publicId) {

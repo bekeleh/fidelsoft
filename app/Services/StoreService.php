@@ -53,9 +53,6 @@ class StoreService extends BaseService
      */
     public function save($data, $store = null)
     {
-        if (isset($data['location_id']) && $data['location_id']) {
-            $data['location_id'] = Location::getPrivateId($data['location_id']);
-        }
         return $this->storeRepo->save($data, $store);
     }
 

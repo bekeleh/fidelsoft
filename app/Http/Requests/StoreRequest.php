@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Location;
 use App\Models\Store;
 
 class StoreRequest extends EntityRequest
@@ -20,9 +21,10 @@ class StoreRequest extends EntityRequest
         switch ($this->method()) {
             case 'POST':
             {
-                $rules['name'] = 'required|max:90|unique:stores,name';
+                $this->validationData();
+                $rules['name'] = 'required|max:90|unique:stores,name,' . $this->id . ',account_id,' . $this->account_id;
                 $rules['store_code'] = 'required|max:90|unique:stores,store_code';
-//                $rules['location_id'] = 'required|exists:locations,id';
+                $rules['location_id'] = 'numeric';
                 $rules['notes'] = 'nullable';
                 $rules['is_deleted'] = 'boolean';
                 $rules['notes'] = 'nullable';
@@ -31,11 +33,12 @@ class StoreRequest extends EntityRequest
             case 'PUT':
             case 'PATCH':
             {
-                $store = Store::where('public_id', (int)request()->segment(2))->first();
+                $this->validationData();
+                $store = Store::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
                 if ($store) {
-                    $rules['name'] = 'required|max:90|unique:stores,name,' . $store->id . ',id';
+                    $rules['name'] = 'required|max:90|unique:stores,name,' . $store->id . ',id,account_id,' . $store->account_id;
                     $rules['store_code'] = 'required|max:90|unique:stores,store_code,' . $store->id . ',id';
-//                    $rules['location_id'] = 'required|exists:locations,id';
+                    $rules['location_id'] = 'numeric';
                     $rules['is_deleted'] = 'boolean';
                     $rules['notes'] = 'nullable';
                     break;
@@ -63,5 +66,22 @@ class StoreRequest extends EntityRequest
         }
 
         $this->replace($input);
+    }
+
+    protected function validationData()
+    {
+        $input = $this->all();
+        if (count($input)) {
+            if (!empty($input['location_id'])) {
+                $input['location_id'] = Location::getPrivateId($input['location_id']);
+            }
+            if (!empty($input['location_id'])) {
+                $this->request->add([
+                    'location_id' => $input['location_id'],
+                    'account_id' => Store::getAccountId()
+                ]);
+            }
+        }
+        return $this->request->all();
     }
 }

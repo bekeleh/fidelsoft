@@ -31,7 +31,7 @@ class SaleTypeRequest extends EntityRequest
             case 'PATCH':
             {
                 $this->validationData();
-                $saleType = SaleType::find((int)request()->segment(2));
+                $saleType = SaleType::where((int)request()->segment(2))->where('account_id', $this->account_id)->first();
                 if ($saleType) {
                     $rules['name'] = 'required|string|max:90|unique:sale_types,name,' . $saleType->id . ',id,account_id,' . $saleType->account_id;
                     $rules['is_deleted'] = 'boolean';
