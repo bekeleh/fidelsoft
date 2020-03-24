@@ -13,7 +13,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'user',
+        'guard' => 'web',
         'passwords' => 'users',
     ],
 
@@ -35,7 +35,7 @@ return [
     */
 
     'guards' => [
-        'user' => [
+        'web' => [
             'driver' => 'session',
             'provider' => 'users',
         ],
@@ -102,14 +102,32 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'email' => 'auth.emails.password',
             'table' => 'password_resets',
             'expire' => 60,
         ],
         'clients' => [
             'provider' => 'clients',
+            'email' => 'auth.emails.password',
             'table' => 'password_resets',
             'expire' => 60,
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Login throttling
+    |--------------------------------------------------------------------------
+    |
+    | This handles the max failed login attempt throttling.
+    | You should not change the values here, but should change them in your
+    | application's .env file instead, as future changes to this file could
+    | overwrite your changes here.
+    |
+    */
+
+    'throttle' => [
+        'max_attempts' => env('LOGIN_MAX_ATTEMPTS', 10),
+        'lockout_duration' => env('LOGIN_LOCKOUT_DURATION', 60),
+    ],
 ];

@@ -7,36 +7,29 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ValidateTwoFactorRequest;
 use App\Libraries\Utils;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-    use AuthenticatesUsers;
-
+    use ThrottlesLogins;
 
     protected $username = 'username';
     protected $redirectTo = '/dashboard';
+
+    private $maxLoginAttempts;
+    private $lockoutTime;
 
 
     public function __construct()
@@ -45,10 +38,24 @@ class LoginController extends Controller
         Session::put('backUrl', URL::previous());
     }
 
-    /**
-     * @param Request $request
-     * @return Response
-     */
+    public function redirectTo()
+    {
+        return Session::get('backUrl') ? Session::get('backUrl') : $this->redirectTo;
+    }
+
+    public function username()
+    {
+        return 'username';
+    }
+
+    function showLoginForm(Request $request)
+    {
+        if (Auth::check()) {
+            return redirect()->intended('dashboard');
+        }
+        return view('auth.login');
+    }
+
     public function getLoginWrapper(Request $request)
     {
         if (auth()->check()) {
@@ -67,12 +74,8 @@ class LoginController extends Controller
                 return redirect()->to($loginURL);
             }
         }
-        return self::showLoginForm($request);
-    }
 
-    public function username()
-    {
-        return 'username';
+        return self::showLoginForm($request);
     }
 
     public function legacyAuthRedirect()
@@ -80,35 +83,17 @@ class LoginController extends Controller
         return redirect()->route('login');
     }
 
-    public function redirectTo()
-    {
-        return Session::get('backUrl') ? Session::get('backUrl') : $this->redirectTo;
-    }
-
-    /**
-     * Override the lockout time and duration
-     *
-     * @param Request $request
-     * @return bool
-     */
     protected function hasTooManyLoginAttempts(Request $request)
     {
         $lockoutTime = config('auth.throttle.lockout_duration');
         $maxLoginAttempts = config('auth.throttle.max_attempts');
 
         return $this->limiter()->tooManyAttempts(
-            $this->throttleKey($request),
-            $maxLoginAttempts,
-            $lockoutTime
+            $this->throttleKey($request), $maxLoginAttempts, $lockoutTime
         );
     }
 
-    /**
-     * Redirect the user after determining they are locked out.
-     *
-     * @param Request $request
-     * @return RedirectResponse
-     */
+
     protected function sendLockoutResponse(Request $request)
     {
         $seconds = $this->limiter()->availableIn(
@@ -117,64 +102,56 @@ class LoginController extends Controller
 
         $minutes = round($seconds / 60);
 
-        $message = Lang::get(trans('auth/message.throttle'), ['minutes' => $minutes]);
+        $message = Lang::get('auth/message.throttle', ['minutes' => $minutes]);
 
         return redirect()->back()
             ->withInput($request->only($this->username(), 'remember'))
             ->withErrors([$this->username() => $message]);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return Response
-     */
     public function postLoginWrapper(Request $request)
     {
-        $userId = auth()->check() ? auth()->user()->id : null;
-        $user = User::where('username', '=', $request->input('username'))->first();
-
-        if ($user && $user->failed_logins >= MAX_FAILED_LOGINS) {
-            session()->flash('error', trans('texts.invalid_credentials'));
-            return redirect()->to('login');
+        $validator = $this->validator($request->all());
+        dd($validator);
+        if ($validator->fails()) {
+            return redirect()->back()->withInput()->withErrors($validator);
         }
 
-        $response = self::login($request);
+        $this->maxLoginAttempts = config('auth.throttle.max_attempts');
+        $this->lockoutTime = config('auth.throttle.lockout_duration');
+        dd($this->maxLoginAttempts);
 
-        if (auth()->check()) {
-            /*
-            $users = false;
-            // we're linking a new account
-            if ($request->link_accounts && $userId && Auth::user()->id != $userId) {
-                $users = $this->accountRepo->associateAccounts($userId, Auth::user()->id);
-                Session::flash('message', trans('texts.associated_accounts'));
-                // check if other accounts are linked
-            } else {
-                $users = $this->accountRepo->loadAccounts(Auth::user()->id);
+        if ($lockedOut = $this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+            return $this->sendLockoutResponse($request);
+        }
+        dd($request->input('remember'));
+        $auth = Auth::attempt(['username' => $request->input('username'), 'password' => $request->input('password'), 'activated' => 1], $request->input('remember'));
+        if (!$auth) {
+            if (!$lockedOut) {
+                $this->incrementLoginAttempts($request);
             }
-            */
+            Log::debug("Authentication failed.");
+            return redirect()->back()->withInput()->with('error', trans('admin/auth/message.account_not_found'));
         } else {
-            $stacktrace = sprintf("%s %s %s %s\n", date('Y-m-d h:i:s'), $request->input('username'), $request->getClientIp(), array_get($_SERVER, 'HTTP_USER_AGENT'));
-            if (config('app.log') == 'single') {
-                file_put_contents(storage_path('logs/failed-logins.log'), $stacktrace, FILE_APPEND);
-            } else {
-                Utils::logError('[failed login] ' . $stacktrace);
-            }
-            if ($user) {
-                $user->failed_logins = $user->failed_logins + 1;
-                $user->save();
-            }
+            $this->clearLoginAttempts($request);
         }
-
-        return $response;
+        if ($user = Auth::user()) {
+            $user->last_login = Carbon::now();
+            $user->save();
+        }
+        // Redirect to the users page
+        return redirect()->intended()->with('success', trans('admin/auth/message.signin.success'));
     }
 
-    /**
-     * Get the failed login response instance.
-     *
-     * @param Request $request
-     * @return RedirectResponse
-     */
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+    }
+
     protected function sendFailedLoginResponse(Request $request)
     {
         return redirect()->back()
@@ -184,13 +161,6 @@ class LoginController extends Controller
             ]);
     }
 
-    /**
-     * Send the post-authentication response.
-     *
-     * @param Request $request
-     * @param Authenticatable $user
-     * @return Response
-     */
     private function authenticated(Request $request, Authenticatable $user)
     {
         if ($user->google_2fa_secret) {
@@ -213,10 +183,6 @@ class LoginController extends Controller
         return redirect()->intended($this->redirectTo);
     }
 
-    /**
-     *
-     * @return Response
-     */
     public function getValidateToken()
     {
         if (session('2fa:user:id')) {
@@ -226,11 +192,6 @@ class LoginController extends Controller
         return redirect('login');
     }
 
-    /**
-     *
-     * @param ValidateTwoFactorRequest $request
-     * @return Response
-     */
     public function postValidateToken(ValidateTwoFactorRequest $request)
     {
         //get user id and create cache key
@@ -257,10 +218,7 @@ class LoginController extends Controller
         return redirect()->intended($this->redirectTo);
     }
 
-    /**
-     * @param Request $request
-     * @return Response
-     */
+
     public function getLogoutWrapper(Request $request)
     {
         if (auth()->check() && !auth()->user()->username && !auth()->user()->registered) {

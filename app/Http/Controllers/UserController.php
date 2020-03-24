@@ -38,7 +38,7 @@ class UserController extends BaseController
     public function index()
     {
         return View::make('list_wrapper', [
-            'entityType' => ENTITY_USE,
+            'entityType' => ENTITY_USER,
             'datatable' => new UserDatatable(),
             'title' => trans('texts.users'),
         ]);
