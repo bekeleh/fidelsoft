@@ -5,33 +5,24 @@ namespace App\Models;
 use App\Events\VendorWasCreated;
 use App\Events\VendorWasDeleted;
 use App\Events\VendorWasUpdated;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Laracasts\Presenter\PresentableTrait;
 use App\Libraries\Utils;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
+use Laracasts\Presenter\PresentableTrait;
 
 /**
- * Class Vendor.
+ * Class Model Vendor.
  */
 class Vendor extends EntityModel
 {
     use PresentableTrait;
     use SoftDeletes;
 
-    /**
-     * @var string
-     */
+
     protected $presenter = 'App\Ninja\Presenters\VendorPresenter';
-    /**
-     * @var array
-     */
-    protected $dates = ['deleted_at'];
-    /**
-     * @var array
-     */
+
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+
     protected $fillable = [
         'name',
         'id_number',
@@ -51,46 +42,18 @@ class Vendor extends EntityModel
         'custom_value2',
     ];
 
-    /**
-     * @var string
-     */
+
     public static $fieldName = 'name';
-    /**
-     * @var string
-     */
     public static $fieldPhone = 'work_phone';
-    /**
-     * @var string
-     */
     public static $fieldAddress1 = 'address1';
-    /**
-     * @var string
-     */
     public static $fieldAddress2 = 'address2';
-    /**
-     * @var string
-     */
     public static $fieldCity = 'city';
-    /**
-     * @var string
-     */
     public static $fieldState = 'state';
-    /**
-     * @var string
-     */
     public static $fieldPostalCode = 'postal_code';
-    /**
-     * @var string
-     */
     public static $fieldNotes = 'notes';
-    /**
-     * @var string
-     */
     public static $fieldCountry = 'country';
 
-    /**
-     * @return array
-     */
+
     public static function getImportColumns()
     {
         return [
@@ -110,9 +73,7 @@ class Vendor extends EntityModel
         ];
     }
 
-    /**
-     * @return array
-     */
+
     public static function getImportMap()
     {
         return [
@@ -132,92 +93,56 @@ class Vendor extends EntityModel
         ];
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function account()
     {
         return $this->belongsTo('App\Models\Account');
     }
 
-    /**
-     * @return mixed
-     */
     public function user()
     {
         return $this->belongsTo('App\Models\User')->withTrashed();
     }
 
-    /**
-     * @return HasMany
-     */
     public function payments()
     {
         return $this->hasMany('App\Models\Payment');
     }
 
-    /**
-     * @return HasMany
-     */
     public function vendor_contacts()
     {
         return $this->hasMany('App\Models\VendorContact');
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function country()
     {
         return $this->belongsTo('App\Models\Country');
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function currency()
     {
         return $this->belongsTo('App\Models\Currency');
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function language()
     {
         return $this->belongsTo('App\Models\Language');
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function size()
     {
         return $this->belongsTo('App\Models\Size');
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function industry()
     {
         return $this->belongsTo('App\Models\Industry');
     }
 
-    /**
-     * @return HasMany
-     */
     public function expenses()
     {
         return $this->hasMany('App\Models\Expense', 'vendor_id', 'id');
     }
 
-    /**
-     * @param $data
-     * @param bool $isPrimary
-     *
-     * @return Model
-     */
     public function addVendorContact($data, $isPrimary = false)
     {
         $publicId = isset($data['public_id']) ? $data['public_id'] : (isset($data['id']) ? $data['id'] : false);
@@ -234,33 +159,22 @@ class Vendor extends EntityModel
         return $this->vendor_contacts()->save($contact);
     }
 
-    /**
-     * @return string
-     */
     public function getRoute()
     {
         return "/vendors/{$this->public_id}";
     }
 
-    /**
-     * @return mixed
-     */
+
     public function getName()
     {
         return $this->name;
     }
 
-    /**
-     * @return mixed
-     */
     public function getDisplayName()
     {
         return $this->getName();
     }
 
-    /**
-     * @return string
-     */
     public function getCityState()
     {
         $swap = $this->country && $this->country->swap_postal_code;
@@ -268,25 +182,16 @@ class Vendor extends EntityModel
         return Utils::cityStateZip($this->city, $this->state, $this->postal_code, $swap);
     }
 
-    /**
-     * @return string
-     */
     public function getEntityType()
     {
         return 'vendor';
     }
 
-    /**
-     * @return bool
-     */
     public function showMap()
     {
         return $this->hasAddress() && env('GOOGLE_MAPS_ENABLED') !== false;
     }
 
-    /**
-     * @return bool
-     */
     public function hasAddress()
     {
         $fields = [
@@ -307,9 +212,6 @@ class Vendor extends EntityModel
         return false;
     }
 
-    /**
-     * @return string
-     */
     public function getDateCreated()
     {
         if ($this->created_at == '0000-00-00 00:00:00') {
@@ -319,9 +221,6 @@ class Vendor extends EntityModel
         }
     }
 
-    /**
-     * @return mixed
-     */
     public function getCurrencyId()
     {
         if ($this->currency_id) {
@@ -335,9 +234,6 @@ class Vendor extends EntityModel
         return $this->account->currency_id ?: DEFAULT_CURRENCY;
     }
 
-    /**
-     * @return float|int
-     */
     public function getTotalExpenses()
     {
         return DB::table('expenses')

@@ -5,9 +5,9 @@ namespace App\Models;
 use App\Events\UserSettingsChanged;
 use App\Events\UserSignedUp;
 use App\Libraries\Utils;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Session;
 use Laracasts\Presenter\PresentableTrait;
@@ -15,11 +15,12 @@ use Laracasts\Presenter\PresentableTrait;
 /**
  * Class User.
  */
-class User extends Authenticatable
+class User extends EntityModel
 {
     use PresentableTrait;
     use SoftDeletes;
     use Notifiable;
+    use Authorizable, CanResetPassword;
 
 
     protected $presenter = 'App\Ninja\Presenters\UserPresenter';
@@ -262,6 +263,88 @@ class User extends Authenticatable
         return false;
     }
 
+    public function decodePermissions()
+    {
+        return json_decode($this->permissions, true);
+    }
+
+    public function decodeGroups()
+    {
+        return json_decode($this->groups, true);
+    }
+
+    public function hasAccess($section)
+    {
+        Log::debug($section);
+        if ($this->isSuperUser()) {
+            return true;
+        }
+        $user_groups = $this->groups;
+        if (($this->permissions === '') && (count($user_groups) == 0)) {
+            return false;
+        }
+
+        $user_permissions = json_decode($this->permissions, true);
+
+        if (($user_permissions != '') && ((array_key_exists($section, $user_permissions)) && ($user_permissions[$section] == '1'))) {
+            return true;
+        }
+        // If the user is explicitly denied, return false
+        if (($user_permissions == '') || (!array_key_exists($section, $user_permissions))) {
+            return false;
+        }
+        // Loop through the groups to see if any of them grant this permission
+        foreach ($user_groups as $user_group) {
+            $group_permissions = (array)json_decode($user_group->permissions, true);
+            if (((array_key_exists($section, $group_permissions)) && ($group_permissions[$section] == '1'))) {
+//                dd($section);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function isSuperUser()
+    {
+        // check if any permission exists
+        $user_permissions = (array)json_decode($this->permissions, true);
+        if (!$user_permissions || $user_permissions === '') {
+            return false;
+        }
+        // check pair of array_key and array_name
+        if ((array_key_exists('superuser', $user_permissions)) &&
+            ($user_permissions['superuser'] === '1')) {
+            return true;
+        }
+        // explicitly check user groups
+        foreach ($this->groups as $user_group) {
+            $group_permissions = (array)json_decode($user_group->permissions, true);
+            if ((array_key_exists('superuser', $group_permissions)) && ($group_permissions['superuser'] == '1')) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function groups()
+    {
+        return $this->belongsToMany('\App\Models\Group', 'users_groups', 'user_id', 'group_id');
+    }
+
+    public function accountStatus()
+    {
+        if ($this->throttle) {
+            if ($this->throttle->suspended === 1) {
+                return 'suspended';
+            } elseif ($this->throttle->banned === 1) {
+                return 'banned';
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 
     public function viewModel($model, $entityType)
     {
@@ -273,6 +356,10 @@ class User extends Authenticatable
             return false;
     }
 
+    public function throttle()
+    {
+        return $this->hasOne('\App\Models\Throttle');
+    }
 
     public function owns($entity)
     {
@@ -384,6 +471,31 @@ class User extends Authenticatable
         $values = array_fill(0, count($keys), true);
 
         return array_combine($keys, $values);
+    }
+
+    public function two_factor_active()
+    {
+        // If the 2FA is optional and the user has opted in
+        if ((Setting::getSettings()->two_factor_enabled == '1') && ($this->two_factor_option == '1')) {
+            return true;
+        } // If the 2FA is required for everyone so is implicitly active
+        elseif (Setting::getSettings()->two_factor_enabled == '2') {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function two_factor_active_and_enrolled()
+    {
+        // If the 2FA is optional and the user has opted in and is enrolled
+        if ((Setting::getSettings()->two_factor_enabled == '1') && ($this->two_factor_optin == '1') && ($this->two_factor_enrolled == '1')) {
+            return true;
+        } // If the 2FA is required for everyone and the user has enrolled
+        elseif ((Setting::getSettings()->two_factor_enabled == '2') && ($this->two_factor_enrolled)) {
+            return true;
+        }
+        return false;
     }
 }
 
