@@ -21,7 +21,7 @@ class SaleTypeRequest extends EntityRequest
             case 'POST':
             {
                 $this->validationData();
-                $rules['name'] = 'required|string|max:90|unique:sale_types,name,' . $this->id . ',account_id,' . $this->account_id;
+                $rules['name'] = 'required|string|max:90|unique:sale_types,name,' . $this->id . ',id,account_id,' . $this->account_id;
                 $rules['note'] = 'nullable';
                 $rules['is_deleted'] = 'boolean';
                 $rules['note'] = 'nullable';
@@ -31,7 +31,7 @@ class SaleTypeRequest extends EntityRequest
             case 'PATCH':
             {
                 $this->validationData();
-                $saleType = SaleType::where((int)request()->segment(2))->where('account_id', $this->account_id)->first();
+                $saleType = SaleType::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
                 if ($saleType) {
                     $rules['name'] = 'required|string|max:90|unique:sale_types,name,' . $saleType->id . ',id,account_id,' . $saleType->account_id;
                     $rules['is_deleted'] = 'boolean';

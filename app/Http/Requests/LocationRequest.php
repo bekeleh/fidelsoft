@@ -20,8 +20,8 @@ class LocationRequest extends EntityRequest
         switch ($this->method()) {
             case 'POST':
             {
-                $rules['name'] = 'required|max:90|unique:locations,name';
-                $rules['code'] = 'required|max:90|unique:locations,code';
+                $this->validationData();
+                $rules['name'] = 'required|max:90|unique:locations,name,' . $this->id . ',id,account_id,' . $this->account_id;
                 $rules['notes'] = 'nullable';
                 $rules['is_deleted'] = 'boolean';
                 $rules['notes'] = 'nullable';
@@ -30,10 +30,10 @@ class LocationRequest extends EntityRequest
             case 'PUT':
             case 'PATCH':
             {
-                $product = Location::where('public_id', (int)request()->segment(2))->first();
-                if ($product) {
-                    $rules['name'] = 'required|max:90|unique:locations,name,' . $product->id . ',id';
-                    $rules['code'] = 'required|max:90|unique:locations,code,' . $product->id . ',id';
+                $this->validationData();
+                $location = Location::where('public_id', (int)request()->segment(2))->where('account_id', $this)->first();
+                if ($location) {
+                    $rules['name'] = 'required|max:90|unique:locations,name,' . $location->id . ',id,account_id,' . $location->account_id;
                     $rules['is_deleted'] = 'boolean';
                     $rules['notes'] = 'nullable';
                     break;
@@ -58,5 +58,16 @@ class LocationRequest extends EntityRequest
         }
 
         $this->replace($input);
+    }
+
+    protected function validationData()
+    {
+        $input = $this->all();
+        if (count($input)) {
+            $this->request->add([
+                'account_id' => Location::getAccountId()
+            ]);
+        }
+        return $this->request->all();
     }
 }

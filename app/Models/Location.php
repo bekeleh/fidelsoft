@@ -19,7 +19,6 @@ class Location extends EntityModel
 
     protected $fillable = [
         'name',
-        'code',
         'notes',
         'created_by',
         'updated_by',
@@ -28,9 +27,7 @@ class Location extends EntityModel
     protected $hidden = [];
     protected $casts = [];
 
-    /**
-     * @return array
-     */
+
     public static function getImportColumns()
     {
         return [
@@ -40,20 +37,13 @@ class Location extends EntityModel
         ];
     }
 
-    /**
-     * @return array
-     */
     public static function getImportMap()
     {
         return [
             'name|Name' => 'name',
-            'location_code|code' => 'location_code',
         ];
     }
 
-    /**
-     * @return mixed
-     */
     public function getEntityType()
     {
         return ENTITY_LOCATION;
@@ -64,11 +54,6 @@ class Location extends EntityModel
         return strtoupper($this->name);
     }
 
-    /**
-     * @param $key
-     *
-     * @return mixed
-     */
     public static function findProductByKey($key)
     {
         return self::scope()->where('name', '=', $key)->first();
@@ -79,9 +64,6 @@ class Location extends EntityModel
         return $this->belongsTo('App\Models\Account', 'account_id')->withTrashed();
     }
 
-    /**
-     * @return mixed
-     */
     public function user()
     {
         return $this->belongsTo('App\Models\User')->withTrashed();
@@ -97,43 +79,19 @@ class Location extends EntityModel
         return $this->hasMany('App\Models\Store')->withTrashed();
     }
 
-    /**
-     * @return string
-     */
     public function getRoute()
     {
         return "/locations/{$this->public_id}";
     }
 
-    /**
-     * @return mixed
-     */
     public function getName()
     {
         return $this->name;
     }
 
-    /**
-     * @return mixed
-     */
     public function getDisplayName()
     {
         return $this->getName();
-    }
-
-    /**
-     * -----------------------------------------------
-     * BEGIN QUERY SCOPES
-     * -----------------------------------------------
-     * @param $query
-     * @param $date_from
-     * @param $date_to
-     * @return mixed
-     */
-
-    public function scopeDateBetween($query, $date_from, $date_to)
-    {
-        return $query->whereBetween('created_at', [$date_from, $date_to]);
     }
 
 }

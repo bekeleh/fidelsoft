@@ -27,7 +27,6 @@ class LocationRepository extends BaseRepository
                 'locations.id',
                 'locations.public_id',
                 'locations.name as location_name',
-                'locations.code as location_code',
                 'locations.is_deleted',
                 'locations.notes',
                 'locations.created_at',
@@ -41,7 +40,6 @@ class LocationRepository extends BaseRepository
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('locations.name', 'like', '%' . $filter . '%')
-                    ->orWhere('locations.code', 'like', '%' . $filter . '%')
                     ->orWhere('locations.notes', 'like', '%' . $filter . '%');
             });
         }
@@ -64,8 +62,8 @@ class LocationRepository extends BaseRepository
             $location->created_by = auth::user()->username;
         }
         $location->fill($data);
-        $location->name = isset($data['name']) ? ucwords(trim($data['name'])) : '';
-        $location->code = isset($data['code']) ? trim($data['code']) : '';
+        $location->name = isset($data['name']) ? ucwords(strtolower(trim($data['name']))) : '';
+
         $location->notes = isset($data['notes']) ? trim($data['notes']) : '';
         $location->save();
 

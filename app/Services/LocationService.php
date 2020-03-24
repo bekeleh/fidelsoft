@@ -5,60 +5,32 @@ namespace App\Services;
 use App\Libraries\Utils;
 use App\Ninja\Datatables\LocationDatatable;
 use App\Ninja\Repositories\LocationRepository;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use Exception;
 
 class LocationService extends BaseService
 {
-    /**
-     * @var DatatableService
-     */
+
     protected $datatableService;
 
-    /**
-     * @var LocationRepository
-     */
     protected $locationRepo;
 
-    /**
-     * ProductService constructor.
-     *
-     * @param DatatableService $datatableService
-     * @param LocationRepository $locationRepo
-     */
+
     public function __construct(DatatableService $datatableService, LocationRepository $locationRepo)
     {
         $this->datatableService = $datatableService;
         $this->locationRepo = $locationRepo;
     }
 
-    /**
-     * @return LocationRepository
-     */
     protected function getRepo()
     {
         return $this->locationRepo;
     }
 
-    /**
-     * @param $data
-     * @param null $location
-     *
-     * @return mixed|null
-     */
     public function save($data, $location = null)
     {
         return $this->locationRepo->save($data, $location);
     }
 
-    /**
-     * @param $accountId
-     * @param mixed $search
-     *
-     * @return JsonResponse
-     * @throws Exception
-     */
     public function getDatatable($accountId, $search)
     {
         $datatable = new LocationDatatable(true);

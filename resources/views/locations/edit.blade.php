@@ -5,7 +5,7 @@
     {!! Former::open($url)
             ->method($method)
             ->autocomplete('off')
-            ->rules(['name' => 'required|max:255'])
+            ->rules(['name' => 'required|max:255', 'notes' => 'required'])
             ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit')
              !!}
     <!-- Main content area-->
@@ -23,7 +23,6 @@
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
                     {!! Former::text('name')->label('texts.location_name') !!}
-                    {!! Former::text('code')->label('texts.location_code') !!}
                     {!! Former::textarea('notes')->rows(6) !!}
                 </div>
             </div>

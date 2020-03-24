@@ -23,12 +23,6 @@ class LocationDatatable extends EntityDatatable
                 },
             ],
             [
-                'location_code',
-                function ($model) {
-                    return $model->location_code;
-                },
-            ],
-            [
                 'notes',
                 function ($model) {
                     return $this->showWithTooltip($model->notes);
