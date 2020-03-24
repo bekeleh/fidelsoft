@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
- * Model Class Store.
+ * Class Model Store.
  */
 class HoldReason extends EntityModel
 {

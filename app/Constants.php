@@ -26,6 +26,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_TASK_STATUS', 'task_status');
     define('ENTITY_ACCOUNT_GATEWAY', 'account_gateway');
     define('ENTITY_USER', 'user');
+    define('ENTITY_GROUP', 'group');
     define('ENTITY_TOKEN', 'token');
     define('ENTITY_TAX_RATE', 'tax_rate');
     define('ENTITY_PRODUCT', 'product');
@@ -80,6 +81,8 @@ if (!defined('APP_NAME')) {
         ENTITY_SALE_TYPE,
         ENTITY_REPORT,
         ENTITY_TASK,
+        ENTITY_USER,
+        ENTITY_GROUP,
         ENTITY_HOLD_REASON,
         ENTITY_TAX_RATE,
         ENTITY_VENDOR,
@@ -126,6 +129,8 @@ if (!defined('APP_NAME')) {
     define('ACCOUNT_STORES', 'stores');
     define('ACCOUNT_PRICES', 'item_prices');
     define('ACCOUNT_UNIT', 'units');
+    define('ACCOUNT_USER', 'users');
+    define('ACCOUNT_GROUP', 'groups');
     define('ACCOUNT_ADVANCED_SETTINGS', 'advanced_settings');
     define('ACCOUNT_INVOICE_SETTINGS', 'invoice_settings');
     define('ACCOUNT_INVOICE_DESIGN', 'invoice_design');
