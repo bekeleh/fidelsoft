@@ -20,7 +20,8 @@ class SaleTypeRequest extends EntityRequest
         switch ($this->method()) {
             case 'POST':
             {
-                $rules['name'] = 'required|string|max:90|unique:sale_types,name';
+                $this->validationData();
+                $rules['name'] = 'required|string|max:90|unique:sale_types,name,' . $this->id . ',account_id,' . $this->account_id;
                 $rules['note'] = 'nullable';
                 $rules['is_deleted'] = 'boolean';
                 $rules['note'] = 'nullable';
@@ -29,9 +30,10 @@ class SaleTypeRequest extends EntityRequest
             case 'PUT':
             case 'PATCH':
             {
+                $this->validationData();
                 $saleType = SaleType::find((int)request()->segment(2));
                 if ($saleType) {
-                    $rules['name'] = 'required|string|max:90|unique:sale_types,name,' . $saleType->id . ',id';
+                    $rules['name'] = 'required|string|max:90|unique:sale_types,name,' . $saleType->id . ',id,account_id,' . $saleType->account_id;
                     $rules['is_deleted'] = 'boolean';
                     $rules['note'] = 'nullable';
                     break;
@@ -56,5 +58,17 @@ class SaleTypeRequest extends EntityRequest
         }
 
         $this->replace($input);
+    }
+
+    protected function validationData()
+    {
+        $input = $this->all();
+
+        if (count($input)) {
+            $this->request->add([
+                'account_id' => SaleType::getAccountId()
+            ]);
+        }
+        return $this->request->all();
     }
 }
