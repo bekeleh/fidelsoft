@@ -1,0 +1,2 @@
+2020-03-24 03:47:52 Trait method can has not been applied, because there are collisions with other trait methods on App\Models\User: #0 {main}
+

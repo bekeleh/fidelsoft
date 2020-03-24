@@ -5,7 +5,10 @@ namespace App\Models;
 use App\Events\UserSettingsChanged;
 use App\Events\UserSignedUp;
 use App\Libraries\Utils;
+use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
@@ -15,12 +18,13 @@ use Laracasts\Presenter\PresentableTrait;
 /**
  * Class User.
  */
-class User extends EntityModel
+class User extends EntityModel implements AuthenticatableContract, CanResetPasswordContract
 {
     use PresentableTrait;
     use SoftDeletes;
     use Notifiable;
     use Authorizable, CanResetPassword;
+    use Authenticatable, Authorizable, CanResetPassword;
 
 
     protected $presenter = 'App\Ninja\Presenters\UserPresenter';

@@ -8,7 +8,6 @@ use App\Http\Requests\ValidateTwoFactorRequest;
 use App\Libraries\Utils;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -112,21 +111,21 @@ class LoginController extends Controller
     public function postLoginWrapper(Request $request)
     {
         $validator = $this->validator($request->all());
-        dd($validator);
+
         if ($validator->fails()) {
             return redirect()->back()->withInput()->withErrors($validator);
         }
 
         $this->maxLoginAttempts = config('auth.throttle.max_attempts');
         $this->lockoutTime = config('auth.throttle.lockout_duration');
-        dd($this->maxLoginAttempts);
 
         if ($lockedOut = $this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
             return $this->sendLockoutResponse($request);
         }
-        dd($request->input('remember'));
-        $auth = Auth::attempt(['username' => $request->input('username'), 'password' => $request->input('password'), 'activated' => 1], $request->input('remember'));
+
+        $auth = Auth::attempt(['username' => $request->input('username'), 'password' => $request->input('password'), 'activated' => 1]);
+        dd($auth);
         if (!$auth) {
             if (!$lockedOut) {
                 $this->incrementLoginAttempts($request);
