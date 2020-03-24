@@ -9,6 +9,7 @@
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     @if ($itemStore)
         {{ Former::populate($itemStore) }}
+        {{ Former::populateField('qty','0.00') }}
         <div style="display:none">
             {!! Former::text('public_id') !!}
         </div>

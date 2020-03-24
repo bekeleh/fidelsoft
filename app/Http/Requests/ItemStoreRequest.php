@@ -100,7 +100,7 @@ class ItemStoreRequest extends EntityRequest
             $this->request->add([
                 'product_id' => $input['product_id'],
                 'store_id' => $input['store_id'],
-                'account_id' => Product::getAccountId()
+                'account_id' => ItemStore::getAccountId()
             ]);
         }
         return $this->request->all();

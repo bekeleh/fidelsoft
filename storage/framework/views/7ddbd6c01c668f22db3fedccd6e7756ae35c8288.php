@@ -9,6 +9,8 @@
     <?php if($itemStore): ?>
         <?php echo e(Former::populate($itemStore)); ?>
 
+        <?php echo e(Former::populateField('qty','0.00')); ?>
+
         <div style="display:none">
             <?php echo Former::text('public_id'); ?>
 

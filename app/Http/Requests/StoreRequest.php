@@ -22,7 +22,7 @@ class StoreRequest extends EntityRequest
             case 'POST':
             {
                 $this->validationData();
-                $rules['name'] = 'required|max:90|unique:stores,name,' . $this->id . ',account_id,' . $this->account_id;
+                $rules['name'] = 'required|max:90|unique:stores,name,' . $this->id . ',id,account_id,' . $this->account_id;
                 $rules['store_code'] = 'required|max:90|unique:stores,store_code';
                 $rules['location_id'] = 'numeric';
                 $rules['notes'] = 'nullable';

@@ -111,7 +111,7 @@ class ItemPriceRequest extends EntityRequest
                 'sale_type_id' => $input['sale_type_id'],
                 'start_date' => $input['start_date'],
                 'end_date' => $input['end_date'],
-                'account_id' => Product::getAccountId(),
+                'account_id' => ItemPrice::getAccountId(),
             ]);
         }
         return $this->request->all();

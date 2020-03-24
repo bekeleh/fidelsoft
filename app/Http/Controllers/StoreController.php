@@ -29,11 +29,6 @@ class StoreController extends BaseController
         $this->storeService = $storeService;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
     public function index()
     {
         return View::make('list_wrapper', [
@@ -52,7 +47,9 @@ class StoreController extends BaseController
 
     public function getDatatable($storePublicId = null)
     {
-        return $this->storeService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
+        $search = Input::get('sSearch');
+        $accountId = Auth::user()->account_id;
+        return $this->storeService->getDatatable($accountId, $search);
     }
 
     public function getDatatableLocation($locationPublicId = null)
@@ -80,6 +77,15 @@ class StoreController extends BaseController
         $data = array_merge($data, self::getViewModel());
 
         return View::make('stores.edit', $data);
+    }
+
+    public function store(StoreRequest $request)
+    {
+        $data = $request->input();
+
+        $store = $this->storeService->save($data);
+
+        return redirect()->to("stores/{$store->public_id}/edit")->with('success', trans('texts.created_store'));
     }
 
     public function edit(StoreRequest $request, $publicId = false, $clone = false)
@@ -118,7 +124,7 @@ class StoreController extends BaseController
         $store = $this->storeService->save($data, $request->entity());
 
         $action = Input::get('action');
-        if (in_array($action, ['archive', 'delete', 'restore', 'invoice', 'add_to_invoice'])) {
+        if (in_array($action, ['archive', 'delete', 'restore'])) {
             return self::bulk();
         }
 
@@ -127,15 +133,6 @@ class StoreController extends BaseController
         } else {
             return redirect()->to("stores/{$store->public_id}/edit")->with('success', trans('texts.updated_store'));
         }
-    }
-
-    public function store(StoreRequest $request)
-    {
-        $data = $request->input();
-
-        $store = $this->storeService->save($data);
-
-        return redirect()->to("stores/{$store->public_id}/edit")->with('success', trans('texts.created_store'));
     }
 
     public function bulk()

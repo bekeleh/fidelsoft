@@ -20,10 +20,11 @@ class UserRequest extends EntityRequest
         switch ($this->method()) {
             case 'POST':
             {
+                $this->validationData();
                 $rules['first_name'] = 'required|max:50';
                 $rules['last_name'] = 'required|max:50';
-                $rules['username'] = 'required|max:50|unique:users,username';
-                $rules['email'] = 'required|email|max:50|unique:users,email';
+                $rules['username'] = 'required|max:50|unique:users,username,' . $this->id . ',id,account_id,' . $this->account_id;
+                $rules['email'] = 'required|email|max:50|unique:users,email' . $this->id . ',id,account_id,' . $this->account_id;
                 $rules['notes'] = 'nullable';
                 $rules['is_deleted'] = 'boolean';
                 $rules['notes'] = 'nullable';
@@ -32,12 +33,13 @@ class UserRequest extends EntityRequest
             case 'PUT':
             case 'PATCH':
             {
-                $user = User::where('public_id', (int)request()->segment(2))->first();
+                $this->validationData();
+                $user = User::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
                 if ($user) {
                     $rules['first_name'] = 'required|max:50';
                     $rules['last_name'] = 'required|max:50';
-                    $rules['username'] = 'required|max:50|unique:users,username,' . $user->id . ',id';
-                    $rules['email'] = 'required|email|max:50|unique:users,email';
+                    $rules['username'] = 'required|max:50|unique:users,username,' . $user->id . ',id,account_id,' . $user->account_id;
+                    $rules['email'] = 'required|email|max:50|unique:users,email,' . $user->id . ',id,account_id,' . $user->account_id;
                     $rules['is_deleted'] = 'boolean';
                     $rules['notes'] = 'nullable';
                     break;
@@ -71,5 +73,16 @@ class UserRequest extends EntityRequest
         }
 
         $this->replace($input);
+    }
+
+    public function validationData()
+    {
+        $input = $this->input();
+        if (count($input)) {
+            $this->request->add([
+                'account_id' => User::getAccountId(),
+            ]);
+        }
+        return $this->request->all();
     }
 }

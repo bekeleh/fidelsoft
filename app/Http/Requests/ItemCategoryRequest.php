@@ -63,15 +63,9 @@ class ItemCategoryRequest extends EntityRequest
     {
         $input = $this->input();
         if (count($input)) {
-            $unit = ItemCategory::createNew();
-            if (!empty($unit)) {
-                $input['account_id'] = $unit->account_id;
-            }
-            if (!empty($input['account_id'])) {
-                $this->request->add([
-                    'account_id' => $input['account_id']
-                ]);
-            }
+            $this->request->add([
+                'account_id' => ItemCategory::getAccountId(),
+            ]);
         }
         return $this->request->all();
     }
