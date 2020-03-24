@@ -138,7 +138,7 @@ class DatatableService
             if (!empty($dropdown_contents)) {
                 $str .= '<div class="btn-group tr-action" style="height:auto;display:none">
                     <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown" style="width:100px">
-                        ' . trans('texts.select') . ' <span class="caret"></span>
+                        ' . trans('texts.select') . ' <span class="HARONt"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">';
                 $str .= $dropdown_contents . '</ul>';

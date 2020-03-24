@@ -45,8 +45,6 @@
     <input id="tableFilter_{{ $entityType }}" type="text"
            style="width:180px;margin-right:17px;background-color: white !important"
            class="form-control pull-left" placeholder="{{ trans('texts.filter') }}" value="{{ Input::get('filter') }}"/>
-    <!-- navigation menu -->
-    @include('menu')
     @if ($entityType == ENTITY_PROPOSAL)
         {!! DropdownButton::normal(trans('texts.proposal_templates'))
         ->withAttributes(['class'=>'templatesDropdown'])
@@ -125,6 +123,8 @@
         ))
         ->appendIcon(Icon::create('plus-sign')) !!}
     @endif
+<!-- navigation menu -->
+    {{--    @include('menu')--}}
 </div>
 
 {!! Datatable::table()

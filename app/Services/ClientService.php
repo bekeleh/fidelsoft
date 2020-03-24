@@ -53,24 +53,16 @@ class ClientService extends BaseService
         if (Auth::user()->account->isNinjaAccount() && isset($data['plan'])) {
             $this->ninjaRepo->updatePlanDetails($data['public_id'], $data);
         }
-        if ($client) {
-            if (!empty($data['sale_type_id'])) {
-                $data['sale_type_id'] = SaLeType::getPrivateId($data['sale_type_id']);
-            }
-            if (!empty($data['hold_reason_id'])) {
-                $data['hold_reason_id'] = HoldReason::getPrivateId($data['hold_reason_id']);
-            }
-        }
-        dd($data);
+
         return $this->clientRepo->save($data, $client);
     }
 
 
-    public function getDatatable($search, $userId)
+    public function getDatatable($search, $accountId)
     {
         $datatable = new ClientDatatable();
 
-        $query = $this->clientRepo->find($search, $userId);
+        $query = $this->clientRepo->find($search, $accountId);
 
         return $this->datatableService->createDatatable($datatable, $query);
     }

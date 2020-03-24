@@ -16,14 +16,11 @@
                 border-color: #ddd;
             }
         </style>
-
         <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}"></script>
     @endif
 @stop
 
-
 @section('content')
-
     <div class="row">
         <div class="col-md-7">
             <ol class="breadcrumb">
@@ -45,7 +42,7 @@
                             ->withAttributes(['target' => '_blank']) !!}
                 @endif
 
-                @if ( ! $client->is_deleted)
+                @if (!$client->is_deleted)
                     @can('edit', $client)
                         {!! DropdownButton::normal(trans('texts.edit_client'))
                             ->withAttributes(['class'=>'normalDropDown'])
@@ -57,7 +54,7 @@
                             ]
                           )->split() !!}
                     @endcan
-                    @if ( ! $client->trashed())
+                    @if (!$client->trashed())
                         @can('create', ENTITY_INVOICE)
                             {!! DropdownButton::primary(trans('texts.view_statement'))
                                     ->withAttributes(['class'=>'primaryDropDown'])
@@ -65,7 +62,6 @@
                         @endcan
                     @endif
                 @endif
-
                 @if ($client->trashed())
                     @can('edit', $client)
                         @if (auth()->user()->is_admin && $client->is_deleted)
@@ -74,24 +70,19 @@
                                     ->withAttributes(['onclick' => 'onPurgeClick()']) !!}
                         @endif
                         {!! Button::primary(trans('texts.restore_client'))
-                                ->appendIcon(Icon::create('cloud-download'))
+                                ->appendIcon(Icon::create('retweet'))
                                 ->withAttributes(['onclick' => 'onRestoreClick()']) !!}
                     @endcan
                 @endif
-
-
                 {!! Former::close() !!}
-
             </div>
         </div>
     </div>
-
     @if ($client->last_login > 0)
         <h3 style="margin-top:0px"><small>
                 {{ trans('texts.last_logged_in') }} {{ Utils::timestampToDateTimeString(strtotime($client->last_login)) }}
             </small></h3>
     @endif
-
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="row">
@@ -124,15 +115,12 @@
                     @endif
 
                     <p/>
-
                     @if ($client->public_notes)
                         <p><i>{!! nl2br(e($client->public_notes)) !!}</i></p>
                     @endif
-
                     @if ($client->private_notes)
                         <p><i>{!! nl2br(e($client->private_notes)) !!}</i></p>
                     @endif
-
                     @if ($client->industry || $client->size)
                         @if ($client->industry)
                             {{ $client->industry->name }}
@@ -144,35 +132,41 @@
                             {{ $client->size->name }}<br/>
                         @endif
                     @endif
-
                     @if ($client->website)
                         <p>{!! Utils::formatWebsite($client->website) !!}</p>
                     @endif
-
                     @if ($client->language)
                         <p><i class="fa fa-language" style="width: 20px"></i>{{ $client->language->name }}</p>
                     @endif
-
                     <p>{{ $client->present()->paymentTerms }}</p>
-
+                    <!--- client sale type -->
+                    <h4>{{ trans('texts.sale_type') }}</h4>
+                    @if (isset($client->saleType))
+                        @if(Auth::user()->can('create', ENTITY_SALE_TYPE))
+                            <a href="{{URL('/sale_types').'/'.$client->saleType->id}}">{!! $client->saleType->name !!}</a>
+                        @else
+                            {!! $client->saleType->name !!}
+                        @endif
+                    @else
+                        <p>Client sale type not yet defined.</p>
+                    @endif
+                <!--- client hold reason -->
+                    <h4>{{ trans('texts.hold_reason') }}</h4>
+                    @if (isset($client->holdReason))
+                        @if(Auth::user()->can('create', ENTITY_HOLD_REASON))
+                            <a href="{{URL('/hold_reasons').'/'.$client->holdReason->id}}">{!! $client->holdReason->name !!}</a>
+                        @else
+                            {!! $client->holdReason->name !!}
+                        @endif
+                    @else
+                        <p>Client hold reason not yet defined.</p>
+                    @endif
                     <div class="text-muted" style="padding-top:8px">
                         @if ($client->show_tasks_in_portal)
                             • {{ trans('texts.can_view_tasks') }}<br/>
                         @endif
                         @if ($client->account->hasReminders() && ! $client->send_reminders)
                             • {{ trans('texts.is_not_sent_reminders') }}</br>
-                        @endif
-                    </div>
-                    <div class="text-muted" style="padding-top:8px">
-                        <h3>{{ trans('texts.sale_type') }}</h3>
-                        @if (isset($client->saleType))
-                            @if(Auth::user()->can('create', ENTITY_SALE_TYPE))
-                                <a href="{{URL('/sale_types').'/'.$client->saleType->id}}">{!! $client->saleType->name !!}</a>
-                            @else
-                                {!! $client->saleType->name !!}
-                            @endif
-                        @else
-                            <p>Client sale type not yet defined.</p>
                         @endif
                     </div>
                 </div>

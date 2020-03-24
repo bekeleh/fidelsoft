@@ -52,7 +52,9 @@ class ProductController extends BaseController
 
     public function getDatatable()
     {
-        return $this->productService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
+        $account = Auth::user()->account_id;
+        $search = Input::get('sSearch');
+        return $this->productService->getDatatable($account, $search);
     }
 
     public function getDatatableItemCategory($itemCategoryPublicId = null)
@@ -132,6 +134,7 @@ class ProductController extends BaseController
     public function store(ProductRequest $request)
     {
         $data = $request->input();
+
         $product = $this->productService->save($data);
 
         return redirect()->to("products/{$product->public_id}/edit")->with('success', trans('texts.created_product'));
@@ -140,6 +143,7 @@ class ProductController extends BaseController
     public function update(ProductRequest $request)
     {
         $data = $request->input();
+
         $product = $this->productService->save($data, $request->entity());
 
         $action = Input::get('action');
@@ -176,9 +180,6 @@ class ProductController extends BaseController
         return self::edit($request, $publicId, true);
     }
 
-    /**
-     * @return RedirectResponse
-     */
     public function bulk()
     {
         $action = Input::get('action');

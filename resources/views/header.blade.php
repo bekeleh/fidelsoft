@@ -364,7 +364,7 @@
                        class="form-control"
                        placeholder="{{ trans('texts.search') . ': ' . trans('texts.search_hotkey')}}"/>
                 @if (env('SPEECH_ENABLED'))
-                    @include('partials/speech_recognition')
+{{--                    @include('partials/speech_recognition')--}}
                 @endif
             </div>
             {!! Former::close() !!}

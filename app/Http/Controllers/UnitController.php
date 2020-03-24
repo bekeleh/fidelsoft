@@ -28,11 +28,6 @@ class UnitController extends BaseController
         $this->unitService = $unitService;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
     public function index()
     {
         return View::make('list_wrapper', [
@@ -95,19 +90,11 @@ class UnitController extends BaseController
         return View::make('units.edit', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param UnitRequest $request
-     * @return Response
-     */
     public function update(UnitRequest $request)
     {
         $data = $request->input();
 
         $unit = $this->unitService->save($data, $request->entity());
-
-        Session::flash('message', trans('texts.updated_unit'));
 
         $action = Input::get('action');
         if (in_array($action, ['archive', 'delete', 'restore', 'invoice', 'add_to_invoice'])) {
@@ -115,33 +102,32 @@ class UnitController extends BaseController
         }
 
         if ($action == 'clone') {
-            return redirect()->to(sprintf('units/%s/clone', $unit->public_id));
+            return redirect()->to(sprintf('units/%s/clone', $unit->public_id))->with('message', trans('texts.clone_unit'));
         } else {
-            return redirect()->to("units/{$unit->public_id}/edit");
+            return redirect()->to("units/{$unit->public_id}/edit")->with('message', trans('texts.updated_unit'));
         }
     }
 
     public function store(UnitRequest $request)
     {
         $data = $request->input();
+
         $unit = $this->unitService->save($data);
 
-        Session::flash('message', trans('texts.created_unit'));
-
-        return redirect()->to("units/{$unit->public_id}/edit");
+        return redirect()->to("units/{$unit->public_id}/edit")->with('message', trans('texts.created_unit'));
     }
 
     public function bulk()
     {
         $action = Input::get('action');
+
         $ids = Input::get('public_id') ? Input::get('public_id') : Input::get('ids');
 
         $count = $this->unitService->bulk($ids, $action);
 
         $message = Utils::pluralize($action . 'd_unit', $count);
-        Session::flash('message', $message);
 
-        return $this->returnBulk(ENTITY_UNIT, $action, $ids);
+        return $this->returnBulk(ENTITY_UNIT, $action, $ids)->with('message', $message);
     }
 
     public function cloneUnit(UnitRequest $request, $publicId)

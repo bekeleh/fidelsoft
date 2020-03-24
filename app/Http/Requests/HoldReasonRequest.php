@@ -20,7 +20,8 @@ class HoldReasonRequest extends EntityRequest
         switch ($this->method()) {
             case 'POST':
             {
-                $rules['name'] = 'required|max:90|unique:hold_reasons,name';
+                $this->validationData();
+                $rules['name'] = 'required|max:90|unique:hold_reasons,name,' . $this->id . ',id,account_id,' . $this->account_id;
                 $rules['notes'] = 'nullable';
                 $rules['is_deleted'] = 'boolean';
                 break;
@@ -28,9 +29,10 @@ class HoldReasonRequest extends EntityRequest
             case 'PUT':
             case 'PATCH':
             {
-                $holdReason = HoldReason::where('public_id', (int)request()->segment(2))->first();
+                $this->validationData();
+                $holdReason = HoldReason::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
                 if ($holdReason) {
-                    $rules['name'] = 'required|max:90|unique:hold_reasons,name,' . $holdReason->id . ',id';
+                    $rules['name'] = 'required|max:90|unique:hold_reasons,name,' . $holdReason->id . ',id,account_id,' . $holdReason->account_id;
                     $rules['is_deleted'] = 'boolean';
                     $rules['notes'] = 'nullable';
                     break;
@@ -55,5 +57,17 @@ class HoldReasonRequest extends EntityRequest
         }
 
         $this->replace($input);
+    }
+
+    protected function validationData()
+    {
+        $input = $this->all();
+
+        if (count($input)) {
+            $this->request->add([
+                'account_id' => HoldReason::getAccountId()
+            ]);
+        }
+        return $this->request->all();
     }
 }

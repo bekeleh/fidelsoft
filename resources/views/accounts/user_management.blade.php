@@ -5,7 +5,7 @@
     @include('accounts.nav', ['selected' => ACCOUNT_USER_MANAGEMENT, 'advanced' => true])
 
     @if (Utils::hasFeature(FEATURE_USERS))
-        @if (Auth::user()->caddAddUsers())
+        @if (Auth::user()->canAddUsers())
             <div class="pull-right">
                 {!! Button::primary(trans('texts.add_user'))->asLinkTo(URL::to('/users/create'))->appendIcon(Icon::create('plus-sign')) !!}
             </div>

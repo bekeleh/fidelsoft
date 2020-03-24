@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Unit;
+use Illuminate\Support\Facades\Auth;
 
 class UnitRequest extends EntityRequest
 {
@@ -20,7 +21,8 @@ class UnitRequest extends EntityRequest
         switch ($this->method()) {
             case 'POST':
             {
-                $rules['name'] = 'required|max:90|unique:units,name';
+                $this->validationData();
+                $rules['name'] = 'required|max:90|unique:units,name,' . $this->id . ',id,account_id,' . $this->account_id;
                 $rules['notes'] = 'nullable';
                 $rules['is_deleted'] = 'boolean';
                 break;
@@ -30,7 +32,7 @@ class UnitRequest extends EntityRequest
             {
                 $itemCategory = Unit::where('public_id', (int)request()->segment(2))->first();
                 if ($itemCategory) {
-                    $rules['name'] = 'required|max:90|unique:units,name,' . $itemCategory->id . ',id';
+                    $rules['name'] = 'required|max:90|unique:units,name,' . $itemCategory->id . ',id,account_id,' . $itemCategory->account_id;
                     $rules['is_deleted'] = 'boolean';
                     $rules['notes'] = 'nullable';
                     break;
@@ -55,5 +57,22 @@ class UnitRequest extends EntityRequest
         }
 
         $this->replace($input);
+    }
+
+    public function validationData()
+    {
+        $input = $this->input();
+        if (count($input)) {
+            $unit = Unit::createNew();
+            if (!empty($unit)) {
+                $input['account_id'] = $unit->account_id;
+            }
+            if (!empty($input['account_id'])) {
+                $this->request->add([
+                    'account_id' => $input['account_id']
+                ]);
+            }
+        }
+        return $this->request->all();
     }
 }

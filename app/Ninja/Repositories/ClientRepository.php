@@ -7,6 +7,7 @@ use App\Events\ClientWasUpdated;
 use App\Jobs\PurgeClientData;
 use App\Models\Client;
 use App\Models\Contact;
+use App\Models\HoldReason;
 use App\Models\SaleType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -28,16 +29,16 @@ class ClientRepository extends BaseRepository
             ->get();
     }
 
-    public function find($filter = null, $userId = false)
+    public function find($accountId = false, $filter = null)
     {
         $query = DB::table('clients')
             ->join('accounts', 'accounts.id', '=', 'clients.account_id')
             ->join('contacts', 'contacts.client_id', '=', 'clients.id')
             ->join('sale_types', 'sale_types.id', '=', 'clients.sale_type_id')
             ->join('hold_reasons', 'hold_reasons.id', '=', 'clients.hold_reason_id')
-            ->where('clients.account_id', '=', Auth::user()->account_id)
+            ->where('clients.account_id', '=', $accountId)
             ->where('contacts.is_primary', '=', true)
-            ->where('contacts.deleted_at', '=', null)
+//            ->where('contacts.deleted_at', '=', null)
             //->whereRaw('(clients.name != "" or contacts.first_name != "" or contacts.last_name != "" or contacts.email != "")') // filter out buy now invoices
             ->select(
                 DB::raw('COALESCE(clients.currency_id, accounts.currency_id) currency_id'),
@@ -62,8 +63,6 @@ class ClientRepository extends BaseRepository
                 'hold_reasons.name as hold_reason'
             );
 
-        $this->applyFilters($query, ENTITY_CLIENT);
-
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('clients.name', 'like', '%' . $filter . '%')
@@ -76,9 +75,7 @@ class ClientRepository extends BaseRepository
             });
         }
 
-        if ($userId) {
-            $query->where('clients.user_id', '=', $userId);
-        }
+        $this->applyFilters($query, ENTITY_CLIENT);
 
         return $query;
     }
@@ -111,9 +108,12 @@ class ClientRepository extends BaseRepository
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
 
         if ($client) {
-            // do nothing
+            $client->updated_by = Auth::user()->username;
+
         } elseif (!$publicId || intval($publicId) < 0) {
             $client = Client::createNew();
+            $client->created_by = Auth::user()->username;
+
         } else {
             $client = Client::scope($publicId)->with('contacts')->firstOrFail();
         }
@@ -164,10 +164,9 @@ class ClientRepository extends BaseRepository
         if (auth()->check() && !isset($data['payment_terms'])) {
             $data['payment_terms'] = auth()->user()->account->payment_terms;
         }
-
         $client->fill($data);
+        $client->name = isset($data['name']) ? ucwords(strtolower(trim($data['name']))) : '';
         $client->save();
-
         /*
         if ( ! isset($data['contact']) && ! isset($data['contacts'])) {
             return $client;

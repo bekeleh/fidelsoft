@@ -122,6 +122,32 @@ class EntityModel extends Eloquent
         }
     }
 
+    public static function getAccountId($context = null)
+    {
+        $className = get_called_class();
+        $entity = new $className();
+
+        if ($context) {
+            $user = $context instanceof User ? $context : $context->user;
+            $account = $context->account;
+        } elseif (Auth::check()) {
+            $user = Auth::user();
+            $account = Auth::user()->account;
+        } else {
+            Utils::fatalError();
+        }
+
+        $entity->user_id = $user->id;
+        $entity->account_id = $account->id;
+
+        if (static::$hasPublicId) {
+            $entity->public_id = static::getNextPublicId($entity->account_id);
+        }
+
+        return $entity->account_id;
+
+    }
+
     public function getActivityKey()
     {
         return '[' . $this->getEntityType() . ':' . $this->public_id . ':' . $this->getDisplayName() . ']';
@@ -186,11 +212,9 @@ class EntityModel extends Eloquent
 
     public function scopeWithActiveOrSelected($query, $id = false)
     {
-        return $query->withTrashed()
-            ->where(function ($query) use ($id) {
-                $query->whereNull('deleted_at')
-                    ->orWhere('id', '=', $id);
-            });
+        return $query->withTrashed()->where(function ($query) use ($id) {
+            $query->whereNull('deleted_at')->orWhere('id', '=', $id);
+        });
     }
 
     public function scopeWithArchived($query)

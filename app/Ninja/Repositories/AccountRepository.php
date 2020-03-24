@@ -280,6 +280,7 @@ class AccountRepository
             ENTITY_RECURRING_INVOICE,
             ENTITY_PAYMENT,
             ENTITY_CREDIT,
+            ENTITY_PRODUCT,
             ENTITY_PROJECT,
             ENTITY_PROPOSAL,
             ENTITY_SALE_TYPE,
@@ -296,24 +297,21 @@ class AccountRepository
 
         foreach ($entityTypes as $entityType) {
             $features[] = [
-                "new_{$entityType}",
-                Utils::pluralizeEntityType($entityType) . '/create',
+                "new_{$entityType}", Utils::pluralizeEntityType($entityType) . '/create',
             ];
             $features[] = [
-                'list_' . Utils::pluralizeEntityType($entityType),
-                Utils::pluralizeEntityType($entityType),
+                'list_' . Utils::pluralizeEntityType($entityType), Utils::pluralizeEntityType($entityType),
             ];
         }
-
+//        ['new_tax_rate', '/tax_rates/create'],
+//        ['new_product', '/products/create'],
+//        ['new_user', '/users/create'],
         $features = array_merge($features, [
             ['dashboard', '/dashboard'],
             ['reports', '/reports'],
             ['calendar', '/calendar'],
             ['kanban', '/tasks/kanban'],
             ['customize_design', '/settings/customize_design'],
-            ['new_tax_rate', '/tax_rates/create'],
-            ['new_product', '/products/create'],
-            ['new_user', '/users/create'],
             ['custom_fields', '/settings/invoice_settings'],
             ['invoice_number', '/settings/invoice_settings'],
             ['buy_now_buttons', '/settings/client_portal#buy_now'],
@@ -328,8 +326,7 @@ class AccountRepository
 
         foreach ($settings as $setting) {
             $features[] = [
-                $setting,
-                "/settings/{$setting}",
+                $setting, "/settings/{$setting}",
             ];
         }
 

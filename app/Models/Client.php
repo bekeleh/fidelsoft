@@ -5,10 +5,8 @@ namespace App\Models;
 use App\Libraries\Utils;
 use App\Models\Traits\HasCustomMessages;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Laracasts\Presenter\PresentableTrait;
 
@@ -239,10 +237,11 @@ class Client extends EntityModel
         // always created even if the request includes a contact id
         if (!$this->wasRecentlyCreated && $publicId && intval($publicId) > 0) {
             $contact = Contact::scope($publicId)->whereClientId($this->id)->firstOrFail();
+            $contact->updated_by = Auth::user()->username;
         } else {
             $contact = Contact::createNew();
             $contact->send_invoice = true;
-
+            $contact->created_by = Auth::user()->username;
             if (isset($data['contact_key']) && $this->account->account_key == env('NINJA_LICENSE_ACCOUNT_KEY')) {
                 $contact->contact_key = $data['contact_key'];
             } else {
@@ -259,6 +258,8 @@ class Client extends EntityModel
         }
 
         $contact->fill($data);
+        $contact->first_name = isset($data['first_name']) ? ucwords(strtolower(trim($data['first_name']))) : '';
+        $contact->last_name = isset($data['last_name']) ? ucwords(strtolower(trim($data['last_name']))) : '';
         $contact->is_primary = $isPrimary;
         $contact->email = trim($contact->email);
 

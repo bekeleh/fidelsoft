@@ -12,11 +12,7 @@ use Illuminate\Support\Facades\Auth;
  */
 trait GeneratesNumbers
 {
-    /**
-     * @param $entity
-     *
-     * @return mixed|string
-     */
+
     public function getNextNumber($entity = false)
     {
         $entity = $entity ?: new Client();
@@ -103,11 +99,6 @@ trait GeneratesNumbers
         return $this->$field ?: '';
     }
 
-    /**
-     * @param $entityType
-     *
-     * @return bool
-     */
     public function getNumberPattern($entityType)
     {
         if (!$this->hasFeature(FEATURE_INVOICE_SETTINGS)) {
@@ -119,22 +110,13 @@ trait GeneratesNumbers
         return $this->$field;
     }
 
-    /**
-     * @param $entityType
-     *
-     * @return bool
-     */
+
     public function hasNumberPattern($entityType)
     {
         return $this->getNumberPattern($entityType) ? true : false;
     }
 
-    /**
-     * @param $entityType
-     * @param mixed $invoice
-     *
-     * @return string
-     */
+
     public function hasClientNumberPattern($invoice)
     {
         if (!$this->isPro()) {
@@ -146,12 +128,6 @@ trait GeneratesNumbers
         return strstr($pattern, '$client') !== false || strstr($pattern, '$idNumber') !== false;
     }
 
-    /**
-     * @param $entity
-     * @param mixed $counter
-     *
-     * @return bool|mixed
-     */
     public function applyNumberPattern($entity, $counter = 0)
     {
         $entityType = $entity->getEntityType();
@@ -190,12 +166,6 @@ trait GeneratesNumbers
         return $pattern;
     }
 
-    /**
-     * @param $pattern
-     * @param $invoice
-     *
-     * @return mixed
-     */
     private function getClientInvoiceNumber($pattern, $invoice)
     {
         if (!$invoice->client_id) {
@@ -228,11 +198,6 @@ trait GeneratesNumbers
         return str_replace($search, $replace, $pattern);
     }
 
-    /**
-     * @param $entityType
-     *
-     * @return mixed
-     */
     public function getCounter($entityType)
     {
         if ($entityType == ENTITY_CLIENT) {
@@ -246,11 +211,6 @@ trait GeneratesNumbers
         }
     }
 
-    /**
-     * @param $entityType
-     *
-     * @return mixed|string
-     */
     public function previewNextInvoiceNumber($entityType = ENTITY_INVOICE)
     {
         $client = \App\Models\Client::scope()->first();
@@ -260,9 +220,6 @@ trait GeneratesNumbers
         return $this->getNextNumber($invoice);
     }
 
-    /**
-     * @param $entity
-     */
     public function incrementCounter($entity)
     {
         if ($entity->isEntityType(ENTITY_CLIENT)) {

@@ -14,7 +14,7 @@
         <?php echo Former::open($url)
         ->autocomplete('off')
         ->rules(
-        ['email' => 'required|email','sale_type_id'=>'required','hold_reason_id'=>'required']
+        ['email' => 'required|email','phone'=>'required','id_number'=>'required','sale_type_id'=>'required','hold_reason_id'=>'required']
         )->addClass('col-md-12 warn-on-exit')
         ->method($method); ?>
 

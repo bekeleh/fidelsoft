@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ClientRequest;
-use App\Http\Requests\CreateClientRequest;
-use App\Http\Requests\UpdateClientRequest;
 use App\Jobs\Client\GenerateStatementData;
 use App\Jobs\LoadPostmarkHistory;
 use App\Jobs\ReactivatePostmarkEmail;
@@ -51,10 +49,11 @@ class ClientController extends BaseController
 
     public function getDatatable()
     {
+//        $accountId = Auth::user()->filterIdByEntity(ENTITY_CLIENT);
+        $accountId = Auth::user()->account_id;
         $search = Input::get('sSearch');
-        $userId = Auth::user()->filterIdByEntity(ENTITY_CLIENT);
 
-        return $this->clientService->getDatatable($search, $userId);
+        return $this->clientService->getDatatable($accountId, $search);
     }
 
     public function getDatatableSaleType($saleTypePublicId = null)
@@ -67,14 +66,80 @@ class ClientController extends BaseController
         return $this->clientService->getDatatableHoldReason($holdReasonPublicId);
     }
 
-
-    public function store(CreateClientRequest $request)
+    public function create(ClientRequest $request)
     {
-        $client = $this->clientService->save($request->input());
+        if ($request->sale_type_id != 0) {
+            $saleType = SaleType::scope($request->sale_type_id)->firstOrFail();
+        } else {
+            $saleType = null;
+        }
+        if ($request->hold_reason_id != 0) {
+            $holdReason = HoldReason::scope($request->hold_reason_id)->firstOrFail();
+        } else {
+            $holdReason = null;
+        }
+
+        if (Client::scope()->withTrashed()->count() > Auth::user()->getMaxNumClients()) {
+            return View::make('error', ['hideHeader' => true, 'error' => "Sorry, you've exceeded the limit of " . Auth::user()->getMaxNumClients() . ' clients']);
+        }
+
+        $data = [
+            'saleType' => $saleType,
+            'holdReason' => $holdReason,
+            'client' => null,
+            'method' => 'POST',
+            'url' => 'clients',
+            'title' => trans('texts.new_client'),
+            'saleTypePublicId' => Input::old('saleType') ? Input::old('saleType') : $request->sale_type_id,
+            'holdReasonPublicId' => Input::old('holdReason') ? Input::old('holdReason') : $request->hold_reason_id,
+        ];
+
+        $data = array_merge($data, self::getViewModel());
+
+        return View::make('clients.edit', $data);
+    }
+
+    public function store(ClientRequest $request)
+    {
+        $data = $request->input();
+        $client = $this->clientService->save($data);
 
         return redirect()->to($client->getRoute())->with('success', trans('texts.created_client'));
     }
 
+    public function edit(ClientRequest $request)
+    {
+        $client = $request->entity();
+
+        $data = [
+            'saleType' => null,
+            'holdReason' => null,
+            'client' => $client,
+            'method' => 'PUT',
+            'url' => 'clients/' . $client->public_id,
+            'title' => trans('texts.edit_client'),
+            'saleTypePublicId' => $client->saleType ? $client->saleType->public_id : null,
+            'holdReasonPublicId' => $client->holdReason ? $client->holdReason->public_id : null,
+        ];
+
+        $data = array_merge($data, self::getViewModel());
+
+        if (Auth::user()->account->isNinjaAccount()) {
+            if ($account = Account::whereId($client->public_id)->first()) {
+                $data['planDetails'] = $account->getPlanDetails(false, false);
+            }
+        }
+        return View::make('clients.edit', $data);
+    }
+
+    public function update(ClientRequest $request)
+    {
+        $data = $request->input();
+
+        $client = $this->clientService->save($data, $request->entity());
+
+        return redirect()->to($client->getRoute())->with('success', trans('texts.updated_client'));
+    }
 
     public function show(ClientRequest $request)
     {
@@ -135,65 +200,6 @@ class ClientController extends BaseController
         return View::make('clients.show', $data);
     }
 
-
-    public function create(ClientRequest $request)
-    {
-        if ($request->sale_type_id != 0) {
-            $saleType = SaleType::scope($request->sale_type_id)->firstOrFail();
-        } else {
-            $saleType = null;
-        }
-        if ($request->hold_reason_id != 0) {
-            $holdReason = HoldReason::scope($request->hold_reason_id)->firstOrFail();
-        } else {
-            $holdReason = null;
-        }
-
-        if (Client::scope()->withTrashed()->count() > Auth::user()->getMaxNumClients()) {
-            return View::make('error', ['hideHeader' => true, 'error' => "Sorry, you've exceeded the limit of " . Auth::user()->getMaxNumClients() . ' clients']);
-        }
-
-        $data = [
-            'saleType' => $saleType,
-            'holdReason' => $holdReason,
-            'client' => null,
-            'method' => 'POST',
-            'url' => 'clients',
-            'title' => trans('texts.new_client'),
-            'saleTypePublicId' => Input::old('saleType') ? Input::old('saleType') : $request->sale_type_id,
-            'holdReasonPublicId' => Input::old('holdReason') ? Input::old('holdReason') : $request->hold_reason_id,
-        ];
-
-        $data = array_merge($data, self::getViewModel());
-
-        return View::make('clients.edit', $data);
-    }
-
-    public function edit(ClientRequest $request)
-    {
-        $client = $request->entity();
-
-        $data = [
-            'saleType' => null,
-            'holdReason' => null,
-            'client' => $client,
-            'method' => 'PUT',
-            'url' => 'clients/' . $client->public_id,
-            'title' => trans('texts.edit_client'),
-            'saleTypePublicId' => $client->saleType ? $client->saleType->public_id : null,
-            'holdReasonPublicId' => $client->holdReason ? $client->holdReason->public_id : null,
-        ];
-
-        $data = array_merge($data, self::getViewModel());
-
-        if (Auth::user()->account->isNinjaAccount()) {
-            if ($account = Account::whereId($client->public_id)->first()) {
-                $data['planDetails'] = $account->getPlanDetails(false, false);
-            }
-        }
-        return View::make('clients.edit', $data);
-    }
-
     private static function getViewModel($client = false)
     {
         return [
@@ -205,13 +211,6 @@ class ClientController extends BaseController
             'saleTypes' => SaleType::scope()->withActiveOrSelected($client ? $client->sale_type_id : false)->orderBy('name')->get(),
             'holdReasons' => HoldReason::scope()->withActiveOrSelected($client ? $client->hold_reason_id : false)->orderBy('name')->get(),
         ];
-    }
-
-    public function update(UpdateClientRequest $request)
-    {
-        $client = $this->clientService->save($request->input(), $request->entity());
-
-        return redirect()->to($client->getRoute())->with('success', trans('texts.updated_client'));
     }
 
     public function bulk()

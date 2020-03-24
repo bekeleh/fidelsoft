@@ -2,8 +2,8 @@
 
 
 
-<?php echo link_to('https://www.careerp.com/?tm_source=powered_by', 'Care E-business Solution PLC', ['target' => '_blank', 'title' => trans('texts.created_by', ['name' => 'HARON ERP Team'])]); ?> -
-<?php echo link_to(RELEASES_URL, 'v' . NINJA_VERSION, ['target' => '_blank', 'title' => trans('texts.trello_roadmap')]); ?> |
+<?php echo link_to('https://www.careerp.com/?tm_source=powered_by', 'HARON E-business Solution PLC', ['target' => '_blank', 'title' => trans('texts.created_by', ['name' => 'HARON ERP Team'])]); ?>
+
 
 <?php if(Auth::user()->account->hasFeature(FEATURE_WHITE_LABEL)): ?>
     <?php echo e(trans('texts.white_labeled')); ?>

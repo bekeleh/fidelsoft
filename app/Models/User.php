@@ -290,7 +290,7 @@ class User extends Authenticatable
         return $this->hasPermission('view_' . $entity) ? false : $this->id;
     }
 
-    public function caddAddUsers()
+    public function canAddUsers()
     {
         if (!Utils::isNinjaProd()) {
             return true;

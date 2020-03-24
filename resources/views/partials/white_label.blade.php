@@ -1,8 +1,7 @@
 {{ trans('texts.powered_by') }}
 
 {{-- Per our license, please do not remove or modify this section. --}}
-{!! link_to('https://www.careerp.com/?tm_source=powered_by', 'Care E-business Solution PLC', ['target' => '_blank', 'title' => trans('texts.created_by', ['name' => 'HARON ERP Team'])]) !!} -
-{!! link_to(RELEASES_URL, 'v' . NINJA_VERSION, ['target' => '_blank', 'title' => trans('texts.trello_roadmap')]) !!} |
+{!! link_to('https://www.careerp.com/?tm_source=powered_by', 'HARON E-business Solution PLC', ['target' => '_blank', 'title' => trans('texts.created_by', ['name' => 'HARON ERP Team'])]) !!}
 
 @if (Auth::user()->account->hasFeature(FEATURE_WHITE_LABEL))
     {{ trans('texts.white_labeled') }}

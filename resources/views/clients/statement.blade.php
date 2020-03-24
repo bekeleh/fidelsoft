@@ -129,7 +129,6 @@
 @stop
 
 @section('content')
-
     @if (empty($extends))
         <div class="pull-right">
             {!! Button::normal(trans('texts.download'))
@@ -138,12 +137,10 @@
             {!! Button::primary(trans('texts.view_client'))
                     ->asLinkTo($client->present()->url) !!}
         </div>
-
         <ol class="breadcrumb pull-left">
             <li>{{ link_to('/clients', trans('texts.clients')) }}</li>
             <li class='active'>{{ $client->getDisplayName() }}</li>
         </ol>
-
         <p>&nbsp;</p>
         <p>&nbsp;</p>
     @endif
@@ -151,36 +148,22 @@
     <div class="well" style="background: #eeeeee; padding-bottom:30px;">
         <div class="pull-left">
             {!! Former::inline_open()->onchange('refreshData()') !!}
-
             {{ trans('texts.status') }}
-
-            &nbsp;&nbsp;
-
             {!! Former::select('status_id')
                     ->label('status')
                     ->addOption(trans('texts.all'), 'false')
                     ->addOption(trans('texts.unpaid'), INVOICE_STATUS_UNPAID)
                     ->addOption(trans('texts.paid'), INVOICE_STATUS_PAID) !!}
-
-            &nbsp;&nbsp;&nbsp;&nbsp;
-
             {{ trans('texts.date_range') }}
-
-            &nbsp;&nbsp;
-
             <span id="reportrange"
                   style="background: #f9f9f9; cursor: pointer; padding: 9px 14px; border: 1px solid #dfe0e1; margin-top: 0px;">
                 <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
                 <span></span> <b class="caret"></b>
             </span>
-
             <div style="display:none">
                 {!! Former::text('start_date') !!}
                 {!! Former::text('end_date') !!}
             </div>
-
-            &nbsp;&nbsp;&nbsp;&nbsp;
-
             @if (empty($extends))
                 {!! Former::checkbox('show_payments')->text('show_payments') !!}
                 &nbsp;&nbsp;&nbsp;&nbsp;
@@ -190,11 +173,8 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 {!! Former::checkbox('show_aging')->text('show_aging')->inline() !!}
             @endif
-
             {!! Former::close() !!}
-
         </div>
-
         @if (! empty($extends))
             <div class="pull-right">
                 {!! Button::normal(trans('texts.download') . ' &nbsp; ')
@@ -202,9 +182,6 @@
                         ->appendIcon(Icon::create('download-alt')) !!}
             </div>
         @endif
-        &nbsp;
     </div>
-
     @include('invoices.pdf', ['account' => $account])
-
 @stop

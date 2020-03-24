@@ -23,7 +23,7 @@ class ItemStoreRequest extends EntityRequest
             case 'POST':
             {
                 $this->validationData();
-                $rules['product_id'] = 'required|unique:item_stores,product_id,' . $this->id . ',id,store_id,' . $this->store_id;
+                $rules['product_id'] = 'required|unique:item_stores,product_id,' . $this->id . ',id,store_id,' . $this->store_id . ',account_id,' . $this->account_id;
                 $rules['store_id'] = 'required|numeric';
                 $rules['bin'] = 'required';
                 $rules['qty'] = 'numeric';
@@ -38,9 +38,9 @@ class ItemStoreRequest extends EntityRequest
             case 'PATCH':
             {
                 $this->validationData();
-                $itemStore = ItemStore::where('public_id', (int)request()->segment(2))->first();
+                $itemStore = ItemStore::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
                 if ($itemStore) {
-                    $rules['product_id'] = 'required|unique:item_stores,product_id,' . $itemStore->id . ',id,store_id,' . $itemStore->store_id;
+                    $rules['product_id'] = 'required|unique:item_stores,product_id,' . $itemStore->id . ',id,store_id,' . $itemStore->store_id . ',account_id,' . $itemStore->account_id;
                     $rules['store_id'] = 'required|numeric';
                     $rules['bin'] = 'required';
                     $rules['qty'] = 'numeric';
@@ -100,6 +100,7 @@ class ItemStoreRequest extends EntityRequest
             $this->request->add([
                 'product_id' => $input['product_id'],
                 'store_id' => $input['store_id'],
+                'account_id' => Product::getAccountId()
             ]);
         }
         return $this->request->all();

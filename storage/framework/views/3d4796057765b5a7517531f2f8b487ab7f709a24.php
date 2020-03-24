@@ -369,7 +369,7 @@
                        class="form-control"
                        placeholder="<?php echo e(trans('texts.search') . ': ' . trans('texts.search_hotkey')); ?>"/>
                 <?php if(env('SPEECH_ENABLED')): ?>
-                    <?php echo $__env->make('partials/speech_recognition', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
                 <?php endif; ?>
             </div>
             <?php echo Former::close(); ?>

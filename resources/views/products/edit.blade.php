@@ -24,11 +24,13 @@
                 <div class="panel-body form-padding-right">
                     {!! Former::text('name')->label('texts.item_name') !!}
 
-                    {!! Former::select('item_category_id')->addOption('', '')
+                    {!! Former::select('item_category_id')
+                    ->placeholder(trans('texts.select_item_category'))
                     ->label(trans('texts.item_category'))
                     ->addGroupClass('item-category-select') !!}
 
-                    {!! Former::select('unit_id')->addOption('', '')
+                    {!! Former::select('unit_id')
+                    ->placeholder(trans('texts.select_item_unit'))
                     ->label(trans('texts.unit'))
                     ->addGroupClass('unit-select') !!}
 

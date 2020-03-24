@@ -51,8 +51,6 @@
     <input id="tableFilter_<?php echo e($entityType); ?>" type="text"
            style="width:180px;margin-right:17px;background-color: white !important"
            class="form-control pull-left" placeholder="<?php echo e(trans('texts.filter')); ?>" value="<?php echo e(Input::get('filter')); ?>"/>
-    <!-- navigation menu -->
-    <?php echo $__env->make('menu', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
     <?php if($entityType == ENTITY_PROPOSAL): ?>
         <?php echo DropdownButton::normal(trans('texts.proposal_templates'))
         ->withAttributes(['class'=>'templatesDropdown'])
@@ -140,6 +138,8 @@
         ->appendIcon(Icon::create('plus-sign')); ?>
 
     <?php endif; ?>
+<!-- navigation menu -->
+    
 </div>
 
 <?php echo Datatable::table()
