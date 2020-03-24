@@ -303,7 +303,9 @@ class AccountRepository
                 'list_' . Utils::pluralizeEntityType($entityType), Utils::pluralizeEntityType($entityType),
             ];
         }
-
+//        ['new_tax_rate', '/tax_rates/create'],
+//        ['new_product', '/products/create'],
+//        ['new_user', '/users/create'],
         $features = array_merge($features, [
             ['dashboard', '/dashboard'],
             ['reports', '/reports'],

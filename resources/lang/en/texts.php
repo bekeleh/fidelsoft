@@ -71,6 +71,7 @@ $LANG = array(
     'created_sale_type' => 'Successfully Created Sales Type',
     'archived_sale_type' => 'Successfully Archived Sales Type',
     'sale_type_settings' => 'Sale Type Settings',
+    'select_sale_type' => 'Select Sale Type',
     /*
     |--------------------------------------------------------------------------
     | tax rate trans
@@ -117,7 +118,7 @@ $LANG = array(
     'created_store' => 'Successfully Created Store',
     'archived_store' => 'Successfully Archived Store',
     'store_settings' => 'Store Settings',
-    'select_location' => 'Please Select Location',
+    'select_location' => 'Select Location',
     /*
     |--------------------------------------------------------------------------
     | hold reason trans
@@ -143,7 +144,7 @@ $LANG = array(
     'created_hold_reason' => 'Successfully Created Hold Reason',
     'archived_hold_reason' => 'Successfully Archived Hold Reason',
     'hold_reason_settings' => 'Hold Reason Settings',
-    'select_hold_reason' => 'Please Select Hold Reason',
+    'select_hold_reason' => 'Select Hold Reason',
     /*
     |--------------------------------------------------------------------------
     | location trans
@@ -189,6 +190,7 @@ $LANG = array(
     'created_item_category' => 'Successfully Created Item Category',
     'archived_item_category' => 'Successfully Archived Item Category',
     'item_category_settings' => 'Item Category Settings',
+    'select_item_category' => 'Select Item Category',
     /*
     |--------------------------------------------------------------------------
     | item unit trans
@@ -211,6 +213,7 @@ $LANG = array(
     'created_unit' => 'Successfully Created Unit',
     'archived_unit' => 'Successfully Archived Unit',
     'unit_settings' => 'Unit Settings',
+    'select_item_unit' => 'Select Item Unit',
     /*
     |--------------------------------------------------------------------------
     | item price trans
@@ -284,6 +287,8 @@ $LANG = array(
     'created_item_store' => 'Successfully Created Item Store',
     'archived_item_store' => 'Successfully Archived Item Store',
     'item_store_settings' => 'Item Store Settings',
+    'select_item_store' => 'Select Item Store',
+    'select_item' => 'Select Item',
     /*
     |--------------------------------------------------------------------------
     | inventory trans
