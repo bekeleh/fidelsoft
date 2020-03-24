@@ -2,13 +2,14 @@
 
 namespace App\Http\Middleware;
 
+use App\Libraries\Utils;
 use App\Models\Account;
 use App\Models\Contact;
 use App\Models\Invitation;
 use App\Models\ProposalInvitation;
-use Illuminate\Support\Facades\Auth;
-use App\Libraries\Utils;
 use Closure;
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 /**
@@ -17,9 +18,17 @@ use Illuminate\Support\Facades\Session;
 class Authenticate
 {
 
-    public function handle($request, Closure $next, $guard = 'user')
+    private $auth;
+
+    public function __construct(Guard $auth)
+    {
+        $this->auth = $auth;
+    }
+
+    public function handle($request, Closure $next, $guard = 'web')
     {
         $authenticated = Auth::guard($guard)->check();
+
         $invitationKey = $request->invitation_key ?: $request->proposal_invitation_key;
 
         if ($guard == 'client') {
@@ -65,7 +74,7 @@ class Authenticate
 
             $account = $contact->account;
 
-            if (Auth::guard('user')->check() && Auth::user('user')->account_id == $account->id) {
+            if (Auth::guard('web')->check() && Auth::user('web')->account_id == $account->id) {
                 // This is an admin; let them pretend to be a client
                 $authenticated = true;
             }

@@ -48,7 +48,7 @@ class LoginController extends Controller
         return 'username';
     }
 
-    function showLoginForm(Request $request)
+    public function showLoginForm(Request $request)
     {
         if (Auth::check()) {
             return redirect()->intended('dashboard');
@@ -234,13 +234,17 @@ class LoginController extends Controller
             }
         }
 
-        $response = self::logout($request);
-
-        $reason = htmlentities(request()->reason);
-        if (!empty($reason) && Lang::has("texts.{$reason}_logout")) {
-            session()->flash('warning', trans("texts.{$reason}_logout"));
-        }
-
-        return $response;
+        return self::logout($request);
     }
+
+    public function logout(Request $request)
+    {
+        $request->session()->flush();
+        $request->session()->forget('2fa_authed');
+
+        Auth::logout();
+
+        return redirect()->route('login')->with('success', trans('auth/message.logout.success'));
+    }
+
 }

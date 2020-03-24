@@ -2,6 +2,7 @@
 
 namespace App\Ninja\Repositories;
 
+use App\Libraries\Utils;
 use App\Models\Account;
 use App\Models\AccountEmailSettings;
 use App\Models\AccountGateway;
@@ -13,19 +14,17 @@ use App\Models\Credit;
 use App\Models\Invitation;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
-use App\Models\Language;
+use App\Models\LookupUser;
 use App\Models\User;
 use App\Models\UserAccount;
-use App\Models\LookupUser;
-use Auth;
-use Input;
-use Request;
-use Schema;
-use Session;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Validator;
 use stdClass;
-use URL;
-use Utils;
-use Validator;
 
 class AccountRepository
 {
@@ -271,6 +270,7 @@ class AccountRepository
     {
         $entityTypes = [
             ENTITY_INVOICE,
+            ENTITY_USER,
             ENTITY_CLIENT,
             ENTITY_QUOTE,
             ENTITY_TASK,
@@ -303,9 +303,7 @@ class AccountRepository
                 'list_' . Utils::pluralizeEntityType($entityType), Utils::pluralizeEntityType($entityType),
             ];
         }
-//        ['new_tax_rate', '/tax_rates/create'],
-//        ['new_product', '/products/create'],
-//        ['new_user', '/users/create'],
+
         $features = array_merge($features, [
             ['dashboard', '/dashboard'],
             ['reports', '/reports'],

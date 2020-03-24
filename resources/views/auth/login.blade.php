@@ -21,11 +21,12 @@
                 @endforeach
             </div>
         @endif
-
+        @if (Session::has('success'))
+            <div class="alert alert-warning">{!! Session::get('success') !!}</div>
+        @endif
         @if (Session::has('warning'))
             <div class="alert alert-warning">{!! Session::get('warning') !!}</div>
         @endif
-
         @if (Session::has('message'))
             <div class="alert alert-info">{!! Session::get('message') !!}</div>
         @endif

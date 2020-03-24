@@ -104,7 +104,7 @@ Route::get('/recover_password', ['as' => 'forgot', 'uses' => 'Auth\ForgotPasswor
 Route::get('/password/reset/{token}', ['as' => 'forgot', 'uses' => 'Auth\ResetPasswordController@showResetForm']);
 Route::get('/auth/{provider}', 'Auth\AuthController@oauthLogin');
 
-Route::group(['middleware' => ['lookup:user']], function () {
+Route::group(['middleware' => ['web']], function () {
     Route::get('/user/confirm/{confirmation_code}', 'UserController@confirm');
     Route::post('/login', ['as' => 'login', 'uses' => 'Auth\LoginController@postLoginWrapper']);
     Route::post('/recover_password', ['as' => 'forgot', 'uses' => 'Auth\ForgotPasswordController@sendResetLinkEmail']);
@@ -123,7 +123,7 @@ if (Utils::isTravis()) {
     Route::get('/check_data', 'AppController@checkData');
 }
 
-Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
+Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('logged_in', 'HomeController@loggedIn');
     Route::get('dashboard', 'DashboardController@index');
     Route::get('dashboard_chart_data/{group_by}/{start_date}/{end_date}/{currency_id}/{include_expenses}', 'DashboardController@chartData');
@@ -346,7 +346,7 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
 });
 
 Route::group([
-    'middleware' => ['lookup:user', 'auth:user', 'permissions.required'],
+    'middleware' => ['web', 'auth', 'permissions.required'],
     'permissions' => 'admin',
 ], function () {
     Route::get('api/users', 'UserController@getDatatable');
@@ -416,7 +416,7 @@ Route::group([
     //Route::get('self-update/download', 'SelfUpdateController@download');
 });
 
-Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
+Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('settings/{section?}', 'AccountController@showSection');
 });
 
@@ -432,15 +432,6 @@ Route::get('compare-online-invoicing{sites?}', 'AppController@redirect');
 Route::get('feed', 'AppController@redirect');
 Route::get('comments/feed', 'AppController@redirect');
 Route::get('terms', 'AppController@redirect');
-
-/*
-if (Utils::isNinjaDev())
-{
-  //ini_set('memory_limit','1024M');
-  //set_time_limit(0);
-  Auth::loginUsingId(1);
-}
-*/
 
 // Include static app constants
 require_once app_path() . '/Constants.php';

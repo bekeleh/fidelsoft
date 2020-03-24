@@ -23,11 +23,12 @@
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
         <?php endif; ?>
-
+        <?php if(Session::has('success')): ?>
+            <div class="alert alert-warning"><?php echo Session::get('success'); ?></div>
+        <?php endif; ?>
         <?php if(Session::has('warning')): ?>
             <div class="alert alert-warning"><?php echo Session::get('warning'); ?></div>
         <?php endif; ?>
-
         <?php if(Session::has('message')): ?>
             <div class="alert alert-info"><?php echo Session::get('message'); ?></div>
         <?php endif; ?>

@@ -35,7 +35,7 @@ $LANG = array(
     'user' => 'User',
     'users' => 'User',
     'new_user' => 'New User',
-    'list_user' => 'List User',
+    'list_users' => 'List Users',
     'create_user' => 'Create User',
     'edit_user' => 'Edit User',
     'clone_user' => 'Clone User',
@@ -48,6 +48,7 @@ $LANG = array(
     'created_user' => 'Successfully Created User',
     'archived_user' => 'Successfully Archived User',
     'user_settings' => 'User Settings',
+    'confirmed' => 'Confirmed',
     /*
     |--------------------------------------------------------------------------
     | sales type trans
