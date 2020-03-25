@@ -2,6 +2,8 @@
 
 namespace App\Ninja\Datatables;
 
+use App\Libraries\Utils;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 
 class UserDatatable extends EntityDatatable
@@ -13,12 +15,6 @@ class UserDatatable extends EntityDatatable
     {
         return [
             [
-                'first_name',
-                function ($model) {
-                    return $model->public_id ? link_to('users/' . $model->public_id . '/edit', $model->first_name . ' ' . $model->last_name)->toHtml() : e($model->first_name . ' ' . $model->last_name);
-                },
-            ],
-            [
                 'username',
                 function ($model) {
                     return $model->username;
@@ -28,6 +24,12 @@ class UserDatatable extends EntityDatatable
                 'email',
                 function ($model) {
                     return $model->email;
+                },
+            ],
+            [
+                'phone',
+                function ($model) {
+                    return $model->phone;
                 },
             ],
             [
@@ -48,6 +50,42 @@ class UserDatatable extends EntityDatatable
                     }
                 },
             ],
+            [
+                'notes',
+                function ($model) {
+                    return $model->notes;
+                },
+            ],
+            [
+                'created_by',
+                function ($model) {
+                    return $model->created_by;
+                },
+            ],
+            [
+                'updated_by',
+                function ($model) {
+                    return $model->updated_by;
+                },
+            ],
+            [
+                'created_at',
+                function ($model) {
+                    return Utils::timestampToDateString(strtotime($model->created_at));
+                },
+            ],
+            [
+                'updated_at',
+                function ($model) {
+                    return Utils::timestampToDateString(strtotime($model->updated_at));
+                },
+            ],
+//            [
+//                'date_deleted',
+//                function ($model) {
+//                    return Utils::timestampToDateString(strtotime($model->deleted_at));
+//                },
+//            ],
         ];
     }
 
@@ -61,6 +99,15 @@ class UserDatatable extends EntityDatatable
                 },
                 function ($model) {
                     return $model->public_id;
+                },
+            ],
+            [
+                trans('texts.clone_user'),
+                function ($model) {
+                    return URL::to("users/{$model->public_id}/clone");
+                },
+                function ($model) {
+                    return Auth::user()->can('create', ENTITY_USER);
                 },
             ],
             [

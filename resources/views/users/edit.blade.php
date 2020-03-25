@@ -2,14 +2,16 @@
 
 @section('content')
     @parent
-    @include('accounts.nav', ['selected' => ACCOUNT_USER_MANAGEMENT])
-
-    {!! Former::open($url)->autocomplete('off')->method($method)->addClass('warn-on-exit user-form')->rules(array(
+    {!! Former::open($url)
+        ->autocomplete('off')
+        ->method($method)
+        ->addClass('warn-on-exit user-form')
+    ->rules([
     'first_name' => 'required',
     'last_name' => 'required',
     'username' => 'required',
     'email' => 'required|email',
-    )); !!}
+    ]); !!}
 
     @if ($user)
         {!! Former::populate($user) !!}
@@ -19,19 +21,22 @@
     <div style="display:none">
         {!! Former::text('action') !!}
     </div>
-
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">{!! trans('texts.user_details') !!}</h3>
-        </div>
-        <div class="panel-body form-padding-right">
-            {!! Former::text('first_name') !!}
-            {!! Former::text('last_name') !!}
-            {!! Former::text('username') !!}
-            {!! Former::text('email') !!}
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{!! trans('texts.user_details') !!}</h3>
+                </div>
+                <div class="panel-body form-padding-right">
+                    {!! Former::text('first_name')->label('texts.first_name') !!}
+                    {!! Former::text('last_name')->label('texts.last_name') !!}
+                    {!! Former::text('username')->label('texts.username') !!}
+                    {!! Former::text('email')->label('texts.email') !!}
+                    {!! Former::textarea('notes')->rows(6) !!}
+                </div>
+            </div>
         </div>
     </div>
-
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">{!! trans('texts.permissions') !!}</h3>
@@ -46,10 +51,10 @@
                 </script>
             @endif
             {!! Former::checkbox('is_admin')
-            ->label('&nbsp;')
-            ->value(1)
-            ->text(trans('texts.administrator'))
-            ->help(trans('texts.administrator_help')) !!}
+                ->label('&nbsp;')
+                ->value(1)
+                ->text(trans('texts.administrator'))
+                ->help(trans('texts.administrator_help')) !!}
             <div class="panel-body">
                 <table class="table table-striped dataTable">
                     <thead>
@@ -129,113 +134,7 @@
             $('.user-form').submit();
         }
     </script>
-
 @stop
+
 @section('onReady')
-
-    $('#first_name').focus();
-
-    /*
-    *
-    * Iterate over all permission checkboxes and ensure VIEW/EDIT
-    * combinations are enabled/disabled depending on VIEW state.
-    *
-    */
-
-    $("input[type='checkbox'][id^='view_']").each(function() {
-
-    var entity = $(this).attr('id')
-    .replace('create_',"")
-    .replace('view_',"")
-    .replace('edit_',"")
-    .replace(']',"")
-    .replace('[',""); //get entity name
-
-    setCheckboxEditValue(entity);
-    setContactPermission();
-
-    });
-
-
-    /*
-    *
-    * Checks state of View/Edit checkbox, will enable/disable check/uncheck
-    * dependent on state of VIEW permission.
-    *
-    */
-
-    $("input[type='checkbox'][id^='view_']").change(function(){
-
-    var entity = $(this).attr('id')
-    .replace('create_',"")
-    .replace('view_',"")
-    .replace('edit_',"")
-    .replace(']',"")
-    .replace('[',""); //get entity name
-
-    setCheckboxEditValue(entity);
-    setContactPermission();
-
-    });
-
-    $('#edit_client, #view_client, #create_client').change(function() {
-    switch($(this).val()) {
-    case 'create_client':
-    $('#create_contact').prop('disabled', false); //set state of edit checkbox
-    $('#create_contact').prop('checked', $('#create_client').is(':checked') );
-    break;
-
-    case 'view_client':
-    $('#view_contact').prop('disabled', false); //set state of edit checkbox
-    $('#view_contact').prop('checked', $('#view_client').is(':checked') );
-    break;
-
-    case 'edit_client':
-    $('#edit_contact').prop('disabled', false); //set state of edit checkbox
-    $('#edit_contact').prop('checked', $('#edit_client').is(':checked') );
-    break;
-    }
-
-    });
-
-    $('#create_all, #view_all, #edit_all').change(function(){
-
-    var checked = $(this).is(':checked');
-    var permission_type = $(this).val();
-
-    $("input[type='checkbox'][id^=" + permission_type + "]").each(function() {
-
-    var entity = $(this).attr('id')
-    .replace('create_',"")
-    .replace('view_',"")
-    .replace('edit_',"")
-    .replace(']',"")
-    .replace('[',""); //get entity name
-
-    $('#' + permission_type + entity).prop('checked', checked); //set state of edit checkbox
-
-    setCheckboxEditValue(entity);
-    setContactPermission();
-
-    });
-
-    });
-
-    function setCheckboxEditValue(entity) {
-
-    if(!$('#view_' + entity).is(':checked')) {
-    $('#edit_' + entity).prop('checked', false); //remove checkbox value from edit dependant on View state.
-    }
-
-    $('#edit_' + entity).prop('disabled', !$('#view_' + entity).is(':checked')); //set state of edit checkbox
-
-    }
-
-    function setContactPermission() {
-
-    $('#view_contact').prop('checked', $('#view_client').is(':checked') );
-    $('#edit_contact').prop('checked', $('#edit_client').is(':checked') );
-    $('#create_contact').prop('checked', $('#create_client').is(':checked') );
-
-    }
 @stop

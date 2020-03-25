@@ -18,7 +18,7 @@ class UserRepository extends BaseRepository
     public function find($accountId, $filter = null)
     {
         $query = DB::table('users')
-//            ->join('users', 'users.id', '=', 'users.user_id')
+//            ->join('users_groups', 'users_groups.user_id', '=', 'users.id')
 //            ->where('users.deleted_at', '=', null)
 //            ->where('users.account_id', '=', $accountId)
             ->select(
@@ -27,11 +27,19 @@ class UserRepository extends BaseRepository
                 'users.last_name',
                 'users.username',
                 'users.email',
+                'users.phone',
                 'users.confirmed',
                 'users.public_id',
-                'users.deleted_at',
                 'users.is_admin',
-                'users.permissions');
+                'users.permissions',
+                'users.notes',
+                'users.created_at',
+                'users.updated_at',
+                'users.deleted_at',
+                'users.created_by',
+                'users.updated_by',
+                'users.deleted_by'
+            );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {

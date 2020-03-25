@@ -17,9 +17,8 @@ class Task extends EntityModel
     use SoftDeletes;
     use PresentableTrait;
 
-    /**
-     * @var array
-     */
+    protected $presenter = 'App\Ninja\Presenters\TaskPresenter';
+
     protected $fillable = [
         'client_id',
         'description',
@@ -29,72 +28,42 @@ class Task extends EntityModel
         'custom_value2',
     ];
 
-    /**
-     * @return mixed
-     */
+
     public function getEntityType()
     {
         return ENTITY_TASK;
     }
 
-    /**
-     * @var string
-     */
-    protected $presenter = 'App\Ninja\Presenters\TaskPresenter';
-
-    /**
-     * @return BelongsTo
-     */
     public function account()
     {
         return $this->belongsTo('App\Models\Account');
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function invoice()
     {
         return $this->belongsTo('App\Models\Invoice');
     }
 
-    /**
-     * @return mixed
-     */
     public function user()
     {
         return $this->belongsTo('App\Models\User')->withTrashed();
     }
 
-    /**
-     * @return mixed
-     */
     public function client()
     {
         return $this->belongsTo('App\Models\Client')->withTrashed();
     }
 
-    /**
-     * @return mixed
-     */
     public function project()
     {
         return $this->belongsTo('App\Models\Project')->withTrashed();
     }
 
-    /**
-     * @return mixed
-     */
     public function task_status()
     {
         return $this->belongsTo('App\Models\TaskStatus')->withTrashed();
     }
 
-    /**
-     * @param $task
-     *
-     * @return string
-     */
     public static function calcStartTime($task)
     {
         $parts = json_decode($task->time_log) ?: [];
@@ -106,9 +75,6 @@ class Task extends EntityModel
         }
     }
 
-    /**
-     * @return string
-     */
     public function getStartTime()
     {
         return self::calcStartTime($this);
@@ -127,13 +93,6 @@ class Task extends EntityModel
         }
     }
 
-    /**
-     * @param $task
-     *
-     * @param int $startTimeCutoff
-     * @param int $endTimeCutoff
-     * @return int
-     */
     public static function calcDuration($task, $startTimeCutoff = 0, $endTimeCutoff = 0)
     {
         $duration = 0;
@@ -160,19 +119,11 @@ class Task extends EntityModel
         return $duration;
     }
 
-    /**
-     * @param int $startTimeCutoff
-     * @param int $endTimeCutoff
-     * @return int
-     */
     public function getDuration($startTimeCutoff = 0, $endTimeCutoff = 0)
     {
         return self::calcDuration($this, $startTimeCutoff, $endTimeCutoff);
     }
 
-    /**
-     * @return float
-     */
     public function getRate()
     {
         $value = 0;
@@ -188,9 +139,6 @@ class Task extends EntityModel
         return Utils::roundSignificant($value);
     }
 
-    /**
-     * @return int
-     */
     public function getCurrentDuration()
     {
         $parts = json_decode($this->time_log) ?: [];
@@ -203,9 +151,6 @@ class Task extends EntityModel
         }
     }
 
-    /**
-     * @return bool
-     */
     public function hasPreviousDuration()
     {
         $parts = json_decode($this->time_log) ?: [];
@@ -213,19 +158,11 @@ class Task extends EntityModel
         return count($parts) && (count($parts[0]) && $parts[0][1]);
     }
 
-    /**
-     * @return float
-     */
     public function getHours()
     {
         return round($this->getDuration() / (60 * 60), 2);
     }
 
-    /**
-     * Gets the route to the tasks edit action.
-     *
-     * @return string
-     */
     public function getRoute()
     {
         return "/tasks/{$this->public_id}/edit";

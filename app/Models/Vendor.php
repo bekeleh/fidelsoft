@@ -159,11 +159,15 @@ class Vendor extends EntityModel
         return $this->vendor_contacts()->save($contact);
     }
 
+    public function getEntityType()
+    {
+        return ENTITY_VENDOR;
+    }
+
     public function getRoute()
     {
         return "/vendors/{$this->public_id}";
     }
-
 
     public function getName()
     {
@@ -180,11 +184,6 @@ class Vendor extends EntityModel
         $swap = $this->country && $this->country->swap_postal_code;
 
         return Utils::cityStateZip($this->city, $this->state, $this->postal_code, $swap);
-    }
-
-    public function getEntityType()
-    {
-        return 'vendor';
     }
 
     public function showMap()

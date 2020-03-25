@@ -13,8 +13,6 @@ class LocationDatatable extends EntityDatatable
 
     public function columns()
     {
-        $account = Auth::user()->account;
-
         return [
             [
                 'location_name',

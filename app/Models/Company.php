@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use Carbon;
-use Eloquent;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
-use Utils;
+use App\Libraries\Utils;
 
 /**
  * Class Company.
@@ -16,14 +16,9 @@ class Company extends Eloquent
     use SoftDeletes;
     use PresentableTrait;
 
-    /**
-     * @var string
-     */
     protected $presenter = 'App\Ninja\Presenters\CompanyPresenter';
 
-    /**
-     * @var array
-     */
+
     protected $fillable = [
         'plan',
         'plan_term',
@@ -33,26 +28,20 @@ class Company extends Eloquent
         'plan_expires',
     ];
 
-    /**
-     * @var array
-     */
+
     protected $dates = [
         'deleted_at',
         'promo_expires',
         'discount_expires',
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
+
     public function accounts()
     {
         return $this->hasMany('App\Models\Account');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
+
     public function payment()
     {
         return $this->belongsTo('App\Models\Payment');
@@ -70,7 +59,7 @@ class Company extends Eloquent
     // handle promos and discounts
     public function hasActiveDiscount(Carbon $date = null)
     {
-        if (! $this->discount || ! $this->discount_expires) {
+        if (!$this->discount || !$this->discount_expires) {
             return false;
         }
 
@@ -85,7 +74,7 @@ class Company extends Eloquent
 
     public function discountedPrice($price)
     {
-        if (! $this->hasActivePromo() && ! $this->hasActiveDiscount()) {
+        if (!$this->hasActivePromo() && !$this->hasActiveDiscount()) {
             return $price;
         }
 
@@ -94,7 +83,7 @@ class Company extends Eloquent
 
     public function daysUntilPlanExpires()
     {
-        if (! $this->hasActivePlan()) {
+        if (!$this->hasActivePlan()) {
             return 0;
         }
 
@@ -117,7 +106,7 @@ class Company extends Eloquent
 
     public function hasEarnedPromo()
     {
-        if (! Utils::isNinjaProd() || Utils::isPro()) {
+        if (!Utils::isNinjaProd() || Utils::isPro()) {
             return false;
         }
 
@@ -161,7 +150,7 @@ class Company extends Eloquent
     {
         $account = $this->accounts()->first();
 
-        if (! $account) {
+        if (!$account) {
             return false;
         }
 
@@ -170,14 +159,14 @@ class Company extends Eloquent
 
     public function processRefund($user)
     {
-        if (! $this->payment) {
+        if (!$this->payment) {
             return false;
         }
 
         $account = $this->accounts()->first();
         $planDetails = $account->getPlanDetails(false, false);
 
-        if (! empty($planDetails['started'])) {
+        if (!empty($planDetails['started'])) {
             $deadline = clone $planDetails['started'];
             $deadline->modify('+30 days');
 
@@ -217,9 +206,8 @@ class Company extends Eloquent
     }
 }
 
-Company::deleted(function ($company)
-{
-    if (! env('MULTI_DB_ENABLED')) {
+Company::deleted(function ($company) {
+    if (!env('MULTI_DB_ENABLED')) {
         return;
     }
 

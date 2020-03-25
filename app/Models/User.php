@@ -25,9 +25,12 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
     use Notifiable;
     use Authenticatable, Authorizable, CanResetPassword;
 
-
     protected $presenter = 'App\Ninja\Presenters\UserPresenter';
 
+    public function getEntityType()
+    {
+        return ENTITY_USER;
+    }
 
     public static $all_permissions = [
         'create_all' => 0b0001,
@@ -42,10 +45,14 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
     protected $fillable = [
         'first_name',
         'last_name',
+        'phone',
         'username',
         'email',
         'password',
-        'phone',
+        'notes',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
 
@@ -66,7 +73,6 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
 
     private $slack_webhook_url;
 
-
     public function account()
     {
         return $this->belongsTo('App\Models\Account');
@@ -77,16 +83,20 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
         return $this->belongsTo('App\Models\Theme');
     }
 
-    public function getName()
-    {
-        return $this->getDisplayName();
-    }
+//    public function getName()
+//    {
+//        return $this->getDisplayName();
+//    }
+//
+//    public function getPersonType()
+//    {
+//        return PERSON_USER;
+//    }
 
-    public function getPersonType()
+    public function getRoute()
     {
-        return PERSON_USER;
+        return "/users/{$this->public_id}";
     }
-
 
     public function getReminderEmail()
     {

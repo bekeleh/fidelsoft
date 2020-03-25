@@ -1,5 +1,8 @@
-{!! Former::open(\App\Models\EntityModel::getFormUrl($entityType) . '/bulk')
-->addClass('listForm_' . $entityType) !!}
+<!-- landing page -->
+
+{!! Former::open(
+    \App\Models\EntityModel::getFormUrl($entityType) . '/bulk')
+        ->addClass('listForm_' . $entityType) !!}
 
 <div style="display:none">
     {!! Former::text('action')->id('action_' . $entityType) !!}
@@ -161,6 +164,7 @@
 </style>
 
 <script type="text/javascript">
+
     var submittedForm;
 
     function submitForm_{{ $entityType }}(action, id) {
