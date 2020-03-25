@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\URL;
 
 class UserDatatable extends EntityDatatable
 {
-    public $entityType = ENTITY_USER;
-    public $sortCol = 1;
+//    public $entityType = ENTITY_USER;
+//    public $sortCol = 1;
 
     public function columns()
     {

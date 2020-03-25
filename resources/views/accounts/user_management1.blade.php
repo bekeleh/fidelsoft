@@ -1,9 +1,7 @@
 @extends('header')
-
 @section('content')
     @parent
     @include('accounts.nav', ['selected' => ACCOUNT_USER_MANAGEMENT, 'advanced' => true])
-
     @if (Utils::hasFeature(FEATURE_USERS))
         @if (Auth::user()->canAddUsers())
             <div class="pull-right">
@@ -13,19 +11,16 @@
     @elseif (Utils::isTrial())
         <div class="alert alert-warning">{!! trans('texts.add_users_not_supported') !!}</div>
     @endif
-
     <label for="trashed" style="font-weight:normal; margin-left: 10px;">
         <input id="trashed" type="checkbox" onclick="setTrashVisible()"
                 {!! Session::get('entity_state_filter:user', STATUS_ACTIVE) != 'active' ? 'checked' : ''!!}/>
         {!! trans('texts.show_archived_users')!!}
     </label>
-
     @include('partials.bulk_form', ['entityType' => ENTITY_USER])
     {{--
     ->setOptions('aoColumnDefs', [['bSortable'=>false, 'aTargets'=>[4]]])
     ->setOptions('aoColumns', [[ "sWidth"=> "20%" ], [ "sWidth"=> "45%" ], ["sWidth"=> "20%"], ["sWidth"=> "15%" ]])
     --}}
-
     {!! Datatable::table()
     ->addColumn(
     trans('texts.name'),
@@ -38,14 +33,11 @@
     ->setOptions('bFilter', true)
     ->setOptions('bAutoWidth', true)
     ->render('datatable') !!}
-
     <script>
         window.onDatatableReady = actionListHandler;
-
         function setTrashVisible() {
             var checked = $('#trashed').is(':checked');
             var url = '{{ URL::to('set_entity_filter/user') }}' + (checked ? '/active,archived' : '/active');
-
             $.get(url, function (data) {
                 refreshDatatable();
             })

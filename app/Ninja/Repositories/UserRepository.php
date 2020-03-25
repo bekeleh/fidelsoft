@@ -22,6 +22,7 @@ class UserRepository extends BaseRepository
 //            ->where('users.deleted_at', '=', null)
 //            ->where('users.account_id', '=', $accountId)
             ->select(
+                'users.id',
                 'users.public_id',
                 'users.first_name',
                 'users.last_name',
@@ -29,10 +30,10 @@ class UserRepository extends BaseRepository
                 'users.email',
                 'users.phone',
                 'users.confirmed',
-                'users.public_id',
+                'users.is_deleted',
+                'users.notes',
                 'users.is_admin',
                 'users.permissions',
-                'users.notes',
                 'users.created_at',
                 'users.updated_at',
                 'users.deleted_at',

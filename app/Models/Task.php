@@ -4,10 +4,9 @@ namespace App\Models;
 
 use App\Events\TaskWasCreated;
 use App\Events\TaskWasUpdated;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Libraries\Utils;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
-use App\Libraries\Utils;
 
 /**
  * Class Task.

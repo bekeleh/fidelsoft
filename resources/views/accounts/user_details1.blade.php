@@ -1,8 +1,6 @@
 @extends('header')
-
 @section('content')
     @parent
-
     {!! Former::open_for_files()->addClass('warn-on-exit')->rules(array(
         'first_name' => 'required',
         'last_name' => 'required',
@@ -10,7 +8,6 @@
         'email' => 'required|email',
         'phone' => $user->google_2fa_secret ? 'required' : ''
     )) !!}
-
     {{ Former::populate($account) }}
     {{ Former::populateField('first_name', $user->first_name) }}
     {{ Former::populateField('last_name', $user->last_name) }}
@@ -19,18 +16,14 @@
     {{ Former::populateField('phone', $user->phone) }}
     {{ Former::populateField('dark_mode', intval($user->dark_mode)) }}
     {{ Former::populateField('enable_two_factor', $user->google_2fa_secret ? 1 : 0) }}
-
     @if (Input::has('affiliate'))
         {{ Former::populateField('referral_code', true) }}
     @endif
-
     @if (Utils::isAdmin())
         @include('accounts.nav', ['selected' => ACCOUNT_USER_DETAILS])
     @endif
-
     <div class="row">
         <div class="col-md-12">
-
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">{!! trans('texts.user_details') !!}</h3>
@@ -86,10 +79,8 @@
                     @endif
                 </div>
             </div>
-
         </div>
     </div>
-
     @if ( ! Auth::user()->is_admin)
         @include('accounts.partials.notifications')
     @endif
@@ -107,7 +98,6 @@
                 ->submit()->large()
                 ->appendIcon(Icon::create('floppy-disk')) !!}
     </center>
-
     <div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
@@ -116,11 +106,9 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title" id="passwordModalLabel">{{ trans('texts.change_password') }}</h4>
                 </div>
-
                 <div class="container" style="width: 100%; padding-bottom: 0px !important">
                     <div class="panel panel-default">
                         <div class="panel-body">
-
                             <div style="background-color: #fff" id="changePasswordDiv"
                                  onkeyup="validateChangePassword()" onclick="validateChangePassword()"
                                  onkeydown="checkForEnter(event)">
@@ -133,7 +121,6 @@
                                 </center>
                                 <br/>
                             </div>
-
                             <div style="padding-left:40px;padding-right:40px;display:none;min-height:130px"
                                  id="working">
                                 <h3>{{ trans('texts.working') }}...</h3>
@@ -142,7 +129,6 @@
                                          aria-valuemax="100" style="width: 100%"></div>
                                 </div>
                             </div>
-
                             <div style="background-color: #fff; padding-right:20px;padding-left:20px; display:none"
                                  id="successDiv">
                                 <br/>
@@ -154,7 +140,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="modal-footer" id="changePasswordFooter">
                     <button type="button" class="btn btn-default" id="cancelChangePasswordButton" data-dismiss="modal">
                         {{ trans('texts.cancel') }}
@@ -166,7 +151,6 @@
                         <i class="glyphicon glyphicon-floppy-disk"></i>
                     </button>
                 </div>
-
             </div>
         </div>
     </div>
@@ -266,9 +250,7 @@
             });
         }
     </script>
-
 @stop
-
 @section('onReady')
     $('#first_name').focus();
 @stop

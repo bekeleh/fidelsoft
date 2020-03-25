@@ -12,32 +12,18 @@ use Illuminate\Support\Facades\Auth;
  */
 class UserService extends BaseService
 {
-    /**
-     * @var UserRepository
-     */
+
     protected $userRepo;
 
-    /**
-     * @var DatatableService
-     */
     protected $datatableService;
 
-    /**
-     * UserService constructor.
-     *
-     * @param UserRepository $userRepo
-     * @param DatatableService $datatableService
-     */
+
     public function __construct(UserRepository $userRepo, DatatableService $datatableService)
     {
         $this->userRepo = $userRepo;
         $this->datatableService = $datatableService;
     }
 
-
-    /**
-     * @return UserRepository|null
-     */
     protected function getRepo()
     {
         return $this->userRepo;
