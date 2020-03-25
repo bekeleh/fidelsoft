@@ -37,31 +37,18 @@ class StoreService extends BaseService
         $this->datatableService = $datatableService;
     }
 
-    /**
-     * @return StoreRepository
-     */
+
     protected function getRepo()
     {
         return $this->storeRepo;
     }
 
-    /**
-     * @param $data
-     * @param null $store
-     *
-     * @return mixed|null
-     */
     public function save($data, $store = null)
     {
         return $this->storeRepo->save($data, $store);
     }
 
-    /**
-     * @param $search
-     *
-     * @return JsonResponse
-     * @throws Exception
-     */
+
     public function getDatatable($accountId, $search)
     {
         $query = $this->storeRepo->find($accountId, $search);
@@ -73,12 +60,6 @@ class StoreService extends BaseService
         return $this->datatableService->createDatatable(new StoreDatatable(), $query);
     }
 
-    /**
-     * @param $locationPublicId
-     *
-     * @return JsonResponse
-     * @throws Exception
-     */
     public function getDatatableLocation($locationPublicId)
     {
         $datatable = new LocationDatatable(true, true);

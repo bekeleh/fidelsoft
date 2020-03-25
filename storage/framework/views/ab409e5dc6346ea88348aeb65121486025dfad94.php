@@ -176,8 +176,6 @@
         text-align: center;
     }
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
-
 </style>
 
 <script type="text/javascript">

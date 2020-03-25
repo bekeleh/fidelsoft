@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Libraries\Utils;
+use App\Ninja\Datatables\LocationDatatable;
+use App\Ninja\Datatables\UserDatatable2;
 use App\Ninja\Datatables\UserDatatable;
 use App\Ninja\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
@@ -37,11 +39,25 @@ class UserService extends BaseService
 
     public function getDatatable($accountId, $search)
     {
-        $datatable = new UserDatatable(false);
         $query = $this->userRepo->find($accountId, $search);
+
         if (!Utils::hasPermission('view_user')) {
             $query->where('users.user_id', '=', Auth::user()->id);
         }
+
+        return $this->datatableService->createDatatable(new UserDatatable(), $query);
+    }
+
+    public function getDatatableLocation($locationPublicId)
+    {
+        $datatable = new LocationDatatable(true, true);
+
+        $query = $this->storeRepo->findLocation($locationPublicId);
+
+        if (!Utils::hasPermission('view_location')) {
+            $query->where('users.user_id', '=', Auth::user()->id);
+        }
+
         return $this->datatableService->createDatatable($datatable, $query);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Location;
 use App\Models\User;
 
 class UserRequest extends EntityRequest
@@ -24,8 +25,8 @@ class UserRequest extends EntityRequest
                 $rules['first_name'] = 'required|max:50';
                 $rules['last_name'] = 'required|max:50';
                 $rules['username'] = 'required|max:50|unique:users,username,' . $this->id . ',id,account_id,' . $this->account_id;
-                $rules['email'] = 'required|email|max:50|unique:users,email' . $this->id . ',id,account_id,' . $this->account_id;
-                $rules['notes'] = 'nullable';
+                $rules['email'] = 'required|email|max:50|unique:users,email,' . $this->id . ',id';
+                $rules['location_id'] = 'numeric';
                 $rules['is_deleted'] = 'boolean';
                 $rules['notes'] = 'nullable';
                 break;
@@ -39,7 +40,8 @@ class UserRequest extends EntityRequest
                     $rules['first_name'] = 'required|max:50';
                     $rules['last_name'] = 'required|max:50';
                     $rules['username'] = 'required|max:50|unique:users,username,' . $user->id . ',id,account_id,' . $user->account_id;
-                    $rules['email'] = 'required|email|max:50|unique:users,email,' . $user->id . ',id,account_id,' . $user->account_id;
+                    $rules['email'] = 'required|email|max:50|unique:users,email,' . $user->id . ',id';
+                    $rules['location_id'] = 'numeric';
                     $rules['is_deleted'] = 'boolean';
                     $rules['notes'] = 'nullable';
                     break;
@@ -68,6 +70,9 @@ class UserRequest extends EntityRequest
         if (!empty($input['username'])) {
             $input['username'] = filter_var($input['username'], FILTER_SANITIZE_STRING);
         }
+        if (!empty($input['location_id'])) {
+            $input['location_id'] = filter_var($input['location_id'], FILTER_SANITIZE_NUMBER_INT);
+        }
         if (!empty($input['notes'])) {
             $input['notes'] = filter_var($input['notes'], FILTER_SANITIZE_STRING);
         }
@@ -79,9 +84,15 @@ class UserRequest extends EntityRequest
     {
         $input = $this->input();
         if (count($input)) {
-            $this->request->add([
-                'account_id' => User::getAccountId(),
-            ]);
+            if (!empty($input['location_id'])) {
+                $input['location_id'] = Location::getPrivateId($input['location_id']);
+            }
+            if (!empty($input['location_id'])) {
+                $this->request->add([
+                    'location_id' => $input['location_id'],
+                    'account_id' => User::getAccountId(),
+                ]);
+            }
         }
         return $this->request->all();
     }

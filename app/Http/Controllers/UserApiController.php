@@ -43,9 +43,8 @@ class UserApiController extends BaseAPIController
      */
     public function index()
     {
-        $users = User::whereAccountId(Auth::user()->account_id)
-            ->withTrashed()
-            ->orderBy('created_at', 'desc');
+        dd('api');
+        $users = User::scope()->withTrashed()->orderBy('created_at', 'desc');
 
         return $this->listResponse($users);
     }
@@ -106,7 +105,9 @@ class UserApiController extends BaseAPIController
      */
     public function store(UserRequest $request)
     {
-        return $this->save($request);
+        $unit = $this->userRepo->save($request->input());
+
+        return $this->itemResponse($unit);
     }
 
     /**
@@ -138,33 +139,20 @@ class UserApiController extends BaseAPIController
      * )
      *
      * @param UserRequest $request
-     * @param mixed $userPublicId
+     * @param $publicId
      * @return
      */
-    public function update(UserRequest $request, $userPublicId)
+    public function update(UserRequest $request, $publicId)
     {
-        $user = Auth::user();
-
-        if ($request->action == ACTION_ARCHIVE) {
-            $this->userRepo->archive($user);
-
-            $transformer = new UserTransformer(Auth::user()->account, $request->serializer);
-            $data = $this->createItem($user, $transformer, 'users');
-
-            return $this->response($data);
-        } else {
-            return $this->save($request, $user);
+        if ($request->action) {
+            return $this->handleAction($request);
         }
-    }
 
-    private function save($request, $user = false)
-    {
-        $user = $this->userRepo->save($request->input(), $user);
+        $data = $request->input();
+        $data['public_id'] = $publicId;
+        $unit = $this->userRepo->save($data, $request->entity());
 
-        $transformer = new UserTransformer(\Auth::user()->account, $request->serializer);
-        $data = $this->createItem($user, $transformer, 'users');
-
-        return $this->response($data);
+        return $this->itemResponse($unit);
     }
 
     /**

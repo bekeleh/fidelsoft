@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Models\User;
 
-class TaskPolicy extends EntityPolicy
+class UserPolicy extends EntityPolicy
 {
     public static function create(User $user, $item)
     {
@@ -12,6 +12,6 @@ class TaskPolicy extends EntityPolicy
             return false;
         }
 
-        return $user->hasFeature(FEATURE_TASKS);
+        return $user->hasFeature(FEATURE_USERS);
     }
 }

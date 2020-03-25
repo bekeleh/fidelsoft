@@ -10,22 +10,6 @@
                 @else
                                                                                                              background-color: #FD6A02 !important;
             @endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             }
         </style>
     @endif

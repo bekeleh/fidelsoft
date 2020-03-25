@@ -8,7 +8,8 @@ $LANG = array(
     | Client  trans
     |--------------------------------------------------------------------------
     */
-    'client_name' => 'Sale Type Name',
+
+    'client_name' => 'Client Name',
     'client' => 'Client',
     'clients' => 'Client',
     'new_client' => 'New Client',
@@ -31,9 +32,11 @@ $LANG = array(
      | User  trans
      |--------------------------------------------------------------------------
      */
-    'user_name' => 'Sale Type Name',
+    'full_name' => 'Full Name',
+    'first_name' => 'Full Name',
+    'username' => 'Username',
     'user' => 'User',
-    'users' => 'User',
+    'users' => 'User List',
     'new_user' => 'New User',
     'list_users' => 'List Users',
     'create_user' => 'Create User',
@@ -319,7 +322,6 @@ $LANG = array(
     'first_name' => 'First Name',
     'last_name' => 'Last Name',
     'phone' => 'Phone',
-    'username' => 'Username',
     'email' => 'Email',
     'additional_info' => 'Additional Info',
     'payment_terms' => 'Payment Terms',
@@ -2322,6 +2324,8 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'new_...' => 'New ...',
     'list_...' => 'List ...',
     'created_at' => 'Date Created',
+    'updated_at' => 'Date Updated',
+    'deleted_at' => 'Date Deleted',
     'contact_us' => 'Contact Us',
     'user_guide' => 'User Guide',
     'promo_message' => 'Upgrade before :expires and get :amount OFF your first year of our Pro or Enterprise packages.',
@@ -2427,7 +2431,6 @@ Once you have the amounts, come back to this payment methods page and click "Com
 // New Client Portal styling
     'invoice_from' => 'Invoices From:',
     'email_alias_message' => 'We require each company to have a unique email address.<br/>Consider using an alias. ie, email+label@example.com',
-    'full_name' => 'Full Name',
     'month_year' => 'MONTH/YEAR',
     'valid_thru' => 'Valid\nthru',
 
@@ -3188,7 +3191,6 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'please_select_a_date' => 'Please select a date',
     'please_select_a_client' => 'Please select a client',
     'language' => 'Language',
-    'updated_at' => 'Updated',
     'please_enter_an_invoice_number' => 'Please enter an invoice number',
     'please_enter_a_quote_number' => 'Please enter a quote number',
     'clients_invoices' => ':client\'s invoices',

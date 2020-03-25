@@ -2,35 +2,54 @@
 
 namespace App\Ninja\Datatables;
 
-use App\Libraries\Utils;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
+use App\Libraries\Utils;
 
 class UserDatatable extends EntityDatatable
 {
-//    public $entityType = ENTITY_USER;
-//    public $sortCol = 1;
+    public $entityType = ENTITY_USER;
+    public $sortCol = 1;
 
     public function columns()
     {
         return [
             [
+                'first_name',
+                function ($model) {
+                    return $model->public_id ? link_to('users/' . $model->public_id . '/edit', $model->first_name . ' ' . $model->last_name)->toHtml() : e($model->first_name . ' ' . $model->last_name);
+                },
+            ],
+            [
                 'username',
                 function ($model) {
-                    return $model->username;
+                    return link_to("users/{$model->public_id}", $model->username ?: '')->toHtml();
                 },
             ],
             [
                 'email',
                 function ($model) {
-                    return $model->email;
+                    return link_to("users/{$model->public_id}", $model->email ?: '')->toHtml();
                 },
             ],
             [
                 'phone',
                 function ($model) {
-                    return $model->phone;
+                    return link_to("users/{$model->public_id}", $model->phone ?: '')->toHtml();
                 },
+            ],
+            [
+                'location_name',
+                function ($model) {
+                    if ($model->location_id) {
+                        if (Auth::user()->can('view', [ENTITY_LOCATION, $model]))
+                            return link_to("locations/{$model->location_id}", $model->location_name)->toHtml();
+                        else
+                            return $model->location_name;
+                    } else {
+                        return '';
+                    }
+                }
             ],
             [
                 'confirmed',
@@ -51,21 +70,9 @@ class UserDatatable extends EntityDatatable
                 },
             ],
             [
-                'notes',
+                'last_login',
                 function ($model) {
-                    return $model->notes;
-                },
-            ],
-            [
-                'created_by',
-                function ($model) {
-                    return $model->created_by;
-                },
-            ],
-            [
-                'updated_by',
-                function ($model) {
-                    return $model->updated_by;
+                    return Utils::timestampToDateString(strtotime($model->last_login));
                 },
             ],
             [
@@ -81,7 +88,7 @@ class UserDatatable extends EntityDatatable
                 },
             ],
 //            [
-//                'date_deleted',
+//                'deleted_at',
 //                function ($model) {
 //                    return Utils::timestampToDateString(strtotime($model->deleted_at));
 //                },
@@ -93,12 +100,21 @@ class UserDatatable extends EntityDatatable
     {
         return [
             [
-                uctrans('texts.edit_user'),
+                trans('texts.edit_user'),
                 function ($model) {
-                    return URL::to("users/{$model->public_id}/edit");
+                    if (Auth::user()->can('edit', [ENTITY_USER, $model]))
+                        return URL::to("users/{$model->public_id}/edit");
+                    elseif (Auth::user()->can('view', [ENTITY_USER, $model]))
+                        return URL::to("users/{$model->public_id}");
+                },
+            ],
+            [
+                uctrans('texts.send_invite'),
+                function ($model) {
+                    return URL::to("send_confirmation/{$model->public_id}");
                 },
                 function ($model) {
-                    return $model->public_id;
+                    return $model->public_id && !$model->confirmed;
                 },
             ],
             [
@@ -111,12 +127,11 @@ class UserDatatable extends EntityDatatable
                 },
             ],
             [
-                uctrans('texts.send_invite'),
+                '--divider--', function () {
+                return false;
+            },
                 function ($model) {
-                    return URL::to("send_confirmation/{$model->public_id}");
-                },
-                function ($model) {
-                    return $model->public_id && !$model->confirmed;
+                    return Auth::user()->can('edit', [ENTITY_USER, $model]);
                 },
             ],
         ];

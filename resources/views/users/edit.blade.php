@@ -3,138 +3,106 @@
 @section('content')
     @parent
     {!! Former::open($url)
-        ->autocomplete('off')
-        ->method($method)
-        ->addClass('warn-on-exit user-form')
-    ->rules([
-    'first_name' => 'required',
-    'last_name' => 'required',
-    'username' => 'required',
-    'email' => 'required|email',
-    ]); !!}
-
+    ->method($method)
+    ->autocomplete('off')
+    ->rules(['first_name' => 'required|max:50','last_name' => 'required|max:50','username' => 'required|max:50','email' => 'required|email|max:50','location_id' => 'required','notes' => 'required|max:255'])
+    ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     @if ($user)
-        {!! Former::populate($user) !!}
-        {{ Former::populateField('is_admin', intval($user->is_admin)) }}
+        {{ Former::populate($user) }}
+        <div style="display:none">
+            {!! Former::text('public_id') !!}
+        </div>
     @endif
-
-    <div style="display:none">
+    <span style="display:none">
+{!! Former::text('public_id') !!}
         {!! Former::text('action') !!}
-    </div>
+</span>
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{!! trans('texts.user_details') !!}</h3>
-                </div>
                 <div class="panel-body form-padding-right">
                     {!! Former::text('first_name')->label('texts.first_name') !!}
                     {!! Former::text('last_name')->label('texts.last_name') !!}
                     {!! Former::text('username')->label('texts.username') !!}
                     {!! Former::text('email')->label('texts.email') !!}
+                    {!! Former::text('phone')->label('texts.phone') !!}
+                    {!! Former::select('location_id')
+                     ->placeholder(trans('texts.select_location'))
+                     ->label(trans('texts.location'))
+                     ->addGroupClass('location-select') !!}
                     {!! Former::textarea('notes')->rows(6) !!}
                 </div>
             </div>
         </div>
     </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">{!! trans('texts.permissions') !!}</h3>
-        </div>
-        <div class="panel-body">
-            @if ( ! Utils::hasFeature(FEATURE_USER_PERMISSIONS))
-                <div class="alert alert-warning">{{ trans('texts.upgrade_for_permissions') }}</div>
-                <script type="text/javascript">
-                    $(function () {
-                        $('input[type=checkbox]').prop('disabled', true);
-                    })
-                </script>
-            @endif
-            {!! Former::checkbox('is_admin')
-                ->label('&nbsp;')
-                ->value(1)
-                ->text(trans('texts.administrator'))
-                ->help(trans('texts.administrator_help')) !!}
-            <div class="panel-body">
-                <table class="table table-striped dataTable">
-                    <thead>
-                    <th></th>
-                    <th style="padding-bottom:0px">{!! Former::checkbox('create')
-                        ->text( trans('texts.create') )
-                        ->value('create_')
-                        ->label('&nbsp;')
-                        ->id('create_all') !!}
-                    </th>
-                    <th style="padding-bottom:0px">{!! Former::checkbox('view')
-                        ->text( trans('texts.view') )
-                        ->value('view_')
-                        ->label('&nbsp;')
-                        ->id('view_all') !!}
-                    </th>
-                    <th style="padding-bottom:0px">{!! Former::checkbox('edit')
-                        ->text( trans('texts.edit') )
-                        ->value('edit_')
-                        ->label('&nbsp;')
-                        ->id('edit_all') !!}
-                    </th>
-                    </thead>
-                    <tbody>
-                    @foreach (json_decode(PERMISSION_ENTITIES,1) as $permissionEntity)
-                        <?php
-                        if ($user)
-                            $permissions = json_decode($user->permissions, 1);
-                        else
-                            $permissions = [];
-                        ?>
-                        <tr>
-                            <td>{{ ucfirst($permissionEntity) }}</td>
-                            <td>{!! Former::checkbox('permissions[create_' . $permissionEntity . ']')
-                            ->label('&nbsp;')
-                            ->value('create_' . $permissionEntity . '')
-                            ->id('create_' . $permissionEntity . '')
-                            ->check(is_array($permissions) && in_array('create_' . $permissionEntity, $permissions, FALSE) ? true : false) !!}
-                            </td>
-                            <td>{!! Former::checkbox('permissions[view_' . $permissionEntity . ']')
-                                ->label('&nbsp;')
-                                ->value('view_' . $permissionEntity . '')
-                                ->id('view_' . $permissionEntity . '')
-                                ->check(is_array($permissions) && in_array('view_' . $permissionEntity, $permissions, FALSE) ? true : false) !!}
-                            </td>
-                            <td>{!! Former::checkbox('permissions[edit_' . $permissionEntity . ']')
-                            ->label('&nbsp;')
-                            ->value('edit_' . $permissionEntity . '')
-                            ->id('edit_' . $permissionEntity . '')
-                            ->check(is_array($permissions) && in_array('edit_' . $permissionEntity, $permissions, FALSE) ? true : false) !!}
-                            </td>
-                        </tr>
-                    @endforeach
-                    <tr>
-                        <td><input type="checkbox" id="view_contact" value="view_contact"
-                                   name="permissions[view_contact]" style="display:none">
-                            <input type="checkbox" id="edit_contact" value="edit_contact"
-                                   name="permissions[edit_contact]" style="display:none">
-                            <input type="checkbox" id="create_contact" value="create_contact"
-                                   name="permissions[create_contact]" style="display:none"></td>
-                    </tr>
-                    </tbody>
-                </table>
+    @foreach(Module::getOrdered() as $module)
+        @if(View::exists($module->alias . '::users.edit'))
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title in-white">
+                                <i class="fa fa-{{ $module->icon }}"></i>
+                                {{ $module->name}}
+                            </h3>
+                        </div>
+                        <div class="panel-body form-padding-right">
+                            @includeIf($module->alias . '::users.edit')
+                        </div>
+                    </div>
+                </div>
             </div>
-
-        </div>
-    </div>
-    <center class="buttons">
-        {!! Button::normal(trans('texts.cancel'))->asLinkTo(URL::to('/settings/user_management'))->appendIcon(Icon::create('remove-circle'))->large() !!}
-        {!! ($user) ? Button::success(trans('texts.save'))->withAttributes(['onclick' => 'submitAction("save")'])->large()->appendIcon(Icon::create('floppy-disk')) : false !!}
-        {!! (! $user || ! $user->confirmed) ? Button::info(trans($user ? 'texts.resend_invite' : 'texts.send_invite'))->withAttributes(['onclick' => 'submitAction("email")'])->large()->appendIcon(Icon::create('send')) : false !!}
-    </center>
+        @endif
+    @endforeach
+    @if (Auth::user()->canCreateOrEdit(ENTITY_UNIT, $user))
+        <center class="buttons">
+            {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/users'))->appendIcon(Icon::create('remove-circle')) !!}
+            {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
+            @if ($user)
+                {!! DropdownButton::normal(trans('texts.more_actions'))
+                ->withContents($user->present()->moreActions())
+                ->large()
+                ->dropup() !!}
+            @endif
+        </center>
+    @endif
     {!! Former::close() !!}
     <script type="text/javascript">
-        function submitAction(value) {
-            $('#action').val(value);
-            $('.user-form').submit();
+        var locations = {!! $locations !!};
+        var locationMap = {};
+
+        $(function () {
+            $('#name').focus();
+        });
+
+        $(function () {
+            <!-- user location -->
+            var locationId = {{ $locationPublicId ?: 0 }};
+            var $locationSelect = $('select#location_id');
+            @if (Auth::user()->can('create', ENTITY_LOCATION))
+            $locationSelect.append(new Option("{{ trans('texts.create_location')}}: $name", '-1'));
+                    @endif
+            for (var i = 0; i < locations.length; i++) {
+                var location = locations[i];
+                locationMap[location.public_id] = location;
+                $locationSelect.append(new Option(getClientDisplayName(location), location.public_id));
+            }
+            @include('partials/entity_combobox', ['entityType' => ENTITY_LOCATION])
+            if (locationId) {
+                var location = locationMap[locationId];
+                setComboboxValue($('.location-select'), location.public_id, location.name);
+            }<!-- /. user location  -->
+        });
+
+        function submitAction(action) {
+            $('#action').val(action);
+            $('.main-form').submit();
+        }
+
+        function onDeleteClick() {
+            sweetConfirm(function () {
+                submitAction('delete');
+            });
         }
     </script>
-@stop
-
-@section('onReady')
 @stop

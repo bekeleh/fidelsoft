@@ -159,8 +159,6 @@
         text-align: center;
     }
     @endforeach
-
-
 </style>
 
 <script type="text/javascript">

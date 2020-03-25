@@ -29,7 +29,7 @@ class StoreDatatable extends EntityDatatable
                 },
             ],
             [
-                'location',
+                'location_name',
                 function ($model) {
                     if ($model->location_id) {
                         if (Auth::user()->can('view', [ENTITY_LOCATION, $model]))

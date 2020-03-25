@@ -276,7 +276,6 @@ class EntityModel extends Eloquent
         }
     }
 
-
     public static function getTransformerName($entityType)
     {
         if (!Utils::isNinjaProd()) {
@@ -311,7 +310,6 @@ class EntityModel extends Eloquent
     {
 
     }
-
 
     public static function validate($data, $entityType = false, $entity = false)
     {

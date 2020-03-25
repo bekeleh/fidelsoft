@@ -8,22 +8,6 @@
                 <?php else: ?>
                                                                                                              background-color: #FD6A02 !important;
             <?php endif; ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             }
         </style>
     <?php endif; ?>

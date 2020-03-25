@@ -4,6 +4,7 @@ namespace App\Ninja\Repositories;
 
 use App\Events\UserWasCreated;
 use App\Events\UserWasUpdated;
+use App\Models\Location;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -18,12 +19,14 @@ class UserRepository extends BaseRepository
     public function find($accountId, $filter = null)
     {
         $query = DB::table('users')
+            ->join('locations', 'locations.id', '=', 'users.location_id')
 //            ->join('users_groups', 'users_groups.user_id', '=', 'users.id')
 //            ->where('users.deleted_at', '=', null)
 //            ->where('users.account_id', '=', $accountId)
             ->select(
                 'users.id',
                 'users.public_id',
+                'users.location_id',
                 'users.first_name',
                 'users.last_name',
                 'users.username',
@@ -39,12 +42,15 @@ class UserRepository extends BaseRepository
                 'users.deleted_at',
                 'users.created_by',
                 'users.updated_by',
-                'users.deleted_by'
+                'users.deleted_by',
+                'users.last_login',
+                'locations.name as location_name'
             );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
-                $query->where('users.name', 'like', '%' . $filter . '%');
+                $query->where('users.name', 'like', '%' . $filter . '%')
+                    ->orWhere('locations.name', 'like', '%' . $filter . '%');
             });
         }
 
@@ -53,7 +59,16 @@ class UserRepository extends BaseRepository
         return $query;
     }
 
-    public function save($data, $user)
+    public function findLocation($locationPublicId)
+    {
+        $locationId = Location::getPrivateId($locationPublicId);
+
+        $query = $this->find()->where('locations.location_id', '=', $locationId);
+
+        return $query;
+    }
+
+    public function save($data, $user = null)
     {
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
 
@@ -74,26 +89,27 @@ class UserRepository extends BaseRepository
         $user->fill($data);
 
         $user->account_id = Auth::user()->account_id;
-        $user->first_name = ucfirst(trim($data['first_name']));
-        $user->last_name = ucfirst(trim($data['last_name']));
-        $user->username = trim($data['username']);
-        $user->email = trim($data['email']);
+        $user->first_name = isset($data['first_name']) ? ucfirst(trim($data['first_name'])) : '';
+        $user->last_name = isset($data['last_name']) ? ucfirst(trim($data['last_name'])) : '';
+        $user->username = isset($data['username']) ? trim($data['username']) : '';
+        $user->email = isset($data['email']) ? trim($data['email']) : '';
         $user->registered = true;
         $user->password = strtolower(str_random(RANDOM_KEY_LENGTH));
         $user->confirmation_code = strtolower(str_random(RANDOM_KEY_LENGTH));
 
         if (Auth::user()->hasFeature(FEATURE_USER_PERMISSIONS)) {
-            $user->is_admin = boolval($data['is_admin']);
-            $user->permissions = self::formatUserPermissions($data['permissions']);
+            $user->is_admin = isset($data['permissions']) ? boolval($data['is_admin']) : 0;
+            $user->permissions = isset($data['permissions']) ? self::formatUserPermissions($data['permissions']) : '';
         }
 
-        dd($user);
+        $user->save();
 
         if ($publicId) {
             event(new UserWasUpdated($user, $data));
         } else {
             event(new UserWasCreated($user, $data));
         }
+
         return $user;
     }
 

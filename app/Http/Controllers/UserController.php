@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
 use App\Libraries\Utils;
+use App\Models\Location;
 use App\Models\User;
 use App\Ninja\Datatables\UserDatatable;
 use App\Ninja\Mailers\ContactMailer;
@@ -44,11 +45,17 @@ class UserController extends BaseController
         ]);
     }
 
-    public function getDatatable()
+    public function getDatatable($userPublicId = null)
     {
-        $search = Input::get('sSearch');
         $accountId = Auth::user()->account_id;
+        $search = Input::get('sSearch');
+
         return $this->userService->getDatatable($accountId, $search);
+    }
+
+    public function getDatatableLocation($locationPublicId = null)
+    {
+        return $this->userService->getDatatableLocation($locationPublicId);
     }
 
     public function forcePDFJS()
@@ -70,11 +77,19 @@ class UserController extends BaseController
 
     public function create(UserRequest $request)
     {
+        if ($request->location_id != 0) {
+            $location = Location::scope($request->location_id)->firstOrFail();
+        } else {
+            $location = null;
+        }
+
         $data = [
+            'locationPublicId' => Input::old('location') ? Input::old('location') : $request->location_id,
             'user' => null,
             'method' => 'POST',
             'url' => 'users',
             'title' => trans('texts.new_user'),
+            'location' => $location,
         ];
 
         $data = array_merge($data, self::getViewModel());
@@ -108,11 +123,13 @@ class UserController extends BaseController
         }
 
         $data = [
+            'location' => null,
             'user' => $user,
             'entity' => $user,
             'method' => $method,
             'url' => $url,
             'title' => trans('texts.user.edit'),
+            'locationPublicId' => $user->location ? $user->location->public_id : null,
         ];
 
         $data = array_merge($data, self::getViewModel($user));
@@ -318,6 +335,7 @@ class UserController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
+            'locations' => Location::scope()->withActiveOrSelected($user ? $user->location_id : false)->orderBy('name')->get(),
         ];
     }
 }

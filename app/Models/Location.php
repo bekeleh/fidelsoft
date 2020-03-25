@@ -69,6 +69,11 @@ class Location extends EntityModel
         return $this->belongsTo('App\Models\User')->withTrashed();
     }
 
+    public function users()
+    {
+        return $this->hasMany('App\Models\User')->withTrashed();
+    }
+
     public function manager()
     {
         return $this->belongsTo('App\Models\User')->withTrashed();

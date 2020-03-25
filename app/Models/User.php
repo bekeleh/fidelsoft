@@ -29,9 +29,9 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
 
 
     public static $all_permissions = [
-        'create_all' => 0b0001,
-        'view_all' => 0b0010,
-        'edit_all' => 0b0100,
+//        'create_all' => 0b0001,
+//        'view_all' => 0b0010,
+//        'edit_all' => 0b0100,
     ];
 
 
@@ -39,6 +39,9 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
 
 
     protected $fillable = [
+        'manager_id',
+        'user_id',
+        'location_id',
         'first_name',
         'last_name',
         'phone',
@@ -77,6 +80,11 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
     public function account()
     {
         return $this->belongsTo('App\Models\Account');
+    }
+
+    public function location()
+    {
+        return $this->belongsTo('App\Models\Location');
     }
 
     public function theme()

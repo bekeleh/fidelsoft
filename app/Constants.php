@@ -108,7 +108,7 @@ if (!defined('APP_NAME')) {
     define('ADVANCED_SETTINGS', 'advanced_settings');
 
     define('ACCOUNT_COMPANY_DETAILS', 'company_details');
-    define('ACCOUNT_USER_DETAILS', 'user_details');
+//    define('ACCOUNT_USER_DETAILS', 'user_details');
     define('ACCOUNT_LOCALIZATION', 'localization');
     define('ACCOUNT_NOTIFICATIONS', 'notifications');
     define('ACCOUNT_IMPORT_EXPORT', 'import_export');
@@ -137,7 +137,7 @@ if (!defined('APP_NAME')) {
     define('ACCOUNT_CLIENT_PORTAL', 'client_portal');
     define('ACCOUNT_EMAIL_SETTINGS', 'email_settings');
     define('ACCOUNT_REPORTS', 'reports');
-    define('ACCOUNT_USER_MANAGEMENT', 'user_management');
+//    define('ACCOUNT_USER_MANAGEMENT', 'user_management');
     define('ACCOUNT_DATA_VISUALIZATIONS', 'data_visualizations');
     define('ACCOUNT_TEMPLATES_AND_REMINDERS', 'templates_and_reminders');
     define('ACCOUNT_API_TOKENS', 'api_tokens');
@@ -617,7 +617,6 @@ if (!defined('APP_NAME')) {
     define('FEATURE_API', 'api');
     define('FEATURE_CLIENT_PORTAL_PASSWORD', 'client_portal_password');
     define('FEATURE_CUSTOM_URL', 'custom_url');
-
     define('FEATURE_MORE_CLIENTS', 'more_clients'); // No trial allowed
 
     // Whitelabel

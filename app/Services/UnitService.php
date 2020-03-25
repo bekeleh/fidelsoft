@@ -23,41 +23,25 @@ class UnitService extends BaseService
      */
     protected $datatableService;
 
-    /**
-     * CreditService constructor.
-     *
-     * @param UnitRepository $unitRepo
-     * @param DatatableService $datatableService
-     */
+
     public function __construct(UnitRepository $unitRepo, DatatableService $datatableService)
     {
         $this->unitRepo = $unitRepo;
         $this->datatableService = $datatableService;
     }
 
-    /**
-     * @return UnitRepository
-     */
+
     protected function getRepo()
     {
         return $this->unitRepo;
     }
 
-    /**
-     * @param $data
-     *
-     * @return mixed|null
-     */
     public function save($data)
     {
         return $this->unitRepo->save($data);
     }
 
-    /**
-     * @param $search
-     *
-     * @return JsonResponse
-     */
+
     public function getDatatable($accountId, $search)
     {
         $query = $this->unitRepo->find($accountId, $search);

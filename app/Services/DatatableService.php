@@ -4,9 +4,7 @@ namespace App\Services;
 
 use App\Libraries\Utils;
 use App\Ninja\Datatables\EntityDatatable;
-use Chumper\Datatable\Table;
 use Datatable;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -14,14 +12,7 @@ use Illuminate\Support\Facades\Auth;
  */
 class DatatableService
 {
-    /**
-     * @param EntityDatatable $datatable
-     * @param $query
-     *
-     * @return JsonResponse
-     * @throws ExceptionAlias
-     *
-     */
+
     public function createDatatable(EntityDatatable $datatable, $query)
     {
         $table = Datatable::query($query);
@@ -46,17 +37,12 @@ class DatatableService
                 $orderColumns[] = $field;
             }
         }
-
         if (count($datatable->actions())) {
             $this->createDropdown($datatable, $table);
         }
         return $table->orderColumns($orderColumns)->make();
     }
 
-    /**
-     * @param EntityDatatable $datatable
-     * @param Table $table
-     */
     private function createDropdown(EntityDatatable $datatable, $table)
     {
         $table->addColumn('dropdown', function ($model) use ($datatable) {
