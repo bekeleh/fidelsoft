@@ -2,20 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/groups/edit.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/2d0b68ba3e4ca44830cc6cfbededf70d114db3f3.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/PermissionApiController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/PermissionController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Requests/PermissionRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Models/Permission.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Ninja/Datatables/PermissionDatatable.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Ninja/Presenters/PermissionPresenter.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Ninja/Repositories/PermissionRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Services/PermissionService.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/users/show.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/GroupController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/GroupController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/AccountRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/AccountRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/BaseRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/BaseRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/GroupRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/GroupRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Constants.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Constants.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserApiController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Services/GroupService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/GroupService.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/cache/12/63/12638af913128b56dc4aba5f14920a5bdd99d4b7" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/cache/29/12/2912102607c13cf124e00086ca28c8472530eed2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/sessions/BB8Jzsxz9FMBVqqFuiTTG8MY555IQcXvs7wiuhlm" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/BB8Jzsxz9FMBVqqFuiTTG8MY555IQcXvs7wiuhlm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -254,7 +259,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/groups" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/users" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="terminal" />
   </component>
@@ -265,8 +270,8 @@
       <recent name="C:\wamp\www\invoiceninja\resources\views\products" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\wamp\www\invoiceninja\resources\views\groups" />
       <recent name="C:\wamp\www\invoiceninja\resources\views\users" />
+      <recent name="C:\wamp\www\invoiceninja\resources\views\groups" />
       <recent name="C:\wamp\www\invoiceninja\app\Listeners" />
       <recent name="C:\wamp\www\invoiceninja\resources\views\hold_reasons" />
       <recent name="C:\wamp\www\invoiceninja\resources\views" />
@@ -351,14 +356,7 @@
       <workItem from="1585079678323" duration="1252000" />
       <workItem from="1585080962845" duration="6056000" />
       <workItem from="1585146374403" duration="1806000" />
-      <workItem from="1585207190417" duration="4992000" />
-    </task>
-    <task id="LOCAL-00028" summary="202003140614">
-      <created>1584191619257</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1584191619257</updated>
+      <workItem from="1585207190417" duration="8027000" />
     </task>
     <task id="LOCAL-00029" summary="202003140614">
       <created>1584200007955</created>
@@ -696,7 +694,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585209322508</updated>
     </task>
-    <option name="localTasksCounter" value="77" />
+    <task id="LOCAL-00077" summary="2020-03-26 10:55">
+      <created>1585212260847</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1585212260847</updated>
+    </task>
+    <option name="localTasksCounter" value="78" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -739,10 +744,10 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="419" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1440.860@0.0.1440.860" timestamp="1585208338630" />
-    <state x="450" y="185" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1585208950885">
+    <state x="450" y="185" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1585212943360">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="450" y="185" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.860@0.0.1440.860" timestamp="1585208950885" />
+    <state x="450" y="185" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.860@0.0.1440.860" timestamp="1585212943360" />
     <state x="500" y="356" key="#com.jetbrains.php.lang.intentions.PhpImportClassDialog#" timestamp="1583994492849">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
@@ -788,10 +793,10 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="527" y="245" key="NewPhpClassDialog/0.0.1440.860@0.0.1440.860" timestamp="1585208581987" />
-    <state x="471" y="223" key="NewPhpFileDialog" timestamp="1585209240405">
+    <state x="471" y="223" key="NewPhpFileDialog" timestamp="1585214895398">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="471" y="223" key="NewPhpFileDialog/0.0.1440.860@0.0.1440.860" timestamp="1585209240405" />
+    <state x="471" y="223" key="NewPhpFileDialog/0.0.1440.860@0.0.1440.860" timestamp="1585214895398" />
     <state x="221" y="73" key="SettingsEditor" timestamp="1584008816522">
       <screen x="0" y="0" width="1440" height="860" />
     </state>

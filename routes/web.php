@@ -372,6 +372,11 @@ Route::group([
     Route::get('api/groups', 'GroupController@getDatatable');
     Route::resource('groups', 'GroupController');
     Route::post('groups/bulk', 'GroupController@bulk');
+//    permissions
+    Route::get('permissions/{permissions}/clone', 'permissionController@clonePermission');
+    Route::get('api/permissions', 'permissionController@getDatatable');
+    Route::resource('permissions', 'permissionController');
+    Route::post('permissions/bulk', 'permissionController@bulk');
 //  tax
     Route::get('api/tax_rates', 'TaxRateController@getDatatable');
     Route::resource('tax_rates', 'TaxRateController');

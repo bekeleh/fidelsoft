@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
 use App\Libraries\Utils;
+use App\Models\Group;
 use App\Models\Location;
+use App\Models\Permission;
 use App\Models\User;
 use App\Ninja\Datatables\UserDatatable;
 use App\Ninja\Mailers\ContactMailer;
@@ -16,6 +18,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Redirect;
 
@@ -68,11 +71,47 @@ class UserController extends BaseController
         return Redirect::to('/dashboard')->with('success', trans('texts.updated_settings'));
     }
 
-    public function show($publicId)
+    public function show(UserRequest $request)
     {
-        Session::reflash();
+        $user = $request->entity();
 
-        return Redirect::to("users/{$publicId}/edit");
+        $user = Auth::user();
+        $account = $user->account;
+
+        $user->can('view', [ENTITY_CLIENT, $user]);
+
+        $actionLinks = [];
+        if ($user->can('create', ENTITY_PERMISSION)) {
+            $actionLinks[] = ['label' => trans('texts.new_permission'), 'url' => URL::to('/permissions/create/' . $user->public_id)];
+        }
+
+        if ($user->can('create', ENTITY_GROUP)) {
+            $actionLinks[] = ['label' => trans('texts.new_groups'), 'url' => URL::to('/groups/create/' . $user->public_id)];
+        }
+
+        if (!empty($actionLinks)) {
+            $actionLinks[] = \DropdownButton::DIVIDER;
+        }
+
+        if ($user->can('create', ENTITY_PAYMENT)) {
+            $actionLinks[] = ['label' => trans('texts.enter_payment'), 'url' => URL::to('/payments/create/' . $user->public_id)];
+        }
+
+        $token = $user->getGatewayToken();
+
+        $data = [
+            'account' => $account,
+            'actionLinks' => $actionLinks,
+            'showBreadcrumbs' => false,
+            'user' => $user,
+            'title' => trans('texts.view_user'),
+            'hasPermissions' => $account->isModuleEnabled(ENTITY_PERMISSION) && Permission::scope()->withArchived()->whereClientId($user->id)->count() > 0,
+            'hasGroups' => $account->isModuleEnabled(ENTITY_GROUP) && Group::scope()->withArchived()->whereClientId($user->id)->count() > 0,
+            'gatewayLink' => $token ? $token->gatewayLink() : false,
+            'gatewayName' => $token ? $token->gatewayName() : false,
+        ];
+
+        return View::make('clients.show', $data);
     }
 
     public function create(UserRequest $request)

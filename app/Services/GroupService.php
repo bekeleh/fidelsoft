@@ -8,7 +8,7 @@ use App\Ninja\Repositories\GroupRepository;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * Class ExpenseCategoryService.
+ * Class GroupService.
  */
 class GroupService extends BaseService
 {

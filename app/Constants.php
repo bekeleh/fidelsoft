@@ -27,6 +27,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_ACCOUNT_GATEWAY', 'account_gateway');
     define('ENTITY_USER', 'user');
     define('ENTITY_GROUP', 'group');
+    define('ENTITY_PERMISSION', 'permission');
     define('ENTITY_TOKEN', 'token');
     define('ENTITY_TAX_RATE', 'tax_rate');
     define('ENTITY_PRODUCT', 'product');
@@ -83,6 +84,7 @@ if (!defined('APP_NAME')) {
         ENTITY_TASK,
         ENTITY_USER,
         ENTITY_GROUP,
+        ENTITY_PERMISSION,
         ENTITY_HOLD_REASON,
         ENTITY_TAX_RATE,
         ENTITY_VENDOR,
@@ -131,6 +133,7 @@ if (!defined('APP_NAME')) {
     define('ACCOUNT_UNIT', 'units');
     define('ACCOUNT_USER', 'users');
     define('ACCOUNT_GROUP', 'groups');
+    define('ACCOUNT_PERMISSION', 'permissions');
     define('ACCOUNT_ADVANCED_SETTINGS', 'advanced_settings');
     define('ACCOUNT_INVOICE_SETTINGS', 'invoice_settings');
     define('ACCOUNT_INVOICE_DESIGN', 'invoice_design');

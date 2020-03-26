@@ -1,6 +1,7 @@
 <?php
 Route::resource('users', 'UserApiController');
 Route::resource('groups', 'GroupApiController');
+Route::resource('permissions', 'PermissionApiController');
 Route::get('ping', 'AccountApiController@ping');
 Route::post('login', 'AccountApiController@login');
 Route::post('oauth_login', 'AccountApiController@oauthLogin');

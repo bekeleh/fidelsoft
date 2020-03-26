@@ -58,7 +58,6 @@ $LANG = array(
     |--------------------------------------------------------------------------
     */
     'group_name' => 'Group Name',
-    'groups' => 'Group',
     'groups' => 'Group List',
     'new_group' => 'New Group',
     'list_groups' => 'List Groups',
@@ -74,6 +73,28 @@ $LANG = array(
     'created_group' => 'Successfully Created Group',
     'archived_group' => 'Successfully Archived Group',
     'group_settings' => 'Group Settings',
+    /*
+    |--------------------------------------------------------------------------
+    | User groups  trans
+    |--------------------------------------------------------------------------
+    */
+    'permission_name' => 'Permission Name',
+    'permission' => 'permission',
+    'permissions' => 'permission List',
+    'new_permission' => 'New Permission',
+    'list_permissions' => 'List Permissions',
+    'create_permission' => 'Create Permission',
+    'edit_permission' => 'Edit Permission',
+    'clone_permission' => 'Clone Permission',
+    'archive_permission' => 'Archive Permission',
+    'delete_permission' => 'Delete Permission',
+    'deleted_permission' => 'Deleted Permission',
+    'restore_permission' => 'Restore Permission',
+    'restored_permission' => 'Restored Permission',
+    'updated_permission' => 'Successfully Updated Permission',
+    'created_permission' => 'Successfully Created Permission',
+    'archived_permission' => 'Successfully Archived Permission',
+    'permission_settings' => 'Permission Settings',
     /*
     |--------------------------------------------------------------------------
     | sales type trans
@@ -1394,7 +1415,6 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'restore_vendor' => 'Restore Vendor',
     'restored_vendor' => 'Successfully restored vendor',
     'restored_expense' => 'Successfully restored expense',
-    'permissions' => 'Permissions',
     'create_all_help' => 'Allow user to create and modify records',
     'view_all_help' => 'Allow user to view records they didn\'t create',
     'edit_all_help' => 'Allow user to modify records they didn\'t create',

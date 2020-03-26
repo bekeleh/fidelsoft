@@ -2,36 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserRequest;
-use App\Models\User;
-use App\Ninja\Repositories\UserRepository;
-use App\Services\UserService;
+use App\Http\Requests\PermissionRequest;
+use App\Models\Permission;
+use App\Ninja\Repositories\PermissionRepository;
+use App\Services\PermissionService;
 
-class UserApiController extends BaseAPIController
+class PermissionApiController extends BaseAPIController
 {
-    protected $userService;
-    protected $userRepo;
+    protected $permissionService;
+    protected $permissionRepo;
 
     protected $entityType = ENTITY_USER;
 
-    public function __construct(UserService $userService, UserRepository $userRepo)
+    public function __construct(PermissionService $permissionService, PermissionRepository $permissionRepo)
     {
         parent::__construct();
 
-        $this->userService = $userService;
-        $this->userRepo = $userRepo;
+        $this->permissionService = $permissionService;
+        $this->permissionRepo = $permissionRepo;
     }
 
     /**
      * @SWG\Get(
-     *   path="/users",
-     *   summary="List users",
-     *   operationId="listUsers",
+     *   path="/permissions",
+     *   summary="List permissions",
+     *   operationId="listPermissions",
      *   tags={"user"},
      *   @SWG\Response(
      *     response=200,
-     *     description="A list of users",
-     *      @SWG\Schema(type="array", @SWG\Items(ref="#/definitions/User"))
+     *     description="A list of permissions",
+     *      @SWG\Schema(type="array", @SWG\Items(ref="#/definitions/Permission"))
      *   ),
      *   @SWG\Response(
      *     response="default",
@@ -41,93 +41,93 @@ class UserApiController extends BaseAPIController
      */
     public function index()
     {
-        $users = User::scope()->withTrashed()->orderBy('created_at', 'desc');
+        $permissions = Permission::scope()->withTrashed()->orderBy('created_at', 'desc');
 
-        return $this->listResponse($users);
+        return $this->listResponse($permissions);
     }
 
     /**
      * @SWG\Get(
-     *   path="/users/{user_id}",
+     *   path="/permissions/{permission_id}",
      *   summary="Retrieve a user",
-     *   operationId="getUser",
+     *   operationId="getPermission",
      *   tags={"client"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="user_id",
+     *     name="permission_id",
      *     type="integer",
      *     required=true
      *   ),
      *   @SWG\Response(
      *     response=200,
      *     description="A single user",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/User"))
+     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Permission"))
      *   ),
      *   @SWG\Response(
      *     response="default",
      *     description="an ""unexpected"" error"
      *   )
      * )
-     * @param UserRequest $request
+     * @param PermissionRequest $request
      * @return
      */
-    public function show(UserRequest $request)
+    public function show(PermissionRequest $request)
     {
         return $this->itemResponse($request->entity());
     }
 
     /**
      * @SWG\Post(
-     *   path="/users",
+     *   path="/permissions",
      *   summary="Create a user",
-     *   operationId="createUser",
+     *   operationId="createPermission",
      *   tags={"user"},
      *   @SWG\Parameter(
      *     in="body",
      *     name="user",
-     *     @SWG\Schema(ref="#/definitions/User")
+     *     @SWG\Schema(ref="#/definitions/Permission")
      *   ),
      *   @SWG\Response(
      *     response=200,
      *     description="New user",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/User"))
+     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Permission"))
      *   ),
      *   @SWG\Response(
      *     response="default",
      *     description="an ""unexpected"" error"
      *   )
      * )
-     * @param UserRequest $request
+     * @param PermissionRequest $request
      * @return
      */
-    public function store(UserRequest $request)
+    public function store(PermissionRequest $request)
     {
-        $unit = $this->userRepo->save($request->input());
+        $unit = $this->permissionRepo->save($request->input());
 
         return $this->itemResponse($unit);
     }
 
     /**
      * @SWG\Put(
-     *   path="/users/{user_id}",
+     *   path="/permissions/{permission_id}",
      *   summary="Update a user",
-     *   operationId="updateUser",
+     *   operationId="updatePermission",
      *   tags={"user"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="user_id",
+     *     name="permission_id",
      *     type="integer",
      *     required=true
      *   ),
      *   @SWG\Parameter(
      *     in="body",
      *     name="user",
-     *     @SWG\Schema(ref="#/definitions/User")
+     *     @SWG\Schema(ref="#/definitions/Permission")
      *   ),
      *   @SWG\Response(
      *     response=200,
      *     description="Updated user",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/User"))
+     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Permission"))
      *   ),
      *   @SWG\Response(
      *     response="default",
@@ -135,11 +135,11 @@ class UserApiController extends BaseAPIController
      *   )
      * )
      *
-     * @param UserRequest $request
+     * @param PermissionRequest $request
      * @param $publicId
      * @return
      */
-    public function update(UserRequest $request, $publicId)
+    public function update(PermissionRequest $request, $publicId)
     {
         if ($request->action) {
             return $this->handleAction($request);
@@ -147,41 +147,41 @@ class UserApiController extends BaseAPIController
 
         $data = $request->input();
         $data['public_id'] = $publicId;
-        $unit = $this->userRepo->save($data, $request->entity());
+        $unit = $this->permissionRepo->save($data, $request->entity());
 
         return $this->itemResponse($unit);
     }
 
     /**
      * @SWG\Delete(
-     *   path="/users/{user_id}",
+     *   path="/permissions/{permission_id}",
      *   summary="Delete a user",
-     *   operationId="deleteUser",
+     *   operationId="deletePermission",
      *   tags={"user"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="user_id",
+     *     name="permission_id",
      *     type="integer",
      *     required=true
      *   ),
      *   @SWG\Response(
      *     response=200,
      *     description="Deleted user",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/User"))
+     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Permission"))
      *   ),
      *   @SWG\Response(
      *     response="default",
      *     description="an ""unexpected"" error"
      *   )
      * )
-     * @param UserRequest $request
+     * @param PermissionRequest $request
      * @return
      */
-    public function destroy(UserRequest $request)
+    public function destroy(PermissionRequest $request)
     {
         $entity = $request->entity();
 
-        $this->userRepo->delete($entity);
+        $this->permissionRepo->delete($entity);
 
         return $this->itemResponse($entity);
     }
