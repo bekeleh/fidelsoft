@@ -2,25 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/PermissionApiController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/PermissionController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/PermissionRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Models/Permission.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Ninja/Datatables/PermissionDatatable.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Ninja/Presenters/PermissionPresenter.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Ninja/Repositories/PermissionRepository.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Services/PermissionService.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/users/show.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Constants.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Constants.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserApiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Services/GroupService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/GroupService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/BB8Jzsxz9FMBVqqFuiTTG8MY555IQcXvs7wiuhlm" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/BB8Jzsxz9FMBVqqFuiTTG8MY555IQcXvs7wiuhlm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/users/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/users/show.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -356,14 +339,7 @@
       <workItem from="1585079678323" duration="1252000" />
       <workItem from="1585080962845" duration="6056000" />
       <workItem from="1585146374403" duration="1806000" />
-      <workItem from="1585207190417" duration="8027000" />
-    </task>
-    <task id="LOCAL-00029" summary="202003140614">
-      <created>1584200007955</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1584200007955</updated>
+      <workItem from="1585207190417" duration="8482000" />
     </task>
     <task id="LOCAL-00030" summary="202003140614">
       <created>1584277419976</created>
@@ -701,7 +677,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585212260847</updated>
     </task>
-    <option name="localTasksCounter" value="78" />
+    <task id="LOCAL-00078" summary="2020-03-26 10:55">
+      <created>1585215306418</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1585215306418</updated>
+    </task>
+    <option name="localTasksCounter" value="79" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -756,11 +739,11 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="622" y="0" key="#com.jetbrains.php.refactoring.extractMethod.PhpExtractMethodDialog#method1/0.0.1440.860@0.0.1440.860" timestamp="1584443627388" />
-    <state x="349" y="13" key="CommitChangelistDialog2" timestamp="1585212258586">
+    <state x="349" y="13" key="CommitChangelistDialog2" timestamp="1585215303788">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1585086802416" />
-    <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1585212258586" />
+    <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1585215303788" />
     <state x="500" y="177" key="FileChooserDialogImpl" timestamp="1584881689405">
       <screen x="0" y="0" width="1440" height="860" />
     </state>

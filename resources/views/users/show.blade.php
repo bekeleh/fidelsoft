@@ -32,47 +32,9 @@
                     {!! Former::text('action') !!}
                     {!! Former::text('public_id')->value($user->public_id) !!}
                 </div>
-
-                @if ($gatewayLink)
-                    {!! Button::normal(trans('texts.view_in_gateway', ['gateway'=>$gatewayName]))
-                            ->asLinkTo($gatewayLink)
-                            ->withAttributes(['target' => '_blank']) !!}
-                @endif
-
-                @if (!$user->is_deleted)
-                    @can('edit', $user)
-                        {!! DropdownButton::normal(trans('texts.edit_user'))
-                            ->withAttributes(['class'=>'normalDropDown'])
-                            ->withContents([
-                              ($user->trashed() ? false : ['label' => trans('texts.archive_user'), 'url' => "javascript:onArchiveClick()"]),
-                              ['label' => trans('texts.delete_user'), 'url' => "javascript:onDeleteClick()"],
-                              auth()->user()->is_admin ? \DropdownButton::DIVIDER : false,
-                              auth()->user()->is_admin ? ['label' => trans('texts.purge_user'), 'url' => "javascript:onPurgeClick()"] : false,
-                            ]
-                          )->split() !!}
-                    @endcan
-                @endif
-                @if ($user->trashed())
-                    @can('edit', $user)
-                        @if (auth()->user()->is_admin && $user->is_deleted)
-                            {!! Button::danger(trans('texts.purge_user'))
-                                    ->appendIcon(Icon::create('warning-sign'))
-                                    ->withAttributes(['onclick' => 'onPurgeClick()']) !!}
-                        @endif
-                        {!! Button::primary(trans('texts.restore_user'))
-                                ->appendIcon(Icon::create('retweet'))
-                                ->withAttributes(['onclick' => 'onRestoreClick()']) !!}
-                    @endcan
-                @endif
-                {!! Former::close() !!}
             </div>
         </div>
     </div>
-    @if ($user->last_login > 0)
-        <h3 style="margin-top:0px"><small>
-                {{ trans('texts.last_logged_in') }} {{ Utils::timestampToDateTimeString(strtotime($user->last_login)) }}
-            </small></h3>
-    @endif
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="row">
@@ -82,7 +44,6 @@
     </div>
     @if ($user->showMap())
         <div id="map">
-
         </div>
         <br/>
     @endif
@@ -91,26 +52,12 @@
         {!! Form::tab_link('#permission', trans('texts.permission'), true) !!}
         {!! Form::tab_link('#group', trans('texts.groups')) !!}
     </ul><br/>
-    @if ($hasPermissions)
-        <div class="tab-pane" id="group">
-            @include('list', [
-                'entityType' => ENTITY_PERMISSION,
-                'datatable' => new \App\Ninja\Datatables\PermissionDatatable(true, true),
-                'userId' => $user->public_id,
-                'url' => url('api/permission/' . $user->public_id),
-            ])
-        </div>
-    @endif
-    @if ($hasGroups)
-        <div class="tab-pane" id="expenses">
-            @include('list', [
-                'entityType' => ENTITY_GROUP,
-                'datatable' => new \App\Ninja\Datatables\GROUPDatatable(true, true),
-                'userId' => $user->public_id,
-                'url' => url('api/groups/' . $user->public_id),
-            ])
-        </div>
-    @endif
+    <div class="tab-pane" id="permission">
+        <p>list of permissions</p>
+    </div>
+    <div class="tab-pane" id="group">
+        <p> list of groups</p>
+    </div>
     <div class="modal fade" id="emailHistoryModal" tabindex="-1" role="dialog"
          aria-labelledby="emailHistoryModalLabel"
          aria-hidden="true">
@@ -142,16 +89,13 @@
             $('.normalDropDown:not(.dropdown-toggle)').click(function (event) {
                 openUrlOnClick('{{ URL::to('users/' . $user->public_id . '/edit') }}', event);
             });
-            $('.primaryDropDown:not(.dropdown-toggle)').click(function (event) {
-                openUrlOnClick('{{ URL::to('users/statement/' . $user->public_id ) }}', event);
-            });
 
             // load datatable data when tab is shown and remember last tab selected
             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
                 var target = $(e.target).attr("href") // activated tab
                 target = target.substring(1);
                 if (isStorageSupported()) {
-                    localStorage.setItem('client_tab', target);
+                    localStorage.setItem('permission_tab', target);
                 }
                 if (!loadedTabs.hasOwnProperty(target) && window['load_' + target]) {
                     loadedTabs[target] = true;
@@ -159,7 +103,7 @@
                 }
             });
 
-            var tab = window.location.hash || (localStorage.getItem('client_tab') || '');
+            var tab = window.location.hash || (localStorage.getItem('permission_tab') || '');
             tab = tab.replace('#', '');
             var selector = '.nav-tabs a[href="#' + tab + '"]';
 
