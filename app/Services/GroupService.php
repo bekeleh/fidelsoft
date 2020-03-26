@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Libraries\Utils;
-use App\Ninja\Datatables\UnitDatatable;
+use App\Ninja\Datatables\GroupDatatable;
 use App\Ninja\Repositories\GroupRepository;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,9 +46,9 @@ class GroupService extends BaseService
         $query = $this->groupRepo->find($accountId, $search);
 
         if (!Utils::hasPermission('view_group')) {
-            $query->where('groups.user_id', '=', Auth::user()->id);
+            $query->where('permission_groups.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable(new UnitDatatable(), $query);
+        return $this->datatableService->createDatatable(new GroupDatatable(), $query);
     }
 }

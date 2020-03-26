@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\GroupRequest;
 use App\Libraries\Utils;
-use App\Ninja\Datatables\UnitDatatable;
+use App\Ninja\Datatables\GroupDatatable;
 use App\Ninja\Repositories\GroupRepository;
 use App\Services\GroupService;
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +31,7 @@ class GroupController extends BaseController
     {
         return View::make('list_wrapper', [
             'entityType' => ENTITY_GROUP,
-            'datatable' => new UnitDatatable(),
+            'datatable' => new GroupDatatable(),
             'title' => trans('texts.groups'),
         ]);
     }

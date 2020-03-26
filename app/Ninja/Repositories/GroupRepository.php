@@ -20,36 +20,35 @@ class GroupRepository extends BaseRepository
         return Group::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
-
     public function find($accountId, $filter = null)
     {
-        $query = DB::table('groups')
-            ->join('accounts', 'accounts.id', '=', 'groups.account_id')
-            ->join('users', 'users.id', '=', 'users_groups.user_id')
-            ->where('groups.account_id', '=', $accountId)
-            //->where('groups.deleted_at', '=', null)
+        $query = DB::table('permission_groups')
+            ->join('accounts', 'accounts.id', '=', 'permission_groups.account_id')
+//            ->join('users', 'users.id', '=', 'users_groups.group_id')
+            ->where('permission_groups.account_id', '=', $accountId)
+            //->where('permission_groups.deleted_at', '=', null)
             ->select(
-                'groups.id',
-                'groups.public_id',
-                'groups.name as group_name',
-                'groups.is_deleted',
-                'groups.notes',
-                'groups.created_at',
-                'groups.updated_at',
-                'groups.deleted_at',
-                'groups.created_by',
-                'groups.updated_by',
-                'groups.deleted_by'
+                'permission_groups.id',
+                'permission_groups.public_id',
+                'permission_groups.name as group_name',
+                'permission_groups.is_deleted',
+                'permission_groups.notes',
+                'permission_groups.created_at',
+                'permission_groups.updated_at',
+                'permission_groups.deleted_at',
+                'permission_groups.created_by',
+                'permission_groups.updated_by',
+                'permission_groups.deleted_by'
             );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
-                $query->where('groups.name', 'like', '%' . $filter . '%')
-                    ->orWhere('groups.notes', 'like', '%' . $filter . '%');
+                $query->where('permission_groups.name', 'like', '%' . $filter . '%')
+                    ->orWhere('permission_groups.notes', 'like', '%' . $filter . '%');
             });
         }
 
-        $this->applyFilters($query, ENTITY_GROUP);
+        $this->applyFilters($query, ENTITY_GROUP, 'permission_group');
 
         return $query;
     }

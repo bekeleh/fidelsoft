@@ -54,6 +54,28 @@ $LANG = array(
     'confirmed' => 'Confirmed',
     /*
     |--------------------------------------------------------------------------
+    | User groups  trans
+    |--------------------------------------------------------------------------
+    */
+    'group_name' => 'Group Name',
+    'groups' => 'Group',
+    'groups' => 'Group List',
+    'new_group' => 'New Group',
+    'list_groups' => 'List Groups',
+    'create_group' => 'Create Group',
+    'edit_group' => 'Edit Group',
+    'clone_group' => 'Clone Group',
+    'archive_group' => 'Archive Group',
+    'delete_group' => 'Delete Group',
+    'deleted_group' => 'Deleted Group',
+    'restore_group' => 'Restore Group',
+    'restored_group' => 'Restored Group',
+    'updated_group' => 'Successfully Updated Group',
+    'created_group' => 'Successfully Created Group',
+    'archived_group' => 'Successfully Archived Group',
+    'group_settings' => 'Group Settings',
+    /*
+    |--------------------------------------------------------------------------
     | sales type trans
     |--------------------------------------------------------------------------
     */

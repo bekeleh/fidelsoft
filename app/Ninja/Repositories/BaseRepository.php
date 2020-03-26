@@ -2,25 +2,20 @@
 
 namespace App\Ninja\Repositories;
 
-use Auth;
-use Utils;
+use App\Libraries\Utils;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class BaseRepository.
  */
 class BaseRepository
 {
-    /**
-     * @return null
-     */
+
     public function getClassName()
     {
         return null;
     }
 
-    /**
-     * @return mixed
-     */
     private function getInstance()
     {
         $className = $this->getClassName();
@@ -28,20 +23,11 @@ class BaseRepository
         return new $className();
     }
 
-    /**
-     * @param $entity
-     * @param $type
-     *
-     * @return string
-     */
     private function getEventClass($entity, $type)
     {
         return 'App\Events\\' . ucfirst($entity->getEntityType()) . 'Was' . $type;
     }
 
-    /**
-     * @param $entity
-     */
     public function archive($entity)
     {
         if ($entity->trashed()) {
@@ -57,9 +43,6 @@ class BaseRepository
         }
     }
 
-    /**
-     * @param $entity
-     */
     public function restore($entity)
     {
         if (!$entity->trashed()) {
@@ -82,9 +65,6 @@ class BaseRepository
         }
     }
 
-    /**
-     * @param $entity
-     */
     public function delete($entity)
     {
         if ($entity->is_deleted) {
@@ -103,12 +83,6 @@ class BaseRepository
         }
     }
 
-    /**
-     * @param $ids
-     * @param $action
-     *
-     * @return int
-     */
     public function bulk($ids, $action)
     {
         if (!$ids) {
@@ -126,21 +100,11 @@ class BaseRepository
         return count($entities);
     }
 
-    /**
-     * @param $ids
-     *
-     * @return mixed
-     */
     public function findByPublicIds($ids)
     {
         return $this->getInstance()->scope($ids)->get();
     }
 
-    /**
-     * @param $ids
-     *
-     * @return mixed
-     */
     public function findByPublicIdsWithTrashed($ids)
     {
         return $this->getInstance()->scope($ids)->withTrashed()->get();
@@ -149,7 +113,9 @@ class BaseRepository
     protected function applyFilters($query, $entityType, $table = false)
     {
         $table = Utils::pluralizeEntityType($table ?: $entityType);
+
         if ($filter = session('entity_state_filter:' . $entityType, STATUS_ACTIVE)) {
+
             $filters = explode(',', $filter);
             $query->where(function ($query) use ($filters, $table) {
                 $query->whereNull($table . '.id');
