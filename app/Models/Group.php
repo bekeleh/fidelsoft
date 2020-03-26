@@ -23,7 +23,8 @@ class Group extends EntityModel
     protected $fillable = [
         'name',
         'permissions',
-        'note',
+        'is_deleted',
+        'notes',
         'created_by',
         'updated_by',
         'deleted_by',

@@ -11,21 +11,11 @@ use App\Ninja\Repositories\UnitRepository;
  */
 class UnitApiController extends BaseAPIController
 {
-    /**
-     * @var string
-     */
+
     protected $entityType = ENTITY_UNIT;
 
-    /**
-     * @var UnitRepository
-     */
     protected $unitRepo;
 
-    /**
-     * UnitApiController constructor.
-     *
-     * @param UnitRepository $unitRepo
-     */
     public function __construct(UnitRepository $unitRepo)
     {
         parent::__construct();

@@ -143,7 +143,6 @@ class ClientController extends BaseController
 
     public function show(ClientRequest $request)
     {
-
         $client = $request->entity();
         $user = Auth::user();
         $account = $user->account;

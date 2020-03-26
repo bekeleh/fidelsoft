@@ -4,18 +4,18 @@ namespace App\Services;
 
 use App\Libraries\Utils;
 use App\Ninja\Datatables\UnitDatatable;
-use App\Ninja\Repositories\UnitRepository;
+use App\Ninja\Repositories\GroupRepository;
 use Illuminate\Support\Facades\Auth;
 
 /**
  * Class ExpenseCategoryService.
  */
-class UnitService extends BaseService
+class GroupService extends BaseService
 {
     /**
-     * @var UnitRepository
+     * @var GroupRepository
      */
-    protected $unitRepo;
+    protected $groupRepo;
 
     /**
      * @var DatatableService
@@ -23,30 +23,30 @@ class UnitService extends BaseService
     protected $datatableService;
 
 
-    public function __construct(UnitRepository $unitRepo, DatatableService $datatableService)
+    public function __construct(GroupRepository $groupRepo, DatatableService $datatableService)
     {
-        $this->unitRepo = $unitRepo;
+        $this->groupRepo = $groupRepo;
         $this->datatableService = $datatableService;
     }
 
 
     protected function getRepo()
     {
-        return $this->unitRepo;
+        return $this->groupRepo;
     }
 
     public function save($data)
     {
-        return $this->unitRepo->save($data);
+        return $this->groupRepo->save($data);
     }
 
 
     public function getDatatable($accountId, $search)
     {
-        $query = $this->unitRepo->find($accountId, $search);
+        $query = $this->groupRepo->find($accountId, $search);
 
-        if (!Utils::hasPermission('view_unit')) {
-            $query->where('units.user_id', '=', Auth::user()->id);
+        if (!Utils::hasPermission('view_group')) {
+            $query->where('groups.user_id', '=', Auth::user()->id);
         }
 
         return $this->datatableService->createDatatable(new UnitDatatable(), $query);

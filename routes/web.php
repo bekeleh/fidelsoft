@@ -349,6 +349,7 @@ Route::group([
     'middleware' => ['web', 'auth', 'permissions.required'],
     'permissions' => 'admin',
 ], function () {
+//    user
     Route::get('api/users', 'UserController@getDatatable');
     Route::resource('users', 'UserController');
     Route::post('users/bulk', 'UserController@bulk');
@@ -366,7 +367,12 @@ Route::group([
     Route::get('api/subscriptions', 'SubscriptionController@getDatatable');
     Route::resource('subscriptions', 'SubscriptionController');
     Route::post('subscriptions/bulk', 'SubscriptionController@bulk');
-
+//    user groups
+    Route::get('groups/{groups}/clone', 'GroupController@cloneGroup');
+    Route::get('api/groups', 'GroupController@getDatatable');
+    Route::resource('groups', 'GroupController');
+    Route::post('groups/bulk', 'GroupController@bulk');
+//  tax
     Route::get('api/tax_rates', 'TaxRateController@getDatatable');
     Route::resource('tax_rates', 'TaxRateController');
     Route::post('tax_rates/bulk', 'TaxRateController@bulk');

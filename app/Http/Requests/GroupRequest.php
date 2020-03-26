@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Unit;
+use App\Models\Group;
 
-class UnitRequest extends EntityRequest
+class GroupRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_UNIT;
+    protected $entityType = ENTITY_GROUP;
 
     public function authorize()
     {
@@ -21,7 +21,7 @@ class UnitRequest extends EntityRequest
             case 'POST':
             {
                 $this->validationData();
-                $rules['name'] = 'required|max:90|unique:units,name,' . $this->id . ',id,account_id,' . $this->account_id;
+                $rules['name'] = 'required|max:90|unique:permission_groups,name,' . $this->id . ',id,account_id,' . $this->account_id;
                 $rules['notes'] = 'nullable';
                 $rules['is_deleted'] = 'boolean';
                 break;
@@ -30,9 +30,9 @@ class UnitRequest extends EntityRequest
             case 'PATCH':
             {
                 $this->validationData();
-                $unit = Unit::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
-                if ($unit) {
-                    $rules['name'] = 'required|max:90|unique:units,name,' . $unit->id . ',id,account_id,' . $unit->account_id;
+                $group = Group::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
+                if ($group) {
+                    $rules['name'] = 'required|max:90|unique:permission_groups,name,' . $group->id . ',id,account_id,' . $group->account_id;
                     $rules['is_deleted'] = 'boolean';
                     $rules['notes'] = 'nullable';
                     break;
@@ -64,7 +64,7 @@ class UnitRequest extends EntityRequest
         $input = $this->input();
         if (count($input)) {
             $this->request->add([
-                'account_id' => Unit::getAccountId()
+                'account_id' => Group::getAccountId()
             ]);
         }
         return $this->request->all();

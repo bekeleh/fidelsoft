@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 /**
- * Class LocationPolicy.
+ * Class UnitPolicy.
  */
 class UnitPolicy extends EntityPolicy
 {

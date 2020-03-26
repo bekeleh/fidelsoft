@@ -4,7 +4,7 @@ namespace App\Ninja\Mailers;
 
 use App\Libraries\Utils;
 use Exception;
-use Mail;
+use Illuminate\Support\Facades\Mail;
 use Postmark\Models\PostmarkAttachment;
 use Postmark\Models\PostmarkException;
 use Postmark\PostmarkClient;
@@ -14,17 +14,6 @@ use Postmark\PostmarkClient;
  */
 class Mailer
 {
-    /**
-     * @param $toEmail
-     * @param $fromEmail
-     * @param $fromName
-     * @param $subject
-     * @param $view
-     * @param array $data
-     *
-     * @return bool|string
-     * @throws Exception
-     */
     public function sendTo($toEmail, $fromEmail, $fromName, $subject, $view, $data = [])
     {
         // don't send emails to dummy addresses
@@ -191,12 +180,6 @@ class Mailer
         }
     }
 
-    /**
-     * @param $data
-     *
-     * @param bool $messageId
-     * @return bool
-     */
     private function handleSuccess($data, $messageId = false)
     {
         if (isset($data['invitation'])) {
@@ -214,11 +197,6 @@ class Mailer
         return true;
     }
 
-    /**
-     * @param $data
-     * @param $emailError
-     * @return string
-     */
     private function handleFailure($data, $emailError)
     {
         if (isset($data['invitation'])) {

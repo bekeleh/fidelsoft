@@ -1,5 +1,6 @@
 <?php
-
+Route::resource('users', 'UserApiController');
+Route::resource('groups', 'GroupApiController');
 Route::get('ping', 'AccountApiController@ping');
 Route::post('login', 'AccountApiController@login');
 Route::post('oauth_login', 'AccountApiController@oauthLogin');
@@ -33,7 +34,6 @@ Route::resource('hold_reasons', 'HoldReasonApiController');
 Route::resource('units', 'UnitApiController');
 Route::resource('projects', 'ProjectApiController');
 Route::resource('tax_rates', 'TaxRateApiController');
-Route::resource('users', 'UserApiController');
 Route::resource('expenses', 'ExpenseApiController');
 Route::post('add_token', 'AccountApiController@addDeviceToken');
 Route::post('remove_token', 'AccountApiController@removeDeviceToken');

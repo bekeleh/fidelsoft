@@ -5,40 +5,24 @@ namespace App\Ninja\Mailers;
 use App\Events\InvoiceWasEmailed;
 use App\Events\QuoteWasEmailed;
 use App\Jobs\ConvertInvoiceToUbl;
+use App\Libraries\Utils;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Services\TemplateService;
 use Illuminate\Support\Facades\Cache;
-use Event;
-use Laracasts\Presenter\Exceptions\PresenterException;
-use Mail;
-use App\Libraries\Utils;
+use Illuminate\Support\Facades\Mail;
 
 class ContactMailer extends Mailer
 {
-    /**
-     * @var TemplateService
-     */
+
     protected $templateService;
 
-    /**
-     * ContactMailer constructor.
-     *
-     * @param TemplateService $templateService
-     */
+
     public function __construct(TemplateService $templateService)
     {
         $this->templateService = $templateService;
     }
 
-    /**
-     * @param Invoice $invoice
-     * @param bool $reminder
-     * @param bool $template
-     * @param bool $proposal
-     * @return bool|null|string
-     * @throws PresenterException
-     */
     public function sendInvoice(Invoice $invoice, $reminder = false, $template = false, $proposal = false)
     {
         if ($invoice->is_recurring) {
@@ -127,18 +111,6 @@ class ContactMailer extends Mailer
         return $response;
     }
 
-    /**
-     * @param Invitation $invitation
-     * @param Invoice $invoice
-     * @param $body
-     * @param $subject
-     * @param mixed $reminder
-     *
-     * @param $isFirst
-     * @param $extra
-     * @return bool|string
-     * @throws PresenterException
-     */
     private function sendInvitation(
         $invitation,
         Invoice $invoice,
@@ -236,11 +208,6 @@ class ContactMailer extends Mailer
         }
     }
 
-    /**
-     * @param int $length
-     *
-     * @return string
-     */
     protected function generatePassword($length = 9)
     {
         $sets = [
@@ -263,11 +230,7 @@ class ContactMailer extends Mailer
         return $password;
     }
 
-    /**
-     * @param Payment $payment
-     * @param int $refunded
-     * @throws \Exception
-     */
+
     public function sendPaymentConfirmation(Payment $payment, $refunded = 0)
     {
         $account = $payment->account;
@@ -336,14 +299,6 @@ class ContactMailer extends Mailer
         $account->loadLocalizationSettings();
     }
 
-    /**
-     * @param $name
-     * @param $email
-     * @param $amount
-     * @param $license
-     * @param $productId
-     * @throws \Exception
-     */
     public function sendLicensePaymentConfirmation($name, $email, $amount, $license, $productId)
     {
         $view = 'license_confirmation';

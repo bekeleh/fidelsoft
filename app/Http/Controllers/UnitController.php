@@ -15,7 +15,6 @@ use Redirect;
 
 class UnitController extends BaseController
 {
-    // Stores
     protected $unitRepo;
     protected $unitService;
     protected $entityType = ENTITY_UNIT;

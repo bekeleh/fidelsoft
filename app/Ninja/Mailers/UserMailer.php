@@ -6,14 +6,9 @@ use App\Models\Invitation;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\User;
-use Laracasts\Presenter\Exceptions\PresenterException;
 
 class UserMailer extends Mailer
 {
-    /**
-     * @param User $user
-     * @param User|null $invitor
-     */
     public function sendConfirmation(User $user, User $invitor = null)
     {
         if (!$user->email) {
@@ -39,9 +34,6 @@ class UserMailer extends Mailer
         $this->sendTo($user->email, $fromEmail, $fromName, $subject, $view, $data);
     }
 
-    /**
-     * @param User $user
-     */
     public function sendEmailChanged(User $user)
     {
         $oldEmail = $user->getOriginal('email');
@@ -63,14 +55,6 @@ class UserMailer extends Mailer
         $this->sendTo($oldEmail, CONTACT_EMAIL, CONTACT_NAME, $subject, $view, $data);
     }
 
-    /**
-     * @param User $user
-     * @param Invoice $invoice
-     * @param $notificationType
-     * @param Payment|null $payment
-     * @param bool $notes
-     * @throws PresenterException
-     */
     public function sendNotification(
         User $user,
         Invoice $invoice,
@@ -117,9 +101,6 @@ class UserMailer extends Mailer
         $this->sendTo($user->email, CONTACT_EMAIL, CONTACT_NAME, $subject, $view, $data);
     }
 
-    /**
-     * @param Invitation $invitation
-     */
     public function sendEmailBounced(Invitation $invitation)
     {
         $user = $invitation->user;
@@ -144,12 +125,6 @@ class UserMailer extends Mailer
         $this->sendTo($user->email, CONTACT_EMAIL, CONTACT_NAME, $subject, $view, $data);
     }
 
-    /**
-     * @param $user
-     * @param $subject
-     * @param $message
-     * @param bool $data
-     */
     public function sendMessage($user, $subject, $message, $data = false)
     {
         if (!$user->email) {
