@@ -16,8 +16,10 @@
     <?php else: ?>
         <title><?php echo e(isset($title) ? ($title . ' | HARON ERP') : ('HARON ERP' )); ?></title>
         <meta name="description" content="<?php echo e(isset($description) ? $description : trans('texts.app_description')); ?>"/>
-        <link href="<?php echo e(asset('favicon-v2.gif')); ?>" rel="shortcut icon" type="image/gif">
+        <!-- iCheck for checkboxes and radio inputs -->
+        <link rel="stylesheet" href="<?php echo e(url(asset('js/plugins/iCheck/all.css'))); ?>">
 
+        <link href="<?php echo e(asset('favicon-v2.gif')); ?>" rel="shortcut icon" type="image/gif">
         <meta property="og:site_name" content="HARON ERP"/>
         <meta property="og:url" content="<?php echo e(SITE_URL); ?>"/>
         <meta property="og:title" content="HARON ERP"/>

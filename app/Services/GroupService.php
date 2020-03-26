@@ -51,4 +51,9 @@ class GroupService extends BaseService
 
         return $this->datatableService->createDatatable(new GroupDatatable(), $query);
     }
+
+    public function decodePermissions()
+    {
+        return $this->groupRepo->decodePermissions();
+    }
 }

@@ -17,7 +17,11 @@ class UserDatatable extends EntityDatatable
             [
                 'first_name',
                 function ($model) {
-                    return $model->public_id ? link_to('users/' . $model->public_id . '/edit', $model->first_name . ' ' . $model->last_name)->toHtml() : e($model->first_name . ' ' . $model->last_name);
+                    if (Auth::user()->can('view', [ENTITY_USER, $model]))
+                        return $model->public_id ? link_to("users/{$model->public_id}", Utils::getUserDisplayName($model))->toHtml() : '';
+                    else
+                        return Utils::getUserDisplayName($model);
+
                 },
             ],
             [

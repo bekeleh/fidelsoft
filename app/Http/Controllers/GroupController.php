@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\GroupRequest;
 use App\Libraries\Utils;
+use App\Models\Group;
+use App\Models\Permission;
 use App\Ninja\Datatables\GroupDatatable;
 use App\Ninja\Repositories\GroupRepository;
 use App\Services\GroupService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Redirect;
 
@@ -38,9 +41,41 @@ class GroupController extends BaseController
 
     public function show($publicId)
     {
-        Session::reflash();
+        $group = new Group();
 
-        return Redirect::to("groups/{$publicId}/edit");
+        $user = Auth::user();
+        $account = $user->account;
+        $group->can('view', [ENTITY_GROUP, $user]);
+
+        $actionLinks = [];
+        if ($group->can('create', ENTITY_GROUP)) {
+            $actionLinks[] = ['label' => trans('texts.new_permission'), 'url' => URL::to('/groups/create/' . $group->public_id)];
+        }
+
+        if ($group->can('create', ENTITY_GROUP)) {
+            $actionLinks[] = ['label' => trans('texts.new_groups'), 'url' => URL::to('/groups/create/' . $group->public_id)];
+        }
+
+        if (!empty($actionLinks)) {
+            $actionLinks[] = \DropdownButton::DIVIDER;
+        }
+        $permissions = config('permissions');
+        $group->permissions = $this->groupService->decodePermissions();
+        $groupPermissions = Utils::selectedPermissionsArray($permissions, $group->permissions);
+
+        $data = [
+            'group' => 'detail',
+            'permissions' => $permissions,
+            'groupPermissions' => $groupPermissions,
+            'account' => $account,
+            'actionLinks' => $actionLinks,
+            'showBreadcrumbs' => false,
+            'title' => trans('texts.view_user'),
+            'hasPermissions' => $account->isModuleEnabled(ENTITY_PERMISSION) && Permission::scope()->withArchived()->whereUserId($group->id)->count() > 0,
+            'hasGroups' => $account->isModuleEnabled(ENTITY_GROUP) && Group::scope()->withArchived()->whereUserId($group->id)->count() > 0,
+        ];
+
+        return View::make('users.show', $data);
     }
 
     public function getDatatable($groupPublicId = null)

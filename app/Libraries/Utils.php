@@ -116,6 +116,32 @@ class Utils
         return strlen(preg_replace('/[^\/]/', '', url('/'))) == 2;
     }
 
+    public static function selectedPermissionsArray($permissions, $selected_arr = array())
+    {
+        $permissions_arr = array();
+
+        foreach ($permissions as $permission) {
+            // iterating through each array
+            for ($x = 0; $x < count($permission); $x++) {
+                $permission_name = $permission[$x]['permission'];
+
+                if ($permission[$x]['display'] === true) {
+
+                    if ($selected_arr) {
+                        if (array_key_exists($permission_name, $selected_arr)) {
+                            $permissions_arr[$permission_name] = $selected_arr[$permission_name];
+                        } else {
+                            $permissions_arr[$permission_name] = '0';
+                        }
+                    } else {
+                        $permissions_arr[$permission_name] = '0';
+                    }
+                }
+            }
+        }
+        return $permissions_arr;
+    }
+
     public static function clientViewCSS()
     {
         $account = false;
@@ -944,6 +970,15 @@ class Utils
             return $model->first_name . ' ' . $model->last_name;
         } else {
             return $model->email ?: '';
+        }
+    }
+
+    public static function getUserDisplayName($model)
+    {
+        if ($model->first_name || $model->last_name) {
+            return $model->first_name . ' ' . $model->last_name;
+        } else {
+            return $model->username ?: '';
         }
     }
 

@@ -47,16 +47,33 @@
         </div>
         <br/>
     @endif
-
     <ul class="nav nav-tabs nav-justified">
-        {!! Form::tab_link('#permission', trans('texts.permission'), true) !!}
-        {!! Form::tab_link('#group', trans('texts.groups')) !!}
-    </ul><br/>
-    <div class="tab-pane" id="permission">
-        <p>list of permissions</p>
-    </div>
-    <div class="tab-pane" id="group">
-        <p> list of groups</p>
+        {!! Form::tab_link('#activity', trans('texts.activity'), true) !!}
+        @if (true)
+            {!! Form::tab_link('#permissions', trans('texts.permissions')) !!}
+        @endif
+        @if (true)
+            {!! Form::tab_link('#groups', trans('texts.groups')) !!}
+        @endif
+
+    </ul>
+    <br/>
+    <div class="tab-content">
+        @if (true)
+            <div class="tab-pane" id="permissions">
+                @include('accounts.permission',[
+                'permissions' => $permissions,
+                'userPermissions' => $userPermissions,
+                ])
+            </div>
+        @endif
+
+        @if (true)
+            <div class="tab-pane" id="groups">
+                <h4>groups</h4>
+            </div>
+        @endif
+
     </div>
     <div class="modal fade" id="emailHistoryModal" tabindex="-1" role="dialog"
          aria-labelledby="emailHistoryModalLabel"
@@ -110,7 +127,7 @@
             if (tab && tab != 'permission' && $(selector).length && window['load_' + tab]) {
                 $(selector).tab('show');
             } else {
-                window['load_permission']();
+                // window['load_activity']();
             }
         });
 
@@ -129,32 +146,6 @@
                 $('#action').val('delete');
                 $('.mainForm').submit();
             });
-        }
-
-        function onPurgeClick() {
-            sweetConfirm(function () {
-                $('#action').val('purge');
-                $('.mainForm').submit();
-            }, "{{ trans('texts.purge_user_warning') . "\\n\\n" . trans('texts.mobile_refresh_warning') . "\\n\\n" . trans('texts.no_undo') }}");
-        }
-
-        function showEmailHistory(email) {
-            window.emailBounceId = false;
-            $('#emailHistoryModal .panel-body').html("{{ trans('texts.loading') }}...");
-            $('#reactivateButton').hide();
-            $('#emailHistoryModal').modal('show');
-            $.post('{{ url('/email_history') }}', {email: email}, function (data) {
-                $('#emailHistoryModal .panel-body').html(data.str);
-                window.emailBounceId = data.bounce_id;
-                $('#reactivateButton').toggle(!!window.emailBounceId);
-            })
-        }
-
-        function onReactivateClick() {
-            $.post('{{ url('/reactivate_email') }}/' + window.emailBounceId, function (data) {
-                $('#emailHistoryModal').modal('hide');
-                swal("{{ trans('texts.reactivated_email') }}")
-            })
         }
 
         @if ($user->showMap())
@@ -201,7 +192,5 @@
 
         google.maps.event.addDomListener(window, 'load', initialize);
         @endif
-
     </script>
-
 @stop

@@ -16,8 +16,10 @@
     @else
         <title>{{ isset($title) ? ($title . ' | HARON ERP') : ('HARON ERP' ) }}</title>
         <meta name="description" content="{{ isset($description) ? $description : trans('texts.app_description') }}"/>
-        <link href="{{ asset('favicon-v2.gif') }}" rel="shortcut icon" type="image/gif">
+        <!-- iCheck for checkboxes and radio inputs -->
+        <link rel="stylesheet" href="{{ url(asset('js/plugins/iCheck/all.css')) }}">
 
+        <link href="{{ asset('favicon-v2.gif') }}" rel="shortcut icon" type="image/gif">
         <meta property="og:site_name" content="HARON ERP"/>
         <meta property="og:url" content="{{ SITE_URL }}"/>
         <meta property="og:title" content="HARON ERP"/>

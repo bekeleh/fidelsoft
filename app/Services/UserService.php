@@ -52,12 +52,22 @@ class UserService extends BaseService
     {
         $datatable = new LocationDatatable(true, true);
 
-        $query = $this->storeRepo->findLocation($locationPublicId);
+        $query = $this->userRepo->findLocation($locationPublicId);
 
         if (!Utils::hasPermission('view_location')) {
             $query->where('users.user_id', '=', Auth::user()->id);
         }
 
         return $this->datatableService->createDatatable($datatable, $query);
+    }
+
+    public function decodePermissions()
+    {
+        return $this->userRepo->decodePermissions();
+    }
+
+    public function decodeGroups()
+    {
+        return $this->userRepo->decodeGroups();
     }
 }

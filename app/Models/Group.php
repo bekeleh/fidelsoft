@@ -49,11 +49,6 @@ class Group extends EntityModel
         return json_decode($this->permissions, true);
     }
 
-    public function decodeGroups()
-    {
-        return json_decode($this->groups, true);
-    }
-
     public function users()
     {
         return $this->belongsToMany('\App\Models\User', 'users_groups', 'group_id', 'user_id');

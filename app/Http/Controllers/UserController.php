@@ -73,12 +73,9 @@ class UserController extends BaseController
 
     public function show(UserRequest $request)
     {
-        $user = $request->entity();
-
         $user = Auth::user();
         $account = $user->account;
-
-        $user->can('view', [ENTITY_CLIENT, $user]);
+        $user->can('view', [ENTITY_USER, $user]);
 
         $actionLinks = [];
         if ($user->can('create', ENTITY_PERMISSION)) {
@@ -92,26 +89,24 @@ class UserController extends BaseController
         if (!empty($actionLinks)) {
             $actionLinks[] = \DropdownButton::DIVIDER;
         }
-
-        if ($user->can('create', ENTITY_PAYMENT)) {
-            $actionLinks[] = ['label' => trans('texts.enter_payment'), 'url' => URL::to('/payments/create/' . $user->public_id)];
-        }
-
-        $token = $user->getGatewayToken();
+        $permissions = config('permissions');
+        $user->permissions = $this->userService->decodePermissions();
+        $userPermissions = Utils::selectedPermissionsArray($permissions, $user->permissions);
 
         $data = [
+            'user' => $user,
+            'permissions' => $permissions,
+            'userPermissions' => $userPermissions,
+            'groups' => 'list of user groups ...',
             'account' => $account,
             'actionLinks' => $actionLinks,
             'showBreadcrumbs' => false,
-            'user' => $user,
             'title' => trans('texts.view_user'),
-            'hasPermissions' => $account->isModuleEnabled(ENTITY_PERMISSION) && Permission::scope()->withArchived()->whereClientId($user->id)->count() > 0,
-            'hasGroups' => $account->isModuleEnabled(ENTITY_GROUP) && Group::scope()->withArchived()->whereClientId($user->id)->count() > 0,
-            'gatewayLink' => $token ? $token->gatewayLink() : false,
-            'gatewayName' => $token ? $token->gatewayName() : false,
+            'hasPermissions' => $account->isModuleEnabled(ENTITY_PERMISSION) && Permission::scope()->withArchived()->whereUserId($user->id)->count() > 0,
+            'hasGroups' => $account->isModuleEnabled(ENTITY_GROUP) && Group::scope()->withArchived()->whereUserId($user->id)->count() > 0,
         ];
 
-        return View::make('clients.show', $data);
+        return View::make('users.show', $data);
     }
 
     public function create(UserRequest $request)

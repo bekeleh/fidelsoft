@@ -265,7 +265,8 @@
         @if ($account->isModuleEnabled(ENTITY_CREDIT))
             {!! Form::tab_link('#credits', trans('texts.credits')) !!}
         @endif
-    </ul><br/>
+    </ul>
+    <br/>
 
     <div class="tab-content">
         <div class="tab-pane active" id="activity">

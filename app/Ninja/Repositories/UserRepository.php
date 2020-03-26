@@ -11,6 +11,13 @@ use Illuminate\Support\Facades\DB;
 
 class UserRepository extends BaseRepository
 {
+    private $model;
+
+    public function __construct(User $model)
+    {
+        $this->model = $model;
+    }
+
     public function getClassName()
     {
         return 'App\Models\User';
@@ -117,6 +124,15 @@ class UserRepository extends BaseRepository
     {
 
         return json_encode(array_diff(array_values($permissions), [0]));
+    }
 
+    public function decodePermissions()
+    {
+        return $this->model->decodePermissions();
+    }
+
+    public function decodeGroups()
+    {
+        return $this->model->decodeGroups();
     }
 }

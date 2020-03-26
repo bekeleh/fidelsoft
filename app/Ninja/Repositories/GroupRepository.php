@@ -10,6 +10,13 @@ use Illuminate\Support\Str;
 
 class GroupRepository extends BaseRepository
 {
+    private $model;
+
+    public function __construct(Group $model)
+    {
+        $this->model = $model;
+    }
+
     public function getClassName()
     {
         return 'App\Models\Group';
@@ -93,7 +100,11 @@ class GroupRepository extends BaseRepository
                 }
             }
         }
-
         return ($groupId && isset($map[$groupId])) ? $map[$groupId] : null;
+    }
+
+    public function decodePermissions()
+    {
+        return $this->model->decodePermissions();
     }
 }

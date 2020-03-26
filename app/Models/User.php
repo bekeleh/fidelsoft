@@ -77,6 +77,25 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
         return ENTITY_USER;
     }
 
+    public function showMap()
+    {
+        return $this->hasAddress() && env('GOOGLE_MAPS_ENABLED') !== false;
+    }
+
+    public function hasAddress($location = false)
+    {
+        $fields = [
+            'address1',
+            'address2',
+            'city',
+            'state',
+            'postal_code',
+            'country_id',
+        ];
+
+        return false;
+    }
+
     public function account()
     {
         return $this->belongsTo('App\Models\Account');
