@@ -12,14 +12,7 @@ use Illuminate\Support\Facades\Auth;
  */
 class UnitService extends BaseService
 {
-    /**
-     * @var UnitRepository
-     */
     protected $unitRepo;
-
-    /**
-     * @var DatatableService
-     */
     protected $datatableService;
 
 
@@ -45,10 +38,10 @@ class UnitService extends BaseService
     {
         $query = $this->unitRepo->find($accountId, $search);
 
-        if (!Utils::hasPermission('view_unit')) {
+        if (!Utils::hasAccess('view_units')) {
             $query->where('units.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable(new UnitDatatable(), $query);
+        return $this->datatableService->createDatatable(new UnitDatatable(), $query, 'units');
     }
 }

@@ -12,20 +12,11 @@ class BaseService
 {
     use DispatchesJobs;
 
-    /**
-     * @return null
-     */
     protected function getRepo()
     {
         return null;
     }
 
-    /**
-     * @param $ids
-     * @param $action
-     *
-     * @return int
-     */
     public function bulk($ids, $action)
     {
         if (!$ids) {

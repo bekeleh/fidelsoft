@@ -16,42 +16,23 @@ use App\Libraries\Utils;
  */
 class ExpenseService extends BaseService
 {
-    /**
-     * @var ExpenseRepository
-     */
-    protected $expenseRepo;
 
-    /**
-     * @var DatatableService
-     */
+    protected $expenseRepo;
     protected $datatableService;
 
-    /**
-     * ExpenseService constructor.
-     *
-     * @param ExpenseRepository $expenseRepo
-     * @param DatatableService $datatableService
-     */
     public function __construct(ExpenseRepository $expenseRepo, DatatableService $datatableService)
     {
         $this->expenseRepo = $expenseRepo;
         $this->datatableService = $datatableService;
     }
 
-    /**
-     * @return ExpenseRepository
-     */
+
     protected function getRepo()
     {
         return $this->expenseRepo;
     }
 
-    /**
-     * @param $data
-     * @param null $expense
-     *
-     * @return mixed|null
-     */
+
     public function save($data, $expense = null)
     {
         if (isset($data['client_id']) && $data['client_id']) {
@@ -65,59 +46,42 @@ class ExpenseService extends BaseService
         return $this->expenseRepo->save($data, $expense);
     }
 
-    /**
-     * @param $search
-     *
-     * @return JsonResponse
-     * @throws Exception
-     */
+
     public function getDatatable($accountId, $search)
     {
         $query = $this->expenseRepo->find($accountId, $search);
 
-        if (!Utils::hasPermission('view_expense')) {
+        if (!Utils::hasAccess('view_expenses')) {
             $query->where('expenses.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable(new ExpenseDatatable(), $query);
+        return $this->datatableService->createDatatable(new ExpenseDatatable(), $query, 'expenses');
     }
 
-    /**
-     * @param $vendorPublicId
-     *
-     * @return JsonResponse
-     * @throws Exception
-     */
     public function getDatatableVendor($vendorPublicId)
     {
         $datatable = new ExpenseDatatable(true, true);
 
         $query = $this->expenseRepo->findVendor($vendorPublicId);
 
-        if (!Utils::hasPermission('view_vendor')) {
+        if (!Utils::hasAccess('view_vendors')) {
             $query->where('expenses.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query);
+        return $this->datatableService->createDatatable($datatable, $query, 'vendors');
     }
 
-    /**
-     * @param $clientPublicId
-     *
-     * @return JsonResponse
-     * @throws Exception
-     */
     public function getDatatableClient($clientPublicId)
     {
         $datatable = new ExpenseDatatable(true, true);
 
         $query = $this->expenseRepo->findClient($clientPublicId);
 
-        if (!Utils::hasPermission('view_client')) {
+        if (!Utils::hasAccess('view_clients')) {
             $query->where('expenses.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query);
+        return $this->datatableService->createDatatable($datatable, $query, 'clients');
     }
 
 }

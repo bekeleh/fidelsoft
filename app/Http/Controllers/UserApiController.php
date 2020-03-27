@@ -41,6 +41,8 @@ class UserApiController extends BaseAPIController
      */
     public function index()
     {
+        $this->authorize('index', $this->userRepo->getModel());
+
         $users = User::scope()->withTrashed()->orderBy('created_at', 'desc');
 
         return $this->listResponse($users);
@@ -73,6 +75,7 @@ class UserApiController extends BaseAPIController
      */
     public function show(UserRequest $request)
     {
+        $this->authorize('view', $this->userRepo->getModel());
         return $this->itemResponse($request->entity());
     }
 
@@ -102,6 +105,7 @@ class UserApiController extends BaseAPIController
      */
     public function store(UserRequest $request)
     {
+        $this->authorize('create', $this->userRepo->getModel());
         $unit = $this->userRepo->save($request->input());
 
         return $this->itemResponse($unit);
@@ -141,6 +145,7 @@ class UserApiController extends BaseAPIController
      */
     public function update(UserRequest $request, $publicId)
     {
+        $this->authorize('update', $this->userRepo->getModel());
         if ($request->action) {
             return $this->handleAction($request);
         }
@@ -179,6 +184,7 @@ class UserApiController extends BaseAPIController
      */
     public function destroy(UserRequest $request)
     {
+        $this->authorize('delete', $this->userRepo->getModel());
         $entity = $request->entity();
 
         $this->userRepo->delete($entity);

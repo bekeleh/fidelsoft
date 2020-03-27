@@ -8,14 +8,14 @@ use Laracasts\Presenter\PresentableTrait;
 /**
  * Model Class Store.
  */
-class Unit extends EntityModel
+class Token extends EntityModel
 {
-    protected $presenter = 'App\Ninja\Presenters\UnitPresenter';
+    protected $presenter = 'App\Ninja\Presenters\TokenPresenter';
     use PresentableTrait;
     use SoftDeletes;
 
     protected $appends = [];
-    protected $table = 'units';
+    protected $table = 'tokens';
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
 
     protected $fillable = [
@@ -31,10 +31,11 @@ class Unit extends EntityModel
 
     public function getEntityType()
     {
-        return ENTITY_UNIT;
+        return ENTITY_TOKEN;
     }
 
-    public static function findUnitByKey($key)
+
+    public static function findTokenByKey($key)
     {
         return self::scope()->where('name', '=', $key)->first();
     }
@@ -49,8 +50,4 @@ class Unit extends EntityModel
         return $this->belongsTo('App\Models\User', 'user_id')->withTrashed();
     }
 
-    public function products()
-    {
-        return $this->hasMany('App\Models\Product', 'unit_id')->withTrashed();
-    }
 }

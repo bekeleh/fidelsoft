@@ -17,23 +17,10 @@ use Illuminate\Support\Facades\Auth;
  */
 class ClientService extends BaseService
 {
-    /**
-     * @var ClientRepository
-     */
-    protected $clientRepo;
 
-    /**
-     * @var DatatableService
-     */
+    protected $clientRepo;
     protected $datatableService;
 
-    /**
-     * ClientService constructor.
-     *
-     * @param ClientRepository $clientRepo
-     * @param DatatableService $datatableService
-     * @param NinjaRepository $ninjaRepo
-     */
     public function __construct(ClientRepository $clientRepo, DatatableService $datatableService, NinjaRepository $ninjaRepo)
     {
         $this->clientRepo = $clientRepo;
@@ -41,12 +28,10 @@ class ClientService extends BaseService
         $this->datatableService = $datatableService;
     }
 
-
     protected function getRepo()
     {
         return $this->clientRepo;
     }
-
 
     public function save($data, $client = null)
     {
@@ -57,14 +42,13 @@ class ClientService extends BaseService
         return $this->clientRepo->save($data, $client);
     }
 
-
     public function getDatatable($search, $accountId)
     {
         $datatable = new ClientDatatable();
 
         $query = $this->clientRepo->find($search, $accountId);
 
-        return $this->datatableService->createDatatable($datatable, $query);
+        return $this->datatableService->createDatatable($datatable, $query, 'clients');
     }
 
     public function getDatatableSaleType($saleTypePublicId)
@@ -73,11 +57,11 @@ class ClientService extends BaseService
 
         $query = $this->clientRepo->findSaleType($saleTypePublicId);
 
-        if (!Utils::hasPermission('view_sale_type')) {
+        if (!Utils::hasAccess('view_sale_types')) {
             $query->where('sale_types.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query);
+        return $this->datatableService->createDatatable($datatable, $query, 'sale_types');
     }
 
     public function getDatatableHoldReason($holdReasonPublicId)
@@ -86,10 +70,10 @@ class ClientService extends BaseService
 
         $query = $this->clientRepo->findHoldReason($holdReasonPublicId);
 
-        if (!Utils::hasPermission('view_hold_reason')) {
+        if (!Utils::hasAccess('view_hold_reasons')) {
             $query->where('hold_reason.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query);
+        return $this->datatableService->createDatatable($datatable, $query, 'hold_reasons');
     }
 }

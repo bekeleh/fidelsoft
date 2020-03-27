@@ -55,9 +55,10 @@ class UserController extends BaseController
     public function getDatatable($userPublicId = null)
     {
         $this->authorize('view', $this->userRepo->getModel());
-        dd('passed...');
+
         $accountId = Auth::user()->account_id;
         $search = Input::get('sSearch');
+
         return $this->userService->getDatatable($accountId, $search);
     }
 

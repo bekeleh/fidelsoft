@@ -11,52 +11,32 @@ use Exception;
 
 class ItemCategoryService extends BaseService
 {
-    /**
-     * @var DatatableService
-     */
-    protected $datatableService;
 
-    /**
-     * @var ItemCategoryRepository
-     */
+    protected $datatableService;
     protected $itemCategoryRepo;
 
-    /**
-     * ProductService constructor.
-     *
-     * @param DatatableService $datatableService
-     * @param ItemCategoryRepository $itemCategoryRepo
-     */
+
     public function __construct(DatatableService $datatableService, ItemCategoryRepository $itemCategoryRepo)
     {
         $this->datatableService = $datatableService;
         $this->itemCategoryRepo = $itemCategoryRepo;
     }
 
-    /**
-     * @return ItemCategoryRepository
-     */
+
     protected function getRepo()
     {
         return $this->itemCategoryRepo;
     }
 
-    /**
-     * @param $accountId
-     * @param mixed $search
-     *
-     * @return JsonResponse
-     * @throws Exception
-     */
     public function getDatatable($accountId, $search)
     {
         $datatable = new ItemCategoryDatatable(true);
         $query = $this->itemCategoryRepo->find($accountId, $search);
 
-        if (!Utils::hasPermission('view_item_category')) {
+        if (!Utils::hasAccess('view_item_categories')) {
             $query->where('item_categories.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query);
+        return $this->datatableService->createDatatable($datatable, $query, 'item_categories');
     }
 }

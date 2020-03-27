@@ -12,14 +12,8 @@ use Illuminate\Support\Facades\Auth;
  */
 class PermissionService extends BaseService
 {
-    /**
-     * @var PermissionRepository
-     */
-    protected $permissionRepo;
 
-    /**
-     * @var DatatableService
-     */
+    protected $permissionRepo;
     protected $datatableService;
 
 
@@ -45,10 +39,10 @@ class PermissionService extends BaseService
     {
         $query = $this->permissionRepo->find($accountId, $search);
 
-        if (!Utils::hasPermission('view_permission')) {
+        if (!Utils::hasAccess('view_permissions')) {
             $query->where('permissions.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable(new PermissionDatatable(), $query);
+        return $this->datatableService->createDatatable(new PermissionDatatable(), $query, 'permissions');
     }
 }

@@ -3,11 +3,9 @@
 namespace App\Services;
 
 use App\Libraries\Utils;
-use App\Models\Location;
+use App\Ninja\Datatables\LocationDatatable;
 use App\Ninja\Datatables\StoreDatatable;
 use App\Ninja\Repositories\StoreRepository;
-use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -15,22 +13,10 @@ use Illuminate\Support\Facades\Auth;
  */
 class StoreService extends BaseService
 {
-    /**
-     * @var StoreRepository
-     */
-    protected $storeRepo;
 
-    /**
-     * @var DatatableService
-     */
+    protected $storeRepo;
     protected $datatableService;
 
-    /**
-     * ExpenseService constructor.
-     *
-     * @param StoreRepository $storeRepo
-     * @param DatatableService $datatableService
-     */
     public function __construct(StoreRepository $storeRepo, DatatableService $datatableService)
     {
         $this->storeRepo = $storeRepo;
@@ -53,11 +39,11 @@ class StoreService extends BaseService
     {
         $query = $this->storeRepo->find($accountId, $search);
 
-        if (!Utils::hasPermission('view_store')) {
+        if (!Utils::hasAccess('view_stores')) {
             $query->where('stores.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable(new StoreDatatable(), $query);
+        return $this->datatableService->createDatatable(new StoreDatatable(), $query, 'stores');
     }
 
     public function getDatatableLocation($locationPublicId)
@@ -66,11 +52,11 @@ class StoreService extends BaseService
 
         $query = $this->storeRepo->findLocation($locationPublicId);
 
-        if (!Utils::hasPermission('view_location')) {
+        if (!Utils::hasAccess('view_locations')) {
             $query->where('stores.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query);
+        return $this->datatableService->createDatatable($datatable, $query, 'locations');
     }
 
 }

@@ -5,11 +5,11 @@ namespace App\Services;
 use App\Events\UserLoggedIn;
 use App\Ninja\Repositories\AccountRepository;
 use App\Models\LookupUser;
-use Auth;
-use Input;
-use Session;
-use Socialite;
-use Utils;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use Laravel\Socialite\Facades\Socialite;
+use App\Libraries\Utils;
 
 /**
  * Class AuthService.
@@ -21,9 +21,7 @@ class AuthService
      */
     private $accountRepo;
 
-    /**
-     * @var array
-     */
+
     public static $providers = [
         1 => SOCIAL_GOOGLE,
         2 => SOCIAL_FACEBOOK,
@@ -31,11 +29,7 @@ class AuthService
         4 => SOCIAL_LINKEDIN,
     ];
 
-    /**
-     * AuthService constructor.
-     *
-     * @param AccountRepository $repo
-     */
+
     public function __construct(AccountRepository $repo)
     {
         $this->accountRepo = $repo;
@@ -45,15 +39,9 @@ class AuthService
     {
     }
 
-    /**
-     * @param $provider
-     * @param $hasCode
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function execute($provider, $hasCode)
     {
-        if (! $hasCode) {
+        if (!$hasCode) {
             return $this->getAuthorization($provider);
         }
 
@@ -70,7 +58,7 @@ class AuthService
             $result = $this->accountRepo->updateUserFromOauth($user, $name[0], $name[1], $email, $providerId, $oauthUserId);
 
             if ($result === true) {
-                if (! $isRegistered) {
+                if (!$isRegistered) {
                     Session::flash('warning', trans('texts.success_message'));
                     Session::flash('onReady', 'handleSignedUp();');
                 } else {
@@ -103,31 +91,16 @@ class AuthService
         return redirect()->to($redirectTo);
     }
 
-    /**
-     * @param $provider
-     *
-     * @return mixed
-     */
     private function getAuthorization($provider)
     {
         return Socialite::driver($provider)->redirect();
     }
 
-    /**
-     * @param $provider
-     *
-     * @return mixed
-     */
     public static function getProviderId($provider)
     {
         return array_search(strtolower($provider), array_map('strtolower', self::$providers));
     }
 
-    /**
-     * @param $providerId
-     *
-     * @return mixed|string
-     */
     public static function getProviderName($providerId)
     {
         return $providerId ? self::$providers[$providerId] : '';

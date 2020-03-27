@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Libraries\Utils;
 use App\Ninja\Datatables\LocationDatatable;
-use App\Ninja\Datatables\UserDatatable2;
 use App\Ninja\Datatables\UserDatatable;
 use App\Ninja\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +32,6 @@ class UserService extends BaseService
 
     public function save($data, $user = null)
     {
-
         return $this->userRepo->save($data, $user);
     }
 
@@ -41,11 +39,10 @@ class UserService extends BaseService
     {
         $query = $this->userRepo->find($accountId, $search);
 
-        if (!Utils::hasPermission('view_user')) {
+        if (!Utils::hasAccess('view_users')) {
             $query->where('users.user_id', '=', Auth::user()->id);
         }
-
-        return $this->datatableService->createDatatable(new UserDatatable(), $query);
+        return $this->datatableService->createDatatable(new UserDatatable(), $query, 'users');
     }
 
     public function getDatatableLocation($locationPublicId)
@@ -54,11 +51,11 @@ class UserService extends BaseService
 
         $query = $this->userRepo->findLocation($locationPublicId);
 
-        if (!Utils::hasPermission('view_location')) {
+        if (!Utils::hasAccess('view_locations')) {
             $query->where('users.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query);
+        return $this->datatableService->createDatatable($datatable, $query, 'users');
     }
 
     public function decodePermissions()

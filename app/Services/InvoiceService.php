@@ -36,20 +36,12 @@ class InvoiceService extends BaseService
         $this->datatableService = $datatableService;
     }
 
-    /**
-     * @return InvoiceRepository
-     */
+
     protected function getRepo()
     {
         return $this->invoiceRepo;
     }
 
-    /**
-     * @param $ids
-     * @param $action
-     *
-     * @return int
-     */
     public function bulk($ids, $action)
     {
         if ($action == 'download') {
@@ -61,12 +53,6 @@ class InvoiceService extends BaseService
         }
     }
 
-    /**
-     * @param array $data
-     * @param Invoice|null $invoice
-     *
-     * @return Invoice|Invoice|mixed
-     */
     public function save(array $data, Invoice $invoice = null)
     {
 //       adjust inventory
@@ -114,10 +100,6 @@ class InvoiceService extends BaseService
         }
     }
 
-    /**
-     * @param $quote
-     * @return mixed
-     */
     public function convertQuote($quote)
     {
         $account = $quote->account;
@@ -130,12 +112,6 @@ class InvoiceService extends BaseService
         return $invoice;
     }
 
-    /**
-     * @param $quote
-     * @param Invitation|null $invitation
-     *
-     * @return mixed|null
-     */
     public function approveQuote($quote, Invitation $invitation = null)
     {
         $account = $quote->account;

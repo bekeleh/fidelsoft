@@ -2,67 +2,49 @@
 
 namespace App\Services;
 
-use App\Models\Account;
+use App;
+use App\Libraries\Utils;
 use App\Models\Activity;
-use App\Models\Client;
 use App\Models\Credit;
 use App\Models\Invoice;
 use App\Ninja\Datatables\PaymentDatatable;
 use App\Ninja\Repositories\AccountRepository;
 use App\Ninja\Repositories\PaymentRepository;
-use Auth;
-use App;
-use Exception;
-use Utils;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentService extends BaseService
 {
-    /**
-     * PaymentService constructor.
-     *
-     * @param PaymentRepository $paymentRepo
-     * @param AccountRepository $accountRepo
-     * @param DatatableService  $datatableService
-     */
-    public function __construct(
-        PaymentRepository $paymentRepo,
-        AccountRepository $accountRepo,
-        DatatableService $datatableService
-    ) {
+
+
+    private $datatableService;
+    private $paymentRepo;
+    private $accountRepo;
+
+    public function __construct(PaymentRepository $paymentRepo, AccountRepository $accountRepo, DatatableService $datatableService)
+    {
         $this->datatableService = $datatableService;
         $this->paymentRepo = $paymentRepo;
         $this->accountRepo = $accountRepo;
     }
 
-    /**
-     * @return PaymentRepository
-     */
     protected function getRepo()
     {
         return $this->paymentRepo;
     }
 
-    /**
-     * @param Invoice $invoice
-     *
-     * @return bool
-     */
     public function autoBillInvoice(Invoice $invoice)
     {
-        if (! $invoice->canBePaid()) {
+        if (!$invoice->canBePaid()) {
             return false;
         }
 
-        /** @var \App\Models\Client $client */
         $client = $invoice->client;
 
-        /** @var \App\Models\Account $account */
         $account = $client->account;
 
-        /** @var \App\Models\Invitation $invitation */
         $invitation = $invoice->invitations->first();
 
-        if (! $invitation) {
+        if (!$invitation) {
             return false;
         }
 
@@ -85,19 +67,19 @@ class PaymentService extends BaseService
 
         $paymentDriver = $account->paymentDriver($invitation, GATEWAY_TYPE_TOKEN);
 
-        if (! $paymentDriver) {
+        if (!$paymentDriver) {
             return false;
         }
 
         $customer = $paymentDriver->customer();
 
-        if (! $customer) {
+        if (!$customer) {
             return false;
         }
 
         $paymentMethod = $customer->default_payment_method;
 
-        if (! $paymentMethod) {
+        if (!$paymentMethod) {
             return false;
         }
 
@@ -165,27 +147,25 @@ class PaymentService extends BaseService
             $credit->save();
             $input['amount'] = $invoice->balance;
         }
-
         return $this->paymentRepo->save($input, $payment);
     }
-
 
     public function getDatatable($clientPublicId, $search)
     {
         $datatable = new PaymentDatatable(true, $clientPublicId);
         $query = $this->paymentRepo->find($clientPublicId, $search);
 
-        if (! Utils::hasPermission('view_payment')) {
+        if (!Utils::hasAccess('view_payments')) {
             $query->where('payments.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query);
+        return $this->datatableService->createDatatable($datatable, $query, 'payments');
     }
 
     public function bulk($ids, $action, $params = [])
     {
         if ($action == 'refund') {
-            if (! $ids) {
+            if (!$ids) {
                 return 0;
             }
 
@@ -194,8 +174,8 @@ class PaymentService extends BaseService
 
             foreach ($payments as $payment) {
                 if (Auth::user()->can('edit', $payment)) {
-                    $amount = ! empty($params['refund_amount']) ? floatval($params['refund_amount']) : null;
-                    $sendEmail = ! empty($params['refund_email']) ? boolval($params['refund_email']) : false;
+                    $amount = !empty($params['refund_amount']) ? floatval($params['refund_amount']) : null;
+                    $sendEmail = !empty($params['refund_email']) ? boolval($params['refund_email']) : false;
                     $paymentDriver = false;
                     $refunded = false;
 

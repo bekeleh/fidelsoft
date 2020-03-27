@@ -14,62 +14,36 @@ use Illuminate\Support\Facades\Auth;
  */
 class ItemMovementService extends BaseService
 {
-    /**
-     * @var ItemMovementRepository
-     */
-    protected $itemMovementRepo;
 
-    /**
-     * @var DatatableService
-     */
+    protected $itemMovementRepo;
     protected $datatableService;
 
-    /**
-     * ExpenseService constructor.
-     *
-     * @param ItemMovementRepository $itemMovementRepo
-     * @param DatatableService $datatableService
-     */
     public function __construct(ItemMovementRepository $itemMovementRepo, DatatableService $datatableService)
     {
         $this->itemMovementRepo = $itemMovementRepo;
         $this->datatableService = $datatableService;
     }
 
-    /**
-     * @return ItemMovementRepository
-     */
+
     protected function getRepo()
     {
         return $this->itemMovementRepo;
     }
 
-    /**
-     * @param $data
-     * @param null $store
-     *
-     * @return mixed|null
-     */
     public function save($data, $store = null)
     {
         return $this->itemMovementRepo->save($data, $store);
     }
 
-    /**
-     * @param $search
-     *
-     * @return JsonResponse
-     * @throws Exception
-     */
     public function getDatatable($accountId, $search)
     {
         $query = $this->itemMovementRepo->find($accountId, $search);
 
-        if (!Utils::hasPermission('view_item_movement')) {
+        if (!Utils::hasAccess('view_item_movements')) {
             $query->where('item_movements.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable(new ItemMovementDatatable(), $query);
+        return $this->datatableService->createDatatable(new ItemMovementDatatable(), $query, 'view_item_movements');
     }
 
 }

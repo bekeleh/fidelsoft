@@ -34,10 +34,10 @@ class HoldReasonService extends BaseService
 
         $query = $this->holdReasonRepo->find($accountId, $search);
 
-        if (!Utils::hasPermission('view_hold_reason')) {
+        if (!Utils::hasAccess('view_hold_reasons')) {
             $query->where('hold_reasons.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query);
+        return $this->datatableService->createDatatable($datatable, $query, 'hold_reasons');
     }
 }

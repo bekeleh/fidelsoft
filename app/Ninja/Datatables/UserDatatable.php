@@ -17,7 +17,7 @@ class UserDatatable extends EntityDatatable
             [
                 'first_name',
                 function ($model) {
-                    if (Auth::user()->can('view', [ENTITY_USER, $model]))
+                    if (Auth::user()->can('view', [ENTITY_USER]))
                         return $model->public_id ? link_to("users/{$model->public_id}", Utils::getUserDisplayName($model))->toHtml() : '';
                     else
                         return Utils::getUserDisplayName($model);
@@ -46,7 +46,7 @@ class UserDatatable extends EntityDatatable
                 'location_name',
                 function ($model) {
                     if ($model->location_id) {
-                        if (Auth::user()->can('view', [ENTITY_LOCATION, $model]))
+                        if (Auth::user()->can('view', [ENTITY_LOCATION]))
                             return link_to("locations/{$model->location_id}", $model->location_name)->toHtml();
                         else
                             return $model->location_name;
@@ -106,9 +106,9 @@ class UserDatatable extends EntityDatatable
             [
                 trans('texts.edit_user'),
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_USER, $model]))
+                    if (Auth::user()->can('edit', [ENTITY_USER]))
                         return URL::to("users/{$model->public_id}/edit");
-                    elseif (Auth::user()->can('view', [ENTITY_USER, $model]))
+                    elseif (Auth::user()->can('view', [ENTITY_USER]))
                         return URL::to("users/{$model->public_id}");
                 },
             ],
@@ -135,7 +135,7 @@ class UserDatatable extends EntityDatatable
                 return false;
             },
                 function ($model) {
-                    return Auth::user()->can('edit', [ENTITY_USER, $model]);
+                    return Auth::user()->can('edit', [ENTITY_USER]);
                 },
             ],
         ];

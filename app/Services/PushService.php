@@ -11,27 +11,18 @@ use App\Ninja\Notifications\PushFactory;
  */
 class PushService
 {
-    /**
-     * @var PushFactory
-     */
+
     protected $pushFactory;
 
-    /**
-     * @param PushFactory $pushFactory
-     */
     public function __construct(PushFactory $pushFactory)
     {
         $this->pushFactory = $pushFactory;
     }
 
-    /**
-     * @param Invoice $invoice
-     * @param $type
-     */
     public function sendNotification(Invoice $invoice, $type)
     {
         //check user has registered for push notifications
-        if (! $this->checkDeviceExists($invoice->account)) {
+        if (!$this->checkDeviceExists($invoice->account)) {
             return;
         }
 
@@ -47,51 +38,22 @@ class PushService
         }
     }
 
-    /**
-     * pushMessage function.
-     *
-     * method to dispatch iOS notifications
-     *
-     * @param Invoice $invoice
-     * @param $token
-     * @param $type
-     * @param mixed $device
-     */
     private function pushMessage(Invoice $invoice, $token, $type, $device)
     {
         $this->pushFactory->message($token, $this->messageType($invoice, $type), $device);
     }
 
-    /**
-     * checkDeviceExists function.
-     *
-     * Returns a boolean if this account has devices registered for PUSH notifications
-     *
-     * @param Account $account
-     *
-     * @return bool
-     */
     private function checkDeviceExists(Account $account)
     {
         $devices = json_decode($account->devices, true);
 
-        if (count((array) $devices) >= 1) {
+        if (count((array)$devices) >= 1) {
             return true;
         } else {
             return false;
         }
     }
 
-    /**
-     * messageType function.
-     *
-     * method which formats an appropriate message depending on message type
-     *
-     * @param Invoice $invoice
-     * @param $type
-     *
-     * @return string
-     */
     private function messageType(Invoice $invoice, $type)
     {
         switch ($type) {
@@ -113,11 +75,6 @@ class PushService
         }
     }
 
-    /**
-     * @param Invoice $invoice
-     *
-     * @return string
-     */
     private function entitySentMessage(Invoice $invoice)
     {
         if ($invoice->isType(INVOICE_TYPE_QUOTE)) {
@@ -127,31 +84,16 @@ class PushService
         }
     }
 
-    /**
-     * @param Invoice $invoice
-     *
-     * @return string
-     */
     private function invoicePaidMessage(Invoice $invoice)
     {
         return trans('texts.notification_invoice_paid_subject', ['invoice' => $invoice->invoice_number, 'client' => $invoice->client->name]);
     }
 
-    /**
-     * @param Invoice $invoice
-     *
-     * @return string
-     */
     private function quoteApprovedMessage(Invoice $invoice)
     {
         return trans('texts.notification_quote_approved_subject', ['invoice' => $invoice->invoice_number, 'client' => $invoice->client->name]);
     }
 
-    /**
-     * @param Invoice $invoice
-     *
-     * @return string
-     */
     private function entityViewedMessage(Invoice $invoice)
     {
         if ($invoice->isType(INVOICE_TYPE_QUOTE)) {

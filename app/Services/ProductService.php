@@ -3,43 +3,25 @@
 namespace App\Services;
 
 use App\Libraries\Utils;
-use App\Models\ItemCategory;
-use App\Models\Unit;
 use App\Ninja\Datatables\ItemCategoryDatatable;
-use App\Ninja\Datatables\UnitDatatable;
 use App\Ninja\Datatables\ProductDatatable;
+use App\Ninja\Datatables\UnitDatatable;
 use App\Ninja\Repositories\ProductRepository;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use Exception;
 
 class ProductService extends BaseService
 {
-    /**
-     * @var DatatableService
-     */
-    protected $datatableService;
 
-    /**
-     * @var ProductRepository
-     */
+    protected $datatableService;
     protected $productRepo;
 
-    /**
-     * ProductService constructor.
-     *
-     * @param DatatableService $datatableService
-     * @param ProductRepository $productRepo
-     */
+
     public function __construct(DatatableService $datatableService, ProductRepository $productRepo)
     {
         $this->datatableService = $datatableService;
         $this->productRepo = $productRepo;
     }
 
-    /**
-     * @return ProductRepository
-     */
     protected function getRepo()
     {
         return $this->productRepo;
@@ -56,11 +38,11 @@ class ProductService extends BaseService
 
         $query = $this->productRepo->find($accountId, $search);
 
-        if (!Utils::hasPermission('view_product')) {
+        if (!Utils::hasAccess('view_products')) {
             $query->where('products.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query);
+        return $this->datatableService->createDatatable($datatable, $query, 'products');
     }
 
     public function getDatatableItemCategory($itemCategoryPublicId)
@@ -69,11 +51,11 @@ class ProductService extends BaseService
 
         $query = $this->productRepo->findItemCategory($itemCategoryPublicId);
 
-        if (!Utils::hasPermission('view_item_category')) {
+        if (!Utils::hasAccess('view_item_categories')) {
             $query->where('products.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query);
+        return $this->datatableService->createDatatable($datatable, $query, 'item_categories');
     }
 
     public function getDatatableUnit($unitPublicId)
@@ -82,10 +64,10 @@ class ProductService extends BaseService
 
         $query = $this->productRepo->findUnit($unitPublicId);
 
-        if (!Utils::hasPermission('view_unit')) {
+        if (!Utils::hasAccess('view_units')) {
             $query->where('products.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query);
+        return $this->datatableService->createDatatable($datatable, $query, 'units');
     }
 }

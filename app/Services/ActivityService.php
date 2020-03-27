@@ -22,30 +22,20 @@ class ActivityService extends BaseService
      */
     protected $datatableService;
 
-    /**
-     * ActivityService constructor.
-     *
-     * @param ActivityRepository $activityRepo
-     * @param DatatableService   $datatableService
-     */
+
     public function __construct(ActivityRepository $activityRepo, DatatableService $datatableService)
     {
         $this->activityRepo = $activityRepo;
         $this->datatableService = $datatableService;
     }
 
-    /**
-     * @param null $clientPublicId
-     *
-     * @return JsonResponse
-     * @throws \Exception
-     */
+
     public function getDatatable($clientPublicId = null)
     {
         $clientId = Client::getPrivateId($clientPublicId);
 
         $query = $this->activityRepo->findByClientId($clientId);
 
-        return $this->datatableService->createDatatable(new ActivityDatatable(false), $query);
+        return $this->datatableService->createDatatable(new ActivityDatatable(false), $query, 'activities');
     }
 }

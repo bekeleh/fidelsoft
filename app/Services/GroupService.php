@@ -12,14 +12,7 @@ use Illuminate\Support\Facades\Auth;
  */
 class GroupService extends BaseService
 {
-    /**
-     * @var GroupRepository
-     */
     protected $groupRepo;
-
-    /**
-     * @var DatatableService
-     */
     protected $datatableService;
 
 
@@ -45,11 +38,11 @@ class GroupService extends BaseService
     {
         $query = $this->groupRepo->find($accountId, $search);
 
-        if (!Utils::hasPermission('view_group')) {
+        if (!Utils::hasAccess('view_groups')) {
             $query->where('permission_groups.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable(new GroupDatatable(), $query);
+        return $this->datatableService->createDatatable(new GroupDatatable(), $query, 'groups');
     }
 
     public function decodePermissions()

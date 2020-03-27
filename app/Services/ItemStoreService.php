@@ -14,53 +14,35 @@ use Illuminate\Support\Facades\Auth;
  */
 class ItemStoreService extends BaseService
 {
-    /**
-     * @var ItemStoreRepository
-     */
-    protected $itemStoreRepo;
 
-    /**
-     * @var DatatableService
-     */
+    protected $itemStoreRepo;
     protected $datatableService;
 
-    /**
-     * ExpenseService constructor.
-     *
-     * @param ItemStoreRepository $itemStoreRepo
-     * @param DatatableService $datatableService
-     */
     public function __construct(ItemStoreRepository $itemStoreRepo, DatatableService $datatableService)
     {
         $this->itemStoreRepo = $itemStoreRepo;
         $this->datatableService = $datatableService;
     }
 
-    /**
-     * @return ItemStoreRepository
-     */
     protected function getRepo()
     {
         return $this->itemStoreRepo;
     }
-
 
     public function save($data, $store = null)
     {
         return $this->itemStoreRepo->save($data, $store);
     }
 
-
     public function getDatatable($accountId, $search)
     {
         $datatable = new ItemStoreDatatable(true);
         $query = $this->itemStoreRepo->find($accountId, $search);
-        if (!Utils::hasPermission('view_item_store')) {
+        if (!Utils::hasAccess('view_item_stores')) {
             $query->where('item_stores.user_id', '=', Auth::user()->id);
         }
-        return $this->datatableService->createDatatable($datatable, $query);
+        return $this->datatableService->createDatatable($datatable, $query, 'item_stores');
     }
-
 
     public function getDatatableProduct($productPublicId)
     {
@@ -68,13 +50,12 @@ class ItemStoreService extends BaseService
 
         $query = $this->itemStoreRepo->findProduct($productPublicId);
 
-        if (!Utils::hasPermission('view_product')) {
+        if (!Utils::hasAccess('view_products')) {
             $query->where('products.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query);
+        return $this->datatableService->createDatatable($datatable, $query, 'products');
     }
-
 
     public function getDatatableStore($storePublicId)
     {
@@ -82,11 +63,11 @@ class ItemStoreService extends BaseService
 
         $query = $this->itemStoreRepo->findStore($storePublicId);
 
-        if (!Utils::hasPermission('view_store')) {
+        if (!Utils::hasAccess('view_stores')) {
             $query->where('stores.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query);
+        return $this->datatableService->createDatatable($datatable, $query, 'stores');
     }
 
 }
