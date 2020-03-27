@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Libraries\Finance;
 use App\Libraries\Login;
+use App\Libraries\Utils;
 use App\Models\BankSubaccount;
 use App\Models\Expense;
 use App\Models\Vendor;
@@ -11,10 +12,9 @@ use App\Ninja\Datatables\BankAccountDatatable;
 use App\Ninja\Repositories\BankAccountRepository;
 use App\Ninja\Repositories\ExpenseRepository;
 use App\Ninja\Repositories\VendorRepository;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use stdClass;
-use App\Libraries\Utils;
-use Carbon\Carbon;
 
 /**
  * Class BankAccountService.
@@ -23,22 +23,10 @@ class BankAccountService extends BaseService
 {
 
     protected $bankAccountRepo;
-
     protected $expenseRepo;
-
     protected $vendorRepo;
-
-
     protected $datatableService;
 
-    /**
-     * BankAccountService constructor.
-     *
-     * @param BankAccountRepository $bankAccountRepo
-     * @param ExpenseRepository $expenseRepo
-     * @param VendorRepository $vendorRepo
-     * @param DatatableService $datatableService
-     */
     public function __construct(BankAccountRepository $bankAccountRepo, ExpenseRepository $expenseRepo, VendorRepository $vendorRepo, DatatableService $datatableService)
     {
         $this->bankAccountRepo = $bankAccountRepo;

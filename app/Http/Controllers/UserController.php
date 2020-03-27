@@ -201,7 +201,7 @@ class UserController extends BaseController
 
     public function bulk()
     {
-        $this->authorize('create', $this->userRepo->getModel());
+        $this->authorize('delete', $this->userRepo->getModel());
         $action = Input::get('action');
         $ids = Input::get('public_id') ? Input::get('public_id') : Input::get('ids');
 
@@ -209,7 +209,7 @@ class UserController extends BaseController
 
         $message = Utils::pluralize($action . 'd_user', $count);
 
-        return $this->returnBulk(ENTITY_USE, $action, $ids)->with('message', $message);
+        return $this->returnBulk(ENTITY_USER, $action, $ids)->with('message', $message);
     }
 
     public function sendConfirmation($userPublicId)

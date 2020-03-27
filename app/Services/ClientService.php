@@ -3,13 +3,11 @@
 namespace App\Services;
 
 use App\Libraries\Utils;
-use App\Models\SaleType;
 use App\Ninja\Datatables\ClientDatatable;
 use App\Ninja\Datatables\HoldReasonDatatable;
 use App\Ninja\Datatables\SaleTypeDatatable;
 use App\Ninja\Repositories\ClientRepository;
 use App\Ninja\Repositories\NinjaRepository;
-use App\Policies\HoldReason;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -20,6 +18,7 @@ class ClientService extends BaseService
 
     protected $clientRepo;
     protected $datatableService;
+    private $ninjaRepo;
 
     public function __construct(ClientRepository $clientRepo, DatatableService $datatableService, NinjaRepository $ninjaRepo)
     {

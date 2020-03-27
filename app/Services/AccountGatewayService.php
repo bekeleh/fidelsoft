@@ -10,14 +10,8 @@ use App\Ninja\Repositories\AccountGatewayRepository;
  */
 class AccountGatewayService extends BaseService
 {
-    /**
-     * @var AccountGatewayRepository
-     */
-    protected $accountGatewayRepo;
 
-    /**
-     * @var DatatableService
-     */
+    protected $accountGatewayRepo;
     protected $datatableService;
 
     public function __construct(AccountGatewayRepository $accountGatewayRepo, DatatableService $datatableService)
@@ -37,6 +31,6 @@ class AccountGatewayService extends BaseService
     {
         $query = $this->accountGatewayRepo->find($accountId);
 
-        return $this->datatableService->createDatatable(new AccountGatewayDatatable(false), $query,'account_gateways');
+        return $this->datatableService->createDatatable(new AccountGatewayDatatable(false), $query, 'account_gateways');
     }
 }

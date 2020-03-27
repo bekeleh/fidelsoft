@@ -16,11 +16,7 @@ use App\Libraries\Utils;
  */
 class AuthService
 {
-    /**
-     * @var AccountRepository
-     */
     private $accountRepo;
-
 
     public static $providers = [
         1 => SOCIAL_GOOGLE,

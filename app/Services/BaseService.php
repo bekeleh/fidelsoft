@@ -25,12 +25,13 @@ class BaseService
 
         $entities = $this->getRepo()->findByPublicIdsWithTrashed($ids);
 
-        foreach ($entities as $entity) {
-            if (Auth::user()->can('edit', $entity)) {
-                $this->getRepo()->$action($entity);
+        if ($entities) {
+            foreach ($entities as $entity) {
+                if (Auth::user()->can('edit', $entity)) {
+                    $this->getRepo()->$action($entity);
+                }
             }
         }
-
         return count($entities);
     }
 }

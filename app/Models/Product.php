@@ -35,9 +35,7 @@ class Product extends EntityModel
     protected $hidden = [];
     protected $casts = [];
 
-    /**
-     * @return array
-     */
+
     public static function getImportColumns()
     {
         return [
@@ -49,9 +47,6 @@ class Product extends EntityModel
         ];
     }
 
-    /**
-     * @return array
-     */
     public static function getImportMap()
     {
         return [
@@ -63,19 +58,12 @@ class Product extends EntityModel
         ];
     }
 
-    /**
-     * @return mixed
-     */
+
     public function getEntityType()
     {
         return ENTITY_PRODUCT;
     }
 
-    /**
-     * @param $key
-     *
-     * @return mixed
-     */
     public static function findProductByKey($key)
     {
         return self::scope()->where('name', '=', $key)->first();
@@ -86,9 +74,6 @@ class Product extends EntityModel
         return $this->belongsTo('App\Models\Account', 'account_id')->withTrashed();
     }
 
-    /**
-     * @return mixed
-     */
     public function user()
     {
         return $this->belongsTo('App\Models\User', 'user_id')->withTrashed();
