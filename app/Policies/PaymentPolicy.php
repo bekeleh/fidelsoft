@@ -4,5 +4,8 @@ namespace App\Policies;
 
 class PaymentPolicy extends EntityPolicy
 {
-
+    protected function tableName()
+    {
+        return 'payments';
+    }
 }

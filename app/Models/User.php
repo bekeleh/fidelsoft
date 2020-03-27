@@ -12,6 +12,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Laracasts\Presenter\PresentableTrait;
 
@@ -75,6 +76,16 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
     public function getEntityType()
     {
         return ENTITY_USER;
+    }
+
+    public function decodePermissions()
+    {
+        return json_decode($this->permissions, true);
+    }
+
+    public function decodeGroups()
+    {
+        return json_decode($this->groups, true);
     }
 
     public function showMap()
@@ -304,16 +315,6 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
         return false;
     }
 
-    public function decodePermissions()
-    {
-        return json_decode($this->permissions, true);
-    }
-
-    public function decodeGroups()
-    {
-        return json_decode($this->groups, true);
-    }
-
     public function hasAccess($section)
     {
         Log::debug($section);
@@ -326,7 +327,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
         }
 
         $user_permissions = json_decode($this->permissions, true);
-
+        dd($user_permissions);
         if (($user_permissions != '') && ((array_key_exists($section, $user_permissions)) && ($user_permissions[$section] == '1'))) {
             return true;
         }
@@ -349,6 +350,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
     {
         // check if any permission exists
         $user_permissions = (array)json_decode($this->permissions, true);
+        dd($user_permissions);
         if (!$user_permissions || $user_permissions === '') {
             return false;
         }

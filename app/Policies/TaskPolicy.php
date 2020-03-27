@@ -2,16 +2,10 @@
 
 namespace App\Policies;
 
-use App\Models\User;
-
 class TaskPolicy extends EntityPolicy
 {
-    public static function create(User $user, $item)
+    protected function tableName()
     {
-        if (!parent::create($user, $item)) {
-            return false;
-        }
-
-        return $user->hasFeature(FEATURE_TASKS);
+        return 'tasks';
     }
 }

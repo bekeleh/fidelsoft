@@ -2,10 +2,10 @@
 
 namespace App\Policies;
 
-class CreditPolicy extends EntityPolicy
+class PermissionPolicy extends EntityPolicy
 {
     protected function tableName()
     {
-        return 'credits';
+        return 'permissions';
     }
 }
