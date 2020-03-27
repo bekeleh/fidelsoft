@@ -6,11 +6,10 @@
         <style type="text/css">
             .nav-footer {
                 @if (config('mail.driver') == 'log' && ! config('services.postmark'))
-                                                                                                          background-color: #50C878 !important;
+                                                                                                                       background-color: #50C878 !important;
                 @else
-                                                                                                              background-color: #FD6A02 !important;
+                                                                                                                           background-color: #FD6A02 !important;
             @endif
-
             }
         </style>
     @endif
@@ -414,10 +413,10 @@
                         ])
                     @endforeach
                 @endif
-                @if (Auth::user()->hasPermission('view_reports'))
+                @if (Auth::user()->hasAccess('admin'))
                     @include('partials.navigation_option', ['option' => 'reports'])
+                    @include('partials.navigation_option', ['option' => 'settings'])
                 @endif
-                @include('partials.navigation_option', ['option' => 'settings'])
             </ul>
         </div>
         <!-- /#left-sidebar-wrapper -->

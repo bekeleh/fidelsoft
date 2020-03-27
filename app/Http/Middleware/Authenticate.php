@@ -97,7 +97,6 @@ class Authenticate
                 $account->loadLocalizationSettings($contact->client);
             }
         }
-
         if (!$authenticated) {
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
@@ -119,7 +118,6 @@ class Authenticate
                 return redirect()->guest($url);
             }
         }
-
         return $next($request);
     }
 

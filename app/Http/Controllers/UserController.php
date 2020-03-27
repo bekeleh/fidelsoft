@@ -54,9 +54,10 @@ class UserController extends BaseController
 
     public function getDatatable($userPublicId = null)
     {
+        $this->authorize('view', $this->userRepo->getModel());
+        dd('passed...');
         $accountId = Auth::user()->account_id;
         $search = Input::get('sSearch');
-
         return $this->userService->getDatatable($accountId, $search);
     }
 
@@ -77,9 +78,9 @@ class UserController extends BaseController
 
     public function show(UserRequest $request)
     {
+        $this->authorize('view', $this->userRepo->getModel());
         $user = Auth::user();
         $account = $user->account;
-        $user->can('view', [ENTITY_USER, $user]);
 
         $actionLinks = [];
         if ($user->can('create', ENTITY_PERMISSION)) {
@@ -115,6 +116,7 @@ class UserController extends BaseController
 
     public function create(UserRequest $request)
     {
+        $this->authorize('create', $this->userRepo->getModel());
         if ($request->location_id != 0) {
             $location = Location::scope($request->location_id)->firstOrFail();
         } else {
@@ -137,6 +139,7 @@ class UserController extends BaseController
 
     public function store(UserRequest $request)
     {
+        $this->authorize('create', $this->userRepo->getModel());
         $data = $request->input();
         if (!Auth::user()->hasFeature(FEATURE_USERS)) {
             redirect()->to("users/")->with('error', trans('texts.error_created_user'));
@@ -148,6 +151,7 @@ class UserController extends BaseController
 
     public function edit(UserRequest $request, $publicId = false, $clone = false)
     {
+        $this->authorize('update', $this->userRepo->getModel());
         $user = $request->entity();
         if ($clone) {
             $user->id = null;
@@ -177,6 +181,7 @@ class UserController extends BaseController
 
     public function update(UserRequest $request)
     {
+        $this->authorize('update', $this->userRepo->getModel());
         $data = $request->input();
 
         $user = $this->userService->save($data, $request->entity());
@@ -195,6 +200,7 @@ class UserController extends BaseController
 
     public function bulk()
     {
+        $this->authorize('create', $this->userRepo->getModel());
         $action = Input::get('action');
         $ids = Input::get('public_id') ? Input::get('public_id') : Input::get('ids');
 
@@ -365,6 +371,7 @@ class UserController extends BaseController
 
     public function cloneUser(UserRequest $request, $publicId)
     {
+        $this->authorize('create', $this->userRepo->getModel());
         return self::edit($request, $publicId, true);
     }
 

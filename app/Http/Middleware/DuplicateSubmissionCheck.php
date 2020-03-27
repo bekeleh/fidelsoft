@@ -13,8 +13,7 @@ class DuplicateSubmissionCheck
 
     public function handle(Request $request, Closure $next)
     {
-        if ($request->is('api/v1/*')
-            || $request->is('save_sidebar_state')
+        if ($request->is('api/v1/*') || $request->is('save_sidebar_state')
             || $request->is('documents')) {
             return $next($request);
         }

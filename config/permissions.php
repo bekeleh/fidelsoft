@@ -26,7 +26,276 @@ return array(
             'display' => true,
         )
     ),
-
+// Expenses
+    'Expense manager' => array(
+        array(
+            'permission' => 'expenses.view',
+            'label' => 'View Expense',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'expenses.create',
+            'label' => 'Create Expense',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'expenses.edit',
+            'label' => 'Edit Expense',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'expenses.update',
+            'label' => 'Update Expense',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'expenses.bulkUpdate',
+            'label' => 'Bulk Update Expense',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'expenses.delete',
+            'label' => 'Delete Expense',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'expenses.bulkDelete',
+            'label' => 'Bulk delete Expense',
+            'note' => '',
+            'display' => true,
+        ),
+    ),
+// Invoices
+    'Invoice manager' => array(
+        array(
+            'permission' => 'invoices.view',
+            'label' => 'View Invoices',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'invoices.create',
+            'label' => 'Create Invoices',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'invoices.edit',
+            'label' => 'Edit Invoices',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'invoices.update',
+            'label' => 'Update Invoices',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'invoices.bulkUpdate',
+            'label' => 'Bulk Update Invoices',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'invoices.delete',
+            'label' => 'Delete Invoices',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'invoices.bulkDelete',
+            'label' => 'Bulk delete Invoices',
+            'note' => '',
+            'display' => true,
+        ),
+    ),
+// Suppliers
+    'Supplier manager' => array(
+        array(
+            'permission' => 'vendors.view',
+            'label' => 'View Supplier',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'vendors.create',
+            'label' => 'Create Supplier',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'vendors.edit',
+            'label' => 'Edit Supplier',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'vendors.update',
+            'label' => 'Update Supplier',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'vendors.bulkUpdate',
+            'label' => 'Bulk Update Supplier',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'vendors.delete',
+            'label' => 'Delete Supplier',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'vendors.bulkDelete',
+            'label' => 'Bulk delete Supplier',
+            'note' => '',
+            'display' => true,
+        ),
+    ),
+// Suppliers contact
+    'Supplier Contact manager' => array(
+        array(
+            'permission' => 'vendor_contacts.view',
+            'label' => 'View Supplier Contact',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'vendor_contacts.create',
+            'label' => 'Create Supplier Contact',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'vendor_contacts.edit',
+            'label' => 'Edit Supplier Contact',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'vendor_contacts.update',
+            'label' => 'Update Supplier Contact',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'vendor_contacts.bulkUpdate',
+            'label' => 'Bulk Update Supplier Contact',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'vendor_contacts.delete',
+            'label' => 'Delete Supplier Contact',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'vendor_contacts.bulkDelete',
+            'label' => 'Bulk delete Supplier Contact',
+            'note' => '',
+            'display' => true,
+        ),
+    ),
+// Clients
+    'Client contact manager' => array(
+        array(
+            'permission' => 'clients.view',
+            'label' => 'View Client',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'clients.create',
+            'label' => 'Create Client',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'clients.edit',
+            'label' => 'Edit Client',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'clients.update',
+            'label' => 'Update Client',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'clients.bulkUpdate',
+            'label' => 'Bulk Update Client',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'clients.delete',
+            'label' => 'Delete Client',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'clients.bulkDelete',
+            'label' => 'Bulk delete Client',
+            'note' => '',
+            'display' => true,
+        ),
+    ),
+// Clients
+    'Client Contact manager' => array(
+        array(
+            'permission' => 'contacts.view',
+            'label' => 'View Client Contact',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'contacts.create',
+            'label' => 'Create Client Contact',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'contacts.edit',
+            'label' => 'Edit Client Contact',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'contacts.update',
+            'label' => 'Update Client Contact',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'contacts.bulkUpdate',
+            'label' => 'Bulk Update Client Contact',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'contacts.delete',
+            'label' => 'Delete Client Contact',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'contacts.bulkDelete',
+            'label' => 'Bulk delete Client Contact',
+            'note' => '',
+            'display' => true,
+        ),
+    ),
 // Item item_prices management
     'Item prices manager' => array(
         array(
@@ -76,43 +345,43 @@ return array(
 // Item management
     'Items manager' => array(
         array(
-            'permission' => 'item_master.view',
+            'permission' => 'products.view',
             'label' => 'View items',
             'note' => '',
             'display' => true,
         ),
         array(
-            'permission' => 'item_master.create',
+            'permission' => 'products.create',
             'label' => 'Create items',
             'note' => '',
             'display' => true,
         ),
         array(
-            'permission' => 'item_master.edit',
+            'permission' => 'products.edit',
             'label' => 'Edit items',
             'note' => '',
             'display' => true,
         ),
         array(
-            'permission' => 'item_master.update',
+            'permission' => 'products.update',
             'label' => 'Update items',
             'note' => '',
             'display' => true,
         ),
         array(
-            'permission' => 'item_master.bulkUpdate',
+            'permission' => 'products.bulkUpdate',
             'label' => 'Bulk Update items',
             'note' => '',
             'display' => true,
         ),
         array(
-            'permission' => 'item_master.delete',
+            'permission' => 'products.delete',
             'label' => 'Delete items',
             'note' => '',
             'display' => true,
         ),
         array(
-            'permission' => 'item_master.bulkDelete',
+            'permission' => 'products.bulkDelete',
             'label' => 'Bulk delete items',
             'note' => '',
             'display' => true,
@@ -1347,46 +1616,46 @@ return array(
         ),
     ),
 //  UOM
-    'UOM manager' => array(
+    'Unit of measure manager' => array(
         array(
-            'permission' => 'uom.view',
-            'label' => 'View uom',
+            'permission' => 'units.view',
+            'label' => 'View units',
             'note' => '',
             'display' => true,
         ),
         array(
-            'permission' => 'uom.create',
-            'label' => 'Create uom',
+            'permission' => 'units.create',
+            'label' => 'Create units',
             'note' => '',
             'display' => true,
         ),
         array(
-            'permission' => 'uom.edit',
-            'label' => 'Edit uom',
+            'permission' => 'units.edit',
+            'label' => 'Edit units',
             'note' => '',
             'display' => true,
         ),
         array(
-            'permission' => 'uom.update',
-            'label' => 'Update uom',
+            'permission' => 'units.update',
+            'label' => 'Update units',
             'note' => '',
             'display' => true,
         ),
         array(
-            'permission' => 'uom.bulkUpdate',
-            'label' => 'Bulk update uom',
+            'permission' => 'units.bulkUpdate',
+            'label' => 'Bulk update units',
             'note' => '',
             'display' => true,
         ),
         array(
-            'permission' => 'uom.delete',
-            'label' => 'Delete uom',
+            'permission' => 'units.delete',
+            'label' => 'Delete units',
             'note' => '',
             'display' => true,
         ),
         array(
-            'permission' => 'uom.bulkDelete',
-            'label' => 'Bulk delete uom',
+            'permission' => 'units.bulkDelete',
+            'label' => 'Bulk delete units',
             'note' => '',
             'display' => true,
         ),

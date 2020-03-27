@@ -13,7 +13,7 @@
 
     <script type="text/javascript">
 
-        <?php if($access= (Auth::user()->isSuperUser()?: Auth::user()->hasAccess('admin'))): ?>
+        <?php if($access= Auth::user()->isSuperUser()?: Auth::user()->hasAccess('admin')): ?>
         function loadChart(data) {
             var ctx = document.getElementById('chart-canvas').getContext('2d');
             if (window.myChart) {

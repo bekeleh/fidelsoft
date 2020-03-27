@@ -293,51 +293,51 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
     }
 
 
-    public function hasPermission($permission, $requireAll = false)
-    {
-        if ($this->is_admin) {
-            return true;
-        } elseif (is_string($permission)) {
-
-            if (is_array(json_decode($this->permissions, 1)) && in_array($permission, json_decode($this->permissions, 1))) {
-                return true;
-            }
-
-        } elseif (is_array($permission)) {
-
-            if ($requireAll)
-                return count(array_intersect($permission, json_decode($this->permissions, 1))) == count($permission);
-            else
-                return count(array_intersect($permission, json_decode($this->permissions, 1))) > 0;
-
-        }
-
-        return false;
-    }
+//    public function hasPermission($permission, $requireAll = false)
+//    {
+//        dd('has_permission');
+//        if ($this->is_admin) {
+//            return true;
+//        } elseif (is_string($permission)) {
+//
+//            if (is_array(json_decode($this->permissions, 1)) && in_array($permission, json_decode($this->permissions, 1))) {
+//                return true;
+//            }
+//
+//        } elseif (is_array($permission)) {
+//
+//            if ($requireAll)
+//                return count(array_intersect($permission, json_decode($this->permissions, 1))) == count($permission);
+//            else
+//                return count(array_intersect($permission, json_decode($this->permissions, 1))) > 0;
+//
+//        }
+//
+//        return false;
+//    }
 
     public function hasAccess($section)
     {
-        Log::debug($section);
         if ($this->isSuperUser()) {
             return true;
         }
-        $user_groups = $this->groups;
-        if (($this->permissions === '') && (count($user_groups) == 0)) {
+        $userGroups = $this->groups;
+        if (($this->permissions === '') && (count($userGroups) == 0)) {
             return false;
         }
 
-        $user_permissions = json_decode($this->permissions, true);
+        $userPermissions = json_decode($this->permissions, true);
 
-        if (($user_permissions != '') && ((array_key_exists($section, $user_permissions)) && ($user_permissions[$section] == '1'))) {
+        if (($userPermissions != '') && ((array_key_exists($section, $userPermissions)) && ($userPermissions[$section] == '1'))) {
             return true;
         }
         // If the user is explicitly denied, return false
-        if (($user_permissions == '') || (!array_key_exists($section, $user_permissions))) {
+        if (($userPermissions == '') || (!array_key_exists($section, $userPermissions))) {
             return false;
         }
         // Loop through the groups to see if any of them grant this permission
-        foreach ($user_groups as $user_group) {
-            $group_permissions = (array)json_decode($user_group->permissions, true);
+        foreach ($userGroups as $userGroup) {
+            $group_permissions = (array)json_decode($userGroup->permissions, true);
             if (((array_key_exists($section, $group_permissions)) && ($group_permissions[$section] == '1'))) {
 //                dd($section);
                 return true;
@@ -349,19 +349,19 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
     public function isSuperUser()
     {
         // check if any permission exists
-        $user_permissions = (array)json_decode($this->permissions, true);
+        $userPermissions = (array)json_decode($this->permissions, true);
 
-        if (!$user_permissions || $user_permissions === '') {
+        if (!$userPermissions || $userPermissions === '') {
             return false;
         }
         // check pair of array_key and array_name
-        if ((array_key_exists('superuser', $user_permissions)) &&
-            ($user_permissions['superuser'] === '1')) {
+        if ((array_key_exists('superuser', $userPermissions)) &&
+            ($userPermissions['superuser'] === '1')) {
             return true;
         }
         // explicitly check user groups
-        foreach ($this->groups as $user_group) {
-            $group_permissions = (array)json_decode($user_group->permissions, true);
+        foreach ($this->groups as $userGroup) {
+            $group_permissions = (array)json_decode($userGroup->permissions, true);
             if ((array_key_exists('superuser', $group_permissions)) && ($group_permissions['superuser'] == '1')) {
                 return true;
             }

@@ -22,14 +22,6 @@ use Redirect;
  */
 class StartupCheck
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param Request $request
-     * @param Closure $next
-     *
-     * @return mixed
-     */
     public function handle(Request $request, Closure $next)
     {
         // Set up trusted X-Forwarded-Proto proxies

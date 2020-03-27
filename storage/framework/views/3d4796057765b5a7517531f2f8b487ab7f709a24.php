@@ -4,11 +4,10 @@
         <style type="text/css">
             .nav-footer {
                 <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?>
-                                                                                                          background-color: #50C878 !important;
+                                                                                                                       background-color: #50C878 !important;
                 <?php else: ?>
-                                                                                                              background-color: #FD6A02 !important;
+                                                                                                                           background-color: #FD6A02 !important;
             <?php endif; ?>
-
             }
         </style>
     <?php endif; ?>
@@ -422,10 +421,10 @@
                         ], array_except(get_defined_vars(), array('__data', '__path'))); ?>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 <?php endif; ?>
-                <?php if(Auth::user()->hasPermission('view_reports')): ?>
+                <?php if(Auth::user()->hasAccess('admin')): ?>
                     <?php echo $__env->make('partials.navigation_option', ['option' => 'reports'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    <?php echo $__env->make('partials.navigation_option', ['option' => 'settings'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 <?php endif; ?>
-                <?php echo $__env->make('partials.navigation_option', ['option' => 'settings'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             </ul>
         </div>
         <!-- /#left-sidebar-wrapper -->

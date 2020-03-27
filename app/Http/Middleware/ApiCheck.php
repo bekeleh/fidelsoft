@@ -15,14 +15,7 @@ use Illuminate\Support\Facades\Response;
  */
 class ApiCheck
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure $next
-     *
-     * @return mixed
-     */
+
     public function handle($request, Closure $next)
     {
         $loggingIn = $request->is('api/v1/login')

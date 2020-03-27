@@ -68,7 +68,6 @@ abstract class GenericEntityPolicy
     public function before(User $user, $ability, $item)
     {
         if (!static::checkModuleEnabled($user, $item)) {
-            dd('model is not enabled from generic policy');
             return false;
         }
         if ($user->hasAccess('admin')) {

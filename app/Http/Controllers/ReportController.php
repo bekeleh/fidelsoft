@@ -20,9 +20,7 @@ use Illuminate\Support\Facades\View;
  */
 class ReportController extends BaseController
 {
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
+
     public function d3()
     {
         $message = '';
@@ -49,9 +47,6 @@ class ReportController extends BaseController
         return View::make('reports.d3', $data);
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
     public function showReports()
     {
         if (!Auth::user()->hasPermission('view_reports')) {
