@@ -7,11 +7,9 @@ use App\Models\Store;
 
 class StoreRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_STORE;
-
     public function authorize()
     {
-        return $this->user()->can('create', $this->entityType);
+        return true;
     }
 
     public function rules()

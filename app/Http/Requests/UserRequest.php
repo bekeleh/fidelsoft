@@ -7,11 +7,9 @@ use App\Models\User;
 
 class UserRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_USER;
-
     public function authorize()
     {
-        return $this->user()->can('create', $this->entityType);
+        return true;
     }
 
     public function rules()

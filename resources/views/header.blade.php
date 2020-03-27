@@ -6,10 +6,11 @@
         <style type="text/css">
             .nav-footer {
                 @if (config('mail.driver') == 'log' && ! config('services.postmark'))
-                                                                                                         background-color: #50C878 !important;
+                                                                                                          background-color: #50C878 !important;
                 @else
-                                                                                                             background-color: #FD6A02 !important;
+                                                                                                              background-color: #FD6A02 !important;
             @endif
+
             }
         </style>
     @endif
@@ -244,7 +245,7 @@
 @stop
 @section('body')
     {{--    @if (Utils::isNinjaProd() && ! Request::is('settings/account_management'))--}}
-{{--            @include('partials.upgrade_modal')--}}
+    {{--            @include('partials.upgrade_modal')--}}
     {{--    @endif--}}
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="height:60px;">
         <div class="navbar-header">
@@ -348,7 +349,7 @@
                        class="form-control"
                        placeholder="{{ trans('texts.search') . ': ' . trans('texts.search_hotkey')}}"/>
                 @if (env('SPEECH_ENABLED'))
-{{--                    @include('partials/speech_recognition')--}}
+                    {{--                    @include('partials/speech_recognition')--}}
                 @endif
             </div>
             {!! Former::close() !!}

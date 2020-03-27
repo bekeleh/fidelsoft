@@ -8,11 +8,9 @@ use App\Models\SaleType;
 
 class ClientRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_CLIENT;
-
     public function authorize()
     {
-        return $this->user()->can('create', $this->entityType);
+        return true;
     }
 
     public function entity()

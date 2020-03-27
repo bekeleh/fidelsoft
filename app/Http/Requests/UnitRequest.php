@@ -6,11 +6,9 @@ use App\Models\Unit;
 
 class UnitRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_UNIT;
-
     public function authorize()
     {
-        return $this->user()->can('create', $this->entityType);
+        return true;
     }
 
     public function rules()

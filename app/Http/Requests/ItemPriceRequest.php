@@ -9,12 +9,11 @@ use App\Models\SaleType;
 
 class ItemPriceRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_ITEM_PRICE;
-
     public function authorize()
     {
-        return $this->user()->can('create', $this->entityType);
+        return true;
     }
+
 
     public function rules()
     {

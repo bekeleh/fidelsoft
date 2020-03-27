@@ -6,11 +6,9 @@ use App\Models\ItemCategory;
 
 class ItemCategoryRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_ITEM_CATEGORY;
-
     public function authorize()
     {
-        return $this->user()->can('create', $this->entityType);
+        return true;
     }
 
     public function rules()

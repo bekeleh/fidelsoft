@@ -4,11 +4,9 @@ namespace App\Http\Requests;
 
 class ItemMovementRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_ITEM_MOVEMENT;
-
     public function authorize()
     {
-        return $this->user()->can('create', $this->entityType);
+        return true;
     }
 
     public function rules()

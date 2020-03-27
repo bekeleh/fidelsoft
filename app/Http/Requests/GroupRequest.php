@@ -6,11 +6,9 @@ use App\Models\Group;
 
 class GroupRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_GROUP;
-
     public function authorize()
     {
-        return $this->user()->can('create', $this->entityType);
+        return true;
     }
 
     public function rules()

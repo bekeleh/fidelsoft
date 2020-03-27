@@ -6,11 +6,9 @@ use App\Models\HoldReason;
 
 class HoldReasonRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_HOLD_REASON;
-
     public function authorize()
     {
-        return $this->user()->can('create', $this->entityType);
+        return true;
     }
 
     public function rules()

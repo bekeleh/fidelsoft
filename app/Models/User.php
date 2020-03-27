@@ -327,7 +327,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
         }
 
         $user_permissions = json_decode($this->permissions, true);
-        dd($user_permissions);
+
         if (($user_permissions != '') && ((array_key_exists($section, $user_permissions)) && ($user_permissions[$section] == '1'))) {
             return true;
         }
@@ -350,7 +350,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
     {
         // check if any permission exists
         $user_permissions = (array)json_decode($this->permissions, true);
-        dd($user_permissions);
+
         if (!$user_permissions || $user_permissions === '') {
             return false;
         }

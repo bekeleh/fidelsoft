@@ -6,11 +6,9 @@ use App\Models\TaxRate;
 
 class TaxRateRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_TAX_RATE;
-
     public function authorize()
     {
-        return $this->user()->can('create', $this->entityType);
+        return true;
     }
 
     public function rules()

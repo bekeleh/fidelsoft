@@ -13,7 +13,7 @@
 
     <script type="text/javascript">
 
-        <?php if(Auth::user()->hasPermission('admin')): ?>
+        <?php if($access= (Auth::user()->isSuperUser()?: Auth::user()->hasAccess('admin'))): ?>
         function loadChart(data) {
             var ctx = document.getElementById('chart-canvas').getContext('2d');
             if (window.myChart) {
@@ -220,7 +220,7 @@
                 <?php else: ?>
                     <div class="col-md-10">
                         <?php endif; ?>
-                        <?php if(Auth::user()->hasPermission('admin')): ?>
+                        <?php if(Auth::user()->hasAccess('admin')): ?>
                             <div class="pull-right">
                                 <?php if(count($currencies) > 1): ?>
                                     <div id="currency-btn-group" class="btn-group" role="group"
@@ -402,7 +402,7 @@
                 </div>
             </div>
 
-            <?php if(Auth::user()->hasPermission('admin')): ?>
+            <?php if(Auth::user()->hasAccess('admin')): ?>
                 <div class="row">
                     <div class="col-md-12">
                         <div id="progress-div" class="progress">
@@ -415,7 +415,6 @@
                 </div>
                 <p>&nbsp;</p>
             <?php endif; ?>
-
             <div class="row">
                 <div class="col-md-6">
                     <div class="panel panel-default dashboard" style="height:320px">

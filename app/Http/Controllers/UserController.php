@@ -12,6 +12,7 @@ use App\Ninja\Datatables\UserDatatable;
 use App\Ninja\Mailers\ContactMailer;
 use App\Ninja\Mailers\UserMailer;
 use App\Ninja\Repositories\AccountRepository;
+use App\Ninja\Repositories\UserRepository;
 use App\Services\UserService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -24,15 +25,17 @@ use Redirect;
 
 class UserController extends BaseController
 {
+    private $userRepo;
     protected $accountRepo;
     protected $contactMailer;
     protected $userMailer;
     protected $userService;
 
-    public function __construct(AccountRepository $accountRepo, ContactMailer $contactMailer, UserMailer $userMailer, UserService $userService)
+    public function __construct(UserRepository $userRepo, AccountRepository $accountRepo, ContactMailer $contactMailer, UserMailer $userMailer, UserService $userService)
     {
         //parent::__construct();
 
+        $this->userRepo = $userRepo;
         $this->accountRepo = $accountRepo;
         $this->contactMailer = $contactMailer;
         $this->userMailer = $userMailer;
@@ -41,6 +44,7 @@ class UserController extends BaseController
 
     public function index()
     {
+        $this->authorize('index', $this->userRepo->getModel());
         return View::make('list_wrapper', [
             'entityType' => ENTITY_USER,
             'datatable' => new UserDatatable(),

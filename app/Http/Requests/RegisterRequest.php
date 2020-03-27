@@ -4,30 +4,20 @@ namespace App\Http\Requests;
 
 use App\Libraries\Utils;
 use Illuminate\Http\Request as InputRequest;
-use Response;
+use Illuminate\Support\Facades\Response;
 
 class RegisterRequest extends Request
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function __construct(InputRequest $req)
-    {
-        $this->req = $req;
-    }
-
     public function authorize()
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
+    public function __construct(InputRequest $req)
+    {
+        $this->req = $req;
+    }
+
     public function rules()
     {
         $rules = [
@@ -43,10 +33,9 @@ class RegisterRequest extends Request
     public function response(array $errors)
     {
         /* If the user is not validating from a mobile app - pass through parent::response */
-        if (! isset($this->req->api_secret)) {
+        if (!isset($this->req->api_secret)) {
             return parent::response($errors);
         }
-
         /* If the user is validating from a mobile app - pass through first error string and return error */
         foreach ($errors as $error) {
             foreach ($error as $key => $value) {

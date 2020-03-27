@@ -4,5 +4,8 @@ namespace App\Http\Requests;
 
 class ContactRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_CONTACT;
+    public function authorize()
+    {
+        return true;
+    }
 }

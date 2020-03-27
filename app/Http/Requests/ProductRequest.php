@@ -8,11 +8,9 @@ use App\Models\Unit;
 
 class ProductRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_PRODUCT;
-
     public function authorize()
     {
-        return $this->user()->can('create', $this->entityType);
+        return true;
     }
 
     public function rules()

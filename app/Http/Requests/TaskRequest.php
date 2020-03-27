@@ -7,7 +7,10 @@ use App\Models\Project;
 
 class TaskRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_TASK;
+    public function authorize()
+    {
+        return true;
+    }
 
     public function sanitize()
     {
@@ -25,7 +28,7 @@ class TaskRequest extends EntityRequest
             }
         }
         */
-        
+
         // check if we're creating a new project
         if ($this->project_id == '-1') {
             $project = [

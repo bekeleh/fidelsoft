@@ -6,11 +6,9 @@ use App\Models\Permission;
 
 class PermissionRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_PERMISSION;
-
     public function authorize()
     {
-        return $this->user()->can('create', $this->entityType);
+        return true;
     }
 
     public function rules()

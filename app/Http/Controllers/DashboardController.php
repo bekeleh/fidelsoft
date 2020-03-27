@@ -24,9 +24,10 @@ class DashboardController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', $this->dashboardRepo->getModel());
         $user = Auth::user();
-        $viewAll = $user->hasPermission('view_reports');
+
+        $viewAll = $user->isSuperUser() ?: $user->hasAccess('admin');
+
         $userId = $user->id;
         $account = $user->account;
         $accountId = $account->id;

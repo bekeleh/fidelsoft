@@ -4,5 +4,9 @@ namespace App\Http\Requests;
 
 class PaymentRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_PAYMENT;
+    public function authorize()
+    {
+        return true;
+    }
+
 }

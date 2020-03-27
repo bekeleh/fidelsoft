@@ -6,11 +6,9 @@ use App\Models\PaymentTerm;
 
 class PaymentTermRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_PAYMENT_TERM;
-
     public function authorize()
     {
-        return $this->user()->can('create', $this->entityType);
+        return true;
     }
 
     public function rules()

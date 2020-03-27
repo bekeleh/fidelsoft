@@ -6,11 +6,9 @@ use App\Models\Location;
 
 class LocationRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_LOCATION;
-
     public function authorize()
     {
-        return $this->user()->can('create', $this->entityType);
+        return true;
     }
 
     public function rules()

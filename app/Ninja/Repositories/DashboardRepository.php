@@ -2,7 +2,6 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Libraries\Account;
 use App\Models\Activity;
 use App\Models\Task;
 use DateInterval;
@@ -13,11 +12,6 @@ use stdClass;
 class DashboardRepository
 {
     private $model;
-
-    public function __construct(Account $model)
-    {
-        $this->model = $model;
-    }
 
     public function getById($id)
     {

@@ -7,7 +7,10 @@ use App\Models\Vendor;
 
 class ExpenseRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_EXPENSE;
+    public function authorize()
+    {
+        return true;
+    }
 
     public function entity()
     {

@@ -6,31 +6,11 @@ use App\Models\Client;
 
 class CreateInvoiceRequest extends InvoiceRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize()
     {
-        if (request()->input('is_quote'))
-            return $this->user()->can('create', ENTITY_QUOTE);
-        else {
-
-            if(request()->input('is_recurring'))
-                $standardOrRecurringInvoice = ENTITY_RECURRING_INVOICE;
-            else
-                $standardOrRecurringInvoice = ENTITY_INVOICE;
-
-            return $this->user()->can('create', $standardOrRecurringInvoice);
-        }
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules()
     {
         $rules = [
@@ -46,7 +26,7 @@ class CreateInvoiceRequest extends InvoiceRequest
 
         if ($this->user()->account->client_number_counter) {
             $clientId = Client::getPrivateId(request()->input('client')['public_id']);
-            $rules['client.id_number'] = 'unique:clients,id_number,'.$clientId.',id,account_id,' . $this->user()->account_id;
+            $rules['client.id_number'] = 'unique:clients,id_number,' . $clientId . ',id,account_id,' . $this->user()->account_id;
         }
 
         /* There's a problem parsing the dates
