@@ -13,16 +13,34 @@ use App\Libraries\Utils;
 class ExpenseRepository extends BaseRepository
 {
     protected $documentRepo;
+    private $model;
+
+    public function __construct(Expense $model, DocumentRepository $documentRepo)
+    {
+        $this->model = $model;
+        $this->documentRepo = $documentRepo;
+    }
+
+    public function getById($id)
+    {
+        return $this->model->findOrFail($id);
+    }
+
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    public function setModel($model)
+    {
+        $this->model = $model;
+        return $this;
+    }
 
     // Expenses
     public function getClassName()
     {
         return 'App\Models\Expense';
-    }
-
-    public function __construct(DocumentRepository $documentRepo)
-    {
-        $this->documentRepo = $documentRepo;
     }
 
     public function all()

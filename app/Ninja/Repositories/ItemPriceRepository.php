@@ -4,15 +4,38 @@ namespace App\Ninja\Repositories;
 
 use App\Events\ItemPriceWasCreated;
 use App\Events\ItemPriceWasUpdated;
+use App\Models\ItemPrice;
 use App\Models\Product;
 use App\Models\SaleType;
-use App\Models\ItemPrice;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class ItemPriceRepository extends BaseRepository
 {
+    private $model;
+
+    public function __construct(ItemPrice $model)
+    {
+        $this->model = $model;
+    }
+
+    public function getById($id)
+    {
+        return $this->model->findOrFail($id);
+    }
+
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    public function setModel($model)
+    {
+        $this->model = $model;
+        return $this;
+    }
+
     public function getClassName()
     {
         return 'App\Models\ItemPrice';

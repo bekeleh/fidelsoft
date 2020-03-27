@@ -3,12 +3,34 @@
 namespace App\Ninja\Repositories;
 
 use App\Models\ProposalCategory;
-use Auth;
-use DB;
-use Utils;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProposalCategoryRepository extends BaseRepository
 {
+    private $model;
+
+    public function __construct(ProposalCategory $model)
+    {
+        $this->model = $model;
+    }
+
+    public function getById($id)
+    {
+        return $this->model->findOrFail($id);
+    }
+
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    public function setModel($model)
+    {
+        $this->model = $model;
+        return $this;
+    }
+
     public function getClassName()
     {
         return 'App\Models\ProposalCategory';
@@ -22,20 +44,20 @@ class ProposalCategoryRepository extends BaseRepository
     public function find($filter = null, $userId = false)
     {
         $query = DB::table('proposal_categories')
-                ->where('proposal_categories.account_id', '=', Auth::user()->account_id)
-                ->select(
-                    'proposal_categories.name',
-                    'proposal_categories.public_id',
-                    'proposal_categories.user_id',
-                    'proposal_categories.deleted_at',
-                    'proposal_categories.is_deleted'
-                );
+            ->where('proposal_categories.account_id', '=', Auth::user()->account_id)
+            ->select(
+                'proposal_categories.name',
+                'proposal_categories.public_id',
+                'proposal_categories.user_id',
+                'proposal_categories.deleted_at',
+                'proposal_categories.is_deleted'
+            );
 
         $this->applyFilters($query, ENTITY_PROPOSAL_CATEGORY);
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
-                $query->Where('proposal_categories.name', 'like', '%'.$filter.'%');
+                $query->Where('proposal_categories.name', 'like', '%' . $filter . '%');
             });
         }
 
@@ -46,7 +68,7 @@ class ProposalCategoryRepository extends BaseRepository
     {
         $publicId = isset($input['public_id']) ? $input['public_id'] : false;
 
-        if (! $proposal) {
+        if (!$proposal) {
             $proposal = ProposalCategory::createNew();
         }
 

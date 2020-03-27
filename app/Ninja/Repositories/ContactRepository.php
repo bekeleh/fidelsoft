@@ -6,11 +6,34 @@ use App\Models\Contact;
 
 class ContactRepository extends BaseRepository
 {
+    private $model;
+
+    public function __construct(Contact $model)
+    {
+        $this->model = $model;
+    }
+
+    public function getById($id)
+    {
+        return $this->model->findOrFail($id);
+    }
+
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    public function setModel($model)
+    {
+        $this->model = $model;
+        return $this;
+    }
+
     public function all()
     {
         return Contact::scope()
-                ->withTrashed()
-                ->get();
+            ->withTrashed()
+            ->get();
     }
 
     public function save($data, $contact = false)
@@ -19,7 +42,7 @@ class ContactRepository extends BaseRepository
 
         if ($contact) {
             // do nothing
-        } elseif (! $publicId || intval($publicId) < 0) {
+        } elseif (!$publicId || intval($publicId) < 0) {
             $contact = Contact::createNew();
             $contact->send_invoice = true;
             $contact->client_id = $data['client_id'];

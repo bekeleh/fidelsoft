@@ -24,17 +24,41 @@ use Illuminate\Support\Facades\DB;
 class InvoiceRepository extends BaseRepository
 {
     protected $documentRepo;
+    private $model;
+    private $paymentService;
+    private $paymentRepo;
+
+    public function __construct(
+        Invoice $model,
+        PaymentService $paymentService,
+        DocumentRepository $documentRepo,
+        PaymentRepository $paymentRepo)
+    {
+        $this->model = $model;
+        $this->documentRepo = $documentRepo;
+        $this->paymentService = $paymentService;
+        $this->paymentRepo = $paymentRepo;
+    }
+
+    public function getById($id)
+    {
+        return $this->model->findOrFail($id);
+    }
+
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    public function setModel($model)
+    {
+        $this->model = $model;
+        return $this;
+    }
 
     public function getClassName()
     {
         return 'App\Models\Invoice';
-    }
-
-    public function __construct(PaymentService $paymentService, DocumentRepository $documentRepo, PaymentRepository $paymentRepo)
-    {
-        $this->documentRepo = $documentRepo;
-        $this->paymentService = $paymentService;
-        $this->paymentRepo = $paymentRepo;
     }
 
     public function all()

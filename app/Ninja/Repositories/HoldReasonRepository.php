@@ -6,10 +6,32 @@ namespace App\Ninja\Repositories;
 use App\Models\HoldReason;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class HoldReasonRepository extends BaseRepository
 {
+    private $model;
+
+    public function __construct(HoldReason $model)
+    {
+        $this->model = $model;
+    }
+
+    public function getById($id)
+    {
+        return $this->model->findOrFail($id);
+    }
+
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    public function setModel($model)
+    {
+        $this->model = $model;
+        return $this;
+    }
+
     public function getClassName()
     {
         return 'App\Models\HoldReason';

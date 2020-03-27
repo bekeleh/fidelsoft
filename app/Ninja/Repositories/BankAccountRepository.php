@@ -4,11 +4,34 @@ namespace App\Ninja\Repositories;
 
 use App\Models\BankAccount;
 use App\Models\BankSubaccount;
-use Crypt;
-use DB;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 
 class BankAccountRepository extends BaseRepository
 {
+    private $model;
+
+    public function __construct(BankAccount $model)
+    {
+        $this->model = $model;
+    }
+
+    public function getById($id)
+    {
+        return $this->model->findOrFail($id);
+    }
+
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    public function setModel($model)
+    {
+        $this->model = $model;
+        return $this;
+    }
+
     public function getClassName()
     {
         return 'App\Models\BankAccount';
@@ -17,15 +40,15 @@ class BankAccountRepository extends BaseRepository
     public function find($accountId)
     {
         return DB::table('bank_accounts')
-                    ->join('banks', 'banks.id', '=', 'bank_accounts.bank_id')
-                    ->where('bank_accounts.deleted_at', '=', null)
-                    ->where('bank_accounts.account_id', '=', $accountId)
-                    ->select(
-                        'bank_accounts.public_id',
-                        'banks.name as bank_name',
-                        'bank_accounts.deleted_at',
-                        'banks.bank_library_id'
-                    );
+            ->join('banks', 'banks.id', '=', 'bank_accounts.bank_id')
+            ->where('bank_accounts.deleted_at', '=', null)
+            ->where('bank_accounts.account_id', '=', $accountId)
+            ->select(
+                'bank_accounts.public_id',
+                'banks.name as bank_name',
+                'bank_accounts.deleted_at',
+                'banks.bank_library_id'
+            );
     }
 
     public function save($input)
@@ -38,7 +61,7 @@ class BankAccountRepository extends BaseRepository
         $account->bank_accounts()->save($bankAccount);
 
         foreach ($input['bank_accounts'] as $data) {
-            if (! isset($data['include']) || ! filter_var($data['include'], FILTER_VALIDATE_BOOLEAN)) {
+            if (!isset($data['include']) || !filter_var($data['include'], FILTER_VALIDATE_BOOLEAN)) {
                 continue;
             }
 

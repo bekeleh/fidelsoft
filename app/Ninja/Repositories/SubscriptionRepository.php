@@ -3,10 +3,33 @@
 namespace App\Ninja\Repositories;
 
 use App\Models\Subscription;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class SubscriptionRepository extends BaseRepository
 {
+    private $model;
+
+    public function __construct(Subscription $model)
+    {
+        $this->model = $model;
+    }
+
+    public function getById($id)
+    {
+        return $this->model->findOrFail($id);
+    }
+
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    public function setModel($model)
+    {
+        $this->model = $model;
+        return $this;
+    }
+
     public function getClassName()
     {
         return 'App\Models\Subscription';
@@ -15,15 +38,15 @@ class SubscriptionRepository extends BaseRepository
     public function find($accountId)
     {
         $query = DB::table('subscriptions')
-                  ->where('subscriptions.account_id', '=', $accountId)
-                  ->whereNull('subscriptions.deleted_at')
-                  ->select(
-                    'subscriptions.public_id',
-                    'subscriptions.target_url as target',
-                    'subscriptions.event_id as event',
-                    'subscriptions.deleted_at',
-                    'subscriptions.format'
-                );
+            ->where('subscriptions.account_id', '=', $accountId)
+            ->whereNull('subscriptions.deleted_at')
+            ->select(
+                'subscriptions.public_id',
+                'subscriptions.target_url as target',
+                'subscriptions.event_id as event',
+                'subscriptions.deleted_at',
+                'subscriptions.format'
+            );
 
         return $query;
     }

@@ -3,10 +3,33 @@
 namespace App\Ninja\Repositories;
 
 use App\Models\Token;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class TokenRepository extends BaseRepository
 {
+    private $model;
+
+    public function __construct(Token $model)
+    {
+        $this->model = $model;
+    }
+
+    public function getById($id)
+    {
+        return $this->model->findOrFail($id);
+    }
+
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    public function setModel($model)
+    {
+        $this->model = $model;
+        return $this;
+    }
+
     public function getClassName()
     {
         return 'App\Models\AccountToken';
@@ -15,9 +38,8 @@ class TokenRepository extends BaseRepository
     public function find($userId)
     {
         $query = DB::table('account_tokens')
-                  ->where('account_tokens.user_id', '=', $userId)
-                  ->whereNull('account_tokens.deleted_at');
-        ;
+            ->where('account_tokens.user_id', '=', $userId)
+            ->whereNull('account_tokens.deleted_at');;
 
         return $query->select('account_tokens.public_id', 'account_tokens.name', 'account_tokens.token', 'account_tokens.public_id', 'account_tokens.deleted_at');
     }

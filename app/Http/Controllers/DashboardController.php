@@ -22,11 +22,9 @@ class DashboardController extends BaseController
         $this->dashboardRepo = $dashboardRepo;
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
     public function index()
     {
+        $this->authorize('index', $this->dashboardRepo->getModel());
         $user = Auth::user();
         $viewAll = $user->hasPermission('view_reports');
         $userId = $user->id;

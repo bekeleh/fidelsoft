@@ -7,6 +7,29 @@ use Illuminate\Support\Facades\DB;
 
 class TaxRateRepository extends BaseRepository
 {
+    private $model;
+
+    public function __construct(TaxRate $model)
+    {
+        $this->model = $model;
+    }
+
+    public function getById($id)
+    {
+        return $this->model->findOrFail($id);
+    }
+
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    public function setModel($model)
+    {
+        $this->model = $model;
+        return $this;
+    }
+
     public function getClassName()
     {
         return 'App\Models\TaxRate';

@@ -3,12 +3,34 @@
 namespace App\Ninja\Repositories;
 
 use App\Models\ProposalTemplate;
-use Auth;
-use DB;
-use Utils;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProposalTemplateRepository extends BaseRepository
 {
+    private $model;
+
+    public function __construct(ProposalTemplate $model)
+    {
+        $this->model = $model;
+    }
+
+    public function getById($id)
+    {
+        return $this->model->findOrFail($id);
+    }
+
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    public function setModel($model)
+    {
+        $this->model = $model;
+        return $this;
+    }
+
     public function getClassName()
     {
         return 'App\Models\ProposalTemplate';
@@ -22,26 +44,26 @@ class ProposalTemplateRepository extends BaseRepository
     public function find($filter = null, $userId = false)
     {
         $query = DB::table('proposal_templates')
-                ->where('proposal_templates.account_id', '=', Auth::user()->account_id)
-                ->select(
-                    'proposal_templates.name',
-                    'proposal_templates.public_id',
-                    'proposal_templates.user_id',
-                    'proposal_templates.deleted_at',
-                    'proposal_templates.is_deleted',
-                    'proposal_templates.html as content',
-                    'proposal_templates.private_notes'
-                );
+            ->where('proposal_templates.account_id', '=', Auth::user()->account_id)
+            ->select(
+                'proposal_templates.name',
+                'proposal_templates.public_id',
+                'proposal_templates.user_id',
+                'proposal_templates.deleted_at',
+                'proposal_templates.is_deleted',
+                'proposal_templates.html as content',
+                'proposal_templates.private_notes'
+            );
 
         $this->applyFilters($query, ENTITY_PROPOSAL_TEMPLATE);
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
-                $query->where('clients.name', 'like', '%'.$filter.'%')
-                      ->orWhere('contacts.first_name', 'like', '%'.$filter.'%')
-                      ->orWhere('contacts.last_name', 'like', '%'.$filter.'%')
-                      ->orWhere('contacts.email', 'like', '%'.$filter.'%')
-                      ->orWhere('proposal_templates.name', 'like', '%'.$filter.'%');
+                $query->where('clients.name', 'like', '%' . $filter . '%')
+                    ->orWhere('contacts.first_name', 'like', '%' . $filter . '%')
+                    ->orWhere('contacts.last_name', 'like', '%' . $filter . '%')
+                    ->orWhere('contacts.email', 'like', '%' . $filter . '%')
+                    ->orWhere('proposal_templates.name', 'like', '%' . $filter . '%');
             });
         }
 
@@ -56,7 +78,7 @@ class ProposalTemplateRepository extends BaseRepository
     {
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
 
-        if (! $proposal) {
+        if (!$proposal) {
             $proposal = ProposalTemplate::createNew();
         }
 

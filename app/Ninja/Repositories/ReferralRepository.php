@@ -7,6 +7,29 @@ use App\Models\DbServer;
 
 class ReferralRepository
 {
+    private $model;
+
+    public function __construct(Company $model)
+    {
+        $this->model = $model;
+    }
+
+    public function getById($id)
+    {
+        return $this->model->findOrFail($id);
+    }
+
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    public function setModel($model)
+    {
+        $this->model = $model;
+        return $this;
+    }
+
     public function getCounts($referralCode)
     {
         $counts = [
@@ -15,7 +38,7 @@ class ReferralRepository
             'enterprise' => 0,
         ];
 
-        if (! $referralCode) {
+        if (!$referralCode) {
             return $counts;
         }
 

@@ -28,6 +28,29 @@ use stdClass;
 
 class AccountRepository
 {
+    private $model;
+
+    public function __construct(Account $model)
+    {
+        $this->model = $model;
+    }
+
+    public function getById($id)
+    {
+        return $this->model->findOrFail($id);
+    }
+
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    public function setModel($model)
+    {
+        $this->model = $model;
+        return $this;
+    }
+
     public function create($firstName = '', $lastName = '', $email = '', $password = '', $company = false)
     {
         if (!$company) {
