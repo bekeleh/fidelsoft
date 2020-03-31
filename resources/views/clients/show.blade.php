@@ -78,10 +78,11 @@
             </div>
         </div>
     </div>
-    @if ($client->last_login > 0)
+    @if ($client->last_login)
         <h3 style="margin-top:0px"><small>
                 {{ trans('texts.last_logged_in') }} {{ Utils::timestampToDateTimeString(strtotime($client->last_login)) }}
-            </small></h3>
+            </small>
+        </h3>
     @endif
     <div class="panel panel-default">
         <div class="panel-body">
@@ -113,8 +114,6 @@
                     @if (floatval($client->task_rate))
                         <p>{{ trans('texts.task_rate') }}: {{ Utils::roundSignificant($client->task_rate) }}</p>
                     @endif
-
-                    <p/>
                     @if ($client->public_notes)
                         <p><i>{!! nl2br(e($client->public_notes)) !!}</i></p>
                     @endif
@@ -138,29 +137,10 @@
                     @if ($client->language)
                         <p><i class="fa fa-language" style="width: 20px"></i>{{ $client->language->name }}</p>
                     @endif
-                    <p>{{ $client->present()->paymentTerms }}</p>
+                    <p>{{ trans('texts.payment_terms').': '.trans('texts.payment_terms_net')}} {{ $client->present()->paymentTerms }}</p>
                     <!--- client sale type -->
-                    <h4>{{ trans('texts.sale_type') }}</h4>
-                    @if (isset($client->saleType))
-                        @if(Auth::user()->can('create', ENTITY_SALE_TYPE))
-                            <a href="{{URL('/sale_types').'/'.$client->saleType->id}}">{!! $client->saleType->name !!}</a>
-                        @else
-                            {!! $client->saleType->name !!}
-                        @endif
-                    @else
-                        <p>Client sale type not yet defined.</p>
-                    @endif
-                <!--- client hold reason -->
-                    <h4>{{ trans('texts.hold_reason') }}</h4>
-                    @if (isset($client->holdReason))
-                        @if(Auth::user()->can('create', ENTITY_HOLD_REASON))
-                            <a href="{{URL('/hold_reasons').'/'.$client->holdReason->id}}">{!! $client->holdReason->name !!}</a>
-                        @else
-                            {!! $client->holdReason->name !!}
-                        @endif
-                    @else
-                        <p>Client hold reason not yet defined.</p>
-                    @endif
+                    <p>{{ trans('texts.sale_type').': '}} {{ $client->present()->saleType}}</p>
+                    <p>{{ trans('texts.hold_reason').': '}}{{ $client->present()->holdReason}}</p>
                     <div class="text-muted" style="padding-top:8px">
                         @if ($client->show_tasks_in_portal)
                             • {{ trans('texts.can_view_tasks') }}<br/>
@@ -170,6 +150,7 @@
                         @endif
                     </div>
                 </div>
+
                 <div class="col-md-3">
                     <h3>{{ trans('texts.address') }}</h3>
                     @if ($client->addressesMatch())
@@ -204,8 +185,11 @@
                         @endif
 
                         @if (Auth::user()->confirmed && $client->account->enable_client_portal)
-                            <i class="fa fa-dashboard" style="width: 20px"></i><a href="{{ $contact->link }}"
-                                                                                  onclick="window.open('{{ $contact->link }}?silent=true', '_blank');return false;">{{ trans('texts.view_in_portal') }}</a>
+                            <i class="fa fa-dashboard" style="width: 20px"></i>
+                            <a href="{{ $contact->link }}"
+                               onclick="window.open('{{ $contact->link }}?silent=true', '_blank');return false;">
+                                {{ trans('texts.view_in_portal') }}
+                            </a>
                             @if (config('services.postmark'))
                                 | <a href="#" onclick="showEmailHistory('{{ $contact->email }}')">
                                     {{ trans('texts.email_history') }}

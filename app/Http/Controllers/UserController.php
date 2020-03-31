@@ -44,7 +44,8 @@ class UserController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', $this->userRepo->getModel());
+//        $this->authorize('index', $this->userRepo->getModel());
+
         return View::make('list_wrapper', [
             'entityType' => ENTITY_USER,
             'datatable' => new UserDatatable(),
@@ -54,8 +55,8 @@ class UserController extends BaseController
 
     public function getDatatable($userPublicId = null)
     {
+        dd('testssss...');
         $this->authorize('view', $this->userRepo->getModel());
-
         $accountId = Auth::user()->account_id;
         $search = Input::get('sSearch');
 
@@ -77,42 +78,46 @@ class UserController extends BaseController
         return Redirect::to('/dashboard')->with('success', trans('texts.updated_settings'));
     }
 
-    public function show(UserRequest $request)
+    public function show(UserRequest $request, $publicId)
     {
-        $this->authorize('view', $this->userRepo->getModel());
-        $user = Auth::user();
-        $account = $user->account;
+        dd($publicId);
+        $account = Auth::user()->account;
+        $accountId = $account->account_id;
+        $user = $this->userService->getById($publicId, $accountId);
+        if ($user) {
+            $this->authorize('view', $user);
+            $actionLinks = [];
+            if ($user->can('create', ENTITY_PERMISSION)) {
+                $actionLinks[] = ['label' => trans('texts.new_permission'), 'url' => URL::to('/permissions/create/' . $user->public_id)];
+            }
 
-        $actionLinks = [];
-        if ($user->can('create', ENTITY_PERMISSION)) {
-            $actionLinks[] = ['label' => trans('texts.new_permission'), 'url' => URL::to('/permissions/create/' . $user->public_id)];
+            if ($user->can('create', ENTITY_GROUP)) {
+                $actionLinks[] = ['label' => trans('texts.new_groups'), 'url' => URL::to('/groups/create/' . $user->public_id)];
+            }
+
+            if (!empty($actionLinks)) {
+                $actionLinks[] = \DropdownButton::DIVIDER;
+            }
+            $permissions = config('permissions');
+            $user->permissions = $this->userService->decodePermissions();
+            $userPermissions = Utils::selectedPermissionsArray($permissions, $user->permissions);
+
+            $data = [
+                'user' => $user,
+                'permissions' => $permissions,
+                'userPermissions' => $userPermissions,
+                'groups' => 'list of user groups ...',
+                'account' => $account,
+                'actionLinks' => $actionLinks,
+                'showBreadcrumbs' => false,
+                'title' => trans('texts.view_user'),
+                'hasPermissions' => $account->isModuleEnabled(ENTITY_PERMISSION) && Permission::scope()->withArchived()->whereUserId($user->id)->count() > 0,
+                'hasGroups' => $account->isModuleEnabled(ENTITY_GROUP) && Group::scope()->withArchived()->whereUserId($user->id)->count() > 0,
+            ];
+
+            return View::make('users.show', $data);
         }
-
-        if ($user->can('create', ENTITY_GROUP)) {
-            $actionLinks[] = ['label' => trans('texts.new_groups'), 'url' => URL::to('/groups/create/' . $user->public_id)];
-        }
-
-        if (!empty($actionLinks)) {
-            $actionLinks[] = \DropdownButton::DIVIDER;
-        }
-        $permissions = config('permissions');
-        $user->permissions = $this->userService->decodePermissions();
-        $userPermissions = Utils::selectedPermissionsArray($permissions, $user->permissions);
-
-        $data = [
-            'user' => $user,
-            'permissions' => $permissions,
-            'userPermissions' => $userPermissions,
-            'groups' => 'list of user groups ...',
-            'account' => $account,
-            'actionLinks' => $actionLinks,
-            'showBreadcrumbs' => false,
-            'title' => trans('texts.view_user'),
-            'hasPermissions' => $account->isModuleEnabled(ENTITY_PERMISSION) && Permission::scope()->withArchived()->whereUserId($user->id)->count() > 0,
-            'hasGroups' => $account->isModuleEnabled(ENTITY_GROUP) && Group::scope()->withArchived()->whereUserId($user->id)->count() > 0,
-        ];
-
-        return View::make('users.show', $data);
+        return response()->view('errors/403');
     }
 
     public function create(UserRequest $request)

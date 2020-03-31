@@ -2,27 +2,16 @@
 
 @section('head')
     @parent
-    <script src="{{ asset('js/select2.min.js') }}" type="text/javascript"></script>
-    <link href="{{ asset('css/select2.css') }}" rel="stylesheet" type="text/css"/>
-    @if ($user->showMap())
-        <style>
-            #map {
-                width: 100%;
-                height: 200px;
-                border-width: 1px;
-                border-style: solid;
-                border-color: #ddd;
-            }
-        </style>
-        <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}"></script>
-    @endif
+
 @stop
 
 @section('content')
+    <!-- edit user -->
     <div class="row">
         <div class="col-md-7">
             <ol class="breadcrumb">
                 <li>{{ link_to('/users', trans('texts.users')) }}</li>
+                <li class='active'>{{ $user->present()->fullName }}</li> {!! $user->present()->statusLabel !!}
             </ol>
         </div>
         <div class="col-md-5">
@@ -32,30 +21,87 @@
                     {!! Former::text('action') !!}
                     {!! Former::text('public_id')->value($user->public_id) !!}
                 </div>
+
+                @if (!$user->is_deleted)
+                    @can('edit', $user)
+                        {!! DropdownButton::normal(trans('texts.edit_user'))
+                            ->withAttributes(['class'=>'normalDropDown'])
+                            ->withContents([
+                              ($user->trashed() ? false : ['label' => trans('texts.archive_user'), 'url' => "javascript:onArchiveClick()"]),
+                              ['label' => trans('texts.delete_user'), 'url' => "javascript:onDeleteClick()"],
+                              auth()->user()->is_admin ? \DropdownButton::DIVIDER : false,
+                              auth()->user()->is_admin ? ['label' => trans('texts.purge_user'), 'url' => "javascript:onPurgeClick()"] : false,
+                            ]
+                          )->split() !!}
+                    @endcan
+                @endif
+                @if ($user->trashed())
+                    @can('edit', $user)
+                        @if (auth()->user()->is_admin && $user->is_deleted)
+                            {!! Button::danger(trans('texts.purge_user'))
+                                    ->appendIcon(Icon::create('warning-sign'))
+                                    ->withAttributes(['onclick' => 'onPurgeClick()']) !!}
+                        @endif
+                        {!! Button::primary(trans('texts.restore_user'))
+                                ->appendIcon(Icon::create('retweet'))
+                                ->withAttributes(['onclick' => 'onRestoreClick()']) !!}
+                    @endcan
+                @endif
+                {!! Former::close() !!}
             </div>
         </div>
     </div>
+    <!-- user detail -->
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="row">
-                <p> user detail here</p>
+                <div class="col-md-3">
+                    <h3>{{ trans('texts.user_details') }}</h3>
+                    @if ($user)
+                        <p><i class="fa fa-id-number"
+                              style="width: 20px"></i>{{ trans('texts.id_number').': '.$user->id }}</p>
+                    @endif
+                    @if ($user->first_name)
+                        <p><i class="fa fa-vat-number"
+                              style="width: 20px"></i>{{ trans('texts.first_name').': '. $user->presenter()->fullName }}
+                        </p>
+                    @endif
+                    @if ($user->notes)
+                        <p><i>{!! nl2br(e($user->notes)) !!}</i></p>
+                    @endif
+                    @if ($user->last_login)
+                        <h3 style="margin-top:0px"><small>
+                                {{ trans('texts.last_logged_in') }} {{ Utils::timestampToDateTimeString(strtotime($user->last_login)) }}
+                            </small>
+                        </h3>
+                    @endif
+                </div>
+                <div class="col-md-3">
+                    <h3>{{ trans('texts.address') }}</h3>
+                    <p>address details</p>
+                </div>
+                <div class="col-md-3">
+                    <h3>{{ trans('texts.contacts') }}</h3>
+                    @if ($user->email)
+                        <i class="fa fa-envelope"
+                           style="width: 20px"></i>{!! HTML::mailto($user->email, $user->email) !!}<br/>
+                    @endif
+                    @if ($user->phone)
+                        <i class="fa fa-phone" style="width: 20px"></i>{{ $user->phone }}<br/>
+                    @endif
+                    <br/>
+                </div>
             </div>
         </div>
     </div>
-    @if ($user->showMap())
-        <div id="map">
-        </div>
-        <br/>
-    @endif
     <ul class="nav nav-tabs nav-justified">
-        {!! Form::tab_link('#activity', trans('texts.activity'), true) !!}
         @if (true)
             {!! Form::tab_link('#permissions', trans('texts.permissions')) !!}
         @endif
         @if (true)
             {!! Form::tab_link('#groups', trans('texts.groups')) !!}
         @endif
-
+        {!! Form::tab_link('#activity', trans('texts.activity'), true) !!}
     </ul>
     <br/>
     <div class="tab-content">
@@ -100,6 +146,36 @@
             </div>
         </div>
     </div>
+    <script nonce="{{ csrf_token() }}">
+        $(document).ready(function () {
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square',
+                radioClass: 'iradio_square',
+                increaseArea: '5%',
+            });
+            // Check/Uncheck all radio buttons in the group
+            $('tr.header-row input:radio').on('ifChanged', function () {
+                value = $(this).attr('value');
+                area = $(this).data('checker-group');
+                $('.radiochecker-' + area + '[value=' + value + ']').iCheck('check');
+            });
+
+            $('.header-name').click(function () {
+                $(this).parent().nextUntil('tr.header-row').slideToggle(500);
+            });
+
+            $('.tooltip-base').tooltip({container: 'body'});
+            $(".superuser").change(function () {
+                var perms = $(this).val();
+                if (perms == '1') {
+                    $("#nonadmin").hide();
+                } else {
+                    $("#nonadmin").show();
+                }
+            });
+
+        });
+    </script>
     <script type="text/javascript">
         var loadedTabs = {};
         $(function () {

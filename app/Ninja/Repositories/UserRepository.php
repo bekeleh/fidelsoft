@@ -18,11 +18,6 @@ class UserRepository extends BaseRepository
         $this->model = $model;
     }
 
-    public function getById($id)
-    {
-        return $this->model->findOrFail($id);
-    }
-
     public function getModel()
     {
         return $this->model;
@@ -37,6 +32,19 @@ class UserRepository extends BaseRepository
     public function getClassName()
     {
         return 'App\Models\User';
+    }
+
+    public function getById($publicId, $accountId)
+    {
+        return $this->model->withTrashed()->where('public_id', $publicId)->where('account_id', $accountId)->first();
+    }
+
+    public function all()
+    {
+        return User::scope()->with('contacts', 'country')
+            ->withTrashed()
+            ->where('is_deleted', '=', false)
+            ->get();
     }
 
     public function find($accountId, $filter = null)

@@ -82,4 +82,14 @@ class UserPresenter extends EntityPresenter
 
         return $status;
     }
+    public function groups()
+    {
+        $user = $this->entity;
+
+        if (!$user->groups) {
+            return '';
+        }
+
+        return \HTML::link('users/' . $user->groups->id, $user->groups->name);
+    }
 }

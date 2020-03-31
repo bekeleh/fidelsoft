@@ -22,11 +22,6 @@ class ClientRepository extends BaseRepository
         $this->model = $model;
     }
 
-    public function getById($id)
-    {
-        return $this->model->findOrFail($id);
-    }
-
     public function getModel()
     {
         return $this->model;
@@ -41,6 +36,11 @@ class ClientRepository extends BaseRepository
     public function getClassName()
     {
         return 'App\Models\Client';
+    }
+
+    public function getById($publicId, $accountId)
+    {
+        return $this->model->withTrashed()->where('public_id', $publicId)->where('account_id', $accountId)->first();
     }
 
     public function all()
@@ -105,6 +105,7 @@ class ClientRepository extends BaseRepository
 
     public function purge($client)
     {
+        dd($client);
         dispatch(new PurgeClientData($client));
     }
 

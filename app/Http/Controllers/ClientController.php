@@ -141,62 +141,67 @@ class ClientController extends BaseController
         return redirect()->to($client->getRoute())->with('success', trans('texts.updated_client'));
     }
 
-    public function show(ClientRequest $request)
+    public function show(ClientRequest $request, $publicId)
     {
-        $client = $request->entity();
         $user = Auth::user();
         $account = $user->account;
+        $accountId = $user->account_id;
+        $client = $this->clientService->getById($publicId, $accountId);
 
-        $user->can('view', [ENTITY_CLIENT, $client]);
+        if ($client) {
+            $this->authorize('view', $client);
 
-        $actionLinks = [];
-        if ($user->can('create', ENTITY_INVOICE)) {
-            $actionLinks[] = ['label' => trans('texts.new_invoice'), 'url' => URL::to('/invoices/create/' . $client->public_id)];
+            $user->can('view', [ENTITY_CLIENT]);
+            $actionLinks = [];
+            if ($user->can('create', [ENTITY_INVOICE])) {
+                $actionLinks[] = ['label' => trans('texts.new_invoice'), 'url' => URL::to('/invoices/create/' . $publicId)];
+            }
+            if ($user->can('create', [ENTITY_TASK])) {
+                $actionLinks[] = ['label' => trans('texts.new_task'), 'url' => URL::to('/tasks/create/' . $publicId)];
+            }
+            if (Utils::hasFeature(FEATURE_QUOTES) && $user->can('create', [ENTITY_QUOTE])) {
+                $actionLinks[] = ['label' => trans('texts.new_quote'), 'url' => URL::to('/quotes/create/' . $publicId)];
+            }
+            if ($user->can('create', [ENTITY_RECURRING_INVOICE])) {
+                $actionLinks[] = ['label' => trans('texts.new_recurring_invoice'), 'url' => URL::to('/recurring_invoices/create/' . $publicId)];
+            }
+
+            if (!empty($actionLinks)) {
+                $actionLinks[] = \DropdownButton::DIVIDER;
+            }
+
+            if ($user->can('create', ENTITY_PAYMENT)) {
+                $actionLinks[] = ['label' => trans('texts.enter_payment'), 'url' => URL::to('/payments/create/' . $publicId)];
+            }
+
+            if ($user->can('create', ENTITY_CREDIT)) {
+                $actionLinks[] = ['label' => trans('texts.enter_credit'), 'url' => URL::to('/credits/create/' . $publicId)];
+            }
+
+            if ($user->can('create', ENTITY_EXPENSE)) {
+                $actionLinks[] = ['label' => trans('texts.enter_expense'), 'url' => URL::to('/expenses/create/' . $publicId)];
+            }
+
+            $token = $client->getGatewayToken();
+
+            $data = [
+                'account' => $account,
+                'actionLinks' => $actionLinks,
+                'showBreadcrumbs' => false,
+                'client' => $client,
+                'credit' => $client->getTotalCredit(),
+                'title' => trans('texts.view_client'),
+                'hasRecurringInvoices' => $account->isModuleEnabled(ENTITY_RECURRING_INVOICE) && Invoice::scope()->recurring()->withArchived()->whereClientId($client->id)->count() > 0,
+                'hasQuotes' => $account->isModuleEnabled(ENTITY_QUOTE) && Invoice::scope()->quotes()->withArchived()->whereClientId($client->id)->count() > 0,
+                'hasTasks' => $account->isModuleEnabled(ENTITY_TASK) && Task::scope()->withArchived()->whereClientId($client->id)->count() > 0,
+                'hasExpenses' => $account->isModuleEnabled(ENTITY_EXPENSE) && Expense::scope()->withArchived()->whereClientId($client->id)->count() > 0,
+                'gatewayLink' => $token ? $token->gatewayLink() : false,
+                'gatewayName' => $token ? $token->gatewayName() : false,
+            ];
+
+            return View::make('clients.show', $data);
         }
-        if ($user->can('create', ENTITY_TASK)) {
-            $actionLinks[] = ['label' => trans('texts.new_task'), 'url' => URL::to('/tasks/create/' . $client->public_id)];
-        }
-        if (Utils::hasFeature(FEATURE_QUOTES) && $user->can('create', ENTITY_QUOTE)) {
-            $actionLinks[] = ['label' => trans('texts.new_quote'), 'url' => URL::to('/quotes/create/' . $client->public_id)];
-        }
-        if ($user->can('create', ENTITY_RECURRING_INVOICE)) {
-            $actionLinks[] = ['label' => trans('texts.new_recurring_invoice'), 'url' => URL::to('/recurring_invoices/create/' . $client->public_id)];
-        }
-
-        if (!empty($actionLinks)) {
-            $actionLinks[] = \DropdownButton::DIVIDER;
-        }
-
-        if ($user->can('create', ENTITY_PAYMENT)) {
-            $actionLinks[] = ['label' => trans('texts.enter_payment'), 'url' => URL::to('/payments/create/' . $client->public_id)];
-        }
-
-        if ($user->can('create', ENTITY_CREDIT)) {
-            $actionLinks[] = ['label' => trans('texts.enter_credit'), 'url' => URL::to('/credits/create/' . $client->public_id)];
-        }
-
-        if ($user->can('create', ENTITY_EXPENSE)) {
-            $actionLinks[] = ['label' => trans('texts.enter_expense'), 'url' => URL::to('/expenses/create/' . $client->public_id)];
-        }
-
-        $token = $client->getGatewayToken();
-
-        $data = [
-            'account' => $account,
-            'actionLinks' => $actionLinks,
-            'showBreadcrumbs' => false,
-            'client' => $client,
-            'credit' => $client->getTotalCredit(),
-            'title' => trans('texts.view_client'),
-            'hasRecurringInvoices' => $account->isModuleEnabled(ENTITY_RECURRING_INVOICE) && Invoice::scope()->recurring()->withArchived()->whereClientId($client->id)->count() > 0,
-            'hasQuotes' => $account->isModuleEnabled(ENTITY_QUOTE) && Invoice::scope()->quotes()->withArchived()->whereClientId($client->id)->count() > 0,
-            'hasTasks' => $account->isModuleEnabled(ENTITY_TASK) && Task::scope()->withArchived()->whereClientId($client->id)->count() > 0,
-            'hasExpenses' => $account->isModuleEnabled(ENTITY_EXPENSE) && Expense::scope()->withArchived()->whereClientId($client->id)->count() > 0,
-            'gatewayLink' => $token ? $token->gatewayLink() : false,
-            'gatewayName' => $token ? $token->gatewayName() : false,
-        ];
-
-        return View::make('clients.show', $data);
+        return response()->view('errors/403');
     }
 
     private static function getViewModel($client = false)

@@ -32,6 +32,11 @@ class ClientService extends BaseService
         return $this->clientRepo;
     }
 
+    public function getById($publicId, $accountId)
+    {
+        return $this->clientRepo->getById($publicId, $accountId);
+    }
+
     public function save($data, $client = null)
     {
         if (Auth::user()->account->isNinjaAccount() && isset($data['plan'])) {

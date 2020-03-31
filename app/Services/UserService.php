@@ -30,6 +30,11 @@ class UserService extends BaseService
         return $this->userRepo;
     }
 
+    public function getById($publicId, $accountId)
+    {
+        return $this->userRepo->getById($publicId, $accountId);
+    }
+
     public function save($data, $user = null)
     {
         return $this->userRepo->save($data, $user);

@@ -3,6 +3,7 @@
 namespace App\Ninja\Presenters;
 
 use App\Libraries\Utils;
+use URL;
 
 class ClientPresenter extends EntityPresenter
 {
@@ -53,7 +54,29 @@ class ClientPresenter extends EntityPresenter
             return '';
         }
 
-        return sprintf('%s: %s %s', trans('texts.payment_terms'), trans('texts.payment_terms_net'), $client->defaultDaysDue());
+        return \HTML::link('payment_terms/' . $client->id, $client->defaultDaysDue());
+    }
+
+    public function saleType()
+    {
+        $client = $this->entity;
+
+        if (!$client->saleType) {
+            return '';
+        }
+
+        return \HTML::link('sale_types/' . $client->saleType->id, $client->saleType->name);
+    }
+
+    public function holdReason()
+    {
+        $client = $this->entity;
+
+        if (!$client->holdReason) {
+            return '';
+        }
+
+        return \HTML::link('hold_reasons/' . $client->holdReason->id, $client->holdReason->name);
     }
 
     public function address($addressType = ADDRESS_BILLING, $showHeader = false)

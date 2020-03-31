@@ -16,8 +16,6 @@
     @else
         <title>{{ isset($title) ? ($title . ' | HARON ERP') : ('HARON ERP' ) }}</title>
         <meta name="description" content="{{ isset($description) ? $description : trans('texts.app_description') }}"/>
-        <!-- iCheck for checkboxes and radio inputs -->
-        <link rel="stylesheet" href="{{ url(asset('js/plugins/iCheck/all.css')) }}">
 
         <link href="{{ asset('favicon-v2.gif') }}" rel="shortcut icon" type="image/gif">
         <meta property="og:site_name" content="HARON ERP"/>
@@ -41,7 +39,6 @@
     <meta http-equiv="expires" content="0"/>
     <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT"/>
     <meta http-equiv="pragma" content="no-cache"/>
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

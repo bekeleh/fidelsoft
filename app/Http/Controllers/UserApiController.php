@@ -41,7 +41,7 @@ class UserApiController extends BaseAPIController
      */
     public function index()
     {
-        $this->authorize('index', $this->userRepo->getModel());
+//        $this->authorize('index', $this->userRepo->getModel());
 
         $users = User::scope()->withTrashed()->orderBy('created_at', 'desc');
 
@@ -75,7 +75,7 @@ class UserApiController extends BaseAPIController
      */
     public function show(UserRequest $request)
     {
-        $this->authorize('view', $this->userRepo->getModel());
+//        $this->authorize('view', $this->userRepo->getModel());
         return $this->itemResponse($request->entity());
     }
 
