@@ -48,6 +48,7 @@ class UserController extends BaseController
             'entityType' => ENTITY_USER,
             'datatable' => new UserDatatable(),
             'title' => trans('texts.users'),
+            'statuses' => User::getStatuses(),
         ]);
     }
 
