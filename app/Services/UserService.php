@@ -42,6 +42,7 @@ class UserService extends BaseService
 
     public function getDatatable($accountId, $search)
     {
+        dd('get datatable');
         $query = $this->userRepo->find($accountId, $search);
 
         if (!Utils::hasAccess('view_users')) {

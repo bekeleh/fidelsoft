@@ -53,7 +53,7 @@ class UserController extends BaseController
 
     public function getDatatable($userPublicId = null)
     {
-        $this->authorize('view', $this->userRepo->getModel());
+        dd('ctl');
         $accountId = Auth::user()->account_id;
         $search = Input::get('sSearch');
 
@@ -149,7 +149,8 @@ class UserController extends BaseController
     }
 
     public function edit(UserRequest $request, $publicId = false, $clone = false)
-    {;
+    {
+        ;
         $user = $request->entity();
         if ($clone) {
             $user->id = null;
