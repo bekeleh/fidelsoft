@@ -6,7 +6,6 @@
         @include('accounts.nav', ['selected' => ACCOUNT_USER_DETAILS])
     @endif
     {!! Former::open()->rules(['one_time_password' => 'required']) !!}
-
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
