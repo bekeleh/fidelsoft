@@ -11,7 +11,7 @@
         <div class="col-md-7">
             <ol class="breadcrumb">
                 <li>{{ link_to('/users', trans('texts.users')) }}</li>
-                <li class='active'>{{ $user->presenter()->fullName }}</li> {!! $user->presenter()->statusLabel !!}
+                <li class='active'>{{ $user->present()->fullName }}</li> {!! $user->present()->statusLabel !!}
             </ol>
         </div>
         <div class="col-md-5">
@@ -63,7 +63,7 @@
                     @endif
                     @if ($user->first_name)
                         <p><i class="fa fa-vat-number"
-                              style="width: 20px"></i>{{ trans('texts.first_name').': '. $user->presenter()->fullName }}
+                              style="width: 20px"></i>{{ trans('texts.first_name').': '. $user->present()->fullName }}
                         </p>
                     @endif
                     @if ($user->notes)

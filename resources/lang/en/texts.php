@@ -46,6 +46,7 @@ $LANG = array(
     'archive_user' => 'Archive User',
     'delete_user' => 'Delete User',
     'deleted_user' => 'Deleted User',
+    'purge_user' => 'Purge User',
     'restore_user' => 'Restore User',
     'restored_user' => 'Restored User',
     'updated_user' => 'Successfully Updated User',

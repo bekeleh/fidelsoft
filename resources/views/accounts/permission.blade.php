@@ -64,36 +64,36 @@
     <tbody>
     @foreach ($permissions as $area => $permissions_array)
         @if (count($permissions_array) === 1)
-            <?php $local_permission = $permissions_array[0]; ?>
+            <?php $localPermission = $permissions_array[0]; ?>
             <tr class="header-row permissions-row">
                 <td class="col-md-5 tooltip-base permissions-item"
                     data-toggle="tooltip"
                     data-placement="right"
-                    title="{{ $local_permission['notes'] }}">
-                    <h3 style="color: #3c8dbc;">{{ $area . ': ' . $local_permission['label'] }}</h3>
+                    title="{{ $localPermission['note'] }}">
+                    <h3 style="color: #3c8dbc;">{{ $area . ': ' . $localPermission['label'] }}</h3>
                 </td>
                 <!-- permission column -->
                 <td class="col-md-1 permissions-item">
-                    @if (($local_permission['permission'] === 'superuser') && (!Auth::user()->isSuperUser()))
-                        {{ Form::radio('permission['.$local_permission['permission'].']', '1',$userPermissions[$local_permission['permission'] ] == '1',['disabled'=>"disabled", 'class'=>'minimal']) }}
+                    @if (($localPermission['permission'] === 'superuser') && (!Auth::user()->isSuperUser()))
+                        {{ Form::radio('permission['.$localPermission['permission'].']', '1',$userPermissions[$localPermission['permission'] ] == '1',['disabled'=>"disabled", 'class'=>'minimal']) }}
                     @else
-                        {{ Form::radio('permission['.$local_permission['permission'].']', '1',$userPermissions[$local_permission['permission'] ] == '1',['value'=>"grant", 'class'=>'minimal']) }}
+                        {{ Form::radio('permission['.$localPermission['permission'].']', '1',$userPermissions[$localPermission['permission'] ] == '1',['value'=>"grant", 'class'=>'minimal']) }}
                     @endif
                 </td>
                 <!-- denied column -->
                 <td class="col-md-1 permissions-item">
-                    @if (($local_permission['permission'] == 'superuser') && (!Auth::user()->isSuperUser()))
-                        {{ Form::radio('permission['.$local_permission['permission'].']', '-1',$userPermissions[$local_permission['permission'] ] == '-1',['disabled'=>"disabled", 'class'=>'minimal']) }}
+                    @if (($localPermission['permission'] == 'superuser') && (!Auth::user()->isSuperUser()))
+                        {{ Form::radio('permission['.$localPermission['permission'].']', '-1',$userPermissions[$localPermission['permission'] ] == '-1',['disabled'=>"disabled", 'class'=>'minimal']) }}
                     @else
-                        {{ Form::radio('permission['.$local_permission['permission'].']', '-1',$userPermissions[$local_permission['permission'] ] == '-1',['value'=>"deny", 'class'=>'minimal']) }}
+                        {{ Form::radio('permission['.$localPermission['permission'].']', '-1',$userPermissions[$localPermission['permission'] ] == '-1',['value'=>"deny", 'class'=>'minimal']) }}
                     @endif
                 </td>
                 <!-- inherit column -->
                 <td class="col-md-1 permissions-item">
-                    @if (($local_permission['permission'] == 'superuser') && (!Auth::user()->isSuperUser()))
-                        {{ Form::radio('permission['.$local_permission['permission'].']','0',$userPermissions[$local_permission['permission'] ] == '0',['disabled'=>"disabled",'class'=>'minimal'] ) }}
+                    @if (($localPermission['permission'] == 'superuser') && (!Auth::user()->isSuperUser()))
+                        {{ Form::radio('permission['.$localPermission['permission'].']','0',$userPermissions[$localPermission['permission'] ] == '0',['disabled'=>"disabled",'class'=>'minimal'] ) }}
                     @else
-                        {{ Form::radio('permission['.$local_permission['permission'].']','0',$userPermissions[$local_permission['permission'] ] == '0',['value'=>"inherit", 'class'=>'minimal'] ) }}
+                        {{ Form::radio('permission['.$localPermission['permission'].']','0',$userPermissions[$localPermission['permission'] ] == '0',['value'=>"inherit", 'class'=>'minimal'] ) }}
                     @endif
                 </td>
             </tr>
@@ -118,7 +118,7 @@
                         <td class="col-md-5 tooltip-base permissions-item"
                             data-toggle="tooltip"
                             data-placement="right"
-                            title="{{ $permission['notes'] }}">
+                            title="{{ $permission['note'] }}">
                             {{ $permission['label'] }}
                         </td>
                         <td class="col-md-1 permissions-item">

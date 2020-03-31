@@ -69,7 +69,7 @@
                     <?php endif; ?>
                     <?php if($user->first_name): ?>
                         <p><i class="fa fa-vat-number"
-                              style="width: 20px"></i><?php echo e(trans('texts.first_name').': '. $user->presenter()->fullName); ?>
+                              style="width: 20px"></i><?php echo e(trans('texts.first_name').': '. $user->present()->fullName); ?>
 
                         </p>
                     <?php endif; ?>
