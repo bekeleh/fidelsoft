@@ -161,7 +161,7 @@
             });
 
             $('.header-name').click(function () {
-                $(this).parent().nextUntil('tr.header-row').slideToggle(500);
+                $(this).parent().nextUntil('tr.header-row').slideToggle(1);
             });
 
             $('.tooltip-base').tooltip({container: 'body'});
