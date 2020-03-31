@@ -103,6 +103,8 @@
         </div>
     </div>
     <ul class="nav nav-tabs nav-justified">
+        <?php echo Form::tab_link('#activity', trans('texts.activity'), true); ?>
+
         <?php if(true): ?>
             <?php echo Form::tab_link('#permissions', trans('texts.permissions')); ?>
 
@@ -111,8 +113,6 @@
             <?php echo Form::tab_link('#groups', trans('texts.groups')); ?>
 
         <?php endif; ?>
-        <?php echo Form::tab_link('#activity', trans('texts.activity'), true); ?>
-
     </ul>
     <br/>
     <div class="tab-content">

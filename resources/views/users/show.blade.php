@@ -95,13 +95,13 @@
         </div>
     </div>
     <ul class="nav nav-tabs nav-justified">
+        {!! Form::tab_link('#activity', trans('texts.activity'), true) !!}
         @if (true)
             {!! Form::tab_link('#permissions', trans('texts.permissions')) !!}
         @endif
         @if (true)
             {!! Form::tab_link('#groups', trans('texts.groups')) !!}
         @endif
-        {!! Form::tab_link('#activity', trans('texts.activity'), true) !!}
     </ul>
     <br/>
     <div class="tab-content">

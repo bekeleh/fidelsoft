@@ -82,7 +82,7 @@ $LANG = array(
     */
     'permission_name' => 'Permission Name',
     'permission' => 'permission',
-    'permissions' => 'permission List',
+    'permissions' => 'Permission List',
     'new_permission' => 'New Permission',
     'list_permissions' => 'List Permissions',
     'create_permission' => 'Create Permission',
