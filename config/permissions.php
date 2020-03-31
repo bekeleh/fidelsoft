@@ -9,7 +9,7 @@
 
 return array(
 
-    'Global manager' => array(
+    'Global Manager' => array(
         array(
             'permission' => 'superuser',
             'label' => 'Super User',
@@ -18,11 +18,11 @@ return array(
         ),
     ),
 
-    'Admin manager' => array(
+    'Admin Manager' => array(
         array(
             'permission' => 'admin',
             'label' => 'Administrator',
-            'note' => 'Determines whether the user has access to most aspects of the admin. ',
+            'note' => 'This user has access to most aspects of the admin. ',
             'display' => true,
         )
     ),

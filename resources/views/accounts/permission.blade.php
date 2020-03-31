@@ -12,7 +12,7 @@
 
     input[type='text'][disabled], input[disabled], textarea[disabled], input[readonly], textarea[readonly], .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
         background-color: white;
-        color: #555555;
+        color: #25a186;
         cursor: text;
     }
 
@@ -37,6 +37,7 @@
     }
 
     .header-row h4 {
+        color: #25a186;
         margin: 0px;
         border-bottom: 1px solid #ccc;
         background-color: whitesmoke;
@@ -70,7 +71,7 @@
                     data-toggle="tooltip"
                     data-placement="right"
                     title="{{ $localPermission['note'] }}">
-                    <h3 style="color: #3c8dbc;">{{ $area . ': ' . $localPermission['label'] }}</h3>
+                    <h3 style="color: #25a186;">{{ $area . ': ' . $localPermission['label'] }}</h3>
                 </td>
                 <!-- permission column -->
                 <td class="col-md-1 permissions-item">
@@ -100,7 +101,7 @@
         @else
             <tr class="header-row permissions-row" style="border-bottom: 1px;">
                 <td class="col-md-5 header-name">
-                    <h4 style="color: #3c8dbc;">{{ ucwords($area) }}</h4>
+                    <h4 style="color: #25a186;">{{ ucwords($area) }}</h4>
                 </td>
                 <td class="col-md-1 permissions-item">
                     {{ Form::radio("$area", '1',false,['value'=>"grant", 'class'=>'minimal', 'data-checker-group' => str_slug($area)]) }}

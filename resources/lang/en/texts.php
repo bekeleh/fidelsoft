@@ -42,6 +42,7 @@ $LANG = array(
     'list_users' => 'List Users',
     'create_user' => 'Create User',
     'edit_user' => 'Edit User',
+    'view_user' => 'View User',
     'clone_user' => 'Clone User',
     'archive_user' => 'Archive User',
     'delete_user' => 'Delete User',
