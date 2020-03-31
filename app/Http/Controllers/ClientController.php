@@ -102,6 +102,7 @@ class ClientController extends BaseController
     public function store(ClientRequest $request)
     {
         $data = $request->input();
+
         $client = $this->clientService->save($data);
 
         return redirect()->to($client->getRoute())->with('success', trans('texts.created_client'));
