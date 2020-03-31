@@ -54,7 +54,6 @@ class UserController extends BaseController
 
     public function getDatatable($userPublicId = null)
     {
-        dd('ctl');
         $accountId = Auth::user()->account_id;
         $search = Input::get('sSearch');
 

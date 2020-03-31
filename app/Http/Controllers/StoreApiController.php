@@ -11,21 +11,10 @@ use App\Ninja\Repositories\StoreRepository;
  */
 class StoreApiController extends BaseAPIController
 {
-    /**
-     * @var string
-     */
-    protected $entityType = ENTITY_STORE;
 
-    /**
-     * @var StoreRepository
-     */
+    protected $entityType = ENTITY_STORE;
     protected $storeRepo;
 
-    /**
-     * StoreApiController constructor.
-     *
-     * @param StoreRepository $storeRepo
-     */
     public function __construct(StoreRepository $storeRepo)
     {
         parent::__construct();

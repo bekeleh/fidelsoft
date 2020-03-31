@@ -80,7 +80,8 @@ class UserRepository extends BaseRepository
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
-                $query->where('users.name', 'like', '%' . $filter . '%')
+                $query->where('users.username', 'like', '%' . $filter . '%')
+                    ->where('users.email', 'like', '%' . $filter . '%')
                     ->orWhere('locations.name', 'like', '%' . $filter . '%');
             });
         }
