@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 class VendorRequest extends EntityRequest
 {
+    protected $entityType = ENTITY_VENDOR;
+
     public function authorize()
     {
         return true;

@@ -6,6 +6,8 @@ use App\Models\PaymentTerm;
 
 class PaymentTermRequest extends EntityRequest
 {
+    protected $entityType = ENTITY_PAYMENT_TERM;
+
     public function authorize()
     {
         return true;

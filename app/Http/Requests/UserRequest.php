@@ -7,6 +7,8 @@ use App\Models\User;
 
 class UserRequest extends EntityRequest
 {
+    protected $entityType = ENTITY_USER;
+
     public function authorize()
     {
         return true;

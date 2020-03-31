@@ -6,6 +6,8 @@ use App\Models\Permission;
 
 class PermissionRequest extends EntityRequest
 {
+    protected $entityType = ENTITY_PERMISSION;
+
     public function authorize()
     {
         return true;

@@ -8,6 +8,8 @@ use App\Models\SaleType;
 
 class ClientRequest extends EntityRequest
 {
+    protected $entityType = ENTITY_CLIENT;
+
     public function authorize()
     {
         return true;

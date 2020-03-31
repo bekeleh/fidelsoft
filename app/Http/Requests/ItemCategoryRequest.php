@@ -6,6 +6,8 @@ use App\Models\ItemCategory;
 
 class ItemCategoryRequest extends EntityRequest
 {
+    protected $entityType = ENTITY_ITEM_CATEGORY;
+
     public function authorize()
     {
         return true;

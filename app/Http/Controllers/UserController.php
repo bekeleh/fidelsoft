@@ -150,7 +150,6 @@ class UserController extends BaseController
 
     public function edit(UserRequest $request, $publicId = false, $clone = false)
     {
-        ;
         $user = $request->entity();
         if ($clone) {
             $user->id = null;
@@ -162,7 +161,6 @@ class UserController extends BaseController
             $method = 'PUT';
             $url = 'users/' . $user->public_id;
         }
-
         $data = [
             'location' => null,
             'user' => $user,

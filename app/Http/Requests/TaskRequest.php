@@ -7,6 +7,8 @@ use App\Models\Project;
 
 class TaskRequest extends EntityRequest
 {
+    protected $entityType = ENTITY_TASK;
+
     public function authorize()
     {
         return true;

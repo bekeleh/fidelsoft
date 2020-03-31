@@ -6,6 +6,8 @@ use App\Models\Unit;
 
 class UnitRequest extends EntityRequest
 {
+    protected $entityType = ENTITY_UNIT;
+
     public function authorize()
     {
         return true;

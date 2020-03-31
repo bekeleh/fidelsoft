@@ -7,6 +7,8 @@ use App\Libraries\HistoryUtils;
 
 class InvoiceRequest extends EntityRequest
 {
+    protected $entityType = ENTITY_INVOICE;
+
     public function authorize()
     {
         return true;

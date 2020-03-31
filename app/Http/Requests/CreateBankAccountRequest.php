@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 class CreateBankAccountRequest extends Request
 {
-
+    protected $entityType = ENTITY_BANK_ACCOUNT;
     public function authorize()
     {
         return true;

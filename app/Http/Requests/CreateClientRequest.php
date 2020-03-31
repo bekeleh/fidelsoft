@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 class CreateClientRequest extends ClientRequest
 {
+    protected $entityType = ENTITY_CLIENT;
 
     public function authorize()
     {

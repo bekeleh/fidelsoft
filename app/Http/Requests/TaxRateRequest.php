@@ -6,6 +6,7 @@ use App\Models\TaxRate;
 
 class TaxRateRequest extends EntityRequest
 {
+
     public function authorize()
     {
         return true;
