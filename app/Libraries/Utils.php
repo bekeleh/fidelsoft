@@ -116,6 +116,17 @@ class Utils
         return strlen(preg_replace('/[^\/]/', '', url('/'))) == 2;
     }
 
+    public static function filterDisplayable($permissions)
+    {
+        $output = null;
+        foreach ($permissions as $key => $permission) {
+            $output[$key] = array_filter($permission, function ($p) {
+                return $p['display'] === true;
+            });
+        }
+        return $output;
+    }
+
     public static function selectedPermissionsArray($permissions, $selected_arr = array())
     {
         $permissions_arr = array();

@@ -157,7 +157,7 @@ class UserController extends BaseController
     public function show(UserRequest $request, $publicId)
     {
         $user = $request->entity();
-        dd($user);
+
         $account = Auth::user()->account;
         $accountId = $account->account_id;
 
@@ -176,8 +176,8 @@ class UserController extends BaseController
                 $actionLinks[] = \DropdownButton::DIVIDER;
             }
             $permissions = config('permissions');
-            $user->permissions = $this->userService->decodePermissions();
-            $userPermissions = Utils::selectedPermissionsArray($permissions, $user->permissions);
+            $permissions = Utils::filterDisplayable($permissions);
+            $userPermissions = Utils::selectedPermissionsArray($permissions, Input::old('permissions', array()));
 
             $data = [
                 'user' => $user,

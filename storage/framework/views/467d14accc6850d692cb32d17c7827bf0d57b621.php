@@ -1,30 +1,32 @@
-@extends('header')
+<?php $__env->startSection('head'); ?>
+    ##parent-placeholder-1a954628a960aaef81d7b2d4521929579f3541e6##
 
-@section('head')
-    @parent
+<?php $__env->stopSection(); ?>
 
-@stop
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <!-- edit user -->
     <div class="row">
         <div class="col-md-7">
             <ol class="breadcrumb">
-                <li>{{ link_to('/users', trans('texts.users')) }}</li>
-                <li class='active'>{{ $user->presenter()->fullName }}</li> {!! $user->presenter()->statusLabel !!}
+                <li><?php echo e(link_to('/users', trans('texts.users'))); ?></li>
+                <li class='active'><?php echo e($user->present()->fullName); ?></li> <?php echo $user->present()->statusLabel; ?>
+
             </ol>
         </div>
         <div class="col-md-5">
             <div class="pull-right">
-                {!! Former::open('users/bulk')->autocomplete('off')->addClass('mainForm') !!}
+                <?php echo Former::open('users/bulk')->autocomplete('off')->addClass('mainForm'); ?>
+
                 <div style="display:none">
-                    {!! Former::text('action') !!}
-                    {!! Former::text('public_id')->value($user->public_id) !!}
+                    <?php echo Former::text('action'); ?>
+
+                    <?php echo Former::text('public_id')->value($user->public_id); ?>
+
                 </div>
 
-                @if (!$user->is_deleted)
-                    @can('edit', $user)
-                        {!! DropdownButton::normal(trans('texts.edit_user'))
+                <?php if(!$user->is_deleted): ?>
+                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('edit', $user)): ?>
+                        <?php echo DropdownButton::normal(trans('texts.edit_user'))
                             ->withAttributes(['class'=>'normalDropDown'])
                             ->withContents([
                               ($user->trashed() ? false : ['label' => trans('texts.archive_user'), 'url' => "javascript:onArchiveClick()"]),
@@ -32,22 +34,26 @@
                               auth()->user()->is_admin ? \DropdownButton::DIVIDER : false,
                               auth()->user()->is_admin ? ['label' => trans('texts.purge_user'), 'url' => "javascript:onPurgeClick()"] : false,
                             ]
-                          )->split() !!}
-                    @endcan
-                @endif
-                @if ($user->trashed())
-                    @can('edit', $user)
-                        @if (auth()->user()->is_admin && $user->is_deleted)
-                            {!! Button::danger(trans('texts.purge_user'))
+                          )->split(); ?>
+
+                    <?php endif; ?>
+                <?php endif; ?>
+                <?php if($user->trashed()): ?>
+                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('edit', $user)): ?>
+                        <?php if(auth()->user()->is_admin && $user->is_deleted): ?>
+                            <?php echo Button::danger(trans('texts.purge_user'))
                                     ->appendIcon(Icon::create('warning-sign'))
-                                    ->withAttributes(['onclick' => 'onPurgeClick()']) !!}
-                        @endif
-                        {!! Button::primary(trans('texts.restore_user'))
+                                    ->withAttributes(['onclick' => 'onPurgeClick()']); ?>
+
+                        <?php endif; ?>
+                        <?php echo Button::primary(trans('texts.restore_user'))
                                 ->appendIcon(Icon::create('retweet'))
-                                ->withAttributes(['onclick' => 'onRestoreClick()']) !!}
-                    @endcan
-                @endif
-                {!! Former::close() !!}
+                                ->withAttributes(['onclick' => 'onRestoreClick()']); ?>
+
+                    <?php endif; ?>
+                <?php endif; ?>
+                <?php echo Former::close(); ?>
+
             </div>
         </div>
     </div>
@@ -56,69 +62,74 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-3">
-                    <h3>{{ trans('texts.user_details') }}</h3>
-                    @if ($user)
+                    <h3><?php echo e(trans('texts.user_details')); ?></h3>
+                    <?php if($user): ?>
                         <p><i class="fa fa-id-number"
-                              style="width: 20px"></i>{{ trans('texts.id_number').': '.$user->id }}</p>
-                    @endif
-                    @if ($user->first_name)
+                              style="width: 20px"></i><?php echo e(trans('texts.id_number').': '.$user->id); ?></p>
+                    <?php endif; ?>
+                    <?php if($user->first_name): ?>
                         <p><i class="fa fa-vat-number"
-                              style="width: 20px"></i>{{ trans('texts.first_name').': '. $user->presenter()->fullName }}
+                              style="width: 20px"></i><?php echo e(trans('texts.first_name').': '. $user->presenter()->fullName); ?>
+
                         </p>
-                    @endif
-                    @if ($user->notes)
-                        <p><i>{!! nl2br(e($user->notes)) !!}</i></p>
-                    @endif
-                    @if ($user->last_login)
+                    <?php endif; ?>
+                    <?php if($user->notes): ?>
+                        <p><i><?php echo nl2br(e($user->notes)); ?></i></p>
+                    <?php endif; ?>
+                    <?php if($user->last_login): ?>
                         <h3 style="margin-top:0px"><small>
-                                {{ trans('texts.last_logged_in') }} {{ Utils::timestampToDateTimeString(strtotime($user->last_login)) }}
+                                <?php echo e(trans('texts.last_logged_in')); ?> <?php echo e(Utils::timestampToDateTimeString(strtotime($user->last_login))); ?>
+
                             </small>
                         </h3>
-                    @endif
+                    <?php endif; ?>
                 </div>
                 <div class="col-md-3">
-                    <h3>{{ trans('texts.address') }}</h3>
+                    <h3><?php echo e(trans('texts.address')); ?></h3>
                     <p>address details</p>
                 </div>
                 <div class="col-md-3">
-                    <h3>{{ trans('texts.contacts') }}</h3>
-                    @if ($user->email)
+                    <h3><?php echo e(trans('texts.contacts')); ?></h3>
+                    <?php if($user->email): ?>
                         <i class="fa fa-envelope"
-                           style="width: 20px"></i>{!! HTML::mailto($user->email, $user->email) !!}<br/>
-                    @endif
-                    @if ($user->phone)
-                        <i class="fa fa-phone" style="width: 20px"></i>{{ $user->phone }}<br/>
-                    @endif
+                           style="width: 20px"></i><?php echo HTML::mailto($user->email, $user->email); ?><br/>
+                    <?php endif; ?>
+                    <?php if($user->phone): ?>
+                        <i class="fa fa-phone" style="width: 20px"></i><?php echo e($user->phone); ?><br/>
+                    <?php endif; ?>
                     <br/>
                 </div>
             </div>
         </div>
     </div>
     <ul class="nav nav-tabs nav-justified">
-        @if (true)
-            {!! Form::tab_link('#permissions', trans('texts.permissions')) !!}
-        @endif
-        @if (true)
-            {!! Form::tab_link('#groups', trans('texts.groups')) !!}
-        @endif
-        {!! Form::tab_link('#activity', trans('texts.activity'), true) !!}
+        <?php if(true): ?>
+            <?php echo Form::tab_link('#permissions', trans('texts.permissions')); ?>
+
+        <?php endif; ?>
+        <?php if(true): ?>
+            <?php echo Form::tab_link('#groups', trans('texts.groups')); ?>
+
+        <?php endif; ?>
+        <?php echo Form::tab_link('#activity', trans('texts.activity'), true); ?>
+
     </ul>
     <br/>
     <div class="tab-content">
-        @if (true)
+        <?php if(true): ?>
             <div class="tab-pane" id="permissions">
-                @include('accounts.permission',[
+                <?php echo $__env->make('accounts.permission',[
                 'permissions' => $permissions,
                 'userPermissions' => $userPermissions,
-                ])
+                ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             </div>
-        @endif
+        <?php endif; ?>
 
-        @if (true)
+        <?php if(true): ?>
             <div class="tab-pane" id="groups">
                 <h4>groups</h4>
             </div>
-        @endif
+        <?php endif; ?>
 
     </div>
     <div class="modal fade" id="emailHistoryModal" tabindex="-1" role="dialog"
@@ -128,7 +139,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">{{ trans('texts.email_history') }}</h4>
+                    <h4 class="modal-title" id="myModalLabel"><?php echo e(trans('texts.email_history')); ?></h4>
                 </div>
                 <div class="container" style="width: 100%; padding-bottom: 0px !important">
                     <div class="panel panel-default">
@@ -139,14 +150,14 @@
                 </div>
                 <div class="modal-footer" id="signUpFooter" style="margin-top: 0px">
                     <button type="button" class="btn btn-default"
-                            data-dismiss="modal">{{ trans('texts.close') }} </button>
+                            data-dismiss="modal"><?php echo e(trans('texts.close')); ?> </button>
                     <button type="button" class="btn btn-danger" onclick="onReactivateClick()" id="reactivateButton"
-                            style="display:none;">{{ trans('texts.reactivate') }} </button>
+                            style="display:none;"><?php echo e(trans('texts.reactivate')); ?> </button>
                 </div>
             </div>
         </div>
     </div>
-    <script nonce="{{ csrf_token() }}">
+    <script nonce="<?php echo e(csrf_token()); ?>">
         $(document).ready(function () {
             $('input').iCheck({
                 checkboxClass: 'icheckbox_square',
@@ -180,7 +191,7 @@
         var loadedTabs = {};
         $(function () {
             $('.normalDropDown:not(.dropdown-toggle)').click(function (event) {
-                openUrlOnClick('{{ URL::to('users/' . $user->public_id . '/edit') }}', event);
+                openUrlOnClick('<?php echo e(URL::to('users/' . $user->public_id . '/edit')); ?>', event);
             });
 
             // load datatable data when tab is shown and remember last tab selected
@@ -224,17 +235,17 @@
             });
         }
 
-        @if ($user->showMap())
+        <?php if($user->showMap()): ?>
         function initialize() {
             var mapCanvas = document.getElementById('map');
             var mapOptions = {
-                zoom: {{ DEFAULT_MAP_ZOOM }},
+                zoom: <?php echo e(DEFAULT_MAP_ZOOM); ?>,
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
                 zoomControl: true,
             };
 
             var map = new google.maps.Map(mapCanvas, mapOptions)
-            var address = {!! json_encode(e("{$user->address1} {$user->address2} {$user->city} {$user->state} {$user->postal_code} " . ($user->country ? $user->country->getName() : ''))) !!};
+            var address = <?php echo json_encode(e("{$user->address1} {$user->address2} {$user->city} {$user->state} {$user->postal_code} " . ($user->country ? $user->country->getName() : ''))); ?>;
 
             geocoder = new google.maps.Geocoder();
             geocoder.geocode({'address': address}, function (results, status) {
@@ -267,6 +278,8 @@
         }
 
         google.maps.event.addDomListener(window, 'load', initialize);
-        @endif
+        <?php endif; ?>
     </script>
-@stop
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
