@@ -31,11 +31,6 @@ class VendorController extends BaseController
         $this->vendorService = $vendorService;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
     public function index()
     {
         return View::make('list_wrapper', [
@@ -50,54 +45,14 @@ class VendorController extends BaseController
         return $this->vendorService->getDatatable(Input::get('sSearch'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param CreateVendorRequest $request
-     * @return Response
-     */
-    public function store(CreateVendorRequest $request)
+    private static function getViewModel()
     {
-        $vendor = $this->vendorService->save($request->input());
-
-        Session::flash('message', trans('texts.created_vendor'));
-
-        return redirect()->to($vendor->getRoute());
+        return [
+            'data' => Input::old('data'),
+            'account' => Auth::user()->account,
+        ];
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param VendorRequest $request
-     * @return Response
-     */
-    public function show(VendorRequest $request)
-    {
-        $vendor = $request->entity();
-
-        $actionLinks = [
-            ['label' => trans('texts.new_vendor'), 'url' => URL::to('/vendors/create/' . $vendor->public_id)],
-        ];
-
-        $data = [
-            'actionLinks' => $actionLinks,
-            'showBreadcrumbs' => false,
-            'vendor' => $vendor,
-            'title' => trans('texts.view_vendor'),
-            'hasRecurringInvoices' => false,
-            'hasQuotes' => false,
-            'hasTasks' => false,
-        ];
-
-        return View::make('vendors.show', $data);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @param VendorRequest $request
-     * @return Response
-     */
     public function create(VendorRequest $request)
     {
         if (Vendor::scope()->count() > Auth::user()->getMaxNumVendors()) {
@@ -116,13 +71,16 @@ class VendorController extends BaseController
         return View::make('vendors.edit', $data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param VendorRequest $request
-     * @return Response
-     */
-    public function edit(VendorRequest $request)
+    public function store(CreateVendorRequest $request)
+    {
+        $vendor = $this->vendorService->save($request->input());
+
+        Session::flash('message', trans('texts.created_vendor'));
+
+        return redirect()->to($vendor->getRoute());
+    }
+
+    public function edit(VendorRequest $request, $publicId = false, $clone = false)
     {
         $vendor = $request->entity();
 
@@ -144,20 +102,6 @@ class VendorController extends BaseController
         return View::make('vendors.edit', $data);
     }
 
-    private static function getViewModel()
-    {
-        return [
-            'data' => Input::old('data'),
-            'account' => Auth::user()->account,
-        ];
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param UpdateVendorRequest $request
-     * @return Response
-     */
     public function update(UpdateVendorRequest $request)
     {
         $vendor = $this->vendorService->save($request->input(), $request->entity());
@@ -165,6 +109,32 @@ class VendorController extends BaseController
         Session::flash('message', trans('texts.updated_vendor'));
 
         return redirect()->to($vendor->getRoute());
+    }
+
+    public function show(VendorRequest $request)
+    {
+        $vendor = $request->entity();
+
+        $actionLinks = [
+            ['label' => trans('texts.new_vendor'), 'url' => URL::to('/vendors/create/' . $vendor->public_id)],
+        ];
+
+        $data = [
+            'actionLinks' => $actionLinks,
+            'showBreadcrumbs' => false,
+            'vendor' => $vendor,
+            'title' => trans('texts.view_vendor'),
+            'hasRecurringInvoices' => false,
+            'hasQuotes' => false,
+            'hasTasks' => false,
+        ];
+
+        return View::make('vendors.show', $data);
+    }
+
+    public function cloneVendor(VendorRequest $request, $publicId)
+    {
+        return self::edit($request, $publicId, true);
     }
 
     public function bulk()
