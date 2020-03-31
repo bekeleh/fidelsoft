@@ -83,16 +83,14 @@ class UserRequest extends EntityRequest
     public function validationData()
     {
         $input = $this->input();
-        if (count($input)) {
-            if (!empty($input['location_id'])) {
-                $input['location_id'] = Location::getPrivateId($input['location_id']);
-            }
-            if (!empty($input['location_id'])) {
-                $this->request->add([
-                    'location_id' => $input['location_id'],
-                    'account_id' => User::getAccountId(),
-                ]);
-            }
+        if (!empty($input['location_id'])) {
+            $input['location_id'] = Location::getPrivateId($input['location_id']);
+        }
+        if (!empty($input['location_id'])) {
+            $this->request->add([
+                'location_id' => $input['location_id'],
+                'account_id' => User::getAccountId(),
+            ]);
         }
         return $this->request->all();
     }

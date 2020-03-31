@@ -102,6 +102,7 @@ class UserController extends BaseController
         if (!Auth::user()->hasFeature(FEATURE_USERS)) {
             redirect()->to("users/")->with('error', trans('texts.error_created_user'));
         }
+
         $user = $this->userService->save($data);
 
         return redirect()->to("users/{$user->public_id}/edit")->with('success', trans('texts.created_user'));

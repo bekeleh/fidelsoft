@@ -118,7 +118,6 @@ class UserRepository extends BaseRepository
             $user->public_id = $lastUser->public_id + 1;
             $user->created_by = auth::user()->username;
         }
-
         $user->fill($data);
 
         $user->account_id = Auth::user()->account_id;
