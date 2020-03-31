@@ -7,8 +7,7 @@ use App\Http\Requests\CreateClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Models\Client;
 use App\Ninja\Repositories\ClientRepository;
-use Input;
-use Response;
+use Illuminate\Support\Facades\Input;
 
 class ClientApiController extends BaseAPIController
 {
@@ -79,6 +78,8 @@ class ClientApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
+     * @param ClientRequest $request
+     * @return
      */
     public function show(ClientRequest $request)
     {
@@ -112,6 +113,8 @@ class ClientApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
+     * @param CreateClientRequest $request
+     * @return
      */
     public function store(CreateClientRequest $request)
     {
@@ -148,7 +151,9 @@ class ClientApiController extends BaseAPIController
      *   )
      * )
      *
+     * @param UpdateClientRequest $request
      * @param mixed $publicId
+     * @return
      */
     public function update(UpdateClientRequest $request, $publicId)
     {
@@ -187,6 +192,8 @@ class ClientApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
+     * @param UpdateClientRequest $request
+     * @return
      */
     public function destroy(UpdateClientRequest $request)
     {
