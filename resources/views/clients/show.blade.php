@@ -341,9 +341,7 @@
                 ])
             </div>
         @endif
-
     </div>
-
     <div class="modal fade" id="emailHistoryModal" tabindex="-1" role="dialog" aria-labelledby="emailHistoryModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
@@ -370,12 +368,8 @@
             </div>
         </div>
     </div>
-
-
     <script type="text/javascript">
-
         var loadedTabs = {};
-
         $(function () {
             $('.normalDropDown:not(.dropdown-toggle)').click(function (event) {
                 openUrlOnClick('{{ URL::to('clients/' . $client->public_id . '/edit') }}', event);
@@ -492,10 +486,7 @@
                 }
             });
         }
-
         google.maps.event.addDomListener(window, 'load', initialize);
         @endif
-
     </script>
-
 @stop

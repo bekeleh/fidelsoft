@@ -119,6 +119,7 @@
         <?php if(true): ?>
             <div class="tab-pane" id="permissions">
                 <?php echo $__env->make('accounts.permission',[
+                'user' => $user,
                 'permissions' => $permissions,
                 'userPermissions' => $userPermissions,
                 ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
@@ -233,6 +234,11 @@
                 $('#action').val('delete');
                 $('.mainForm').submit();
             });
+        }
+
+        function onUpdateClick() {
+            $('#action').val('update');
+            $('.mainForm').submit();
         }
 
         <?php if($user->showMap()): ?>

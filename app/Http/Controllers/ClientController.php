@@ -29,6 +29,13 @@ class ClientController extends BaseController
     protected $clientRepo;
     protected $entityType = ENTITY_CLIENT;
 
+    /**
+     *
+     * ClientController constructor.
+     *
+     * @param ClientRepository $clientRepo
+     * @param ClientService $clientService
+     */
     public function __construct(ClientRepository $clientRepo, ClientService $clientService)
     {
         //parent::__construct();

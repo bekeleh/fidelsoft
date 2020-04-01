@@ -35,6 +35,7 @@
     ->render('datatable') !!}
     <script>
         window.onDatatableReady = actionListHandler;
+
         function setTrashVisible() {
             var checked = $('#trashed').is(':checked');
             var url = '{{ URL::to('set_entity_filter/user') }}' + (checked ? '/active,archived' : '/active');

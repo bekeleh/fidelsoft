@@ -51,6 +51,7 @@ $LANG = array(
     'restore_user' => 'Restore User',
     'restored_user' => 'Restored User',
     'updated_user' => 'Successfully Updated User',
+    'updated_user_permission' => 'Successfully Updated User Permission',
     'created_user' => 'Successfully Created User',
     'archived_user' => 'Successfully Archived User',
     'user_settings' => 'User Settings',

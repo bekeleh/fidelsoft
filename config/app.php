@@ -274,6 +274,7 @@ return [
         'CurlUtils' => App\Libraries\CurlUtils::class,
         'Domain' => App\Constants\Domain::class,
         'Google2FA' => PragmaRX\Google2FALaravel\Facade::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ],
 

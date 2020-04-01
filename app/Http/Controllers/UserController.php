@@ -201,12 +201,15 @@ class UserController extends BaseController
     {
         $action = Input::get('action');
         $ids = Input::get('public_id') ? Input::get('public_id') : Input::get('ids');
+        if ($action != 'updatePermission') {
+            $count = $this->userService->bulk($ids, $action);
+            $message = Utils::pluralize($action . 'd_user', $count);
 
-        $count = $this->userService->bulk($ids, $action);
-
-        $message = Utils::pluralize($action . 'd_user', $count);
-
-        return $this->returnBulk(ENTITY_USER, $action, $ids)->with('message', $message);
+            return $this->returnBulk(ENTITY_USER, $action, $ids)->with('message', $message);
+        } else {
+            $permissionArray = json_encode(Input::get('permission'));
+            $this->updatePermission($permissionArray, $action, $ids);
+        }
     }
 
     public function sendConfirmation($userPublicId)
@@ -280,10 +283,23 @@ class UserController extends BaseController
         return RESULT_SUCCESS;
     }
 
+    public function updatePermission($permissionArray, $action = null, $userPublicId)
+    {
+        $user = User::where('account_id', '=', Auth::user()->account_id)
+            ->where('public_id', '=', $userPublicId)->firstOrFail();
+        if ($user) {
+            $user->permissions = $permissionArray;
+            $user->save();
+//            return Redirect::to('users/' . $userPublicId)->with('success', trans('texts.updated_user_permission'));
+            return $this->returnBulk(ENTITY_USER, $action, $userPublicId)->with('message', trans('texts.updated_user_permission'));
+        }
+    }
+
     public function switchAccount($newUserId)
     {
         $oldUserId = Auth::user()->id;
         $referer = Request::header('referer');
+
         $account = $this->accountRepo->findUserAccounts($newUserId, $oldUserId);
 
         if ($account) {

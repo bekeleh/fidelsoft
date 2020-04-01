@@ -1,8 +1,5 @@
 <!-- landing page -->
-
-<?php echo Former::open(
-    \App\Models\EntityModel::getFormUrl($entityType) . '/bulk')
-        ->addClass('listForm_' . $entityType); ?>
+<?php echo Former::open(\App\Models\EntityModel::getFormUrl($entityType) . '/bulk')->addClass('listForm_' . $entityType); ?>
 
 
 <div style="display:none">
@@ -28,7 +25,6 @@
     ->split(); ?>
 
 
-    &nbsp;
     <span id="statusWrapper_<?php echo e($entityType); ?>" style="display:none">
     <select class="form-control" style="width: 220px" id="statuses_<?php echo e($entityType); ?>" multiple="true">
     <?php if(count(\App\Models\EntityModel::getStatusesFor($entityType))): ?>

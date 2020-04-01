@@ -1,9 +1,9 @@
 @extends('header')
 @section('content')
     <center>
-        @if (!session(SESSION_USER_ACCOUNTS) || count(session(SESSION_USER_ACCOUNTS)) < 5)
-            {!! Button::success(trans('texts.add_company'))->withAttributes(['onclick' => 'showSignUp()']) !!}
-        @endif
+        {{--        @if (!session(SESSION_USER_ACCOUNTS) || count(session(SESSION_USER_ACCOUNTS)) < 5)--}}
+        {!! Button::success(trans('texts.add_company'))->withAttributes(['onclick' => 'showSignUp()']) !!}
+        {{--        @endif--}}
     </center>
     <p>&nbsp;</p>
     <div class="row">
@@ -56,9 +56,10 @@
 
                 <div class="modal-footer" id="signUpFooter">
                     <button type="button" class="btn btn-default"
-                            data-dismiss="modal">{{ trans('texts.cancel') }}</button>
-                    <button type="button" class="btn btn-primary"
-                            onclick="unlinkAccount()">{{ trans('texts.unlink') }}</button>
+                            data-dismiss="modal">{{ trans('texts.cancel') }}
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="unlinkAccount()">{{ trans('texts.unlink') }}
+                    </button>
                 </div>
             </div>
         </div>

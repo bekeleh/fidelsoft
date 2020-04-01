@@ -108,6 +108,7 @@
         @if (true)
             <div class="tab-pane" id="permissions">
                 @include('accounts.permission',[
+                'user' => $user,
                 'permissions' => $permissions,
                 'userPermissions' => $userPermissions,
                 ])
@@ -222,6 +223,11 @@
                 $('#action').val('delete');
                 $('.mainForm').submit();
             });
+        }
+
+        function onUpdateClick() {
+            $('#action').val('update');
+            $('.mainForm').submit();
         }
 
         @if ($user->showMap())

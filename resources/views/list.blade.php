@@ -1,8 +1,5 @@
 <!-- landing page -->
-
-{!! Former::open(
-    \App\Models\EntityModel::getFormUrl($entityType) . '/bulk')
-        ->addClass('listForm_' . $entityType) !!}
+{!! Former::open(\App\Models\EntityModel::getFormUrl($entityType) . '/bulk')->addClass('listForm_' . $entityType) !!}
 
 <div style="display:none">
     {!! Former::text('action')->id('action_' . $entityType) !!}
@@ -22,7 +19,6 @@
     ->withAttributes(['class'=>'archive'])
     ->split() !!}
 
-    &nbsp;
     <span id="statusWrapper_{{ $entityType }}" style="display:none">
     <select class="form-control" style="width: 220px" id="statuses_{{ $entityType }}" multiple="true">
     @if (count(\App\Models\EntityModel::getStatusesFor($entityType)))
