@@ -110,6 +110,7 @@ class UserController extends BaseController
 
     public function edit(UserRequest $request, $publicId = false, $clone = false)
     {
+        dd('edit...');
         $user = $request->entity();
         if ($clone) {
             $user->id = null;
@@ -138,6 +139,7 @@ class UserController extends BaseController
 
     public function update(UserRequest $request)
     {
+        dd('update...');
         $data = $request->input();
 
         $user = $this->userService->save($data, $request->entity());
@@ -199,6 +201,7 @@ class UserController extends BaseController
 
     public function bulk()
     {
+        dd('bulk');
         $action = Input::get('action');
         $ids = Input::get('public_id') ? Input::get('public_id') : Input::get('ids');
         if ($action != 'updatePermission') {
@@ -208,6 +211,7 @@ class UserController extends BaseController
             return $this->returnBulk(ENTITY_USER, $action, $ids)->with('message', $message);
         } else {
             $permissionArray = json_encode(Input::get('permission'));
+
             $this->updatePermission($permissionArray, $action, $ids);
         }
     }
@@ -290,8 +294,8 @@ class UserController extends BaseController
         if ($user) {
             $user->permissions = $permissionArray;
             $user->save();
-//            return Redirect::to('users/' . $userPublicId)->with('success', trans('texts.updated_user_permission'));
             return $this->returnBulk(ENTITY_USER, $action, $userPublicId)->with('message', trans('texts.updated_user_permission'));
+//            return Redirect::to('/users')->with('success', trans('texts.updated_user_permission'));
         }
     }
 
@@ -299,7 +303,6 @@ class UserController extends BaseController
     {
         $oldUserId = Auth::user()->id;
         $referer = Request::header('referer');
-
         $account = $this->accountRepo->findUserAccounts($newUserId, $oldUserId);
 
         if ($account) {

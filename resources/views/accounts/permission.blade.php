@@ -53,7 +53,7 @@
         cursor: pointer;
     }
 </style>
-{!! Former::open('users/bulk')->autocomplete('off')->addClass('mainForm') !!}
+{!! Former::open('/users')->autocomplete('off')->addClass('mainForm') !!}
 <div style="display:none">
     {!! Former::text('action')->value('updatePermission')!!}
     {!! Former::text('public_id')->value($user->public_id) !!}
@@ -169,7 +169,12 @@
             </div>
             <center class="buttons">
                 {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/users'))->appendIcon(Icon::create('remove-circle')) !!}
-                {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
+                {{--                {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}--}}
+                <button type="button" class="btn btn-success" onclick="submitChangePermission()"
+                        id="changePermissionButton">
+                    {{ trans('texts.save') }}
+                    <i class="glyphicon glyphicon-floppy-disk"></i>
+                </button>
             </center>
         </div>
     </div>

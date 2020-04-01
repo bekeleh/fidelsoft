@@ -2,136 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/1njpFwkJQj3GkdS5x2LbTefucJpn6GsS0WFzoi5O" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/626066e21669c3c0963be6662b0c23e18dd7881b.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/6a31d0540594c0c19fb83f07e05f90e05e63abab.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/6fa524c879f672159ba6d0cd743d03590bc34db5.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ClientController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ClientController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/debugbar.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/debugbar.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/accounts/permission.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/accounts/permission.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/accounts/user_management1.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/accounts/user_management1.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/clients/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/clients/show.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/list.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/list.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/users/account_management1.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/users/account_management1.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/users/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/users/show.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/0yAak5kmUonUvAic8hwgZazPaTLiP8Sj5xJlxY4M" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/1eTTOhjhoWTEI1GyRhCx1eX96OALqjgdUzSCgoG8" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/2u0DfnZv9jINNfPE0y2lGajY8nMCbx3DJcj1BM10" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/31oJsnTdIFLFy5hvdZUAPD92T32crgQZPzLRYzCD" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/3NRI2Z0AxQf4J69Fmu54FzQzJvgjPf24BqmgySHV" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/3vFnXW8uMdw1kOXGANg7O5pMCLjJuFqZ6V0WUiXc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/3zvDuTVfYlcUl4d45Ihef2AOvgZG9PgMVaFPqpEc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/4bqzUW5ExsIVwKkQ2IDOyO1hW9k5Q4HmW7jp4eDl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/4pQUEF74NrfjIs0WHrQf3zs5qImeIwFBvAMSi6i1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/5f8bCzCVeNlRDWNgjo8jibXEnTjJt4OZiBIWqbV2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/6ZrcwuVyivnDT0eF8AV2uPLsi60gsxJ7exfc3gUg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/760a5mnIeVVdpG75AKG2zoL5RaIGqe4en7g0Oj0O" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/85XM29UsQb0IjV1x4ZsqrvBI9nNTEBi3PQDZFhB0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/8sAk8DqTDUVIJIuDgnZFHPDnnDhkY3xBPRNCzp6L" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/9EJcuQWwp3KkrV8YumjvrD6CwqU8Vmy1VLOJ6y7O" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/9eK5aivOeNFCEOpWhgUyZ27ezaQXA9Md9l6bEvGI" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/9mEHcIuWZChpwC0z462MviQ3kCFWrSxECnQGsehg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/A8YZLSf2a8HTQkUt4vCxqoMAvw9YrbP8bPH0Rhui" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/AkyohKxT15e0GM1Iz6Cfi5RBoo9sGLczTsA1FLGN" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/AxgL3vndKc7HWgyze8RbbPkEKl7LHpYLoXoECiiY" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/AzVK773YqrixTDeFOq0jbnIB3hYFKxV5MmWewzRG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/BJj2hY0vHGAshVOGcrhXNKIo9eMSoqd23ymWbl8b" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/BRiasMYmaYV5DAHw8OK9pmTY5cYsAyW9OiKIzYg5" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/C4vAnBwxzhrEr1vmZDDwY6KpWL3TcfObpIxyQ16X" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/CWaeyfz1NvEqAbrKy6WlWoivFa3IbwsI9guuwUOh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/D9Jhg1hsqxaDk1zeOI4NPjyB9VPnvVZdPpy0oar7" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/DVeFHUc7t0ck4qfFflwyoNEoqtKNoXeGBSbumwyX" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/EECHt3IXRE8tTMvvtjvSKX09b8UC9koIuwRQpzXj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/EMV5FzfZUAEZ7rB1VWLjfjIv8SjpYjzhRPit7Ewb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/F1rke5u14anVqOSWTFa8fa6OPfqGvDdvHo5OHO7g" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/FK5LCbOEs8iYxIBiGFNehZ0d7RjTbBMcrcbI5QfZ" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/FNoHByBDEABwTGLagJnAyqRdNvUPznrO9TaXyTxB" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/FlkBxK02MoEyiyi9qfelcAmz8glKFxv3jfTGjO4U" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/FrixMQyrS8sSYD3XJlX8f00GH0LLOEd6lSsrs1Wq" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/FtuzeIqbDAccSR0M02pxL7BbRUfCitYMjq8JYbr8" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/GBjtfFV5DZOLGzmPNcepzVUbNCeUkbO5JJAFzQ12" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/GtZJj3gkWpECo3gnx9mFSw9sxFnYm5m0eW6JttOp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/Gtk9MX6obgRA7Pg0e89Bv8urbT8mhKrELaio0eYM" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/HY4s2LBmTgqosKT11RqILNIrEaJDqwU7PHA1OtJe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/Hv8G8xGMTNvxBFbXy9y1nM0evqhhZNu6KQc9UYUb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/IL2BjUx1TAZfGThL8jz9vu9izPsLxJlk6KByEvUT" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/IqWmKd8RxFDtiurhXX3onH07yJcNTQNXHlv7eGb4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/LB6sfvnOVDgf77AZ5xHgdG0VmexR77NCsAyGpxtW" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/LUiW7N5HsSAmdxd85LdbL10VYkiCQNAw3S6T1xPC" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/LxOXyMQR0tp5YchJHSsrhbFy3ZXb3LrCVHdqAmiU" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/McjgkECoyjhTqppam45jN1LGG0F1HIwLpOyvP8Ha" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/NIsnvPIle9QfKvFbp8f4uNkogaPv5aSv0dbtHu3u" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/OQcpOsuyc65TvgDBfmrP8LJWUfQDlCJK9jbj6yL7" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/Okd27OkGPZT8EnLCiqUBe2Rq1TCg2Zm9OIB27NRn" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/Ol5zvOKcARsdBAzWFh69wXriCMyqL0A4Fcj4hxL4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/OsRh8qER1nY7qAPzubiN2vmyQ4OBtZNr4WfRWIm2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/OsSDHBREV98miA8V9lKnHWmv7xuCF7GAdDsIqvY4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/P9a07guAaX1ObP8CWTM95gT9zAClQyL2eHKDALWZ" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/PQqJk6Cq6zsrNROeSPPc0UbqRRipBvi49pXwohLb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/PssGHHx2aH9bJki1NTS84rSugz3QH1o6BoVEWh3f" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/RDK5ABThKUj1mCM43Bc2o07I5HXZTnXVTNVAuJtO" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/RLIIAnpd66gPMnkgeeEeklEPP9nS7Lqd1zj3NpLl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/SAqRHFzxEnrKBG4RxkjODetgU8eycJkza4qO38Xr" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/SkBif8kR0X4JUJPlRlgWbeWw1v111Lsfh91c2nL0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/T4yEilDM91UEnKHl7U8PEsSLAFM4Q8T0OenUOAH9" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/V9jbuCAw5tu5ItEvNBT1CQBg0nqd2wZPdanvDeqD" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/VTossCP6qsECIOA4bWyX94S8EAi49j5tLAoTjpOk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/XayKxXa4xVOzvUmwJf63rmZpEdppyvmAilfyxWPn" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/YPFWvLXgGzzuu73Wkbcn9upEk3k4reKP0SHeHZpl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/ZKEF1P3pfvfKDQUb1lPf3Yj7nDm7O7MajMncEPPC" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/ZXDsOdYhGQC1GX91xuCyOKT7U4yKwIwLBp7Mrh1Q" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/ZrGPEEtcskBwhwRwgWgd0l06wPHTn10EE987WHKn" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/aPDuweiTgctHUkjfxIV18hLqUYtHFjCDBR1JzlBp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/ajITbXX1aPrVXbz3cdMEjRWOX0sFCg4rtcMWkBwE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/ay0QGlvHsz575oEZNs7uQOLp36xODs2nDsee2Kai" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/c3vUjoWnLTBvkjEWJbXqNbAuPcNWYzTrAVAtRDmu" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/cI9fhQNwCf0lX9CtfQh9RbE7whW0OdXatzJLWsRF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/eWUhrfUb44rzAb1wwDliz7vv0f74RWRa7NQW7j3D" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/hJ6wxSl1tUQ8Y0j8k6y8UfFSCXSJQhAZeDohQnAT" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/hUN2RdhwdGKc0UFO4lwbIPiLN07Hdcr4FmNvAGBb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/iq2p2Gj0kuRUmaCG5PtZR6FcytBfocZUtFt5BeE3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/itNcieMMJsHL9EfZ9k3KiQJIZqj96c4tyzcsUt4A" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/jbACjsAETxBtMwLr3q0LEgdTbe5mgdD63Q2pFdZU" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/jn5iG8dFJYhwElvM8079P3y07WQDNqy0gjyYYPcO" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/kJqiiU9r6dFpxQmLM1SO9OhPtv2y62bDfJ7zwKGI" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/kRXHh5Ifmns6l5fIkonT70TrW0Q4XrTeYBdapCEX" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/kSohy5dw55N8H7c5DlnnYsMNBIPZF1w2wmGJWQXn" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/lb4QI5sfgyiCSzlXEExGNxT4oCyDujOGQAmtPGFE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/loqWA79pvPYGyh0EEzrbOkDRUmhThnRMUyiYj1fS" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/lqLwkv43IlxtNWnUm9tqPiv1bXZ0p6eO81EEznpA" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/nJ51EZ5r9jedcM9D3dtQtjPXJr8lyZQ4eoKgmlee" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/pah3QXLr9PP249BvbNYeRp8ZJRdVsEvxzsIH8l3m" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/pf5bJCWY6fK6QoUVfc3KZ6VWPT8DanRniWe8KayK" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/puKwpKk9mX3rfSfXUf5AXIH18AKdbt8OhSnfCYIY" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/qsVgtCgKyYOcQ22ZDVj6MlcDAs8WAUdJOcWt4cb2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/qwKWnAqIrVDIk73iIvhWOklWtyeQTdY1QqUufR5I" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/qxVJy7shD62B0nJtNe3C590ng2rbyb40Ceeh94Aq" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/qyZRMK9sIbx4EmqzHQHMZp1gwb1ohgACofH0BWbc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/sr4siDAOAVG7KIim2JvqeE9vWwF8HNX076e3HQKj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/tszn9SmA6bEpctUGvqh1pErP1Uk8ROIGSSIXd74B" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/udf1Shv0UdDf15oVHc4rMAHOGFOKldmCAY1YOD6F" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/vVTMA5sKzmliUxZFI4Rm6BBH5CuqSiajFKSE2owR" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/vxh1EwI4zsWvBjyfeirjGjCgewkMYJuKzSZLsXmp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/w2NOmVuDerHr9AiWjTONd9wx3mNiUlTWu8CFqEHr" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/xsWZa6oqSIrSu5A7ywNmJDWGSw2P9t1NBkpE89SP" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/xu0yKuQHVdycDeSHyzsOmgoPXROTPKIEK4ahmAkn" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/y6IZliYQibcnpMfVBFNcD05pOoAJ8nb9ErtQiOXs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/yGSvq9eNX4WgjD9NI1sAo9i15S9jVdgYZctRDHaN" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/zJYgHNKkjCqEWdFzuPady9xSkGPTlqN2WOTOeMW5" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/zjGB0KJNFnj1xuigGMGZCK2v2flF4T5v9FATgoRe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/zw6mBIBg13IHnqN9tcVUTAyTYFPWsd27HmHbuMNo" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/1njpFwkJQj3GkdS5x2LbTefucJpn6GsS0WFzoi5O" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/1njpFwkJQj3GkdS5x2LbTefucJpn6GsS0WFzoi5O" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/379b0d17e42e1cdd6f042348c9046c38c30ec415.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/379b0d17e42e1cdd6f042348c9046c38c30ec415.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/467d14accc6850d692cb32d17c7827bf0d57b621.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/467d14accc6850d692cb32d17c7827bf0d57b621.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/a8e214552cb3a46e8d7fa956c4cd32193ea2dc29.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/ab409e5dc6346ea88348aeb65121486025dfad94.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/ab409e5dc6346ea88348aeb65121486025dfad94.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/c18fa3865e1151b9981fcdd9ba5c37d38cbef917.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/cf32b45de7e49e7683cae2c79b2aa6cb2da88c16.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -472,14 +350,7 @@
       <workItem from="1585226817249" duration="9137000" />
       <workItem from="1585289104803" duration="25909000" />
       <workItem from="1585589208331" duration="17561000" />
-      <workItem from="1585741462215" duration="23263000" />
-    </task>
-    <task id="LOCAL-00054" summary="2020-03-22 6:12">
-      <created>1584866203203</created>
-      <option name="number" value="00054" />
-      <option name="presentableId" value="LOCAL-00054" />
-      <option name="project" value="LOCAL" />
-      <updated>1584866203203</updated>
+      <workItem from="1585741462215" duration="25332000" />
     </task>
     <task id="LOCAL-00055" summary="2020-03-22 6:12">
       <created>1584869611937</created>
@@ -817,7 +688,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585743368997</updated>
     </task>
-    <option name="localTasksCounter" value="103" />
+    <task id="LOCAL-00103" summary="2020-04-1 11:46">
+      <created>1585777512147</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
+      <option name="project" value="LOCAL" />
+      <updated>1585777512147</updated>
+    </task>
+    <option name="localTasksCounter" value="104" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -877,10 +755,10 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="622" y="0" key="#com.jetbrains.php.refactoring.extractMethod.PhpExtractMethodDialog#method1/0.0.1440.860@0.0.1440.860" timestamp="1584443627388" />
-    <state x="331" y="0" key="CommitChangelistDialog2" timestamp="1585743366377">
+    <state x="331" y="0" key="CommitChangelistDialog2" timestamp="1585777505567">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1585743366377" />
+    <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1585777505567" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1585322352927" />
     <state x="500" y="177" key="FileChooserDialogImpl" timestamp="1584881689405">
       <screen x="0" y="0" width="1440" height="860" />

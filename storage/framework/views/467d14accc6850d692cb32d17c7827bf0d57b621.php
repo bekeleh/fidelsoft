@@ -165,6 +165,33 @@
                 radioClass: 'iradio_square',
                 increaseArea: '5%',
             });
+
+            function submitChangePermission() {
+                // console.log($('mainForm #permission').val());
+                var mapCanvas = document.getElementById('permission');
+                alert(mapCanvas);
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            }
+
             // Check/Uncheck all radio buttons in the group
             $('tr.header-row input:radio').on('ifChanged', function () {
                 value = $(this).attr('value');
@@ -185,7 +212,6 @@
                     $("#nonadmin").show();
                 }
             });
-
         });
     </script>
     <script type="text/javascript">

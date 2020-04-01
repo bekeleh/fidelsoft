@@ -53,7 +53,7 @@
         cursor: pointer;
     }
 </style>
-<?php echo Former::open('users/bulk')->autocomplete('off')->addClass('mainForm'); ?>
+<?php echo Former::open('/users')->autocomplete('off')->addClass('mainForm'); ?>
 
 <div style="display:none">
     <?php echo Former::text('action')->value('updatePermission'); ?>
@@ -189,8 +189,13 @@
             <center class="buttons">
                 <?php echo Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/users'))->appendIcon(Icon::create('remove-circle')); ?>
 
-                <?php echo Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')); ?>
+                
+                <button type="button" class="btn btn-success" onclick="submitChangePermission()"
+                        id="changePermissionButton">
+                    <?php echo e(trans('texts.save')); ?>
 
+                    <i class="glyphicon glyphicon-floppy-disk"></i>
+                </button>
             </center>
         </div>
     </div>

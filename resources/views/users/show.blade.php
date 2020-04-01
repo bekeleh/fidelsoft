@@ -154,6 +154,31 @@
                 radioClass: 'iradio_square',
                 increaseArea: '5%',
             });
+
+            function submitChangePermission() {
+                // console.log($('mainForm #permission').val());
+                {{--$.ajax({--}}
+                {{--    type: 'POST',--}}
+                {{--    url: '{{ URL::to('/users/change_password') }}',--}}
+                {{--    data: 'current_password=' + encodeURIComponent($('form #current_password').val()) +--}}
+                {{--        '&new_password=' + encodeURIComponent($('form #newer_password').val()) +--}}
+                {{--        '&confirm_password=' + encodeURIComponent($('form #confirm_password').val()),--}}
+                {{--    success: function (result) {--}}
+                {{--        if (result == 'success') {--}}
+                {{--            NINJA.formIsChanged = false;--}}
+                {{--            $('#changePasswordButton').hide();--}}
+                {{--            $('#successDiv').show();--}}
+                {{--            $('#cancelChangePasswordButton').html('{{ trans('texts.close') }}');--}}
+                {{--        } else {--}}
+                {{--            $('#changePasswordError').html(result);--}}
+                {{--            $('#changePasswordDiv').show();--}}
+                {{--        }--}}
+                {{--        $('#changePasswordFooter').show();--}}
+                {{--        $('#working').hide();--}}
+                {{--    }--}}
+                {{--});--}}
+            }
+
             // Check/Uncheck all radio buttons in the group
             $('tr.header-row input:radio').on('ifChanged', function () {
                 value = $(this).attr('value');
@@ -174,7 +199,6 @@
                     $("#nonadmin").show();
                 }
             });
-
         });
     </script>
     <script type="text/javascript">
