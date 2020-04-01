@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/users/two_factor.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/users/two_factor.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/TokenPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/TokenPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/InvoiceService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/InvoiceService.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -343,14 +344,8 @@
       <workItem from="1585222533083" duration="3557000" />
       <workItem from="1585226817249" duration="9137000" />
       <workItem from="1585289104803" duration="25909000" />
-      <workItem from="1585589208331" duration="17243000" />
-    </task>
-    <task id="LOCAL-00052" summary="202003210614">
-      <created>1584785072756</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1584785072756</updated>
+      <workItem from="1585589208331" duration="17561000" />
+      <workItem from="1585741462215" duration="1380000" />
     </task>
     <task id="LOCAL-00053" summary="2020-03-22 6:12">
       <created>1584863631674</created>
@@ -688,7 +683,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585687016099</updated>
     </task>
-    <option name="localTasksCounter" value="101" />
+    <task id="LOCAL-00101" summary="2020-03-31 11:46">
+      <created>1585687574507</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1585687574507</updated>
+    </task>
+    <option name="localTasksCounter" value="102" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -718,7 +720,8 @@
     <MESSAGE value="2020-03-26 10:55" />
     <MESSAGE value="2020-03-27 10:55" />
     <MESSAGE value="2020-03-31 10:55" />
-    <option name="LAST_COMMIT_MESSAGE" value="2020-03-31 10:55" />
+    <MESSAGE value="2020-03-31 11:46" />
+    <option name="LAST_COMMIT_MESSAGE" value="2020-03-31 11:46" />
   </component>
   <component name="WindowStateProjectService">
     <state x="312" y="89" key="#Notifications" timestamp="1584513656594">
@@ -746,10 +749,10 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="622" y="0" key="#com.jetbrains.php.refactoring.extractMethod.PhpExtractMethodDialog#method1/0.0.1440.860@0.0.1440.860" timestamp="1584443627388" />
-    <state x="331" y="0" key="CommitChangelistDialog2" timestamp="1585687521547">
+    <state x="331" y="0" key="CommitChangelistDialog2" timestamp="1585687572820">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1585687521547" />
+    <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1585687572820" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1585322352927" />
     <state x="500" y="177" key="FileChooserDialogImpl" timestamp="1584881689405">
       <screen x="0" y="0" width="1440" height="860" />
@@ -797,15 +800,15 @@
     </state>
     <state x="296" y="138" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1585087006495" />
     <state x="312" y="163" key="Vcs.Push.Dialog.v2/0.0.1440.860@0.0.1440.860" timestamp="1585235941756" />
-    <state x="408" y="139" key="com.intellij.ide.util.TipDialog" timestamp="1585589208336">
+    <state x="408" y="139" key="com.intellij.ide.util.TipDialog" timestamp="1585741471686">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="408" y="139" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1585589208336" />
+    <state x="408" y="139" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1585741471686" />
     <state x="430" y="164" key="com.intellij.ide.util.TipDialog/0.0.1440.860@0.0.1440.860" timestamp="1585289220025" />
-    <state x="215" y="69" width="849" height="606" key="find.popup" timestamp="1585321594443">
-      <screen x="0" y="0" width="1440" height="860" />
+    <state x="206" y="37" width="983" height="691" key="find.popup" timestamp="1585743342444">
+      <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="441" y="95" width="806" height="536" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1584046794826" />
+    <state x="206" y="37" width="983" height="691" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1585743342444" />
     <state x="215" y="69" width="849" height="606" key="find.popup/0.0.1440.860@0.0.1440.860" timestamp="1585321594443" />
     <state x="462" y="222" key="git4idea.merge.GitPullDialog" timestamp="1584633875966">
       <screen x="0" y="0" width="1440" height="860" />

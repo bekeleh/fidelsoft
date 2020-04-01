@@ -22,14 +22,14 @@ class InvoiceService extends BaseService
     protected $datatableService;
 
     /**
+     *
      * InvoiceService constructor.
      *
      * @param ClientRepository $clientRepo
      * @param InvoiceRepository $invoiceRepo
      * @param DatatableService $datatableService
      */
-    public function __construct(ClientRepository $clientRepo, InvoiceRepository $invoiceRepo, DatatableService $datatableService
-    )
+    public function __construct(ClientRepository $clientRepo, InvoiceRepository $invoiceRepo, DatatableService $datatableService)
     {
         $this->clientRepo = $clientRepo;
         $this->invoiceRepo = $invoiceRepo;
@@ -149,7 +149,7 @@ class InvoiceService extends BaseService
         $query = $this->invoiceRepo->getInvoices($accountId, $clientPublicId, $entityType, $search)
             ->where('invoices.invoice_type_id', '=', $entityType == ENTITY_QUOTE ? INVOICE_TYPE_QUOTE : INVOICE_TYPE_STANDARD);
 
-        if (!Utils::hasPermission('view_' . $entityType)) {
+        if (!Utils::hasAccess('view_' . $entityType)) {
             $query->where('invoices.user_id', '=', Auth::user()->id);
         }
 
