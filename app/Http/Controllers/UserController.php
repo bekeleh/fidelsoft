@@ -139,7 +139,6 @@ class UserController extends BaseController
 
     public function update(UserRequest $request)
     {
-        dd('update...');
         $data = $request->input();
 
         $user = $this->userService->save($data, $request->entity());
@@ -201,7 +200,6 @@ class UserController extends BaseController
 
     public function bulk()
     {
-        dd('bulk');
         $action = Input::get('action');
         $ids = Input::get('public_id') ? Input::get('public_id') : Input::get('ids');
         if ($action != 'updatePermission') {
@@ -287,15 +285,18 @@ class UserController extends BaseController
         return RESULT_SUCCESS;
     }
 
-    public function updatePermission($permissionArray, $action = null, $userPublicId)
+    public function changePermission()
     {
+        $permissionArray = json_encode(Input::get('permission'));
+        $userPublicId = Input::get('public_id');
         $user = User::where('account_id', '=', Auth::user()->account_id)
             ->where('public_id', '=', $userPublicId)->firstOrFail();
         if ($user) {
             $user->permissions = $permissionArray;
             $user->save();
-            return $this->returnBulk(ENTITY_USER, $action, $userPublicId)->with('message', trans('texts.updated_user_permission'));
-//            return Redirect::to('/users')->with('success', trans('texts.updated_user_permission'));
+            return RESULT_SUCCESS;
+        } else {
+            return RESULT_FAILURE;
         }
     }
 

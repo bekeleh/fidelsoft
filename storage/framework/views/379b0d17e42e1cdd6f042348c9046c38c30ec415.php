@@ -202,13 +202,70 @@
 </div>
 <?php echo Former::close(); ?>
 
+<script nonce="<?php echo e(csrf_token()); ?>">
+    $(document).ready(function () {
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_square',
+            radioClass: 'iradio_square',
+            // radioClass: 'iradio_flat-orange',
+            increaseArea: '5%',
+        });
 
-<script type="text/javascript">
+        // Check/Uncheck all radio buttons in the group
+        $('tr.header-row input:radio').on('ifChanged', function () {
+            value = $(this).attr('value');
+            area = $(this).data('checker-group');
+            $('.radiochecker-' + area + '[value=' + value + ']').iCheck('check');
+        });
+
+        $('.header-name').click(function () {
+            $(this).parent().nextUntil('tr.header-row').slideToggle(1);
+        });
+
+        $('.tooltip-base').tooltip({container: 'body'});
+        $(".superuser").change(function () {
+            var perms = $(this).val();
+            if (perms == '1') {
+                $("#nonadmin").hide();
+            } else {
+                $("#nonadmin").show();
+            }
+        });
+    });
+
     function submitChangePermission() {
-        // var isChecked = $('tr.permissions-row input:radio').iCheck('check');
-        var isChecked = $('tr.permissions-row input:radio:checked').iCheck('check');
-        for (var i = 0; i < 15; i++) {
-            console.log(isChecked[i].name + '=>' + isChecked[i].value);
+        var public_id =<?php echo e($user->public_id); ?>;
+        var isChecked = $('td.permissions-item input:radio:checked').iCheck('check');
+        var permissionArray = getPermission(isChecked);
+        // console.log(permissionArray);
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo e(URL::to('/users/change_permission')); ?>',
+            data: 'permission=' + encodeURIComponent(permissionArray) + '&public_id=' + public_id,
+            success:
+                function (result) {
+                    if (result == 'success') {
+                        console.log('success');
+                    } else {
+                        console.log('Something went wrong.');
+                    }
+                }
+        });
+    }
+
+    function getPermission(isChecked) {
+        var map = new Map();
+        var obj = [];
+        for (var i = 0; i < isChecked.length; i++) {
+            str = isChecked[i].name;
+            obj[i] = str.slice(11, str.length - 1);
+            map.set(obj[i], isChecked[i].value)
         }
+        var result = mapToJson(map);
+        return result;
+    }
+
+    function mapToJson(map) {
+        return JSON.stringify([...map]);
     }
 </script>
