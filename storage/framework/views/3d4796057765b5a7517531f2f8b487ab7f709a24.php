@@ -4,10 +4,12 @@
         <style type="text/css">
             .nav-footer {
                 <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?>
-                                                                                                                        background-color: #50C878 !important;
+                                                                                                                          background-color: #50C878 !important;
                 <?php else: ?>
-                                                                                                                            background-color: #FD6A02 !important;
+                                                                                                                              background-color: #FD6A02 !important;
             <?php endif; ?>
+
+
 
             }
         </style>
@@ -243,9 +245,6 @@
     </script>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('body'); ?>
-    
-    
-    
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="height:60px;">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
@@ -257,7 +256,7 @@
             <a href="#" id="left-menu-toggle" class="menu-toggle" title="<?php echo e(trans('texts.toggle_navigation')); ?>"
                style="color:white;">
                 <div class="navbar-brand">
-                    <i class="fa fa-bars hide-phone" style="width:32px;padding-top:2px;float:left"></i>HARON ERP
+                    <i class="fa fa-bars hide-phone" style="width:32px;padding-top:2px;float:left"></i>E-Ninja Plus ERP
                     
                 </div>
             </a>

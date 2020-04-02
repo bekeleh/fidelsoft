@@ -180,3 +180,13 @@
     </div>
 </div>
 {!! Former::close() !!}
+
+<script type="text/javascript">
+    function submitChangePermission() {
+        // var isChecked = $('tr.permissions-row input:radio:checked').iCheck('check');
+        var isChecked = $('tr.permissions-row input:radio:checked').iCheck('check');
+        for (var i = 0; i < 15; i++) {
+            console.log(isChecked[i].name + '=>' + isChecked[i].value);
+        }
+    }
+</script>

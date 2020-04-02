@@ -6,10 +6,12 @@
         <style type="text/css">
             .nav-footer {
                 @if (config('mail.driver') == 'log' && ! config('services.postmark'))
-                                                                                                                        background-color: #50C878 !important;
+                                                                                                                          background-color: #50C878 !important;
                 @else
-                                                                                                                            background-color: #FD6A02 !important;
+                                                                                                                              background-color: #FD6A02 !important;
             @endif
+
+
 
             }
         </style>
@@ -244,9 +246,6 @@
     </script>
 @stop
 @section('body')
-    {{--    @if (Utils::isNinjaProd() && ! Request::is('settings/account_management'))--}}
-    {{--            @include('partials.upgrade_modal')--}}
-    {{--    @endif--}}
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="height:60px;">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
@@ -258,7 +257,7 @@
             <a href="#" id="left-menu-toggle" class="menu-toggle" title="{{ trans('texts.toggle_navigation') }}"
                style="color:white;">
                 <div class="navbar-brand">
-                    <i class="fa fa-bars hide-phone" style="width:32px;padding-top:2px;float:left"></i>HARON ERP
+                    <i class="fa fa-bars hide-phone" style="width:32px;padding-top:2px;float:left"></i>E-Ninja Plus ERP
                     {{--                    <img src="{{ asset('images/erp.png') }}" width="193" height="25" style="float:left"/>--}}
                 </div>
             </a>

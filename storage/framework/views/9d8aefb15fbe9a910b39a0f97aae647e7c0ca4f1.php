@@ -14,7 +14,7 @@
         <title><?php echo e(trans('texts.client_portal')); ?></title>
         
     <?php else: ?>
-        <title><?php echo e(isset($title) ? ($title . ' | HARON ERP') : ('HARON ERP' )); ?></title>
+        <title><?php echo e(isset($title) ? ($title . ' | E-Ninja Plus ERP') : ('E-Ninja Plus ERP' )); ?></title>
         <meta name="description" content="<?php echo e(isset($description) ? $description : trans('texts.app_description')); ?>"/>
 
         <link href="<?php echo e(asset('favicon-v2.gif')); ?>" rel="shortcut icon" type="image/gif">

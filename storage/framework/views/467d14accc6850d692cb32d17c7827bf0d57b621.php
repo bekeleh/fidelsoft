@@ -163,34 +163,43 @@
             $('input').iCheck({
                 checkboxClass: 'icheckbox_square',
                 radioClass: 'iradio_square',
+                // radioClass: 'iradio_flat-orange',
                 increaseArea: '5%',
             });
-
-            function submitChangePermission() {
-                // console.log($('mainForm #permission').val());
-                var mapCanvas = document.getElementById('permission');
-                alert(mapCanvas);
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-            }
+            //
+            // function submitChangePermission() {
+            // $('tr.header-row input:radio').on('ifChanged', function () {
+            //     value = $(this).attr('value');
+            //     console.log(value);
+            //     area = $(this).data('checker-group');
+            //     $('.radiochecker-' + area + '[value=' + value + ']').iCheck('check');
+            // });
+            // var arr = $('ínput[type="radio"]', $('#mainForm'));
+            // for (var i = 0; i < arr.length; i++) {
+            //     alert(arr[i]);
+            // }
+            // console.log($('mainForm #permission').val());
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            // }
 
             // Check/Uncheck all radio buttons in the group
             $('tr.header-row input:radio').on('ifChanged', function () {

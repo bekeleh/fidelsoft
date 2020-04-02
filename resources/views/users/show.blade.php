@@ -152,32 +152,43 @@
             $('input').iCheck({
                 checkboxClass: 'icheckbox_square',
                 radioClass: 'iradio_square',
+                // radioClass: 'iradio_flat-orange',
                 increaseArea: '5%',
             });
-
-            function submitChangePermission() {
-                // console.log($('mainForm #permission').val());
-                {{--$.ajax({--}}
-                {{--    type: 'POST',--}}
-                {{--    url: '{{ URL::to('/users/change_password') }}',--}}
-                {{--    data: 'current_password=' + encodeURIComponent($('form #current_password').val()) +--}}
-                {{--        '&new_password=' + encodeURIComponent($('form #newer_password').val()) +--}}
-                {{--        '&confirm_password=' + encodeURIComponent($('form #confirm_password').val()),--}}
-                {{--    success: function (result) {--}}
-                {{--        if (result == 'success') {--}}
-                {{--            NINJA.formIsChanged = false;--}}
-                {{--            $('#changePasswordButton').hide();--}}
-                {{--            $('#successDiv').show();--}}
-                {{--            $('#cancelChangePasswordButton').html('{{ trans('texts.close') }}');--}}
-                {{--        } else {--}}
-                {{--            $('#changePasswordError').html(result);--}}
-                {{--            $('#changePasswordDiv').show();--}}
-                {{--        }--}}
-                {{--        $('#changePasswordFooter').show();--}}
-                {{--        $('#working').hide();--}}
-                {{--    }--}}
-                {{--});--}}
-            }
+            //
+            // function submitChangePermission() {
+            // $('tr.header-row input:radio').on('ifChanged', function () {
+            //     value = $(this).attr('value');
+            //     console.log(value);
+            //     area = $(this).data('checker-group');
+            //     $('.radiochecker-' + area + '[value=' + value + ']').iCheck('check');
+            // });
+            // var arr = $('ínput[type="radio"]', $('#mainForm'));
+            // for (var i = 0; i < arr.length; i++) {
+            //     alert(arr[i]);
+            // }
+            // console.log($('mainForm #permission').val());
+            {{--$.ajax({--}}
+            {{--    type: 'POST',--}}
+            {{--    url: '{{ URL::to('/users/change_password') }}',--}}
+            {{--    data: 'current_password=' + encodeURIComponent($('form #current_password').val()) +--}}
+            {{--        '&new_password=' + encodeURIComponent($('form #newer_password').val()) +--}}
+            {{--        '&confirm_password=' + encodeURIComponent($('form #confirm_password').val()),--}}
+            {{--    success: function (result) {--}}
+            {{--        if (result == 'success') {--}}
+            {{--            NINJA.formIsChanged = false;--}}
+            {{--            $('#changePasswordButton').hide();--}}
+            {{--            $('#successDiv').show();--}}
+            {{--            $('#cancelChangePasswordButton').html('{{ trans('texts.close') }}');--}}
+            {{--        } else {--}}
+            {{--            $('#changePasswordError').html(result);--}}
+            {{--            $('#changePasswordDiv').show();--}}
+            {{--        }--}}
+            {{--        $('#changePasswordFooter').show();--}}
+            {{--        $('#working').hide();--}}
+            {{--    }--}}
+            {{--});--}}
+            // }
 
             // Check/Uncheck all radio buttons in the group
             $('tr.header-row input:radio').on('ifChanged', function () {
