@@ -47,10 +47,14 @@ class UserPresenter extends EntityPresenter
             }
             $actions[] = ['url' => 'javascript:submitAction("archive")', 'label' => trans("texts.archive_user")];
         } else {
-            $actions[] = ['url' => 'javascript:submitAction("restore")', 'label' => trans("texts.restore_user")];
+            if (auth()->user()->can('create', ENTITY_USER)) {
+                $actions[] = ['url' => 'javascript:submitAction("restore")', 'label' => trans("texts.restore_user")];
+            }
         }
         if (!$user->is_deleted) {
-            $actions[] = ['url' => 'javascript:onDeleteClick()', 'label' => trans("texts.delete_user")];
+            if (auth()->user()->can('delete', ENTITY_USER)) {
+                $actions[] = ['url' => 'javascript:onDeleteClick()', 'label' => trans("texts.delete_user")];
+            }
         }
 
         return $actions;
@@ -82,6 +86,7 @@ class UserPresenter extends EntityPresenter
 
         return $status;
     }
+
     public function groups()
     {
         $user = $this->entity;
