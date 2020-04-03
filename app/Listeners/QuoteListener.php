@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Events\InvoiceWasEmailed;
 use App\Events\QuoteInvitationWasViewed;
 use App\Events\QuoteWasEmailed;
 

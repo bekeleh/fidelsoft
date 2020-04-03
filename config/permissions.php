@@ -26,6 +26,39 @@ return array(
             'display' => true,
         )
     ),
+	// Reports
+    'Reports manager' => array(
+        array(
+            'permission' => 'reports.view',
+            'label' => 'View Report',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'reports.create',
+            'label' => 'Create Report',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'reports.edit',
+            'label' => 'Edit Report',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'reports.update',
+            'label' => 'Update Report',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'reports.delete',
+            'label' => 'Delete Report',
+            'note' => '',
+            'display' => true,
+        ),
+    ),
 // Expenses
     'Expense manager' => array(
         array(

@@ -12,7 +12,6 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Laracasts\Presenter\PresentableTrait;
 
@@ -391,7 +390,8 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
 
     public function viewModel($model, $entityType)
     {
-        if ($this->hasPermission('view_' . $entityType))
+        //todo permissions
+        if ($this->hasAccess('view_' . $entityType))
             return true;
         elseif ($model->user_id == $this->id)
             return true;
@@ -411,13 +411,15 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
 
 
     public function filterId()
-    {   //todo permissions
-        return $this->hasPermission('view_all') ? false : $this->id;
+    {
+        //todo permissions
+        return $this->hasAccess('view_all') ? false : $this->id;
     }
 
     public function filterIdByEntity($entity)
     {
-        return $this->hasPermission('view_' . $entity) ? false : $this->id;
+        //todo permissions
+        return $this->hasAccess('view_' . $entity) ? false : $this->id;
     }
 
     public function canAddUsers()

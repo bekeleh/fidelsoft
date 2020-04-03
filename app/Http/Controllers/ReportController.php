@@ -49,7 +49,7 @@ class ReportController extends BaseController
 
     public function showReports()
     {
-        if (!Auth::user()->hasPermission('view_reports')) {
+        if (!Auth::user()->hasAccess('view_reports')) {
             return redirect('/');
         }
 

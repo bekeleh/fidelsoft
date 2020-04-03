@@ -17,13 +17,13 @@ use App\Ninja\Mailers\ContactMailer as Mailer;
 use App\Ninja\Repositories\ClientRepository;
 use App\Ninja\Repositories\InvoiceRepository;
 use App\Services\InvoiceService;
-use Auth;
-use Cache;
-use Input;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Input;
 use Redirect;
-use Session;
-use Utils;
-use View;
+use Illuminate\Support\Facades\Session;
+use App\Libraries\Utils;
+use Illuminate\Support\Facades\View;
 
 class QuoteController extends BaseController
 {
@@ -49,9 +49,9 @@ class QuoteController extends BaseController
         $datatable->entityType = ENTITY_QUOTE;
 
         $data = [
-          'title' => trans('texts.quotes'),
-          'entityType' => ENTITY_QUOTE,
-          'datatable' => $datatable,
+            'title' => trans('texts.quotes'),
+            'entityType' => ENTITY_QUOTE,
+            'datatable' => $datatable,
         ];
 
         return response()->view('list_wrapper', $data);
@@ -67,7 +67,7 @@ class QuoteController extends BaseController
 
     public function create(QuoteRequest $request, $clientPublicId = 0)
     {
-        if (! Utils::hasFeature(FEATURE_QUOTES)) {
+        if (!Utils::hasFeature(FEATURE_QUOTES)) {
             return Redirect::to('/invoices/create');
         }
 
@@ -115,8 +115,7 @@ class QuoteController extends BaseController
 
     public function bulk()
     {
-        $action = Input::get('bulk_action') ?: Input::get('action');
-        ;
+        $action = Input::get('bulk_action') ?: Input::get('action');;
         $ids = Input::get('bulk_public_id') ?: (Input::get('public_id') ?: Input::get('ids'));
 
         if ($action == 'convert') {
@@ -125,7 +124,7 @@ class QuoteController extends BaseController
 
             Session::flash('message', trans('texts.converted_to_invoice'));
 
-            return Redirect::to('invoices/'.$clone->public_id);
+            return Redirect::to('invoices/' . $clone->public_id);
         }
 
         $count = $this->invoiceService->bulk($ids, $action);
@@ -151,13 +150,13 @@ class QuoteController extends BaseController
         $invoice = $invitation->invoice;
         $account = $invoice->account;
 
-        if ($account->requiresAuthorization($invoice) && ! session('authorized:' . $invitation->invitation_key)) {
+        if ($account->requiresAuthorization($invoice) && !session('authorized:' . $invitation->invitation_key)) {
             return redirect()->to('view/' . $invitation->invitation_key);
         }
 
         if ($invoice->due_date) {
             $carbonDueDate = \Carbon::parse($invoice->due_date);
-            if (! $carbonDueDate->isToday() && ! $carbonDueDate->isFuture()) {
+            if (!$carbonDueDate->isToday() && !$carbonDueDate->isFuture()) {
                 return redirect("view/{$invitationKey}")->withError(trans('texts.quote_has_expired'));
             }
         }
