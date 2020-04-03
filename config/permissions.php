@@ -53,20 +53,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'expenses.bulkUpdate',
-            'label' => 'Bulk Update Expense',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'expenses.delete',
             'label' => 'Delete Expense',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'expenses.bulkDelete',
-            'label' => 'Bulk delete Expense',
             'note' => '',
             'display' => true,
         ),
@@ -98,20 +86,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'invoices.bulkUpdate',
-            'label' => 'Bulk Update Invoices',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'invoices.delete',
             'label' => 'Delete Invoices',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'invoices.bulkDelete',
-            'label' => 'Bulk delete Invoices',
             'note' => '',
             'display' => true,
         ),
@@ -143,20 +119,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'vendors.bulkUpdate',
-            'label' => 'Bulk Update Supplier',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'vendors.delete',
             'label' => 'Delete Supplier',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'vendors.bulkDelete',
-            'label' => 'Bulk delete Supplier',
             'note' => '',
             'display' => true,
         ),
@@ -188,20 +152,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'vendor_contacts.bulkUpdate',
-            'label' => 'Bulk Update Supplier Contact',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'vendor_contacts.delete',
             'label' => 'Delete Supplier Contact',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'vendor_contacts.bulkDelete',
-            'label' => 'Bulk delete Supplier Contact',
             'note' => '',
             'display' => true,
         ),
@@ -233,20 +185,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'clients.bulkUpdate',
-            'label' => 'Bulk Update Client',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'clients.delete',
             'label' => 'Delete Client',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'clients.bulkDelete',
-            'label' => 'Bulk delete Client',
             'note' => '',
             'display' => true,
         ),
@@ -278,20 +218,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'contacts.bulkUpdate',
-            'label' => 'Bulk Update Client Contact',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'contacts.delete',
             'label' => 'Delete Client Contact',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'contacts.bulkDelete',
-            'label' => 'Bulk delete Client Contact',
             'note' => '',
             'display' => true,
         ),
@@ -323,24 +251,11 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'item_prices.bulkUpdate',
-            'label' => 'Bulk Update item prices',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'item_prices.delete',
             'label' => 'Delete item prices',
             'note' => '',
             'display' => true,
         ),
-        array(
-            'permission' => 'item_prices.bulkDelete',
-            'label' => 'Bulk delete item prices',
-            'note' => '',
-            'display' => true,
-        ),
-
     ),
 // Item management
     'Items manager' => array(
@@ -369,24 +284,11 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'products.bulkUpdate',
-            'label' => 'Bulk Update items',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'products.delete',
             'label' => 'Delete items',
             'note' => '',
             'display' => true,
         ),
-        array(
-            'permission' => 'products.bulkDelete',
-            'label' => 'Bulk delete items',
-            'note' => '',
-            'display' => true,
-        ),
-
     ),
 //   item categories
     'Item categories manager' => array(
@@ -415,20 +317,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'item_categories.bulkUpdate',
-            'label' => 'Bulk update item category',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'item_categories.delete',
             'label' => 'Delete item category',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'item_categories.bulkDelete',
-            'label' => 'Bulk delete item category',
             'note' => '',
             'display' => true,
         ),
@@ -460,20 +350,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'item_brands.bulkUpdate',
-            'label' => 'Bulk update item property',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'item_brands.delete',
             'label' => 'Delete item property',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'item_brands.bulkDelete',
-            'label' => 'Bulk delete item property',
             'note' => '',
             'display' => true,
         ),
@@ -505,20 +383,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'stores.bulkUpdate',
-            'label' => 'Bulk item store',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'stores.delete',
             'label' => 'Delete store',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'stores.bulkDelete',
-            'label' => 'Bulk delete store',
             'note' => '',
             'display' => true,
         ),
@@ -550,23 +416,12 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'item_stores.bulkUpdate',
-            'label' => 'Bulk update item store',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'item_stores.delete',
             'label' => 'Delete item store',
             'note' => '',
             'display' => true,
         ),
-        array(
-            'permission' => 'item_stores.bulkDelete',
-            'label' => 'Bulk delete item store',
-            'note' => '',
-            'display' => true,
-        ),
+
     ),
 //    item request
     'Item requests manager' => array(
@@ -595,20 +450,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'item_requests.bulkUpdate',
-            'label' => 'Bulk update item request',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'item_requests.delete',
             'label' => 'Delete item request',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'item_requests.bulkDelete',
-            'label' => 'Bulk delete item request',
             'note' => '',
             'display' => true,
         ),
@@ -639,21 +482,10 @@ return array(
             'note' => '',
             'display' => true,
         ),
-        array(
-            'permission' => 'item_transfers.bulkUpdate',
-            'label' => 'Bulk update item transfer',
-            'note' => '',
-            'display' => true,
-        ),
+ 
         array(
             'permission' => 'item_transfers.delete',
             'label' => 'Delete item transfer',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'item_transfers.bulkDelete',
-            'label' => 'Bulk delete item transfer',
             'note' => '',
             'display' => true,
         ),
@@ -684,21 +516,10 @@ return array(
             'note' => '',
             'display' => true,
         ),
-        array(
-            'permission' => 'discount_categories.bulkUpdate',
-            'label' => 'Bulk update discount category',
-            'note' => '',
-            'display' => true,
-        ),
+ 
         array(
             'permission' => 'discount_categories.delete',
             'label' => 'Delete discount category',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'discount_categories.bulkDelete',
-            'label' => 'Bulk delete discount category',
             'note' => '',
             'display' => true,
         ),
@@ -730,20 +551,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'tax_categories.bulkUpdate',
-            'label' => 'Bulk Update tax categories',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'tax_categories.delete',
             'label' => 'Delete tax categories',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'tax_categories.bulkDelete',
-            'label' => 'Bulk delete tax categories',
             'note' => '',
             'display' => true,
         ),
@@ -775,20 +584,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'tax_provinces.bulkUpdate',
-            'label' => 'Bulk Update tax province',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'tax_provinces.delete',
             'label' => 'Delete tax province',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'tax_provinces.bulkDelete',
-            'label' => 'Bulk delete tax province',
             'note' => '',
             'display' => true,
         ),
@@ -821,20 +618,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'tax_authorities.bulkUpdate',
-            'label' => 'Bulk Update tax authority',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'tax_authorities.delete',
             'label' => 'Delete tax authority',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'tax_authorities.bulkDelete',
-            'label' => 'Bulk delete tax authority',
             'note' => '',
             'display' => true,
         ),
@@ -867,20 +652,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'tax_authority_rates.bulkUpdate',
-            'label' => 'Bulk Update tax auth rate',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'tax_authority_rates.delete',
             'label' => 'Delete tax auth rate',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'tax_authority_rates.bulkDelete',
-            'label' => 'Bulk delete tax auth rate',
             'note' => '',
             'display' => true,
         ),
@@ -913,20 +686,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'chart_groups.bulkUpdate',
-            'label' => 'Bulk Update chart group',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'chart_groups.delete',
             'label' => 'Delete chart group',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'chart_groups.bulkDelete',
-            'label' => 'Bulk delete sales type',
             'note' => '',
             'display' => true,
         ),
@@ -958,20 +719,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'chart_master.bulkUpdate',
-            'label' => 'Bulk Update chart master',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'chart_master.delete',
             'label' => 'Delete chart master',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'chart_master.bulkDelete',
-            'label' => 'Bulk delete chart master',
             'note' => '',
             'display' => true,
         ),
@@ -1003,20 +752,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'sales_type.bulkUpdate',
-            'label' => 'Bulk Update sales type',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'sales_type.delete',
             'label' => 'Delete sales type',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'sales_type.bulkDelete',
-            'label' => 'Bulk delete sales type',
             'note' => '',
             'display' => true,
         ),
@@ -1049,20 +786,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'permission_groups.bulkUpdate',
-            'label' => 'Bulk update groups',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'permission_groups.delete',
             'label' => 'Delete groups',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'permission_groups.bulkDelete',
-            'label' => 'Bulk delete groups',
             'note' => '',
             'display' => true,
         ),
@@ -1095,24 +820,11 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'users.bulkUpdate',
-            'label' => 'Bulk Update Users',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'users.delete',
             'label' => 'Delete Users',
             'note' => '',
             'display' => true,
         ),
-        array(
-            'permission' => 'users.bulkDelete',
-            'label' => 'Bulk delete Users',
-            'note' => '',
-            'display' => true,
-        ),
-
     ),
 //    companies
     'Companies manager' => array(
@@ -1141,20 +853,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'companies.bulkUpdate',
-            'label' => 'Bulk update companies',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'companies.delete',
             'label' => 'Delete companies',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'companies.bulkDelete',
-            'label' => 'Bulk delete companies',
             'note' => '',
             'display' => true,
         ),
@@ -1186,20 +886,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'divisions.bulkUpdate',
-            'label' => 'Bulk update divisions',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'divisions.delete',
             'label' => 'Delete divisions',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'divisions.bulkDelete',
-            'label' => 'Bulk delete divisions',
             'note' => '',
             'display' => true,
         ),
@@ -1231,20 +919,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'departments.bulkUpdate',
-            'label' => 'Bulk update departments',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'departments.delete',
             'label' => 'Delete departments',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'departments.bulkDelete',
-            'label' => 'Bulk delete departments',
             'note' => '',
             'display' => true,
         ),
@@ -1276,20 +952,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'sections.bulkUpdate',
-            'label' => 'Bulk update sections',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'sections.delete',
             'label' => 'Delete sections',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'sections.bulkDelete',
-            'label' => 'Bulk delete sections',
             'note' => '',
             'display' => true,
         ),
@@ -1321,20 +985,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'manufacturers.bulkUpdate',
-            'label' => 'Bulk update manufacturers',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'manufacturers.delete',
             'label' => 'Delete manufacturers',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'manufacturers.bulkDelete',
-            'label' => 'Bulk delete manufacturers',
             'note' => '',
             'display' => true,
         ),
@@ -1366,20 +1018,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'companies.bulkUpdate',
-            'label' => 'Bulk update companies',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'companies.delete',
             'label' => 'Delete companies',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'companies.bulkDelete',
-            'label' => 'Bulk delete companies',
             'note' => '',
             'display' => true,
         ),
@@ -1411,20 +1051,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'locations.bulkUpdate',
-            'label' => 'Bulk update locations',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'locations.delete',
             'label' => 'Delete locations',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'locations.bulkDelete',
-            'label' => 'Bulk delete locations',
             'note' => '',
             'display' => true,
         ),
@@ -1456,20 +1084,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'action_logs.bulkUpdate',
-            'label' => 'Bulk update action logs',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'action_logs.delete',
             'label' => 'Delete action logs',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'action_logs.bulkDelete',
-            'label' => 'Bulk delete action logs',
             'note' => '',
             'display' => true,
         ),
@@ -1501,20 +1117,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'item_movements.bulkUpdate',
-            'label' => 'Bulk update item movements',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'item_movements.delete',
             'label' => 'Delete item movements',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'item_movements.bulkDelete',
-            'label' => 'Bulk delete item movements',
             'note' => '',
             'display' => true,
         ),
@@ -1546,20 +1150,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'item_transfers.bulkUpdate',
-            'label' => 'Bulk update item transfers',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'item_transfers.delete',
             'label' => 'Delete item transfers',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'item_transfers.bulkDelete',
-            'label' => 'Bulk delete item transfers',
             'note' => '',
             'display' => true,
         ),
@@ -1597,20 +1189,8 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'approval_statuses.bulkUpdate',
-            'label' => 'Bulk update approval status',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'approval_statuses.delete',
             'label' => 'Delete approval status',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'approval_statuses.bulkDelete',
-            'label' => 'Bulk delete approval status',
             'note' => '',
             'display' => true,
         ),
@@ -1641,21 +1221,10 @@ return array(
             'note' => '',
             'display' => true,
         ),
-        array(
-            'permission' => 'units.bulkUpdate',
-            'label' => 'Bulk update units',
-            'note' => '',
-            'display' => true,
-        ),
+
         array(
             'permission' => 'units.delete',
             'label' => 'Delete units',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'units.bulkDelete',
-            'label' => 'Bulk delete units',
             'note' => '',
             'display' => true,
         ),

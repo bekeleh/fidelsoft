@@ -116,7 +116,7 @@
     </ul>
     <br/>
     <div class="tab-content">
-        <?php if(true): ?>
+        <?php if(Auth::user()->isSuperUser() || Auth::user()->is_admin): ?>
             <div class="tab-pane" id="permissions">
                 <?php echo $__env->make('accounts.permission',[
                 'user' => $user,
@@ -125,8 +125,7 @@
                 ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             </div>
         <?php endif; ?>
-
-        <?php if(true): ?>
+            <?php if(Auth::user()->isSuperUser() || Auth::user()->is_admin): ?>
             <div class="tab-pane" id="groups">
                 <h4>groups</h4>
             </div>

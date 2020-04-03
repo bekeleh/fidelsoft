@@ -110,7 +110,6 @@ class UserController extends BaseController
 
     public function edit(UserRequest $request, $publicId = false, $clone = false)
     {
-        dd('edit...');
         $user = $request->entity();
         if ($clone) {
             $user->id = null;
@@ -178,13 +177,14 @@ class UserController extends BaseController
             }
             $permissions = config('permissions');
             $permissions = Utils::filterDisplayable($permissions);
-            $userPermissions = Utils::selectedPermissionsArray($permissions, Input::old('permissions', array()));
-
+            $user->permissions = $user->decodePermissions();
+            $userPermissions = Utils::selectedPermissionsArray($permissions, $user->permissions);
+            $userGroups = $user->groups;
             $data = [
                 'user' => $user,
                 'permissions' => $permissions,
                 'userPermissions' => $userPermissions,
-                'groups' => 'list of user groups ...',
+                'groups' => $userGroups,
                 'account' => $account,
                 'actionLinks' => $actionLinks,
                 'showBreadcrumbs' => false,
@@ -202,16 +202,10 @@ class UserController extends BaseController
     {
         $action = Input::get('action');
         $ids = Input::get('public_id') ? Input::get('public_id') : Input::get('ids');
-        if ($action != 'updatePermission') {
-            $count = $this->userService->bulk($ids, $action);
-            $message = Utils::pluralize($action . 'd_user', $count);
+        $count = $this->userService->bulk($ids, $action);
+        $message = Utils::pluralize($action . 'd_user', $count);
 
-            return $this->returnBulk(ENTITY_USER, $action, $ids)->with('message', $message);
-        } else {
-            $permissionArray = json_encode(Input::get('permission'));
-
-            $this->updatePermission($permissionArray, $action, $ids);
-        }
+        return $this->returnBulk(ENTITY_USER, $action, $ids)->with('message', $message);
     }
 
     public function sendConfirmation($userPublicId)
@@ -287,16 +281,15 @@ class UserController extends BaseController
 
     public function changePermission()
     {
-        $permissionArray = json_encode(Input::get('permission'));
+        $permissionArray = Input::get('permission');
         $userPublicId = Input::get('public_id');
         $user = User::where('account_id', '=', Auth::user()->account_id)
             ->where('public_id', '=', $userPublicId)->firstOrFail();
         if ($user) {
             $user->permissions = $permissionArray;
             $user->save();
+
             return RESULT_SUCCESS;
-        } else {
-            return RESULT_FAILURE;
         }
     }
 

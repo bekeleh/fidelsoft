@@ -105,7 +105,7 @@
     </ul>
     <br/>
     <div class="tab-content">
-        @if (true)
+        @if (Auth::user()->isSuperUser() || Auth::user()->is_admin)
             <div class="tab-pane" id="permissions">
                 @include('accounts.permission',[
                 'user' => $user,
@@ -114,8 +114,7 @@
                 ])
             </div>
         @endif
-
-        @if (true)
+            @if (Auth::user()->isSuperUser() || Auth::user()->is_admin)
             <div class="tab-pane" id="groups">
                 <h4>groups</h4>
             </div>

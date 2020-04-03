@@ -177,8 +177,8 @@ class Account extends Eloquent
         ACCOUNT_PRODUCTS,
         ACCOUNT_NOTIFICATIONS,
         ACCOUNT_IMPORT_EXPORT,
-//        ACCOUNT_MANAGEMENT,
-//        ACCOUNT_USER_DETAILS,
+        ACCOUNT_MANAGEMENT,
+        ACCOUNT_USER_DETAILS,
     ];
 
 
@@ -192,7 +192,7 @@ class Account extends Eloquent
         ACCOUNT_REPORTS,
         ACCOUNT_DATA_VISUALIZATIONS,
         ACCOUNT_API_TOKENS,
-//        ACCOUNT_USER_MANAGEMENT,
+        ACCOUNT_USER_MANAGEMENT,
     ];
 
     public static $modules = [

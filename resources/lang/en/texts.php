@@ -4,10 +4,10 @@ $LANG = array(
 
 
     /*
-    |--------------------------------------------------------------------------
-    | Client  trans
-    |--------------------------------------------------------------------------
-    */
+|--------------------------------------------------------------------------
+| Client  trans
+|--------------------------------------------------------------------------
+*/
 
     'client_name' => 'Client Name',
     'client' => 'Client',
@@ -28,10 +28,10 @@ $LANG = array(
     'archived_client' => 'Successfully Archived Client',
     'client_settings' => 'Client Settings',
     /*
-     |--------------------------------------------------------------------------
-     | User  trans
-     |--------------------------------------------------------------------------
-     */
+|--------------------------------------------------------------------------
+| User  trans
+|--------------------------------------------------------------------------
+*/
     'full_name' => 'Full Name',
     'first_name' => 'Full Name',
     'last_name' => 'Last Name',
@@ -51,16 +51,16 @@ $LANG = array(
     'restore_user' => 'Restore User',
     'restored_user' => 'Restored User',
     'updated_user' => 'Successfully Updated User',
-    'updated_user_permission' => 'Successfully Updated User Permission',
     'created_user' => 'Successfully Created User',
     'archived_user' => 'Successfully Archived User',
     'user_settings' => 'User Settings',
     'confirmed' => 'Confirmed',
+    'updated_user_permission' => 'Successfully Updated User Permission',
     /*
-    |--------------------------------------------------------------------------
-    | User groups  trans
-    |--------------------------------------------------------------------------
-    */
+|--------------------------------------------------------------------------
+| User groups  trans
+|--------------------------------------------------------------------------
+*/
     'group_name' => 'Group Name',
     'groups' => 'Group List',
     'new_group' => 'New Group',
@@ -78,10 +78,10 @@ $LANG = array(
     'archived_group' => 'Successfully Archived Group',
     'group_settings' => 'Group Settings',
     /*
-    |--------------------------------------------------------------------------
-    | User groups  trans
-    |--------------------------------------------------------------------------
-    */
+|--------------------------------------------------------------------------
+| User groups  trans
+|--------------------------------------------------------------------------
+*/
     'permission_name' => 'Permission Name',
     'permission' => 'permission',
     'permissions' => 'Permission List',
@@ -100,10 +100,10 @@ $LANG = array(
     'archived_permission' => 'Successfully Archived Permission',
     'permission_settings' => 'Permission Settings',
     /*
-    |--------------------------------------------------------------------------
-    | sales type trans
-    |--------------------------------------------------------------------------
-    */
+|--------------------------------------------------------------------------
+| sales type trans
+|--------------------------------------------------------------------------
+*/
     'sale_type_name' => 'Sale Type Name',
     'sale_types' => 'Sales Type',
     'sale_type' => 'Sales Type',
@@ -123,10 +123,10 @@ $LANG = array(
     'sale_type_settings' => 'Sale Type Settings',
     'select_sale_type' => 'Select Sale Type',
     /*
-    |--------------------------------------------------------------------------
-    | tax rate trans
-    |--------------------------------------------------------------------------
-    */
+|--------------------------------------------------------------------------
+| tax rate trans
+|--------------------------------------------------------------------------
+*/
     'tax_rate_name' => 'Sale Type Name',
     'tax_rates' => 'Tax Rate',
     'tax_rate' => 'Tax Rate',
@@ -146,10 +146,10 @@ $LANG = array(
     'default_tax_rate_id' => 'Default Tax Rate',
     'tax_rate_settings' => 'Tax Rate Settings',
     /*
-    |--------------------------------------------------------------------------
-    | store trans
-    |--------------------------------------------------------------------------
-    */
+|--------------------------------------------------------------------------
+| store trans
+|--------------------------------------------------------------------------
+*/
     'store.edit' => 'Edit Store',
     'new_store' => 'New Store',
     'list_stores' => 'List Stores',
@@ -170,10 +170,10 @@ $LANG = array(
     'store_settings' => 'Store Settings',
     'select_location' => 'Select Location',
     /*
-    |--------------------------------------------------------------------------
-    | hold reason trans
-    |--------------------------------------------------------------------------
-    */
+|--------------------------------------------------------------------------
+| hold reason trans
+|--------------------------------------------------------------------------
+*/
     'reason' => 'Hold Reason',
     'hold_reason.edit' => 'Edit Hold Reason',
     'new_hold_reason' => 'New Hold Reason',
@@ -196,10 +196,10 @@ $LANG = array(
     'hold_reason_settings' => 'Hold Reason Settings',
     'select_hold_reason' => 'Select Hold Reason',
     /*
-    |--------------------------------------------------------------------------
-    | location trans
-    |--------------------------------------------------------------------------
-    */
+|--------------------------------------------------------------------------
+| location trans
+|--------------------------------------------------------------------------
+*/
     'locations' => 'Locations',
     'location_name' => 'Location Name',
     'location_code' => 'Location Code',
@@ -218,10 +218,10 @@ $LANG = array(
     'archived_location' => 'Successfully Archived Location',
     'location_settings' => 'Location Settings',
     /*
-    |--------------------------------------------------------------------------
-    | item category trans
-    |--------------------------------------------------------------------------
-    */
+|--------------------------------------------------------------------------
+| item category trans
+|--------------------------------------------------------------------------
+*/
     'category' => 'Category',
     'item_category' => 'Item Category',
     'item_categories' => 'Item Categories',
@@ -242,10 +242,10 @@ $LANG = array(
     'item_category_settings' => 'Item Category Settings',
     'select_item_category' => 'Select Item Category',
     /*
-    |--------------------------------------------------------------------------
-    | item unit trans
-    |--------------------------------------------------------------------------
-    */
+|--------------------------------------------------------------------------
+| item unit trans
+|--------------------------------------------------------------------------
+*/
     'unit' => 'Unit',
     'unit_name' => 'Unit of measure',
     'units' => 'Unit of measure',
@@ -265,10 +265,10 @@ $LANG = array(
     'unit_settings' => 'Unit Settings',
     'select_item_unit' => 'Select Item Unit',
     /*
-    |--------------------------------------------------------------------------
-    | item price trans
-    |--------------------------------------------------------------------------
-    */
+|--------------------------------------------------------------------------
+| item price trans
+|--------------------------------------------------------------------------
+*/
     'item_price' => 'Item Price',
     'item_prices' => 'Item Prices',
     'product_price' => 'Item Price',
@@ -288,10 +288,10 @@ $LANG = array(
     'item_price_settings' => 'Price Settings',
     'item_price_unique' => 'This item prices already had been taken.',
     /*
-    |--------------------------------------------------------------------------
-    | item category trans
-    |--------------------------------------------------------------------------
-    */
+|--------------------------------------------------------------------------
+| item category trans
+|--------------------------------------------------------------------------
+*/
     'movement' => 'Movement',
     'item_movements' => 'Inventory Movement',
     'item_movement' => 'Item Movement',
@@ -311,10 +311,10 @@ $LANG = array(
     'archived_item_movement' => 'Successfully Archived Item Movement',
     'item_movement_settings' => 'Item Movement Settings',
     /*
-    |--------------------------------------------------------------------------
-    | item store trans
-    |--------------------------------------------------------------------------
-    */
+|--------------------------------------------------------------------------
+| item store trans
+|--------------------------------------------------------------------------
+*/
     'item_stores' => 'Inventory Adjustment',
     'bin' => 'Bin Location',
     'reorder_level' => 'Reorder Level',
@@ -340,18 +340,18 @@ $LANG = array(
     'select_item_store' => 'Select Item Store',
     'select_item' => 'Select Item',
     /*
-    |--------------------------------------------------------------------------
-    | inventory trans
-    |--------------------------------------------------------------------------
-    */
+|--------------------------------------------------------------------------
+| inventory trans
+|--------------------------------------------------------------------------
+*/
     'product' => 'Product',
     'products' => 'Inventory',
 
     /*
-    |--------------------------------------------------------------------------
-    | Miscellaneous trans
-    |--------------------------------------------------------------------------
-    */
+|--------------------------------------------------------------------------
+| Miscellaneous trans
+|--------------------------------------------------------------------------
+*/
     'organization' => 'Organization',
     'name' => 'Name',
     'code' => 'Code',
@@ -3440,7 +3440,15 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'authenticate' => 'Authenticate',
     'please_authenticate' => 'Please authenticate',
     'biometric_authentication' => 'Biometric Authentication',
-
+    'deletefile' => array(
+        'error' => 'File not deleted. Please try again.',
+        'success' => 'File successfully deleted.',
+    ),
+    'upload' => array(
+        'error' => 'File(s) not uploaded. Please try again.',
+        'success' => 'File(s) successfully uploaded.',
+        'no_files' => 'You did not select any files for upload',
+        'invalid_files' => 'One or more of your files is too large or is a file type that is not allowed. Allowed file types are png, gif, jpg, doc, docx, pdf, and txt.',
+    ),
 );
-
 return $LANG;

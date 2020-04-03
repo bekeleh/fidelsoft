@@ -87,7 +87,7 @@
                                     data-toggle="tooltip"
                                     data-placement="right"
                                     title="{{ $localPermission['note'] }}">
-                                    <h3 style="color: #25a186;">{{ $area . ': ' . $localPermission['label'] }}</h3>
+                                    <strong style="color: #25a186;">{{ $area . ': ' . $localPermission['label'] }}</strong>
                                 </td>
                                 <!-- permission column -->
                                 <td class="col-md-1 permissions-item">
@@ -175,6 +175,13 @@
                     {{ trans('texts.save') }}
                     <i class="glyphicon glyphicon-floppy-disk"></i>
                 </button>
+                <br/>
+                <br/>
+                <div class="alert alert-success" role="alert"
+                     style="padding-right:20px;padding-left:20px; display:none"
+                     id="successDiv">
+                    <strong>{{ trans('texts.success') }}</strong> {{ trans('texts.updated_user_permission') }}
+                </div>
             </center>
         </div>
     </div>
@@ -188,7 +195,6 @@
             // radioClass: 'iradio_flat-orange',
             increaseArea: '5%',
         });
-
         // Check/Uncheck all radio buttons in the group
         $('tr.header-row input:radio').on('ifChanged', function () {
             value = $(this).attr('value');
@@ -215,35 +221,35 @@
         var public_id ={{$user->public_id}};
         var isChecked = $('td.permissions-item input:radio:checked').iCheck('check');
         var permissionArray = getPermission(isChecked);
-        // console.log(permissionArray);
         $.ajax({
             type: 'POST',
             url: '{{ URL::to('/users/change_permission') }}',
-            data: 'permission=' + encodeURIComponent(permissionArray) + '&public_id=' + public_id,
-            success:
-                function (result) {
-                    if (result == 'success') {
-                        console.log('success');
-                    } else {
-                        console.log('Something went wrong.');
-                    }
+            data: 'permission=' + permissionArray + '&public_id=' + public_id,
+            success: function (result) {
+                if (result == 'success') {
+                    $('#successDiv').show();
                 }
+            }
         });
     }
 
     function getPermission(isChecked) {
-        var map = new Map();
-        var obj = [];
+        var columns = [];
+        var rows = [];
         for (var i = 0; i < isChecked.length; i++) {
             str = isChecked[i].name;
-            obj[i] = str.slice(11, str.length - 1);
-            map.set(obj[i], isChecked[i].value)
+            columns[i] = str.slice(11, str.length - 1);
+            rows[i] = isChecked[i].value;
         }
-        var result = mapToJson(map);
-        return result;
+        return mapToJson(columns, rows);
     }
 
-    function mapToJson(map) {
-        return JSON.stringify([...map]);
+    function mapToJson(columns, rows) {
+        var result = rows.reduce(function (result, field, index) {
+            result[columns[index]] = field;
+            return result;
+        }, {})
+
+        return JSON.stringify(result);
     }
 </script>
