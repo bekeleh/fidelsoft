@@ -159,7 +159,7 @@ return array(
         ),
     ),
 // Clients
-    'Client contact manager' => array(
+    'Client manager' => array(
         array(
             'permission' => 'clients.view',
             'label' => 'View Client',
@@ -191,34 +191,34 @@ return array(
             'display' => true,
         ),
     ),
-// Clients
+// Clients contact
     'Client Contact manager' => array(
         array(
-            'permission' => 'contacts.view',
+            'permission' => 'client_contacts.view',
             'label' => 'View Client Contact',
             'note' => '',
             'display' => true,
         ),
         array(
-            'permission' => 'contacts.create',
+            'permission' => 'client_contacts.create',
             'label' => 'Create Client Contact',
             'note' => '',
             'display' => true,
         ),
         array(
-            'permission' => 'contacts.edit',
+            'permission' => 'client_contacts.edit',
             'label' => 'Edit Client Contact',
             'note' => '',
             'display' => true,
         ),
         array(
-            'permission' => 'contacts.update',
+            'permission' => 'client_contacts.update',
             'label' => 'Update Client Contact',
             'note' => '',
             'display' => true,
         ),
         array(
-            'permission' => 'contacts.delete',
+            'permission' => 'client_contacts.delete',
             'label' => 'Delete Client Contact',
             'note' => '',
             'display' => true,

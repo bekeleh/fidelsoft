@@ -129,6 +129,7 @@ class Utils
 
     public static function selectedPermissionsArray($permissions, $selected_arr = array())
     {
+        $collection = '';
         $permissions_arr = array();
 
         foreach ($permissions as $permission) {
@@ -150,6 +151,8 @@ class Utils
                 }
             }
         }
+
+//        return collect($permissions_arr)->sortBy('permission')->toArray();
         return $permissions_arr;
     }
 

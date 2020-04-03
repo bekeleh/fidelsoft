@@ -594,6 +594,7 @@ $LANG = array(
     'notification_invoice_sent' => 'The following client :client was emailed Invoice :invoice for :amount.',
     'notification_invoice_viewed' => 'The following client :client viewed Invoice :invoice for :amount.',
     'reset_password' => 'You can reset your account password by clicking the following button:',
+    'reset_pwd' => 'Reset Password',
     'secure_payment' => 'Secure Payment',
     'card_number' => 'Card Number',
     'expiration_month' => 'Expiration Month',

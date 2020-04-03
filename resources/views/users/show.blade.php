@@ -114,12 +114,11 @@
                 ])
             </div>
         @endif
-            @if (Auth::user()->isSuperUser() || Auth::user()->is_admin)
+        @if (Auth::user()->isSuperUser() || Auth::user()->is_admin)
             <div class="tab-pane" id="groups">
                 <h4>groups</h4>
             </div>
         @endif
-
     </div>
     <div class="modal fade" id="emailHistoryModal" tabindex="-1" role="dialog"
          aria-labelledby="emailHistoryModalLabel"
