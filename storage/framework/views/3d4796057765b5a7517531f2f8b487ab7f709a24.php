@@ -4,10 +4,11 @@
         <style type="text/css">
             .nav-footer {
                 <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?>
-                                                                                                                          background-color: #50C878 !important;
+                                                                                                                              background-color: #50C878 !important;
                 <?php else: ?>
-                                                                                                                              background-color: #FD6A02 !important;
+                                                                                                                                  background-color: #FD6A02 !important;
             <?php endif; ?>
+
 
 
 
@@ -335,10 +336,8 @@
                             ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                         <?php endif; ?>
                         <li class="divider"></li>
-                        <?php if(Utils::isAdmin() && Auth::user()->confirmed && Utils::getResllerType() != RESELLER_ACCOUNT_COUNT): ?>
-                            <?php if(!session(SESSION_USER_ACCOUNTS) || count(session(SESSION_USER_ACCOUNTS)) < 5): ?>
-                                <li><?php echo link_to('#', trans('texts.add_company'), ['onclick' => 'showSignUp()']); ?></li>
-                            <?php endif; ?>
+                        <?php if(Auth::user()->isSuperUser()): ?>
+                            <li><?php echo link_to('#', trans('texts.add_company'), ['onclick' => 'showSignUp()']); ?></li>
                         <?php endif; ?>
                         <li><?php echo link_to('#', trans('texts.logout'), array('onclick'=>'logout()')); ?></li>
                     </ul>

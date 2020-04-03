@@ -6,10 +6,11 @@
         <style type="text/css">
             .nav-footer {
                 @if (config('mail.driver') == 'log' && ! config('services.postmark'))
-                                                                                                                          background-color: #50C878 !important;
+                                                                                                                              background-color: #50C878 !important;
                 @else
-                                                                                                                              background-color: #FD6A02 !important;
+                                                                                                                                  background-color: #FD6A02 !important;
             @endif
+
 
 
 
@@ -331,10 +332,8 @@
                             ])
                         @endif
                         <li class="divider"></li>
-                        @if (Utils::isAdmin() && Auth::user()->confirmed && Utils::getResllerType() != RESELLER_ACCOUNT_COUNT)
-                            @if (!session(SESSION_USER_ACCOUNTS) || count(session(SESSION_USER_ACCOUNTS)) < 5)
-                                <li>{!! link_to('#', trans('texts.add_company'), ['onclick' => 'showSignUp()']) !!}</li>
-                            @endif
+                        @if (Auth::user()->isSuperUser())
+                            <li>{!! link_to('#', trans('texts.add_company'), ['onclick' => 'showSignUp()']) !!}</li>
                         @endif
                         <li>{!! link_to('#', trans('texts.logout'), array('onclick'=>'logout()')) !!}</li>
                     </ul>

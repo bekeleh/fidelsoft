@@ -28,11 +28,7 @@ class InvoiceRepository extends BaseRepository
     private $paymentService;
     private $paymentRepo;
 
-    public function __construct(
-        Invoice $model,
-        PaymentService $paymentService,
-        DocumentRepository $documentRepo,
-        PaymentRepository $paymentRepo)
+    public function __construct(Invoice $model, PaymentService $paymentService, DocumentRepository $documentRepo, PaymentRepository $paymentRepo)
     {
         $this->model = $model;
         $this->documentRepo = $documentRepo;
@@ -774,7 +770,7 @@ class InvoiceRepository extends BaseRepository
                         if ($product && (Auth::user()->can('edit', $product))) {
                             $product->notes = ($task || $expense) ? '' : $item['notes'];
                             if (!$account->convert_products) {
-                                $product->cost = $expense ? 0 : Utils::parseFloat($item['cost']);
+                                $product->item_cost = $expense ? 0 : Utils::parseFloat($item['cost']);
                             }
                             $product->tax_name1 = isset($item['tax_name1']) ? $item['tax_name1'] : null;
                             $product->tax_rate1 = isset($item['tax_rate1']) ? $item['tax_rate1'] : 0;
