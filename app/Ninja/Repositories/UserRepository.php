@@ -112,22 +112,23 @@ class UserRepository extends BaseRepository
             \Log::warning('Entity not set in user repo save');
         } else {
             $user = User::createNew();
-            $lastUser = User::withTrashed()->where('account_id', '=', Auth::user()->account_id)
+            $lastUser = User::withTrashed()
+                ->where('account_id', '=', Auth::user()->account_id)
                 ->orderBy('public_id', 'DESC')->first();
 
             $user->public_id = $lastUser->public_id + 1;
+            $user->password = strtolower(str_random(RANDOM_KEY_LENGTH));
+            $user->confirmation_code = strtolower(str_random(RANDOM_KEY_LENGTH));
+            $user->registered = true;
             $user->created_by = auth::user()->username;
         }
-        $user->fill($data);
 
+        $user->fill($data);
         $user->account_id = Auth::user()->account_id;
         $user->first_name = isset($data['first_name']) ? ucfirst(trim($data['first_name'])) : '';
         $user->last_name = isset($data['last_name']) ? ucfirst(trim($data['last_name'])) : '';
         $user->username = isset($data['username']) ? trim($data['username']) : '';
         $user->email = isset($data['email']) ? trim($data['email']) : '';
-        $user->registered = true;
-        $user->password = strtolower(str_random(RANDOM_KEY_LENGTH));
-        $user->confirmation_code = strtolower(str_random(RANDOM_KEY_LENGTH));
 
         if (Auth::user()->hasFeature(FEATURE_USER_PERMISSIONS)) {
             $user->is_admin = isset($data['permissions']) ? boolval($data['is_admin']) : 0;
@@ -136,6 +137,11 @@ class UserRepository extends BaseRepository
 
         $user->save();
 
+        if (!empty($data['groups'])) {
+            $user->groups()->sync($data['groups']);
+        } else {
+            $user->groups()->sync(array());
+        }
         if ($publicId) {
             event(new UserWasUpdated($user, $data));
         } else {

@@ -85,6 +85,7 @@ class UserController extends BaseController
         $data = [
             'locationPublicId' => Input::old('location') ? Input::old('location') : $request->location_id,
             'user' => null,
+            'userGroups' => null,
             'method' => 'POST',
             'url' => 'users',
             'title' => trans('texts.new_user'),
@@ -121,9 +122,11 @@ class UserController extends BaseController
             $method = 'PUT';
             $url = 'users/' . $user->public_id;
         }
+        $userGroups = $user->groups;
         $data = [
             'location' => null,
             'user' => $user,
+            'userGroups' => $userGroups,
             'entity' => $user,
             'method' => $method,
             'url' => $url,
@@ -389,9 +392,12 @@ class UserController extends BaseController
     private static function getViewModel($user = false)
     {
         return [
+
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
             'locations' => Location::scope()->withActiveOrSelected($user ? $user->location_id : false)->orderBy('name')->get(),
+            'groups' => Group::pluck('name', 'id'),
         ];
     }
+
 }
