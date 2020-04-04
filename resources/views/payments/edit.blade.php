@@ -23,6 +23,7 @@
     'client' => 'required',
     'invoice' => 'required',
     'amount' => 'required',
+    'payment_type_id' => 'required',
     )) !!}
     @if ($payment)
         {!! Former::populate($payment) !!}
@@ -228,25 +229,28 @@
             var invoice = invoiceMap[invoiceId];
             var amount = $('#amount').val();
 
-            if (NINJA.parseFloat(amount) <= invoice.balance || confirm("{{ trans('texts.amount_greater_than_balance') }}")) {
-                $('#saveButton').attr('disabled', true);
-                submitAjax();
-                return false;
-            } else {
-                return false;
-            }
+            {{--if (NINJA.parseFloat(amount) < invoice.balance || confirm("{{ trans('texts.amount_greater_than_balance') }}")) {--}}
+            {{--    $('#saveButton').attr('disabled', true);--}}
+            {{--    submitAjax();--}}
+            {{--    return false;--}}
+            {{--} else {--}}
+            {{--    return false;--}}
+            {{--}--}}
+
             @endif
         }
 
         function submitAjax() {
-            $.post('{{ url($url) }}', $('.main-form').serialize(), function (data) {
-                if (data && data.toLowerCase().indexOf('http') === 0) {
-                    NINJA.formIsChanged = false;
-                    location.href = data;
-                } else {
-                    handleSaveFailed();
-                }
-            }).fail(function (data) {
+            $.post('{{ url($url) }}',
+                $('.main-form').serialize(),
+                function (data) {
+                    if (data && data.toLowerCase().indexOf('http') === 0) {
+                        NINJA.formIsChanged = false;
+                        location.href = data;
+                    } else {
+                        handleSaveFailed();
+                    }
+                }).fail(function (data) {
                 handleSaveFailed(data);
             });
         }
@@ -454,7 +458,6 @@
                 $clientSelect.trigger('change');
             }
         }
-
 
     </script>
 

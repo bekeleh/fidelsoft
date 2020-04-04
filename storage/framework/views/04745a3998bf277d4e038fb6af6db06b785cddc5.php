@@ -21,6 +21,7 @@
     'client' => 'required',
     'invoice' => 'required',
     'amount' => 'required',
+    'payment_type_id' => 'required',
     )); ?>
 
     <?php if($payment): ?>
@@ -251,25 +252,28 @@
             var invoice = invoiceMap[invoiceId];
             var amount = $('#amount').val();
 
-            if (NINJA.parseFloat(amount) <= invoice.balance || confirm("<?php echo e(trans('texts.amount_greater_than_balance')); ?>")) {
-                $('#saveButton').attr('disabled', true);
-                submitAjax();
-                return false;
-            } else {
-                return false;
-            }
+            
+            
+            
+            
+            
+            
+            
+
             <?php endif; ?>
         }
 
         function submitAjax() {
-            $.post('<?php echo e(url($url)); ?>', $('.main-form').serialize(), function (data) {
-                if (data && data.toLowerCase().indexOf('http') === 0) {
-                    NINJA.formIsChanged = false;
-                    location.href = data;
-                } else {
-                    handleSaveFailed();
-                }
-            }).fail(function (data) {
+            $.post('<?php echo e(url($url)); ?>',
+                $('.main-form').serialize(),
+                function (data) {
+                    if (data && data.toLowerCase().indexOf('http') === 0) {
+                        NINJA.formIsChanged = false;
+                        location.href = data;
+                    } else {
+                        handleSaveFailed();
+                    }
+                }).fail(function (data) {
                 handleSaveFailed(data);
             });
         }
@@ -477,7 +481,6 @@
                 $clientSelect.trigger('change');
             }
         }
-
 
     </script>
 

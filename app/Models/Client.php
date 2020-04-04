@@ -115,6 +115,10 @@ class Client extends EntityModel
         ];
     }
 
+    public function getRoute()
+    {
+        return "/clients/{$this->public_id}";
+    }
 
     public function account()
     {
@@ -278,13 +282,6 @@ class Client extends EntityModel
 
         $this->save();
     }
-
-
-    public function getRoute()
-    {
-        return "/clients/{$this->public_id}";
-    }
-
 
     public function getTotalCredit()
     {

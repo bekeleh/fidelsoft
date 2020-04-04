@@ -20,7 +20,6 @@ class CreatePaymentRequest extends PaymentRequest
             ->withArchived()
             ->invoices()
             ->firstOrFail();
-
         $this->merge([
             'invoice_id' => $invoice->id,
             'client_id' => $invoice->client->id,

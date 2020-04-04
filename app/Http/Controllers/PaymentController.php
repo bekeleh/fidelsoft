@@ -150,7 +150,6 @@ class PaymentController extends BaseController
 
     public function store(CreatePaymentRequest $request)
     {
-        dd($request);
         // check payment has been marked sent
         $request->invoice->markSentIfUnsent();
         $input = $request->input();
@@ -165,12 +164,14 @@ class PaymentController extends BaseController
 
         if (Input::get('email_receipt')) {
             $this->contactMailer->sendPaymentConfirmation($payment);
-            Session::flash('message', trans($credit ? 'texts.created_payment_and_credit_emailed_client' : 'texts.created_payment_emailed_client'));
+            $message = trans($credit ? 'texts.created_payment_and_credit_emailed_client' : 'texts.created_payment_emailed_client');
+//            Session::flash('message', trans($credit ? 'texts.created_payment_and_credit_emailed_client' : 'texts.created_payment_emailed_client'));
         } else {
-            Session::flash('message', trans($credit ? 'texts.created_payment_and_credit' : 'texts.created_payment'));
+            $message = trans($credit ? 'texts.created_payment_and_credit' : 'texts.created_payment');
+//            Session::flash('message', trans($credit ? 'texts.created_payment_and_credit' : 'texts.created_payment'));
         }
 
-        return url($payment->client->getRoute());
+        return url($payment->client->getRoute())->with('message', $message);
     }
 
 
