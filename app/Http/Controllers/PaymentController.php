@@ -103,6 +103,8 @@ class PaymentController extends BaseController
 
     public function edit(PaymentRequest $request)
     {
+        $payment = Cache::get('paymentTypes');
+        dd($payment);
         $payment = $request->entity();
         $payment->payment_date = Utils::fromSqlDate($payment->payment_date);
 

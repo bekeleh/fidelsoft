@@ -6,6 +6,8 @@ use App\Models\Invoice;
 
 class CreatePaymentRequest extends PaymentRequest
 {
+    protected $entityType = ENTITY_PAYMENT;
+
     public function authorize()
     {
         return true;
