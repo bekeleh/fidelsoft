@@ -1770,6 +1770,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'payment_type_SEPA' => 'SEPA Direct Debit',
     'payment_type_Bitcoin' => 'Bitcoin',
     'payment_type_GoCardless' => 'GoCardless',
+    'select_payment_type' => 'Select Payment Type',
 
 // Industries
     'industry_Accounting & Legal' => 'Accounting & Legal',

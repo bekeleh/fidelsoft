@@ -69,7 +69,7 @@
 
                     <?php if(!$payment || !$payment->account_gateway_id): ?>
                         <?php echo Former::select('payment_type_id')
-                        ->addOption('','')
+                        ->placeholder('payment_type_id', trans('select_payment_type'))
                         ->fromQuery($paymentTypes, 'name', 'id')
                         ->addGroupClass('payment-type-select'); ?>
 
