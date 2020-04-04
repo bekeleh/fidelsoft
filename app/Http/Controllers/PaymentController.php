@@ -171,7 +171,8 @@ class PaymentController extends BaseController
 //            Session::flash('message', trans($credit ? 'texts.created_payment_and_credit' : 'texts.created_payment'));
         }
 
-        return url($payment->client->getRoute())->with('message', $message);
+        $url = url($payment->client->getRoute());
+        return redirect()->to($url)->with('message', $message);
     }
 
 
@@ -183,9 +184,9 @@ class PaymentController extends BaseController
 
         $payment = $this->paymentRepo->save($request->input(), $request->entity());
 
-        Session::flash('message', trans('texts.updated_payment'));
+//        Session::flash('message', trans('texts.updated_payment'));
 
-        return redirect()->to($payment->getRoute());
+        return redirect()->to($payment->getRoute())->with('message', trans('texts.updated_payment'));
     }
 
     public function bulk()
