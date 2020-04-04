@@ -396,7 +396,7 @@ class UserController extends BaseController
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
             'locations' => Location::scope()->withActiveOrSelected($user ? $user->location_id : false)->orderBy('name')->get(),
-            'groups' => Group::pluck('name', 'id'),
+            'groups' => Group::where('name', '!=', 'superuser')->pluck('name', 'id'),
         ];
     }
 
