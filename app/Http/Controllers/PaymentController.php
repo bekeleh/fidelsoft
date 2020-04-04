@@ -14,8 +14,6 @@ use App\Ninja\Mailers\ContactMailer;
 use App\Ninja\Repositories\PaymentRepository;
 use App\Services\PaymentService;
 use DropdownButton;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Input;
@@ -44,9 +42,6 @@ class PaymentController extends BaseController
         $this->paymentService = $paymentService;
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
     public function index()
     {
         return View::make('list_wrapper', [
@@ -56,21 +51,11 @@ class PaymentController extends BaseController
         ]);
     }
 
-    /**
-     * @param null $clientPublicId
-     *
-     * @return JsonResponse
-     */
     public function getDatatable($clientPublicId = null)
     {
         return $this->paymentService->getDatatable($clientPublicId, Input::get('sSearch'));
     }
 
-    /**
-     * @param PaymentRequest $request
-     *
-     * @return \Illuminate\Contracts\View\View
-     */
     public function create(PaymentRequest $request)
     {
         $user = auth()->user();
@@ -109,11 +94,6 @@ class PaymentController extends BaseController
         return View::make('payments.edit', $data);
     }
 
-    /**
-     * @param $publicId
-     *
-     * @return RedirectResponse
-     */
     public function show($publicId)
     {
         Session::reflash();
@@ -121,11 +101,6 @@ class PaymentController extends BaseController
         return redirect()->to("payments/{$publicId}/edit");
     }
 
-    /**
-     * @param PaymentRequest $request
-     *
-     * @return \Illuminate\Contracts\View\View
-     */
     public function edit(PaymentRequest $request)
     {
         $payment = $request->entity();
@@ -173,13 +148,9 @@ class PaymentController extends BaseController
         return View::make('payments.edit', $data);
     }
 
-    /**
-     * @param CreatePaymentRequest $request
-     *
-     * @return RedirectResponse
-     */
     public function store(CreatePaymentRequest $request)
     {
+        dd($request);
         // check payment has been marked sent
         $request->invoice->markSentIfUnsent();
         $input = $request->input();
@@ -202,11 +173,7 @@ class PaymentController extends BaseController
         return url($payment->client->getRoute());
     }
 
-    /**
-     * @param UpdatePaymentRequest $request
-     *
-     * @return RedirectResponse
-     */
+
     public function update(UpdatePaymentRequest $request)
     {
         if (in_array($request->action, ['archive', 'delete', 'restore', 'refund', 'email'])) {
@@ -220,9 +187,6 @@ class PaymentController extends BaseController
         return redirect()->to($payment->getRoute());
     }
 
-    /**
-     * @return mixed
-     */
     public function bulk()
     {
         $action = Input::get('action');
