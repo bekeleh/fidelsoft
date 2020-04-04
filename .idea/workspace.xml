@@ -2,11 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/mZUtZYv7mZqowcrkHOucKcrvWNAJXuydpPQZBQlQ" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/71975be653acc81a8461f17ae9f5fa3ddddeee10.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PaymentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PaymentController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/payments/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/payments/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/UserDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/UserDatatable.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/sessions/ZssanB9eY0swwbvNr4NmqNaoyGKTztJbK8WBttLK" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/ZssanB9eY0swwbvNr4NmqNaoyGKTztJbK8WBttLK" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/04745a3998bf277d4e038fb6af6db06b785cddc5.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/04745a3998bf277d4e038fb6af6db06b785cddc5.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/ptSEbRIfbFgHjMZQjRDE8U1cs3pKyPbR8Lhsbebu" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +36,7 @@
     <select />
   </component>
   <component name="Git.Settings">
+    <option name="PUSH_AUTO_UPDATE" value="true" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IgnoredFileRootStore">
@@ -350,14 +353,7 @@
       <workItem from="1585741462215" duration="25356000" />
       <workItem from="1585835000341" duration="29401000" />
       <workItem from="1585899562112" duration="28913000" />
-      <workItem from="1586013440737" duration="11645000" />
-    </task>
-    <task id="LOCAL-00069" summary="2020-03-24 11:58">
-      <created>1585064947821</created>
-      <option name="number" value="00069" />
-      <option name="presentableId" value="LOCAL-00069" />
-      <option name="project" value="LOCAL" />
-      <updated>1585064947821</updated>
+      <workItem from="1586013440737" duration="14161000" />
     </task>
     <task id="LOCAL-00070" summary="2020-03-24 12:00">
       <created>1585083640601</created>
@@ -695,7 +691,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586030453488</updated>
     </task>
-    <option name="localTasksCounter" value="118" />
+    <task id="LOCAL-00118" summary="2020-04-4 10:35">
+      <created>1586031793500</created>
+      <option name="number" value="00118" />
+      <option name="presentableId" value="LOCAL-00118" />
+      <option name="project" value="LOCAL" />
+      <updated>1586031793500</updated>
+    </task>
+    <option name="localTasksCounter" value="119" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -758,10 +761,10 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="622" y="0" key="#com.jetbrains.php.refactoring.extractMethod.PhpExtractMethodDialog#method1/0.0.1440.860@0.0.1440.860" timestamp="1584443627388" />
-    <state x="331" y="0" key="CommitChangelistDialog2" timestamp="1586030451269">
+    <state x="331" y="0" key="CommitChangelistDialog2" timestamp="1586034645787">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586030451269" />
+    <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586034645787" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1585322352927" />
     <state x="500" y="177" key="FileChooserDialogImpl" timestamp="1584881689405">
       <screen x="0" y="0" width="1440" height="860" />
@@ -787,10 +790,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="129" y="60" key="MergeDialog/0.0.1366.728@0.0.1366.728" timestamp="1585086914973" />
-    <state x="395" y="80" key="MultipleFileMergeDialog" timestamp="1585086927878">
+    <state x="395" y="80" key="MultipleFileMergeDialog" timestamp="1586031888586">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="395" y="80" key="MultipleFileMergeDialog/0.0.1366.728@0.0.1366.728" timestamp="1585086927878" />
+    <state x="395" y="80" key="MultipleFileMergeDialog/0.0.1366.728@0.0.1366.728" timestamp="1586031888586" />
     <state x="527" y="245" key="NewPhpClassDialog" timestamp="1585293911127">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
@@ -805,10 +808,10 @@
     </state>
     <state x="210" y="14" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1585946296100" />
     <state x="221" y="73" key="SettingsEditor/0.0.1440.860@0.0.1440.860" timestamp="1584008816522" />
-    <state x="312" y="163" key="Vcs.Push.Dialog.v2" timestamp="1585235941756">
-      <screen x="0" y="0" width="1440" height="860" />
+    <state x="296" y="138" key="Vcs.Push.Dialog.v2" timestamp="1586031927452">
+      <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="296" y="138" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1585087006495" />
+    <state x="296" y="138" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1586031927452" />
     <state x="312" y="163" key="Vcs.Push.Dialog.v2/0.0.1440.860@0.0.1440.860" timestamp="1585235941756" />
     <state x="408" y="139" key="com.intellij.ide.util.TipDialog" timestamp="1586013462281">
       <screen x="0" y="0" width="1366" height="728" />

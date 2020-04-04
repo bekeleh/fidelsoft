@@ -122,30 +122,24 @@ class UserDatatable extends EntityDatatable
                 },
             ],
             [
-                uctrans('texts.edit_permission'),
+                trans('texts.edit_permission'),
                 function ($model) {
-                    return URL::to("users/{$model->public_id}");
-                },
-                function ($model) {
-                    return $model->public_id && !$model->confirmed;
+                    if (Auth::user()->can('edit', [ENTITY_USER]))
+                        return URL::to("users/{$model->public_id}");
                 },
             ],
             [
-                uctrans('texts.reset_pwd'),
+                trans('texts.reset_pwd'),
                 function ($model) {
-                    return URL::to("reset_password/{$model->public_id}");
-                },
-                function ($model) {
-                    return $model->public_id && !$model->confirmed;
+                    if (Auth::user()->can('edit', [ENTITY_USER]))
+                        return URL::to("reset_password/{$model->public_id}");
                 },
             ],
             [
-                uctrans('texts.send_invite'),
+                trans('texts.send_invite'),
                 function ($model) {
-                    return URL::to("send_confirmation/{$model->public_id}");
-                },
-                function ($model) {
-                    return $model->public_id && !$model->confirmed;
+                    if (Auth::user()->can('edit', [ENTITY_USER]))
+                        return URL::to("send_confirmation/{$model->public_id}");
                 },
             ],
             [

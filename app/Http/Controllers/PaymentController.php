@@ -165,14 +165,12 @@ class PaymentController extends BaseController
         if (Input::get('email_receipt')) {
             $this->contactMailer->sendPaymentConfirmation($payment);
             $message = trans($credit ? 'texts.created_payment_and_credit_emailed_client' : 'texts.created_payment_emailed_client');
-//            Session::flash('message', trans($credit ? 'texts.created_payment_and_credit_emailed_client' : 'texts.created_payment_emailed_client'));
         } else {
             $message = trans($credit ? 'texts.created_payment_and_credit' : 'texts.created_payment');
-//            Session::flash('message', trans($credit ? 'texts.created_payment_and_credit' : 'texts.created_payment'));
         }
 
         $url = url($payment->client->getRoute());
-        return redirect()->to($url)->with('message', $message);
+        return redirect()->to($url)->with('success', $message);
     }
 
 
@@ -184,9 +182,7 @@ class PaymentController extends BaseController
 
         $payment = $this->paymentRepo->save($request->input(), $request->entity());
 
-//        Session::flash('message', trans('texts.updated_payment'));
-
-        return redirect()->to($payment->getRoute())->with('message', trans('texts.updated_payment'));
+        return redirect()->to($payment->getRoute())->with('success', trans('texts.updated_payment'));
     }
 
     public function bulk()
@@ -197,7 +193,8 @@ class PaymentController extends BaseController
         if ($action === 'email') {
             $payment = Payment::scope($ids)->withArchived()->first();
             $this->contactMailer->sendPaymentConfirmation($payment);
-            Session::flash('message', trans('texts.emailed_payment'));
+            $message = trans('texts.emailed_payment');
+//            Session::flash('message', trans('texts.emailed_payment'));
         } else {
             $count = $this->paymentService->bulk($ids, $action, [
                 'refund_amount' => Input::get('refund_amount'),
@@ -205,10 +202,10 @@ class PaymentController extends BaseController
             ]);
             if ($count > 0) {
                 $message = Utils::pluralize($action == 'refund' ? 'refunded_payment' : $action . 'd_payment', $count);
-                Session::flash('message', $message);
+//                Session::flash('message', $message);
             }
         }
 
-        return $this->returnBulk(ENTITY_PAYMENT, $action, $ids);
+        return $this->returnBulk(ENTITY_PAYMENT, $action, $ids)->with('success', $message);
     }
 }
