@@ -345,10 +345,9 @@ class UserController extends BaseController
 
         $users = $this->accountRepo->loadAccounts(Auth::user()->id);
         Session::put(SESSION_USER_ACCOUNTS, $users);
+//        Session::flash('message', trans('texts.unlinked_account'));
 
-        Session::flash('message', trans('texts.unlinked_account'));
-
-        return Redirect::to('/manage_companies');
+        return Redirect::to('/manage_companies')->with('success', trans('texts.unlinked_account'));
     }
 
     public function manageCompanies()
@@ -385,9 +384,10 @@ class UserController extends BaseController
 
     public function cloneUser(UserRequest $request, $publicId)
     {
-        dd('test...');
-        $this->authorize('create', $this->userRepo->getModel());
-        return self::edit($request, $publicId, true);
+        if (Auth::user()->can('create', ENTITY_PERMISSION)) {
+            return self::edit($request, $publicId, true);
+        }
+        return false;
     }
 
     private static function getViewModel($user = false)

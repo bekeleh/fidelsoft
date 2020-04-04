@@ -352,6 +352,7 @@ Route::group([
 ], function () {
 //    user
     Route::get('api/users', 'UserController@getDatatable');
+    Route::get('users/{users}/clone', 'UserController@cloneUser');
     Route::resource('users', 'UserController');
     Route::post('users/bulk', 'UserController@bulk');
     Route::get('send_confirmation/{user_id}', 'UserController@sendConfirmation');
