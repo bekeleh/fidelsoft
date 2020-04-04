@@ -385,6 +385,7 @@ class UserController extends BaseController
 
     public function cloneUser(UserRequest $request, $publicId)
     {
+        dd('test...');
         $this->authorize('create', $this->userRepo->getModel());
         return self::edit($request, $publicId, true);
     }

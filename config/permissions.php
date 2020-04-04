@@ -859,39 +859,6 @@ return array(
             'display' => true,
         ),
     ),
-//    companies
-    'Companies manager' => array(
-        array(
-            'permission' => 'companies.view',
-            'label' => 'View companies',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'companies.create',
-            'label' => 'Create companies',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'companies.edit',
-            'label' => 'Edit companies',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'companies.update',
-            'label' => 'Update companies',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'companies.delete',
-            'label' => 'Delete companies',
-            'note' => '',
-            'display' => true,
-        ),
-    ),
 //    Division manager
     'Divisions manager' => array(
         array(
@@ -1195,39 +1162,6 @@ return array(
             'display' => true,
         ),
     ),
-//   approval status
-    'Approval status manager' => array(
-        array(
-            'permission' => 'approval_statuses.view',
-            'label' => 'View approval status',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'approval_statuses.create',
-            'label' => 'Create approval status',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'approval_statuses.edit',
-            'label' => 'Edit approval status',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'approval_statuses.update',
-            'label' => 'Update approval status',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'approval_statuses.delete',
-            'label' => 'Delete approval status',
-            'note' => '',
-            'display' => true,
-        ),
-    ),
 //  UOM
     'Unit of measure manager' => array(
         array(
@@ -1262,6 +1196,4 @@ return array(
             'display' => true,
         ),
     ),
-
-//    end of line
 );

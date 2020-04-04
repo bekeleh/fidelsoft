@@ -244,6 +244,7 @@
         var public_id =<?php echo e($user->public_id); ?>;
         var isChecked = $('td.permissions-item input:radio:checked').iCheck('check');
         var permissionArray = getPermission(isChecked);
+        // console.log(permissionArray);
         $.ajax({
             type: 'POST',
             url: '<?php echo e(URL::to('/users/change_permission')); ?>',

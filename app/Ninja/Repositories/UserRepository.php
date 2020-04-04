@@ -51,7 +51,6 @@ class UserRepository extends BaseRepository
     {
         $query = DB::table('users')
             ->join('locations', 'locations.id', '=', 'users.location_id')
-//            ->join('users_groups', 'users_groups.user_id', '=', 'users.id')
 //            ->where('users.deleted_at', '=', null)
 //            ->where('users.account_id', '=', $accountId)
             ->select(
