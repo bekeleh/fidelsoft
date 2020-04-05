@@ -2,11 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/storage/framework/cache/HTML/4.12.0,42d2529d2d2aa4f137a4d6d6292a92e3ee82eb86,1.ser" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/h3Dy9BwwAcz1SOS1tCY4TKuXMGIZQOGdLXbq9aoo" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/ZssanB9eY0swwbvNr4NmqNaoyGKTztJbK8WBttLK" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/ZssanB9eY0swwbvNr4NmqNaoyGKTztJbK8WBttLK" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/UserDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/UserDatatable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/UserRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/UserRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/GenericEntityPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/GenericEntityPolicy.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -351,14 +354,8 @@
       <workItem from="1585741462215" duration="25356000" />
       <workItem from="1585835000341" duration="29401000" />
       <workItem from="1585899562112" duration="28913000" />
-      <workItem from="1586013440737" duration="19205000" />
-    </task>
-    <task id="LOCAL-00073" summary="2020-03-25 12:00">
-      <created>1585137612231</created>
-      <option name="number" value="00073" />
-      <option name="presentableId" value="LOCAL-00073" />
-      <option name="project" value="LOCAL" />
-      <updated>1585137612231</updated>
+      <workItem from="1586013440737" duration="19360000" />
+      <workItem from="1586113005181" duration="972000" />
     </task>
     <task id="LOCAL-00074" summary="2020-03-25 12:00">
       <created>1585147955435</created>
@@ -696,7 +693,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586040036593</updated>
     </task>
-    <option name="localTasksCounter" value="122" />
+    <task id="LOCAL-00122" summary="2020-04-4 10:35">
+      <created>1586040581525</created>
+      <option name="number" value="00122" />
+      <option name="presentableId" value="LOCAL-00122" />
+      <option name="project" value="LOCAL" />
+      <updated>1586040581525</updated>
+    </task>
+    <option name="localTasksCounter" value="123" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -759,10 +763,10 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="622" y="0" key="#com.jetbrains.php.refactoring.extractMethod.PhpExtractMethodDialog#method1/0.0.1440.860@0.0.1440.860" timestamp="1584443627388" />
-    <state x="331" y="0" key="CommitChangelistDialog2" timestamp="1586040081163">
+    <state x="331" y="0" key="CommitChangelistDialog2" timestamp="1586040578796">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586040081163" />
+    <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586040578796" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1585322352927" />
     <state x="500" y="177" key="FileChooserDialogImpl" timestamp="1584881689405">
       <screen x="0" y="0" width="1440" height="860" />
@@ -806,15 +810,15 @@
     </state>
     <state x="210" y="14" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1585946296100" />
     <state x="221" y="73" key="SettingsEditor/0.0.1440.860@0.0.1440.860" timestamp="1584008816522" />
-    <state x="296" y="138" key="Vcs.Push.Dialog.v2" timestamp="1586040091759">
+    <state x="296" y="138" key="Vcs.Push.Dialog.v2" timestamp="1586040592072">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="296" y="138" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1586040091759" />
+    <state x="296" y="138" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1586040592072" />
     <state x="312" y="163" key="Vcs.Push.Dialog.v2/0.0.1440.860@0.0.1440.860" timestamp="1585235941756" />
-    <state x="408" y="139" key="com.intellij.ide.util.TipDialog" timestamp="1586013462281">
+    <state x="408" y="139" key="com.intellij.ide.util.TipDialog" timestamp="1586113012496">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="408" y="139" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1586013462281" />
+    <state x="408" y="139" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1586113012496" />
     <state x="430" y="164" key="com.intellij.ide.util.TipDialog/0.0.1440.860@0.0.1440.860" timestamp="1585289220025" />
     <state x="316" y="37" width="983" height="691" key="find.popup" timestamp="1585950847878">
       <screen x="0" y="0" width="1366" height="728" />

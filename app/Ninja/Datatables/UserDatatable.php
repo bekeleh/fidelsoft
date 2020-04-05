@@ -125,6 +125,14 @@ class UserDatatable extends EntityDatatable
                 },
             ],
             [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_USER]);
+                },
+            ],
+            [
                 trans('texts.edit_permission'),
                 function ($model) {
                     if (Auth::user()->can('edit', [ENTITY_USER]))

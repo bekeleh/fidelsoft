@@ -51,8 +51,8 @@ class UserRepository extends BaseRepository
     {
         $query = DB::table('users')
             ->join('locations', 'locations.id', '=', 'users.location_id')
+            ->where('users.account_id', '=', $accountId)
 //            ->where('users.deleted_at', '=', null)
-//            ->where('users.account_id', '=', $accountId)
             ->select(
                 'users.id',
                 'users.public_id',
@@ -118,6 +118,7 @@ class UserRepository extends BaseRepository
             $user->public_id = $lastUser->public_id + 1;
             $user->password = strtolower(str_random(RANDOM_KEY_LENGTH));
             $user->confirmation_code = strtolower(str_random(RANDOM_KEY_LENGTH));
+            $user->permissions = isset($data['permissions']) ? self::formatUserPermissions($data['permissions']) : '';
             $user->registered = true;
             $user->created_by = auth::user()->username;
         }
@@ -131,7 +132,6 @@ class UserRepository extends BaseRepository
 
         if (Auth::user()->hasFeature(FEATURE_USER_PERMISSIONS)) {
             $user->is_admin = isset($data['permissions']) ? boolval($data['is_admin']) : 0;
-            $user->permissions = isset($data['permissions']) ? self::formatUserPermissions($data['permissions']) : '';
         }
 
         $user->save();

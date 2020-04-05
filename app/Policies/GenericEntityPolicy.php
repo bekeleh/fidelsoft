@@ -107,28 +107,12 @@ abstract class GenericEntityPolicy
         return $user->hasAccess($this->tableName() . '.edit');
     }
 
-    public function bulkUpdate(User $user, $item = null)
-    {
-        if (!static::checkModuleEnabled($user, $item)) {
-            return false;
-        }
-        return $user->hasAccess($this->tableName() . '.bulkUpdate');
-    }
-
     public function delete(User $user, $item = null)
     {
         if (!static::checkModuleEnabled($user, $item)) {
             return false;
         }
         return $user->hasAccess($this->tableName() . '.delete');
-    }
-
-    public function bulkDelete(User $user, $item = null)
-    {
-        if (!static::checkModuleEnabled($user, $item)) {
-            return false;
-        }
-        return $user->hasAccess($this->tableName() . '.bulkDelete');
     }
 
     public function forceDelete(User $user, $item = null)
