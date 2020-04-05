@@ -126,6 +126,7 @@ class LoginController extends Controller
         }
 
         $auth = Auth::attempt(['username' => $request->input('username'), 'password' => $request->input('password'), 'activated' => 1]);
+
         if (!$auth) {
             if (!$lockedOut) {
                 $this->incrementLoginAttempts($request);

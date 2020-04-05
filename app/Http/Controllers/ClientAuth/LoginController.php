@@ -4,10 +4,12 @@ namespace App\Http\Controllers\ClientAuth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Account;
+use App\Models\Contact;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\Libraries\Utils;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -66,23 +68,28 @@ class LoginController extends Controller
             $credentials['contact_key'] = $contactKey;
         } else {
             $credentials = $request->only('email', 'password');
-            $account = false;
+            $email = $request->input('email');
+            $password = bcrypt($request->input('password'));
+            $auth = Contact::where('email', $email)->first();
+            if ($auth) {
+                $account = $auth->account;
+                // resolve the email to a contact/account
+//            if (!Utils::isNinja() && Account::count() == 1) {
+//                $account = Account::first();
+//            } elseif ($accountKey = request()->account_key) {
+//                $account = Account::whereAccountKey($accountKey)->first();
+//            } else {
+//                $subdomain = Utils::getSubdomain(\Request::server('HTTP_HOST'));
+//                if ($subdomain && $subdomain != 'app') {
+//                    $account = Account::whereSubdomain($subdomain)->first();
+//                }
+//            }
 
-            // resolve the email to a contact/account
-            if (!Utils::isNinja() && Account::count() == 1) {
-                $account = Account::first();
-            } elseif ($accountKey = request()->account_key) {
-                $account = Account::whereAccountKey($accountKey)->first();
-            } else {
-                $subdomain = Utils::getSubdomain(\Request::server('HTTP_HOST'));
-                if ($subdomain && $subdomain != 'app') {
-                    $account = Account::whereSubdomain($subdomain)->first();
+                if ($account) {
+                    $credentials['account_id'] = $account->id;
                 }
-            }
-
-            if ($account) {
-                $credentials['account_id'] = $account->id;
             } else {
+//                return to login page
                 abort(500, 'Account not resolved in client login');
             }
         }
