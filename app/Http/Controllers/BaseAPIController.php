@@ -15,38 +15,6 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use App\Libraries\Utils;
 
-/**
- * @SWG\Swagger(
- *     schemes={"http","https"},
- *     host="ninja.test",
- *     basePath="/api/v1",
- *     produces={"application/json"},
- *     @SWG\Info(
- *         version="1.0.0",
- *         title="Invoice Ninja API",
- *         description="An open-source invoicing and time-tracking app built with Laravel",
- *         termsOfService="",
- *         @SWG\Contact(
- *             email="contact@invoiceninja.com"
- *         ),
- *         @SWG\License(
- *             name="Attribution Assurance License",
- *             url="https://raw.githubusercontent.com/invoiceninja/invoiceninja/master/LICENSE"
- *         )
- *     ),
- *     @SWG\ExternalDocumentation(
- *         description="Find out more about Invoice Ninja",
- *         url="https://www.invoiceninja.com"
- *     ),
- *     security={"api_key": {}},
- *     @SWG\SecurityScheme(
- *         securityDefinition="api_key",
- *         type="apiKey",
- *         in="header",
- *         name="X-Ninja-Token"
- *     )
- * )
- */
 class BaseAPIController extends Controller
 {
     protected $manager;

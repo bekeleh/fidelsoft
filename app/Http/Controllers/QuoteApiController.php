@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invoice;
-use App\Ninja\Repositories\InvoiceRepository;
-use Response;
 
 class QuoteApiController extends InvoiceApiController
 {
@@ -29,14 +27,14 @@ class QuoteApiController extends InvoiceApiController
      *   )
      * )
      */
-     public function index()
-     {
-         $invoices = Invoice::scope()
-                         ->withTrashed()
-                         ->quotes()
-                         ->with('invoice_items', 'client')
-                         ->orderBy('updated_at', 'desc');
+    public function index()
+    {
+        $invoices = Invoice::scope()
+            ->withTrashed()
+            ->quotes()
+            ->with('invoice_items', 'client')
+            ->orderBy('updated_at', 'desc');
 
-         return $this->listResponse($invoices);
-     }
+        return $this->listResponse($invoices);
+    }
 }

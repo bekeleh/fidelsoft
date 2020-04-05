@@ -2,14 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/storage/framework/cache/HTML/4.12.0,42d2529d2d2aa4f137a4d6d6292a92e3ee82eb86,1.ser" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/h3Dy9BwwAcz1SOS1tCY4TKuXMGIZQOGdLXbq9aoo" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/errors/500.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/UserDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/UserDatatable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/UserRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/UserRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/GenericEntityPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/GenericEntityPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BaseAPIController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BaseAPIController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ClientAuth/LoginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ClientAuth/LoginController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/QuoteApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/QuoteApiController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Contact.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Contact.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/h3Dy9BwwAcz1SOS1tCY4TKuXMGIZQOGdLXbq9aoo" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/h3Dy9BwwAcz1SOS1tCY4TKuXMGIZQOGdLXbq9aoo" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -355,14 +354,7 @@
       <workItem from="1585835000341" duration="29401000" />
       <workItem from="1585899562112" duration="28913000" />
       <workItem from="1586013440737" duration="19360000" />
-      <workItem from="1586113005181" duration="972000" />
-    </task>
-    <task id="LOCAL-00074" summary="2020-03-25 12:00">
-      <created>1585147955435</created>
-      <option name="number" value="00074" />
-      <option name="presentableId" value="LOCAL-00074" />
-      <option name="project" value="LOCAL" />
-      <updated>1585147955436</updated>
+      <workItem from="1586113005181" duration="4909000" />
     </task>
     <task id="LOCAL-00075" summary="2020-03-25 12:00">
       <created>1585148154690</created>
@@ -700,7 +692,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586040581525</updated>
     </task>
-    <option name="localTasksCounter" value="123" />
+    <task id="LOCAL-00123" summary="2020-04-05 10:13">
+      <created>1586114039666</created>
+      <option name="number" value="00123" />
+      <option name="presentableId" value="LOCAL-00123" />
+      <option name="project" value="LOCAL" />
+      <updated>1586114039666</updated>
+    </task>
+    <option name="localTasksCounter" value="124" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -710,7 +709,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="202003060614" />
     <MESSAGE value="202003070614" />
     <MESSAGE value="202003080614" />
     <MESSAGE value="202003090614" />
@@ -735,7 +733,8 @@
     <MESSAGE value="2020-04-3 11:46" />
     <MESSAGE value="2020-04-3 10:35" />
     <MESSAGE value="2020-04-4 10:35" />
-    <option name="LAST_COMMIT_MESSAGE" value="2020-04-4 10:35" />
+    <MESSAGE value="2020-04-05 10:13" />
+    <option name="LAST_COMMIT_MESSAGE" value="2020-04-05 10:13" />
   </component>
   <component name="WindowStateProjectService">
     <state x="312" y="89" key="#Notifications" timestamp="1584513656594">
@@ -763,10 +762,10 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="622" y="0" key="#com.jetbrains.php.refactoring.extractMethod.PhpExtractMethodDialog#method1/0.0.1440.860@0.0.1440.860" timestamp="1584443627388" />
-    <state x="331" y="0" key="CommitChangelistDialog2" timestamp="1586040578796">
+    <state x="331" y="0" key="CommitChangelistDialog2" timestamp="1586114037581">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586040578796" />
+    <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586114037581" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1585322352927" />
     <state x="500" y="177" key="FileChooserDialogImpl" timestamp="1584881689405">
       <screen x="0" y="0" width="1440" height="860" />
@@ -800,10 +799,10 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="527" y="245" key="NewPhpClassDialog/0.0.1440.860@0.0.1440.860" timestamp="1585293911127" />
-    <state x="447" y="189" key="NewPhpFileDialog" timestamp="1585675552218">
+    <state x="447" y="189" key="NewPhpFileDialog" timestamp="1586116260809">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="447" y="189" key="NewPhpFileDialog/0.0.1366.728@0.0.1366.728" timestamp="1585675552218" />
+    <state x="447" y="189" key="NewPhpFileDialog/0.0.1366.728@0.0.1366.728" timestamp="1586116260809" />
     <state x="471" y="223" key="NewPhpFileDialog/0.0.1440.860@0.0.1440.860" timestamp="1585320200513" />
     <state x="210" y="14" key="SettingsEditor" timestamp="1585946296100">
       <screen x="0" y="0" width="1366" height="728" />
@@ -820,10 +819,10 @@
     </state>
     <state x="408" y="139" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1586113012496" />
     <state x="430" y="164" key="com.intellij.ide.util.TipDialog/0.0.1440.860@0.0.1440.860" timestamp="1585289220025" />
-    <state x="316" y="37" width="983" height="691" key="find.popup" timestamp="1585950847878">
+    <state x="316" y="37" width="983" height="691" key="find.popup" timestamp="1586115855044">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="316" y="37" width="983" height="691" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1585950847878" />
+    <state x="316" y="37" width="983" height="691" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1586115855044" />
     <state x="215" y="69" width="849" height="606" key="find.popup/0.0.1440.860@0.0.1440.860" timestamp="1585321594443" />
     <state x="462" y="222" key="git4idea.merge.GitPullDialog" timestamp="1584633875966">
       <screen x="0" y="0" width="1440" height="860" />
