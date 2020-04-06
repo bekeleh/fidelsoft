@@ -39,13 +39,15 @@
                     ->label(trans('texts.location'))
                     ->addGroupClass('location-select'); ?>
 
-                    <?php echo Former::checkbox('activated')->label('texts.activated'); ?>
+                    <?php echo Former::label('activated', trans('texts.activated')); ?>
+
+                    <?php echo e(Form::checkbox('activated' , 1, $user->activated == 1 ? true:false ),['class'=>'square']); ?>
 
                     <?php echo Former::textarea('notes')->rows(2); ?>
 
-                    <?php echo e(Form::label('groups', trans('texts.group'),['class' => 'form-label padding-right'])); ?>
+                    <?php echo Former::label('groups', trans('texts.group')); ?>
 
-                    <?php echo Form::select('groups[]', $groups, $userGroups, ['class' => 'form-control <?php echo e($errors->has("groups") ? "is-invalid": ""); ?> required', 'multiple' => 'multiple']); ?>
+                    <?php echo Form::select('groups[]', $groups, $userGroups, ['class' => 'form-control padding-right', 'multiple' => 'multiple',]); ?>
 
                     <?php if($errors->has('groups') ): ?>
                         <div class="alert alert-danger" role="alert">

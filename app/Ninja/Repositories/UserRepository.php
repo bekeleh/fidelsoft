@@ -63,9 +63,10 @@ class UserRepository extends BaseRepository
                 'users.email',
                 'users.phone',
                 'users.confirmed',
+                'users.activated',
+                'users.is_admin',
                 'users.is_deleted',
                 'users.notes',
-                'users.is_admin',
                 'users.permissions',
                 'users.created_at',
                 'users.updated_at',
@@ -82,6 +83,8 @@ class UserRepository extends BaseRepository
                 $query->where('users.first_name', 'like', '%' . $filter . '%')
                     ->where('users.username', 'like', '%' . $filter . '%')
                     ->where('users.email', 'like', '%' . $filter . '%')
+                    ->where('users.confirmed', 'like', '%' . $filter . '%')
+                    ->where('users.activated', 'like', '%' . $filter . '%')
                     ->orWhere('locations.name', 'like', '%' . $filter . '%');
             });
         }
@@ -131,7 +134,9 @@ class UserRepository extends BaseRepository
         $user->email = isset($data['email']) ? trim($data['email']) : '';
 
         if (Auth::user()->hasFeature(FEATURE_USER_PERMISSIONS)) {
-            $user->is_admin = isset($data['permissions']) ? boolval($data['is_admin']) : 0;
+            $user->confirmed = isset($data['confirmed']) ? boolval($data['confirmed']) : 0;
+            $user->activated = isset($data['activated']) ? boolval($data['activated']) : 0;
+            $user->is_admin = isset($data['is_admin']) ? boolval($data['is_admin']) : 0;
         }
 
         $user->save();
