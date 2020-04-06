@@ -5,7 +5,7 @@
     {!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['first_name' => 'required|max:50','last_name' => 'required|max:50','username' => 'required|max:50','email' => 'required|email|max:50','location_id' => 'required','groups' => 'required','notes' => 'required|max:255'])
+    ->rules(['first_name' => 'required|max:50','last_name' => 'required|max:50','username' => 'required|max:50','email' => 'required|email|max:50','location_id' => 'required','notes' => 'required|max:255'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     @if ($user)
         {{ Former::populate($user) }}
@@ -30,9 +30,15 @@
                     ->placeholder(trans('texts.select_location'))
                     ->label(trans('texts.location'))
                     ->addGroupClass('location-select') !!}
+                    {!! Former::checkbox('activated')->label('texts.activated') !!}
                     {!! Former::textarea('notes')->rows(2) !!}
                     {{ Form::label('groups', trans('texts.group'),['class' => 'form-label padding-right']) }}
-                    {!! Form::select('groups[]', $groups, $userGroups, ['class' => 'form-control padding-right', 'multiple' => 'multiple'])!!}
+                    {!! Form::select('groups[]', $groups, $userGroups, ['class' => 'form-control {{$errors->has("groups") ? "is-invalid": ""}} required', 'multiple' => 'multiple'])!!}
+                    @if($errors->has('groups') )
+                        <div class="alert alert-danger" role="alert">
+                            One or more of the groups you selected are empty/invalid. Please try again.
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

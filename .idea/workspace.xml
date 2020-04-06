@@ -2,19 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/NlVWAdpfIjFR06R3VNJcTYcHkKmUCIuPVhpQi6uK" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/029ff1b83d4540237f7ba2370365a7966023941e.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/2759f8bbc5059c82614447a82a67b42367cd4189.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/31cf6b2fcd4699dc6f5b071c767e59c1b32b6405.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/5289dff8d0e9d6b3c8e84a32189d5248622606a0.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/5d5af6efadde59327a51ec1a36938a8b37251503.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/64fb12c2fd4a7ca147156d35bfc9dcd9a3a80ef1.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/bde6e4d84a93a1d5c3f3b3d6339314a2e8095126.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/dd2deeb5ff3ff9a1c0364fa8013582c44e3d711b.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/e23efc1ef6ac7a9d1151b3f35ce9152cc04edf69.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/fae9d217345b62dfdce840c8348af5c60ebfccd1.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UserRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/accounts/user_management.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/accounts/user_management.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/partials/sign_up.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/partials/sign_up.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/users/account_management.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/users/account_management.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/users/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/users/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/NlVWAdpfIjFR06R3VNJcTYcHkKmUCIuPVhpQi6uK" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/ZssanB9eY0swwbvNr4NmqNaoyGKTztJbK8WBttLK" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/d6lTPzD7iWoQVb5WFEV0wCJicryKx4eFnpFufoBP" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/h3Dy9BwwAcz1SOS1tCY4TKuXMGIZQOGdLXbq9aoo" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/mZUtZYv7mZqowcrkHOucKcrvWNAJXuydpPQZBQlQ" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/bdfaf0e4dc72b9e19eb99e032970670fdc65b1f9.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/bdfaf0e4dc72b9e19eb99e032970670fdc65b1f9.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -362,14 +362,7 @@
       <workItem from="1585899562112" duration="28913000" />
       <workItem from="1586013440737" duration="19360000" />
       <workItem from="1586113005181" duration="5893000" />
-      <workItem from="1586154210674" duration="1522000" />
-    </task>
-    <task id="LOCAL-00077" summary="2020-03-26 10:55">
-      <created>1585212260847</created>
-      <option name="number" value="00077" />
-      <option name="presentableId" value="LOCAL-00077" />
-      <option name="project" value="LOCAL" />
-      <updated>1585212260847</updated>
+      <workItem from="1586154210674" duration="5762000" />
     </task>
     <task id="LOCAL-00078" summary="2020-03-26 10:55">
       <created>1585215306418</created>
@@ -707,7 +700,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586118928147</updated>
     </task>
-    <option name="localTasksCounter" value="126" />
+    <task id="LOCAL-00126" summary="2020-04-06 10:13">
+      <created>1586157269883</created>
+      <option name="number" value="00126" />
+      <option name="presentableId" value="LOCAL-00126" />
+      <option name="project" value="LOCAL" />
+      <updated>1586157269883</updated>
+    </task>
+    <option name="localTasksCounter" value="127" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -717,7 +717,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="202003070614" />
     <MESSAGE value="202003080614" />
     <MESSAGE value="202003090614" />
     <MESSAGE value="202003110614" />
@@ -742,7 +741,8 @@
     <MESSAGE value="2020-04-3 10:35" />
     <MESSAGE value="2020-04-4 10:35" />
     <MESSAGE value="2020-04-05 10:13" />
-    <option name="LAST_COMMIT_MESSAGE" value="2020-04-05 10:13" />
+    <MESSAGE value="2020-04-06 10:13" />
+    <option name="LAST_COMMIT_MESSAGE" value="2020-04-06 10:13" />
   </component>
   <component name="WindowStateProjectService">
     <state x="312" y="89" key="#Notifications" timestamp="1584513656594">
@@ -827,11 +827,11 @@
     </state>
     <state x="408" y="139" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1586113012496" />
     <state x="430" y="164" key="com.intellij.ide.util.TipDialog/0.0.1440.860@0.0.1440.860" timestamp="1586154234151" />
-    <state x="316" y="37" width="983" height="691" key="find.popup" timestamp="1586115855044">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="215" y="69" width="849" height="606" key="find.popup" timestamp="1586178664001">
+      <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="316" y="37" width="983" height="691" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1586115855044" />
-    <state x="215" y="69" width="849" height="606" key="find.popup/0.0.1440.860@0.0.1440.860" timestamp="1585321594443" />
+    <state x="215" y="69" width="849" height="606" key="find.popup/0.0.1440.860@0.0.1440.860" timestamp="1586178664001" />
     <state x="462" y="222" key="git4idea.merge.GitPullDialog" timestamp="1584633875966">
       <screen x="0" y="0" width="1440" height="860" />
     </state>

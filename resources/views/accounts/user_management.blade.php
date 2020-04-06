@@ -3,36 +3,18 @@
     @parent
     @include('accounts.nav', ['selected' => ACCOUNT_USER_MANAGEMENT, 'advanced' => true])
     @if (Utils::hasFeature(FEATURE_USERS))
-        @if (Auth::user()->canAddUsers())
-            <div class="pull-right">
-                {!! Button::primary(trans('texts.add_user'))->asLinkTo(URL::to('/users/create'))->appendIcon(Icon::create('plus-sign')) !!}
-            </div>
+        @if (Auth::user()->canAddUsers() || Auth::user()->isSuperUser)
+            @include('list',
+            [
+            'entityType' => ENTITY_USER,
+            'datatable' => new \App\Ninja\Datatables\UserDatatable(true, true),
+            'url' => url('api/users/'),
+            ])
         @endif
     @elseif (Utils::isTrial())
         <div class="alert alert-warning">{!! trans('texts.add_users_not_supported') !!}</div>
     @endif
-    <label for="trashed" style="font-weight:normal; margin-left: 10px;">
-        <input id="trashed" type="checkbox" onclick="setTrashVisible()"
-                {!! Session::get('entity_state_filter:user', STATUS_ACTIVE) != 'active' ? 'checked' : ''!!}/>
-        {!! trans('texts.show_archived_users')!!}
-    </label>
-    @include('partials.bulk_form', ['entityType' => ENTITY_USER])
-    {{--
-    ->setOptions('aoColumnDefs', [['bSortable'=>false, 'aTargets'=>[4]]])
-    ->setOptions('aoColumns', [[ "sWidth"=> "20%" ], [ "sWidth"=> "45%" ], ["sWidth"=> "20%"], ["sWidth"=> "15%" ]])
-    --}}
-    {!! Datatable::table()
-    ->addColumn(
-    trans('texts.name'),
-    trans('texts.username'),
-    trans('texts.email'),
-    trans('texts.user_state'),
-    trans('texts.action'))
-    ->setUrl(url('api/users/'))
-    ->setOptions('sPaginationType', 'bootstrap')
-    ->setOptions('bFilter', true)
-    ->setOptions('bAutoWidth', true)
-    ->render('datatable') !!}
+
     <script>
         window.onDatatableReady = actionListHandler;
 

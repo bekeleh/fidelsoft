@@ -55,6 +55,7 @@ $LANG = array(
     'archived_user' => 'Successfully Archived User',
     'user_settings' => 'User Settings',
     'confirmed' => 'Confirmed',
+    'activated' => 'Activated',
     'updated_user_permission' => 'Successfully Updated User Permission',
     /*
 |--------------------------------------------------------------------------
