@@ -344,6 +344,7 @@ class EntityModel extends Eloquent
     {
         $icons = [
             'dashboard' => 'tachometer',
+            'users' => 'users',
             'clients' => 'users',
             'vendors' => 'users',
             'products' => 'cube',

@@ -37,7 +37,8 @@ $LANG = array(
     'last_name' => 'Last Name',
     'username' => 'Username',
     'user' => 'User',
-    'users' => 'User List',
+//    'users' => 'User List',
+    'users' => 'Account List',
     'new_user' => 'New User',
     'list_users' => 'List Users',
     'create_user' => 'Create User',
@@ -78,6 +79,7 @@ $LANG = array(
     'created_group' => 'Successfully Created Group',
     'archived_group' => 'Successfully Archived Group',
     'group_settings' => 'Group Settings',
+    'group_help' => 'Sets the default <b>user group</b>',
     /*
 |--------------------------------------------------------------------------
 | User groups  trans
@@ -123,6 +125,7 @@ $LANG = array(
     'archived_sale_type' => 'Successfully Archived Sales Type',
     'sale_type_settings' => 'Sale Type Settings',
     'select_sale_type' => 'Select Sale Type',
+    'sale_type_help' => 'Sets the default <b>sales type</b>',
     /*
 |--------------------------------------------------------------------------
 | tax rate trans
@@ -170,6 +173,7 @@ $LANG = array(
     'archived_store' => 'Successfully Archived Store',
     'store_settings' => 'Store Settings',
     'select_location' => 'Select Location',
+    'location_help' => 'Sets the default <b>location</b>',
     /*
 |--------------------------------------------------------------------------
 | hold reason trans
@@ -196,6 +200,7 @@ $LANG = array(
     'archived_hold_reason' => 'Successfully Archived Hold Reason',
     'hold_reason_settings' => 'Hold Reason Settings',
     'select_hold_reason' => 'Select Hold Reason',
+    'hold_reason_help' => 'Sets the default <b>hold reason</b>',
     /*
 |--------------------------------------------------------------------------
 | location trans

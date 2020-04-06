@@ -4,10 +4,13 @@
         <style type="text/css">
             .nav-footer {
                 <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?>
-                                                                                                                              background-color: #50C878 !important;
+                                                                                                                                 background-color: #50C878 !important;
                 <?php else: ?>
-                                                                                                                                  background-color: #FD6A02 !important;
+                                                                                                                                     background-color: #FD6A02 !important;
             <?php endif; ?>
+
+
+
 
 
 
@@ -361,6 +364,7 @@
             <ul class="nav navbar-nav hide-non-phone" style="font-weight: bold">
                 <?php $__currentLoopData = [
                     'dashboard' => false,
+                    'users' => false,
                     'clients' => false,
                     'products' => false,
                     'locations' => false,

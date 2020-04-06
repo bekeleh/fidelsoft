@@ -16,7 +16,7 @@
         {!! Former::open($url)
         ->autocomplete('off')
         ->rules(
-        ['email' => 'required|email','phone'=>'required','id_number'=>'required','sale_type_id'=>'required','hold_reason_id'=>'required']
+        ['email' => 'required|email','phone'=>'required','id_number'=>'required','sale_type_id'=>'required','hold_reason_id'=>'required','payment_terms'=>'required']
         )->addClass('col-md-12 warn-on-exit')
         ->method($method) !!}
 
@@ -44,13 +44,17 @@
                     <div class="panel-body">
                         {!! Former::select('sale_type_id')->addOption('', '')
                         ->label(trans('texts.sale_type'))
-                        ->addGroupClass('sale-type-select') !!}
+                        ->addGroupClass('sale-type-select')
+                        ->help(trans('texts.sale_type_help') . ' | ' . link_to('/sale_types/', trans('texts.customize_options')))
+                        !!}
 
                         {!! Former::select('hold_reason_id')->addOption('', '')
                         ->label(trans('texts.hold_reason'))
-                        ->addGroupClass('hold-reason-select') !!}
+                        ->addGroupClass('hold-reason-select')
+                        ->help(trans('texts.hold_reason_help') . ' | ' . link_to('/hold_reasons/', trans('texts.customize_options')))
+                        !!}
 
-                        {!! Former::text('name')->label('texts.client_name') ->data_bind("attr { placeholder: placeholderName }") !!}
+                        {!! Former::text('name')->label('texts.company_name') ->data_bind("attr { placeholder: placeholderName }") !!}
                         {!! Former::text('id_number')->placeholder($account->clientNumbersEnabled() ? $account->getNextNumber() : ' ') !!}
                         {!! Former::text('vat_number') !!}
                         {!! Former::text('website') !!}
@@ -134,8 +138,8 @@
                     </div>
                     <div class="panel-body">
                         <div data-bind='template: { foreach: contacts,
-                                beforeRemove: hideContact,
-                                afterAdd: showContact }'>
+beforeRemove: hideContact,
+afterAdd: showContact }'>
                             {!! Former::hidden('public_id')->data_bind("value: public_id, valueUpdate: 'afterkeydown',
                             attr: {name: 'contacts[' + \$index() + '][public_id]'}") !!}
                             {!! Former::text('first_name')->data_bind("value: first_name, valueUpdate: 'afterkeydown',
@@ -171,13 +175,13 @@
 
                             <div class="form-group">
                                 <div class="col-lg-8 col-lg-offset-4 bold">
-                                <span class="redlink bold" data-bind="visible: $parent.contacts().length > 1">
-                                {!! link_to('#', trans('texts.remove_contact').' -', array('data-bind'=>'click: $parent.removeContact')) !!}
-                                </span>
+<span class="redlink bold" data-bind="visible: $parent.contacts().length > 1">
+{!! link_to('#', trans('texts.remove_contact').' -', array('data-bind'=>'click: $parent.removeContact')) !!}
+</span>
                                     <span data-bind="visible: $index() === ($parent.contacts().length - 1)"
                                           class="pull-right greenlink bold">
-                                {!! link_to('#', trans('texts.add_contact').' +', array('onclick'=>'return addContact()')) !!}
-                                </span>
+{!! link_to('#', trans('texts.add_contact').' +', array('onclick'=>'return addContact()')) !!}
+</span>
                                 </div>
                             </div>
                         </div>
@@ -224,7 +228,7 @@
                                 ->fromQuery(\App\Models\PaymentTerm::getSelectOptions(), 'name', 'num_days')
                                 ->placeholder($account->present()->paymentTerms)
                                 ->help(trans('texts.payment_terms_help') . ' | ' . link_to('/settings/payment_terms', trans('texts.customize_options')))
-                                 !!}
+                                !!}
 
                                 @if ($account->isModuleEnabled(ENTITY_TASK))
                                     {!! Former::text('task_rate')
