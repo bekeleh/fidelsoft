@@ -6,10 +6,23 @@
         <style type="text/css">
             .nav-footer {
                 @if (config('mail.driver') == 'log' && ! config('services.postmark'))
-                                                                                                                                 background-color: #50C878 !important;
+                                                                                                                                                     background-color: #50C878 !important;
                 @else
-                                                                                                                                     background-color: #FD6A02 !important;
+                                                                                                                                                         background-color: #FD6A02 !important;
             @endif
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -266,8 +279,8 @@
                 </div>
             </a>
         </div>
-        <a id="right-menu-toggle" class="menu-toggle hide-phone pull-right" title="{{ trans('texts.toggle_history') }}"
-           style="cursor:pointer">
+        <a id="right-menu-toggle" class="menu-toggle hide-phone pull-right"
+           title="{{ trans('texts.toggle_history') }}" style="cursor:pointer">
             <div class="fa fa-bars"></div>
         </a>
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
@@ -342,19 +355,19 @@
                     </ul>
                 </div>
             </div>
-
-            {!! Former::open('/handle_command')->id('search-form')->addClass('navbar-form navbar-right')->role('search') !!}
-            <div class="form-group has-feedback">
-                <input type="text" name="command" id="search"
-                       style="width: 280px;padding-top:0px;padding-bottom:0px;margin-right:12px;"
-                       class="form-control"
-                       placeholder="{{ trans('texts.search') . ': ' . trans('texts.search_hotkey')}}"/>
-                @if (env('SPEECH_ENABLED'))
+            <center>
+                {!! Former::open('/handle_command')->id('search-form')->addClass('navbar-form')->role('search') !!}
+                <div class="form-group has-feedback">
+                    <input type="text" name="command" id="search"
+                           style="width: 280px;padding-top:0px;padding-bottom:0px;margin-right:12px;"
+                           class="form-control"
+                           placeholder="{{ trans('texts.search').trans('texts.search_hotkey')}}"/>
+                    {{--                @if (env('SPEECH_ENABLED'))--}}
                     {{--                    @include('partials/speech_recognition')--}}
-                @endif
-            </div>
-            {!! Former::close() !!}
-
+                    {{--                @endif--}}
+                </div>
+                {!! Former::close() !!}
+            </center>
             <ul class="nav navbar-nav hide-non-phone" style="font-weight: bold">
                 @foreach ([
                     'dashboard' => false,

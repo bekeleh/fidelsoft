@@ -17,19 +17,19 @@
         <title><?php echo e(isset($title) ? ($title . ' | E-Ninja Plus ERP') : ('E-Ninja Plus ERP' )); ?></title>
         <meta name="description" content="<?php echo e(isset($description) ? $description : trans('texts.app_description')); ?>"/>
 
-        <link href="<?php echo e(asset('favicon-v2.gif')); ?>" rel="shortcut icon" type="image/gif">
-        <meta property="og:site_name" content="HARON ERP"/>
+        <link href="<?php echo e(asset('favicon.gif')); ?>" rel="shortcut icon" type="image/gif">
+        <meta property="og:site_name" content="E-Ninja Plus ERP"/>
         <meta property="og:url" content="<?php echo e(SITE_URL); ?>"/>
-        <meta property="og:title" content="HARON ERP"/>
+        <meta property="og:title" content="E-Ninja Plus ERP"/>
         <meta property="og:image" content="<?php echo e(SITE_URL); ?>/images/round_logo.png"/>
-        <meta property="og:description" content="HARON ERP"/>
+        <meta property="og:description" content="E-Ninja Plus ERP"/>
 
         <!-- http://realfavicongenerator.net -->
         
         
         <link rel="shortcut icon" href="<?php echo e(url('favicon.ico')); ?>">
-        <meta name="apple-mobile-web-app-title" content="HARON ERP">
-        <meta name="application-name" content="HARON ERP">
+        <meta name="apple-mobile-web-app-title" content="E-Ninja Plus ERP">
+        <meta name="application-name" content="E-Ninja Plus ERP">
         <meta name="theme-color" content="#ffffff">
     <?php endif; ?>
     <meta http-equiv="cache-control" content="max-age=0"/>
@@ -37,7 +37,7 @@
     <meta http-equiv="cache-control" content="no-store"/>
     <meta http-equiv="cache-control" content="must-revalidate"/>
     <meta http-equiv="expires" content="0"/>
-    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT"/>
+    <meta http-equiv="expires" content="Tue, 01 Jan 2019 1:00:00 GMT"/>
     <meta http-equiv="pragma" content="no-cache"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">

@@ -4,10 +4,23 @@
         <style type="text/css">
             .nav-footer {
                 <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?>
-                                                                                                                                 background-color: #50C878 !important;
+                                                                                                                                                     background-color: #50C878 !important;
                 <?php else: ?>
-                                                                                                                                     background-color: #FD6A02 !important;
+                                                                                                                                                         background-color: #FD6A02 !important;
             <?php endif; ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -265,8 +278,8 @@
                 </div>
             </a>
         </div>
-        <a id="right-menu-toggle" class="menu-toggle hide-phone pull-right" title="<?php echo e(trans('texts.toggle_history')); ?>"
-           style="cursor:pointer">
+        <a id="right-menu-toggle" class="menu-toggle hide-phone pull-right"
+           title="<?php echo e(trans('texts.toggle_history')); ?>" style="cursor:pointer">
             <div class="fa fa-bars"></div>
         </a>
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
@@ -346,21 +359,21 @@
                     </ul>
                 </div>
             </div>
+            <center>
+                <?php echo Former::open('/handle_command')->id('search-form')->addClass('navbar-form')->role('search'); ?>
 
-            <?php echo Former::open('/handle_command')->id('search-form')->addClass('navbar-form navbar-right')->role('search'); ?>
-
-            <div class="form-group has-feedback">
-                <input type="text" name="command" id="search"
-                       style="width: 280px;padding-top:0px;padding-bottom:0px;margin-right:12px;"
-                       class="form-control"
-                       placeholder="<?php echo e(trans('texts.search') . ': ' . trans('texts.search_hotkey')); ?>"/>
-                <?php if(env('SPEECH_ENABLED')): ?>
+                <div class="form-group has-feedback">
+                    <input type="text" name="command" id="search"
+                           style="width: 280px;padding-top:0px;padding-bottom:0px;margin-right:12px;"
+                           class="form-control"
+                           placeholder="<?php echo e(trans('texts.search').trans('texts.search_hotkey')); ?>"/>
                     
-                <?php endif; ?>
-            </div>
-            <?php echo Former::close(); ?>
+                    
+                    
+                </div>
+                <?php echo Former::close(); ?>
 
-
+            </center>
             <ul class="nav navbar-nav hide-non-phone" style="font-weight: bold">
                 <?php $__currentLoopData = [
                     'dashboard' => false,
