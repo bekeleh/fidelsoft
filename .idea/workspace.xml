@@ -3,15 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/header.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/master.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/master.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/partials/sign_up.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/partials/sign_up.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/QUjzoiW3GBhDkbtkx9epafiI5nptTVVYv6nznMob" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/X3szikjeR8nJZYqELlVqIFR989eCrucwVQe8SHoT" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/c06V1t7s7pXoMmJmQ5Dg7OjJYs8qDyc4NP37iARn" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/3d4796057765b5a7517531f2f8b487ab7f709a24.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/3d4796057765b5a7517531f2f8b487ab7f709a24.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/9d8aefb15fbe9a910b39a0f97aae647e7c0ca4f1.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/9d8aefb15fbe9a910b39a0f97aae647e7c0ca4f1.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -361,14 +354,7 @@
       <workItem from="1586154210674" duration="5978000" />
       <workItem from="1586189877807" duration="9849000" />
       <workItem from="1586411930963" duration="1866000" />
-      <workItem from="1586792945030" duration="4059000" />
-    </task>
-    <task id="LOCAL-00082" summary="2020-03-27 10:55">
-      <created>1585299825675</created>
-      <option name="number" value="00082" />
-      <option name="presentableId" value="LOCAL-00082" />
-      <option name="project" value="LOCAL" />
-      <updated>1585299825675</updated>
+      <workItem from="1586792945030" duration="4187000" />
     </task>
     <task id="LOCAL-00083" summary="2020-03-27 10:55">
       <created>1585315132729</created>
@@ -706,7 +692,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586807973964</updated>
     </task>
-    <option name="localTasksCounter" value="131" />
+    <task id="LOCAL-00131" summary="2020-04-13 9:26">
+      <created>1586809471432</created>
+      <option name="number" value="00131" />
+      <option name="presentableId" value="LOCAL-00131" />
+      <option name="project" value="LOCAL" />
+      <updated>1586809471432</updated>
+    </task>
+    <option name="localTasksCounter" value="132" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -769,10 +762,10 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="622" y="0" key="#com.jetbrains.php.refactoring.extractMethod.PhpExtractMethodDialog#method1/0.0.1440.860@0.0.1440.860" timestamp="1584443627388" />
-    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1586807933733">
+    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1586809469798">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1586807933733" />
+    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1586809469798" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="500" y="177" key="FileChooserDialogImpl" timestamp="1584881689405">
