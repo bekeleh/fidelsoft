@@ -1,9 +1,6 @@
 <script type="text/javascript">
-
     $(function () {
-
         validateSignUp();
-
         $('#signUpModal').on('shown.bs.modal', function () {
             trackEvent('/account', '/view_sign_up');
             // change the type after page load to prevent errors in Chrome console
@@ -16,14 +13,12 @@
                 }
             });
         })
-
         @if (Auth::check() && !Utils::isNinja() && ! Auth::user()->registered)
         $('#closeSignUpButton').hide();
         showSignUp();
         @elseif(Session::get('sign_up') || Input::get('sign_up'))
         showSignUp();
         @endif
-
         // Ensure terms is checked for sign up form
         @if (Auth::check())
         setSignupEnabled(false);
@@ -31,9 +26,7 @@
             setSignupEnabled($('#terms_checkbox').is(':checked') && $('#privacy_checkbox').is(':checked'));
         });
         @endif
-
     });
-
 
     function showSignUp() {
         if (location.href.indexOf('/dashboard') == -1) {
@@ -63,16 +56,13 @@
             var $input = $('form.signUpForm #new_' + field),
                 val = $.trim($input.val());
             var isValid = val && val.length >= (field == 'password' ? 8 : 1);
-
             if (field == 'password') {
                 var score = scorePassword(val);
                 if (isValid) {
                     isValid = score > 50;
                 }
-
                 showPasswordStrength(val, score);
             }
-
             if (isValid && field == 'email') {
                 isValid = isValidEmailAddress(val);
             }
@@ -86,11 +76,9 @@
                 }
             }
         });
-
         if (!$('#terms_checkbox').is(':checked') || !$('#privacy_checkbox').is(':checked')) {
             isFormValid = false;
         }
-
         $('#saveSignUpButton').prop('disabled', !isFormValid);
 
         return isFormValid;
@@ -100,10 +88,8 @@
         if (!validateSignUp(true)) {
             return;
         }
-
         $('#signUpDiv, #signUpFooter').hide();
         $('#working').show();
-
         $.ajax({
             type: 'POST',
             url: '{{ URL::to('signup/validate') }}',
@@ -157,9 +143,7 @@
         fbq('track', 'CompleteRegistration');
         trackEvent('/account', '/signed_up');
     }
-
 </script>
-
 @if (\Request::is('dashboard'))
     <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="signUpModalLabel"
          aria-hidden="true">
@@ -170,21 +154,17 @@
                     <h4 class="modal-title"
                         id="myModalLabel">{{ Auth::user()->registered ? trans('texts.add_company') : trans('texts.sign_up') }}</h4>
                 </div>
-
                 <div class="container" style="width: 100%; padding-bottom: 0px !important">
                     <div class="panel panel-default">
                         <div class="panel-body">
-
                             <div id="signUpDiv" onkeyup="validateSignUp()" onclick="validateSignUp()"
                                  onkeydown="checkForEnter(event)">
                                 {!! Former::open('signup/submit')->addClass('signUpForm')->autocomplete('off') !!}
-
                                 @if (Auth::check() && ! Auth::user()->registered)
                                     {!! Former::populateField('new_first_name', Auth::user()->first_name) !!}
                                     {!! Former::populateField('new_last_name', Auth::user()->last_name) !!}
                                     {!! Former::populateField('new_email', Auth::user()->email) !!}
                                 @endif
-
                                 <div style="display:none">
                                     {!! Former::text('path')->value(Request::path()) !!}
                                     {!! Former::text('go_pro') !!}
@@ -193,19 +173,19 @@
                                 <div class="row signup-form">
                                     <div class="col-md-12">
                                         {!! Former::checkbox('terms_checkbox')
-                                            ->label(' ')
-                                            ->value(1)
-                                            ->text(trans('texts.agree_to_terms', [
-                                                'terms' => link_to(config('ninja.terms_of_service_url.' . (Utils::isSelfHost() ? 'selfhost' : 'hosted')), trans('texts.terms_of_service'), ['target' => '_blank']),
-                                            ]))
-                                            ->raw() !!}
+                                        ->label(' ')
+                                        ->value(1)
+                                        ->text(trans('texts.agree_to_terms', [
+                                        'terms' => link_to(config('ninja.terms_of_service_url.' . (Utils::isSelfHost() ? 'selfhost' : 'hosted')), trans('texts.terms_of_service'), ['target' => '_blank']),
+                                        ]))
+                                        ->raw() !!}
                                         {!! Former::checkbox('privacy_checkbox')
-                                            ->label(' ')
-                                            ->value(1)
-                                            ->text(trans('texts.agree_to_terms', [
-                                                'terms' => link_to(config('ninja.privacy_policy_url.' . (Utils::isSelfHost() ? 'selfhost' : 'hosted')), trans('texts.privacy_policy'), ['target' => '_blank']),
-                                            ]))
-                                            ->raw() !!}
+                                        ->label(' ')
+                                        ->value(1)
+                                        ->text(trans('texts.agree_to_terms', [
+                                        'terms' => link_to(config('ninja.privacy_policy_url.' . (Utils::isSelfHost() ? 'selfhost' : 'hosted')), trans('texts.privacy_policy'), ['target' => '_blank']),
+                                        ]))
+                                        ->raw() !!}
                                         <br/>
                                     </div>
                                     <br/>&nbsp;<br/>
@@ -232,38 +212,34 @@
                                                     @endif
                                                     {{ Former::setOption('TwitterBootstrap3.labelWidths.large', 0) }}
                                                     {{ Former::setOption('TwitterBootstrap3.labelWidths.small', 0) }}
-
                                                     {!! Former::text('new_first_name')
-                                                            ->placeholder(trans('texts.first_name'))
-                                                            ->autocomplete('given-name')
-                                                            ->data_lpignore('true')
-                                                            ->label(' ') !!}
+                                                    ->placeholder(trans('texts.first_name'))
+                                                    ->autocomplete('given-name')
+                                                    ->data_lpignore('true')
+                                                    ->label(' ') !!}
                                                     {!! Former::text('new_last_name')
-                                                            ->placeholder(trans('texts.last_name'))
-                                                            ->autocomplete('family-name')
-                                                            ->data_lpignore('true')
-                                                            ->label(' ') !!}
+                                                    ->placeholder(trans('texts.last_name'))
+                                                    ->autocomplete('family-name')
+                                                    ->data_lpignore('true')
+                                                    ->label(' ') !!}
                                                     {!! Former::text('new_email')
-                                                            ->placeholder(trans('texts.email'))
-                                                            ->autocomplete('email')
-                                                            ->data_lpignore('true')
-                                                            ->label(' ') !!}
+                                                    ->placeholder(trans('texts.email'))
+                                                    ->autocomplete('email')
+                                                    ->data_lpignore('true')
+                                                    ->label(' ') !!}
                                                     {!! Former::text('new_password')
-                                                            ->placeholder(trans('texts.password'))
-                                                            ->autocomplete('new-password')
-                                                            ->data_lpignore('true')
-                                                            ->label(' ')
-                                                            ->help('<span id="passwordStrength">&nbsp;</span>') !!}
-
+                                                    ->placeholder(trans('texts.password'))
+                                                    ->autocomplete('new-password')
+                                                    ->data_lpignore('true')
+                                                    ->label(' ')
+                                                    ->help('<span id="passwordStrength">&nbsp;</span>') !!}
                                                     {{ Former::setOption('TwitterBootstrap3.labelWidths.large', 4) }}
                                                     {{ Former::setOption('TwitterBootstrap3.labelWidths.small', 4) }}
                                                 </div>
-
                                                 <center>
                                                     <div id="errorTaken" style="display:none">
                                                         &nbsp;<br/><b>{{ trans('texts.email_taken') }}</b></div>
                                                 </center>
-
                                                 <div class="col-md-12">
                                                     <div style="padding-top:20px;padding-bottom:10px;">
                                                         @if (Auth::user()->registered)
@@ -278,11 +254,8 @@
                                                     </div>
                                                 </div>
                                         </div>
-
                                         {!! Former::close() !!}
-
                                 </div>
-
                                 <div style="padding-left:40px;padding-right:40px;display:none;min-height:130px"
                                      id="working">
                                     <h3>{{ trans('texts.working') }}...</h3>
@@ -291,7 +264,6 @@
                                              aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                                     </div>
                                 </div>
-
                                 <div style="background-color: #fff; padding-right:20px;padding-left:20px; display:none"
                                      id="signUpSuccessDiv">
                                     <h3>{{ trans('texts.success') }}</h3>
@@ -304,24 +276,21 @@
                                         <iframe id="gettingStartedIframe" width="100%" height="315"></iframe>
                                     @endif
                                 </div>
-
                             </div>
                         </div>
-
                         <div class="modal-footer" style="margin-top: 0px;padding-right:0px">
-        <span id="signUpFooter">
-            <button type="button" class="btn btn-default" id="closeSignUpButton" data-dismiss="modal">{{ trans('texts.close') }} <i
-                        class="glyphicon glyphicon-remove-circle"></i></button>
-            <button type="button" class="btn btn-primary" id="saveSignUpButton" onclick="validateServerSignUp()"
-                    disabled>{{ trans('texts.save') }} <i class="glyphicon glyphicon-floppy-disk"></i></button>
-        </span>
+    <span id="signUpFooter">
+    <button type="button" class="btn btn-default" id="closeSignUpButton" data-dismiss="modal">{{ trans('texts.close') }} <i
+                class="glyphicon glyphicon-remove-circle"></i></button>
+    <button type="button" class="btn btn-primary" id="saveSignUpButton" onclick="validateServerSignUp()"
+            disabled>{{ trans('texts.save') }} <i class="glyphicon glyphicon-floppy-disk"></i></button>
+    </span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         @endif
-
         <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel"
              aria-hidden="true">
             <div class="modal-dialog">
@@ -330,7 +299,6 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title" id="myModalLabel">{{ trans('texts.logout') }}</h4>
                     </div>
-
                     <div class="container" style="width: 100%; padding-bottom: 0px !important">
                         <div class="panel panel-default">
                             <div class="panel-body">
@@ -339,7 +307,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default"
                                 data-dismiss="modal">{{ trans('texts.cancel') }}</button>

@@ -209,9 +209,7 @@
         }
         ;
         <?php endif; ?>
-
             window._fbq = window._fbq || [];
-
     </script>
 
     <?php if(! request()->borderless): ?>
@@ -252,9 +250,7 @@
     <?php echo $__env->yieldContent('head'); ?>
 
 </head>
-
 <body class="body">
-
 <?php if(request()->phantomjs): ?>
     <script>
         function trackEvent(category, action) {

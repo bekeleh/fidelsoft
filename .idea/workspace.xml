@@ -2,32 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/c06V1t7s7pXoMmJmQ5Dg7OjJYs8qDyc4NP37iARn" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/626066e21669c3c0963be6662b0c23e18dd7881b.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/6fa524c879f672159ba6d0cd743d03590bc34db5.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/930ca693b25da5649f8f8deb5ec4351a1c766c77.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/a8e214552cb3a46e8d7fa956c4cd32193ea2dc29.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/c18fa3865e1151b9981fcdd9ba5c37d38cbef917.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/header.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/master.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/master.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/029ff1b83d4540237f7ba2370365a7966023941e.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/07a1c7247931ba344894c739cfe919cd7c3256c9.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/18aa35b235b3b64d881ae8da46a146bf0c81710b.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/2759f8bbc5059c82614447a82a67b42367cd4189.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/partials/sign_up.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/partials/sign_up.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/QUjzoiW3GBhDkbtkx9epafiI5nptTVVYv6nznMob" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/X3szikjeR8nJZYqELlVqIFR989eCrucwVQe8SHoT" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/c06V1t7s7pXoMmJmQ5Dg7OjJYs8qDyc4NP37iARn" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/3d4796057765b5a7517531f2f8b487ab7f709a24.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/3d4796057765b5a7517531f2f8b487ab7f709a24.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/6dcd1d5f1aa14ef39e4fff36c9391dd760543946.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/8ce6cefdf35b74990328199dc12bea150d4c6322.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/9d8aefb15fbe9a910b39a0f97aae647e7c0ca4f1.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/9d8aefb15fbe9a910b39a0f97aae647e7c0ca4f1.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/9eaec7a1912e5681c0d192c47e44595ba72e45b9.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/ab409e5dc6346ea88348aeb65121486025dfad94.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/b333d68d8131407c1a83803c03303577f0efa06a.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/bdfaf0e4dc72b9e19eb99e032970670fdc65b1f9.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/e50726394fb96b33e7a3fe023a9d5f8ff5a4dff4.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -377,14 +361,7 @@
       <workItem from="1586154210674" duration="5978000" />
       <workItem from="1586189877807" duration="9849000" />
       <workItem from="1586411930963" duration="1866000" />
-      <workItem from="1586792945030" duration="2585000" />
-    </task>
-    <task id="LOCAL-00081" summary="2020-03-27 10:55">
-      <created>1585294750323</created>
-      <option name="number" value="00081" />
-      <option name="presentableId" value="LOCAL-00081" />
-      <option name="project" value="LOCAL" />
-      <updated>1585294750323</updated>
+      <workItem from="1586792945030" duration="4059000" />
     </task>
     <task id="LOCAL-00082" summary="2020-03-27 10:55">
       <created>1585299825675</created>
@@ -722,7 +699,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586200875147</updated>
     </task>
-    <option name="localTasksCounter" value="130" />
+    <task id="LOCAL-00130" summary="2020-04-13 9:26">
+      <created>1586807973964</created>
+      <option name="number" value="00130" />
+      <option name="presentableId" value="LOCAL-00130" />
+      <option name="project" value="LOCAL" />
+      <updated>1586807973964</updated>
+    </task>
+    <option name="localTasksCounter" value="131" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -843,9 +827,10 @@
     </state>
     <state x="408" y="139" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1586189894452" />
     <state x="430" y="164" key="com.intellij.ide.util.TipDialog/0.0.1440.860@0.0.1440.860" timestamp="1586154234151" />
-    <state x="215" y="69" width="849" height="606" key="find.popup" timestamp="1586178664001">
-      <screen x="0" y="0" width="1440" height="860" />
+    <state x="191" y="55" width="755" height="536" key="find.popup" timestamp="1586809342767">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
+    <state x="191" y="55" width="755" height="536" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1586809342767" />
     <state x="316" y="37" width="983" height="691" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1586115855044" />
     <state x="215" y="69" width="849" height="606" key="find.popup/0.0.1440.860@0.0.1440.860" timestamp="1586178664001" />
     <state x="462" y="222" key="git4idea.merge.GitPullDialog" timestamp="1584633875966">

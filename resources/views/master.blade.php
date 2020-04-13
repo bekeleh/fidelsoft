@@ -209,9 +209,7 @@
         }
         ;
         @endif
-
             window._fbq = window._fbq || [];
-
     </script>
 
     @if (! request()->borderless)
@@ -252,9 +250,7 @@
     @yield('head')
 
 </head>
-
 <body class="body">
-
 @if (request()->phantomjs)
     <script>
         function trackEvent(category, action) {

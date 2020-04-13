@@ -4,30 +4,10 @@
         <style type="text/css">
             .nav-footer {
                 <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?>
-                                                                                                                                                     background-color: #50C878 !important;
+  background-color: #50C878 !important;
                 <?php else: ?>
-                                                                                                                                                         background-color: #FD6A02 !important;
+  background-color: #FD6A02 !important;
             <?php endif; ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             }
         </style>
     <?php endif; ?>
@@ -47,7 +27,6 @@
             if (force) {
                 NINJA.formIsChanged = false;
             }
-
             if (force || NINJA.isRegistered) {
                 window.location = '<?php echo e(URL::to('logout')); ?>' + (force ? '?force_logout=true' : '');
             } else {
@@ -148,7 +127,7 @@
                 });
 
                 request.error(function (httpObj, textStatus) {
-                    // if the session has expired show login page
+// if the session has expired show login page
                     if (httpObj.status == 401) {
                         location.reload();
                     }
@@ -157,19 +136,19 @@
         }
 
         $(function () {
-            // auto-logout after 2 hours
+// auto-logout after 2 hours
             window.setTimeout(function () {
                 window.location = '<?php echo e(URL::to('/logout?reason=inactive')); ?>';
             }, <?php echo e(1000 * env('AUTO_LOGOUT_SECONDS', (60 * 60 * 2))); ?>);
 
-            // auto-hide status alerts
+// auto-hide status alerts
             window.setTimeout(function () {
                 $(".alert-hide").fadeOut();
             }, 3000);
 
             /* Set the defaults for Bootstrap datepicker */
             $.extend(true, $.fn.datepicker.defaults, {
-                //language: '<?php echo e($appLanguage); ?>', // causes problems with some languages (ie, fr_CA) if the date includes strings (ie, July 31, 2016)
+//language: '<?php echo e($appLanguage); ?>', // causes problems with some languages (ie, fr_CA) if the date includes strings (ie, July 31, 2016)
                 weekStart: <?php echo e(Session::get('start_of_week')); ?>
 
             });
@@ -196,7 +175,7 @@
             $('#search').focusin(onSearchFocus);
             $('#search').blur(onSearchBlur);
 
-            // manage sidebar state
+// manage sidebar state
             function setupSidebar(side) {
                 $("#" + side + "-menu-toggle").click(function (e) {
                     e.preventDefault();
@@ -247,10 +226,10 @@
                 }
             });
 
-            // set timeout onDomReady
+// set timeout onDomReady
             setTimeout(delayedFragmentTargetOffset, 500);
 
-            // add scroll offset to fragment target (if there is one)
+// add scroll offset to fragment target (if there is one)
             function delayedFragmentTargetOffset() {
                 var offset = $(':target').offset();
                 if (offset) {
@@ -289,17 +268,14 @@
                         <?php if(!Auth::user()->confirmed): ?>
                             <?php echo Button::success(trans('texts.sign_up'))->withAttributes(array('id' => 'signUpButton', 'onclick' => 'showSignUp()', 'style' => 'max-width:100px;;overflow:hidden'))->small(); ?>
 
-                            &nbsp;
                         <?php endif; ?>
                     <?php elseif(Utils::isNinjaProd() && (!Auth::user()->isPro() || Auth::user()->isTrial())): ?>
                         <?php if(Auth::user()->account->company->hasActivePromo()): ?>
                             <?php echo Button::warning(trans('texts.plan_upgrade'))->withAttributes(array('onclick' => 'showUpgradeModal()', 'style' => 'max-width:100px;overflow:hidden'))->small(); ?>
 
-                            &nbsp;
                         <?php else: ?>
                             <?php echo Button::success(trans('texts.plan_upgrade'))->withAttributes(array('onclick' => 'showUpgradeModal()', 'style' => 'max-width:100px;overflow:hidden'))->small(); ?>
 
-                            &nbsp;
                         <?php endif; ?>
                     <?php endif; ?>
                 <?php endif; ?>
@@ -322,33 +298,33 @@
                             <?php $__currentLoopData = session(SESSION_USER_ACCOUNTS); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <?php if($item->user_id == Auth::user()->id): ?>
                                     <?php echo $__env->make('user_account', [
-                                        'user_account_id' => $item->id,
-                                        'user_id' => $item->user_id,
-                                        'account_name' => $item->account_name,
-                                        'user_name' => $item->user_name,
-                                        'logo_url' => isset($item->logo_url) ? $item->logo_url : "",
-                                        'selected' => true,
+                                    'user_account_id' => $item->id,
+                                    'user_id' => $item->user_id,
+                                    'account_name' => $item->account_name,
+                                    'user_name' => $item->user_name,
+                                    'logo_url' => isset($item->logo_url) ? $item->logo_url : "",
+                                    'selected' => true,
                                     ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                                 <?php endif; ?>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             <?php $__currentLoopData = session(SESSION_USER_ACCOUNTS); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <?php if($item->user_id != Auth::user()->id): ?>
                                     <?php echo $__env->make('user_account', [
-                                        'user_account_id' => $item->id,
-                                        'user_id' => $item->user_id,
-                                        'account_name' => $item->account_name,
-                                        'user_name' => $item->user_name,
-                                        'logo_url' => isset($item->logo_url) ? $item->logo_url : "",
-                                        'selected' => false,
+                                    'user_account_id' => $item->id,
+                                    'user_id' => $item->user_id,
+                                    'account_name' => $item->account_name,
+                                    'user_name' => $item->user_name,
+                                    'logo_url' => isset($item->logo_url) ? $item->logo_url : "",
+                                    'selected' => false,
                                     ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                                 <?php endif; ?>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         <?php else: ?>
                             <?php echo $__env->make('user_account', [
-                                'account_name' => Auth::user()->account->name ?: trans('texts.untitled'),
-                                'user_name' => Auth::user()->getDisplayName(),
-                                'logo_url' => Auth::user()->account->getLogoURL(),
-                                'selected' => true,
+                            'account_name' => Auth::user()->account->name ?: trans('texts.untitled'),
+                            'user_name' => Auth::user()->getDisplayName(),
+                            'logo_url' => Auth::user()->account->getLogoURL(),
+                            'selected' => true,
                             ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                         <?php endif; ?>
                         <li class="divider"></li>
@@ -376,23 +352,23 @@
             </center>
             <ul class="nav navbar-nav hide-non-phone" style="font-weight: bold">
                 <?php $__currentLoopData = [
-                    'dashboard' => false,
-                    'users' => false,
-                    'clients' => false,
-                    'products' => false,
-                    'locations' => false,
-                    'invoices' => false,
-                    'payments' => false,
-                    'recurring_invoices' => 'recurring',
-                    'credits' => false,
-                    'quotes' => false,
-                    'proposals' => false,
-                    'projects' => false,
-                    'tasks' => false,
-                    'expenses' => false,
-                    'vendors' => false,
-                    'reports' => false,
-                    'settings' => false,
+                'dashboard' => false,
+                'users' => false,
+                'clients' => false,
+                'products' => false,
+                'locations' => false,
+                'invoices' => false,
+                'payments' => false,
+                'recurring_invoices' => 'recurring',
+                'credits' => false,
+                'quotes' => false,
+                'proposals' => false,
+                'projects' => false,
+                'tasks' => false,
+                'expenses' => false,
+                'vendors' => false,
+                'reports' => false,
+                'settings' => false,
                 ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <?php echo Form::nav_link($key, $value ?: $key); ?>
 
@@ -406,20 +382,20 @@
         <div id="left-sidebar-wrapper" class="hide-phone">
             <ul class="sidebar-nav <?php echo e(Auth::user()->dark_mode ? 'sidebar-nav-dark' : 'sidebar-nav-light'); ?>">
                 <?php $__currentLoopData = [
-                    'dashboard',
-                    'clients',
-                     'vendors',
-                    'invoices',
-                    'payments',
-                    'recurring_invoices',
-                    'credits',
-                    'quotes',
-                    'proposals',
-                    'projects',
-                    'tasks',
-                    'expenses',
-                    'products',
-                    'locations',
+                'dashboard',
+                'clients',
+                'vendors',
+                'invoices',
+                'payments',
+                'recurring_invoices',
+                'credits',
+                'quotes',
+                'proposals',
+                'projects',
+                'tasks',
+                'expenses',
+                'products',
+                'locations',
 
                 ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <?php if(!Auth::user()->account->isModuleEnabled(substr($option, 0, -1))): ?>
@@ -432,8 +408,8 @@
                 <?php if( ! Utils::isNinjaProd()): ?>
                     <?php $__currentLoopData = Module::collections(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $module): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <?php echo $__env->renderWhen(empty($module->get('no-sidebar')) || $module->get('no-sidebar') != '1', 'partials.navigation_option', [
-                            'option' => $module->getAlias(),
-                            'icon' => $module->get('icon', 'th-large'),
+                        'option' => $module->getAlias(),
+                        'icon' => $module->get('icon', 'th-large'),
                         ], array_except(get_defined_vars(), array('__data', '__path'))); ?>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 <?php endif; ?>
@@ -478,8 +454,8 @@
                             <?php if(Auth::check() && Auth::user()->hasActivePromo()): ?>
                             <?php elseif(Auth::check() && Auth::user()->isTrial()): ?>
                                 <?php echo trans(Auth::user()->account->getCountTrialDaysLeft() == 0 ? 'texts.trial_footer_last_day' : 'texts.trial_footer', [
-                                        'count' => Auth::user()->account->getCountTrialDaysLeft(),
-                                    ]); ?>
+                                'count' => Auth::user()->account->getCountTrialDaysLeft(),
+                                ]); ?>
 
                             <?php endif; ?>
                         <?php else: ?>
