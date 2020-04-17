@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Libraries\Utils;
-use App\Ninja\Datatables\ItemCategoryDatatable;
+use App\Ninja\Datatables\ItemBrandDatatable;
 use App\Ninja\Datatables\ProductDatatable;
 use App\Ninja\Datatables\UnitDatatable;
 use App\Ninja\Repositories\ProductRepository;
@@ -45,13 +45,13 @@ class ProductService extends BaseService
         return $this->datatableService->createDatatable($datatable, $query, 'products');
     }
 
-    public function getDatatableItemCategory($itemCategoryPublicId)
+    public function getDatatableItemBrand($itemBrandPublicId)
     {
-        $datatable = new ItemCategoryDatatable(true, true);
+        $datatable = new ItemBrandDatatable(true, true);
 
-        $query = $this->productRepo->findItemCategory($itemCategoryPublicId);
+        $query = $this->productRepo->findItemBrand($itemBrandPublicId);
 
-        if (!Utils::hasAccess('view_item_categories')) {
+        if (!Utils::hasAccess('view_item_brands')) {
             $query->where('products.user_id', '=', Auth::user()->id);
         }
 

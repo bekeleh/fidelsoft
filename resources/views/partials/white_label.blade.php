@@ -1,7 +1,5 @@
 {{ trans('texts.powered_by') }}
-
-{{-- Per our license, please do not remove or modify this section. --}}
-{!! link_to('https://www.careerp.com/?tm_source=powered_by', 'HARON E-business Solution PLC', ['target' => '_blank', 'title' => trans('texts.created_by', ['name' => 'HARON ERP Team'])]) !!}
+{!! link_to('https://eninjaplus.com/?tm_source=powered_by', 'E-Ninja Plus', ['target' => '_blank', 'title' => trans('texts.created_by', ['name' => 'E-Ninja Plus Team'])]) !!}
 
 @if (Auth::user()->account->hasFeature(FEATURE_WHITE_LABEL))
     {{ trans('texts.white_labeled') }}

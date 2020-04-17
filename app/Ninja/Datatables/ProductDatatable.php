@@ -23,9 +23,9 @@ class ProductDatatable extends EntityDatatable
                 },
             ],
             [
-                'item_category_name',
+                'item_brand_name',
                 function ($model) {
-                    return link_to('item_categories/' . $model->public_id . '/edit', $model->item_category_name)->toHtml();
+                    return link_to('item_categories/' . $model->public_id . '/edit', $model->item_brand_name)->toHtml();
                 },
             ],
             [

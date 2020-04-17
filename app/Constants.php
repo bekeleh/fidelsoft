@@ -38,6 +38,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_ITEM_STORE', 'item_store');
     define('ENTITY_ITEM_MOVEMENT', 'item_movement');
     define('ENTITY_ITEM_CATEGORY', 'item_category');
+    define('ENTITY_ITEM_BRAND', 'item_brand');
     define('ENTITY_ITEM_PRICE', 'item_price');
     define('ENTITY_SALE_TYPE', 'sale_type');
     define('ENTITY_HOLD_REASON', 'hold_reason');
@@ -75,6 +76,7 @@ if (!defined('APP_NAME')) {
         ENTITY_ITEM_STORE,
         ENTITY_ITEM_MOVEMENT,
         ENTITY_ITEM_CATEGORY,
+        ENTITY_ITEM_BRAND,
         ENTITY_HOLD_REASON,
         ENTITY_PROJECT,
         ENTITY_PROPOSAL,
@@ -127,6 +129,7 @@ if (!defined('APP_NAME')) {
     define('ACCOUNT_HOLD_REASONS', 'hold_reasons');
     define('ACCOUNT_ITEM_MOVEMENT', 'item_movements');
     define('ACCOUNT_ITEM_CATEGORIES', 'item_categories');
+    define('ACCOUNT_ITEM_BRANDS', 'item_brands');
     define('ACCOUNT_LOCATIONS', 'locations');
     define('ACCOUNT_STORES', 'stores');
     define('ACCOUNT_PRICES', 'item_prices');

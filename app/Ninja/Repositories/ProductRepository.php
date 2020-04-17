@@ -5,7 +5,7 @@ namespace App\Ninja\Repositories;
 use App\Events\ProductWasCreated;
 use App\Events\ProductWasUpdated;
 use App\Libraries\Utils;
-use App\Models\ItemCategory;
+use App\Models\ItemBrand;
 use App\Models\Product;
 use App\Models\Unit;
 use Illuminate\Support\Facades\Auth;
@@ -18,22 +18,6 @@ class ProductRepository extends BaseRepository
     public function __construct(Product $model)
     {
         $this->model = $model;
-    }
-
-    public function getById($id)
-    {
-        return $this->model->findOrFail($id);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    public function setModel($model)
-    {
-        $this->model = $model;
-        return $this;
     }
 
     public function getClassName()
@@ -54,7 +38,7 @@ class ProductRepository extends BaseRepository
         $query = DB::table('products')
             ->join('accounts', 'accounts.id', '=', 'products.account_id')
             ->join('users', 'users.id', '=', 'products.user_id')
-            ->join('item_categories', 'item_categories.id', '=', 'products.item_category_id')
+            ->join('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
             ->join('units', 'units.id', '=', 'products.unit_id')
             ->where('products.account_id', '=', $accountId)
             //->where('products.deleted_at', '=', null)
@@ -78,7 +62,7 @@ class ProductRepository extends BaseRepository
                 'products.created_by',
                 'products.updated_by',
                 'products.deleted_by',
-                'item_categories.name as item_category_name',
+                'item_brands.name as item_brand_name',
                 'units.name as unit_name'
             );
         if ($filter) {
@@ -87,7 +71,7 @@ class ProductRepository extends BaseRepository
                     ->orWhere('products.barcode', 'like', '%' . $filter . '%')
                     ->orWhere('products.item_tag', 'like', '%' . $filter . '%')
                     ->orWhere('products.notes', 'like', '%' . $filter . '%')
-                    ->orWhere('item_categories.name', 'like', '%' . $filter . '%')
+                    ->orWhere('item_brands.name', 'like', '%' . $filter . '%')
                     ->orWhere('units.name', 'like', '%' . $filter . '%');
             });
         }
@@ -97,11 +81,11 @@ class ProductRepository extends BaseRepository
         return $query;
     }
 
-    public function findItemCategory($itemCategoryPublicId)
+    public function findItemBrand($itemBrandPublicId)
     {
-        $itemCategoryId = ItemCategory::getPrivateId($itemCategoryPublicId);
+        $itemBrandId = ItemBrand::getPrivateId($itemBrandPublicId);
 
-        $query = $this->find()->where('item_categories.item_category_id', '=', $itemCategoryId);
+        $query = $this->find()->where('item_brands.item_brand_id', '=', $itemBrandId);
 
         return $query;
     }

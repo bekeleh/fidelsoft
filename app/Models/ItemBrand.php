@@ -8,14 +8,14 @@ use Laracasts\Presenter\PresentableTrait;
 /**
  * Model Class Store.
  */
-class ItemCategory extends EntityModel
+class ItemBrand extends EntityModel
 {
-    protected $presenter = 'App\Ninja\Presenters\ItemCategoryPresenter';
+    protected $presenter = 'App\Ninja\Presenters\ItemBrandPresenter';
     use PresentableTrait;
     use SoftDeletes;
 
     protected $appends = [];
-    protected $table = 'item_categories';
+    protected $table = 'item_brands';
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
 
     protected $fillable = [
@@ -28,20 +28,18 @@ class ItemCategory extends EntityModel
     protected $hidden = [];
     protected $casts = [];
 
-    /**
-     * @return mixed
-     */
+
     public function getEntityType()
     {
-        return ENTITY_ITEM_CATEGORY;
+        return ENTITY_ITEM_BRAND;
     }
 
-    /**
-     * @param $key
-     *
-     * @return mixed
-     */
-    public static function findItemCategoryByKey($key)
+    public function getRoute()
+    {
+        return "/item_brands/{$this->public_id}/edit";
+    }
+
+    public static function findItemBrandByKey($key)
     {
         return self::scope()->where('name', '=', $key)->first();
     }
@@ -51,21 +49,14 @@ class ItemCategory extends EntityModel
         return $this->belongsTo('App\Models\Account', 'account_id')->withTrashed();
     }
 
-    /**
-     * @return mixed
-     */
     public function user()
     {
         return $this->belongsTo('App\Models\User', 'user_id')->withTrashed();
     }
 
-    public function brands()
+    public function products()
     {
-        return $this->hasMany('App\Models\ItemBrand', 'item_category_id')->withTrashed();
+        return $this->hasMany('App\Models\Product', 'item_brand_id')->withTrashed();
     }
 
-    public function getRoute()
-    {
-        return "/item_categories/{$this->public_id}/edit";
-    }
 }

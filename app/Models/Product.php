@@ -20,7 +20,7 @@ class Product extends EntityModel
         'item_tag',
         'notes',
         'item_cost',
-        'item_category_id',
+        'item_brand_id',
         'unit_id',
         'created_by',
         'updated_by',
@@ -89,9 +89,9 @@ class Product extends EntityModel
         return $this->hasMany('App\Models\ItemPrice', 'product_id')->withTrashed();
     }
 
-    public function itemCategory()
+    public function itemBrand()
     {
-        return $this->belongsTo('App\Models\ItemCategory', 'item_category_id')->withTrashed();
+        return $this->belongsTo('App\Models\ItemBrand', 'item_brand_id')->withTrashed();
     }
 
     public function unit()
