@@ -17,22 +17,6 @@ class ItemCategoryRepository extends BaseRepository
         $this->model = $model;
     }
 
-    public function getById($id)
-    {
-        return $this->model->findOrFail($id);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    public function setModel($model)
-    {
-        $this->model = $model;
-        return $this;
-    }
-
     public function getClassName()
     {
         return 'App\Models\ItemCategory';
@@ -47,7 +31,7 @@ class ItemCategoryRepository extends BaseRepository
     public function find($accountId, $filter = null)
     {
         $query = DB::table('item_categories')
-//            ->join('accounts', 'accounts.id', '=', 'item_categories.account_id')
+            ->join('accounts', 'accounts.id', '=', 'item_categories.account_id')
             ->join('users', 'users.id', '=', 'item_categories.user_id')
             ->where('item_categories.account_id', '=', $accountId)
 //            ->where('item_categories.deleted_at', '=', null)
@@ -85,7 +69,7 @@ class ItemCategoryRepository extends BaseRepository
             $itemCategory->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $itemCategory = ItemCategory::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in item store repo save');
+            \Log::warning('Entity not set in item category repo save');
         } else {
             $itemCategory = ItemCategory::createNew();
             $itemCategory->created_by = Auth::user()->username;

@@ -14,21 +14,9 @@ class VendorContactRepository extends BaseRepository
         $this->model = $model;
     }
 
-    public function getById($id)
+    public function getClassName()
     {
-        return $this->model->findOrFail($id);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-
-    public function setModel($model)
-    {
-        $this->model = $model;
-        return $this;
+        return 'App\Models\VendorContact';
     }
 
     public function save($data)

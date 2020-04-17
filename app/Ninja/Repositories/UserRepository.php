@@ -18,17 +18,6 @@ class UserRepository extends BaseRepository
         $this->model = $model;
     }
 
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    public function setModel($model)
-    {
-        $this->model = $model;
-        return $this;
-    }
-
     public function getClassName()
     {
         return 'App\Models\User';

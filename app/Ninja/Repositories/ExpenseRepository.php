@@ -21,22 +21,6 @@ class ExpenseRepository extends BaseRepository
         $this->documentRepo = $documentRepo;
     }
 
-    public function getById($id)
-    {
-        return $this->model->findOrFail($id);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    public function setModel($model)
-    {
-        $this->model = $model;
-        return $this;
-    }
-
     // Expenses
     public function getClassName()
     {

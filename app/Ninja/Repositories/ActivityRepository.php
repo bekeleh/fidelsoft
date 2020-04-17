@@ -20,22 +20,6 @@ class ActivityRepository
         $this->model = $model;
     }
 
-    public function getById($id)
-    {
-        return $this->model->findOrFail($id);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    public function setModel($model)
-    {
-        $this->model = $model;
-        return $this;
-    }
-
     public function create($entity, $activityTypeId, $balanceChange = 0, $paidToDateChange = 0, $altEntity = null, $notes = false)
     {
         if ($entity instanceof Client) {

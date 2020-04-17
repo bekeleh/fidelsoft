@@ -2,7 +2,6 @@
 
 namespace App\Ninja\Repositories;
 
-
 use App\Models\Permission;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -15,22 +14,6 @@ class PermissionRepository extends BaseRepository
     public function __construct(Permission $model)
     {
         $this->model = $model;
-    }
-
-    public function getById($id)
-    {
-        return $this->model->findOrFail($id);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    public function setModel($model)
-    {
-        $this->model = $model;
-        return $this;
     }
 
     public function getClassName()

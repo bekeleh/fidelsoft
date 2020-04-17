@@ -13,22 +13,6 @@ class ContactRepository extends BaseRepository
         $this->model = $model;
     }
 
-    public function getById($id)
-    {
-        return $this->model->findOrFail($id);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    public function setModel($model)
-    {
-        $this->model = $model;
-        return $this;
-    }
-
     public function all()
     {
         return Contact::scope()

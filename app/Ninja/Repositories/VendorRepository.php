@@ -2,35 +2,17 @@
 
 namespace App\Ninja\Repositories;
 
+use App\Libraries\Utils;
 use App\Models\Vendor;
 use Illuminate\Support\Facades\DB;
-use App\Libraries\Utils;
 
 class VendorRepository extends BaseRepository
 {
-
     private $model;
 
     public function __construct(Vendor $model)
     {
         $this->model = $model;
-    }
-
-    public function getById($id)
-    {
-        return $this->model->findOrFail($id);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-
-    public function setModel($model)
-    {
-        $this->model = $model;
-        return $this;
     }
 
     public function getClassName()

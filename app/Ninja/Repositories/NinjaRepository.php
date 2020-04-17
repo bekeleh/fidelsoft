@@ -13,22 +13,6 @@ class NinjaRepository
         $this->model = $model;
     }
 
-    public function getById($id)
-    {
-        return $this->model->findOrFail($id);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    public function setModel($model)
-    {
-        $this->model = $model;
-        return $this;
-    }
-
     public function updatePlanDetails($clientPublicId, $data)
     {
         $account = Account::whereId($clientPublicId)->first();

@@ -11,24 +11,6 @@ use stdClass;
 
 class DashboardRepository
 {
-    private $model;
-
-    public function getById($id)
-    {
-        return $this->model->findOrFail($id);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    public function setModel($model)
-    {
-        $this->model = $model;
-        return $this;
-    }
-
     public function chartData($account, $groupBy, $startDate, $endDate, $currencyId, $includeExpenses)
     {
         $accountId = $account->id;
