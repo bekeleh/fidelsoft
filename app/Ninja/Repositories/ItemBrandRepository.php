@@ -31,6 +31,7 @@ class ItemBrandRepository extends BaseRepository
     {
         $query = DB::table('item_brands')
             ->join('accounts', 'accounts.id', '=', 'item_brands.account_id')
+            ->join('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
             ->join('users', 'users.id', '=', 'item_brands.user_id')
             ->where('item_brands.account_id', '=', $accountId)
 //            ->where('item_brands.deleted_at', '=', null)
@@ -45,13 +46,15 @@ class ItemBrandRepository extends BaseRepository
                 'item_brands.deleted_at',
                 'item_brands.created_by',
                 'item_brands.updated_by',
-                'item_brands.deleted_by'
+                'item_brands.deleted_by',
+                'item_categories.name as item_category_name'
             );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('item_brands.name', 'like', '%' . $filter . '%')
-                    ->orWhere('item_brands.notes', 'like', '%' . $filter . '%');
+                    ->orWhere('item_brands.notes', 'like', '%' . $filter . '%')
+                    ->orWhere('item_categories.name', 'like', '%' . $filter . '%');
             });
         }
 

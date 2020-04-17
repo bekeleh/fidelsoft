@@ -19,6 +19,7 @@ class ItemBrand extends EntityModel
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
 
     protected $fillable = [
+        'item_category_id',
         'name',
         'notes',
         'created_by',
@@ -52,6 +53,11 @@ class ItemBrand extends EntityModel
     public function user()
     {
         return $this->belongsTo('App\Models\User', 'user_id')->withTrashed();
+    }
+
+    public function itemCategory()
+    {
+        return $this->belongsTo('App\Models\itemCategory', 'item_category_id')->withTrashed();
     }
 
     public function products()
