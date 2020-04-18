@@ -247,6 +247,7 @@ $LANG = array(
     'archived_item_brand' => 'Successfully Archived Item Brand',
     'item_brand_settings' => 'Item Brand Settings',
     'select_item_brand' => 'Select Item Brand',
+    'item_brand_help' => 'Sets the default <b>item brand</b>',
     /*
 |--------------------------------------------------------------------------
 | item category trans
@@ -271,7 +272,7 @@ $LANG = array(
     'archived_item_category' => 'Successfully Archived Item Category',
     'item_category_settings' => 'Item Category Settings',
     'select_item_category' => 'Select Item Category',
-
+    'item_category_help' => 'Sets the default <b>item category</b>',
     /*
 |--------------------------------------------------------------------------
 | item unit trans
