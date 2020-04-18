@@ -79,7 +79,7 @@
 
         $(function () {
 
-            var itemCategoryId = {{ $itemCategoryPublicId ?: 0 }};
+            var CategoryId = {{ $itemCategoryPublicId ?: 0 }};
             var $item_categorySelect = $('select#item_category_id');
             @if (Auth::user()->can('create', ENTITY_ITEM_BRAND))
             $item_categorySelect.append(new Option("{{ trans('texts.create_item_category')}}: $name", '-1'));
@@ -90,8 +90,8 @@
                 $item_categorySelect.append(new Option(getClientDisplayName(category), category.public_id));
             }
             @include('partials/entity_combobox', ['entityType' => ENTITY_ITEM_BRAND])
-            if (itemCategoryId) {
-                var category = categoryMap[itemCategoryId];
+            if (CategoryId) {
+                var category = categoryMap[CategoryId];
                 setComboboxValue($('.item-category-select'), category.public_id, category.name);
             }
 
