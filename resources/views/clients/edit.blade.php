@@ -354,7 +354,7 @@ afterAdd: showContact }'>
                 $hold_reasonSelect.append(new Option("{{ trans('texts.create_hold_reason')}}: $name", '-1'));
                         @endif
                 for (var i = 0; i < reasons.length; i++) {
-                    var reason = reasons[i];
+                    var reasonreason = reasons[i];
                     reasonMap[reason.public_id] = reason;
                     $hold_reasonSelect.append(new Option(getClientDisplayName(reason), reason.public_id));
                 }

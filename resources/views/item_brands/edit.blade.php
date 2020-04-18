@@ -5,7 +5,7 @@
     {!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['name' => 'required|max:90','item_category_id' => 'required'])
+    ->rules(['name' => 'required|max:90','item_category_id' => 'required','notes' => 'required'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     @if ($itemBrand)
         {{ Former::populate($itemBrand) }}
@@ -24,12 +24,12 @@
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
+                    {!! Former::text('name')->label('texts.item_brand') !!}
                     {!! Former::select('item_category_id')->addOption('', '')
                     ->label(trans('texts.item_category'))
                     ->addGroupClass('item-category-select')
                     ->help(trans('texts.item_category_help') . ' | ' . link_to('/item_categories/', trans('texts.customize_options')))
                     !!}
-                    {!! Former::text('name')->label('texts.name') !!}
                     {!! Former::textarea('notes')->rows(6) !!}
                 </div>
             </div>
@@ -55,7 +55,7 @@
             </div>
         @endif
     @endforeach
-    @if (Auth::user()->canCreateOrEdit(ENTITY_ITEM_BRAND, $itemBrand))
+    @if (Auth::user()->canCreateOrEdit(ENTITY_ITEM_CATEGORY, $itemBrand))
         <center class="buttons">
             {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/item_brands'))->appendIcon(Icon::create('remove-circle')) !!}
             {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
@@ -79,9 +79,9 @@
 
         $(function () {
 
-            var CategoryId = {{ $itemCategoryPublicId ?: 0 }};
+            var categoryId = {{ $itemCategoryPublicId ?: 0 }};
             var $item_categorySelect = $('select#item_category_id');
-            @if (Auth::user()->can('create', ENTITY_ITEM_BRAND))
+            @if (Auth::user()->can('create', ENTITY_ITEM_CATEGORY))
             $item_categorySelect.append(new Option("{{ trans('texts.create_item_category')}}: $name", '-1'));
                     @endif
             for (var i = 0; i < categories.length; i++) {
@@ -89,9 +89,9 @@
                 categoryMap[category.public_id] = category;
                 $item_categorySelect.append(new Option(getClientDisplayName(category), category.public_id));
             }
-            @include('partials/entity_combobox', ['entityType' => ENTITY_ITEM_BRAND])
-            if (CategoryId) {
-                var category = categoryMap[CategoryId];
+            @include('partials/entity_combobox', ['entityType' => ENTITY_ITEM_CATEGORY])
+            if (categoryId) {
+                var category = categoryMap[categoryId];
                 setComboboxValue($('.item-category-select'), category.public_id, category.name);
             }
 

@@ -23,7 +23,7 @@ class ItemBrandRequest extends EntityRequest
             {
                 $this->validationData();
                 $rules['item_category_id'] = 'required|numeric';
-                $rules['name'] = 'required|max:90|unique:item_brands,name,' . $this->id . ',id,account_id,' . $this->account_id;
+                $rules['name'] = 'required|max:90|unique:item_brands,name,' . $this->id . ',id,item_category_id,' . $this->item_category_id . ',account_id,' . $this->account_id;
                 $rules['notes'] = 'nullable';
                 $rules['is_deleted'] = 'boolean';
                 break;
@@ -35,7 +35,7 @@ class ItemBrandRequest extends EntityRequest
                 $itemBrand = ItemBrand::where('public_id', (int)request()->segment(2))->first();
                 if ($itemBrand) {
                     $rules['item_category_id'] = 'required|numeric';
-                    $rules['name'] = 'required|max:90|unique:item_brands,name,' . $itemBrand->id . ',id,account_id,' . $itemBrand->account_id;
+                    $rules['name'] = 'required|max:90|unique:item_brands,name,' . $itemBrand->id . ',id,item_category_id,' . $itemBrand->item_category_id . ',account_id,' . $itemBrand->account_id;
                     $rules['is_deleted'] = 'boolean';
                     $rules['notes'] = 'nullable';
                     break;
@@ -72,10 +72,12 @@ class ItemBrandRequest extends EntityRequest
             if (!empty($input['item_category_id'])) {
                 $input['item_category_id'] = ItemCategory::getPrivateId($input['item_category_id']);
             }
-            $this->request->add([
-                'account_id' => ItemBrand::getAccountId(),
-                'item_category_id' => $input['item_category_id'],
-            ]);
+            if (!empty($input['item_category_id'])) {
+                $this->request->add([
+                    'account_id' => ItemBrand::getAccountId(),
+                    'item_category_id' => $input['item_category_id'],
+                ]);
+            }
         }
         return $this->request->all();
     }

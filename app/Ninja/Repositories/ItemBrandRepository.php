@@ -90,6 +90,7 @@ class ItemBrandRepository extends BaseRepository
         $itemBrand->name = isset($data['name']) ? ucwords(Str::lower(trim($data['name']))) : '';
         $itemBrand->notes = isset($data['notes']) ? trim($data['notes']) : '';
         $itemBrand->save();
+
         return $itemBrand;
     }
 

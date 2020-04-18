@@ -28,12 +28,12 @@
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
+                    <?php echo Former::text('name')->label('texts.item_brand'); ?>
+
                     <?php echo Former::select('item_category_id')->addOption('', '')
                     ->label(trans('texts.item_category'))
                     ->addGroupClass('item-category-select')
                     ->help(trans('texts.item_category_help') . ' | ' . link_to('/item_categories/', trans('texts.customize_options'))); ?>
-
-                    <?php echo Former::text('name')->label('texts.name'); ?>
 
                     <?php echo Former::textarea('notes')->rows(6); ?>
 
@@ -62,7 +62,7 @@
             </div>
         <?php endif; ?>
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-    <?php if(Auth::user()->canCreateOrEdit(ENTITY_ITEM_BRAND, $itemBrand)): ?>
+    <?php if(Auth::user()->canCreateOrEdit(ENTITY_ITEM_CATEGORY, $itemBrand)): ?>
         <center class="buttons">
             <?php echo Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/item_brands'))->appendIcon(Icon::create('remove-circle')); ?>
 
@@ -90,9 +90,9 @@
 
         $(function () {
 
-            var CategoryId = <?php echo e($itemCategoryPublicId ?: 0); ?>;
+            var categoryId = <?php echo e($itemCategoryPublicId ?: 0); ?>;
             var $item_categorySelect = $('select#item_category_id');
-            <?php if(Auth::user()->can('create', ENTITY_ITEM_BRAND)): ?>
+            <?php if(Auth::user()->can('create', ENTITY_ITEM_CATEGORY)): ?>
             $item_categorySelect.append(new Option("<?php echo e(trans('texts.create_item_category')); ?>: $name", '-1'));
                     <?php endif; ?>
             for (var i = 0; i < categories.length; i++) {
@@ -100,9 +100,9 @@
                 categoryMap[category.public_id] = category;
                 $item_categorySelect.append(new Option(getClientDisplayName(category), category.public_id));
             }
-            <?php echo $__env->make('partials/entity_combobox', ['entityType' => ENTITY_ITEM_BRAND], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-            if (CategoryId) {
-                var category = categoryMap[CategoryId];
+            <?php echo $__env->make('partials/entity_combobox', ['entityType' => ENTITY_ITEM_CATEGORY], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            if (categoryId) {
+                var category = categoryMap[categoryId];
                 setComboboxValue($('.item-category-select'), category.public_id, category.name);
             }
 

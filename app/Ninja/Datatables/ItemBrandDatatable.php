@@ -15,16 +15,16 @@ class ItemBrandDatatable extends EntityDatatable
     {
         return [
             [
-                'item_category_name',
+                'item_brand_name',
                 function ($model) {
-                    $str = link_to("item_categories/{$model->public_id}", $model->item_category_name ?: '')->toHtml();
+                    $str = link_to("item_brands/{$model->public_id}", $model->item_brand_name ?: '')->toHtml();
                     return $str;
                 },
             ],
             [
-                'item_brand_name',
+                'item_category_name',
                 function ($model) {
-                    $str = link_to("item_brands/{$model->public_id}", $model->item_brand_name ?: '')->toHtml();
+                    $str = link_to("item_categories/{$model->public_id}", $model->item_category_name ?: '')->toHtml();
                     return $str;
                 },
             ],
