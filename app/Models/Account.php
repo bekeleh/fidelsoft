@@ -1417,7 +1417,7 @@ class Account extends Eloquent
             $entityType = ENTITY_EXPENSE;
         } elseif ($entityType == ENTITY_PROJECT) {
             $entityType = ENTITY_TASK;
-        } elseif ($entityType == ENTITY_PROPOSAL) {
+        } elseif ($entityType == item_brand) {
             $entityType = ENTITY_QUOTE;
         }
 
