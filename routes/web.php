@@ -263,23 +263,27 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('api/item_movements', 'ItemMovementController@getDatatable');
     Route::resource('item_movements', 'ItemMovementController');
     Route::post('item_movements/bulk', 'ItemMovementController@bulk');
-
-//  store
+//  item store
     Route::get('stores/{stores}/clone', 'StoreController@cloneStore');
     Route::get('api/stores', 'StoreController@getDatatable');
     Route::resource('stores', 'StoreController');
     Route::post('stores/bulk', 'StoreController@bulk');
-    //  item category
+//    item brand
+    Route::get('item_brands/{item_brands}/clone', 'ItemBrandController@cloneItemBrand');
+    Route::get('api/item_brands', 'ItemBrandController@getDatatable');
+    Route::resource('item_brands', 'ItemBrandController');
+    Route::post('item_brands/bulk', 'ItemBrandController@bulk');
+//      item category
     Route::get('item_categories/{item_categories}/clone', 'ItemCategoryController@cloneItemCategory');
     Route::get('api/item_categories', 'ItemCategoryController@getDatatable');
     Route::resource('item_categories', 'ItemCategoryController');
     Route::post('item_categories/bulk', 'ItemCategoryController@bulk');
-    // item store
+//     item store
     Route::get('item_stores/{item_stores}/clone', 'ItemStoreController@cloneItemStore');
     Route::resource('item_stores', 'ItemStoreController');
     Route::get('api/item_stores', 'ItemStoreController@getDatatable');
     Route::post('item_stores/bulk', 'ItemStoreController@bulk');
-    // item price
+//     item price
     Route::get('item_prices/{item_prices}/clone', 'ItemPriceController@cloneItemPrice');
     Route::resource('item_prices', 'ItemPriceController');
     Route::get('api/item_prices', 'ItemPriceController@getDatatable');

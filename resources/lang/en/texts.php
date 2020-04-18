@@ -151,7 +151,7 @@ $LANG = array(
     'tax_rate_settings' => 'Tax Rate Settings',
     /*
 |--------------------------------------------------------------------------
-| store trans
+| item store trans
 |--------------------------------------------------------------------------
 */
     'store.edit' => 'Edit Store',
@@ -225,6 +225,30 @@ $LANG = array(
     'location_settings' => 'Location Settings',
     /*
 |--------------------------------------------------------------------------
+| item brand trans
+|--------------------------------------------------------------------------
+*/
+    'brand' => 'Brand',
+    'item_brand' => 'Item Brand',
+    'item_brands' => 'Item Brands',
+    'item_brand_name' => 'Item Brand',
+    'new_item_brand' => 'New Item Brand',
+    'list_item_brands' => 'List Item Categories',
+    'create_item_brand' => 'Create Item Brand',
+    'edit_item_brand' => 'Edit Item Brand',
+    'clone_item_brand' => 'Clone Item Brand',
+    'archive_item_brand' => 'Archive Item Brand',
+    'delete_item_brand' => 'Delete Item Brand',
+    'deleted_item_brand' => 'Deleted Item Brand',
+    'restore_item_brand' => 'Restore Item Brand',
+    'restored_item_brand' => 'Restored Item Brand',
+    'updated_item_brand' => 'Successfully Updated Item Brand',
+    'created_item_brand' => 'Successfully Created Item Brand',
+    'archived_item_brand' => 'Successfully Archived Item Brand',
+    'item_brand_settings' => 'Item Brand Settings',
+    'select_item_brand' => 'Select Item Brand',
+    /*
+|--------------------------------------------------------------------------
 | item category trans
 |--------------------------------------------------------------------------
 */
@@ -247,6 +271,7 @@ $LANG = array(
     'archived_item_category' => 'Successfully Archived Item Category',
     'item_category_settings' => 'Item Category Settings',
     'select_item_category' => 'Select Item Category',
+
     /*
 |--------------------------------------------------------------------------
 | item unit trans

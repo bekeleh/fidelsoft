@@ -14,6 +14,7 @@ use App\Models\Expense;
 use App\Models\ExpenseCategory;
 use App\Models\Group;
 use App\Models\Invoice;
+use App\Models\ItemBrand;
 use App\Models\ItemCategory;
 use App\Models\ItemMovement;
 use App\Models\ItemStore;
@@ -47,6 +48,7 @@ use App\Policies\ExpensePolicy;
 use App\Policies\GenericEntityPolicy;
 use App\Policies\GroupPolicy;
 use App\Policies\InvoicePolicy;
+use App\Policies\ItemBrandPolicy;
 use App\Policies\ItemCategoryPolicy;
 use App\Policies\ItemMovementPolicy;
 use App\Policies\ItemStorePolicy;
@@ -97,6 +99,7 @@ class AuthServiceProvider extends ServiceProvider
         Task::class => TaskPolicy::class,
         Product::class => ProductPolicy::class,
         ItemCategory::class => ItemCategoryPolicy::class,
+        ItemBrand::class => ItemBrandPolicy::class,
         Location::class => LocationPolicy::class,
         Store::class => StorePolicy::class,
         ItemStore::class => ItemStorePolicy::class,

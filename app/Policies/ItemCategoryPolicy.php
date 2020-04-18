@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 /**
- * Class LocationPolicy.
+ * Class ItemCategoryPolicy.
  */
 class ItemCategoryPolicy extends EntityPolicy
 {
