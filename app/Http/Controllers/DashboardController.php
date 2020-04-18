@@ -25,7 +25,6 @@ class DashboardController extends BaseController
     public function index()
     {
         $user = Auth::user();
-
         $viewAll = $user->isSuperUser() ?: $user->hasAccess('admin');
 
         $userId = $user->id;

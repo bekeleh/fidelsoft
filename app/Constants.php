@@ -6,12 +6,9 @@ if (!defined('APP_NAME')) {
     define('CONTACT_EMAIL', env('MAIL_FROM_ADDRESS'));
     define('CONTACT_NAME', env('MAIL_FROM_NAME'));
     define('SITE_URL', env('APP_URL'));
-
     define('ENV_DEVELOPMENT', 'local');
     define('ENV_STAGING', 'staging');
-
     define('RECENTLY_VIEWED', 'recent_history');
-
     define('ENTITY_CLIENT', 'client');
     define('ENTITY_CONTACT', 'contact');
     define('ENTITY_INVOICE', 'invoice');
@@ -75,8 +72,8 @@ if (!defined('APP_NAME')) {
         ENTITY_UNIT,
         ENTITY_ITEM_STORE,
         ENTITY_ITEM_MOVEMENT,
-        ENTITY_ITEM_CATEGORY,
         ENTITY_ITEM_BRAND,
+        ENTITY_ITEM_CATEGORY,
         ENTITY_HOLD_REASON,
         ENTITY_PROJECT,
         ENTITY_PROPOSAL,
@@ -167,11 +164,11 @@ if (!defined('APP_NAME')) {
     define('ACTIVITY_TYPE_ARCHIVE_INVOICE', 8);
     define('ACTIVITY_TYPE_DELETE_INVOICE', 9);
     define('ACTIVITY_TYPE_CREATE_PAYMENT', 10);
-    //define('ACTIVITY_TYPE_UPDATE_PAYMENT', 11);
+    define('ACTIVITY_TYPE_UPDATE_PAYMENT', 11);
     define('ACTIVITY_TYPE_ARCHIVE_PAYMENT', 12);
     define('ACTIVITY_TYPE_DELETE_PAYMENT', 13);
     define('ACTIVITY_TYPE_CREATE_CREDIT', 14);
-    //define('ACTIVITY_TYPE_UPDATE_CREDIT', 15);
+    define('ACTIVITY_TYPE_UPDATE_CREDIT', 15);
     define('ACTIVITY_TYPE_ARCHIVE_CREDIT', 16);
     define('ACTIVITY_TYPE_DELETE_CREDIT', 17);
     define('ACTIVITY_TYPE_CREATE_QUOTE', 18);

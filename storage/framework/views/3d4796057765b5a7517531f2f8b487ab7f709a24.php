@@ -4,10 +4,11 @@
         <style type="text/css">
             .nav-footer {
                 <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?>
-             background-color: #50C878 !important;
+              background-color: #50C878 !important;
                 <?php else: ?>
-             background-color: #FD6A02 !important;
+              background-color: #FD6A02 !important;
             <?php endif; ?>
+
 
             }
         </style>
@@ -355,6 +356,7 @@
                 'users' => false,
                 'clients' => false,
                 'products' => false,
+                'item_categories' => false,
                 'locations' => false,
                 'invoices' => false,
                 'payments' => false,
@@ -393,7 +395,13 @@
                 'projects',
                 'tasks',
                 'expenses',
+                'sale_types',
+                'units',
                 'products',
+                'item_categories',
+                'item_brands',
+                'item_stores',
+                'stores',
                 'locations',
 
                 ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>

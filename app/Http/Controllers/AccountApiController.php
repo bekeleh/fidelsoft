@@ -14,7 +14,6 @@ use App\Ninja\Transformers\UserAccountTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
-use Socialite;
 
 class AccountApiController extends BaseAPIController
 {

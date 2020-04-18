@@ -5,10 +5,11 @@
         <style type="text/css">
             .nav-footer {
                 @if (config('mail.driver') == 'log' && ! config('services.postmark'))
-             background-color: #50C878 !important;
+              background-color: #50C878 !important;
                 @else
-             background-color: #FD6A02 !important;
+              background-color: #FD6A02 !important;
             @endif
+
 
             }
         </style>
@@ -348,6 +349,7 @@
                 'users' => false,
                 'clients' => false,
                 'products' => false,
+                'item_categories' => false,
                 'locations' => false,
                 'invoices' => false,
                 'payments' => false,
@@ -385,7 +387,13 @@
                 'projects',
                 'tasks',
                 'expenses',
+                'sale_types',
+                'units',
                 'products',
+                'item_categories',
+                'item_brands',
+                'item_stores',
+                'stores',
                 'locations',
 
                 ] as $option)
