@@ -257,7 +257,7 @@ return array(
             'display' => true,
         ),
     ),
-// Item item_prices management
+// Item price management
     'Item prices manager' => array(
         array(
             'permission' => 'item_prices.view',

@@ -2,9 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/Ninja/Presenters/ItemBrandPresenter.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/xjJwuuIRLxkq0N57A5ceXZUZjd13zB6z0UXN226d" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Account.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Account.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/AccountRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/AccountRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/permissions.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/permissions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/header.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/n5KjOrK7lSqeFryeC8glC1IHm6sZj0hOe34CKni5" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -356,14 +361,7 @@
       <workItem from="1586411930963" duration="1866000" />
       <workItem from="1586792945030" duration="4274000" />
       <workItem from="1587155907798" duration="4917000" />
-      <workItem from="1587210298588" duration="5659000" />
-    </task>
-    <task id="LOCAL-00090" summary="2020-03-31 10:55">
-      <created>1585677294778</created>
-      <option name="number" value="00090" />
-      <option name="presentableId" value="LOCAL-00090" />
-      <option name="project" value="LOCAL" />
-      <updated>1585677294778</updated>
+      <workItem from="1587210298588" duration="6505000" />
     </task>
     <task id="LOCAL-00091" summary="2020-03-31 10:55">
       <created>1585679161604</created>
@@ -701,7 +699,14 @@
       <option name="project" value="LOCAL" />
       <updated>1587216555023</updated>
     </task>
-    <option name="localTasksCounter" value="139" />
+    <task id="LOCAL-00139" summary="2020-04-18 9:26">
+      <created>1587217648822</created>
+      <option name="number" value="00139" />
+      <option name="presentableId" value="LOCAL-00139" />
+      <option name="project" value="LOCAL" />
+      <updated>1587217648822</updated>
+    </task>
+    <option name="localTasksCounter" value="140" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -765,10 +770,10 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="622" y="0" key="#com.jetbrains.php.refactoring.extractMethod.PhpExtractMethodDialog#method1/0.0.1440.860@0.0.1440.860" timestamp="1584443627388" />
-    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1587216553770">
+    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1587217648006">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1587216553770" />
+    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1587217648006" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="500" y="177" key="FileChooserDialogImpl" timestamp="1584881689405">
@@ -803,10 +808,10 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="527" y="245" key="NewPhpClassDialog/0.0.1440.860@0.0.1440.860" timestamp="1585293911127" />
-    <state x="456" y="157" key="NewPhpFileDialog" timestamp="1587212384741">
+    <state x="456" y="157" key="NewPhpFileDialog" timestamp="1587218440163">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="456" y="157" key="NewPhpFileDialog/0.0.1280.680@0.0.1280.680" timestamp="1587212384741" />
+    <state x="456" y="157" key="NewPhpFileDialog/0.0.1280.680@0.0.1280.680" timestamp="1587218440163" />
     <state x="447" y="189" key="NewPhpFileDialog/0.0.1366.728@0.0.1366.728" timestamp="1586116260809" />
     <state x="471" y="223" key="NewPhpFileDialog/0.0.1440.860@0.0.1440.860" timestamp="1585320200513" />
     <state x="210" y="14" key="SettingsEditor" timestamp="1585946296100">
@@ -825,10 +830,10 @@
     <state x="382" y="130" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1587210298702" />
     <state x="408" y="139" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1586189894452" />
     <state x="430" y="164" key="com.intellij.ide.util.TipDialog/0.0.1440.860@0.0.1440.860" timestamp="1586154234151" />
-    <state x="191" y="55" width="755" height="536" key="find.popup" timestamp="1587156330150">
+    <state x="191" y="55" width="755" height="536" key="find.popup" timestamp="1587217730315">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="191" y="55" width="755" height="536" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1587156330150" />
+    <state x="191" y="55" width="755" height="536" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1587217730315" />
     <state x="316" y="37" width="983" height="691" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1586115855044" />
     <state x="215" y="69" width="849" height="606" key="find.popup/0.0.1440.860@0.0.1440.860" timestamp="1586178664001" />
     <state x="462" y="222" key="git4idea.merge.GitPullDialog" timestamp="1584633875966">
