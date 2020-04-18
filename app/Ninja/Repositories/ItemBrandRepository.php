@@ -3,6 +3,7 @@
 namespace App\Ninja\Repositories;
 
 use App\Models\ItemBrand;
+use App\Models\ItemCategory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -59,6 +60,15 @@ class ItemBrandRepository extends BaseRepository
         }
 
         $this->applyFilters($query, ENTITY_ITEM_BRAND);
+
+        return $query;
+    }
+
+    public function findItemCategory($itemCategoryPublicId)
+    {
+        $itemCategoryId = ItemCategory::getPrivateId($itemCategoryPublicId);
+
+        $query = $this->find()->where('item_brands.item_category_id', '=', $itemCategoryId);
 
         return $query;
     }

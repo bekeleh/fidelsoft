@@ -46,9 +46,9 @@ class ItemBrandService extends BaseService
 
     public function getDatatableItemCategory($itemCategoryPublicId)
     {
-        $datatable = new ItemCategoryDatatable(true, true);
+        $datatable = new ItemBrandDatatable(true, true);
 
-        $query = $this->itemBrandRepo->findItemBrand($itemCategoryPublicId);
+        $query = $this->itemBrandRepo->findItemCategory($itemCategoryPublicId);
 
         if (!Utils::hasAccess('view_item_categories')) {
             $query->where('item_brands.user_id', '=', Auth::user()->id);

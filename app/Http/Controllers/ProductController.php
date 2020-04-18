@@ -163,6 +163,7 @@ class ProductController extends BaseController
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
             'itemCategories' => ItemCategory::scope()->withActiveOrSelected($product ? $product->item_category_id : false)->orderBy('name')->get(),
+
             'units' => Unit::scope()->withActiveOrSelected($product ? $product->unit_id : false)->orderBy('name')->get(),
         ];
     }
