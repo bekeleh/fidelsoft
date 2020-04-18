@@ -170,7 +170,7 @@ class ItemStoreController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
-            'products' => Product::withCategory('itemCategory'),
+            'products' => Product::withCategory('itemBrand.itemCategory'),
             'stores' => Store::scope()->withActiveOrSelected($itemStore ? $itemStore->store_id : false)->orderBy('name')->get(),
         ];
     }
