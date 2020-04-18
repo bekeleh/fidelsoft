@@ -330,6 +330,16 @@ class Account extends Eloquent
         return $this->hasMany('App\Models\Product');
     }
 
+    public function itemBrands()
+    {
+        return $this->hasMany('App\Models\ItemBrand', 'account_id', 'id')->withTrashed();
+    }
+
+    public function itemCategories()
+    {
+        return $this->hasMany('App\Models\ItemCategory', 'account_id', 'id')->withTrashed();
+    }
+
     public function defaultDocuments()
     {
         return $this->hasMany('App\Models\Document')->whereIsDefault(true);

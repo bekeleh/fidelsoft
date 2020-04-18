@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
- * Model Class Store.
+ * Model Class ItemBrand.
  */
 class ItemBrand extends EntityModel
 {
@@ -14,7 +14,6 @@ class ItemBrand extends EntityModel
     use PresentableTrait;
     use SoftDeletes;
 
-    protected $appends = [];
     protected $table = 'item_brands';
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
 
@@ -26,8 +25,10 @@ class ItemBrand extends EntityModel
         'updated_by',
         'deleted_by',
     ];
+
     protected $hidden = [];
     protected $casts = [];
+    protected $appends = [];
 
 
     public function getEntityType()

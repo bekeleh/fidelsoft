@@ -45,7 +45,6 @@ use App\Policies\CustomerPolicy;
 use App\Policies\DocumentPolicy;
 use App\Policies\ExpenseCategoryPolicy;
 use App\Policies\ExpensePolicy;
-use App\Policies\GenericEntityPolicy;
 use App\Policies\GroupPolicy;
 use App\Policies\InvoicePolicy;
 use App\Policies\ItemBrandPolicy;
