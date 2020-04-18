@@ -39,6 +39,7 @@ class ProductRepository extends BaseRepository
             ->join('accounts', 'accounts.id', '=', 'products.account_id')
             ->join('users', 'users.id', '=', 'products.user_id')
             ->join('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
+            ->join('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
             ->join('units', 'units.id', '=', 'products.unit_id')
             ->where('products.account_id', '=', $accountId)
             //->where('products.deleted_at', '=', null)
@@ -63,6 +64,7 @@ class ProductRepository extends BaseRepository
                 'products.updated_by',
                 'products.deleted_by',
                 'item_brands.name as item_brand_name',
+                'item_categories.name as item_category_name',
                 'units.name as unit_name'
             );
         if ($filter) {
@@ -72,6 +74,7 @@ class ProductRepository extends BaseRepository
                     ->orWhere('products.item_tag', 'like', '%' . $filter . '%')
                     ->orWhere('products.notes', 'like', '%' . $filter . '%')
                     ->orWhere('item_brands.name', 'like', '%' . $filter . '%')
+                    ->orWhere('item_categories.name', 'like', '%' . $filter . '%')
                     ->orWhere('units.name', 'like', '%' . $filter . '%');
             });
         }

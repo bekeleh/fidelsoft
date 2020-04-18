@@ -81,7 +81,7 @@
     @endif
     {!! Former::close() !!}
     <script type="text/javascript">
-        var brands = {!! $itembrands !!};
+        var brands = {!! $itemBrands !!};
         var units = {!! $units !!};
         var brandMap = {};
         var unitMap = {};

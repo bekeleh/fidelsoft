@@ -3,7 +3,7 @@
     <?php echo Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['name' => 'required|max:90','item_category_id' => 'required'])
+    ->rules(['name' => 'required|max:90','item_category_id' => 'required','notes' => 'required'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit'); ?>
 
     <?php if($itemBrand): ?>
