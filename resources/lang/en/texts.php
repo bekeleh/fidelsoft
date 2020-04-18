@@ -296,6 +296,8 @@ $LANG = array(
     'archived_unit' => 'Successfully Archived Unit',
     'unit_settings' => 'Unit Settings',
     'select_item_unit' => 'Select Item Unit',
+    'item_unit_help' => 'Sets the default <b>item unit</b>',
+
     /*
 |--------------------------------------------------------------------------
 | item price trans
@@ -351,7 +353,7 @@ $LANG = array(
     'bin' => 'Bin Location',
     'reorder_level' => 'Reorder Level',
     'EOQ' => 'EOQ',
-    'item_name' => 'Item Number',
+    'item_name' => 'Item Name',
     'product_name' => 'Item Name',
     'store_name' => 'Store Name',
     'category_name' => 'Item Category',

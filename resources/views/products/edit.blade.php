@@ -27,12 +27,15 @@
                     {!! Former::select('item_brand_id')
                     ->placeholder(trans('texts.select_item_brand'))
                     ->label(trans('texts.item_brand'))
-                    ->addGroupClass('item-brand-select') !!}
-
+                    ->addGroupClass('item-brand-select')
+                    ->help(trans('texts.item_brand_help') . ' | ' . link_to('/item_brands/', trans('texts.customize_options')))
+                     !!}
                     {!! Former::select('unit_id')
                     ->placeholder(trans('texts.select_item_unit'))
                     ->label(trans('texts.unit'))
-                    ->addGroupClass('unit-select') !!}
+                    ->addGroupClass('unit-select')
+                    ->help(trans('texts.item_unit_help') . ' | ' . link_to('/units/', trans('texts.customize_options')))
+                    !!}
 
                     {!! Former::text('barcode')->label('texts.barcode') !!}
                     {!! Former::text('item_tag')->label('texts.item_tag') !!}
