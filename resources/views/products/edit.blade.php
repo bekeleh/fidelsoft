@@ -5,7 +5,7 @@
     {!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['name' => 'required|max:255','item_cost' => 'required|numeric','item_category_id' => 'required|numeric','unit_id' => 'required|numeric','notes' => 'required|string'])
+    ->rules(['name' => 'required|max:255','item_cost' => 'required|numeric','item_brand_id' => 'required|numeric','unit_id' => 'required|numeric','notes' => 'required|string'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     @if ($product)
         {{ Former::populate($product) }}
@@ -24,10 +24,10 @@
                 <div class="panel-body form-padding-right">
                     {!! Former::text('name')->label('texts.item_name') !!}
 
-                    {!! Former::select('item_category_id')
-                    ->placeholder(trans('texts.select_item_category'))
-                    ->label(trans('texts.item_category'))
-                    ->addGroupClass('item-category-select') !!}
+                    {!! Former::select('item_brand_id')
+                    ->placeholder(trans('texts.select_item_brand'))
+                    ->label(trans('texts.item_brand'))
+                    ->addGroupClass('item-brand-select') !!}
 
                     {!! Former::select('unit_id')
                     ->placeholder(trans('texts.select_item_unit'))
@@ -81,9 +81,9 @@
     @endif
     {!! Former::close() !!}
     <script type="text/javascript">
-        var categories = {!! $itemCategories !!};
+        var brands = {!! $itembrands !!};
         var units = {!! $units !!};
-        var categoryMap = {};
+        var brandMap = {};
         var unitMap = {};
 
         $(function () {
@@ -91,23 +91,23 @@
         });
 
         $(function () {
-            <!-- category -->
-            var categoryId = {{ $itemCategoryPublicId ?: 0 }};
-            var $item_categorySelect = $('select#item_category_id');
-            @if (Auth::user()->can('create', ENTITY_ITEM_CATEGORY))
-            $item_categorySelect.append(new Option("{{ trans('texts.create_item_category')}}:$name", '-1'));
+            <!-- brand -->
+            var brandId = {{ $itemBrandPublicId ?: 0 }};
+            var $item_brandSelect = $('select#item_brand_id');
+            @if (Auth::user()->can('create', ENTITY_ITEM_BRAND))
+            $item_brandSelect.append(new Option("{{ trans('texts.create_item_brand')}}:$name", '-1'));
                     @endif
-            for (var i = 0; i < categories.length; i++) {
-                var category = categories[i];
-                categoryMap[category.public_id] = category;
-                $item_categorySelect.append(new Option(getClientDisplayName(category), category.public_id));
+            for (var i = 0; i < brands.length; i++) {
+                var brand = brands[i];
+                brandMap[brand.public_id] = brand;
+                $item_brandSelect.append(new Option(getClientDisplayName(brand), brand.public_id));
             }
-            @include('partials/entity_combobox', ['entityType' => ENTITY_ITEM_CATEGORY])
-            if (categoryId) {
-                var category = categoryMap[categoryId];
-                setComboboxValue($('.item-category-select'), category.public_id, category.name);
+            @include('partials/entity_combobox', ['entityType' => ENTITY_ITEM_BRAND])
+            if (brandId) {
+                var brand = brandMap[brandId];
+                setComboboxValue($('.item-brand-select'), brand.public_id, brand.name);
             }
-            <!-- /. category  -->
+            <!-- /. brand  -->
 
             <!--  unit  -->
             var unitId = {{ $unitPublicId ?: 0 }};

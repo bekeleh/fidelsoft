@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
 use App\Libraries\Utils;
-use App\Models\ItemCategory;
+use App\Models\ItemBrand;
 use App\Models\Product;
 use App\Models\TaxRate;
 use App\Models\Unit;
@@ -56,9 +56,9 @@ class ProductController extends BaseController
         return $this->productService->getDatatable($account, $search);
     }
 
-    public function getDatatableItemCategory($itemCategoryPublicId = null)
+    public function getDatatableItemBrand($itemBrandPublicId = null)
     {
-        return $this->productService->getDatatableItemCategory($itemCategoryPublicId);
+        return $this->productService->getDatatableItemBrand($itemBrandPublicId);
     }
 
     public function getDatatableUnit($unitPublicId = null)
@@ -69,10 +69,10 @@ class ProductController extends BaseController
     public function create(ProductRequest $request)
     {
         $account = Auth::user()->account;
-        if ($request->item_category_id != 0) {
-            $itemCategory = ItemCategory::scope($request->item_category_id)->firstOrFail();
+        if ($request->item_brand_id != 0) {
+            $itemBrand = ItemBrand::scope($request->item_brand_id)->firstOrFail();
         } else {
-            $itemCategory = null;
+            $itemBrand = null;
         }
         if ($request->unit_id != 0) {
             $unit = Unit::scope($request->unit_id)->firstOrFail();
@@ -82,13 +82,13 @@ class ProductController extends BaseController
 
         $data = [
             'product' => null,
-            'itemCategory' => $itemCategory,
+            'itemBrand' => $itemBrand,
             'unit' => $unit,
             'method' => 'POST',
             'url' => 'products',
             'title' => trans('texts.create_product'),
             'taxRates' => $account->invoice_item_taxes ? TaxRate::scope()->whereIsInclusive(false)->get(['id', 'name', 'rate']) : null,
-            'itemCategoryPublicId' => Input::old('itemCategory') ? Input::old('itemCategory') : $request->item_category_id,
+            'itemBrandPublicId' => Input::old('itemBrand') ? Input::old('itemBrand') : $request->item_brand_id,
             'unitPublicId' => Input::old('unit') ? Input::old('unit') : $request->unit_id,
         ];
         $data = array_merge($data, self::getViewModel());
@@ -114,7 +114,7 @@ class ProductController extends BaseController
         }
 
         $data = [
-            'itemCategory' => null,
+            'itemBrand' => null,
             'unit' => null,
             'product' => $product,
             'taxRates' => $account->invoice_item_taxes ? TaxRate::scope()->whereIsInclusive(false)->get() : null,
@@ -122,7 +122,7 @@ class ProductController extends BaseController
             'method' => $method,
             'url' => $url,
             'title' => trans('texts.edit_product'),
-            'itemCategoryPublicId' => $product->itemCategory ? $product->itemCategory->public_id : null,
+            'itemBrandPublicId' => $product->itemBrand ? $product->itemBrand->public_id : null,
             'unitPublicId' => $product->unit ? $product->unit->public_id : null,
 
         ];
@@ -162,8 +162,7 @@ class ProductController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
-            'itemCategories' => ItemCategory::scope()->withActiveOrSelected($product ? $product->item_category_id : false)->orderBy('name')->get(),
-
+            'itemBrands' => ItemBrand::scope()->withActiveOrSelected($product ? $product->item_brand_id : false)->orderBy('name')->get(),
             'units' => Unit::scope()->withActiveOrSelected($product ? $product->unit_id : false)->orderBy('name')->get(),
         ];
     }

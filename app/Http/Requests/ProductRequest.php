@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\ItemCategory;
+use App\Models\ItemBrand;
 use App\Models\Product;
 use App\Models\Unit;
 
@@ -23,8 +23,8 @@ class ProductRequest extends EntityRequest
             case 'POST':
             {
                 $this->validationData();
-                $rules['name'] = 'required|unique:products,name,' . $this->id . ',id,item_category_id,' . $this->item_category_id . ',account_id,' . $this->account_id;
-                $rules['item_category_id'] = 'required|numeric';
+                $rules['name'] = 'required|unique:products,name,' . $this->id . ',id,item_brand_id,' . $this->item_brand_id . ',account_id,' . $this->account_id;
+                $rules['item_brand_id'] = 'required|numeric';
                 $rules['barcode'] = 'nullable';
                 $rules['item_tag'] = 'nullable';
                 $rules['unit_id'] = 'required|numeric';
@@ -39,8 +39,8 @@ class ProductRequest extends EntityRequest
                 $this->validationData();
                 $product = Product::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
                 if ($product) {
-                    $rules['name'] = 'required|unique:products,name,' . $product->id . ',id,item_category_id,' . $product->item_category_id . ',account_id,' . $product->account_id;
-                    $rules['item_category_id'] = 'required|numeric';
+                    $rules['name'] = 'required|unique:products,name,' . $product->id . ',id,item_brand_id,' . $product->item_brand_id . ',account_id,' . $product->account_id;
+                    $rules['item_brand_id'] = 'required|numeric';
                     $rules['barcode'] = 'nullable';
                     $rules['item_tag'] = 'nullable';
                     $rules['unit_id'] = 'required|numeric';
@@ -74,15 +74,15 @@ class ProductRequest extends EntityRequest
     protected function validationData()
     {
         $input = $this->all();
-        if (isset($input['item_category_id']) && $input['item_category_id']) {
-            $input['item_category_id'] = ItemCategory::getPrivateId($input['item_category_id']);
+        if (isset($input['item_brand_id']) && $input['item_brand_id']) {
+            $input['item_brand_id'] = ItemBrand::getPrivateId($input['item_brand_id']);
         }
         if (isset($input['unit_id']) && $input['unit_id']) {
             $input['unit_id'] = Unit::getPrivateId($input['unit_id']);
         }
-        if (!empty($input['item_category_id']) && !empty($input['unit_id'])) {
+        if (!empty($input['item_brand_id']) && !empty($input['unit_id'])) {
             $this->request->add([
-                'item_category_id' => $input['item_category_id'],
+                'item_brand_id' => $input['item_brand_id'],
                 'unit_id' => $input['unit_id'],
                 'account_id' => Product::getAccountId()
             ]);
