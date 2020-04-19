@@ -68,6 +68,13 @@ class InvoiceController extends BaseController
         return response()->view('list_wrapper', $data);
     }
 
+    public function show($publicId)
+    {
+        Session::reflash();
+
+        return Redirect::to("invoices/{$publicId}/edit");
+    }
+
     public function getDatatable($clientPublicId = null)
     {
         $accountId = Auth::user()->account_id;
@@ -335,12 +342,6 @@ class InvoiceController extends BaseController
         ];
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param CreateInvoiceRequest $request
-     * @return Response
-     */
     public function store(CreateInvoiceRequest $request)
     {
         $data = $request->input();
@@ -368,12 +369,6 @@ class InvoiceController extends BaseController
         return url($invoice->getRoute());
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param UpdateInvoiceRequest $request
-     * @return Response
-     */
     public function update(UpdateInvoiceRequest $request)
     {
         $data = $request->input();
@@ -465,27 +460,6 @@ class InvoiceController extends BaseController
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param mixed $publicId
-     *
-     * @return Response
-     */
-    public function show($publicId)
-    {
-        Session::reflash();
-
-        return Redirect::to("invoices/$publicId/edit");
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param mixed $entityType
-     *
-     * @return Response
-     */
     public function bulk($entityType = ENTITY_INVOICE)
     {
         $action = Input::get('bulk_action') ?: Input::get('action');

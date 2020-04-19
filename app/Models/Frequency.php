@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Cache;
+use Illuminate\Support\Facades\Cache;
 use Eloquent;
-use Str;
+use Illuminate\Support\Str;
 
 /**
  * Class Frequency.

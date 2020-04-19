@@ -125,6 +125,7 @@
             ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores')],
             ['label' => trans('texts.new_item_movement'), 'url' => url('/item_movements')],
             ['label' => trans('texts.new_store'), 'url' => url('/stores')],
+            ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types')],
             ['label' => trans('texts.new_unit'), 'url' => url('/units')],
             ])->split(); ?>
 
