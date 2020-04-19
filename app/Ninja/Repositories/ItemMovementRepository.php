@@ -32,7 +32,8 @@ class ItemMovementRepository extends BaseRepository
             ->join('accounts', 'accounts.id', '=', 'item_movements.account_id')
             ->join('item_stores', 'item_stores.id', '=', 'item_movements.movable_id')
             ->join('products', 'products.id', '=', 'item_stores.product_id')
-            ->join('item_categories', 'item_categories.id', '=', 'products.item_category_id')
+            ->join('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
+            ->join('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
             ->join('stores', 'stores.id', '=', 'item_stores.store_id')
             ->where('item_movements.account_id', '=', $accountId)
             //->where('item_movements.deleted_at', '=', null)
@@ -51,6 +52,7 @@ class ItemMovementRepository extends BaseRepository
                 'item_movements.deleted_by',
                 'item_movements.is_deleted',
                 'products.name as item_name',
+                'item_brands.name as item_brand_name',
                 'item_categories.name as item_category_name',
                 'stores.name as store_name'
             );
@@ -61,6 +63,7 @@ class ItemMovementRepository extends BaseRepository
                     ->orWhere('item_movements.created_by', 'like', '%' . $filter . '%')
                     ->orWhere('item_movements.updated_by', 'like', '%' . $filter . '%')
                     ->orWhere('products.name', 'like', '%' . $filter . '%')
+                    ->orWhere('item_brands.name', 'like', '%' . $filter . '%')
                     ->orWhere('item_categories.name', 'like', '%' . $filter . '%')
                     ->orWhere('stores.name', 'like', '%' . $filter . '%');
             });

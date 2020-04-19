@@ -104,7 +104,6 @@ class ItemPriceController extends BaseController
             $method = 'PUT';
             $url = 'item_prices/' . $itemPrice->public_id;
         }
-
         $data = [
             'product' => null,
             'saleType' => null,
@@ -162,7 +161,7 @@ class ItemPriceController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
-            'products' => Product::withCategory('itemCategory'),
+            'products' => Product::withCategory('itemBrand.itemCategory'),
             'saleTypes' => SaleType::scope()->withActiveOrSelected($itemPrice ? $itemPrice->sale_type_id : false)->orderBy('name')->get(),
         ];
     }

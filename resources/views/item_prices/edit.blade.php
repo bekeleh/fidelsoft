@@ -14,22 +14,24 @@
         </div>
     @endif
     <span style="display:none">
-{!! Former::text('public_id') !!}
+    {!! Former::text('public_id') !!}
         {!! Former::text('action') !!}
-</span>
+    </span>
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
                     {!! Former::select('product_id')->addOption('', '')
                     ->label(trans('texts.product_name'))
-                    ->addGroupClass('product-select') !!}
+                    ->addGroupClass('product-select')
+                    ->help(trans('texts.item_help') . ' | ' . link_to('/products/', trans('texts.customize_options')))
+                    !!}
                     {!! Former::select('sale_type_id')->addOption('', '')
                     ->label(trans('texts.sale_type'))
-                    ->addGroupClass('sale-type-select') !!}
-
+                    ->addGroupClass('sale-type-select')
+                    ->help(trans('texts.sale_type_help') . ' | ' . link_to('/sale_types/', trans('texts.customize_options')))
+                    !!}
                     {!! Former::text('item_price')->label('texts.item_price') !!}
-
                     {!! Former::text('start_date')
                     ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
                     ->appendIcon('calendar')
@@ -37,8 +39,8 @@
                     !!}
                     {!! Former::text('end_date')
                     ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
-                    ->addGroupClass('end_date')
                     ->appendIcon('calendar')
+                    ->addGroupClass('end_date')
                     !!}
 
                     {!! Former::textarea('notes')->rows(6) !!}

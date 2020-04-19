@@ -25,7 +25,9 @@
                     {!! Former::text('store_code')->label('texts.code') !!}
                     {!! Former::select('location_id')->addOption('', '')
                     ->label(trans('texts.location'))
-                    ->addGroupClass('location-select') !!}
+                    ->addGroupClass('location-select')
+                    ->help(trans('texts.location_help') . ' | ' . link_to('/locations/', trans('texts.customize_options')))
+                    !!}
                     {!! Former::textarea('notes')->rows(6) !!}
                 </div>
             </div>

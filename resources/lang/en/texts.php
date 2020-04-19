@@ -109,7 +109,7 @@ $LANG = array(
 */
     'sale_type_name' => 'Sale Type Name',
     'sale_types' => 'Sales Type',
-    'sale_type' => 'Sales Type',
+    'sale_type' => 'Sale Type',
     'new_sale_type' => 'New Sales Type',
     'list_sale_types' => 'List Sales Type',
     'create_sale_type' => 'Create Sales Type',
@@ -173,7 +173,7 @@ $LANG = array(
     'archived_store' => 'Successfully Archived Store',
     'store_settings' => 'Store Settings',
     'select_location' => 'Select Location',
-    'location_help' => 'Sets the default <b>location</b>',
+    'store_help' => 'Sets the default <b>store</b>',
     /*
 |--------------------------------------------------------------------------
 | hold reason trans
@@ -223,6 +223,7 @@ $LANG = array(
     'created_location' => 'Successfully Created Location',
     'archived_location' => 'Successfully Archived Location',
     'location_settings' => 'Location Settings',
+    'location_help' => 'Sets the default <b>location</b>',
     /*
 |--------------------------------------------------------------------------
 | item brand trans
@@ -344,6 +345,8 @@ $LANG = array(
     'created_item_movement' => 'Successfully Created Item Movement',
     'archived_item_movement' => 'Successfully Archived Item Movement',
     'item_movement_settings' => 'Item Movement Settings',
+    'item_category_help' => 'Sets the default <b>item category</b>',
+
     /*
 |--------------------------------------------------------------------------
 | item store trans
@@ -373,6 +376,7 @@ $LANG = array(
     'item_store_settings' => 'Item Store Settings',
     'select_item_store' => 'Select Item Store',
     'select_item' => 'Select Item',
+    'item_help' => 'Sets the default <b>item</b>',
     /*
 |--------------------------------------------------------------------------
 | inventory trans

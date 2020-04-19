@@ -23,13 +23,12 @@
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
                     {!! Former::text('name')->label('texts.item_name') !!}
-
                     {!! Former::select('item_brand_id')
                     ->placeholder(trans('texts.select_item_brand'))
                     ->label(trans('texts.item_brand'))
                     ->addGroupClass('item-brand-select')
                     ->help(trans('texts.item_brand_help') . ' | ' . link_to('/item_brands/', trans('texts.customize_options')))
-                     !!}
+                    !!}
                     {!! Former::select('unit_id')
                     ->placeholder(trans('texts.select_item_unit'))
                     ->label(trans('texts.unit'))

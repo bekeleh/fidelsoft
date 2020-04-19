@@ -36,7 +36,8 @@ class ItemStoreRepository extends BaseRepository
         $query = DB::table('item_stores')
             ->join('accounts', 'accounts.id', '=', 'item_stores.account_id')
             ->join('products', 'products.id', '=', 'item_stores.product_id')
-            ->join('item_categories', 'item_categories.id', '=', 'products.item_category_id')
+            ->join('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
+            ->join('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
             ->join('stores', 'stores.id', '=', 'item_stores.store_id')
             ->where('item_stores.account_id', '=', $accountId)
             //->where('item_stores.deleted_at', '=', null)
@@ -58,6 +59,7 @@ class ItemStoreRepository extends BaseRepository
                 'item_stores.updated_by',
                 'item_stores.deleted_by',
                 'products.name as item_name',
+                'item_brands.name as item_brand_name',
                 'item_categories.name as item_category_name',
                 'stores.name as store_name'
             );
@@ -66,6 +68,7 @@ class ItemStoreRepository extends BaseRepository
                 $query->Where('item_stores.notes', 'like', '%' . $filter . '%')
                     ->orWhere('item_stores.created_by', 'like', '%' . $filter . '%')
                     ->orWhere('item_stores.updated_by', 'like', '%' . $filter . '%')
+                    ->orWhere('item_brands.name', 'like', '%' . $filter . '%')
                     ->orWhere('item_categories.name', 'like', '%' . $filter . '%')
                     ->orWhere('products.name', 'like', '%' . $filter . '%')
                     ->orWhere('stores.name', 'like', '%' . $filter . '%');

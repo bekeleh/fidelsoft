@@ -19,13 +19,20 @@
 {!! Former::text('public_id') !!}
         {!! Former::text('action') !!}
 </span>
-
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
-                    {!! Former::select('product_id')->addOption('', '')->label(trans('texts.product'))->addGroupClass('product-select') !!}
-                    {!! Former::select('store_id')->addOption('', '')->label(trans('texts.store'))->addGroupClass('store-select') !!}
+                    {!! Former::select('product_id')->addOption('', '')
+                    ->label(trans('texts.product'))
+                    ->addGroupClass('product-select')
+                    ->help(trans('texts.item_help') . ' | ' . link_to('/products/', trans('texts.customize_options')))
+                    !!}
+                    {!! Former::select('store_id')->addOption('', '')
+                    ->label(trans('texts.store'))->addGroupClass('store-select')
+                    ->help(trans('texts.store_help') . ' | ' . link_to('/stores/', trans('texts.customize_options')))
+                    !!}
+
                     {!! Former::text('bin')->label('texts.bin') !!}
                     {!! Former::text('qty')->label('texts.qty') !!}
                     {!! Former::text('reorder_level')->label('texts.reorder_level') !!}

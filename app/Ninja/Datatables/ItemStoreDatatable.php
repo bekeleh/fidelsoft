@@ -20,9 +20,9 @@ class ItemStoreDatatable extends EntityDatatable
             [
                 'item_name',
                 function ($model) {
-                    if ($model->product_id) {
+                    if ($model->public_id) {
                         if (Auth::user()->can('view', [ENTITY_PRODUCT, $model]))
-                            return link_to("products/{$model->product_id}", $model->item_name)->toHtml();
+                            return link_to("products/{$model->public_id}", $model->item_name)->toHtml();
                         else
                             return $model->item_name;
                     } else {
@@ -31,11 +31,24 @@ class ItemStoreDatatable extends EntityDatatable
                 }
             ],
             [
+                'item_brand_name',
+                function ($model) {
+                    if ($model->public_id) {
+                        if (Auth::user()->can('view', [ENTITY_ITEM_BRAND, $model]))
+                            return link_to("item_brands/{$model->public_id}", $model->item_brand_name)->toHtml();
+                        else
+                            return $model->item_brand_name;
+                    } else {
+                        return '';
+                    }
+                }
+            ],
+            [
                 'item_category_name',
                 function ($model) {
-                    if ($model->product_id) {
+                    if ($model->public_id) {
                         if (Auth::user()->can('view', [ENTITY_ITEM_CATEGORY, $model]))
-                            return link_to("item_categories/{$model->product_id}", $model->item_category_name)->toHtml();
+                            return link_to("item_categories/{$model->public_id}", $model->item_category_name)->toHtml();
                         else
                             return $model->item_category_name;
                     } else {

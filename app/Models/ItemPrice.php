@@ -6,27 +6,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
- * Class Product.
+ * Model Class ItemPrice.
  */
 class ItemPrice extends EntityModel
 {
     use PresentableTrait;
     use SoftDeletes;
 
-    /**
-     * @var string
-     */
+
     protected $presenter = 'App\Ninja\Presenters\ItemPricePresenter';
 
     protected $table = 'item_prices';
-    /**
-     * @var array
-     */
-//    protected $dates = ['start_date', 'end_date', 'deleted_at'];
-    protected $dates = ['deleted_at'];
-    /**
-     * @var array
-     */
+    protected $dates = ['start_date', 'end_date', 'created_at', 'updated_at', 'deleted_at'];
+
     protected $fillable = [
         'product_id',
         'sale_type_id',
@@ -39,9 +31,10 @@ class ItemPrice extends EntityModel
         'deleted_by',
     ];
 
-    /**
-     * @return array
-     */
+    protected $casts = [];
+    protected $hidden = [];
+    protected $appends = [];
+
     public static function getImportColumns()
     {
         return [
@@ -50,9 +43,7 @@ class ItemPrice extends EntityModel
         ];
     }
 
-    /**
-     * @return array
-     */
+
     public static function getImportMap()
     {
         return [
@@ -61,9 +52,6 @@ class ItemPrice extends EntityModel
         ];
     }
 
-    /**
-     * @return mixed
-     */
     public function getEntityType()
     {
         return ENTITY_ITEM_PRICE;

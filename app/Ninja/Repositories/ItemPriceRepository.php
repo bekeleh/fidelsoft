@@ -36,7 +36,8 @@ class ItemPriceRepository extends BaseRepository
             ->join('accounts', 'accounts.id', '=', 'item_prices.account_id')
             ->join('sale_types', 'sale_types.id', '=', 'item_prices.sale_type_id')
             ->join('products', 'products.id', '=', 'item_prices.product_id')
-            ->join('item_categories', 'item_categories.id', '=', 'products.item_category_id')
+            ->join('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
+            ->join('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
             ->where('item_prices.account_id', '=', $accountId)
             //->where('item_prices.deleted_at', '=', null)
             ->select(
@@ -58,6 +59,7 @@ class ItemPriceRepository extends BaseRepository
                 'sale_types.name as sale_type_name',
                 'products.name as item_name',
                 'products.item_cost',
+                'item_brands.name as item_brand_name',
                 'item_categories.name as item_category_name'
             );
 
@@ -67,6 +69,7 @@ class ItemPriceRepository extends BaseRepository
                     ->orWhere('item_prices.updated_by', 'like', '%' . $filter . '%')
                     ->orWhere('item_prices.notes', 'like', '%' . $filter . '%')
                     ->orWhere('products.name', 'like', '%' . $filter . '%')
+                    ->orWhere('item_brands.name', 'like', '%' . $filter . '%')
                     ->orWhere('item_categories.name', 'like', '%' . $filter . '%')
                     ->orWhere('sale_types.name', 'like', '%' . $filter . '%');
             });

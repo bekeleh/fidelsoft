@@ -26,25 +26,25 @@
 
 
     <span id="statusWrapper_<?php echo e($entityType); ?>" style="display:none">
-    <select class="form-control" style="width: 220px" id="statuses_<?php echo e($entityType); ?>" multiple="true">
-    <?php if(count(\App\Models\EntityModel::getStatusesFor($entityType))): ?>
-            <optgroup label="<?php echo e(trans('texts.entity_state')); ?>">
-    <?php $__currentLoopData = \App\Models\EntityModel::getStatesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-    </optgroup>
-            <optgroup label="<?php echo e(trans('texts.status')); ?>">
-    <?php $__currentLoopData = \App\Models\EntityModel::getStatusesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-    </optgroup>
-        <?php else: ?>
-            <?php $__currentLoopData = \App\Models\EntityModel::getStatesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+<select class="form-control" style="width: 220px" id="statuses_<?php echo e($entityType); ?>" multiple="true">
+<?php if(count(\App\Models\EntityModel::getStatusesFor($entityType))): ?>
+        <optgroup label="<?php echo e(trans('texts.entity_state')); ?>">
+<?php $__currentLoopData = \App\Models\EntityModel::getStatesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-        <?php endif; ?>
-    </select>
-    </span>
+</optgroup>
+        <optgroup label="<?php echo e(trans('texts.status')); ?>">
+<?php $__currentLoopData = \App\Models\EntityModel::getStatusesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+</optgroup>
+    <?php else: ?>
+        <?php $__currentLoopData = \App\Models\EntityModel::getStatesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    <?php endif; ?>
+</select>
+</span>
 </div>
 <div id="top_right_buttons" class="pull-right">
     <input id="tableFilter_<?php echo e($entityType); ?>" type="text"
@@ -138,7 +138,20 @@
 
     <?php endif; ?>
 <!-- navigation menu -->
-    
+    <?php if(Auth::user()->can('create', [ENTITY_PRODUCT,ENTITY_ITEM_BRAND,ENTITY_ITEM_CATEGORY,ENTITY_ITEM_PRICE, ENTITY_ITEM_STORE, ENTITY_STORE])): ?>
+        <?php echo DropdownButton::normal(trans('texts.maintenance'))
+        ->withAttributes(['class'=>'maintenanceDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_item_brand'), 'url' => url('/item_brands/create')],
+        ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
+        ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices/create')],
+        ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores/create')],
+        ['label' => trans('texts.new_item_movement'), 'url' => url('/item_movements/create')],
+        ['label' => trans('texts.new_store'), 'url' => url('/stores/create')],
+        ['label' => trans('texts.new_unit'), 'url' => url('/units/create')],
+        ])->split(); ?>
+
+    <?php endif; ?>
 </div>
 
 <?php echo Datatable::table()
@@ -161,14 +174,14 @@
 <style type="text/css">
 
     <?php $__currentLoopData = $datatable->rightAlignIndices(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-    .listForm_<?php echo e($entityType); ?> table.dataTable td:nth-child(<?php echo e($index); ?>) {
+.listForm_<?php echo e($entityType); ?> table.dataTable td:nth-child(<?php echo e($index); ?>) {
         text-align: right;
     }
 
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-    <?php $__currentLoopData = $datatable->centerAlignIndices(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-    .listForm_<?php echo e($entityType); ?> table.dataTable td:nth-child(<?php echo e($index); ?>) {
+<?php $__currentLoopData = $datatable->centerAlignIndices(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+.listForm_<?php echo e($entityType); ?> table.dataTable td:nth-child(<?php echo e($index); ?>) {
         text-align: center;
     }
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -179,7 +192,7 @@
     var submittedForm;
 
     function submitForm_<?php echo e($entityType); ?>(action, id) {
-        // prevent duplicate form submissions
+// prevent duplicate form submissions
         if (submittedForm) {
             swal("<?php echo e(trans('texts.processing_request')); ?>")
             return;
@@ -203,7 +216,7 @@
 
     $(function () {
 
-        // Handle datatable filtering
+// Handle datatable filtering
         var tableFilter = '';
         var searchTimeout = false;
 
@@ -235,7 +248,7 @@
             }
         });
 
-        // Enable/disable bulk action buttons
+// Enable/disable bulk action buttons
         window.onDatatableReady_<?php echo e(Utils::pluralizeEntityType($entityType)); ?> = function () {
             $(':checkbox').click(function () {
                 setBulkActionsEnabled_<?php echo e($entityType); ?>();
@@ -273,10 +286,10 @@
             $('.listForm_<?php echo e($entityType); ?> button.archive').not('.dropdown-toggle').text(buttonLabel);
         }
 
-        // Setup state/status filter
+// Setup state/status filter
         $('#statuses_<?php echo e($entityType); ?>').select2({
             placeholder: "<?php echo e(trans('texts.status')); ?>",
-            //allowClear: true,
+//allowClear: true,
             templateSelection: function (data, container) {
                 if (data.id == 'archived') {
                     $(container).css('color', '#fff');

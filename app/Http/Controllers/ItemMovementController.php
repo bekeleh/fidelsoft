@@ -81,7 +81,7 @@ class ItemMovementController extends BaseController
             'entity' => $itemMovement,
             'method' => $method,
             'url' => $url,
-            'title' => trans('texts.item_movement.edit'),
+            'title' => trans('texts.edit_item_movement'),
         ];
 
         $data = array_merge($data, self::getViewModel($itemMovement));
