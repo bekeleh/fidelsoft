@@ -72,7 +72,6 @@
         ->withContents([
         ['label' => trans('texts.new_recurring_expense'), 'url' => url('/recurring_expenses')],
         ['label' => trans('texts.new_expense_category'), 'url' => url('/expense_categories')],
-        ['label' => trans('texts.new_vendor'), 'url' => url('/vendors')],
         ])->split() !!}
     @endif
 @endif
@@ -151,6 +150,7 @@
 
 <script type="text/javascript">
     var submittedForm;
+
     function submitForm_{{ $entityType }}(action, id) {
 // prevent duplicate form submissions
         if (submittedForm) {

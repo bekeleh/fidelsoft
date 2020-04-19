@@ -56,7 +56,7 @@ class HoldReasonController extends BaseController
     {
         Session::reflash();
 
-        return Redirect::to("hold_reasons/$publicId/edit");
+        return Redirect::to("hold_reasons/{$publicId}/edit");
     }
 
     public function getDatatable()

@@ -42,6 +42,13 @@ class SaleTypeController extends BaseController
         ]);
     }
 
+    public function show($publicId)
+    {
+        Session::reflash();
+
+        return Redirect::to("sale_types/{$publicId}/edit");
+    }
+
     public function getDatatable($saleTypePublicId = null)
     {
         return $this->saleTypeService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
@@ -60,7 +67,7 @@ class SaleTypeController extends BaseController
         return View::make('sale_types.edit', $data);
     }
 
-    public function cloneStore(SaleTypeRequest $request, $publicId)
+    public function cloneSaleType(SaleTypeRequest $request, $publicId)
     {
         return self::edit($request, $publicId, true);
     }
@@ -84,7 +91,7 @@ class SaleTypeController extends BaseController
             'entity' => $saleType,
             'method' => $method,
             'url' => $url,
-            'title' => trans('texts.sale_type.edit'),
+            'title' => trans('texts.edit_sale_type'),
         ];
 
         $data = array_merge($data, self::getViewModel($saleType));
@@ -145,10 +152,4 @@ class SaleTypeController extends BaseController
         ];
     }
 
-    public function show($publicId)
-    {
-        Session::reflash();
-
-        return Redirect::to("sale_types/{$publicId}/edit");
-    }
 }
