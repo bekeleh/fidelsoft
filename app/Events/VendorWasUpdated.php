@@ -11,10 +11,6 @@ use Illuminate\Queue\SerializesModels;
 class VendorWasUpdated extends Event
 {
     use SerializesModels;
-
-    /**
-     * @var Vendor
-     */
     public $vendor;
 
     /**

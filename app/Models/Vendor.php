@@ -93,6 +93,16 @@ class Vendor extends EntityModel
         ];
     }
 
+    public function getEntityType()
+    {
+        return ENTITY_VENDOR;
+    }
+
+    public function getRoute()
+    {
+        return "/vendors/{$this->public_id}";
+    }
+
     public function account()
     {
         return $this->belongsTo('App\Models\Account');
@@ -157,16 +167,6 @@ class Vendor extends EntityModel
         $contact->is_primary = $isPrimary;
 
         return $this->vendor_contacts()->save($contact);
-    }
-
-    public function getEntityType()
-    {
-        return ENTITY_VENDOR;
-    }
-
-    public function getRoute()
-    {
-        return "/vendors/{$this->public_id}";
     }
 
     public function getName()

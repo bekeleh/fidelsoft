@@ -22,7 +22,10 @@ class Client extends EntityModel
 
     protected $presenter = 'App\Ninja\Presenters\ClientPresenter';
 
-    protected $dates = ['deleted_at'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+    protected $casts = [];
+    protected $hidden = [];
+    protected $appends = [];
 
     protected $fillable = [
         'name',
@@ -113,6 +116,11 @@ class Client extends EntityModel
             'vat' => 'vat_number',
             'number' => 'id_number',
         ];
+    }
+
+    public function getEntityType()
+    {
+        return ENTITY_CLIENT;
     }
 
     public function getRoute()
@@ -324,11 +332,6 @@ class Client extends EntityModel
         $swap = $this->country && $this->country->swap_postal_code;
 
         return Utils::cityStateZip($this->city, $this->state, $this->postal_code, $swap);
-    }
-
-    public function getEntityType()
-    {
-        return ENTITY_CLIENT;
     }
 
     public function showMap()

@@ -20,124 +20,104 @@
     ->split() !!}
 
     <span id="statusWrapper_{{ $entityType }}" style="display:none">
-<select class="form-control" style="width: 220px" id="statuses_{{ $entityType }}" multiple="true">
+    <select class="form-control" style="width: 220px" id="statuses_{{ $entityType }}" multiple="true">
 @if (count(\App\Models\EntityModel::getStatusesFor($entityType)))
-        <optgroup label="{{ trans('texts.entity_state') }}">
-@foreach (\App\Models\EntityModel::getStatesFor($entityType) as $key => $value)
+            <optgroup label="{{ trans('texts.entity_state') }}">
+          @foreach (\App\Models\EntityModel::getStatesFor($entityType) as $key => $value)
+                    <option value="{{ $key }}">{{ $value }}</option>
+                @endforeach
+        </optgroup>
+            <optgroup label="{{ trans('texts.status') }}">
+           @foreach (\App\Models\EntityModel::getStatusesFor($entityType) as $key => $value)
+                    <option value="{{ $key }}">{{ $value }}</option>
+                @endforeach
+        </optgroup>
+        @else
+            @foreach (\App\Models\EntityModel::getStatesFor($entityType) as $key => $value)
                 <option value="{{ $key }}">{{ $value }}</option>
             @endforeach
-</optgroup>
-        <optgroup label="{{ trans('texts.status') }}">
-@foreach (\App\Models\EntityModel::getStatusesFor($entityType) as $key => $value)
-                <option value="{{ $key }}">{{ $value }}</option>
-            @endforeach
-</optgroup>
-    @else
-        @foreach (\App\Models\EntityModel::getStatesFor($entityType) as $key => $value)
-            <option value="{{ $key }}">{{ $value }}</option>
-        @endforeach
-    @endif
-</select>
-</span>
+        @endif
+    </select>
+    </span>
 </div>
 <div id="top_right_buttons" class="pull-right">
     <input id="tableFilter_{{ $entityType }}" type="text"
            style="width:180px;margin-right:17px;background-color: white !important"
-           class="form-control pull-left" placeholder="{{ trans('texts.filter') }}" value="{{ Input::get('filter') }}"/>
-    @if ($entityType == ENTITY_PROPOSAL)
-        {!! DropdownButton::normal(trans('texts.proposal_templates'))
-        ->withAttributes(['class'=>'templatesDropdown'])
-        ->withContents([
-        ['label' => trans('texts.new_proposal_template'), 'url' => url('/proposals/templates/create')],
-        ]
-        )->split() !!}
-        {!! DropdownButton::normal(trans('texts.proposal_snippets'))
-        ->withAttributes(['class'=>'snippetsDropdown'])
-        ->withContents([
-        ['label' => trans('texts.new_proposal_snippet'), 'url' => url('/proposals/snippets/create')],
-        ]
-        )->split() !!}
-        <script type="text/javascript">
-            $(function () {
-                $('.templatesDropdown:not(.dropdown-toggle)').click(function (event) {
-                    openUrlOnClick('{{ url('/proposals/templates') }}', event);
-                });
-                $('.snippetsDropdown:not(.dropdown-toggle)').click(function (event) {
-                    openUrlOnClick('{{ url('/proposals/snippets') }}', event);
-                });
-            });
-        </script>
-    @elseif ($entityType == ENTITY_PROPOSAL_SNIPPET)
-        {!! DropdownButton::normal(trans('texts.proposal_categories'))
-        ->withAttributes(['class'=>'categoriesDropdown'])
-        ->withContents([
-        ['label' => trans('texts.new_proposal_category'), 'url' => url('/proposals/categories/create')],
-        ])->split() !!}
-        <script type="text/javascript">
-            $(function () {
-                $('.categoriesDropdown:not(.dropdown-toggle)').click(function (event) {
-                    openUrlOnClick('{{ url('/proposals/categories') }}', event);
-                });
-            });
-        </script>
-    @elseif ($entityType == ENTITY_EXPENSE)
-        {!! DropdownButton::normal(trans('texts.recurring'))
-        ->withAttributes(['class'=>'recurringDropdown'])
-        ->withContents([
-        ['label' => trans('texts.new_recurring_expense'), 'url' => url('/recurring_expenses/create')],
-        ]
-        )->split() !!}
-        @if (Auth::user()->can('create', ENTITY_EXPENSE_CATEGORY))
-            {!! DropdownButton::normal(trans('texts.categories'))
-            ->withAttributes(['class'=>'categoriesDropdown'])
-            ->withContents([
-            ['label' => trans('texts.new_expense_category'), 'url' => url('/expense_categories/create')],
-            ]
-            )->split() !!}
-        @else
-            {!! DropdownButton::normal(trans('texts.categories'))
-            ->withAttributes(['class'=>'categoriesDropdown'])
-            ->split() !!}
-        @endif
-        <script type="text/javascript">
-            $(function () {
-                $('.recurringDropdown:not(.dropdown-toggle)').click(function (event) {
-                    openUrlOnClick('{{ url('/recurring_expenses') }}', event)
-                });
-                $('.categoriesDropdown:not(.dropdown-toggle)').click(function (event) {
-                    openUrlOnClick('{{ url('/expense_categories') }}', event);
-                });
-            });
-        </script><!-- /. expense -->
-    @elseif ($entityType == ENTITY_TASK)
-        {!! Button::normal(trans('texts.kanban'))->asLinkTo(url('/tasks/kanban' . (! empty($clientId) ? ('/' . $clientId . (! empty($projectId) ? '/' . $projectId : '')) : '')))->appendIcon(Icon::create('th')) !!}
-        {!! Button::normal(trans('texts.time_tracker'))->asLinkTo('javascript:openTimeTracker()')->appendIcon(Icon::create('time')) !!}
-    @endif
+           class="form-control pull-left" placeholder="{{ trans('texts.filter') }}"
+           value="{{ Input::get('filter') }}"/>
 
-    @if (Auth::user()->can('create', $entityType) && empty($vendorId))
-        {!! Button::primary(mtrans($entityType, "new_{$entityType}"))
-        ->asLinkTo(url(
-        (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_TEMPLATE]) ? str_replace('_', 's/', Utils::pluralizeEntityType($entityType)) : Utils::pluralizeEntityType($entityType)) .
-        '/create/' . (isset($clientId) ? ($clientId . (isset($projectId) ? '/' . $projectId : '')) : '')
-        ))
-        ->appendIcon(Icon::create('plus-sign')) !!}
-    @endif
-<!-- navigation menu -->
-    @if (Auth::user()->can('create', [ENTITY_PRODUCT,ENTITY_ITEM_BRAND,ENTITY_ITEM_CATEGORY,ENTITY_ITEM_PRICE, ENTITY_ITEM_STORE, ENTITY_STORE]))
+@if (in_array($entityType, [ENTITY_PROPOSAL,ENTITY_PROPOSAL_TEMPLATE,ENTITY_PROPOSAL_SNIPPET]))
+    @if (Auth::user()->can('create', [ENTITY_PROPOSAL_TEMPLATE,ENTITY_PROPOSAL_SNIPPET]))
         {!! DropdownButton::normal(trans('texts.maintenance'))
         ->withAttributes(['class'=>'maintenanceDropdown'])
         ->withContents([
-        ['label' => trans('texts.new_item_brand'), 'url' => url('/item_brands/create')],
-        ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
-        ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices/create')],
-        ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores/create')],
-        ['label' => trans('texts.new_item_movement'), 'url' => url('/item_movements/create')],
-        ['label' => trans('texts.new_store'), 'url' => url('/stores/create')],
-        ['label' => trans('texts.new_unit'), 'url' => url('/units/create')],
+        ['label' => trans('texts.new_proposal_template'), 'url' => url('/proposals/templates/create')],
+        ['label' => trans('texts.new_proposal_snippet'), 'url' => url('/proposals/snippets/create')],
         ])->split() !!}
     @endif
-</div>
+@endif
+@if (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET,ENTITY_PROPOSAL_CATEGORY]))
+    @if (Auth::user()->can('create', [ENTITY_PROPOSAL_CATEGORY]))
+        {!! DropdownButton::normal(trans('texts.maintenance'))
+        ->withAttributes(['class'=>'maintenanceDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_proposal_category'), 'url' => url('/proposals/categories/create')],
+        ])->split() !!}
+    @endif
+@endif
+@if (in_array($entityType, [ENTITY_EXPENSE,ENTITY_EXPENSE_CATEGORY,ENTITY_RECURRING_EXPENSE, ENTITY_RECURRING_INVOICE,ENTITY_VENDOR]))
+    @if (Auth::user()->can('create', [ENTITY_EXPENSE_CATEGORY,ENTITY_RECURRING_EXPENSE, ENTITY_RECURRING_INVOICE,ENTITY_VENDOR]))
+        {!! DropdownButton::normal(trans('texts.maintenance'))
+        ->withAttributes(['class'=>'maintenanceDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_recurring_expense'), 'url' => url('/recurring_expenses')],
+        ['label' => trans('texts.new_expense_category'), 'url' => url('/expense_categories')],
+        ['label' => trans('texts.new_vendor'), 'url' => url('/vendors')],
+        ])->split() !!}
+    @endif
+@endif
+<!-- entity task -->
+@if ($entityType == ENTITY_TASK)
+    {!! Button::normal(trans('texts.kanban'))->asLinkTo(url('/tasks/kanban' . (! empty($clientId) ? ('/' . $clientId . (! empty($projectId) ? '/' . $projectId : '')) : '')))->appendIcon(Icon::create('th')) !!}
+    {!! Button::normal(trans('texts.time_tracker'))->asLinkTo('javascript:openTimeTracker()')->appendIcon(Icon::create('time')) !!}
+@endif
 
+@if (Auth::user()->can('create', $entityType) && empty($vendorId))
+    {!! Button::primary(mtrans($entityType, "new_{$entityType}"))
+    ->asLinkTo(url(
+    (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_TEMPLATE]) ? str_replace('_', 's/', Utils::pluralizeEntityType($entityType)) : Utils::pluralizeEntityType($entityType)) .
+    '/create/' . (isset($clientId) ? ($clientId . (isset($projectId) ? '/' . $projectId : '')) : '')
+    ))
+    ->appendIcon(Icon::create('plus-sign')) !!}
+@endif
+@if (in_array($entityType, [ENTITY_INVOICE,ENTITY_INVOICE,ENTITY_INVOICE_ITEM,ENTITY_CLIENT,ENTITY_CREDIT]))
+    @if (Auth::user()->can('create', [ENTITY_INVOICE,ENTITY_INVOICE_ITEM,ENTITY_CLIENT,ENTITY_CREDIT]))
+        {!! DropdownButton::normal(trans('texts.maintenance'))
+        ->withAttributes(['class'=>'maintenanceDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_client'), 'url' => url('/clients')],
+        ['label' => trans('texts.new_credit'), 'url' => url('/credits')],
+        ['label' => trans('texts.new_expense'), 'url' => url('/expenses')],
+        ])->split() !!}
+    @endif
+@endif
+<!-- navigation menu -->
+    @if (in_array($entityType, [ENTITY_PRODUCT,ENTITY_ITEM_BRAND,ENTITY_ITEM_CATEGORY,ENTITY_ITEM_PRICE, ENTITY_ITEM_STORE, ENTITY_STORE]))
+        @if (Auth::user()->can('create', [ENTITY_PRODUCT,ENTITY_ITEM_BRAND,ENTITY_ITEM_CATEGORY,ENTITY_ITEM_PRICE, ENTITY_ITEM_STORE, ENTITY_STORE]))
+            {!! DropdownButton::normal(trans('texts.maintenance'))
+            ->withAttributes(['class'=>'maintenanceDropdown'])
+            ->withContents([
+            ['label' => trans('texts.new_item_brand'), 'url' => url('/item_brands/create')],
+            ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories')],
+            ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices')],
+            ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores')],
+            ['label' => trans('texts.new_item_movement'), 'url' => url('/item_movements')],
+            ['label' => trans('texts.new_store'), 'url' => url('/stores')],
+            ['label' => trans('texts.new_unit'), 'url' => url('/units')],
+            ])->split() !!}
+        @endif
+    @endif
+</div>
 {!! Datatable::table()
 ->addColumn(Utils::trans($datatable->columnFields(), $datatable->entityType))
 ->setUrl(empty($url) ? url('api/' . Utils::pluralizeEntityType($entityType)) : $url)
@@ -170,9 +150,7 @@
 </style>
 
 <script type="text/javascript">
-
     var submittedForm;
-
     function submitForm_{{ $entityType }}(action, id) {
 // prevent duplicate form submissions
         if (submittedForm) {

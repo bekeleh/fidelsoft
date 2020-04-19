@@ -5329,7 +5329,7 @@ a.list-group-item-danger.active, a.list-group-item-danger.active:hover, a.list-g
 
 .panel-default > .panel-heading {
     color: #333;
-    background-color: #f5f5f5;
+    background-color: #f5f5f5 !important;;
     border-color: #ddd
 }
 
@@ -5347,7 +5347,7 @@ a.list-group-item-danger.active, a.list-group-item-danger.active:hover, a.list-g
 
 .panel-primary > .panel-heading {
     color: #fff;
-    background-color: #428bca;
+    background-color: #428bca !important;;
     border-color: #428bca
 }
 

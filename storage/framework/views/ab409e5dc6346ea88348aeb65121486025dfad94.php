@@ -26,134 +26,112 @@
 
 
     <span id="statusWrapper_<?php echo e($entityType); ?>" style="display:none">
-<select class="form-control" style="width: 220px" id="statuses_<?php echo e($entityType); ?>" multiple="true">
+    <select class="form-control" style="width: 220px" id="statuses_<?php echo e($entityType); ?>" multiple="true">
 <?php if(count(\App\Models\EntityModel::getStatusesFor($entityType))): ?>
-        <optgroup label="<?php echo e(trans('texts.entity_state')); ?>">
-<?php $__currentLoopData = \App\Models\EntityModel::getStatesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <optgroup label="<?php echo e(trans('texts.entity_state')); ?>">
+          <?php $__currentLoopData = \App\Models\EntityModel::getStatesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        </optgroup>
+            <optgroup label="<?php echo e(trans('texts.status')); ?>">
+           <?php $__currentLoopData = \App\Models\EntityModel::getStatusesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        </optgroup>
+        <?php else: ?>
+            <?php $__currentLoopData = \App\Models\EntityModel::getStatesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-</optgroup>
-        <optgroup label="<?php echo e(trans('texts.status')); ?>">
-<?php $__currentLoopData = \App\Models\EntityModel::getStatusesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-</optgroup>
-    <?php else: ?>
-        <?php $__currentLoopData = \App\Models\EntityModel::getStatesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
-        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-    <?php endif; ?>
-</select>
-</span>
+        <?php endif; ?>
+    </select>
+    </span>
 </div>
 <div id="top_right_buttons" class="pull-right">
     <input id="tableFilter_<?php echo e($entityType); ?>" type="text"
            style="width:180px;margin-right:17px;background-color: white !important"
-           class="form-control pull-left" placeholder="<?php echo e(trans('texts.filter')); ?>" value="<?php echo e(Input::get('filter')); ?>"/>
-    <?php if($entityType == ENTITY_PROPOSAL): ?>
-        <?php echo DropdownButton::normal(trans('texts.proposal_templates'))
-        ->withAttributes(['class'=>'templatesDropdown'])
+           class="form-control pull-left" placeholder="<?php echo e(trans('texts.filter')); ?>"
+           value="<?php echo e(Input::get('filter')); ?>"/>
+
+<?php if(in_array($entityType, [ENTITY_PROPOSAL,ENTITY_PROPOSAL_TEMPLATE,ENTITY_PROPOSAL_SNIPPET])): ?>
+    <?php if(Auth::user()->can('create', [ENTITY_PROPOSAL_TEMPLATE,ENTITY_PROPOSAL_SNIPPET])): ?>
+        <?php echo DropdownButton::normal(trans('texts.maintenance'))
+        ->withAttributes(['class'=>'maintenanceDropdown'])
         ->withContents([
         ['label' => trans('texts.new_proposal_template'), 'url' => url('/proposals/templates/create')],
-        ]
-        )->split(); ?>
-
-        <?php echo DropdownButton::normal(trans('texts.proposal_snippets'))
-        ->withAttributes(['class'=>'snippetsDropdown'])
-        ->withContents([
         ['label' => trans('texts.new_proposal_snippet'), 'url' => url('/proposals/snippets/create')],
-        ]
-        )->split(); ?>
+        ])->split(); ?>
 
-        <script type="text/javascript">
-            $(function () {
-                $('.templatesDropdown:not(.dropdown-toggle)').click(function (event) {
-                    openUrlOnClick('<?php echo e(url('/proposals/templates')); ?>', event);
-                });
-                $('.snippetsDropdown:not(.dropdown-toggle)').click(function (event) {
-                    openUrlOnClick('<?php echo e(url('/proposals/snippets')); ?>', event);
-                });
-            });
-        </script>
-    <?php elseif($entityType == ENTITY_PROPOSAL_SNIPPET): ?>
-        <?php echo DropdownButton::normal(trans('texts.proposal_categories'))
-        ->withAttributes(['class'=>'categoriesDropdown'])
+    <?php endif; ?>
+<?php endif; ?>
+<?php if(in_array($entityType, [ENTITY_PROPOSAL_SNIPPET,ENTITY_PROPOSAL_CATEGORY])): ?>
+    <?php if(Auth::user()->can('create', [ENTITY_PROPOSAL_CATEGORY])): ?>
+        <?php echo DropdownButton::normal(trans('texts.maintenance'))
+        ->withAttributes(['class'=>'maintenanceDropdown'])
         ->withContents([
         ['label' => trans('texts.new_proposal_category'), 'url' => url('/proposals/categories/create')],
         ])->split(); ?>
 
-        <script type="text/javascript">
-            $(function () {
-                $('.categoriesDropdown:not(.dropdown-toggle)').click(function (event) {
-                    openUrlOnClick('<?php echo e(url('/proposals/categories')); ?>', event);
-                });
-            });
-        </script>
-    <?php elseif($entityType == ENTITY_EXPENSE): ?>
-        <?php echo DropdownButton::normal(trans('texts.recurring'))
-        ->withAttributes(['class'=>'recurringDropdown'])
-        ->withContents([
-        ['label' => trans('texts.new_recurring_expense'), 'url' => url('/recurring_expenses/create')],
-        ]
-        )->split(); ?>
-
-        <?php if(Auth::user()->can('create', ENTITY_EXPENSE_CATEGORY)): ?>
-            <?php echo DropdownButton::normal(trans('texts.categories'))
-            ->withAttributes(['class'=>'categoriesDropdown'])
-            ->withContents([
-            ['label' => trans('texts.new_expense_category'), 'url' => url('/expense_categories/create')],
-            ]
-            )->split(); ?>
-
-        <?php else: ?>
-            <?php echo DropdownButton::normal(trans('texts.categories'))
-            ->withAttributes(['class'=>'categoriesDropdown'])
-            ->split(); ?>
-
-        <?php endif; ?>
-        <script type="text/javascript">
-            $(function () {
-                $('.recurringDropdown:not(.dropdown-toggle)').click(function (event) {
-                    openUrlOnClick('<?php echo e(url('/recurring_expenses')); ?>', event)
-                });
-                $('.categoriesDropdown:not(.dropdown-toggle)').click(function (event) {
-                    openUrlOnClick('<?php echo e(url('/expense_categories')); ?>', event);
-                });
-            });
-        </script><!-- /. expense -->
-    <?php elseif($entityType == ENTITY_TASK): ?>
-        <?php echo Button::normal(trans('texts.kanban'))->asLinkTo(url('/tasks/kanban' . (! empty($clientId) ? ('/' . $clientId . (! empty($projectId) ? '/' . $projectId : '')) : '')))->appendIcon(Icon::create('th')); ?>
-
-        <?php echo Button::normal(trans('texts.time_tracker'))->asLinkTo('javascript:openTimeTracker()')->appendIcon(Icon::create('time')); ?>
-
     <?php endif; ?>
-
-    <?php if(Auth::user()->can('create', $entityType) && empty($vendorId)): ?>
-        <?php echo Button::primary(mtrans($entityType, "new_{$entityType}"))
-        ->asLinkTo(url(
-        (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_TEMPLATE]) ? str_replace('_', 's/', Utils::pluralizeEntityType($entityType)) : Utils::pluralizeEntityType($entityType)) .
-        '/create/' . (isset($clientId) ? ($clientId . (isset($projectId) ? '/' . $projectId : '')) : '')
-        ))
-        ->appendIcon(Icon::create('plus-sign')); ?>
-
-    <?php endif; ?>
-<!-- navigation menu -->
-    <?php if(Auth::user()->can('create', [ENTITY_PRODUCT,ENTITY_ITEM_BRAND,ENTITY_ITEM_CATEGORY,ENTITY_ITEM_PRICE, ENTITY_ITEM_STORE, ENTITY_STORE])): ?>
+<?php endif; ?>
+<?php if(in_array($entityType, [ENTITY_EXPENSE,ENTITY_EXPENSE_CATEGORY,ENTITY_RECURRING_EXPENSE, ENTITY_RECURRING_INVOICE,ENTITY_VENDOR])): ?>
+    <?php if(Auth::user()->can('create', [ENTITY_EXPENSE_CATEGORY,ENTITY_RECURRING_EXPENSE, ENTITY_RECURRING_INVOICE,ENTITY_VENDOR])): ?>
         <?php echo DropdownButton::normal(trans('texts.maintenance'))
         ->withAttributes(['class'=>'maintenanceDropdown'])
         ->withContents([
-        ['label' => trans('texts.new_item_brand'), 'url' => url('/item_brands/create')],
-        ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories/create')],
-        ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices/create')],
-        ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores/create')],
-        ['label' => trans('texts.new_item_movement'), 'url' => url('/item_movements/create')],
-        ['label' => trans('texts.new_store'), 'url' => url('/stores/create')],
-        ['label' => trans('texts.new_unit'), 'url' => url('/units/create')],
+        ['label' => trans('texts.new_recurring_expense'), 'url' => url('/recurring_expenses')],
+        ['label' => trans('texts.new_expense_category'), 'url' => url('/expense_categories')],
+        ['label' => trans('texts.new_vendor'), 'url' => url('/vendors')],
         ])->split(); ?>
 
     <?php endif; ?>
-</div>
+<?php endif; ?>
+<!-- entity task -->
+<?php if($entityType == ENTITY_TASK): ?>
+    <?php echo Button::normal(trans('texts.kanban'))->asLinkTo(url('/tasks/kanban' . (! empty($clientId) ? ('/' . $clientId . (! empty($projectId) ? '/' . $projectId : '')) : '')))->appendIcon(Icon::create('th')); ?>
 
+    <?php echo Button::normal(trans('texts.time_tracker'))->asLinkTo('javascript:openTimeTracker()')->appendIcon(Icon::create('time')); ?>
+
+<?php endif; ?>
+
+<?php if(Auth::user()->can('create', $entityType) && empty($vendorId)): ?>
+    <?php echo Button::primary(mtrans($entityType, "new_{$entityType}"))
+    ->asLinkTo(url(
+    (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_TEMPLATE]) ? str_replace('_', 's/', Utils::pluralizeEntityType($entityType)) : Utils::pluralizeEntityType($entityType)) .
+    '/create/' . (isset($clientId) ? ($clientId . (isset($projectId) ? '/' . $projectId : '')) : '')
+    ))
+    ->appendIcon(Icon::create('plus-sign')); ?>
+
+<?php endif; ?>
+<?php if(in_array($entityType, [ENTITY_INVOICE,ENTITY_INVOICE,ENTITY_INVOICE_ITEM,ENTITY_CLIENT,ENTITY_CREDIT])): ?>
+    <?php if(Auth::user()->can('create', [ENTITY_INVOICE,ENTITY_INVOICE_ITEM,ENTITY_CLIENT,ENTITY_CREDIT])): ?>
+        <?php echo DropdownButton::normal(trans('texts.maintenance'))
+        ->withAttributes(['class'=>'maintenanceDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_client'), 'url' => url('/clients')],
+        ['label' => trans('texts.new_credit'), 'url' => url('/credits')],
+        ['label' => trans('texts.new_expense'), 'url' => url('/expenses')],
+        ])->split(); ?>
+
+    <?php endif; ?>
+<?php endif; ?>
+<!-- navigation menu -->
+    <?php if(in_array($entityType, [ENTITY_PRODUCT,ENTITY_ITEM_BRAND,ENTITY_ITEM_CATEGORY,ENTITY_ITEM_PRICE, ENTITY_ITEM_STORE, ENTITY_STORE])): ?>
+        <?php if(Auth::user()->can('create', [ENTITY_PRODUCT,ENTITY_ITEM_BRAND,ENTITY_ITEM_CATEGORY,ENTITY_ITEM_PRICE, ENTITY_ITEM_STORE, ENTITY_STORE])): ?>
+            <?php echo DropdownButton::normal(trans('texts.maintenance'))
+            ->withAttributes(['class'=>'maintenanceDropdown'])
+            ->withContents([
+            ['label' => trans('texts.new_item_brand'), 'url' => url('/item_brands/create')],
+            ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories')],
+            ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices')],
+            ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores')],
+            ['label' => trans('texts.new_item_movement'), 'url' => url('/item_movements')],
+            ['label' => trans('texts.new_store'), 'url' => url('/stores')],
+            ['label' => trans('texts.new_unit'), 'url' => url('/units')],
+            ])->split(); ?>
+
+        <?php endif; ?>
+    <?php endif; ?>
+</div>
 <?php echo Datatable::table()
 ->addColumn(Utils::trans($datatable->columnFields(), $datatable->entityType))
 ->setUrl(empty($url) ? url('api/' . Utils::pluralizeEntityType($entityType)) : $url)
@@ -188,9 +166,7 @@
 </style>
 
 <script type="text/javascript">
-
     var submittedForm;
-
     function submitForm_<?php echo e($entityType); ?>(action, id) {
 // prevent duplicate form submissions
         if (submittedForm) {

@@ -21,7 +21,6 @@ class TranslationComposer
         })->sortBy(function ($industry) {
             return $industry->name;
         }));
-
         $view->with('countries', Cache::get('countries')->each(function ($country) {
             $country->name = trans('texts.country_' . $country->name);
         })->sortBy(function ($country) {
