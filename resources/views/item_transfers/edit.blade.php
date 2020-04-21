@@ -29,11 +29,11 @@
                     ->help(trans('texts.item_help') . ' | ' . link_to('/products/', trans('texts.customize_options')))
                     !!}
                     {!! Former::select('previous_previous_id')->addOption('', '')
-                    ->label(trans('texts.previousStore'))->addGroupClass('previous-select')
-                    ->help(trans('texts.previous_help') . ' | ' . link_to('/previous/', trans('texts.customize_options')))
+                    ->label(trans('texts.from_store_name'))->addGroupClass('previous-select')
+                    ->help(trans('texts.item_store_help') . ' | ' . link_to('/item_stores/', trans('texts.customize_options')))
                     !!}
                     {!! Former::select('current_previous_id')->addOption('', '')
-                    ->label(trans('texts.currentStore'))->addGroupClass('current-select')
+                    ->label(trans('texts.to_store_name'))->addGroupClass('current-select')
                     !!}
                     {!! Former::text('qty')->label('texts.qty') !!}
                     {!! Former::textarea('notes')->rows(6) !!}

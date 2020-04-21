@@ -57,13 +57,26 @@ class ItemTransferDataTable extends EntityDatatable
                 }
             ],
             [
-                'store_name',
+                'from_store_name',
                 function ($model) {
                     if ($model->store_id) {
                         if (Auth::user()->can('view', [ENTITY_STORE, $model]))
-                            return link_to("stores/{$model->public_id}", $model->store_name)->toHtml();
+                            return link_to("stores/{$model->public_id}", $model->from_store_name)->toHtml();
                         else
-                            return $model->store_name;
+                            return $model->from_store_name;
+                    } else {
+                        return '';
+                    }
+                }
+            ],
+            [
+                'to_store_name',
+                function ($model) {
+                    if ($model->store_id) {
+                        if (Auth::user()->can('view', [ENTITY_STORE, $model]))
+                            return link_to("stores/{$model->public_id}", $model->to_store_name)->toHtml();
+                        else
+                            return $model->to_store_name;
                     } else {
                         return '';
                     }

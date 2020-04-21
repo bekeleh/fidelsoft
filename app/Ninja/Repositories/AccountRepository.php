@@ -300,6 +300,7 @@ class AccountRepository
             ENTITY_ITEM_CATEGORY,
             ENTITY_ITEM_BRAND,
             ENTITY_ITEM_STORE,
+            ENTITY_ITEM_TRANSFER,
             ENTITY_ITEM_PRICE,
             ENTITY_ITEM_MOVEMENT,
         ];

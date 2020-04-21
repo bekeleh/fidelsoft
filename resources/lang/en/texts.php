@@ -180,7 +180,7 @@ $LANG = array(
 |--------------------------------------------------------------------------
 */
     'new_item_transfer' => 'New Item Transfer',
-    'list_item_transfer' => 'List Item Transfer',
+    'list_item_transfers' => 'List Item Transfer',
     'item_transfer' => 'Item Transfer',
     'item_transfers' => 'Item Transfer',
     'create_item_transfer' => 'Create Item Transfer',
@@ -195,6 +195,10 @@ $LANG = array(
     'created_item_transfer' => 'Successfully Created Item Transfer',
     'archived_item_transfer' => 'Successfully Archived Item Transfer',
     'item_transfer_settings' => 'Item Transfer Settings',
+    'approver_name' => 'Approver Name',
+    'approved_date' => 'Approver Date',
+    'from_store_name' => 'From Store',
+    'to_store_name' => 'To Store',
 
     /*
 |--------------------------------------------------------------------------
@@ -399,6 +403,7 @@ $LANG = array(
     'select_item_store' => 'Select Item Store',
     'select_item' => 'Select Item',
     'item_help' => 'Sets the default <b>item</b>',
+    'item_store_help' => 'Sets the default <b>item store</b>',
     /*
 |--------------------------------------------------------------------------
 | inventory trans

@@ -40,8 +40,7 @@ class ItemTransferRepository extends BaseRepository
             ->join('products', 'products.id', '=', 'item_transfers.product_id')
             ->join('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
             ->join('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
-            ->join('stores', 'stores.id', '=', 'item_transfers.previous_store_id')
-            ->join('stores', 'stores.id', '=', 'item_transfers.current_store_id')
+            ->join('stores as currentStore', 'currentStore.id', '=', 'item_transfers.current_store_id')
             ->join('approval_statuses', 'approval_statuses.id', '=', 'item_transfers.approval_status_id')
             ->where('item_transfers.account_id', '=', $accountId)
             //->where('item_transfers.deleted_at', '=', null)
@@ -66,8 +65,8 @@ class ItemTransferRepository extends BaseRepository
                 'products.name as item_name',
                 'item_brands.name as item_brand_name',
                 'item_categories.name as item_category_name',
-                'stores.name as store_name',
-                'users.name as approver_name'
+                'stores.name as to_store_name',
+                'users.username as approver_name'
             );
         if ($filter) {
             $query->where(function ($query) use ($filter) {
@@ -76,7 +75,7 @@ class ItemTransferRepository extends BaseRepository
                     ->orWhere('item_transfers.updated_by', 'like', '%' . $filter . '%')
                     ->orWhere('item_brands.name', 'like', '%' . $filter . '%')
                     ->orWhere('item_categories.name', 'like', '%' . $filter . '%')
-                    ->orWhere('users.name', 'like', '%' . $filter . '%')
+                    ->orWhere('users.username', 'like', '%' . $filter . '%')
                     ->orWhere('products.name', 'like', '%' . $filter . '%')
                     ->orWhere('stores.name', 'like', '%' . $filter . '%');
             });
