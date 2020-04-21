@@ -984,7 +984,6 @@
             model.invoice().has_tasks(true);
             NINJA.formIsChanged = true;
             @endif
-
                     @if (isset($expenses) && $expenses->count())
                 NINJA.formIsChanged = true;
             model.expense_currency_id({{ isset($expenseCurrencyId) ? $expenseCurrencyId : 0 }});
@@ -1034,9 +1033,7 @@
             model.invoice().invoice_items_without_tasks.push(blank);
             NINJA.formIsChanged = true;
             @endif
-
             @endif
-
             // display blank instead of '0'
             if (!NINJA.parseFloat(model.invoice().discount())) model.invoice().discount('');
             if (!NINJA.parseFloat(model.invoice().partial())) model.invoice().partial('');

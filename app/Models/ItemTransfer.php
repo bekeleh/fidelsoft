@@ -6,32 +6,36 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
- * Model Class ItemStore.
+ * Model Class ItemTransfer.
  */
-class ItemStore extends EntityModel
+class ItemTransfer extends EntityModel
 {
-    protected $presenter = 'App\Ninja\Presenters\ItemStorePresenter';
+    protected $presenter = 'App\Ninja\Presenters\ItemTransferPresenter';
     use PresentableTrait;
     use SoftDeletes;
 
-    protected $appends = [];
-    protected $table = 'item_stores';
+
+    protected $table = 'item_transfers';
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
 
+    protected $casts = [];
+    protected $hidden = [];
+    protected $appends = [];
+
+
     protected $fillable = [
-        'product_id',
-        'store_id',
-        'bin',
+        'item_id',
+        'prev_store_id',
+        'current_store_id',
+        'approval_status_id',
+        'approver_id',
+        'approved_date',
         'qty',
-        'reorder_level',
-        'EOQ',
         'notes',
         'created_by',
         'updated_by',
         'deleted_by',
     ];
-    protected $hidden = [];
-    protected $casts = [];
 
 
     public function getEntityType()
@@ -41,12 +45,7 @@ class ItemStore extends EntityModel
 
     public function getRoute()
     {
-        return "/item_stores/{$this->public_id}/edit";
-    }
-
-    public static function findProductByKey($key)
-    {
-        return self::scope()->where('bin', '=', $key)->first();
+        return "/item_transfers/{$this->public_id}/edit";
     }
 
     public function account()
@@ -59,20 +58,36 @@ class ItemStore extends EntityModel
         return $this->belongsTo('App\Models\User', 'user_id')->withTrashed();
     }
 
-    public function store()
-    {
-        return $this->belongsTo('App\Models\Store', 'store_id')->withTrashed();
-    }
-
-    public function product()
-    {
-        return $this->belongsTo('App\Models\Product', 'product_id')->withTrashed();
-    }
-
     public function itemMovements()
     {
         return $this->morphMany('\App\Models\ItemMovement', 'movable', 'movable_type', 'movable_id');
     }
+
+    public function item()
+    {
+        return $this->belongsTo('\App\Models\Product', 'item_id');
+    }
+
+    public function approvalStatus()
+    {
+        return $this->belongsTo('\App\Models\ApprovalStatus', 'approval_status_id');
+    }
+
+    public function approver()
+    {
+        return $this->belongsTo('\App\Models\User', 'approver_id');
+    }
+
+    public function previousStore()
+    {
+        return $this->belongsTo('\App\Models\Store', 'previous_store_id');
+    }
+
+    public function currentStore()
+    {
+        return $this->belongsTo('\App\Models\Store', 'current_store_id');
+    }
+
 
     public static function calcStatusLabel($qoh, $reorderLevel)
     {
