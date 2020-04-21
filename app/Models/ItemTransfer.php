@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
- * Model Class ItemTransfer.
+ * Model Class ItemTransferPresenter.
  */
 class ItemTransfer extends EntityModel
 {

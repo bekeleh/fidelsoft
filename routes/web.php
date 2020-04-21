@@ -283,12 +283,16 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::resource('item_stores', 'ItemStoreController');
     Route::get('api/item_stores', 'ItemStoreController@getDatatable');
     Route::post('item_stores/bulk', 'ItemStoreController@bulk');
+//         item transfer
+    Route::get('item_transfers/{item_transfers}/clone', 'ItemTransferController@cloneItemTransfer');
+    Route::resource('item_transfers', 'ItemTransferController');
+    Route::get('api/item_transfers', 'ItemTransferController@getDatatable');
+    Route::post('item_transfers/bulk', 'ItemTransferController@bulk');
 //     item price
     Route::get('item_prices/{item_prices}/clone', 'ItemPriceController@cloneItemPrice');
     Route::resource('item_prices', 'ItemPriceController');
     Route::get('api/item_prices', 'ItemPriceController@getDatatable');
     Route::post('item_prices/bulk', 'ItemPriceController@bulk');
-
 //   location
     Route::get('locations/{locations}/clone', 'LocationController@cloneLocation');
     Route::get('api/locations', 'LocationController@getDatatable');
