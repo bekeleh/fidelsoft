@@ -9,14 +9,9 @@ class ItemStoreWasCreated extends Event
 {
     use SerializesModels;
 
-    /**
-     * @var ItemStore
-     */
+
     public $itemStore;
 
-    /**
-     * @var array
-     **/
     public $input;
 
     /**
