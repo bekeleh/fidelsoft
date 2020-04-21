@@ -11,14 +11,10 @@ use App\Ninja\Repositories\ItemStoreRepository;
  */
 class ItemStoreApiController extends BaseAPIController
 {
-    /**
-     * @var string
-     */
+
     protected $entityType = ENTITY_ITEM_STORE;
 
-    /**
-     * @var ItemStoreRepository
-     */
+
     protected $itemStoreRepo;
 
     /**

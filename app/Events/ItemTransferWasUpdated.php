@@ -5,7 +5,7 @@ namespace App\Events;
 use App\Models\ItemTransfer;
 use Illuminate\Queue\SerializesModels;
 
-class ItemTransferWasUpdate extends Event
+class ItemTransferWasUpdated extends Event
 {
     use SerializesModels;
 

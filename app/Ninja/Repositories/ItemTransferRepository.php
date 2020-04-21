@@ -5,6 +5,7 @@ namespace App\Ninja\Repositories;
 use App\Events\ItemTransferWasCreated;
 use App\Events\ItemTransferWasUpdated;
 use App\Models\ItemMovement;
+use App\Models\ItemStore;
 use App\Models\ItemTransfer;
 use App\Models\Product;
 use App\Models\Store;
@@ -33,49 +34,55 @@ class ItemTransferRepository extends BaseRepository
 
     public function find($accountId, $filter = null)
     {
-        $query = DB::table('item_stores')
-            ->join('accounts', 'accounts.id', '=', 'item_stores.account_id')
-            ->join('products', 'products.id', '=', 'item_stores.product_id')
+        $query = DB::table('item_transfers')
+            ->join('accounts', 'accounts.id', '=', 'item_transfers.account_id')
+            ->join('users', 'users.id', '=', 'item_transfers.approver_id')
+            ->join('products', 'products.id', '=', 'item_transfers.product_id')
             ->join('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
             ->join('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
-            ->join('stores', 'stores.id', '=', 'item_stores.store_id')
-            ->where('item_stores.account_id', '=', $accountId)
-            //->where('item_stores.deleted_at', '=', null)
+            ->join('stores', 'stores.id', '=', 'item_transfers.previous_store_id')
+            ->join('stores', 'stores.id', '=', 'item_transfers.current_store_id')
+            ->join('approval_statuses', 'approval_statuses.id', '=', 'item_transfers.approval_status_id')
+            ->where('item_transfers.account_id', '=', $accountId)
+            //->where('item_transfers.deleted_at', '=', null)
             ->select(
-                'item_stores.id',
-                'item_stores.public_id',
-                'item_stores.product_id',
-                'item_stores.store_id',
-                'item_stores.bin',
-                'item_stores.qty',
-                'item_stores.reorder_level',
-                'item_stores.EOQ',
-                'item_stores.is_deleted',
-                'item_stores.notes',
-                'item_stores.created_at',
-                'item_stores.updated_at',
-                'item_stores.deleted_at',
-                'item_stores.created_by',
-                'item_stores.updated_by',
-                'item_stores.deleted_by',
+                'item_transfers.id',
+                'item_transfers.public_id',
+                'item_transfers.product_id',
+                'item_transfers.previous_store_id',
+                'item_transfers.current_store_id',
+                'item_transfers.approval_status_id',
+                'item_transfers.approver_id',
+                'item_transfers.qty',
+                'item_transfers.is_deleted',
+                'item_transfers.notes',
+                'item_transfers.approved_date',
+                'item_transfers.created_at',
+                'item_transfers.updated_at',
+                'item_transfers.deleted_at',
+                'item_transfers.created_by',
+                'item_transfers.updated_by',
+                'item_transfers.deleted_by',
                 'products.name as item_name',
                 'item_brands.name as item_brand_name',
                 'item_categories.name as item_category_name',
-                'stores.name as store_name'
+                'stores.name as store_name',
+                'users.name as approver_name'
             );
         if ($filter) {
             $query->where(function ($query) use ($filter) {
-                $query->Where('item_stores.notes', 'like', '%' . $filter . '%')
-                    ->orWhere('item_stores.created_by', 'like', '%' . $filter . '%')
-                    ->orWhere('item_stores.updated_by', 'like', '%' . $filter . '%')
+                $query->Where('item_transfers.notes', 'like', '%' . $filter . '%')
+                    ->orWhere('item_transfers.created_by', 'like', '%' . $filter . '%')
+                    ->orWhere('item_transfers.updated_by', 'like', '%' . $filter . '%')
                     ->orWhere('item_brands.name', 'like', '%' . $filter . '%')
                     ->orWhere('item_categories.name', 'like', '%' . $filter . '%')
+                    ->orWhere('users.name', 'like', '%' . $filter . '%')
                     ->orWhere('products.name', 'like', '%' . $filter . '%')
                     ->orWhere('stores.name', 'like', '%' . $filter . '%');
             });
         }
 
-        $this->applyFilters($query, ENTITY_ITEM_STORE);
+        $this->applyFilters($query, ENTITY_ITEM_TRANSFER);
 
         return $query;
     }
@@ -93,7 +100,7 @@ class ItemTransferRepository extends BaseRepository
     {
         $storeId = Store::getPrivateId($storePublicId);
 
-        $query = $this->find()->where('item_stores.store_id', '=', $storeId);
+        $query = $this->find()->where('item_transfers.store_id', '=', $storeId);
 
         return $query;
     }
@@ -103,24 +110,18 @@ class ItemTransferRepository extends BaseRepository
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
 
         if ($itemTransfer) {
-//          quantity adjustment
-            $this->quantityAdjustment($data, $itemTransfer, $update = true);
-            $itemTransfer->fill(collect($data)->except('qty')->toArray());
-            $itemTransfer->qty = isset($data['qty']) ? $data['qty'] + $itemTransfer->qty : '';
             $itemTransfer->updated_by = Auth::user()->username;
-            $itemTransfer->save();
+            $itemTransfer->fill(collect($data)->except(['item_id'])->toArray());
+            $this->storeQuantityAdjustment($data, $itemTransfer, $update = true);
+            dd($itemTransfer);
         } elseif ($publicId) {
             $itemTransfer = ItemTransfer::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in item store repo save');
+            \Log::warning('Entity not set in item transfer repo save');
         } else {
             $itemTransfer = ItemTransfer::createNew();
-            $itemTransfer->fill($data);
-            $itemTransfer->qty = isset($data['qty']) ? trim($data['qty']) : '';
+            $itemTransfer->fill(collect($data)->except(['item_id'])->toArray());
             $itemTransfer->created_by = Auth::user()->username;
-
-            if ($itemTransfer->save()) {
-                $this->quantityAdjustment($data, $itemTransfer, $update = false);
-            }
+            $this->storeQuantityAdjustment($data, $itemTransfer, $update = false);
         }
 
         if ($publicId) {
@@ -131,14 +132,57 @@ class ItemTransferRepository extends BaseRepository
         return $itemTransfer;
     }
 
+    public function storeQuantityAdjustment($itemTransferData, $itemTransfer = null, $update = false)
+    {
+        try {
+            $ItemId = Store::getPrivateId($itemTransferData['item_id']);
+            $PreviousStoreId = Store::getPrivateId($itemTransferData['previous_store_id']);
+
+            $itemTransfers = ItemStore::where('store_id', $itemTransferData['previous_store_id'])->whereIn('item_id', $itemTransferData['item_id'])->get();
+            $itemTransferDate = [];
+            foreach ($itemTransfers as $itemStore) {
+                $itemTransfer->item_id = $itemStore->item_id;
+                if ((int)$itemTransfer->qty > 0) {
+                    if (!empty($itemTransferData['transferAllQtyChecked'])) {
+                        $itemTransferDate['qty'] = 0;
+                        if ($itemStore->update($itemTransferDate)) {
+                            $itemTransfer->save();
+                        }
+                    } else {
+                        $requiredQty = (int)$itemTransferData['qty'];
+                        $availableQty = (int)$itemStore->qty;
+                        if ($requiredQty >= $availableQty) {
+                            $itemTransferDate['qty'] = 0;
+                            if ($itemStore->update($itemTransferDate)) {
+                                $itemTransfer->save();
+                            }
+                        } else {
+                            $availableQty = $availableQty - $requiredQty;
+                            $itemTransferDate['qty'] = $availableQty;
+                            if ($itemTransfer->update($itemTransferDate)) {
+                                $itemTransfer->save();
+                            }
+                        }
+                    }
+                }
+            }
+
+            return true;
+
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
     public function quantityAdjustment($data, $itemTransfer = null, $update = false)
     {
         if ($update) {
-//         update quantity
+
             $this->qoh = (int)$itemTransfer->qty;
             if (!empty($data['qty'])) {
                 if ((int)$data['qty'] > 0) {
                     $movable = ItemMovement::createNew();
+                    $itemTransfer = $this->itemTransfer->where('store_id', $itemTransfer->current_store_id)->where('item_id', $itemTransfer->item_id)->first();
                     $movable->qty = (int)$data['qty'];
                     $movable->qoh = ((int)$this->qoh) + ((int)$data['qty']);
                     $movable->notes = 'quantity adjustment';

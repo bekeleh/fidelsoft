@@ -16,7 +16,7 @@ class ItemTransfer extends EntityModel
 
 
     protected $table = 'item_transfers';
-    protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
+    protected $dates = ['approved_date', 'created_at', 'deleted_at', 'deleted_at'];
 
     protected $casts = [];
     protected $hidden = [];

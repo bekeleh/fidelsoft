@@ -3,13 +3,13 @@
 namespace App\Ninja\Datatables;
 
 use App\Libraries\Utils;
-use App\Models\ItemStore;
+use App\Models\ItemTransfer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 
-class ItemStoreDatatable extends EntityDatatable
+class ItemTransferDataTable extends EntityDatatable
 {
-    public $entityType = ENTITY_ITEM_STORE;
+    public $entityType = ENTITY_ITEM_TRANSFER;
     public $sortCol = 1;
 
     public function columns()
@@ -70,31 +70,9 @@ class ItemStoreDatatable extends EntityDatatable
                 }
             ],
             [
-                'bin',
-                function ($model) {
-                    if ($model->bin) {
-                        return link_to('item_stores/' . $model->public_id . '/edit', $model->bin)->toHtml();
-                    } else {
-                        return '';
-                    }
-                },
-            ],
-            [
                 'qty',
                 function ($model) {
                     return self::getStatusLabel($model);
-                },
-            ],
-            [
-                'reorder_level',
-                function ($model) {
-                    return $model->reorder_level;
-                },
-            ],
-            [
-                'EOQ',
-                function ($model) {
-                    return $model->EOQ;
                 },
             ],
             [
@@ -102,6 +80,19 @@ class ItemStoreDatatable extends EntityDatatable
                 function ($model) {
                     return $this->showWithTooltip($model->notes);
                 },
+            ],
+            [
+                'approver_name',
+                function ($model) {
+                    if ($model->user_id) {
+                        if (Auth::user()->can('view', [ENTITY_USER, $model]))
+                            return link_to("users/{$model->public_id}", $model->approver_name)->toHtml();
+                        else
+                            return $model->approver_name;
+                    } else {
+                        return '';
+                    }
+                }
             ],
             [
                 'created_by',
@@ -113,6 +104,12 @@ class ItemStoreDatatable extends EntityDatatable
                 'updated_by',
                 function ($model) {
                     return $model->updated_by;
+                },
+            ],
+            [
+                'approved_date',
+                function ($model) {
+                    return Utils::timestampToDateString(strtotime($model->approved_date));
                 },
             ],
             [
@@ -140,18 +137,18 @@ class ItemStoreDatatable extends EntityDatatable
     {
         return [
             [
-                uctrans('texts.edit_item_store'),
+                uctrans('texts.edit_item_transfer'),
                 function ($model) {
-                    return URL::to("item_stores/{$model->public_id}/edit");
+                    return URL::to("item_transfers/{$model->public_id}/edit");
                 },
             ],
             [
-                trans('texts.clone_item_store'),
+                trans('texts.clone_item_transfer'),
                 function ($model) {
-                    return URL::to("item_stores/{$model->public_id}/clone");
+                    return URL::to("item_transfers/{$model->public_id}/clone");
                 },
                 function ($model) {
-                    return Auth::user()->can('create', ENTITY_ITEM_STORE);
+                    return Auth::user()->can('create', ENTITY_ITEM_TRANSFER);
                 },
             ],
         ];
@@ -159,7 +156,7 @@ class ItemStoreDatatable extends EntityDatatable
 
     private function getStatusLabel($model)
     {
-        $class = ItemStore::calcStatusClass($model->qty, $model->reorder_level);
+        $class = ItemTransfer::calcStatusClass($model->qty, $model->reorder_level);
 
         return "<h4><div class=\"label label-{$class}\">$model->qty</div></h4>";
     }
