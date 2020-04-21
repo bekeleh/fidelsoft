@@ -24,7 +24,7 @@ class ItemTransfer extends EntityModel
 
 
     protected $fillable = [
-        'item_id',
+        'product_id',
         'prev_store_id',
         'current_store_id',
         'approval_status_id',
@@ -65,7 +65,7 @@ class ItemTransfer extends EntityModel
 
     public function item()
     {
-        return $this->belongsTo('\App\Models\Product', 'item_id');
+        return $this->belongsTo('\App\Models\Product', 'product_id');
     }
 
     public function approvalStatus()

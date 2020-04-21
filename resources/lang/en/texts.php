@@ -176,6 +176,28 @@ $LANG = array(
     'store_help' => 'Sets the default <b>store</b>',
     /*
 |--------------------------------------------------------------------------
+| item transfer trans
+|--------------------------------------------------------------------------
+*/
+    'new_item_transfer' => 'New Item Transfer',
+    'list_item_transfer' => 'List Item Transfer',
+    'item_transfer' => 'Item Transfer',
+    'item_transfers' => 'Item Transfer',
+    'create_item_transfer' => 'Create Item Transfer',
+    'edit_item_transfer' => 'Edit Item Transfer',
+    'clone_item_transfer' => 'Clone Item Transfer',
+    'archive_item_transfer' => 'Archive Item Transfer',
+    'delete_item_transfer' => 'Delete Item Transfer',
+    'deleted_item_transfer' => 'Deleted Item Transfer',
+    'restore_item_transfer' => 'Restore Item Transfer',
+    'restored_item_transfer' => 'Restored Item Transfer',
+    'updated_item_transfer' => 'Successfully Updated Item Transfer',
+    'created_item_transfer' => 'Successfully Created Item Transfer',
+    'archived_item_transfer' => 'Successfully Archived Item Transfer',
+    'item_transfer_settings' => 'Item Transfer Settings',
+
+    /*
+|--------------------------------------------------------------------------
 | hold reason trans
 |--------------------------------------------------------------------------
 */

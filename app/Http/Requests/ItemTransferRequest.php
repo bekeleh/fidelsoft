@@ -22,7 +22,7 @@ class ItemTransferRequest extends EntityRequest
             case 'POST':
             {
                 $this->validationData();
-                $rules['item_id'] = 'required|array';
+                $rules['product_id'] = 'required|array';
                 $rules['current_store_id'] = 'required|numeric|exists:stores';
                 $rules['previous_store_id'] = 'required|numeric|exists:stores';
 //                $rules['approver_id'] = 'required|numeric|exists:approval_statuses';
@@ -37,7 +37,7 @@ class ItemTransferRequest extends EntityRequest
                 $this->validationData();
                 $itemTransfer = ItemTransfer::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
                 if ($itemTransfer) {
-                    $rules['item_id'] = 'required|array';
+                    $rules['product_id'] = 'required|array';
                     $rules['current_store_id'] = 'required|numeric|exists:stores';
                     $rules['previous_store_id'] = 'required|numeric|exists:stores';
 //                    $rules['approver_id'] = 'required|numeric|exists:approval_statuses';
@@ -58,8 +58,8 @@ class ItemTransferRequest extends EntityRequest
     {
         $input = $this->all();
         if (count($input)) {
-            if (!empty($input['item_id'])) {
-                $input['item_id'] = filter_var($input['item_id'], FILTER_SANITIZE_NUMBER_INT);
+            if (!empty($input['product_id'])) {
+                $input['product_id'] = filter_var($input['product_id'], FILTER_SANITIZE_NUMBER_INT);
             }
             if (!empty($input['current_store_id'])) {
                 $input['current_store_id'] = filter_var($input['current_store_id'], FILTER_SANITIZE_NUMBER_INT);
@@ -87,7 +87,7 @@ class ItemTransferRequest extends EntityRequest
         if (!empty($input['store_id'])) {
             $input['store_id'] = Store::getPrivateId($input['store_id']);
         }
-        if (!empty($input['item_id']) && !empty($input['store_id'])) {
+        if (!empty($input['product_id']) && !empty($input['store_id'])) {
             $this->request->add([
                 'previous_store_id' => $input['previous_store_id'],
                 'current_store_id' => $input['current_store_id'],

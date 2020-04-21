@@ -5,7 +5,7 @@
     {!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['product_id' => 'required' ,'previous_store_id' => 'required' ,'current_store_id' => 'required','qty' => 'required|numeric','notes' => 'required' ])
+    ->rules(['product_id' => 'required' ,'previous_previous_id' => 'required' ,'current_previous_id' => 'required','qty' => 'required|numeric','notes' => 'required' ])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     @if ($itemTransfer)
         {{ Former::populate($itemTransfer) }}
@@ -28,11 +28,11 @@
                     ->addGroupClass('product-select')
                     ->help(trans('texts.item_help') . ' | ' . link_to('/products/', trans('texts.customize_options')))
                     !!}
-                    {!! Former::select('previous_store_id')->addOption('', '')
+                    {!! Former::select('previous_previous_id')->addOption('', '')
                     ->label(trans('texts.previousStore'))->addGroupClass('previous-select')
-                    ->help(trans('texts.store_help') . ' | ' . link_to('/stores/', trans('texts.customize_options')))
+                    ->help(trans('texts.previous_help') . ' | ' . link_to('/previous/', trans('texts.customize_options')))
                     !!}
-                    {!! Former::select('current_store_id')->addOption('', '')
+                    {!! Former::select('current_previous_id')->addOption('', '')
                     ->label(trans('texts.currentStore'))->addGroupClass('current-select')
                     !!}
                     {!! Former::text('qty')->label('texts.qty') !!}
@@ -76,15 +76,17 @@
     {!! Former::close() !!}
     <script type="text/javascript">
         var products = {!! $products !!};
+        var previousStores = {!! $previousStores !!};
+        var currentStores = {!! $currentStores !!};
 
         var productMap = {};
-        var storeMap = {};
+        var previousMap = {};
+        var currentMap = {};
         $(function () {
-            $('#bin').focus();
+            $('#qty').focus();
         });
 
         $(function () {
-// product
             var productId = {{ $productPublicId ?: 0 }};
             var $productSelect = $('select#product_id');
             @if (Auth::user()->can('create', ENTITY_PRODUCT))
@@ -100,21 +102,37 @@
                 var product = productMap[productId];
                 setComboboxValue($('.product-select'), product.public_id, product.name);
             }
-// store
-            var storeId = {{ $storePublicId ?: 0 }};
-            var $storeSelect = $('select#previous_store_id');
+//          previous store
+            var previousId = {{ $previousStorePublicId ?: 0 }};
+            var $previousSelect = $('select#previous_store_id');
             @if (Auth::user()->can('create', ENTITY_STORE))
-            $storeSelect.append(new Option("{{ trans('texts.create_store')}}: $name", '-1'));
+            $previousSelect.append(new Option("{{ trans('texts.create_store')}}: $name", '-1'));
                     @endif
-            for (var i = 0; i < stores.length; i++) {
-                var store = stores[i];
-                storeMap[store.public_id] = store;
-                $storeSelect.append(new Option(getClientDisplayName(store), store.public_id));
+            for (var i = 0; i < previousStores.length; i++) {
+                var previous = previousStores[i];
+                previousMap[previous.public_id] = previous;
+                $previousSelect.append(new Option(getClientDisplayName(previous), previous.public_id));
             }
             @include('partials/entity_combobox', ['entityType' => ENTITY_STORE])
-            if (storeId) {
-                var store = storeMap[storeId];
-                setComboboxValue($('.store-select'), store.public_id, store.name);
+            if (previousId) {
+                var previous = previousMap[previousId];
+                setComboboxValue($('.previous-select'), previous.public_id, previous.name);
+            }
+            // current store
+            var currentId = {{ $currentStorePublicId ?: 0 }};
+            var $currentSelect = $('select#current_store_id');
+            @if (Auth::user()->can('create', ENTITY_STORE))
+            $currentSelect.append(new Option("{{ trans('texts.create_store')}}: $name", '-1'));
+                    @endif
+            for (var i = 0; i < currentStores.length; i++) {
+                var current = currentStores[i];
+                currentMap[current.public_id] = current;
+                $currentSelect.append(new Option(getClientDisplayName(current), current.public_id));
+            }
+            @include('partials/entity_combobox', ['entityType' => ENTITY_STORE])
+            if (currentId) {
+                var current = currentMap[currentId];
+                setComboboxValue($('.current-select'), current.public_id, current.name);
             }
         });
 
