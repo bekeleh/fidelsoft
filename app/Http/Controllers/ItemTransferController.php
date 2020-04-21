@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ItemStoreRequest;
+use App\Http\Requests\ItemTransferRequest;
 use App\Libraries\Utils;
-use App\Models\ItemStore;
+use App\Models\ItemTransfer;
 use App\Models\Product;
 use App\Models\Store;
-use App\Ninja\Datatables\ItemStoreDatatable;
+use App\Ninja\Datatables\ItemTransferDatatable;
 use App\Ninja\Repositories\StoreRepository;
-use App\Services\ItemStoreService;
+use App\Services\ItemTransferService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
@@ -25,7 +25,7 @@ class ItemTransferController extends BaseController
     protected $itemTransferService;
     protected $entityType = ENTITY_ITEM_TRANSFER;
 
-    public function __construct(StoreRepository $itemTransferRepo, ItemStoreService $itemTransferService)
+    public function __construct(StoreRepository $itemTransferRepo, ItemTransferService $itemTransferService)
     {
         // parent::__construct();
 
@@ -38,12 +38,12 @@ class ItemTransferController extends BaseController
     {
         return View::make('list_wrapper', [
             'entityType' => ENTITY_ITEM_TRANSFER,
-            'datatable' => new ItemStoreDatatable(),
-            'title' => trans('texts.item_stores'),
+            'datatable' => new ItemTransferDatatable(),
+            'title' => trans('texts.item_transfers'),
         ]);
     }
 
-    public function getDatatable($itemStorePublicId = null)
+    public function getDatatable($itemTransferPublicId = null)
     {
         return $this->itemTransferService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
     }
@@ -58,83 +58,92 @@ class ItemTransferController extends BaseController
         return $this->itemTransferService->getDatatableStore($storePublicId);
     }
 
-    public function create(ItemStoreRequest $request)
+    public function create(ItemTransferRequest $request)
     {
         if ($request->product_id != 0) {
             $product = Product::scope($request->product_id)->firstOrFail();
         } else {
             $product = null;
         }
-        if ($request->store_id != 0) {
-            $store = Store::scope($request->store_id)->firstOrFail();
+        if ($request->previous_store_id != 0) {
+            $previousStore = Store::scope($request->previous_store_id)->firstOrFail();
         } else {
-            $store = null;
+            $previousStore = null;
+        }
+        if ($request->current_store_id != 0) {
+            $currentStore = Store::scope($request->current_store_id)->firstOrFail();
+        } else {
+            $currentStore = null;
         }
 
         $data = [
             'product' => $product,
-            'store' => $store,
-            'itemStore' => null,
+            'previousStore' => $previousStore,
+            'currentStore' => $currentStore,
+            'itemTransfer' => null,
             'method' => 'POST',
-            'url' => 'item_stores',
-            'title' => trans('texts.new_item_store'),
+            'url' => 'item_transfers',
+            'title' => trans('texts.new_item_transfer'),
             'productPublicId' => Input::old('product') ? Input::old('product') : $request->product_id,
-            'storePublicId' => Input::old('store') ? Input::old('store') : $request->store_id,
+            'previousStorePublicId' => Input::old('previousStore') ? Input::old('previousStore') : $request->previous_store_id,
+            'currentStorePublicId' => Input::old('currentStore') ? Input::old('currentStore') : $request->current_store_id,
         ];
 
         $data = array_merge($data, self::getViewModel());
 
-        return View::make('item_stores.edit', $data);
+        return View::make('item_transfers.edit', $data);
     }
 
-    public function store(ItemStoreRequest $request)
+    public function store(ItemTransferRequest $request)
     {
         $data = $request->input();
 
-        $itemStore = $this->itemTransferService->save($data);
+        $itemTransfer = $this->itemTransferService->save($data);
 
-        return redirect()->to("item_stores/{$itemStore->public_id}/edit")->with('success', trans('texts.created_item_store'));
+        return redirect()->to("item_transfers/{$itemTransfer->public_id}/edit")->with('success', trans('texts.created_item_transfer'));
     }
 
-    public function edit(ItemStoreRequest $request, $publicId = false, $clone = false)
+    public function edit(ItemTransferRequest $request, $publicId = false, $clone = false)
     {
         Auth::user()->can('view', [ENTITY_ITEM_TRANSFER, $request->entity()]);
 
-        $itemStore = ItemStore::scope($publicId)->withTrashed()->firstOrFail();
+        $itemTransfer = ItemTransfer::scope($publicId)->withTrashed()->firstOrFail();
 
         if ($clone) {
-            $itemStore->id = null;
-            $itemStore->public_id = null;
-            $itemStore->deleted_at = null;
+            $itemTransfer->id = null;
+            $itemTransfer->public_id = null;
+            $itemTransfer->deleted_at = null;
             $method = 'POST';
-            $url = 'item_stores';
+            $url = 'item_transfers';
         } else {
             $method = 'PUT';
-            $url = 'item_stores/' . $itemStore->public_id;
+            $url = 'item_transfers/' . $itemTransfer->public_id;
         }
 
         $data = [
             'product' => null,
-            'store' => null,
-            'itemStore' => $itemStore,
-            'entity' => $itemStore,
+            'previousStore' => null,
+            'currentStore' => null,
+            'itemTransfer' => $itemTransfer,
+            'entity' => $itemTransfer,
             'method' => $method,
             'url' => $url,
-            'title' => trans('texts.edit_item_store'),
-            'productPublicId' => $itemStore->product ? $itemStore->product->public_id : null,
-            'storePublicId' => $itemStore->store ? $itemStore->store->public_id : null,
+            'title' => trans('texts.edit_item_transfer'),
+            'productPublicId' => $itemTransfer->product ? $itemTransfer->product->public_id : null,
+            'previousStorePublicId' => $itemTransfer->previousStore ? $itemTransfer->previousStore->public_id : null,
+            'currentStorePublicId' => $itemTransfer->currentStore ? $itemTransfer->currentStore->public_id : null,
         ];
 
-        $data = array_merge($data, self::getViewModel($itemStore));
+        $data = array_merge($data, self::getViewModel($itemTransfer));
 
-        return View::make('item_stores.edit', $data);
+        return View::make('item_transfers.edit', $data);
     }
 
-    public function update(ItemStoreRequest $request)
+    public function update(ItemTransferRequest $request)
     {
         $data = $request->input();
 
-        $itemStore = $this->itemTransferService->save($data, $request->entity());
+        $itemTransfer = $this->itemTransferService->save($data, $request->entity());
 
         $action = Input::get('action');
         if (in_array($action, ['archive', 'delete', 'restore', 'invoice', 'add_to_invoice'])) {
@@ -142,13 +151,13 @@ class ItemTransferController extends BaseController
         }
 
         if ($action == 'clone') {
-            return redirect()->to(sprintf('item_stores/%s/clone', $itemStore->public_id))->with('success', trans('texts.clone_item_store'));
+            return redirect()->to(sprintf('item_transfers/%s/clone', $itemTransfer->public_id))->with('success', trans('texts.clone_item_transfer'));
         } else {
-            return redirect()->to("item_stores/{$itemStore->public_id}/edit")->with('success', trans('texts.updated_item_store'));
+            return redirect()->to("item_transfers/{$itemTransfer->public_id}/edit")->with('success', trans('texts.updated_item_transfer'));
         }
     }
 
-    public function cloneItemStore(ItemStoreRequest $request, $publicId)
+    public function cloneItemTransfer(ItemTransferRequest $request, $publicId)
     {
         return self::edit($request, $publicId, true);
     }
@@ -160,18 +169,19 @@ class ItemTransferController extends BaseController
 
         $count = $this->itemTransferService->bulk($ids, $action);
 
-        $message = Utils::pluralize($action . 'd_item_store', $count);
+        $message = Utils::pluralize($action . 'd_item_transfer', $count);
 
         return $this->returnBulk(ENTITY_ITEM_TRANSFER, $action, $ids)->with('message', $message);
     }
 
-    private static function getViewModel($itemStore = false)
+    private static function getViewModel($itemTransfer = false)
     {
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
             'products' => Product::withCategory('itemBrand.itemCategory'),
-            'stores' => Store::scope()->withActiveOrSelected($itemStore ? $itemStore->store_id : false)->orderBy('name')->get(),
+            'previous' => Store::scope()->withActiveOrSelected($itemTransfer ? $itemTransfer->previous_store_id : false)->orderBy('name')->get(),
+            'current' => Store::scope()->withActiveOrSelected($itemTransfer ? $itemTransfer->current_store_id : false)->orderBy('name')->get(),
         ];
     }
 
@@ -179,6 +189,6 @@ class ItemTransferController extends BaseController
     {
         Session::reflash();
 
-        return Redirect::to("item_stores/{$publicId}/edit");
+        return Redirect::to("item_transfers/{$publicId}/edit");
     }
 }
