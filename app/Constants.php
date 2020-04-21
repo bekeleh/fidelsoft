@@ -31,6 +31,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_PRODUCT', 'product');
     define('ENTITY_LOCATION', 'location');
     define('ENTITY_STORE', 'store');
+    define('ENTITY_STORE_TO', 'store_to');
     define('ENTITY_UNIT', 'unit');
     define('ENTITY_REPORT', 'report');
     define('ENTITY_ITEM_STORE', 'item_store');

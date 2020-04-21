@@ -3,20 +3,17 @@
     <?php echo Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['product_id' => 'required' ,'previous_previous_id' => 'required' ,'current_previous_id' => 'required','qty' => 'required|numeric','notes' => 'required' ])
+    ->rules(['product_id' => 'required' ,'previous_store_id' => 'required' ,'current_store_id' => 'required','qty' => 'required|numeric','notes' => 'required' ])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit'); ?>
 
     <?php if($itemTransfer): ?>
         <?php echo e(Former::populate($itemTransfer)); ?>
-
-        <?php echo e(Former::populateField('qty','0.00')); ?>
 
         <div style="display:none">
             <?php echo Former::text('public_id'); ?>
 
         </div>
     <?php endif; ?>
-
     <span style="display:none">
 <?php echo Former::text('public_id'); ?>
 
@@ -27,21 +24,32 @@
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
-                    <?php echo Former::select('product_id')->addOption('', '')
-                    ->label(trans('texts.product'))
-                    ->addGroupClass('product-select')
-                    ->help(trans('texts.item_help') . ' | ' . link_to('/products/', trans('texts.customize_options'))); ?>
-
-                    <?php echo Former::select('previous_previous_id')->addOption('', '')
+                    <?php echo Former::select('previous_store_id')->addOption('', '')
                     ->label(trans('texts.from_store_name'))->addGroupClass('store-select')
                     ->help(trans('texts.item_store_help') . ' | ' . link_to('/item_stores/', trans('texts.customize_options'))); ?>
 
-                    <?php echo Former::select('current_previous_id')->addOption('', '')
+                    <?php echo Former::select('current_store_id')->addOption('', '')
                     ->label(trans('texts.to_store_name'))->addGroupClass('store-select'); ?>
 
                     <?php echo Former::text('qty')->label('texts.qty'); ?>
 
-                    <?php echo Former::textarea('notes')->rows(6); ?>
+
+                    <?php echo Former::label('allQty', trans('texts.allQty')); ?>
+
+                    <?php echo e(Form::checkbox('allQty' , 1, false ),['class'=>'square']); ?>
+
+                    <br/>
+                    <?php echo Former::label('item_list', trans('texts.item_id')); ?>
+
+                    <?php echo Form::select('product_id[]', ['1'=>'12'], null, ['class' => 'form-control padding-right', 'multiple' => 'multiple',]); ?>
+
+                    <?php if($errors->has('product_id') ): ?>
+                        <div class="alert alert-danger" role="alert">
+                            One or more of the products you selected are empty/invalid. Please try again.
+                        </div>
+                    <?php endif; ?>
+                    <br/>
+                    <?php echo Former::textarea('notes')->rows(2); ?>
 
                 </div>
             </div>
@@ -87,9 +95,7 @@
 
     <script type="text/javascript">
         var products = <?php echo $products; ?>;
-                <?php echo e($previousStores); ?>
-
-        var stores = <?php echo $previousStores; ?>;
+        var previousStores = <?php echo $previousStores; ?>;
         var currentStores = <?php echo $currentStores; ?>;
 
         var productMap = {};
@@ -100,53 +106,46 @@
         });
 
         $(function () {
-            var productId = <?php echo e($productPublicId ?: 0); ?>;
-            var $productSelect = $('select#product_id');
-            <?php if(Auth::user()->can('create', ENTITY_PRODUCT)): ?>
-            $productSelect.append(new Option("<?php echo e(trans('texts.create_product')); ?>: $name", '-1'));
-                    <?php endif; ?>
-            for (var i = 0; i < products.length; i++) {
-                var product = products[i];
-                productMap[product.public_id] = product;
-                $productSelect.append(new Option(getClientDisplayName(product), product.public_id));
+            var productSelect = $('select#product_id');
+            var sourceStoreId = $('select#previous_store_id option:selected').val();
+            if (sourceStoreId != '') {
+                alert(sourceStoreId);
             }
-            <?php echo $__env->make('partials/entity_combobox', ['entityType' => ENTITY_PRODUCT], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-            if (productId) {
-                var product = productMap[productId];
-                setComboboxValue($('.product-select'), product.public_id, product.name);
-            }
-//          previous store
-            var storeId = <?php echo e($previousStorePublicId ?: 0); ?>;
+            productSelect.append("<option value='" + 1 + "' selected>" + 'test' + "</option>");
+//        previous store (from)
+            var storeFromId = <?php echo e($previousStorePublicId ?: 0); ?>;
             var $storeSelect = $('select#previous_store_id');
             <?php if(Auth::user()->can('create', ENTITY_STORE)): ?>
             $storeSelect.append(new Option("<?php echo e(trans('texts.create_store')); ?>: $name", '-1'));
                     <?php endif; ?>
-            for (var i = 0; i < stores.length; i++) {
-                var store = stores[i];
-                previousMap[store.public_id] = store;
-                $storeSelect.append(new Option(getClientDisplayName(store), store.public_id));
+            for (var i = 0; i < previousStores.length; i++) {
+                var storeFrom = previousStores[i];
+                previousMap[storeFrom.public_id] = storeFrom;
+                $storeSelect.append(new Option(getClientDisplayName(storeFrom), storeFrom.public_id));
             }
             <?php echo $__env->make('partials/entity_combobox', ['entityType' => ENTITY_STORE], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-            if (storeId) {
-                var store = previousMap[storeId];
-                setComboboxValue($('.store-select'), store.public_id, store.name);
+            if (storeFromId) {
+                var storeFrom = previousMap[storeFromId];
+                setComboboxValue($('.store-select'), storeFrom.public_id, storeFrom.name);
             }
-            // current store
-            var currentId = <?php echo e($currentStorePublicId ?: 0); ?>;
-            var $currentSelect = $('select#current_store_id');
+
+//        current store (to)
+            var storeToId = <?php echo e($currentStorePublicId ?: 0); ?>;
+            var $store_toSelect = $('select#current_store_id');
             <?php if(Auth::user()->can('create', ENTITY_STORE)): ?>
-            $currentSelect.append(new Option("<?php echo e(trans('texts.create_store')); ?>: $name", '-1'));
+            $store_toSelect.append(new Option("<?php echo e(trans('texts.create_store_to')); ?>: $name", '-1'));
                     <?php endif; ?>
             for (var i = 0; i < currentStores.length; i++) {
-                var current = currentStores[i];
-                currentMap[current.public_id] = current;
-                $currentSelect.append(new Option(getClientDisplayName(current), current.public_id));
+                var storeTo = currentStores[i];
+                currentMap[storeTo.public_id] = storeTo;
+                $store_toSelect.append(new Option(getClientDisplayName(storeTo), storeTo.public_id));
             }
-            <?php echo $__env->make('partials/entity_combobox', ['entityType' => ENTITY_STORE], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-            if (currentId) {
-                var current = currentMap[currentId];
-                setComboboxValue($('.current-select'), current.public_id, current.name);
+            <?php echo $__env->make('partials/entity_combobox', ['entityType' => ENTITY_STORE_TO], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            if (storeToId) {
+                var storeTo = currentMap[storeToId];
+                setComboboxValue($('.store-to-select'), storeTo.public_id, storeTo.name);
             }
+
         });
 
         function submitAction(action) {

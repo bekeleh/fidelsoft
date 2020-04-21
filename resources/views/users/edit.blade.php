@@ -14,9 +14,9 @@
         </div>
     @endif
     <span style="display:none">
-{!! Former::text('public_id') !!}
+    {!! Former::text('public_id') !!}
         {!! Former::text('action') !!}
-</span>
+    </span>
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
@@ -33,9 +33,7 @@
                     {!! Former::label('activated', trans('texts.activated')) !!}
                     {{ Form::checkbox('activated' , 1, $user->activated == 1 ? true:false ),['class'=>'square'] }}
                     {!! Former::textarea('notes')->rows(2) !!}
-                    {!! Former::label('groups', trans('texts.group'))
-{{--                    ->help(trans('texts.group_help') . ' | ' . link_to('/groups/', trans('texts.customize_options')))--}}
-                    !!}
+                    {!! Former::label('groups', trans('texts.group')) !!}
                     {!! Form::select('groups[]', $groups, $userGroups, ['class' => 'form-control padding-right', 'multiple' => 'multiple',]) !!}
                     @if($errors->has('groups') )
                         <div class="alert alert-danger" role="alert">
