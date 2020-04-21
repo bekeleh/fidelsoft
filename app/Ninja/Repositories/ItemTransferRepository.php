@@ -65,8 +65,9 @@ class ItemTransferRepository extends BaseRepository
                 'products.name as item_name',
                 'item_brands.name as item_brand_name',
                 'item_categories.name as item_category_name',
-                'stores.name as to_store_name',
-                'users.username as approver_name'
+                'currentStore.name as to_store_name',
+                'users.username as approver_name',
+                'approval_statuses.name as approval_status_name'
             );
         if ($filter) {
             $query->where(function ($query) use ($filter) {

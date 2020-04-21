@@ -196,9 +196,10 @@ $LANG = array(
     'archived_item_transfer' => 'Successfully Archived Item Transfer',
     'item_transfer_settings' => 'Item Transfer Settings',
     'approver_name' => 'Approver Name',
-    'approved_date' => 'Approver Date',
+    'approved_date' => 'Approved Date',
     'from_store_name' => 'From Store',
     'to_store_name' => 'To Store',
+    'approval_status_name' => 'Approval Status',
 
     /*
 |--------------------------------------------------------------------------

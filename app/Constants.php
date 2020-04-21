@@ -23,6 +23,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_TASK_STATUS', 'task_status');
     define('ENTITY_ACCOUNT_GATEWAY', 'account_gateway');
     define('ENTITY_USER', 'user');
+    define('ENTITY_APPROVAL_STATUS', 'approval_status');
     define('ENTITY_GROUP', 'group');
     define('ENTITY_PERMISSION', 'permission');
     define('ENTITY_TOKEN', 'token');
@@ -60,6 +61,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_PROPOSAL_INVITATION', 'proposal_invitation');
 
     $permissionEntities = [
+        ENTITY_APPROVAL_STATUS,
         ENTITY_CLIENT,
         ENTITY_CONTACT,
         ENTITY_CREDIT,
@@ -106,10 +108,9 @@ if (!defined('APP_NAME')) {
     define('PERSON_CONTACT', 'contact');
     define('PERSON_USER', 'user');
     define('PERSON_VENDOR_CONTACT', 'vendorcontact');
-
     define('BASIC_SETTINGS', 'basic_settings');
     define('ADVANCED_SETTINGS', 'advanced_settings');
-
+    define('ACCOUNT_APPROVAL_STATUS', 'approval_statuses');
     define('ACCOUNT_COMPANY_DETAILS', 'company_details');
     define('ACCOUNT_USER_DETAILS', 'user_details');
     define('ACCOUNT_LOCALIZATION', 'localization');

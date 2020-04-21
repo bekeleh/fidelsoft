@@ -56,19 +56,19 @@ class ItemTransferDataTable extends EntityDatatable
                     }
                 }
             ],
-            [
-                'from_store_name',
-                function ($model) {
-                    if ($model->store_id) {
-                        if (Auth::user()->can('view', [ENTITY_STORE, $model]))
-                            return link_to("stores/{$model->public_id}", $model->from_store_name)->toHtml();
-                        else
-                            return $model->from_store_name;
-                    } else {
-                        return '';
-                    }
-                }
-            ],
+//            [
+//                'from_store_name',
+//                function ($model) {
+//                    if ($model->store_id) {
+//                        if (Auth::user()->can('view', [ENTITY_STORE, $model]))
+//                            return link_to("stores/{$model->public_id}", $model->from_store_name)->toHtml();
+//                        else
+//                            return $model->from_store_name;
+//                    } else {
+//                        return '';
+//                    }
+//                }
+//            ],
             [
                 'to_store_name',
                 function ($model) {
@@ -93,6 +93,19 @@ class ItemTransferDataTable extends EntityDatatable
                 function ($model) {
                     return $this->showWithTooltip($model->notes);
                 },
+            ],
+            [
+                'approval_status_name',
+                function ($model) {
+                    if ($model->user_id) {
+                        if (Auth::user()->can('view', [ENTITY_APPROVAL_STATUS, $model]))
+                            return link_to("users/{$model->public_id}", $model->approval_status_name)->toHtml();
+                        else
+                            return $model->approval_status_name;
+                    } else {
+                        return '';
+                    }
+                }
             ],
             [
                 'approver_name',
