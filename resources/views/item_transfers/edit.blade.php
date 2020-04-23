@@ -119,12 +119,13 @@
                     type: 'GET',
                     url: '{{ URL::to('item_stores') }}',
                     data: 'store_id=' + $sourceStoreId,
+                    dataType: "json",
                     headers: {
                         "X-Requested-With": 'XMLHttpRequest',
                         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content')
                     },
-                    success: function (data) {
-                        console.log(data);
+                    success: function (response) {
+                        alert(response['message']);
                     },
                 });
             }

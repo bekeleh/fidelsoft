@@ -52,10 +52,9 @@ class ItemStoreController extends BaseController
 
         $data = $this->itemStoreRepo->getItems($accountId, $storeId);
 
-//        $result = response()->json(['data' => $data], 200);
-//        dd($result);
-
-        return response()->json(['data' => $data], 200);
+        return response()->json([
+            "message" => "Success"
+        ]);
     }
 
     public function getDatatable($itemStorePublicId = null)
