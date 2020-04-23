@@ -198,8 +198,8 @@ $LANG = array(
     'item_transfer_settings' => 'Item Transfer Settings',
     'approver_name' => 'Approver Name',
     'approved_date' => 'Approved Date',
-    'from_store_name' => 'Source Store',
-    'to_store_name' => 'Current Store',
+    'from_store_name' => 'From Store',
+    'to_store_name' => 'To Store',
     'approval_status_name' => 'Approval Status',
 
     /*
@@ -384,8 +384,9 @@ $LANG = array(
     'bin' => 'Bin Location',
     'reorder_level' => 'Reorder Level',
     'EOQ' => 'EOQ',
-    'allQty' => 'All Available Quantity',
+    'allQty' => 'Transfer All Qty',
     'item_name' => 'Item Name',
+    'item_list' => 'Item List',
     'product_name' => 'Item Name',
     'store_name' => 'Store Name',
     'category_name' => 'Item Category',

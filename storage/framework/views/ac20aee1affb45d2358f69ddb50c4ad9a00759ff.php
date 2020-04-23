@@ -1,65 +1,74 @@
-@extends('header')
-
-@section('content')
-    @parent
-    {!! Former::open($url)
+<?php $__env->startSection('content'); ?>
+    ##parent-placeholder-040f06fd774092478d450774f5ba30c5da78acc8##
+    <?php echo Former::open($url)
     ->method($method)
     ->autocomplete('off')
     ->rules(['product_id' => 'required' ,'previous_store_id' => 'required' ,'current_store_id' => 'required','notes' => 'required' ])
-    ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
-    @if ($itemTransfer)
-        {{ Former::populate($itemTransfer) }}
+    ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit'); ?>
+
+    <?php if($itemTransfer): ?>
+        <?php echo e(Former::populate($itemTransfer)); ?>
+
         <div style="display:none">
-            {!! Former::text('public_id') !!}
+            <?php echo Former::text('public_id'); ?>
+
         </div>
-    @endif
+    <?php endif; ?>
     <span style="display:none">
-{!! Former::text('public_id') !!}
-        {!! Former::text('action') !!}
+<?php echo Former::text('public_id'); ?>
+
+        <?php echo Former::text('action'); ?>
+
 </span>
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
                     <!-- from store -->
-                {!! Former::select('previous_store_id')->addOption('', '')
+                <?php echo Former::select('previous_store_id')->addOption('', '')
                 ->onchange('selectProductAction()')
                 ->label(trans('texts.from_store_name'))->addGroupClass('store-select')
-                ->help(trans('texts.item_store_help') . ' | ' . link_to('/item_stores/', trans('texts.customize_options')))
-                !!}
+                ->help(trans('texts.item_store_help') . ' | ' . link_to('/item_stores/', trans('texts.customize_options'))); ?>
+
                 <!-- to store -->
-                {!! Former::select('current_store_id')->addOption('', '')
-                ->label(trans('texts.to_store_name'))->addGroupClass('store-select')
-                !!}
-                @include ('partials.select_product', ['label'=>'product_id','field_name'=>'product_id','check_item_name'=>'transfer_all_item_checked','required'=>'true' ])
+                <?php echo Former::select('current_store_id')->addOption('', '')
+                ->label(trans('texts.to_store_name'))->addGroupClass('store-select'); ?>
+
+                <?php echo $__env->make('partials.select_product', ['label'=>'product_id','field_name'=>'product_id','check_item_name'=>'transfer_all_item_checked','required'=>'true' ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 <!-- qty -->
-                {!! Former::text('qty')->label('texts.qty') !!}
+                <?php echo Former::text('qty')->label('texts.qty'); ?>
+
                 <!-- NOTES -->
-                    {!! Former::textarea('notes')->rows(2) !!}
+                    <?php echo Former::textarea('notes')->rows(2); ?>
+
                 </div>
             </div>
         </div>
     </div>
 
-    @if (Auth::user()->canCreateOrEdit(ENTITY_ITEM_STORE, $itemTransfer))
+    <?php if(Auth::user()->canCreateOrEdit(ENTITY_ITEM_STORE, $itemTransfer)): ?>
         <center class="buttons">
-            {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/item_transfers'))->appendIcon(Icon::create('remove-circle')) !!}
-            {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
-            @if ($itemTransfer)
-                {!! DropdownButton::normal(trans('texts.more_actions'))
+            <?php echo Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/item_transfers'))->appendIcon(Icon::create('remove-circle')); ?>
+
+            <?php echo Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')); ?>
+
+            <?php if($itemTransfer): ?>
+                <?php echo DropdownButton::normal(trans('texts.more_actions'))
                 ->withContents($itemTransfer->present()->moreActions())
                 ->large()
-                ->dropup() !!}
-            @endif
-        </center>
-    @endif
+                ->dropup(); ?>
 
-    {!! Former::close() !!}
+            <?php endif; ?>
+        </center>
+    <?php endif; ?>
+
+    <?php echo Former::close(); ?>
+
 
     <script type="text/javascript">
-        var products = {!! $products !!};
-        var previousStores = {!! $previousStores !!};
-        var currentStores = {!! $currentStores !!};
+        var products = <?php echo $products; ?>;
+        var previousStores = <?php echo $previousStores; ?>;
+        var currentStores = <?php echo $currentStores; ?>;
 
         var productMap = {};
         var previousMap = {};
@@ -69,34 +78,34 @@
         });
         $(function () {
 //        previous store (from)
-            var storeFromId = {{ $previousStorePublicId ?: 0 }};
+            var storeFromId = <?php echo e($previousStorePublicId ?: 0); ?>;
             var $storeSelect = $('select#previous_store_id');
-            @if (Auth::user()->can('create', ENTITY_STORE))
-            $storeSelect.append(new Option("{{ trans('texts.create_store')}}: $name", '-1'));
-                    @endif
+            <?php if(Auth::user()->can('create', ENTITY_STORE)): ?>
+            $storeSelect.append(new Option("<?php echo e(trans('texts.create_store')); ?>: $name", '-1'));
+                    <?php endif; ?>
             for (var i = 0; i < previousStores.length; i++) {
                 var storeFrom = previousStores[i];
                 previousMap[storeFrom.public_id] = storeFrom;
                 $storeSelect.append(new Option(getClientDisplayName(storeFrom), storeFrom.public_id));
             }
-            @include('partials/entity_combobox', ['entityType' => ENTITY_STORE])
+            <?php echo $__env->make('partials/entity_combobox', ['entityType' => ENTITY_STORE], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             if (storeFromId) {
                 var storeFrom = previousMap[storeFromId];
                 setComboboxValue($('.store-select'), storeFrom.public_id, storeFrom.name);
             }
 
 //        current store (to)
-            var storeToId = {{ $currentStorePublicId ?: 0 }};
+            var storeToId = <?php echo e($currentStorePublicId ?: 0); ?>;
             var $store_toSelect = $('select#current_store_id');
-            @if (Auth::user()->can('create', ENTITY_STORE))
-            $store_toSelect.append(new Option("{{ trans('texts.create_store_to')}}: $name", '-1'));
-                    @endif
+            <?php if(Auth::user()->can('create', ENTITY_STORE)): ?>
+            $store_toSelect.append(new Option("<?php echo e(trans('texts.create_store_to')); ?>: $name", '-1'));
+                    <?php endif; ?>
             for (var i = 0; i < currentStores.length; i++) {
                 var storeTo = currentStores[i];
                 currentMap[storeTo.public_id] = storeTo;
                 $store_toSelect.append(new Option(getClientDisplayName(storeTo), storeTo.public_id));
             }
-            @include('partials/entity_combobox', ['entityType' => ENTITY_STORE_TO])
+            <?php echo $__env->make('partials/entity_combobox', ['entityType' => ENTITY_STORE_TO], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             if (storeToId) {
                 var storeTo = currentMap[storeToId];
                 setComboboxValue($('.store-to-select'), storeTo.public_id, storeTo.name);
@@ -117,14 +126,14 @@
             if ($sourceStoreId != null) {
                 $.ajax({
                     type: 'GET',
-                    url: '{{ URL::to('item_stores') }}',
+                    url: '<?php echo e(URL::to('item_stores')); ?>',
                     data: 'store_id=' + $sourceStoreId,
                     headers: {
                         "X-Requested-With": 'XMLHttpRequest',
                         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content')
                     },
-                    success: function (data) {
-                        console.log(data);
+                    success: function (response) {
+                        console.log(response.data);
                     },
                 });
             }
@@ -146,4 +155,6 @@
             });
         }
     </script>
-@stop
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
