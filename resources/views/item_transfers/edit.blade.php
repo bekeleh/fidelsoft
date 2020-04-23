@@ -5,7 +5,7 @@
     {!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['product_id' => 'required' ,'previous_store_id' => 'required' ,'current_store_id' => 'required','qty' => 'required|numeric','notes' => 'required' ])
+    ->rules(['product_id' => 'required' ,'previous_store_id' => 'required' ,'current_store_id' => 'required','notes' => 'required' ])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     @if ($itemTransfer)
         {{ Former::populate($itemTransfer) }}
@@ -21,52 +21,26 @@
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
-                    {!! Former::select('previous_store_id')->addOption('', '')
-                    ->label(trans('texts.from_store_name'))->addGroupClass('store-select')
-                    ->help(trans('texts.item_store_help') . ' | ' . link_to('/item_stores/', trans('texts.customize_options')))
-                     !!}
-                    {!! Former::select('current_store_id')->addOption('', '')
-                    ->label(trans('texts.to_store_name'))->addGroupClass('store-select')
-                     !!}
-                    {!! Former::text('qty')->label('texts.qty') !!}
-
-                    {!! Former::label('allQty', trans('texts.allQty')) !!}
-                    {{ Form::checkbox('allQty' , 1, false ),['class'=>'square'] }}
-                    <br/>
-                    {!! Former::label('item_list', trans('texts.item_id')) !!}
-                    {!! Form::select('product_id[]', ['1'=>'12'], null, ['class' => 'form-control padding-right', 'multiple' => 'multiple',])
-                    !!}
-                    @if($errors->has('product_id') )
-                        <div class="alert alert-danger" role="alert">
-                            One or more of the products you selected are empty/invalid. Please try again.
-                        </div>
-                    @endif
-                    <br/>
+                    <!-- from store -->
+                {!! Former::select('previous_store_id')->addOption('', '')
+                ->onchange('selectProductAction()')
+                ->label(trans('texts.from_store_name'))->addGroupClass('store-select')
+                ->help(trans('texts.item_store_help') . ' | ' . link_to('/item_stores/', trans('texts.customize_options')))
+                !!}
+                <!-- to store -->
+                {!! Former::select('current_store_id')->addOption('', '')
+                ->label(trans('texts.to_store_name'))->addGroupClass('store-select')
+                !!}
+                @include ('partials.select_product', ['label'=>'product_id','field_name'=>'product_id','check_item_name'=>'transfer_all_item_checked','required'=>'true' ])
+                <!-- qty -->
+                {!! Former::text('qty')->label('texts.qty') !!}
+                <!-- NOTES -->
                     {!! Former::textarea('notes')->rows(2) !!}
                 </div>
             </div>
         </div>
     </div>
 
-    @foreach(Module::getOrdered() as $module)
-        @if(View::exists($module->alias . '::item_transfers.edit'))
-            <div class="row">
-                <div class="col-lg-10 col-lg-offset-1">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title in-white">
-                                <i class="fa fa-{{ $module->icon }}"></i>
-                                {{ $module->name}}
-                            </h3>
-                        </div>
-                        <div class="panel-body form-padding-right">
-                            @includeIf($module->alias . '::item_transfers.edit')
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
-    @endforeach
     @if (Auth::user()->canCreateOrEdit(ENTITY_ITEM_STORE, $itemTransfer))
         <center class="buttons">
             {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/item_transfers'))->appendIcon(Icon::create('remove-circle')) !!}
@@ -79,7 +53,9 @@
             @endif
         </center>
     @endif
+
     {!! Former::close() !!}
+
     <script type="text/javascript">
         var products = {!! $products !!};
         var previousStores = {!! $previousStores !!};
@@ -91,7 +67,6 @@
         $(function () {
             $('#qty').focus();
         });
-
         $(function () {
 //        previous store (from)
             var storeFromId = {{ $previousStorePublicId ?: 0 }};
@@ -126,16 +101,49 @@
                 var storeTo = currentMap[storeToId];
                 setComboboxValue($('.store-to-select'), storeTo.public_id, storeTo.name);
             }
-
         });
 
-        // item list
-        function itemList(action) {
-            var productSelect = $('select#product_id');
-            var sourceStoreId = $('select#previous_store_id option:selected').val();
-            if (sourceStoreId != '') {
-                productSelect.append("<option value='" + 1 + "' selected>" + 'test' + "</option>");
+        function selectProductAction() {
+            var $productModel = $('#product_id');
+            var $sourceStoreId = $('select#previous_store_id').val();
+            if ($sourceStoreId != '') {
+                $productModel.empty();
+                getItems($productModel, $sourceStoreId);
             }
+        }
+
+        // find items in the selected store.
+        function getItems($productModel, $sourceStoreId, $item_checked = null) {
+            if ($sourceStoreId != null) {
+                $.ajax({
+                    type: 'GET',
+                    url: '{{ URL::to('api/item_stores') }}',
+                    data: 'store_id=' + $sourceStoreId,
+                    success: function (result) {
+                        console.log(result);
+                        // if (data.rows.length > 0) {
+                        //     $productModel.empty();
+                        //     for (var i in data.rows) {
+                        //         var row = data.rows[i];
+                        //         console.log(row);
+                        //         //     if ($item_checked) {
+                        //         //         $productModel.append("<option value='" + row.item.id + "' selected>" + row.item.name + "</option>");
+                        //         //     } else {
+                        // $productModel.append("<option value='" + row.item.id + "'>" + row.item.name + "</option>");
+                        //         //     }
+                        //     }
+                        // }
+                    },
+                    error: function (data) {
+                        $productModel.empty();
+                    }
+                });
+            }
+        }
+
+        function transferAllQtyAction() {
+
+            alert('checked.');
         }
 
         function submitAction(action) {

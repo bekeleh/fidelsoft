@@ -80,6 +80,50 @@ class ItemStoreRepository extends BaseRepository
         return $query;
     }
 
+    public function getItems($accountId, $filter = null)
+    {
+        if (!$filter) {
+            return null;
+        }
+        $query = DB::table('item_stores')
+            ->join('accounts', 'accounts.id', '=', 'item_stores.account_id')
+            ->join('products', 'products.id', '=', 'item_stores.product_id')
+            ->join('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
+            ->join('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
+            ->join('stores', 'stores.id', '=', 'item_stores.store_id')
+            ->Where('item_stores.store_id', '=', $filter)
+            ->where('item_stores.account_id', '=', $accountId)
+            //->where('item_stores.deleted_at', '=', null)
+            ->select(
+                'products.id as id',
+                'products.name as name',
+                'item_brands.name as item_brand_name',
+                'item_categories.name as item_category_name'
+            )->get();
+
+        if (!$query) {
+            return null;
+        }
+
+        return self::getWithItemCategory($query);
+    }
+
+    public static function getWithItemCategory($query = null)
+    {
+        if (!$query) {
+            return null;
+        }
+        foreach ($query as $subQuery) {
+            $name_str = '';
+            if ($subQuery->name != '') {
+                $name_str .= e($subQuery->name) . ' (' . e($subQuery->item_brand_name) . ')' . ' (' . e($subQuery->item_category_name) . ')';
+            }
+            $subQuery->name = $name_str;
+        }
+//        return $query->pluck('name', 'id');
+        return $query;
+    }
+
     public function findProduct($productPublicId)
     {
         $productId = Product::getPrivateId($productPublicId);

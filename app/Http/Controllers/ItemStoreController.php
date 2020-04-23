@@ -7,8 +7,7 @@ use App\Libraries\Utils;
 use App\Models\ItemStore;
 use App\Models\Product;
 use App\Models\Store;
-use App\Ninja\Datatables\ItemStoreDatatable;
-use App\Ninja\Repositories\StoreRepository;
+use App\Ninja\Repositories\ItemStoreRepository;
 use App\Services\ItemStoreService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -25,7 +24,7 @@ class ItemStoreController extends BaseController
     protected $itemStoreService;
     protected $entityType = ENTITY_ITEM_STORE;
 
-    public function __construct(StoreRepository $itemStoreRepo, ItemStoreService $itemStoreService)
+    public function __construct(ItemStoreRepository $itemStoreRepo, ItemStoreService $itemStoreService)
     {
         // parent::__construct();
 
@@ -36,11 +35,23 @@ class ItemStoreController extends BaseController
 
     public function index()
     {
-        return View::make('list_wrapper', [
-            'entityType' => ENTITY_ITEM_STORE,
-            'datatable' => new ItemStoreDatatable(),
-            'title' => trans('texts.item_stores'),
-        ]);
+//        return View::make('list_wrapper', [
+//            'entityType' => ENTITY_ITEM_STORE,
+//            'datatable' => new ItemStoreDatatable(),
+//            'title' => trans('texts.item_stores'),
+//        ]);
+        $this->getItems();
+    }
+
+    public function getItems($storePublicId)
+    {
+        $accountId = Auth::user()->account_id;
+        $storeId = Store::getPrivateId($storePublicId);
+
+        $data = $this->itemStoreRepo->getItems($accountId, $storeId);
+
+//        return response()->json(['success' => true, 'data' => 1], 200);
+        return RESULT_SUCCESS;
     }
 
     public function getDatatable($itemStorePublicId = null)

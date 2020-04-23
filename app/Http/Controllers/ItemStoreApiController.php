@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ItemStoreRequest;
 use App\Models\ItemStore;
+use App\Models\Store;
 use App\Ninja\Repositories\ItemStoreRepository;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class StoreApiController.
