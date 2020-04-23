@@ -283,6 +283,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::resource('item_stores', 'ItemStoreController');
     Route::get('api/item_stores', 'ItemStoreController@getDatatable');
     Route::post('item_stores/bulk', 'ItemStoreController@bulk');
+    Route::get('api/item_stores/{store_id}', 'ItemStoreController@getItems');
 //         item transfer
     Route::get('item_transfers/{item_transfers}/clone', 'ItemTransferController@cloneItemTransfer');
     Route::resource('item_transfers', 'ItemTransferController');

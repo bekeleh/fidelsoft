@@ -35,12 +35,12 @@ class ItemStoreController extends BaseController
 
     public function index()
     {
-//        return View::make('list_wrapper', [
-//            'entityType' => ENTITY_ITEM_STORE,
-//            'datatable' => new ItemStoreDatatable(),
-//            'title' => trans('texts.item_stores'),
-//        ]);
-        $this->getItems();
+        return View::make('list_wrapper', [
+            'entityType' => ENTITY_ITEM_STORE,
+            'datatable' => new ItemStoreDatatable(),
+            'title' => trans('texts.item_stores'),
+        ]);
+//        $this->getItems();
     }
 
     public function getItems($storePublicId)
