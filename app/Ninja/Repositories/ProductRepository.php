@@ -70,7 +70,8 @@ class ProductRepository extends BaseRepository
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('products.name', 'like', '%' . $filter . '%')
-                    ->orWhere('products.barcode', 'like', '%' . $filter . '%')
+                    ->orWhere('products.item_serial', 'like', '%' . $filter . '%')
+                    ->orWhere('products.item_barcode', 'like', '%' . $filter . '%')
                     ->orWhere('products.item_tag', 'like', '%' . $filter . '%')
                     ->orWhere('products.notes', 'like', '%' . $filter . '%')
                     ->orWhere('item_brands.name', 'like', '%' . $filter . '%')

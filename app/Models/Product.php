@@ -16,7 +16,8 @@ class Product extends EntityModel
 
     protected $fillable = [
         'name',
-        'barcode',
+        'item_serial',
+        'item_barcode',
         'item_tag',
         'notes',
         'item_cost',
