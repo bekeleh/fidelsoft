@@ -5,9 +5,9 @@
         <style type="text/css">
             .nav-footer {
                 @if (config('mail.driver') == 'log' && ! config('services.postmark'))
-                 background-color: #50C878 !important;
+                      background-color: #50C878 !important;
                 @else
-                 background-color: #FD6A02 !important;
+                      background-color: #FD6A02 !important;
             @endif
 
 
@@ -338,7 +338,7 @@
             {!! Former::open('/handle_command')->id('search-form')->addClass('navbar-form')->role('search') !!}
             <div class="form-group has-feedback">
                 <input type="text" name="command" id="search"
-                       style="width: 280px;padding-top:0px;padding-bottom:0px;margin-left:150px;"
+                       style="width: 300px;padding-top:0px;padding-bottom:0px;margin-left:50px;"
                        class="form-control"
                        placeholder="{{ trans('texts.search').trans('texts.search_hotkey')}}"/>
                 {{--                @if (env('SPEECH_ENABLED'))--}}

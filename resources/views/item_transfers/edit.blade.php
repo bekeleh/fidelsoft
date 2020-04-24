@@ -116,16 +116,17 @@
         function getItems($productModel, $sourceStoreId, $item_checked = null) {
             if ($sourceStoreId != null) {
                 $.ajax({
+                    url: '{{ URL::to('api/item_stores?store_id=') }}' + $sourceStoreId,
                     type: 'GET',
-                    url: '{{ URL::to('item_stores') }}',
-                    data: 'store_id=' + $sourceStoreId,
-                    dataType: "json",
                     headers: {
                         "X-Requested-With": 'XMLHttpRequest',
                         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content')
                     },
+                    contentType: 'application/json; charset=utf-8',
                     success: function (response) {
-                        alert(response['message']);
+                        console.log(response);
+                    },
+                    error: function () {
                     },
                 });
             }

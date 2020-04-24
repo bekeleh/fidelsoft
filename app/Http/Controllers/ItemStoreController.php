@@ -13,6 +13,7 @@ use App\Ninja\Repositories\ItemStoreRepository;
 use App\Services\ItemStoreService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use Redirect;
@@ -41,20 +42,20 @@ class ItemStoreController extends BaseController
 //            'datatable' => new ItemStoreDatatable(),
 //            'title' => trans('texts.item_stores'),
 //        ]);
-        $this->getItemList();
+        $this->getItemList(1);
     }
 
-    public function getItemList()
+    public function getItemList($storePublicId = null)
     {
-        $storePublicId = Input::get('store_id');
-        $accountId = Auth::user()->account_id;
-        $storeId = Store::getPrivateId($storePublicId);
-
-        $data = $this->itemStoreRepo->getItems($accountId, $storeId);
-
-        return response()->json([
-            "message" => "Success"
-        ]);
+//        $storePublicId = Input::get('store_id');
+//        $accountId = Auth::user()->account_id;
+//        $storeId = Store::getPrivateId($storePublicId);
+//
+//        $data = $this->itemStoreRepo->getItems($accountId, $storeId);
+//
+//        $data = ['key1' => 'value1', 'key2' => 'value2'];
+//        dd(response()->json(['success' => true, 'data' => $data], 200));
+//        return json_encode(['data' => $data]);
     }
 
     public function getDatatable($itemStorePublicId = null)

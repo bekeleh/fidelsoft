@@ -26,6 +26,7 @@ Route::get('user_accounts', 'AccountApiController@getUserAccounts');
 Route::resource('products', 'ProductApiController');
 Route::resource('stores', 'StoreApiController');
 Route::resource('item_stores', 'ItemStoreApiController');
+Route::get('api/item_stores/{store_id}', 'ItemStoreApiController@getItemList');
 Route::resource('item_transfers', 'ItemTransferApiController');
 Route::resource('item_prices', 'ItemPriceApiController');
 Route::resource('item_movements', 'ItemMovementApiController');
