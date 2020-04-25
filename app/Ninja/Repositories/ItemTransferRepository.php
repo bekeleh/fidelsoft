@@ -143,7 +143,7 @@ class ItemTransferRepository extends BaseRepository
             foreach ($itemTransfers as $itemStore) {
                 $itemTransfer->item_id = $itemStore->item_id;
                 if ((int)$itemTransfer->qty > 0) {
-                    if (!empty($itemTransferData['transferAllQtyChecked'])) {
+                    if (!empty($itemTransferData['transfer_all_item'])) {
                         $itemTransferDate['qty'] = 0;
                         if ($itemStore->update($itemTransferDate)) {
                             $itemTransfer->save();

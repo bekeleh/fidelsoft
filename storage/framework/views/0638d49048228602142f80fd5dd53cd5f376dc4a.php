@@ -25,7 +25,7 @@
                 <?php endif; ?>
             </select>
             <span class="help-block alert alert-info">
-            <?php echo e(Form::checkbox($check_item_name, '1', Input::old($check_item_name), array('id'=>$check_item_name,'enabled' => 'enabled'))); ?>
+                <?php echo e(Form::checkbox($check_item_name, '1', null, ['id'=>$check_item_name,'enabled' => 'enabled','onchange' => 'transferAllQtyChecked()'])); ?>
 
                 <?php echo e(trans('texts.allQty')); ?>
 

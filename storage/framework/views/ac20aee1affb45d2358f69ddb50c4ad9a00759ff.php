@@ -34,7 +34,7 @@
                 <?php echo Former::select('current_store_id')->addOption('', '')
                 ->label(trans('texts.to_store_name'))->addGroupClass('store-select'); ?>
 
-                <?php echo $__env->make('partials.select_product', ['label'=>'product_id','field_name'=>'product_id','check_item_name'=>'transfer_all_item_checked','required'=>'true' ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                <?php echo $__env->make('partials.select_product', ['label'=>'product_id','field_name'=>'product_id','check_item_name'=>'transfer_all_item'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 <!-- qty -->
                 <?php echo Former::text('qty')->label('texts.qty'); ?>
 
@@ -66,6 +66,7 @@
 
 
     <script type="text/javascript">
+        var $productModel = $('#product_id');
         var products = <?php echo $products; ?>;
         var previousStores = <?php echo $previousStores; ?>;
         var currentStores = <?php echo $currentStores; ?>;
@@ -77,7 +78,6 @@
             $('#qty').focus();
         });
         $(function () {
-//        previous store (from)
             var storeFromId = <?php echo e($previousStorePublicId ?: 0); ?>;
             var $storeSelect = $('select#previous_store_id');
             <?php if(Auth::user()->can('create', ENTITY_STORE)): ?>
@@ -113,37 +113,60 @@
         });
 
         function selectProductAction() {
-            var $productModel = $('#product_id');
             var $sourceStoreId = $('select#previous_store_id').val();
-            if ($sourceStoreId != '') {
+            if ($sourceStoreId != '' && $productModel != null) {
                 $productModel.empty();
-                getItems($productModel, $sourceStoreId);
+                onSourceStoreChange($productModel, $sourceStoreId);
             }
         }
 
         // find items in the selected store.
-        function getItems($productModel, $sourceStoreId, $item_checked = null) {
-            if ($sourceStoreId != null) {
+        function onSourceStoreChange($productModel, $sourceStoreId, $item_checked = null) {
+            if ($sourceStoreId != null && $sourceStoreId != '') {
                 $.ajax({
-                    url: '<?php echo e(URL::to('api/item_stores?store_id=')); ?>' + $sourceStoreId,
-                    type: 'GET',
-                    headers: {
-                        "X-Requested-With": 'XMLHttpRequest',
-                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content')
-                    },
-                    contentType: 'application/json; charset=utf-8',
-                    success: function (response) {
-                        console.log(response);
+                    url: '<?php echo e(URL::to('item_stores/item_list')); ?>',
+                    type: 'POST',
+                    dataType: "json",
+                    data: 'store_id=' + $sourceStoreId,
+                    success: function (result) {
+                        if (result.success) {
+                            appendItems($productModel, result.data);
+                        } else {
+                            swal(<?php echo json_encode(trans('texts.item_does_not_exist')); ?>);
+                        }
                     },
                     error: function () {
+                        swal(<?php echo json_encode(trans('texts.item_does_not_exist')); ?>);
                     },
                 });
             }
         }
 
-        function transferAllQtyAction() {
+        function appendItems($productModel, $data) {
+            if ($productModel != '' && $data != '') {
+                if ($data.length > 0) {
+                    $productModel.empty();
+                    for (var i in $data) {
+                        var row = $data[i];
+                        if (false) {
+                            $productModel.append("<option value='" + row.id + "' selected>" + row.name + "</option>");
+                        } else {
+                            $productModel.append("<option value='" + row.id + "' selected>" + row.name + "</option>");
+                        }
+                    }
+                }
+            }
+        }
 
-            alert('checked.');
+        function transferAllQtyChecked() {
+            var $transferAllQty = $('#transfer_all_item').val();
+
+            if (document.getElementById('transfer_all_item').checked) {
+                document.getElementById('qty').value = '';
+                document.getElementById('qty').disabled = true;
+            } else {
+                document.getElementById('qty').disabled = false;
+            }
         }
 
         function submitAction(action) {

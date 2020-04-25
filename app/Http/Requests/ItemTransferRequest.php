@@ -24,7 +24,7 @@ class ItemTransferRequest extends EntityRequest
                 $this->validationData();
                 $rules['product_id'] = 'required|array';
                 $rules['current_store_id'] = 'required|numeric';
-                $rules['previous_store_id'] = 'required|numeric';
+                $rules['previous_store_id'] = 'required|numeric|not:current_store_id';
 //                $rules['approver_id'] = 'required|numeric|exists:approval_statuses';
                 $rules['notes'] = 'nullable';
                 $rules['is_deleted'] = 'boolean';

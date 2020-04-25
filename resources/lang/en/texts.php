@@ -410,6 +410,8 @@ $LANG = array(
     'select_item' => 'Select Item',
     'item_help' => 'Sets the default <b>item</b>',
     'item_store_help' => 'Sets the default <b>item store</b>',
+    'error_store_help' => 'Sets the default <b>item store</b>',
+    'item_does_not_exist' => 'Item does not exist in this store or somethings went wrong.',
     /*
 |--------------------------------------------------------------------------
 | inventory trans

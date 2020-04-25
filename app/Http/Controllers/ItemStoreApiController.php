@@ -197,20 +197,4 @@ class ItemStoreApiController extends BaseAPIController
 
         return $this->itemResponse($itemStore);
     }
-
-    public function getItemList($storePublicId = null)
-    {
-        $storePublicId = Input::get('store_id') ?: 1;
-        $accountId = Auth::user()->account_id;
-        $storeId = Store::getPrivateId($storePublicId);
-
-//        $data = $this->itemStoreRepo->getItems($accountId, $storeId);
-
-        $data = ['key1' => 'value1', 'key2' => 'value2'];
-//        dd(response()->json(['success' => true, 'data' => $data], 200));
-        $response = json_encode($data, JSON_PRETTY_PRINT);
-        $headers = Utils::getApiHeaders();
-
-        return Response::make($response, 200, $headers);
-    }
 }

@@ -31,7 +31,7 @@
                 {!! Former::select('current_store_id')->addOption('', '')
                 ->label(trans('texts.to_store_name'))->addGroupClass('store-select')
                 !!}
-                @include ('partials.select_product', ['label'=>'product_id','field_name'=>'product_id','check_item_name'=>'transfer_all_item_checked','required'=>'true' ])
+                @include ('partials.select_product', ['label'=>'product_id','field_name'=>'product_id','check_item_name'=>'transfer_all_item'])
                 <!-- qty -->
                 {!! Former::text('qty')->label('texts.qty') !!}
                 <!-- NOTES -->
@@ -57,6 +57,7 @@
     {!! Former::close() !!}
 
     <script type="text/javascript">
+        var $productModel = $('#product_id');
         var products = {!! $products !!};
         var previousStores = {!! $previousStores !!};
         var currentStores = {!! $currentStores !!};
@@ -68,7 +69,6 @@
             $('#qty').focus();
         });
         $(function () {
-//        previous store (from)
             var storeFromId = {{ $previousStorePublicId ?: 0 }};
             var $storeSelect = $('select#previous_store_id');
             @if (Auth::user()->can('create', ENTITY_STORE))
@@ -104,37 +104,56 @@
         });
 
         function selectProductAction() {
-            var $productModel = $('#product_id');
             var $sourceStoreId = $('select#previous_store_id').val();
-            if ($sourceStoreId != '') {
+            if ($sourceStoreId != '' && $productModel != null) {
                 $productModel.empty();
-                getItems($productModel, $sourceStoreId);
+                onSourceStoreChange($productModel, $sourceStoreId);
             }
         }
 
         // find items in the selected store.
-        function getItems($productModel, $sourceStoreId, $item_checked = null) {
-            if ($sourceStoreId != null) {
+        function onSourceStoreChange($productModel, $sourceStoreId, $item_checked = null) {
+            if ($sourceStoreId != null && $sourceStoreId != '') {
                 $.ajax({
-                    url: '{{ URL::to('api/item_stores?store_id=') }}' + $sourceStoreId,
-                    type: 'GET',
-                    headers: {
-                        "X-Requested-With": 'XMLHttpRequest',
-                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content')
-                    },
-                    contentType: 'application/json; charset=utf-8',
-                    success: function (response) {
-                        console.log(response);
+                    url: '{{ URL::to('item_stores/item_list') }}',
+                    type: 'POST',
+                    dataType: "json",
+                    data: 'store_id=' + $sourceStoreId,
+                    success: function (result) {
+                        if (result.success) {
+                            appendItems($productModel, result.data);
+                        } else {
+                            swal({!! json_encode(trans('texts.item_does_not_exist')) !!});
+                        }
                     },
                     error: function () {
+                        swal({!! json_encode(trans('texts.item_does_not_exist')) !!});
                     },
                 });
             }
         }
 
-        function transferAllQtyAction() {
+        function appendItems($productModel, $data) {
+            if ($productModel != '' && $data != '') {
+                if ($data.length > 0) {
+                    $productModel.empty();
+                    for (var i in $data) {
+                        var row = $data[i];
+                        $productModel.append("<option value='" + row.id + "' selected>" + row.name + "</option>");
+                    }
+                }
+            }
+        }
 
-            alert('checked.');
+        function transferAllQtyChecked() {
+            var $transferAllQty = $('#transfer_all_item').val();
+
+            if (document.getElementById('transfer_all_item').checked) {
+                document.getElementById('qty').value = '';
+                document.getElementById('qty').disabled = true;
+            } else {
+                document.getElementById('qty').disabled = false;
+            }
         }
 
         function submitAction(action) {

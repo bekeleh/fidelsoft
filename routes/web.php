@@ -268,6 +268,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('api/stores', 'StoreController@getDatatable');
     Route::resource('stores', 'StoreController');
     Route::post('stores/bulk', 'StoreController@bulk');
+    Route::post('item_stores/item_list', 'ItemStoreController@getItemList');
 //    item brand
     Route::get('item_brands/{item_brands}/clone', 'ItemBrandController@cloneItemBrand');
     Route::get('api/item_brands', 'ItemBrandController@getDatatable');
