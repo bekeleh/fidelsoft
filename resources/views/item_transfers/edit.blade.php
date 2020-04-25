@@ -25,7 +25,7 @@
                 {!! Former::select('previous_store_id')->addOption('', '')
                 ->onchange('selectProductAction()')
                 ->label(trans('texts.from_store_name'))->addGroupClass('store-select')
-                ->help(trans('texts.item_store_help') . ' | ' . link_to('/item_stores/', trans('texts.customize_options')))
+                ->help(trans('texts.store_help') . ' | ' . link_to('/stores/', trans('texts.customize_options')))
                 !!}
                 <!-- to store -->
                 {!! Former::select('current_store_id')->addOption('', '')
@@ -33,7 +33,7 @@
                 !!}
                 @include ('partials.select_product', ['label'=>'product_id','field_name'=>'product_id','check_item_name'=>'transfer_all_item'])
                 <!-- qty -->
-                {!! Former::text('qty')->label('texts.qty') !!}
+                {!! Former::text('qty')->label('texts.qty')->help('texts.item_qty_help') !!}
                 <!-- NOTES -->
                     {!! Former::textarea('notes')->rows(2) !!}
                 </div>

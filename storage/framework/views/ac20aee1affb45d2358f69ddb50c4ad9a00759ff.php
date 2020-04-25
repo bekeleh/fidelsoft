@@ -28,7 +28,7 @@
                 <?php echo Former::select('previous_store_id')->addOption('', '')
                 ->onchange('selectProductAction()')
                 ->label(trans('texts.from_store_name'))->addGroupClass('store-select')
-                ->help(trans('texts.item_store_help') . ' | ' . link_to('/item_stores/', trans('texts.customize_options'))); ?>
+                ->help(trans('texts.store_help') . ' | ' . link_to('/stores/', trans('texts.customize_options'))); ?>
 
                 <!-- to store -->
                 <?php echo Former::select('current_store_id')->addOption('', '')
@@ -36,7 +36,7 @@
 
                 <?php echo $__env->make('partials.select_product', ['label'=>'product_id','field_name'=>'product_id','check_item_name'=>'transfer_all_item'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 <!-- qty -->
-                <?php echo Former::text('qty')->label('texts.qty'); ?>
+                <?php echo Former::text('qty')->label('texts.qty')->help('texts.item_qty_help'); ?>
 
                 <!-- NOTES -->
                     <?php echo Former::textarea('notes')->rows(2); ?>
@@ -148,11 +148,7 @@
                     $productModel.empty();
                     for (var i in $data) {
                         var row = $data[i];
-                        if (false) {
-                            $productModel.append("<option value='" + row.id + "' selected>" + row.name + "</option>");
-                        } else {
-                            $productModel.append("<option value='" + row.id + "' selected>" + row.name + "</option>");
-                        }
+                        $productModel.append("<option value='" + row.id + "' selected>" + row.name + "</option>");
                     }
                 }
             }
