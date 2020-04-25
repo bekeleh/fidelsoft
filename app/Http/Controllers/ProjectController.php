@@ -29,6 +29,7 @@ class ProjectController extends BaseController
     }
 
     /**
+     *
      * Display a listing of the resource.
      *
      * @return Response
@@ -45,17 +46,18 @@ class ProjectController extends BaseController
     public function getDatatable($expensePublicId = null)
     {
         $search = Input::get('sSearch');
-        $userId = Auth::user()->filterIdByEntity(ENTITY_PROJECT);
+        $accountId = Auth::user()->filterIdByEntity(ENTITY_PROJECT);
 
-        return $this->projectService->getDatatable($search, $userId);
+        return $this->projectService->getDatatable($search, $accountId);
     }
 
     public function show(ProjectRequest $request)
     {
         $account = auth()->user()->account;
         $project = $request->entity();
-        $chartData = dispatch(new GenerateProjectChartData($project));
 
+        $chartData = dispatch(new GenerateProjectChartData($project));
+//        dd($chartData);
         $data = [
             'account' => auth()->user()->account,
             'project' => $project,

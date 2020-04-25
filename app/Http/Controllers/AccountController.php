@@ -842,6 +842,7 @@ class AccountController extends BaseController
         $account->fill_products = Input::get('fill_products') ? true : false;
         $account->update_products = Input::get('update_products') ? true : false;
         $account->convert_products = Input::get('convert_products') ? true : false;
+
         $account->save();
 
         return Redirect::to('settings/' . ACCOUNT_PRODUCTS)->with('message', trans('texts.updated_settings'));
@@ -1300,6 +1301,7 @@ class AccountController extends BaseController
         $license->affiliate_id = $affiliate->id;
         $license->product_id = PRODUCT_SELF_HOST;
         $license->is_claimed = 1;
+
         $license->save();
 
         return RESULT_SUCCESS;

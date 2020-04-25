@@ -332,18 +332,15 @@
                     @if ($account->isModuleEnabled(ENTITY_TASK) && ($invoice->has_tasks || ! empty($tasks)))
                         @include('invoices.edit_table', ['isTasks' => true])
                     @endif
-
                     <table class="pull-right subtotals-table" style="margin-right:40px; margin-top:0px;">
                         <tr>
                             <td colspan="2">{{ trans('texts.subtotal') }}</td>
                             <td style="text-align: right"><span data-bind="text: totals.subtotal"/></td>
                         </tr>
-
                         <tr style="display:none" data-bind="visible: discount() != 0">
                             <td colspan="2">{{ trans('texts.discount') }}</td>
                             <td style="text-align: right"><span data-bind="text: totals.discounted"/></td>
                         </tr>
-
                         @if ($account->customLabel('invoice1') && $invoice->custom_taxes1)
                             <tr>
                                 <td colspan="2">{{ $account->customLabel('invoice1') ?: trans('texts.surcharge') }}</td>
@@ -738,20 +735,18 @@
                                             </div>
                                         </div>
                                         <span data-bind="visible: $root.showMore">
-                                            </span>
-
+                                        </span>
                                         {!! Former::select('client[currency_id]')->addOption('','')
                                         ->placeholder($account->currency ? trans('texts.currency_'.Str::slug($account->currency->name, '_')) : '')
                                         ->label(trans('texts.currency_id'))
                                         ->data_bind('value: currency_id')
                                         ->fromQuery($currencies, 'name', 'id') !!}
-
                                         <span data-bind="visible: $root.showMore">
-{!! Former::select('client[language_id]')->addOption('','')
-->placeholder($account->language ? trans('texts.lang_'.$account->language->name) : '')
-->label(trans('texts.language_id'))
-->data_bind('value: language_id')
-->fromQuery($languages, 'name', 'id') !!}
+                                        {!! Former::select('client[language_id]')->addOption('','')
+                                        ->placeholder($account->language ? trans('texts.lang_'.$account->language->name) : '')
+                                        ->label(trans('texts.language_id'))
+                                        ->data_bind('value: language_id')
+                                        ->fromQuery($languages, 'name', 'id') !!}
                                             {!! Former::select('client[payment_terms]')->addOption('','')->data_bind('value: payment_terms')
                                             ->fromQuery(\App\Models\PaymentTerm::getSelectOptions(), 'name', 'num_days')
                                             ->label(trans('texts.payment_terms'))
@@ -765,23 +760,23 @@
                                             {!! Former::textarea('client_private_notes')
                                             ->label(trans('texts.private_notes'))
                                             ->data_bind("value: private_notes, attr:{ name: 'client[private_notes]'}") !!}
-</span>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-<span class="error-block" id="emailError"
-      style="display:none;float:left;font-weight:bold">{{ trans('texts.provide_name_or_email') }}</span><span>&nbsp;</span>
+                        <span class="error-block" id="emailError"
+                              style="display:none;float:left;font-weight:bold">{{ trans('texts.provide_name_or_email') }}</span>
                         <button type="button" class="btn btn-default"
                                 data-dismiss="modal">{{ trans('texts.cancel') }}</button>
                         <button type="button" class="btn btn-default"
                                 data-bind="click: $root.showMoreFields, text: $root.showMore() ? '{{ trans('texts.less_fields') }}' : '{{ trans('texts.more_fields') }}'"></button>
                         <button id="clientDoneButton" type="button" class="btn btn-primary"
-                                data-bind="click: $root.clientFormComplete">{{ trans('texts.done') }}</button>
+                                data-bind="click: $root.clientFormComplete">{{ trans('texts.done') }}
+                        </button>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -840,15 +835,13 @@
         @include('invoices.email')
         {!! Former::close() !!}
         </form>
-
         {!! Former::open("{$entityType}s/bulk")->addClass('bulkForm') !!}
         {!! Former::populateField('bulk_public_id', $invoice->public_id) !!}
         <span style="display:none">
-{!! Former::text('bulk_public_id') !!}
+            {!! Former::text('bulk_public_id') !!}
             {!! Former::text('bulk_action') !!}
-</span>
+        </span>
         {!! Former::close() !!}
-
     </div>
 
     @include('invoices.knockout')
@@ -1464,7 +1457,6 @@
 
         function submitAction(value) {
             if (!isSaveValid()) {
-
                 @if(Auth::user()->can('create', ENTITY_CLIENT))
                 model.showClientForm();
                 return false;
@@ -1514,8 +1506,10 @@
             if ($('#saveButton').is(':disabled')) {
                 return false;
             }
+
+            // save, email and draft action
             $('#saveButton, #emailButton, #draftButton').attr('disabled', true);
-// if save fails ensure user can try again
+//          if save fails ensure user can try again
             $.post('{{ url($url) }}', $('.main-form').serialize(), function (data) {
                 if (data && data.toLowerCase().indexOf('http') === 0) {
                     NINJA.formIsChanged = false;

@@ -28,7 +28,12 @@ class InvoiceRepository extends BaseRepository
     private $paymentService;
     private $paymentRepo;
 
-    public function __construct(Invoice $model, PaymentService $paymentService, DocumentRepository $documentRepo, PaymentRepository $paymentRepo)
+    public function __construct(
+        Invoice $model,
+        PaymentService $paymentService,
+        DocumentRepository $documentRepo,
+        PaymentRepository $paymentRepo
+    )
     {
         $this->model = $model;
         $this->documentRepo = $documentRepo;
@@ -365,16 +370,9 @@ class InvoiceRepository extends BaseRepository
             ->make();
     }
 
-    /**
-     * @param array $data
-     * @param Invoice|null $invoice
-     *
-     * @return Invoice|mixed
-     */
     public function save(array $data, Invoice $invoice = null)
     {
-        /** @var Account $account */
-        $account = $invoice ? $invoice->account : \Auth::user()->account;
+        $account = $invoice ? $invoice->account : Auth::user()->account;
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
 
         if (Utils::isNinjaProd() && !Utils::isReseller()) {
@@ -714,7 +712,7 @@ class InvoiceRepository extends BaseRepository
             if (empty($item['cost']) && empty($item['name']) && empty($item['notes']) && empty($item['custom_value1']) && empty($item['custom_value2'])) {
                 continue;
             }
-
+//          task update
             $task = false;
             if (isset($item['task_public_id']) && $item['task_public_id']) {
                 $task = Task::scope($item['task_public_id'])->where('invoice_id', '=', null)->firstOrFail();
@@ -724,7 +722,7 @@ class InvoiceRepository extends BaseRepository
                     $task->save();
                 }
             }
-
+//          expense update
             $expense = false;
             if (isset($item['expense_public_id']) && $item['expense_public_id']) {
                 $expense = Expense::scope($item['expense_public_id'])->where('invoice_id', '=', null)->firstOrFail();
@@ -734,13 +732,13 @@ class InvoiceRepository extends BaseRepository
                     $expense->save();
                 }
             }
-
+//          product update
             if (Auth::check()) {
                 if ($productKey = trim($item['name'])) {
-                    if ($account->update_products
-                        && !$invoice->has_tasks
-                        && !$invoice->has_expenses
-                        && !in_array($productKey, Utils::trans(['surcharge', 'discount', 'fee', 'gateway_fee_item']))
+                    if ($account->update_products &&
+                        !$invoice->has_tasks &&
+                        !$invoice->has_expenses &&
+                        !in_array($productKey, Utils::trans(['surcharge', 'discount', 'fee', 'gateway_fee_item']))
                     ) {
                         $product = Product::findProductByKey($productKey);
                         if (!$product) {
@@ -762,12 +760,13 @@ class InvoiceRepository extends BaseRepository
                             $product->tax_rate2 = isset($item['tax_rate2']) ? $item['tax_rate2'] : 0;
                             $product->custom_value1 = isset($item['custom_value1']) ? $item['custom_value1'] : null;
                             $product->custom_value2 = isset($item['custom_value2']) ? $item['custom_value2'] : null;
+
                             $product->save();
                         }
                     }
                 }
             }
-
+//          invoice items update
             $invoiceItem = InvoiceItem::createNew($invoice);
             $invoiceItem->fill($item);
             $invoiceItem->product_id = isset($product) ? $product->id : null;
@@ -783,13 +782,13 @@ class InvoiceRepository extends BaseRepository
                 $invoiceItem->custom_value2 = $item['custom_value2'];
             }
 
-            // provide backwards compatability
+            // provide backwards compatibility
             if (isset($item['tax_name']) && isset($item['tax_rate'])) {
                 $item['tax_name1'] = $item['tax_name'];
                 $item['tax_rate1'] = $item['tax_rate'];
             }
 
-            // provide backwards compatability
+            // provide backwards compatibility
             if (!isset($item['invoice_item_type_id']) && in_array($invoiceItem->notes, [trans('texts.online_payment_surcharge'), trans('texts.online_payment_discount')])) {
                 $invoiceItem->invoice_item_type_id = $invoice->balance > 0 ? INVOICE_ITEM_TYPE_PENDING_GATEWAY_FEE : INVOICE_ITEM_TYPE_PAID_GATEWAY_FEE;
             }

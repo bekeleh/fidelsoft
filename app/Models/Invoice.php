@@ -18,7 +18,7 @@ use Laracasts\Presenter\PresentableTrait;
 use App\Libraries\Utils;
 
 /**
- * Class Invoice.
+ * Model Class Invoice.
  */
 class Invoice extends EntityModel implements BalanceAffecting
 {
@@ -32,7 +32,7 @@ class Invoice extends EntityModel implements BalanceAffecting
 
 
     protected $presenter = 'App\Ninja\Presenters\InvoicePresenter';
-    protected $dates = ['deleted_at'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
 
     protected $fillable = [

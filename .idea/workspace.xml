@@ -2,14 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/O0xLm5L5nsu0wFYWQKTTyxCUJJup9GHh6voEMTkj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/6fd6ebe8ab3eb5507ec29098a1ced0853787da9c.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/e23efc1ef6ac7a9d1151b3f35ce9152cc04edf69.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/LFjDWWavKbISwLlSQzm9t80HkND4Q9IiGKKqqkdD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/029ff1b83d4540237f7ba2370365a7966023941e.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/04745a3998bf277d4e038fb6af6db06b785cddc5.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/2a642daa72405aea3e207c42d4e4d74a1eafe0bb.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/4b2809918bd8a7ad9e90bfe4e05d4618b79dea97.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/8fc4a4c0734a85fec366102b3d88f7f2e3c56b54.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/bde6e4d84a93a1d5c3f3b3d6339314a2e8095126.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/c7a35e3db127bbc14744963fc723e20043f97bff.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/d79b2d67efee6035fc331d72efd858db18b46859.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AccountController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AccountController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ProjectController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ProjectController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Invoice.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Invoice.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/InvoiceRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/InvoiceRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/InvoiceService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/InvoiceService.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/invoices/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/invoices/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/setup.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/setup.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/HrQkwRGbrMt9djp0gQqtZUIRe6SYLOheM6Qr0cGM" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/HrQkwRGbrMt9djp0gQqtZUIRe6SYLOheM6Qr0cGM" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/tROjlViXaQn1EZg4y1g4lx4iaqWuECAiBcm6asxh" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/tROjlViXaQn1EZg4y1g4lx4iaqWuECAiBcm6asxh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/projects/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/projects/show.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/31izZsHbx4mn5i05NXzjTvkA9GGxVeZO35qNv9Uf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/4FU6e3n9dBi5YPJOhzhSoFIsUJ0GG0yikzKKz0mq" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/HrQkwRGbrMt9djp0gQqtZUIRe6SYLOheM6Qr0cGM" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/O0xLm5L5nsu0wFYWQKTTyxCUJJup9GHh6voEMTkj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/tROjlViXaQn1EZg4y1g4lx4iaqWuECAiBcm6asxh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/yygZTNksbsdJDaKwt0RhsN8qYLJQOEhh5U8qKIFd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/2716ccdc7649fdb21982806d1299aa7327752514.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/2716ccdc7649fdb21982806d1299aa7327752514.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
     </list>
@@ -374,14 +390,7 @@
       <workItem from="1587755445678" duration="340000" />
       <workItem from="1587756324797" duration="815000" />
       <workItem from="1587826954097" duration="49000" />
-      <workItem from="1587827011955" duration="1343000" />
-    </task>
-    <task id="LOCAL-00121" summary="2020-04-4 10:35">
-      <created>1586040036593</created>
-      <option name="number" value="00121" />
-      <option name="presentableId" value="LOCAL-00121" />
-      <option name="project" value="LOCAL" />
-      <updated>1586040036593</updated>
+      <workItem from="1587827011955" duration="7656000" />
     </task>
     <task id="LOCAL-00122" summary="2020-04-4 10:35">
       <created>1586040581525</created>
@@ -719,7 +728,14 @@
       <option name="project" value="LOCAL" />
       <updated>1587711464547</updated>
     </task>
-    <option name="localTasksCounter" value="170" />
+    <task id="LOCAL-00170" summary="2020-04-25 9:26">
+      <created>1587828418383</created>
+      <option name="number" value="00170" />
+      <option name="presentableId" value="LOCAL-00170" />
+      <option name="project" value="LOCAL" />
+      <updated>1587828418384</updated>
+    </task>
+    <option name="localTasksCounter" value="171" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -729,7 +745,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="202003200614" />
     <MESSAGE value="202003210614" />
     <MESSAGE value="2020-03-21 6:12" />
     <MESSAGE value="2020-03-22 6:12" />
@@ -754,7 +769,8 @@
     <MESSAGE value="2020-04-22 9:26" />
     <MESSAGE value="2020-04-23 9:26" />
     <MESSAGE value="2020-04-24 9:26" />
-    <option name="LAST_COMMIT_MESSAGE" value="2020-04-24 9:26" />
+    <MESSAGE value="2020-04-25 9:26" />
+    <option name="LAST_COMMIT_MESSAGE" value="2020-04-25 9:26" />
   </component>
   <component name="WindowStateProjectService">
     <state x="312" y="89" key="#Notifications" timestamp="1584513656594">
@@ -792,10 +808,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1587219341431" />
-    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1587711462809">
+    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1587828400876">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1587711462809" />
+    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1587828400876" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="444" y="140" key="FileChooserDialogImpl" timestamp="1587755774537">
@@ -858,10 +874,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="303" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1280.680@0.0.1280.680" timestamp="1587324145930" />
-    <state x="191" y="55" width="755" height="536" key="find.popup" timestamp="1587676636444">
+    <state x="191" y="55" width="755" height="536" key="find.popup" timestamp="1587829503542">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="191" y="55" width="755" height="536" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1587676636444" />
+    <state x="191" y="55" width="755" height="536" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1587829503542" />
     <state x="316" y="37" width="983" height="691" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1586115855044" />
     <state x="215" y="69" width="849" height="606" key="find.popup/0.0.1440.860@0.0.1440.860" timestamp="1586178664001" />
     <state x="462" y="222" key="git4idea.merge.GitPullDialog" timestamp="1584633875966">
