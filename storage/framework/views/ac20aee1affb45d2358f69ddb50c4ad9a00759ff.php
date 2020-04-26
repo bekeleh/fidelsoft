@@ -3,7 +3,7 @@
     <?php echo Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['product_id' => 'required' ,'previous_store_id' => 'required' ,'current_store_id' => 'required','notes' => 'required' ])
+    ->rules(['product_id' => 'required','status_id' => 'required', 'previous_store_id' => 'required' ,'current_store_id' => 'required','notes' => 'required' ])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit'); ?>
 
     <?php if($itemTransfer): ?>
@@ -24,7 +24,13 @@
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
-                    <!-- from store -->
+                    <!-- status -->
+                <?php echo Former::select('status_id')->addOption('', '')
+                ->label(trans('texts.status_name'))->addGroupClass('status-select')
+                ->help(trans('texts.status_help') . ' | ' . link_to('/statuses/', trans('texts.customize_options'))); ?>
+
+
+                <!-- from store -->
                 <?php echo Former::select('previous_store_id')->addOption('', '')
                 ->onchange('selectProductAction()')
                 ->label(trans('texts.from_store_name'))->addGroupClass('store-select')
@@ -72,17 +78,35 @@
 
     <script type="text/javascript">
         var $productModel = $('#product_id');
-        var products = <?php echo $products; ?>;
+        var statuses = <?php echo $statuses; ?>;
         var previousStores = <?php echo $previousStores; ?>;
         var currentStores = <?php echo $currentStores; ?>;
 
-        var productMap = {};
+        var statusMap = {};
         var previousMap = {};
         var currentMap = {};
         $(function () {
             $('#qty').focus();
         });
         $(function () {
+            // status
+            var statusId = <?php echo e($statusPublicId ?: 0); ?>;
+            var $statusSelect = $('select#status_id');
+            <?php if(Auth::user()->can('create', ENTITY_STATUS)): ?>
+            $statusSelect.append(new Option("<?php echo e(trans('texts.create_status')); ?>: $name", '-1'));
+                    <?php endif; ?>
+            for (var i = 0; i < statuses.length; i++) {
+                var status = statuses[i];
+                statusMap[status.public_id] = status;
+                $statusSelect.append(new Option(getClientDisplayName(status), status.public_id));
+            }
+            <?php echo $__env->make('partials/entity_combobox', ['entityType' => ENTITY_STATUS], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            if (statusId) {
+                var status = statusMap[statusId];
+                setComboboxValue($('.status-select'), status.public_id, status.name);
+            }
+
+            // from store
             var storeFromId = <?php echo e($previousStorePublicId ?: 0); ?>;
             var $storeSelect = $('select#previous_store_id');
             <?php if(Auth::user()->can('create', ENTITY_STORE)): ?>
@@ -99,7 +123,7 @@
                 setComboboxValue($('.store-select'), storeFrom.public_id, storeFrom.name);
             }
 
-//        current store (to)
+            //  current store (to)
             var storeToId = <?php echo e($currentStorePublicId ?: 0); ?>;
             var $store_toSelect = $('select#current_store_id');
             <?php if(Auth::user()->can('create', ENTITY_STORE)): ?>

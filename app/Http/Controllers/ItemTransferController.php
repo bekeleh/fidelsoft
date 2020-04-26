@@ -96,6 +96,7 @@ class ItemTransferController extends BaseController
             'method' => 'POST',
             'url' => 'item_transfers',
             'title' => trans('texts.new_item_transfer'),
+            'statusPublicId' => Input::old('status') ? Input::old('status') : $request->status_id,
             'productPublicId' => Input::old('product') ? Input::old('product') : $request->product_id,
             'previousStorePublicId' => Input::old('previousStore') ? Input::old('previousStore') : $request->previous_store_id,
             'currentStorePublicId' => Input::old('currentStore') ? Input::old('currentStore') : $request->current_store_id,

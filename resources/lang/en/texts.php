@@ -24,7 +24,8 @@ $LANG = array(
     'created_status' => 'Successfully Created Status',
     'archived_status' => 'Successfully Archived Status',
     'status_settings' => 'Status Settings',
-    'status_help' => 'Sets the default <b>approval status</b>',
+    'select_status' => 'Select Status',
+    'status_help' => 'Sets the default <b>status</b>',
 
     /*
 |--------------------------------------------------------------------------
