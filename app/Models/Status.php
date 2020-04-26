@@ -57,6 +57,6 @@ class Status extends EntityModel
 
     public function itemTransfers()
     {
-        return $this->hasMany('App\Models\ItemTransfer', 'approval_status_id')->withTrashed();
+        return $this->hasMany('App\Models\ItemTransfer', 'status_id')->withTrashed();
     }
 }

@@ -64,7 +64,7 @@ class StatusDatatable extends EntityDatatable
     {
         return [
             [
-                trans('texts.edit_approval_status'),
+                trans('texts.edit_status'),
                 function ($model) {
                     if (Auth::user()->can('edit', [ENTITY_STATUS, $model]))
                         return URL::to("statuses/{$model->public_id}/edit");
@@ -73,7 +73,7 @@ class StatusDatatable extends EntityDatatable
                 },
             ],
             [
-                trans('texts.clone_approval_status'),
+                trans('texts.clone_status'),
                 function ($model) {
                     return URL::to("statuses/{$model->public_id}/clone");
                 },

@@ -6,6 +6,7 @@ use App\Http\Requests\ItemTransferRequest;
 use App\Libraries\Utils;
 use App\Models\ItemTransfer;
 use App\Models\Product;
+use App\Models\Status;
 use App\Models\Store;
 use App\Ninja\Datatables\ItemTransferDatatable;
 use App\Ninja\Repositories\StoreRepository;
@@ -58,8 +59,18 @@ class ItemTransferController extends BaseController
         return $this->itemTransferService->getDatatableStore($storePublicId);
     }
 
+    public function getDatatableStatus($statusPublicId = null)
+    {
+        return $this->itemTransferService->getDatatableStatus($statusPublicId);
+    }
+
     public function create(ItemTransferRequest $request)
     {
+        if ($request->status_id != 0) {
+            $status = Status::scope($request->status_id)->firstOrFail();
+        } else {
+            $status = null;
+        }
         if ($request->product_id != 0) {
             $product = Product::scope($request->product_id)->firstOrFail();
         } else {
@@ -77,6 +88,7 @@ class ItemTransferController extends BaseController
         }
 
         $data = [
+            'status' => $status,
             'product' => $product,
             'previousStore' => $previousStore,
             'currentStore' => $currentStore,
@@ -121,6 +133,7 @@ class ItemTransferController extends BaseController
         }
 
         $data = [
+            'status' => null,
             'product' => null,
             'previousStore' => null,
             'currentStore' => null,
@@ -129,6 +142,7 @@ class ItemTransferController extends BaseController
             'method' => $method,
             'url' => $url,
             'title' => trans('texts.edit_item_transfer'),
+            'statusPublicId' => $itemTransfer->status ? $itemTransfer->status->public_id : null,
             'productPublicId' => $itemTransfer->product ? $itemTransfer->product->public_id : null,
             'previousStorePublicId' => $itemTransfer->previousStore ? $itemTransfer->previousStore->public_id : null,
             'currentStorePublicId' => $itemTransfer->currentStore ? $itemTransfer->currentStore->public_id : null,
@@ -179,6 +193,7 @@ class ItemTransferController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
+            'statuses' => Status::scope()->withActiveOrSelected($itemTransfer ? $itemTransfer->status_id : false)->orderBy('name')->get(),
             'products' => Product::withCategory('itemBrand.itemCategory'),
             'previousStores' => Store::scope()->withActiveOrSelected($itemTransfer ? $itemTransfer->previous_store_id : false)->orderBy('name')->get(),
             'currentStores' => Store::scope()->withActiveOrSelected($itemTransfer ? $itemTransfer->current_store_id : false)->orderBy('name')->get(),

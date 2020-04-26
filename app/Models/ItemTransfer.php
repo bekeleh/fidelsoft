@@ -29,7 +29,7 @@ class ItemTransfer extends EntityModel
         'product_id',
         'previous_store_id',
         'current_store_id',
-        'approval_status_id',
+        'status_id',
         'approver_id',
         'approved_date',
         'qty',
@@ -70,9 +70,9 @@ class ItemTransfer extends EntityModel
         return $this->belongsTo('\App\Models\Product', 'product_id');
     }
 
-    public function Status()
+    public function status()
     {
-        return $this->belongsTo('\App\Models\Status', 'approval_status_id');
+        return $this->belongsTo('\App\Models\Status', 'status_id');
     }
 
     public function approver()

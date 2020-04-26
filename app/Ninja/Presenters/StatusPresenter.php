@@ -25,17 +25,17 @@ class StatusPresenter extends EntityPresenter
 
         if (!$Status->trashed()) {
             if (auth()->user()->can('create', ENTITY_STATUS)) {
-                $actions[] = ['url' => 'javascript:submitAction("clone")', 'label' => trans('texts.clone_approval_status')];
+                $actions[] = ['url' => 'javascript:submitAction("clone")', 'label' => trans('texts.clone_status')];
             }
             if (count($actions)) {
                 $actions[] = DropdownButton::DIVIDER;
             }
-            $actions[] = ['url' => 'javascript:submitAction("archive")', 'label' => trans("texts.archive_approval_status")];
+            $actions[] = ['url' => 'javascript:submitAction("archive")', 'label' => trans("texts.archive_status")];
         } else {
-            $actions[] = ['url' => 'javascript:submitAction("restore")', 'label' => trans("texts.restore_approval_status")];
+            $actions[] = ['url' => 'javascript:submitAction("restore")', 'label' => trans("texts.restore_status")];
         }
         if (!$Status->is_deleted) {
-            $actions[] = ['url' => 'javascript:onDeleteClick()', 'label' => trans("texts.delete_approval_status")];
+            $actions[] = ['url' => 'javascript:onDeleteClick()', 'label' => trans("texts.delete_status")];
         }
 
         return $actions;

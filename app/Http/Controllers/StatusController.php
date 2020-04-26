@@ -84,7 +84,7 @@ class StatusController extends BaseController
             'entity' => $Status,
             'method' => $method,
             'url' => $url,
-            'title' => trans('texts.edit_approval_status'),
+            'title' => trans('texts.edit_status'),
         ];
 
         return View::make('statuses.edit', $data);
@@ -100,7 +100,7 @@ class StatusController extends BaseController
             'Status' => null,
             'method' => 'POST',
             'url' => 'statuses',
-            'title' => trans('texts.create_approval_status'),
+            'title' => trans('texts.create_status'),
         ];
 
         return View::make('statuses.edit', $data);
@@ -131,9 +131,9 @@ class StatusController extends BaseController
         }
 
         if ($action == 'clone') {
-            return redirect()->to(sprintf('statuses/%s/clone', $Status->public_id))->with('success', trans('texts.clone_approval_status'));
+            return redirect()->to(sprintf('statuses/%s/clone', $Status->public_id))->with('success', trans('texts.clone_status'));
         } else {
-            return redirect()->to("statuses/{$Status->public_id}/edit")->with('success', trans('texts.updated_approval_status'));
+            return redirect()->to("statuses/{$Status->public_id}/edit")->with('success', trans('texts.updated_status'));
         }
     }
 
@@ -148,7 +148,7 @@ class StatusController extends BaseController
         $ids = Input::get('public_id') ? Input::get('public_id') : Input::get('ids');
         $count = $this->StatusService->bulk($ids, $action);
 
-        $message = Utils::pluralize($action . 'd_approval_status', $count);
+        $message = Utils::pluralize($action . 'd_status', $count);
 
         return $this->returnBulk(ENTITY_STATUS, $action, $ids)->with('message', $message);
     }

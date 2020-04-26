@@ -22,7 +22,7 @@
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
                     <!-- approval status name -->
-                {!! Former::text('name')->label('texts.approval_status')!!}
+                {!! Former::text('name')->label('texts.status')!!}
                 <!-- NOTES -->
                     {!! Former::textarea('notes')->rows(4) !!}
                 </div>

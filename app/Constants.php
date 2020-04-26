@@ -9,7 +9,7 @@ if (!defined('APP_NAME')) {
     define('ENV_DEVELOPMENT', 'local');
     define('ENV_STAGING', 'staging');
     define('RECENTLY_VIEWED', 'recent_history');
-    define('ENTITY_STATUS', 'approval_status');
+    define('ENTITY_STATUS', 'status');
     define('ENTITY_CLIENT', 'client');
     define('ENTITY_CONTACT', 'contact');
     define('ENTITY_INVOICE', 'invoice');

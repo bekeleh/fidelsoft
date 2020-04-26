@@ -59,13 +59,13 @@ class StatusApiController extends BaseAPIController
 
     /**
      * @SWG\Get(
-     *   path="/statuses/{approval_status_id}",
+     *   path="/statuses/{status_id}",
      *   summary="Retrieve a approval status",
      *   operationId="getStatus",
      *   tags={"approval status"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="approval_status_id",
+     *     name="status_id",
      *     type="integer",
      *     required=true
      *   ),
@@ -120,13 +120,13 @@ class StatusApiController extends BaseAPIController
 
     /**
      * @SWG\Put(
-     *   path="/statuses/{approval_status_id}",
+     *   path="/statuses/{status_id}",
      *   summary="Update a approval status",
      *   operationId="updateStatus",
      *   tags={"approval status"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="approval_status_id",
+     *     name="status_id",
      *     type="integer",
      *     required=true
      *   ),
@@ -165,13 +165,13 @@ class StatusApiController extends BaseAPIController
 
     /**
      * @SWG\Delete(
-     *   path="/statuses/{approval_status_id}",
+     *   path="/statuses/{status_id}",
      *   summary="Delete a approval status",
      *   operationId="deleteStatus",
      *   tags={"approval status"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="approval_status_id",
+     *     name="status_id",
      *     type="integer",
      *     required=true
      *   ),

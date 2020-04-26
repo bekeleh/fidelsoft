@@ -8,6 +8,7 @@ use App\Models\ItemMovement;
 use App\Models\ItemStore;
 use App\Models\ItemTransfer;
 use App\Models\Product;
+use App\Models\Status;
 use App\Models\Store;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -42,7 +43,7 @@ class ItemTransferRepository extends BaseRepository
             ->join('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
             ->join('stores as previousStore', 'previousStore.id', '=', 'item_transfers.previous_store_id')
             ->join('stores as currentStore', 'currentStore.id', '=', 'item_transfers.current_store_id')
-            ->join('statuses', 'statuses.id', '=', 'item_transfers.approval_status_id')
+            ->join('statuses', 'statuses.id', '=', 'item_transfers.status_id')
             ->where('item_transfers.account_id', '=', $accountId)
             //->where('item_transfers.deleted_at', '=', null)
             ->select(
@@ -52,7 +53,7 @@ class ItemTransferRepository extends BaseRepository
                 'item_transfers.product_id',
                 'item_transfers.previous_store_id',
                 'item_transfers.current_store_id',
-                'item_transfers.approval_status_id',
+                'item_transfers.status_id',
                 'item_transfers.approver_id',
                 'item_transfers.qty',
                 'item_transfers.is_deleted',
@@ -77,7 +78,7 @@ class ItemTransferRepository extends BaseRepository
                 'users.username as approver_name',
                 'users.public_id as approver_public_id',
                 'statuses.name as status_name',
-                'statuses.public_id as approval_status_public_id'
+                'statuses.public_id as status_public_id'
             );
         if ($filter) {
             $query->where(function ($query) use ($filter) {
@@ -117,6 +118,18 @@ class ItemTransferRepository extends BaseRepository
         $storeId = Store::getPrivateId($storePublicId);
 
         $query = $this->find()->where('item_transfers.store_id', '=', $storeId);
+
+        return $query;
+    }
+
+    public function findStatus($statusPublicId)
+    {
+        if (!$statusPublicId) {
+            return null;
+        }
+        $statusId = Status::getPrivateId($statusPublicId);
+
+        $query = $this->find()->where('item_transfers.store_id', '=', $statusId);
 
         return $query;
     }
