@@ -95,6 +95,7 @@ class ItemStoreRepository extends BaseRepository
             ->join('stores', 'stores.id', '=', 'item_stores.store_id')
             ->Where('item_stores.store_id', '=', $filter)
             ->where('item_stores.account_id', '=', $accountId)
+            ->where('item_stores.qty', '>', 0)
             //->where('item_stores.deleted_at', '=', null)
             ->select(
                 'products.id as id',

@@ -97,10 +97,10 @@ class ItemTransferController extends BaseController
     public function store(ItemTransferRequest $request)
     {
         $data = $request->input();
-        dd($data);
+
         $itemTransfer = $this->itemTransferService->save($data);
 
-        return redirect()->to("item_transfers/{$itemTransfer->public_id}/edit")->with('success', trans('texts.created_item_transfer'));
+        return redirect()->to("item_transfers")->with('success', trans('texts.created_item_transfer'));
     }
 
     public function edit(ItemTransferRequest $request, $publicId = false, $clone = false)

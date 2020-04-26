@@ -59,7 +59,7 @@ class ItemTransferDataTable extends EntityDatatable
 //            [
 //                'from_store_name',
 //                function ($model) {
-//                    if ($model->store_id) {
+//                    if ($model->public_id) {
 //                        if (Auth::user()->can('view', [ENTITY_STORE, $model]))
 //                            return link_to("stores/{$model->public_id}", $model->from_store_name)->toHtml();
 //                        else
@@ -72,7 +72,7 @@ class ItemTransferDataTable extends EntityDatatable
             [
                 'to_store_name',
                 function ($model) {
-                    if ($model->store_id) {
+                    if ($model->public_id) {
                         if (Auth::user()->can('view', [ENTITY_STORE, $model]))
                             return link_to("stores/{$model->public_id}", $model->to_store_name)->toHtml();
                         else
@@ -97,7 +97,7 @@ class ItemTransferDataTable extends EntityDatatable
             [
                 'approval_status_name',
                 function ($model) {
-                    if ($model->user_id) {
+                    if ($model->approver_id) {
                         if (Auth::user()->can('view', [ENTITY_APPROVAL_STATUS, $model]))
                             return link_to("users/{$model->public_id}", $model->approval_status_name)->toHtml();
                         else
@@ -182,7 +182,7 @@ class ItemTransferDataTable extends EntityDatatable
 
     private function getStatusLabel($model)
     {
-        $class = ItemTransfer::calcStatusClass($model->qty, $model->reorder_level);
+        $class = ItemTransfer::calcStatusClass($model->qty, 0);
 
         return "<h4><div class=\"label label-{$class}\">$model->qty</div></h4>";
     }

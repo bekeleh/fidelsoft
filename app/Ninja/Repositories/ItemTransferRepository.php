@@ -47,6 +47,7 @@ class ItemTransferRepository extends BaseRepository
             ->select(
                 'item_transfers.id',
                 'item_transfers.public_id',
+                'item_transfers.user_id',
                 'item_transfers.product_id',
                 'item_transfers.previous_store_id',
                 'item_transfers.current_store_id',
@@ -89,6 +90,9 @@ class ItemTransferRepository extends BaseRepository
 
     public function findProduct($productPublicId)
     {
+        if (!$productPublicId) {
+            return null;
+        }
         $productId = Product::getPrivateId($productPublicId);
 
         $query = $this->find()->where('products.product_id', '=', $productId);
@@ -98,6 +102,9 @@ class ItemTransferRepository extends BaseRepository
 
     public function findStore($storePublicId)
     {
+        if (!$storePublicId) {
+            return null;
+        }
         $storeId = Store::getPrivateId($storePublicId);
 
         $query = $this->find()->where('item_transfers.store_id', '=', $storeId);
@@ -108,62 +115,54 @@ class ItemTransferRepository extends BaseRepository
     public function save($data, $itemTransfer = null)
     {
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
-
+        $queryResult = false;
         if ($itemTransfer) {
-            $itemTransfer->updated_by = Auth::user()->username;
-            $itemTransfer->fill(collect($data)->except(['item_id'])->toArray());
-            $this->storeQuantityAdjustment($data, $itemTransfer, $update = true);
-            dd($itemTransfer);
+            $queryResult = $this->storeQuantityAdjustment($data, $itemTransfer, $update = true);
         } elseif ($publicId) {
-            $itemTransfer = ItemTransfer::scope($publicId)->withArchived()->firstOrFail();
+            $queryResult = ItemTransfer::scope($publicId)->withArchived()->firstOrFail();
             \Log::warning('Entity not set in item transfer repo save');
         } else {
-            $itemTransfer = ItemTransfer::createNew();
-            $itemTransfer->fill(collect($data)->except(['item_id'])->toArray());
-            $itemTransfer->created_by = Auth::user()->username;
-            $this->storeQuantityAdjustment($data, $itemTransfer, $update = false);
+            $itemRepo = $this->storeQuantityAdjustment($data, $itemTransfer, $update = false);
         }
 
-        if ($publicId) {
-            event(new ItemTransferWasUpdated($itemTransfer, $data));
-        } else {
-            event(new ItemTransferWasCreated($itemTransfer, $data));
-        }
-        return $itemTransfer;
+        return $queryResult;
     }
 
-    public function storeQuantityAdjustment($itemTransferData, $itemTransfer = null, $update = false)
+    public function storeQuantityAdjustment($itemTransferData, $itemTransfer = null, $update = null)
     {
         try {
-            $ItemId = Store::getPrivateId($itemTransferData['item_id']);
-            $PreviousStoreId = Store::getPrivateId($itemTransferData['previous_store_id']);
+            $itemTransfers = ItemStore::where('store_id', $itemTransferData['previous_store_id'])->whereIn('product_id', $itemTransferData['product_id'])->get();
 
-            $itemTransfers = ItemStore::where('store_id', $itemTransferData['previous_store_id'])->whereIn('item_id', $itemTransferData['item_id'])->get();
             $itemTransferDate = [];
             foreach ($itemTransfers as $itemStore) {
-                $itemTransfer->item_id = $itemStore->item_id;
-                if ((int)$itemTransfer->qty > 0) {
-                    if (!empty($itemTransferData['transfer_all_item'])) {
+                $itemTransfer = $this->getInstanceOfItemTransfer($itemTransferData, $itemTransfer, $update);
+                $itemTransfer->product_id = $itemStore->product_id;
+                if (!empty($itemTransferData['transfer_all_item'])) {
+                    $itemTransfer->qty = $itemStore->qty;
+                    $itemTransferDate['qty'] = 0;
+                    if ($itemStore->update($itemTransferDate)) {
+                        $itemTransfer->save();
+                    }
+                } else {
+                    $requiredQty = (int)$itemTransferData['qty'];
+                    $availableQty = (int)$itemStore->qty;
+                    if ($requiredQty >= $availableQty) {
                         $itemTransferDate['qty'] = 0;
                         if ($itemStore->update($itemTransferDate)) {
                             $itemTransfer->save();
                         }
                     } else {
-                        $requiredQty = (int)$itemTransferData['qty'];
-                        $availableQty = (int)$itemStore->qty;
-                        if ($requiredQty >= $availableQty) {
-                            $itemTransferDate['qty'] = 0;
-                            if ($itemStore->update($itemTransferDate)) {
-                                $itemTransfer->save();
-                            }
-                        } else {
-                            $availableQty = $availableQty - $requiredQty;
-                            $itemTransferDate['qty'] = $availableQty;
-                            if ($itemTransfer->update($itemTransferDate)) {
-                                $itemTransfer->save();
-                            }
+                        $availableQty = $availableQty - $requiredQty;
+                        $itemTransferDate['qty'] = $availableQty;
+                        if ($itemTransfer->update($itemTransferDate)) {
+                            $itemTransfer->save();
                         }
                     }
+                }
+                if ($update) {
+                    event(new ItemTransferWasUpdated($itemTransfer, $itemTransferData));
+                } else {
+                    event(new ItemTransferWasCreated($itemTransfer, $itemTransferData));
                 }
             }
 
@@ -174,6 +173,21 @@ class ItemTransferRepository extends BaseRepository
         }
     }
 
+    public function getInstanceOfItemTransfer($data, $itemTransfer, $update = null)
+    {
+        if ($update) {
+            $itemTransfer = ItemTransfer::createNew();
+            $itemTransfer->updated_by = Auth::user()->username;
+            $itemTransfer->fill(collect($data)->except(['product_id'])->toArray());
+        } else {
+            $itemTransfer = ItemTransfer::createNew();
+            $itemTransfer->fill(collect($data)->except(['product_id'])->toArray());
+            $itemTransfer->created_by = Auth::user()->username;
+
+        }
+        return $itemTransfer;
+    }
+
     public function quantityAdjustment($data, $itemTransfer = null, $update = false)
     {
         if ($update) {
@@ -182,7 +196,7 @@ class ItemTransferRepository extends BaseRepository
             if (!empty($data['qty'])) {
                 if ((int)$data['qty'] > 0) {
                     $movable = ItemMovement::createNew();
-                    $itemTransfer = $this->itemTransfer->where('store_id', $itemTransfer->current_store_id)->where('item_id', $itemTransfer->item_id)->first();
+                    $itemTransfer = $this->itemTransfer->where('store_id', $itemTransfer->current_store_id)->where('product_id', $itemTransfer->product_id)->first();
                     $movable->qty = (int)$data['qty'];
                     $movable->qoh = ((int)$this->qoh) + ((int)$data['qty']);
                     $movable->notes = 'quantity adjustment';

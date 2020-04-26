@@ -9,7 +9,6 @@ class ItemTransferWasCreated extends Event
 {
     use SerializesModels;
 
-
     public $itemTransfer;
 
     public $input;

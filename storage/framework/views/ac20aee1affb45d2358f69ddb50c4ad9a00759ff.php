@@ -44,7 +44,7 @@
                 <?php echo Former::text('qty')->label('texts.qty')->help('texts.item_qty_help'); ?>
 
                 <!-- NOTES -->
-                    <?php echo Former::textarea('notes')->rows(2); ?>
+                    <?php echo Former::textarea('notes')->rows(4); ?>
 
                 </div>
             </div>

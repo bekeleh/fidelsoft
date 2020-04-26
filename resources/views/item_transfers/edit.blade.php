@@ -39,7 +39,7 @@
                 <!-- qty -->
                 {!! Former::text('qty')->label('texts.qty')->help('texts.item_qty_help') !!}
                 <!-- NOTES -->
-                    {!! Former::textarea('notes')->rows(2) !!}
+                    {!! Former::textarea('notes')->rows(4) !!}
                 </div>
             </div>
         </div>

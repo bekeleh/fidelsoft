@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
+use App\Events\ItemTransferWasCreated;
+use App\Events\ItemTransferWasUpdated;
 
 /**
  * Model Class ItemTransferPresenter.
@@ -25,7 +27,7 @@ class ItemTransfer extends EntityModel
 
     protected $fillable = [
         'product_id',
-        'prev_store_id',
+        'previous_store_id',
         'current_store_id',
         'approval_status_id',
         'approver_id',
@@ -116,5 +118,12 @@ class ItemTransfer extends EntityModel
             return 'warning';
         }
     }
-
 }
+
+ItemTransfer::created(function ($itemTransfer) {
+    event(new ItemTransferWasCreated($itemTransfer));
+});
+
+ItemTransfer::updating(function ($itemTransfer) {
+    event(new ItemTransferWasUpdated());
+});
