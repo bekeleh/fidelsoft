@@ -253,6 +253,11 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('credits/create/{client_id?}/{invoice_id?}', 'CreditController@create');
     Route::get('api/credits/{client_id?}', 'CreditController@getDatatable');
     Route::post('credits/bulk', 'CreditController@bulk');
+    //  approval status
+    Route::get('approval_statuses/{approval_statuses}/clone', 'ApprovalStatusController@cloneApprovalStatus');
+    Route::get('api/approval_statuses', 'ApprovalStatusController@getDatatable');
+    Route::resource('approval_statuses', 'ApprovalStatusController');
+    Route::post('approval_statuses/bulk', 'ApprovalStatusController@bulk');
 //  product
     Route::get('products/{products}/clone', 'ProductController@cloneProduct');
     Route::get('api/products', 'ProductController@getDatatable');

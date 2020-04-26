@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\AccountGateway;
 use App\Models\AccountGatewayToken;
 use App\Models\AccountToken;
+use App\Models\ApprovalStatus;
 use App\Models\BankAccount;
 use App\Models\Client;
 use App\Models\Contact;
@@ -38,6 +39,7 @@ use App\Models\TaxRate;
 use App\Models\User;
 use App\Models\Vendor;
 use App\Policies\AccountGatewayPolicy;
+use App\Policies\ApprovalStatusPolicy;
 use App\Policies\BankAccountPolicy;
 use App\Policies\ClientPolicy;
 use App\Policies\ContactPolicy;
@@ -83,6 +85,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
+        ApprovalStatus::class => ApprovalStatusPolicy::class,
         User::class => UserPolicy::class,
         Group::class => GroupPolicy::class,
         Permission::class => PermissionPolicy::class,

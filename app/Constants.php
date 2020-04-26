@@ -9,6 +9,7 @@ if (!defined('APP_NAME')) {
     define('ENV_DEVELOPMENT', 'local');
     define('ENV_STAGING', 'staging');
     define('RECENTLY_VIEWED', 'recent_history');
+    define('ENTITY_APPROVAL_STATUS', 'approval_status');
     define('ENTITY_CLIENT', 'client');
     define('ENTITY_CONTACT', 'contact');
     define('ENTITY_INVOICE', 'invoice');
@@ -152,7 +153,6 @@ if (!defined('APP_NAME')) {
     define('ACCOUNT_CUSTOMIZE_DESIGN', 'customize_design');
     define('ACCOUNT_SYSTEM_SETTINGS', 'system_settings');
     define('ACCOUNT_PAYMENT_TERMS', 'payment_terms');
-
     define('ACTION_RESTORE', 'restore');
     define('ACTION_ARCHIVE', 'archive');
     define('ACTION_CLONE', 'clone');

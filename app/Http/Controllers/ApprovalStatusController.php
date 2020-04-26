@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ItemCategoryRequest;
+use App\Http\Requests\ApprovalStatusRequest;
 use App\Libraries\Utils;
 use App\Models\ItemCategory;
-use App\Ninja\Datatables\ItemCategoryDatatable;
-use App\Ninja\Repositories\ItemCategoryRepository;
-use App\Services\ItemCategoryService;
+use App\Ninja\Datatables\ApprovalStatusDatatable;
+use App\Ninja\Repositories\ApprovalStatusRepository;
+use App\Services\ApprovalStatusService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
@@ -15,33 +15,33 @@ use Illuminate\Support\Facades\View;
 use Redirect;
 
 /**
- * Class ItemCategoryController.
+ * Class ApprovalStatusController.
  */
-class ItemCategoryController extends BaseController
+class ApprovalStatusController extends BaseController
 {
+    protected $ApprovalStatusService;
 
-    protected $itemCategoryService;
-
-    protected $itemCategoryRepo;
+    protected $approvalStatusRepo;
 
     /**
      * ItemCategoryController constructor.
      *
-     * @param ItemCategoryService $itemCategoryService
-     * @param ItemCategoryRepository $itemCategoryRepo
+     * @param ApprovalStatusService $ApprovalStatusService
+     * @param ApprovalStatusRepository $approvalStatusRepo
      */
-    public function __construct(ItemCategoryService $itemCategoryService, ItemCategoryRepository $itemCategoryRepo)
+    public function __construct(ApprovalStatusService $ApprovalStatusService, ApprovalStatusRepository $approvalStatusRepo)
     {
         //parent::__construct();
-        $this->itemCategoryService = $itemCategoryService;
-        $this->itemCategoryRepo = $itemCategoryRepo;
+
+        $this->ApprovalStatusService = $ApprovalStatusService;
+        $this->approvalStatusRepo = $approvalStatusRepo;
     }
 
     public function index()
     {
         return View::make('list_wrapper', [
             'entityType' => ENTITY_ITEM_CATEGORY,
-            'datatable' => new ItemCategoryDatatable(),
+            'datatable' => new ApprovalStatusDatatable(),
             'title' => trans('texts.item_categories'),
             'statuses' => ItemCategory::getStatuses(),
         ]);
@@ -59,7 +59,7 @@ class ItemCategoryController extends BaseController
         return $this->itemCategoryService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
     }
 
-    public function edit(ItemCategoryRequest $request, $publicId, $clone = false)
+    public function edit(ApprovalStatusRequest $request, $publicId, $clone = false)
     {
         Auth::user()->can('view', [ENTITY_ITEM_CATEGORY, $request->entity()]);
 
@@ -90,7 +90,7 @@ class ItemCategoryController extends BaseController
         return View::make('item_categories.edit', $data);
     }
 
-    public function create(ItemCategoryRequest $request)
+    public function create(ApprovalStatusRequest $request)
     {
 
         $account = Auth::user()->account;
@@ -106,12 +106,12 @@ class ItemCategoryController extends BaseController
         return View::make('item_categories.edit', $data);
     }
 
-    public function store(ItemCategoryRequest $request)
+    public function store(ApprovalStatusRequest $request)
     {
         return $this->save();
     }
 
-    public function update(ItemCategoryRequest $request, $publicId)
+    public function update(ApprovalStatusRequest $request, $publicId)
     {
         return $this->save($publicId);
     }
@@ -123,7 +123,7 @@ class ItemCategoryController extends BaseController
         } else {
             $itemCategory = ItemCategory::createNew();
         }
-        $this->itemCategoryRepo->save(Input::all(), $itemCategory);
+        $this->approvalStatusRepo->save(Input::all(), $itemCategory);
 
         $action = request('action');
         if (in_array($action, ['archive', 'delete', 'relocation', 'invoice'])) {
@@ -137,7 +137,7 @@ class ItemCategoryController extends BaseController
         }
     }
 
-    public function cloneItemCategory(ItemCategoryRequest $request, $publicId)
+    public function cloneItemCategory(ApprovalStatusRequest $request, $publicId)
     {
         return self::edit($request, $publicId, true);
     }

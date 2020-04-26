@@ -6,16 +6,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
- * Model Class ItemCategory.
+ * Model Class ApprovalStatusService.
  */
-class ItemCategory extends EntityModel
+class ApprovalStatus extends EntityModel
 {
-    protected $presenter = 'App\Ninja\Presenters\ItemCategoryPresenter';
+    protected $presenter = 'App\Ninja\Presenters\ApprovalStatusPresenter';
     use PresentableTrait;
     use SoftDeletes;
 
     protected $appends = [];
-    protected $table = 'item_categories';
+    protected $table = 'approval_statuses';
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
 
     protected $fillable = [
@@ -25,13 +25,14 @@ class ItemCategory extends EntityModel
         'updated_by',
         'deleted_by',
     ];
+
     protected $hidden = [];
     protected $casts = [];
 
 
     public function getEntityType()
     {
-        return ENTITY_ITEM_CATEGORY;
+        return ENTITY_APPROVAL_STATUS;
     }
 
     public function getRoute()
@@ -39,7 +40,7 @@ class ItemCategory extends EntityModel
         return "/item_categories/{$this->public_id}/edit";
     }
 
-    public static function findItemCategoryByKey($key)
+    public static function findApprovalStatusByKey($key)
     {
         return self::scope()->where('name', '=', $key)->first();
     }
@@ -54,8 +55,8 @@ class ItemCategory extends EntityModel
         return $this->belongsTo('App\Models\User', 'user_id')->withTrashed();
     }
 
-    public function brands()
+    public function itemTransfers()
     {
-        return $this->hasMany('App\Models\ItemBrand', 'item_category_id')->withTrashed();
+        return $this->hasMany('App\Models\ItemTransfer', 'approval_status_id')->withTrashed();
     }
 }

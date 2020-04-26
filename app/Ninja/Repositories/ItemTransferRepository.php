@@ -40,6 +40,7 @@ class ItemTransferRepository extends BaseRepository
             ->join('products', 'products.id', '=', 'item_transfers.product_id')
             ->join('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
             ->join('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
+            ->join('stores as previousStore', 'previousStore.id', '=', 'item_transfers.previous_store_id')
             ->join('stores as currentStore', 'currentStore.id', '=', 'item_transfers.current_store_id')
             ->join('approval_statuses', 'approval_statuses.id', '=', 'item_transfers.approval_status_id')
             ->where('item_transfers.account_id', '=', $accountId)
@@ -69,6 +70,8 @@ class ItemTransferRepository extends BaseRepository
                 'item_brands.public_id as item_brand_public_id',
                 'item_categories.name as item_category_name',
                 'item_categories.public_id as item_category_public_id',
+                'previousStore.name as from_store_name',
+                'previousStore.public_id as from_store_public_id',
                 'currentStore.name as to_store_name',
                 'currentStore.public_id as to_store_public_id',
                 'users.username as approver_name',
