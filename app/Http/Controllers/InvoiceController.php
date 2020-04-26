@@ -361,7 +361,7 @@ class InvoiceController extends BaseController
             $message = $message . ' ' . trans('texts.and_created_client');
         }
 
-//        Session::flash('message', $message);
+        Session::flash('message', $message);
 
         if ($action == 'email') {
             $this->emailInvoice($invoice);
@@ -393,7 +393,7 @@ class InvoiceController extends BaseController
         } elseif ($action == 'email') {
             $this->emailInvoice($invoice);
         }
-        
+
         return url($invoice->getRoute());
     }
 
