@@ -19,21 +19,21 @@ use Redirect;
  */
 class ApprovalStatusController extends BaseController
 {
-    protected $ApprovalStatusService;
+    protected $approvalStatusService;
 
     protected $approvalStatusRepo;
 
     /**
      * ApprovalStatusController constructor.
      *
-     * @param ApprovalStatusService $ApprovalStatusService
+     * @param ApprovalStatusService $approvalStatusService
      * @param ApprovalStatusRepository $approvalStatusRepo
      */
-    public function __construct(ApprovalStatusService $ApprovalStatusService, ApprovalStatusRepository $approvalStatusRepo)
+    public function __construct(ApprovalStatusService $approvalStatusService, ApprovalStatusRepository $approvalStatusRepo)
     {
         //parent::__construct();
 
-        $this->ApprovalStatusService = $ApprovalStatusService;
+        $this->approvalStatusService = $approvalStatusService;
         $this->approvalStatusRepo = $approvalStatusRepo;
     }
 
@@ -148,7 +148,7 @@ class ApprovalStatusController extends BaseController
         $ids = Input::get('public_id') ? Input::get('public_id') : Input::get('ids');
         $count = $this->approvalStatusService->bulk($ids, $action);
 
-        $message = Utils::pluralize($action . 'd_approval_status', $count);
+        $message = Utils::pluralize($action . 'd_approval_statuses', $count);
 
         return $this->returnBulk(ENTITY_APPROVAL_STATUS, $action, $ids)->with('message', $message);
     }

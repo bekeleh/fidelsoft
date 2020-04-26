@@ -24,7 +24,6 @@ if (!defined('APP_NAME')) {
     define('ENTITY_TASK_STATUS', 'task_status');
     define('ENTITY_ACCOUNT_GATEWAY', 'account_gateway');
     define('ENTITY_USER', 'user');
-    define('ENTITY_APPROVAL_STATUS', 'approval_status');
     define('ENTITY_GROUP', 'group');
     define('ENTITY_PERMISSION', 'permission');
     define('ENTITY_TOKEN', 'token');
