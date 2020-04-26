@@ -35,9 +35,9 @@
         </div>
     </div>
 
-    <?php if(Auth::user()->canCreateOrEdit(ENTITY_APPROVAL_STATUS, $Status)): ?>
+    <?php if(Auth::user()->canCreateOrEdit(ENTITY_STATUS, $Status)): ?>
         <center class="buttons">
-            <?php echo Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/approval_statuses'))->appendIcon(Icon::create('remove-circle')); ?>
+            <?php echo Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/statuses'))->appendIcon(Icon::create('remove-circle')); ?>
 
             <?php echo Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')); ?>
 

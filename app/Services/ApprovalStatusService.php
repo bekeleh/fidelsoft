@@ -28,10 +28,10 @@ class StatusService extends BaseService
         $datatable = new StatusDatatable(true);
         $query = $this->StatusRepo->find($accountId, $search);
 
-        if (!Utils::hasAccess('view_approval_statuses')) {
-            $query->where('approval_statuses.user_id', '=', Auth::user()->id);
+        if (!Utils::hasAccess('view_statuses')) {
+            $query->where('statuses.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query, 'approval_statuses');
+        return $this->datatableService->createDatatable($datatable, $query, 'statuses');
     }
 }

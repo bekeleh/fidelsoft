@@ -98,8 +98,8 @@ class ItemTransferDataTable extends EntityDatatable
                 'status_name',
                 function ($model) {
                     if ($model->approval_status_public_id) {
-                        if (Auth::user()->can('view', [ENTITY_APPROVAL_STATUS, $model]))
-                            return link_to("approval_statuses/{$model->approval_status_public_id}", $model->status_name)->toHtml();
+                        if (Auth::user()->can('view', [ENTITY_STATUS, $model]))
+                            return link_to("statuses/{$model->approval_status_public_id}", $model->status_name)->toHtml();
                         else
                             return $model->status_name;
                     } else {

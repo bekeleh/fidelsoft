@@ -32,7 +32,7 @@ class Status extends EntityModel
 
     public function getEntityType()
     {
-        return ENTITY_APPROVAL_STATUS;
+        return ENTITY_STATUS;
     }
 
     public function getRoute()

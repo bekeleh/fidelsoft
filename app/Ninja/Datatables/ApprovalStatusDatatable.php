@@ -8,7 +8,7 @@ use App\Libraries\Utils;
 
 class StatusDatatable extends EntityDatatable
 {
-    public $entityType = ENTITY_APPROVAL_STATUS;
+    public $entityType = ENTITY_STATUS;
     public $sortCol = 1;
 
     public function columns()
@@ -17,7 +17,7 @@ class StatusDatatable extends EntityDatatable
             [
                 'status_name',
                 function ($model) {
-                    $str = link_to("approval_statuses/{$model->public_id}", $model->status_name ?: '')->toHtml();
+                    $str = link_to("statuses/{$model->public_id}", $model->status_name ?: '')->toHtml();
                     return $str;
                 },
             ],
@@ -66,19 +66,19 @@ class StatusDatatable extends EntityDatatable
             [
                 trans('texts.edit_approval_status'),
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_APPROVAL_STATUS, $model]))
-                        return URL::to("approval_statuses/{$model->public_id}/edit");
-                    elseif (Auth::user()->can('view', [ENTITY_APPROVAL_STATUS, $model]))
-                        return URL::to("approval_statuses/{$model->public_id}");
+                    if (Auth::user()->can('edit', [ENTITY_STATUS, $model]))
+                        return URL::to("statuses/{$model->public_id}/edit");
+                    elseif (Auth::user()->can('view', [ENTITY_STATUS, $model]))
+                        return URL::to("statuses/{$model->public_id}");
                 },
             ],
             [
                 trans('texts.clone_approval_status'),
                 function ($model) {
-                    return URL::to("approval_statuses/{$model->public_id}/clone");
+                    return URL::to("statuses/{$model->public_id}/clone");
                 },
                 function ($model) {
-                    return Auth::user()->can('create', ENTITY_APPROVAL_STATUS);
+                    return Auth::user()->can('create', ENTITY_STATUS);
                 },
             ],
         ];

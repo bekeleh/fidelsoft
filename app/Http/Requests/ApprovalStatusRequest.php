@@ -6,7 +6,7 @@ use App\Models\Status;
 
 class StatusRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_APPROVAL_STATUS;
+    protected $entityType = ENTITY_STATUS;
 
     public function authorize()
     {
@@ -21,7 +21,7 @@ class StatusRequest extends EntityRequest
             case 'POST':
             {
                 $this->validationData();
-                $rules['name'] = 'required|max:90|unique:approval_statuses,name,' . $this->id . ',id,account_id,' . $this->account_id;
+                $rules['name'] = 'required|max:90|unique:statuses,name,' . $this->id . ',id,account_id,' . $this->account_id;
                 $rules['notes'] = 'nullable';
                 $rules['is_deleted'] = 'boolean';
                 break;
@@ -32,7 +32,7 @@ class StatusRequest extends EntityRequest
                 $this->validationData();
                 $Status = Status::where('public_id', (int)request()->segment(2))->first();
                 if ($Status) {
-                    $rules['name'] = 'required|max:90|unique:approval_statuses,name,' . $Status->id . ',id,account_id,' . $Status->account_id;
+                    $rules['name'] = 'required|max:90|unique:statuses,name,' . $Status->id . ',id,account_id,' . $Status->account_id;
                     $rules['is_deleted'] = 'boolean';
                     $rules['notes'] = 'nullable';
                     break;

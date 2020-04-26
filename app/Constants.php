@@ -9,7 +9,7 @@ if (!defined('APP_NAME')) {
     define('ENV_DEVELOPMENT', 'local');
     define('ENV_STAGING', 'staging');
     define('RECENTLY_VIEWED', 'recent_history');
-    define('ENTITY_APPROVAL_STATUS', 'approval_status');
+    define('ENTITY_STATUS', 'approval_status');
     define('ENTITY_CLIENT', 'client');
     define('ENTITY_CONTACT', 'contact');
     define('ENTITY_INVOICE', 'invoice');
@@ -62,7 +62,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_PROPOSAL_INVITATION', 'proposal_invitation');
 
     $permissionEntities = [
-        ENTITY_APPROVAL_STATUS,
+        ENTITY_STATUS,
         ENTITY_CLIENT,
         ENTITY_CONTACT,
         ENTITY_CREDIT,
@@ -111,7 +111,7 @@ if (!defined('APP_NAME')) {
     define('PERSON_VENDOR_CONTACT', 'vendorcontact');
     define('BASIC_SETTINGS', 'basic_settings');
     define('ADVANCED_SETTINGS', 'advanced_settings');
-    define('ACCOUNT_APPROVAL_STATUS', 'approval_statuses');
+    define('ACCOUNT_STATUS', 'statuses');
     define('ACCOUNT_COMPANY_DETAILS', 'company_details');
     define('ACCOUNT_USER_DETAILS', 'user_details');
     define('ACCOUNT_LOCALIZATION', 'localization');

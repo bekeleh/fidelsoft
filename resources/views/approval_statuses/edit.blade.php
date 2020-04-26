@@ -30,9 +30,9 @@
         </div>
     </div>
 
-    @if (Auth::user()->canCreateOrEdit(ENTITY_APPROVAL_STATUS, $Status))
+    @if (Auth::user()->canCreateOrEdit(ENTITY_STATUS, $Status))
         <center class="buttons">
-            {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/approval_statuses'))->appendIcon(Icon::create('remove-circle')) !!}
+            {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/statuses'))->appendIcon(Icon::create('remove-circle')) !!}
             {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
             @if ($Status)
                 {!! DropdownButton::normal(trans('texts.more_actions'))

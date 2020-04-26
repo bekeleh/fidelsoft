@@ -28,33 +28,33 @@ class StatusRepository extends BaseRepository
 
     public function find($accountId, $filter = null)
     {
-        $query = DB::table('approval_statuses')
-            ->join('accounts', 'accounts.id', '=', 'approval_statuses.account_id')
-            ->join('users', 'users.id', '=', 'approval_statuses.user_id')
-            ->where('approval_statuses.account_id', '=', $accountId)
-//            ->where('approval_statuses.deleted_at', '=', null)
+        $query = DB::table('statuses')
+            ->join('accounts', 'accounts.id', '=', 'statuses.account_id')
+            ->join('users', 'users.id', '=', 'statuses.user_id')
+            ->where('statuses.account_id', '=', $accountId)
+//            ->where('statuses.deleted_at', '=', null)
             ->select(
-                'approval_statuses.id',
-                'approval_statuses.public_id',
-                'approval_statuses.name as status_name',
-                'approval_statuses.is_deleted',
-                'approval_statuses.notes',
-                'approval_statuses.created_at',
-                'approval_statuses.updated_at',
-                'approval_statuses.deleted_at',
-                'approval_statuses.created_by',
-                'approval_statuses.updated_by',
-                'approval_statuses.deleted_by'
+                'statuses.id',
+                'statuses.public_id',
+                'statuses.name as status_name',
+                'statuses.is_deleted',
+                'statuses.notes',
+                'statuses.created_at',
+                'statuses.updated_at',
+                'statuses.deleted_at',
+                'statuses.created_by',
+                'statuses.updated_by',
+                'statuses.deleted_by'
             );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
-                $query->where('approval_statuses.name', 'like', '%' . $filter . '%')
-                    ->orWhere('approval_statuses.notes', 'like', '%' . $filter . '%');
+                $query->where('statuses.name', 'like', '%' . $filter . '%')
+                    ->orWhere('statuses.notes', 'like', '%' . $filter . '%');
             });
         }
 
-        $this->applyFilters($query, ENTITY_APPROVAL_STATUS);
+        $this->applyFilters($query, ENTITY_STATUS);
 
         return $query;
     }

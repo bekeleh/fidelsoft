@@ -40,9 +40,9 @@ class StatusController extends BaseController
     public function index()
     {
         return View::make('list_wrapper', [
-            'entityType' => ENTITY_APPROVAL_STATUS,
+            'entityType' => ENTITY_STATUS,
             'datatable' => new StatusDatatable(),
-            'title' => trans('texts.approval_statuses'),
+            'title' => trans('texts.statuses'),
             'statuses' => Status::getStatuses(),
         ]);
     }
@@ -51,7 +51,7 @@ class StatusController extends BaseController
     {
         Session::reflash();
 
-        return Redirect::to("approval_statuses/$publicId/edit");
+        return Redirect::to("statuses/$publicId/edit");
     }
 
     public function getDatatable()
@@ -61,7 +61,7 @@ class StatusController extends BaseController
 
     public function edit(StatusRequest $request, $publicId, $clone = false)
     {
-        Auth::user()->can('view', [ENTITY_APPROVAL_STATUS, $request->entity()]);
+        Auth::user()->can('view', [ENTITY_STATUS, $request->entity()]);
 
         $account = Auth::user()->account;
 
@@ -71,10 +71,10 @@ class StatusController extends BaseController
             $Status->id = null;
             $Status->public_id = null;
             $Status->deleted_at = null;
-            $url = 'approval_statuses';
+            $url = 'statuses';
             $method = 'POST';
         } else {
-            $url = 'approval_statuses/' . $publicId;
+            $url = 'statuses/' . $publicId;
             $method = 'PUT';
         }
 
@@ -87,7 +87,7 @@ class StatusController extends BaseController
             'title' => trans('texts.edit_approval_status'),
         ];
 
-        return View::make('approval_statuses.edit', $data);
+        return View::make('statuses.edit', $data);
     }
 
     public function create(StatusRequest $request)
@@ -99,11 +99,11 @@ class StatusController extends BaseController
             'account' => $account,
             'Status' => null,
             'method' => 'POST',
-            'url' => 'approval_statuses',
+            'url' => 'statuses',
             'title' => trans('texts.create_approval_status'),
         ];
 
-        return View::make('approval_statuses.edit', $data);
+        return View::make('statuses.edit', $data);
     }
 
     public function store(StatusRequest $request)
@@ -131,9 +131,9 @@ class StatusController extends BaseController
         }
 
         if ($action == 'clone') {
-            return redirect()->to(sprintf('approval_statuses/%s/clone', $Status->public_id))->with('success', trans('texts.clone_approval_status'));
+            return redirect()->to(sprintf('statuses/%s/clone', $Status->public_id))->with('success', trans('texts.clone_approval_status'));
         } else {
-            return redirect()->to("approval_statuses/{$Status->public_id}/edit")->with('success', trans('texts.updated_approval_status'));
+            return redirect()->to("statuses/{$Status->public_id}/edit")->with('success', trans('texts.updated_approval_status'));
         }
     }
 
@@ -150,6 +150,6 @@ class StatusController extends BaseController
 
         $message = Utils::pluralize($action . 'd_approval_status', $count);
 
-        return $this->returnBulk(ENTITY_APPROVAL_STATUS, $action, $ids)->with('message', $message);
+        return $this->returnBulk(ENTITY_STATUS, $action, $ids)->with('message', $message);
     }
 }

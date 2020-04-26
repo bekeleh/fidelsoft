@@ -14,7 +14,7 @@ class StatusApiController extends BaseAPIController
     /**
      * @var string
      */
-    protected $entityType = ENTITY_APPROVAL_STATUS;
+    protected $entityType = ENTITY_STATUS;
 
     /**
      * @var StatusRepository
@@ -35,13 +35,13 @@ class StatusApiController extends BaseAPIController
 
     /**
      * @SWG\Get(
-     *   path="/approval_statuses",
-     *   summary="List approval_statuses",
+     *   path="/statuses",
+     *   summary="List statuses",
      *   operationId="listStatuss",
      *   tags={"approval status"},
      *   @SWG\Response(
      *     response=200,
-     *     description="A list of approval_statuses",
+     *     description="A list of statuses",
      *      @SWG\Schema(type="array", @SWG\Items(ref="#/definitions/Status"))
      *   ),
      *   @SWG\Response(
@@ -59,7 +59,7 @@ class StatusApiController extends BaseAPIController
 
     /**
      * @SWG\Get(
-     *   path="/approval_statuses/{approval_status_id}",
+     *   path="/statuses/{approval_status_id}",
      *   summary="Retrieve a approval status",
      *   operationId="getStatus",
      *   tags={"approval status"},
@@ -89,7 +89,7 @@ class StatusApiController extends BaseAPIController
 
     /**
      * @SWG\Post(
-     *   path="/approval_statuses",
+     *   path="/statuses",
      *   summary="Create a approval status",
      *   operationId="createStatus",
      *   tags={"approval status"},
@@ -120,7 +120,7 @@ class StatusApiController extends BaseAPIController
 
     /**
      * @SWG\Put(
-     *   path="/approval_statuses/{approval_status_id}",
+     *   path="/statuses/{approval_status_id}",
      *   summary="Update a approval status",
      *   operationId="updateStatus",
      *   tags={"approval status"},
@@ -165,7 +165,7 @@ class StatusApiController extends BaseAPIController
 
     /**
      * @SWG\Delete(
-     *   path="/approval_statuses/{approval_status_id}",
+     *   path="/statuses/{approval_status_id}",
      *   summary="Delete a approval status",
      *   operationId="deleteStatus",
      *   tags={"approval status"},

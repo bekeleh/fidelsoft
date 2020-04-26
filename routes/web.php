@@ -254,10 +254,10 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('api/credits/{client_id?}', 'CreditController@getDatatable');
     Route::post('credits/bulk', 'CreditController@bulk');
     //  approval status
-    Route::get('approval_statuses/{approval_statuses}/clone', 'StatusController@cloneStatus');
-    Route::get('api/approval_statuses', 'StatusController@getDatatable');
-    Route::resource('approval_statuses', 'StatusController');
-    Route::post('approval_statuses/bulk', 'StatusController@bulk');
+    Route::get('statuses/{statuses}/clone', 'StatusController@cloneStatus');
+    Route::get('api/statuses', 'StatusController@getDatatable');
+    Route::resource('statuses', 'StatusController');
+    Route::post('statuses/bulk', 'StatusController@bulk');
 //  product
     Route::get('products/{products}/clone', 'ProductController@cloneProduct');
     Route::get('api/products', 'ProductController@getDatatable');

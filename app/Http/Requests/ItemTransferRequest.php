@@ -25,7 +25,7 @@ class ItemTransferRequest extends EntityRequest
                 $rules['product_id'] = 'required|array';
                 $rules['previous_store_id'] = 'required|numeric';
                 $rules['current_store_id'] = 'required|numeric|different:previous_store_id';
-//                $rules['approver_id'] = 'required|numeric|exists:approval_statuses';
+//                $rules['approver_id'] = 'required|numeric|exists:statuses';
                 $rules['notes'] = 'nullable';
                 $rules['is_deleted'] = 'boolean';
                 $rules['notes'] = 'nullable';
@@ -40,7 +40,7 @@ class ItemTransferRequest extends EntityRequest
                     $rules['product_id'] = 'required|array';
                     $rules['previous_store_id'] = 'required|numeric';
                     $rules['current_store_id'] = 'required|numeric|different:previous_store_id';
-//                    $rules['approver_id'] = 'required|numeric|exists:approval_statuses';
+//                    $rules['approver_id'] = 'required|numeric|exists:statuses';
                     $rules['is_deleted'] = 'boolean';
                     $rules['notes'] = 'nullable';
                     break;

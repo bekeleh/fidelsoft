@@ -24,7 +24,7 @@ class StatusPresenter extends EntityPresenter
         $actions = [];
 
         if (!$Status->trashed()) {
-            if (auth()->user()->can('create', ENTITY_APPROVAL_STATUS)) {
+            if (auth()->user()->can('create', ENTITY_STATUS)) {
                 $actions[] = ['url' => 'javascript:submitAction("clone")', 'label' => trans('texts.clone_approval_status')];
             }
             if (count($actions)) {

@@ -42,7 +42,7 @@ class ItemTransferRepository extends BaseRepository
             ->join('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
             ->join('stores as previousStore', 'previousStore.id', '=', 'item_transfers.previous_store_id')
             ->join('stores as currentStore', 'currentStore.id', '=', 'item_transfers.current_store_id')
-            ->join('approval_statuses', 'approval_statuses.id', '=', 'item_transfers.approval_status_id')
+            ->join('statuses', 'statuses.id', '=', 'item_transfers.approval_status_id')
             ->where('item_transfers.account_id', '=', $accountId)
             //->where('item_transfers.deleted_at', '=', null)
             ->select(
@@ -76,8 +76,8 @@ class ItemTransferRepository extends BaseRepository
                 'currentStore.public_id as to_store_public_id',
                 'users.username as approver_name',
                 'users.public_id as approver_public_id',
-                'approval_statuses.name as status_name',
-                'approval_statuses.public_id as approval_status_public_id'
+                'statuses.name as status_name',
+                'statuses.public_id as approval_status_public_id'
             );
         if ($filter) {
             $query->where(function ($query) use ($filter) {

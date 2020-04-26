@@ -9,9 +9,9 @@ $LANG = array(
 */
     'status_name' => 'Status Name',
     'status' => 'Status',
-    'approval_statuses' => 'Statuses',
+    'statuses' => 'Statuses',
     'new_status' => 'New Status',
-    'list_approval_statuses' => 'List Status',
+    'list_statuses' => 'List Status',
     'create_status' => 'Create Status',
     'edit_status' => 'Edit Status',
     'clone_status' => 'Clone Status',
