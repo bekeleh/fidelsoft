@@ -5,10 +5,16 @@
         <style type="text/css">
             .nav-footer {
                 @if (config('mail.driver') == 'log' && ! config('services.postmark'))
-                      background-color: #50C878 !important;
+                                 background-color: #50C878 !important;
                 @else
-                      background-color: #FD6A02 !important;
+                                 background-color: #FD6A02 !important;
             @endif
+
+
+
+
+
+
 
 
 
@@ -378,6 +384,7 @@
             <ul class="sidebar-nav {{ Auth::user()->dark_mode ? 'sidebar-nav-dark' : 'sidebar-nav-light' }}">
                 @foreach([
                 'dashboard',
+                'users',
                 'clients',
                 'vendors',
                 'invoices',
@@ -390,7 +397,6 @@
                 'tasks',
                 'expenses',
                 'products',
-                'locations',
 
                 ] as $option)
                     @if(!Auth::user()->account->isModuleEnabled(substr($option, 0, -1)))
@@ -435,9 +441,18 @@
                 @if (!isset($showBreadcrumbs) || $showBreadcrumbs)
                     {!! Form::breadcrumbs((! empty($entity) && $entity->exists) ? $entity->present()->statusLabel : false) !!}
                 @endif
-            <!-- notification -->
-                @include('notifications')
-                @yield('content')
+                <br/>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- notification -->
+                        @include('notifications')
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        @yield('content')
+                    </div>
+                </div>
                 <br/>
                 <div class="row">
                     <div class="col-md-12">

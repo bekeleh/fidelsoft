@@ -34,18 +34,24 @@ class ProductDatatable extends EntityDatatable
                     return link_to('item_categories/' . $model->public_id . '/edit', $model->item_category_name)->toHtml();
                 },
             ],
-            [
-                'barcode',
-                function ($model) {
-                    return $model->barcode;
-                },
-            ],
-            [
-                'item_tag',
-                function ($model) {
-                    return $model->item_tag;
-                },
-            ],
+//            [
+//                'item_serial',
+//                function ($model) {
+//                    return $model->item_serial;
+//                },
+//            ],
+//            [
+//                'item_barcode',
+//                function ($model) {
+//                    return $model->item_barcode;
+//                },
+//            ],
+//            [
+//                'item_tag',
+//                function ($model) {
+//                    return $model->item_tag;
+//                },
+//            ],
             [
                 'item_cost',
                 function ($model) {
@@ -77,18 +83,18 @@ class ProductDatatable extends EntityDatatable
                     return $model->tax_rate2 ? ($model->tax_name2 . ' ' . $model->tax_rate2 . '%') : '';
                 },
             ],
-            [
-                'created_by',
-                function ($model) {
-                    return $model->created_by;
-                },
-            ],
-            [
-                'updated_by',
-                function ($model) {
-                    return $model->updated_by;
-                },
-            ],
+//            [
+//                'created_by',
+//                function ($model) {
+//                    return $model->created_by;
+//                },
+//            ],
+//            [
+//                'updated_by',
+//                function ($model) {
+//                    return $model->updated_by;
+//                },
+//            ],
             [
                 'created_at',
                 function ($model) {

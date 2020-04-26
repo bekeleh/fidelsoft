@@ -110,7 +110,7 @@ class EntityModel extends Eloquent
                 $parent = count($relations) > 0 ? $relations[0] : '';
                 $child = count($relations) > 1 ? $relations[1] : '';
                 if ($parent != null && $child != null) {
-                    if ($subQuery->$parent->name != '') {
+                    if (!empty($subQuery->$parent->name)) {
                         $name_str .= e($subQuery->name) . ' (' . e($subQuery->$parent->name) . ')' . ' (' . e($subQuery->$parent->$child->name) . ')';
                     } else {
                         $name_str .= e($subQuery->name);

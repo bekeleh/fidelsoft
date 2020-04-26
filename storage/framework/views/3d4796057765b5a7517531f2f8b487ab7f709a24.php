@@ -4,10 +4,16 @@
         <style type="text/css">
             .nav-footer {
                 <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?>
-                      background-color: #50C878 !important;
+                                 background-color: #50C878 !important;
                 <?php else: ?>
-                      background-color: #FD6A02 !important;
+                                 background-color: #FD6A02 !important;
             <?php endif; ?>
+
+
+
+
+
+
 
 
 
@@ -386,6 +392,7 @@
             <ul class="sidebar-nav <?php echo e(Auth::user()->dark_mode ? 'sidebar-nav-dark' : 'sidebar-nav-light'); ?>">
                 <?php $__currentLoopData = [
                 'dashboard',
+                'users',
                 'clients',
                 'vendors',
                 'invoices',
@@ -398,7 +405,6 @@
                 'tasks',
                 'expenses',
                 'products',
-                'locations',
 
                 ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <?php if(!Auth::user()->account->isModuleEnabled(substr($option, 0, -1))): ?>
@@ -447,9 +453,18 @@
                     <?php echo Form::breadcrumbs((! empty($entity) && $entity->exists) ? $entity->present()->statusLabel : false); ?>
 
                 <?php endif; ?>
-            <!-- notification -->
-                <?php echo $__env->make('notifications', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                <?php echo $__env->yieldContent('content'); ?>
+                <br/>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- notification -->
+                        <?php echo $__env->make('notifications', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php echo $__env->yieldContent('content'); ?>
+                    </div>
+                </div>
                 <br/>
                 <div class="row">
                     <div class="col-md-12">

@@ -17,6 +17,7 @@ use App\Ninja\Mailers\ContactMailer as Mailer;
 use App\Ninja\Repositories\ClientRepository;
 use App\Ninja\Repositories\InvoiceRepository;
 use App\Services\InvoiceService;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Input;
@@ -33,7 +34,11 @@ class QuoteController extends BaseController
     protected $invoiceService;
     protected $entityType = ENTITY_INVOICE;
 
-    public function __construct(Mailer $mailer, InvoiceRepository $invoiceRepo, ClientRepository $clientRepo, InvoiceService $invoiceService)
+    public function __construct(
+        Mailer $mailer,
+        InvoiceRepository $invoiceRepo,
+        ClientRepository $clientRepo,
+        InvoiceService $invoiceService)
     {
         // parent::__construct();
 
@@ -52,6 +57,7 @@ class QuoteController extends BaseController
             'title' => trans('texts.quotes'),
             'entityType' => ENTITY_QUOTE,
             'datatable' => $datatable,
+            'statuses' => Invoice::getStatuses(),
         ];
 
         return response()->view('list_wrapper', $data);
@@ -99,7 +105,8 @@ class QuoteController extends BaseController
         return [
             'entityType' => ENTITY_QUOTE,
             'account' => Auth::user()->account->load('country'),
-            'products' => Product::scope()->orderBy('name')->get(),
+//            'products' => Product::scope()->orderBy('name')->get(),
+            'products' => Product::withCategory('itemBrand.itemCategory'),
             'taxRateOptions' => $account->present()->taxRateOptions,
             'clients' => Client::scope()->with('contacts', 'country')->orderBy('name')->get(),
             'taxRates' => TaxRate::scope()->orderBy('name')->get(),
@@ -155,7 +162,7 @@ class QuoteController extends BaseController
         }
 
         if ($invoice->due_date) {
-            $carbonDueDate = \Carbon::parse($invoice->due_date);
+            $carbonDueDate = Carbon::parse($invoice->due_date);
             if (!$carbonDueDate->isToday() && !$carbonDueDate->isFuture()) {
                 return redirect("view/{$invitationKey}")->withError(trans('texts.quote_has_expired'));
             }

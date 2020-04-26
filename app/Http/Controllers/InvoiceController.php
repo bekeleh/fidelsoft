@@ -361,7 +361,7 @@ class InvoiceController extends BaseController
             $message = $message . ' ' . trans('texts.and_created_client');
         }
 
-        Session::flash('message', $message);
+//        Session::flash('message', $message);
 
         if ($action == 'email') {
             $this->emailInvoice($invoice);
@@ -379,6 +379,7 @@ class InvoiceController extends BaseController
         $entityType = Input::get('entityType');
 
         $invoice = $this->invoiceService->save($data, $request->entity());
+
         $entityType = $invoice->getEntityType();
         $message = trans("texts.updated_{$entityType}");
         Session::flash('message', $message);
@@ -392,7 +393,7 @@ class InvoiceController extends BaseController
         } elseif ($action == 'email') {
             $this->emailInvoice($invoice);
         }
-
+        
         return url($invoice->getRoute());
     }
 
