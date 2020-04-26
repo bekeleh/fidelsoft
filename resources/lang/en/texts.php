@@ -4,28 +4,27 @@ $LANG = array(
 
     /*
 |--------------------------------------------------------------------------
-| Approval Status  trans
+| Status  trans
 |--------------------------------------------------------------------------
 */
-
-    'approval_status_name' => 'Approval Status Name',
-    'approval_status' => 'Approval Status',
-    'approval_statuses' => 'Approval Statues',
-    'new_approval_status' => 'New Approval Status',
-    'list_approval_statuses' => 'List Approval Status',
-    'create_approval_status' => 'Create Approval Status',
-    'edit_approval_status' => 'Edit Approval Status',
-    'clone_approval_status' => 'Clone Approval Status',
-    'archive_approval_status' => 'Archive Approval Status',
-    'delete_approval_status' => 'Delete Approval Status',
-    'deleted_approval_status' => 'Deleted Approval Status',
-    'restore_approval_status' => 'Restore Approval Status',
-    'restored_approval_status' => 'Restored Approval Status',
-    'updated_approval_status' => 'Successfully Updated Approval Status',
-    'created_approval_status' => 'Successfully Created Approval Status',
-    'archived_approval_status' => 'Successfully Archived Approval Status',
-    'approval_status_settings' => 'Approval Status Settings',
-    'approval_status_help' => 'Sets the default <b>approval status</b>',
+    'status_name' => 'Status Name',
+    'status' => 'Status',
+    'approval_statuses' => 'Statuses',
+    'new_status' => 'New Status',
+    'list_approval_statuses' => 'List Status',
+    'create_status' => 'Create Status',
+    'edit_status' => 'Edit Status',
+    'clone_status' => 'Clone Status',
+    'archive_status' => 'Archive Status',
+    'delete_status' => 'Delete Status',
+    'deleted_status' => 'Deleted Status',
+    'restore_status' => 'Restore Status',
+    'restored_status' => 'Restored Status',
+    'updated_status' => 'Successfully Updated Status',
+    'created_status' => 'Successfully Created Status',
+    'archived_status' => 'Successfully Archived Status',
+    'status_settings' => 'Status Settings',
+    'status_help' => 'Sets the default <b>approval status</b>',
 
     /*
 |--------------------------------------------------------------------------
@@ -578,7 +577,6 @@ $LANG = array(
     'last_login' => 'Last Login',
     'balance' => 'Balance',
     'action' => 'Action',
-    'status' => 'Status',
     'invoice_total' => 'Invoice Total',
     'frequency' => 'Frequency',
     'start_date' => 'Start Date',
@@ -3096,8 +3094,6 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'ready_to_do' => 'Ready to do',
     'in_progress' => 'In progress',
     'add_status' => 'Add status',
-    'archive_status' => 'Archive Status',
-    'new_status' => 'New Status',
     'convert_products' => 'Convert Products',
     'convert_products_help' => 'Automatically convert product prices to the client\'s currency',
     'improve_client_portal_link' => 'Set a subdomain to shorten the client portal link.',
@@ -3182,7 +3178,6 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'deleted_proposal_categories' => 'Successfully archived :count categories',
     'restored_proposal_category' => 'Successfully restored category',
     'restore_proposal_category' => 'Restore Category',
-    'delete_status' => 'Delete Status',
     'standard' => 'Standard',
     'icon' => 'Icon',
     'proposal_not_found' => 'The requested proposal is not available',

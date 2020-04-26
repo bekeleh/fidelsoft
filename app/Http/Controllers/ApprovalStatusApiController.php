@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ApprovalStatusRequest;
-use App\Models\ApprovalStatus;
-use App\Ninja\Repositories\ApprovalStatusRepository;
+use App\Http\Requests\StatusRequest;
+use App\Models\Status;
+use App\Ninja\Repositories\StatusRepository;
 
 /**
- * Class ApprovalStatusApiController.
+ * Class StatusApiController.
  */
-class ApprovalStatusApiController extends BaseAPIController
+class StatusApiController extends BaseAPIController
 {
     /**
      * @var string
@@ -17,32 +17,32 @@ class ApprovalStatusApiController extends BaseAPIController
     protected $entityType = ENTITY_APPROVAL_STATUS;
 
     /**
-     * @var ApprovalStatusRepository
+     * @var StatusRepository
      */
-    protected $approvalStatusRepo;
+    protected $StatusRepo;
 
     /**
-     * ApprovalStatusApiController constructor.
+     * StatusApiController constructor.
      *
-     * @param ApprovalStatusRepository $approvalStatusRepo
+     * @param StatusRepository $StatusRepo
      */
-    public function __construct(ApprovalStatusRepository $approvalStatusRepo)
+    public function __construct(StatusRepository $StatusRepo)
     {
         parent::__construct();
 
-        $this->approvalStatusRepo = $approvalStatusRepo;
+        $this->StatusRepo = $StatusRepo;
     }
 
     /**
      * @SWG\Get(
      *   path="/approval_statuses",
      *   summary="List approval_statuses",
-     *   operationId="listApprovalStatuss",
+     *   operationId="listStatuss",
      *   tags={"approval status"},
      *   @SWG\Response(
      *     response=200,
      *     description="A list of approval_statuses",
-     *      @SWG\Schema(type="array", @SWG\Items(ref="#/definitions/ApprovalStatus"))
+     *      @SWG\Schema(type="array", @SWG\Items(ref="#/definitions/Status"))
      *   ),
      *   @SWG\Response(
      *     response="default",
@@ -52,16 +52,16 @@ class ApprovalStatusApiController extends BaseAPIController
      */
     public function index()
     {
-        $approvalStatuses = ApprovalStatus::scope()->withTrashed()->orderBy('created_at', 'desc');
+        $Statuses = Status::scope()->withTrashed()->orderBy('created_at', 'desc');
 
-        return $this->listResponse($approvalStatuses);
+        return $this->listResponse($Statuses);
     }
 
     /**
      * @SWG\Get(
      *   path="/approval_statuses/{approval_status_id}",
      *   summary="Retrieve a approval status",
-     *   operationId="getApprovalStatus",
+     *   operationId="getStatus",
      *   tags={"approval status"},
      *   @SWG\Parameter(
      *     in="path",
@@ -72,17 +72,17 @@ class ApprovalStatusApiController extends BaseAPIController
      *   @SWG\Response(
      *     response=200,
      *     description="A single approval status",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/ApprovalStatus"))
+     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Status"))
      *   ),
      *   @SWG\Response(
      *     response="default",
      *     description="an ""unexpected"" error"
      *   )
      * )
-     * @param ApprovalStatusRequest $request
+     * @param StatusRequest $request
      * @return
      */
-    public function show(ApprovalStatusRequest $request)
+    public function show(StatusRequest $request)
     {
         return $this->itemResponse($request->entity());
     }
@@ -91,38 +91,38 @@ class ApprovalStatusApiController extends BaseAPIController
      * @SWG\Post(
      *   path="/approval_statuses",
      *   summary="Create a approval status",
-     *   operationId="createApprovalStatus",
+     *   operationId="createStatus",
      *   tags={"approval status"},
      *   @SWG\Parameter(
      *     in="body",
      *     name="body",
-     *     @SWG\Schema(ref="#/definitions/ApprovalStatus")
+     *     @SWG\Schema(ref="#/definitions/Status")
      *   ),
      *   @SWG\Response(
      *     response=200,
      *     description="New approval status",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/ApprovalStatus"))
+     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Status"))
      *   ),
      *   @SWG\Response(
      *     response="default",
      *     description="an ""unexpected"" error"
      *   )
      * )
-     * @param ApprovalStatusRequest $request
+     * @param StatusRequest $request
      * @return
      */
-    public function store(ApprovalStatusRequest $request)
+    public function store(StatusRequest $request)
     {
-        $approvalStatus = $this->approvalStatusRepo->save($request->input());
+        $Status = $this->StatusRepo->save($request->input());
 
-        return $this->itemResponse($approvalStatus);
+        return $this->itemResponse($Status);
     }
 
     /**
      * @SWG\Put(
      *   path="/approval_statuses/{approval_status_id}",
      *   summary="Update a approval status",
-     *   operationId="updateApprovalStatus",
+     *   operationId="updateStatus",
      *   tags={"approval status"},
      *   @SWG\Parameter(
      *     in="path",
@@ -133,12 +133,12 @@ class ApprovalStatusApiController extends BaseAPIController
      *   @SWG\Parameter(
      *     in="body",
      *     name="approval status",
-     *     @SWG\Schema(ref="#/definitions/ApprovalStatus")
+     *     @SWG\Schema(ref="#/definitions/Status")
      *   ),
      *   @SWG\Response(
      *     response=200,
      *     description="Updated approval status",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/ApprovalStatus"))
+     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Status"))
      *   ),
      *   @SWG\Response(
      *     response="default",
@@ -146,11 +146,11 @@ class ApprovalStatusApiController extends BaseAPIController
      *   )
      * )
      *
-     * @param ApprovalStatusRequest $request
+     * @param StatusRequest $request
      * @param mixed $publicId
      * @return
      */
-    public function update(ApprovalStatusRequest $request, $publicId)
+    public function update(StatusRequest $request, $publicId)
     {
         if ($request->action) {
             return $this->handleAction($request);
@@ -158,16 +158,16 @@ class ApprovalStatusApiController extends BaseAPIController
 
         $data = $request->input();
         $data['public_id'] = $publicId;
-        $approvalStatus = $this->approvalStatusRepo->save($data, $request->entity());
+        $Status = $this->StatusRepo->save($data, $request->entity());
 
-        return $this->itemResponse($approvalStatus);
+        return $this->itemResponse($Status);
     }
 
     /**
      * @SWG\Delete(
      *   path="/approval_statuses/{approval_status_id}",
      *   summary="Delete a approval status",
-     *   operationId="deleteApprovalStatus",
+     *   operationId="deleteStatus",
      *   tags={"approval status"},
      *   @SWG\Parameter(
      *     in="path",
@@ -178,22 +178,22 @@ class ApprovalStatusApiController extends BaseAPIController
      *   @SWG\Response(
      *     response=200,
      *     description="Deleted approval status",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/ApprovalStatus"))
+     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Status"))
      *   ),
      *   @SWG\Response(
      *     response="default",
      *     description="an ""unexpected"" error"
      *   )
      * )
-     * @param ApprovalStatusRequest $request
+     * @param StatusRequest $request
      * @return
      */
-    public function destroy(ApprovalStatusRequest $request)
+    public function destroy(StatusRequest $request)
     {
-        $approvalStatus = $request->entity();
+        $Status = $request->entity();
 
-        $this->approvalStatusRepo->delete($approvalStatus);
+        $this->StatusRepo->delete($Status);
 
-        return $this->itemResponse($approvalStatus);
+        return $this->itemResponse($Status);
     }
 }

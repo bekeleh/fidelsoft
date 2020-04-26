@@ -2,28 +2,28 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Models\ApprovalStatus;
+use App\Models\Status;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class ApprovalStatusRepository extends BaseRepository
+class StatusRepository extends BaseRepository
 {
     private $model;
 
-    public function __construct(ApprovalStatus $model)
+    public function __construct(Status $model)
     {
         $this->model = $model;
     }
 
     public function getClassName()
     {
-        return 'App\Models\ApprovalStatus';
+        return 'App\Models\Status';
     }
 
     public function all()
     {
-        return ApprovalStatus::scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return Status::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
     public function find($accountId, $filter = null)
@@ -36,7 +36,7 @@ class ApprovalStatusRepository extends BaseRepository
             ->select(
                 'approval_statuses.id',
                 'approval_statuses.public_id',
-                'approval_statuses.name as approval_status_name',
+                'approval_statuses.name as status_name',
                 'approval_statuses.is_deleted',
                 'approval_statuses.notes',
                 'approval_statuses.created_at',
@@ -59,48 +59,48 @@ class ApprovalStatusRepository extends BaseRepository
         return $query;
     }
 
-    public function save($data, $approvalStatus = null)
+    public function save($data, $Status = null)
     {
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
 
-        if ($approvalStatus) {
-            $approvalStatus->updated_by = Auth::user()->username;
+        if ($Status) {
+            $Status->updated_by = Auth::user()->username;
         } elseif ($publicId) {
-            $approvalStatus = ApprovalStatus::scope($publicId)->withArchived()->firstOrFail();
+            $Status = Status::scope($publicId)->withArchived()->firstOrFail();
             \Log::warning('Entity not set in approval status repo save');
         } else {
-            $approvalStatus = ApprovalStatus::createNew();
-            $approvalStatus->created_by = Auth::user()->username;
+            $Status = Status::createNew();
+            $Status->created_by = Auth::user()->username;
         }
-        $approvalStatus->fill($data);
-        $approvalStatus->name = isset($data['name']) ? ucwords(Str::lower(trim($data['name']))) : '';
-        $approvalStatus->notes = isset($data['notes']) ? trim($data['notes']) : '';
-        $approvalStatus->save();
+        $Status->fill($data);
+        $Status->name = isset($data['name']) ? ucwords(Str::lower(trim($data['name']))) : '';
+        $Status->notes = isset($data['notes']) ? trim($data['notes']) : '';
+        $Status->save();
 
-        return $approvalStatus;
+        return $Status;
     }
 
-    public function findPhonetically($approvalStatusName)
+    public function findPhonetically($StatusName)
     {
-        $approvalStatusNameMeta = metaphone($approvalStatusName);
+        $StatusNameMeta = metaphone($StatusName);
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
-        $approvalStatusId = 0;
-        $approvalStatuses = ApprovalStatus::scope()->get();
-        if (!empty($approvalStatuses)) {
-            foreach ($approvalStatuses as $approvalStatus) {
-                if (!$approvalStatus->name) {
+        $StatusId = 0;
+        $Statuses = Status::scope()->get();
+        if (!empty($Statuses)) {
+            foreach ($Statuses as $Status) {
+                if (!$Status->name) {
                     continue;
                 }
-                $map[$approvalStatus->id] = $approvalStatus;
-                $similar = similar_text($approvalStatusNameMeta, metaphone($approvalStatus->name), $percent);
+                $map[$Status->id] = $Status;
+                $similar = similar_text($StatusNameMeta, metaphone($Status->name), $percent);
                 if ($percent > $max) {
-                    $approvalStatusId = $approvalStatus->id;
+                    $StatusId = $Status->id;
                     $max = $percent;
                 }
             }
         }
 
-        return ($approvalStatusId && isset($map[$approvalStatusId])) ? $map[$approvalStatusId] : null;
+        return ($StatusId && isset($map[$StatusId])) ? $map[$StatusId] : null;
     }
 }

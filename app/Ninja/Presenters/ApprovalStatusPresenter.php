@@ -5,25 +5,25 @@ namespace App\Ninja\Presenters;
 use DropdownButton;
 use App\Libraries\Skype\HeroCard;
 
-class ApprovalStatusPresenter extends EntityPresenter
+class StatusPresenter extends EntityPresenter
 {
     public function skypeBot($account)
     {
-        $approvalStatus = $this->entity;
+        $Status = $this->entity;
 
         $card = new HeroCard();
-        $card->setTitle($approvalStatus->name);
-        $card->setText($approvalStatus->notes);
+        $card->setTitle($Status->name);
+        $card->setText($Status->notes);
 
         return $card;
     }
 
     public function moreActions()
     {
-        $approvalStatus = $this->entity;
+        $Status = $this->entity;
         $actions = [];
 
-        if (!$approvalStatus->trashed()) {
+        if (!$Status->trashed()) {
             if (auth()->user()->can('create', ENTITY_APPROVAL_STATUS)) {
                 $actions[] = ['url' => 'javascript:submitAction("clone")', 'label' => trans('texts.clone_approval_status')];
             }
@@ -34,7 +34,7 @@ class ApprovalStatusPresenter extends EntityPresenter
         } else {
             $actions[] = ['url' => 'javascript:submitAction("restore")', 'label' => trans("texts.restore_approval_status")];
         }
-        if (!$approvalStatus->is_deleted) {
+        if (!$Status->is_deleted) {
             $actions[] = ['url' => 'javascript:onDeleteClick()', 'label' => trans("texts.delete_approval_status")];
         }
 

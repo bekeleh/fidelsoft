@@ -3,30 +3,30 @@
 namespace App\Services;
 
 use App\Libraries\Utils;
-use App\Ninja\Datatables\ApprovalStatusDatatable;
-use App\Ninja\Repositories\ApprovalStatusRepository;
+use App\Ninja\Datatables\StatusDatatable;
+use App\Ninja\Repositories\StatusRepository;
 use Illuminate\Support\Facades\Auth;
 
-class ApprovalStatusService extends BaseService
+class StatusService extends BaseService
 {
     protected $datatableService;
-    protected $approvalStatusRepo;
+    protected $StatusRepo;
 
-    public function __construct(DatatableService $datatableService, ApprovalStatusRepository $approvalStatusRepo)
+    public function __construct(DatatableService $datatableService, StatusRepository $StatusRepo)
     {
         $this->datatableService = $datatableService;
-        $this->approvalStatusRepo = $approvalStatusRepo;
+        $this->StatusRepo = $StatusRepo;
     }
 
     protected function getRepo()
     {
-        return $this->approvalStatusRepo;
+        return $this->StatusRepo;
     }
 
     public function getDatatable($accountId, $search)
     {
-        $datatable = new ApprovalStatusDatatable(true);
-        $query = $this->approvalStatusRepo->find($accountId, $search);
+        $datatable = new StatusDatatable(true);
+        $query = $this->StatusRepo->find($accountId, $search);
 
         if (!Utils::hasAccess('view_approval_statuses')) {
             $query->where('approval_statuses.user_id', '=', Auth::user()->id);

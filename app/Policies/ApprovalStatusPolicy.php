@@ -3,9 +3,9 @@
 namespace App\Policies;
 
 /**
- * Class ApprovalStatusPolicy.
+ * Class StatusPolicy.
  */
-class ApprovalStatusPolicy extends EntityPolicy
+class StatusPolicy extends EntityPolicy
 {
     public function tableName()
     {

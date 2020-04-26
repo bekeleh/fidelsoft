@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ApprovalStatusRequest;
+use App\Http\Requests\StatusRequest;
 use App\Libraries\Utils;
-use App\Models\ApprovalStatus;
-use App\Ninja\Datatables\ApprovalStatusDatatable;
-use App\Ninja\Repositories\ApprovalStatusRepository;
-use App\Services\ApprovalStatusService;
+use App\Models\Status;
+use App\Ninja\Datatables\StatusDatatable;
+use App\Ninja\Repositories\StatusRepository;
+use App\Services\StatusService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
@@ -15,35 +15,35 @@ use Illuminate\Support\Facades\View;
 use Redirect;
 
 /**
- * Class ApprovalStatusController.
+ * Class StatusController.
  */
-class ApprovalStatusController extends BaseController
+class StatusController extends BaseController
 {
-    protected $approvalStatusService;
+    protected $StatusService;
 
-    protected $approvalStatusRepo;
+    protected $StatusRepo;
 
     /**
-     * ApprovalStatusController constructor.
+     * StatusController constructor.
      *
-     * @param ApprovalStatusService $approvalStatusService
-     * @param ApprovalStatusRepository $approvalStatusRepo
+     * @param StatusService $StatusService
+     * @param StatusRepository $StatusRepo
      */
-    public function __construct(ApprovalStatusService $approvalStatusService, ApprovalStatusRepository $approvalStatusRepo)
+    public function __construct(StatusService $StatusService, StatusRepository $StatusRepo)
     {
         //parent::__construct();
 
-        $this->approvalStatusService = $approvalStatusService;
-        $this->approvalStatusRepo = $approvalStatusRepo;
+        $this->StatusService = $StatusService;
+        $this->StatusRepo = $StatusRepo;
     }
 
     public function index()
     {
         return View::make('list_wrapper', [
             'entityType' => ENTITY_APPROVAL_STATUS,
-            'datatable' => new ApprovalStatusDatatable(),
+            'datatable' => new StatusDatatable(),
             'title' => trans('texts.approval_statuses'),
-            'statuses' => ApprovalStatus::getStatuses(),
+            'statuses' => Status::getStatuses(),
         ]);
     }
 
@@ -56,21 +56,21 @@ class ApprovalStatusController extends BaseController
 
     public function getDatatable()
     {
-        return $this->approvalStatusService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
+        return $this->StatusService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
     }
 
-    public function edit(ApprovalStatusRequest $request, $publicId, $clone = false)
+    public function edit(StatusRequest $request, $publicId, $clone = false)
     {
         Auth::user()->can('view', [ENTITY_APPROVAL_STATUS, $request->entity()]);
 
         $account = Auth::user()->account;
 
-        $approvalStatus = ApprovalStatus::scope($publicId)->withTrashed()->firstOrFail();
+        $Status = Status::scope($publicId)->withTrashed()->firstOrFail();
 
         if ($clone) {
-            $approvalStatus->id = null;
-            $approvalStatus->public_id = null;
-            $approvalStatus->deleted_at = null;
+            $Status->id = null;
+            $Status->public_id = null;
+            $Status->deleted_at = null;
             $url = 'approval_statuses';
             $method = 'POST';
         } else {
@@ -80,8 +80,8 @@ class ApprovalStatusController extends BaseController
 
         $data = [
             'account' => $account,
-            'itemCategory' => $approvalStatus,
-            'entity' => $approvalStatus,
+            'Status' => $Status,
+            'entity' => $Status,
             'method' => $method,
             'url' => $url,
             'title' => trans('texts.edit_approval_status'),
@@ -90,14 +90,14 @@ class ApprovalStatusController extends BaseController
         return View::make('approval_statuses.edit', $data);
     }
 
-    public function create(ApprovalStatusRequest $request)
+    public function create(StatusRequest $request)
     {
 
         $account = Auth::user()->account;
 
         $data = [
             'account' => $account,
-            'itemCategory' => null,
+            'Status' => null,
             'method' => 'POST',
             'url' => 'approval_statuses',
             'title' => trans('texts.create_approval_status'),
@@ -106,24 +106,24 @@ class ApprovalStatusController extends BaseController
         return View::make('approval_statuses.edit', $data);
     }
 
-    public function store(ApprovalStatusRequest $request)
+    public function store(StatusRequest $request)
     {
         return $this->save();
     }
 
-    public function update(ApprovalStatusRequest $request, $publicId)
+    public function update(StatusRequest $request, $publicId)
     {
         return $this->save($publicId);
     }
 
-    private function save($approvalStatusPublicId = false)
+    private function save($StatusPublicId = false)
     {
-        if ($approvalStatusPublicId) {
-            $approvalStatus = ApprovalStatus::scope($approvalStatusPublicId)->withTrashed()->firstOrFail();
+        if ($StatusPublicId) {
+            $Status = Status::scope($StatusPublicId)->withTrashed()->firstOrFail();
         } else {
-            $approvalStatus = ApprovalStatus::createNew();
+            $Status = Status::createNew();
         }
-        $this->approvalStatusRepo->save(Input::all(), $approvalStatus);
+        $this->StatusRepo->save(Input::all(), $Status);
 
         $action = request('action');
         if (in_array($action, ['archive', 'delete', 'relocation'])) {
@@ -131,13 +131,13 @@ class ApprovalStatusController extends BaseController
         }
 
         if ($action == 'clone') {
-            return redirect()->to(sprintf('approval_statuses/%s/clone', $approvalStatus->public_id))->with('success', trans('texts.clone_approval_status'));
+            return redirect()->to(sprintf('approval_statuses/%s/clone', $Status->public_id))->with('success', trans('texts.clone_approval_status'));
         } else {
-            return redirect()->to("approval_statuses/{$approvalStatus->public_id}/edit")->with('success', trans('texts.updated_approval_status'));
+            return redirect()->to("approval_statuses/{$Status->public_id}/edit")->with('success', trans('texts.updated_approval_status'));
         }
     }
 
-    public function cloneApprovalStatus(ApprovalStatusRequest $request, $publicId)
+    public function cloneStatus(StatusRequest $request, $publicId)
     {
         return self::edit($request, $publicId, true);
     }
@@ -146,9 +146,9 @@ class ApprovalStatusController extends BaseController
     {
         $action = Input::get('action');
         $ids = Input::get('public_id') ? Input::get('public_id') : Input::get('ids');
-        $count = $this->approvalStatusService->bulk($ids, $action);
+        $count = $this->StatusService->bulk($ids, $action);
 
-        $message = Utils::pluralize($action . 'd_approval_statuses', $count);
+        $message = Utils::pluralize($action . 'd_approval_status', $count);
 
         return $this->returnBulk(ENTITY_APPROVAL_STATUS, $action, $ids)->with('message', $message);
     }

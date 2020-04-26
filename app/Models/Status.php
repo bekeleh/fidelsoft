@@ -6,16 +6,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
- * Model Class ApprovalStatusService.
+ * Model Class StatusService.
  */
-class ApprovalStatus extends EntityModel
+class Status extends EntityModel
 {
-    protected $presenter = 'App\Ninja\Presenters\ApprovalStatusPresenter';
+    protected $presenter = 'App\Ninja\Presenters\StatusPresenter';
     use PresentableTrait;
     use SoftDeletes;
 
     protected $appends = [];
-    protected $table = 'approval_statuses';
+    protected $table = 'statuses';
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
 
     protected $fillable = [
@@ -40,7 +40,7 @@ class ApprovalStatus extends EntityModel
         return "/item_categories/{$this->public_id}/edit";
     }
 
-    public static function findApprovalStatusByKey($key)
+    public static function findStatusByKey($key)
     {
         return self::scope()->where('name', '=', $key)->first();
     }

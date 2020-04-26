@@ -7,8 +7,8 @@
     ->autocomplete('off')
     ->rules(['name' => 'required','notes' => 'required' ])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
-    @if ($approvalStatus)
-        {{ Former::populate($approvalStatus) }}
+    @if ($Status)
+        {{ Former::populate($Status) }}
         <div style="display:none">
             {!! Former::text('public_id') !!}
         </div>
@@ -30,13 +30,13 @@
         </div>
     </div>
 
-    @if (Auth::user()->canCreateOrEdit(ENTITY_APPROVAL_STATUS, $approvalStatus))
+    @if (Auth::user()->canCreateOrEdit(ENTITY_APPROVAL_STATUS, $Status))
         <center class="buttons">
             {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/approval_statuses'))->appendIcon(Icon::create('remove-circle')) !!}
             {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
-            @if ($approvalStatus)
+            @if ($Status)
                 {!! DropdownButton::normal(trans('texts.more_actions'))
-                ->withContents($approvalStatus->present()->moreActions())
+                ->withContents($Status->present()->moreActions())
                 ->large()
                 ->dropup() !!}
             @endif

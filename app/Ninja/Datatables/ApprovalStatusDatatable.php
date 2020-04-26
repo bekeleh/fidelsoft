@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 use App\Libraries\Utils;
 
-class ApprovalStatusDatatable extends EntityDatatable
+class StatusDatatable extends EntityDatatable
 {
     public $entityType = ENTITY_APPROVAL_STATUS;
     public $sortCol = 1;
@@ -15,9 +15,9 @@ class ApprovalStatusDatatable extends EntityDatatable
     {
         return [
             [
-                'approval_status_name',
+                'status_name',
                 function ($model) {
-                    $str = link_to("approval_statuses/{$model->public_id}", $model->approval_status_name ?: '')->toHtml();
+                    $str = link_to("approval_statuses/{$model->public_id}", $model->status_name ?: '')->toHtml();
                     return $str;
                 },
             ],

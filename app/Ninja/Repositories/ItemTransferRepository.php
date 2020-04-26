@@ -76,7 +76,7 @@ class ItemTransferRepository extends BaseRepository
                 'currentStore.public_id as to_store_public_id',
                 'users.username as approver_name',
                 'users.public_id as approver_public_id',
-                'approval_statuses.name as approval_status_name',
+                'approval_statuses.name as status_name',
                 'approval_statuses.public_id as approval_status_public_id'
             );
         if ($filter) {

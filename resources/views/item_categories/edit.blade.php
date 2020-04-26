@@ -29,26 +29,6 @@
             </div>
         </div>
     </div>
-
-    @foreach(Module::getOrdered() as $module)
-        @if(View::exists($module->alias . '::item_categories.edit'))
-            <div class="row">
-                <div class="col-lg-10 col-lg-offset-1">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title in-white">
-                                <i class="fa fa-{{ $module->icon }}"></i>
-                                {{ $module->name}}
-                            </h3>
-                        </div>
-                        <div class="panel-body form-padding-right">
-                            @includeIf($module->alias . '::item_categories.edit')
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
-    @endforeach
     @if (Auth::user()->canCreateOrEdit(ENTITY_ITEM_CATEGORY, $itemCategory))
         <center class="buttons">
             {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/item_categories'))->appendIcon(Icon::create('remove-circle')) !!}

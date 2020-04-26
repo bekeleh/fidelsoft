@@ -23,7 +23,7 @@ Route::post('hooks', 'IntegrationController@subscribe');
 Route::delete('hooks/{subscription_id}', 'IntegrationController@unsubscribe');
 Route::post('email_invoice', 'InvoiceApiController@emailInvoice');
 Route::get('user_accounts', 'AccountApiController@getUserAccounts');
-Route::resource('approval_statuses', 'ApprovalStatusApiController');
+Route::resource('approval_statuses', 'StatusApiController');
 Route::resource('products', 'ProductApiController');
 Route::resource('stores', 'StoreApiController');
 Route::resource('item_stores', 'ItemStoreApiController');

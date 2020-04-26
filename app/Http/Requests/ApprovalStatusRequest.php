@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Models\ApprovalStatus;
+use App\Models\Status;
 
-class ApprovalStatusRequest extends EntityRequest
+class StatusRequest extends EntityRequest
 {
     protected $entityType = ENTITY_APPROVAL_STATUS;
 
@@ -30,9 +30,9 @@ class ApprovalStatusRequest extends EntityRequest
             case 'PATCH':
             {
                 $this->validationData();
-                $approvalStatus = ApprovalStatus::where('public_id', (int)request()->segment(2))->first();
-                if ($approvalStatus) {
-                    $rules['name'] = 'required|max:90|unique:approval_statuses,name,' . $approvalStatus->id . ',id,account_id,' . $approvalStatus->account_id;
+                $Status = Status::where('public_id', (int)request()->segment(2))->first();
+                if ($Status) {
+                    $rules['name'] = 'required|max:90|unique:approval_statuses,name,' . $Status->id . ',id,account_id,' . $Status->account_id;
                     $rules['is_deleted'] = 'boolean';
                     $rules['notes'] = 'nullable';
                     break;
@@ -64,7 +64,7 @@ class ApprovalStatusRequest extends EntityRequest
         $input = $this->input();
         if (count($input)) {
             $this->request->add([
-                'account_id' => ApprovalStatus::getAccountId(),
+                'account_id' => Status::getAccountId(),
             ]);
         }
         return $this->request->all();
