@@ -64,11 +64,17 @@ class ItemTransferRepository extends BaseRepository
                 'item_transfers.updated_by',
                 'item_transfers.deleted_by',
                 'products.name as item_name',
+                'products.public_id as product_public_id',
                 'item_brands.name as item_brand_name',
+                'item_brands.public_id as item_brand_public_id',
                 'item_categories.name as item_category_name',
+                'item_categories.public_id as item_category_public_id',
                 'currentStore.name as to_store_name',
+                'currentStore.public_id as to_store_public_id',
                 'users.username as approver_name',
-                'approval_statuses.name as approval_status_name'
+                'users.public_id as approver_public_id',
+                'approval_statuses.name as approval_status_name',
+                'approval_statuses.public_id as approval_status_public_id'
             );
         if ($filter) {
             $query->where(function ($query) use ($filter) {
@@ -79,7 +85,7 @@ class ItemTransferRepository extends BaseRepository
                     ->orWhere('item_categories.name', 'like', '%' . $filter . '%')
                     ->orWhere('users.username', 'like', '%' . $filter . '%')
                     ->orWhere('products.name', 'like', '%' . $filter . '%')
-                    ->orWhere('stores.name', 'like', '%' . $filter . '%');
+                    ->orWhere('currentStore.name', 'like', '%' . $filter . '%');
             });
         }
 
@@ -137,6 +143,7 @@ class ItemTransferRepository extends BaseRepository
             foreach ($itemTransfers as $itemStore) {
                 $itemTransfer = $this->getInstanceOfItemTransfer($itemTransferData, $itemTransfer, $update);
                 $itemTransfer->product_id = $itemStore->product_id;
+
                 if (!empty($itemTransferData['transfer_all_item'])) {
                     $itemTransfer->qty = $itemStore->qty;
                     $itemTransferDate['qty'] = 0;
@@ -154,7 +161,7 @@ class ItemTransferRepository extends BaseRepository
                     } else {
                         $availableQty = $availableQty - $requiredQty;
                         $itemTransferDate['qty'] = $availableQty;
-                        if ($itemTransfer->update($itemTransferDate)) {
+                        if ($itemStore->update($itemTransferDate)) {
                             $itemTransfer->save();
                         }
                     }
