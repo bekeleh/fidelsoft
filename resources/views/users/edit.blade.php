@@ -8,10 +8,12 @@
     ->rules(['first_name' => 'required|max:50','last_name' => 'required|max:50','username' => 'required|max:50','email' => 'required|email|max:50','location_id' => 'required','notes' => 'required|max:255'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     @if ($user)
+
         {{ Former::populate($user) }}
         <div style="display:none">
             {!! Former::text('public_id') !!}
         </div>
+
     @endif
     <span style="display:none">
     {!! Former::text('public_id') !!}
@@ -21,18 +23,21 @@
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
-                    {!! Former::text('first_name')->label('texts.first_name') !!}
-                    {!! Former::text('last_name')->label('texts.last_name') !!}
-                    {!! Former::text('username')->label('texts.username') !!}
-                    {!! Former::text('email')->label('texts.email') !!}
-                    {!! Former::text('phone')->label('texts.phone') !!}
-                    {!! Former::select('location_id')
-                    ->placeholder(trans('texts.select_location'))
-                    ->label(trans('texts.location'))
-                    ->addGroupClass('location-select') !!}
-                    {!! Former::label('activated', trans('texts.activated')) !!}
-                    {{ Form::checkbox('activated' , 1, $user->activated == 1 ? true:false ),['class'=>'square'] }}
-                    {!! Former::textarea('notes')->rows(2) !!}
+                {!! Former::text('first_name')->label('texts.first_name') !!}
+                {!! Former::text('last_name')->label('texts.last_name') !!}
+                {!! Former::text('username')->label('texts.username') !!}
+                {!! Former::text('email')->label('texts.email') !!}
+                {!! Former::text('phone')->label('texts.phone') !!}
+                <!-- location-->
+                {!! Former::select('location_id')
+                ->placeholder(trans('texts.select_location'))
+                ->label(trans('texts.location'))
+                ->addGroupClass('location-select') !!}
+                <!-- activate user -->
+                {!! Former::checkbox('activated')->label('activated')->text(trans('texts.activated'))->value(1) !!}
+                <!-- notes -->
+                {!! Former::textarea('notes')->rows(4) !!}
+                <!-- user groups -->
                     {!! Former::label('groups', trans('texts.group')) !!}
                     {!! Form::select('groups[]', $groups, $userGroups, ['class' => 'form-control padding-right', 'multiple' => 'multiple',]) !!}
                     @if($errors->has('groups') )
@@ -44,25 +49,6 @@
             </div>
         </div>
     </div>
-    @foreach(Module::getOrdered() as $module)
-        @if(View::exists($module->alias . '::users.edit'))
-            <div class="row">
-                <div class="col-lg-10 col-lg-offset-1">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title in-white">
-                                <i class="fa fa-{{ $module->icon }}"></i>
-                                {{ $module->name}}
-                            </h3>
-                        </div>
-                        <div class="panel-body form-padding-right">
-                            @includeIf($module->alias . '::users.edit')
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
-    @endforeach
     @if (Auth::user()->canCreateOrEdit(ENTITY_USER, $user))
         <center class="buttons">
             {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/users'))->appendIcon(Icon::create('remove-circle')) !!}

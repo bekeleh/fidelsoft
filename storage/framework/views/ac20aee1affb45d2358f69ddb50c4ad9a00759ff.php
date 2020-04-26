@@ -34,7 +34,12 @@
                 <?php echo Former::select('current_store_id')->addOption('', '')
                 ->label(trans('texts.to_store_name'))->addGroupClass('store-select'); ?>
 
+                <!-- list item -->
                 <?php echo $__env->make('partials.select_product', ['label'=>'product_id','field_name'=>'product_id','check_item_name'=>'transfer_all_item'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                <!-- transfer all qty -->
+                <?php echo Former::checkbox('transfer_all_item')->label(trans('texts.allQty'))
+                    ->value(1)->onchange('transferAllQtyChecked()'); ?>
+
                 <!-- qty -->
                 <?php echo Former::text('qty')->label('texts.qty')->help('texts.item_qty_help'); ?>
 

@@ -2,9 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/bdfaf0e4dc72b9e19eb99e032970670fdc65b1f9.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/InvoiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/InvoiceController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/item_transfers/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/item_transfers/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/partials/select_product.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/partials/select_product.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/users/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/users/edit.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/sessions/nQQ1yjXAvc66r66GMSvI4iTFBy7NMTL9fwKPtAl1" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/nQQ1yjXAvc66r66GMSvI4iTFBy7NMTL9fwKPtAl1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/0638d49048228602142f80fd5dd53cd5f376dc4a.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/0638d49048228602142f80fd5dd53cd5f376dc4a.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/ac20aee1affb45d2358f69ddb50c4ad9a00759ff.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/ac20aee1affb45d2358f69ddb50c4ad9a00759ff.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -368,14 +373,7 @@
       <workItem from="1587756324797" duration="815000" />
       <workItem from="1587826954097" duration="49000" />
       <workItem from="1587827011955" duration="18611000" />
-      <workItem from="1587899690937" duration="5929000" />
-    </task>
-    <task id="LOCAL-00126" summary="2020-04-06 10:13">
-      <created>1586157269883</created>
-      <option name="number" value="00126" />
-      <option name="presentableId" value="LOCAL-00126" />
-      <option name="project" value="LOCAL" />
-      <updated>1586157269883</updated>
+      <workItem from="1587899690937" duration="8143000" />
     </task>
     <task id="LOCAL-00127" summary="2020-04-06 10:13">
       <created>1586182408680</created>
@@ -713,7 +711,14 @@
       <option name="project" value="LOCAL" />
       <updated>1587904210958</updated>
     </task>
-    <option name="localTasksCounter" value="175" />
+    <task id="LOCAL-00175" summary="2020-04-26 9:26">
+      <created>1587907616700</created>
+      <option name="number" value="00175" />
+      <option name="presentableId" value="LOCAL-00175" />
+      <option name="project" value="LOCAL" />
+      <updated>1587907616700</updated>
+    </task>
+    <option name="localTasksCounter" value="176" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -786,10 +791,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1587219341431" />
-    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1587904208300">
+    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1587907614939">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1587904208300" />
+    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1587907614939" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="444" y="140" key="FileChooserDialogImpl" timestamp="1587755774537">
@@ -852,10 +857,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="303" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1280.680@0.0.1280.680" timestamp="1587324145930" />
-    <state x="191" y="55" width="755" height="536" key="find.popup" timestamp="1587853632508">
+    <state x="191" y="55" width="755" height="536" key="find.popup" timestamp="1587908176365">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="191" y="55" width="755" height="536" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1587853632508" />
+    <state x="191" y="55" width="755" height="536" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1587908176365" />
     <state x="316" y="37" width="983" height="691" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1586115855044" />
     <state x="215" y="69" width="849" height="606" key="find.popup/0.0.1440.860@0.0.1440.860" timestamp="1586178664001" />
     <state x="462" y="222" key="git4idea.merge.GitPullDialog" timestamp="1584633875966">

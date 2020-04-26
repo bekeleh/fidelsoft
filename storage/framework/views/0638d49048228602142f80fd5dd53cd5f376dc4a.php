@@ -24,12 +24,6 @@
                     <option value=""></option>
                 <?php endif; ?>
             </select>
-            <span class="help-block alert alert-info">
-                <?php echo e(Form::checkbox($check_item_name, '1', null, ['id'=>$check_item_name,'enabled' => 'enabled','onchange' => 'transferAllQtyChecked()'])); ?>
-
-                <?php echo e(trans('texts.allQty')); ?>
-
-        </span>
             <?php echo $errors->first($field_name, '<span class="alert-msg"><i class="fa fa-times"></i> :message</span>'); ?>
 
         </div>

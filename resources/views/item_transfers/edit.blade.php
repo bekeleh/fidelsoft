@@ -31,7 +31,11 @@
                 {!! Former::select('current_store_id')->addOption('', '')
                 ->label(trans('texts.to_store_name'))->addGroupClass('store-select')
                 !!}
+                <!-- list item -->
                 @include ('partials.select_product', ['label'=>'product_id','field_name'=>'product_id','check_item_name'=>'transfer_all_item'])
+                <!-- transfer all qty -->
+                {!! Former::checkbox('transfer_all_item')->label(trans('texts.allQty'))
+                    ->value(1)->onchange('transferAllQtyChecked()') !!}
                 <!-- qty -->
                 {!! Former::text('qty')->label('texts.qty')->help('texts.item_qty_help') !!}
                 <!-- NOTES -->

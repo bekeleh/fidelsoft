@@ -22,10 +22,6 @@
                     <option value=""></option>
                 @endif
             </select>
-            <span class="help-block alert alert-info">
-                {{ Form::checkbox($check_item_name, '1', null, ['id'=>$check_item_name,'enabled' => 'enabled','onchange' => 'transferAllQtyChecked()'])}}
-                {{ trans('texts.allQty') }}
-        </span>
             {!! $errors->first($field_name, '<span class="alert-msg"><i class="fa fa-times"></i> :message</span>') !!}
         </div>
     </div>
