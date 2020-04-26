@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ApprovalStatusRequest;
 use App\Libraries\Utils;
-use App\Models\ItemCategory;
+use App\Models\ApprovalStatus;
 use App\Ninja\Datatables\ApprovalStatusDatatable;
 use App\Ninja\Repositories\ApprovalStatusRepository;
 use App\Services\ApprovalStatusService;
@@ -24,7 +24,7 @@ class ApprovalStatusController extends BaseController
     protected $approvalStatusRepo;
 
     /**
-     * ItemCategoryController constructor.
+     * ApprovalStatusController constructor.
      *
      * @param ApprovalStatusService $ApprovalStatusService
      * @param ApprovalStatusRepository $approvalStatusRepo
@@ -40,10 +40,10 @@ class ApprovalStatusController extends BaseController
     public function index()
     {
         return View::make('list_wrapper', [
-            'entityType' => ENTITY_ITEM_CATEGORY,
+            'entityType' => ENTITY_APPROVAL_STATUS,
             'datatable' => new ApprovalStatusDatatable(),
-            'title' => trans('texts.item_categories'),
-            'statuses' => ItemCategory::getStatuses(),
+            'title' => trans('texts.approval_statuses'),
+            'statuses' => ApprovalStatus::getStatuses(),
         ]);
     }
 
@@ -51,43 +51,43 @@ class ApprovalStatusController extends BaseController
     {
         Session::reflash();
 
-        return Redirect::to("item_categories/$publicId/edit");
+        return Redirect::to("approval_statuses/$publicId/edit");
     }
 
     public function getDatatable()
     {
-        return $this->itemCategoryService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
+        return $this->approvalStatusService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
     }
 
     public function edit(ApprovalStatusRequest $request, $publicId, $clone = false)
     {
-        Auth::user()->can('view', [ENTITY_ITEM_CATEGORY, $request->entity()]);
+        Auth::user()->can('view', [ENTITY_APPROVAL_STATUS, $request->entity()]);
 
         $account = Auth::user()->account;
 
-        $itemCategory = ItemCategory::scope($publicId)->withTrashed()->firstOrFail();
+        $approvalStatus = ApprovalStatus::scope($publicId)->withTrashed()->firstOrFail();
 
         if ($clone) {
-            $itemCategory->id = null;
-            $itemCategory->public_id = null;
-            $itemCategory->deleted_at = null;
-            $url = 'item_categories';
+            $approvalStatus->id = null;
+            $approvalStatus->public_id = null;
+            $approvalStatus->deleted_at = null;
+            $url = 'approval_statuses';
             $method = 'POST';
         } else {
-            $url = 'item_categories/' . $publicId;
+            $url = 'approval_statuses/' . $publicId;
             $method = 'PUT';
         }
 
         $data = [
             'account' => $account,
-            'itemCategory' => $itemCategory,
-            'entity' => $itemCategory,
+            'itemCategory' => $approvalStatus,
+            'entity' => $approvalStatus,
             'method' => $method,
             'url' => $url,
-            'title' => trans('texts.edit_item_category'),
+            'title' => trans('texts.edit_approval_status'),
         ];
 
-        return View::make('item_categories.edit', $data);
+        return View::make('approval_statuses.edit', $data);
     }
 
     public function create(ApprovalStatusRequest $request)
@@ -99,11 +99,11 @@ class ApprovalStatusController extends BaseController
             'account' => $account,
             'itemCategory' => null,
             'method' => 'POST',
-            'url' => 'item_categories',
-            'title' => trans('texts.create_item_category'),
+            'url' => 'approval_statuses',
+            'title' => trans('texts.create_approval_status'),
         ];
 
-        return View::make('item_categories.edit', $data);
+        return View::make('approval_statuses.edit', $data);
     }
 
     public function store(ApprovalStatusRequest $request)
@@ -116,28 +116,28 @@ class ApprovalStatusController extends BaseController
         return $this->save($publicId);
     }
 
-    private function save($itemCategoryPublicId = false)
+    private function save($approvalStatusPublicId = false)
     {
-        if ($itemCategoryPublicId) {
-            $itemCategory = ItemCategory::scope($itemCategoryPublicId)->withTrashed()->firstOrFail();
+        if ($approvalStatusPublicId) {
+            $approvalStatus = ApprovalStatus::scope($approvalStatusPublicId)->withTrashed()->firstOrFail();
         } else {
-            $itemCategory = ItemCategory::createNew();
+            $approvalStatus = ApprovalStatus::createNew();
         }
-        $this->approvalStatusRepo->save(Input::all(), $itemCategory);
+        $this->approvalStatusRepo->save(Input::all(), $approvalStatus);
 
         $action = request('action');
-        if (in_array($action, ['archive', 'delete', 'relocation', 'invoice'])) {
+        if (in_array($action, ['archive', 'delete', 'relocation'])) {
             return self::bulk();
         }
 
         if ($action == 'clone') {
-            return redirect()->to(sprintf('item_categories/%s/clone', $itemCategory->public_id))->with('success', trans('texts.clone_item_category'));
+            return redirect()->to(sprintf('approval_statuses/%s/clone', $approvalStatus->public_id))->with('success', trans('texts.clone_approval_status'));
         } else {
-            return redirect()->to("item_categories/{$itemCategory->public_id}/edit")->with('success', trans('texts.updated_item_category'));
+            return redirect()->to("approval_statuses/{$approvalStatus->public_id}/edit")->with('success', trans('texts.updated_approval_status'));
         }
     }
 
-    public function cloneItemCategory(ApprovalStatusRequest $request, $publicId)
+    public function cloneApprovalStatus(ApprovalStatusRequest $request, $publicId)
     {
         return self::edit($request, $publicId, true);
     }
@@ -146,10 +146,10 @@ class ApprovalStatusController extends BaseController
     {
         $action = Input::get('action');
         $ids = Input::get('public_id') ? Input::get('public_id') : Input::get('ids');
-        $count = $this->itemCategoryService->bulk($ids, $action);
+        $count = $this->approvalStatusService->bulk($ids, $action);
 
-        $message = Utils::pluralize($action . 'd_item_categories', $count);
+        $message = Utils::pluralize($action . 'd_approval_status', $count);
 
-        return $this->returnBulk(ENTITY_ITEM_CATEGORY, $action, $ids)->with('message', $message);
+        return $this->returnBulk(ENTITY_APPROVAL_STATUS, $action, $ids)->with('message', $message);
     }
 }

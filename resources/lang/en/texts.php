@@ -2,6 +2,30 @@
 
 $LANG = array(
 
+    /*
+|--------------------------------------------------------------------------
+| Approval Status  trans
+|--------------------------------------------------------------------------
+*/
+
+    'approval_status_name' => 'Approval Status Name',
+    'approval_status' => 'Approval Status',
+    'approval_statuses' => 'Approval Statues',
+    'new_approval_status' => 'New Approval Status',
+    'list_approval_status' => 'List Approval Status',
+    'create_approval_status' => 'Create Approval Status',
+    'edit_approval_status' => 'Edit Approval Status',
+    'clone_approval_status' => 'Clone Approval Status',
+    'archive_approval_status' => 'Archive Approval Status',
+    'delete_approval_status' => 'Delete Approval Status',
+    'deleted_approval_status' => 'Deleted Approval Status',
+    'restore_approval_status' => 'Restore Approval Status',
+    'restored_approval_status' => 'Restored Approval Status',
+    'updated_approval_status' => 'Successfully Updated Approval Status',
+    'created_approval_status' => 'Successfully Created Approval Status',
+    'archived_approval_status' => 'Successfully Archived Approval Status',
+    'approval_status_settings' => 'Approval Status Settings',
+    'approval_status_help' => 'Sets the default <b>approval status</b>',
 
     /*
 |--------------------------------------------------------------------------
@@ -27,6 +51,7 @@ $LANG = array(
     'created_clients' => 'Successfully created :count client(s)',
     'archived_client' => 'Successfully Archived Client',
     'client_settings' => 'Client Settings',
+
     /*
 |--------------------------------------------------------------------------
 | User  trans
@@ -57,6 +82,7 @@ $LANG = array(
     'confirmed' => 'Confirmed',
     'activated' => 'Activated',
     'updated_user_permission' => 'Successfully Updated User Permission',
+
     /*
 |--------------------------------------------------------------------------
 | User groups  trans
@@ -199,7 +225,6 @@ $LANG = array(
     'approved_date' => 'Approved Date',
     'from_store_name' => 'From Store',
     'to_store_name' => 'To Store',
-    'approval_status_name' => 'Approval Status',
 
     /*
 |--------------------------------------------------------------------------

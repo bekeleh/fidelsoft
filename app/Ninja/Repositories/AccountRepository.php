@@ -276,6 +276,7 @@ class AccountRepository
     private function getNavigationSearchData()
     {
         $entityTypes = [
+            ENTITY_APPROVAL_STATUS,
             ENTITY_INVOICE,
             ENTITY_USER,
             ENTITY_GROUP,
