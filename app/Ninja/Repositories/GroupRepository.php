@@ -2,7 +2,6 @@
 
 namespace App\Ninja\Repositories;
 
-
 use App\Models\Group;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -31,7 +30,8 @@ class GroupRepository extends BaseRepository
     {
         $query = DB::table('permission_groups')
             ->join('accounts', 'accounts.id', '=', 'permission_groups.account_id')
-//            ->join('users', 'users.id', '=', 'users_groups.group_id')
+            ->join('users_groups', 'users_groups.group_id', '=', 'permission_groups.id')
+//            ->join('users_groups', 'users_groups.user_id', '=', 'users.id')
             ->where('permission_groups.account_id', '=', $accountId)
             //->where('permission_groups.deleted_at', '=', null)
             ->select(
@@ -46,16 +46,19 @@ class GroupRepository extends BaseRepository
                 'permission_groups.created_by',
                 'permission_groups.updated_by',
                 'permission_groups.deleted_by'
+//                'users.name as user_name',
+//                'users.public_id as user_public_id'
             );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('permission_groups.name', 'like', '%' . $filter . '%')
                     ->orWhere('permission_groups.notes', 'like', '%' . $filter . '%');
+//                    ->orWhere('users.name', 'like', '%' . $filter . '%');
             });
         }
 
-        $this->applyFilters($query, ENTITY_GROUP, 'permission_group');
+        $this->applyFilters($query, ENTITY_GROUP, 'permission_groups');
 
         return $query;
     }

@@ -11,10 +11,8 @@ use App\Ninja\Repositories\GroupRepository;
 use App\Services\GroupService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
-use Redirect;
 
 class GroupController extends BaseController
 {
@@ -80,7 +78,10 @@ class GroupController extends BaseController
 
     public function getDatatable($groupPublicId = null)
     {
-        return $this->groupService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
+        $accountId = Auth::user()->account_id;
+        $search = Input::get('sSearch');
+
+        return $this->groupService->getDatatable($accountId, $search);
     }
 
     public function create(GroupRequest $request)

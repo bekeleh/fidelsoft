@@ -21,7 +21,6 @@ class ExpenseRepository extends BaseRepository
         $this->documentRepo = $documentRepo;
     }
 
-    // Expenses
     public function getClassName()
     {
         return 'App\Models\Expense';

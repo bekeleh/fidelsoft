@@ -14,14 +14,12 @@ class GroupService extends BaseService
 {
     protected $groupRepo;
     protected $datatableService;
-
-
+    
     public function __construct(GroupRepository $groupRepo, DatatableService $datatableService)
     {
         $this->groupRepo = $groupRepo;
         $this->datatableService = $datatableService;
     }
-
 
     protected function getRepo()
     {
@@ -33,16 +31,15 @@ class GroupService extends BaseService
         return $this->groupRepo->save($data);
     }
 
-
     public function getDatatable($accountId, $search)
     {
         $query = $this->groupRepo->find($accountId, $search);
 
-        if (!Utils::hasAccess('view_groups')) {
+        if (!Utils::hasAccess('view_permission_groups')) {
             $query->where('permission_groups.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable(new GroupDatatable(), $query, 'groups');
+        return $this->datatableService->createDatatable(new GroupDatatable(), $query, 'permission_groups');
     }
 
     public function decodePermissions()
