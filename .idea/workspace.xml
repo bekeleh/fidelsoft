@@ -242,7 +242,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/users" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="terminal" />
@@ -256,6 +256,7 @@
       <recent name="C:\wamp\www\invoiceninja\resources\views\groups" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\wamp\www\invoiceninja\resources\views\users" />
       <recent name="C:\wamp\www\invoiceninja\app\Ninja\Datatables" />
       <recent name="C:\wamp\www\invoiceninja\resources\views\companies" />
       <recent name="C:\wamp\www\invoiceninja\resources\views\products" />
@@ -367,14 +368,7 @@
       <workItem from="1587826954097" duration="49000" />
       <workItem from="1587827011955" duration="18611000" />
       <workItem from="1587899690937" duration="26176000" />
-      <workItem from="1587994843099" duration="18890000" />
-    </task>
-    <task id="LOCAL-00144" summary="2020-04-18 9:26">
-      <created>1587224992120</created>
-      <option name="number" value="00144" />
-      <option name="presentableId" value="LOCAL-00144" />
-      <option name="project" value="LOCAL" />
-      <updated>1587224992120</updated>
+      <workItem from="1587994843099" duration="29813000" />
     </task>
     <task id="LOCAL-00145" summary="2020-04-18 9:26">
       <created>1587226592739</created>
@@ -712,7 +706,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588009256624</updated>
     </task>
-    <option name="localTasksCounter" value="193" />
+    <task id="LOCAL-00193" summary="2020-04-27 9:26">
+      <created>1588014518995</created>
+      <option name="number" value="00193" />
+      <option name="presentableId" value="LOCAL-00193" />
+      <option name="project" value="LOCAL" />
+      <updated>1588014518995</updated>
+    </task>
+    <option name="localTasksCounter" value="194" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -791,10 +792,10 @@
     <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1588014516312" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
-    <state x="444" y="140" key="FileChooserDialogImpl" timestamp="1587755774537">
+    <state x="444" y="140" key="FileChooserDialogImpl" timestamp="1588023873020">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="444" y="140" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1587755774537" />
+    <state x="444" y="140" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1588023873020" />
     <state x="500" y="177" key="FileChooserDialogImpl/0.0.1440.860@0.0.1440.860" timestamp="1584881689405" />
     <state width="1397" height="222" key="GridCell.Tab.0.bottom" timestamp="1582731316355">
       <screen x="0" y="0" width="1440" height="860" />
