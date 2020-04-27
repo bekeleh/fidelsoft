@@ -30,6 +30,7 @@ class BankAccountRepository extends BaseRepository
             ->select(
                 'bank_accounts.public_id',
                 'banks.name as bank_name',
+                'banks.public_id as bank_public_id',
                 'bank_accounts.deleted_at',
                 'banks.bank_library_id'
             );

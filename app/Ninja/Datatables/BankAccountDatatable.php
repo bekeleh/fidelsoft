@@ -15,7 +15,7 @@ class BankAccountDatatable extends EntityDatatable
             [
                 'bank_name',
                 function ($model) {
-                    return link_to("bank_accounts/{$model->public_id}/edit", $model->bank_name)->toHtml();
+                    return link_to("bank_accounts/{$model->bank_public_id}/edit", $model->bank_name)->toHtml();
                 },
             ],
             [

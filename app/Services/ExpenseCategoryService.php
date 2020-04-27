@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Ninja\Datatables\ExpenseCategoryDatatable;
 use App\Ninja\Repositories\ExpenseCategoryRepository;
-use Illuminate\Http\JsonResponse;
 
 /**
  * Class ExpenseCategoryService.
@@ -31,7 +30,7 @@ class ExpenseCategoryService extends BaseService
         return $this->categoryRepo->save($data);
     }
 
-    public function getDatatable($search)
+    public function getDatatable($accountId, $search)
     {
         // we don't support bulk edit and hide the client on the individual client page
         $datatable = new ExpenseCategoryDatatable();

@@ -43,13 +43,13 @@ class ClientDatatable extends EntityDatatable
             [
                 'sale_type',
                 function ($model) {
-                    return $model->sale_type;
+                    return link_to("sale_types/{$model->sale_type_public_id}", $model->sale_type ?: '')->toHtml();
                 },
             ],
             [
                 'hold_reason',
                 function ($model) {
-                    return $model->hold_reason;
+                    return link_to("hold_reasons/{$model->hold_reason_public_id}", $model->hold_reason ?: '')->toHtml();
                 },
             ],
             [

@@ -25,11 +25,10 @@ class ExpenseCategoryRepository extends BaseRepository
         return ExpenseCategory::scope()->get();
     }
 
-    public function find($filter = null)
+    public function find($accountId = false, $filter = null)
     {
         $query = DB::table('expense_categories')
-//             ->join('expense_categories.id,'=',)
-//            ->where('expense_categories.account_id', '=', Auth::user()->account_id)
+            ->where('expense_categories.account_id', '=', $accountId)
 //            ->where('expense_categories.deleted_at', '=', null)
             ->select(
                 'expense_categories.name as category',
@@ -47,7 +46,8 @@ class ExpenseCategoryRepository extends BaseRepository
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
-                $query->where('expense_categories.name', 'like', '%' . $filter . '%');
+                $query->where('expense_categories.name', 'like', '%' . $filter . '%')
+                    ->orwhere('expense_categories.notes', 'like', '%' . $filter . '%');
             });
         }
 

@@ -72,7 +72,9 @@ class ClientRepository extends BaseRepository
                 'clients.user_id',
                 'clients.id_number',
                 'sale_types.name as sale_type',
-                'hold_reasons.name as hold_reason'
+                'sale_types.public_id as sale_type_public_id',
+                'hold_reasons.name as hold_reason',
+                'hold_reasons.public_id as hold_reason_public_id'
             );
 
         if ($filter) {

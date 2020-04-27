@@ -8,9 +8,10 @@ use App\Http\Requests\UpdateExpenseCategoryRequest;
 use App\Ninja\Datatables\ExpenseCategoryDatatable;
 use App\Ninja\Repositories\ExpenseCategoryRepository;
 use App\Services\ExpenseCategoryService;
-use Input;
-use Session;
-use View;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\View;
 
 class ExpenseCategoryController extends BaseController
 {
@@ -24,11 +25,6 @@ class ExpenseCategoryController extends BaseController
         $this->categoryService = $categoryService;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
     public function index()
     {
         return View::make('list_wrapper', [
@@ -40,7 +36,9 @@ class ExpenseCategoryController extends BaseController
 
     public function getDatatable($expensePublicId = null)
     {
-        return $this->categoryService->getDatatable(Input::get('sSearch'));
+        $accountId = Auth::user()->account_id;
+        $search = Input::get('sSearch');
+        return $this->categoryService->getDatatable($accountId, $search);
     }
 
     public function create(ExpenseCategoryRequest $request)

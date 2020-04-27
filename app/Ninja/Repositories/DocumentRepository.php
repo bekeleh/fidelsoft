@@ -5,6 +5,7 @@ namespace App\Ninja\Repositories;
 use App\Libraries\Utils;
 use App\Models\Document;
 use Form;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManager;
 
@@ -29,9 +30,9 @@ class DocumentRepository extends BaseRepository
             ->get();
     }
 
-    public function find()
+    public function find($accountId = false, $filter = null)
     {
-        $accountid = \Auth::user()->account_id;
+        $accountid = Auth::user()->account_id;
         $query = DB::table('clients')
             ->join('accounts', 'accounts.id', '=', 'clients.account_id')
             ->leftjoin('clients', 'clients.id', '=', 'clients.client_id')
