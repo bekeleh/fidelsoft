@@ -30,8 +30,8 @@ class AccountGatewayRepository extends BaseRepository
         return $query->select(
             'account_gateways.id',
             'account_gateways.public_id',
-            'gateways.name',
-            'gateways.name as gateway',
+            'gateways.name as gateway_name',
+            'gateways.public_id as gateway_public_id',
             'account_gateways.deleted_at',
             'account_gateways.gateway_id',
             'accounts.gateway_fee_enabled');

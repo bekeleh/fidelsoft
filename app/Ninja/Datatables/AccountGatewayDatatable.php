@@ -24,12 +24,12 @@ class AccountGatewayDatatable extends EntityDatatable
                 function ($model) {
                     $accountGateway = $this->getAccountGateway($model->id);
                     if ($model->deleted_at) {
-                        return $model->name;
+                        return $model->gateway_name;
                     } elseif (in_array($model->gateway_id, [GATEWAY_CUSTOM1, GATEWAY_CUSTOM2, GATEWAY_CUSTOM3])) {
                         $name = $accountGateway->getConfigField('name') . ' [' . trans('texts.custom') . ']';
-                        return link_to("gateways/{$model->public_id}/edit", $name)->toHtml();
+                        return link_to("gateways/{$model->gateway_public_id}/edit", $name)->toHtml();
                     } elseif ($model->gateway_id != GATEWAY_WEPAY) {
-                        $name = $model->name;
+                        $name = $model->gateway_name;
                         if ($accountGateway->isTestMode()) {
                             $name .= sprintf(' [%s]', trans('texts.test'));
                         }
@@ -39,7 +39,7 @@ class AccountGatewayDatatable extends EntityDatatable
                         $endpoint = WEPAY_ENVIRONMENT == WEPAY_STAGE ? 'https://stage.wepay.com/' : 'https://www.wepay.com/';
                         $wepayAccountId = $config->accountId;
                         $wepayState = isset($config->state) ? $config->state : null;
-                        $linkText = $model->name;
+                        $linkText = $model->gateway_name;
                         $url = $endpoint . 'account/' . $wepayAccountId;
                         $html = link_to($url, $linkText, ['target' => '_blank'])->toHtml();
 
