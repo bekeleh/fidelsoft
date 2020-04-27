@@ -18,19 +18,19 @@
 class Google_Service_CloudIdentity_SearchGroupsResponse extends Google_Collection
 {
   protected $collection_key = 'groups';
-  protected $groupsType = 'Google_Service_CloudIdentity_Group';
+  protected $groupsType = 'Google_Service_CloudIdENTITY_PERMISSION_GROUP';
   protected $groupsDataType = 'array';
   public $nextPageToken;
 
   /**
-   * @param Google_Service_CloudIdentity_Group
+   * @param Google_Service_CloudIdENTITY_PERMISSION_GROUP
    */
   public function setGroups($groups)
   {
     $this->groups = $groups;
   }
   /**
-   * @return Google_Service_CloudIdentity_Group
+   * @return Google_Service_CloudIdENTITY_PERMISSION_GROUP
    */
   public function getGroups()
   {

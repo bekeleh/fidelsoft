@@ -3,19 +3,19 @@
 namespace App\Services;
 
 use App\Libraries\Utils;
-use App\Ninja\Datatables\GroupDatatable;
-use App\Ninja\Repositories\GroupRepository;
+use App\Ninja\Datatables\PermissionGroupDatatable;
+use App\Ninja\Repositories\PermissionGroupRepository;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * Class GroupService.
+ * Class PermissionGroupService.
  */
-class GroupService extends BaseService
+class PermissionGroupService extends BaseService
 {
     protected $groupRepo;
     protected $datatableService;
-    
-    public function __construct(GroupRepository $groupRepo, DatatableService $datatableService)
+
+    public function __construct(PermissionGroupRepository $groupRepo, DatatableService $datatableService)
     {
         $this->groupRepo = $groupRepo;
         $this->datatableService = $datatableService;
@@ -39,11 +39,6 @@ class GroupService extends BaseService
             $query->where('permission_groups.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable(new GroupDatatable(), $query, 'permission_groups');
-    }
-
-    public function decodePermissions()
-    {
-        return $this->groupRepo->decodePermissions();
+        return $this->datatableService->createDatatable(new PermissionGroupDatatable(), $query, 'permission_groups');
     }
 }

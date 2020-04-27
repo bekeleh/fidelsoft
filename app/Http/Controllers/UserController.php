@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
 use App\Libraries\Utils;
-use App\Models\Group;
+use App\Models\PermissionGroup;
 use App\Models\Location;
 use App\Models\Permission;
 use App\Models\User;
@@ -171,8 +171,8 @@ class UserController extends BaseController
                 $actionLinks[] = ['label' => trans('texts.new_permission'), 'url' => URL::to('/permissions/create/' . $user->public_id)];
             }
 
-            if ($user->can('create', ENTITY_GROUP)) {
-                $actionLinks[] = ['label' => trans('texts.new_groups'), 'url' => URL::to('/groups/create/' . $user->public_id)];
+            if ($user->can('create', ENTITY_PERMISSION_GROUP)) {
+                $actionLinks[] = ['label' => trans('texts.new_groups'), 'url' => URL::to('/permission_groups/create/' . $user->public_id)];
             }
 
             if (!empty($actionLinks)) {
@@ -187,13 +187,13 @@ class UserController extends BaseController
                 'user' => $user,
                 'permissions' => $permissions,
                 'userPermissions' => $userPermissions,
-                'groups' => $userGroups,
+                'permission_groups' => $userGroups,
                 'account' => $account,
                 'actionLinks' => $actionLinks,
                 'showBreadcrumbs' => false,
                 'title' => trans('texts.view_user'),
                 'hasPermissions' => $account->isModuleEnabled(ENTITY_PERMISSION) && Permission::scope()->withArchived()->whereUserId($user->id)->count() > 0,
-                'hasGroups' => $account->isModuleEnabled(ENTITY_GROUP) && Group::scope()->withArchived()->whereUserId($user->id)->count() > 0,
+                'hasGroups' => $account->isModuleEnabled(ENTITY_PERMISSION_GROUP) && PermissionGroup::scope()->withArchived()->whereUserId($user->id)->count() > 0,
             ];
 
             return View::make('users.show', $data);
@@ -397,7 +397,7 @@ class UserController extends BaseController
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
             'locations' => Location::scope()->withActiveOrSelected($user ? $user->location_id : false)->orderBy('name')->get(),
-            'groups' => Group::where('name', '!=', 'superuser')->pluck('name', 'id'),
+            'permission_groups' => PermissionGroup::where('name', '!=', 'superuser')->pluck('name', 'id'),
         ];
     }
 

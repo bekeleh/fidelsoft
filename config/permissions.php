@@ -26,7 +26,7 @@ return array(
             'display' => true,
         )
     ),
-	// Reports
+    // Reports
     'Reports manager' => array(
         array(
             'permission' => 'reports.view',
@@ -515,7 +515,7 @@ return array(
             'note' => '',
             'display' => true,
         ),
- 
+
         array(
             'permission' => 'item_transfers.delete',
             'label' => 'Delete item transfer',
@@ -549,7 +549,7 @@ return array(
             'note' => '',
             'display' => true,
         ),
- 
+
         array(
             'permission' => 'discount_categories.delete',
             'label' => 'Delete discount category',
@@ -692,8 +692,8 @@ return array(
         ),
     ),
 
-//   chart groups
-    'Chart groups manager' => array(
+//   chart permission_groups
+    'Chart permission_groups manager' => array(
         array(
             'permission' => 'sales_type.view',
             'label' => 'View sales type',
@@ -793,34 +793,34 @@ return array(
     ),
 
     // account group
-    'user groups manager' => array(
+    'user permission group' => array(
         array(
             'permission' => 'permission_groups.view',
-            'label' => 'View groups',
+            'label' => 'View permission_groups',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'permission_groups.create',
-            'label' => 'Create groups',
+            'label' => 'Create permission_groups',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'permission_groups.edit',
-            'label' => 'Edit groups',
+            'label' => 'Edit permission_groups',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'permission_groups.update',
-            'label' => 'update groups',
+            'label' => 'update permission_groups',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'permission_groups.delete',
-            'label' => 'Delete groups',
+            'label' => 'Delete permission_groups',
             'note' => '',
             'display' => true,
         ),

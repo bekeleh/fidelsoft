@@ -2,28 +2,28 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Models\Group;
+use App\Models\PermissionGroup;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class GroupRepository extends BaseRepository
+class PermissionGroupRepository extends BaseRepository
 {
     private $model;
 
-    public function __construct(Group $model)
+    public function __construct(PermissionGroup $model)
     {
         $this->model = $model;
     }
 
     public function getClassName()
     {
-        return 'App\Models\Group';
+        return 'App\Models\PermissionGroup';
     }
 
     public function all()
     {
-        return Group::scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return PermissionGroup::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
     public function find($accountId, $filter = null)
@@ -37,7 +37,7 @@ class GroupRepository extends BaseRepository
             ->select(
                 'permission_groups.id',
                 'permission_groups.public_id',
-                'permission_groups.name as group_name',
+                'permission_groups.name as permission_group_name',
                 'permission_groups.is_deleted',
                 'permission_groups.notes',
                 'permission_groups.created_at',
@@ -58,7 +58,7 @@ class GroupRepository extends BaseRepository
             });
         }
 
-        $this->applyFilters($query, ENTITY_GROUP, 'permission_groups');
+        $this->applyFilters($query, ENTITY_PERMISSION_GROUP, 'permission_groups');
 
         return $query;
     }
@@ -70,16 +70,17 @@ class GroupRepository extends BaseRepository
         if ($group) {
             $group->updated_by = Auth::user()->username;
         } elseif ($publicId) {
-            $group = Group::scope($publicId)->withArchived()->firstOrFail();
+            $group = PermissionGroup::scope($publicId)->withArchived()->firstOrFail();
             \Log::warning('Entity not set in unit repo save');
         } else {
-            $group = Group::createNew();
+            $group = PermissionGroup::createNew();
             $group->created_by = Auth::user()->username;
         }
         $group->fill($data);
         $group->name = isset($data['name']) ? ucwords(Str::lower(trim($data['name']))) : '';
         $group->notes = isset($data['notes']) ? trim($data['notes']) : '';
         $group->save();
+
         return $group;
     }
 
@@ -89,7 +90,7 @@ class GroupRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $groupId = 0;
-        $groups = Group::scope()->get();
+        $groups = PermissionGroup::scope()->get();
         if (!empty($groups)) {
             foreach ($groups as $group) {
                 if (!$group->name) {
@@ -106,8 +107,4 @@ class GroupRepository extends BaseRepository
         return ($groupId && isset($map[$groupId])) ? $map[$groupId] : null;
     }
 
-    public function decodePermissions()
-    {
-        return $this->model->decodePermissions();
-    }
 }

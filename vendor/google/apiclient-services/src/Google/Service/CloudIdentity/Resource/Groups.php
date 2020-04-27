@@ -28,11 +28,11 @@ class Google_Service_CloudIdentity_Resource_Groups extends Google_Service_Resour
   /**
    * Creates a Group. (groups.create)
    *
-   * @param Google_Service_CloudIdentity_Group $postBody
+   * @param Google_Service_CloudIdENTITY_PERMISSION_GROUP $postBody
    * @param array $optParams Optional parameters.
    * @return Google_Service_CloudIdentity_Operation
    */
-  public function create(Google_Service_CloudIdentity_Group $postBody, $optParams = array())
+  public function create(Google_Service_CloudIdENTITY_PERMISSION_GROUP $postBody, $optParams = array())
   {
     $params = array('postBody' => $postBody);
     $params = array_merge($params, $optParams);
@@ -62,13 +62,13 @@ class Google_Service_CloudIdentity_Resource_Groups extends Google_Service_Resour
    * the format: `groups/{group_id}`, where `group_id` is the unique ID assigned
    * to the Group.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_CloudIdentity_Group
+   * @return Google_Service_CloudIdENTITY_PERMISSION_GROUP
    */
   public function get($name, $optParams = array())
   {
     $params = array('name' => $name);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_CloudIdentity_Group");
+    return $this->call('get', array($params), "Google_Service_CloudIdENTITY_PERMISSION_GROUP");
   }
   /**
    * Lists groups within a customer or a domain. (groups.listGroups)
@@ -121,14 +121,14 @@ class Google_Service_CloudIdentity_Resource_Groups extends Google_Service_Resour
    * the Group.
    *
    * Must be left blank while creating a Group.
-   * @param Google_Service_CloudIdentity_Group $postBody
+   * @param Google_Service_CloudIdENTITY_PERMISSION_GROUP $postBody
    * @param array $optParams Optional parameters.
    *
    * @opt_param string updateMask Required. Editable fields: `display_name`,
    * `description`
    * @return Google_Service_CloudIdentity_Operation
    */
-  public function patch($name, Google_Service_CloudIdentity_Group $postBody, $optParams = array())
+  public function patch($name, Google_Service_CloudIdENTITY_PERMISSION_GROUP $postBody, $optParams = array())
   {
     $params = array('name' => $name, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);

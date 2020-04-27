@@ -85,29 +85,29 @@ $LANG = array(
 
     /*
 |--------------------------------------------------------------------------
-| User groups  trans
+| User permission_groups  trans
 |--------------------------------------------------------------------------
 */
-    'group_name' => 'Group Name',
-    'groups' => 'Group List',
-    'new_group' => 'New Group',
+    'group_name' => 'PermissionGroup Name',
+    'permission_groups' => 'PermissionGroup List',
+    'new_group' => 'New PermissionGroup',
     'list_groups' => 'List Groups',
-    'create_group' => 'Create Group',
-    'edit_group' => 'Edit Group',
-    'clone_group' => 'Clone Group',
-    'archive_group' => 'Archive Group',
-    'delete_group' => 'Delete Group',
-    'deleted_group' => 'Deleted Group',
-    'restore_group' => 'Restore Group',
-    'restored_group' => 'Restored Group',
-    'updated_group' => 'Successfully Updated Group',
-    'created_group' => 'Successfully Created Group',
-    'archived_group' => 'Successfully Archived Group',
-    'group_settings' => 'Group Settings',
+    'create_group' => 'Create PermissionGroup',
+    'edit_group' => 'Edit PermissionGroup',
+    'clone_group' => 'Clone PermissionGroup',
+    'archive_group' => 'Archive PermissionGroup',
+    'delete_group' => 'Delete PermissionGroup',
+    'deleted_group' => 'Deleted PermissionGroup',
+    'restore_group' => 'Restore PermissionGroup',
+    'restored_group' => 'Restored PermissionGroup',
+    'updated_group' => 'Successfully Updated PermissionGroup',
+    'created_group' => 'Successfully Created PermissionGroup',
+    'archived_group' => 'Successfully Archived PermissionGroup',
+    'group_settings' => 'PermissionGroup Settings',
     'group_help' => 'Sets the default <b>user group</b>',
     /*
 |--------------------------------------------------------------------------
-| User groups  trans
+| User permission_groups  trans
 |--------------------------------------------------------------------------
 */
     'permission_name' => 'Permission Name',
@@ -957,7 +957,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'charts_and_reports' => 'Charts & Reports',
     'chart' => 'Chart',
     'report' => 'Report',
-    'group_by' => 'Group by',
+    'group_by' => 'PermissionGroup by',
     'paid' => 'Paid',
     'enable_report' => 'Report',
     'enable_chart' => 'Chart',
@@ -2543,8 +2543,8 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'profit_and_loss' => 'Profit and Loss',
     'revenue' => 'Revenue',
     'profit' => 'Profit',
-    'group_when_sorted' => 'Group Sort',
-    'group_dates_by' => 'Group Dates By',
+    'group_when_sorted' => 'PermissionGroup Sort',
+    'group_dates_by' => 'PermissionGroup Dates By',
     'year' => 'Year',
     'view_statement' => 'View Statement',
     'statement' => 'Statement',
@@ -3224,7 +3224,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'mobile' => 'Mobile',
     'desktop' => 'Desktop',
     'webmail' => 'Webmail',
-    'group' => 'Group',
+    'group' => 'PermissionGroup',
     'subgroup' => 'Subgroup',
     'unset' => 'Unset',
     'received_new_payment' => 'You\'ve received a new payment!',

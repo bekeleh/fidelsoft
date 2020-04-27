@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
- * Class Model Group.
+ * Class Model PermissionGroup.
  */
 class Permission extends EntityModel
 {
@@ -36,7 +36,7 @@ class Permission extends EntityModel
 
     public function getEntityType()
     {
-        return ENTITY_GROUP;
+        return ENTITY_PERMISSION_GROUP;
     }
 
     public static function findGroupByKey($key)
@@ -62,7 +62,7 @@ class Permission extends EntityModel
 
     public function getRoute()
     {
-        return "/groups/{$this->public_id}/edit";
+        return "/permission_groups/{$this->public_id}/edit";
     }
 
 }

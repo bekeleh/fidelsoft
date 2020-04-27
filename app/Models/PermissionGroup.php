@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
- * Class Model Group.
+ * Class Model PermissionGroup.
  */
-class Group extends EntityModel
+class PermissionGroup extends EntityModel
 {
-    protected $presenter = 'App\Ninja\Presenters\GroupPresenter';
+    protected $presenter = 'App\Ninja\Presenters\PermissionGroupPresenter';
     use PresentableTrait;
     use SoftDeletes;
 
@@ -36,12 +36,12 @@ class Group extends EntityModel
 
     public function getEntityType()
     {
-        return ENTITY_GROUP;
+        return ENTITY_PERMISSION_GROUP;
     }
 
-    public static function findGroupByKey($key)
+    public function getRoute()
     {
-        return self::scope()->where('name', '=', $key)->first();
+        return "/permission_groups/{$this->public_id}/edit";
     }
 
     public function decodePermissions()
@@ -49,15 +49,14 @@ class Group extends EntityModel
         return json_decode($this->permissions, true);
     }
 
+    public static function findGroupByKey($key)
+    {
+        return self::scope()->where('name', '=', $key)->first();
+    }
+
     public function users()
     {
         return $this->belongsToMany('\App\Models\User', 'users_groups', 'group_id', 'user_id');
-    }
-
-
-    public function getRoute()
-    {
-        return "/groups/{$this->public_id}/edit";
     }
 
 }

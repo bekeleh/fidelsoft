@@ -5,7 +5,7 @@ namespace App\Ninja\Presenters;
 use DropdownButton;
 use App\Libraries\Skype\HeroCard;
 
-class GroupPresenter extends EntityPresenter
+class PermissionGroupPresenter extends EntityPresenter
 {
     public function skypeBot($account)
     {
@@ -24,7 +24,7 @@ class GroupPresenter extends EntityPresenter
         $actions = [];
 
         if (!$group->trashed()) {
-            if (auth()->user()->can('create', ENTITY_GROUP)) {
+            if (auth()->user()->can('create', ENTITY_PERMISSION_GROUP)) {
                 $actions[] = ['url' => 'javascript:submitAction("clone")', 'label' => trans('texts.clone_group')];
             }
             if (count($actions)) {

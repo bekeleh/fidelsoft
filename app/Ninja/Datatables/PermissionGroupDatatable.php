@@ -6,18 +6,18 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 use App\Libraries\Utils;
 
-class GroupDatatable extends EntityDatatable
+class PermissionGroupDatatable extends EntityDatatable
 {
-    public $entityType = ENTITY_GROUP;
+    public $entityType = ENTITY_PERMISSION_GROUP;
     public $sortCol = 1;
 
     public function columns()
     {
         return [
             [
-                'group_name',
+                'permission_group_name',
                 function ($model) {
-                    $str = link_to("groups/{$model->public_id}", $model->group_name ?: '')->toHtml();
+                    $str = link_to("permission_groups/{$model->public_id}", $model->permission_group_name ?: '')->toHtml();
                     return $str;
                 },
             ],
@@ -66,20 +66,17 @@ class GroupDatatable extends EntityDatatable
             [
                 trans('texts.edit_group'),
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_GROUP, $model]))
-                        return URL::to("groups/{$model->public_id}/edit");
-                    elseif (Auth::user()->can('view', [ENTITY_GROUP, $model]))
-                        return URL::to("groups/{$model->public_id}");
+                    if (Auth::user()->can('edit', [ENTITY_PERMISSION_GROUP, $model]))
+                        return URL::to("permission_groups/{$model->public_id}/edit");
+                    elseif (Auth::user()->can('view', [ENTITY_PERMISSION_GROUP, $model]))
+                        return URL::to("permission_groups/{$model->public_id}");
                 },
             ],
             [
                 trans('texts.clone_group'),
                 function ($model) {
-                    return URL::to("groups/{$model->public_id}/clone");
-                },
-                function ($model) {
-                    return Auth::user()->can('create', ENTITY_GROUP);
-                },
+                    return URL::to("permission_groups/{$model->public_id}/clone");
+                }
             ],
         ];
     }

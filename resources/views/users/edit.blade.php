@@ -37,10 +37,10 @@
                 {!! Former::checkbox('activated')->label('activated')->text(trans('texts.activated'))->value(1) !!}
                 <!-- notes -->
                 {!! Former::textarea('notes')->rows(4) !!}
-                <!-- user groups -->
-                    {!! Former::label('groups', trans('texts.group')) !!}
-                    {!! Form::select('groups[]', $groups, $userGroups, ['class' => 'form-control padding-right', 'multiple' => 'multiple',]) !!}
-                    @if($errors->has('groups') )
+                <!-- user permission_groups -->
+                    {!! Former::label('permission_groups', trans('texts.group')) !!}
+                    {!! Form::select('permission_groups[]', $groups, $userGroups, ['class' => 'form-control padding-right', 'multiple' => 'multiple',]) !!}
+                    @if($errors->has('permission_groups') )
                         <div class="alert alert-danger" role="alert">
                             One or more of the groups you selected are empty/invalid. Please try again.
                         </div>

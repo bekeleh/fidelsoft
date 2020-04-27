@@ -54,7 +54,7 @@ class PermissionRepository extends BaseRepository
             });
         }
 
-        $this->applyFilters($query, ENTITY_GROUP, 'permission_group');
+        $this->applyFilters($query, ENTITY_PERMISSION_GROUP, 'permission_group');
 
         return $query;
     }

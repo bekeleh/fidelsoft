@@ -110,7 +110,7 @@
 
         <?php endif; ?>
         <?php if(true): ?>
-            <?php echo Form::tab_link('#groups', trans('texts.groups')); ?>
+            <?php echo Form::tab_link('#permission_groups', trans('texts.permission_groups')); ?>
 
         <?php endif; ?>
     </ul>

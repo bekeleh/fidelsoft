@@ -172,7 +172,7 @@
                     <div class="col-md-6">
 
 						{!! Former::select('group')
-									->data_bind("options: groups, optionsText: 'transPeriod', optionsValue: 'period', value: group") !!}
+									->data_bind("options: permission_groups, optionsText: 'transPeriod', optionsValue: 'period', value: group") !!}
 
 						<span data-bind="visible: showSubgroup">
 							{!! Former::select('subgroup')

@@ -28675,7 +28675,7 @@ var VdmxGroup = new r.Struct({
 
 var VDMX = new r.Struct({
   version: r.uint16, // Version number (0 or 1)
-  numRecs: r.uint16, // Number of VDMX groups present
+  numRecs: r.uint16, // Number of VDMX permission_groups present
   numRatios: r.uint16, // Number of aspect ratio groupings
   ratioRanges: new r.Array(Ratio, 'numRatios'), // Ratio ranges
   offsets: new r.Array(r.uint16, 'numRatios'), // Offset to the VDMX group for this ratio range
@@ -32202,7 +32202,7 @@ var AATLayoutEngine = function () {
 /**
  * ShapingPlans are used by the OpenType shapers to store which
  * features should by applied, and in what order to apply them.
- * The features are applied in groups called stages. A feature
+ * The features are applied in permission_groups called stages. A feature
  * can be applied globally to all glyphs, or locally to only
  * specific glyphs.
  *

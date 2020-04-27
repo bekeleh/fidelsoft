@@ -19,7 +19,7 @@ class Kernel extends HttpKernel
     ];
 
     /**
-     * The application's route middleware groups.
+     * The application's route middleware permission_groups.
      *
      * @var array
      */
@@ -51,7 +51,7 @@ class Kernel extends HttpKernel
     /**
      * The application's route middleware.
      *
-     * These middleware may be assigned to groups or used individually.
+     * These middleware may be assigned to permission_groups or used individually.
      *
      * @var array
      */

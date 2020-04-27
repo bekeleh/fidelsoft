@@ -11784,7 +11784,7 @@ class ComposerStaticInita2ec56413ad33918b4b64922dcd3c5f0
         'Google_Service_CloudIdentity_GoogleAppsCloudidentityDevicesV1alpha1ListEndpointAppsResponse' => __DIR__ . '/..' . '/google/apiclient-services/src/Google/Service/CloudIdentity/GoogleAppsCloudidentityDevicesV1alpha1ListEndpointAppsResponse.php',
         'Google_Service_CloudIdentity_GoogleAppsCloudidentityDevicesV1alpha1WipeDeviceResponse' => __DIR__ . '/..' . '/google/apiclient-services/src/Google/Service/CloudIdentity/GoogleAppsCloudidentityDevicesV1alpha1WipeDeviceResponse.php',
         'Google_Service_CloudIdentity_GoogleAppsCloudidentityDevicesV1alpha1WipeDeviceUserResponse' => __DIR__ . '/..' . '/google/apiclient-services/src/Google/Service/CloudIdentity/GoogleAppsCloudidentityDevicesV1alpha1WipeDeviceUserResponse.php',
-        'Google_Service_CloudIdentity_Group' => __DIR__ . '/..' . '/google/apiclient-services/src/Google/Service/CloudIdentity/Group.php',
+        'Google_Service_CloudIdENTITY_PERMISSION_GROUP' => __DIR__ . '/..' . '/google/apiclient-services/src/Google/Service/CloudIdentity/Group.php',
         'Google_Service_CloudIdentity_ListGroupsResponse' => __DIR__ . '/..' . '/google/apiclient-services/src/Google/Service/CloudIdentity/ListGroupsResponse.php',
         'Google_Service_CloudIdentity_ListMembershipsResponse' => __DIR__ . '/..' . '/google/apiclient-services/src/Google/Service/CloudIdentity/ListMembershipsResponse.php',
         'Google_Service_CloudIdentity_LookupGroupNameResponse' => __DIR__ . '/..' . '/google/apiclient-services/src/Google/Service/CloudIdentity/LookupGroupNameResponse.php',

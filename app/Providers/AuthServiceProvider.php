@@ -13,7 +13,7 @@ use App\Models\Credit;
 use App\Models\Document;
 use App\Models\Expense;
 use App\Models\ExpenseCategory;
-use App\Models\Group;
+use App\Models\PermissionGroup;
 use App\Models\Invoice;
 use App\Models\ItemBrand;
 use App\Models\ItemCategory;
@@ -87,7 +87,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Status::class => StatusPolicy::class,
         User::class => UserPolicy::class,
-        Group::class => GroupPolicy::class,
+        PermissionGroup::class => GroupPolicy::class,
         Permission::class => PermissionPolicy::class,
         Client::class => ClientPolicy::class,
         Contact::class => ContactPolicy::class,

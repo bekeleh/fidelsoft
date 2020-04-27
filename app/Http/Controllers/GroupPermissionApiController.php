@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\GroupRequest;
-use App\Models\Group;
-use App\Ninja\Repositories\GroupRepository;
+use App\Http\Requests\PermissionGroupRequest;
+use App\Models\PermissionGroup;
+use App\Ninja\Repositories\PermissionGroupRepository;
 
 /**
- * Class GroupApiController.
+ * Class GroupPermissionApiController.
  */
-class GroupApiController extends BaseAPIController
+class GroupPermissionApiController extends BaseAPIController
 {
 
-    protected $entityType = ENTITY_GROUP;
+    protected $entityType = ENTITY_PERMISSION_GROUP;
 
     protected $groupRepo;
 
-    public function __construct(GroupRepository $groupRepo)
+    public function __construct(PermissionGroupRepository $groupRepo)
     {
         parent::__construct();
 
@@ -25,14 +25,14 @@ class GroupApiController extends BaseAPIController
 
     /**
      * @SWG\Get(
-     *   path="/groups",
-     *   summary="List groups",
+     *   path="/permission_groups",
+     *   summary="List permission_groups",
      *   operationId="listGroups",
      *   tags={"group"},
      *   @SWG\Response(
      *     response=200,
-     *     description="A list of groups",
-     *      @SWG\Schema(type="array", @SWG\Items(ref="#/definitions/Group"))
+     *     description="A list of permission_groups",
+     *      @SWG\Schema(type="array", @SWG\Items(ref="#/definitions/PermissionGroup"))
      *   ),
      *   @SWG\Response(
      *     response="default",
@@ -42,14 +42,14 @@ class GroupApiController extends BaseAPIController
      */
     public function index()
     {
-        $groups = Group::scope()->withTrashed()->orderBy('created_at', 'desc');
+        $groups = PermissionGroup::scope()->withTrashed()->orderBy('created_at', 'desc');
 
         return $this->listResponse($groups);
     }
 
     /**
      * @SWG\Get(
-     *   path="/groups/{group_id}",
+     *   path="/permission_groups/{group_id}",
      *   summary="Retrieve a group",
      *   operationId="getGroup",
      *   tags={"group"},
@@ -62,46 +62,46 @@ class GroupApiController extends BaseAPIController
      *   @SWG\Response(
      *     response=200,
      *     description="A single group",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Group"))
+     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/PermissionGroup"))
      *   ),
      *   @SWG\Response(
      *     response="default",
      *     description="an ""unexpected"" error"
      *   )
      * )
-     * @param GroupRequest $request
+     * @param PermissionGroupRequest $request
      * @return
      */
-    public function show(GroupRequest $request)
+    public function show(PermissionGroupRequest $request)
     {
         return $this->itemResponse($request->entity());
     }
 
     /**
      * @SWG\Post(
-     *   path="/groups",
+     *   path="/permission_groups",
      *   summary="Create a group",
      *   operationId="createGroup",
      *   tags={"group"},
      *   @SWG\Parameter(
      *     in="body",
      *     name="body",
-     *     @SWG\Schema(ref="#/definitions/Group")
+     *     @SWG\Schema(ref="#/definitions/PermissionGroup")
      *   ),
      *   @SWG\Response(
      *     response=200,
      *     description="New group",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Group"))
+     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/PermissionGroup"))
      *   ),
      *   @SWG\Response(
      *     response="default",
      *     description="an ""unexpected"" error"
      *   )
      * )
-     * @param GroupRequest $request
+     * @param PermissionGroupRequest $request
      * @return
      */
-    public function store(GroupRequest $request)
+    public function store(PermissionGroupRequest $request)
     {
         $group = $this->groupRepo->save($request->input());
 
@@ -110,7 +110,7 @@ class GroupApiController extends BaseAPIController
 
     /**
      * @SWG\Put(
-     *   path="/groups/{group_id}",
+     *   path="/permission_groups/{group_id}",
      *   summary="Update a group",
      *   operationId="updateGroup",
      *   tags={"group"},
@@ -123,12 +123,12 @@ class GroupApiController extends BaseAPIController
      *   @SWG\Parameter(
      *     in="body",
      *     name="group",
-     *     @SWG\Schema(ref="#/definitions/Group")
+     *     @SWG\Schema(ref="#/definitions/PermissionGroup")
      *   ),
      *   @SWG\Response(
      *     response=200,
      *     description="Updated group",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Group"))
+     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/PermissionGroup"))
      *   ),
      *   @SWG\Response(
      *     response="default",
@@ -136,11 +136,11 @@ class GroupApiController extends BaseAPIController
      *   )
      * )
      *
-     * @param GroupRequest $request
+     * @param PermissionGroupRequest $request
      * @param mixed $publicId
      * @return
      */
-    public function update(GroupRequest $request, $publicId)
+    public function update(PermissionGroupRequest $request, $publicId)
     {
         if ($request->action) {
             return $this->handleAction($request);
@@ -155,7 +155,7 @@ class GroupApiController extends BaseAPIController
 
     /**
      * @SWG\Delete(
-     *   path="/groups/{group_id}",
+     *   path="/permission_groups/{group_id}",
      *   summary="Delete a group",
      *   operationId="deleteGroup",
      *   tags={"group"},
@@ -168,17 +168,17 @@ class GroupApiController extends BaseAPIController
      *   @SWG\Response(
      *     response=200,
      *     description="Deleted group",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Group"))
+     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/PermissionGroup"))
      *   ),
      *   @SWG\Response(
      *     response="default",
      *     description="an ""unexpected"" error"
      *   )
      * )
-     * @param GroupRequest $request
+     * @param PermissionGroupRequest $request
      * @return
      */
-    public function destroy(GroupRequest $request)
+    public function destroy(PermissionGroupRequest $request)
     {
         $group = $request->entity();
 

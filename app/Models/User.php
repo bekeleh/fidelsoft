@@ -334,7 +334,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
         if (($userPermissions == '') || (!array_key_exists($section, $userPermissions))) {
             return false;
         }
-        // Loop through the groups to see if any of them grant this permission
+        // Loop through the permission_groups to see if any of them grant this permission
         foreach ($userGroups as $userGroup) {
             $group_permissions = (array)json_decode($userGroup->permissions, true);
             if (((array_key_exists($section, $group_permissions)) && ($group_permissions[$section] == '1'))) {
@@ -358,7 +358,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
             ($userPermissions['superuser'] === '1')) {
             return true;
         }
-        // explicitly check user groups
+        // explicitly check user permission_groups
         foreach ($this->groups as $userGroup) {
             $group_permissions = (array)json_decode($userGroup->permissions, true);
             if ((array_key_exists('superuser', $group_permissions)) && ($group_permissions['superuser'] == '1')) {
@@ -370,7 +370,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
 
     public function groups()
     {
-        return $this->belongsToMany('\App\Models\Group', 'users_groups', 'user_id', 'group_id');
+        return $this->belongsToMany('\App\Models\PermissionGroup', 'users_groups', 'user_id', 'group_id');
     }
 
     public function accountStatus()

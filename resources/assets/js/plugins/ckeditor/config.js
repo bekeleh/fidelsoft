@@ -8,7 +8,7 @@ CKEDITOR.editorConfig = function (config) {
     // For the complete reference:
     // http://docs.ckeditor.com/#!/api/CKEDITOR.config
 
-    // The toolbar groups arrangement, optimized for two toolbar rows.
+    // The toolbar permission_groups arrangement, optimized for two toolbar rows.
     config.toolbarGroups = [
         {name: 'clipboard', groups: ['clipboard', 'undo']},
         {name: 'editing', groups: ['find', 'selection', 'spellchecker']},

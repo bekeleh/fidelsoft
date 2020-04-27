@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PermissionRequest;
 use App\Libraries\Utils;
 use App\Ninja\Datatables\PermissionDatatable;
-use App\Ninja\Repositories\GroupRepository;
-use App\Services\GroupService;
+use App\Ninja\Repositories\PermissionGroupRepository;
+use App\Services\PermissionGroupService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
@@ -19,7 +19,7 @@ class PermissionController extends BaseController
     protected $permissionService;
     protected $entityType = ENTITY_PERMISSION;
 
-    public function __construct(GroupRepository $permissionRepo, GroupService $permissionService)
+    public function __construct(PermissionGroupRepository $permissionRepo, PermissionGroupService $permissionService)
     {
         // parent::__construct();
 

@@ -130,8 +130,8 @@ class UserRepository extends BaseRepository
 
         $user->save();
 
-        if (!empty($data['groups'])) {
-            $user->groups()->sync($data['groups']);
+        if (!empty($data['permission_groups'])) {
+            $user->groups()->sync($data['permission_groups']);
         } else {
             $user->groups()->sync(array());
         }

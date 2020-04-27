@@ -279,7 +279,7 @@ class AccountRepository
             ENTITY_STATUS,
             ENTITY_INVOICE,
             ENTITY_USER,
-            ENTITY_GROUP,
+            ENTITY_PERMISSION_GROUP,
             ENTITY_CLIENT,
             ENTITY_QUOTE,
             ENTITY_TASK,

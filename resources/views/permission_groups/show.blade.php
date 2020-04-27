@@ -52,7 +52,7 @@
             {!! Form::tab_link('#permissions', trans('texts.permissions')) !!}
         @endif
         @if (true)
-            {!! Form::tab_link('#groups', trans('texts.groups')) !!}
+            {!! Form::tab_link('#permission_groups', trans('texts.permission_groups')) !!}
         @endif
 
     </ul>

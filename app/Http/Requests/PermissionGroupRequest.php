@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Group;
+use App\Models\PermissionGroup;
 
-class GroupRequest extends EntityRequest
+class PermissionGroupRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_GROUP;
+    protected $entityType = ENTITY_PERMISSION_GROUP;
 
     public function authorize()
     {
@@ -30,7 +30,7 @@ class GroupRequest extends EntityRequest
             case 'PATCH':
             {
                 $this->validationData();
-                $group = Group::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
+                $group = PermissionGroup::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
                 if ($group) {
                     $rules['name'] = 'required|max:90|unique:permission_groups,name,' . $group->id . ',id,account_id,' . $group->account_id;
                     $rules['is_deleted'] = 'boolean';
@@ -64,7 +64,7 @@ class GroupRequest extends EntityRequest
         $input = $this->input();
         if (count($input)) {
             $this->request->add([
-                'account_id' => Group::getAccountId()
+                'account_id' => PermissionGroup::getAccountId()
             ]);
         }
         return $this->request->all();

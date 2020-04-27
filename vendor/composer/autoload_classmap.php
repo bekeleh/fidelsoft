@@ -10409,7 +10409,7 @@ return array(
     'Google_Service_CloudIdentity_GoogleAppsCloudidentityDevicesV1alpha1ListEndpointAppsResponse' => $vendorDir . '/google/apiclient-services/src/Google/Service/CloudIdentity/GoogleAppsCloudidentityDevicesV1alpha1ListEndpointAppsResponse.php',
     'Google_Service_CloudIdentity_GoogleAppsCloudidentityDevicesV1alpha1WipeDeviceResponse' => $vendorDir . '/google/apiclient-services/src/Google/Service/CloudIdentity/GoogleAppsCloudidentityDevicesV1alpha1WipeDeviceResponse.php',
     'Google_Service_CloudIdentity_GoogleAppsCloudidentityDevicesV1alpha1WipeDeviceUserResponse' => $vendorDir . '/google/apiclient-services/src/Google/Service/CloudIdentity/GoogleAppsCloudidentityDevicesV1alpha1WipeDeviceUserResponse.php',
-    'Google_Service_CloudIdentity_Group' => $vendorDir . '/google/apiclient-services/src/Google/Service/CloudIdentity/Group.php',
+    'Google_Service_CloudIdENTITY_PERMISSION_GROUP' => $vendorDir . '/google/apiclient-services/src/Google/Service/CloudIdentity/Group.php',
     'Google_Service_CloudIdentity_ListGroupsResponse' => $vendorDir . '/google/apiclient-services/src/Google/Service/CloudIdentity/ListGroupsResponse.php',
     'Google_Service_CloudIdentity_ListMembershipsResponse' => $vendorDir . '/google/apiclient-services/src/Google/Service/CloudIdentity/ListMembershipsResponse.php',
     'Google_Service_CloudIdentity_LookupGroupNameResponse' => $vendorDir . '/google/apiclient-services/src/Google/Service/CloudIdentity/LookupGroupNameResponse.php',

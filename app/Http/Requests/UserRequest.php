@@ -26,7 +26,7 @@ class UserRequest extends EntityRequest
                 $rules['last_name'] = 'required|max:50';
                 $rules['username'] = 'required|max:50|unique:users,username,' . $this->id . ',id,account_id,' . $this->account_id;
                 $rules['email'] = 'required|email|max:50|unique:users,email,' . $this->id . ',id';
-                $rules['groups'] = 'required|array';
+                $rules['permission_groups'] = 'required|array';
                 $rules['location_id'] = 'numeric';
                 $rules['is_deleted'] = 'boolean';
                 $rules['notes'] = 'nullable';
@@ -43,7 +43,7 @@ class UserRequest extends EntityRequest
                     $rules['last_name'] = 'required|max:50';
                     $rules['username'] = 'required|max:50|unique:users,username,' . $user->id . ',id,account_id,' . $user->account_id;
                     $rules['email'] = 'required|email|max:50|unique:users,email,' . $user->id . ',id';
-                    $rules['groups'] = 'required|array';
+                    $rules['permission_groups'] = 'required|array';
                     $rules['location_id'] = 'numeric';
                     $rules['is_deleted'] = 'boolean';
                     $rules['notes'] = 'nullable';
