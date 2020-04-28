@@ -292,7 +292,7 @@ class DashboardRepository
             ->where('clients.deleted_at', '=', null)
             ->where('contacts.deleted_at', '=', null)
             ->where('invoices.is_recurring', '=', false)
-            ->where('invoices.quote_invoice_id', '=', null)
+            ->where('invoices.quote_invoice_id', '=', false)
             ->where('invoices.balance', '>', 0)
             ->where('invoices.is_deleted', '=', false)
             ->where('invoices.deleted_at', '=', null)
