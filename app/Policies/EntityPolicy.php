@@ -4,8 +4,8 @@ namespace App\Policies;
 
 use App\Libraries\Utils;
 use App\Models\User;
-use Illuminate\Support\Str;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Str;
 
 /**
  * Class EntityPolicy.
@@ -66,28 +66,12 @@ abstract class EntityPolicy
         return $user->hasAccess($this->tableName() . '.edit');
     }
 
-    public function bulkUpdate(User $user, $item = null)
-    {
-        if (!static::checkModuleEnabled($user, $item)) {
-            return false;
-        }
-        return $user->hasAccess($this->tableName() . '.bulkUpdate');
-    }
-
     public function delete(User $user, $item = null)
     {
         if (!static::checkModuleEnabled($user, $item)) {
             return false;
         }
         return $user->hasAccess($this->tableName() . '.delete');
-    }
-
-    public function bulkDelete(User $user, $item = null)
-    {
-        if (!static::checkModuleEnabled($user, $item)) {
-            return false;
-        }
-        return $user->hasAccess($this->tableName() . '.bulkDelete');
     }
 
     public function forceDelete(User $user, $item = null)
@@ -98,28 +82,11 @@ abstract class EntityPolicy
         return $user->hasAccess($this->tableName() . '.forceDelete');
     }
 
-    public function restore(User $user, $item = null)
-    {
-        if (!static::checkModuleEnabled($user, $item)) {
-            return false;
-        }
-        return $user->hasAccess($this->tableName() . '.restore');
-    }
-
-    public function bulkRestore(User $user, $item = null)
-    {
-        if (!static::checkModuleEnabled($user, $item)) {
-            return false;
-        }
-        return $user->hasAccess($this->tableName() . '.bulkRestore');
-    }
-
     private static function checkModuleEnabled(User $user, $item)
     {
         $entityType = is_string($item) ? $item : $item->getEntityType();
         return $user->account->isModuleEnabled($entityType);
     }
-
 
     private static function className($entityType)
     {
