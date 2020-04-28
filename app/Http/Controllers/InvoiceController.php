@@ -68,6 +68,7 @@ class InvoiceController extends BaseController
         return response()->view('list_wrapper', $data);
     }
 
+
     public function show($publicId)
     {
         Session::reflash();

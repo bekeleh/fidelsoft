@@ -57,7 +57,6 @@ class QuoteController extends BaseController
             'title' => trans('texts.quotes'),
             'entityType' => ENTITY_QUOTE,
             'datatable' => $datatable,
-            'statuses' => Invoice::getStatuses(),
         ];
 
         return response()->view('list_wrapper', $data);
@@ -105,8 +104,8 @@ class QuoteController extends BaseController
         return [
             'entityType' => ENTITY_QUOTE,
             'account' => Auth::user()->account->load('country'),
-//            'products' => Product::scope()->orderBy('name')->get(),
-            'products' => Product::withCategory('itemBrand.itemCategory'),
+            'products' => Product::scope()->orderBy('name')->get(),
+//            'products' => Product::withCategory('itemBrand.itemCategory'),
             'taxRateOptions' => $account->present()->taxRateOptions,
             'clients' => Client::scope()->with('contacts', 'country')->orderBy('name')->get(),
             'taxRates' => TaxRate::scope()->orderBy('name')->get(),

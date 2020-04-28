@@ -11,6 +11,7 @@ use App\Libraries\Utils;
 use App\Models\Account;
 use App\Models\Client;
 use App\Models\Document;
+use App\Models\EntityModel;
 use App\Models\Expense;
 use App\Models\Invitation;
 use App\Models\Invoice;
@@ -102,13 +103,14 @@ class InvoiceRepository extends BaseRepository
                 'invoices.private_notes'
             );
 
-        $this->applyFilters($query, $entityType, ENTITY_INVOICE);
+//      explicitly passing table name recommend
+        $this->applyFilters($query, $entityType, 'invoices');
 
         if ($statuses = session('entity_status_filter:' . $entityType)) {
             $statuses = explode(',', $statuses);
             $query->where(function ($query) use ($statuses) {
                 foreach ($statuses as $status) {
-                    if (in_array($status, \App\Models\EntityModel::$statuses)) {
+                    if (in_array($status, EntityModel::$statuses)) {
                         continue;
                     }
                     $query->orWhere('invoice_status_id', '=', $status);

@@ -3,12 +3,11 @@
 namespace App\Ninja\Presenters;
 
 use App\Libraries\Skype\InvoiceCard;
-use App\Models\Activity;
-use Carbon;
+use App\Libraries\Utils;
+use Carbon\Carbon;
 use DropdownButton;
+use Illuminate\Support\Facades\Auth;
 use stdClass;
-use Utils;
-use Auth;
 
 class InvoicePresenter extends EntityPresenter
 {
@@ -78,7 +77,7 @@ class InvoicePresenter extends EntityPresenter
         $invoice = $this->entity;
         $dueDate = $invoice->partial_due_date ?: $invoice->due_date;
 
-        if (! $dueDate || $dueDate == '0000-00-00') {
+        if (!$dueDate || $dueDate == '0000-00-00') {
             return 0;
         }
 
@@ -131,7 +130,7 @@ class InvoicePresenter extends EntityPresenter
     // https://schema.org/PaymentStatusType
     public function paymentStatus()
     {
-        if (! $this->entity->balance) {
+        if (!$this->entity->balance) {
             return 'PaymentComplete';
         } elseif ($this->entity->isOverdue()) {
             return 'PaymentPastDue';
@@ -176,7 +175,7 @@ class InvoicePresenter extends EntityPresenter
         $frequency = $this->entity->frequency ? $this->entity->frequency->name : '';
         $frequency = strtolower($frequency);
 
-        return trans('texts.freq_'.$frequency);
+        return trans('texts.freq_' . $frequency);
     }
 
     public function email()
@@ -191,7 +190,7 @@ class InvoicePresenter extends EntityPresenter
         $client = $this->entity->client;
         $paymentMethod = $client->defaultPaymentMethod();
 
-        if (! $paymentMethod) {
+        if (!$paymentMethod) {
             return false;
         }
 
@@ -261,7 +260,7 @@ class InvoicePresenter extends EntityPresenter
             if ($invoice->quote_invoice_id) {
                 $actions[] = ['url' => url("invoices/{$invoice->quote_invoice_id}/edit"), 'label' => trans('texts.view_invoice')];
             } else {
-                if (! $invoice->isApproved()) {
+                if (!$invoice->isApproved()) {
                     $actions[] = ['url' => url("proposals/create/{$invoice->public_id}"), 'label' => trans('texts.new_proposal')];
                 }
                 $actions[] = ['url' => 'javascript:onConvertClick()', 'label' => trans('texts.convert_to_invoice')];
@@ -293,10 +292,10 @@ class InvoicePresenter extends EntityPresenter
             $actions[] = DropdownButton::DIVIDER;
         }
 
-        if (! $invoice->trashed()) {
+        if (!$invoice->trashed()) {
             $actions[] = ['url' => 'javascript:onArchiveClick()', 'label' => trans("texts.archive_{$entityType}")];
         }
-        if (! $invoice->is_deleted) {
+        if (!$invoice->is_deleted) {
             $actions[] = ['url' => 'javascript:onDeleteClick()', 'label' => trans("texts.delete_{$entityType}")];
         }
 
@@ -308,13 +307,13 @@ class InvoicePresenter extends EntityPresenter
         $invoice = $this->entity;
         $account = $invoice->account;
 
-        if (! $account->gateway_fee_enabled) {
+        if (!$account->gateway_fee_enabled) {
             return '';
         }
 
         $settings = $account->getGatewaySettings($gatewayTypeId);
 
-        if (! $settings || ! $settings->areFeesEnabled()) {
+        if (!$settings || !$settings->areFeesEnabled()) {
             return '';
         }
 

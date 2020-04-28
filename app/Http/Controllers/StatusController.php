@@ -56,7 +56,9 @@ class StatusController extends BaseController
 
     public function getDatatable()
     {
-        return $this->StatusService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
+        $accountId = Auth::user()->account_id;
+        $search = Input::get('sSearch');
+        return $this->StatusService->getDatatable($accountId, $search);
     }
 
     public function edit(StatusRequest $request, $publicId, $clone = false)

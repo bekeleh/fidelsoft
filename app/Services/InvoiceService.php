@@ -146,6 +146,7 @@ class InvoiceService extends BaseService
     {
         $datatable = new InvoiceDatatable(true, $clientPublicId);
         $datatable->entityType = $entityType;
+
         $query = $this->invoiceRepo->getInvoices($accountId, $clientPublicId, $entityType, $search)
             ->where('invoices.invoice_type_id', '=', $entityType == ENTITY_QUOTE ? INVOICE_TYPE_QUOTE : INVOICE_TYPE_STANDARD);
 
