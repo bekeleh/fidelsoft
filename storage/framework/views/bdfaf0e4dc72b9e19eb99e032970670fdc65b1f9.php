@@ -48,7 +48,7 @@
                 <!-- notes -->
                 <?php echo Former::textarea('notes')->rows(4); ?>
 
-                <!-- user groups -->
+                <!-- user permission_groups -->
                     <?php echo Former::label('permission_groups', trans('texts.group')); ?>
 
                     <?php echo Form::select('permission_groups[]', $groups, $userGroups, ['class' => 'form-control padding-right', 'multiple' => 'multiple',]); ?>

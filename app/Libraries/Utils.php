@@ -99,7 +99,7 @@ class Utils
 
     public static function requireHTTPS()
     {
-        if (in_array(Request::root(), ['http://www.ninja.test', 'http://www.ninja.test:8000'])) {
+        if (in_array(Request::root(), ['http://www.eninja.test', 'http://www.eninja.test:8000'])) {
             return false;
         }
 

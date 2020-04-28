@@ -64,7 +64,7 @@ class PermissionGroupDatatable extends EntityDatatable
     {
         return [
             [
-                trans('texts.edit_group'),
+                trans('texts.edit_permission_group'),
                 function ($model) {
                     if (Auth::user()->can('edit', [ENTITY_PERMISSION_GROUP, $model]))
                         return URL::to("permission_groups/{$model->public_id}/edit");
@@ -73,10 +73,13 @@ class PermissionGroupDatatable extends EntityDatatable
                 },
             ],
             [
-                trans('texts.clone_group'),
+                trans('texts.clone_permission_group'),
                 function ($model) {
                     return URL::to("permission_groups/{$model->public_id}/clone");
-                }
+                },
+                function ($model) {
+                    return Auth::user()->can('create', ENTITY_PERMISSION_GROUP);
+                },
             ],
         ];
     }

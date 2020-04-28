@@ -48,7 +48,7 @@ use App\Policies\CustomerPolicy;
 use App\Policies\DocumentPolicy;
 use App\Policies\ExpenseCategoryPolicy;
 use App\Policies\ExpensePolicy;
-use App\Policies\GroupPolicy;
+use App\Policies\PermissionGroupPolicy;
 use App\Policies\InvoicePolicy;
 use App\Policies\ItemBrandPolicy;
 use App\Policies\ItemCategoryPolicy;
@@ -87,7 +87,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Status::class => StatusPolicy::class,
         User::class => UserPolicy::class,
-        PermissionGroup::class => GroupPolicy::class,
+        PermissionGroup::class => PermissionGroupPolicy::class,
         Permission::class => PermissionPolicy::class,
         Client::class => ClientPolicy::class,
         Contact::class => ContactPolicy::class,

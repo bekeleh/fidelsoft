@@ -1,53 +1,52 @@
 @extends('header')
-
 @section('head')
     @parent
-
 @stop
-
 @section('content')
-    <!-- edit user -->
-    <div class="row">
-        <div class="col-md-7">
-            <ol class="breadcrumb">
-                <li>{{ link_to('/users', trans('texts.users')) }}</li>
-                <li class='active'>{{ $user->present()->fullName }}</li> {!! $user->present()->statusLabel !!}
-            </ol>
-        </div>
-        <div class="col-md-5">
-            <div class="pull-right">
-                {!! Former::open('users/bulk')->autocomplete('off')->addClass('mainForm') !!}
-                <div style="display:none">
-                    {!! Former::text('action') !!}
-                    {!! Former::text('public_id')->value($user->public_id) !!}
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-7">
+                    <ol class="breadcrumb">
+                        <li>{{ link_to('/users', trans('texts.users')) }}</li>
+                        <li class='active'>{{ $user->present()->fullName }}</li> {!! $user->present()->statusLabel !!}
+                    </ol>
                 </div>
-
-                @if (!$user->is_deleted)
-                    @can('edit', $user)
-                        {!! DropdownButton::normal(trans('texts.edit_user'))
-                            ->withAttributes(['class'=>'normalDropDown'])
-                            ->withContents([
-                              ($user->trashed() ? false : ['label' => trans('texts.archive_user'), 'url' => "javascript:onArchiveClick()"]),
-                              ['label' => trans('texts.delete_user'), 'url' => "javascript:onDeleteClick()"],
-                              auth()->user()->is_admin ? \DropdownButton::DIVIDER : false,
-                              auth()->user()->is_admin ? ['label' => trans('texts.purge_user'), 'url' => "javascript:onPurgeClick()"] : false,
-                            ]
-                          )->split() !!}
-                    @endcan
-                @endif
-                @if ($user->trashed())
-                    @can('edit', $user)
-                        @if (auth()->user()->is_admin && $user->is_deleted)
-                            {!! Button::danger(trans('texts.purge_user'))
-                                    ->appendIcon(Icon::create('warning-sign'))
-                                    ->withAttributes(['onclick' => 'onPurgeClick()']) !!}
+                <div class="col-md-5">
+                    <div class="pull-right">
+                        {!! Former::open('users/bulk')->autocomplete('off')->addClass('mainForm') !!}
+                        <div style="display:none">
+                            {!! Former::text('action') !!}
+                            {!! Former::text('public_id')->value($user->public_id) !!}
+                        </div>
+                        @if (!$user->is_deleted)
+                            @can('edit', $user)
+                                {!! DropdownButton::normal(trans('texts.edit_user'))
+                                    ->withAttributes(['class'=>'normalDropDown'])
+                                    ->withContents([
+                                      ($user->trashed() ? false : ['label' => trans('texts.archive_user'), 'url' => "javascript:onArchiveClick()"]),
+                                      ['label' => trans('texts.delete_user'), 'url' => "javascript:onDeleteClick()"],
+                                      auth()->user()->is_admin ? \DropdownButton::DIVIDER : false,
+                                      auth()->user()->is_admin ? ['label' => trans('texts.purge_user'), 'url' => "javascript:onPurgeClick()"] : false,
+                                    ]
+                                  )->split() !!}
+                            @endcan
                         @endif
-                        {!! Button::primary(trans('texts.restore_user'))
-                                ->appendIcon(Icon::create('retweet'))
-                                ->withAttributes(['onclick' => 'onRestoreClick()']) !!}
-                    @endcan
-                @endif
-                {!! Former::close() !!}
+                        @if ($user->trashed())
+                            @can('edit', $user)
+                                @if (auth()->user()->is_admin && $user->is_deleted)
+                                    {!! Button::danger(trans('texts.purge_user'))
+                                            ->appendIcon(Icon::create('warning-sign'))
+                                            ->withAttributes(['onclick' => 'onPurgeClick()']) !!}
+                                @endif
+                                {!! Button::primary(trans('texts.restore_user'))
+                                        ->appendIcon(Icon::create('retweet'))
+                                        ->withAttributes(['onclick' => 'onRestoreClick()']) !!}
+                            @endcan
+                        @endif
+                        {!! Former::close() !!}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -107,7 +106,7 @@
     <div class="tab-content">
         @if (Auth::user()->isSuperUser() || Auth::user()->is_admin)
             <div class="tab-pane" id="permissions">
-                @include('accounts.permission',[
+                @include('users.permission',[
                 'user' => $user,
                 'permissions' => $permissions,
                 'userPermissions' => $userPermissions,

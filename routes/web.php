@@ -384,10 +384,11 @@ Route::group([
     Route::resource('subscriptions', 'SubscriptionController');
     Route::post('subscriptions/bulk', 'SubscriptionController@bulk');
 //    user permission_groups
-    Route::get('permission_groups/{permission_groups}/clone', 'PermissionGroupController@cloneGroup');
+    Route::get('permission_groups/{permission_groups}/clone', 'PermissionGroupController@clonePermissionGroup');
     Route::get('api/permission_groups', 'PermissionGroupController@getDatatable');
     Route::resource('permission_groups', 'PermissionGroupController');
     Route::post('permission_groups/bulk', 'PermissionGroupController@bulk');
+    Route::post('permission_groups/change_group', 'PermissionGroupController@changePermission');
 //    permissions
     Route::get('permissions/{permissions}/clone', 'permissionController@clonePermission');
     Route::get('api/permissions', 'permissionController@getDatatable');

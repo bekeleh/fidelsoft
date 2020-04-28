@@ -12,33 +12,35 @@ use Illuminate\Support\Facades\Auth;
  */
 class PermissionGroupService extends BaseService
 {
-    protected $groupRepo;
+    protected $permissionGroupRepo;
     protected $datatableService;
 
-    public function __construct(PermissionGroupRepository $groupRepo, DatatableService $datatableService)
+    public function __construct(PermissionGroupRepository $permissionGroupRepo, DatatableService $datatableService)
     {
-        $this->groupRepo = $groupRepo;
+        $this->permissionGroupRepo = $permissionGroupRepo;
         $this->datatableService = $datatableService;
     }
 
     protected function getRepo()
     {
-        return $this->groupRepo;
+        return $this->permissionGroupRepo;
     }
 
     public function save($data)
     {
-        return $this->groupRepo->save($data);
+        return $this->permissionGroupRepo->save($data);
     }
 
     public function getDatatable($accountId, $search)
     {
-        $query = $this->groupRepo->find($accountId, $search);
+        $datatable = new PermissionGroupDatatable(true);
+
+        $query = $this->permissionGroupRepo->find($accountId, $search);
 
         if (!Utils::hasAccess('view_permission_groups')) {
             $query->where('permission_groups.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable(new PermissionGroupDatatable(), $query, 'permission_groups');
+        return $this->datatableService->createDatatable($datatable, $query, 'permission_groups');
     }
 }

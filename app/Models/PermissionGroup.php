@@ -22,7 +22,6 @@ class PermissionGroup extends EntityModel
 
     protected $fillable = [
         'name',
-        'permissions',
         'is_deleted',
         'notes',
         'created_by',
@@ -30,7 +29,8 @@ class PermissionGroup extends EntityModel
         'deleted_by',
     ];
 
-    protected $hidden = [];
+    protected $hidden = ['permissions'];
+
     protected $casts = [];
 
 
@@ -49,7 +49,7 @@ class PermissionGroup extends EntityModel
         return json_decode($this->permissions, true);
     }
 
-    public static function findGroupByKey($key)
+    public static function findPermissionGroupByKey($key)
     {
         return self::scope()->where('name', '=', $key)->first();
     }

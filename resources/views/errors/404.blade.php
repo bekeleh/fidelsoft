@@ -4,6 +4,7 @@
         max-width: 600px;
         text-align: center;
     }
+
     h1 {
         margin: 30px 0;
         font-size: 4em;
@@ -14,7 +15,12 @@
 
 <div class="container">
     <h1>404</h1>
+    <div class="error-content">
+        <h3><i class="fa fa-warning text-yellow"></i><strong>Page not found :(</strong></h3>
+        <p>
+            We could not find the page you were looking for.
+            You should maybe <a href="{{ url('/') }}">return to the dashboard</a>.
+        </p>
 
-    <p><strong>Page not found :(</strong></p>
-    <p>The requested page could not be found.</p>
+    </div>
 </div>

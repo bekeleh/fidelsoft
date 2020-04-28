@@ -1,59 +1,59 @@
 <?php $__env->startSection('head'); ?>
     ##parent-placeholder-1a954628a960aaef81d7b2d4521929579f3541e6##
-
 <?php $__env->stopSection(); ?>
-
 <?php $__env->startSection('content'); ?>
-    <!-- edit user -->
-    <div class="row">
-        <div class="col-md-7">
-            <ol class="breadcrumb">
-                <li><?php echo e(link_to('/users', trans('texts.users'))); ?></li>
-                <li class='active'><?php echo e($user->present()->fullName); ?></li> <?php echo $user->present()->statusLabel; ?>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-7">
+                    <ol class="breadcrumb">
+                        <li><?php echo e(link_to('/users', trans('texts.users'))); ?></li>
+                        <li class='active'><?php echo e($user->present()->fullName); ?></li> <?php echo $user->present()->statusLabel; ?>
 
-            </ol>
-        </div>
-        <div class="col-md-5">
-            <div class="pull-right">
-                <?php echo Former::open('users/bulk')->autocomplete('off')->addClass('mainForm'); ?>
-
-                <div style="display:none">
-                    <?php echo Former::text('action'); ?>
-
-                    <?php echo Former::text('public_id')->value($user->public_id); ?>
-
+                    </ol>
                 </div>
+                <div class="col-md-5">
+                    <div class="pull-right">
+                        <?php echo Former::open('users/bulk')->autocomplete('off')->addClass('mainForm'); ?>
 
-                <?php if(!$user->is_deleted): ?>
-                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('edit', $user)): ?>
-                        <?php echo DropdownButton::normal(trans('texts.edit_user'))
-                            ->withAttributes(['class'=>'normalDropDown'])
-                            ->withContents([
-                              ($user->trashed() ? false : ['label' => trans('texts.archive_user'), 'url' => "javascript:onArchiveClick()"]),
-                              ['label' => trans('texts.delete_user'), 'url' => "javascript:onDeleteClick()"],
-                              auth()->user()->is_admin ? \DropdownButton::DIVIDER : false,
-                              auth()->user()->is_admin ? ['label' => trans('texts.purge_user'), 'url' => "javascript:onPurgeClick()"] : false,
-                            ]
-                          )->split(); ?>
+                        <div style="display:none">
+                            <?php echo Former::text('action'); ?>
 
-                    <?php endif; ?>
-                <?php endif; ?>
-                <?php if($user->trashed()): ?>
-                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('edit', $user)): ?>
-                        <?php if(auth()->user()->is_admin && $user->is_deleted): ?>
-                            <?php echo Button::danger(trans('texts.purge_user'))
-                                    ->appendIcon(Icon::create('warning-sign'))
-                                    ->withAttributes(['onclick' => 'onPurgeClick()']); ?>
+                            <?php echo Former::text('public_id')->value($user->public_id); ?>
 
+                        </div>
+                        <?php if(!$user->is_deleted): ?>
+                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('edit', $user)): ?>
+                                <?php echo DropdownButton::normal(trans('texts.edit_user'))
+                                    ->withAttributes(['class'=>'normalDropDown'])
+                                    ->withContents([
+                                      ($user->trashed() ? false : ['label' => trans('texts.archive_user'), 'url' => "javascript:onArchiveClick()"]),
+                                      ['label' => trans('texts.delete_user'), 'url' => "javascript:onDeleteClick()"],
+                                      auth()->user()->is_admin ? \DropdownButton::DIVIDER : false,
+                                      auth()->user()->is_admin ? ['label' => trans('texts.purge_user'), 'url' => "javascript:onPurgeClick()"] : false,
+                                    ]
+                                  )->split(); ?>
+
+                            <?php endif; ?>
                         <?php endif; ?>
-                        <?php echo Button::primary(trans('texts.restore_user'))
-                                ->appendIcon(Icon::create('retweet'))
-                                ->withAttributes(['onclick' => 'onRestoreClick()']); ?>
+                        <?php if($user->trashed()): ?>
+                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('edit', $user)): ?>
+                                <?php if(auth()->user()->is_admin && $user->is_deleted): ?>
+                                    <?php echo Button::danger(trans('texts.purge_user'))
+                                            ->appendIcon(Icon::create('warning-sign'))
+                                            ->withAttributes(['onclick' => 'onPurgeClick()']); ?>
 
-                    <?php endif; ?>
-                <?php endif; ?>
-                <?php echo Former::close(); ?>
+                                <?php endif; ?>
+                                <?php echo Button::primary(trans('texts.restore_user'))
+                                        ->appendIcon(Icon::create('retweet'))
+                                        ->withAttributes(['onclick' => 'onRestoreClick()']); ?>
 
+                            <?php endif; ?>
+                        <?php endif; ?>
+                        <?php echo Former::close(); ?>
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -118,7 +118,7 @@
     <div class="tab-content">
         <?php if(Auth::user()->isSuperUser() || Auth::user()->is_admin): ?>
             <div class="tab-pane" id="permissions">
-                <?php echo $__env->make('accounts.permission',[
+                <?php echo $__env->make('users.permission',[
                 'user' => $user,
                 'permissions' => $permissions,
                 'userPermissions' => $userPermissions,

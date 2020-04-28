@@ -17,5 +17,5 @@
     <h1>403</h1>
     <p><strong>Access forbidden :(</strong></p>
     <p> You are not authorized to access this page. Contact your IT Admin.</p>
-    You should may be <a href="{{ url('/') }}">return to the dashboard</a>.
+    You should may be <a href="<?php echo e(url('/')); ?>">return to the dashboard</a>.
 </div>

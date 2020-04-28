@@ -108,9 +108,7 @@ class UserRepository extends BaseRepository
                 ->orderBy('public_id', 'DESC')->first();
 
             $user->public_id = $lastUser->public_id + 1;
-            $user->password = strtolower(str_random(RANDOM_KEY_LENGTH));
             $user->confirmation_code = strtolower(str_random(RANDOM_KEY_LENGTH));
-            $user->permissions = isset($data['permissions']) ? self::formatUserPermissions($data['permissions']) : '';
             $user->registered = true;
             $user->created_by = auth::user()->username;
         }
@@ -121,12 +119,9 @@ class UserRepository extends BaseRepository
         $user->last_name = isset($data['last_name']) ? ucfirst(trim($data['last_name'])) : '';
         $user->username = isset($data['username']) ? trim($data['username']) : '';
         $user->email = isset($data['email']) ? trim($data['email']) : '';
-
-        if (Auth::user()->hasFeature(FEATURE_USER_PERMISSIONS)) {
-            $user->confirmed = isset($data['confirmed']) ? boolval($data['confirmed']) : 0;
-            $user->activated = isset($data['activated']) ? boolval($data['activated']) : 0;
-            $user->is_admin = isset($data['is_admin']) ? boolval($data['is_admin']) : 0;
-        }
+        $user->confirmed = isset($data['confirmed']) ? boolval($data['confirmed']) : 0;
+        $user->activated = isset($data['activated']) ? boolval($data['activated']) : 0;
+        $user->is_admin = isset($data['is_admin']) ? boolval($data['is_admin']) : 0;
 
         $user->save();
 

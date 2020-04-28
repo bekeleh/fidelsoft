@@ -3,9 +3,9 @@
 namespace App\Policies;
 
 /**
- * Class GroupPolicy.
+ * Class PermissionGroupPolicy.
  */
-class GroupPolicy extends EntityPolicy
+class PermissionGroupPolicy extends EntityPolicy
 {
     public function tableName()
     {

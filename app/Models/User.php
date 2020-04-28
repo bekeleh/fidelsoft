@@ -35,9 +35,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
 //        'edit_all' => 0b0100,
     ];
 
-
     protected $table = 'users';
-
 
     protected $fillable = [
         'manager_id',
@@ -58,8 +56,11 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
 
     protected $hidden = [
         'password',
+        'reset_password_code',
+        'permissions',
         'remember_token',
         'confirmation_code',
+        'persist_code',
         'oauth_user_id',
         'oauth_provider_id',
         'google_2fa_secret',
@@ -68,9 +69,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
         'slack_webhook_url',
     ];
 
-
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
-
 
     public function getEntityType()
     {
@@ -85,11 +84,6 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
     public function decodePermissions()
     {
         return json_decode($this->permissions, true);
-    }
-
-    public function decodeGroups()
-    {
-        return json_decode($this->groups, true);
     }
 
     public function showMap()
@@ -320,12 +314,13 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
         if ($this->isSuperUser()) {
             return true;
         }
+
         $userGroups = $this->groups;
         if (($this->permissions === '') && (count($userGroups) == 0)) {
             return false;
         }
 
-        $userPermissions = json_decode($this->permissions, true);
+        $userPermissions = (array)json_decode($this->permissions, true);
 
         if (($userPermissions != '') && ((array_key_exists($section, $userPermissions)) && ($userPermissions[$section] == '1'))) {
             return true;
@@ -334,11 +329,10 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
         if (($userPermissions == '') || (!array_key_exists($section, $userPermissions))) {
             return false;
         }
-        // Loop through the permission_groups to see if any of them grant this permission
+        // Loop through the permission to see if any of them granted this groups.
         foreach ($userGroups as $userGroup) {
-            $group_permissions = (array)json_decode($userGroup->permissions, true);
-            if (((array_key_exists($section, $group_permissions)) && ($group_permissions[$section] == '1'))) {
-//                dd($section);
+            $groupPermissions = (array)json_decode($userGroup->permissions, 1);
+            if (((array_key_exists($section, $groupPermissions)) && ($groupPermissions[$section] == '1'))) {
                 return true;
             }
         }
@@ -347,24 +341,23 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
 
     public function isSuperUser()
     {
-        // check if any permission exists
-        $userPermissions = (array)json_decode($this->permissions, true);
-
-        if (!$userPermissions || $userPermissions === '') {
+        $userPermissions = json_decode($this->permissions, true);
+        if (!$userPermissions) {
             return false;
         }
-        // check pair of array_key and array_name
-        if ((array_key_exists('superuser', $userPermissions)) &&
-            ($userPermissions['superuser'] === '1')) {
-            return true;
-        }
-        // explicitly check user permission_groups
+
         foreach ($this->groups as $userGroup) {
-            $group_permissions = (array)json_decode($userGroup->permissions, true);
-            if ((array_key_exists('superuser', $group_permissions)) && ($group_permissions['superuser'] == '1')) {
+            $group_permissions = json_decode($userGroup->permissions, true);
+            $group_array = (array)$group_permissions;
+            if ((array_key_exists('superuser', $group_array)) && ($group_permissions['superuser'] == '1')) {
                 return true;
             }
         }
+
+        if ((array_key_exists('superuser', $userPermissions)) && ($userPermissions['superuser'] == '1')) {
+            return true;
+        }
+
         return false;
     }
 

@@ -62,9 +62,9 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-md-12">
-                @if (!Auth::user()->isSuperUser())
+                @if (!Auth::user()->isSuperUser() || !Auth::user()->is_admin )
                     <p class="alert alert-warning">
-                        Only super admin may grant a user super admin access.
+                        Only admin member can access this page.
                     </p>
                 @endif
             </div>
@@ -218,16 +218,18 @@
     });
 
     function submitChangePermission() {
-        var public_id ={{$user->public_id}};
+        var $account_id ={{$user->account_id}};
+        var $public_id ={{$user->public_id}};
         var isChecked = $('td.permissions-item input:radio:checked').iCheck('check');
         var permissionArray = getPermission(isChecked);
         // console.log(permissionArray);
         $.ajax({
-            type: 'POST',
             url: '{{ URL::to('/users/change_permission') }}',
-            data: 'permission=' + permissionArray + '&public_id=' + public_id,
+            type: 'POST',
+            dataType: 'json',
+            data: 'permission=' + permissionArray + '&account_id=' + $account_id + '&public_id=' + $public_id,
             success: function (result) {
-                if (result == 'success') {
+                if (result.success) {
                     $('#successDiv').show();
                 }
             }

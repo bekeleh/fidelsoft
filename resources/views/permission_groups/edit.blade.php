@@ -21,7 +21,7 @@
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
-                    {!! Former::text('name')->label('texts.group_name') !!}
+                    {!! Former::text('name')->label('texts.permission_group_name') !!}
                     {!! Former::textarea('notes')->rows(6) !!}
                 </div>
             </div>

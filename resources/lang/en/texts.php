@@ -85,29 +85,32 @@ $LANG = array(
 
     /*
 |--------------------------------------------------------------------------
-| User permission_groups  trans
+| User permission groups  trans
 |--------------------------------------------------------------------------
 */
-    'group_name' => 'PermissionGroup Name',
-    'permission_groups' => 'PermissionGroup List',
-    'new_group' => 'New PermissionGroup',
-    'list_groups' => 'List Groups',
-    'create_group' => 'Create PermissionGroup',
-    'edit_group' => 'Edit PermissionGroup',
-    'clone_group' => 'Clone PermissionGroup',
-    'archive_group' => 'Archive PermissionGroup',
-    'delete_group' => 'Delete PermissionGroup',
-    'deleted_group' => 'Deleted PermissionGroup',
-    'restore_group' => 'Restore PermissionGroup',
-    'restored_group' => 'Restored PermissionGroup',
-    'updated_group' => 'Successfully Updated PermissionGroup',
-    'created_group' => 'Successfully Created PermissionGroup',
-    'archived_group' => 'Successfully Archived PermissionGroup',
-    'group_settings' => 'PermissionGroup Settings',
-    'group_help' => 'Sets the default <b>user group</b>',
+    'permission_group_name' => 'Permission Group Name',
+    'permission_group' => 'Permission Group',
+    'permission_groups' => 'Permission Group List',
+    'new_permission_group' => 'New Permission Group',
+    'list_permission_groups' => 'List Permission Groups',
+    'create_permission_group' => 'Create Permission Group',
+    'edit_permission_group' => 'Edit Permission Group',
+    'view_permission_group' => 'View Permission Group',
+    'clone_permission_group' => 'Clone Permission Group',
+    'archive_permission_group' => 'Archive Permission Group',
+    'delete_permission_group' => 'Delete Permission Group',
+    'deleted_permission_group' => 'Deleted Permission Group',
+    'restore_permission_group' => 'Restore Permission Group',
+    'restored_permission_group' => 'Restored Permission Group',
+    'updated_permission_group' => 'Successfully Updated Permission Group',
+    'created_permission_group' => 'Successfully Created Permission Group',
+    'archived_permission_group' => 'Successfully Archived Permission Group',
+    'permission_group_settings' => 'Permission Group Settings',
+    'permission_group_help' => 'Sets the default <b>permission group</b>',
+
     /*
 |--------------------------------------------------------------------------
-| User permission_groups  trans
+| User permission groups  trans
 |--------------------------------------------------------------------------
 */
     'permission_name' => 'Permission Name',
@@ -957,7 +960,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'charts_and_reports' => 'Charts & Reports',
     'chart' => 'Chart',
     'report' => 'Report',
-    'group_by' => 'PermissionGroup by',
+    'group_by' => 'Permission Group by',
     'paid' => 'Paid',
     'enable_report' => 'Report',
     'enable_chart' => 'Chart',
@@ -2543,8 +2546,8 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'profit_and_loss' => 'Profit and Loss',
     'revenue' => 'Revenue',
     'profit' => 'Profit',
-    'group_when_sorted' => 'PermissionGroup Sort',
-    'group_dates_by' => 'PermissionGroup Dates By',
+    'group_when_sorted' => 'Permission Group Sort',
+    'group_dates_by' => 'Permission Group Dates By',
     'year' => 'Year',
     'view_statement' => 'View Statement',
     'statement' => 'Statement',
@@ -3224,7 +3227,6 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'mobile' => 'Mobile',
     'desktop' => 'Desktop',
     'webmail' => 'Webmail',
-    'group' => 'PermissionGroup',
     'subgroup' => 'Subgroup',
     'unset' => 'Unset',
     'received_new_payment' => 'You\'ve received a new payment!',

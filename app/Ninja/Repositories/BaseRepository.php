@@ -112,8 +112,9 @@ class BaseRepository
 
     protected function applyFilters($query, $entityType, $table = false)
     {
-        $table = Utils::pluralizeEntityType($table ?: $entityType);
-
+        if (!$table) {
+            $table = Utils::pluralizeEntityType($entityType);
+        }
         if ($filter = session('entity_state_filter:' . $entityType, STATUS_ACTIVE)) {
 
             $filters = explode(',', $filter);

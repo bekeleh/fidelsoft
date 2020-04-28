@@ -693,7 +693,7 @@ return array(
     ),
 
 //   chart permission_groups
-    'Chart permission_groups manager' => array(
+    'Chart groups manager' => array(
         array(
             'permission' => 'sales_type.view',
             'label' => 'View sales type',
@@ -796,31 +796,31 @@ return array(
     'user permission group' => array(
         array(
             'permission' => 'permission_groups.view',
-            'label' => 'View permission_groups',
+            'label' => 'View permission groups',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'permission_groups.create',
-            'label' => 'Create permission_groups',
+            'label' => 'Create permission groups',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'permission_groups.edit',
-            'label' => 'Edit permission_groups',
+            'label' => 'Edit permission groups',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'permission_groups.update',
-            'label' => 'update permission_groups',
+            'label' => 'update permission groups',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'permission_groups.delete',
-            'label' => 'Delete permission_groups',
+            'label' => 'Delete permission groups',
             'note' => '',
             'display' => true,
         ),

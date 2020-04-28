@@ -130,7 +130,7 @@ class UserController extends BaseController
             'entity' => $user,
             'method' => $method,
             'url' => $url,
-            'title' => trans('texts.user.edit'),
+            'title' => trans('texts.edit_user'),
             'locationPublicId' => $user->location ? $user->location->public_id : null,
         ];
 
@@ -277,23 +277,29 @@ class UserController extends BaseController
         }
         $user = Auth::user();
         $user->password = bcrypt($password);
-        $user->save();
 
-        return RESULT_SUCCESS;
+        if ($user->save()) {
+            return RESULT_SUCCESS;
+        }
+
+        return RESULT_FAILURE;
+
     }
 
     public function changePermission()
     {
         $permissionArray = Input::get('permission');
+        $userAccount_id = Input::get('account_id');
         $userPublicId = Input::get('public_id');
-        $user = User::where('account_id', '=', Auth::user()->account_id)
+        $user = User::where('account_id', '=', $userAccount_id)
             ->where('public_id', '=', $userPublicId)->firstOrFail();
         if ($user) {
             $user->permissions = $permissionArray;
             $user->save();
-
-            return RESULT_SUCCESS;
+            return response()->json(['success' => true, 'data' => $user], 200);
         }
+
+        return RESULT_FAILURE;
     }
 
     public function switchAccount($newUserId)
@@ -397,7 +403,7 @@ class UserController extends BaseController
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
             'locations' => Location::scope()->withActiveOrSelected($user ? $user->location_id : false)->orderBy('name')->get(),
-            'permission_groups' => PermissionGroup::where('name', '!=', 'superuser')->pluck('name', 'id'),
+            'groups' => PermissionGroup::where('name', '!=', 'superuser')->pluck('name', 'id'),
         ];
     }
 
