@@ -9,7 +9,7 @@
 
 return array(
 
-    'Global Manager' => array(
+    'Master account' => array(
         array(
             'permission' => 'superuser',
             'label' => 'Super User',
@@ -18,16 +18,16 @@ return array(
         ),
     ),
 
-    'Admin Manager' => array(
+    'Administrator Privilege' => array(
         array(
             'permission' => 'admin',
-            'label' => 'Administrator',
+            'label' => 'Admin',
             'note' => 'This user has access to most aspects of the admin. ',
             'display' => true,
         )
     ),
     // Reports
-    'Reports manager' => array(
+    'Reports Privilege' => array(
         array(
             'permission' => 'reports.view',
             'label' => 'View Report',
@@ -47,20 +47,20 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'reports.update',
-            'label' => 'Update Report',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'reports.delete',
             'label' => 'Delete Report',
             'note' => '',
             'display' => true,
         ),
+        array(
+            'permission' => 'reports.settings',
+            'label' => 'Report Settings',
+            'note' => '',
+            'display' => true,
+        ),
     ),
 // Expenses
-    'Expense manager' => array(
+    'Expense Privilege' => array(
         array(
             'permission' => 'expenses.view',
             'label' => 'View Expense',
@@ -80,20 +80,53 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'expenses.update',
-            'label' => 'Update Expense',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'expenses.delete',
             'label' => 'Delete Expense',
             'note' => '',
             'display' => true,
         ),
+        array(
+            'permission' => 'expenses.settings',
+            'label' => 'Expense Settings',
+            'note' => '',
+            'display' => true,
+        ),
+    ),
+// expense category
+    'Expense Category Privilege' => array(
+        array(
+            'permission' => 'expense_categories.view',
+            'label' => 'View Expense Category',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'expense_categories.create',
+            'label' => 'Create Expense Category',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'expense_categories.edit',
+            'label' => 'Edit Expense Category',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'expense_categories.delete',
+            'label' => 'Delete Expense Category',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'expense_categories.settings',
+            'label' => 'Expense Category Settings',
+            'note' => '',
+            'display' => true,
+        ),
     ),
 // Invoices
-    'Invoice manager' => array(
+    'Invoice Privilege' => array(
         array(
             'permission' => 'invoices.view',
             'label' => 'View Invoices',
@@ -113,20 +146,20 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'invoices.update',
-            'label' => 'Update Invoices',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'invoices.delete',
             'label' => 'Delete Invoices',
             'note' => '',
             'display' => true,
         ),
+        array(
+            'permission' => 'invoices.settings',
+            'label' => 'Invoice Settings',
+            'note' => '',
+            'display' => true,
+        ),
     ),
 // Suppliers
-    'Supplier manager' => array(
+    'Supplier Privilege' => array(
         array(
             'permission' => 'vendors.view',
             'label' => 'View Supplier',
@@ -146,20 +179,20 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'vendors.update',
-            'label' => 'Update Supplier',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'vendors.delete',
             'label' => 'Delete Supplier',
             'note' => '',
             'display' => true,
         ),
+        array(
+            'permission' => 'vendors.settings',
+            'label' => 'Vendor Settings',
+            'note' => '',
+            'display' => true,
+        ),
     ),
 // Suppliers contact
-    'Supplier Contact manager' => array(
+    'Supplier Contact Privilege' => array(
         array(
             'permission' => 'vendor_contacts.view',
             'label' => 'View Supplier Contact',
@@ -179,20 +212,20 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'vendor_contacts.update',
-            'label' => 'Update Supplier Contact',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'vendor_contacts.delete',
             'label' => 'Delete Supplier Contact',
             'note' => '',
             'display' => true,
         ),
+        array(
+            'permission' => 'vendor_contacts.settings',
+            'label' => 'Vendor Contact Settings',
+            'note' => '',
+            'display' => true,
+        ),
     ),
 // Clients
-    'Client manager' => array(
+    'Client Privilege' => array(
         array(
             'permission' => 'clients.view',
             'label' => 'View Client',
@@ -212,20 +245,20 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'clients.update',
-            'label' => 'Update Client',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'clients.delete',
             'label' => 'Delete Client',
             'note' => '',
             'display' => true,
         ),
+        array(
+            'permission' => 'clients.settings',
+            'label' => 'Client Settings',
+            'note' => '',
+            'display' => true,
+        ),
     ),
 // Clients contact
-    'Client Contact manager' => array(
+    'Client Contact Privilege' => array(
         array(
             'permission' => 'client_contacts.view',
             'label' => 'View Client Contact',
@@ -245,20 +278,20 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'client_contacts.update',
-            'label' => 'Update Client Contact',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'client_contacts.delete',
             'label' => 'Delete Client Contact',
             'note' => '',
             'display' => true,
         ),
+        array(
+            'permission' => 'client_contacts.settings',
+            'label' => 'Client Contact Settings',
+            'note' => '',
+            'display' => true,
+        ),
     ),
 // Item price management
-    'Item prices manager' => array(
+    'Item Prices Privilege' => array(
         array(
             'permission' => 'item_prices.view',
             'label' => 'View item prices',
@@ -278,20 +311,20 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'item_prices.update',
-            'label' => 'Update item prices',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'item_prices.delete',
             'label' => 'Delete item prices',
             'note' => '',
             'display' => true,
         ),
+        array(
+            'permission' => 'item_prices.settings',
+            'label' => 'Item Price Settings',
+            'note' => '',
+            'display' => true,
+        ),
     ),
 // Item management
-    'Items manager' => array(
+    'Items Privilege' => array(
         array(
             'permission' => 'products.view',
             'label' => 'View items',
@@ -311,20 +344,20 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'products.update',
-            'label' => 'Update items',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'products.delete',
             'label' => 'Delete items',
             'note' => '',
             'display' => true,
         ),
+        array(
+            'permission' => 'products.settings',
+            'label' => 'Item Settings',
+            'note' => '',
+            'display' => true,
+        ),
     ),
 //   item categories
-    'Item categories manager' => array(
+    'Item Categories Privilege' => array(
         array(
             'permission' => 'item_categories.view',
             'label' => 'View item category',
@@ -344,53 +377,53 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'item_categories.update',
-            'label' => 'Update item category',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'item_categories.delete',
             'label' => 'Delete item category',
             'note' => '',
             'display' => true,
         ),
+        array(
+            'permission' => 'item_categories.settings',
+            'label' => 'Item Category Settings',
+            'note' => '',
+            'display' => true,
+        ),
     ),
     //   item brands
-    'Item brands manager' => array(
+    'Item Brands Privilege' => array(
         array(
             'permission' => 'item_brands.view',
-            'label' => 'View item property',
+            'label' => 'View Item Brand',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'item_brands.create',
-            'label' => 'Create item property',
+            'label' => 'Create Item Brand',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'item_brands.edit',
-            'label' => 'Edit item property',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'item_brands.update',
-            'label' => 'Update item property',
+            'label' => 'Edit Item Brand',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'item_brands.delete',
-            'label' => 'Delete item property',
+            'label' => 'Delete Item Brand',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'item_brands.settings',
+            'label' => 'Item Brand Settings',
             'note' => '',
             'display' => true,
         ),
     ),
 //  stores
-    'Stores manager' => array(
+    'Stores Privilege' => array(
         array(
             'permission' => 'stores.view',
             'label' => 'View store',
@@ -410,20 +443,20 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'stores.update',
-            'label' => 'Update store',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'stores.delete',
             'label' => 'Delete store',
             'note' => '',
             'display' => true,
         ),
+        array(
+            'permission' => 'stores.settings',
+            'label' => 'Store Settings',
+            'note' => '',
+            'display' => true,
+        ),
     ),
 //    item stores
-    'Item stores manager' => array(
+    'Item Stores Privilege' => array(
         array(
             'permission' => 'item_stores.view',
             'label' => 'View item store',
@@ -443,21 +476,21 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'item_stores.update',
-            'label' => 'Update item store',
+            'permission' => 'item_stores.delete',
+            'label' => 'Delete item store',
             'note' => '',
             'display' => true,
         ),
         array(
-            'permission' => 'item_stores.delete',
-            'label' => 'Delete item store',
+            'permission' => 'item_stores.settings',
+            'label' => 'Item Store Settings',
             'note' => '',
             'display' => true,
         ),
 
     ),
 //    item request
-    'Item requests manager' => array(
+    'Item Requests Privilege' => array(
         array(
             'permission' => 'item_requests.view',
             'label' => 'View item request',
@@ -477,54 +510,20 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'item_requests.update',
-            'label' => 'Update item request',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'item_requests.delete',
             'label' => 'Delete item request',
             'note' => '',
             'display' => true,
         ),
-    ),
-// item transfer
-    'Item transfers manager' => array(
         array(
-            'permission' => 'item_transfers.view',
-            'label' => 'View item transfer',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'item_transfers.create',
-            'label' => 'Create item transfer',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'item_transfers.edit',
-            'label' => 'Edit item transfer',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'item_transfers.update',
-            'label' => 'Update item transfer',
-            'note' => '',
-            'display' => true,
-        ),
-
-        array(
-            'permission' => 'item_transfers.delete',
-            'label' => 'Delete item transfer',
+            'permission' => 'item_requests.settings',
+            'label' => 'Item Request Settings',
             'note' => '',
             'display' => true,
         ),
     ),
     // item discount category
-    'Discount category manager' => array(
+    'Discount Category Privilege' => array(
         array(
             'permission' => 'discount_categories.view',
             'label' => 'View discount category',
@@ -544,323 +543,322 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'discount_categories.update',
-            'label' => 'Update discount category',
-            'note' => '',
-            'display' => true,
-        ),
-
-        array(
             'permission' => 'discount_categories.delete',
             'label' => 'Delete discount category',
             'note' => '',
             'display' => true,
         ),
+        array(
+            'permission' => 'discount_categories.settings',
+            'label' => 'Discount Category Settings',
+            'note' => '',
+            'display' => true,
+        ),
     ),
     // Tax Category management
-    'Tax category manager' => array(
+    'Tax Category Privilege' => array(
         array(
             'permission' => 'tax_categories.view',
-            'label' => 'View tax categories',
+            'label' => 'View Tax Categories',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'tax_categories.create',
-            'label' => 'Create tax categories',
+            'label' => 'Create Tax Categories',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'tax_categories.edit',
-            'label' => 'Edit tax categories',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'tax_categories.update',
-            'label' => 'Update tax categories',
+            'label' => 'Edit Tax Categories',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'tax_categories.delete',
-            'label' => 'Delete tax categories',
+            'label' => 'Delete Tax Categories',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'tax_categories.settings',
+            'label' => 'Tax Category Settings',
             'note' => '',
             'display' => true,
         ),
     ),
-//  tax province
-    'Tax province manager' => array(
+//  Tax Province
+    'Tax Province Privilege' => array(
         array(
             'permission' => 'tax_provinces.view',
-            'label' => 'View tax province',
+            'label' => 'View Tax Province',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'tax_provinces.create',
-            'label' => 'Create tax province',
+            'label' => 'Create Tax Province',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'tax_provinces.edit',
-            'label' => 'Edit tax province',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'tax_provinces.update',
-            'label' => 'Update tax province',
+            'label' => 'Edit Tax Province',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'tax_provinces.delete',
-            'label' => 'Delete tax province',
+            'label' => 'Delete Tax Province',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'tax_provinces.settings',
+            'label' => 'Tax Province Settings',
             'note' => '',
             'display' => true,
         ),
     ),
 
-// tax authority
-    'Tax authority manager' => array(
+// Tax Authority
+    'Tax Authority Privilege' => array(
         array(
             'permission' => 'tax_authorities.view',
-            'label' => 'View tax authority',
+            'label' => 'View Tax Authority',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'tax_authorities.create',
-            'label' => 'Create tax authority',
+            'label' => 'Create Tax Authority',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'tax_authorities.edit',
-            'label' => 'Edit tax authority',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'tax_authorities.update',
-            'label' => 'Update tax authority',
+            'label' => 'Edit Tax Authority',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'tax_authorities.delete',
-            'label' => 'Delete tax authority',
+            'label' => 'Delete Tax Authority',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'tax_authorities.settings',
+            'label' => 'Tax Authority Settings',
             'note' => '',
             'display' => true,
         ),
     ),
 
-//  tax auth rate
-    'Tax authority rate manager' => array(
+//  Tax Auth Rate
+    'Tax Authority Rate Privilege' => array(
         array(
             'permission' => 'tax_authority_rates.view',
-            'label' => 'View tax auth rate',
+            'label' => 'View Tax Auth Rate',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'tax_authority_rates.create',
-            'label' => 'Create tax auth rate',
+            'label' => 'Create Tax Auth Rate',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'tax_authority_rates.edit',
-            'label' => 'Edit tax auth rate',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'tax_authority_rates.update',
-            'label' => 'Update tax auth rate',
+            'label' => 'Edit Tax Auth Rate',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'tax_authority_rates.delete',
-            'label' => 'Delete tax auth rate',
+            'label' => 'Delete Tax Auth Rate',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'tax_authority_rates.settings',
+            'label' => 'Tax Authority Rate Settings',
             'note' => '',
             'display' => true,
         ),
     ),
 
 //   chart permission_groups
-    'Chart groups manager' => array(
+    'Chart Group Privilege' => array(
         array(
-            'permission' => 'sales_type.view',
-            'label' => 'View sales type',
+            'permission' => 'chart_groups.view',
+            'label' => 'View Sales Type',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'chart_groups.create',
-            'label' => 'Create chart group',
+            'label' => 'Create Chart Group',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'chart_groups.edit',
-            'label' => 'Edit chart group',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'chart_groups.update',
-            'label' => 'Update chart group',
+            'label' => 'Edit Chart Group',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'chart_groups.delete',
-            'label' => 'Delete chart group',
+            'label' => 'Delete Chart Group',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'chart_groups.settings',
+            'label' => 'Chart Group Settings',
             'note' => '',
             'display' => true,
         ),
     ),
-//   chart master
-    'Chart master manager' => array(
+//   Chart Master
+    'Chart Master Privilege' => array(
         array(
             'permission' => 'chart_master.view',
-            'label' => 'View chart master',
+            'label' => 'View Chart Master',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'chart_master.create',
-            'label' => 'Create chart master',
+            'label' => 'Create Chart Master',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'chart_master.edit',
-            'label' => 'Edit chart master',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'chart_master.update',
-            'label' => 'Update chart master',
+            'label' => 'Edit Chart Master',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'chart_master.delete',
-            'label' => 'Delete chart master',
+            'label' => 'Delete Chart Master',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'chart_master.settings',
+            'label' => 'Chart Master Settings',
             'note' => '',
             'display' => true,
         ),
     ),
-//  sales type
-    'Sales type manager' => array(
+//  Sales Type
+    'Sales Type Privilege' => array(
         array(
             'permission' => 'sales_type.view',
-            'label' => 'View sales type',
+            'label' => 'View Sales Type',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'sales_type.create',
-            'label' => 'Create sales type',
+            'label' => 'Create Sales Type',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'sales_type.edit',
-            'label' => 'Edit sales type',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'sales_type.update',
-            'label' => 'Update sales type',
+            'label' => 'Edit Sales Type',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'sales_type.delete',
-            'label' => 'Delete sales type',
+            'label' => 'Delete Sales Type',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'sales_type.settings',
+            'label' => 'Sale Type Settings',
             'note' => '',
             'display' => true,
         ),
     ),
 
     // account group
-    'user permission group' => array(
+    'Permission group' => array(
         array(
             'permission' => 'permission_groups.view',
-            'label' => 'View permission groups',
+            'label' => 'View Permission Group',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'permission_groups.create',
-            'label' => 'Create permission groups',
+            'label' => 'Create Permission Group',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'permission_groups.edit',
-            'label' => 'Edit permission groups',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'permission_groups.update',
-            'label' => 'update permission groups',
+            'label' => 'Edit Permission Group',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'permission_groups.delete',
-            'label' => 'Delete permission groups',
+            'label' => 'Delete Permission Group',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'permission_groups.settings',
+            'label' => 'Permission Group Settings',
             'note' => '',
             'display' => true,
         ),
     ),
 
 // account permission
-    'Users manager' => array(
+    'Users Privilege' => array(
         array(
             'permission' => 'users.view',
-            'label' => 'View Users',
+            'label' => 'View User',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'users.create',
-            'label' => 'Create Users',
+            'label' => 'Create User',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'users.edit',
-            'label' => 'Edit Users',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'users.update',
-            'label' => 'Update Users',
+            'label' => 'Edit User',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'users.delete',
-            'label' => 'Delete Users',
+            'label' => 'Delete User',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'users.settings',
+            'label' => 'User Settings',
             'note' => '',
             'display' => true,
         ),
     ),
-//    Division manager
-    'Divisions manager' => array(
+//    Division privilege
+    'Divisions Privilege' => array(
         array(
             'permission' => 'divisions.view',
             'label' => 'View divisions',
@@ -880,119 +878,119 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'divisions.update',
-            'label' => 'Update divisions',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'divisions.delete',
             'label' => 'Delete divisions',
             'note' => '',
             'display' => true,
         ),
+        array(
+            'permission' => 'divisions.settings',
+            'label' => 'Division Settings',
+            'note' => '',
+            'display' => true,
+        ),
     ),
 // department permission
-    'Departments manager' => array(
+    'Departments Privilege' => array(
         array(
             'permission' => 'departments.view',
-            'label' => 'View departments',
+            'label' => 'View Department',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'departments.create',
-            'label' => 'Create departments',
+            'label' => 'Create Department',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'departments.edit',
-            'label' => 'Edit departments',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'departments.update',
-            'label' => 'Update departments',
+            'label' => 'Edit Department',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'departments.delete',
-            'label' => 'Delete departments',
+            'label' => 'Delete Department',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'departments.settings',
+            'label' => 'Department Settings',
             'note' => '',
             'display' => true,
         ),
     ),
     // section permission
-    'Sections manager' => array(
+    'Sections Privilege' => array(
         array(
             'permission' => 'sections.view',
-            'label' => 'View sections',
+            'label' => 'View Section',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'sections.create',
-            'label' => 'Create sections',
+            'label' => 'Create Section',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'sections.edit',
-            'label' => 'Edit sections',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'sections.update',
-            'label' => 'Update sections',
+            'label' => 'Edit Section',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'sections.delete',
-            'label' => 'Delete sections',
+            'label' => 'Delete Section',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'sections.settings',
+            'label' => 'Section Settings',
             'note' => '',
             'display' => true,
         ),
     ),
 //    Manufacturer management
-    'Manufacturers manager' => array(
+    'Manufacturers Privilege' => array(
         array(
             'permission' => 'manufacturers.view',
-            'label' => 'View manufacturers',
+            'label' => 'View Manufacturer',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'manufacturers.create',
-            'label' => 'Create manufacturers',
+            'label' => 'Create Manufacturer',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'manufacturers.edit',
-            'label' => 'Edit manufacturers',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'manufacturers.update',
-            'label' => 'Update manufacturers',
+            'label' => 'Edit Manufacturer',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'manufacturers.delete',
-            'label' => 'Delete manufacturers',
+            'label' => 'Delete Manufacturer',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'manufacturers.settings',
+            'label' => 'Manufacturer Settings',
             'note' => '',
             'display' => true,
         ),
     ),
 //Company management
-    'Companies manager' => array(
+    'Companies Privilege' => array(
         array(
             'permission' => 'companies.view',
             'label' => 'View companies',
@@ -1012,158 +1010,158 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'companies.update',
-            'label' => 'Update companies',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
             'permission' => 'companies.delete',
             'label' => 'Delete companies',
             'note' => '',
             'display' => true,
         ),
+        array(
+            'permission' => 'companies.settings',
+            'label' => 'Company Settings',
+            'note' => '',
+            'display' => true,
+        ),
     ),
     //Location management
-    'Locations manager' => array(
+    'Locations Privilege' => array(
         array(
             'permission' => 'locations.view',
-            'label' => 'View locations',
+            'label' => 'View Location',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'locations.create',
-            'label' => 'Create locations',
+            'label' => 'Create Location',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'locations.edit',
-            'label' => 'Edit locations',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'locations.update',
-            'label' => 'Update locations',
+            'label' => 'Edit Location',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'locations.delete',
-            'label' => 'Delete locations',
+            'label' => 'Delete Location',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'locations.settings',
+            'label' => 'Location Settings',
             'note' => '',
             'display' => true,
         ),
     ),
 //    Action log management
-    'Action logs manager' => array(
+    'Action Logs Privilege' => array(
         array(
             'permission' => 'action_logs.view',
-            'label' => 'View action logs',
+            'label' => 'View Action Logs',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'action_logs.create',
-            'label' => 'Create action logs',
+            'label' => 'Create Action Logs',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'action_logs.edit',
-            'label' => 'Edit action logs',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'action_logs.update',
-            'label' => 'Update action logs',
+            'label' => 'Edit Action Logs',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'action_logs.delete',
-            'label' => 'Delete action logs',
+            'label' => 'Delete Action Logs',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'action_logs.settings',
+            'label' => 'Action Log Settings',
             'note' => '',
             'display' => true,
         ),
     ),
-// item movements
-    'Item movements manager' => array(
+// Item Movement
+    'Item Movements Privilege' => array(
         array(
             'permission' => 'item_movements.view',
-            'label' => 'View item movements',
+            'label' => 'View Item Movement',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'item_movements.create',
-            'label' => 'Create item movements',
+            'label' => 'Create Item Movement',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'item_movements.edit',
-            'label' => 'Edit item movements',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'item_movements.update',
-            'label' => 'Update item movements',
+            'label' => 'Edit Item Movement',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'item_movements.delete',
-            'label' => 'Delete item movements',
+            'label' => 'Delete Item Movement',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'item_movements.settings',
+            'label' => 'Item Movement Settings',
             'note' => '',
             'display' => true,
         ),
     ),
-// item transfers
-    'Item transfers manager' => array(
+// Item Transfers
+    'Item Transfers Privilege' => array(
         array(
             'permission' => 'item_transfers.view',
-            'label' => 'View item transfers',
+            'label' => 'View Item Transfers',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'item_transfers.create',
-            'label' => 'Create item transfers',
+            'label' => 'Create Item Transfers',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'item_transfers.edit',
-            'label' => 'Edit item transfers',
-            'note' => '',
-            'display' => true,
-        ),
-        array(
-            'permission' => 'item_transfers.update',
-            'label' => 'Update item transfers',
+            'label' => 'Edit Item Transfers',
             'note' => '',
             'display' => true,
         ),
         array(
             'permission' => 'item_transfers.delete',
-            'label' => 'Delete item transfers',
+            'label' => 'Delete Item Transfers',
             'note' => '',
             'display' => true,
         ),
         array(
-            'permission' => 'transfer.approve',
+            'permission' => 'item_transfers.approval',
             'label' => 'Item transfer approval',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'item_transfers.settings',
+            'label' => 'Item Transfer Settings',
             'note' => '',
             'display' => true,
         ),
     ),
 //  UOM
-    'Unit of measure manager' => array(
+    'Unit Of Measure Privilege' => array(
         array(
             'permission' => 'units.view',
             'label' => 'View units',
@@ -1183,15 +1181,14 @@ return array(
             'display' => true,
         ),
         array(
-            'permission' => 'units.update',
-            'label' => 'Update units',
+            'permission' => 'units.delete',
+            'label' => 'Delete units',
             'note' => '',
             'display' => true,
         ),
-
         array(
-            'permission' => 'units.delete',
-            'label' => 'Delete units',
+            'permission' => 'units.settings',
+            'label' => 'Unit Of Measure Settings',
             'note' => '',
             'display' => true,
         ),

@@ -5,15 +5,10 @@
         <style type="text/css">
             .nav-footer {
                 @if (config('mail.driver') == 'log' && ! config('services.postmark'))
-                                 background-color: #50C878 !important;
+                                       background-color: #50C878 !important;
                 @else
-                                 background-color: #FD6A02 !important;
+                                       background-color: #FD6A02 !important;
             @endif
-
-
-
-
-
 
 
 
@@ -356,6 +351,7 @@
                 @foreach ([
                 'dashboard' => false,
                 'users' => false,
+                'permission_groups' => false,
                 'clients' => false,
                 'products' => false,
                 'locations' => false,
@@ -413,7 +409,7 @@
                         ])
                     @endforeach
                 @endif
-                @if (Auth::user()->hasAccess('admin'))
+                @if (Auth::user()->isSuperUser() || Auth::user()->is_admin || Auth::user()->hasAccess('admin') )
                     @include('partials.navigation_option', ['option' => 'reports'])
                     @include('partials.navigation_option', ['option' => 'settings'])
                 @endif

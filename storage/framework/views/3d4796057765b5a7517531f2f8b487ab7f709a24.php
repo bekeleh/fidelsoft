@@ -4,17 +4,10 @@
         <style type="text/css">
             .nav-footer {
                 <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?>
-                                 background-color: #50C878 !important;
+                                     background-color: #50C878 !important;
                 <?php else: ?>
-                                 background-color: #FD6A02 !important;
+                                     background-color: #FD6A02 !important;
             <?php endif; ?>
-
-
-
-
-
-
-
 
 
 
@@ -363,6 +356,7 @@
                 <?php $__currentLoopData = [
                 'dashboard' => false,
                 'users' => false,
+                'permission_groups' => false,
                 'clients' => false,
                 'products' => false,
                 'locations' => false,
@@ -422,7 +416,7 @@
                         ], array_except(get_defined_vars(), array('__data', '__path'))); ?>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 <?php endif; ?>
-                <?php if(Auth::user()->hasAccess('admin')): ?>
+                <?php if(Auth::user()->isSuperUser() || Auth::user()->is_admin || Auth::user()->hasAccess('admin') ): ?>
                     <?php echo $__env->make('partials.navigation_option', ['option' => 'reports'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                     <?php echo $__env->make('partials.navigation_option', ['option' => 'settings'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 <?php endif; ?>

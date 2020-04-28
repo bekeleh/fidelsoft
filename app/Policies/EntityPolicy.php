@@ -26,6 +26,14 @@ abstract class EntityPolicy
         }
     }
 
+    public function settings(User $user, $item = null)
+    {
+        if (!static::checkModuleEnabled($user, $item)) {
+            return false;
+        }
+        return $user->hasAccess($this->tableName() . '.settings');
+    }
+
     public function index(User $user, $item = null)
     {
         if (!static::checkModuleEnabled($user, $item)) {
