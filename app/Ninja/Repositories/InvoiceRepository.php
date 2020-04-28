@@ -200,7 +200,7 @@ class InvoiceRepository extends BaseRepository
             $query->whereNull('clients.deleted_at');
         }
 
-        $this->applyFilters($query, ENTITY_RECURRING_INVOICE, ENTITY_INVOICE);
+        $this->applyFilters($query, ENTITY_RECURRING_INVOICE, 'invoices');
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {

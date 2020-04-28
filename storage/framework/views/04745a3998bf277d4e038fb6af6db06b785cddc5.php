@@ -1,20 +1,18 @@
-@extends('header')
+<?php $__env->startSection('head'); ?>
+    ##parent-placeholder-1a954628a960aaef81d7b2d4521929579f3541e6##
 
-@section('head')
-    @parent
-
-    @include('money_script')
+    <?php echo $__env->make('money_script', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
     <style type="text/css">
         .input-group-addon {
             min-width: 40px;
         }
     </style>
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 
-    {!! Former::open($url)
+    <?php echo Former::open($url)
     ->addClass('col-lg-10 col-lg-offset-1 warn-on-exit main-form')
     ->onsubmit('return onFormSubmit(event)')
     ->method($method)
@@ -24,19 +22,23 @@
     'invoice' => 'required',
     'amount' => 'required',
     'payment_type_id' => 'required',
-    'private_notes' => 'required',
-    )) !!}
-    @if ($payment)
-        {!! Former::populate($payment) !!}
-    @else
-        @if ($account->payment_type_id)
-            {!! Former::populateField('payment_type_id', $account->payment_type_id) !!}
-        @endif
-    @endif
+    )); ?>
+
+    <?php if($payment): ?>
+        <?php echo Former::populate($payment); ?>
+
+    <?php else: ?>
+        <?php if($account->payment_type_id): ?>
+            <?php echo Former::populateField('payment_type_id', $account->payment_type_id); ?>
+
+        <?php endif; ?>
+    <?php endif; ?>
 
     <span style="display:none">
-{!! Former::text('public_id') !!}
-        {!! Former::text('action') !!}
+<?php echo Former::text('public_id'); ?>
+
+        <?php echo Former::text('action'); ?>
+
 </span>
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
@@ -44,64 +46,80 @@
             <div class="panel panel-default">
                 <div class="panel-body">
 
-                    @if ($payment)
-                        {!! Former::plaintext()->label('client')->value($payment->client->present()->link) !!}
-                        {!! Former::plaintext()->label('invoice')->value($payment->invoice->present()->link) !!}
-                        {!! Former::plaintext()->label('amount')->value($payment->present()->amount) !!}
-                    @else
-                        {!! Former::select('client')->addOption('', '')->addGroupClass('client-select') !!}
-                        {!! Former::select('invoice')->addOption('', '')->addGroupClass('invoice-select') !!}
-                        {!! Former::text('amount')->append('<span data-bind="html: paymentCurrencyCode"></span>') !!}
+                    <?php if($payment): ?>
+                        <?php echo Former::plaintext()->label('client')->value($payment->client->present()->link); ?>
 
-                        @if (isset($paymentTypeId) && $paymentTypeId)
-                            {!! Former::populateField('payment_type_id', $paymentTypeId) !!}
-                        @endif
-                    @endif
+                        <?php echo Former::plaintext()->label('invoice')->value($payment->invoice->present()->link); ?>
 
-                    @if (!$payment || !$payment->account_gateway_id)
-                        {!! Former::select('payment_type_id')
+                        <?php echo Former::plaintext()->label('amount')->value($payment->present()->amount); ?>
+
+                    <?php else: ?>
+                        <?php echo Former::select('client')->addOption('', '')->addGroupClass('client-select'); ?>
+
+                        <?php echo Former::select('invoice')->addOption('', '')->addGroupClass('invoice-select'); ?>
+
+                        <?php echo Former::text('amount')->append('<span data-bind="html: paymentCurrencyCode"></span>'); ?>
+
+
+                        <?php if(isset($paymentTypeId) && $paymentTypeId): ?>
+                            <?php echo Former::populateField('payment_type_id', $paymentTypeId); ?>
+
+                        <?php endif; ?>
+                    <?php endif; ?>
+
+                    <?php if(!$payment || !$payment->account_gateway_id): ?>
+                        <?php echo Former::select('payment_type_id')
                         ->placeholder(trans('select_payment_type'))
                         ->addOption('', '')
                         ->fromQuery($paymentTypes, 'name', 'id')
-                        ->addGroupClass('payment-type-select') !!}
-                    @endif
+                        ->addGroupClass('payment-type-select'); ?>
 
-                    {!! Former::text('payment_date')
+                    <?php endif; ?>
+
+                    <?php echo Former::text('payment_date')
                     ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT))
                     ->addGroupClass('payment_date')
-                    ->append('<i class="glyphicon glyphicon-calendar"></i>') !!}
-                    {!! Former::text('transaction_reference')->value(date('dmYYhis').str_random(5).rand()) !!}
-                    {!! Former::textarea('private_notes') !!}
+                    ->append('<i class="glyphicon glyphicon-calendar"></i>'); ?>
 
-                    @if (!$payment || ($payment && ! $payment->isExchanged()))
-                        {!! Former::checkbox('convert_currency')
+                    <?php echo Former::text('transaction_reference')->value(date('dmYYhis').str_random(5).rand()); ?>
+
+                    <?php echo Former::textarea('private_notes'); ?>
+
+
+                    <?php if(!$payment || ($payment && ! $payment->isExchanged())): ?>
+                        <?php echo Former::checkbox('convert_currency')
                         ->text(trans('texts.convert_currency'))
                         ->data_bind('checked: convert_currency')
                         ->label(' ')
-                        ->value(1) !!}
-                    @endif
+                        ->value(1); ?>
+
+                    <?php endif; ?>
 
                     <div style="display:none" data-bind="visible: enableExchangeRate">
                         <br/>
-                        {!! Former::select('exchange_currency_id')->addOption('','')
+                        <?php echo Former::select('exchange_currency_id')->addOption('','')
                         ->label(trans('texts.currency'))
                         ->data_placeholder(Utils::getFromCache($account->getCurrencyId(), 'currencies')->name)
                         ->data_bind('combobox: exchange_currency_id, disable: true')
-                        ->fromQuery($currencies, 'name', 'id') !!}
-                        {!! Former::text('exchange_rate')
-                        ->data_bind("value: exchange_rate, enable: enableExchangeRate, valueUpdate: 'afterkeydown'") !!}
-                        {!! Former::text('')
+                        ->fromQuery($currencies, 'name', 'id'); ?>
+
+                        <?php echo Former::text('exchange_rate')
+                        ->data_bind("value: exchange_rate, enable: enableExchangeRate, valueUpdate: 'afterkeydown'"); ?>
+
+                        <?php echo Former::text('')
                         ->label(trans('texts.converted_amount'))
                         ->data_bind("value: convertedAmount, enable: enableExchangeRate")
-                        ->append('<span data-bind="html: exchangeCurrencyCode"></span>') !!}
+                        ->append('<span data-bind="html: exchangeCurrencyCode"></span>'); ?>
+
                     </div>
-                    @if (!$payment)
-                        {!! Former::checkbox('email_receipt')
+                    <?php if(!$payment): ?>
+                        <?php echo Former::checkbox('email_receipt')
                         ->onchange('onEmailReceiptChange()')
                         ->label('&nbsp;')
                         ->text(trans('texts.email_receipt'))
-                        ->value(1) !!}
-                    @endif
+                        ->value(1); ?>
+
+                    <?php endif; ?>
 
                 </div>
             </div>
@@ -109,40 +127,44 @@
         </div>
     </div>
 
-    @if (Auth::user()->canCreateOrEdit(ENTITY_PAYMENT, $payment))
+    <?php if(Auth::user()->canCreateOrEdit(ENTITY_PAYMENT, $payment)): ?>
         <center class="buttons">
-            {!! Button::normal(trans('texts.cancel'))->appendIcon(Icon::create('remove-circle'))->asLinkTo(HTMLUtils::previousUrl('/payments'))->large() !!}
-            @if (!$payment || !$payment->is_deleted)
-                {!! Button::success(trans('texts.save'))->withAttributes(['id' => 'saveButton'])->appendIcon(Icon::create('floppy-disk'))->submit()->large() !!}
-            @endif
+            <?php echo Button::normal(trans('texts.cancel'))->appendIcon(Icon::create('remove-circle'))->asLinkTo(HTMLUtils::previousUrl('/payments'))->large(); ?>
 
-            @if ($payment)
-                {!! DropdownButton::normal(trans('texts.more_actions'))
+            <?php if(!$payment || !$payment->is_deleted): ?>
+                <?php echo Button::success(trans('texts.save'))->withAttributes(['id' => 'saveButton'])->appendIcon(Icon::create('floppy-disk'))->submit()->large(); ?>
+
+            <?php endif; ?>
+
+            <?php if($payment): ?>
+                <?php echo DropdownButton::normal(trans('texts.more_actions'))
                 ->withContents($actions)
                 ->large()
-                ->dropup() !!}
-            @endif
+                ->dropup(); ?>
+
+            <?php endif; ?>
 
         </center>
-    @endif
+    <?php endif; ?>
 
-    @include('partials/refund_payment')
+    <?php echo $__env->make('partials/refund_payment', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
-    {!! Former::close() !!}
+    <?php echo Former::close(); ?>
+
 
     <script type="text/javascript">
 
-        var invoices = {!! $invoices !!};
-        var clients = {!! $clients !!};
+        var invoices = <?php echo $invoices; ?>;
+        var clients = <?php echo $clients; ?>;
 
         var clientMap = {};
         var invoiceMap = {};
         var invoicesForClientMap = {};
         var statuses = [];
 
-        @foreach (cache('invoiceStatus') as $status)
-            statuses[{{ $status->id }}] = "{{ $status->getTranslatedName() }}";
-                @endforeach
+        <?php $__currentLoopData = cache('invoiceStatus'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $status): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            statuses[<?php echo e($status->id); ?>] = "<?php echo e($status->getTranslatedName()); ?>";
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
         for (var i = 0; i < clients.length; i++) {
             var client = clients[i];
@@ -162,17 +184,17 @@
         }
 
         $(function () {
-            @if (! empty($totalCredit))
-            $('#payment_type_id option:contains("{{ trans('texts.apply_credit') }}")').text("{{ trans('texts.apply_credit') }} | {{ $totalCredit}}");
-            @endif
+            <?php if(! empty($totalCredit)): ?>
+            $('#payment_type_id option:contains("<?php echo e(trans('texts.apply_credit')); ?>")').text("<?php echo e(trans('texts.apply_credit')); ?> | <?php echo e($totalCredit); ?>");
+            <?php endif; ?>
 
-            @if (Input::old('data'))
+            <?php if(Input::old('data')): ?>
             // this means we failed so we'll reload the previous state
-            window.model = new ViewModel({!! $data !!});
-            @else
+            window.model = new ViewModel(<?php echo $data; ?>);
+            <?php else: ?>
             // otherwise create blank model
-            window.model = new ViewModel({!! $payment !!});
-            @endif
+            window.model = new ViewModel(<?php echo $payment; ?>);
+            <?php endif; ?>
             ko.applyBindings(model);
 
             $('#amount').change(function () {
@@ -180,25 +202,25 @@
                 model.amount(NINJA.parseFloat(amount));
             })
 
-            @if ($payment)
-            $('#payment_date').datepicker('update', '{{ $payment->payment_date }}')
-            @if ($payment->payment_type_id != PAYMENT_TYPE_CREDIT)
-            $("#payment_type_id option[value='{{ PAYMENT_TYPE_CREDIT }}']").remove();
-            @endif
-            @else
+            <?php if($payment): ?>
+            $('#payment_date').datepicker('update', '<?php echo e($payment->payment_date); ?>')
+            <?php if($payment->payment_type_id != PAYMENT_TYPE_CREDIT): ?>
+            $("#payment_type_id option[value='<?php echo e(PAYMENT_TYPE_CREDIT); ?>']").remove();
+            <?php endif; ?>
+            <?php else: ?>
             $('#payment_date').datepicker('update', new Date());
-            populateInvoiceComboboxes({{ $clientPublicId }}, {{ $invoicePublicId }});
-            @endif
+            populateInvoiceComboboxes(<?php echo e($clientPublicId); ?>, <?php echo e($invoicePublicId); ?>);
+            <?php endif; ?>
 
             $('#payment_type_id').combobox();
 
-            @if (!$payment && !$clientPublicId)
+            <?php if(!$payment && !$clientPublicId): ?>
             $('.client-select input.form-control').focus();
-            @elseif (!$payment && !$invoicePublicId)
+            <?php elseif(!$payment && !$invoicePublicId): ?>
             $('.invoice-select input.form-control').focus();
-            @elseif (!$payment)
+            <?php elseif(!$payment): ?>
             $('#amount').focus();
-            @endif
+            <?php endif; ?>
 
             $('.payment_date .input-group-addon').click(function () {
                 toggleDatePicker('payment_date');
@@ -222,28 +244,28 @@
                 return false;
             }
 
-            @if ($payment)
+            <?php if($payment): ?>
             $('#saveButton').attr('disabled', true);
             return true;
-            @else
+            <?php else: ?>
             // warn if amount is more than balance/credit will be created
             var invoiceId = $('input[name=invoice]').val();
             var invoice = invoiceMap[invoiceId];
             var amount = $('#amount').val();
 
-            {{--if (NINJA.parseFloat(amount) < invoice.balance || confirm("{{ trans('texts.amount_greater_than_balance') }}")) {--}}
-            {{--    $('#saveButton').attr('disabled', true);--}}
-            {{--    submitAjax();--}}
-            {{--    return false;--}}
-            {{--} else {--}}
-            {{--    return false;--}}
-            {{--}--}}
+            
+            
+            
+            
+            
+            
+            
 
-            @endif
+            <?php endif; ?>
         }
 
         function submitAjax() {
-            $.post('{{ url($url) }}',
+            $.post('<?php echo e(url($url)); ?>',
                 $('.main-form').serialize(),
                 function (data) {
                     if (data && data.toLowerCase().indexOf('http') === 0) {
@@ -263,7 +285,7 @@
             if (data) {
                 var error = firstJSONError(data.responseJSON) || data.statusText;
             }
-            swal({!! json_encode(trans('texts.error_refresh_page')) !!}, error);
+            swal(<?php echo json_encode(trans('texts.error_refresh_page')); ?>, error);
         }
 
         function submitAction(action) {
@@ -297,14 +319,14 @@
             self.exchange_currency_id = ko.observable();
             self.amount = ko.observable();
             self.exchange_rate = ko.observable(1);
-            self.convert_currency = ko.observable({{ ($payment && $payment->isExchanged()) ? 'true' : 'false' }});
+            self.convert_currency = ko.observable(<?php echo e(($payment && $payment->isExchanged()) ? 'true' : 'false'); ?>);
 
             if (data) {
                 ko.mapping.fromJS(data, self.mapping, this);
                 self.exchange_rate(roundSignificant(self.exchange_rate()));
             }
 
-            self.account_currency_id = ko.observable({{ $account->getCurrencyId() }});
+            self.account_currency_id = ko.observable(<?php echo e($account->getCurrencyId()); ?>);
 
             self.convertedAmount = ko.computed({
                 read: function () {
@@ -463,4 +485,6 @@
 
     </script>
 
-@stop
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

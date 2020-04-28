@@ -320,7 +320,7 @@ class DashboardRepository
             ->where('contacts.deleted_at', '=', null)
             ->where('invoices.deleted_at', '=', null)
             ->where('invoices.is_recurring', '=', false)
-            ->where('invoices.quote_invoice_id', '=', null)
+            ->where('invoices.quote_invoice_id', '=', false)
             ->where('invoices.balance', '>', 0)
             ->where('invoices.is_deleted', '=', false)
             ->where('invoices.is_public', '=', true)
@@ -335,8 +335,9 @@ class DashboardRepository
             $upcoming = $upcoming->where('invoices.user_id', '=', $userId);
         }
 
-        return $upcoming->take(50)
-            ->select([DB::raw("coalesce(invoices.partial_due_date, invoices.due_date) due_date"), 'invoices.balance', 'invoices.public_id', 'invoices.invoice_number', 'clients.name as client_name', 'contacts.email', 'contacts.first_name', 'contacts.last_name', 'clients.currency_id', 'clients.public_id as client_public_id', 'clients.user_id as client_user_id', 'invoice_type_id'])
+        return $upcoming->select([DB::raw("coalesce(invoices.partial_due_date, invoices.due_date) due_date"), 'invoices.balance', 'invoices.public_id', 'invoices.invoice_number', 'clients.name as client_name', 'contacts.email', 'contacts.first_name', 'contacts.last_name', 'clients.currency_id', 'clients.public_id as client_public_id', 'clients.user_id as client_user_id', 'invoice_type_id'])
+            ->orderBy('invoices.due_date', 'asc')
+            ->take(50)
             ->get();
     }
 
