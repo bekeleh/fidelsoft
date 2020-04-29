@@ -15,9 +15,9 @@ class SaleTypeDatatable extends EntityDatatable
     {
         return [
             [
-                'name',
+                'sale_type_name',
                 function ($model) {
-                    $str = link_to("sale_types/{$model->public_id}", $model->name ?: '')->toHtml();
+                    $str = link_to("sale_types/{$model->public_id}", $model->sale_type_name ?: '')->toHtml();
                     return $str;
                 },
             ],

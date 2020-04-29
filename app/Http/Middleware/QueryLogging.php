@@ -31,7 +31,7 @@ class QueryLogging
                 $timeEnd = microtime(true);
                 $time = $timeEnd - $timeStart;
                 Log::info($request->method() . ' - ' . $request->url() . ": $count queries - " . $time);
-                //Log::info($queries);
+                Log::info($queries);
             }
         }
 

@@ -16,9 +16,9 @@ class HoldReasonDatatable extends EntityDatatable
     {
         return [
             [
-                'hold_reason',
+                'hold_reason_name',
                 function ($model) {
-                    $str = link_to("hold_reasons/{$model->public_id}", $model->hold_reason ?: '')->toHtml();
+                    $str = link_to("hold_reasons/{$model->public_id}", $model->hold_reason_name ?: '')->toHtml();
                     return $str;
                 },
             ],

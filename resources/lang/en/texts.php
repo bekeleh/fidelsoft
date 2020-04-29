@@ -107,6 +107,7 @@ $LANG = array(
     'archived_permission_group' => 'Successfully Archived Permission Group',
     'permission_group_settings' => 'Permission Group Settings',
     'permission_group_help' => 'Sets the default <b>permission group</b>',
+    'group_permission_help' => 'Sets the default permission group',
 
     /*
 |--------------------------------------------------------------------------

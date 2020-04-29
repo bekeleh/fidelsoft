@@ -38,13 +38,16 @@
                 <!-- notes -->
                 {!! Former::textarea('notes')->rows(4) !!}
                 <!-- user permission_groups -->
-                    {!! Former::label('permission_groups', trans('texts.group')) !!}
+                    {!! Former::label('permission_groups', trans('texts.group'))!!}
                     {!! Form::select('permission_groups[]', $groups, $userGroups, ['class' => 'form-control padding-right', 'multiple' => 'multiple',]) !!}
                     @if($errors->has('permission_groups') )
                         <div class="alert alert-danger" role="alert">
                             One or more of the groups you selected are empty/invalid. Please try again.
                         </div>
                     @endif
+                    <div class="col-md-7">
+                        {{ link_to('/permission_groups', trans('texts.group_permission_help')) }}
+                    </div>
                 </div>
             </div>
         </div>

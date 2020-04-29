@@ -3,78 +3,71 @@
     <?php echo Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['first_name' => 'required|max:50','last_name' => 'required|max:50','username' => 'required|max:50','email' => 'required|email|max:50','location_id' => 'required','notes' => 'required|max:255'])
+    ->rules(['name' => 'required|max:255','location_id' => 'required','store_code' => 'required' ,'notes' => 'required' ])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit'); ?>
 
-    <?php if($user): ?>
-
-        <?php echo e(Former::populate($user)); ?>
+    <?php if($store): ?>
+        <?php echo e(Former::populate($store)); ?>
 
         <div style="display:none">
             <?php echo Former::text('public_id'); ?>
 
         </div>
-
     <?php endif; ?>
     <span style="display:none">
-    <?php echo Former::text('public_id'); ?>
+<?php echo Former::text('public_id'); ?>
 
         <?php echo Former::text('action'); ?>
 
-    </span>
+</span>
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
-                <?php echo Former::text('first_name')->label('texts.first_name'); ?>
+                    <?php echo Former::text('name')->label('texts.store_name'); ?>
 
-                <?php echo Former::text('last_name')->label('texts.last_name'); ?>
+                    <?php echo Former::text('store_code')->label('texts.code'); ?>
 
-                <?php echo Former::text('username')->label('texts.username'); ?>
+                    <?php echo Former::select('location_id')->addOption('', '')
+                    ->label(trans('texts.location'))
+                    ->addGroupClass('location-select')
+                    ->help(trans('texts.location_help') . ' | ' . link_to('/locations/', trans('texts.customize_options'))); ?>
 
-                <?php echo Former::text('email')->label('texts.email'); ?>
+                    <?php echo Former::textarea('notes')->rows(6); ?>
 
-                <?php echo Former::text('phone')->label('texts.phone'); ?>
-
-                <!-- location-->
-                <?php echo Former::select('location_id')
-                ->placeholder(trans('texts.select_location'))
-                ->label(trans('texts.location'))
-                ->addGroupClass('location-select'); ?>
-
-                <!-- activate user -->
-                <?php echo Former::checkbox('activated')->label('activated')->text(trans('texts.activated'))->value(1); ?>
-
-                <!-- notes -->
-                <?php echo Former::textarea('notes')->rows(4); ?>
-
-                <!-- user permission_groups -->
-                    <?php echo Former::label('permission_groups', trans('texts.group')); ?>
-
-                    <?php echo Form::select('permission_groups[]', $groups, $userGroups, ['class' => 'form-control padding-right', 'multiple' => 'multiple',]); ?>
-
-                    <?php if($errors->has('permission_groups') ): ?>
-                        <div class="alert alert-danger" role="alert">
-                            One or more of the groups you selected are empty/invalid. Please try again.
-                        </div>
-                    <?php endif; ?>
-                    <div class="col-md-7">
-                        <?php echo e(link_to('/permission_groups', trans('texts.group_permission_help'))); ?>
-
-                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <?php if(Auth::user()->canCreateOrEdit(ENTITY_USER, $user)): ?>
+    <?php $__currentLoopData = Module::getOrdered(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $module): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <?php if(View::exists($module->alias . '::stores.edit')): ?>
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title in-white">
+                                <i class="fa fa-<?php echo e($module->icon); ?>"></i>
+                                <?php echo e($module->name); ?>
+
+                            </h3>
+                        </div>
+                        <div class="panel-body form-padding-right">
+                            <?php if ($__env->exists($module->alias . '::stores.edit')) echo $__env->make($module->alias . '::stores.edit', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    <?php if(Auth::user()->canCreateOrEdit(ENTITY_STORE, $store)): ?>
         <center class="buttons">
-            <?php echo Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/users'))->appendIcon(Icon::create('remove-circle')); ?>
+            <?php echo Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/stores'))->appendIcon(Icon::create('remove-circle')); ?>
 
             <?php echo Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')); ?>
 
-            <?php if($user): ?>
+            <?php if($store): ?>
                 <?php echo DropdownButton::normal(trans('texts.more_actions'))
-                ->withContents($user->present()->moreActions())
+                ->withContents($store->present()->moreActions())
                 ->large()
                 ->dropup(); ?>
 
@@ -92,7 +85,7 @@
         });
 
         $(function () {
-            <!-- user location -->
+            <!-- store location -->
             var locationId = <?php echo e($locationPublicId ?: 0); ?>;
             var $locationSelect = $('select#location_id');
             <?php if(Auth::user()->can('create', ENTITY_LOCATION)): ?>
@@ -107,7 +100,7 @@
             if (locationId) {
                 var location = locationMap[locationId];
                 setComboboxValue($('.location-select'), location.public_id, location.name);
-            }<!-- /. user location  -->
+            }<!-- /. store location  -->
         });
 
         function submitAction(action) {

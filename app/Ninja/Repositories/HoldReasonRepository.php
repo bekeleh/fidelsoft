@@ -37,7 +37,7 @@ class HoldReasonRepository extends BaseRepository
             ->select(
                 'hold_reasons.id',
                 'hold_reasons.public_id',
-                'hold_reasons.name as hold_reason',
+                'hold_reasons.name as hold_reason_name',
                 'hold_reasons.allow_invoice',
                 'hold_reasons.is_deleted',
                 'hold_reasons.notes',
@@ -51,7 +51,7 @@ class HoldReasonRepository extends BaseRepository
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
-                $query->where('hold_reasons.name', 'like', '%' . $filter . '%')
+                $query->where('hold_reasons.hold_reason_name', 'like', '%' . $filter . '%')
                     ->orWhere('hold_reasons.notes', 'like', '%' . $filter . '%');
             });
         }
