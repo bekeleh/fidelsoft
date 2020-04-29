@@ -163,7 +163,6 @@ class UserController extends BaseController
 
         $account = Auth::user()->account;
         $accountId = $account->account_id;
-
         if ($user) {
             $this->authorize('view', $user);
             $actionLinks = [];
@@ -183,6 +182,7 @@ class UserController extends BaseController
             $user->permissions = $user->decodePermissions();
             $userPermissions = Utils::selectedPermissionsArray($permissions, $user->permissions);
             $userGroups = $user->groups;
+
             $data = [
                 'user' => $user,
                 'permissions' => $permissions,
@@ -192,8 +192,8 @@ class UserController extends BaseController
                 'actionLinks' => $actionLinks,
                 'showBreadcrumbs' => false,
                 'title' => trans('texts.view_user'),
-                'hasPermissions' => $account->isModuleEnabled(ENTITY_PERMISSION) && Permission::scope()->withArchived()->whereUserId($user->id)->count() > 0,
-                'hasGroups' => $account->isModuleEnabled(ENTITY_PERMISSION_GROUP) && PermissionGroup::scope()->withArchived()->whereUserId($user->id)->count() > 0,
+//                'hasPermissions' => $account->isModuleEnabled(ENTITY_PERMISSION) && Permission::scope()->withArchived()->whereUserId($user->id)->count() > 0,
+//                'hasGroups' => $account->isModuleEnabled(ENTITY_PERMISSION_GROUP) && PermissionGroup::scope()->withArchived()->whereUserId($user->id)->count() > 0,
             ];
 
             return View::make('users.show', $data);
@@ -208,7 +208,9 @@ class UserController extends BaseController
         $count = $this->userService->bulk($ids, $action);
         $message = Utils::pluralize($action . 'd_user', $count);
 
-        return $this->returnBulk(ENTITY_USER, $action, $ids)->with('message', $message);
+        Session::flash('message', $message);
+
+        return $this->returnBulk(ENTITY_USER, $action, $ids);
     }
 
     public function sendConfirmation($userPublicId)
@@ -218,7 +220,9 @@ class UserController extends BaseController
 
         $this->userMailer->sendConfirmation($user, Auth::user());
 
-        return Redirect::to('users/')->with('message', trans('texts.sent_invite'));
+        Session::flash('message', trans('texts.sent_invite'));
+
+        return Redirect::to('users/');
     }
 
     public function confirm($code)
@@ -249,12 +253,15 @@ class UserController extends BaseController
                     $url = '/login';
                 }
 
-                return Redirect::to($url)->with('message', $notice_msg);
+                Session::flash('message', $notice_msg);
+
+                return Redirect::to($url);
             }
         } else {
             $error_msg = trans('texts.wrong_confirmation');
+            Session::flash('message', $error_msg);
 
-            return Redirect::to('/login')->with('error', $error_msg);
+            return Redirect::to('/login');
         }
     }
 

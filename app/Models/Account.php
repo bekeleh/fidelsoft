@@ -202,6 +202,7 @@ class Account extends Eloquent
         ENTITY_TASK => 8,
         ENTITY_EXPENSE => 16,
         ENTITY_PRODUCT => 18,
+        ENTITY_PERMISSION_GROUP => 19,
     ];
 
     public static $dashboardSections = [

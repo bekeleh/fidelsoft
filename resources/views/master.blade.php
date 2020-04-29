@@ -14,7 +14,7 @@
         <title>{{ trans('texts.client_portal') }}</title>
         {{--        <link href="{{ asset('ic_cloud_circle.png') }}" rel="shortcut icon" type="image/png">--}}
     @else
-        <title>{{ isset($title) ? ($title . ' | E-Ninja Plus ERP') : ('E-Ninja Plus ERP' ) }}</title>
+        <title>{{ isset($title) ? ($title . ' | '. trans('texts.team_source')) : ('E-Ninja Plus ERP' ) }}</title>
         <meta name="description" content="{{ isset($description) ? $description : trans('texts.app_description') }}"/>
 
         <link href="{{ asset('favicon.gif') }}" rel="shortcut icon" type="image/gif">

@@ -106,11 +106,11 @@
     <div class="tab-content">
         @if (Auth::user()->isSuperUser() || Auth::user()->is_admin)
             <div class="tab-pane" id="permissions">
-                @include('users.permission',[
-                'user' => $user,
-                'permissions' => $permissions,
-                'userPermissions' => $userPermissions,
-                ])
+                {{--                @include('users.permission',[--}}
+                {{--                'user' => $user,--}}
+                {{--                'permissions' => $permissions,--}}
+                {{--                'userPermissions' => $userPermissions,--}}
+                {{--                ])--}}
             </div>
         @endif
         @if (Auth::user()->isSuperUser() || Auth::user()->is_admin)
