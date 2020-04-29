@@ -166,7 +166,7 @@ class UserController extends BaseController
         if ($user) {
             $this->authorize('view', $user);
             $actionLinks = [];
-            if ($user->can('create', ENTITY_PERMISSION)) {
+            if ($user->can('create', ENTITY_PERMISSION_GROUP)) {
                 $actionLinks[] = ['label' => trans('texts.new_permission'), 'url' => URL::to('/permissions/create/' . $user->public_id)];
             }
 
@@ -194,6 +194,7 @@ class UserController extends BaseController
                 'title' => trans('texts.view_user'),
 //                'hasPermissions' => $account->isModuleEnabled(ENTITY_PERMISSION) && Permission::scope()->withArchived()->whereUserId($user->id)->count() > 0,
 //                'hasGroups' => $account->isModuleEnabled(ENTITY_PERMISSION_GROUP) && PermissionGroup::scope()->withArchived()->whereUserId($user->id)->count() > 0,
+
             ];
 
             return View::make('users.show', $data);
@@ -300,9 +301,11 @@ class UserController extends BaseController
         $userPublicId = Input::get('public_id');
         $user = User::where('account_id', '=', $userAccount_id)
             ->where('public_id', '=', $userPublicId)->firstOrFail();
+
         if ($user) {
             $user->permissions = $permissionArray;
             $user->save();
+
             return response()->json(['success' => true, 'data' => $user], 200);
         }
 
@@ -397,7 +400,7 @@ class UserController extends BaseController
 
     public function cloneUser(UserRequest $request, $publicId)
     {
-        if (Auth::user()->can('create', ENTITY_PERMISSION)) {
+        if (Auth::user()->can('create', [ENTITY_PERMISSION_GROUP,])) {
             return self::edit($request, $publicId, true);
         }
         return false;
@@ -406,11 +409,10 @@ class UserController extends BaseController
     private static function getViewModel($user = false)
     {
         return [
-
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
             'locations' => Location::scope()->withActiveOrSelected($user ? $user->location_id : false)->orderBy('name')->get(),
-            'groups' => PermissionGroup::where('name', '!=', 'superuser')->pluck('name', 'id'),
+            'groups' => PermissionGroup::scope()->withActiveOrSelected(false)->orderBy('name')->pluck('name', 'id')->get(),
         ];
     }
 
