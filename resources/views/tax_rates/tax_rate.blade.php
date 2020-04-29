@@ -24,7 +24,6 @@
                         @endif
                         {!! Former::text('name')->label('texts.tax_rate_name') !!}
                         {!! Former::text('rate')->label('texts.rate')->append('%') !!}
-
                         {{--                        @if (!$taxRate && ! auth()->user()->account->inclusive_taxes)--}}
                         {!! Former::radios('is_inclusive')->radios([
                         trans('texts.exclusive') . ': 100 + 10% = 100 + 10' => array('name' => 'is_inclusive', 'value' => 0),

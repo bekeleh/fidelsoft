@@ -1905,7 +1905,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'industry_Sports' => 'Sports',
     'industry_Transportation' => 'Transportation',
     'industry_Travel & Luxury' => 'Travel & Luxury',
-    'industry_Other' => 'Other',
+    'industry_Others' => 'Other',
     'industry_Photography' => 'Photography',
 
 // Countries
