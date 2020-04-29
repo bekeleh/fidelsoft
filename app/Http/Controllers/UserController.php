@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
 use App\Libraries\Utils;
-use App\Models\PermissionGroup;
 use App\Models\Location;
-use App\Models\Permission;
+use App\Models\PermissionGroup;
 use App\Models\User;
 use App\Ninja\Datatables\UserDatatable;
 use App\Ninja\Mailers\ContactMailer;

@@ -314,6 +314,9 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
         if ($this->isSuperUser()) {
             return true;
         }
+        if ($this->isAdminUser()) {
+            return true;
+        }
 
         $userGroups = $this->groups;
         if (($this->permissions === '') && (count($userGroups) == 0)) {
@@ -353,8 +356,30 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
                 return true;
             }
         }
-
+//        note: e-ninja plus master account
         if ((array_key_exists('superuser', $userPermissions)) && ($userPermissions['superuser'] == '1')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function isAdminUser()
+    {
+        $userPermissions = json_decode($this->permissions, true);
+        if (!$userPermissions) {
+            return false;
+        }
+
+        foreach ($this->groups as $userGroup) {
+            $group_permissions = json_decode($userGroup->permissions, true);
+            $group_array = (array)$group_permissions;
+            if ((array_key_exists('admin', $group_array)) && ($group_permissions['admin'] == '1')) {
+                return true;
+            }
+        }
+//        note: companies master account
+        if ((array_key_exists('admin', $userPermissions)) && ($userPermissions['admin'] == '1')) {
             return true;
         }
 
