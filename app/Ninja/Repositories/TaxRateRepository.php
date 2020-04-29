@@ -3,6 +3,7 @@
 namespace App\Ninja\Repositories;
 
 use App\Models\TaxRate;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class TaxRateRepository extends BaseRepository
@@ -41,12 +42,14 @@ class TaxRateRepository extends BaseRepository
     public function save($data, $taxRate = null)
     {
         if ($taxRate) {
+            $taxRate->updated_by = Auth::user()->username;
             // do nothing
         } elseif (isset($data['public_id'])) {
             $taxRate = TaxRate::scope($data['public_id'])->firstOrFail();
             \Log::warning('Entity not set in tax rate repo save');
         } else {
             $taxRate = TaxRate::createNew();
+            $taxRate->created_by = Auth::user()->username;
         }
 
         $taxRate->fill($data);

@@ -77,6 +77,13 @@ class TaxRateController extends BaseController
         return Redirect::to('settings/' . ACCOUNT_TAX_RATES);
     }
 
+    public function show($publicId)
+    {
+        Session::reflash();
+
+        return Redirect::to("tax_rates/{$publicId}/edit");
+    }
+
     public function bulk()
     {
         $action = Input::get('bulk_action');

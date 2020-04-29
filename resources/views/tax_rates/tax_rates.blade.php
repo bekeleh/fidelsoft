@@ -68,7 +68,7 @@
     @include('partials.bulk_form', ['entityType' => ENTITY_TAX_RATE])
     {!! Datatable::table()
         ->addColumn(
-          trans('texts.name'),
+          trans('texts.tax_rate_name'),
           trans('texts.rate'),
           trans('texts.type'),
           trans('texts.action'))

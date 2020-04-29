@@ -17,20 +17,18 @@
             <div class="col-lg-10 col-lg-offset-1">
                 <div class="panel panel-default">
                     <div class="panel-body form-padding-right">
-                        <!-- notification -->
-                        <?php echo $__env->make('notifications', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                         <?php if($taxRate): ?>
                             <?php echo e(Former::populate($taxRate)); ?>
 
                             <?php echo e(Former::populateField('is_inclusive', intval($taxRate->is_inclusive))); ?>
 
                         <?php endif; ?>
-                        <?php echo Former::text('name')->label('texts.name'); ?>
+                        <?php echo Former::text('name')->label('texts.tax_rate_name'); ?>
 
                         <?php echo Former::text('rate')->label('texts.rate')->append('%'); ?>
 
 
-                        <?php if(! $taxRate && ! auth()->user()->account->inclusive_taxes): ?>
+                        <?php if(!$taxRate && ! auth()->user()->account->inclusive_taxes): ?>
                             <?php echo Former::radios('is_inclusive')->radios([
                             trans('texts.exclusive') . ': 100 + 10% = 100 + 10' => array('name' => 'is_inclusive', 'value' => 0),
                             trans('texts.inclusive') . ':&nbsp; 100 + 10% = 90.91 + 9.09' => array('name' => 'is_inclusive', 'value' => 1),

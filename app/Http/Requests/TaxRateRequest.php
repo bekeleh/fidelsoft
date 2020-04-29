@@ -7,6 +7,8 @@ use App\Models\TaxRate;
 class TaxRateRequest extends EntityRequest
 {
 
+    protected $entityType = ENTITY_TAX_RATE;
+
     public function authorize()
     {
         return true;
@@ -19,22 +21,23 @@ class TaxRateRequest extends EntityRequest
         switch ($this->method()) {
             case 'POST':
             {
-                $rules['name'] = 'required|string|max:90|unique:tax_rates,name';
-                $rules['rate'] = 'numeric|required';
-                $rules['note'] = 'nullable';
+//                $this->validationData();
+                $rules['name'] = 'required|unique:tax_rates,name,' . $this->id . ',id,account_id,' . $this->account_id;
+                $rules['rate'] = 'required';
                 $rules['is_deleted'] = 'boolean';
-                $rules['note'] = 'nullable';
+                $rules['notes'] = 'nullable';
                 break;
             }
             case 'PUT':
             case 'PATCH':
             {
-                $taxRate = TaxRate::find((int)request()->segment(2));
+//                $this->validationData();
+                $taxRate = TaxRate::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
                 if ($taxRate) {
-                    $rules['name'] = 'required|string|max:90|unique:tax_rates,name,' . $taxRate->id . ',id';
-                    $rules['rate'] = 'numeric|required';
+                    $rules['name'] = 'required|string|max:90|unique:tax_rates,name,' . $taxRate->id . ',id,account_id,' . $taxRate->account_id;
+                    $rules['rate'] = 'required';
                     $rules['is_deleted'] = 'boolean';
-                    $rules['note'] = 'nullable';
+                    $rules['notes'] = 'nullable';
                     break;
                 } else {
                     return;
@@ -52,10 +55,21 @@ class TaxRateRequest extends EntityRequest
         if (!empty($input['name'])) {
             $input['name'] = filter_var($input['name'], FILTER_SANITIZE_STRING);
         }
-        if (!empty($input['note'])) {
-            $input['note'] = filter_var($input['note'], FILTER_SANITIZE_STRING);
+        if (!empty($input['notes'])) {
+            $input['notes'] = filter_var($input['notes'], FILTER_SANITIZE_STRING);
         }
 
         $this->replace($input);
+    }
+
+    protected function validationData()
+    {
+        $input = $this->all();
+        if (count($input)) {
+            $this->request->add([
+                'account_id' => TaxRate::getAccountId()
+            ]);
+        }
+        return $this->request->all();
     }
 }

@@ -159,7 +159,7 @@ $LANG = array(
 | tax rate trans
 |--------------------------------------------------------------------------
 */
-    'tax_rate_name' => 'Sale Type Name',
+    'tax_rate_name' => 'Tax Rate Name',
     'tax_rates' => 'Tax Rate',
     'tax_rate' => 'Tax Rate',
     'new_tax_rate' => 'New Tax Rate',
