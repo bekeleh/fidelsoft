@@ -75,24 +75,24 @@ class EntityModel extends Eloquent
         }
     }
 
-    public static function withCategory($relatedNames = null)
+    public static function withCategory($related = null)
     {
         $query = null;
-        if (!$relatedNames) {
+        if (!$related) {
             return null;
         }
         $className = get_called_class();
 
-        if ($relatedNames != '') {
-            if (is_array($relatedNames)) {
-                foreach ($relatedNames as $relatedName) {
-                    $query = $className::scope()->with($relatedName)->orderBy('name')->get();
+        if ($related != '') {
+            if (is_array($related)) {
+                foreach ($related as $relatedName) {
+                    $query = $className::scope()->withActiveOrSelected(false)->with($relatedName)->orderBy('name')->get();
                     $query = self::getNameWithCategory($query, $relatedName);
                 }
             } else {
-                $query = $className::scope()->with($relatedNames)->orderBy('name')->get();
+                $query = $className::scope()->withActiveOrSelected(false)->with($related)->orderBy('name')->get();
 
-                $query = self::getNameWithCategory($query, $relatedNames);
+                $query = self::getNameWithCategory($query, $related);
             }
         }
         return $query;

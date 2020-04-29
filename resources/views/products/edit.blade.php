@@ -36,7 +36,7 @@
                     ->help(trans('texts.item_unit_help') . ' | ' . link_to('/units/', trans('texts.customize_options')))
                     !!}
 
-                    {!! Former::text('barcode')->label('texts.barcode') !!}
+                    {!! Former::text('item_barcode')->label('texts.item_barcode') !!}
                     {!! Former::text('item_tag')->label('texts.item_tag') !!}
                     {!! Former::text('item_cost')->label('item_cost') !!}
                     {!! Former::textarea('notes')->rows(6) !!}

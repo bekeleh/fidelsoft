@@ -127,6 +127,7 @@ class ProductController extends BaseController
 
         ];
         $data = array_merge($data, self::getViewModel($product));
+
         return View::make('products.edit', $data);
     }
 
@@ -162,8 +163,7 @@ class ProductController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
-//            'itemBrands' => ItemBrand::scope()->withActiveOrSelected($product ? $product->item_brand_id : false)->orderBy('name')->get(),
-            'itemBrands' => ItemBrand:: withCategory('itemCategory'),
+            'itemBrands' => ItemBrand::withCategory('itemCategory'),
             'units' => Unit::scope()->withActiveOrSelected($product ? $product->unit_id : false)->orderBy('name')->get(),
         ];
     }
