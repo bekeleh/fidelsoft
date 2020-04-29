@@ -2,19 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/fwoxQV6CkURr8IZg52B5n3jOduPLreBrbK6lRLCP" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/5d4be74eb2a11ff837c8ca67ff1010d631d00e4d.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/0dded92a1d1d7ff682899fcb41d90fcd687ba3f7.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/92c3fe269471bf3f6566addf60ae50c9bd963629.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/a71b7fca888cc7a2b77f99efc26e8c800250a8dd.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TaxRateController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TaxRateController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/TaxRateRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/TaxRateRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdateTaxRateRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateTaxRateRequest122.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdateTaxRateRequest122.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/TaxRateRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/TaxRateRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/tax_rates/tax_rate.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/tax_rates/tax_rate.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/tax_rates/tax_rates.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/tax_rates/tax_rates.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/CAINg5x0KWtcez2WjmcoEbAkfe5W0Yrx4bUOaDN4" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/sessions/bvs3FWVHF4o1BuuSNCSsOzHhPa0ljUXUFItRC5RK" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/bvs3FWVHF4o1BuuSNCSsOzHhPa0ljUXUFItRC5RK" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/fwoxQV6CkURr8IZg52B5n3jOduPLreBrbK6lRLCP" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/fwoxQV6CkURr8IZg52B5n3jOduPLreBrbK6lRLCP" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/15ecb4316db454149aaaeabf44a82ff2b579fcde.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/15ecb4316db454149aaaeabf44a82ff2b579fcde.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -384,14 +382,7 @@
       <workItem from="1588054510832" duration="321000" />
       <workItem from="1588065653809" duration="9728000" />
       <workItem from="1588100350057" duration="11403000" />
-      <workItem from="1588149318872" duration="22135000" />
-    </task>
-    <task id="LOCAL-00158" summary="2020-04-21 9:26">
-      <created>1587482375064</created>
-      <option name="number" value="00158" />
-      <option name="presentableId" value="LOCAL-00158" />
-      <option name="project" value="LOCAL" />
-      <updated>1587482375064</updated>
+      <workItem from="1588149318872" duration="23037000" />
     </task>
     <task id="LOCAL-00159" summary="2020-04-21 9:26">
       <created>1587483876404</created>
@@ -729,7 +720,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588173893748</updated>
     </task>
-    <option name="localTasksCounter" value="207" />
+    <task id="LOCAL-00207" summary="2020-04-29 9:26">
+      <created>1588177241939</created>
+      <option name="number" value="00207" />
+      <option name="presentableId" value="LOCAL-00207" />
+      <option name="project" value="LOCAL" />
+      <updated>1588177241939</updated>
+    </task>
+    <option name="localTasksCounter" value="208" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -802,10 +800,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1587939377952" />
-    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1588173891009">
+    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1588177240898">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1588173891009" />
+    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1588177240898" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="444" y="140" key="FileChooserDialogImpl" timestamp="1588023873020">

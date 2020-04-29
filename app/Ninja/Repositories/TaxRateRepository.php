@@ -53,6 +53,7 @@ class TaxRateRepository extends BaseRepository
         }
 
         $taxRate->fill($data);
+        $taxRate->name = isset($data['name']) ? ucwords($data['name']) : '';
         $taxRate->save();
 
         return $taxRate;
