@@ -546,6 +546,7 @@ $LANG = array(
     'close' => 'Close',
     'provide_email' => 'Please provide a valid email address',
     'powered_by' => 'Powered by',
+    'team_source' => 'E-Ninja Plus ERP',
     'no_items' => 'No items',
     'recurring_invoices' => 'Recurring Invoices',
     'recurring_help' => '<p>Automatically send clients the same invoices weekly, bi-monthly, monthly, quarterly or annually. </p>
@@ -920,7 +921,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'updated_password' => 'Successfully updated password',
     'api_tokens' => 'API Tokens',
     'users_and_tokens' => 'Users & Tokens',
-    'account_login' => 'Account Login',
+    'account_login' => 'User Login',
     'recover_password' => 'Recover your password',
     'forgot_password' => 'Forgot your password?',
     'email_address' => 'Email address',

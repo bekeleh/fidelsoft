@@ -10,7 +10,7 @@
     @endif
     <meta charset="utf-8">
 
-    @if (Utils::isWhiteLabel() && ! auth()->check())
+    @if (Utils::isWhiteLabel() && !auth()->check())
         <title>{{ trans('texts.client_portal') }}</title>
         {{--        <link href="{{ asset('ic_cloud_circle.png') }}" rel="shortcut icon" type="image/png">--}}
     @else

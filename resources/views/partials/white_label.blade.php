@@ -1,8 +1,9 @@
+<!-- powered by -->
 {{ trans('texts.powered_by') }}
-{!! link_to('https://eninjaplus.com/?tm_source=powered_by', 'E-Ninja Plus', ['target' => '_blank', 'title' => trans('texts.created_by', ['name' => 'E-Ninja Plus Team'])]) !!}
+{!! link_to('https://eninjaplus.com/?tm_source=powered_by', trans('texts.team_source'), ['target' => '_blank', 'title' => trans('texts.created_by', ['name' => 'E-Ninja Plus Team'])]) !!}
 
 @if (Auth::user()->account->hasFeature(FEATURE_WHITE_LABEL))
-    {{ trans('texts.white_labeled') }}
+    <a href="#" onclick="showWhiteLabelModal()">{{ trans('texts.white_label_link') }}</a>
     @if (! Utils::isNinja() && $company->hasActivePlan() && $company->daysUntilPlanExpires() <= 10 && $company->daysUntilPlanExpires() > 0)
         <br/><b>{!! trans('texts.license_expiring', [
         'count' => $company->daysUntilPlanExpires(),
@@ -10,9 +11,7 @@
     ]) !!}</b>
     @endif
 @else
-    <a href="#" onclick="showWhiteLabelModal()">{{ trans('texts.white_label_link') }}</a>
 @endif
-
 <div class="modal fade" id="whiteLabelModal" tabindex="-1" role="dialog" aria-labelledby="whiteLabelModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">

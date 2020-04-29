@@ -10,7 +10,7 @@
     <?php endif; ?>
     <meta charset="utf-8">
 
-    <?php if(Utils::isWhiteLabel() && ! auth()->check()): ?>
+    <?php if(Utils::isWhiteLabel() && !auth()->check()): ?>
         <title><?php echo e(trans('texts.client_portal')); ?></title>
         
     <?php else: ?>

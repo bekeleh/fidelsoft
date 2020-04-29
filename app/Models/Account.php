@@ -884,6 +884,7 @@ class Account extends Eloquent
 
     public function isNinjaAccount()
     {
+//        return strpos($this->account_key, 'zg4ylmzDkdkPOT8yoKQw9LTWaoZJx7') === 0;
         return strpos($this->account_key, 'zg4ylmzDkdkPOT8yoKQw9LTWaoZJx7') === 0;
     }
 
@@ -923,6 +924,7 @@ class Account extends Eloquent
         }
 
         $planDetails = $this->getPlanDetails();
+
         $selfHost = !Utils::isNinjaProd();
 
         if (!$selfHost && function_exists('ninja_account_features')) {
@@ -960,7 +962,8 @@ class Account extends Eloquent
 
             // White Label
             case FEATURE_WHITE_LABEL:
-                if ($this->isNinjaAccount() || (!$selfHost && $planDetails && !$planDetails['expires'])) {
+//                ($this->isNinjaAccount() || (!$selfHost && $planDetails && !$planDetails['expires']))
+                if ($this->isNinjaAccount()) {
                     return false;
                 }
             // Fallthrough
@@ -1039,7 +1042,6 @@ class Account extends Eloquent
         if ((!$plan || $plan == PLAN_FREE) && (!$trial_plan || !$include_trial)) {
             return null;
         }
-
         $trial_active = false;
         if ($trial_plan && $include_trial) {
             $trial_started = DateTime::createFromFormat('Y-m-d', $this->company->trial_started);

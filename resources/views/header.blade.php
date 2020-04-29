@@ -5,16 +5,10 @@
         <style type="text/css">
             .nav-footer {
                 @if (config('mail.driver') == 'log' && ! config('services.postmark'))
-                                       background-color: #50C878 !important;
+                                                     background-color: #50C878 !important;
                 @else
-                                       background-color: #FD6A02 !important;
+                                                     background-color: #FD6A02 !important;
             @endif
-
-
-
-
-
-
             }
         </style>
     @endif
@@ -259,7 +253,7 @@
                style="color:white;">
                 <div class="navbar-brand">
                     <i class="fa fa-bars hide-phone" style="width:32px;padding-top:2px;float:left"></i>E-Ninja Plus ERP
-                    {{--                    <img src="{{ asset('images/erp.png') }}" width="193" height="25" style="float:left"/>--}}
+                    {{--                    <img src="{{ asset('images/round_logo.png') }}" width="193" height="25" style="float:left"/>--}}
                 </div>
             </a>
         </div>
@@ -424,6 +418,7 @@
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="container-fluid">
+                <!-- New message feed area -->
                 @include('partials.warn_session', ['redirectTo' => '/dashboard'])
                 @if (Session::has('news_feed_message'))
                     <div class="alert alert-info">
@@ -438,28 +433,32 @@
                     {!! Form::breadcrumbs((! empty($entity) && $entity->exists) ? $entity->present()->statusLabel : false) !!}
                 @endif
                 <br/>
+                <!-- Notification area -->
                 <div class="row">
                     <div class="col-md-12">
-                        <!-- notification -->
                         @include('notifications')
                     </div>
                 </div>
+                <!-- Body Content  -->
                 <div class="row">
                     <div class="col-md-12">
                         @yield('content')
                     </div>
                 </div>
                 <br/>
+                <!-- Footer  -->
                 <div class="row">
                     <div class="col-md-12">
-                        @if (Utils::isNinjaProd())
-                            @if (Auth::check() && Auth::user()->hasActivePromo())
-                            @elseif (Auth::check() && Auth::user()->isTrial())
-                                {!! trans(Auth::user()->account->getCountTrialDaysLeft() == 0 ? 'texts.trial_footer_last_day' : 'texts.trial_footer', [
-                                'count' => Auth::user()->account->getCountTrialDaysLeft(),
-                                ]) !!}
-                            @endif
-                        @else
+                        <!-- Prod  -->
+                    @if (Utils::isNinjaProd())
+                        @if (Auth::check() && Auth::user()->hasActivePromo())
+                        @elseif (Auth::check() && Auth::user()->isTrial())
+                            {!! trans(Auth::user()->account->getCountTrialDaysLeft() == 0 ? 'texts.trial_footer_last_day' : 'texts.trial_footer', [
+                            'count' => Auth::user()->account->getCountTrialDaysLeft(),
+                            ]) !!}
+                        @endif
+                    @else
+                        <!-- In Dev  -->
                             @include('partials.white_label', ['company' => Auth::user()->account->company])
                         @endif
                     </div>

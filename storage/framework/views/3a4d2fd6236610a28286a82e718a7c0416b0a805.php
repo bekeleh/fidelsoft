@@ -1,11 +1,11 @@
+<!-- powered by -->
 <?php echo e(trans('texts.powered_by')); ?>
 
-<?php echo link_to('https://eninjaplus.com/?tm_source=powered_by', 'E-Ninja Plus', ['target' => '_blank', 'title' => trans('texts.created_by', ['name' => 'E-Ninja Plus Team'])]); ?>
+<?php echo link_to('https://eninjaplus.com/?tm_source=powered_by', trans('texts.team_source'), ['target' => '_blank', 'title' => trans('texts.created_by', ['name' => 'E-Ninja Plus Team'])]); ?>
 
 
 <?php if(Auth::user()->account->hasFeature(FEATURE_WHITE_LABEL)): ?>
-    <?php echo e(trans('texts.white_labeled')); ?>
-
+    <a href="#" onclick="showWhiteLabelModal()"><?php echo e(trans('texts.white_label_link')); ?></a>
     <?php if(! Utils::isNinja() && $company->hasActivePlan() && $company->daysUntilPlanExpires() <= 10 && $company->daysUntilPlanExpires() > 0): ?>
         <br/><b><?php echo trans('texts.license_expiring', [
         'count' => $company->daysUntilPlanExpires(),
@@ -13,9 +13,7 @@
     ]); ?></b>
     <?php endif; ?>
 <?php else: ?>
-    <a href="#" onclick="showWhiteLabelModal()"><?php echo e(trans('texts.white_label_link')); ?></a>
 <?php endif; ?>
-
 <div class="modal fade" id="whiteLabelModal" tabindex="-1" role="dialog" aria-labelledby="whiteLabelModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">

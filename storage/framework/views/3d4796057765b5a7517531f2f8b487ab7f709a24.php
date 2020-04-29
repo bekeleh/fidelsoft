@@ -4,16 +4,10 @@
         <style type="text/css">
             .nav-footer {
                 <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?>
-                                       background-color: #50C878 !important;
+                                                     background-color: #50C878 !important;
                 <?php else: ?>
-                                       background-color: #FD6A02 !important;
+                                                     background-color: #FD6A02 !important;
             <?php endif; ?>
-
-
-
-
-
-
             }
         </style>
     <?php endif; ?>
@@ -434,6 +428,7 @@
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="container-fluid">
+                <!-- New message feed area -->
                 <?php echo $__env->make('partials.warn_session', ['redirectTo' => '/dashboard'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 <?php if(Session::has('news_feed_message')): ?>
                     <div class="alert alert-info">
@@ -450,29 +445,33 @@
 
                 <?php endif; ?>
                 <br/>
+                <!-- Notification area -->
                 <div class="row">
                     <div class="col-md-12">
-                        <!-- notification -->
                         <?php echo $__env->make('notifications', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                     </div>
                 </div>
+                <!-- Body Content  -->
                 <div class="row">
                     <div class="col-md-12">
                         <?php echo $__env->yieldContent('content'); ?>
                     </div>
                 </div>
                 <br/>
+                <!-- Footer  -->
                 <div class="row">
                     <div class="col-md-12">
-                        <?php if(Utils::isNinjaProd()): ?>
-                            <?php if(Auth::check() && Auth::user()->hasActivePromo()): ?>
-                            <?php elseif(Auth::check() && Auth::user()->isTrial()): ?>
-                                <?php echo trans(Auth::user()->account->getCountTrialDaysLeft() == 0 ? 'texts.trial_footer_last_day' : 'texts.trial_footer', [
-                                'count' => Auth::user()->account->getCountTrialDaysLeft(),
-                                ]); ?>
+                        <!-- Prod  -->
+                    <?php if(Utils::isNinjaProd()): ?>
+                        <?php if(Auth::check() && Auth::user()->hasActivePromo()): ?>
+                        <?php elseif(Auth::check() && Auth::user()->isTrial()): ?>
+                            <?php echo trans(Auth::user()->account->getCountTrialDaysLeft() == 0 ? 'texts.trial_footer_last_day' : 'texts.trial_footer', [
+                            'count' => Auth::user()->account->getCountTrialDaysLeft(),
+                            ]); ?>
 
-                            <?php endif; ?>
-                        <?php else: ?>
+                        <?php endif; ?>
+                    <?php else: ?>
+                        <!-- In Dev  -->
                             <?php echo $__env->make('partials.white_label', ['company' => Auth::user()->account->company], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                         <?php endif; ?>
                     </div>
