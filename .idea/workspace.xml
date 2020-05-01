@@ -2,13 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/cMmiTZBbvaXiqTXob4Q37CAm4k36i7goebc9LijY" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/lkEISxwkOq0ZjAr92sMVC6FKDIHqixn4g8pG6FjS" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/vezLrU1uVQ6YpIqqFPoZflkQfQxiHJehZqVuN4MQ" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/e23efc1ef6ac7a9d1151b3f35ce9152cc04edf69.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/accounts/tax_rate.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/accounts/tax_rate.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/tax_rates/tax_rate.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/tax_rates/tax_rate.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/bvs3FWVHF4o1BuuSNCSsOzHhPa0ljUXUFItRC5RK" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/ofePlNKfcaT1DOa7RqB0vKbliIp9jToGT6IOuOxT" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/ofePlNKfcaT1DOa7RqB0vKbliIp9jToGT6IOuOxT" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/errors/404.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/errors/404.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/cache/ea/86/ea86d55f6e8d1067a1fcd38e0896db55b3f57f39" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/cache/ea/86/ea86d55f6e8d1067a1fcd38e0896db55b3f57f39" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/DZxoV1bU7naeT3xRYcDJF1PSBZhCjg2b1Oy4oKKS" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/SaARMu8voLFiiufmINLbNrLIhk9RftfCGfA6zmn8" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/cMmiTZBbvaXiqTXob4Q37CAm4k36i7goebc9LijY" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/ofePlNKfcaT1DOa7RqB0vKbliIp9jToGT6IOuOxT" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/930ca693b25da5649f8f8deb5ec4351a1c766c77.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/930ca693b25da5649f8f8deb5ec4351a1c766c77.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -380,14 +384,9 @@
       <workItem from="1588065653809" duration="9728000" />
       <workItem from="1588100350057" duration="11403000" />
       <workItem from="1588149318872" duration="23722000" />
-      <workItem from="1588179171298" duration="5516000" />
-    </task>
-    <task id="LOCAL-00161" summary="2020-04-21 9:26">
-      <created>1587496069076</created>
-      <option name="number" value="00161" />
-      <option name="presentableId" value="LOCAL-00161" />
-      <option name="project" value="LOCAL" />
-      <updated>1587496069076</updated>
+      <workItem from="1588179171298" duration="5895000" />
+      <workItem from="1588278834483" duration="2640000" />
+      <workItem from="1588282275412" duration="781000" />
     </task>
     <task id="LOCAL-00162" summary="2020-04-21 9:26">
       <created>1587503405853</created>
@@ -725,7 +724,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588189117010</updated>
     </task>
-    <option name="localTasksCounter" value="210" />
+    <task id="LOCAL-00210" summary="2020-04-29 9:26">
+      <created>1588192148896</created>
+      <option name="number" value="00210" />
+      <option name="presentableId" value="LOCAL-00210" />
+      <option name="project" value="LOCAL" />
+      <updated>1588192148896</updated>
+    </task>
+    <option name="localTasksCounter" value="211" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -798,10 +804,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1587939377952" />
-    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1588189115435">
+    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1588192147452">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1588189115435" />
+    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1588192147452" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="444" y="140" key="FileChooserDialogImpl" timestamp="1588023873020">
@@ -854,10 +860,10 @@
     </state>
     <state x="296" y="138" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1586200886074" />
     <state x="312" y="163" key="Vcs.Push.Dialog.v2/0.0.1440.860@0.0.1440.860" timestamp="1585235941756" />
-    <state x="382" y="130" key="com.intellij.ide.util.TipDialog" timestamp="1588179171101">
+    <state x="382" y="130" key="com.intellij.ide.util.TipDialog" timestamp="1588360378801">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="382" y="130" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1588179171101" />
+    <state x="382" y="130" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1588360378801" />
     <state x="408" y="139" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1586189894452" />
     <state x="430" y="164" key="com.intellij.ide.util.TipDialog/0.0.1440.860@0.0.1440.860" timestamp="1586154234151" />
     <state x="303" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1587324145930">
