@@ -96,7 +96,6 @@ class ClientRepository extends BaseRepository
 
     public function purge($client)
     {
-        dd($client);
         dispatch(new PurgeClientData($client));
     }
 
@@ -235,6 +234,7 @@ class ClientRepository extends BaseRepository
         $clients = Client::scope()->get(['id', 'name', 'public_id']);
 
         foreach ($clients as $client) {
+
             $map[$client->id] = $client;
 
             if (!$client->name) {

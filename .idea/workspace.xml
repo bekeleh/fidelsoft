@@ -2,18 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/lkEISxwkOq0ZjAr92sMVC6FKDIHqixn4g8pG6FjS" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/vezLrU1uVQ6YpIqqFPoZflkQfQxiHJehZqVuN4MQ" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/e23efc1ef6ac7a9d1151b3f35ce9152cc04edf69.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/ClientRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/ClientRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/errors/404.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/errors/404.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/cache/ea/86/ea86d55f6e8d1067a1fcd38e0896db55b3f57f39" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/cache/ea/86/ea86d55f6e8d1067a1fcd38e0896db55b3f57f39" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/DZxoV1bU7naeT3xRYcDJF1PSBZhCjg2b1Oy4oKKS" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/SaARMu8voLFiiufmINLbNrLIhk9RftfCGfA6zmn8" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/cMmiTZBbvaXiqTXob4Q37CAm4k36i7goebc9LijY" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/ofePlNKfcaT1DOa7RqB0vKbliIp9jToGT6IOuOxT" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/930ca693b25da5649f8f8deb5ec4351a1c766c77.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/930ca693b25da5649f8f8deb5ec4351a1c766c77.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -387,13 +378,7 @@
       <workItem from="1588179171298" duration="5895000" />
       <workItem from="1588278834483" duration="2640000" />
       <workItem from="1588282275412" duration="781000" />
-    </task>
-    <task id="LOCAL-00162" summary="2020-04-21 9:26">
-      <created>1587503405853</created>
-      <option name="number" value="00162" />
-      <option name="presentableId" value="LOCAL-00162" />
-      <option name="project" value="LOCAL" />
-      <updated>1587503405853</updated>
+      <workItem from="1588360349919" duration="911000" />
     </task>
     <task id="LOCAL-00163" summary="2020-04-22 9:26">
       <created>1587637940491</created>
@@ -731,7 +716,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588192148896</updated>
     </task>
-    <option name="localTasksCounter" value="211" />
+    <task id="LOCAL-00211" summary="2020-05-1 9:26">
+      <created>1588360481508</created>
+      <option name="number" value="00211" />
+      <option name="presentableId" value="LOCAL-00211" />
+      <option name="project" value="LOCAL" />
+      <updated>1588360481509</updated>
+    </task>
+    <option name="localTasksCounter" value="212" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -741,7 +733,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="2020-03-24 12:00" />
     <MESSAGE value="2020-03-25 12:00" />
     <MESSAGE value="2020-03-26 10:55" />
     <MESSAGE value="2020-03-27 10:55" />
@@ -766,7 +757,8 @@
     <MESSAGE value="2020-04-27 9:26" />
     <MESSAGE value="2020-04-28 9:26" />
     <MESSAGE value="2020-04-29 9:26" />
-    <option name="LAST_COMMIT_MESSAGE" value="2020-04-29 9:26" />
+    <MESSAGE value="2020-05-1 9:26" />
+    <option name="LAST_COMMIT_MESSAGE" value="2020-05-1 9:26" />
   </component>
   <component name="WindowStateProjectService">
     <state x="312" y="89" key="#Notifications" timestamp="1584513656594">
@@ -804,10 +796,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1587939377952" />
-    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1588192147452">
+    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1588360443073">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1588192147452" />
+    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1588360443073" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="444" y="140" key="FileChooserDialogImpl" timestamp="1588023873020">
