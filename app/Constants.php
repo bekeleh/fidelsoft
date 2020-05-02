@@ -252,6 +252,7 @@ if (!defined('APP_NAME')) {
 
     define('MAX_NUM_VENDORS', 100);
     define('MAX_NUM_VENDORS_PRO', 20000);
+    define('MAX_PASSWORD_LENGTH', 6);
 
     define('STATUS_ACTIVE', 'active');
     define('STATUS_ARCHIVED', 'archived');

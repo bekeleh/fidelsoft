@@ -71,21 +71,21 @@ class ClientRepository extends BaseRepository
                 'clients.is_deleted',
                 'clients.user_id',
                 'clients.id_number',
-                'sale_types.name as sale_type',
+                'sale_types.name as sale_type_name',
                 'sale_types.public_id as sale_type_public_id',
-                'hold_reasons.name as hold_reason',
+                'hold_reasons.name as hold_reason_name',
                 'hold_reasons.public_id as hold_reason_public_id'
             );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
-                $query->where('clients.name', 'like', '%' . $filter . '%')
+                $query->where('client_name.name', 'like', '%' . $filter . '%')
                     ->orWhere('clients.id_number', 'like', '%' . $filter . '%')
                     ->orWhere('contacts.first_name', 'like', '%' . $filter . '%')
                     ->orWhere('contacts.last_name', 'like', '%' . $filter . '%')
                     ->orWhere('contacts.email', 'like', '%' . $filter . '%')
-                    ->orWhere('sale_types.name', 'like', '%' . $filter . '%')
-                    ->orWhere('hold_reasons.name', 'like', '%' . $filter . '%');
+                    ->orWhere('sale_type_name.name', 'like', '%' . $filter . '%')
+                    ->orWhere('hold_reason_name.name', 'like', '%' . $filter . '%');
             });
         }
 

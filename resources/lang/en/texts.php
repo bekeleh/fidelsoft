@@ -235,8 +235,7 @@ $LANG = array(
 | hold reason trans
 |--------------------------------------------------------------------------
 */
-    'reason' => 'Hold Reason',
-    'hold_reason.edit' => 'Edit Hold Reason',
+    'hold_reason_name' => 'Hold Reason Name',
     'new_hold_reason' => 'New Hold Reason',
     'list_hold_reasons' => 'List Hold Reasons',
     'hold_reason' => 'Hold reason',
@@ -547,7 +546,8 @@ $LANG = array(
     'close' => 'Close',
     'provide_email' => 'Please provide a valid email address',
     'powered_by' => 'Powered by',
-    'team_source' => 'E-Ninja Plus ERP',
+//    'team_source' => 'E-Ninja Plus ERP',
+    'team_source' => 'Open-source software, E-Ninja Plus ERP',
     'no_items' => 'No items',
     'recurring_invoices' => 'Recurring Invoices',
     'recurring_help' => '<p>Automatically send clients the same invoices weekly, bi-monthly, monthly, quarterly or annually. </p>
