@@ -18,8 +18,10 @@ abstract class EntityPolicy
 
     public function before(User $user, $ability, $item)
     {
-        if (!static::checkModuleEnabled($user, $item)) {
-            return false;
+        if ($item) {
+            if (!static::checkModuleEnabled($user, $item)) {
+                return false;
+            }
         }
         if ($user->hasAccess('admin')) {
             return true;
@@ -28,56 +30,91 @@ abstract class EntityPolicy
 
     public function settings(User $user, $item = null)
     {
-        if (!static::checkModuleEnabled($user, $item)) {
-            return false;
+        if ($item) {
+            if (!static::checkModuleEnabled($user, $item)) {
+                return false;
+            }
         }
         return $user->hasAccess($this->tableName() . '.settings');
     }
 
     public function index(User $user, $item = null)
     {
-        if (!static::checkModuleEnabled($user, $item)) {
-            return false;
+        if ($item) {
+            if (!static::checkModuleEnabled($user, $item)) {
+                return false;
+            }
         }
-        return $user->hasAccess($this->tableName() . '.view');
+        return $user->hasAccess($this->tableName() . '.index');
     }
 
     public function view(User $user, $item = null)
     {
-        if (!static::checkModuleEnabled($user, $item)) {
-            return false;
+        if ($item) {
+            if (!static::checkModuleEnabled($user, $item)) {
+                return false;
+            }
         }
         return $user->hasAccess($this->tableName() . '.view');
     }
 
     public function create(User $user, $item = null)
     {
-        if (!static::checkModuleEnabled($user, $item)) {
-            return false;
+        if ($item) {
+            if (!static::checkModuleEnabled($user, $item)) {
+                return false;
+            }
         }
         return $user->hasAccess($this->tableName() . '.create');
     }
 
+    public function store(User $user, $item = null)
+    {
+        if ($item) {
+            if (!static::checkModuleEnabled($user, $item)) {
+                return false;
+            }
+        }
+        return $user->hasAccess($this->tableName() . '.store');
+    }
+
+    public function edit(User $user, $item = null)
+    {
+        if ($item) {
+            if (!static::checkModuleEnabled($user, $item)) {
+                return false;
+            }
+        }
+        return $user->hasAccess($this->tableName() . '.edit');
+    }
+
     public function update(User $user, $item = null)
     {
-        if (!static::checkModuleEnabled($user, $item)) {
-            return false;
+        if ($item) {
+            if (!static::checkModuleEnabled($user, $item)) {
+                return false;
+            }
         }
         return $user->hasAccess($this->tableName() . '.edit');
     }
 
     public function delete(User $user, $item = null)
     {
-        if (!static::checkModuleEnabled($user, $item)) {
-            return false;
+        if ($item) {
+            if (!static::checkModuleEnabled($user, $item)) {
+                return false;
+            }
         }
+
         return $user->hasAccess($this->tableName() . '.delete');
     }
 
     public function forceDelete(User $user, $item = null)
     {
-        if (!static::checkModuleEnabled($user, $item)) {
-            return false;
+        if ($item) {
+            if (!static::checkModuleEnabled($user, $item)) {
+                return false;
+            }
         }
         return $user->hasAccess($this->tableName() . '.forceDelete');
     }

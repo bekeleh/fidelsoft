@@ -317,7 +317,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
         if ($this->isAdminUser()) {
             return true;
         }
-
+//        dd($section);
         $userGroups = $this->groups;
         if (($this->permissions === '') && (count($userGroups) == 0)) {
             return false;

@@ -202,7 +202,10 @@ class Account extends Eloquent
         ENTITY_TASK => 8,
         ENTITY_EXPENSE => 16,
         ENTITY_PRODUCT => 18,
-        ENTITY_PERMISSION_GROUP => 19,
+        ENTITY_PERMISSION_GROUP => 22,
+        ENTITY_USER => 26,
+        ENTITY_STORE => 28,
+        ENTITY_ITEM_STORE => 28,
     ];
 
     public static $dashboardSections = [
@@ -1422,6 +1425,18 @@ class Account extends Eloquent
             ENTITY_PROJECT,
             ENTITY_PROPOSAL,
             ENTITY_PRODUCT,
+            ENTITY_USER,
+            ENTITY_STORE,
+            ENTITY_ITEM_STORE,
+            ENTITY_ITEM_TRANSFER,
+            ENTITY_ITEM_MOVEMENT,
+            ENTITY_LOCATION,
+            ENTITY_ITEM_PRICE,
+            ENTITY_ITEM_CATEGORY,
+            ENTITY_ITEM_BRAND,
+            ENTITY_SALE_TYPE,
+            ENTITY_HOLD_REASON,
+            ENTITY_UNIT,
         ])) {
             return true;
         }
@@ -1433,9 +1448,9 @@ class Account extends Eloquent
         } elseif ($entityType == ENTITY_PROPOSAL) {
             $entityType = ENTITY_QUOTE;
         }
-
         // note: single & checks bitmask match
-        return $this->enabled_modules & static::$modules[$entityType];
+//        return $this->enabled_modules & static::$modules[$entityType];
+        return $this->enabled_modules;
     }
 
     public function requiresAuthorization($invoice)

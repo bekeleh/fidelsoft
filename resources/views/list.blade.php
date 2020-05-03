@@ -81,7 +81,8 @@
     {!! Button::normal(trans('texts.time_tracker'))->asLinkTo('javascript:openTimeTracker()')->appendIcon(Icon::create('time')) !!}
 @endif
 <!-- create records -->
-@if (Auth::user()->can('create', $entityType))
+@if (Auth::user()->can('create', \App\Models\User::class))
+    {{--@if (Auth::user()->can('create', $entityType))--}}
     {!! Button::primary(mtrans($entityType, "new_{$entityType}"))
     ->asLinkTo(url(
     (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_TEMPLATE]) ? str_replace('_', 's/', Utils::pluralizeEntityType($entityType)) : Utils::pluralizeEntityType($entityType)) .

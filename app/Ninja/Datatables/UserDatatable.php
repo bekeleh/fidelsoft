@@ -2,6 +2,7 @@
 
 namespace App\Ninja\Datatables;
 
+use App\Models\Location;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 use App\Libraries\Utils;
@@ -46,7 +47,7 @@ class UserDatatable extends EntityDatatable
                 'location_name',
                 function ($model) {
                     if ($model->location_id) {
-                        if (Auth::user()->can('view', [ENTITY_LOCATION]))
+                        if (Auth::user()->can('view', new Location))
                             return link_to("locations/{$model->location_id}", $model->location_name)->toHtml();
                         else
                             return $model->location_name;

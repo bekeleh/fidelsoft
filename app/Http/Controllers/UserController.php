@@ -141,8 +141,8 @@ class UserController extends BaseController
     public function update(UserRequest $request)
     {
         $data = $request->input();
-
-        $user = $this->userService->save($data, $request->entity());
+        $user = $request->entity();
+        $user = $this->userService->save($data, $user);
 
         $action = Input::get('action');
         if (in_array($action, ['archive', 'delete', 'restore'])) {
@@ -159,11 +159,9 @@ class UserController extends BaseController
     public function show(UserRequest $request, $publicId)
     {
         $user = $request->entity();
-
         $account = Auth::user()->account;
         $accountId = $account->account_id;
         if ($user) {
-            $this->authorize('view', $user);
             $actionLinks = [];
             if ($user->can('create', ENTITY_PERMISSION_GROUP)) {
                 $actionLinks[] = ['label' => trans('texts.new_permission'), 'url' => URL::to('/permissions/create/' . $user->public_id)];

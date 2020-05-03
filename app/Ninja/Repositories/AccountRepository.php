@@ -163,7 +163,6 @@ class AccountRepository
     public function getSearchData($user)
     {
         $data = $this->getAccountSearchData($user);
-
         $data['navigation'] = $user->is_admin ? $this->getNavigationSearchData() : [];
 
         return $data;

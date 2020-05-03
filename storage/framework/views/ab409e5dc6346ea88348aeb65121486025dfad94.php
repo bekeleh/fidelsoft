@@ -92,8 +92,8 @@
 
 <?php endif; ?>
 <!-- create records -->
-
-<?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create', 'users')): ?>
+<?php if(Auth::user()->can('create', \App\Models\User::class)): ?>
+    
     <?php echo Button::primary(mtrans($entityType, "new_{$entityType}"))
     ->asLinkTo(url(
     (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_TEMPLATE]) ? str_replace('_', 's/', Utils::pluralizeEntityType($entityType)) : Utils::pluralizeEntityType($entityType)) .
