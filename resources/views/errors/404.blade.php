@@ -41,27 +41,14 @@
 
 </style>
 
-{{--<div class="container">--}}
-{{--    <h1>404</h1>--}}
-{{--    <div class="error-content">--}}
-{{--        <h3><i class="fa fa-warning text-yellow"></i><strong>Page not found :(</strong></h3>--}}
-{{--        <p>--}}
-{{--            We could not find the page you were looking for.--}}
-{{--            You should maybe <a href="{{ url('/') }}">return to the dashboard</a>.--}}
-{{--        </p>--}}
-
-{{--    </div>--}}
-{{--</div>--}}
 <div class="container">
-    <div id="notfound">
-        <div class="notfound">
-            <div class="notfound-404">
-                <h1>404</h1>
-            </div>
-            <h2>Oops! Page Not Be Found</h2>
-            <p>Sorry but the page you are looking for does not exist, have been removed. name changed or is temporarily
-                unavailable</p>
-            <a href="{{ url('/') }}">Back to homepage</a>
-        </div>
+    <h1>404</h1>
+    <div class="error-content">
+        <h3><i class="fa fa-warning text-yellow"></i><strong>Page not found :(</strong></h3>
+        <p>
+            We could not find the page you were looking for.
+            You should maybe <a href="{{ url('/') }}">return to the dashboard</a>.
+        </p>
+
     </div>
 </div>

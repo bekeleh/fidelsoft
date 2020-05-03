@@ -91,8 +91,9 @@
     <?php echo Button::normal(trans('texts.time_tracker'))->asLinkTo('javascript:openTimeTracker()')->appendIcon(Icon::create('time')); ?>
 
 <?php endif; ?>
+<!-- create records -->
 
-<?php if(Auth::user()->can('create', $entityType) && empty($vendorId)): ?>
+<?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create', 'users')): ?>
     <?php echo Button::primary(mtrans($entityType, "new_{$entityType}"))
     ->asLinkTo(url(
     (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_TEMPLATE]) ? str_replace('_', 's/', Utils::pluralizeEntityType($entityType)) : Utils::pluralizeEntityType($entityType)) .
@@ -101,6 +102,7 @@
     ->appendIcon(Icon::create('plus-sign')); ?>
 
 <?php endif; ?>
+
 <?php if(in_array($entityType, [ENTITY_INVOICE,ENTITY_INVOICE_ITEM,ENTITY_CLIENT,ENTITY_CREDIT])): ?>
     <?php if(Auth::user()->can('create', [ENTITY_INVOICE,ENTITY_INVOICE_ITEM,ENTITY_CLIENT,ENTITY_CREDIT])): ?>
         <?php echo DropdownButton::normal(trans('texts.maintenance'))

@@ -39,7 +39,8 @@
         @include('accounts.partials.notifications')
     @endif
     <center class="buttons">
-        @if (Auth::user()->confirmed)
+        {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/'))->appendIcon(Icon::create('remove-circle')) !!}
+        @can('passwordReset')
             {!! Button::primary(trans('texts.change_password'))
                     ->appendIcon(Icon::create('lock'))
                     ->large()->withAttributes(['onclick'=>'showChangePassword()']) !!}
@@ -47,7 +48,7 @@
             {!! Button::primary(trans('texts.resend_confirmation'))
                     ->appendIcon(Icon::create('send'))
                     ->asLinkTo(URL::to('/resend_confirmation'))->large() !!}
-        @endif
+        @endcan
         {{--        {!! Button::success(trans('texts.save'))--}}
         {{--                ->submit()->large()--}}
         {{--                ->appendIcon(Icon::create('floppy-disk')) !!}--}}

@@ -44,7 +44,7 @@ class UserService extends BaseService
     {
         $query = $this->userRepo->find($accountId, $search);
 
-        if (!Utils::hasAccess('view_users')) {
+        if (!Utils::hasAccess('users.view')) {
             $query->where('users.user_id', '=', Auth::user()->id);
         }
         return $this->datatableService->createDatatable(new UserDatatable(), $query, 'users');
@@ -56,7 +56,7 @@ class UserService extends BaseService
 
         $query = $this->userRepo->findLocation($locationPublicId);
 
-        if (!Utils::hasAccess('view_locations')) {
+        if (!Utils::hasAccess('locations.view')) {
             $query->where('users.user_id', '=', Auth::user()->id);
         }
 

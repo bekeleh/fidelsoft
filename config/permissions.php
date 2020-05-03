@@ -827,6 +827,12 @@ return array(
 // account permission
     'Users Privilege' => array(
         array(
+            'permission' => 'users.index',
+            'label' => 'Index User',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
             'permission' => 'users.view',
             'label' => 'View User',
             'note' => '',
@@ -847,6 +853,12 @@ return array(
         array(
             'permission' => 'users.delete',
             'label' => 'Delete User',
+            'note' => '',
+            'display' => true,
+        ),
+        array(
+            'permission' => 'users.password_reset',
+            'label' => 'User Password  Reset',
             'note' => '',
             'display' => true,
         ),

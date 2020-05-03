@@ -48,7 +48,9 @@
         <?php echo $__env->make('accounts.partials.notifications', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
     <?php endif; ?>
     <center class="buttons">
-        <?php if(Auth::user()->confirmed): ?>
+        <?php echo Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/'))->appendIcon(Icon::create('remove-circle')); ?>
+
+        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('passwordReset')): ?>
             <?php echo Button::primary(trans('texts.change_password'))
                     ->appendIcon(Icon::create('lock'))
                     ->large()->withAttributes(['onclick'=>'showChangePassword()']); ?>

@@ -80,8 +80,8 @@
     {!! Button::normal(trans('texts.kanban'))->asLinkTo(url('/tasks/kanban' . (! empty($clientId) ? ('/' . $clientId . (! empty($projectId) ? '/' . $projectId : '')) : '')))->appendIcon(Icon::create('th')) !!}
     {!! Button::normal(trans('texts.time_tracker'))->asLinkTo('javascript:openTimeTracker()')->appendIcon(Icon::create('time')) !!}
 @endif
-
-@if (Auth::user()->can('create', $entityType) && empty($vendorId))
+<!-- create records -->
+@if (Auth::user()->can('create', $entityType))
     {!! Button::primary(mtrans($entityType, "new_{$entityType}"))
     ->asLinkTo(url(
     (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_TEMPLATE]) ? str_replace('_', 's/', Utils::pluralizeEntityType($entityType)) : Utils::pluralizeEntityType($entityType)) .
@@ -89,6 +89,7 @@
     ))
     ->appendIcon(Icon::create('plus-sign')) !!}
 @endif
+
 @if (in_array($entityType, [ENTITY_INVOICE,ENTITY_INVOICE_ITEM,ENTITY_CLIENT,ENTITY_CREDIT]))
     @if (Auth::user()->can('create', [ENTITY_INVOICE,ENTITY_INVOICE_ITEM,ENTITY_CLIENT,ENTITY_CREDIT]))
         {!! DropdownButton::normal(trans('texts.maintenance'))
