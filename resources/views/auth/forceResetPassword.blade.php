@@ -1,35 +1,30 @@
 @extends('header')
 @section('content')
     @parent
-    {!! Former::open_for_files()->addClass('warn-on-exit')->rules([
+    {!! Former::open()->addClass('warn-on-exit')->rules([
         'first_name' => 'required',
         'last_name' => 'required',
         'username' => 'required',
         'email' => 'required|email',
     ]) !!}
     {{ Former::populate($user) }}
-    {{ Former::populateField('first_name', $user->first_name) }}
+    {{ Former::populateField('first_name', $user->first_name)}}
     {{ Former::populateField('last_name', $user->last_name) }}
     {{ Former::populateField('username', $user->username) }}
     {{ Former::populateField('email', $user->email) }}
     {{ Former::populateField('phone', $user->phone) }}
-    {{ Former::populateField('dark_mode', intval($user->dark_mode)) }}
-    {{ Former::populateField('enable_two_factor', $user->google_2fa_secret ? 1 : 0) }}
-    @if (Input::has('affiliate'))
-        {{ Former::populateField('referral_code', true) }}
-    @endif
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{!! trans('texts.user_details') !!}</h3>
+                <div class="panel-heading" style="background-color:#777 !important">
+                    <h3 class="panel-title in-bold-white">{!! trans('texts.user_details') !!}</h3>
                 </div>
                 <div class="panel-body form-padding-right">
-                    {!! Former::text('first_name') !!}
-                    {!! Former::text('last_name') !!}
-                    {!! Former::text('username') !!}
-                    {!! Former::text('email') !!}
-                    {!! Former::text('phone') !!}
+                    {!! Former::text('first_name')->readonly() !!}
+                    {!! Former::text('last_name')->readonly() !!}
+                    {!! Former::text('username')->readonly() !!}
+                    {!! Former::text('email')->readonly() !!}
+                    {!! Former::text('phone')->readonly() !!}
                     <br/>
                 </div>
             </div>
@@ -43,7 +38,7 @@
             {!! Button::primary(trans('texts.change_password'))
                     ->appendIcon(Icon::create('lock'))
                     ->large()->withAttributes(['onclick'=>'showChangePassword()']) !!}
-        @elseif (Auth::user()->registered && Utils::isNinja())
+            {{--        @elseif (Auth::user()->registered && Utils::isNinja())--}}
             {!! Button::primary(trans('texts.resend_confirmation'))
                     ->appendIcon(Icon::create('send'))
                     ->asLinkTo(URL::to('/resend_confirmation'))->large() !!}

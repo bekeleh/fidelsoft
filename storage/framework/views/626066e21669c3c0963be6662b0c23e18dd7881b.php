@@ -401,7 +401,6 @@
                     </div>
                 </div>
             </div>
-
             <?php if(Auth::user()->hasAccess('admin')): ?>
                 <div class="row">
                     <div class="col-md-12">
@@ -418,7 +417,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="panel panel-default dashboard" style="height:320px">
-                        <div class="panel-heading">
+                        <div class="panel-heading" style="background-color:#777 !important">
                             <h3 class="panel-title in-bold-white">
                                 <i class="glyphicon glyphicon-exclamation-sign"></i> <?php echo e(trans('texts.activity')); ?>
 
@@ -446,11 +445,10 @@
                         </ul>
                     </div>
                 </div>
-
                 <div class="col-md-6">
-                    <div class="panel panel-default dashboard" style="height:320px;">
-                        <div class="panel-heading" style="margin:0; background-color: #f5f5f5 !important;">
-                            <h3 class="panel-title" style="color: black !important">
+                    <div class="panel panel-default dashboard" style="height:320px">
+                        <div class="panel-heading" style="background-color:#777 !important">
+                            <h3 class="panel-title in-bold-white">
                                 <?php if($showExpenses && count($averageInvoice)): ?>
                                     <div class="pull-right" style="font-size:14px;padding-top:4px;font-weight:bold">
                                         <?php $__currentLoopData = $averageInvoice; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -498,9 +496,9 @@
 
             <div class="row">
                 <div class="col-md-6">
-                    <div class="panel panel-default dashboard" style="height:320px;">
-                        <div class="panel-heading" style="margin:0; background-color: #f5f5f5 !important;">
-                            <h3 class="panel-title" style="color: black !important">
+                    <div class="panel panel-default dashboard" style="height:320px">
+                        <div class="panel-heading" style="background-color:#777 !important">
+                            <h3 class="panel-title in-bold-white">
                                 <i class="glyphicon glyphicon-time"></i> <?php echo e(trans('texts.upcoming_invoices')); ?>
 
                             </h3>
@@ -570,13 +568,12 @@
                     </div>
                 </div>
             </div>
-
             <?php if($hasQuotes): ?>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="panel panel-default dashboard" style="height:320px;">
-                            <div class="panel-heading" style="margin:0; background-color: #f5f5f5 !important;">
-                                <h3 class="panel-title" style="color: black !important">
+                        <div class="panel panel-default dashboard" style="height:320px">
+                            <div class="panel-heading" style="background-color:#777 !important">
+                                <h3 class="panel-title in-bold-white">
                                     <i class="glyphicon glyphicon-time"></i> <?php echo e(trans('texts.upcoming_quotes')); ?>
 
                                 </h3>
@@ -638,6 +635,7 @@
                         </div>
                     </div>
                 </div>
+    </div>
     <?php endif; ?>
 
 <?php $__env->stopSection(); ?>

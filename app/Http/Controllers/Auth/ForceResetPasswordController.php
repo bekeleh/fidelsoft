@@ -3,16 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Account;
 use App\Models\User;
 use App\Ninja\Mailers\UserMailer;
-use App\Services\AuthService;
 use App\Services\UserService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Redirect;
 
@@ -39,7 +36,7 @@ class ForceResetPasswordController extends Controller
         }
 
         $data = [
-            'user' => User::with('account')->where('account_id', Auth::user()->accont_id)->where('public_id', $publicId)->first(),
+            'user' => User::with('account')->where('account_id', Auth::user()->account_id)->where('public_id', $publicId)->first(),
             'title' => trans('texts.user_details'),
         ];
 

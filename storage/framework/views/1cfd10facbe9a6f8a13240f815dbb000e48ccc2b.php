@@ -1,6 +1,6 @@
 <?php $__env->startSection('content'); ?>
     ##parent-placeholder-040f06fd774092478d450774f5ba30c5da78acc8##
-    <?php echo Former::open_for_files()->addClass('warn-on-exit')->rules([
+    <?php echo Former::open()->addClass('warn-on-exit')->rules([
         'first_name' => 'required',
         'last_name' => 'required',
         'username' => 'required',
@@ -19,76 +19,24 @@
 
     <?php echo e(Former::populateField('phone', $user->phone)); ?>
 
-    <?php echo e(Former::populateField('dark_mode', intval($user->dark_mode))); ?>
-
-    <?php echo e(Former::populateField('enable_two_factor', $user->google_2fa_secret ? 1 : 0)); ?>
-
-    <?php if(Input::has('affiliate')): ?>
-        <?php echo e(Former::populateField('referral_code', true)); ?>
-
-    <?php endif; ?>
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><?php echo trans('texts.user_details'); ?></h3>
+                <div class="panel-heading" style="background-color:#777 !important">
+                    <h3 class="panel-title in-bold-white"><?php echo trans('texts.user_details'); ?></h3>
                 </div>
                 <div class="panel-body form-padding-right">
-                    <?php echo Former::text('first_name'); ?>
+                    <?php echo Former::text('first_name')->readonly(); ?>
 
-                    <?php echo Former::text('last_name'); ?>
+                    <?php echo Former::text('last_name')->readonly(); ?>
 
-                    <?php echo Former::text('username'); ?>
+                    <?php echo Former::text('username')->readonly(); ?>
 
-                    <?php echo Former::text('email'); ?>
+                    <?php echo Former::text('email')->readonly(); ?>
 
-                    <?php echo Former::text('phone'); ?>
+                    <?php echo Former::text('phone')->readonly(); ?>
 
                     <br/>
-                    <?php if(Utils::isOAuthEnabled()): ?>
-                        <?php echo Former::plaintext('oneclick_login')->value(
-                                $user->oauth_provider_id ?
-                                    $oauthProviderName . ' - ' . link_to('#', trans('texts.disable'), ['onclick' => 'disableSocialLogin()']) :
-                                    DropdownButton::primary(trans('texts.enable'))->withContents($oauthLoginUrls)->small()
-                            )->help('oneclick_login_help'); ?>
-
-                    <?php endif; ?>
-                    <?php if($user->confirmed): ?>
-                        <?php if($user->google_2fa_secret): ?>
-                            <?php echo Former::checkbox('enable_two_factor')
-                                    ->help(trans('texts.enable_two_factor_help'))
-                                    ->text(trans('texts.enable'))
-                                    ->value(1); ?>
-
-                        <?php elseif($user->phone): ?>
-                            <?php echo Former::plaintext('enable_two_factor')->value(
-                                    Button::primary(trans('texts.enable'))->asLinkTo(url('settings/enable_two_factor'))->small()
-                                )->help('enable_two_factor_help'); ?>
-
-                        <?php else: ?>
-                            <?php echo Former::plaintext('enable_two_factor')
-                                ->value('<span class="text-muted">' . trans('texts.set_phone_for_two_factor') . '</span>'); ?>
-
-                        <?php endif; ?>
-                    <?php endif; ?>
-                    <?php if(Utils::isNinja()): ?>
-                        <?php if($user->referral_code): ?>
-                            <?php echo e(Former::setOption('capitalize_translations', false)); ?>
-
-                            <?php echo Former::plaintext('referral_code')
-                                    ->help($referralCounts['free'] . ' ' . trans('texts.free') . ' | ' .
-                                        $referralCounts['pro'] . ' ' . trans('texts.pro') .
-                                        '<a href="'.REFERRAL_PROGRAM_URL.'" target="_blank" title="'.trans('texts.learn_more').'">' . Icon::create('question-sign') . '</a> ')
-                                    ->value(NINJA_APP_URL . '/invoice_now?rc=' . $user->referral_code); ?>
-
-                        <?php else: ?>
-                            <?php echo Former::checkbox('referral_code')
-                                    ->help(trans('texts.referral_code_help'))
-                                    ->text(trans('texts.enable') . ' <a href="'.REFERRAL_PROGRAM_URL.'" target="_blank" title="'.trans('texts.learn_more').'">' . Icon::create('question-sign') . '</a>')
-                                    ->value(1); ?>
-
-                        <?php endif; ?>
-                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -102,7 +50,7 @@
                     ->appendIcon(Icon::create('lock'))
                     ->large()->withAttributes(['onclick'=>'showChangePassword()']); ?>
 
-        <?php elseif(Auth::user()->registered && Utils::isNinja()): ?>
+            
             <?php echo Button::primary(trans('texts.resend_confirmation'))
                     ->appendIcon(Icon::create('send'))
                     ->asLinkTo(URL::to('/resend_confirmation'))->large(); ?>
@@ -245,7 +193,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '<?php echo e(URL::to('/users/change_password')); ?>',
+                url: '<?php echo e(URL::to('/reset_password/force_reset_password')); ?>',
                 data: 'current_password=' + encodeURIComponent($('form #current_password').val()) +
                     '&new_password=' + encodeURIComponent($('form #newer_password').val()) +
                     '&confirm_password=' + encodeURIComponent($('form #confirm_password').val()),

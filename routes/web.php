@@ -109,8 +109,6 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/login', ['as' => 'login', 'uses' => 'Auth\LoginController@postLoginWrapper']);
     Route::post('/recover_password', ['as' => 'forgot', 'uses' => 'Auth\ForgotPasswordController@sendResetLinkEmail']);
     Route::post('/password/reset', ['as' => 'forgot', 'uses' => 'Auth\ResetPasswordController@reset']);
-    Route::get('reset_password/{public_key}', 'Auth\ForceResetPasswordController@showUserForPasswordReset');
-    Route::post('reset_password/force_reset_password', 'Auth\ForceResetPasswordController@changePassword');
 });
 
 if (Utils::isSelfHost()) {
@@ -126,6 +124,8 @@ if (Utils::isTravis()) {
 }
 
 Route::group(['middleware' => ['web', 'auth']], function () {
+    Route::get('reset_password/{public_key}', 'Auth\ForceResetPasswordController@showUserForPasswordReset');
+    Route::post('reset_password/force_reset_password', 'Auth\ForceResetPasswordController@changePassword');
     Route::get('logged_in', 'HomeController@loggedIn');
     Route::get('dashboard', 'DashboardController@index');
     Route::get('dashboard_chart_data/{group_by}/{start_date}/{end_date}/{currency_id}/{include_expenses}', 'DashboardController@chartData');
