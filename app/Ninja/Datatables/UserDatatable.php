@@ -3,6 +3,7 @@
 namespace App\Ninja\Datatables;
 
 use App\Models\Location;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 use App\Libraries\Utils;
@@ -18,36 +19,41 @@ class UserDatatable extends EntityDatatable
             [
                 'first_name',
                 function ($model) {
-                    if (Auth::user()->can('view', [ENTITY_USER]))
-                        return $model->public_id ? link_to("users/{$model->public_id}", Utils::getUserDisplayName($model))->toHtml() : '';
-                    else
-                        return Utils::getUserDisplayName($model);
-
+                    return Utils::getUserDisplayName($model);
                 },
             ],
             [
                 'username',
                 function ($model) {
-                    return link_to("users/{$model->public_id}", $model->username ?: '')->toHtml();
+                    if (Auth::user()->can('show', [new User]))
+                        return $model->public_id ? link_to("users/{$model->public_id}", $model->username)->toHtml() : '';
+                    else
+                        return $model->username;
                 },
             ],
             [
                 'email',
                 function ($model) {
-                    return link_to("users/{$model->public_id}", $model->email ?: '')->toHtml();
+                    if (Auth::user()->can('show', [new User]))
+                        return link_to("users/{$model->public_id}", $model->email ?: '')->toHtml();
+                    else
+                        return $model->email;
                 },
             ],
             [
                 'phone',
                 function ($model) {
-                    return link_to("users/{$model->public_id}", $model->phone ?: '')->toHtml();
+                    if (Auth::user()->can('show', [new User]))
+                        return link_to("users/{$model->public_id}", $model->phone ?: '')->toHtml();
+                    else
+                        return $model->email;
                 },
             ],
             [
                 'location_name',
                 function ($model) {
                     if ($model->location_id) {
-                        if (Auth::user()->can('view', new Location))
+                        if (Auth::user()->can('show', new Location))
                             return link_to("locations/{$model->location_id}", $model->location_name)->toHtml();
                         else
                             return $model->location_name;
@@ -108,9 +114,9 @@ class UserDatatable extends EntityDatatable
                 trans('texts.edit_user'),
                 function ($model) {
                     if (Auth::user()->public_id != $model->public_id) {
-                        if (Auth::user()->can('edit', [ENTITY_USER]))
+                        if (Auth::user()->can('edit', [new User]))
                             return URL::to("users/{$model->public_id}/edit");
-                        elseif (Auth::user()->can('view', [ENTITY_USER]))
+                        elseif (Auth::user()->can('show', [new User]))
                             return URL::to("users/{$model->public_id}");
                     } else
                         return false;
@@ -119,39 +125,36 @@ class UserDatatable extends EntityDatatable
             [
                 trans('texts.clone_user'),
                 function ($model) {
-                    return URL::to("users/{$model->public_id}/clone");
-                },
-                function ($model) {
-                    return Auth::user()->can('create', ENTITY_USER);
-                },
+                    if (Auth::user()->can('show', [new User])) {
+                        return URL::to("users/{$model->public_id}/clone");
+                    } else
+                        return false;
+                }
             ],
             [
                 '--divider--', function () {
                 return false;
             },
-                function ($model) {
-                    return Auth::user()->can('edit', [ENTITY_USER]);
-                },
             ],
             [
                 trans('texts.edit_permission'),
                 function ($model) {
                     $user = Auth::user();
-                    if ($user->can('edit', [ENTITY_USER]))
+                    if ($user->can('show', [new User]))
                         return URL::to("users/{$model->public_id}");
                 },
             ],
             [
                 trans('texts.reset_pwd'),
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_USER]))
+                    if (Auth::user()->can('edit', [new User]))
                         return URL::to("force_reset_password/{$model->public_id}");
                 },
             ],
             [
                 trans('texts.send_invite'),
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_USER]))
+                    if (Auth::user()->can('edit', [new User]))
                         return URL::to("send_confirmation/{$model->public_id}");
                 },
             ],
@@ -160,7 +163,7 @@ class UserDatatable extends EntityDatatable
                 return false;
             },
                 function ($model) {
-                    return Auth::user()->can('edit', [ENTITY_USER]);
+                    return Auth::user()->can('edit', [new User]);
                 },
             ],
         ];
