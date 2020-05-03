@@ -2,14 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/1eVsYokHfdziLi2uaun9iBWIp0xBpNWqKba8Ku4e" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/RfkZzan346hxXoudKelcYexwq6DDYCl8gyw0uzLx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/TUDZXVZ3T1l3hM144BczIH153XpmNcWv72bcyjc7" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/UIxFub1XRo3UX9UA2JDzB7XdYPv4RKfryEP3W8ID" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/esAtceNrpmqFxazAUUQyACjcD6DrtbOb4yKZDl0b" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/jMIT0tiN38bPIjSPpgpcfNq1ILfKmBCq9jw7yTt6" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/ybk9hcuoJyjIRLg8FvpcMq1TuTBYyPSSowKeeq8J" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/01b575b092542d13fcfd587637992866b2b50493.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/c3d5d49abca2e3d255906a209a0e2635e54bd40d.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/UserDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/UserDatatable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/ForceResetPasswordController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/ForceResetPasswordController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/auth/forceResetPassword.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/forceResetPassword.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/users/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/users/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/sessions/MqQykqtc6YkkQyZpvXw0R5XyAaCtlhNhMAIhmcmB" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/MqQykqtc6YkkQyZpvXw0R5XyAaCtlhNhMAIhmcmB" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/XiJuRIA20mIFZGNwD3zSA4FYDmgb6trlWvhbl3mY" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/XiJuRIA20mIFZGNwD3zSA4FYDmgb6trlWvhbl3mY" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/1cfd10facbe9a6f8a13240f815dbb000e48ccc2b.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/1cfd10facbe9a6f8a13240f815dbb000e48ccc2b.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
     </list>
@@ -388,14 +393,7 @@
       <workItem from="1588360349919" duration="1366000" />
       <workItem from="1588449445448" duration="709000" />
       <workItem from="1588450187018" duration="110000" />
-      <workItem from="1588450316346" duration="12994000" />
-    </task>
-    <task id="LOCAL-00167" summary="2020-04-24 9:26">
-      <created>1587711139543</created>
-      <option name="number" value="00167" />
-      <option name="presentableId" value="LOCAL-00167" />
-      <option name="project" value="LOCAL" />
-      <updated>1587711139543</updated>
+      <workItem from="1588450316346" duration="14354000" />
     </task>
     <task id="LOCAL-00168" summary="2020-04-24 9:26">
       <created>1587711334834</created>
@@ -733,7 +731,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588466378740</updated>
     </task>
-    <option name="localTasksCounter" value="216" />
+    <task id="LOCAL-00216" summary="2020-05-2 9:26">
+      <created>1588467784821</created>
+      <option name="number" value="00216" />
+      <option name="presentableId" value="LOCAL-00216" />
+      <option name="project" value="LOCAL" />
+      <updated>1588467784821</updated>
+    </task>
+    <option name="localTasksCounter" value="217" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -806,10 +811,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1587939377952" />
-    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1588466376057">
+    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1588467783449">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1588466376057" />
+    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1588467783449" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="444" y="140" key="FileChooserDialogImpl" timestamp="1588023873020">

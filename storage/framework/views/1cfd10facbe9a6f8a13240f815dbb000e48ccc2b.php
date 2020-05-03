@@ -77,8 +77,6 @@
                             <div style="background-color: #fff" id="changePasswordDiv"
                                  onkeyup="validateChangePassword()" onclick="validateChangePassword()"
                                  onkeydown="checkForEnter(event)">
-                                &nbsp;<?php echo Former::password('current_password')->style('width:300px'); ?>
-
                                 <?php echo Former::password('newer_password')->style('width:300px')->label(trans('texts.new_password')); ?>
 
                                 <?php echo Former::password('confirm_password')->style('width:300px')->help('<span id="passwordStrength">&nbsp;</span>'); ?>
@@ -129,7 +127,7 @@
     <script type="text/javascript">
         $(function () {
             $('#passwordModal').on('hidden.bs.modal', function () {
-                $(['current_password', 'newer_password', 'confirm_password']).each(function (i, field) {
+                $(['newer_password', 'confirm_password']).each(function (i, field) {
                     var $input = $('form #' + field);
                     $input.val('');
                     $input.closest('div.form-group').removeClass('has-success');
@@ -137,9 +135,9 @@
                 $('#changePasswordButton').prop('disabled', true);
             })
 
-            $('#passwordModal').on('shown.bs.modal', function () {
-                $('#current_password').focus();
-            })
+            // $('#passwordModal').on('shown.bs.modal', function () {
+            //     $('#current_password').focus();
+            // })
         });
 
         function showChangePassword() {
@@ -148,12 +146,12 @@
 
         function validateChangePassword(showError) {
             var isFormValid = true;
-            $(['current_password', 'newer_password', 'confirm_password']).each(function (i, field) {
+            $(['newer_password', 'confirm_password']).each(function (i, field) {
                 var $input = $('form #' + field),
                     val = $.trim($input.val());
                 var isValid = val;
 
-                if (field != 'current_password') {
+                if (field) {
                     isValid = val.length >= 6;
                 }
 
@@ -196,9 +194,9 @@
             $.ajax({
                 type: 'POST',
                 url: '<?php echo e(URL::to('/force_reset_password/force_reset_password')); ?>',
-                data: 'current_password=' + encodeURIComponent($('form #current_password').val()) +
-                    '&new_password=' + encodeURIComponent($('form #newer_password').val()) +
-                    '&confirm_password=' + encodeURIComponent($('form #confirm_password').val()),
+                data: 'new_password=' + encodeURIComponent($('form #newer_password').val()) +
+                    '&confirm_password=' + encodeURIComponent($('form #confirm_password').val()) +
+                    '&public_id=' + <?php echo e($user->public_id); ?>,
                 success: function (result) {
                     if (result == 'success') {
                         NINJA.formIsChanged = false;

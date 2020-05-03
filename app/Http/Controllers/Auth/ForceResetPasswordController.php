@@ -45,14 +45,12 @@ class ForceResetPasswordController extends Controller
 
     public function changePassword()
     {
-        \Log::info('test...');
-        // check the current password is correct
-        if (!Auth::validate([
-            'email' => Auth::user()->email,
-            'password' => Input::get('current_password'),
-        ])) {
-            return trans('texts.password_error_incorrect');
+        $publicId = Input::get('public_id');
+
+        if (!$publicId) {
+            return trans('texts.password_error_invalid');
         }
+        $user = User::where('account_id', Auth::user()->account_id)->where('public_id', $publicId)->first();
 
         // validate the new password
         $password = Input::get('new_password');
@@ -61,7 +59,7 @@ class ForceResetPasswordController extends Controller
         if (strlen($password) < 6 || $password != $confirm) {
             return trans('texts.password_error_invalid');
         }
-        $user = Auth::user();
+
         $user->password = bcrypt($password);
 
         if ($user->save()) {
