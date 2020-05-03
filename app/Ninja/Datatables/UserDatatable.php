@@ -144,7 +144,7 @@ class UserDatatable extends EntityDatatable
                 trans('texts.reset_pwd'),
                 function ($model) {
                     if (Auth::user()->can('edit', [ENTITY_USER]))
-                        return URL::to("reset_password/{$model->public_id}");
+                        return URL::to("force_reset_password/{$model->public_id}");
                 },
             ],
             [

@@ -8,12 +8,10 @@
     ->rules(['first_name' => 'required|max:50','last_name' => 'required|max:50','username' => 'required|max:50','email' => 'required|email|max:50','location_id' => 'required','notes' => 'required|max:255'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     @if ($user)
-
         {{ Former::populate($user) }}
         <div style="display:none">
             {!! Former::text('public_id') !!}
         </div>
-
     @endif
     <span style="display:none">
     {!! Former::text('public_id') !!}

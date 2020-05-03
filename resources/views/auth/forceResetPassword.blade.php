@@ -7,12 +7,17 @@
         'username' => 'required',
         'email' => 'required|email',
     ]) !!}
-    {{ Former::populate($user) }}
-    {{ Former::populateField('first_name', $user->first_name)}}
-    {{ Former::populateField('last_name', $user->last_name) }}
-    {{ Former::populateField('username', $user->username) }}
-    {{ Former::populateField('email', $user->email) }}
-    {{ Former::populateField('phone', $user->phone) }}
+
+    @if ($user)
+        {{ Former::populate($user) }}
+        <div style="display:none">
+            {!! Former::text('public_id') !!}
+        </div>
+    @endif
+    <span style="display:none">
+    {!! Former::text('public_id') !!}
+        {!! Former::text('action') !!}
+    </span>
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
@@ -43,9 +48,9 @@
                     ->appendIcon(Icon::create('send'))
                     ->asLinkTo(URL::to('/resend_confirmation'))->large() !!}
         @endif
-        {!! Button::success(trans('texts.save'))
-                ->submit()->large()
-                ->appendIcon(Icon::create('floppy-disk')) !!}
+        {{--        {!! Button::success(trans('texts.save'))--}}
+        {{--                ->submit()->large()--}}
+        {{--                ->appendIcon(Icon::create('floppy-disk')) !!}--}}
     </center>
     <div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel"
          aria-hidden="true">
@@ -172,7 +177,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '{{ URL::to('/reset_password/force_reset_password') }}',
+                url: '{{ URL::to('/force_reset_password/force_reset_password') }}',
                 data: 'current_password=' + encodeURIComponent($('form #current_password').val()) +
                     '&new_password=' + encodeURIComponent($('form #newer_password').val()) +
                     '&confirm_password=' + encodeURIComponent($('form #confirm_password').val()),

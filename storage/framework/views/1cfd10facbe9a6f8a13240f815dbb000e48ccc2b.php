@@ -7,18 +7,21 @@
         'email' => 'required|email',
     ]); ?>
 
-    <?php echo e(Former::populate($user)); ?>
 
-    <?php echo e(Former::populateField('first_name', $user->first_name)); ?>
+    <?php if($user): ?>
+        <?php echo e(Former::populate($user)); ?>
 
-    <?php echo e(Former::populateField('last_name', $user->last_name)); ?>
+        <div style="display:none">
+            <?php echo Former::text('public_id'); ?>
 
-    <?php echo e(Former::populateField('username', $user->username)); ?>
+        </div>
+    <?php endif; ?>
+    <span style="display:none">
+    <?php echo Former::text('public_id'); ?>
 
-    <?php echo e(Former::populateField('email', $user->email)); ?>
+        <?php echo Former::text('action'); ?>
 
-    <?php echo e(Former::populateField('phone', $user->phone)); ?>
-
+    </span>
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
@@ -56,10 +59,9 @@
                     ->asLinkTo(URL::to('/resend_confirmation'))->large(); ?>
 
         <?php endif; ?>
-        <?php echo Button::success(trans('texts.save'))
-                ->submit()->large()
-                ->appendIcon(Icon::create('floppy-disk')); ?>
-
+        
+        
+        
     </center>
     <div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel"
          aria-hidden="true">
@@ -193,7 +195,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '<?php echo e(URL::to('/reset_password/force_reset_password')); ?>',
+                url: '<?php echo e(URL::to('/force_reset_password/force_reset_password')); ?>',
                 data: 'current_password=' + encodeURIComponent($('form #current_password').val()) +
                     '&new_password=' + encodeURIComponent($('form #newer_password').val()) +
                     '&confirm_password=' + encodeURIComponent($('form #confirm_password').val()),
