@@ -4,140 +4,116 @@ namespace App\Policies;
 
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Support\Str;
+use Illuminate\Support\Str; 
 use App\Libraries\Utils;
 
 /**
  * Class GenericEntityPolicy.
  */
-abstract class GenericEntityPolicy
+class GenericEntityPolicy
 {
     use HandlesAuthorization;
 
-//    public static function editByOwner(User $user, $entityType, $ownerUserId)
-//    {
-//        $className = static::className($entityType);
-//        if (method_exists($className, 'editByOwner')) {
-//            return call_user_func([$className, 'editByOwner'], $user, $ownerUserId);
-//        }
-//
-//        return false;
-//    }
-
-//    public static function viewByOwner(User $user, $entityType, $ownerUserId)
-//    {
-//        $className = static::className($entityType);
-//        if (method_exists($className, 'viewByOwner')) {
-//            return call_user_func([$className, 'viewByOwner'], $user, $ownerUserId);
-//        }
-//
-//        return false;
-//    }
-
-//    public static function create(User $user, $entityType)
-//    {
-//
-//        if ($user->hasPermission('create_' . $entityType))
-//            return true;
-//        else
-//            return false;
-//    }
-
-//    public static function view(User $user, $entityType)
-//    {
-//
-//        if ($user->hasPermission('view_' . $entityType))
-//            return true;
-//        else
-//            return false;
-//    }
-
-
-//    public static function edit(User $user, $item)
-//    {
-//        if (!static::checkModuleEnabled($user, $item))
-//            return false;
-//
-//
-//        $entityType = is_string($item) ? $item : $item->getEntityType();
-//        return $user->hasPermission('edit_' . $entityType) || $user->owns($item);
-//    }
-
-    abstract protected function tableName();
-
-    public function before(User $user, $ability, $item)
+    /**
+     * @param User $user
+     * @param $entityType
+     * @param $ownerUserId
+     *
+     * @return bool|mixed
+     */
+    public static function editByOwner(User $user, $entityType, $ownerUserId)
     {
-        if (!static::checkModuleEnabled($user, $item)) {
-            return false;
+        $className = static::className($entityType);
+        if (method_exists($className, 'editByOwner')) {
+            return call_user_func([$className, 'editByOwner'], $user, $ownerUserId);
         }
-        if ($user->hasAccess('admin')) {
+
+        return false;
+    }
+
+    /**
+     * @param User $user
+     * @param mixed $entityType
+     *
+     * @param $ownerUserId
+     * @return bool|mixed
+     */
+    public static function viewByOwner(User $user, $entityType, $ownerUserId)
+    {
+        $className = static::className($entityType);
+        if (method_exists($className, 'viewByOwner')) {
+            return call_user_func([$className, 'viewByOwner'], $user, $ownerUserId);
+        }
+
+        return false;
+    }
+
+    /**
+     * @param User $user
+     * @param $entityType
+     *
+     * @return bool|mixed
+     */
+    public static function create(User $user, $entityType)
+    {
+        /*
+        $className = static::className($entityType);
+        if (method_exists($className, 'create')) {
+            return call_user_func([$className, 'create'], $user, $entityType);
+        }
+
+        return false;
+        */
+        if ($user->hasPermission('create_' . $entityType))
             return true;
-        }
+        else
+            return false;
     }
 
-    public function index(User $user, $item = null)
+    /**
+     * @param User $user
+     * @param $entityType
+     *
+     * @return bool|mixed
+     */
+    public static function view(User $user, $entityType)
     {
-        if (!static::checkModuleEnabled($user, $item)) {
-            return false;
+        /*
+        $className = static::className($entityType);
+        if (method_exists($className, 'view')) {
+            return call_user_func([$className, 'view'], $user, $entityType);
         }
-        return $user->hasAccess($this->tableName() . '.view');
+
+        return false;*/
+
+        if ($user->hasPermission('view_' . $entityType))
+            return true;
+        else
+            return false;
     }
 
-    public function view(User $user, $item = null)
+    /**
+     * @param User $user
+     * @param $item - entity name or object
+     *
+     * @return bool
+     */
+
+    public static function edit(User $user, $item)
     {
-        if (!static::checkModuleEnabled($user, $item)) {
+        if (!static::checkModuleEnabled($user, $item))
             return false;
-        }
-        return $user->hasAccess($this->tableName() . '.view');
+
+
+        $entityType = is_string($item) ? $item : $item->getEntityType();
+        return $user->hasPermission('edit_' . $entityType) || $user->owns($item);
     }
 
-    public function create(User $user, $item = null)
-    {
-        if (!static::checkModuleEnabled($user, $item)) {
-            return false;
-        }
-        return $user->hasAccess($this->tableName() . '.create');
-    }
-
-    public function update(User $user, $item = null)
-    {
-        if (!static::checkModuleEnabled($user, $item)) {
-            return false;
-        }
-        return $user->hasAccess($this->tableName() . '.edit');
-    }
-
-    public function delete(User $user, $item = null)
-    {
-        if (!static::checkModuleEnabled($user, $item)) {
-            return false;
-        }
-        return $user->hasAccess($this->tableName() . '.delete');
-    }
-
-    public function forceDelete(User $user, $item = null)
-    {
-        if (!static::checkModuleEnabled($user, $item)) {
-            return false;
-        }
-        return $user->hasAccess($this->tableName() . '.forceDelete');
-    }
-
-    public function restore(User $user, $item = null)
-    {
-        if (!static::checkModuleEnabled($user, $item)) {
-            return false;
-        }
-        return $user->hasAccess($this->tableName() . '.restore');
-    }
-
-    public function bulkRestore(User $user, $item = null)
-    {
-        if (!static::checkModuleEnabled($user, $item)) {
-            return false;
-        }
-        return $user->hasAccess($this->tableName() . '.bulkRestore');
-    }
+    /**
+     * @param User $user
+     * @param $item - entity name or object
+     * @return bool
+     */
 
     private static function checkModuleEnabled(User $user, $item)
     {
@@ -158,6 +134,4 @@ abstract class GenericEntityPolicy
 
         return "App\\Policies\\{$studly}Policy";
     }
-
-
 }

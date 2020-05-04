@@ -2,139 +2,109 @@
 
 namespace App\Policies;
 
-use App\Libraries\Utils;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Support\Str;
 
 /**
  * Class EntityPolicy.
  */
-abstract class EntityPolicy
+class EntityPolicy
 {
     use HandlesAuthorization;
 
-    abstract protected function tableName();
+    /**
+     * @param User $user
+     * @param $item - entity name or object
+     *
+     * @return bool
+     */
 
-    public function before(User $user, $ability, $item)
+    public static function create(User $user, $item)
     {
-        if ($item) {
-            if (!static::checkModuleEnabled($user, $item)) {
-                return false;
-            }
-        }
-        if ($user->hasAccess('admin')) {
-            return true;
-        }
+        if (!static::checkModuleEnabled($user, $item))
+            return false;
+
+
+        $entityType = is_string($item) ? $item : $item->getEntityType();
+        return $user->hasPermission('create_' . $entityType);
     }
 
-    public function settings(User $user, $item = null)
+    /**
+     * @param User $user
+     * @param $item - entity name or object
+     *
+     * @return bool
+     */
+
+    public static function edit(User $user, $item)
     {
-        if ($item) {
-            if (!static::checkModuleEnabled($user, $item)) {
-                return false;
-            }
-        }
-        return $user->hasAccess($this->tableName() . '.settings');
+        if (!static::checkModuleEnabled($user, $item))
+            return false;
+
+
+        $entityType = is_string($item) ? $item : $item->getEntityType();
+        return $user->hasPermission('edit_' . $entityType) || $user->owns($item);
     }
 
-    public function index(User $user, $item = null)
+    /**
+     * @param User $user
+     * @param $item - entity name or object
+     *
+     * @return bool
+     */
+
+    public static function view(User $user, $item)
     {
-        if ($item) {
-            if (!static::checkModuleEnabled($user, $item)) {
-                return false;
-            }
-        }
-        return $user->hasAccess($this->tableName() . '.index');
+        if (!static::checkModuleEnabled($user, $item))
+            return false;
+
+        $entityType = is_string($item) ? $item : $item->getEntityType();
+        return $user->hasPermission('view_' . $entityType) || $user->owns($item);
     }
 
-    public function view(User $user, $item = null)
+    /**
+     * @param User $user
+     * @param $ownerUserId
+     *
+     * Legacy permissions - retaining these for legacy code however new code
+     *                      should use auth()->user()->can('view', $ENTITY_TYPE)
+     *
+     * $ENTITY_TYPE can be either the constant ie ENTITY_INVOICE, or the entity $object
+     *
+     * @return bool
+     */
+
+    public static function viewByOwner(User $user, $ownerUserId)
     {
-        if ($item) {
-            if (!static::checkModuleEnabled($user, $item)) {
-                return false;
-            }
-        }
-        return $user->hasAccess($this->tableName() . '.view');
+        return $user->id == $ownerUserId;
     }
 
-    public function create(User $user, $item = null)
+    /**
+     * @param User $user
+     * @param $ownerUserId
+     *
+     * Legacy permissions - retaining these for legacy code however new code
+     *                      should use auth()->user()->can('edit', $ENTITY_TYPE)
+     *
+     * $ENTITY_TYPE can be either the constant ie ENTITY_INVOICE, or the entity $object
+     *
+     * @return bool
+     */
+
+    public static function editByOwner(User $user, $ownerUserId)
     {
-        if ($item) {
-            if (!static::checkModuleEnabled($user, $item)) {
-                return false;
-            }
-        }
-        return $user->hasAccess($this->tableName() . '.create');
+        return $user->id == $ownerUserId;
     }
 
-    public function store(User $user, $item = null)
-    {
-        if ($item) {
-            if (!static::checkModuleEnabled($user, $item)) {
-                return false;
-            }
-        }
-        return $user->hasAccess($this->tableName() . '.store');
-    }
-
-    public function edit(User $user, $item = null)
-    {
-        if ($item) {
-            if (!static::checkModuleEnabled($user, $item)) {
-                return false;
-            }
-        }
-        return $user->hasAccess($this->tableName() . '.edit');
-    }
-
-    public function update(User $user, $item = null)
-    {
-        if ($item) {
-            if (!static::checkModuleEnabled($user, $item)) {
-                return false;
-            }
-        }
-        return $user->hasAccess($this->tableName() . '.edit');
-    }
-
-    public function delete(User $user, $item = null)
-    {
-        if ($item) {
-            if (!static::checkModuleEnabled($user, $item)) {
-                return false;
-            }
-        }
-
-        return $user->hasAccess($this->tableName() . '.delete');
-    }
-
-    public function forceDelete(User $user, $item = null)
-    {
-        if ($item) {
-            if (!static::checkModuleEnabled($user, $item)) {
-                return false;
-            }
-        }
-        return $user->hasAccess($this->tableName() . '.forceDelete');
-    }
+    /**
+     * @param User $user
+     * @param $item - entity name or object
+     * @return bool
+     */
 
     private static function checkModuleEnabled(User $user, $item)
     {
         $entityType = is_string($item) ? $item : $item->getEntityType();
         return $user->account->isModuleEnabled($entityType);
-    }
-
-    private static function className($entityType)
-    {
-        if (!Utils::isNinjaProd()) {
-            if ($module = \Module::find($entityType)) {
-                return "Modules\\{$module->getName()}\\Policies\\{$module->getName()}Policy";
-            }
-        }
-
-        $studly = Str::studly($entityType);
-
-        return "App\\Policies\\{$studly}Policy";
     }
 }

@@ -130,9 +130,9 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-//        foreach (get_class_methods(new GenericEntityPolicy()) as $method) {
-//            Gate::define($method, "App\Policies\GenericEntityPolicy@{$method}");
-//        }
+        foreach (get_class_methods(new GenericEntityPolicy()) as $method) {
+            Gate::define($method, "App\Policies\GenericEntityPolicy@{$method}");
+        }
 
         $this->registerPolicies();
         /**
