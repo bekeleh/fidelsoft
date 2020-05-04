@@ -179,8 +179,9 @@ class UserController extends BaseController
             $user->permissions = $user->decodePermissions();
             $userPermissions = Utils::selectedPermissionsArray($permissions, $user->permissions);
             $userGroups = $user->groups;
-
+            $url = 'users/' . $user->public_id;
             $data = [
+                'url' => $url,
                 'user' => $user,
                 'permissions' => $permissions,
                 'userPermissions' => $userPermissions,

@@ -60,39 +60,43 @@ if (!defined('APP_NAME')) {
     define('ENTITY_PROPOSAL_SNIPPET', 'proposal_snippet');
     define('ENTITY_PROPOSAL_CATEGORY', 'proposal_category');
     define('ENTITY_PROPOSAL_INVITATION', 'proposal_invitation');
+    define('ENTITY_MANUFACTURER', 'manufacturer');
+    define('ENTITY_MANUFACTURER_PRODUCT_DETAIL', 'manufacturer_product_detail');
 
     $permissionEntities = [
-        ENTITY_STATUS,
         ENTITY_CLIENT,
         ENTITY_CONTACT,
         ENTITY_CREDIT,
         ENTITY_EXPENSE,
+        ENTITY_HOLD_REASON,
+        ENTITY_HOLD_REASON,
         ENTITY_INVOICE,
-        ENTITY_PAYMENT,
-        ENTITY_PRODUCT,
-        ENTITY_LOCATION,
-        ENTITY_STORE,
-        ENTITY_ITEM_PRICE,
-        ENTITY_UNIT,
-        ENTITY_ITEM_STORE,
-        ENTITY_ITEM_TRANSFER,
-        ENTITY_ITEM_MOVEMENT,
         ENTITY_ITEM_BRAND,
         ENTITY_ITEM_CATEGORY,
-        ENTITY_HOLD_REASON,
+        ENTITY_ITEM_MOVEMENT,
+        ENTITY_ITEM_PRICE,
+        ENTITY_ITEM_STORE,
+        ENTITY_ITEM_TRANSFER,
+        ENTITY_LOCATION,
+        ENTITY_MANUFACTURER,
+        ENTITY_MANUFACTURER_PRODUCT_DETAIL,
+        ENTITY_PAYMENT,
+        ENTITY_PERMISSION,
+        ENTITY_PERMISSION_GROUP,
+        ENTITY_PRODUCT,
         ENTITY_PROJECT,
         ENTITY_PROPOSAL,
         ENTITY_QUOTE,
-        ENTITY_SALE_TYPE,
-        ENTITY_REPORT,
-        ENTITY_TASK,
-        ENTITY_USER,
-        ENTITY_PERMISSION_GROUP,
-        ENTITY_PERMISSION,
-        ENTITY_HOLD_REASON,
-        ENTITY_TAX_RATE,
-        ENTITY_VENDOR,
         ENTITY_RECURRING_INVOICE,
+        ENTITY_REPORT,
+        ENTITY_SALE_TYPE,
+        ENTITY_STATUS,
+        ENTITY_STORE,
+        ENTITY_TASK,
+        ENTITY_TAX_RATE,
+        ENTITY_UNIT,
+        ENTITY_USER,
+        ENTITY_VENDOR,
     ];
 
     define('PERMISSION_ENTITIES', json_encode($permissionEntities));
@@ -157,6 +161,9 @@ if (!defined('APP_NAME')) {
     define('ACTION_CLONE', 'clone');
     define('ACTION_CONVERT', 'convert');
     define('ACTION_DELETE', 'delete');
+    define('ACCOUNT_MANUFACTURER', 'manufacturers');
+    define('ACCOUNT_MANUFACTURER_PRODUCT_DETAIL', 'manufacturer_product_details');
+
 
     define('ACTIVITY_TYPE_CREATE_CLIENT', 1);
     define('ACTIVITY_TYPE_ARCHIVE_CLIENT', 2);
@@ -204,7 +211,6 @@ if (!defined('APP_NAME')) {
     define('ACTIVITY_TYPE_DELETE_TASK', 45);
     define('ACTIVITY_TYPE_RESTORE_TASK', 46);
     define('ACTIVITY_TYPE_UPDATE_EXPENSE', 47);
-
     define('DEFAULT_INVOICE_NUMBER', '0001');
     define('RECENTLY_VIEWED_LIMIT', 20);
     define('LOGGED_ERROR_LIMIT', 100);

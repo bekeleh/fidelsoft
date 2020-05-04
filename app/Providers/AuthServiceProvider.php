@@ -5,7 +5,6 @@ namespace App\Providers;
 use App\Models\AccountGateway;
 use App\Models\AccountGatewayToken;
 use App\Models\AccountToken;
-use App\Models\Status;
 use App\Models\BankAccount;
 use App\Models\Client;
 use App\Models\Contact;
@@ -13,7 +12,6 @@ use App\Models\Credit;
 use App\Models\Document;
 use App\Models\Expense;
 use App\Models\ExpenseCategory;
-use App\Models\PermissionGroup;
 use App\Models\Invoice;
 use App\Models\ItemBrand;
 use App\Models\ItemCategory;
@@ -24,6 +22,7 @@ use App\Models\Location;
 use App\Models\Payment;
 use App\Models\PaymentTerm;
 use App\Models\Permission;
+use App\Models\PermissionGroup;
 use App\Models\Product;
 use App\Models\Project;
 use App\Models\Proposal;
@@ -32,6 +31,7 @@ use App\Models\ProposalSnippet;
 use App\Models\ProposalTemplate;
 use App\Models\Quote;
 use App\Models\RecurringExpense;
+use App\Models\Status;
 use App\Models\Store;
 use App\Models\Subscription;
 use App\Models\Task;
@@ -39,7 +39,6 @@ use App\Models\TaxRate;
 use App\Models\User;
 use App\Models\Vendor;
 use App\Policies\AccountGatewayPolicy;
-use App\Policies\StatusPolicy;
 use App\Policies\BankAccountPolicy;
 use App\Policies\ClientPolicy;
 use App\Policies\ContactPolicy;
@@ -48,7 +47,7 @@ use App\Policies\CustomerPolicy;
 use App\Policies\DocumentPolicy;
 use App\Policies\ExpenseCategoryPolicy;
 use App\Policies\ExpensePolicy;
-use App\Policies\PermissionGroupPolicy;
+use App\Policies\GenericEntityPolicy;
 use App\Policies\InvoicePolicy;
 use App\Policies\ItemBrandPolicy;
 use App\Policies\ItemCategoryPolicy;
@@ -58,6 +57,7 @@ use App\Policies\ItemTransferPolicy;
 use App\Policies\LocationPolicy;
 use App\Policies\PaymentPolicy;
 use App\Policies\PaymentTermPolicy;
+use App\Policies\PermissionGroupPolicy;
 use App\Policies\PermissionPolicy;
 use App\Policies\ProductPolicy;
 use App\Policies\ProjectPolicy;
@@ -67,6 +67,7 @@ use App\Policies\ProposalSnippetPolicy;
 use App\Policies\ProposalTemplatePolicy;
 use App\Policies\QuotePolicy;
 use App\Policies\RecurringExpensePolicy;
+use App\Policies\StatusPolicy;
 use App\Policies\StorePolicy;
 use App\Policies\SubscriptionPolicy;
 use App\Policies\TaskPolicy;
@@ -149,17 +150,6 @@ class AuthServiceProvider extends ServiceProvider
 //     note: affiliated companies  master account
         Gate::before(function ($user) {
             if ($user->isAdminUser()) {
-                return true;
-            }
-        });
-        /**
-         *
-         * GENERAL GATES
-         *  if this condition true, the user can control general sections of the admin
-         *  this can also cause dangerous blade behavior.
-         */
-        Gate::define('admin', function ($user) {
-            if ($user->hasAccess('admin')) {
                 return true;
             }
         });

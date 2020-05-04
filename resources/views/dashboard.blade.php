@@ -2,20 +2,17 @@
 
 @section('head')
     @parent
-
     @include('money_script')
-
     <script src="{{ asset('js/Chart.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/daterangepicker.min.js') }}" type="text/javascript"></script>
     <link href="{{ asset('css/daterangepicker.css') }}" rel="stylesheet" type="text/css"/>
-
 @stop
 
 @section('content')
 
     <script type="text/javascript">
 
-        @if ($access= Auth::user()->isSuperUser()?: Auth::user()->hasAccess('admin'))
+        @if ($access= Auth::user()->isSuperUser()?: Auth::user()->hasPermission('admin'))
         function loadChart(data) {
             var ctx = document.getElementById('chart-canvas').getContext('2d');
             if (window.myChart) {
@@ -221,7 +218,7 @@
                 @else
                     <div class="col-md-10">
                         @endif
-                        @if (Auth::user()->hasAccess('admin'))
+                        @if (Auth::user()->hasPermission('admin'))
                             <div class="pull-right">
                                 @if (count($currencies) > 1)
                                     <div id="currency-btn-group" class="btn-group" role="group"
@@ -390,7 +387,7 @@
                     </div>
                 </div>
             </div>
-            @if (Auth::user()->hasAccess('admin'))
+            @if (Auth::user()->hasPermission('admin'))
                 <div class="row">
                     <div class="col-md-12">
                         <div id="progress-div" class="progress">
