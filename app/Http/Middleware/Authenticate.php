@@ -8,7 +8,6 @@ use App\Models\Contact;
 use App\Models\Invitation;
 use App\Models\ProposalInvitation;
 use Closure;
-use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -18,17 +17,9 @@ use Illuminate\Support\Facades\Session;
 class Authenticate
 {
 
-    private $auth;
-
-    public function __construct(Guard $auth)
-    {
-        $this->auth = $auth;
-    }
-
-    public function handle($request, Closure $next, $guard = 'web')
+    public function handle($request, Closure $next, $guard = 'user')
     {
         $authenticated = Auth::guard($guard)->check();
-
         $invitationKey = $request->invitation_key ?: $request->proposal_invitation_key;
 
         if ($guard == 'client') {
@@ -69,12 +60,12 @@ class Authenticate
                 Session::put('contact_key', $contact->contact_key);
             }
             if (!$contact) {
-                return \Redirect::to('client/session_expired');
+                return \Redirect::to('client/login');
             }
 
             $account = $contact->account;
 
-            if (Auth::guard('web')->check() && Auth::user('web')->account_id == $account->id) {
+            if (Auth::guard('user')->check() && Auth::user('user')->account_id == $account->id) {
                 // This is an admin; let them pretend to be a client
                 $authenticated = true;
             }
@@ -97,6 +88,7 @@ class Authenticate
                 $account->loadLocalizationSettings($contact->client);
             }
         }
+
         if (!$authenticated) {
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
@@ -118,6 +110,7 @@ class Authenticate
                 return redirect()->guest($url);
             }
         }
+
         return $next($request);
     }
 

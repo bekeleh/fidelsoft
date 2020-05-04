@@ -3,18 +3,30 @@
 namespace App\Http\Middleware;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 /**
  * Class PermissionsRequired.
  */
 class PermissionsRequired
 {
+    /**
+     * @var array
+     */
     protected static $actions = [];
 
-    public function handle(Request $request, Closure $next, $guard = 'web', $section = null)
+    /**
+     * Handle an incoming request.
+     *
+     * @param Request $request
+     * @param Closure $next
+     * @param string $guard
+     *
+     * @return mixed
+     */
+    public function handle(Request $request, Closure $next, $guard = 'user')
     {
         // Get the current route.
         $route = $request->route();
@@ -23,19 +35,30 @@ class PermissionsRequired
         $actions = $route->getAction();
 
         // Check if we have any permissions to check the user has.
-        $permissions = !empty($actions['permissions']) ? $actions['permissions'] : null;
-        // Check if we have any permissions to this section
-        $section = !empty($actions['as']) ? $actions['as'] : null;
+        if ($permissions = !empty($actions['permissions']) ? $actions['permissions'] : null) {
+            if (!Auth::user($guard)->hasPermission($permissions, !empty($actions['permissions_require_all']))) {
+                return response('Unauthorized.', 401);
+            }
+        }
 
-        if ($section) {
-            if (!Auth::user($guard)->hasAccess($section)) {
-                return response()->view('errors/403');
+        // Check controller permissions
+        $action = explode('@', $request->route()->getActionName());
+        if (isset(static::$actions[$action[0]]) && isset(static::$actions[$action[0]][$action[1]])) {
+            $controller_permissions = static::$actions[$action[0]][$action[1]];
+            if (!Auth::user($guard)->hasPermission($controller_permissions)) {
+                return response('Unauthorized.', 401);
             }
         }
 
         return $next($request);
     }
 
+    /**
+     * add a controller's action permission.
+     *
+     * @param Controller $controller
+     * @param array $permissions
+     */
     public static function addPermission(Controller $controller, array $permissions)
     {
         static::$actions[get_class($controller)] = $permissions;

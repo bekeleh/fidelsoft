@@ -15,13 +15,13 @@ use App\Libraries\Utils;
 
 class DatabaseLookup
 {
-    public function handle(Request $request, Closure $next, $guard = 'web')
+    public function handle(Request $request, Closure $next, $guard = 'user')
     {
         if (!env('MULTI_DB_ENABLED')) {
             return $next($request);
         }
 
-        if ($guard == 'web') {
+        if ($guard == 'user') {
             if ($code = $request->confirmation_code) {
                 LookupUser::setServerByField('confirmation_code', $code);
             } elseif (session(SESSION_DB_SERVER)) {

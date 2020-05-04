@@ -286,28 +286,36 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
     }
 
 
-//    public function hasPermission($permission, $requireAll = false)
-//    {
-//        dd('has_permission');
-//        if ($this->is_admin) {
-//            return true;
-//        } elseif (is_string($permission)) {
-//
-//            if (is_array(json_decode($this->permissions, 1)) && in_array($permission, json_decode($this->permissions, 1))) {
-//                return true;
-//            }
-//
-//        } elseif (is_array($permission)) {
-//
-//            if ($requireAll)
-//                return count(array_intersect($permission, json_decode($this->permissions, 1))) == count($permission);
-//            else
-//                return count(array_intersect($permission, json_decode($this->permissions, 1))) > 0;
-//
-//        }
-//
-//        return false;
-//    }
+    /**
+     * Checks to see if the user has the required permission.
+     *
+     * @param mixed $permission Either a single permission or an array of possible permissions
+     * @param mixed $requireAll - True to require all permissions, false to require only one
+     *
+     * @return bool
+     */
+
+    public function hasPermission($permission, $requireAll = false)
+    {
+        if ($this->is_admin) {
+            return true;
+        } elseif (is_string($permission)) {
+
+            if (is_array(json_decode($this->permissions, 1)) && in_array($permission, json_decode($this->permissions, 1))) {
+                return true;
+            }
+
+        } elseif (is_array($permission)) {
+
+            if ($requireAll)
+                return count(array_intersect($permission, json_decode($this->permissions, 1))) == count($permission);
+            else
+                return count(array_intersect($permission, json_decode($this->permissions, 1))) > 0;
+
+        }
+
+        return false;
+    }
 
     public function hasAccess($section)
     {
@@ -534,31 +542,6 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
         $values = array_fill(0, count($keys), true);
 
         return array_combine($keys, $values);
-    }
-
-    public function two_factor_active()
-    {
-        // If the 2FA is optional and the user has opted in
-        if ((Setting::getSettings()->two_factor_enabled == '1') && ($this->two_factor_option == '1')) {
-            return true;
-        } // If the 2FA is required for everyone so is implicitly active
-        elseif (Setting::getSettings()->two_factor_enabled == '2') {
-            return true;
-        }
-
-        return false;
-    }
-
-    public function two_factor_active_and_enrolled()
-    {
-        // If the 2FA is optional and the user has opted in and is enrolled
-        if ((Setting::getSettings()->two_factor_enabled == '1') && ($this->two_factor_optin == '1') && ($this->two_factor_enrolled == '1')) {
-            return true;
-        } // If the 2FA is required for everyone and the user has enrolled
-        elseif ((Setting::getSettings()->two_factor_enabled == '2') && ($this->two_factor_enrolled)) {
-            return true;
-        }
-        return false;
     }
 }
 

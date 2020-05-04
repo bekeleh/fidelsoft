@@ -104,7 +104,7 @@ Route::get('/recover_password', ['as' => 'forgot', 'uses' => 'Auth\ForgotPasswor
 Route::get('/password/reset/{token}', ['as' => 'forgot', 'uses' => 'Auth\ResetPasswordController@showResetForm']);
 Route::get('/auth/{provider}', 'Auth\AuthController@oauthLogin');
 
-Route::group(['middleware' => ['web']], function () {
+Route::group(['middleware' => ['lookup:user']], function () {
     Route::get('/user/confirm/{confirmation_code}', 'UserController@confirm');
     Route::post('/login', ['as' => 'login', 'uses' => 'Auth\LoginController@postLoginWrapper']);
     Route::post('/recover_password', ['as' => 'forgot', 'uses' => 'Auth\ForgotPasswordController@sendResetLinkEmail']);
@@ -123,7 +123,7 @@ if (Utils::isTravis()) {
     Route::get('/check_data', 'AppController@checkData');
 }
 
-Route::group(['middleware' => ['web', 'auth']], function () {
+Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
     Route::get('force_reset_password/{public_key}', 'Auth\ForceResetPasswordController@showUserForPasswordReset');
     Route::post('force_reset_password/force_reset_password', 'Auth\ForceResetPasswordController@changePassword');
     Route::get('logged_in', 'HomeController@loggedIn');
@@ -363,7 +363,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 });
 
 Route::group([
-    'middleware' => ['web', 'auth', 'permissions.required'],
+    'middleware' => ['lookup:user', 'auth:user', 'permissions.required'],
     'permissions' => 'admin',
 ], function () {
 //    user
@@ -445,8 +445,8 @@ Route::group([
     //Route::post('self-update', 'SelfUpdateController@update');
     //Route::get('self-update/download', 'SelfUpdateController@download');
 });
-
-Route::group(['middleware' => ['web', 'auth']], function () {
+//    setting
+Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
     Route::get('settings/{section?}', 'AccountController@showSection');
 });
 
