@@ -9,9 +9,9 @@
 
 <div class="pull-left">
     @if (in_array($entityType, [ENTITY_TASK, ENTITY_EXPENSE, ENTITY_PRODUCT, ENTITY_PROJECT]))
-        @can('create', 'invoice')
+        @if (Auth::user()->can('create', $entityType))
             {!! Button::primary(trans('texts.invoice'))->withAttributes(['class'=>'invoice', 'onclick' =>'submitForm_'.$entityType.'("invoice")'])->appendIcon(Icon::create('check')) !!}
-        @endcan
+        @endif
     @endif
 
     {!! DropdownButton::normal(trans('texts.archive'))
@@ -81,8 +81,7 @@
     {!! Button::normal(trans('texts.time_tracker'))->asLinkTo('javascript:openTimeTracker()')->appendIcon(Icon::create('time')) !!}
 @endif
 <!-- create records -->
-@if (Auth::user()->can('create', \App\Models\User::class))
-    {{--@if (Auth::user()->can('create', $entityType))--}}
+@if (Auth::user()->can('create', $entityType))
     {!! Button::primary(mtrans($entityType, "new_{$entityType}"))
     ->asLinkTo(url(
     (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_TEMPLATE]) ? str_replace('_', 's/', Utils::pluralizeEntityType($entityType)) : Utils::pluralizeEntityType($entityType)) .

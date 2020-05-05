@@ -13,7 +13,7 @@
 
 <div class="pull-left">
     <?php if(in_array($entityType, [ENTITY_TASK, ENTITY_EXPENSE, ENTITY_PRODUCT, ENTITY_PROJECT])): ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create', 'invoice')): ?>
+        <?php if(Auth::user()->can('create', $entityType)): ?>
             <?php echo Button::primary(trans('texts.invoice'))->withAttributes(['class'=>'invoice', 'onclick' =>'submitForm_'.$entityType.'("invoice")'])->appendIcon(Icon::create('check')); ?>
 
         <?php endif; ?>
@@ -92,8 +92,7 @@
 
 <?php endif; ?>
 <!-- create records -->
-<?php if(Auth::user()->can('create', \App\Models\User::class)): ?>
-    
+<?php if(Auth::user()->can('create', $entityType)): ?>
     <?php echo Button::primary(mtrans($entityType, "new_{$entityType}"))
     ->asLinkTo(url(
     (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_TEMPLATE]) ? str_replace('_', 's/', Utils::pluralizeEntityType($entityType)) : Utils::pluralizeEntityType($entityType)) .
