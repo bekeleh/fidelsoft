@@ -2,8 +2,8 @@
 
 @section('content')
     @parent
-    {{--    {!! Former::open($url)->autocomplete('off')->method($method)->addClass('warn-on-exit user-form')--}}
-    {{--        ->rules([ ]); !!}--}}
+    {!! Former::open($url)->autocomplete('off')->method($method)->addClass('warn-on-exit permission-form')
+        ->rules([ ]); !!}
     @if ($user)
         {!! Former::populate($user) !!}
         {{ Former::populateField('is_admin', intval($user->is_admin)) }}
@@ -11,16 +11,54 @@
     <div style="display:none">
         {!! Former::text('action') !!}
     </div>
+    <!-- user detail -->
     <div class="panel panel-default">
-        <div class="panel-heading" style="background-color:#777 !important">
-            <h3 class="panel-title in-bold-white"> {!! trans('texts.user_details') !!}</h3>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <h3>{{ trans('texts.user_details') }}</h3>
+                    @if ($user)
+                        <p><i class="fa fa-id-number"
+                              style="width: 20px"></i>{{ trans('texts.id_number').': '.$user->id }}</p>
+                    @endif
+                    @if ($user->first_name)
+                        <p><i class="fa fa-vat-number"
+                              style="width: 20px"></i>{{ trans('texts.first_name').': '. $user->present()->fullName }}
+                        </p>
+                    @endif
+                    @if ($user->notes)
+                        <p><i>{!! nl2br(e($user->notes)) !!}</i></p>
+                    @endif
+                    @if ($user->last_login)
+                        <h3 style="margin-top:0px"><small>
+                                {{ trans('texts.last_logged_in') }} {{ Utils::timestampToDateTimeString(strtotime($user->last_login)) }}
+                            </small>
+                        </h3>
+                    @endif
+                </div>
+                <div class="col-md-3">
+                    <h3>{{ trans('texts.address') }}</h3>
+                    <p>address details</p>
+                </div>
+                <div class="col-md-3">
+                    <h3>{{ trans('texts.contacts') }}</h3>
+                    @if ($user->email)
+                        <i class="fa fa-envelope"
+                           style="width: 20px"></i>{!! HTML::mailto($user->email, $user->email) !!}<br/>
+                    @endif
+                    @if ($user->phone)
+                        <i class="fa fa-phone" style="width: 20px"></i>{{ $user->phone }}<br/>
+                    @endif
+                    <br/>
+                </div>
+            </div>
         </div>
     </div>
     <div class="panel panel-default">
         <div class="panel-heading" style="background-color:#777 !important">
             <h3 class="panel-title in-bold-white"> {!! trans('texts.permissions') !!} </h3>
         </div>
-        <div class="panel-body">
+        <div style="margin-left: 25px;">
             @if ( ! Utils::hasFeature(FEATURE_USER_PERMISSIONS))
                 <div class="alert alert-warning">{{ trans('texts.upgrade_for_permissions') }}</div>
                 <script type="text/javascript">
@@ -34,7 +72,7 @@
                 ->value(1)
                 ->text(trans('texts.administrator'))
                 ->help(trans('texts.administrator_help')) !!}
-            <div class="panel-body">
+            <div>
                 <table class="table table-striped dataTable">
                     <thead>
                     <th></th>
@@ -57,13 +95,14 @@
                     <tbody>
                     @foreach (json_decode(PERMISSION_ENTITIES,1) as $permissionEntity)
                         <?php
-                        if ($user)
-                            $permissions = json_decode($user->permissions, 1);
+                        if (isset($user->permissions))
+                            $permissions = $user->permissions;
                         else
                             $permissions = [];
                         ?>
                         <tr>
                             <td>{{ ucfirst($permissionEntity) }}</td>
+
                             <td>{!! Former::checkbox('permissions[create_' . $permissionEntity . ']')
                                   ->label('&nbsp;')
                                   ->value('create_' . $permissionEntity . '')
@@ -95,15 +134,49 @@
         </div>
     </div>
     <center class="buttons">
-        {!! Button::normal(trans('texts.cancel'))->asLinkTo(URL::to('/settings/user_management'))->appendIcon(Icon::create('remove-circle'))->large() !!}
-        {!! ($user) ? Button::success(trans('texts.save'))->withAttributes(['onclick' => 'submitAction("save")'])->large()->appendIcon(Icon::create('floppy-disk')) : false !!}
+        {!! Button::normal(trans('texts.cancel'))->asLinkTo(URL::to('/users'))->appendIcon(Icon::create('remove-circle'))->large() !!}
+        {!! ($user) ? Button::success(trans('texts.save'))->withAttributes(['onclick' => 'submitAction()'])->large()->appendIcon(Icon::create('floppy-disk')) : false !!}
         {!! (! $user || ! $user->confirmed) ? Button::info(trans($user ? 'texts.resend_invite' : 'texts.send_invite'))->withAttributes(['onclick' => 'submitAction("email")'])->large()->appendIcon(Icon::create('send')) : false !!}
     </center>
     {!! Former::close() !!}
     <script type="text/javascript">
-        function submitAction(value) {
-            $('#action').val(value);
-            $('.user-form').submit();
+        function submitAction() {
+            var inputElements = document.querySelectorAll('input[type=checkbox]:checked');
+            var permissions = getPermission(inputElements);
+
+            var $account_id ={{$user->account_id}};
+            var $public_id ={{$user->public_id}};
+            $.ajax({
+                url: '{{ URL::to('/users/change_permission') }}',
+                type: 'POST',
+                dataType: 'json',
+                data: 'permissions=' + permissions + '&account_id=' + $account_id + '&public_id=' + $public_id,
+                success: function (result) {
+                    if (result.success) {
+                        swal("{{trans('texts.updated_user_permission')}}");
+                    }
+                }
+            });
+
+        }
+
+        function getPermission(isChecked) {
+            var columns = [];
+            var rows = [];
+            for (var i = 0; i < isChecked.length; i++) {
+                columns[i] = isChecked[i].name;
+                rows[i] = isChecked[i].value;
+            }
+            return mapToJson(columns, rows);
+        }
+
+        function mapToJson(columns, rows) {
+            var result = rows.reduce(function (result, field, index) {
+                result[columns[index]] = field;
+                return result;
+            }, {})
+
+            return JSON.stringify(result);
         }
     </script>
 @stop

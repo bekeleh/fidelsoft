@@ -6714,7 +6714,7 @@ var CanvasGraphics = (function CanvasGraphicsClosure() {
     beginGroup: function CanvasGraphics_beginGroup(group) {
       this.save();
       var currentCtx = this.ctx;
-      // TODO non-isolated permission_groups - according to Rik at adobe non-isolated
+      // TODO non-isolated groups - according to Rik at adobe non-isolated
       // group results aren't usually that different and they even have tools
       // that ignore this setting. Notes from Rik on implmenting:
       // - When you encounter an transparency group, create a new canvas with
@@ -6728,13 +6728,13 @@ var CanvasGraphics = (function CanvasGraphicsClosure() {
       // - remove background color:
       // colorNew = color - alphaNew *colorBackdrop /(1 - alphaNew)
       if (!group.isolated) {
-        info('TODO: Support non-isolated permission_groups.');
+        info('TODO: Support non-isolated groups.');
       }
 
       // TODO knockout - supposedly possible with the clever use of compositing
       // modes.
       if (group.knockout) {
-        TODO('Support knockout permission_groups.');
+        TODO('Support knockout groups.');
       }
 
       var currentTransform = currentCtx.mozCurrentTransform;

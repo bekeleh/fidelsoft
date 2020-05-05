@@ -3672,7 +3672,7 @@ var ChunkedStreamManager = (function ChunkedStreamManagerClosure() {
       return this.loadedStream;
     },
 
-    // Get all the chunks that are not yet loaded and permission_groups them into
+    // Get all the chunks that are not yet loaded and groups them into
     // contiguous ranges to load in as few requests as possible
     requestAllChunks: function ChunkedStreamManager_requestAllChunks() {
       var missingChunks = this.stream.getMissingChunks();

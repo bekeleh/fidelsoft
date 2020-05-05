@@ -1,7 +1,8 @@
 <?php $__env->startSection('content'); ?>
     ##parent-placeholder-040f06fd774092478d450774f5ba30c5da78acc8##
-    
-    
+    <?php echo Former::open($url)->autocomplete('off')->method($method)->addClass('warn-on-exit permission-form')
+        ->rules([ ]);; ?>
+
     <?php if($user): ?>
         <?php echo Former::populate($user); ?>
 
@@ -12,16 +13,56 @@
         <?php echo Former::text('action'); ?>
 
     </div>
+    <!-- user detail -->
     <div class="panel panel-default">
-        <div class="panel-heading" style="background-color:#777 !important">
-            <h3 class="panel-title in-bold-white"> <?php echo trans('texts.user_details'); ?></h3>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <h3><?php echo e(trans('texts.user_details')); ?></h3>
+                    <?php if($user): ?>
+                        <p><i class="fa fa-id-number"
+                              style="width: 20px"></i><?php echo e(trans('texts.id_number').': '.$user->id); ?></p>
+                    <?php endif; ?>
+                    <?php if($user->first_name): ?>
+                        <p><i class="fa fa-vat-number"
+                              style="width: 20px"></i><?php echo e(trans('texts.first_name').': '. $user->present()->fullName); ?>
+
+                        </p>
+                    <?php endif; ?>
+                    <?php if($user->notes): ?>
+                        <p><i><?php echo nl2br(e($user->notes)); ?></i></p>
+                    <?php endif; ?>
+                    <?php if($user->last_login): ?>
+                        <h3 style="margin-top:0px"><small>
+                                <?php echo e(trans('texts.last_logged_in')); ?> <?php echo e(Utils::timestampToDateTimeString(strtotime($user->last_login))); ?>
+
+                            </small>
+                        </h3>
+                    <?php endif; ?>
+                </div>
+                <div class="col-md-3">
+                    <h3><?php echo e(trans('texts.address')); ?></h3>
+                    <p>address details</p>
+                </div>
+                <div class="col-md-3">
+                    <h3><?php echo e(trans('texts.contacts')); ?></h3>
+                    <?php if($user->email): ?>
+                        <i class="fa fa-envelope"
+                           style="width: 20px"></i><?php echo HTML::mailto($user->email, $user->email); ?><br/>
+                    <?php endif; ?>
+                    <?php if($user->phone): ?>
+                        <i class="fa fa-phone" style="width: 20px"></i><?php echo e($user->phone); ?><br/>
+                    <?php endif; ?>
+                    <br/>
+                </div>
+            </div>
         </div>
     </div>
     <div class="panel panel-default">
         <div class="panel-heading" style="background-color:#777 !important">
             <h3 class="panel-title in-bold-white"> <?php echo trans('texts.permissions'); ?> </h3>
         </div>
-        <div class="panel-body">
+        <div style="margin-left: 25px;">
             <?php if( ! Utils::hasFeature(FEATURE_USER_PERMISSIONS)): ?>
                 <div class="alert alert-warning"><?php echo e(trans('texts.upgrade_for_permissions')); ?></div>
                 <script type="text/javascript">
@@ -36,7 +77,7 @@
                 ->text(trans('texts.administrator'))
                 ->help(trans('texts.administrator_help')); ?>
 
-            <div class="panel-body">
+            <div>
                 <table class="table table-striped dataTable">
                     <thead>
                     <th></th>
@@ -59,13 +100,14 @@
                     <tbody>
                     <?php $__currentLoopData = json_decode(PERMISSION_ENTITIES,1); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $permissionEntity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <?php
-                        if ($user)
-                            $permissions = json_decode($user->permissions, 1);
+                        if (isset($user->permissions))
+                            $permissions = $user->permissions;
                         else
                             $permissions = [];
                         ?>
                         <tr>
                             <td><?php echo e(ucfirst($permissionEntity)); ?></td>
+
                             <td><?php echo Former::checkbox('permissions[create_' . $permissionEntity . ']')
                                   ->label('&nbsp;')
                                   ->value('create_' . $permissionEntity . '')
@@ -97,9 +139,9 @@
         </div>
     </div>
     <center class="buttons">
-        <?php echo Button::normal(trans('texts.cancel'))->asLinkTo(URL::to('/settings/user_management'))->appendIcon(Icon::create('remove-circle'))->large(); ?>
+        <?php echo Button::normal(trans('texts.cancel'))->asLinkTo(URL::to('/users'))->appendIcon(Icon::create('remove-circle'))->large(); ?>
 
-        <?php echo ($user) ? Button::success(trans('texts.save'))->withAttributes(['onclick' => 'submitAction("save")'])->large()->appendIcon(Icon::create('floppy-disk')) : false; ?>
+        <?php echo ($user) ? Button::success(trans('texts.save'))->withAttributes(['onclick' => 'submitAction()'])->large()->appendIcon(Icon::create('floppy-disk')) : false; ?>
 
         <?php echo (! $user || ! $user->confirmed) ? Button::info(trans($user ? 'texts.resend_invite' : 'texts.send_invite'))->withAttributes(['onclick' => 'submitAction("email")'])->large()->appendIcon(Icon::create('send')) : false; ?>
 
@@ -107,9 +149,43 @@
     <?php echo Former::close(); ?>
 
     <script type="text/javascript">
-        function submitAction(value) {
-            $('#action').val(value);
-            $('.user-form').submit();
+        function submitAction() {
+            var inputElements = document.querySelectorAll('input[type=checkbox]:checked');
+            var permissions = getPermission(inputElements);
+
+            var $account_id =<?php echo e($user->account_id); ?>;
+            var $public_id =<?php echo e($user->public_id); ?>;
+            $.ajax({
+                url: '<?php echo e(URL::to('/users/change_permission')); ?>',
+                type: 'POST',
+                dataType: 'json',
+                data: 'permissions=' + permissions + '&account_id=' + $account_id + '&public_id=' + $public_id,
+                success: function (result) {
+                    if (result.success) {
+                        swal("<?php echo e(trans('texts.updated_user_permission')); ?>");
+                    }
+                }
+            });
+
+        }
+
+        function getPermission(isChecked) {
+            var columns = [];
+            var rows = [];
+            for (var i = 0; i < isChecked.length; i++) {
+                columns[i] = isChecked[i].name;
+                rows[i] = isChecked[i].value;
+            }
+            return mapToJson(columns, rows);
+        }
+
+        function mapToJson(columns, rows) {
+            var result = rows.reduce(function (result, field, index) {
+                result[columns[index]] = field;
+                return result;
+            }, {})
+
+            return JSON.stringify(result);
         }
     </script>
 <?php $__env->stopSection(); ?>
@@ -222,5 +298,4 @@
 
     }
 <?php $__env->stopSection(); ?>
-
 <?php echo $__env->make('header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

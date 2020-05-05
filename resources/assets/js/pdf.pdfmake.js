@@ -288,6 +288,7 @@ NINJA.decodeJavascript = function(invoice, javascript)
         'signature': NINJA.signature(invoice),
         'signatureBase64': NINJA.signatureImage(invoice),
         'signatureDate': NINJA.signatureDate(invoice),
+        'invoiceTotal': formatMoneyInvoice(invoice.amount, invoice),
     }
 
     for (var key in json) {
@@ -539,17 +540,11 @@ NINJA.statementInvoices = function(invoice) {
         }
         var rowStyle = (counter++ % 2 == 0) ? 'odd' : 'even';
         grid.push([
-            {text: item.name, style: ['invoiceNumber', 'productKey', rowStyle, 'firstColumn']},
-            {
-                text: item.custom_value1 && item.custom_value1 != '0000-00-00' ? moment(item.custom_value1).format(invoice.account.date_format ? invoice.account.date_format.format_moment : 'MMM D, YYYY') : ' ',
-                style: ['invoiceDate', rowStyle]
-            },
-            {
-                text: item.custom_value2 && item.custom_value2 != '0000-00-00' ? moment(item.custom_value2).format(invoice.account.date_format ? invoice.account.date_format.format_moment : 'MMM D, YYYY') : ' ',
-                style: ['dueDate', rowStyle]
-            },
-            {text: formatMoneyInvoice(item.notes, invoice), style: ['subtotals', rowStyle]},
-            {text: formatMoneyInvoice(item.cost, invoice), style: ['lineTotal', rowStyle, 'lastColumn']},
+            {text: item.product_key, style:['invoiceNumber', 'productKey', rowStyle, 'firstColumn']},
+            {text: item.custom_value1 && item.custom_value1 != '0000-00-00' ? moment(item.custom_value1).format(invoice.account.date_format ? invoice.account.date_format.format_moment : 'MMM D, YYYY') : ' ', style:['invoiceDate', rowStyle]},
+            {text: item.custom_value2 && item.custom_value2 != '0000-00-00' ? moment(item.custom_value2).format(invoice.account.date_format ? invoice.account.date_format.format_moment : 'MMM D, YYYY') : ' ', style:['dueDate', rowStyle]},
+            {text: formatMoneyInvoice(item.notes, invoice), style:['subtotals', rowStyle]},
+            {text: formatMoneyInvoice(item.cost, invoice), style:['lineTotal', rowStyle, 'lastColumn']},
         ]);
     }
 
@@ -573,14 +568,11 @@ NINJA.statementPayments = function(invoice) {
         }
         var rowStyle = (counter++ % 2 == 0) ? 'odd' : 'even';
         grid.push([
-            {text: item.name, style: ['invoiceNumber', 'productKey', rowStyle, 'firstColumn']},
-            {
-                text: item.custom_value1 && item.custom_value1 != '0000-00-00' ? moment(item.custom_value1).format(invoice.account.date_format ? invoice.account.date_format.format_moment : 'MMM D, YYYY') : ' ',
-                style: ['invoiceDate', rowStyle]
-            },
-            {text: item.custom_value2 ? item.custom_value2 : ' ', style: ['dueDate', rowStyle]},
+            {text: item.product_key, style:['invoiceNumber', 'productKey', rowStyle, 'firstColumn']},
+            {text: item.custom_value1 && item.custom_value1 != '0000-00-00' ? moment(item.custom_value1).format(invoice.account.date_format ? invoice.account.date_format.format_moment : 'MMM D, YYYY') : ' ', style:['invoiceDate', rowStyle]},
+            {text: item.custom_value2 ? item.custom_value2 : ' ', style:['dueDate', rowStyle]},
             //{text: item.transaction_reference, style:['subtotals', rowStyle]},
-            {text: formatMoneyInvoice(item.cost, invoice), style: ['lineTotal', rowStyle, 'lastColumn']},
+            {text: formatMoneyInvoice(item.cost, invoice), style:['lineTotal', rowStyle, 'lastColumn']},
         ]);
     }
 
@@ -601,11 +593,11 @@ NINJA.statementAging = function(invoice) {
             continue;
         }
         grid.push([
-            {text: formatMoneyInvoice(item.name, invoice), style: ['subtotals', 'odd', 'firstColumn']},
-            {text: formatMoneyInvoice(item.notes, invoice), style: ['subtotals', 'odd']},
-            {text: formatMoneyInvoice(item.custom_value1, invoice), style: ['subtotals', 'odd']},
-            {text: formatMoneyInvoice(item.custom_value1, invoice), style: ['subtotals', 'odd']},
-            {text: formatMoneyInvoice(item.cost, invoice), style: ['subtotals', 'odd', 'lastColumn']},
+            {text: formatMoneyInvoice(item.product_key, invoice), style:['subtotals', 'odd', 'firstColumn']},
+            {text: formatMoneyInvoice(item.notes, invoice), style:['subtotals', 'odd']},
+            {text: formatMoneyInvoice(item.custom_value1, invoice), style:['subtotals', 'odd']},
+            {text: formatMoneyInvoice(item.custom_value2, invoice), style:['subtotals', 'odd']},
+            {text: formatMoneyInvoice(item.cost, invoice), style:['subtotals', 'odd', 'lastColumn']},
         ]);
     }
 
@@ -915,7 +907,7 @@ NINJA.invoiceLines = function(invoice, isSecondTable) {
         var qty = NINJA.parseFloat(item.qty) ? formatMoneyInvoice(NINJA.parseFloat(item.qty), invoice, 'none', getPrecision(NINJA.parseFloat(item.qty))) + '' : ' ';
         var discount = roundToTwo(NINJA.parseFloat(item.discount));
         var notes = item.notes;
-        var productKey = item.name;
+        var productKey = item.product_key;
         var tax1 = '';
         var tax2 = '';
         var customValue1 = item.custom_value1;
@@ -963,7 +955,7 @@ NINJA.invoiceLines = function(invoice, isSecondTable) {
             }
         }
 
-        if (account.include_item_taxes_inline == '1') {
+        if (account.include_item_taxes_inline == '1'  && account.inclusive_taxes != '1') {
             var taxAmount1 = 0;
             var taxAmount2 = 0;
             if (tax1) {
@@ -1365,6 +1357,8 @@ NINJA.renderField = function(invoice, field, twoColumn) {
         value = contact.email == clientName ? '' : contact.email;
     } else if (field == 'client.phone') {
         value = contact.phone;
+    } else if (field == 'client.work_phone') {
+        value = client.work_phone;
     } else if (field == 'client.custom_value1') {
         if (account.custom_fields.client1 && client.custom_value1) {
             label = NINJA.getCustomLabel(account.custom_fields.client1);

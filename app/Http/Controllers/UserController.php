@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\UserRequest;
 use App\Libraries\Utils;
 use App\Models\Location;
@@ -96,7 +98,7 @@ class UserController extends BaseController
         return View::make('users.edit', $data);
     }
 
-    public function store(UserRequest $request)
+    public function store(CreateUserRequest $request)
     {
         $data = $request->input();
         if (!Auth::user()->hasFeature(FEATURE_USERS)) {
@@ -138,8 +140,9 @@ class UserController extends BaseController
         return View::make('users.edit', $data);
     }
 
-    public function update(UserRequest $request)
+    public function update(UpdateUserRequest $request)
     {
+        dd('test..');
         $data = $request->input();
         $user = $request->entity();
         $user = $this->userService->save($data, $user);
@@ -180,8 +183,10 @@ class UserController extends BaseController
             $userPermissions = Utils::selectedPermissionsArray($permissions, $user->permissions);
             $userGroups = $user->groups;
             $url = 'users/' . $user->public_id;
+            $method = 'PUT';
             $data = [
                 'url' => $url,
+                'method' => $method,
                 'user' => $user,
                 'permissions' => $permissions,
                 'userPermissions' => $userPermissions,
@@ -294,7 +299,7 @@ class UserController extends BaseController
 
     public function changePermission()
     {
-        $permissionArray = Input::get('permission');
+        $permissionArray = Input::get('permissions');
         $userAccount_id = Input::get('account_id');
         $userPublicId = Input::get('public_id');
         $user = User::where('account_id', '=', $userAccount_id)
@@ -304,7 +309,7 @@ class UserController extends BaseController
             $user->permissions = $permissionArray;
             $user->save();
 
-            return response()->json(['success' => true, 'data' => $user], 200);
+            return response()->json(['success' => true, 'data' => RESULT_SUCCESS], 200);
         }
 
         return RESULT_FAILURE;

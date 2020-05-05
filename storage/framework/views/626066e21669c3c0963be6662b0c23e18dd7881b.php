@@ -1,19 +1,16 @@
 <?php $__env->startSection('head'); ?>
     ##parent-placeholder-1a954628a960aaef81d7b2d4521929579f3541e6##
-
     <?php echo $__env->make('money_script', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-
     <script src="<?php echo e(asset('js/Chart.min.js')); ?>" type="text/javascript"></script>
     <script src="<?php echo e(asset('js/daterangepicker.min.js')); ?>" type="text/javascript"></script>
     <link href="<?php echo e(asset('css/daterangepicker.css')); ?>" rel="stylesheet" type="text/css"/>
-
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
 
     <script type="text/javascript">
 
-        <?php if($access= Auth::user()->isSuperUser()?: Auth::user()->hasAccess('admin')): ?>
+        <?php if($access= Auth::user()->isSuperUser()?: Auth::user()->hasPermission('admin')): ?>
         function loadChart(data) {
             var ctx = document.getElementById('chart-canvas').getContext('2d');
             if (window.myChart) {
@@ -220,7 +217,7 @@
                 <?php else: ?>
                     <div class="col-md-10">
                         <?php endif; ?>
-                        <?php if(Auth::user()->hasAccess('admin')): ?>
+                        <?php if(Auth::user()->hasPermission('admin')): ?>
                             <div class="pull-right">
                                 <?php if(count($currencies) > 1): ?>
                                     <div id="currency-btn-group" class="btn-group" role="group"
@@ -401,7 +398,7 @@
                     </div>
                 </div>
             </div>
-            <?php if(Auth::user()->hasAccess('admin')): ?>
+            <?php if(Auth::user()->hasPermission('admin')): ?>
                 <div class="row">
                     <div class="col-md-12">
                         <div id="progress-div" class="progress">
