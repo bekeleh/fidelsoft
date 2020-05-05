@@ -1,18 +1,5 @@
 <?php $__env->startSection('content'); ?>
     ##parent-placeholder-040f06fd774092478d450774f5ba30c5da78acc8##
-    <?php echo Former::open($url)->autocomplete('off')->method($method)->addClass('warn-on-exit permission-form')
-        ->rules([ ]);; ?>
-
-    <?php if($user): ?>
-        <?php echo Former::populate($user); ?>
-
-        <?php echo e(Former::populateField('is_admin', intval($user->is_admin))); ?>
-
-    <?php endif; ?>
-    <div style="display:none">
-        <?php echo Former::text('action'); ?>
-
-    </div>
     <!-- user detail -->
     <div class="panel panel-default">
         <div class="panel-body">

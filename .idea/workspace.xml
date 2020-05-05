@@ -3,10 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/users/permission.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/users/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/users/show.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/UserDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/UserDatatable.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/sessions/el2FMJUAZrCyebIi2HMrgJjYdXWUd3PxrajmmNtP" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/el2FMJUAZrCyebIi2HMrgJjYdXWUd3PxrajmmNtP" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/467d14accc6850d692cb32d17c7827bf0d57b621.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/467d14accc6850d692cb32d17c7827bf0d57b621.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -252,18 +251,18 @@
     <property name="settings.editor.selected.configurable" value="terminal" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\wamp\www\invoiceninja\resources\views\users" />
-      <recent name="C:\wamp\www\invoiceninja\app\Ninja\Datatables" />
-      <recent name="C:\wamp\www\invoiceninja\resources\views\companies" />
-      <recent name="C:\wamp\www\invoiceninja\resources\views\products" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\wamp\www\invoiceninja\resources\views\item_transfers" />
       <recent name="C:\wamp\www\invoiceninja\resources\views\item_brands" />
       <recent name="C:\wamp\www\invoiceninja\resources\views\errors" />
       <recent name="C:\wamp\www\invoiceninja\resources\views\users" />
       <recent name="C:\wamp\www\invoiceninja\resources\views\groups" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\wamp\www\invoiceninja\resources\views\users" />
+      <recent name="C:\wamp\www\invoiceninja\app\Ninja\Datatables" />
+      <recent name="C:\wamp\www\invoiceninja\resources\views\companies" />
+      <recent name="C:\wamp\www\invoiceninja\resources\views\products" />
     </key>
   </component>
   <component name="RunManager" selected="Codeception.codeception.yml">
@@ -388,14 +387,7 @@
       <workItem from="1588621990232" duration="3352000" />
       <workItem from="1588595925356" duration="1210000" />
       <workItem from="1588617617523" duration="4896000" />
-      <workItem from="1588694521293" duration="12497000" />
-    </task>
-    <task id="LOCAL-00177" summary="2020-04-26 9:26">
-      <created>1587915737751</created>
-      <option name="number" value="00177" />
-      <option name="presentableId" value="LOCAL-00177" />
-      <option name="project" value="LOCAL" />
-      <updated>1587915737751</updated>
+      <workItem from="1588694521293" duration="13054000" />
     </task>
     <task id="LOCAL-00178" summary="2020-04-26 9:26">
       <created>1587919159109</created>
@@ -733,7 +725,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588708966550</updated>
     </task>
-    <option name="localTasksCounter" value="226" />
+    <task id="LOCAL-00226" summary="2020-05-5 9:26">
+      <created>1588709329738</created>
+      <option name="number" value="00226" />
+      <option name="presentableId" value="LOCAL-00226" />
+      <option name="project" value="LOCAL" />
+      <updated>1588709329738</updated>
+    </task>
+    <option name="localTasksCounter" value="227" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -806,10 +805,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1587939377952" />
-    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1588708964089">
+    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1588709328800">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1588708964089" />
+    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1588709328800" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="444" y="140" key="FileChooserDialogImpl" timestamp="1588023873020">

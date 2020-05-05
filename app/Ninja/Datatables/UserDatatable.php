@@ -139,7 +139,7 @@ class UserDatatable extends EntityDatatable
                 trans('texts.edit_permission'),
                 function ($model) {
                     $user = Auth::user();
-                    if ($user->can('view', [ENTITY_USER]))
+                    if ($user->can('view', [ENTITY_PERMISSION]))
                         return URL::to("users/{$model->public_id}");
                 },
             ],
