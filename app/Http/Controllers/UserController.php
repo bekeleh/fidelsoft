@@ -142,7 +142,6 @@ class UserController extends BaseController
 
     public function update(UpdateUserRequest $request)
     {
-        dd('test..');
         $data = $request->input();
         $user = $request->entity();
         $user = $this->userService->save($data, $user);
@@ -182,11 +181,7 @@ class UserController extends BaseController
             $user->permissions = $user->decodePermissions();
             $userPermissions = Utils::selectedPermissionsArray($permissions, $user->permissions);
             $userGroups = $user->groups;
-            $url = 'users/' . $user->public_id;
-            $method = 'PUT';
             $data = [
-                'url' => $url,
-                'method' => $method,
                 'user' => $user,
                 'permissions' => $permissions,
                 'userPermissions' => $userPermissions,

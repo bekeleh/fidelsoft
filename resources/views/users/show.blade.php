@@ -2,15 +2,6 @@
 
 @section('content')
     @parent
-    {!! Former::open($url)->autocomplete('off')->method($method)->addClass('warn-on-exit permission-form')
-        ->rules([ ]); !!}
-    @if ($user)
-        {!! Former::populate($user) !!}
-        {{ Former::populateField('is_admin', intval($user->is_admin)) }}
-    @endif
-    <div style="display:none">
-        {!! Former::text('action') !!}
-    </div>
     <!-- user detail -->
     <div class="panel panel-default">
         <div class="panel-body">
