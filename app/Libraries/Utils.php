@@ -259,20 +259,20 @@ class Utils
         return Auth::check() && Auth::user()->hasAccess('admin');
     }
 
-//    public static function hasPermission($permission, $requireAll = false)
-//    {
-//        return Auth::check() && Auth::user()->hasPermission($permission, $requireAll);
-//    }
-
-    public static function hasAccess($section, $requireAll = false)
+    public static function hasPermission($permission, $requireAll = false)
     {
-        return Auth::check() && Auth::user()->hasAccess($section, $requireAll);
+        return Auth::check() && Auth::user()->hasPermission($permission, $requireAll);
     }
 
-//    public static function hasAllPermissions($permission)
+//    public static function hasAccess($section, $requireAll = false)
 //    {
-//        return Auth::check() && Auth::user()->hasPermission($permission);
+//        return Auth::check() && Auth::user()->hasAccess($section, $requireAll);
 //    }
+
+    public static function hasAllPermissions($permission)
+    {
+        return Auth::check() && Auth::user()->hasPermission($permission);
+    }
 
     public static function isTrial()
     {

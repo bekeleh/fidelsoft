@@ -38,7 +38,7 @@ class UnitService extends BaseService
     {
         $query = $this->unitRepo->find($accountId, $search);
 
-        if (!Utils::hasAccess('view_units')) {
+        if (!Utils::hasPermission('view_unit')) {
             $query->where('units.user_id', '=', Auth::user()->id);
         }
 

@@ -37,7 +37,7 @@ class PermissionGroupService extends BaseService
 
         $query = $this->permissionGroupRepo->find($accountId, $search);
 
-        if (!Utils::hasAccess('view_permission_groups')) {
+        if (!Utils::hasPermission('view_permission_group')) {
             $query->where('permission_groups.user_id', '=', Auth::user()->id);
         }
 

@@ -92,7 +92,7 @@
 
 <?php endif; ?>
 <!-- create records -->
-<?php if(Auth::user()->can('create', $entityType)): ?>
+<?php if(Auth::user()->can('create_', $entityType)): ?>
     <?php echo Button::primary(mtrans($entityType, "new_{$entityType}"))
     ->asLinkTo(url(
     (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_TEMPLATE]) ? str_replace('_', 's/', Utils::pluralizeEntityType($entityType)) : Utils::pluralizeEntityType($entityType)) .

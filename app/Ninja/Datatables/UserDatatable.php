@@ -52,7 +52,7 @@ class UserDatatable extends EntityDatatable
                 'location_name',
                 function ($model) {
                     if ($model->location_id) {
-                        if (Auth::user()->can('view', new Location))
+                        if (Auth::user()->can('view', [ENTITY_LOCATION]))
                             return link_to("locations/{$model->location_id}", $model->location_name)->toHtml();
                         else
                             return $model->location_name;

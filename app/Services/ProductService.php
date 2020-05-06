@@ -38,7 +38,7 @@ class ProductService extends BaseService
 
         $query = $this->productRepo->find($accountId, $search);
 
-        if (!Utils::hasAccess('view_products')) {
+        if (!Utils::hasPermission('view_product')) {
             $query->where('products.user_id', '=', Auth::user()->id);
         }
 

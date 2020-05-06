@@ -39,7 +39,7 @@ class PermissionService extends BaseService
     {
         $query = $this->permissionRepo->find($accountId, $search);
 
-        if (!Utils::hasAccess('view_permissions')) {
+        if (!Utils::hasPermission('view_permission')) {
             $query->where('permissions.user_id', '=', Auth::user()->id);
         }
 

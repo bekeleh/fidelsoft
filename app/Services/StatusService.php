@@ -28,7 +28,7 @@ class StatusService extends BaseService
         $datatable = new StatusDatatable(true);
         $query = $this->StatusRepo->find($accountId, $search);
 
-        if (!Utils::hasAccess('view_statuses')) {
+        if (!Utils::hasPermission('view_status')) {
             $query->where('statuses.user_id', '=', Auth::user()->id);
         }
 

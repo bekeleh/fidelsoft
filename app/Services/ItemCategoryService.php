@@ -28,7 +28,7 @@ class ItemCategoryService extends BaseService
         $datatable = new ItemCategoryDatatable(true);
         $query = $this->itemCategoryRepo->find($accountId, $search);
 
-        if (!Utils::hasAccess('view_item_categories')) {
+        if (!Utils::hasPermission('view_item_category')) {
             $query->where('item_categories.user_id', '=', Auth::user()->id);
         }
 

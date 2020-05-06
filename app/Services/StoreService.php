@@ -39,7 +39,7 @@ class StoreService extends BaseService
     {
         $query = $this->storeRepo->find($accountId, $search);
 
-        if (!Utils::hasAccess('view_stores')) {
+        if (!Utils::hasPermission('view_store')) {
             $query->where('stores.user_id', '=', Auth::user()->id);
         }
 

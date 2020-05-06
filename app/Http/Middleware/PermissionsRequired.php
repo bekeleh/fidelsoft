@@ -37,12 +37,13 @@ class PermissionsRequired
         // Check if we have any permissions to check the user has.
         if ($permissions = !empty($actions['permissions']) ? $actions['permissions'] : null) {
             if (!Auth::user($guard)->hasPermission($permissions, !empty($actions['permissions_require_all']))) {
+
                 return response('Unauthorized.', 401);
             }
         }
-
         // Check controller permissions
         $action = explode('@', $request->route()->getActionName());
+
         if (isset(static::$actions[$action[0]]) && isset(static::$actions[$action[0]][$action[1]])) {
             $controller_permissions = static::$actions[$action[0]][$action[1]];
             if (!Auth::user($guard)->hasPermission($controller_permissions)) {

@@ -39,10 +39,10 @@ class ItemTransferService extends BaseService
     {
         $datatable = new ItemTransferDatatable(true);
         $query = $this->itemTransferRepo->find($accountId, $search);
-        if (!Utils::hasAccess('view_item_transfers')) {
+        if (!Utils::hasPermission('view_item_transfer')) {
             $query->where('item_transfers.user_id', '=', Auth::user()->id);
         }
-        return $this->datatableService->createDatatable($datatable, $query, 'item_transfers');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 
     public function getDatatableProduct($productPublicId)
@@ -51,11 +51,11 @@ class ItemTransferService extends BaseService
 
         $query = $this->itemTransferRepo->findProduct($productPublicId);
 
-        if (!Utils::hasAccess('view_products')) {
+        if (!Utils::hasPermission('view_product')) {
             $query->where('products.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query, 'products');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 
     public function getDatatableStore($storePublicId)
@@ -64,11 +64,11 @@ class ItemTransferService extends BaseService
 
         $query = $this->itemTransferRepo->findStore($storePublicId);
 
-        if (!Utils::hasAccess('view_stores')) {
+        if (!Utils::hasPermission('view_store')) {
             $query->where('stores.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query, 'stores');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 
     public function getDatatableStatus($statusPublicId)
@@ -77,10 +77,10 @@ class ItemTransferService extends BaseService
 
         $query = $this->itemTransferRepo->findStore($statusPublicId);
 
-        if (!Utils::hasAccess('view_statuses')) {
+        if (!Utils::hasPermission('view_status')) {
             $query->where('statuses.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query, 'statuses');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 }

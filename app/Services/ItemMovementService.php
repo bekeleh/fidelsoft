@@ -39,11 +39,11 @@ class ItemMovementService extends BaseService
     {
         $query = $this->itemMovementRepo->find($accountId, $search);
 
-        if (!Utils::hasAccess('view_item_movements')) {
+        if (!Utils::hasPermission('view_item_movement')) {
             $query->where('item_movements.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable(new ItemMovementDatatable(), $query, 'view_item_movements');
+        return $this->datatableService->createDatatable(new ItemMovementDatatable(), $query);
     }
 
 }

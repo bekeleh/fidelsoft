@@ -142,16 +142,16 @@ class AuthServiceProvider extends ServiceProvider
          * to be true. This can cause weird/dangerous blade behavior.
          */
 //        note: e-ninja plus master account
-        Gate::before(function ($user) {
-            if ($user->isSuperUser()) {
-                return true;
-            }
-        });
+//        Gate::before(function ($user) {
+//            if ($user->isSuperUser()) {
+//                return true;
+//            }
+//        });
 //     note: affiliated companies  master account
-        Gate::before(function ($user) {
-            if ($user->isAdminUser()) {
-                return true;
-            }
-        });
+//        Gate::before(function ($user) {
+//            if ($user->isAdminUser()) {
+//                return true;
+//            }
+//        });
     }
 }

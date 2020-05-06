@@ -40,10 +40,10 @@ class ItemPriceService extends BaseService
     {
         $datatable = new ItemPriceDatatable(true);
         $query = $this->itemPriceRepo->find($accountId, $search);
-        if (!Utils::hasAccess('view_item_prices')) {
+        if (!Utils::hasPermission('view_item_price')) {
             $query->where('item_prices.user_id', '=', Auth::user()->id);
         }
-        return $this->datatableService->createDatatable($datatable, $query, 'item_prices');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 
     public function getDatatableProduct($itemPublicId)
@@ -52,11 +52,11 @@ class ItemPriceService extends BaseService
 
         $query = $this->itemPriceRepo->findItem($itemPublicId);
 
-        if (!Utils::hasAccess('view_products')) {
+        if (!Utils::hasPermission('view_product')) {
             $query->where('products.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query, 'products');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 
     public function getDatatableSaleType($productPublicId)
@@ -65,11 +65,11 @@ class ItemPriceService extends BaseService
 
         $query = $this->itemPriceRepo->findSaleType($productPublicId);
 
-        if (!Utils::hasAccess('view_sale_types')) {
+        if (!Utils::hasPermission('view_sale_type')) {
             $query->where('sale_types.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query, 'sale_types');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 
 }

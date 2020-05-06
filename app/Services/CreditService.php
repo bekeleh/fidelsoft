@@ -38,10 +38,10 @@ class CreditService extends BaseService
         $datatable = new CreditDatatable(true, $clientPublicId);
         $query = $this->creditRepo->find($clientPublicId, $search);
 
-        if (!Utils::hasAccess('view_credits')) {
+        if (!Utils::hasPermission('view_credit')) {
             $query->where('credits.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query, 'credits');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 }

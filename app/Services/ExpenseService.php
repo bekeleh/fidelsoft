@@ -51,11 +51,11 @@ class ExpenseService extends BaseService
     {
         $query = $this->expenseRepo->find($accountId, $search);
 
-        if (!Utils::hasAccess('view_expenses')) {
+        if (!Utils::hasPermission('view_expense')) {
             $query->where('expenses.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable(new ExpenseDatatable(), $query, 'expenses');
+        return $this->datatableService->createDatatable(new ExpenseDatatable(), $query);
     }
 
     public function getDatatableVendor($vendorPublicId)

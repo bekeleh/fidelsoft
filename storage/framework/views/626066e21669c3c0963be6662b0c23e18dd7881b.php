@@ -9,8 +9,7 @@
 <?php $__env->startSection('content'); ?>
 
     <script type="text/javascript">
-
-        <?php if($access= Auth::user()->isSuperUser()?: Auth::user()->hasPermission('admin')): ?>
+        <?php if(Auth::user()->hasPermission('admin')): ?>
         function loadChart(data) {
             var ctx = document.getElementById('chart-canvas').getContext('2d');
             if (window.myChart) {
@@ -258,84 +257,25 @@
             <?php if($showWhiteLabelExpired): ?>
                 <?php echo $__env->make('partials/white_label_expired', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             <?php endif; ?>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="panel panel-default">
-                        <div class="panel-body revenue-panel">
-                            <div style="overflow:hidden">
-                                <div class="<?php echo e($headerClass); ?>">
-                                    <?php echo e(trans('texts.total_revenue')); ?>
-
-                                </div>
-                                <div class="revenue-div in-bold pull-right" style="color:#25a186">
-                                </div>
-                                <div class="in-bold">
-                                    <?php if(count($paidToDate)): ?>
-                                        <?php $__currentLoopData = $paidToDate; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <div class="currency currency_<?php echo e($item->currency_id ?: $account->getCurrencyId()); ?>"
-                                                 style="display:none">
-                                                <?php echo e(Utils::formatMoney($item->value, $item->currency_id)); ?>
-
-                                            </div>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    <?php else: ?>
-                                        <div class="currency currency_<?php echo e($account->getCurrencyId()); ?>"
-                                             style="display:none">
-                                            <?php echo e(Utils::formatMoney(0)); ?>
-
-                                        </div>
-                                    <?php endif; ?>
-                                    <div class="currency currency_blank" style="display:none">
-                                        &nbsp;
-                                    </div>
-                                </div>
-                                <div class="range-label-div <?php echo e($footerClass); ?> pull-right"
-                                     style="color:#25a186;font-size:16px;display:none;">
-                                    <?php echo e(trans('texts.last_30_days')); ?>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="panel panel-default">
-                        <div class="panel-body expenses-panel">
-                            <div style="overflow:hidden">
-                                <?php if($showExpenses): ?>
+            <?php if(Auth::user()->hasPermission('admin')): ?>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-body revenue-panel">
+                                <div style="overflow:hidden">
                                     <div class="<?php echo e($headerClass); ?>">
-                                        <?php echo e(trans('texts.total_expenses')); ?>
+                                        <?php echo e(trans('texts.total_revenue')); ?>
 
                                     </div>
-                                    <div class="expenses-div in-bold pull-right" style="color:#25a186">
+                                    <div class="revenue-div in-bold pull-right" style="color:#25a186">
                                     </div>
                                     <div class="in-bold">
-                                        <?php $__currentLoopData = $expenses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <div class="currency currency_<?php echo e($item->currency_id ?: $account->getCurrencyId()); ?>"
-                                                 style="display:none">
-                                                <?php echo e(Utils::formatMoney($item->value, $item->currency_id)); ?><br/>
-                                            </div>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                        <div class="currency currency_blank" style="display:none">
-                                            &nbsp;
-                                        </div>
-                                    </div>
-                                <?php else: ?>
-                                    <div class="<?php echo e($headerClass); ?>">
-                                        <?php echo e(trans('texts.average_invoice')); ?>
-
-                                    </div>
-                                    <div class="average-div in-bold pull-right" style="color:#25a186">
-                                    </div>
-                                    <div class="in-bold">
-                                        <?php if(count($averageInvoice)): ?>
-                                            <?php $__currentLoopData = $averageInvoice; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <?php if(count($paidToDate)): ?>
+                                            <?php $__currentLoopData = $paidToDate; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <div class="currency currency_<?php echo e($item->currency_id ?: $account->getCurrencyId()); ?>"
                                                      style="display:none">
-                                                    <?php echo e(Utils::formatMoney($item->invoice_avg, $item->currency_id)); ?>
+                                                    <?php echo e(Utils::formatMoney($item->value, $item->currency_id)); ?>
 
-                                                    <br/>
                                                 </div>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         <?php else: ?>
@@ -349,67 +289,128 @@
                                             &nbsp;
                                         </div>
                                     </div>
-                                <?php endif; ?>
-                                <div class="range-label-div <?php echo e($footerClass); ?> pull-right"
-                                     style="color:#25a186;font-size:16px;display:none;">
-                                    <?php echo e(trans('texts.last_30_days')); ?>
+                                    <div class="range-label-div <?php echo e($footerClass); ?> pull-right"
+                                         style="color:#25a186;font-size:16px;display:none;">
+                                        <?php echo e(trans('texts.last_30_days')); ?>
 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="panel panel-default">
-                        <div class="panel-body outstanding-panel">
-                            <div style="overflow:hidden">
-                                <div class="<?php echo e($headerClass); ?>">
-                                    <?php echo e(trans('texts.outstanding')); ?>
-
-                                </div>
-                                <div class="outstanding-div in-bold pull-right" style="color:#25a186">
-                                </div>
-                                <div class="in-bold">
-                                    <?php if(count($balances)): ?>
-                                        <?php $__currentLoopData = $balances; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <div class="currency currency_<?php echo e($item->currency_id ?: $account->getCurrencyId()); ?>"
-                                                 style="display:none">
-                                                <?php echo e(Utils::formatMoney($item->value, $item->currency_id)); ?><br/>
-                                            </div>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    <?php else: ?>
-                                        <div class="currency currency_<?php echo e($account->getCurrencyId()); ?>"
-                                             style="display:none">
-                                            <?php echo e(Utils::formatMoney(0)); ?>
-
-                                        </div>
-                                    <?php endif; ?>
-                                    <div class="currency currency_blank" style="display:none">
-                                        &nbsp;
                                     </div>
                                 </div>
-                                <div class="range-label-div <?php echo e($footerClass); ?> pull-right"
-                                     style="color:#25a186;font-size:16px;display:none;">
-                                    <?php echo e(trans('texts.last_30_days')); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-body expenses-panel">
+                                <div style="overflow:hidden">
+                                    <?php if($showExpenses): ?>
+                                        <div class="<?php echo e($headerClass); ?>">
+                                            <?php echo e(trans('texts.total_expenses')); ?>
 
+                                        </div>
+                                        <div class="expenses-div in-bold pull-right" style="color:#25a186">
+                                        </div>
+                                        <div class="in-bold">
+                                            <?php $__currentLoopData = $expenses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <div class="currency currency_<?php echo e($item->currency_id ?: $account->getCurrencyId()); ?>"
+                                                     style="display:none">
+                                                    <?php echo e(Utils::formatMoney($item->value, $item->currency_id)); ?><br/>
+                                                </div>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            <div class="currency currency_blank" style="display:none">
+                                                &nbsp;
+                                            </div>
+                                        </div>
+                                    <?php else: ?>
+                                        <div class="<?php echo e($headerClass); ?>">
+                                            <?php echo e(trans('texts.average_invoice')); ?>
+
+                                        </div>
+                                        <div class="average-div in-bold pull-right" style="color:#25a186">
+                                        </div>
+                                        <div class="in-bold">
+                                            <?php if(count($averageInvoice)): ?>
+                                                <?php $__currentLoopData = $averageInvoice; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <div class="currency currency_<?php echo e($item->currency_id ?: $account->getCurrencyId()); ?>"
+                                                         style="display:none">
+                                                        <?php echo e(Utils::formatMoney($item->invoice_avg, $item->currency_id)); ?>
+
+                                                        <br/>
+                                                    </div>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            <?php else: ?>
+                                                <div class="currency currency_<?php echo e($account->getCurrencyId()); ?>"
+                                                     style="display:none">
+                                                    <?php echo e(Utils::formatMoney(0)); ?>
+
+                                                </div>
+                                            <?php endif; ?>
+                                            <div class="currency currency_blank" style="display:none">
+                                                &nbsp;
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+                                    <div class="range-label-div <?php echo e($footerClass); ?> pull-right"
+                                         style="color:#25a186;font-size:16px;display:none;">
+                                        <?php echo e(trans('texts.last_30_days')); ?>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-body outstanding-panel">
+                                <div style="overflow:hidden">
+                                    <div class="<?php echo e($headerClass); ?>">
+                                        <?php echo e(trans('texts.outstanding')); ?>
+
+                                    </div>
+                                    <div class="outstanding-div in-bold pull-right" style="color:#25a186">
+                                    </div>
+                                    <div class="in-bold">
+                                        <?php if(count($balances)): ?>
+                                            <?php $__currentLoopData = $balances; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <div class="currency currency_<?php echo e($item->currency_id ?: $account->getCurrencyId()); ?>"
+                                                     style="display:none">
+                                                    <?php echo e(Utils::formatMoney($item->value, $item->currency_id)); ?><br/>
+                                                </div>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php else: ?>
+                                            <div class="currency currency_<?php echo e($account->getCurrencyId()); ?>"
+                                                 style="display:none">
+                                                <?php echo e(Utils::formatMoney(0)); ?>
+
+                                            </div>
+                                        <?php endif; ?>
+                                        <div class="currency currency_blank" style="display:none">
+                                            &nbsp;
+                                        </div>
+                                    </div>
+                                    <div class="range-label-div <?php echo e($footerClass); ?> pull-right"
+                                         style="color:#25a186;font-size:16px;display:none;">
+                                        <?php echo e(trans('texts.last_30_days')); ?>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <?php if(Auth::user()->hasPermission('admin')): ?>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div id="progress-div" class="progress">
-                            <div class="progress-bar progress-bar-striped active" role="progressbar"
-                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                <?php if(Auth::user()->hasPermission('admin')): ?>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="progress-div" class="progress">
+                                <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                     aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
+                                     style="width: 100%"></div>
+                            </div>
+                            <canvas id="chart-canvas" height="70px"
+                                    style="background-color:white;padding:20px;display:none"></canvas>
                         </div>
-                        <canvas id="chart-canvas" height="70px"
-                                style="background-color:white;padding:20px;display:none"></canvas>
                     </div>
-                </div>
-                <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                <?php endif; ?>
             <?php endif; ?>
             <div class="row">
                 <div class="col-md-6">
@@ -418,7 +419,7 @@
                             <h3 class="panel-title in-bold-white">
                                 <i class="glyphicon glyphicon-exclamation-sign"></i> <?php echo e(trans('texts.activity')); ?>
 
-                                <?php if($invoicesSent): ?>
+                                <?php if(Auth::user()->hasPermission('admin') && $invoicesSent): ?>
                                     <div class="pull-right" style="font-size:14px;padding-top:4px">
                                         <?php if($invoicesSent == 1): ?>
                                             <?php echo e(trans('texts.invoice_sent', ['count' => $invoicesSent])); ?>
@@ -446,18 +447,20 @@
                     <div class="panel panel-default dashboard" style="height:320px">
                         <div class="panel-heading" style="background-color:#777 !important">
                             <h3 class="panel-title in-bold-white">
-                                <?php if($showExpenses && count($averageInvoice)): ?>
-                                    <div class="pull-right" style="font-size:14px;padding-top:4px;font-weight:bold">
-                                        <?php $__currentLoopData = $averageInvoice; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <span class="currency currency_<?php echo e($item->currency_id ?: $account->getCurrencyId()); ?>"
-                                                  style="display:none">
+                                <?php if(Auth::user()->hasPermission('admin')): ?>
+                                    <?php if($showExpenses && count($averageInvoice)): ?>
+                                        <div class="pull-right" style="font-size:14px;padding-top:4px;font-weight:bold">
+                                            <?php $__currentLoopData = $averageInvoice; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <span class="currency currency_<?php echo e($item->currency_id ?: $account->getCurrencyId()); ?>"
+                                                      style="display:none">
                                     <?php echo e(trans('texts.average_invoice')); ?>
 
-                                                <?php echo e(Utils::formatMoney($item->invoice_avg, $item->currency_id)); ?> |
+                                                    <?php echo e(Utils::formatMoney($item->invoice_avg, $item->currency_id)); ?> |
                                 </span>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                        <span class="average-div" style="color:#25a186"/>
-                                    </div>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            <span class="average-div" style="color:#25a186"/>
+                                        </div>
+                                    <?php endif; ?>
                                 <?php endif; ?>
                                 <i class="glyphicon glyphicon-ok-sign"></i> <?php echo e(trans('texts.recent_payments')); ?>
 

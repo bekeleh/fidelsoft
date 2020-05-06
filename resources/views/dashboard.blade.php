@@ -11,8 +11,7 @@
 @section('content')
 
     <script type="text/javascript">
-
-        @if ($access= Auth::user()->isSuperUser()?: Auth::user()->hasPermission('admin'))
+        @if (Auth::user()->hasPermission('admin'))
         function loadChart(data) {
             var ctx = document.getElementById('chart-canvas').getContext('2d');
             if (window.myChart) {
@@ -259,77 +258,23 @@
             @if ($showWhiteLabelExpired)
                 @include('partials/white_label_expired')
             @endif
-
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="panel panel-default">
-                        <div class="panel-body revenue-panel">
-                            <div style="overflow:hidden">
-                                <div class="{{ $headerClass }}">
-                                    {{ trans('texts.total_revenue') }}
-                                </div>
-                                <div class="revenue-div in-bold pull-right" style="color:#25a186">
-                                </div>
-                                <div class="in-bold">
-                                    @if (count($paidToDate))
-                                        @foreach ($paidToDate as $item)
-                                            <div class="currency currency_{{ $item->currency_id ?: $account->getCurrencyId() }}"
-                                                 style="display:none">
-                                                {{ Utils::formatMoney($item->value, $item->currency_id) }}
-                                            </div>
-                                        @endforeach
-                                    @else
-                                        <div class="currency currency_{{ $account->getCurrencyId() }}"
-                                             style="display:none">
-                                            {{ Utils::formatMoney(0) }}
-                                        </div>
-                                    @endif
-                                    <div class="currency currency_blank" style="display:none">
-                                        &nbsp;
-                                    </div>
-                                </div>
-                                <div class="range-label-div {{ $footerClass }} pull-right"
-                                     style="color:#25a186;font-size:16px;display:none;">
-                                    {{ trans('texts.last_30_days') }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="panel panel-default">
-                        <div class="panel-body expenses-panel">
-                            <div style="overflow:hidden">
-                                @if ($showExpenses)
+            @if (Auth::user()->hasPermission('admin'))
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-body revenue-panel">
+                                <div style="overflow:hidden">
                                     <div class="{{ $headerClass }}">
-                                        {{ trans('texts.total_expenses') }}
+                                        {{ trans('texts.total_revenue') }}
                                     </div>
-                                    <div class="expenses-div in-bold pull-right" style="color:#25a186">
+                                    <div class="revenue-div in-bold pull-right" style="color:#25a186">
                                     </div>
                                     <div class="in-bold">
-                                        @foreach ($expenses as $item)
-                                            <div class="currency currency_{{ $item->currency_id ?: $account->getCurrencyId() }}"
-                                                 style="display:none">
-                                                {{ Utils::formatMoney($item->value, $item->currency_id) }}<br/>
-                                            </div>
-                                        @endforeach
-                                        <div class="currency currency_blank" style="display:none">
-                                            &nbsp;
-                                        </div>
-                                    </div>
-                                @else
-                                    <div class="{{ $headerClass }}">
-                                        {{ trans('texts.average_invoice') }}
-                                    </div>
-                                    <div class="average-div in-bold pull-right" style="color:#25a186">
-                                    </div>
-                                    <div class="in-bold">
-                                        @if (count($averageInvoice))
-                                            @foreach ($averageInvoice as $item)
+                                        @if (count($paidToDate))
+                                            @foreach ($paidToDate as $item)
                                                 <div class="currency currency_{{ $item->currency_id ?: $account->getCurrencyId() }}"
                                                      style="display:none">
-                                                    {{ Utils::formatMoney($item->invoice_avg, $item->currency_id) }}
-                                                    <br/>
+                                                    {{ Utils::formatMoney($item->value, $item->currency_id) }}
                                                 </div>
                                             @endforeach
                                         @else
@@ -342,63 +287,119 @@
                                             &nbsp;
                                         </div>
                                     </div>
-                                @endif
-                                <div class="range-label-div {{ $footerClass }} pull-right"
-                                     style="color:#25a186;font-size:16px;display:none;">
-                                    {{ trans('texts.last_30_days') }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="panel panel-default">
-                        <div class="panel-body outstanding-panel">
-                            <div style="overflow:hidden">
-                                <div class="{{ $headerClass }}">
-                                    {{ trans('texts.outstanding') }}
-                                </div>
-                                <div class="outstanding-div in-bold pull-right" style="color:#25a186">
-                                </div>
-                                <div class="in-bold">
-                                    @if (count($balances))
-                                        @foreach ($balances as $item)
-                                            <div class="currency currency_{{ $item->currency_id ?: $account->getCurrencyId() }}"
-                                                 style="display:none">
-                                                {{ Utils::formatMoney($item->value, $item->currency_id) }}<br/>
-                                            </div>
-                                        @endforeach
-                                    @else
-                                        <div class="currency currency_{{ $account->getCurrencyId() }}"
-                                             style="display:none">
-                                            {{ Utils::formatMoney(0) }}
-                                        </div>
-                                    @endif
-                                    <div class="currency currency_blank" style="display:none">
-                                        &nbsp;
+                                    <div class="range-label-div {{ $footerClass }} pull-right"
+                                         style="color:#25a186;font-size:16px;display:none;">
+                                        {{ trans('texts.last_30_days') }}
                                     </div>
                                 </div>
-                                <div class="range-label-div {{ $footerClass }} pull-right"
-                                     style="color:#25a186;font-size:16px;display:none;">
-                                    {{ trans('texts.last_30_days') }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-body expenses-panel">
+                                <div style="overflow:hidden">
+                                    @if ($showExpenses)
+                                        <div class="{{ $headerClass }}">
+                                            {{ trans('texts.total_expenses') }}
+                                        </div>
+                                        <div class="expenses-div in-bold pull-right" style="color:#25a186">
+                                        </div>
+                                        <div class="in-bold">
+                                            @foreach ($expenses as $item)
+                                                <div class="currency currency_{{ $item->currency_id ?: $account->getCurrencyId() }}"
+                                                     style="display:none">
+                                                    {{ Utils::formatMoney($item->value, $item->currency_id) }}<br/>
+                                                </div>
+                                            @endforeach
+                                            <div class="currency currency_blank" style="display:none">
+                                                &nbsp;
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div class="{{ $headerClass }}">
+                                            {{ trans('texts.average_invoice') }}
+                                        </div>
+                                        <div class="average-div in-bold pull-right" style="color:#25a186">
+                                        </div>
+                                        <div class="in-bold">
+                                            @if (count($averageInvoice))
+                                                @foreach ($averageInvoice as $item)
+                                                    <div class="currency currency_{{ $item->currency_id ?: $account->getCurrencyId() }}"
+                                                         style="display:none">
+                                                        {{ Utils::formatMoney($item->invoice_avg, $item->currency_id) }}
+                                                        <br/>
+                                                    </div>
+                                                @endforeach
+                                            @else
+                                                <div class="currency currency_{{ $account->getCurrencyId() }}"
+                                                     style="display:none">
+                                                    {{ Utils::formatMoney(0) }}
+                                                </div>
+                                            @endif
+                                            <div class="currency currency_blank" style="display:none">
+                                                &nbsp;
+                                            </div>
+                                        </div>
+                                    @endif
+                                    <div class="range-label-div {{ $footerClass }} pull-right"
+                                         style="color:#25a186;font-size:16px;display:none;">
+                                        {{ trans('texts.last_30_days') }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-body outstanding-panel">
+                                <div style="overflow:hidden">
+                                    <div class="{{ $headerClass }}">
+                                        {{ trans('texts.outstanding') }}
+                                    </div>
+                                    <div class="outstanding-div in-bold pull-right" style="color:#25a186">
+                                    </div>
+                                    <div class="in-bold">
+                                        @if (count($balances))
+                                            @foreach ($balances as $item)
+                                                <div class="currency currency_{{ $item->currency_id ?: $account->getCurrencyId() }}"
+                                                     style="display:none">
+                                                    {{ Utils::formatMoney($item->value, $item->currency_id) }}<br/>
+                                                </div>
+                                            @endforeach
+                                        @else
+                                            <div class="currency currency_{{ $account->getCurrencyId() }}"
+                                                 style="display:none">
+                                                {{ Utils::formatMoney(0) }}
+                                            </div>
+                                        @endif
+                                        <div class="currency currency_blank" style="display:none">
+                                            &nbsp;
+                                        </div>
+                                    </div>
+                                    <div class="range-label-div {{ $footerClass }} pull-right"
+                                         style="color:#25a186;font-size:16px;display:none;">
+                                        {{ trans('texts.last_30_days') }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            @if (Auth::user()->hasPermission('admin'))
-                <div class="row">
-                    <div class="col-md-12">
-                        <div id="progress-div" class="progress">
-                            <div class="progress-bar progress-bar-striped active" role="progressbar"
-                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                @if (Auth::user()->hasPermission('admin'))
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="progress-div" class="progress">
+                                <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                     aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
+                                     style="width: 100%"></div>
+                            </div>
+                            <canvas id="chart-canvas" height="70px"
+                                    style="background-color:white;padding:20px;display:none"></canvas>
                         </div>
-                        <canvas id="chart-canvas" height="70px"
-                                style="background-color:white;padding:20px;display:none"></canvas>
                     </div>
-                </div>
-                <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                @endif
             @endif
             <div class="row">
                 <div class="col-md-6">
@@ -406,7 +407,7 @@
                         <div class="panel-heading" style="background-color:#777 !important">
                             <h3 class="panel-title in-bold-white">
                                 <i class="glyphicon glyphicon-exclamation-sign"></i> {{ trans('texts.activity') }}
-                                @if ($invoicesSent)
+                                @if (Auth::user()->hasPermission('admin') && $invoicesSent)
                                     <div class="pull-right" style="font-size:14px;padding-top:4px">
                                         @if ($invoicesSent == 1)
                                             {{ trans('texts.invoice_sent', ['count' => $invoicesSent]) }}
@@ -431,17 +432,19 @@
                     <div class="panel panel-default dashboard" style="height:320px">
                         <div class="panel-heading" style="background-color:#777 !important">
                             <h3 class="panel-title in-bold-white">
-                                @if ($showExpenses && count($averageInvoice))
-                                    <div class="pull-right" style="font-size:14px;padding-top:4px;font-weight:bold">
-                                        @foreach ($averageInvoice as $item)
-                                            <span class="currency currency_{{ $item->currency_id ?: $account->getCurrencyId() }}"
-                                                  style="display:none">
+                                @if (Auth::user()->hasPermission('admin'))
+                                    @if ($showExpenses && count($averageInvoice))
+                                        <div class="pull-right" style="font-size:14px;padding-top:4px;font-weight:bold">
+                                            @foreach ($averageInvoice as $item)
+                                                <span class="currency currency_{{ $item->currency_id ?: $account->getCurrencyId() }}"
+                                                      style="display:none">
                                     {{ trans('texts.average_invoice') }}
-                                                {{ Utils::formatMoney($item->invoice_avg, $item->currency_id) }} |
+                                                    {{ Utils::formatMoney($item->invoice_avg, $item->currency_id) }} |
                                 </span>
-                                        @endforeach
-                                        <span class="average-div" style="color:#25a186"/>
-                                    </div>
+                                            @endforeach
+                                            <span class="average-div" style="color:#25a186"/>
+                                        </div>
+                                    @endif
                                 @endif
                                 <i class="glyphicon glyphicon-ok-sign"></i> {{ trans('texts.recent_payments') }}
                             </h3>

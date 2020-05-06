@@ -61,11 +61,11 @@ class ClientService extends BaseService
 
         $query = $this->clientRepo->findSaleType($saleTypePublicId);
 
-        if (!Utils::hasAccess('view_sale_types')) {
+        if (!Utils::hasPermission('view_sale_type')) {
             $query->where('sale_types.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query, 'sale_types');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 
     public function getDatatableHoldReason($holdReasonPublicId)
@@ -74,10 +74,10 @@ class ClientService extends BaseService
 
         $query = $this->clientRepo->findHoldReason($holdReasonPublicId);
 
-        if (!Utils::hasAccess('view_hold_reasons')) {
-            $query->where('hold_reason.user_id', '=', Auth::user()->id);
+        if (!Utils::hasPermission('view_hold_reason')) {
+            $query->where('hold_reasons.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query, 'hold_reasons');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 }

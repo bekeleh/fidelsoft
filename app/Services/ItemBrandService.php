@@ -36,11 +36,11 @@ class ItemBrandService extends BaseService
 
         $query = $this->itemBrandRepo->find($accountId, $search);
 
-        if (!Utils::hasAccess('view_item_brands')) {
+        if (!Utils::hasPermission('view_item_brand')) {
             $query->where('item_brands.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query, 'item_brands');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 
     public function getDatatableItemCategory($itemCategoryPublicId)
@@ -49,8 +49,8 @@ class ItemBrandService extends BaseService
 
         $query = $this->itemBrandRepo->findItemCategory($itemCategoryPublicId);
 
-        if (!Utils::hasAccess('view_item_categories')) {
-            $query->where('item_brands.user_id', '=', Auth::user()->id);
+        if (!Utils::hasPermission('view_item_category')) {
+            $query->where('item_categories.user_id', '=', Auth::user()->id);
         }
 
         return $this->datatableService->createDatatable($datatable, $query, 'item_categories');

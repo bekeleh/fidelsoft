@@ -44,7 +44,8 @@ class UserService extends BaseService
     {
         $query = $this->userRepo->find($accountId, $search);
 
-        if (!Utils::hasAccess('users.view')) {
+//        if (! Utils::hasPermission('view_' . $entityType)) {
+        if (!Utils::hasPermission('view_user')) {
             $query->where('users.user_id', '=', Auth::user()->id);
         }
         return $this->datatableService->createDatatable(new UserDatatable(), $query, 'users');
@@ -56,20 +57,10 @@ class UserService extends BaseService
 
         $query = $this->userRepo->findLocation($locationPublicId);
 
-        if (!Utils::hasAccess('locations.view')) {
-            $query->where('users.user_id', '=', Auth::user()->id);
+        if (!Utils::hasPermission('view_location')) {
+            $query->where('locations.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query, 'users');
-    }
-
-    public function decodePermissions()
-    {
-        return $this->userRepo->decodePermissions();
-    }
-
-    public function decodeGroups()
-    {
-        return $this->userRepo->decodeGroups();
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 }

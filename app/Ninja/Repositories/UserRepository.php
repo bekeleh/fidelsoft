@@ -153,14 +153,4 @@ class UserRepository extends BaseRepository
     {
         return json_encode(array_diff(array_values($permissions), [0]));
     }
-
-    public function decodePermissions()
-    {
-        return $this->model->decodePermissions();
-    }
-
-    public function decodeGroups()
-    {
-        return $this->model->decodeGroups();
-    }
 }

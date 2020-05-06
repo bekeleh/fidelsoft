@@ -33,7 +33,7 @@ class SaleTypeService extends BaseService
     {
         $datatable = new SaleTypeDatatable(true);
         $query = $this->saleTypeRepo->find($accountId, $search);
-        if (!Utils::hasAccess('view_sales_types')) {
+        if (!Utils::hasPermission('view_sale_type')) {
             $query->where('sales_type.user_id', '=', Auth::user()->id);
         }
 

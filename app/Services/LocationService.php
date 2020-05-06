@@ -36,10 +36,10 @@ class LocationService extends BaseService
         $datatable = new LocationDatatable(true);
         $query = $this->locationRepo->find($accountId, $search);
 
-        if (!Utils::hasAccess('view_locations')) {
+        if (!Utils::hasPermission('view_location')) {
             $query->where('locations.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query, 'locations');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 }
