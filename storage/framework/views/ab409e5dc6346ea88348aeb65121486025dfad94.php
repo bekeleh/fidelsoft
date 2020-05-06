@@ -52,8 +52,6 @@
            class="form-control pull-left" placeholder="<?php echo e(trans('texts.filter')); ?>"
            value="<?php echo e(Input::get('filter')); ?>"/>
     <!-- create records -->
-<?php echo e($entityType); ?>
-
 <?php if(Auth::user()->can('create', $entityType)): ?>
     <?php echo Button::primary(mtrans($entityType, "new_{$entityType}"))
     ->asLinkTo(url(

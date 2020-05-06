@@ -305,7 +305,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
                 return true;
             } else {
                 // Loop through the permission to see if any of them granted this via groups.
-                $this->hasAccess($permission);
+                return $this->hasAccess($permission);
             }
         } elseif (is_array($permission)) {
             if ($requireAll)
