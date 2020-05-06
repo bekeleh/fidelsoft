@@ -86,6 +86,10 @@ if (!defined('APP_NAME')) {
         ENTITY_PRODUCT,
         ENTITY_PROJECT,
         ENTITY_PROPOSAL,
+        ENTITY_PROPOSAL,
+        ENTITY_PROPOSAL_CATEGORY,
+        ENTITY_PROPOSAL_SNIPPET,
+        ENTITY_PROPOSAL_TEMPLATE,
         ENTITY_QUOTE,
         ENTITY_RECURRING_EXPENSE,
         ENTITY_RECURRING_INVOICE,
@@ -98,6 +102,7 @@ if (!defined('APP_NAME')) {
         ENTITY_UNIT,
         ENTITY_USER,
         ENTITY_VENDOR,
+
     ];
 
     define('PERMISSION_ENTITIES', json_encode($permissionEntities));
@@ -375,8 +380,8 @@ if (!defined('APP_NAME')) {
     define('GATEWAY_CUSTOM2', 67);
     define('GATEWAY_CUSTOM3', 68);
 
-    // The customer exists, but only as a local concept
-    // The remote gateway doesn't understand the concept of customers
+// The customer exists, but only as a local concept
+// The remote gateway doesn't understand the concept of customers
     define('CUSTOMER_REFERENCE_LOCAL', 'local');
 
     define('EVENT_CREATE_CLIENT', 1);
@@ -604,7 +609,7 @@ if (!defined('APP_NAME')) {
     define('AUTO_BILL_OPT_OUT', 3);
     define('AUTO_BILL_ALWAYS', 4);
 
-    // These must be lowercase
+// These must be lowercase
     define('PLAN_FREE', 'free');
     define('PLAN_PRO', 'pro');
     define('PLAN_ENTERPRISE', 'enterprise');
@@ -615,7 +620,7 @@ if (!defined('APP_NAME')) {
     define('SUBSCRIPTION_FORMAT_JSON', 'JSON');
     define('SUBSCRIPTION_FORMAT_UBL', 'UBL');
 
-    // Pro
+// Pro
     define('FEATURE_CUSTOMIZE_INVOICE_DESIGN', 'customize_invoice_design');
     define('FEATURE_REMOVE_CREATED_BY', 'remove_created_by');
     define('FEATURE_DIFFERENT_DESIGNS', 'different_designs');
@@ -634,21 +639,21 @@ if (!defined('APP_NAME')) {
     define('FEATURE_CUSTOM_URL', 'custom_url');
     define('FEATURE_MORE_CLIENTS', 'more_clients'); // No trial allowed
 
-    // Whitelabel
+// Whitelabel
     define('FEATURE_WHITE_LABEL', 'feature_white_label');
 
-    // Enterprise
+// Enterprise
     define('FEATURE_DOCUMENTS', 'documents');
 
-    // No Trial allowed
+// No Trial allowed
     define('FEATURE_USERS', 'users'); // Grandfathered for old Pro users
     define('FEATURE_USER_PERMISSIONS', 'user_permissions');
 
-    // Pro users who started paying on or before this date will be able to manage users
+// Pro users who started paying on or before this date will be able to manage users
     define('PRO_USERS_GRANDFATHER_DEADLINE', '2016-06-04');
     define('EXTRAS_GRANDFATHER_COMPANY_ID', 35089);
 
-    // WePay
+// WePay
     define('WEPAY_PRODUCTION', 'production');
     define('WEPAY_STAGE', 'stage');
     define('WEPAY_CLIENT_ID', env('WEPAY_CLIENT_ID'));
@@ -666,7 +671,7 @@ if (!defined('APP_NAME')) {
     define('BOT_STATE_READY', 'ready');
     define('SIMILAR_MIN_THRESHOLD', 50);
 
-    // https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html
+// https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html
     define('SKYPE_BUTTON_OPEN_URL', 'openUrl');
     define('SKYPE_BUTTON_IM_BACK', 'imBack');
     define('SKYPE_BUTTON_POST_BACK', 'postBack');
@@ -711,7 +716,7 @@ if (!defined('APP_NAME')) {
     ];
     define('CACHED_TABLES', serialize($cachedTables));
 
-    // Fix for mPDF: https://github.com/kartik-v/yii2-mpdf/issues/9
+// Fix for mPDF: https://github.com/kartik-v/yii2-mpdf/issues/9
     define('_MPDF_TTFONTDATAPATH', storage_path('framework/cache/'));
 
     function uctrans($text, $data = [])
@@ -730,7 +735,7 @@ if (!defined('APP_NAME')) {
         return $locale == 'en' ? strtoupper($text) : $text;
     }
 
-    // optional trans: only return the string if it's translated
+// optional trans: only return the string if it's translated
     function otrans($text)
     {
         $locale = Session::get(SESSION_LOCALE);
@@ -745,14 +750,14 @@ if (!defined('APP_NAME')) {
         }
     }
 
-    // include modules in translations
+// include modules in translations
     function mtrans($entityType, $text = false)
     {
         if (!$text) {
             $text = $entityType;
         }
 
-        // check if this has been translated in a module language file
+// check if this has been translated in a module language file
         if (!Utils::isNinjaProd() && $module = Module::find($entityType)) {
             $key = "{$module->getLowerName()}::texts.{$text}";
             $value = trans($key);
