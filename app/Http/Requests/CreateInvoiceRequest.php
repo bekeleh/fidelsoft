@@ -6,9 +6,11 @@ use App\Models\Client;
 
 class CreateInvoiceRequest extends InvoiceRequest
 {
+    protected $entityType = ENTITY_INVOICE;
+
     public function authorize()
     {
-        return true;
+        return $this->user()->can('create', ENTITY_INVOICE);
     }
 
     public function rules()

@@ -6,9 +6,11 @@ use App\Models\Client;
 
 class UpdateInvoiceRequest extends InvoiceRequest
 {
+    protected $entityType = ENTITY_INVOICE;
+
     public function authorize()
     {
-        return true;
+        return $this->user()->can('edit', ENTITY_INVOICE);
     }
 
     public function rules()

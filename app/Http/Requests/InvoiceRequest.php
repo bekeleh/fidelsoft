@@ -26,7 +26,7 @@ class InvoiceRequest extends EntityRequest
                 ->first();
 
             if (!$invoice) {
-                abort(404);
+                return response()->view('errors/403');
             }
         }
         // eager load the invoice items
