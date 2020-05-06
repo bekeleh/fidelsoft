@@ -3,6 +3,8 @@
 namespace App\Ninja\Datatables;
 
 use App\Libraries\Utils;
+use Illuminate\Support\Facades\Auth;
+use function foo\func;
 
 class ActivityDatatable extends EntityDatatable
 {
@@ -32,6 +34,9 @@ class ActivityDatatable extends EntityDatatable
 
                     return $str;
                 },
+                function () {
+                    return Auth::user()->can('view', [ENTITY_ACTIVITY]);
+                }
             ],
             [
                 'activity_type_id',
@@ -58,6 +63,9 @@ class ActivityDatatable extends EntityDatatable
 
                     return $str;
                 },
+                function () {
+                    return Auth::user()->can('view', [ENTITY_ACTIVITY]);
+                }
             ],
             [
                 'balance',

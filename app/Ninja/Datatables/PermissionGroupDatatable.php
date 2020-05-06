@@ -85,6 +85,20 @@ class PermissionGroupDatatable extends EntityDatatable
                 '--divider--', function () {
                 return false;
             },
+            ],
+            [
+                trans('texts.edit_permission'),
+                function ($model) {
+                    return URL::to("permission_groups/{$model->public_id}");
+                },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_PERMISSION]);
+                }
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
                 function ($model) {
                     return Auth::user()->can('edit', [ENTITY_PERMISSION_GROUP]);
                 },

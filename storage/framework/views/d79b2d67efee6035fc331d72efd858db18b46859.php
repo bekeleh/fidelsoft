@@ -1,107 +1,121 @@
-@extends('header')
-
-@section('head')
-    @parent
-    <script src="{{ asset('js/jquery.datetimepicker.js') }}" type="text/javascript"></script>
-    <link href="{{ asset('css/jquery.datetimepicker.css') }}" rel="stylesheet" type="text/css"/>
-@stop
-@section('content')
+<?php $__env->startSection('head'); ?>
+    ##parent-placeholder-1a954628a960aaef81d7b2d4521929579f3541e6##
+    <script src="<?php echo e(asset('js/jquery.datetimepicker.js')); ?>" type="text/javascript"></script>
+    <link href="<?php echo e(asset('css/jquery.datetimepicker.css')); ?>" rel="stylesheet" type="text/css"/>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
     <style type="text/css">
         input.time-input {
             width: 100%;
             font-size: 14px !important;
         }
     </style>
-    @if ($errors->first('time_log'))
+    <?php if($errors->first('time_log')): ?>
         <div class="alert alert-danger">
-            <li>{{ trans('texts.task_errors') }}  </li>
+            <li><?php echo e(trans('texts.task_errors')); ?>  </li>
         </div>
-    @endif
+    <?php endif; ?>
 
-    {!! Former::open($url)
+    <?php echo Former::open($url)
     ->addClass('col-lg-10 col-lg-offset-1 warn-on-exit task-form')
     ->onsubmit('return onFormSubmit(event)')
     ->autocomplete('off')
-    ->method($method) !!}
+    ->method($method); ?>
 
-    @if ($task)
-        {!! Former::populate($task) !!}
-        {!! Former::populateField('id', $task->public_id) !!}
-    @endif
+
+    <?php if($task): ?>
+        <?php echo Former::populate($task); ?>
+
+        <?php echo Former::populateField('id', $task->public_id); ?>
+
+    <?php endif; ?>
 
     <div style="display:none">
-        @if ($task)
-            {!! Former::text('id') !!}
-            {!! Former::text('invoice_id') !!}
-        @endif
-        {!! Former::text('action') !!}
-        {!! Former::text('time_log') !!}
+        <?php if($task): ?>
+            <?php echo Former::text('id'); ?>
+
+            <?php echo Former::text('invoice_id'); ?>
+
+        <?php endif; ?>
+        <?php echo Former::text('action'); ?>
+
+        <?php echo Former::text('time_log'); ?>
+
     </div>
 
     <div class="row" onkeypress="formEnterClick(event)">
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    @if ($task && $task->invoice_id)
-                        {!! Former::plaintext()
+                    <?php if($task && $task->invoice_id): ?>
+                        <?php echo Former::plaintext()
                         ->label('client')
-                        ->value($task->client->present()->link) !!}
-                        @if ($task->project)
-                            {!! Former::plaintext()
+                        ->value($task->client->present()->link); ?>
+
+                        <?php if($task->project): ?>
+                            <?php echo Former::plaintext()
                             ->label('project')
-                            ->value($task->present()->project) !!}
-                        @endif
-                    @else
-                        {!! Former::select('client')->addOption('', '')->addGroupClass('client-select') !!}
-                        {!! Former::select('project_id')
+                            ->value($task->present()->project); ?>
+
+                        <?php endif; ?>
+                    <?php else: ?>
+                        <?php echo Former::select('client')->addOption('', '')->addGroupClass('client-select'); ?>
+
+                        <?php echo Former::select('project_id')
                         ->addOption('', '')
                         ->addGroupClass('project-select')
-                        ->label(trans('texts.project')) !!}
-                    @endif
-                    @include('partials/custom_fields', ['entityType' => ENTITY_TASK])
-                    {!! Former::textarea('description')->rows(4) !!}
-                    @if ($task)
+                        ->label(trans('texts.project')); ?>
+
+                    <?php endif; ?>
+                    <?php echo $__env->make('partials/custom_fields', ['entityType' => ENTITY_TASK], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    <?php echo Former::textarea('description')->rows(4); ?>
+
+                    <?php if($task): ?>
                         <div class="form-group simple-time" id="editDetailsLink">
                             <label for="simple-time" class="control-label col-lg-4 col-sm-4">
                             </label>
                             <div class="col-lg-8 col-sm-8" style="padding-top: 10px">
-                                @if ($task->getStartTime())
-                                    <p>{{ $task->getStartTime() }} -
-                                    @if (Auth::user()->account->timezone_id)
-                                        {{ $timezone }}
-                                    @else
-                                        {!! link_to('/settings/localization?focus=timezone_id', $timezone, ['target' => '_blank']) !!}
-                                    @endif
+                                <?php if($task->getStartTime()): ?>
+                                    <p><?php echo e($task->getStartTime()); ?> -
+                                    <?php if(Auth::user()->account->timezone_id): ?>
+                                        <?php echo e($timezone); ?>
+
+                                    <?php else: ?>
+                                        <?php echo link_to('/settings/localization?focus=timezone_id', $timezone, ['target' => '_blank']); ?>
+
+                                    <?php endif; ?>
                                     <p/>
-                                @endif
+                                <?php endif; ?>
 
-                                @if ($task->hasPreviousDuration())
-                                    {{ trans('texts.duration') . ': ' . Utils::formatTime($task->getDuration()) }}<br/>
-                                @endif
+                                <?php if($task->hasPreviousDuration()): ?>
+                                    <?php echo e(trans('texts.duration') . ': ' . Utils::formatTime($task->getDuration())); ?><br/>
+                                <?php endif; ?>
 
-                                @if (!$task->is_running)
-                                    <p>{!! Button::primary(trans('texts.edit_times'))->withAttributes(['onclick'=>'showTimeDetails()'])->small() !!}</p>
-                                @endif
+                                <?php if(!$task->is_running): ?>
+                                    <p><?php echo Button::primary(trans('texts.edit_times'))->withAttributes(['onclick'=>'showTimeDetails()'])->small(); ?></p>
+                                <?php endif; ?>
                             </div>
                         </div>
 
-                        @if ($task->is_running)
+                        <?php if($task->is_running): ?>
                             <center>
                                 <div id="duration-text"
                                      style="font-size: 36px; font-weight: 300; padding: 30px 0 20px 0"/>
                             </center>
-                        @endif
+                        <?php endif; ?>
 
-                    @else
-                        {!! Former::radios('task_type')->radios([
+                    <?php else: ?>
+                        <?php echo Former::radios('task_type')->radios([
                         trans('texts.timer') => array('name' => 'task_type', 'value' => 'timer'),
                         trans('texts.manual') => array('name' => 'task_type', 'value' => 'manual'),
-                        ])->inline()->check('timer')->label('&nbsp;') !!}
-                    @endif
+                        ])->inline()->check('timer')->label('&nbsp;'); ?>
+
+                    <?php endif; ?>
 
                     <div class="form-group simple-time" id="datetime-details" style="display: none">
                         <label for="simple-time" class="control-label col-lg-4 col-sm-4">
-                            {{ trans('texts.times') }}
+                            <?php echo e(trans('texts.times')); ?>
+
                         </label>
                         <div class="col-lg-8 col-sm-8">
 
@@ -113,7 +127,7 @@
                                             <input type="text"
                                                    data-bind="dateTimePicker: startTime.pretty, event:{ change: $root.refresh }"
                                                    class="form-control time-input time-input-start"
-                                                   placeholder="{{ trans('texts.start_time') }}"/>
+                                                   placeholder="<?php echo e(trans('texts.start_time')); ?>"/>
                                         </div>
                                     </td>
                                     <td style="padding: 0px 12px 12px 0 !important">
@@ -121,14 +135,14 @@
                                             <input type="text"
                                                    data-bind="dateTimePicker: endTime.pretty, event:{ change: $root.refresh }"
                                                    class="form-control time-input time-input-end"
-                                                   placeholder="{{ trans('texts.end_time') }}"/>
+                                                   placeholder="<?php echo e(trans('texts.end_time')); ?>"/>
                                         </div>
                                     </td>
                                     <td style="padding: 0px 12px 12px 0 !important; width:100px">
                                         <input type="text" data-bind="value: duration.pretty, visible: !isEmpty()"
                                                class="form-control duration">
                                         <a href="#"
-                                           data-bind="click: function() { setNow(), $root.refresh() }, visible: isEmpty()">{{ trans('texts.set_now') }}</a>
+                                           data-bind="click: function() { setNow(), $root.refresh() }, visible: isEmpty()"><?php echo e(trans('texts.set_now')); ?></a>
                                     </td>
                                     <td style="width:30px" class="td-icon">
                                         <i style="width:12px;cursor:pointer"
@@ -145,40 +159,55 @@
         </div>
     </div>
     <center class="buttons">
-        @if (Auth::user()->canCreateOrEdit(ENTITY_TASK, $task))
-            @if (Auth::user()->hasFeature(FEATURE_TASKS))
-                @if ($task && $task->is_running)
-                    {!! Button::success(trans('texts.save'))->large()->appendIcon(Icon::create('floppy-disk'))->withAttributes(['id' => 'save-button']) !!}
-                    {!! Button::primary(trans('texts.stop'))->large()->appendIcon(Icon::create('stop'))->withAttributes(['id' => 'stop-button']) !!}
-                @elseif ($task && $task->is_deleted)
-                    {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/tasks'))->appendIcon(Icon::create('remove-circle')) !!}
-                    {!! Button::primary(trans('texts.restore'))->large()->withAttributes(['onclick' => 'submitAction("restore")'])->appendIcon(Icon::create('cloud-download')) !!}
-                @elseif ($task && $task->trashed())
-                    {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/tasks'))->appendIcon(Icon::create('remove-circle')) !!}
-                    {!! Button::success(trans('texts.save'))->large()->appendIcon(Icon::create('floppy-disk'))->withAttributes(['id' => 'save-button']) !!}
-                    {!! Button::primary(trans('texts.restore'))->large()->withAttributes(['onclick' => 'submitAction("restore")'])->appendIcon(Icon::create('cloud-download')) !!}
-                @else
-                    {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/tasks'))->appendIcon(Icon::create('remove-circle')) !!}
-                    @if ($task)
-                        {!! Button::success(trans('texts.save'))->large()->appendIcon(Icon::create('floppy-disk'))->withAttributes(['id' => 'save-button']) !!}
-                        {!! Button::primary(trans('texts.resume'))->large()->appendIcon(Icon::create('play'))->withAttributes(['id' => 'resume-button']) !!}
-                        {!! DropdownButton::normal(trans('texts.more_actions'))
+        <?php if(Auth::user()->canCreateOrEdit(ENTITY_TASK, $task)): ?>
+            <?php if(Auth::user()->hasFeature(FEATURE_TASKS)): ?>
+                <?php if($task && $task->is_running): ?>
+                    <?php echo Button::success(trans('texts.save'))->large()->appendIcon(Icon::create('floppy-disk'))->withAttributes(['id' => 'save-button']); ?>
+
+                    <?php echo Button::primary(trans('texts.stop'))->large()->appendIcon(Icon::create('stop'))->withAttributes(['id' => 'stop-button']); ?>
+
+                <?php elseif($task && $task->is_deleted): ?>
+                    <?php echo Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/tasks'))->appendIcon(Icon::create('remove-circle')); ?>
+
+                    <?php echo Button::primary(trans('texts.restore'))->large()->withAttributes(['onclick' => 'submitAction("restore")'])->appendIcon(Icon::create('cloud-download')); ?>
+
+                <?php elseif($task && $task->trashed()): ?>
+                    <?php echo Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/tasks'))->appendIcon(Icon::create('remove-circle')); ?>
+
+                    <?php echo Button::success(trans('texts.save'))->large()->appendIcon(Icon::create('floppy-disk'))->withAttributes(['id' => 'save-button']); ?>
+
+                    <?php echo Button::primary(trans('texts.restore'))->large()->withAttributes(['onclick' => 'submitAction("restore")'])->appendIcon(Icon::create('cloud-download')); ?>
+
+                <?php else: ?>
+                    <?php echo Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/tasks'))->appendIcon(Icon::create('remove-circle')); ?>
+
+                    <?php if($task): ?>
+                        <?php echo Button::success(trans('texts.save'))->large()->appendIcon(Icon::create('floppy-disk'))->withAttributes(['id' => 'save-button']); ?>
+
+                        <?php echo Button::primary(trans('texts.resume'))->large()->appendIcon(Icon::create('play'))->withAttributes(['id' => 'resume-button']); ?>
+
+                        <?php echo DropdownButton::normal(trans('texts.more_actions'))
                         ->withContents($actions)
                         ->large()
-                        ->dropup() !!}
-                    @else
-                        {!! Button::success(trans('texts.start'))->large()->appendIcon(Icon::create('play'))->withAttributes(['id' => 'start-button']) !!}
-                        {!! Button::success(trans('texts.save'))->large()->appendIcon(Icon::create('floppy-disk'))->withAttributes(['id' => 'save-button', 'style' => 'display:none']) !!}
-                    @endif
-                @endif
-            @else
-                {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/tasks'))->appendIcon(Icon::create('remove-circle')) !!}
-            @endif
-        @endif
+                        ->dropup(); ?>
+
+                    <?php else: ?>
+                        <?php echo Button::success(trans('texts.start'))->large()->appendIcon(Icon::create('play'))->withAttributes(['id' => 'start-button']); ?>
+
+                        <?php echo Button::success(trans('texts.save'))->large()->appendIcon(Icon::create('floppy-disk'))->withAttributes(['id' => 'save-button', 'style' => 'display:none']); ?>
+
+                    <?php endif; ?>
+                <?php endif; ?>
+            <?php else: ?>
+                <?php echo Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/tasks'))->appendIcon(Icon::create('remove-circle')); ?>
+
+            <?php endif; ?>
+        <?php endif; ?>
 
     </center>
 
-    {!! Former::close() !!}
+    <?php echo Former::close(); ?>
+
 
     <script type="text/javascript">
 
@@ -195,13 +224,13 @@
                 var value = ko.utils.unwrapObservable(valueAccessor());
 // http://xdsoft.net/jqplugins/datetimepicker/
                 $(element).datetimepicker({
-                    lang: '{{ $appLanguage }}',
+                    lang: '<?php echo e($appLanguage); ?>',
                     lazyInit: true,
                     validateOnBlur: false,
-                    step: {{ env('TASK_TIME_STEP', 15) }},
-                    format: '{{ $datetimeFormat }}',
-                    formatDate: '{{ $account->getMomentDateFormat() }}',
-                    formatTime: '{{ $account->military_time ? 'H:mm' : 'h:mm A' }}',
+                    step: <?php echo e(env('TASK_TIME_STEP', 15)); ?>,
+                    format: '<?php echo e($datetimeFormat); ?>',
+                    formatDate: '<?php echo e($account->getMomentDateFormat()); ?>',
+                    formatTime: '<?php echo e($account->military_time ? 'H:mm' : 'h:mm A'); ?>',
                     onSelectTime: function (current_time, $input) {
                         current_time.setSeconds(0);
                         $(element).datetimepicker({
@@ -215,7 +244,8 @@
                             }
                         }
                     },
-                    dayOfWeekStart: {{ Session::get('start_of_week') }}
+                    dayOfWeekStart: <?php echo e(Session::get('start_of_week')); ?>
+
                 });
 
                 $(element).change(function () {
@@ -231,22 +261,22 @@
             }
         }
 
-        var clients = {!! $clients !!};
-        var projects = {!! $projects !!};
+        var clients = <?php echo $clients; ?>;
+        var projects = <?php echo $projects; ?>;
 
         var timeLabels = {};
-        @foreach (['hour', 'minute', 'second'] as $period)
-            timeLabels['{{ $period }}'] = '{{ strtolower(trans("texts.{$period}")) }}';
-        timeLabels['{{ $period }}s'] = '{{ strtolower(trans("texts.{$period}s")) }}';
+        <?php $__currentLoopData = ['hour', 'minute', 'second']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $period): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            timeLabels['<?php echo e($period); ?>'] = '<?php echo e(strtolower(trans("texts.{$period}"))); ?>';
+        timeLabels['<?php echo e($period); ?>s'] = '<?php echo e(strtolower(trans("texts.{$period}s"))); ?>';
 
-        @endforeach
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
         function onFormSubmit(event) {
-            @if (Auth::user()->canCreateOrEdit(ENTITY_TASK, $task))
+            <?php if(Auth::user()->canCreateOrEdit(ENTITY_TASK, $task)): ?>
                 return true;
-            @else
+            <?php else: ?>
                 return false
-            @endif
+            <?php endif; ?>
         }
 
         function tock(startTime) {
@@ -295,7 +325,7 @@
         }
 
         function onDeleteClick() {
-            if (confirm({!! json_encode(trans("texts.are_you_sure")) !!})) {
+            if (confirm(<?php echo json_encode(trans("texts.are_you_sure")); ?>)) {
                 submitAction('delete');
             }
         }
@@ -308,8 +338,8 @@
         function TimeModel(data) {
             var self = this;
 
-            var dateTimeFormat = '{{ $datetimeFormat }}';
-            var timezone = '{{ $timezone }}';
+            var dateTimeFormat = '<?php echo e($datetimeFormat); ?>';
+            var timezone = '<?php echo e($timezone); ?>';
 
             self.startTime = ko.observable(0);
             self.endTime = ko.observable(0);
@@ -464,7 +494,7 @@
             }
         }
 
-        window.model = new ViewModel({!! $task !!});
+        window.model = new ViewModel(<?php echo $task; ?>);
         ko.applyBindings(model);
 
         function onTaskTypeChange() {
@@ -497,9 +527,9 @@
                     return;
                 }
                 event.preventDefault();
-                @if ($task && $task->trashed())
+                <?php if($task && $task->trashed()): ?>
                     return;
-                @endif
+                <?php endif; ?>
                 submitAction('');
                 return false;
             }
@@ -525,17 +555,17 @@
                 submitAction('resume');
             });
 
-            @if ($task)
-            @if ($task->is_running)
-            tock({{ $task->getLastStartTime() * 1000 }});
-            @endif
-            @endif
+            <?php if($task): ?>
+            <?php if($task->is_running): ?>
+            tock(<?php echo e($task->getLastStartTime() * 1000); ?>);
+            <?php endif; ?>
+            <?php endif; ?>
 
-            @if ($errors->first('time_log'))
-            loadTimeLog({!! json_encode(Input::old('time_log')) !!});
+            <?php if($errors->first('time_log')): ?>
+            loadTimeLog(<?php echo json_encode(Input::old('time_log')); ?>);
             model.showTimeOverlaps();
             showTimeDetails();
-            @endif
+            <?php endif; ?>
 
             $('input.duration').keydown(function (event) {
                 if (event.keyCode == 13) {
@@ -545,8 +575,8 @@
             });
 
 // setup clients and project comboboxes
-            var clientId = {{ $clientPublicId }};
-            var projectId = {{ $projectPublicId }};
+            var clientId = <?php echo e($clientPublicId); ?>;
+            var projectId = <?php echo e($projectPublicId); ?>;
 
             var clientMap = {};
             var projectMap = {};
@@ -601,11 +631,11 @@
                 $projectCombobox = $('select#project_id');
                 $projectCombobox.find('option').remove().end().combobox('refresh');
                 $projectCombobox.append(new Option('', ''));
-                @if (Auth::user()->can('create', ENTITY_PROJECT))
+                <?php if(Auth::user()->can('create', ENTITY_PROJECT)): ?>
                 if (clientId) {
-                    $projectCombobox.append(new Option("{{ trans('texts.create_project')}}: $name", '-1'));
+                    $projectCombobox.append(new Option("<?php echo e(trans('texts.create_project')); ?>: $name", '-1'));
                 }
-                        @endif
+                        <?php endif; ?>
                 var list = clientId ? (projectsForClientMap.hasOwnProperty(clientId) ? projectsForClientMap[clientId] : []).concat(projectsForAllClients) : projects;
                 for (var i = 0; i < list.length; i++) {
                     var project = list[i];
@@ -634,7 +664,7 @@
                 }
             });
 
-            @include('partials/entity_combobox', ['entityType' => ENTITY_PROJECT])
+            <?php echo $__env->make('partials/entity_combobox', ['entityType' => ENTITY_PROJECT], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
             if (projectId) {
                 var project = projectMap[projectId];
@@ -646,22 +676,24 @@
                 $clientSelect.trigger('change');
             }
 
-                    @if (!$task)
+                    <?php if(!$task): ?>
             var taskType = localStorage.getItem('last:task_type');
             if (taskType) {
                 $('input[name=task_type][value=' + taskType + ']').prop('checked', true);
                 onTaskTypeChange();
             }
-            @endif
+            <?php endif; ?>
 
-            @if (!$task && !$clientPublicId)
+            <?php if(!$task && !$clientPublicId): ?>
             $('.client-select input.form-control').focus();
-            @else
+            <?php else: ?>
             $('#description').focus();
-            @endif
+            <?php endif; ?>
         });
 
     </script>
 
 
-@stop
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

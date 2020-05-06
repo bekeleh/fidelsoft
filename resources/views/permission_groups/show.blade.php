@@ -1,98 +1,240 @@
 @extends('header')
-@section('head')
-    @parent
-    <script src="{{ asset('js/select2.min.js') }}" type="text/javascript"></script>
-    <link href="{{ asset('css/select2.css') }}" rel="stylesheet" type="text/css"/>
-
-@stop
 
 @section('content')
+    @parent
+    <!-- Group detail -->
     <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-6">
-                    <ol class="breadcrumb">
-                        <li>{{ link_to('/permission_groups', trans('texts.edit_permission_group')) }}</li>
-                        <li class='active'>{{ $permissionGroup->name }}</li>
-                    </ol>
-                </div>
+        <div class="panel-heading" style="background-color:#777 !important">
+            <h3 class="panel-title in-bold-white"> {!! trans('texts.permissions') !!} </h3>
+        </div>
+        <div style="margin-left: 25px;">
+            @if ( ! Utils::hasFeature(FEATURE_USER_PERMISSIONS))
+                <div class="alert alert-warning">{{ trans('texts.upgrade_for_permissions') }}</div>
+                <script type="text/javascript">
+                    $(function () {
+                        $('input[type=checkbox]').prop('disabled', true);
+                    })
+                </script>
+            @endif
+            {!! Former::checkbox('is_admin')
+                ->label('&nbsp;')
+                ->value(1)
+                ->text(trans('texts.administrator'))
+                ->help(trans('texts.administrator_help')) !!}
+            <div>
+                <table class="table table-striped dataTable">
+                    <thead>
+                    <th></th>
+                    <th style="padding-bottom:0px">{!! Former::checkbox('create')
+                                  ->text( trans('texts.create') )
+                                  ->value('create_')
+                                  ->label('&nbsp;')
+                                  ->id('create_all') !!}</th>
+                    <th style="padding-bottom:0px">{!! Former::checkbox('view')
+                                  ->text( trans('texts.view') )
+                                  ->value('view_')
+                                  ->label('&nbsp;')
+                                  ->id('view_all') !!}</th>
+                    <th style="padding-bottom:0px">{!! Former::checkbox('edit')
+                                  ->text( trans('texts.edit') )
+                                  ->value('edit_')
+                                  ->label('&nbsp;')
+                                  ->id('edit_all') !!}</th>
+                    </thead>
+                    <tbody>
+                    @foreach (json_decode(PERMISSION_ENTITIES,1) as $permissionEntity)
+                        <?php
+                        if (isset($user->permissions))
+                            $permissions = $user->permissions;
+                        else
+                            $permissions = [];
+                        ?>
+                        <tr>
+                            <td>{{ ucfirst($permissionEntity) }}</td>
+
+                            <td>{!! Former::checkbox('permissions[create_' . $permissionEntity . ']')
+                                  ->label('&nbsp;')
+                                  ->value('create_' . $permissionEntity . '')
+                                  ->id('create_' . $permissionEntity . '')
+                                  ->check(is_array($permissions) && in_array('create_' . $permissionEntity, $permissions, FALSE) ? true : false) !!}</td>
+                            <td>{!! Former::checkbox('permissions[view_' . $permissionEntity . ']')
+                                  ->label('&nbsp;')
+                                  ->value('view_' . $permissionEntity . '')
+                                  ->id('view_' . $permissionEntity . '')
+                                  ->check(is_array($permissions) && in_array('view_' . $permissionEntity, $permissions, FALSE) ? true : false) !!}</td>
+                            <td>{!! Former::checkbox('permissions[edit_' . $permissionEntity . ']')
+                                  ->label('&nbsp;')
+                                  ->value('edit_' . $permissionEntity . '')
+                                  ->id('edit_' . $permissionEntity . '')
+                                  ->check(is_array($permissions) && in_array('edit_' . $permissionEntity, $permissions, FALSE) ? true : false) !!}</td>
+                        </tr>
+                    @endforeach
+                    <tr>
+                        <td><input type="checkbox" id="view_contact" value="view_contact"
+                                   name="permissions[view_contact]" style="display:none">
+                            <input type="checkbox" id="edit_contact" value="edit_contact"
+                                   name="permissions[edit_contact]" style="display:none">
+                            <input type="checkbox" id="create_contact" value="create_contact"
+                                   name="permissions[create_contact]" style="display:none"></td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-    <ul class="nav nav-tabs nav-justified">
-        {!! Form::tab_link('#activity', trans('texts.activity'), true) !!}
-        @if ($permissionGroup)
-            {!! Form::tab_link('#permissions', trans('texts.permissions')) !!}
-        @endif
-        @if (true)
-            {!! Form::tab_link('#users', trans('texts.users')) !!}
-        @endif
-    </ul>
-    <br/>
-    <div class="tab-content">
-        @if (true)
-            <div class="tab-pane" id="permissions">
-                @include('permission_groups.permission',[
-                'permissions' => $permissions,
-                'groupPermissions' => $groupPermissions,
-                ])
-            </div>
-        @endif
-
-        @if (true)
-            <div class="tab-pane" id="users">
-                <h4>user list</h4>
-            </div>
-        @endif
-
-    </div>
+    <center class="buttons">
+        {!! Button::normal(trans('texts.cancel'))->asLinkTo(URL::to('/users'))->appendIcon(Icon::create('remove-circle'))->large() !!}
+        {!! ($user) ? Button::success(trans('texts.save'))->withAttributes(['onclick' => 'submitAction()'])->large()->appendIcon(Icon::create('floppy-disk')) : false !!}
+        {!! (! $user || ! $user->confirmed) ? Button::info(trans($user ? 'texts.resend_invite' : 'texts.send_invite'))->withAttributes(['onclick' => 'submitAction("email")'])->large()->appendIcon(Icon::create('send')) : false !!}
+    </center>
+    {!! Former::close() !!}
     <script type="text/javascript">
-        var loadedTabs = {};
-        $(function () {
-            $('.normalDropDown:not(.dropdown-toggle)').click(function (event) {
-                openUrlOnClick('{{ URL::to('permission_groups/' . $permissionGroup->public_id . '/edit') }}', event);
+        function submitAction() {
+            var inputElements = document.querySelectorAll('input[type=checkbox]:checked');
+            var permissions = getPermission(inputElements);
+
+            var $account_id ={{$user->account_id}};
+            var $public_id ={{$user->public_id}};
+            $.ajax({
+                url: '{{ URL::to('/users/change_permission') }}',
+                type: 'POST',
+                dataType: 'json',
+                data: 'permissions=' + permissions + '&account_id=' + $account_id + '&public_id=' + $public_id,
+                success: function (result) {
+                    if (result.success) {
+                        swal("{{trans('texts.updated_user_permission')}}");
+                    }
+                }
             });
 
-            // load datatable data when tab is shown and remember last tab selected
-            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                var target = $(e.target).attr("href") // activated tab
-                target = target.substring(1);
-                if (isStorageSupported()) {
-                    localStorage.setItem('permission_tab', target);
-                }
-                if (!loadedTabs.hasOwnProperty(target) && window['load_' + target]) {
-                    loadedTabs[target] = true;
-                    window['load_' + target]();
-                }
-            });
+        }
 
-            var tab = window.location.hash || (localStorage.getItem('permission_tab') || '');
-            tab = tab.replace('#', '');
-            var selector = '.nav-tabs a[href="#' + tab + '"]';
-
-            if (tab && tab != 'permission' && $(selector).length && window['load_' + tab]) {
-                $(selector).tab('show');
-            } else {
-                // window['load_activity']();
+        function getPermission(isChecked) {
+            var columns = [];
+            var rows = [];
+            for (var i = 0; i < isChecked.length; i++) {
+                columns[i] = isChecked[i].name;
+                rows[i] = isChecked[i].value;
             }
-        });
-
-        function onArchiveClick() {
-            $('#action').val('archive');
-            $('.mainForm').submit();
+            return mapToJson(columns, rows);
         }
 
-        function onRestoreClick() {
-            $('#action').val('restore');
-            $('.mainForm').submit();
-        }
+        function mapToJson(columns, rows) {
+            var result = rows.reduce(function (result, field, index) {
+                result[columns[index]] = field;
+                return result;
+            }, {})
 
-        function onDeleteClick() {
-            sweetConfirm(function () {
-                $('#action').val('delete');
-                $('.mainForm').submit();
-            });
+            return JSON.stringify(result);
         }
-
     </script>
+@stop
+
+@section('onReady')
+
+    $('#first_name').focus();
+
+    /*
+    *
+    * Iterate over all permission checkboxes and ensure VIEW/EDIT
+    * combinations are enabled/disabled depending on VIEW state.
+    *
+    */
+
+    $("input[type='checkbox'][id^='view_']").each(function() {
+
+    var entity = $(this).attr('id')
+    .replace('create_',"")
+    .replace('view_',"")
+    .replace('edit_',"")
+    .replace(']',"")
+    .replace('[',""); //get entity name
+
+    setCheckboxEditValue(entity);
+    setContactPermission();
+
+    });
+
+
+    /*
+    *
+    * Checks state of View/Edit checkbox, will enable/disable check/uncheck
+    * dependent on state of VIEW permission.
+    *
+    */
+
+    $("input[type='checkbox'][id^='view_']").change(function(){
+
+    var entity = $(this).attr('id')
+    .replace('create_',"")
+    .replace('view_',"")
+    .replace('edit_',"")
+    .replace(']',"")
+    .replace('[',""); //get entity name
+
+    setCheckboxEditValue(entity);
+    setContactPermission();
+
+    });
+
+    $('#edit_client, #view_client, #create_client').change(function() {
+    switch($(this).val()) {
+    case 'create_client':
+    $('#create_contact').prop('disabled', false); //set state of edit checkbox
+    $('#create_contact').prop('checked', $('#create_client').is(':checked') );
+    break;
+
+    case 'view_client':
+    $('#view_contact').prop('disabled', false); //set state of edit checkbox
+    $('#view_contact').prop('checked', $('#view_client').is(':checked') );
+    break;
+
+    case 'edit_client':
+    $('#edit_contact').prop('disabled', false); //set state of edit checkbox
+    $('#edit_contact').prop('checked', $('#edit_client').is(':checked') );
+    break;
+    }
+
+    });
+
+    $('#create_all, #view_all, #edit_all').change(function(){
+
+    var checked = $(this).is(':checked');
+    var permission_type = $(this).val();
+
+    $("input[type='checkbox'][id^=" + permission_type + "]").each(function() {
+
+    var entity = $(this).attr('id')
+    .replace('create_',"")
+    .replace('view_',"")
+    .replace('edit_',"")
+    .replace(']',"")
+    .replace('[',""); //get entity name
+
+    $('#' + permission_type + entity).prop('checked', checked); //set state of edit checkbox
+
+    setCheckboxEditValue(entity);
+    setContactPermission();
+
+    });
+
+    });
+
+    function setCheckboxEditValue(entity) {
+
+    if(!$('#view_' + entity).is(':checked')) {
+    $('#edit_' + entity).prop('checked', false); //remove checkbox value from edit dependant on View state.
+    }
+
+    $('#edit_' + entity).prop('disabled', !$('#view_' + entity).is(':checked')); //set state of edit checkbox
+
+    }
+
+    function setContactPermission() {
+
+    $('#view_contact').prop('checked', $('#view_client').is(':checked') );
+    $('#edit_contact').prop('checked', $('#edit_client').is(':checked') );
+    $('#create_contact').prop('checked', $('#create_client').is(':checked') );
+
+    }
 @stop

@@ -3,7 +3,6 @@
 namespace App\Ninja\Datatables;
 
 use App\Libraries\Utils;
-use App\Models\Location;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 
@@ -148,7 +147,7 @@ class UserDatatable extends EntityDatatable
                     return URL::to("force_reset_password/{$model->public_id}");
                 },
                 function ($model) {
-                    return Utils::hasPermissions('admin');
+                    return Utils::hasPermission('admin');
                 },
             ],
             [
@@ -157,7 +156,7 @@ class UserDatatable extends EntityDatatable
                     return URL::to("send_confirmation/{$model->public_id}");
                 },
                 function ($model) {
-                    return Utils::hasPermissions('admin');
+                    return Utils::hasPermission('admin');
                 },
             ],
             [

@@ -85,29 +85,29 @@ $LANG = array(
 
     /*
 |--------------------------------------------------------------------------
-| User permission groups  trans
+| User groups  trans
 |--------------------------------------------------------------------------
 */
-    'permission_group_name' => 'Permission Group Name',
-    'permission_group' => 'Permission Group',
-    'permission_groups' => 'Permission Group List',
-    'new_permission_group' => 'New Permission Group',
-    'list_permission_groups' => 'List Permission Groups',
-    'create_permission_group' => 'Create Permission Group',
-    'edit_permission_group' => 'Edit Permission Group',
-    'view_permission_group' => 'View Permission Group',
-    'clone_permission_group' => 'Clone Permission Group',
-    'archive_permission_group' => 'Archive Permission Group',
-    'delete_permission_group' => 'Delete Permission Group',
-    'deleted_permission_group' => 'Deleted Permission Group',
-    'restore_permission_group' => 'Restore Permission Group',
-    'restored_permission_group' => 'Restored Permission Group',
-    'updated_permission_group' => 'Successfully Updated Permission Group',
-    'created_permission_group' => 'Successfully Created Permission Group',
-    'archived_permission_group' => 'Successfully Archived Permission Group',
-    'permission_group_settings' => 'Permission Group Settings',
-    'permission_group_help' => 'Sets the default <b>permission group</b>',
-    'group_permission_help' => 'Sets the default permission group',
+    'permission_group_name' => 'User Group Name',
+    'permission_group' => 'User Group',
+    'permission_groups' => 'User Group List',
+    'new_permission_group' => 'New User Group',
+    'list_permission_groups' => 'List User Groups',
+    'create_permission_group' => 'Create User Group',
+    'edit_permission_group' => 'Edit User Group',
+    'view_permission_group' => 'View User Group',
+    'clone_permission_group' => 'Clone User Group',
+    'archive_permission_group' => 'Archive User Group',
+    'delete_permission_group' => 'Delete User Group',
+    'deleted_permission_group' => 'Deleted User Group',
+    'restore_permission_group' => 'Restore User Group',
+    'restored_permission_group' => 'Restored User Group',
+    'updated_permission_group' => 'Successfully Updated User Group',
+    'created_permission_group' => 'Successfully Created User Group',
+    'archived_permission_group' => 'Successfully Archived User Group',
+    'permission_group_settings' => 'User Group Settings',
+    'permission_group_help' => 'Sets the default <b>User group</b>',
+    'group_permission_help' => 'Sets the default User group',
 
     /*
 |--------------------------------------------------------------------------

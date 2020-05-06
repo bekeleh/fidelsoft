@@ -64,6 +64,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_MANUFACTURER_PRODUCT_DETAIL', 'manufacturer_product_detail');
 
     $permissionEntities = [
+        ENTITY_ACTIVITY,
         ENTITY_CLIENT,
         ENTITY_CONTACT,
         ENTITY_CREDIT,

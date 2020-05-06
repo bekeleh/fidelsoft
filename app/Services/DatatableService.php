@@ -18,7 +18,7 @@ class DatatableService
         $table = Datatable::query($query);
         if ($datatable->isBulkEdit) {
             $table->addColumn('checkbox', function ($model) use ($datatable, $section) {
-                $can_edit = Auth::user()->hasAccess('edit_' . $section) || (isset($model->user_id) && Auth::user()->id == $model->user_id);
+                $can_edit = Auth::user()->hasPermission('edit_' . $section) || (isset($model->user_id) && Auth::user()->id == $model->user_id);
 
                 return !$can_edit ? '' : '<input type="checkbox" name="ids[]" value="' . $model->public_id
                     . '" ' . Utils::getEntityRowClass($model) . '>';
