@@ -17,7 +17,10 @@ class LocationDatatable extends EntityDatatable
             [
                 'location_name',
                 function ($model) {
-                    return link_to('locations/' . $model->public_id . '/edit', $model->location_name)->toHtml();
+                    if (Auth::user()->can('view', [ENTITY_LOCATION]))
+                        return link_to("locations/{$model->public_id}", $model->location_name ?: '')->toHtml();
+                    else
+                        return $model->location_name;
                 },
             ],
             [
@@ -66,6 +69,9 @@ class LocationDatatable extends EntityDatatable
                 uctrans('texts.edit_location'),
                 function ($model) {
                     return URL::to("locations/{$model->public_id}/edit");
+                },
+                function ($model) {
+                    return Auth::user()->can('edit', ENTITY_LOCATION);
                 },
             ],
             [

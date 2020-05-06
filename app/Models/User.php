@@ -300,17 +300,14 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
         if ($this->is_admin) {
             return true;
         } elseif (is_string($permission)) {
-//            if (is_array(json_decode($this->permissions, 1)) && in_array($permission, json_decode($this->permissions, 1))) {
-//                return true;
-//            }
-            if (is_array($this->permissions) && in_array($permission, $this->permissions)) {
+            if (is_array(json_decode($this->permissions, 1)) && in_array($permission, json_decode($this->permissions, 1))) {
                 return true;
             }
         } elseif (is_array($permission)) {
             if ($requireAll)
-                return count(array_intersect($permission, $this->permissions)) == count($permission);
+                return count(array_intersect($permission, json_decode($this->permissions, 1))) == count($permission);
             else
-                return count(array_intersect($permission, $this->permissions)) > 0;
+                return count(array_intersect($permission, json_decode($this->permissions, 1))) > 0;
 
         }
 

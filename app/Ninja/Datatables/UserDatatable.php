@@ -115,8 +115,6 @@ class UserDatatable extends EntityDatatable
                     if (Auth::user()->public_id != $model->public_id) {
                         if (Auth::user()->can('edit', [ENTITY_USER]))
                             return URL::to("users/{$model->public_id}/edit");
-                        elseif (Auth::user()->can('view', [ENTITY_USER]))
-                            return URL::to("users/{$model->public_id}");
                     } else
                         return false;
                 },
@@ -124,11 +122,11 @@ class UserDatatable extends EntityDatatable
             [
                 trans('texts.clone_user'),
                 function ($model) {
-                    if (Auth::user()->can('view', [ENTITY_USER])) {
-                        return URL::to("users/{$model->public_id}/clone");
-                    } else
-                        return false;
-                }
+                    return URL::to("users/{$model->public_id}/clone");
+                },
+                function ($model) {
+                    return Auth::user()->can('create', ENTITY_USER);
+                },
             ],
             [
                 '--divider--', function () {
@@ -138,23 +136,28 @@ class UserDatatable extends EntityDatatable
             [
                 trans('texts.edit_permission'),
                 function ($model) {
-                    $user = Auth::user();
-                    if ($user->can('view', [ENTITY_PERMISSION]))
-                        return URL::to("users/{$model->public_id}");
+                    return URL::to("users/{$model->public_id}");
                 },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_PERMISSION]);
+                }
             ],
             [
                 trans('texts.reset_pwd'),
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_USER]))
-                        return URL::to("force_reset_password/{$model->public_id}");
+                    return URL::to("force_reset_password/{$model->public_id}");
+                },
+                function ($model) {
+                    return Utils::hasPermissions('admin');
                 },
             ],
             [
                 trans('texts.send_invite'),
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_USER]))
-                        return URL::to("send_confirmation/{$model->public_id}");
+                    return URL::to("send_confirmation/{$model->public_id}");
+                },
+                function ($model) {
+                    return Utils::hasPermissions('admin');
                 },
             ],
             [
