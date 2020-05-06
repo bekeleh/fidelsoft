@@ -32,6 +32,6 @@ class TaxRateService extends BaseService
         $datatable = new TaxRateDatatable(false);
         $query = $this->taxRateRepo->find($accountId);
 
-        return $this->datatableService->createDatatable($datatable, $query, 'tax_rates');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 }

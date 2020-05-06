@@ -155,11 +155,11 @@ class PaymentService extends BaseService
         $datatable = new PaymentDatatable(true, $clientPublicId);
         $query = $this->paymentRepo->find($clientPublicId, $search);
 
-        if (!Utils::hasAccess('view_payments')) {
+        if (!Utils::hasPermission('view_payments')) {
             $query->where('payments.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query, 'payments');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 
     public function bulk($ids, $action, $params = [])

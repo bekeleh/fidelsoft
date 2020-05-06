@@ -42,6 +42,6 @@ class UnitService extends BaseService
             $query->where('units.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable(new UnitDatatable(), $query, 'units');
+        return $this->datatableService->createDatatable(new UnitDatatable(), $query);
     }
 }

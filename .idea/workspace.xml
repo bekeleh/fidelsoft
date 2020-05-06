@@ -2,8 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/bde6e4d84a93a1d5c3f3b3d6339314a2e8095126.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/c7a35e3db127bbc14744963fc723e20043f97bff.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Constants.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Constants.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/ClientDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/ClientDatatable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/ExpenseService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/ExpenseService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/PaymentService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/PaymentService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/ProductService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/ProductService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/RecurringInvoiceService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/RecurringInvoiceService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/SaleTypeService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/SaleTypeService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/StatusService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/StatusService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/StoreService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/StoreService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/SubscriptionService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/SubscriptionService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/TaskService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/TaskService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/TaxRateService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/TaxRateService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/UnitService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/UnitService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/UserService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/UserService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/B6UIIDqNHgT6IiNeuaYzCU1OYhFyOP9xTEq1ZeDz" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/B6UIIDqNHgT6IiNeuaYzCU1OYhFyOP9xTEq1ZeDz" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/JL4norgDlp4rMcA7wgWwY533eg4i8g1mxB77PFjU" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/JL4norgDlp4rMcA7wgWwY533eg4i8g1mxB77PFjU" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -386,14 +404,7 @@
       <workItem from="1588595925356" duration="1210000" />
       <workItem from="1588617617523" duration="4896000" />
       <workItem from="1588694521293" duration="13792000" />
-      <workItem from="1588756313017" duration="16029000" />
-    </task>
-    <task id="LOCAL-00183" summary="2020-04-26 9:26">
-      <created>1587938997564</created>
-      <option name="number" value="00183" />
-      <option name="presentableId" value="LOCAL-00183" />
-      <option name="project" value="LOCAL" />
-      <updated>1587938997564</updated>
+      <workItem from="1588756313017" duration="16656000" />
     </task>
     <task id="LOCAL-00184" summary="2020-04-26 9:26">
       <created>1587939077446</created>
@@ -731,7 +742,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588773085751</updated>
     </task>
-    <option name="localTasksCounter" value="232" />
+    <task id="LOCAL-00232" summary="2020-05-6 9:26">
+      <created>1588773225881</created>
+      <option name="number" value="00232" />
+      <option name="presentableId" value="LOCAL-00232" />
+      <option name="project" value="LOCAL" />
+      <updated>1588773225881</updated>
+    </task>
+    <option name="localTasksCounter" value="233" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -804,10 +822,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1587939377952" />
-    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1588773084038">
+    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1588773224695">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1588773084038" />
+    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1588773224695" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="444" y="140" key="FileChooserDialogImpl" timestamp="1588023873020">

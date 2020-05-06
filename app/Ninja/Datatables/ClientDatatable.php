@@ -43,7 +43,7 @@ class ClientDatatable extends EntityDatatable
             [
                 'sale_type_name',
                 function ($model) {
-                    return link_to("sale_types/{$model->sale_type_public_id}", $model->sale_type_namea ?: '')->toHtml();
+                    return link_to("sale_types/{$model->sale_type_public_id}", $model->sale_type_name ?: '')->toHtml();
                 },
             ],
             [

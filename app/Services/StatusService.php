@@ -32,6 +32,6 @@ class StatusService extends BaseService
             $query->where('statuses.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query, 'statuses');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 }

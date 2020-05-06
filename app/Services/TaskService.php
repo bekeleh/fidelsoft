@@ -42,6 +42,6 @@ class TaskService extends BaseService
             $query->where('tasks.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query, 'tasks');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 }

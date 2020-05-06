@@ -48,7 +48,7 @@ class UserService extends BaseService
         if (!Utils::hasPermission('view_user')) {
             $query->where('users.user_id', '=', Auth::user()->id);
         }
-        return $this->datatableService->createDatatable(new UserDatatable(), $query, 'users');
+        return $this->datatableService->createDatatable(new UserDatatable(), $query);
     }
 
     public function getDatatableLocation($locationPublicId)

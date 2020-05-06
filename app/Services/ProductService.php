@@ -52,7 +52,7 @@ class ProductService extends BaseService
         $query = $this->productRepo->findItemBrand($itemBrandPublicId);
 
         if (!Utils::hasAccess('view_item_brands')) {
-            $query->where('products.user_id', '=', Auth::user()->id);
+            $query->where('item_brands.user_id', '=', Auth::user()->id);
         }
 
         return $this->datatableService->createDatatable($datatable, $query, 'item_categories');
@@ -65,7 +65,7 @@ class ProductService extends BaseService
         $query = $this->productRepo->findUnit($unitPublicId);
 
         if (!Utils::hasAccess('view_units')) {
-            $query->where('products.user_id', '=', Auth::user()->id);
+            $query->where('units.user_id', '=', Auth::user()->id);
         }
 
         return $this->datatableService->createDatatable($datatable, $query, 'units');

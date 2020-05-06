@@ -43,7 +43,7 @@ class StoreService extends BaseService
             $query->where('stores.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable(new StoreDatatable(), $query, 'stores');
+        return $this->datatableService->createDatatable(new StoreDatatable(), $query);
     }
 
     public function getDatatableLocation($locationPublicId)
@@ -56,7 +56,7 @@ class StoreService extends BaseService
             $query->where('stores.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query, 'locations');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 
 }

@@ -27,6 +27,6 @@ class RecurringInvoiceService extends BaseService
             $query->where('invoices.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query, 'invoices');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 }

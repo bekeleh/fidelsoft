@@ -37,6 +37,6 @@ class SaleTypeService extends BaseService
             $query->where('sales_type.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query, 'sales_types');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 }
