@@ -45,7 +45,15 @@
            style="width:180px;margin-right:17px;background-color: white !important"
            class="form-control pull-left" placeholder="{{ trans('texts.filter') }}"
            value="{{ Input::get('filter') }}"/>
-
+    <!-- create records -->
+@if (Auth::user()->can('create', $entityType))
+    {!! Button::primary(mtrans($entityType, "new_{$entityType}"))
+    ->asLinkTo(url(
+    (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_TEMPLATE]) ? str_replace('_', 's/', Utils::pluralizeEntityType($entityType)) : Utils::pluralizeEntityType($entityType)) .
+    '/create/' . (isset($clientId) ? ($clientId . (isset($projectId) ? '/' . $projectId : '')) : '')
+    ))
+    ->appendIcon(Icon::create('plus-sign')) !!}
+@endif
 @if (in_array($entityType, [ENTITY_PROPOSAL,ENTITY_PROPOSAL_TEMPLATE,ENTITY_PROPOSAL_SNIPPET]))
     @if (Auth::user()->can('create', [ENTITY_PROPOSAL_TEMPLATE,ENTITY_PROPOSAL_SNIPPET]))
         {!! DropdownButton::normal(trans('texts.maintenance'))
@@ -53,6 +61,14 @@
         ->withContents([
         ['label' => trans('texts.new_proposal_template'), 'url' => url('/proposals/templates/create')],
         ['label' => trans('texts.new_proposal_snippet'), 'url' => url('/proposals/snippets/create')],
+        ])->split() !!}
+    @endif
+@elseif($entityType == ENTITY_USER)
+    @if (Auth::user()->can('create', [ENTITY_PERMISSION_GROUP]))
+        {!! DropdownButton::normal(trans('texts.maintenance'))
+        ->withAttributes(['class'=>'maintenanceDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_permission_group'), 'url' => url('/permission_groups/create')],
         ])->split() !!}
     @endif
 @endif
@@ -79,15 +95,6 @@
 @if ($entityType == ENTITY_TASK)
     {!! Button::normal(trans('texts.kanban'))->asLinkTo(url('/tasks/kanban' . (! empty($clientId) ? ('/' . $clientId . (! empty($projectId) ? '/' . $projectId : '')) : '')))->appendIcon(Icon::create('th')) !!}
     {!! Button::normal(trans('texts.time_tracker'))->asLinkTo('javascript:openTimeTracker()')->appendIcon(Icon::create('time')) !!}
-@endif
-<!-- create records -->
-@if (Auth::user()->can('create', $entityType))
-    {!! Button::primary(mtrans($entityType, "new_{$entityType}"))
-    ->asLinkTo(url(
-    (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_TEMPLATE]) ? str_replace('_', 's/', Utils::pluralizeEntityType($entityType)) : Utils::pluralizeEntityType($entityType)) .
-    '/create/' . (isset($clientId) ? ($clientId . (isset($projectId) ? '/' . $projectId : '')) : '')
-    ))
-    ->appendIcon(Icon::create('plus-sign')) !!}
 @endif
 
 @if (in_array($entityType, [ENTITY_INVOICE,ENTITY_INVOICE_ITEM,ENTITY_CLIENT,ENTITY_CREDIT]))

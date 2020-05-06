@@ -15,16 +15,16 @@ use Illuminate\Support\Facades\View;
 
 class PermissionGroupController extends BaseController
 {
-    protected $permissionGroupRepo;
-    protected $permissionGroupService;
+    protected $userGroupRepo;
+    protected $userGroupService;
     protected $entityType = ENTITY_PERMISSION_GROUP;
 
-    public function __construct(PermissionGroupRepository $permissionGroupRepo, PermissionGroupService $permissionGroupService)
+    public function __construct(PermissionGroupRepository $userGroupRepo, PermissionGroupService $userGroupService)
     {
         // parent::__construct();
 
-        $this->permissionGroupRepo = $permissionGroupRepo;
-        $this->permissionGroupService = $permissionGroupService;
+        $this->permissionGroupRepo = $userGroupRepo;
+        $this->permissionGroupService = $userGroupService;
     }
 
     public function index()
@@ -36,7 +36,7 @@ class PermissionGroupController extends BaseController
         ]);
     }
 
-    public function getDatatable($permissionGroupPublicId = null)
+    public function getDatatable($userGroupPublicId = null)
     {
         $accountId = Auth::user()->account_id;
         $search = Input::get('sSearch');
@@ -45,9 +45,7 @@ class PermissionGroupController extends BaseController
 
     public function show($publicId)
     {
-        $permissionGroup = PermissionGroup::where('public_id', $publicId)->firstOrFail();
-
-//        $this->authorize('view', $permissionGroup);
+        $userGroup = PermissionGroup::where('public_id', $publicId)->firstOrFail();
 
         $user = Auth::user();
         $account = $user->account;
@@ -55,26 +53,21 @@ class PermissionGroupController extends BaseController
 
         $actionLinks = [];
         if ($user->can('create', ENTITY_PERMISSION_GROUP)) {
-            $actionLinks[] = ['label' => trans('texts.new_permission_group'), 'url' => URL::to('/permission_groups/create/' . $permissionGroup->public_id)];
+            $actionLinks[] = ['label' => trans('texts.new_permission_group'), 'url' => URL::to('/permission_groups/create/' . $userGroup->public_id)];
         }
 
         if (!empty($actionLinks)) {
             $actionLinks[] = \DropdownButton::DIVIDER;
         }
-        $permissions = config('permissions');
-        $permissionGroup->permissions = $permissionGroup->decodePermissions();
-        $groupPermissions = Utils::selectedPermissionsArray($permissions, $permissionGroup->permissions);
 
         $data = [
-            'groupPermissions' => $groupPermissions,
-            'permissions' => $permissions,
-            'permissionGroup' => $permissionGroup,
+            'userGroup' => $userGroup,
             'account' => $account,
             'actionLinks' => $actionLinks,
             'showBreadcrumbs' => false,
             'title' => trans('texts.view_permission_group'),
-//            'hasPermissions' => $account->isModuleEnabled(ENTITY_PERMISSION_GROUP) && Permission::scope()->withArchived()->whereUserId($permissionGroup->id)->count() > 0,
-//            'hasGroups' => $account->isModuleEnabled(ENTITY_PERMISSION_GROUP) && PermissionGroup::scope()->withArchived()->whereUserId($permissionGroup->id)->count() > 0,
+//            'hasPermissions' => $account->isModuleEnabled(ENTITY_PERMISSION_GROUP) && Permission::scope()->withArchived()->whereUserId($userGroup->id)->count() > 0,
+//            'hasGroups' => $account->isModuleEnabled(ENTITY_PERMISSION_GROUP) && PermissionGroup::scope()->withArchived()->whereUserId($userGroup->id)->count() > 0,
 
         ];
 
@@ -84,7 +77,7 @@ class PermissionGroupController extends BaseController
     public function create(PermissionGroupRequest $request)
     {
         $data = [
-            'permissionGroup' => null,
+            'userGroup' => null,
             'method' => 'POST',
             'url' => 'permission_groups',
             'title' => trans('texts.new_permission_group'),
@@ -97,27 +90,27 @@ class PermissionGroupController extends BaseController
 
     public function edit(PermissionGroupRequest $request, $publicId = false, $clone = false)
     {
-        $permissionGroup = $request->entity();
+        $userGroup = $request->entity();
         if ($clone) {
-            $permissionGroup->id = null;
-            $permissionGroup->public_id = null;
-            $permissionGroup->deleted_at = null;
+            $userGroup->id = null;
+            $userGroup->public_id = null;
+            $userGroup->deleted_at = null;
             $method = 'POST';
             $url = 'permission_groups';
         } else {
             $method = 'PUT';
-            $url = 'permission_groups/' . $permissionGroup->public_id;
+            $url = 'permission_groups/' . $userGroup->public_id;
         }
 
         $data = [
-            'permissionGroup' => $permissionGroup,
-            'entity' => $permissionGroup,
+            'userGroup' => $userGroup,
+            'entity' => $userGroup,
             'method' => $method,
             'url' => $url,
             'title' => trans('texts.edit_permission_group'),
         ];
 
-        $data = array_merge($data, self::getViewModel($permissionGroup));
+        $data = array_merge($data, self::getViewModel($userGroup));
 
         return View::make('permission_groups.edit', $data);
     }
@@ -126,7 +119,7 @@ class PermissionGroupController extends BaseController
     {
         $data = $request->input();
 
-        $permissionGroup = $this->permissionGroupService->save($data, $request->entity());
+        $userGroup = $this->permissionGroupService->save($data, $request->entity());
 
         $action = Input::get('action');
         if (in_array($action, ['archive', 'delete', 'restore', 'invoice', 'add_to_invoice'])) {
@@ -134,9 +127,9 @@ class PermissionGroupController extends BaseController
         }
 
         if ($action == 'clone') {
-            return redirect()->to(sprintf('permission_groups/%s/clone', $permissionGroup->public_id))->with('message', trans('texts.clone_permission_group'));
+            return redirect()->to(sprintf('permission_groups/%s/clone', $userGroup->public_id))->with('message', trans('texts.clone_permission_group'));
         } else {
-            return redirect()->to("permission_groups/{$permissionGroup->public_id}/edit")->with('message', trans('texts.updated_permission_group'));
+            return redirect()->to("permission_groups/{$userGroup->public_id}/edit")->with('message', trans('texts.updated_permission_group'));
         }
     }
 
@@ -144,9 +137,9 @@ class PermissionGroupController extends BaseController
     {
         $data = $request->input();
 
-        $permissionGroup = $this->permissionGroupService->save($data);
+        $userGroup = $this->permissionGroupService->save($data);
 
-        return redirect()->to("permission_groups/{$permissionGroup->public_id}/edit")->with('message', trans('texts.created_permission_group'));
+        return redirect()->to("permission_groups/{$userGroup->public_id}/edit")->with('message', trans('texts.created_permission_group'));
     }
 
     public function bulk()
@@ -167,7 +160,7 @@ class PermissionGroupController extends BaseController
         return self::edit($request, $publicId, true);
     }
 
-    private static function getViewModel($permissionGroup = false)
+    private static function getViewModel($userGroup = false)
     {
         return [
             'data' => Input::old('data'),
@@ -177,18 +170,18 @@ class PermissionGroupController extends BaseController
 
     public function changePermission()
     {
-        $permissionArray = Input::get('permission');
-        $permissionGroupAccountId = Input::get('account_id');
-        $permissionGroupPublicId = Input::get('public_id');
-        $permissionGroup = PermissionGroup::where('account_id', '=', $permissionGroupAccountId)
-            ->where('public_id', '=', $permissionGroupPublicId)->firstOrFail();
-        if ($permissionGroup) {
-            $permissionGroup->permissions = $permissionArray;
-            $permissionGroup->save();
+        $permissionArray = Input::get('permissions');
+        $userGroupAccountId = Input::get('account_id');
+        $userGroupPublicId = Input::get('public_id');
+        $userGroup = PermissionGroup::where('account_id', '=', $userGroupAccountId)
+            ->where('public_id', '=', $userGroupPublicId)->firstOrFail();
+        if ($userGroup) {
+            $userGroup->permissions = $permissionArray;
+            $userGroup->save();
 
-            return response()->json(['success' => true, 'data' => $permissionGroup], 200);
+            return response()->json(['success' => true, 'data' => RESULT_SUCCESS], 200);
         }
 
-        return response()->json(['error' => true, 'data' => ''], 200);
+        return response()->json(['error' => true, 'data' => RESULT_FAILURE], 200);
     }
 }

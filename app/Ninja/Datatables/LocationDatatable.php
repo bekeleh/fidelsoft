@@ -83,6 +83,14 @@ class LocationDatatable extends EntityDatatable
                     return Auth::user()->can('create', ENTITY_LOCATION);
                 },
             ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_LOCATION]);
+                },
+            ],
         ];
     }
 }

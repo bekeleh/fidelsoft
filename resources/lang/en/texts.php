@@ -1140,6 +1140,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'invalid_credentials' => 'These credentials do not match our records',
     'show_all_options' => 'Show all options',
     'user_details' => 'User Details',
+    'group_details' => 'User Group Details',
     'oneclick_login' => 'Connected Account',
     'disable' => 'Disable',
     'invoice_quote_number' => 'Invoice and Quote Numbers',

@@ -44,10 +44,6 @@ class UserService extends BaseService
     {
         $query = $this->userRepo->find($accountId, $search);
 
-//        if (! Utils::hasPermission('view_' . $entityType)) {
-        if (!Utils::hasPermission('view_user')) {
-            $query->where('users.user_id', '=', Auth::user()->id);
-        }
         return $this->datatableService->createDatatable(new UserDatatable(), $query);
     }
 

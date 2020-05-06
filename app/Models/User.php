@@ -302,6 +302,9 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
         } elseif (is_string($permission)) {
             if (is_array(json_decode($this->permissions, 1)) && in_array($permission, json_decode($this->permissions, 1))) {
                 return true;
+            } else {
+                // Loop through the permission to see if any of them granted this via groups.
+                $this->hasAccess($permission);
             }
         } elseif (is_array($permission)) {
             if ($requireAll)
@@ -316,31 +319,15 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
 
     public function hasAccess($section)
     {
-        if ($this->isSuperUser()) {
-            return true;
-        }
-        if ($this->isAdminUser()) {
-            return true;
-        }
-//        dd($section);
         $userGroups = $this->groups;
-        if (($this->permissions === '') && (count($userGroups) == 0)) {
+        if (count($userGroups) == 0) {
             return false;
         }
 
-        $userPermissions = (array)json_decode($this->permissions, true);
-
-        if (($userPermissions != '') && ((array_key_exists($section, $userPermissions)) && ($userPermissions[$section] == '1'))) {
-            return true;
-        }
-        // If the user is explicitly denied, return false
-        if (($userPermissions == '') || (!array_key_exists($section, $userPermissions))) {
-            return false;
-        }
-        // Loop through the permission to see if any of them granted this groups.
+        // Loop through permission group to see if any of them granted this via groups.
         foreach ($userGroups as $userGroup) {
             $groupPermissions = (array)json_decode($userGroup->permissions, 1);
-            if (((array_key_exists($section, $groupPermissions)) && ($groupPermissions[$section] == '1'))) {
+            if (array_key_exists($section, $groupPermissions)) {
                 return true;
             }
         }

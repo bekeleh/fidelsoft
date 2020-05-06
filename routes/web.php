@@ -390,7 +390,7 @@ Route::group([
     Route::get('api/permission_groups', 'PermissionGroupController@getDatatable');
     Route::resource('permission_groups', 'PermissionGroupController');
     Route::post('permission_groups/bulk', 'PermissionGroupController@bulk');
-    Route::post('permission_groups/change_group', 'PermissionGroupController@changePermission');
+    Route::post('permission_groups/change_permission', 'PermissionGroupController@changePermission');
 //    permissions
     Route::get('permissions/{permissions}/clone', 'permissionController@clonePermission');
     Route::get('api/permissions', 'permissionController@getDatatable');

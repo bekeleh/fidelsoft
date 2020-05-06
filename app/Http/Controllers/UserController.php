@@ -176,16 +176,8 @@ class UserController extends BaseController
             if (!empty($actionLinks)) {
                 $actionLinks[] = \DropdownButton::DIVIDER;
             }
-            $permissions = config('permissions');
-            $permissions = Utils::filterDisplayable($permissions);
-            $user->permissions = $user->decodePermissions();
-            $userPermissions = Utils::selectedPermissionsArray($permissions, $user->permissions);
-            $userGroups = $user->groups;
             $data = [
                 'user' => $user,
-                'permissions' => $permissions,
-                'userPermissions' => $userPermissions,
-                'permission_groups' => $userGroups,
                 'account' => $account,
                 'actionLinks' => $actionLinks,
                 'showBreadcrumbs' => false,

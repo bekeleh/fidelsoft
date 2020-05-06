@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateLocationRequest;
 use App\Http\Requests\LocationRequest;
+use App\Http\Requests\UpdateLocationRequest;
 use App\Libraries\Utils;
 use App\Models\Location;
 use App\Ninja\Datatables\LocationDatatable;
@@ -77,7 +79,7 @@ class LocationController extends BaseController
         return View::make('locations.edit', $data);
     }
 
-    public function store(LocationRequest $request)
+    public function store(CreateLocationRequest $request)
     {
         $data = $request->input();
 
@@ -116,10 +118,9 @@ class LocationController extends BaseController
         return View::make('locations.edit', $data);
     }
 
-    public function update(LocationRequest $request, $publicId)
+    public function update(UpdateLocationRequest $request, $publicId)
     {
         $data = $request->input();
-
         $location = $this->locationService->save($data, $request->entity());
 
         $action = Input::get('action');

@@ -49,7 +49,7 @@
         <div class="panel-heading" style="background-color:#777 !important">
             <h3 class="panel-title in-bold-white"> <?php echo trans('texts.permissions'); ?> </h3>
         </div>
-        <div style="margin-left: 25px;">
+        <div class="panel-body">
             <?php if( ! Utils::hasFeature(FEATURE_USER_PERMISSIONS)): ?>
                 <div class="alert alert-warning"><?php echo e(trans('texts.upgrade_for_permissions')); ?></div>
                 <script type="text/javascript">
@@ -88,7 +88,7 @@
                     <?php $__currentLoopData = json_decode(PERMISSION_ENTITIES,1); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $permissionEntity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <?php
                         if (isset($user->permissions))
-                            $permissions = $user->permissions;
+                            $permissions = json_decode($user->permissions, 1);
                         else
                             $permissions = [];
                         ?>

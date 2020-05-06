@@ -37,8 +37,7 @@ class PermissionsRequired
         // Check if we have any permissions to check the user has.
         if ($permissions = !empty($actions['permissions']) ? $actions['permissions'] : null) {
             if (!Auth::user($guard)->hasPermission($permissions, !empty($actions['permissions_require_all']))) {
-
-                return response('Unauthorized.', 401);
+                return response()->view('errors/403');
             }
         }
         // Check controller permissions

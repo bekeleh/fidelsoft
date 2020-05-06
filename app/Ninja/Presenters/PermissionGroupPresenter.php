@@ -18,6 +18,11 @@ class PermissionGroupPresenter extends EntityPresenter
         return $card;
     }
 
+    public function displayName()
+    {
+        return ucwords($this->entity->name);
+    }
+
     public function moreActions()
     {
         $permissionGroup = $this->entity;

@@ -20,10 +20,12 @@ class UpdateUserRequest extends EntityRequest
         $rules = [];
         $this->validationData();
         $user = User::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
+        if ($user) {
+            $rules['username'] = 'required|max:50|unique:users,username,' . $user->id . ',id,account_id,' . $user->account_id;
+            $rules['email'] = 'required|email|max:50|unique:users,email,' . $user->id . ',id';
+        }
         $rules['first_name'] = 'required|max:50';
         $rules['last_name'] = 'required|max:50';
-        $rules['username'] = 'required|max:50|unique:users,username,' . $user->id . ',id,account_id,' . $user->account_id;
-        $rules['email'] = 'required|email|max:50|unique:users,email,' . $user->id . ',id';
         $rules['permission_groups'] = 'required|array';
         $rules['location_id'] = 'numeric';
         $rules['is_deleted'] = 'boolean';
