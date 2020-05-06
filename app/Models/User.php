@@ -12,6 +12,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Laracasts\Presenter\PresentableTrait;
 
@@ -317,17 +318,18 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
         return false;
     }
 
-    public function hasAccess($section)
+    public function hasAccess($permission)
     {
-        $userGroups = $this->groups;
+        $user = Auth::user();
+        $accountId = $user->Account_id;
+        $userGroups = $user->groups;
         if (count($userGroups) == 0) {
             return false;
         }
 
         // Loop through permission group to see if any of them granted this via groups.
         foreach ($userGroups as $userGroup) {
-            $groupPermissions = (array)json_decode($userGroup->permissions, 1);
-            if (array_key_exists($section, $groupPermissions)) {
+            if (is_array(json_decode($userGroup->permissions, 1)) && in_array($permission, json_decode($userGroup->permissions, 1))) {
                 return true;
             }
         }

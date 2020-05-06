@@ -25,7 +25,7 @@ class DashboardController extends BaseController
     public function index()
     {
         $user = Auth::user();
-        $viewAll = $user->isSuperUser() ?: $user->hasAccess('admin');
+        $viewAll = Utils::hasPermission('admin') ?: $user->can('view', ENTITY_DASHBOARD) ?: false;
 
         $userId = $user->id;
         $account = $user->account;
