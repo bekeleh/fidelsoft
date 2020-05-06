@@ -20,19 +20,31 @@ class ItemPriceDatatable extends EntityDatatable
             [
                 'item_name',
                 function ($model) {
-                    return link_to('products/' . $model->public_id . '/edit', $model->item_name)->toHtml();
+                    if (Auth::user()->can('edit', [ENTITY_PRODUCT, $model])) {
+                        return link_to('products/' . $model->public_id . '/edit', $model->item_name)->toHtml();
+                    } else {
+                        $model->item_name;
+                    }
                 },
             ],
             [
                 'item_brand_name',
                 function ($model) {
-                    return link_to('item_brands/' . $model->public_id . '/edit', $model->item_brand_name)->toHtml();
+                    if (Auth::user()->can('edit', [ENTITY_ITEM_BRAND, $model])) {
+                        return link_to('item_brands/' . $model->public_id . '/edit', $model->item_brand_name)->toHtml();
+                    } else {
+                        $model->item_brand_name;
+                    }
                 },
             ],
             [
                 'item_category_name',
                 function ($model) {
-                    return link_to('item_categories/' . $model->public_id . '/edit', $model->item_category_name)->toHtml();
+                    if (Auth::user()->can('edit', [ENTITY_ITEM_CATE, $model])) {
+                        return link_to('item_categories/' . $model->public_id . '/edit', $model->item_category_name)->toHtml();
+                    } else {
+                        $model->item_category_name;
+                    }
                 },
             ],
             [
@@ -119,6 +131,9 @@ class ItemPriceDatatable extends EntityDatatable
                 function ($model) {
                     return URL::to("item_prices/{$model->public_id}/edit");
                 },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_ITEM_PRICE]);
+                },
             ],
             [
                 trans('texts.clone_item_price'),
@@ -126,8 +141,17 @@ class ItemPriceDatatable extends EntityDatatable
                     return URL::to("item_prices/{$model->public_id}/clone");
                 },
                 function ($model) {
-                    return Auth::user()->can('create', ENTITY_ITEM_PRICE);
+                    return Auth::user()->can('create', [ENTITY_ITEM_PRICE]);
                 },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_ITEM_PRICE, $model]);
+                },
+
             ],
         ];
     }

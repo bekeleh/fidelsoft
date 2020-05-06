@@ -59,10 +59,10 @@ class PermissionDatatable extends EntityDatatable
             [
                 trans('texts.edit_permission'),
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_PERMISSION, $model]))
                         return URL::to("permissions/{$model->public_id}/edit");
-                    elseif (Auth::user()->can('view', [ENTITY_PERMISSION, $model]))
-                        return URL::to("permissions/{$model->public_id}");
+                },
+                function ($model) {
+                    return Auth::user()->can('create', ENTITY_PERMISSION);
                 },
             ],
             [
@@ -72,6 +72,14 @@ class PermissionDatatable extends EntityDatatable
                 },
                 function ($model) {
                     return Auth::user()->can('create', ENTITY_PERMISSION);
+                },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_PERMISSION]);
                 },
             ],
         ];

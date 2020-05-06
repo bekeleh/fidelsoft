@@ -129,7 +129,16 @@ class PaymentDatatable extends EntityDatatable
                     return URL::to("payments/{$model->public_id}/edit");
                 },
                 function ($model) {
-                    return Auth::user()->can('view', [ENTITY_PAYMENT, $model]);
+                    return Auth::user()->can('edit', [ENTITY_PAYMENT, $model]);
+                },
+            ],
+            [
+                trans('texts.clone_payment'),
+                function ($model) {
+                    return URL::to("payments/{$model->public_id}/clone");
+                },
+                function ($model) {
+                    return Auth::user()->can('create', [ENTITY_PAYMENT, $model]);
                 },
             ],
             [
@@ -155,6 +164,14 @@ class PaymentDatatable extends EntityDatatable
                     return Auth::user()->can('edit', [ENTITY_PAYMENT, $model])
                         && $model->payment_status_id >= PAYMENT_STATUS_COMPLETED
                         && $model->refunded < $model->amount;
+                },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_PAYMENT]);
                 },
             ],
         ];

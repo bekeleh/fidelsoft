@@ -2,6 +2,7 @@
 
 namespace App\Ninja\Datatables;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 
 class PaymentTermDatatable extends EntityDatatable
@@ -28,6 +29,26 @@ class PaymentTermDatatable extends EntityDatatable
                 trans('texts.edit_payment_term'),
                 function ($model) {
                     return URL::to("payment_terms/{$model->public_id}/edit");
+                },
+                function ($model) {
+                    return Auth::user()->can('edit', ENTITY_PAYMENT_TERM);
+                },
+            ],
+            [
+                trans('texts.clone_payment_term'),
+                function ($model) {
+                    return URL::to("payment_terms/{$model->public_id}/clone");
+                },
+                function ($model) {
+                    return Auth::user()->can('create', ENTITY_PAYMENT_TERM);
+                },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_PAYMENT_TERM]);
                 },
             ],
         ];

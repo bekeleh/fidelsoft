@@ -66,10 +66,10 @@ class UnitDatatable extends EntityDatatable
             [
                 trans('texts.edit_unit'),
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_UNIT, $model]))
-                        return URL::to("units/{$model->public_id}/edit");
-                    elseif (Auth::user()->can('view', [ENTITY_UNIT, $model]))
-                        return URL::to("units/{$model->public_id}");
+                    return URL::to("units/{$model->public_id}/edit");
+                },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_UNIT, $model]);
                 },
             ],
             [
@@ -79,6 +79,14 @@ class UnitDatatable extends EntityDatatable
                 },
                 function ($model) {
                     return Auth::user()->can('create', ENTITY_UNIT);
+                },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_UNIT, $model]);
                 },
             ],
         ];

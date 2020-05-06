@@ -124,6 +124,9 @@ class ProductDatatable extends EntityDatatable
                 function ($model) {
                     return URL::to("products/{$model->public_id}/edit");
                 },
+                function ($model) {
+                    return Auth::user()->can('edit', ENTITY_PRODUCT);
+                },
             ],
             [
                 trans('texts.clone_product'),
@@ -141,6 +144,14 @@ class ProductDatatable extends EntityDatatable
                 },
                 function ($model) {
                     return (!$model->deleted_at || $model->deleted_at == '0000-00-00') && Auth::user()->can('create', ENTITY_INVOICE);
+                },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_PRODUCT]);
                 },
             ],
         ];

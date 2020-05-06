@@ -105,7 +105,7 @@ class ExpenseDatatable extends EntityDatatable
                     return URL::to("expenses/{$model->public_id}/edit");
                 },
                 function ($model) {
-                    return Auth::user()->can('view', [ENTITY_EXPENSE, $model]);
+                    return Auth::user()->can('edit', [ENTITY_EXPENSE, $model]);
                 },
             ],
             [
@@ -118,12 +118,12 @@ class ExpenseDatatable extends EntityDatatable
                 },
             ],
             [
-                trans('texts.view_invoice'),
+                trans('texts.edit_invoice'),
                 function ($model) {
                     return URL::to("/invoices/{$model->invoice_public_id}/edit");
                 },
                 function ($model) {
-                    return $model->invoice_public_id && Auth::user()->can('view', [ENTITY_INVOICE, $model]);
+                    return $model->invoice_public_id && Auth::user()->can('edit', [ENTITY_INVOICE, $model]);
                 },
             ],
             [
@@ -133,6 +133,14 @@ class ExpenseDatatable extends EntityDatatable
                 },
                 function ($model) {
                     return !$model->invoice_id && (!$model->deleted_at || $model->deleted_at == '0000-00-00') && Auth::user()->can('create', ENTITY_INVOICE);
+                },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_INVOICE]);
                 },
             ],
         ];

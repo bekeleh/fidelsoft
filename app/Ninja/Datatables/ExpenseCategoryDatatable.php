@@ -75,6 +75,23 @@ class ExpenseCategoryDatatable extends EntityDatatable
                     return Auth::user()->can('edit', [ENTITY_EXPENSE_CATEGORY, $model]);
                 },
             ],
+            [
+                trans('texts.clone_category'),
+                function ($model) {
+                    return URL::to("expense_categories/{$model->public_id}/clone");
+                },
+                function ($model) {
+                    return Auth::user()->can('create', [ENTITY_EXPENSE_CATEGORY, $model]);
+                },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_EXPENSE_CATEGORY]);
+                },
+            ],
         ];
     }
 }

@@ -36,7 +36,24 @@ class ProposalCategoryDatatable extends EntityDatatable
                     return URL::to("proposals/categories/{$model->public_id}/edit");
                 },
                 function ($model) {
-                    return Auth::user()->can('view', [ENTITY_PROPOSAL_CATEGORY, $model]);
+                    return Auth::user()->can('edit', [ENTITY_PROPOSAL_CATEGORY, $model]);
+                },
+            ],
+            [
+                trans('texts.clone_category'),
+                function ($model) {
+                    return URL::to("proposals/categories/{$model->public_id}/clone");
+                },
+                function ($model) {
+                    return Auth::user()->can('create', [ENTITY_PROPOSAL_CATEGORY, $model]);
+                },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_PROPOSAL_CATEGORY]);
                 },
             ],
         ];

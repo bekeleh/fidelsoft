@@ -66,10 +66,10 @@ class StatusDatatable extends EntityDatatable
             [
                 trans('texts.edit_status'),
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_STATUS, $model]))
-                        return URL::to("statuses/{$model->public_id}/edit");
-                    elseif (Auth::user()->can('view', [ENTITY_STATUS, $model]))
-                        return URL::to("statuses/{$model->public_id}");
+                    return URL::to("statuses/{$model->public_id}/edit");
+                },
+                function ($model) {
+                    return Auth::user()->can('edit', ENTITY_STATUS);
                 },
             ],
             [
@@ -79,6 +79,14 @@ class StatusDatatable extends EntityDatatable
                 },
                 function ($model) {
                     return Auth::user()->can('create', ENTITY_STATUS);
+                },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_STATUS]);
                 },
             ],
         ];

@@ -75,7 +75,16 @@ class CreditDatatable extends EntityDatatable
                     return URL::to("credits/{$model->public_id}/edit");
                 },
                 function ($model) {
-                    return Auth::user()->can('view', [ENTITY_CREDIT, $model]);
+                    return Auth::user()->can('edit', [ENTITY_CREDIT, $model]);
+                },
+            ],
+            [
+                trans('texts.clone_credit'),
+                function ($model) {
+                    return URL::to("credits/{$model->public_id}/clone");
+                },
+                function ($model) {
+                    return Auth::user()->can('create', [ENTITY_CREDIT, $model]);
                 },
             ],
             [
@@ -85,6 +94,14 @@ class CreditDatatable extends EntityDatatable
                 },
                 function ($model) {
                     return Auth::user()->can('create', ENTITY_PAYMENT);
+                },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_PAYMENT]);
                 },
             ],
         ];

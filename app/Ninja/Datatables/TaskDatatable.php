@@ -80,7 +80,7 @@ class TaskDatatable extends EntityDatatable
                     return URL::to('tasks/' . $model->public_id . '/edit');
                 },
                 function ($model) {
-                    return (!$model->deleted_at || $model->deleted_at == '0000-00-00') && Auth::user()->can('view', [ENTITY_TASK, $model]);
+                    return (!$model->deleted_at || $model->deleted_at == '0000-00-00') && Auth::user()->can('edit', [ENTITY_TASK, $model]);
                 },
             ],
             [
@@ -117,6 +117,14 @@ class TaskDatatable extends EntityDatatable
                 },
                 function ($model) {
                     return !$model->is_running && !$model->invoice_number && (!$model->deleted_at || $model->deleted_at == '0000-00-00') && Auth::user()->canCreateOrEdit(ENTITY_INVOICE);
+                },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_TASK, $model]);
                 },
             ],
         ];

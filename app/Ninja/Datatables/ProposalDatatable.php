@@ -77,7 +77,24 @@ class ProposalDatatable extends EntityDatatable
                     return URL::to("proposals/{$model->public_id}/edit");
                 },
                 function ($model) {
-                    return Auth::user()->can('view', [ENTITY_PROPOSAL, $model]);
+                    return Auth::user()->can('edit', [ENTITY_PROPOSAL, $model]);
+                },
+            ],
+            [
+                trans('texts.clone_proposal'),
+                function ($model) {
+                    return URL::to("proposals/{$model->public_id}/clone");
+                },
+                function ($model) {
+                    return Auth::user()->can('create', [ENTITY_PROPOSAL, $model]);
+                },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_PROPOSAL]);
                 },
             ],
         ];

@@ -46,7 +46,7 @@ class ProposalTemplateDatatable extends EntityDatatable
                     return URL::to("proposals/templates/{$model->public_id}/edit");
                 },
                 function ($model) {
-                    return Auth::user()->can('view', [ENTITY_PROPOSAL_TEMPLATE, $model]);
+                    return Auth::user()->can('edit', [ENTITY_PROPOSAL_TEMPLATE, $model]);
                 },
             ],
             [
@@ -55,7 +55,7 @@ class ProposalTemplateDatatable extends EntityDatatable
                     return URL::to("proposals/templates/{$model->public_id}/clone");
                 },
                 function ($model) {
-                    return Auth::user()->can('view', [ENTITY_PROPOSAL_TEMPLATE, $model]);
+                    return Auth::user()->can('create', [ENTITY_PROPOSAL_TEMPLATE, $model]);
                 },
             ],
             [
@@ -64,7 +64,15 @@ class ProposalTemplateDatatable extends EntityDatatable
                     return URL::to("proposals/create/0/{$model->public_id}");
                 },
                 function ($model) {
-                    return Auth::user()->can('create', [ENTITY_PROPOSAL, $model]);
+                    return Auth::user()->can('create', [ENTITY_PROPOSAL_TEMPLATE, $model]);
+                },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_PROPOSAL_TEMPLATE]);
                 },
             ],
         ];

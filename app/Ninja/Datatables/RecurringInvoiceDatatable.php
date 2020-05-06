@@ -11,6 +11,7 @@ class RecurringInvoiceDatatable extends EntityDatatable
 {
     public $entityType = ENTITY_RECURRING_INVOICE;
     public $sortCol = 1;
+
     public function columns()
     {
         return [
@@ -33,7 +34,7 @@ class RecurringInvoiceDatatable extends EntityDatatable
                 function ($model) {
                     return link_to("clients/{$model->client_public_id}", Utils::getClientDisplayName($model))->toHtml();
                 },
-                ! $this->hideClient,
+                !$this->hideClient,
             ],
             [
                 'start_date',
@@ -82,7 +83,7 @@ class RecurringInvoiceDatatable extends EntityDatatable
         $label = Invoice::calcStatusLabel($model->invoice_status_name, $class, $this->entityType, $model->quote_invoice_id);
 
         if ($model->invoice_status_id == INVOICE_STATUS_SENT) {
-            if (! $model->last_sent_date_sql || $model->last_sent_date_sql == '0000-00-00') {
+            if (!$model->last_sent_date_sql || $model->last_sent_date_sql == '0000-00-00') {
                 $label = trans('texts.pending');
             } else {
                 $label = trans('texts.active');
@@ -101,7 +102,7 @@ class RecurringInvoiceDatatable extends EntityDatatable
                     return URL::to("invoices/{$model->public_id}/edit");
                 },
                 function ($model) {
-                    return Auth::user()->can('view', [ENTITY_INVOICE, $model]);
+                    return Auth::user()->can('edit', [ENTITY_INVOICE, $model]);
                 },
             ],
             [
@@ -120,6 +121,14 @@ class RecurringInvoiceDatatable extends EntityDatatable
                 },
                 function ($model) {
                     return Auth::user()->can('create', ENTITY_QUOTE);
+                },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_INVOICE]);
                 },
             ],
 

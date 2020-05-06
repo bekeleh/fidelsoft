@@ -2,6 +2,7 @@
 
 namespace App\Ninja\Datatables;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 
 class TaxRateDatatable extends EntityDatatable
@@ -45,6 +46,27 @@ class TaxRateDatatable extends EntityDatatable
                 function ($model) {
                     return URL::to("tax_rates/{$model->public_id}/edit");
                 },
+                function ($model) {
+                    return Auth::user()->can('edit', ENTITY_TAX_RATE);
+                },
+            ],
+            [
+                uctrans('texts.clone_tax_rate'),
+                function ($model) {
+                    return URL::to("tax_rates/{$model->public_id}/clone");
+                },
+                function ($model) {
+                    return Auth::user()->can('create', ENTITY_TAX_RATE);
+                },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_TAX_RATE, $model]);
+                },
+
             ],
         ];
     }

@@ -2,12 +2,14 @@
 
 namespace App\Ninja\Datatables;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 
 class SubscriptionDatatable extends EntityDatatable
 {
     public $entityType = ENTITY_SUBSCRIPTION;
     public $sortCol = 1;
+
     public function columns()
     {
         return [
@@ -33,6 +35,26 @@ class SubscriptionDatatable extends EntityDatatable
                 uctrans('texts.edit_subscription'),
                 function ($model) {
                     return URL::to("subscriptions/{$model->public_id}/edit");
+                },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_SUBSCRIPTION]);
+                },
+            ],
+            [
+                uctrans('texts.clone_subscription'),
+                function ($model) {
+                    return URL::to("subscriptions/{$model->public_id}/clone");
+                },
+                function ($model) {
+                    return Auth::user()->can('create', [ENTITY_SUBSCRIPTION]);
+                },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_SUBSCRIPTION]);
                 },
             ],
         ];

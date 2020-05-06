@@ -79,10 +79,10 @@ class ClientDatatable extends EntityDatatable
             [
                 trans('texts.edit_client'),
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_CLIENT, $model]))
-                        return URL::to("clients/{$model->public_id}/edit");
-                    elseif (Auth::user()->can('view', [ENTITY_CLIENT, $model]))
-                        return URL::to("clients/{$model->public_id}");
+                    return URL::to("clients/{$model->public_id}/edit");
+                },
+                function ($model) {
+                    return Auth::user()->can('edit', ENTITY_CLIENT);
                 },
             ],
             [
@@ -153,6 +153,14 @@ class ClientDatatable extends EntityDatatable
                 },
                 function ($model) {
                     return Auth::user()->can('create', ENTITY_EXPENSE);
+                },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_EXPENSE]);
                 },
             ],
         ];

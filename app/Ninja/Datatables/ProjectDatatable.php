@@ -69,7 +69,16 @@ class ProjectDatatable extends EntityDatatable
                     return URL::to("projects/{$model->public_id}/edit");
                 },
                 function ($model) {
-                    return Auth::user()->can('view', [ENTITY_PROJECT, $model]);
+                    return Auth::user()->can('edit', [ENTITY_PROJECT, $model]);
+                },
+            ],
+            [
+                trans('texts.clone_project'),
+                function ($model) {
+                    return URL::to("projects/{$model->public_id}/clone");
+                },
+                function ($model) {
+                    return Auth::user()->can('create', [ENTITY_PROJECT, $model]);
                 },
             ],
             [
@@ -79,6 +88,14 @@ class ProjectDatatable extends EntityDatatable
                 },
                 function ($model) {
                     return Auth::user()->can('create', ENTITY_INVOICE);
+                },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_PROJECT]);
                 },
             ],
         ];

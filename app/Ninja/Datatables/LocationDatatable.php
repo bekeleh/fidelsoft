@@ -75,7 +75,7 @@ class LocationDatatable extends EntityDatatable
                 },
             ],
             [
-                trans('texts.clone_location'),
+                uctrans('texts.clone_location'),
                 function ($model) {
                     return URL::to("locations/{$model->public_id}/clone");
                 },

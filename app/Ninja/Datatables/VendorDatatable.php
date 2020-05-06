@@ -17,8 +17,12 @@ class VendorDatatable extends EntityDatatable
             [
                 'vendor_name',
                 function ($model) {
-                    $str = link_to("vendors/{$model->public_id}", $model->vendor_name ?: '')->toHtml();
-                    return $this->addNote($str, $model->private_notes);
+                    if (Auth::user()->can('view', [ENTITY_VENDOR])) {
+                        $str = link_to("vendors/{$model->public_id}", $model->vendor_name ?: '')->toHtml();
+                        return $this->addNote($str, $model->private_notes);
+                    } else {
+                        $model->vendor_name;
+                    }
                 },
             ],
             [
@@ -57,7 +61,25 @@ class VendorDatatable extends EntityDatatable
                     return URL::to("vendors/{$model->public_id}/edit");
                 },
                 function ($model) {
-                    return Auth::user()->can('view', [ENTITY_VENDOR, $model]);
+                    return Auth::user()->can('edit', [ENTITY_VENDOR, $model]);
+                },
+            ],
+            [
+                trans('texts.clone_vendor'),
+                function ($model) {
+                    return URL::to("vendors/{$model->public_id}/clone");
+                },
+                function ($model) {
+                    return Auth::user()->can('create', ENTITY_VENDOR);
+                },
+            ],
+            [
+                trans('texts.enter_expense'),
+                function ($model) {
+                    return URL::to("expenses/create/{$model->public_id}");
+                },
+                function ($model) {
+                    return Auth::user()->can('create', ENTITY_EXPENSE);
                 },
             ],
             [
@@ -65,17 +87,7 @@ class VendorDatatable extends EntityDatatable
                 return false;
             },
                 function ($model) {
-                    return Auth::user()->can('edit', [ENTITY_VENDOR, $model]) && Auth::user()->can('create', ENTITY_EXPENSE);
-                },
-
-            ],
-            [
-                trans('texts.enter_expense'),
-                function ($model) {
-                    return URL::to("expenses/create/0/{$model->public_id}");
-                },
-                function ($model) {
-                    return Auth::user()->can('create', ENTITY_EXPENSE);
+                    return Auth::user()->can('edit', [ENTITY_EXPENSE]);
                 },
             ],
         ];

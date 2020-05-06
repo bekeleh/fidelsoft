@@ -73,10 +73,10 @@ class HoldReasonDatatable extends EntityDatatable
             [
                 trans('texts.edit_hold_reason'),
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_HOLD_REASON, $model]))
-                        return URL::to("hold_reasons/{$model->public_id}/edit");
-                    elseif (Auth::user()->can('view', [ENTITY_HOLD_REASON, $model]))
-                        return URL::to("hold_reasons/{$model->public_id}");
+                    return URL::to("hold_reasons/{$model->public_id}/edit");
+                },
+                function ($model) {
+                    return Auth::user()->can('edit', ENTITY_HOLD_REASON);
                 },
             ],
             [
@@ -86,6 +86,14 @@ class HoldReasonDatatable extends EntityDatatable
                 },
                 function ($model) {
                     return Auth::user()->can('create', ENTITY_HOLD_REASON);
+                },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_HOLD_REASON]);
                 },
             ],
         ];

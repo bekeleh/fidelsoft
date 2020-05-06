@@ -99,6 +99,9 @@ class ItemMovementDatatable extends EntityDatatable
                 function ($model) {
                     return URL::to("item_movements/{$model->public_id}/edit");
                 },
+                function ($model) {
+                    return Auth::user()->can('edit', ENTITY_ITEM_MOVEMENT);
+                },
             ],
             [
                 trans('texts.clone_item_movement'),
@@ -107,6 +110,14 @@ class ItemMovementDatatable extends EntityDatatable
                 },
                 function ($model) {
                     return Auth::user()->can('create', ENTITY_ITEM_MOVEMENT);
+                },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_ITEM_MOVEMENT]);
                 },
             ],
         ];

@@ -25,9 +25,8 @@ class ItemStoreDatatable extends EntityDatatable
                             return link_to("products/{$model->public_id}", $model->item_name)->toHtml();
                         else
                             return $model->item_name;
-                    } else {
-                        return '';
                     }
+                    return false;
                 }
             ],
             [
@@ -38,9 +37,8 @@ class ItemStoreDatatable extends EntityDatatable
                             return link_to("item_brands/{$model->public_id}", $model->item_brand_name)->toHtml();
                         else
                             return $model->item_brand_name;
-                    } else {
-                        return '';
                     }
+                    return false;
                 }
             ],
             [
@@ -51,9 +49,8 @@ class ItemStoreDatatable extends EntityDatatable
                             return link_to("item_categories/{$model->public_id}", $model->item_category_name)->toHtml();
                         else
                             return $model->item_category_name;
-                    } else {
-                        return '';
                     }
+                    return false;
                 }
             ],
             [
@@ -64,19 +61,14 @@ class ItemStoreDatatable extends EntityDatatable
                             return link_to("stores/{$model->public_id}", $model->store_name)->toHtml();
                         else
                             return $model->store_name;
-                    } else {
-                        return '';
                     }
+                    return false;
                 }
             ],
             [
                 'bin',
                 function ($model) {
-                    if ($model->bin) {
-                        return link_to('item_stores/' . $model->public_id . '/edit', $model->bin)->toHtml();
-                    } else {
-                        return '';
-                    }
+                    return $model->bin;
                 },
             ],
             [
@@ -143,6 +135,9 @@ class ItemStoreDatatable extends EntityDatatable
                 uctrans('texts.edit_item_store'),
                 function ($model) {
                     return URL::to("item_stores/{$model->public_id}/edit");
+                },
+                function ($model) {
+                    return Auth::user()->can('edit', ENTITY_ITEM_STORE);
                 },
             ],
             [

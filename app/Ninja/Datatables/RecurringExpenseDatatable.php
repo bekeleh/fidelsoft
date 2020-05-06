@@ -113,7 +113,24 @@ class RecurringExpenseDatatable extends EntityDatatable
                     return URL::to("recurring_expenses/{$model->public_id}/edit");
                 },
                 function ($model) {
-                    return Auth::user()->can('view', [ENTITY_RECURRING_EXPENSE, $model]);
+                    return Auth::user()->can('edit', [ENTITY_RECURRING_EXPENSE, $model]);
+                },
+            ],
+            [
+                trans('texts.clone_recurring_expense'),
+                function ($model) {
+                    return URL::to("recurring_expenses/{$model->public_id}/clone");
+                },
+                function ($model) {
+                    return Auth::user()->can('create', [ENTITY_RECURRING_EXPENSE, $model]);
+                },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_RECURRING_EXPENSE]);
                 },
             ],
         ];

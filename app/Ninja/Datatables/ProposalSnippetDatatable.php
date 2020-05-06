@@ -61,7 +61,24 @@ class ProposalSnippetDatatable extends EntityDatatable
                     return URL::to("proposals/snippets/{$model->public_id}/edit");
                 },
                 function ($model) {
-                    return Auth::user()->can('view', [ENTITY_PROPOSAL_SNIPPET, $model]);
+                    return Auth::user()->can('edit', [ENTITY_PROPOSAL_SNIPPET, $model]);
+                },
+            ],
+            [
+                trans('texts.clone_proposal_snippet'),
+                function ($model) {
+                    return URL::to("proposals/snippets/{$model->public_id}/clone");
+                },
+                function ($model) {
+                    return Auth::user()->can('create', [ENTITY_PROPOSAL_SNIPPET, $model]);
+                },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_PROPOSAL_SNIPPET]);
                 },
             ],
         ];

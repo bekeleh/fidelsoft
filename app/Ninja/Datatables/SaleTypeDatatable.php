@@ -66,10 +66,10 @@ class SaleTypeDatatable extends EntityDatatable
             [
                 trans('texts.edit_sale_type'),
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_SALE_TYPE, $model]))
-                        return URL::to("sale_types/{$model->public_id}/edit");
-                    elseif (Auth::user()->can('view', [ENTITY_SALE_TYPE, $model]))
-                        return URL::to("sale_types/{$model->public_id}");
+                    return URL::to("sale_types/{$model->public_id}/edit");
+                },
+                function ($model) {
+                    return Auth::user()->can('edit', ENTITY_SALE_TYPE);
                 },
             ],
             [
@@ -79,6 +79,14 @@ class SaleTypeDatatable extends EntityDatatable
                 },
                 function ($model) {
                     return Auth::user()->can('create', ENTITY_SALE_TYPE);
+                },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_SALE_TYPE]);
                 },
             ],
         ];

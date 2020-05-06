@@ -66,10 +66,10 @@ class ItemCategoryDatatable extends EntityDatatable
             [
                 trans('texts.edit_item_category'),
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_ITEM_CATEGORY, $model]))
-                        return URL::to("item_categories/{$model->public_id}/edit");
-                    elseif (Auth::user()->can('view', [ENTITY_ITEM_CATEGORY, $model]))
-                        return URL::to("item_categories/{$model->public_id}");
+                    return URL::to("item_categories/{$model->public_id}/edit");
+                },
+                function ($model) {
+                    return Auth::user()->can('edit', ENTITY_ITEM_CATEGORY);
                 },
             ],
             [
@@ -79,6 +79,14 @@ class ItemCategoryDatatable extends EntityDatatable
                 },
                 function ($model) {
                     return Auth::user()->can('create', ENTITY_ITEM_CATEGORY);
+                },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_ITEM_CATEGORY]);
                 },
             ],
         ];

@@ -88,6 +88,9 @@ class StoreDatatable extends EntityDatatable
                 function ($model) {
                     return URL::to("stores/{$model->public_id}/edit");
                 },
+                function ($model) {
+                    return Auth::user()->can('edit', ENTITY_STORE);
+                },
             ],
             [
                 trans('texts.clone_store'),
@@ -96,6 +99,14 @@ class StoreDatatable extends EntityDatatable
                 },
                 function ($model) {
                     return Auth::user()->can('create', ENTITY_STORE);
+                },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_STORE]);
                 },
             ],
         ];

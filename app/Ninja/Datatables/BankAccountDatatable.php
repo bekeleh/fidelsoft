@@ -2,6 +2,7 @@
 
 namespace App\Ninja\Datatables;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 
 class BankAccountDatatable extends EntityDatatable
@@ -34,6 +35,26 @@ class BankAccountDatatable extends EntityDatatable
                 uctrans('texts.edit_bank_account'),
                 function ($model) {
                     return URL::to("bank_accounts/{$model->public_id}/edit");
+                },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_BANK_ACCOUNT]);
+                },
+            ],
+            [
+                uctrans('texts.clone_bank_account'),
+                function ($model) {
+                    return URL::to("bank_accounts/{$model->public_id}/clone");
+                },
+                function ($model) {
+                    return Auth::user()->can('create', [ENTITY_BANK_ACCOUNT]);
+                },
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_BANK_ACCOUNT]);
                 },
             ],
         ];
