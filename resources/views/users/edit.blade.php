@@ -74,7 +74,6 @@
         $(function () {
             <!-- user location -->
             var locationId = {{ $locationPublicId ?: 0 }};
-            -
             var $locationSelect = $('select#location_id');
             @if (Auth::user()->can('create', ENTITY_LOCATION))
             $locationSelect.append(new Option("{{ trans('texts.create_location')}}: $name", '-1'));

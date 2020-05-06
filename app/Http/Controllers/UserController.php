@@ -124,6 +124,7 @@ class UserController extends BaseController
             $url = 'users/' . $user->public_id;
         }
         $userGroups = $user->groups;
+
         $data = [
             'location' => null,
             'user' => $user,

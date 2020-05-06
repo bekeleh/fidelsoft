@@ -92,7 +92,6 @@
         $(function () {
             <!-- user location -->
             var locationId = <?php echo e($locationPublicId ?: 0); ?>;
-            -
             var $locationSelect = $('select#location_id');
             <?php if(Auth::user()->can('create', ENTITY_LOCATION)): ?>
             $locationSelect.append(new Option("<?php echo e(trans('texts.create_location')); ?>: $name", '-1'));
