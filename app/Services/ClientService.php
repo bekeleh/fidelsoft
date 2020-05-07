@@ -52,7 +52,7 @@ class ClientService extends BaseService
 
         $query = $this->clientRepo->find($search, $accountId);
 
-        return $this->datatableService->createDatatable($datatable, $query, 'clients');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 
     public function getDatatableSaleType($saleTypePublicId)

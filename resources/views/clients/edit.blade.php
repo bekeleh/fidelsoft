@@ -38,8 +38,8 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="panel panel-default" style="min-height: 380px">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">{!! trans('texts.details') !!}</h3>
+                    <div class="panel-heading" style="color:white;background: #777 !important;">
+                        <h3 class="panel-title in-bold-white">{!! trans('texts.details') !!}</h3>
                     </div>
                     <div class="panel-body">
                         {!! Former::select('sale_type_id')->addOption('', '')
@@ -73,8 +73,8 @@
                 </div>
 
                 <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">{!! trans('texts.address') !!}</h3>
+                    <div class="panel-heading" style="color:white;background: #777 !important;">
+                        <h3 class="panel-title in-bold-white">{!! trans('texts.address') !!}</h3>
                     </div>
                     <div class="panel-body">
                         <div role="tabpanel">
@@ -133,8 +133,8 @@
             </div>
             <div class="col-md-6">
                 <div class="panel panel-default" style="min-height: 380px">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">{!! trans('texts.contacts') !!}</h3>
+                    <div class="panel-heading" style="color:white;background: #777 !important;">
+                        <h3 class="panel-title in-bold-white">{!! trans('texts.contacts') !!}</h3>
                     </div>
                     <div class="panel-body">
                         <div data-bind='template: { foreach: contacts,
@@ -188,8 +188,8 @@ afterAdd: showContact }'>
                     </div>
                 </div>
                 <div class="panel panel-default" style="min-height:505px">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">{!! trans('texts.additional_info') !!}</h3>
+                    <div class="panel-heading" style="color:white;background: #777 !important;">
+                        <h3 class="panel-title in-bold-white">{!! trans('texts.additional_info') !!}</h3>
                     </div>
                     <div class="panel-body">
                         <div role="tabpanel">
@@ -270,8 +270,8 @@ afterAdd: showContact }'>
                 </div>
                 @if (Auth::user()->account->isNinjaAccount())
                     <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">{!! trans('texts.pro_plan_product') !!}</h3>
+                        <div class="panel-heading" style="color:white;background: #777 !important;">
+                            <h3 class="panel-title in-bold-white">{!! trans('texts.pro_plan_product') !!}</h3>
                         </div>
                         <div class="panel-body">
                             @if (isset($planDetails))

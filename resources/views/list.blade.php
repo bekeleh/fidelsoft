@@ -45,6 +45,7 @@
            style="width:180px;margin-right:17px;background-color: white !important"
            class="form-control pull-left" placeholder="{{ trans('texts.filter') }}"
            value="{{ Input::get('filter') }}"/>
+
     <!-- create records -->
 @if (Auth::user()->can('create', $entityType))
     {!! Button::primary(mtrans($entityType, "new_{$entityType}"))
@@ -54,6 +55,7 @@
     ))
     ->appendIcon(Icon::create('plus-sign')) !!}
 @endif
+
 @if (in_array($entityType, [ENTITY_PROPOSAL,ENTITY_PROPOSAL_TEMPLATE,ENTITY_PROPOSAL_SNIPPET]))
     @if (Auth::user()->can('create', [ENTITY_PROPOSAL_TEMPLATE,ENTITY_PROPOSAL_SNIPPET]))
         {!! DropdownButton::normal(trans('texts.maintenance'))
@@ -128,14 +130,18 @@
         @endif
     @endif
 </div>
-{!! Datatable::table()
-->addColumn(Utils::trans($datatable->columnFields(), $datatable->entityType))
-->setUrl(empty($url) ? url('api/' . Utils::pluralizeEntityType($entityType)) : $url)
-->setCustomValues('entityType', Utils::pluralizeEntityType($entityType))
-->setCustomValues('clientId', isset($clientId) && $clientId && empty($projectId))
-->setOptions('sPaginationType', 'bootstrap')
-->setOptions('aaSorting', [[isset($clientId) ? ($datatable->sortCol-1) : $datatable->sortCol, 'desc']])
-->render('datatable') !!}
+
+<!-- Grid view -->
+@if(Auth::user()->can('create', $entityType))
+    {!! Datatable::table()
+    ->addColumn(Utils::trans($datatable->columnFields(), $datatable->entityType))
+    ->setUrl(empty($url) ? url('api/' . Utils::pluralizeEntityType($entityType)) : $url)
+    ->setCustomValues('entityType', Utils::pluralizeEntityType($entityType))
+    ->setCustomValues('clientId', isset($clientId) && $clientId && empty($projectId))
+    ->setOptions('sPaginationType', 'bootstrap')
+    ->setOptions('aaSorting', [[isset($clientId) ? ($datatable->sortCol-1) : $datatable->sortCol, 'desc']])
+    ->render('datatable') !!}
+@endif
 
 @if ($entityType == ENTITY_PAYMENT)
     @include('partials/refund_payment')

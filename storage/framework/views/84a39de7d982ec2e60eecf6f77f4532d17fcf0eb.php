@@ -1,20 +1,18 @@
-@extends('header')
+<?php $__env->startSection('head'); ?>
+    ##parent-placeholder-1a954628a960aaef81d7b2d4521929579f3541e6##
 
-@section('head')
-    @parent
+    <?php echo $__env->make('money_script', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
-    @include('money_script')
+    <script src="<?php echo e(asset('js/Chart.min.js')); ?>" type="text/javascript"></script>
 
-    <script src="{{ asset('js/Chart.min.js') }}" type="text/javascript"></script>
+    <script src="<?php echo e(asset('js/daterangepicker.min.js')); ?>?no_cache=<?php echo e(NINJA_VERSION); ?>" type="text/javascript"></script>
+    <link href="<?php echo e(asset('css/daterangepicker.css')); ?>?no_cache=<?php echo e(NINJA_VERSION); ?>" rel="stylesheet" type="text/css"/>
 
-    <script src="{{ asset('js/daterangepicker.min.js') }}?no_cache={{ NINJA_VERSION }}" type="text/javascript"></script>
-    <link href="{{ asset('css/daterangepicker.css') }}?no_cache={{ NINJA_VERSION }}" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo e(asset('css/tablesorter.css')); ?>?no_cache=<?php echo e(NINJA_VERSION); ?>" rel="stylesheet" type="text/css"/>
+    <script src="<?php echo e(asset('js/tablesorter.min.js')); ?>?no_cache=<?php echo e(NINJA_VERSION); ?>" type="text/javascript"></script>
 
-    <link href="{{ asset('css/tablesorter.css') }}?no_cache={{ NINJA_VERSION }}" rel="stylesheet" type="text/css"/>
-    <script src="{{ asset('js/tablesorter.min.js') }}?no_cache={{ NINJA_VERSION }}" type="text/javascript"></script>
-
-    <link href="{{ asset('css/select2.css') }}?no_cache={{ NINJA_VERSION }}" rel="stylesheet" type="text/css"/>
-    <script src="{{ asset('js/select2.min.js') }}?no_cache={{ NINJA_VERSION }}" type="text/javascript"></script>
+    <link href="<?php echo e(asset('css/select2.css')); ?>?no_cache=<?php echo e(NINJA_VERSION); ?>" rel="stylesheet" type="text/css"/>
+    <script src="<?php echo e(asset('js/select2.min.js')); ?>?no_cache=<?php echo e(NINJA_VERSION); ?>" type="text/javascript"></script>
 
     <style type="text/css">
         table.tablesorter th {
@@ -36,44 +34,47 @@
         }
     </style>
 
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('top-right')
-    {{--    @if (config('services.postmark') && auth()->user()->hasPermission('view_report'))--}}
-    @if (auth()->user()->hasPermission('view_report'))
-        {!! Button::normal(trans('texts.emails'))
+<?php $__env->startSection('top-right'); ?>
+    
+    <?php if(auth()->user()->hasPermission('view_report')): ?>
+        <?php echo Button::normal(trans('texts.emails'))
                 ->asLinkTo(url('/reports/emails'))
-                ->appendIcon(Icon::create('envelope')) !!}
-    @endif
-    {!! Button::normal(trans('texts.calendar'))
+                ->appendIcon(Icon::create('envelope')); ?>
+
+    <?php endif; ?>
+    <?php echo Button::normal(trans('texts.calendar'))
             ->asLinkTo(url('/reports/calendar'))
-            ->appendIcon(Icon::create('calendar')) !!}
-@stop
+            ->appendIcon(Icon::create('calendar')); ?>
 
-@section('content')
+<?php $__env->stopSection(); ?>
 
-    @if (!Utils::isPro())
+<?php $__env->startSection('content'); ?>
+
+    <?php if(!Utils::isPro()): ?>
         <div class="alert alert-warning" style="font-size:larger;">
             <center>
-                {!! trans('texts.pro_plan_reports', ['link'=>'<a href="javascript:showUpgradeModal()">' . trans('texts.pro_plan_remove_logo_link') . '</a>']) !!}
+                <?php echo trans('texts.pro_plan_reports', ['link'=>'<a href="javascript:showUpgradeModal()">' . trans('texts.pro_plan_remove_logo_link') . '</a>']); ?>
+
             </center>
         </div>
-    @endif
+    <?php endif; ?>
 
     <script type="text/javascript">
 
-        var chartStartDate = moment("{{ $startDate }}");
-        var chartEndDate = moment("{{ $endDate }}");
-        var dateRanges = {!! $account->present()->dateRangeOptions !!};
+        var chartStartDate = moment("<?php echo e($startDate); ?>");
+        var chartEndDate = moment("<?php echo e($endDate); ?>");
+        var dateRanges = <?php echo $account->present()->dateRangeOptions; ?>;
 
         function resolveRange(range) {
-            if (range == "{{ trans('texts.this_month') }}") {
+            if (range == "<?php echo e(trans('texts.this_month')); ?>") {
                 return 'this_month';
-            } else if (range == "{{ trans('texts.last_month') }}") {
+            } else if (range == "<?php echo e(trans('texts.last_month')); ?>") {
                 return 'last_month';
-            } else if (range == "{{ trans('texts.this_year') }}") {
+            } else if (range == "<?php echo e(trans('texts.this_year')); ?>") {
                 return 'this_year';
-            } else if (range == "{{ trans('texts.last_year') }}") {
+            } else if (range == "<?php echo e(trans('texts.last_year')); ?>") {
                 return 'last_year';
             } else {
                 return '';
@@ -94,7 +95,7 @@
 
             // Initialize date range selector
             function cb(start, end, label) {
-                $('#reportrange span').html(start.format('{{ $account->getMomentDateFormat() }}') + ' - ' + end.format('{{ $account->getMomentDateFormat() }}'));
+                $('#reportrange span').html(start.format('<?php echo e($account->getMomentDateFormat()); ?>') + ' - ' + end.format('<?php echo e($account->getMomentDateFormat()); ?>'));
                 $('#start_date').val(start.format('YYYY-MM-DD'));
                 $('#end_date').val(end.format('YYYY-MM-DD'));
                 if (label) {
@@ -108,10 +109,10 @@
 
             $('#reportrange').daterangepicker({
                 locale: {
-                    format: "{{ $account->getMomentDateFormat() }}",
-                    customRangeLabel: "{{ trans('texts.custom_range') }}",
-                    applyLabel: "{{ trans('texts.apply') }}",
-                    cancelLabel: "{{ trans('texts.cancel') }}",
+                    format: "<?php echo e($account->getMomentDateFormat()); ?>",
+                    customRangeLabel: "<?php echo e(trans('texts.custom_range')); ?>",
+                    applyLabel: "<?php echo e(trans('texts.apply')); ?>",
+                    cancelLabel: "<?php echo e(trans('texts.cancel')); ?>",
                 },
                 startDate: chartStartDate,
                 endDate: chartEndDate,
@@ -124,34 +125,42 @@
         });
     </script>
 
-    {!! Former::open()->addClass('report-form')->rules(['start_date' => 'required', 'end_date' => 'required']) !!}
+    <?php echo Former::open()->addClass('report-form')->rules(['start_date' => 'required', 'end_date' => 'required']); ?>
+
 
     <div style="display:none">
-        {!! Former::text('action')->forceValue('') !!}
-        {!! Former::text('range')->forceValue('') !!}
-        {!! Former::text('scheduled_report_id')->forceValue('') !!}
+        <?php echo Former::text('action')->forceValue(''); ?>
+
+        <?php echo Former::text('range')->forceValue(''); ?>
+
+        <?php echo Former::text('scheduled_report_id')->forceValue(''); ?>
+
     </div>
 
-    {!! Former::populateField('start_date', $startDate) !!}
-    {!! Former::populateField('end_date', $endDate) !!}
+    <?php echo Former::populateField('start_date', $startDate); ?>
+
+    <?php echo Former::populateField('end_date', $endDate); ?>
+
 
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading" style="color: white;background-color: #777 !important;">
-                    <h3 class="panel-title in-bold-white">{!! trans('texts.report_settings') !!}</h3>
+                    <h3 class="panel-title in-bold-white"><?php echo trans('texts.report_settings'); ?></h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-6">
 
-                            {!! Former::select('report_type')
+                            <?php echo Former::select('report_type')
                                     ->data_bind("options: report_types, optionsText: 'transType', optionsValue: 'type', value: report_type")
-                                    ->label(trans('texts.type')) !!}
+                                    ->label(trans('texts.type')); ?>
+
 
                             <div class="form-group">
                                 <label for="reportrange" class="control-label col-lg-4 col-sm-4">
-                                    {{ trans('texts.date_range') }}
+                                    <?php echo e(trans('texts.date_range')); ?>
+
                                 </label>
                                 <div class="col-lg-8 col-sm-8">
                                     <div id="reportrange"
@@ -161,8 +170,10 @@
                                     </div>
 
                                     <div style="display:none">
-                                        {!! Former::text('start_date') !!}
-                                        {!! Former::text('end_date') !!}
+                                        <?php echo Former::text('start_date'); ?>
+
+                                        <?php echo Former::text('end_date'); ?>
+
                                     </div>
                                 </div>
                             </div>
@@ -170,47 +181,52 @@
                         </div>
                         <div class="col-md-6">
 
-                            {!! Former::select('group')
-                                        ->data_bind("options: groups, optionsText: 'transPeriod', optionsValue: 'period', value: group") !!}
+                            <?php echo Former::select('group')
+                                        ->data_bind("options: groups, optionsText: 'transPeriod', optionsValue: 'period', value: group"); ?>
+
 
                             <span data-bind="visible: showSubgroup">
-							{!! Former::select('subgroup')
-										->data_bind("options: subgroups, optionsText: 'transField', optionsValue: 'field', value: subgroup") !!}
+							<?php echo Former::select('subgroup')
+										->data_bind("options: subgroups, optionsText: 'transField', optionsValue: 'field', value: subgroup"); ?>
+
 						</span>
 
                             <div id="statusField" style="display:none" data-bind="visible: showStatus">
                                 <div class="form-group">
                                     <label for="status_ids"
-                                           class="control-label col-lg-4 col-sm-4">{{ trans('texts.status') }}</label>
+                                           class="control-label col-lg-4 col-sm-4"><?php echo e(trans('texts.status')); ?></label>
                                     <div class="col-lg-8 col-sm-8">
                                         <select name="status_ids[]" class="form-control" style="width: 100%;"
-                                                id="statuses_{{ ENTITY_INVOICE }}" multiple="true">
-                                            @foreach (\App\Models\EntityModel::getStatusesFor(ENTITY_INVOICE) as $key => $value)
-                                                <option value="{{ $key }}">{{ $value }}</option>
-                                            @endforeach
+                                                id="statuses_<?php echo e(ENTITY_INVOICE); ?>" multiple="true">
+                                            <?php $__currentLoopData = \App\Models\EntityModel::getStatusesFor(ENTITY_INVOICE); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </select>
                                     </div>
                                 </div>
                             </div>
 
                             <div id="dateField" style="display:none" data-bind="visible: showInvoiceOrPaymentDate">
-                                {!! Former::select('date_field')->label(trans('texts.filter'))
+                                <?php echo Former::select('date_field')->label(trans('texts.filter'))
                                         ->addOption(trans('texts.invoice_date'), FILTER_INVOICE_DATE)
-                                        ->addOption(trans('texts.payment_date'), FILTER_PAYMENT_DATE) !!}
+                                        ->addOption(trans('texts.payment_date'), FILTER_PAYMENT_DATE); ?>
+
                             </div>
 
                             <div id="currencyType" style="display:none" data-bind="visible: showCurrencyType">
-                                {!! Former::select('currency_type')->label(trans('texts.currency'))
+                                <?php echo Former::select('currency_type')->label(trans('texts.currency'))
                                         ->addOption(trans('texts.default'), 'default')
-                                        ->addOption(trans('texts.converted'), 'converted') !!}
+                                        ->addOption(trans('texts.converted'), 'converted'); ?>
+
                             </div>
 
                             <div id="invoiceOrExpenseField" style="display:none"
                                  data-bind="visible: showInvoiceOrExpense">
-                                {!! Former::select('document_filter')->label('filter')
+                                <?php echo Former::select('document_filter')->label('filter')
                                     ->addOption(trans('texts.all'), '')
                                         ->addOption(trans('texts.invoice'), 'invoice')
-                                        ->addOption(trans('texts.expense'), 'expense') !!}
+                                        ->addOption(trans('texts.expense'), 'expense'); ?>
+
                             </div>
 
                         </div>
@@ -218,124 +234,136 @@
                 </div>
             </div>
 
-            @if (!Auth::user()->hasFeature(FEATURE_REPORTS))
+            <?php if(!Auth::user()->hasFeature(FEATURE_REPORTS)): ?>
                 <script>
                     $(function () {
                         $('form.report-form').find('input, button').prop('disabled', true);
                     });
                 </script>
-            @endif
+            <?php endif; ?>
 
 
             <center class="buttons form-inline">
 		<span class="well" style="padding-right:8px; padding-left:14px;">
-		{!! Former::select('format')
+		<?php echo Former::select('format')
 					->data_bind("options: export_formats, optionsText: 'transFormat', optionsValue: 'format', value: export_format")
-					->raw() !!} &nbsp;
+					->raw(); ?> &nbsp;
 
-		{!! Button::normal(trans('texts.export'))
+		<?php echo Button::normal(trans('texts.export'))
 				->withAttributes(['style' => 'display:none', 'onclick' => 'onExportClick()', 'data-bind' => 'visible: showExportButton'])
-				->appendIcon(Icon::create('download-alt')) !!}
+				->appendIcon(Icon::create('download-alt')); ?>
 
-            {!! Button::normal(trans('texts.cancel_schedule'))
+
+            <?php echo Button::normal(trans('texts.cancel_schedule'))
                     ->withAttributes(['id' => 'cancelSchduleButton', 'onclick' => 'onCancelScheduleClick()', 'style' => 'display:none', 'data-bind' => 'visible: showCancelScheduleButton'])
-                    ->appendIcon(Icon::create('remove')) !!}
+                    ->appendIcon(Icon::create('remove')); ?>
 
-            {!! Button::primary(trans('texts.schedule'))
+
+            <?php echo Button::primary(trans('texts.schedule'))
                     ->withAttributes(['id'=>'scheduleButton', 'onclick' => 'showScheduleModal()', 'style' => 'display:none', 'data-bind' => 'visible: showScheduleButton, css: enableScheduleButton'])
-                    ->appendIcon(Icon::create('time')) !!}
+                    ->appendIcon(Icon::create('time')); ?>
+
 
 	 	</span> &nbsp;&nbsp;
 
-                {!! Button::success(trans('texts.run'))
+                <?php echo Button::success(trans('texts.run'))
                         ->withAttributes(array('id' => 'submitButton'))
                         ->submit()
                         ->appendIcon(Icon::create('play'))
-                        ->large() !!}
+                        ->large(); ?>
 
-                @if (request()->report_type)
+
+                <?php if(request()->report_type): ?>
                     <button id="popover" type="button" class="btn btn-default btn-lg">
-                        {{ trans('texts.columns') }}
-                        {!! Icon::create('th-list') !!}
+                        <?php echo e(trans('texts.columns')); ?>
+
+                        <?php echo Icon::create('th-list'); ?>
+
                     </button>
 
                     <div class="hidden">
                         <div id="popover-target"></div>
                     </div>
-                @endif
+                <?php endif; ?>
 
             </center>
 
-            @if (request()->report_type)
+            <?php if(request()->report_type): ?>
 
-                @include('reports.chart_builder')
+                <?php echo $__env->make('reports.chart_builder', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
                 <div class="panel panel-default">
                     <div class="panel-body">
 
-                        @if (count(array_values($reportTotals)))
+                        <?php if(count(array_values($reportTotals))): ?>
                             <table class="tablesorter tablesorter-totals" style="display:none">
                                 <thead>
                                 <tr>
-                                    <th>{{ trans("texts.totals") }}</th>
-                                    @foreach (array_values(array_values($reportTotals)[0])[0] as $key => $val)
-                                        <th>{{ trans("texts.{$key}") }}</th>
-                                    @endforeach
+                                    <th><?php echo e(trans("texts.totals")); ?></th>
+                                    <?php $__currentLoopData = array_values(array_values($reportTotals)[0])[0]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <th><?php echo e(trans("texts.{$key}")); ?></th>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach ($reportTotals as $currencyId => $each)
-                                    @foreach ($each as $dimension => $val)
+                                <?php $__currentLoopData = $reportTotals; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $currencyId => $each): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <?php $__currentLoopData = $each; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $dimension => $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <tr>
-                                            <td>{!! Utils::getFromCache($currencyId, 'currencies')->name !!}
-                                                @if ($dimension)
-                                                    - {{ $dimension }}
-                                                @endif
+                                            <td><?php echo Utils::getFromCache($currencyId, 'currencies')->name; ?>
+
+                                                <?php if($dimension): ?>
+                                                    - <?php echo e($dimension); ?>
+
+                                                <?php endif; ?>
                                             </td>
-                                            @foreach ($val as $field => $value)
+                                            <?php $__currentLoopData = $val; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $field => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <td>
-                                                    @if ($field == 'duration')
-                                                        {{ Utils::formatTime($value) }}
-                                                    @else
-                                                        {{ Utils::formatMoney($value, $currencyId) }}
-                                                    @endif
+                                                    <?php if($field == 'duration'): ?>
+                                                        <?php echo e(Utils::formatTime($value)); ?>
+
+                                                    <?php else: ?>
+                                                        <?php echo e(Utils::formatMoney($value, $currencyId)); ?>
+
+                                                    <?php endif; ?>
                                                 </td>
-                                            @endforeach
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tr>
-                                    @endforeach
-                                @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </tbody>
                             </table>
                             <p>&nbsp;</p>
-                        @endif
+                        <?php endif; ?>
 
-                        <table id="{{ request()->report_type }}Report" class="tablesorter tablesorter-data"
+                        <table id="<?php echo e(request()->report_type); ?>Report" class="tablesorter tablesorter-data"
                                style="display:none">
                             <thead>
                             <tr>
-                                {!! $report ? $report->tableHeader() : '' !!}
+                                <?php echo $report ? $report->tableHeader() : ''; ?>
+
                             </tr>
                             </thead>
                             <tbody>
-                            @if (count($displayData))
-                                @foreach ($displayData as $record)
+                            <?php if(count($displayData)): ?>
+                                <?php $__currentLoopData = $displayData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $record): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr>
-                                        @foreach ($record as $field)
-                                            <td>{!! $field !!}</td>
-                                        @endforeach
+                                        <?php $__currentLoopData = $record; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $field): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <td><?php echo $field; ?></td>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tr>
-                                @endforeach
-                            @else
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <?php else: ?>
                                 <tr>
-                                    <td colspan="10" style="text-align: center">{{ trans('texts.empty_table') }}</td>
+                                    <td colspan="10" style="text-align: center"><?php echo e(trans('texts.empty_table')); ?></td>
                                 </tr>
-                            @endif
+                            <?php endif; ?>
                             </tbody>
                         </table>
 
                         <br/>
                         <div style="color:#888888">
-                            {{ trans('texts.reports_help') }}
+                            <?php echo e(trans('texts.reports_help')); ?>
+
                         </div>
 
                     </div>
@@ -343,7 +371,7 @@
 
         </div>
 
-        @endif
+        <?php endif; ?>
 
         <div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="scheduleModalLabel"
              aria-hidden="true">
@@ -351,7 +379,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="myModalLabel">{{ trans('texts.scheduled_report') }}</h4>
+                        <h4 class="modal-title" id="myModalLabel"><?php echo e(trans('texts.scheduled_report')); ?></h4>
                     </div>
 
                     <div class="container" style="width: 100%; padding-bottom: 0px !important">
@@ -362,20 +390,21 @@
                                     <div id="scheduleHelp"></div>
                                 </center>
 
-                                {!! Former::select('frequency')
+                                <?php echo Former::select('frequency')
                                             ->addOption(trans('texts.freq_daily'), REPORT_FREQUENCY_DAILY)
                                             ->addOption(trans('texts.freq_weekly'), REPORT_FREQUENCY_WEEKLY)
                                             ->addOption(trans('texts.freq_biweekly'), REPORT_FREQUENCY_BIWEEKLY)
                                             ->addOption(trans('texts.freq_monthly'), REPORT_FREQUENCY_MONTHLY)
-                                            ->value('weekly') !!} &nbsp;
+                                            ->value('weekly'); ?> &nbsp;
 
-                                {!! Former::text('send_date')
+                                <?php echo Former::text('send_date')
                                         ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
                                         ->label('start_date')
                                         ->appendIcon('calendar')
                                         ->placeholder('')
                                         ->addGroupClass('send-date')
-                                        ->data_date_start_date($account->formatDate($account->getDateTime())) !!}
+                                        ->data_date_start_date($account->formatDate($account->getDateTime())); ?>
+
 
                             </div>
                         </div>
@@ -383,20 +412,21 @@
 
                     <div class="modal-footer" id="signUpFooter" style="margin-top: 0px">
                         <button type="button" class="btn btn-default"
-                                data-dismiss="modal">{{ trans('texts.cancel') }} </button>
+                                data-dismiss="modal"><?php echo e(trans('texts.cancel')); ?> </button>
                         <button type="button" class="btn btn-success"
-                                onclick="onScheduleClick()">{{ trans('texts.schedule') }} </button>
+                                onclick="onScheduleClick()"><?php echo e(trans('texts.schedule')); ?> </button>
                     </div>
                 </div>
             </div>
         </div>
 
-        {!! Former::close() !!}
+        <?php echo Former::close(); ?>
+
 
 
         <script type="text/javascript">
 
-            var scheduledReports = {!! $scheduledReports !!};
+            var scheduledReports = <?php echo $scheduledReports; ?>;
             var scheduledReportMap = {};
 
             for (var i = 0; i < scheduledReports.length; i++) {
@@ -406,8 +436,8 @@
             }
 
             function showScheduleModal() {
-                var help = "{{ trans('texts.scheduled_report_help') }}";
-                help = help.replace(':email', "{{ auth()->user()->email }}");
+                var help = "<?php echo e(trans('texts.scheduled_report_help')); ?>";
+                help = help.replace(':email', "<?php echo e(auth()->user()->email); ?>");
                 help = help.replace(':format', $("#format").val().toUpperCase());
                 help = help.replace(':report', $("#report_type option:selected").text());
                 $('#scheduleHelp').text(help);
@@ -438,9 +468,9 @@
             }
 
             var sumColumns = [];
-            @foreach ($columns as $column => $class)
-            sumColumns.push("{{ in_array($column, ['amount', 'paid', 'balance', 'cost', 'duration', 'tax', 'qty']) ? trans("texts.{$column}") : false }}");
-            @endforeach
+            <?php $__currentLoopData = $columns; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $column => $class): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            sumColumns.push("<?php echo e(in_array($column, ['amount', 'paid', 'balance', 'cost', 'duration', 'tax', 'qty']) ? trans("texts.{$column}") : false); ?>");
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
             $(function () {
                 $('.start_date .input-group-addon').click(function () {
@@ -539,15 +569,15 @@
                     self.group = ko.observable();
                     self.subgroup = ko.observable();
 
-                    @foreach ($reportTypes as $key => $val)
-                    self.report_types.push(new ReportTypeModel("{{ $key }}", "{{ $val}}"));
-                    @endforeach
+                    <?php $__currentLoopData = $reportTypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    self.report_types.push(new ReportTypeModel("<?php echo e($key); ?>", "<?php echo e($val); ?>"));
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                         self.groups = ko.observableArray([
                         new GroupModel('', ''),
-                        new GroupModel('day', '{{ trans('texts.day') }}'),
-                        new GroupModel('monthyear', '{{ trans('texts.month') }}'),
-                        new GroupModel('year', '{{ trans('texts.year') }}'),
+                        new GroupModel('day', '<?php echo e(trans('texts.day')); ?>'),
+                        new GroupModel('monthyear', '<?php echo e(trans('texts.month')); ?>'),
+                        new GroupModel('year', '<?php echo e(trans('texts.year')); ?>'),
                     ]);
 
                     self.subgroups = ko.computed(function () {
@@ -558,30 +588,30 @@
                         ];
 
                         if (['client'].indexOf(reportType) == -1) {
-                            options.push(new SubgroupModel('client', "{{ trans('texts.client') }}"));
+                            options.push(new SubgroupModel('client', "<?php echo e(trans('texts.client')); ?>"));
                         }
 
-                        options.push(new SubgroupModel('user', "{{ trans('texts.user') }}"));
+                        options.push(new SubgroupModel('user', "<?php echo e(trans('texts.user')); ?>"));
 
                         if (reportType == 'activity') {
-                            options.push(new SubgroupModel('category', "{{ trans('texts.category') }}"));
+                            options.push(new SubgroupModel('category', "<?php echo e(trans('texts.category')); ?>"));
                         } else if (reportType == 'aging') {
-                            options.push(new SubgroupModel('age', "{{ trans('texts.age') }}"));
+                            options.push(new SubgroupModel('age', "<?php echo e(trans('texts.age')); ?>"));
                         } else if (reportType == 'expense') {
-                            options.push(new SubgroupModel('vendor', "{{ trans('texts.vendor') }}"));
-                            options.push(new SubgroupModel('category', "{{ trans('texts.category') }}"));
+                            options.push(new SubgroupModel('vendor', "<?php echo e(trans('texts.vendor')); ?>"));
+                            options.push(new SubgroupModel('category', "<?php echo e(trans('texts.category')); ?>"));
                         } else if (reportType == 'payment') {
-                            options.push(new SubgroupModel('method', "{{ trans('texts.method') }}"));
+                            options.push(new SubgroupModel('method', "<?php echo e(trans('texts.method')); ?>"));
                         } else if (reportType == 'profit_and_loss') {
-                            options.push(new SubgroupModel('type', "{{ trans('texts.type') }}"));
+                            options.push(new SubgroupModel('type', "<?php echo e(trans('texts.type')); ?>"));
                         } else if (reportType == 'task' || reportType == 'task_details') {
-                            options.push(new SubgroupModel('project', "{{ trans('texts.project') }}"));
+                            options.push(new SubgroupModel('project', "<?php echo e(trans('texts.project')); ?>"));
                         } else if (reportType == 'client') {
-                            options.push(new SubgroupModel('country', "{{ trans('texts.country') }}"));
+                            options.push(new SubgroupModel('country', "<?php echo e(trans('texts.country')); ?>"));
                         } else if (reportType == 'invoice' || reportType == 'quote') {
-                            options.push(new SubgroupModel('status', "{{ trans('texts.status') }}"));
+                            options.push(new SubgroupModel('status', "<?php echo e(trans('texts.status')); ?>"));
                         } else if (reportType == 'product') {
-                            options.push(new SubgroupModel('product', "{{ trans('texts.product') }}"));
+                            options.push(new SubgroupModel('product', "<?php echo e(trans('texts.product')); ?>"));
                         }
 
                         return options;
@@ -594,12 +624,12 @@
                             //new ExportFormatModel('pdf', 'PDF'),
                         ]
 
-                        if (['{{ ENTITY_INVOICE }}', '{{ ENTITY_QUOTE }}', '{{ ENTITY_EXPENSE }}', '{{ ENTITY_DOCUMENT }}'].indexOf(self.report_type()) >= 0) {
-                            options.push(new ExportFormatModel('zip', 'ZIP - {{ trans('texts.documents') }}'));
+                        if (['<?php echo e(ENTITY_INVOICE); ?>', '<?php echo e(ENTITY_QUOTE); ?>', '<?php echo e(ENTITY_EXPENSE); ?>', '<?php echo e(ENTITY_DOCUMENT); ?>'].indexOf(self.report_type()) >= 0) {
+                            options.push(new ExportFormatModel('zip', 'ZIP - <?php echo e(trans('texts.documents')); ?>'));
                         }
 
-                        if (['{{ ENTITY_INVOICE }}'].indexOf(self.report_type()) >= 0) {
-                            options.push(new ExportFormatModel('zip-invoices', 'ZIP - {{ trans('texts.invoices') }}'));
+                        if (['<?php echo e(ENTITY_INVOICE); ?>'].indexOf(self.report_type()) >= 0) {
+                            options.push(new ExportFormatModel('zip-invoices', 'ZIP - <?php echo e(trans('texts.invoices')); ?>'));
                         }
 
                         return options;
@@ -629,19 +659,19 @@
                     })
 
                     self.showInvoiceOrPaymentDate = ko.computed(function () {
-                        return self.report_type() == '{{ ENTITY_TAX_RATE }}';
+                        return self.report_type() == '<?php echo e(ENTITY_TAX_RATE); ?>';
                     });
 
                     self.showStatus = ko.computed(function () {
-                        return ['{{ ENTITY_INVOICE }}', '{{ ENTITY_QUOTE }}', '{{ ENTITY_PRODUCT }}'].indexOf(self.report_type()) >= 0;
+                        return ['<?php echo e(ENTITY_INVOICE); ?>', '<?php echo e(ENTITY_QUOTE); ?>', '<?php echo e(ENTITY_PRODUCT); ?>'].indexOf(self.report_type()) >= 0;
                     });
 
                     self.showInvoiceOrExpense = ko.computed(function () {
-                        return self.report_type() == '{{ ENTITY_DOCUMENT }}';
+                        return self.report_type() == '<?php echo e(ENTITY_DOCUMENT); ?>';
                     });
 
                     self.showCurrencyType = ko.computed(function () {
-                        return self.report_type() == '{{ ENTITY_PAYMENT }}';
+                        return self.report_type() == '<?php echo e(ENTITY_PAYMENT); ?>';
                     });
 
                     self.enableScheduleButton = ko.computed(function () {
@@ -666,12 +696,12 @@
                     ko.applyBindings(model);
 
                     var statusIds = isStorageSupported() ? (localStorage.getItem('last:report_status_ids') || '') : '';
-                    $('#statuses_{{ ENTITY_INVOICE }}').select2({
+                    $('#statuses_<?php echo e(ENTITY_INVOICE); ?>').select2({
                         //allowClear: true,
                     }).val(statusIds.split(',')).trigger('change')
                         .on('change', function () {
                             if (isStorageSupported()) {
-                                var filter = $('#statuses_{{ ENTITY_INVOICE }}').val();
+                                var filter = $('#statuses_<?php echo e(ENTITY_INVOICE); ?>').val();
                                 if (filter) {
                                     filter = filter.join(',');
                                 } else {
@@ -682,22 +712,22 @@
                         }).maximizeSelect2Height();
 
                     $(".tablesorter-data").tablesorter({
-                        @if (! request()->group)
+                        <?php if(! request()->group): ?>
                         sortList: [[0, 0]],
-                        @endif
+                        <?php endif; ?>
                         theme: 'bootstrap',
-                        widgets: ['zebra', 'uitheme', 'filter'{!! request()->group ? ", 'group'" : "" !!}, 'columnSelector'],
+                        widgets: ['zebra', 'uitheme', 'filter'<?php echo request()->group ? ", 'group'" : ""; ?>, 'columnSelector'],
                         headerTemplate: '{content} {icon}',
-                        @if ($report)
-                        dateFormat: '{{ $report->convertDateFormat() }}',
-                        @endif
+                        <?php if($report): ?>
+                        dateFormat: '<?php echo e($report->convertDateFormat()); ?>',
+                        <?php endif; ?>
                         numberSorter: function (a, b, direction) {
                             var a = convertStringToNumber(a);
                             var b = convertStringToNumber(b);
                             return direction ? a - b : b - a;
                         },
                         widgetOptions: {
-                            columnSelector_mediaqueryName: "{{ trans('texts.auto') }}",
+                            columnSelector_mediaqueryName: "<?php echo e(trans('texts.auto')); ?>",
                             columnSelector_mediaqueryHidden: true,
                             columnSelector_saveColumns: true,
                             //storage_useSessionStorage: true,
@@ -722,7 +752,7 @@
                         }
                     }).show();
 
-                    @if (request()->report_type)
+                    <?php if(request()->report_type): ?>
                     $.tablesorter.columnSelector.attachTo($('.tablesorter-data'), '#popover-target');
                     $('#popover')
                         .popover({
@@ -730,7 +760,7 @@
                             html: true, // required if content has HTML
                             content: $('#popover-target')
                         });
-                    @endif
+                    <?php endif; ?>
 
                     $(".tablesorter-totals").tablesorter({
                         theme: 'bootstrap',
@@ -749,10 +779,10 @@
 
         </script>
 
-        @stop
+        <?php $__env->stopSection(); ?>
 
 
-        @section('onReady')
+        <?php $__env->startSection('onReady'); ?>
 
             $('#start_date, #end_date').datepicker({
             autoclose: true,
@@ -764,4 +794,6 @@
             currentDate.setDate(currentDate.getDate() + 1);
             $('#send_date').datepicker('update', currentDate);
 
-@stop
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

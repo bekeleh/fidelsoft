@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use App\Jobs\ExportReportResults;
 use App\Jobs\LoadPostmarkStats;
 use App\Jobs\RunReport;
-use App\Libraries\Utils;
 use App\Models\Account;
 use App\Models\ScheduledReport;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Validator;
+use App\Libraries\Utils;
 use Illuminate\Support\Facades\View;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 
 /**
@@ -20,7 +20,9 @@ use Illuminate\Support\Facades\View;
  */
 class ReportController extends BaseController
 {
-
+    /**
+     * @return \Illuminate\Contracts\View\View
+     */
     public function d3()
     {
         $message = '';
@@ -49,12 +51,15 @@ class ReportController extends BaseController
 
     public function showReports()
     {
-        if (!Auth::user()->hasAccess('view_reports')) {
-            return redirect('/');
+        $viewReport = Utils::hasPermission('admin') ?: Utils::hasPermission('view_report') ?: false;
+
+        if (!$viewReport) {
+            return false;
         }
 
         $action = Input::get('action');
         $format = Input::get('format');
+
         if (Input::get('report_type')) {
             $reportType = Input::get('report_type');
             $dateField = Input::get('date_field');
@@ -105,13 +110,12 @@ class ReportController extends BaseController
                 'start_date' => $params['startDate'],
                 'end_date' => $params['endDate'],
             ];
+            $report = dispatch_now(new RunReport(auth()->user(), $reportType, $config, $isExport));
 
-            $report = dispatch(new RunReport(auth()->user(), $reportType, $config, $isExport));
-            //there is a problem in $report returns...
             $params = array_merge($params, $report->exportParams);
             switch ($action) {
                 case 'export':
-                    return dispatch(new ExportReportResults(auth()->user(), $format, $reportType, $params))->export($format);
+                    return dispatch_now(new ExportReportResults(auth()->user(), $format, $reportType, $params))->export($format);
                     break;
                 case 'schedule':
                     self::schedule($params, $config);
@@ -186,7 +190,7 @@ class ReportController extends BaseController
 
     public function loadEmailReport($startDate, $endDate)
     {
-        $data = dispatch(new LoadPostmarkStats($startDate, $endDate));
+        $data = dispatch_now(new LoadPostmarkStats($startDate, $endDate));
 
         return response()->json($data);
     }

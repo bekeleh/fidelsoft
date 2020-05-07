@@ -1527,6 +1527,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'view_all_help' => 'Allow user to view records they didn\'t create',
     'edit_all_help' => 'Allow user to modify records they didn\'t create',
     'view_payment' => 'View Payment',
+    'clone_payment' => 'View Clone',
 
     'january' => 'January',
     'february' => 'February',

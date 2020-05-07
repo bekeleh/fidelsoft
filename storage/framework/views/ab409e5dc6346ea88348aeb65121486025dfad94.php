@@ -51,6 +51,7 @@
            style="width:180px;margin-right:17px;background-color: white !important"
            class="form-control pull-left" placeholder="<?php echo e(trans('texts.filter')); ?>"
            value="<?php echo e(Input::get('filter')); ?>"/>
+
     <!-- create records -->
 <?php if(Auth::user()->can('create', $entityType)): ?>
     <?php echo Button::primary(mtrans($entityType, "new_{$entityType}"))
@@ -61,6 +62,7 @@
     ->appendIcon(Icon::create('plus-sign')); ?>
 
 <?php endif; ?>
+
 <?php if(in_array($entityType, [ENTITY_PROPOSAL,ENTITY_PROPOSAL_TEMPLATE,ENTITY_PROPOSAL_SNIPPET])): ?>
     <?php if(Auth::user()->can('create', [ENTITY_PROPOSAL_TEMPLATE,ENTITY_PROPOSAL_SNIPPET])): ?>
         <?php echo DropdownButton::normal(trans('texts.maintenance'))
@@ -143,15 +145,19 @@
         <?php endif; ?>
     <?php endif; ?>
 </div>
-<?php echo Datatable::table()
-->addColumn(Utils::trans($datatable->columnFields(), $datatable->entityType))
-->setUrl(empty($url) ? url('api/' . Utils::pluralizeEntityType($entityType)) : $url)
-->setCustomValues('entityType', Utils::pluralizeEntityType($entityType))
-->setCustomValues('clientId', isset($clientId) && $clientId && empty($projectId))
-->setOptions('sPaginationType', 'bootstrap')
-->setOptions('aaSorting', [[isset($clientId) ? ($datatable->sortCol-1) : $datatable->sortCol, 'desc']])
-->render('datatable'); ?>
 
+<!-- Grid view -->
+<?php if(Auth::user()->can('create', $entityType)): ?>
+    <?php echo Datatable::table()
+    ->addColumn(Utils::trans($datatable->columnFields(), $datatable->entityType))
+    ->setUrl(empty($url) ? url('api/' . Utils::pluralizeEntityType($entityType)) : $url)
+    ->setCustomValues('entityType', Utils::pluralizeEntityType($entityType))
+    ->setCustomValues('clientId', isset($clientId) && $clientId && empty($projectId))
+    ->setOptions('sPaginationType', 'bootstrap')
+    ->setOptions('aaSorting', [[isset($clientId) ? ($datatable->sortCol-1) : $datatable->sortCol, 'desc']])
+    ->render('datatable'); ?>
+
+<?php endif; ?>
 
 <?php if($entityType == ENTITY_PAYMENT): ?>
     <?php echo $__env->make('partials/refund_payment', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -56,7 +56,6 @@ class ClientController extends BaseController
 
     public function getDatatable()
     {
-//        $accountId = Auth::user()->filterIdByEntity(ENTITY_CLIENT);
         $accountId = Auth::user()->account_id;
         $search = Input::get('sSearch');
 

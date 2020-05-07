@@ -3,8 +3,10 @@
 namespace App\Jobs;
 
 use App;
-use Carbon\Carbon;
 use Illuminate\Support\Str;
+use App\Libraries\Utils;
+use Carbon\Carbon;
+use App\Jobs\Job;
 
 class RunReport extends Job
 {
@@ -16,19 +18,14 @@ class RunReport extends Job
         $this->isExport = $isExport;
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return bool
-     */
     public function handle()
     {
-        if (!$this->user->hasPermission('view_reports')) {
+        $viewReport = Utils::hasPermission('admin') ?: Utils::hasPermission('view_report') ?: false;
+
+        if (!$viewReport) {
             return false;
         }
-
         $reportType = $this->reportType;
-
         $config = $this->config;
         $config['subgroup'] = !empty($config['subgroup']) ? $config['subgroup'] : false; // don't yet support charts in export
 
@@ -73,6 +70,7 @@ class RunReport extends Job
         ];
 
         $report->exportParams = array_merge($params, $report->results());
+
         return $report;
     }
 }

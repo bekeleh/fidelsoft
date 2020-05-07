@@ -4,7 +4,7 @@ namespace App\Ninja\Presenters;
 
 use Laracasts\Presenter\Presenter;
 use URL;
-use Utils;
+use App\Libraries\Utils;
 use stdClass;
 
 class EntityPresenter extends Presenter
@@ -34,7 +34,7 @@ class EntityPresenter extends Presenter
     {
         $class = $text = '';
 
-        if (! $this->entity->id) {
+        if (!$this->entity->id) {
             return '';
         } elseif ($this->entity->is_deleted) {
             $class = 'danger';
