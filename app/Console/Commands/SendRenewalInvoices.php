@@ -6,7 +6,7 @@ use App\Models\Company;
 use App\Ninja\Mailers\ContactMailer as Mailer;
 use App\Ninja\Repositories\AccountRepository;
 use Illuminate\Console\Command;
-use Utils;
+use App\Libraries\Utils;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -14,43 +14,34 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class SendRenewalInvoices extends Command
 {
-    /**
-     * @var string
-     */
+
     protected $name = 'ninja:send-renewals';
 
-    /**
-     * @var string
-     */
+
     protected $description = 'Send renewal invoices';
 
-    /**
-     * @var Mailer
-     */
     protected $mailer;
 
-    /**
-     * @var AccountRepository
-     */
     protected $accountRepo;
 
     /**
+     *
      * SendRenewalInvoices constructor.
      *
-     * @param Mailer            $mailer
-     * @param AccountRepository $repo
+     * @param Mailer $mailer
+     * @param AccountRepository $accountRepo
      */
-    public function __construct(Mailer $mailer, AccountRepository $repo)
+    public function __construct(Mailer $mailer, AccountRepository $accountRepo)
     {
         parent::__construct();
 
         $this->mailer = $mailer;
-        $this->accountRepo = $repo;
+        $this->accountRepo = $accountRepo;
     }
 
     public function fire()
     {
-        $this->info(date('r').' Running SendRenewalInvoices...');
+        $this->info(date('r') . ' Running Send Renewal Invoices Command ...');
 
         if ($database = $this->option('database')) {
             config(['database.default' => $database]);
@@ -58,12 +49,12 @@ class SendRenewalInvoices extends Command
 
         // get all accounts with plans expiring in 10 days
         $companies = Company::whereRaw("datediff(plan_expires, curdate()) = 10 and (plan = 'pro' or plan = 'enterprise')")
-                        ->orderBy('id')
-                        ->get();
+            ->orderBy('id')
+            ->get();
         $this->info($companies->count() . ' companies found renewing in 10 days');
 
         foreach ($companies as $company) {
-            if (! $company->accounts->count()) {
+            if (!$company->accounts->count()) {
                 continue;
             }
 
@@ -74,7 +65,7 @@ class SendRenewalInvoices extends Command
             $plan['num_users'] = $company->num_users;
             $plan['price'] = min($company->plan_price, Utils::getPlanPrice($plan));
 
-            if ($plan['plan'] == PLAN_FREE || ! $plan['plan'] || ! $plan['term'] || ! $plan['price']) {
+            if ($plan['plan'] == PLAN_FREE || !$plan['plan'] || !$plan['term'] || !$plan['price']) {
                 continue;
             }
 
@@ -102,23 +93,17 @@ class SendRenewalInvoices extends Command
         if ($errorEmail = env('ERROR_EMAIL')) {
             \Mail::raw('EOM', function ($message) use ($errorEmail, $database) {
                 $message->to($errorEmail)
-                        ->from(CONTACT_EMAIL)
-                        ->subject("SendRenewalInvoices [{$database}]: Finished successfully");
+                    ->from(CONTACT_EMAIL)
+                    ->subject("SendRenewalInvoices [{$database}]: Finished successfully");
             });
         }
     }
 
-    /**
-     * @return array
-     */
     protected function getArguments()
     {
         return [];
     }
 
-    /**
-     * @return array
-     */
     protected function getOptions()
     {
         return [

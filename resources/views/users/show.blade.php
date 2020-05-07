@@ -2,46 +2,49 @@
 
 @section('content')
     @parent
+    @if ($user)
+        {{--        {{ Former::populateField('is_admin', intval($user->is_admin)) }}--}}
+    @endif
     <!-- user detail -->
     <div class="panel panel-default">
+        <div class="panel-heading" style="background-color:#777 !important">
+            <h3 class="panel-title in-bold-white"> {{ trans('texts.user_details') }}</h3>
+        </div>
         <div class="panel-body">
-            <div class="row">
-                <div class="col-md-3">
-                    <h3>{{ trans('texts.user_details') }}</h3>
-                    @if ($user)
-                        <p><i class="fa fa-id-number"
-                              style="width: 20px"></i>{{ trans('texts.id_number').': '.$user->id }}</p>
-                    @endif
-                    @if ($user->first_name)
-                        <p><i class="fa fa-vat-number"
-                              style="width: 20px"></i>{{ trans('texts.first_name').': '. $user->present()->fullName }}
-                        </p>
-                    @endif
-                    @if ($user->notes)
-                        <p><i>{!! nl2br(e($user->notes)) !!}</i></p>
-                    @endif
-                    @if ($user->last_login)
-                        <h3 style="margin-top:0px"><small>
-                                {{ trans('texts.last_logged_in') }} {{ Utils::timestampToDateTimeString(strtotime($user->last_login)) }}
-                            </small>
-                        </h3>
-                    @endif
-                </div>
-                <div class="col-md-3">
-                    <h3>{{ trans('texts.address') }}</h3>
-                    <p>address details</p>
-                </div>
-                <div class="col-md-3">
-                    <h3>{{ trans('texts.contacts') }}</h3>
-                    @if ($user->email)
-                        <i class="fa fa-envelope"
-                           style="width: 20px"></i>{!! HTML::mailto($user->email, $user->email) !!}<br/>
-                    @endif
-                    @if ($user->phone)
-                        <i class="fa fa-phone" style="width: 20px"></i>{{ $user->phone }}<br/>
-                    @endif
-                    <br/>
-                </div>
+            <div class="col-md-3">
+                @if ($user)
+                    <p><i class="fa fa-id-number"
+                          style="width: 20px"></i>{{ trans('texts.id_number').': '.$user->id }}</p>
+                @endif
+                @if ($user->first_name)
+                    <p><i class="fa fa-user-o"
+                          style="width: 20px"></i>{{ trans('texts.first_name').': '. $user->present()->fullName }}
+                    </p>
+                @endif
+                @if ($user->notes)
+                    <p><i>{!! nl2br(e($user->notes)) !!}</i></p>
+                @endif
+                @if ($user->last_login)
+                    <h3 style="margin-top:0px"><small>
+                            {{ trans('texts.last_logged_in') }} {{ Utils::timestampToDateTimeString(strtotime($user->last_login)) }}
+                        </small>
+                    </h3>
+                @endif
+            </div>
+            <div class="col-md-3">
+                <h3>{{ trans('texts.address') }}</h3>
+                <p>address details</p>
+            </div>
+            <div class="col-md-3">
+                <h3>{{ trans('texts.contacts') }}</h3>
+                @if ($user->email)
+                    <i class="fa fa-envelope"
+                       style="width: 20px"></i>{!! HTML::mailto($user->email, $user->email) !!}<br/>
+                @endif
+                @if ($user->phone)
+                    <i class="fa fa-phone" style="width: 20px"></i>{{ $user->phone }}<br/>
+                @endif
+                <br/>
             </div>
         </div>
     </div>
@@ -50,19 +53,22 @@
             <h3 class="panel-title in-bold-white"> {!! trans('texts.permissions') !!} </h3>
         </div>
         <div class="panel-body">
-            @if ( ! Utils::hasFeature(FEATURE_USER_PERMISSIONS))
-                <div class="alert alert-warning">{{ trans('texts.upgrade_for_permissions') }}</div>
-                <script type="text/javascript">
-                    $(function () {
-                        $('input[type=checkbox]').prop('disabled', true);
-                    })
-                </script>
-            @endif
-            {!! Former::checkbox('is_admin')
-                ->label('&nbsp;')
-                ->value(1)
-                ->text(trans('texts.administrator'))
-                ->help(trans('texts.administrator_help')) !!}
+            <div>
+                @if ( ! Utils::hasFeature(FEATURE_USER_PERMISSIONS))
+                    <div class="alert alert-warning">{{ trans('texts.upgrade_for_permissions') }}</div>
+                    <script type="text/javascript">
+                        $(function () {
+                            $('input[type=checkbox]').prop('disabled', true);
+                        })
+                    </script>
+                @endif
+                {!! Former::checkbox('is_admin')
+                    ->label('&nbsp;')
+                    ->value(1)
+                    ->text(trans('texts.administrator'))
+                    ->check(($user->is_admin) ? true:false)
+                    ->help(trans('texts.administrator_help')) !!}
+            </div>
             <div>
                 <table class="table table-striped dataTable">
                     <thead>
@@ -135,13 +141,15 @@
             var inputElements = document.querySelectorAll('input[type=checkbox]:checked');
             var permissions = getPermission(inputElements);
 
+            var $isAdmin = $("input[type='checkbox'][id^='is_admin']").val();
+            console.log($isAdmin);
             var $account_id ={{$user->account_id}};
             var $public_id ={{$user->public_id}};
             $.ajax({
                 url: '{{ URL::to('/users/change_permission') }}',
                 type: 'POST',
                 dataType: 'json',
-                data: 'permissions=' + permissions + '&account_id=' + $account_id + '&public_id=' + $public_id,
+                data: 'permissions=' + permissions + '&account_id=' + $account_id + '&public_id=' + $public_id + '&is_admin=' + $isAdmin,
                 success: function (result) {
                     if (result.success) {
                         swal("{{trans('texts.updated_user_permission')}}");

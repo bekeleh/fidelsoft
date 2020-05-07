@@ -290,11 +290,13 @@ class UserController extends BaseController
         $permissionArray = Input::get('permissions');
         $userAccount_id = Input::get('account_id');
         $userPublicId = Input::get('public_id');
-        $user = User::where('account_id', '=', $userAccount_id)
-            ->where('public_id', '=', $userPublicId)->firstOrFail();
+        $userIsAdmin = Input::get('is_admin');
+        $user = User::where('account_id', '=', $userAccount_id)->where('public_id', '=', $userPublicId)->firstOrFail();
 
         if ($user) {
             $user->permissions = $permissionArray;
+            $user->is_admin = $userIsAdmin;
+
             $user->save();
 
             return response()->json(['success' => true, 'data' => RESULT_SUCCESS], 200);

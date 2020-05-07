@@ -2,15 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/Xt0esdzl95jejIn8fwD1c1ceEEApzScUqhbK0JA2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/2759f8bbc5059c82614447a82a67b42367cd4189.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Notes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Console/Commands/DatabaseBackup.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/tGU6NIRutVAl7IWYOf4oT53pADXKK9oIzPL2zA44" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/e23efc1ef6ac7a9d1151b3f35ce9152cc04edf69.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/CreateInvoiceRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/CreateInvoiceRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/InvoiceRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/InvoiceRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdateInvoiceRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateInvoiceRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/tYaSzQY6XP9Ty7uIM5bzh97gbczaJI4Oldc1ikNo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/wHFdLrWQLJZAOlURGiXMeUYuzrRePWlr2hgcrCmH" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/wHFdLrWQLJZAOlURGiXMeUYuzrRePWlr2hgcrCmH" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Console/Commands/SendRenewalInvoices.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Commands/SendRenewalInvoices.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Console/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/PermissionGroupRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/PermissionGroupRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/permission_groups/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/permission_groups/show.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/users/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/users/show.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/467d14accc6850d692cb32d17c7827bf0d57b621.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/467d14accc6850d692cb32d17c7827bf0d57b621.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -256,18 +260,19 @@
     <property name="settings.editor.selected.configurable" value="terminal" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\wamp\www\invoiceninja\resources\views\item_transfers" />
-      <recent name="C:\wamp\www\invoiceninja\resources\views\item_brands" />
-      <recent name="C:\wamp\www\invoiceninja\resources\views\errors" />
-      <recent name="C:\wamp\www\invoiceninja\resources\views\users" />
-      <recent name="C:\wamp\www\invoiceninja\resources\views\groups" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\wamp\www\invoiceninja" />
       <recent name="C:\wamp\www\invoiceninja\resources\views\users" />
       <recent name="C:\wamp\www\invoiceninja\app\Ninja\Datatables" />
       <recent name="C:\wamp\www\invoiceninja\resources\views\companies" />
       <recent name="C:\wamp\www\invoiceninja\resources\views\products" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\wamp\www\invoiceninja\app\Console\Commands" />
+      <recent name="C:\wamp\www\invoiceninja\resources\views\item_transfers" />
+      <recent name="C:\wamp\www\invoiceninja\resources\views\item_brands" />
+      <recent name="C:\wamp\www\invoiceninja\resources\views\errors" />
+      <recent name="C:\wamp\www\invoiceninja\resources\views\users" />
     </key>
   </component>
   <component name="RunManager" selected="Codeception.codeception.yml">
@@ -393,14 +398,8 @@
       <workItem from="1588595925356" duration="1210000" />
       <workItem from="1588617617523" duration="4896000" />
       <workItem from="1588694521293" duration="13792000" />
-      <workItem from="1588756313017" duration="30912000" />
-    </task>
-    <task id="LOCAL-00190" summary="2020-04-27 9:26">
-      <created>1588002481543</created>
-      <option name="number" value="00190" />
-      <option name="presentableId" value="LOCAL-00190" />
-      <option name="project" value="LOCAL" />
-      <updated>1588002481543</updated>
+      <workItem from="1588756313017" duration="31023000" />
+      <workItem from="1588860546357" duration="5234000" />
     </task>
     <task id="LOCAL-00191" summary="2020-04-27 9:26">
       <created>1588003035748</created>
@@ -738,7 +737,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588787682061</updated>
     </task>
-    <option name="localTasksCounter" value="239" />
+    <task id="LOCAL-00239" summary="2020-05-6 9:26">
+      <created>1588797431004</created>
+      <option name="number" value="00239" />
+      <option name="presentableId" value="LOCAL-00239" />
+      <option name="project" value="LOCAL" />
+      <updated>1588797431004</updated>
+    </task>
+    <option name="localTasksCounter" value="240" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -780,18 +786,18 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="312" y="89" key="#Notifications/0.0.1440.860@0.0.1440.860" timestamp="1584513656594" />
-    <state x="384" y="145" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1588464852786">
+    <state x="384" y="145" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1588865873644">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="384" y="145" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1280.680@0.0.1280.680" timestamp="1588464852786" />
+    <state x="384" y="145" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1280.680@0.0.1280.680" timestamp="1588865873644" />
     <state x="525" y="115" key="#com.intellij.ide.util.MemberChooser" timestamp="1585292678815">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="525" y="115" key="#com.intellij.ide.util.MemberChooser/0.0.1440.860@0.0.1440.860" timestamp="1585292678815" />
-    <state x="132" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1588002940056">
+    <state x="132" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1588860696265">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="132" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1280.680@0.0.1280.680" timestamp="1588002940056" />
+    <state x="132" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1280.680@0.0.1280.680" timestamp="1588860696265" />
     <state x="419" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1440.860@0.0.1440.860" timestamp="1585208338630" />
     <state x="371" y="89" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1588775995159">
       <screen x="0" y="0" width="1280" height="680" />
@@ -815,16 +821,16 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1587939377952" />
-    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1588787679928">
+    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1588797429933">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1588787679928" />
+    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1588797429933" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
-    <state x="444" y="140" key="FileChooserDialogImpl" timestamp="1588023873020">
+    <state x="444" y="140" key="FileChooserDialogImpl" timestamp="1588865901098">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="444" y="140" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1588023873020" />
+    <state x="444" y="140" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1588865901098" />
     <state x="500" y="177" key="FileChooserDialogImpl/0.0.1440.860@0.0.1440.860" timestamp="1584881689405" />
     <state width="1397" height="222" key="GridCell.Tab.0.bottom" timestamp="1582731316355">
       <screen x="0" y="0" width="1440" height="860" />
@@ -872,10 +878,10 @@
     </state>
     <state x="296" y="138" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1586200886074" />
     <state x="312" y="163" key="Vcs.Push.Dialog.v2/0.0.1440.860@0.0.1440.860" timestamp="1585235941756" />
-    <state x="421" y="115" key="com.intellij.ide.util.TipDialog" timestamp="1588756313449">
+    <state x="421" y="115" key="com.intellij.ide.util.TipDialog" timestamp="1588860546498">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="421" y="115" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1588756313449" />
+    <state x="421" y="115" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1588860546498" />
     <state x="408" y="139" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1586189894452" />
     <state x="430" y="164" key="com.intellij.ide.util.TipDialog/0.0.1440.860@0.0.1440.860" timestamp="1586154234151" />
     <state x="303" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1587324145930">

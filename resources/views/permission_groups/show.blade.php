@@ -8,7 +8,6 @@
             <h3 class="panel-title in-bold-white"> {!! trans('texts.group_details') !!} </h3>
         </div>
         <div class="panel-body">
-            <div class="row">
                 @if ($userGroup)
                     <p><i class="fa fa-id-number"
                           style="width: 20px"></i>{{ trans('texts.id_number').': '.$userGroup->id }}</p>
@@ -20,7 +19,6 @@
                 @if ($userGroup->notes)
                     <p><i>{!! nl2br(e($userGroup->notes)) !!}</i></p>
                 @endif
-            </div>
         </div>
     </div>
     <div class="panel panel-default">

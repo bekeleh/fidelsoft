@@ -1,47 +1,50 @@
 <?php $__env->startSection('content'); ?>
     ##parent-placeholder-040f06fd774092478d450774f5ba30c5da78acc8##
+    <?php if($user): ?>
+        
+    <?php endif; ?>
     <!-- user detail -->
     <div class="panel panel-default">
+        <div class="panel-heading" style="background-color:#777 !important">
+            <h3 class="panel-title in-bold-white"> <?php echo e(trans('texts.user_details')); ?></h3>
+        </div>
         <div class="panel-body">
-            <div class="row">
-                <div class="col-md-3">
-                    <h3><?php echo e(trans('texts.user_details')); ?></h3>
-                    <?php if($user): ?>
-                        <p><i class="fa fa-id-number"
-                              style="width: 20px"></i><?php echo e(trans('texts.id_number').': '.$user->id); ?></p>
-                    <?php endif; ?>
-                    <?php if($user->first_name): ?>
-                        <p><i class="fa fa-vat-number"
-                              style="width: 20px"></i><?php echo e(trans('texts.first_name').': '. $user->present()->fullName); ?>
+            <div class="col-md-3">
+                <?php if($user): ?>
+                    <p><i class="fa fa-id-number"
+                          style="width: 20px"></i><?php echo e(trans('texts.id_number').': '.$user->id); ?></p>
+                <?php endif; ?>
+                <?php if($user->first_name): ?>
+                    <p><i class="fa fa-user-o"
+                          style="width: 20px"></i><?php echo e(trans('texts.first_name').': '. $user->present()->fullName); ?>
 
-                        </p>
-                    <?php endif; ?>
-                    <?php if($user->notes): ?>
-                        <p><i><?php echo nl2br(e($user->notes)); ?></i></p>
-                    <?php endif; ?>
-                    <?php if($user->last_login): ?>
-                        <h3 style="margin-top:0px"><small>
-                                <?php echo e(trans('texts.last_logged_in')); ?> <?php echo e(Utils::timestampToDateTimeString(strtotime($user->last_login))); ?>
+                    </p>
+                <?php endif; ?>
+                <?php if($user->notes): ?>
+                    <p><i><?php echo nl2br(e($user->notes)); ?></i></p>
+                <?php endif; ?>
+                <?php if($user->last_login): ?>
+                    <h3 style="margin-top:0px"><small>
+                            <?php echo e(trans('texts.last_logged_in')); ?> <?php echo e(Utils::timestampToDateTimeString(strtotime($user->last_login))); ?>
 
-                            </small>
-                        </h3>
-                    <?php endif; ?>
-                </div>
-                <div class="col-md-3">
-                    <h3><?php echo e(trans('texts.address')); ?></h3>
-                    <p>address details</p>
-                </div>
-                <div class="col-md-3">
-                    <h3><?php echo e(trans('texts.contacts')); ?></h3>
-                    <?php if($user->email): ?>
-                        <i class="fa fa-envelope"
-                           style="width: 20px"></i><?php echo HTML::mailto($user->email, $user->email); ?><br/>
-                    <?php endif; ?>
-                    <?php if($user->phone): ?>
-                        <i class="fa fa-phone" style="width: 20px"></i><?php echo e($user->phone); ?><br/>
-                    <?php endif; ?>
-                    <br/>
-                </div>
+                        </small>
+                    </h3>
+                <?php endif; ?>
+            </div>
+            <div class="col-md-3">
+                <h3><?php echo e(trans('texts.address')); ?></h3>
+                <p>address details</p>
+            </div>
+            <div class="col-md-3">
+                <h3><?php echo e(trans('texts.contacts')); ?></h3>
+                <?php if($user->email): ?>
+                    <i class="fa fa-envelope"
+                       style="width: 20px"></i><?php echo HTML::mailto($user->email, $user->email); ?><br/>
+                <?php endif; ?>
+                <?php if($user->phone): ?>
+                    <i class="fa fa-phone" style="width: 20px"></i><?php echo e($user->phone); ?><br/>
+                <?php endif; ?>
+                <br/>
             </div>
         </div>
     </div>
@@ -50,20 +53,23 @@
             <h3 class="panel-title in-bold-white"> <?php echo trans('texts.permissions'); ?> </h3>
         </div>
         <div class="panel-body">
-            <?php if( ! Utils::hasFeature(FEATURE_USER_PERMISSIONS)): ?>
-                <div class="alert alert-warning"><?php echo e(trans('texts.upgrade_for_permissions')); ?></div>
-                <script type="text/javascript">
-                    $(function () {
-                        $('input[type=checkbox]').prop('disabled', true);
-                    })
-                </script>
-            <?php endif; ?>
-            <?php echo Former::checkbox('is_admin')
-                ->label('&nbsp;')
-                ->value(1)
-                ->text(trans('texts.administrator'))
-                ->help(trans('texts.administrator_help')); ?>
+            <div>
+                <?php if( ! Utils::hasFeature(FEATURE_USER_PERMISSIONS)): ?>
+                    <div class="alert alert-warning"><?php echo e(trans('texts.upgrade_for_permissions')); ?></div>
+                    <script type="text/javascript">
+                        $(function () {
+                            $('input[type=checkbox]').prop('disabled', true);
+                        })
+                    </script>
+                <?php endif; ?>
+                <?php echo Former::checkbox('is_admin')
+                    ->label('&nbsp;')
+                    ->value(1)
+                    ->text(trans('texts.administrator'))
+                    ->check(($user->is_admin) ? true:false)
+                    ->help(trans('texts.administrator_help')); ?>
 
+            </div>
             <div>
                 <table class="table table-striped dataTable">
                     <thead>
@@ -140,13 +146,15 @@
             var inputElements = document.querySelectorAll('input[type=checkbox]:checked');
             var permissions = getPermission(inputElements);
 
+            var $isAdmin = $("input[type='checkbox'][id^='is_admin']").val();
+            console.log($isAdmin);
             var $account_id =<?php echo e($user->account_id); ?>;
             var $public_id =<?php echo e($user->public_id); ?>;
             $.ajax({
                 url: '<?php echo e(URL::to('/users/change_permission')); ?>',
                 type: 'POST',
                 dataType: 'json',
-                data: 'permissions=' + permissions + '&account_id=' + $account_id + '&public_id=' + $public_id,
+                data: 'permissions=' + permissions + '&account_id=' + $account_id + '&public_id=' + $public_id + '&is_admin=' + $isAdmin,
                 success: function (result) {
                     if (result.success) {
                         swal("<?php echo e(trans('texts.updated_user_permission')); ?>");

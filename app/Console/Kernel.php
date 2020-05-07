@@ -4,7 +4,6 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use App\Libraries\Utils;
 
 class Kernel extends ConsoleKernel
 {
@@ -30,6 +29,7 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\InitLookup',
         'App\Console\Commands\CalculatePayouts',
         'App\Console\Commands\UpdateKey',
+        'App\Console\Commands\DatabaseBackup',
     ];
 
     /**
@@ -53,5 +53,9 @@ class Kernel extends ConsoleKernel
             ->command('ninja:send-reminders --force')
             ->sendOutputTo($logFile)
             ->daily();
+
+        $schedule
+            ->command('eninjaplus:backup')
+            ->weekly();
     }
 }

@@ -30,6 +30,8 @@ class PermissionGroupRepository extends BaseRepository
     {
         $query = DB::table('permission_groups')
             ->join('accounts', 'accounts.id', '=', 'permission_groups.account_id')
+            ->join('users_groups', 'users_groups.group_id', '=', 'permission_groups.id')
+//            ->join('users', 'users.id', '=', 'users_groups.user_id')
             ->where('permission_groups.account_id', '=', $accountId)
             //->where('permission_groups.deleted_at', '=', null)
             ->select(
