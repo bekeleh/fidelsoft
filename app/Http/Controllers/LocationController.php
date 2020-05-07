@@ -61,7 +61,10 @@ class LocationController extends BaseController
 
     public function getDatatable()
     {
-        return $this->locationService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
+        $accountId = Auth::user()->account_id;
+        $search = Input::get('sSearch');
+
+        return $this->locationService->getDatatable($accountId, $search);
     }
 
     public function create(LocationRequest $request)

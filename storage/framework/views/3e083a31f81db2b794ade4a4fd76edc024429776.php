@@ -6,20 +6,18 @@
             <h3 class="panel-title in-bold-white"> <?php echo trans('texts.group_details'); ?> </h3>
         </div>
         <div class="panel-body">
-            <div class="row">
-                <?php if($userGroup): ?>
-                    <p><i class="fa fa-id-number"
-                          style="width: 20px"></i><?php echo e(trans('texts.id_number').': '.$userGroup->id); ?></p>
-                <?php endif; ?>
-                <?php if($userGroup->name): ?>
-                    <p><?php echo e(trans('texts.permission_group_name').': '); ?>
+            <?php if($userGroup): ?>
+                <p><i class="fa fa-id-number"
+                      style="width: 20px"></i><?php echo e(trans('texts.id_number').': '.$userGroup->id); ?></p>
+            <?php endif; ?>
+            <?php if($userGroup->name): ?>
+                <p><?php echo e(trans('texts.permission_group_name').': '); ?>
 
-                        <strong><?php echo e($userGroup->present()->displayName); ?></strong></p>
-                <?php endif; ?>
-                <?php if($userGroup->notes): ?>
-                    <p><i><?php echo nl2br(e($userGroup->notes)); ?></i></p>
-                <?php endif; ?>
-            </div>
+                    <strong><?php echo e($userGroup->present()->displayName); ?></strong></p>
+            <?php endif; ?>
+            <?php if($userGroup->notes): ?>
+                <p><i><?php echo nl2br(e($userGroup->notes)); ?></i></p>
+            <?php endif; ?>
         </div>
     </div>
     <div class="panel panel-default">
@@ -27,24 +25,20 @@
             <h3 class="panel-title in-bold-white"> <?php echo trans('texts.permissions'); ?> </h3>
         </div>
         <div class="panel-body">
-            <?php if( ! Utils::hasFeature(FEATURE_USER_PERMISSIONS)): ?>
-                <div class="alert alert-warning"><?php echo e(trans('texts.upgrade_for_permissions')); ?></div>
-                <script type="text/javascript">
-                    $(function () {
-                        $('input[type=checkbox]').prop('disabled', true);
-                    })
-                </script>
-            <?php endif; ?>
-            <?php echo Former::checkbox('is_admin')
-                ->label('&nbsp;')
-                ->value(1)
-                ->text(trans('texts.administrator'))
-                ->help(trans('texts.administrator_help')); ?>
-
+            <div>
+                <?php if( ! Utils::hasFeature(FEATURE_USER_PERMISSIONS)): ?>
+                    <div class="alert alert-warning"><?php echo e(trans('texts.upgrade_for_permissions')); ?></div>
+                    <script type="text/javascript">
+                        $(function () {
+                            $('input[type=checkbox]').prop('disabled', true);
+                        })
+                    </script>
+                <?php endif; ?>
+            </div>
             <div>
                 <table class="table table-striped dataTable">
                     <thead>
-                    <th></th>
+                    <th><?php echo trans('texts.permissions'); ?></th>
                     <th style="padding-bottom:0px"><?php echo Former::checkbox('create')
                                   ->text( trans('texts.create') )
                                   ->value('create_')

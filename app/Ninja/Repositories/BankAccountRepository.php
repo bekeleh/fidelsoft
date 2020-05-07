@@ -21,12 +21,20 @@ class BankAccountRepository extends BaseRepository
         return 'App\Models\BankAccount';
     }
 
-    public function find($accountId)
+    public function all()
     {
-        return DB::table('bank_accounts')
+        return BankAccount::scope()
+            ->withTrashed()
+            ->where('is_deleted', '=', false)
+            ->get();
+    }
+
+    public function find($accountId, $filter = null)
+    {
+        $query = DB::table('bank_accounts')
             ->join('banks', 'banks.id', '=', 'bank_accounts.bank_id')
-            ->where('bank_accounts.deleted_at', '=', null)
             ->where('bank_accounts.account_id', '=', $accountId)
+//            ->where('bank_accounts.deleted_at', '=', null)
             ->select(
                 'bank_accounts.public_id',
                 'banks.name as bank_name',
@@ -34,6 +42,15 @@ class BankAccountRepository extends BaseRepository
                 'bank_accounts.deleted_at',
                 'banks.bank_library_id'
             );
+        if ($filter) {
+            $query->where(function ($query) use ($filter) {
+                $query->where('bank_accounts.name', 'like', '%' . $filter . '%');
+            });
+        }
+
+        $this->applyFilters($query, ENTITY_BANK_ACCOUNT);
+
+        return $query;
     }
 
     public function save($input)

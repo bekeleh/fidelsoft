@@ -8,17 +8,17 @@
             <h3 class="panel-title in-bold-white"> {!! trans('texts.group_details') !!} </h3>
         </div>
         <div class="panel-body">
-                @if ($userGroup)
-                    <p><i class="fa fa-id-number"
-                          style="width: 20px"></i>{{ trans('texts.id_number').': '.$userGroup->id }}</p>
-                @endif
-                @if ($userGroup->name)
-                    <p>{{ trans('texts.permission_group_name').': '}}
-                        <strong>{{ $userGroup->present()->displayName}}</strong></p>
-                @endif
-                @if ($userGroup->notes)
-                    <p><i>{!! nl2br(e($userGroup->notes)) !!}</i></p>
-                @endif
+            @if ($userGroup)
+                <p><i class="fa fa-id-number"
+                      style="width: 20px"></i>{{ trans('texts.id_number').': '.$userGroup->id }}</p>
+            @endif
+            @if ($userGroup->name)
+                <p>{{ trans('texts.permission_group_name').': '}}
+                    <strong>{{ $userGroup->present()->displayName}}</strong></p>
+            @endif
+            @if ($userGroup->notes)
+                <p><i>{!! nl2br(e($userGroup->notes)) !!}</i></p>
+            @endif
         </div>
     </div>
     <div class="panel panel-default">
@@ -26,23 +26,20 @@
             <h3 class="panel-title in-bold-white"> {!! trans('texts.permissions') !!} </h3>
         </div>
         <div class="panel-body">
-            @if ( ! Utils::hasFeature(FEATURE_USER_PERMISSIONS))
-                <div class="alert alert-warning">{{ trans('texts.upgrade_for_permissions') }}</div>
-                <script type="text/javascript">
-                    $(function () {
-                        $('input[type=checkbox]').prop('disabled', true);
-                    })
-                </script>
-            @endif
-            {!! Former::checkbox('is_admin')
-                ->label('&nbsp;')
-                ->value(1)
-                ->text(trans('texts.administrator'))
-                ->help(trans('texts.administrator_help')) !!}
+            <div>
+                @if ( ! Utils::hasFeature(FEATURE_USER_PERMISSIONS))
+                    <div class="alert alert-warning">{{ trans('texts.upgrade_for_permissions') }}</div>
+                    <script type="text/javascript">
+                        $(function () {
+                            $('input[type=checkbox]').prop('disabled', true);
+                        })
+                    </script>
+                @endif
+            </div>
             <div>
                 <table class="table table-striped dataTable">
                     <thead>
-                    <th></th>
+                    <th>{!! trans('texts.permissions') !!}</th>
                     <th style="padding-bottom:0px">{!! Former::checkbox('create')
                                   ->text( trans('texts.create') )
                                   ->value('create_')

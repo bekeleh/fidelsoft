@@ -254,10 +254,12 @@ class BankAccountService extends BaseService
         }
     }
 
-    public function getDatatable($accountId)
+    public function getDatatable($accountId, $search)
     {
-        $query = $this->bankAccountRepo->find($accountId);
+        $datatable = new BankAccountDatatable(false);
 
-        return $this->datatableService->createDatatable(new BankAccountDatatable(false), $query, 'bank_accounts');
+        $query = $this->bankAccountRepo->find($accountId, $search);
+
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 }

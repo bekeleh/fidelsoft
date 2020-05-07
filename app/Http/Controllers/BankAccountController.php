@@ -3,20 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateBankAccountRequest;
-use App\Models\Account;
+use App\Libraries\Utils;
 use App\Models\BankAccount;
 use App\Ninja\Repositories\BankAccountRepository;
 use App\Services\BankAccountService;
-use Auth;
-use Cache;
-use Crypt;
-use File;
 use Illuminate\Http\Request;
-use Input;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\View;
 use Redirect;
-use Session;
-use Utils;
-use View;
 
 class BankAccountController extends BaseController
 {
@@ -38,7 +37,10 @@ class BankAccountController extends BaseController
 
     public function getDatatable()
     {
-        return $this->bankAccountService->getDatatable(Auth::user()->account_id);
+        $accountId = Auth::user()->account_id;
+        $search = Input::get('sSearch');
+
+        return $this->bankAccountService->getDatatable($accountId, $search);
     }
 
     public function edit($publicId)

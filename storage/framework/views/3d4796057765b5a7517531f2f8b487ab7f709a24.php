@@ -4,10 +4,12 @@
         <style type="text/css">
             .nav-footer {
                 <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?>
-                                                       background-color: #50C878 !important;
+                                                         background-color: #50C878 !important;
                 <?php else: ?>
-                                                       background-color: #FD6A02 !important;
+                                                         background-color: #FD6A02 !important;
             <?php endif; ?>
+
+
             }
         </style>
     <?php endif; ?>
@@ -387,6 +389,7 @@
                 'users',
                 'clients',
                 'vendors',
+                 'products',
                 'invoices',
                 'payments',
                 'recurring_invoices',
@@ -396,7 +399,6 @@
                 'projects',
                 'tasks',
                 'expenses',
-                'products',
 
                 ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <?php if(!Auth::user()->account->isModuleEnabled(substr($option, 0, -1))): ?>

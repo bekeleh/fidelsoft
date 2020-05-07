@@ -13,13 +13,11 @@
          ])
         ->addClass('warn-on-exit') !!}
 
-
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">{!! $title !!}</h3>
+            <h3 class="panel-title in-bold-white">{!! $title !!}</h3>
         </div>
         <div class="panel-body form-padding-right">
-
             @if ($taxRate)
                 {{ Former::populate($taxRate) }}
                 {{ Former::populateField('is_inclusive', intval($taxRate->is_inclusive)) }}
@@ -36,7 +34,6 @@
                       ->label('type')
                       ->help('tax_rate_type_help') !!}
             @endif
-
         </div>
     </div>
 
