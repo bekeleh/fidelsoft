@@ -63,6 +63,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_MANUFACTURER', 'manufacturer');
     define('ENTITY_MANUFACTURER_PRODUCT_DETAIL', 'manufacturer_product_detail');
     define('ENTITY_DASHBOARD', 'dashboard');
+    define('ENTITY_SEARCH', 'search');
 
     $permissionEntities = [
         ENTITY_ACTIVITY,
@@ -98,6 +99,7 @@ if (!defined('APP_NAME')) {
         ENTITY_RECURRING_INVOICE,
         ENTITY_REPORT,
         ENTITY_SALE_TYPE,
+        ENTITY_SEARCH,
         ENTITY_STATUS,
         ENTITY_STORE,
         ENTITY_TASK,

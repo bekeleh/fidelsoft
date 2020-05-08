@@ -2446,6 +2446,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'edit_project' => 'Edit Project',
     'archive_project' => 'Archive Project',
     'list_projects' => 'List Projects',
+    'clone_project' => 'Clone Project',
     'updated_project' => 'Successfully updated project',
     'created_project' => 'Successfully created project',
     'archived_project' => 'Successfully archived project',

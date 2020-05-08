@@ -162,8 +162,11 @@ class AccountRepository
 
     public function getSearchData($user)
     {
+        if (!Utils::hasPermission('admin') || !Auth::user()->can('view', ENTITY_SEARCH)) {
+            return [];
+        }
         $data = $this->getAccountSearchData($user);
-        $data['navigation'] = $user->is_admin ? $this->getNavigationSearchData() : [];
+        $data['navigation'] = $this->getNavigationSearchData();
 
         return $data;
     }
