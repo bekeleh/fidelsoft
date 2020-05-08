@@ -106,7 +106,7 @@ $LANG = array(
     'created_permission_group' => 'Successfully Created User Group',
     'archived_permission_group' => 'Successfully Archived User Group',
     'permission_group_settings' => 'User Group Settings',
-    'permission_group_help' => 'Sets the default <b>User group</b>',
+    'permission_group_help' => 'Sets the default <b>User Group</b>',
     'group_permission_help' => 'Sets the default User group',
 
     /*
@@ -2246,6 +2246,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'archived_expense_categories' => 'Successfully archived :count expense category',
     'restore_expense_category' => 'Restore expense category',
     'restored_expense_category' => 'Successfully restored expense category',
+    'expense_category_help' => 'Sets the default <b>expense category</b>',
     'apply_taxes' => 'Apply taxes',
     'min_to_max_users' => ':min to :max users',
     'max_users_reached' => 'The maximum number of users has been reached.',

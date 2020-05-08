@@ -89,60 +89,60 @@ class ItemTransferDataTable extends EntityDatatable
                     return $this->showWithTooltip($model->notes);
                 },
             ],
-            [
-                'status_name',
-                function ($model) {
-                    if ($model->status_public_id) {
-                        if (Auth::user()->can('view', [ENTITY_STATUS, $model]))
-                            return link_to("statuses/{$model->status_public_id}", $model->status_name)->toHtml();
-                        else
-                            return $model->status_name;
-                    }
-                    return false;
-                },
-            ],
-            [
-                'approver_name',
-                function ($model) {
-                    if ($model->approver_public_id) {
-                        if (Auth::user()->can('view', [ENTITY_USER, $model]))
-                            return link_to("users/{$model->approver_public_id}", $model->approver_name)->toHtml();
-                        else
-                            return $model->approver_name;
-                    }
-                    return false;
-                },
-            ],
+//            [
+//                'status_name',
+//                function ($model) {
+//                    if ($model->status_public_id) {
+//                        if (Auth::user()->can('view', [ENTITY_STATUS, $model]))
+//                            return link_to("statuses/{$model->status_public_id}", $model->status_name)->toHtml();
+//                        else
+//                            return $model->status_name;
+//                    }
+//                    return false;
+//                },
+//            ],
+//            [
+//                'approver_name',
+//                function ($model) {
+//                    if ($model->approver_public_id) {
+//                        if (Auth::user()->can('view', [ENTITY_USER, $model]))
+//                            return link_to("users/{$model->approver_public_id}", $model->approver_name)->toHtml();
+//                        else
+//                            return $model->approver_name;
+//                    }
+//                    return false;
+//                },
+//            ],
             [
                 'created_by',
                 function ($model) {
                     return $model->created_by;
                 },
             ],
-            [
-                'updated_by',
-                function ($model) {
-                    return $model->updated_by;
-                },
-            ],
-            [
-                'approved_date',
-                function ($model) {
-                    return Utils::timestampToDateString(strtotime($model->approved_date));
-                },
-            ],
+//            [
+//                'updated_by',
+//                function ($model) {
+//                    return $model->updated_by;
+//                },
+//            ],
+//            [
+//                'approved_date',
+//                function ($model) {
+//                    return Utils::timestampToDateString(strtotime($model->approved_date));
+//                },
+//            ],
             [
                 'created_at',
                 function ($model) {
                     return Utils::timestampToDateString(strtotime($model->created_at));
                 },
             ],
-            [
-                'updated_at',
-                function ($model) {
-                    return Utils::timestampToDateString(strtotime($model->updated_at));
-                },
-            ],
+//            [
+//                'updated_at',
+//                function ($model) {
+//                    return Utils::timestampToDateString(strtotime($model->updated_at));
+//                },
+//            ],
             //            [
 //                'date_deleted',
 //                function ($model) {
