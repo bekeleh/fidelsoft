@@ -23,8 +23,8 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{!! trans('texts.details') !!}</h3>
+                <div class="panel-heading" style="color:white;background-color: #777 !important;">
+                    <h3 class="panel-title in-bold-white">{!! trans('texts.details') !!}</h3>
                 </div>
                 <div class="panel-body form-padding-right">
                     {!! Former::text('name')->label('texts.company_name') !!}

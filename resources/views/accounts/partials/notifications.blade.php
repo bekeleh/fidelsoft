@@ -5,8 +5,8 @@
 {{ Former::populateField('only_notify_owned', intval(Auth::user()->only_notify_owned)) }}
 
 <div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">{!! trans('texts.email_notifications') !!}</h3>
+    <div class="panel-heading" style="color:white;background-color: #777 !important;">
+        <h3 class="panel-title in-bold-white">{!! trans('texts.email_notifications') !!}</h3>
     </div>
     <div class="panel-body">
         {!! Former::checkbox('notify_sent')->label('&nbsp;')->text(trans('texts.email_sent'))->value(1) !!}

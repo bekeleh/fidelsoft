@@ -16,8 +16,8 @@
 
 
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title"><?php echo trans('texts.product_settings'); ?></h3>
+        <div class="panel-heading" style="color:white;background-color: #777 !important;">
+            <h3 class="panel-title in-bold-white"><?php echo trans('texts.product_settings'); ?></h3>
         </div>
         <div class="panel-body">
             <?php echo Former::checkbox('show_product_notes')->text(trans('texts.show_product_notes_help'))->value(1); ?>

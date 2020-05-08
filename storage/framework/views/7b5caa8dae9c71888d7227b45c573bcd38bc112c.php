@@ -10,8 +10,8 @@
 
 
 <div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title"><?php echo trans('texts.email_notifications'); ?></h3>
+    <div class="panel-heading" style="color:white;background-color: #777 !important;">
+        <h3 class="panel-title in-bold-white"><?php echo trans('texts.email_notifications'); ?></h3>
     </div>
     <div class="panel-body">
         <?php echo Former::checkbox('notify_sent')->label('&nbsp;')->text(trans('texts.email_sent'))->value(1); ?>

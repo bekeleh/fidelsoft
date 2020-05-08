@@ -13,8 +13,8 @@
     {{ Former::populateField('convert_products', intval($account->convert_products)) }}
 
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">{!! trans('texts.product_settings') !!}</h3>
+        <div class="panel-heading" style="color:white;background-color: #777 !important;">
+            <h3 class="panel-title in-bold-white">{!! trans('texts.product_settings') !!}</h3>
         </div>
         <div class="panel-body">
             {!! Former::checkbox('show_product_notes')->text(trans('texts.show_product_notes_help'))->value(1) !!}

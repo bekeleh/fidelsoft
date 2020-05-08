@@ -34,8 +34,8 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><?php echo trans('texts.user_details'); ?></h3>
+                <div class="panel-heading" style="color:white;background-color: #777 !important;">
+                    <h3 class="panel-title in-bold-white"><?php echo trans('texts.user_details'); ?></h3>
                 </div>
                 <div class="panel-body form-padding-right">
                     <?php echo Former::text('first_name'); ?>

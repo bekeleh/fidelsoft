@@ -116,8 +116,8 @@
                             </div>
                             <div class="container" style="width: 100%; padding-bottom: 0px !important">
                                 <div class="panel panel-default">
-                                    <div class="panel-body">
 
+                                    <div class="panel-body">
                                         @if ($planDetails && $planDetails['active'])
                                             {!! Former::select('plan')
                                                 ->onchange('onPlanChange()')
@@ -179,8 +179,8 @@
             {!! Former::populateField('force_pdfjs', intval(Auth::user()->force_pdfjs)) !!}
 
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{!! trans('texts.modules') !!}</h3>
+                <div class="panel-heading" style="color:white;background-color: #777 !important;">
+                    <h3 class="panel-title in-bold-white">{!! trans('texts.modules') !!}</h3>
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
@@ -218,8 +218,8 @@
             </div>
 
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{!! trans('texts.pdf_settings') !!}</h3>
+                <div class="panel-heading" style="color:white;background-color: #777 !important;">
+                    <h3 class="panel-title in-bold-white">{!! trans('texts.pdf_settings') !!}</h3>
                 </div>
                 <div class="panel-body">
 
@@ -249,8 +249,8 @@
 
             @if (! Auth::user()->account->isNinjaOrLicenseAccount())
                 <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">{!! trans('texts.delete_data') !!}</h3>
+                    <div class="panel-heading" style="color:white;background-color: #777 !important;">
+                        <h3 class="panel-title in-bold-white">{!! trans('texts.delete_data') !!}</h3>
                     </div>
                     <div class="panel-body">
                         {!! Former::open('settings/purge_data')->addClass('purge-data') !!}
