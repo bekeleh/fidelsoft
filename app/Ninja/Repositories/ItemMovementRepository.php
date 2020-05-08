@@ -26,7 +26,7 @@ class ItemMovementRepository extends BaseRepository
     }
 
 
-    public function find($accountId, $filter = null)
+    public function find($accountId = false, $filter = null)
     {
         $query = DB::table('item_movements')
             ->join('accounts', 'accounts.id', '=', 'item_movements.account_id')

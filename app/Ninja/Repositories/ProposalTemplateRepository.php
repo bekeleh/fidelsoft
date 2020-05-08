@@ -25,7 +25,7 @@ class ProposalTemplateRepository extends BaseRepository
         return ProposalTemplate::scope()->get();
     }
 
-    public function find($filter = null, $userId = false)
+    public function find($account = false, $filter = null, $userId = false)
     {
         $query = DB::table('proposal_templates')
             ->where('proposal_templates.account_id', '=', Auth::user()->account_id)

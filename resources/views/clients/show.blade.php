@@ -50,7 +50,6 @@
                               ($client->trashed() ? false : ['label' => trans('texts.archive_client'), 'url' => "javascript:onArchiveClick()"]),
                               ['label' => trans('texts.delete_client'), 'url' => "javascript:onDeleteClick()"],
                               auth()->user()->is_admin ? \DropdownButton::DIVIDER : false,
-                              auth()->user()->is_admin ? ['label' => trans('texts.purge_client'), 'url' => "javascript:onPurgeClick()"] : false,
                             ]
                           )->split() !!}
                     @endcan
@@ -64,11 +63,6 @@
                 @endif
                 @if ($client->trashed())
                     @can('edit', $client)
-                        @if (auth()->user()->is_admin && $client->is_deleted)
-                            {!! Button::danger(trans('texts.purge_client'))
-                                    ->appendIcon(Icon::create('warning-sign'))
-                                    ->withAttributes(['onclick' => 'onPurgeClick()']) !!}
-                        @endif
                         {!! Button::primary(trans('texts.restore_client'))
                                 ->appendIcon(Icon::create('retweet'))
                                 ->withAttributes(['onclick' => 'onRestoreClick()']) !!}
@@ -486,6 +480,7 @@
                 }
             });
         }
+
         google.maps.event.addDomListener(window, 'load', initialize);
         @endif
     </script>

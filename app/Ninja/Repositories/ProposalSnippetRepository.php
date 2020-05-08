@@ -25,7 +25,7 @@ class ProposalSnippetRepository extends BaseRepository
         return ProposalSnippet::scope()->get();
     }
 
-    public function find($filter = null, $userId = false)
+    public function find($account = false, $filter = null, $userId = false)
     {
         $query = DB::table('proposal_snippets')
             ->leftjoin('proposal_categories', 'proposal_categories.id', '=', 'proposal_snippets.proposal_category_id')

@@ -5,6 +5,7 @@ namespace App\Ninja\Repositories;
 use App\Libraries\Utils;
 use App\Models\Client;
 use App\Models\Credit;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CreditRepository extends BaseRepository
@@ -21,13 +22,13 @@ class CreditRepository extends BaseRepository
         return 'App\Models\Credit';
     }
 
-    public function find($clientPublicId = null, $filter = null)
+    public function find($clientPublicId = false, $filter = null)
     {
         $query = DB::table('credits')
             ->join('accounts', 'accounts.id', '=', 'credits.account_id')
             ->join('clients', 'clients.id', '=', 'credits.client_id')
             ->join('contacts', 'contacts.client_id', '=', 'clients.id')
-            ->where('clients.account_id', '=', \Auth::user()->account_id)
+            ->where('clients.account_id', '=', Auth::user()->account_id)
             ->where('contacts.deleted_at', '=', null)
             ->where('contacts.is_primary', '=', true)
             ->select(

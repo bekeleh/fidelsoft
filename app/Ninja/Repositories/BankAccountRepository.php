@@ -29,7 +29,7 @@ class BankAccountRepository extends BaseRepository
             ->get();
     }
 
-    public function find($accountId, $filter = null)
+    public function find($accountId = false, $filter = null)
     {
         $query = DB::table('bank_accounts')
             ->join('banks', 'banks.id', '=', 'bank_accounts.bank_id')

@@ -33,7 +33,7 @@ class ProductRepository extends BaseRepository
             ->get();
     }
 
-    public function find($accountId, $filter = null)
+    public function find($accountId = false, $filter = null)
     {
         $query = DB::table('products')
             ->join('accounts', 'accounts.id', '=', 'products.account_id')

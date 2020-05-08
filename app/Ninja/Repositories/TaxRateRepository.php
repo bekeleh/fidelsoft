@@ -25,7 +25,7 @@ class TaxRateRepository extends BaseRepository
         return TaxRate::scope()->get();
     }
 
-    public function find($accountId)
+    public function find($accountId = false)
     {
         return DB::table('tax_rates')
             ->where('tax_rates.account_id', '=', $accountId)

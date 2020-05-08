@@ -27,7 +27,7 @@ class LocationRepository extends BaseRepository
         return Location::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
-    public function find($accountId, $filter = null)
+    public function find($accountId = false, $filter = null)
     {
         $query = DB::table('locations')
             ->select(

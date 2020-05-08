@@ -27,7 +27,7 @@ class HoldReasonRepository extends BaseRepository
     }
 
 
-    public function find($accountId, $filter = null)
+    public function find($accountId = false, $filter = null)
     {
         $query = DB::table('hold_reasons')
             ->join('accounts', 'accounts.id', '=', 'hold_reasons.account_id')

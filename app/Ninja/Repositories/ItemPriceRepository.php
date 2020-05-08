@@ -30,7 +30,7 @@ class ItemPriceRepository extends BaseRepository
         return ItemPrice::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
-    public function find($accountId, $filter = null)
+    public function find($accountId = false, $filter = null)
     {
         $query = DB::table('item_prices')
             ->join('accounts', 'accounts.id', '=', 'item_prices.account_id')

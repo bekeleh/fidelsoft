@@ -33,7 +33,7 @@ class ItemTransferRepository extends BaseRepository
     }
 
 
-    public function find($accountId, $filter = null)
+    public function find($accountId = false, $filter = null)
     {
         $query = DB::table('item_transfers')
             ->join('accounts', 'accounts.id', '=', 'item_transfers.account_id')

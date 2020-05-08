@@ -19,7 +19,7 @@ class TokenRepository extends BaseRepository
         return 'App\Models\AccountToken';
     }
 
-    public function find($userId)
+    public function find($userId = false)
     {
         $query = DB::table('account_tokens')
             ->where('account_tokens.user_id', '=', $userId)

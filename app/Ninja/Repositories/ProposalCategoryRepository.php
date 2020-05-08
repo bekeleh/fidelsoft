@@ -25,7 +25,7 @@ class ProposalCategoryRepository extends BaseRepository
         return ProposalCategory::scope()->get();
     }
 
-    public function find($filter = null, $userId = false)
+    public function find($account = false, $filter = null, $userId = false)
     {
         $query = DB::table('proposal_categories')
             ->where('proposal_categories.account_id', '=', Auth::user()->account_id)

@@ -29,7 +29,7 @@ class StoreRepository extends BaseRepository
     }
 
 
-    public function find($accountId, $filter = null)
+    public function find($accountId = false, $filter = null)
     {
         $query = DB::table('stores')
             ->join('accounts', 'accounts.id', '=', 'stores.account_id')

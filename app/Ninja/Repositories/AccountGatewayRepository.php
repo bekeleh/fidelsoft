@@ -19,7 +19,7 @@ class AccountGatewayRepository extends BaseRepository
         return 'App\Models\AccountGateway';
     }
 
-    public function find($accountId)
+    public function find($accountId = false, $filter = null)
     {
         $query = DB::table('account_gateways')
             ->join('gateways', 'gateways.id', '=', 'account_gateways.gateway_id')

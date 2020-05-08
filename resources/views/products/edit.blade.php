@@ -21,8 +21,7 @@
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading" style="color:white;background-color: #777 !important;">
-                    <h3 class="panel-title in-bold-white"><h3>
+                <div class="panel-body form-padding-right">
                     {!! Former::text('name')->label('texts.item_name') !!}
                     {!! Former::select('item_brand_id')
                     ->placeholder(trans('texts.select_item_brand'))

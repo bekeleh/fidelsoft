@@ -28,7 +28,7 @@ class UnitRepository extends BaseRepository
     }
 
 
-    public function find($accountId, $filter = null)
+    public function find($accountId = false, $filter = null)
     {
         $query = DB::table('units')
             ->join('accounts', 'accounts.id', '=', 'units.account_id')

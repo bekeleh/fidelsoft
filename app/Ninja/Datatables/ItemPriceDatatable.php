@@ -40,7 +40,7 @@ class ItemPriceDatatable extends EntityDatatable
             [
                 'item_category_name',
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_ITEM_CATE, $model])) {
+                    if (Auth::user()->can('edit', [ENTITY_ITEM_CATEGORY, $model])) {
                         return link_to('item_categories/' . $model->public_id . '/edit', $model->item_category_name)->toHtml();
                     } else {
                         $model->item_category_name;
@@ -96,12 +96,12 @@ class ItemPriceDatatable extends EntityDatatable
                     return $model->created_by;
                 },
             ],
-            [
-                'updated_by',
-                function ($model) {
-                    return $model->updated_by;
-                },
-            ],
+//            [
+//                'updated_by',
+//                function ($model) {
+//                    return $model->updated_by;
+//                },
+//            ],
             [
                 'created_at',
                 function ($model) {

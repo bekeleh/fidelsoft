@@ -19,7 +19,7 @@ class PaymentTermRepository extends BaseRepository
         return 'App\Models\PaymentTerm';
     }
 
-    public function find($accountId = 0)
+    public function find($accountId  = false)
     {
         return DB::table('payment_terms')
             ->where('payment_terms.account_id', '=', $accountId)

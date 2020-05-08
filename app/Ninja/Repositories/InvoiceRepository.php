@@ -57,7 +57,7 @@ class InvoiceRepository extends BaseRepository
             ->get();
     }
 
-    public function getInvoices($accountId, $clientPublicId = false, $entityType = ENTITY_INVOICE, $filter = false)
+    public function getInvoices($accountId = false, $clientPublicId = false, $entityType = ENTITY_INVOICE, $filter = false)
     {
         $query = DB::table('invoices')
             ->join('accounts', 'accounts.id', '=', 'invoices.account_id')
@@ -150,7 +150,7 @@ class InvoiceRepository extends BaseRepository
         return $query;
     }
 
-    public function getRecurringInvoices($accountId, $clientPublicId = false, $filter = false)
+    public function getRecurringInvoices($accountId = false, $clientPublicId = false, $filter = false)
     {
         $query = DB::table('invoices')
             ->join('accounts', 'accounts.id', '=', 'invoices.account_id')

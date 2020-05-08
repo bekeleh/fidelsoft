@@ -49,7 +49,7 @@ class ExpenseRepository extends BaseRepository
         return $query;
     }
 
-    public function find($accountId, $filter = null)
+    public function find($accountId = false, $filter = null)
     {
         $query = DB::table('expenses')
             ->join('accounts', 'accounts.id', '=', 'expenses.account_id')

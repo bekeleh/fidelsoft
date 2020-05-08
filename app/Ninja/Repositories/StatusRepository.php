@@ -26,7 +26,7 @@ class StatusRepository extends BaseRepository
         return Status::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
-    public function find($accountId, $filter = null)
+    public function find($accountId = false, $filter = null)
     {
         $query = DB::table('statuses')
             ->join('accounts', 'accounts.id', '=', 'statuses.account_id')

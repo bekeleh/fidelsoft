@@ -30,7 +30,7 @@ class SaleTypeRepository extends BaseRepository
             ->get();
     }
 
-    public function find($accountId, $filter = null)
+    public function find($accountId = false, $filter = null)
     {
         $query = DB::table('sale_types')
             ->join('accounts', 'accounts.id', '=', 'sale_types.account_id')

@@ -26,7 +26,7 @@ class PermissionRepository extends BaseRepository
         return Permission::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
-    public function find($accountId, $filter = null)
+    public function find($accountId = false, $filter = null)
     {
         $query = DB::table('permissions')
             ->join('accounts', 'accounts.id', '=', 'permissions.account_id')

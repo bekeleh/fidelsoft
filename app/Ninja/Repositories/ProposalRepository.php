@@ -28,7 +28,7 @@ class ProposalRepository extends BaseRepository
         return Proposal::scope()->get();
     }
 
-    public function find($filter = null, $userId = false)
+    public function find($account = false, $filter = null, $userId = false)
     {
         $query = DB::table('proposals')
             ->where('proposals.account_id', '=', Auth::user()->account_id)

@@ -28,7 +28,7 @@ class ItemCategoryRepository extends BaseRepository
     }
 
 
-    public function find($accountId, $filter = null)
+    public function find($accountId = false, $filter = null)
     {
         $query = DB::table('item_categories')
             ->join('accounts', 'accounts.id', '=', 'item_categories.account_id')

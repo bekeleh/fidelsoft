@@ -29,9 +29,9 @@
         @endif
         <div class="row">
             <div class="col-md-6">
-                <div class="panel panel-default" style="min-height: 380px">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">{!! trans('texts.organization') !!}</h3>
+                <div class="panel panel-default">
+                    <div class="panel-heading" style="color:white;background-color: #777 !important;">
+                        <h3 class="panel-title in-bold-white">{!! trans('texts.organization') !!}</h3>
                     </div>
                     <div class="panel-body">
                         {!! Former::text('name')->label('vendor_name')->data_bind("attr { placeholder: placeholderName }") !!}
@@ -43,8 +43,8 @@
                     </div>
                 </div>
                 <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">{!! trans('texts.address') !!}</h3>
+                    <div class="panel-heading" style="color:white;background-color: #777 !important;">
+                        <h3 class="panel-title in-bold-white">{!! trans('texts.address') !!}</h3>
                     </div>
                     <div class="panel-body" id="billing_address">
                         {!! Former::text('address1') !!}
@@ -60,9 +60,9 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="panel panel-default" style="min-height: 380px">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">{!! trans('texts.contacts') !!}</h3>
+                <div class="panel panel-default">
+                    <div class="panel-heading" style="color:white;background-color: #777 !important;">
+                        <h3 class="panel-title in-bold-white">{!! trans('texts.contacts') !!}</h3>
                     </div>
                     <div class="panel-body">
                         <div data-bind='template: {
@@ -95,8 +95,8 @@
                     </div>
                 </div>
                 <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">{!! trans('texts.additional_info') !!}</h3>
+                    <div class="panel-heading" style="color:white;background-color: #777 !important;">
+                        <h3 class="panel-title in-bold-white">{!! trans('texts.additional_info') !!}</h3>
                     </div>
                     <div class="panel-body">
                         {!! Former::select('currency_id')->addOption('','')

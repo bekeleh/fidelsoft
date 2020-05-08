@@ -29,7 +29,7 @@ class VendorRepository extends BaseRepository
             ->get();
     }
 
-    public function find($filter = null)
+    public function find($accountId = false, $filter = null)
     {
         $query = DB::table('vendors')
             ->join('accounts', 'accounts.id', '=', 'vendors.account_id')

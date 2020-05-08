@@ -26,7 +26,7 @@ class ProjectRepository extends BaseRepository
         return Project::scope()->get();
     }
 
-    public function find($filter = null, $userId = false)
+    public function find($filter  = false, $userId = false)
     {
         $query = DB::table('projects')
             ->where('projects.account_id', '=', Auth::user()->account_id)

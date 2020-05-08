@@ -24,7 +24,7 @@ class TaskRepository extends BaseRepository
         return 'App\Models\Task';
     }
 
-    public function find($clientPublicId = null, $projectPublicId = null, $filter = null)
+    public function find($clientPublicId  = false, $projectPublicId = null, $filter = null)
     {
         $query = DB::table('tasks')
             ->leftJoin('clients', 'tasks.client_id', '=', 'clients.id')

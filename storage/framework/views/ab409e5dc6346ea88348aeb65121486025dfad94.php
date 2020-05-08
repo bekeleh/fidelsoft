@@ -139,6 +139,7 @@
             ['label' => trans('texts.list_item_movements'), 'url' => url('/item_movements')],
             ['label' => trans('texts.new_store'), 'url' => url('/stores')],
             ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types')],
+            ['label' => trans('texts.new_hold_reason'), 'url' => url('/hold_reasons')],
             ['label' => trans('texts.new_unit'), 'url' => url('/units')],
             ])->split(); ?>
 

@@ -5,6 +5,7 @@ namespace App\Ninja\Repositories;
 use App\Libraries\Utils;
 use App\Models\Expense;
 use App\Models\RecurringExpense;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class RecurringExpenseRepository extends BaseRepository
@@ -30,9 +31,9 @@ class RecurringExpenseRepository extends BaseRepository
             ->get();
     }
 
-    public function find($filter = null)
+    public function find($accountId = false, $filter = null)
     {
-        $accountid = \Auth::user()->account_id;
+        $accountId = Auth::user()->account_id;
         $query = DB::table('recurring_expenses')
             ->join('accounts', 'accounts.id', '=', 'recurring_expenses.account_id')
             ->leftjoin('clients', 'clients.id', '=', 'recurring_expenses.client_id')
@@ -40,7 +41,7 @@ class RecurringExpenseRepository extends BaseRepository
             ->leftjoin('vendors', 'vendors.id', '=', 'recurring_expenses.vendor_id')
             ->join('frequencies', 'frequencies.id', '=', 'recurring_expenses.frequency_id')
             ->leftJoin('expense_categories', 'recurring_expenses.expense_category_id', '=', 'expense_categories.id')
-            ->where('recurring_expenses.account_id', '=', $accountid)
+            ->where('recurring_expenses.account_id', '=', $accountId)
             ->where('contacts.deleted_at', '=', null)
             ->where('vendors.deleted_at', '=', null)
             ->where('clients.deleted_at', '=', null)

@@ -22,7 +22,7 @@ class PaymentRepository extends BaseRepository
         return 'App\Models\Payment';
     }
 
-    public function find($clientPublicId = null, $filter = null)
+    public function find($clientPublicId  = false, $filter = null)
     {
         $query = DB::table('payments')
             ->join('accounts', 'accounts.id', '=', 'payments.account_id')

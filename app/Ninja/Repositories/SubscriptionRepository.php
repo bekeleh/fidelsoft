@@ -19,7 +19,7 @@ class SubscriptionRepository extends BaseRepository
         return 'App\Models\Subscription';
     }
 
-    public function find($accountId)
+    public function find($accountId = false)
     {
         $query = DB::table('subscriptions')
             ->where('subscriptions.account_id', '=', $accountId)

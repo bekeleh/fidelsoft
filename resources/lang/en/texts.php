@@ -180,7 +180,7 @@ $LANG = array(
     'tax_rate_settings' => 'Tax Rate Settings',
     /*
 |--------------------------------------------------------------------------
-| item store trans
+| item store location trans
 |--------------------------------------------------------------------------
 */
     'store.edit' => 'Edit Store',

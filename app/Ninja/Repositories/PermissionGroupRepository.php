@@ -26,7 +26,7 @@ class PermissionGroupRepository extends BaseRepository
         return PermissionGroup::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
-    public function find($accountId, $filter = null)
+    public function find($accountId = false, $filter = null)
     {
         $query = DB::table('permission_groups')
             ->join('accounts', 'accounts.id', '=', 'permission_groups.account_id')
