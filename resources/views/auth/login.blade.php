@@ -44,13 +44,14 @@
 
         <div>
             {!! Former::text('username')->placeholder(trans('texts.username'))->raw() !!}
+            <br/>
             {!! Former::password('password')->placeholder(trans('texts.password'))->raw() !!}
         </div>
 
         {!! Button::success(trans('texts.login'))
                     ->withAttributes(['id' => 'loginButton', 'class' => 'green'])
                     ->large()->submit()->block() !!}
-
+    <!-- social network key -->
         @if (Utils::isOAuthEnabled())
             <div class="row existing-accounts">
                 <p>{{ trans('texts.login_or_existing') }}</p>

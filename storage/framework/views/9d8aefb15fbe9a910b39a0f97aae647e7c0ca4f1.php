@@ -1,16 +1,9 @@
 <!DOCTYPE html>
 <html lang="<?php echo e(App::getLocale()); ?>">
 <head>
-<?php if(env('MULTI_DB_ENABLED')): ?>
-    <!-- Authenticated: <?php echo e(Auth::check() ? 'Yes' : 'No'); ?> -->
-    <!-- Server: <?php echo e(session(SESSION_DB_SERVER, 'Unset')); ?> -->
-<?php endif; ?>
-<?php if(Session::has('error')): ?>
-    <!-- Error: <?php echo e(Session::get('error')); ?> -->
-    <?php endif; ?>
     <meta charset="utf-8">
 
-    <?php if(Utils::isWhiteLabel() && !auth()->check()): ?>
+    <?php if(!auth()->check()): ?>
         <title><?php echo e(trans('texts.client_portal')); ?></title>
         
     <?php else: ?>

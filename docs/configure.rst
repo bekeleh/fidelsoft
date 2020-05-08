@@ -143,7 +143,7 @@ If you need to set a list of trusted (reverse) proxies you can add a TRUSTED_PRO
 Customizations
 """"""""""""""
 
-Our `developer guide <https://www.invoiceninja.com/knowledgebase/developer-guide/>`_ has more details about our application’s codebase.
+Our `developer guide <https://www.eninjaplus.com/knowledgebase/developer-guide/>`_ has more details about our application’s codebase.
 
 You can add currencies and date/time formats by adding records to their respective tables in the database. This data is cached, to clear it load any page with ``?clear_cache=true`` added to the end of the URL.
 

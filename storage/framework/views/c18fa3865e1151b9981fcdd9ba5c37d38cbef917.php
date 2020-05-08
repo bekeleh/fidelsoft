@@ -17,7 +17,7 @@
         <div class="container-fluid">
             <div class="row header">
                 <div class="col-md-6 col-xs-12 text-center">
-                    <a href="https://www.invoiceninja.com/" target="_blank" style="color:white;">E-Ninja Plus ERP
+                    <a href="https://www.eninjaplus.com/" target="_blank" style="color:white;">E-Ninja Plus ERP
                         
                     </a>
                 </div>

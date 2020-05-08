@@ -1275,7 +1275,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'task_file' => 'Task File',
     'no_mapper' => 'No valid mapping for file',
     'invalid_csv_header' => 'Invalid CSV Header',
-    'client_portal' => 'Client Portal',
+    'client_portal' => 'Login Portal',
     'admin' => 'Admin',
     'disabled' => 'Disabled',
     'show_archived_users' => 'Show archived users',

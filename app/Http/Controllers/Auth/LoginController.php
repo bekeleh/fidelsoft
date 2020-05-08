@@ -112,7 +112,6 @@ class LoginController extends Controller
     public function postLoginWrapper(Request $request)
     {
         $validator = $this->validator($request->all());
-
         if ($validator->fails()) {
             return redirect()->back()->withInput()->withErrors($validator);
         }

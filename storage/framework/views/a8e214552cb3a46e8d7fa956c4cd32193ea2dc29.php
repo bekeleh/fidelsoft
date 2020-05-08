@@ -57,7 +57,7 @@
                     ->withAttributes(['id' => 'loginButton', 'class' => 'green'])
                     ->large()->submit()->block(); ?>
 
-
+    <!-- social network key -->
         <?php if(Utils::isOAuthEnabled()): ?>
             <div class="row existing-accounts">
                 <p><?php echo e(trans('texts.login_or_existing')); ?></p>

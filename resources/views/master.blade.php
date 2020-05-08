@@ -1,16 +1,9 @@
 <!DOCTYPE html>
 <html lang="{{App::getLocale()}}">
 <head>
-@if (env('MULTI_DB_ENABLED'))
-    <!-- Authenticated: {{ Auth::check() ? 'Yes' : 'No' }} -->
-    <!-- Server: {{ session(SESSION_DB_SERVER, 'Unset') }} -->
-@endif
-@if (Session::has('error'))
-    <!-- Error: {{ Session::get('error') }} -->
-    @endif
     <meta charset="utf-8">
 
-    @if (Utils::isWhiteLabel() && !auth()->check())
+    @if (!auth()->check())
         <title>{{ trans('texts.client_portal') }}</title>
         {{--        <link href="{{ asset('ic_cloud_circle.png') }}" rel="shortcut icon" type="image/png">--}}
     @else

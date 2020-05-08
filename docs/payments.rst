@@ -1,7 +1,7 @@
 Payments
 ========
 
-The Invoice Ninja system handles your entire invoicing process – from sending a quote (Pro Plan only), to invoicing your client, to receiving payment. What’s more, you can receive payments directly and automatically via Invoice Ninja’s 45+ payment partners, enabling totally smooth management of your customer accounts using your choice of payment provider. To learn more about Invoice Ninja’s payment partners, `click here <https://www.invoiceninja.com/partners>`_.
+The Invoice Ninja system handles your entire invoicing process – from sending a quote (Pro Plan only), to invoicing your client, to receiving payment. What’s more, you can receive payments directly and automatically via Invoice Ninja’s 45+ payment partners, enabling totally smooth management of your customer accounts using your choice of payment provider. To learn more about Invoice Ninja’s payment partners, `click here <https://www.eninjaplus.com/partners>`_.
 
 List Payments
 """""""""""""
