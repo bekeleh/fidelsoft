@@ -8,9 +8,9 @@
       'name' => 'required',
   )); !!}
 
-<div class="panel panel-default">
-<div class="panel-heading">
-    <h3 class="panel-title">{!! trans($title) !!}</h3>
+  <div class="panel panel-default">
+      <div class="panel-heading" style="color:white;background-color: #777 !important;">
+          <h3 class="panel-title in-bold-white">{!! trans($title) !!}</h3>
 </div>
 <div class="panel-body form-padding-right">
 

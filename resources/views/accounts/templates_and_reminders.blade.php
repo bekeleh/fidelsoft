@@ -39,17 +39,23 @@
     @endforeach
 
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">{!! trans('texts.email_templates') !!}</h3>
+        <div class="panel-heading" style="color:white;background-color: #777 !important;">
+            <h3 class="panel-title in-bold-white">
+                {!! trans('texts.email_templates') !!}</h3>
         </div>
         <div class="panel-body">
             <div class="row">
                 <div role="tabpanel">
                     <ul class="nav nav-tabs" role="tablist" style="border: none">
-                        <li role="presentation" class="active"><a href="#invoice" aria-controls="notes" role="tab" data-toggle="tab">{{ trans('texts.invoice_email') }}</a></li>
-                        <li role="presentation"><a href="#quote" aria-controls="terms" role="tab" data-toggle="tab">{{ trans('texts.quote_email') }}</a></li>
-                        <li role="presentation"><a href="#proposal" aria-controls="terms" role="tab" data-toggle="tab">{{ trans('texts.proposal_email') }}</a></li>
-                        <li role="presentation"><a href="#payment" aria-controls="footer" role="tab" data-toggle="tab">{{ trans('texts.payment_email') }}</a></li>
+                        <li role="presentation" class="active"><a href="#invoice" aria-controls="notes" role="tab"
+                                                                  data-toggle="tab">{{ trans('texts.invoice_email') }}</a>
+                        </li>
+                        <li role="presentation"><a href="#quote" aria-controls="terms" role="tab"
+                                                   data-toggle="tab">{{ trans('texts.quote_email') }}</a></li>
+                        <li role="presentation"><a href="#proposal" aria-controls="terms" role="tab"
+                                                   data-toggle="tab">{{ trans('texts.proposal_email') }}</a></li>
+                        <li role="presentation"><a href="#payment" aria-controls="footer" role="tab"
+                                                   data-toggle="tab">{{ trans('texts.payment_email') }}</a></li>
                     </ul>
                     <div class="tab-content">
                         @include('accounts.template', ['field' => 'invoice', 'active' => true])
@@ -72,10 +78,15 @@
             <div class="row">
                 <div role="tabpanel">
                     <ul class="nav nav-tabs" role="tablist" style="border: none">
-                        <li role="presentation" class="active"><a href="#reminder1" aria-controls="notes" role="tab" data-toggle="tab">{{ trans('texts.first_reminder') }}</a></li>
-                        <li role="presentation"><a href="#reminder2" aria-controls="terms" role="tab" data-toggle="tab">{{ trans('texts.second_reminder') }}</a></li>
-                        <li role="presentation"><a href="#reminder3" aria-controls="footer" role="tab" data-toggle="tab">{{ trans('texts.third_reminder') }}</a></li>
-                        <li role="presentation"><a href="#reminder4" aria-controls="footer" role="tab" data-toggle="tab">{{ trans('texts.endless_reminder') }}</a></li>
+                        <li role="presentation" class="active"><a href="#reminder1" aria-controls="notes" role="tab"
+                                                                  data-toggle="tab">{{ trans('texts.first_reminder') }}</a>
+                        </li>
+                        <li role="presentation"><a href="#reminder2" aria-controls="terms" role="tab"
+                                                   data-toggle="tab">{{ trans('texts.second_reminder') }}</a></li>
+                        <li role="presentation"><a href="#reminder3" aria-controls="footer" role="tab"
+                                                   data-toggle="tab">{{ trans('texts.third_reminder') }}</a></li>
+                        <li role="presentation"><a href="#reminder4" aria-controls="footer" role="tab"
+                                                   data-toggle="tab">{{ trans('texts.endless_reminder') }}</a></li>
                     </ul>
                     <div class="tab-content">
                         @include('accounts.template', ['field' => 'reminder1', 'number' => 1, 'isReminder' => true, 'active' => true])
@@ -89,7 +100,8 @@
     </div>
 
 
-    <div class="modal fade" id="templatePreviewModal" tabindex="-1" role="dialog" aria-labelledby="templatePreviewModalLabel" aria-hidden="true">
+    <div class="modal fade" id="templatePreviewModal" tabindex="-1" role="dialog"
+         aria-labelledby="templatePreviewModalLabel" aria-hidden="true">
         <div class="modal-dialog" style="width:800px">
             <div class="modal-content">
                 <div class="modal-header">
@@ -98,21 +110,25 @@
                 </div>
 
                 <div class="container" style="width: 100%; padding-bottom: 0px !important">
-                <div class="panel panel-default">
-                <div class="panel-body">
-                    <iframe id="server-preview" style="background-color:#FFFFFF" frameborder="1" width="100%" height="500px"/></iframe>
-                </div>
-                </div>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <iframe id="server-preview" style="background-color:#FFFFFF" frameborder="1" width="100%"
+                                    height="500px"/>
+                            </iframe>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">{{ trans('texts.close') }}</button>
+                    <button type="button" class="btn btn-primary"
+                            data-dismiss="modal">{{ trans('texts.close') }}</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="rawModal" tabindex="-1" role="dialog" aria-labelledby="rawModalLabel" aria-hidden="true">
+    <div class="modal fade" id="rawModal" tabindex="-1" role="dialog" aria-labelledby="rawModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog" style="width:800px">
             <div class="modal-content">
                 <div class="modal-header">
@@ -121,16 +137,18 @@
                 </div>
 
                 <div class="container" style="width: 100%; padding-bottom: 0px !important">
-                <div class="panel panel-default">
-                <div class="modal-body">
-                    <textarea id="raw-textarea" rows="20" style="width:100%"></textarea>
-                </div>
-                </div>
+                    <div class="panel panel-default">
+                        <div class="modal-body">
+                            <textarea id="raw-textarea" rows="20" style="width:100%"></textarea>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('texts.close') }}</button>
-                    <button type="button" onclick="updateRaw()" class="btn btn-success" data-dismiss="modal">{{ trans('texts.update') }}</button>
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">{{ trans('texts.close') }}</button>
+                    <button type="button" onclick="updateRaw()" class="btn btn-success"
+                            data-dismiss="modal">{{ trans('texts.update') }}</button>
                 </div>
             </div>
         </div>
@@ -142,7 +160,7 @@
         </center>
     @else
         <script>
-            $(function() {
+            $(function () {
                 $('form.warn-on-exit input').prop('disabled', true);
             });
         </script>
@@ -158,9 +176,9 @@
         var account = {!! Auth::user()->account !!};
 
         function refreshPreview() {
-            for (var i=0; i<entityTypes.length; i++) {
+            for (var i = 0; i < entityTypes.length; i++) {
                 var entityType = entityTypes[i];
-                for (var j=0; j<stringTypes.length; j++) {
+                for (var j = 0; j < stringTypes.length; j++) {
                     var stringType = stringTypes[j];
                     var idName = '#email_' + stringType + '_' + entityType;
                     var value = $(idName).val();
@@ -174,10 +192,10 @@
             $('#templatePreviewModal').modal('show');
             var template = $('#email_template_' + field).val();
             var url = '{{ URL::to('settings/email_preview') }}?template=' + template;
-            $('#server-preview').attr('src', url).load(function() {
+            $('#server-preview').attr('src', url).load(function () {
                 // disable links in the preview
-                $('iframe').contents().find('a').each(function(index) {
-                    $(this).on('click', function(event) {
+                $('iframe').contents().find('a').each(function (index) {
+                    $(this).on('click', function (event) {
                         event.preventDefault();
                         event.stopPropagation();
                     });
@@ -185,10 +203,10 @@
             });
         }
 
-        $(function() {
-            for (var i=0; i<entityTypes.length; i++) {
+        $(function () {
+            for (var i = 0; i < entityTypes.length; i++) {
                 var entityType = entityTypes[i];
-                for (var j=0; j<stringTypes.length; j++) {
+                for (var j = 0; j < stringTypes.length; j++) {
                     var stringType = stringTypes[j];
                     var idName = '#email_' + stringType + '_' + entityType;
                     $(idName).keyup(refreshPreview);
@@ -212,7 +230,7 @@
         }
 
         function resetText(section, field) {
-            sweetConfirm(function() {
+            sweetConfirm(function () {
                 var fieldName = 'email_' + section + '_' + field;
                 var value = templates[field][section];
                 $('#' + fieldName).val(value);

@@ -6,18 +6,18 @@
     @include('accounts.nav', ['selected' => ACCOUNT_BANKS])
 
     <div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">{{ trans('texts.import_ofx') }}</h3>
-    </div>
-    <div class="panel-body">
+        <div class="panel-heading" style="color:white;background-color: #777 !important;">
+            <h3 class="panel-title in-bold-white">{{ trans('texts.import_ofx') }}</h3>
+        </div>
+        <div class="panel-body">
 
-        {!! Former::open_for_files('bank_accounts/import_ofx')
-                ->rules(['ofx_file' => 'required'])
-                ->addClass('warn-on-exit') !!}
+            {!! Former::open_for_files('bank_accounts/import_ofx')
+                    ->rules(['ofx_file' => 'required'])
+                    ->addClass('warn-on-exit') !!}
 
-        {!! Former::file("ofx_file") !!}
+            {!! Former::file("ofx_file") !!}
 
-    </div>
+        </div>
     </div>
 
     {!! Former::actions(

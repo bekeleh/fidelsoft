@@ -90,6 +90,15 @@ class InvoiceDatatable extends EntityDatatable
 
         return [
             [
+                trans('texts.convert_to_invoice'),
+                function ($model) {
+                    return "javascript:submitForm_quote('convert', {$model->public_id})";
+                },
+                function ($model) use ($entityType) {
+                    return $entityType == ENTITY_QUOTE && !$model->quote_invoice_id && Auth::user()->can('edit', [ENTITY_INVOICE, $model]);
+                },
+            ],
+            [
                 trans("texts.clone_invoice"),
                 function ($model) {
                     return URL::to("invoices/{$model->public_id}/clone");
@@ -173,15 +182,6 @@ class InvoiceDatatable extends EntityDatatable
                 },
                 function ($model) use ($entityType) {
                     return $entityType == ENTITY_QUOTE && !$model->quote_invoice_id && $model->invoice_status_id < INVOICE_STATUS_APPROVED && Auth::user()->can('create', ENTITY_PROPOSAL);
-                },
-            ],
-            [
-                trans('texts.convert_to_invoice'),
-                function ($model) {
-                    return "javascript:submitForm_quote('convert', {$model->public_id})";
-                },
-                function ($model) use ($entityType) {
-                    return $entityType == ENTITY_QUOTE && !$model->quote_invoice_id && Auth::user()->can('edit', [ENTITY_INVOICE, $model]);
                 },
             ],
         ];

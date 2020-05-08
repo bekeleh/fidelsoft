@@ -3,7 +3,7 @@
     @parent
     @include('accounts.nav', ['selected' => ACCOUNT_USER_MANAGEMENT, 'advanced' => true])
     @if (Utils::hasFeature(FEATURE_USERS))
-        @if (Auth::user()->canAddUsers() || Auth::user()->isSuperUser)
+        @if (Auth::user()->canAddUsers())
             @include('list',
             [
             'entityType' => ENTITY_USER,

@@ -1,7 +1,7 @@
 @extends('header')
 
 @section('head')
-	@parent
+    @parent
 
     <style type="text/css">
         label.checkbox-inline {
@@ -42,8 +42,8 @@
     {!! Former::populateField('country', 'US') !!}
 
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">{!! trans('texts.online_payments') !!}</h3>
+        <div class="panel-heading" style="color:white;background-color: #777 !important;">
+            <h3 class="panel-title in-bold-white">{!! trans('texts.online_payments') !!}</h3>
         </div>
         <div class="panel-body form-padding-right">
             {!! Former::text('first_name') !!}
@@ -85,105 +85,116 @@
                     ->text(trans('texts.enable_ach'))
                     ->value(1) !!}
 
-			{!! Former::checkbox('tos_agree')->label(' ')
-				->text(trans('texts.wepay_payment_tos_agree', [
-					'terms' => '<a href="https://go.wepay.com/terms-of-service" target="_blank">'.trans('texts.terms_of_service').'</a>',
-					'privacy_policy' => '<a href="https://go.wepay.com/privacy-policy" target="_blank">'.trans('texts.privacy_policy').'</a>',
-				]))
-				->value('true')
-				->inlineHelp('standard_fees_apply') !!}
+            {!! Former::checkbox('tos_agree')->label(' ')
+                ->text(trans('texts.wepay_payment_tos_agree', [
+                    'terms' => '<a href="https://go.wepay.com/terms-of-service" target="_blank">'.trans('texts.terms_of_service').'</a>',
+                    'privacy_policy' => '<a href="https://go.wepay.com/privacy-policy" target="_blank">'.trans('texts.privacy_policy').'</a>',
+                ]))
+                ->value('true')
+                ->inlineHelp('standard_fees_apply') !!}
 
-          </div>
-
-          <center>
-          <table id="canadaFees" width="80%" style="border: solid 1px black;display:none;margin-bottom:40px">
-              <tr style="border: solid 1px black">
-                  <th colspan="2" style="text-align:center;padding: 4px">
-                      Fees Disclosure Box
-                  </th>
-              </tr>
-              <tr style="border: solid 1px black;vertical-align:top">
-                  <td style="border-left: solid 1px black; padding: 8px">
-                      <h4>Payment Card Type</h4>
-                      (These are the most common domestically issued card types
-                      and processing methods. They do not represent all the
-                      possible fees and variations that are charged to the
-                      merchants.)
-                  </td>
-                  <td style="padding: 8px">
-                      <h4>Processing Method: Card Not Present</h4>
-                      (Means that the card/device was not
-                      electronically read. Generally, the card
-                      information is manually key-entered, e.g. online
-                      payment)
-                  </td>
-              </tr>
-              @foreach ([
-                  'Visa Consumer Credit',
-                  'Visa Infinite',
-                  'Visa Infinite Privilege',
-                  'Visa Business',
-                  'Visa Business Premium',
-                  'Visa Corporate',
-                  'Visa Prepaid',
-                  'Visa Debit',
-                  'MasterCard Consumer Credit',
-                  'MasterCard World',
-                  'MasterCard World Elite',
-                  'MasterCard Business/Corporate',
-                  'MasterCard Debit',
-                  'MasterCard Prepaid',
-                  'American Express',
-              ] as $type)
-                  <tr>
-                      <td style="border-left: solid 1px black;padding-left:8px;padding-top:4px;">
-                          {{ $type }}
-                      </td>
-                      <td style="text-align:center">
-                          2.9% + CA$0.30
-                      </td>
-                  </tr>
-              @endforeach
-              <tr style="border: solid 1px black;">
-                  <th colspan="2" style="text-align:center;padding: 4px">
-                      Other Fees Disclosure Box
-                  </td>
-              </tr>
-              <tr style="border: solid 1px black;">
-                  <td style="border-left: solid 1px black;padding-left:8px;padding-top:4px;">
-                      Chargeback
-                  </td>
-                  <td style="text-align:center">
-                      CA$15.00
-                  </td>
-              </tr>
-          </table>
-          </center>
         </div>
 
-        <br/>
         <center>
-            {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/gateways/create'))->appendIcon(Icon::create('remove-circle')) !!}
-            {!! Button::success(trans('texts.sign_up_with_wepay'))->submit()->large() !!}
+            <table id="canadaFees" width="80%" style="border: solid 1px black;display:none;margin-bottom:40px">
+                <tr style="border: solid 1px black">
+                    <th colspan="2" style="text-align:center;padding: 4px">
+                        Fees Disclosure Box
+                    </th>
+                </tr>
+                <tr style="border: solid 1px black;vertical-align:top">
+                    <td style="border-left: solid 1px black; padding: 8px">
+                        <h4>Payment Card Type</h4>
+                        (These are the most common domestically issued card types
+                        and processing methods. They do not represent all the
+                        possible fees and variations that are charged to the
+                        merchants.)
+                    </td>
+                    <td style="padding: 8px">
+                        <h4>Processing Method: Card Not Present</h4>
+                        (Means that the card/device was not
+                        electronically read. Generally, the card
+                        information is manually key-entered, e.g. online
+                        payment)
+                    </td>
+                </tr>
+                @foreach ([
+                    'Visa Consumer Credit',
+                    'Visa Infinite',
+                    'Visa Infinite Privilege',
+                    'Visa Business',
+                    'Visa Business Premium',
+                    'Visa Corporate',
+                    'Visa Prepaid',
+                    'Visa Debit',
+                    'MasterCard Consumer Credit',
+                    'MasterCard World',
+                    'MasterCard World Elite',
+                    'MasterCard Business/Corporate',
+                    'MasterCard Debit',
+                    'MasterCard Prepaid',
+                    'American Express',
+                ] as $type)
+                    <tr>
+                        <td style="border-left: solid 1px black;padding-left:8px;padding-top:4px;">
+                            {{ $type }}
+                        </td>
+                        <td style="text-align:center">
+                            2.9% + CA$0.30
+                        </td>
+                    </tr>
+                @endforeach
+                <tr style="border: solid 1px black;">
+                    <th colspan="2" style="text-align:center;padding: 4px">
+                        Other Fees Disclosure Box
+                    </td>
+                </tr>
+                <tr style="border: solid 1px black;">
+                    <td style="border-left: solid 1px black;padding-left:8px;padding-top:4px;">
+                        Chargeback
+                    </td>
+                    <td style="text-align:center">
+                        CA$15.00
+                    </td>
+                </tr>
+            </table>
         </center>
+    </div>
+
+    <br/>
+    <center>
+        {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/gateways/create'))->appendIcon(Icon::create('remove-circle')) !!}
+        {!! Button::success(trans('texts.sign_up_with_wepay'))->submit()->large() !!}
+    </center>
 
 
     <style>
-        #other-providers{display:none}
-        #wepay-country .radio{display:inline-block;padding-right:15px}
-        #wepay-country .radio label{padding-left:0}
+        #other-providers {
+            display: none
+        }
+
+        #wepay-country .radio {
+            display: inline-block;
+            padding-right: 15px
+        }
+
+        #wepay-country .radio label {
+            padding-left: 0
+        }
     </style>
 
     <script type="text/javascript">
-        $(function(){
+        $(function () {
             $('#wepay-country input').change(handleCountryChange)
-            function handleCountryChange(){
+
+            function handleCountryChange() {
                 var country = $('#wepay-country input:checked').val();
                 if (country) {
                     $('#wepay-accept-debit').toggle(country == 'CA');
                     $('#canadaFees').toggle(country == 'CA');
                 }
             }
+
             handleCountryChange();
         })
     </script>

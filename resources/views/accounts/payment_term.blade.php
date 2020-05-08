@@ -1,48 +1,46 @@
 @extends('header')
 
 @section('content')
-  @parent
+    @parent
 
-  @include('accounts.nav', ['selected' => ACCOUNT_PAYMENT_TERMS])
+    @include('accounts.nav', ['selected' => ACCOUNT_PAYMENT_TERMS])
 
-  {!! Former::open($url)->method($method)
-      ->rules([
-        'num_days' => 'required'
-       ])
-      ->addClass('warn-on-exit') !!}
+    {!! Former::open($url)->method($method)
+        ->rules([
+          'num_days' => 'required'
+         ])
+        ->addClass('warn-on-exit') !!}
 
+    <div class="panel panel-default">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="color:white;background-color: #777 !important;">
+                <h3 class="panel-title in-bold-white">
+                    {!! $title !!}</h3>
+            </div>
+            <div class="panel-body form-padding-right">
+                @if ($paymentTerm)
+                    {{ Former::populate($paymentTerm) }}
+                @endif
+                {!! Former::text('num_days')
+                      ->type('number')
+                      ->min(1)
+                      ->label('texts.num_days') !!}
+            </div>
+        </div>
 
-  <div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">{!! $title !!}</h3>
-  </div>
-  <div class="panel-body form-padding-right">
+        <center class="buttons">
+            {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(URL::to('/settings/payment_terms'))->appendIcon(Icon::create('remove-circle')) !!}
+            {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
+        </center>
 
-  @if ($paymentTerm)
-    {{ Former::populate($paymentTerm) }}
-  @endif
+        {!! Former::close() !!}
 
-  {!! Former::text('num_days')
-        ->type('number')
-        ->min(1)
-        ->label('texts.num_days') !!}
+        <script type="text/javascript">
 
-  </div>
-  </div>
+            $(function () {
+                $('#name').focus();
+            });
 
-  <center class="buttons">
-      {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(URL::to('/settings/payment_terms'))->appendIcon(Icon::create('remove-circle')) !!}
-      {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
-  </center>
-
-  {!! Former::close() !!}
-
-  <script type="text/javascript">
-
-  $(function() {
-    $('#name').focus();
-  });
-
-  </script>
+        </script>
 
 @stop

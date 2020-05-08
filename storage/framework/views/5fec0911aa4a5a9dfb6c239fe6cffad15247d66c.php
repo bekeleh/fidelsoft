@@ -19,59 +19,54 @@
     <?php echo $__env->make('accounts.nav', ['selected' => ACCOUNT_LOCALIZATION], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
     <div class="row">
-
         <div class="col-md-12">
-
             <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title"><?php echo trans('texts.localization'); ?></h3>
-            </div>
+                <div class="panel-heading" style="color:white;background-color: #777 !important;">
+                    <h3 class="panel-title in-bold-white"><?php echo trans('texts.localization'); ?></h3>
+                </div>
                 <div class="panel-body form-padding-right">
+                    <?php echo Former::select('currency_id')
+                            ->fromQuery($currencies, 'name', 'id')
+                            ->onchange('updateCurrencyCodeRadio()'); ?>
 
-                <?php echo Former::select('currency_id')
-                        ->fromQuery($currencies, 'name', 'id')
-                        ->onchange('updateCurrencyCodeRadio()'); ?>
+                    <?php echo Former::radios('show_currency_code')->radios([
+                            trans('texts.currency_symbol') . ': <span id="currency_symbol_example"/>' => array('name' => 'show_currency_code', 'value' => 0),
+                            trans('texts.currency_code') . ': <span id="currency_code_example"/>' => array('name' => 'show_currency_code', 'value' => 1),
+                        ])->inline()
+                            ->label('&nbsp;')
+                            ->addGroupClass('currrency_radio'); ?>
 
-                <?php echo Former::radios('show_currency_code')->radios([
-                        trans('texts.currency_symbol') . ': <span id="currency_symbol_example"/>' => array('name' => 'show_currency_code', 'value' => 0),
-                        trans('texts.currency_code') . ': <span id="currency_code_example"/>' => array('name' => 'show_currency_code', 'value' => 1),
-                    ])->inline()
-                        ->label('&nbsp;')
-                        ->addGroupClass('currrency_radio'); ?>
+                    <br/>
 
-                <br/>
+                    <?php echo Former::select('language_id')->addOption('','')
+                        ->fromQuery($languages, 'name', 'id')
+                        ->help(trans('texts.translate_app', ['link' => link_to(TRANSIFEX_URL, 'Transifex.com', ['target' => '_blank'])])); ?>
 
-                <?php echo Former::select('language_id')->addOption('','')
-                    ->fromQuery($languages, 'name', 'id')
-                    ->help(trans('texts.translate_app', ['link' => link_to(TRANSIFEX_URL, 'Transifex.com', ['target' => '_blank'])])); ?>
+                    <br/>&nbsp;<br/>
 
-                <br/>&nbsp;<br/>
+                    <?php echo Former::select('timezone_id')->addOption('','')
+                        ->fromQuery($timezones, 'location', 'id'); ?>
 
-                <?php echo Former::select('timezone_id')->addOption('','')
-                    ->fromQuery($timezones, 'location', 'id'); ?>
+                    <?php echo Former::select('date_format_id')->addOption('','')
+                        ->fromQuery($dateFormats); ?>
 
-                <?php echo Former::select('date_format_id')->addOption('','')
-                    ->fromQuery($dateFormats); ?>
+                    <?php echo Former::select('datetime_format_id')->addOption('','')
+                        ->fromQuery($datetimeFormats); ?>
 
-                <?php echo Former::select('datetime_format_id')->addOption('','')
-                    ->fromQuery($datetimeFormats); ?>
-
-                <?php echo Former::checkbox('military_time')->text(trans('texts.enable'))->value(1); ?>
-
-
-                <br/>&nbsp;<br/>
-
-                <?php echo Former::select('start_of_week')->addOption('','')
-                    ->fromQuery($weekdays)
-                    ->help('start_of_week_help'); ?>
+                    <?php echo Former::checkbox('military_time')->text(trans('texts.enable'))->value(1); ?>
 
 
-                <?php echo Former::select('financial_year_start')
-                        ->addOption('','')
-                        ->options($months)
-                        ->help('financial_year_start_help'); ?>
+                    <br/>&nbsp;<br/>
+
+                    <?php echo Former::select('start_of_week')->addOption('','')
+                        ->fromQuery($weekdays)
+                        ->help('start_of_week_help'); ?>
 
 
+                    <?php echo Former::select('financial_year_start')
+                            ->addOption('','')
+                            ->options($months)
+                            ->help('financial_year_start_help'); ?>
 
                 </div>
             </div>
@@ -94,7 +89,7 @@
             var symbolExample = '';
             var codeExample = '';
 
-            if ( ! currency || ! currency.symbol) {
+            if (!currency || !currency.symbol) {
                 $('.currrency_radio').hide();
             } else {
                 symbolExample = formatMoney(1000, currencyId, <?php echo e(Auth::user()->account->country_id ?: DEFAULT_COUNTRY); ?>, '<?php echo e(CURRENCY_DECORATOR_SYMBOL); ?>');

@@ -233,7 +233,7 @@ class AccountController extends BaseController
 
     public function showSection($section = false)
     {
-        if (!Auth::user()->is_admin) {
+        if (!Utils::hasPermission('admin')) {
             return Redirect::to('/settings/user_details');
         }
 

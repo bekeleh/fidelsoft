@@ -1,7 +1,7 @@
+<!-- template -->
 <div role="tabpanel" class="tab-pane {{ isset($active) && $active ? 'active' : '' }}" id="{{ $field }}">
     <div class="panel-body" style="padding-bottom: 0px">
         @if (isset($isReminder) && $isReminder)
-
             {!! Former::populateField('enable_' . $field, intval($account->{'enable_' . $field})) !!}
             @if (floatval($fee = $account->account_email_settings->{"late_fee{$number}_amount"}))
                 {!! Former::populateField('late_fee' . $number . '_amount', $fee) !!}
@@ -74,21 +74,26 @@
         @endif
         <div class="row">
             <div class="col-md-6">
-                <div class="pull-right"><a href="#" onclick="return resetText('{{ 'subject' }}', '{{ $field }}')">{{ trans("texts.reset") }}</a></div>
+                <div class="pull-right"><a href="#"
+                                           onclick="return resetText('{{ 'subject' }}', '{{ $field }}')">{{ trans("texts.reset") }}</a>
+                </div>
                 {!! Former::text('email_subject_' . $field)
                         ->label(trans('texts.subject'))
                         ->appendIcon('question-sign')
                         ->addGroupClass('email-subject') !!}
             </div>
-        <div class="col-md-6">
-            <p>&nbsp;<p/>
+            <div class="col-md-6">
+                <p>&nbsp;
+                <p/>
                 <div id="{{ $field }}_subject_preview"></div>
             </div>
         </div>
         <div class="row">
             <br/>
             <div class="col-md-6">
-                <div class="pull-right"><a href="#" onclick="return resetText('{{ 'template' }}', '{{ $field }}')">{{ trans("texts.reset") }}</a></div>
+                <div class="pull-right"><a href="#"
+                                           onclick="return resetText('{{ 'template' }}', '{{ $field }}')">{{ trans("texts.reset") }}</a>
+                </div>
                 {!! Former::textarea('email_template_' . $field)
                         ->label(trans('texts.body'))
                         ->style('display:none') !!}
@@ -96,11 +101,13 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <p>&nbsp;<p/>
+                <p>&nbsp;
+                <p/>
                 <div id="{{ $field }}_template_preview"></div>
             </div>
         </div>
-        <p>&nbsp;<p/>
+        <p>&nbsp;
+        <p/>
         <div class="row">
             <div class="pull-left show-when-ready" style="display:none">
                 @include('partials/quill_toolbar', ['name' => $field])
@@ -114,32 +121,32 @@
 </div>
 
 <script type="text/javascript">
-    $(function() {
+    $(function () {
         var editor = new Quill('#{{ $field }}Editor', {
-          modules: {
-            'toolbar': { container: '#{{ $field }}Toolbar' },
-            'link-tooltip': true
-          },
-          theme: 'snow'
+            modules: {
+                'toolbar': {container: '#{{ $field }}Toolbar'},
+                'link-tooltip': true
+            },
+            theme: 'snow'
         });
         editor.setHTML($('#email_template_{{ $field }}').val());
-        editor.on('text-change', function(delta, source) {
-              if (source == 'api') {
+        editor.on('text-change', function (delta, source) {
+            if (source == 'api') {
                 return;
-              }
-              var html = editors['{{ $field }}'].getHTML();
-              $('#email_template_{{ $field }}').val(html);
-              refreshPreview();
-              NINJA.formIsChanged = true;
-            });
+            }
+            var html = editors['{{ $field }}'].getHTML();
+            $('#email_template_{{ $field }}').val(html);
+            refreshPreview();
+            NINJA.formIsChanged = true;
+        });
         editors['{{ $field }}'] = editor;
 
-        $('#field_{{ $field }}').change(function() {
+        $('#field_{{ $field }}').change(function () {
             setDirectionShown('{{ $field }}');
         })
         setDirectionShown('{{ $field }}');
 
-        $('.email-subject .input-group-addon').click(function() {
+        $('.email-subject .input-group-addon').click(function () {
             $('#templateHelpModal').modal('show');
         });
     });

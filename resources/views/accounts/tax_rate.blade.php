@@ -14,7 +14,7 @@
         ->addClass('warn-on-exit') !!}
 
     <div class="panel panel-default">
-        <div class="panel-heading">
+        <div class="panel-heading" style="color:white;background-color: #777 !important;">
             <h3 class="panel-title in-bold-white">{!! $title !!}</h3>
         </div>
         <div class="panel-body form-padding-right">
