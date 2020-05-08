@@ -49,6 +49,7 @@
         <div>
             <?php echo Former::text('username')->placeholder(trans('texts.username'))->raw(); ?>
 
+            <br/>
             <?php echo Former::password('password')->placeholder(trans('texts.password'))->raw(); ?>
 
         </div>

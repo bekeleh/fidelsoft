@@ -87,12 +87,12 @@
     ->autocomplete('off')
     ->name('lastpass-disable-search')
     ->onsubmit('return onFormSubmit(event)')
-    ->rules(array(
+    ->rules([
     'client' => 'required',
     'invoice_number' => 'required',
     'invoice_date' => 'required',
-    'name' => 'max:255'
-    )) !!}
+    'name' => 'required|max:255',
+    ]) !!}
 
     @include('partials.autocomplete_fix')
 
@@ -925,7 +925,6 @@
                 }
             }
             @endif
-
                     @if (isset($tasks) && count($tasks))
                 NINJA.formIsChanged = true;
             var tasks = {!! json_encode($tasks) !!};
@@ -946,8 +945,7 @@
 
 // move the blank invoice line item to the end
             var blank = model.invoice().invoice_items_without_tasks.pop();
-            var expenses =
-                    {!! $expenses !!}
+            var expenses ={!! $expenses !!};
 
             for (var i = 0; i < expenses.length; i++) {
                 var expense = expenses[i];

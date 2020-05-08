@@ -92,7 +92,8 @@
     'client' => 'required',
     'invoice_number' => 'required',
     'invoice_date' => 'required',
-    'name' => 'max:255'
+    'name' => 'required|max:255',
+     'taxRateSelect1' => 'required',
     )); ?>
 
 
@@ -1017,7 +1018,6 @@
                 }
             }
             <?php endif; ?>
-
                     <?php if(isset($tasks) && count($tasks)): ?>
                 NINJA.formIsChanged = true;
             var tasks = <?php echo json_encode($tasks); ?>;
@@ -1038,9 +1038,7 @@
 
 // move the blank invoice line item to the end
             var blank = model.invoice().invoice_items_without_tasks.pop();
-            var expenses =
-                    <?php echo $expenses; ?>
-
+            var expenses =<?php echo $expenses; ?>;
 
             for (var i = 0; i < expenses.length; i++) {
                 var expense = expenses[i];

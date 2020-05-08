@@ -150,7 +150,7 @@ class InvoiceController extends BaseController
 
         $lastSent = ($invoice->is_recurring && $invoice->last_sent_date) ? $invoice->recurring_invoices->last() : null;
 
-        if (!Auth::user()->hasAccess('view_clients')) {
+        if (!Auth::user()->hasPermission('view_client')) {
             $clients = $clients->where('clients.user_id', '=', Auth::user()->id);
         }
 
@@ -224,7 +224,7 @@ class InvoiceController extends BaseController
         $invoice->loadFromRequest();
 
         $clients = Client::scope()->with('contacts', 'country')->orderBy('name');
-        if (!Auth::user()->hasAccess('view_clients')) {
+        if (!Utils::hasPermission('view_client')) {
             $clients = $clients->where('clients.user_id', '=', Auth::user()->id);
         }
 
