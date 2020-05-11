@@ -22,35 +22,16 @@
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
-                    {!! Former::text('name')->label('texts.location_name') !!}
+                    {!! Former::text('name')->label('texts.manufacturer_name') !!}
                     {!! Former::textarea('notes')->rows(6) !!}
                 </div>
             </div>
         </div>
     </div>
 
-    @foreach(Module::getOrdered() as $module)
-        @if(View::exists($module->alias . '::locations.edit'))
-            <div class="row">
-                <div class="col-lg-10 col-lg-offset-1">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title in-white">
-                                <i class="fa fa-{{ $module->icon }}"></i>
-                                {{ $module->name}}
-                            </h3>
-                        </div>
-                        <div class="panel-body form-padding-right">
-                            @includeIf($module->alias . '::locations.edit')
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
-    @endforeach
     @if (Auth::user()->canCreateOrEdit(ENTITY_MANUFACTURER, $manufacturer))
         <center class="buttons">
-            {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/locations'))->appendIcon(Icon::create('remove-circle')) !!}
+            {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/manufacturers'))->appendIcon(Icon::create('remove-circle')) !!}
             {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
             @if ($manufacturer)
                 {!! DropdownButton::normal(trans('texts.more_actions'))

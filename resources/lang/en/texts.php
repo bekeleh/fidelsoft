@@ -12,6 +12,7 @@ $LANG = array(
     'archive_manufacturer' => 'Archive Manufacturer',
     'delete_manufacturer' => 'Delete Manufacturer',
     'edit_manufacturer' => 'Edit Manufacturer',
+    'clone_manufacturer' => 'Clone Manufacturer',
     'restore_manufacturer' => 'Restore Manufacturer',
     'new_manufacturer' => 'New Manufacturer',
     'created_manufacturer' => 'Successfully Created Manufacturer',

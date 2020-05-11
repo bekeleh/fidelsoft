@@ -4,10 +4,11 @@
         <style type="text/css">
             .nav-footer {
                 <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?>
-                                                            background-color: #50C878 !important;
+                                                             background-color: #50C878 !important;
                 <?php else: ?>
-                                                            background-color: #FD6A02 !important;
+                                                             background-color: #FD6A02 !important;
             <?php endif; ?>
+
 
 
 
@@ -427,11 +428,12 @@
             </ul>
         </div>
         <!-- /#left-sidebar-wrapper -->
+        <div id="right-sidebar-wrapper" class="hide-phone" style="overflow-y:hidden">
+            <ul class="sidebar-nav <?php echo e(Auth::user()->dark_mode ? 'sidebar-nav-dark' : 'sidebar-nav-light'); ?>">
+                <?php echo \App\Libraries\HistoryUtils::renderHtml(Auth::user()->account_id); ?>
 
-
-
-
-
+            </ul>
+        </div>
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="container-fluid">

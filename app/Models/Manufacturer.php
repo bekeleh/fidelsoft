@@ -16,6 +16,7 @@ class Manufacturer extends EntityModel
 
     protected $fillable = [
         'name',
+        'notes',
         'created_by',
         'updated_by',
         'deleted_by',

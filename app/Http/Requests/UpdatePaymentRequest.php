@@ -8,8 +8,9 @@ class UpdatePaymentRequest extends PaymentRequest
 
     public function authorize()
     {
-        return true;
+        return $this->user()->can('edit', ENTITY_PAYMENT);
     }
+
 
     public function rules()
     {

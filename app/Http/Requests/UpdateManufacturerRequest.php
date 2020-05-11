@@ -4,21 +4,14 @@ namespace App\Http\Requests;
 
 class UpdateManufacturerRequest extends EntityRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
+    protected $entityType = ENTITY_MANUFACTURER;
+
     public function authorize()
     {
-        return $this->user()->can('edit', $this->entity());
+        return $this->user()->can('edit', ENTITY_MANUFACTURER);
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
+
     public function rules()
     {
         return [

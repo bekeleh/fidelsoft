@@ -1,8 +1,7 @@
 <?php
 
-namespace Modules\Manufacturer\Policies;
+namespace App\Policies;
 
-use App\Policies\EntityPolicy;
 
 class ManufacturerPolicy extends EntityPolicy
 {

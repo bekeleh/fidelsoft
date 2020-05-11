@@ -188,7 +188,6 @@ class HistoryUtils
 
     public static function renderHtml($accountId)
     {
-        dd($accountId);
         $lastClientId = false;
         $clientMap = [];
         $str = '';

@@ -55,7 +55,7 @@
         ))
         ->appendIcon(Icon::create('plus-sign')) !!}
     @endif
-    @include('menu', $entityType)
+    @include('menu',['entityType', $entityType])
 </div>
 
 <!-- Grid view -->
