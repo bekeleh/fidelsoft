@@ -2,19 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/3S3CuzPnv9xxldb9F3shlFSOfZG0Z88ta7iSPVSJ" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/4d12b5cac1ec88b442d9ad43f98801b0ad576927.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/7ddbd6c01c668f22db3fedccd6e7756ae35c8288.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/ItemTransferDataTable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/ItemTransferDataTable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/item_transfers/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/item_transfers/edit.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/list.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/list.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/Ln0VM99xXz8jD3PPvDac6FyTSZKUEIisMgQndk3h" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/Ln0VM99xXz8jD3PPvDac6FyTSZKUEIisMgQndk3h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/jZymnONdA2e4N4OM9bsZCBB9bEgI6ZBXkEq7uLjV" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/3S3CuzPnv9xxldb9F3shlFSOfZG0Z88ta7iSPVSJ" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/3S3CuzPnv9xxldb9F3shlFSOfZG0Z88ta7iSPVSJ" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/ab409e5dc6346ea88348aeb65121486025dfad94.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/ab409e5dc6346ea88348aeb65121486025dfad94.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/ac20aee1affb45d2358f69ddb50c4ad9a00759ff.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/ac20aee1affb45d2358f69ddb50c4ad9a00759ff.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -403,14 +394,7 @@
       <workItem from="1588922905848" duration="6432000" />
       <workItem from="1588942391569" duration="2647000" />
       <workItem from="1588957261967" duration="9739000" />
-      <workItem from="1589183639300" duration="5380000" />
-    </task>
-    <task id="LOCAL-00204" summary="2020-04-29 9:26">
-      <created>1588169260008</created>
-      <option name="number" value="00204" />
-      <option name="presentableId" value="LOCAL-00204" />
-      <option name="project" value="LOCAL" />
-      <updated>1588169260008</updated>
+      <workItem from="1589183639300" duration="5847000" />
     </task>
     <task id="LOCAL-00205" summary="2020-04-29 9:26">
       <created>1588171486812</created>
@@ -748,7 +732,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589185163196</updated>
     </task>
-    <option name="localTasksCounter" value="253" />
+    <task id="LOCAL-00253" summary="2020-05-11 9:26">
+      <created>1589189068357</created>
+      <option name="number" value="00253" />
+      <option name="presentableId" value="LOCAL-00253" />
+      <option name="project" value="LOCAL" />
+      <updated>1589189068357</updated>
+    </task>
+    <option name="localTasksCounter" value="254" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
