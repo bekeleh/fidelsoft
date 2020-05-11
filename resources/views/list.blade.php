@@ -21,17 +21,17 @@
 
     <span id="statusWrapper_{{ $entityType }}" style="display:none">
     <select class="form-control" style="width: 220px" id="statuses_{{ $entityType }}" multiple="true">
-@if (count(\App\Models\EntityModel::getStatusesFor($entityType)))
+    @if (count(\App\Models\EntityModel::getStatusesFor($entityType)))
             <optgroup label="{{ trans('texts.entity_state') }}">
-          @foreach (\App\Models\EntityModel::getStatesFor($entityType) as $key => $value)
+    @foreach (\App\Models\EntityModel::getStatesFor($entityType) as $key => $value)
                     <option value="{{ $key }}">{{ $value }}</option>
                 @endforeach
-        </optgroup>
+    </optgroup>
             <optgroup label="{{ trans('texts.status') }}">
-           @foreach (\App\Models\EntityModel::getStatusesFor($entityType) as $key => $value)
+    @foreach (\App\Models\EntityModel::getStatusesFor($entityType) as $key => $value)
                     <option value="{{ $key }}">{{ $value }}</option>
                 @endforeach
-        </optgroup>
+    </optgroup>
         @else
             @foreach (\App\Models\EntityModel::getStatesFor($entityType) as $key => $value)
                 <option value="{{ $key }}">{{ $value }}</option>
@@ -56,16 +56,7 @@
     ->appendIcon(Icon::create('plus-sign')) !!}
 @endif
 
-@if (in_array($entityType, [ENTITY_PROPOSAL,ENTITY_PROPOSAL_TEMPLATE,ENTITY_PROPOSAL_SNIPPET]))
-    @if (Auth::user()->can('create', [ENTITY_PROPOSAL_TEMPLATE,ENTITY_PROPOSAL_SNIPPET]))
-        {!! DropdownButton::normal(trans('texts.maintenance'))
-        ->withAttributes(['class'=>'maintenanceDropdown'])
-        ->withContents([
-        ['label' => trans('texts.new_proposal_template'), 'url' => url('/proposals/templates/create')],
-        ['label' => trans('texts.new_proposal_snippet'), 'url' => url('/proposals/snippets/create')],
-        ])->split() !!}
-    @endif
-@elseif($entityType == ENTITY_USER)
+@if($entityType == ENTITY_USER)
     @if (Auth::user()->can('create', [ENTITY_PERMISSION_GROUP]))
         {!! DropdownButton::normal(trans('texts.maintenance'))
         ->withAttributes(['class'=>'maintenanceDropdown'])
@@ -73,8 +64,7 @@
         ['label' => trans('texts.new_permission_group'), 'url' => url('/permission_groups/create')],
         ])->split() !!}
     @endif
-@endif
-@if (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET,ENTITY_PROPOSAL_CATEGORY]))
+@elseif (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET,ENTITY_PROPOSAL_CATEGORY]))
     @if (Auth::user()->can('create', [ENTITY_PROPOSAL_CATEGORY]))
         {!! DropdownButton::normal(trans('texts.maintenance'))
         ->withAttributes(['class'=>'maintenanceDropdown'])
@@ -92,26 +82,36 @@
         ['label' => trans('texts.new_expense_category'), 'url' => url('/expense_categories')],
         ])->split() !!}
     @endif
-@endif
-<!-- entity task -->
-@if ($entityType == ENTITY_TASK)
+@elseif (in_array($entityType, [ENTITY_PROPOSAL,ENTITY_PROPOSAL_TEMPLATE,ENTITY_PROPOSAL_SNIPPET]))
+    @if (Auth::user()->can('create', [ENTITY_PROPOSAL_TEMPLATE,ENTITY_PROPOSAL_SNIPPET]))
+        {!! DropdownButton::normal(trans('texts.maintenance'))
+        ->withAttributes(['class'=>'maintenanceDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_proposal_template'), 'url' => url('/proposals/templates/create')],
+        ['label' => trans('texts.new_proposal_snippet'), 'url' => url('/proposals/snippets/create')],
+        ])->split() !!}
+    @endif
+    <!-- task menu -->
+@elseif ($entityType == ENTITY_TASK)
     {!! Button::normal(trans('texts.kanban'))->asLinkTo(url('/tasks/kanban' . (! empty($clientId) ? ('/' . $clientId . (! empty($projectId) ? '/' . $projectId : '')) : '')))->appendIcon(Icon::create('th')) !!}
     {!! Button::normal(trans('texts.time_tracker'))->asLinkTo('javascript:openTimeTracker()')->appendIcon(Icon::create('time')) !!}
 @endif
-
+<!-- invoice menu -->
 @if (in_array($entityType, [ENTITY_INVOICE,ENTITY_INVOICE_ITEM,ENTITY_CLIENT,ENTITY_CREDIT]))
     @if (Auth::user()->can('create', [ENTITY_INVOICE,ENTITY_INVOICE_ITEM,ENTITY_CLIENT,ENTITY_CREDIT]))
         {!! DropdownButton::normal(trans('texts.maintenance'))
         ->withAttributes(['class'=>'maintenanceDropdown'])
         ->withContents([
         ['label' => trans('texts.new_client'), 'url' => url('/clients')],
-                ['label' => trans('texts.new_quote'), 'url' => url('/quotes')],
+        ['label' => trans('texts.new_quote'), 'url' => url('/quotes')],
         ['label' => trans('texts.new_credit'), 'url' => url('/credits')],
         ['label' => trans('texts.new_expense'), 'url' => url('/expenses')],
+        ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types')],
+        ['label' => trans('texts.new_hold_reason'), 'url' => url('/hold_reasons')],
         ])->split() !!}
     @endif
 @endif
-<!-- navigation menu -->
+<!-- inventory menu -->
     @if (in_array($entityType, [ENTITY_PRODUCT]))
         @if (Auth::user()->can('create', [ENTITY_PRODUCT,ENTITY_ITEM_BRAND,ENTITY_ITEM_CATEGORY,ENTITY_ITEM_PRICE, ENTITY_ITEM_STORE, ENTITY_STORE]))
             {!! DropdownButton::normal(trans('texts.maintenance'))
@@ -121,12 +121,40 @@
             ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories')],
             ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices')],
             ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores')],
-            ['label' => trans('texts.new_item_transfer'), 'url' => url('/item_transfers')],
             ['label' => trans('texts.list_item_movements'), 'url' => url('/item_movements')],
             ['label' => trans('texts.new_store'), 'url' => url('/stores')],
-            ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types')],
-            ['label' => trans('texts.new_hold_reason'), 'url' => url('/hold_reasons')],
             ['label' => trans('texts.new_unit'), 'url' => url('/units')],
+            ])->split() !!}
+        @endif
+    @elseif($entityType == ENTITY_ITEM_TRANSFER)
+        @if (Auth::user()->can('create', [ENTITY_ITEM_STORE]))
+            {!! DropdownButton::normal(trans('texts.maintenance'))
+            ->withAttributes(['class'=>'maintenanceDropdown'])
+            ->withContents([
+            ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores')],
+            ['label' => trans('texts.new_store'), 'url' => url('/stores')],
+            ['label' => trans('texts.list_item_movements'), 'url' => url('/item_movements')],
+            ])->split() !!}
+        @endif
+    @elseif($entityType == ENTITY_ITEM_MOVEMENT)
+        @if (Auth::user()->can('create', [ENTITY_ITEM_STORE]))
+            {!! DropdownButton::normal(trans('texts.maintenance'))
+            ->withAttributes(['class'=>'maintenanceDropdown'])
+            ->withContents([
+            ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores')],
+            ['label' => trans('texts.new_store'), 'url' => url('/stores')],
+            ['label' => trans('texts.new_item_transfer'), 'url' => url('/item_transfers')],
+            ])->split() !!}
+        @endif
+    @elseif($entityType == ENTITY_ITEM_STORE)
+        @if (Auth::user()->can('create', [ENTITY_ITEM_STORE]))
+            {!! DropdownButton::normal(trans('texts.maintenance'))
+            ->withAttributes(['class'=>'maintenanceDropdown'])
+            ->withContents([
+            ['label' => trans('texts.new_item'), 'url' => url('/items')],
+            ['label' => trans('texts.new_store'), 'url' => url('/stores')],
+            ['label' => trans('texts.new_item_transfer'), 'url' => url('/item_transfers')],
+            ['label' => trans('texts.new_item_movement'), 'url' => url('/item_movements')],
             ])->split() !!}
         @endif
     @endif
@@ -153,14 +181,14 @@
 <style type="text/css">
 
     @foreach ($datatable->rightAlignIndices() as $index)
-.listForm_{{ $entityType }} table.dataTable td:nth-child({{ $index }}) {
+    .listForm_{{ $entityType }} table.dataTable td:nth-child({{ $index }}) {
         text-align: right;
     }
 
     @endforeach
 
-@foreach ($datatable->centerAlignIndices() as $index)
-.listForm_{{ $entityType }} table.dataTable td:nth-child({{ $index }}) {
+    @foreach ($datatable->centerAlignIndices() as $index)
+    .listForm_{{ $entityType }} table.dataTable td:nth-child({{ $index }}) {
         text-align: center;
     }
     @endforeach
@@ -170,7 +198,7 @@
     var submittedForm;
 
     function submitForm_{{ $entityType }}(action, id) {
-// prevent duplicate form submissions
+        // prevent duplicate form submissions
         if (submittedForm) {
             swal("{{ trans('texts.processing_request') }}")
             return;
@@ -194,7 +222,7 @@
 
     $(function () {
 
-// Handle datatable filtering
+        // Handle datatable filtering
         var tableFilter = '';
         var searchTimeout = false;
 
@@ -226,7 +254,7 @@
             }
         });
 
-// Enable/disable bulk action buttons
+        // Enable/disable bulk action buttons
         window.onDatatableReady_{{ Utils::pluralizeEntityType($entityType) }} = function () {
             $(':checkbox').click(function () {
                 setBulkActionsEnabled_{{ $entityType }}();
@@ -264,10 +292,10 @@
             $('.listForm_{{ $entityType }} button.archive').not('.dropdown-toggle').text(buttonLabel);
         }
 
-// Setup state/status filter
+        // Setup state/status filter
         $('#statuses_{{ $entityType }}').select2({
             placeholder: "{{ trans('texts.status') }}",
-//allowClear: true,
+            //allowClear: true,
             templateSelection: function (data, container) {
                 if (data.id == 'archived') {
                     $(container).css('color', '#fff');

@@ -2379,6 +2379,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'currency_code' => 'Code',
     'currency_ethiopia_birr' => 'Ethiopia Birr',
 
+    'id' => 'S.No.',
     'buy_license' => 'Buy License',
     'apply_license' => 'Apply License',
     'submit' => 'Submit',

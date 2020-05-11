@@ -25,10 +25,10 @@
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
                     <!-- status -->
-                <?php echo Former::select('status_id')->addOption('', '')
-                ->label(trans('texts.status_name'))->addGroupClass('status-select')
-                ->help(trans('texts.status_help') . ' | ' . link_to('/statuses/', trans('texts.customize_options'))); ?>
-
+                
+                
+                
+                
 
                 <!-- from store -->
                 <?php echo Former::select('previous_store_id')->addOption('', '')
@@ -38,7 +38,7 @@
 
                 <!-- to store -->
                 <?php echo Former::select('current_store_id')->addOption('', '')
-                ->label(trans('texts.to_store_name'))->addGroupClass('store-select'); ?>
+                ->label(trans('texts.to_store_name'))->addGroupClass('store-to-select'); ?>
 
                 <!-- list item -->
                 <?php echo $__env->make('partials.select_product', ['label'=>'product_id','field_name'=>'product_id','check_item_name'=>'transfer_all_item'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
@@ -145,12 +145,20 @@
             var $sourceStoreId = $('select#previous_store_id').val();
             if ($sourceStoreId != '' && $productModel != null) {
                 $productModel.empty();
-                onSourceStoreChange($productModel, $sourceStoreId);
+                onSourceStoreChanges($productModel, $sourceStoreId);
             }
         }
 
+        function onSourceStoreValueChanges() {
+            // var $sourceStoreId = $('select#previous_store_id').val();
+            // if ($sourceStoreId != '' && $productModel != null) {
+            //     $productModel.empty();
+            //     onSourceStoreChanges($productModel, $sourceStoreId);
+            // }
+        }
+
         // find items in the selected store.
-        function onSourceStoreChange($productModel, $sourceStoreId, $item_checked = null) {
+        function onSourceStoreChanges($productModel, $sourceStoreId, $item_checked = null) {
             if ($sourceStoreId != null && $sourceStoreId != '') {
                 $.ajax({
                     url: '<?php echo e(URL::to('item_stores/item_list')); ?>',
