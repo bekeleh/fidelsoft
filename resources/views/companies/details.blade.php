@@ -62,11 +62,11 @@
             </div>
 
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{!! trans('texts.address') !!}</h3>
+                <div class="panel-heading" style="color:white;background-color: #777 !important;">
+                    <h3 class="panel-title in-bold-white">
+                        {!! trans('texts.address') !!}</h3>
                 </div>
                 <div class="panel-body form-padding-right">
-
                     {!! Former::text('address1')->autocomplete('address-line1') !!}
                     {!! Former::text('address2')->autocomplete('address-line2') !!}
                     {!! Former::text('city')->autocomplete('address-level2') !!}
@@ -80,11 +80,11 @@
             </div>
 
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{!! trans('texts.defaults') !!}</h3>
+                <div class="panel-heading" style="color:white;background-color: #777 !important;">
+                    <h3 class="panel-title in-bold-white">
+                        {!! trans('texts.defaults') !!}</h3>
                 </div>
                 <div class="panel-body form-padding-right">
-
                     {!! Former::select('payment_type_id')
                     ->addOption('','')
                     ->fromQuery($paymentTypes, 'name', 'id')

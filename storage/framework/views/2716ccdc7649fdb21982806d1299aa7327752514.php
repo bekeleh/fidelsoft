@@ -88,13 +88,12 @@
     ->autocomplete('off')
     ->name('lastpass-disable-search')
     ->onsubmit('return onFormSubmit(event)')
-    ->rules(array(
+    ->rules([
     'client' => 'required',
     'invoice_number' => 'required',
     'invoice_date' => 'required',
     'name' => 'required|max:255',
-     'taxRateSelect1' => 'required',
-    )); ?>
+    ]); ?>
 
 
     <?php echo $__env->make('partials.autocomplete_fix', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
