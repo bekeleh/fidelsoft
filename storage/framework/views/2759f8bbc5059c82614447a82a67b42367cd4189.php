@@ -47,37 +47,36 @@
             <div class="col-md-6">
                 <div class="panel panel-default" style="min-height: 380px">
                     <div class="panel-heading" style="color:white;background: #777 !important;">
-                        <h3 class="panel-title in-bold-white"><?php echo trans('texts.details'); ?></h3>
+                        <h3 class="panel-title in-bold-white"><?php echo trans('texts.company_details'); ?></h3>
                     </div>
                     <div class="panel-body">
-                        <?php echo Former::select('sale_type_id')->addOption('', '')
-                        ->label(trans('texts.sale_type'))
-                        ->addGroupClass('sale-type-select')
-                        ->help(trans('texts.sale_type_help') . ' | ' . link_to('/sale_types/', trans('texts.customize_options'))); ?>
+                        <!-- company details -->
+                    <?php echo Former::text('name')->label('texts.company_name') ->data_bind("attr { placeholder: placeholderName }"); ?>
 
+                    <?php echo Former::text('id_number')->placeholder($account->clientNumbersEnabled() ? $account->getNextNumber() : ' '); ?>
 
+                    <?php echo Former::text('vat_number'); ?>
+
+                    <?php echo Former::text('website'); ?>
+
+                    <?php echo Former::text('work_phone'); ?>
+
+                    <!-- sale type -->
+                    <?php echo Former::select('sale_type_id')->addOption('', '')
+                    ->label(trans('texts.sale_type'))
+                    ->addGroupClass('sale-type-select')
+                    ->help(trans('texts.sale_type_help') . ' | ' . link_to('/sale_types/', trans('texts.customize_options'))); ?>
+
+                    <!-- client hold reason -->
                         <?php echo Former::select('hold_reason_id')->addOption('', '')
                         ->label(trans('texts.hold_reason'))
                         ->addGroupClass('hold-reason-select')
                         ->help(trans('texts.hold_reason_help') . ' | ' . link_to('/hold_reasons/', trans('texts.customize_options'))); ?>
 
 
-                        <?php echo Former::text('name')->label('texts.company_name') ->data_bind("attr { placeholder: placeholderName }"); ?>
-
-                        <?php echo Former::text('id_number')->placeholder($account->clientNumbersEnabled() ? $account->getNextNumber() : ' '); ?>
-
-                        <?php echo Former::text('vat_number'); ?>
-
-                        <?php echo Former::text('website'); ?>
-
-                        <?php echo Former::text('work_phone'); ?>
-
-
                         <?php echo $__env->make('partials/custom_fields', ['entityType' => ENTITY_CLIENT], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-
                         <?php if($account->usesClientInvoiceCounter()): ?>
                             <?php echo Former::text('invoice_number_counter')->label('invoice_counter'); ?>
-
 
                             <?php if(! $account->share_counter): ?>
                                 <?php echo Former::text('quote_number_counter')->label('quote_counter'); ?>

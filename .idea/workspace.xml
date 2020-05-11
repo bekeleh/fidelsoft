@@ -3,8 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/list.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/list.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/auth/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/login.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/clients/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/clients/edit.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/sessions/3S3CuzPnv9xxldb9F3shlFSOfZG0Z88ta7iSPVSJ" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/3S3CuzPnv9xxldb9F3shlFSOfZG0Z88ta7iSPVSJ" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/Ln0VM99xXz8jD3PPvDac6FyTSZKUEIisMgQndk3h" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/Ln0VM99xXz8jD3PPvDac6FyTSZKUEIisMgQndk3h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/2759f8bbc5059c82614447a82a67b42367cd4189.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/2759f8bbc5059c82614447a82a67b42367cd4189.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/ab409e5dc6346ea88348aeb65121486025dfad94.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/ab409e5dc6346ea88348aeb65121486025dfad94.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -394,14 +397,7 @@
       <workItem from="1588922905848" duration="6432000" />
       <workItem from="1588942391569" duration="2647000" />
       <workItem from="1588957261967" duration="9739000" />
-      <workItem from="1589183639300" duration="5847000" />
-    </task>
-    <task id="LOCAL-00205" summary="2020-04-29 9:26">
-      <created>1588171486812</created>
-      <option name="number" value="00205" />
-      <option name="presentableId" value="LOCAL-00205" />
-      <option name="project" value="LOCAL" />
-      <updated>1588171486812</updated>
+      <workItem from="1589183639300" duration="6972000" />
     </task>
     <task id="LOCAL-00206" summary="2020-04-29 9:26">
       <created>1588173893748</created>
@@ -739,7 +735,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589189068357</updated>
     </task>
-    <option name="localTasksCounter" value="254" />
+    <task id="LOCAL-00254" summary="2020-05-11 9:26">
+      <created>1589189539074</created>
+      <option name="number" value="00254" />
+      <option name="presentableId" value="LOCAL-00254" />
+      <option name="project" value="LOCAL" />
+      <updated>1589189539074</updated>
+    </task>
+    <option name="localTasksCounter" value="255" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -816,10 +819,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1587939377952" />
-    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1589189066116">
+    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1589189537688">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1589189066116" />
+    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1589189537688" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="444" y="140" key="FileChooserDialogImpl" timestamp="1588865901098">

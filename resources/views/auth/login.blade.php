@@ -44,7 +44,6 @@
 
         <div>
             {!! Former::text('username')->placeholder(trans('texts.username'))->raw() !!}
-            <br/>
             {!! Former::password('password')->placeholder(trans('texts.password'))->raw() !!}
         </div>
 
