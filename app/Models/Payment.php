@@ -38,6 +38,16 @@ class Payment extends EntityModel
 
     protected $presenter = 'App\Ninja\Presenters\PaymentPresenter';
 
+    public function getEntityType()
+    {
+        return ENTITY_PAYMENT;
+    }
+
+    public function getRoute()
+    {
+        return "/payments/{$this->public_id}/edit";
+    }
+
     public function invoice()
     {
         return $this->belongsTo('App\Models\Invoice')->withTrashed();
@@ -93,12 +103,6 @@ class Payment extends EntityModel
     public function payment_status()
     {
         return $this->belongsTo('App\Models\PaymentStatus');
-    }
-
-
-    public function getRoute()
-    {
-        return "/payments/{$this->public_id}/edit";
     }
 
     public function scopeExcludeFailed($query)
@@ -208,11 +212,6 @@ class Payment extends EntityModel
         $this->gateway_error = $failureMessage;
         $this->save();
         Event::fire(new PaymentFailed($this));
-    }
-
-    public function getEntityType()
-    {
-        return ENTITY_PAYMENT;
     }
 
     public function getCompletedAmount()

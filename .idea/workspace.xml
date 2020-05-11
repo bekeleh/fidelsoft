@@ -2,10 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/bbaf9bc588ae0be245fb784d5ffed54269a2ac26.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Models/Manufacturer.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Models/ManufacturerProductDetails.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Ninja/Transformers/ManufacturerTransformer.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Policies/ManufacturerPolicy.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Policies/ManufacturerProductDetailPolicy.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/fe27ac0ec39d04dbe254c8dddbb0f5570059f695.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/InvoiceRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/InvoiceRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Constants.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Constants.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Jobs/Client/GenerateStatementData.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/Client/GenerateStatementData.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/LookupUser.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/LookupUser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Payment.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Payment.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/clients/statement.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/clients/statement.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/sessions/xH0e2Ctf1th4LvalzSzsSEXXoFeqPTeCgaL9eLR9" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/xH0e2Ctf1th4LvalzSzsSEXXoFeqPTeCgaL9eLR9" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -245,25 +256,25 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Policies" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="terminal" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\wamp\www\invoiceninja\app\Policies" />
+      <recent name="C:\wamp\www\invoiceninja\app\Models" />
+      <recent name="C:\wamp\www\invoiceninja\app\Ninja\Transformers" />
+      <recent name="C:\wamp\www\invoiceninja\app\Console\Commands" />
+      <recent name="C:\wamp\www\invoiceninja\resources\views\item_transfers" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\wamp\www\invoiceninja" />
       <recent name="C:\wamp\www\invoiceninja\resources\views\users" />
       <recent name="C:\wamp\www\invoiceninja\app\Ninja\Datatables" />
       <recent name="C:\wamp\www\invoiceninja\resources\views\companies" />
       <recent name="C:\wamp\www\invoiceninja\resources\views\products" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\wamp\www\invoiceninja\app\Console\Commands" />
-      <recent name="C:\wamp\www\invoiceninja\resources\views\item_transfers" />
-      <recent name="C:\wamp\www\invoiceninja\resources\views\item_brands" />
-      <recent name="C:\wamp\www\invoiceninja\resources\views\errors" />
-      <recent name="C:\wamp\www\invoiceninja\resources\views\users" />
     </key>
   </component>
   <component name="RunManager" selected="Codeception.codeception.yml">
@@ -394,14 +405,7 @@
       <workItem from="1588922905848" duration="6432000" />
       <workItem from="1588942391569" duration="2647000" />
       <workItem from="1588957261967" duration="9739000" />
-      <workItem from="1589183639300" duration="14543000" />
-    </task>
-    <task id="LOCAL-00208" summary="2020-04-29 9:26">
-      <created>1588178149530</created>
-      <option name="number" value="00208" />
-      <option name="presentableId" value="LOCAL-00208" />
-      <option name="project" value="LOCAL" />
-      <updated>1588178149530</updated>
+      <workItem from="1589183639300" duration="18310000" />
     </task>
     <task id="LOCAL-00209" summary="2020-04-29 9:26">
       <created>1588189117008</created>
@@ -739,7 +743,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589199198905</updated>
     </task>
-    <option name="localTasksCounter" value="257" />
+    <task id="LOCAL-00257" summary="2020-05-11 9:26">
+      <created>1589201668153</created>
+      <option name="number" value="00257" />
+      <option name="presentableId" value="LOCAL-00257" />
+      <option name="project" value="LOCAL" />
+      <updated>1589201668153</updated>
+    </task>
+    <option name="localTasksCounter" value="258" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -816,10 +827,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1587939377952" />
-    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1589199197123">
+    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1589201666494">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1589199197123" />
+    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1589201666494" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="444" y="140" key="FileChooserDialogImpl" timestamp="1588865901098">
@@ -856,10 +867,10 @@
     </state>
     <state x="468" y="194" key="NewPhpClassDialog/0.0.1280.680@0.0.1280.680" timestamp="1588618851545" />
     <state x="527" y="245" key="NewPhpClassDialog/0.0.1440.860@0.0.1440.860" timestamp="1585293911127" />
-    <state x="456" y="157" key="NewPhpFileDialog" timestamp="1588880783970">
+    <state x="456" y="157" key="NewPhpFileDialog" timestamp="1589206189577">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="456" y="157" key="NewPhpFileDialog/0.0.1280.680@0.0.1280.680" timestamp="1588880783970" />
+    <state x="456" y="157" key="NewPhpFileDialog/0.0.1280.680@0.0.1280.680" timestamp="1589206189577" />
     <state x="447" y="189" key="NewPhpFileDialog/0.0.1366.728@0.0.1366.728" timestamp="1586116260809" />
     <state x="471" y="223" key="NewPhpFileDialog/0.0.1440.860@0.0.1440.860" timestamp="1585320200513" />
     <state x="197" y="0" key="SettingsEditor" timestamp="1588618032920">

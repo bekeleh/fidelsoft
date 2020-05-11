@@ -175,7 +175,6 @@ if (!defined('APP_NAME')) {
     define('ACCOUNT_MANUFACTURER', 'manufacturers');
     define('ACCOUNT_MANUFACTURER_PRODUCT_DETAIL', 'manufacturer_product_details');
 
-
     define('ACTIVITY_TYPE_CREATE_CLIENT', 1);
     define('ACTIVITY_TYPE_ARCHIVE_CLIENT', 2);
     define('ACTIVITY_TYPE_DELETE_CLIENT', 3);

@@ -2,11 +2,10 @@
 
 namespace App\Jobs\Client;
 
-use Utils;
-use App\Models\InvoiceItem;
+use App\Libraries\Utils;
 use App\Models\Invoice;
+use App\Models\InvoiceItem;
 use App\Models\Payment;
-use App\Models\Eloquent;
 
 class GenerateStatementData
 {
@@ -64,9 +63,9 @@ class GenerateStatementData
             $invoices->where('invoice_status_id', '!=', INVOICE_STATUS_PAID);
         }
 
-        if ($statusId == INVOICE_STATUS_PAID || ! $statusId) {
+        if ($statusId == INVOICE_STATUS_PAID || !$statusId) {
             $invoices->where('invoice_date', '>=', $this->options['start_date'])
-                    ->where('invoice_date', '<=', $this->options['end_date']);
+                ->where('invoice_date', '<=', $this->options['end_date']);
         }
 
         if ($this->contact) {
@@ -78,7 +77,7 @@ class GenerateStatementData
         $invoices = $invoices->get();
         $data = collect();
 
-        for ($i=0; $i<$invoices->count(); $i++) {
+        for ($i = 0; $i < $invoices->count(); $i++) {
             $invoice = $invoices[$i];
             $item = new InvoiceItem();
             $item->id = $invoice->id;
@@ -116,7 +115,7 @@ class GenerateStatementData
         $payments = $payments->get();
         $data = collect();
 
-        for ($i=0; $i<$payments->count(); $i++) {
+        for ($i = 0; $i < $payments->count(); $i++) {
             $payment = $payments[$i];
             $item = new InvoiceItem();
             $item->name = $payment->invoice->invoice_number;
