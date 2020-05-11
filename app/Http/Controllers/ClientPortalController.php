@@ -430,6 +430,7 @@ class ClientPortalController extends BaseController
         if (!$contact = $this->getContact()) {
             return $this->returnError();
         }
+
         $payments = $this->paymentRepo->findForContact($contact->id, Input::get('sSearch'));
 
         return Datatable::query($payments)

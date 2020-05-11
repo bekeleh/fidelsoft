@@ -1,10 +1,8 @@
-@extends('public.header')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
     <style type="text/css">
         table.dataTable thead > tr > th, table.invoice-table thead > tr > th {
-            background-color: {{ $color }}      !important;
+            background-color: <?php echo e($color); ?>      !important;
         }
 
         .pagination > .active > a,
@@ -13,8 +11,8 @@
         .pagination > .active > span:hover,
         .pagination > .active > a:focus,
         .pagination > .active > span:focus {
-            background-color: {{ $color }};
-            border-color: {{ $color }};
+            background-color: <?php echo e($color); ?>;
+            border-color: <?php echo e($color); ?>;
         }
 
         table.table thead .sorting:after {
@@ -37,14 +35,14 @@
             content: '' !important
         }
 
-        @for ($i = 0; $i < count($columns); $i++)
-			table.dataTable td:nth-child({{ $i + 1 }}) {
-            @if ($columns[$i] == trans('texts.status'))
+        <?php for($i = 0; $i < count($columns); $i++): ?>
+			table.dataTable td:nth-child(<?php echo e($i + 1); ?>) {
+            <?php if($columns[$i] == trans('texts.status')): ?>
      text-align: center;
-        @endif
+        <?php endif; ?>
 
         }
-        @endfor
+        <?php endfor; ?>
 
     </style>
 
@@ -52,29 +50,33 @@
         <p>&nbsp;</p>
         <div id="top_right_buttons" class="pull-right">
             <input id="tableFilter" type="text" style="width:140px;margin-right:17px" class="form-control pull-left"
-                   placeholder="{{ trans('texts.filter') }}"/>
+                   placeholder="<?php echo e(trans('texts.filter')); ?>"/>
         </div>
-        @if($entityType == ENTITY_INVOICE && $client->hasRecurringInvoices())
+        <?php if($entityType == ENTITY_INVOICE && $client->hasRecurringInvoices()): ?>
             <div class="pull-right" style="margin-top:5px">
-                {!! Button::primary(trans("texts.recurring_invoices"))->asLinkTo(URL::to('/client/invoices/recurring')) !!}
+                <?php echo Button::primary(trans("texts.recurring_invoices"))->asLinkTo(URL::to('/client/invoices/recurring')); ?>
+
             </div>
-        @endif
+        <?php endif; ?>
 
-        <h3>{{ $title }}</h3>
+        <h3><?php echo e($title); ?></h3>
 
-        {!! Datatable::table()
+        <?php echo Datatable::table()
             ->addColumn($columns)
             ->setUrl(route('api.client.' . $entityType . 's'))
             ->setOptions('sPaginationType', 'bootstrap')
             ->setOptions('aaSorting', [[$sortColumn, 'desc']])
-            ->render('datatable') !!}
+            ->render('datatable'); ?>
+
     </div>
 
-    @if ($entityType == ENTITY_RECURRING_INVOICE)
-        {!! Former::open(URL::to('/client/invoices/auto_bill'))->id('auto_bill_form')  !!}
+    <?php if($entityType == ENTITY_RECURRING_INVOICE): ?>
+        <?php echo Former::open(URL::to('/client/invoices/auto_bill'))->id('auto_bill_form'); ?>
+
         <input type="hidden" name="public_id" id="auto_bill_public_id">
         <input type="hidden" name="enable" id="auto_bill_enable">
-        {!! Former::close() !!}
+        <?php echo Former::close(); ?>
+
 
         <script type="text/javascript">
             function setAutoBill(publicId, enable) {
@@ -83,6 +85,8 @@
                 $('#auto_bill_form').submit();
             }
         </script>
-    @endif
+    <?php endif; ?>
     <p>&nbsp;</p>
-@stop
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('public.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

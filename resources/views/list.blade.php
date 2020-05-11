@@ -96,13 +96,24 @@
     {!! Button::normal(trans('texts.kanban'))->asLinkTo(url('/tasks/kanban' . (! empty($clientId) ? ('/' . $clientId . (! empty($projectId) ? '/' . $projectId : '')) : '')))->appendIcon(Icon::create('th')) !!}
     {!! Button::normal(trans('texts.time_tracker'))->asLinkTo('javascript:openTimeTracker()')->appendIcon(Icon::create('time')) !!}
 @endif
-<!-- invoice menu -->
-@if (in_array($entityType, [ENTITY_INVOICE,ENTITY_INVOICE_ITEM,ENTITY_CLIENT,ENTITY_CREDIT]))
-    @if (Auth::user()->can('create', [ENTITY_INVOICE,ENTITY_INVOICE_ITEM,ENTITY_CLIENT,ENTITY_CREDIT]))
+<!-- client invoice menu -->
+@if (in_array($entityType, [ENTITY_INVOICE]))
+    @if (Auth::user()->can('create', [ENTITY_INVOICE]))
         {!! DropdownButton::normal(trans('texts.maintenance'))
         ->withAttributes(['class'=>'maintenanceDropdown'])
         ->withContents([
         ['label' => trans('texts.new_client'), 'url' => url('/clients')],
+        ['label' => trans('texts.new_quote'), 'url' => url('/quotes')],
+        ['label' => trans('texts.new_credit'), 'url' => url('/credits')],
+        ['label' => trans('texts.new_expense'), 'url' => url('/expenses')],
+        ])->split() !!}
+    @endif
+@elseif (in_array($entityType, [ENTITY_CLIENT]))
+    @if (Auth::user()->can('create', [ENTITY_CLIENT]))
+        {!! DropdownButton::normal(trans('texts.maintenance'))
+        ->withAttributes(['class'=>'maintenanceDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_invoice'), 'url' => url('/invoices')],
         ['label' => trans('texts.new_quote'), 'url' => url('/quotes')],
         ['label' => trans('texts.new_credit'), 'url' => url('/credits')],
         ['label' => trans('texts.new_expense'), 'url' => url('/expenses')],

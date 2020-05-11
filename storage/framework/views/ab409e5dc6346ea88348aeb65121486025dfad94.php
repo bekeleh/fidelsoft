@@ -109,13 +109,25 @@
     <?php echo Button::normal(trans('texts.time_tracker'))->asLinkTo('javascript:openTimeTracker()')->appendIcon(Icon::create('time')); ?>
 
 <?php endif; ?>
-<!-- invoice menu -->
-<?php if(in_array($entityType, [ENTITY_INVOICE,ENTITY_INVOICE_ITEM,ENTITY_CLIENT,ENTITY_CREDIT])): ?>
-    <?php if(Auth::user()->can('create', [ENTITY_INVOICE,ENTITY_INVOICE_ITEM,ENTITY_CLIENT,ENTITY_CREDIT])): ?>
+<!-- client invoice menu -->
+<?php if(in_array($entityType, [ENTITY_INVOICE])): ?>
+    <?php if(Auth::user()->can('create', [ENTITY_INVOICE])): ?>
         <?php echo DropdownButton::normal(trans('texts.maintenance'))
         ->withAttributes(['class'=>'maintenanceDropdown'])
         ->withContents([
         ['label' => trans('texts.new_client'), 'url' => url('/clients')],
+        ['label' => trans('texts.new_quote'), 'url' => url('/quotes')],
+        ['label' => trans('texts.new_credit'), 'url' => url('/credits')],
+        ['label' => trans('texts.new_expense'), 'url' => url('/expenses')],
+        ])->split(); ?>
+
+    <?php endif; ?>
+<?php elseif(in_array($entityType, [ENTITY_CLIENT])): ?>
+    <?php if(Auth::user()->can('create', [ENTITY_CLIENT])): ?>
+        <?php echo DropdownButton::normal(trans('texts.maintenance'))
+        ->withAttributes(['class'=>'maintenanceDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_invoice'), 'url' => url('/invoices')],
         ['label' => trans('texts.new_quote'), 'url' => url('/quotes')],
         ['label' => trans('texts.new_credit'), 'url' => url('/credits')],
         ['label' => trans('texts.new_expense'), 'url' => url('/expenses')],

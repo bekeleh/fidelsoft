@@ -22,7 +22,7 @@ class PaymentRepository extends BaseRepository
         return 'App\Models\Payment';
     }
 
-    public function find($clientPublicId  = false, $filter = null)
+    public function find($clientPublicId = false, $filter = null)
     {
         $query = DB::table('payments')
             ->join('accounts', 'accounts.id', '=', 'payments.account_id')
@@ -110,21 +110,22 @@ class PaymentRepository extends BaseRepository
             ->join('invoices', 'invoices.id', '=', 'payments.invoice_id')
             ->join('contacts', 'contacts.client_id', '=', 'clients.id')
             ->join('payment_statuses', 'payment_statuses.id', '=', 'payments.payment_status_id')
-            ->leftJoin('invitations', function ($join) {
+            ->leftJoin('invitations', function ($join) use ($contactId) {
                 $join->on('invitations.invoice_id', '=', 'invoices.id')
-                    ->on('invitations.contact_id', '=', 'contacts.id');
+                    ->on('invitations.contact_id', '=', 'contacts.id')
+                    ->where('invitations.contact_id', '=', $contactId);
             })
             ->leftJoin('payment_types', 'payment_types.id', '=', 'payments.payment_type_id')
             ->where('clients.is_deleted', '=', false)
             ->where('payments.is_deleted', '=', false)
-            ->where('invitations.deleted_at', '=', null)
             ->where('invoices.is_deleted', '=', false)
             ->where('invoices.is_public', '=', true)
-            ->where('invitations.contact_id', '=', $contactId)
+            ->where('invitations.deleted_at', '=', null)
             ->select(
                 DB::raw('COALESCE(clients.currency_id, accounts.currency_id) currency_id'),
                 DB::raw('COALESCE(clients.country_id, accounts.country_id) country_id'),
                 'invitations.invitation_key',
+                'invitations.contact_id',
                 'payments.public_id',
                 'payments.transaction_reference',
                 DB::raw("COALESCE(NULLIF(clients.name,''), NULLIF(CONCAT(contacts.first_name, ' ', contacts.last_name),''), NULLIF(contacts.email,'')) client_name"),
