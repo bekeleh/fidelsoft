@@ -2,6 +2,7 @@
 Route::resource('users', 'UserApiController');
 Route::resource('permission_groups', 'permissionGroupApiController');
 Route::resource('permissions', 'PermissionApiController');
+Route::resource('manufacturers', 'ManufacturerApiController');
 Route::get('ping', 'AccountApiController@ping');
 Route::post('login', 'AccountApiController@login');
 Route::post('oauth_login', 'AccountApiController@oauthLogin');

@@ -1,12 +1,28 @@
 <?php
 
 $LANG = array(
+    /*
+    |--------------------------------------------------------------------------
+    | manufacturer  trans
+    |--------------------------------------------------------------------------
+    */
+    'manufacturer_name' => 'Manufacturer Name',
+    'manufacturers' => 'Manufacturers',
+    'manufacturer_list' => 'Manufacturer List',
+    'archive_manufacturer' => 'Archive Manufacturer',
+    'delete_manufacturer' => 'Delete Manufacturer',
+    'edit_manufacturer' => 'Edit Manufacturer',
+    'restore_manufacturer' => 'Restore Manufacturer',
+    'new_manufacturer' => 'New Manufacturer',
+    'created_manufacturer' => 'Successfully Created Manufacturer',
+    'updated_manufacturer' => 'Successfully Updated Manufacturer',
+    'manufacturer_help' => 'Sets the default <b>manufacturer</b>',
 
     /*
-|--------------------------------------------------------------------------
-| Status  trans
-|--------------------------------------------------------------------------
-*/
+    |--------------------------------------------------------------------------
+    | Status  trans
+    |--------------------------------------------------------------------------
+    */
     'status_name' => 'Status Name',
     'status' => 'Status',
     'statuses' => 'Statuses',
@@ -28,10 +44,10 @@ $LANG = array(
     'status_help' => 'Sets the default <b>status</b>',
 
     /*
-|--------------------------------------------------------------------------
-| Client  trans
-|--------------------------------------------------------------------------
-*/
+    |--------------------------------------------------------------------------
+    | Client  trans
+    |--------------------------------------------------------------------------
+    */
 
     'client_name' => 'Client Name',
     'client' => 'Client',
@@ -53,10 +69,10 @@ $LANG = array(
     'client_settings' => 'Client Settings',
 
     /*
-|--------------------------------------------------------------------------
-| User  trans
-|--------------------------------------------------------------------------
-*/
+    |--------------------------------------------------------------------------
+    | User  trans
+    |--------------------------------------------------------------------------
+    */
     'full_name' => 'Full Name',
     'first_name' => 'Full Name',
     'last_name' => 'Last Name',
@@ -84,10 +100,10 @@ $LANG = array(
     'updated_user_permission' => 'Successfully Updated User Permission',
 
     /*
-|--------------------------------------------------------------------------
-| User groups  trans
-|--------------------------------------------------------------------------
-*/
+    |--------------------------------------------------------------------------
+    | User groups  trans
+    |--------------------------------------------------------------------------
+    */
     'permission_group_name' => 'User Group Name',
     'permission_group' => 'User Group',
     'permission_groups' => 'User Group List',
@@ -110,10 +126,10 @@ $LANG = array(
     'group_permission_help' => 'Sets the default User group',
 
     /*
-|--------------------------------------------------------------------------
-| User permission groups  trans
-|--------------------------------------------------------------------------
-*/
+    |--------------------------------------------------------------------------
+    | User permission groups  trans
+    |--------------------------------------------------------------------------
+    */
     'permission_name' => 'Permission Name',
     'permission' => 'permission',
     'permissions' => 'Permission List',
@@ -132,10 +148,10 @@ $LANG = array(
     'archived_permission' => 'Successfully Archived Permission',
     'permission_settings' => 'Permission Settings',
     /*
-|--------------------------------------------------------------------------
-| sales type trans
-|--------------------------------------------------------------------------
-*/
+    |--------------------------------------------------------------------------
+    | sales type trans
+    |--------------------------------------------------------------------------
+    */
     'sale_type_name' => 'Sale Type Name',
     'sale_types' => 'Sales Type',
     'sale_type' => 'Sale Type',
@@ -156,10 +172,10 @@ $LANG = array(
     'select_sale_type' => 'Select Sale Type',
     'sale_type_help' => 'Sets the default <b>sales type</b>',
     /*
-|--------------------------------------------------------------------------
-| tax rate trans
-|--------------------------------------------------------------------------
-*/
+    |--------------------------------------------------------------------------
+    | tax rate trans
+    |--------------------------------------------------------------------------
+    */
     'tax_rate_name' => 'Tax Rate Name',
     'tax_rates' => 'Tax Rate',
     'tax_rate' => 'Tax Rate',
@@ -179,10 +195,10 @@ $LANG = array(
     'default_tax_rate_id' => 'Default Tax Rate',
     'tax_rate_settings' => 'Tax Rate Settings',
     /*
-|--------------------------------------------------------------------------
-| item store location trans
-|--------------------------------------------------------------------------
-*/
+    |--------------------------------------------------------------------------
+    | item store location trans
+    |--------------------------------------------------------------------------
+    */
     'store.edit' => 'Edit Store',
     'new_store' => 'New Store',
     'list_stores' => 'List Stores',
@@ -205,10 +221,10 @@ $LANG = array(
     'select_location' => 'Select Location',
     'store_help' => 'Sets the default <b>store</b>',
     /*
-|--------------------------------------------------------------------------
-| item transfer trans
-|--------------------------------------------------------------------------
-*/
+    |--------------------------------------------------------------------------
+    | item transfer trans
+    |--------------------------------------------------------------------------
+    */
     'new_item_transfer' => 'New Item Transfer',
     'list_item_transfers' => 'List Item Transfer',
     'item_transfer' => 'Item Transfer',
@@ -231,10 +247,10 @@ $LANG = array(
     'to_store_name' => 'To Store',
 
     /*
-|--------------------------------------------------------------------------
-| hold reason trans
-|--------------------------------------------------------------------------
-*/
+    |--------------------------------------------------------------------------
+    | hold reason trans
+    |--------------------------------------------------------------------------
+    */
     'hold_reason_name' => 'Hold Reason Name',
     'new_hold_reason' => 'New Hold Reason',
     'list_hold_reasons' => 'List Hold Reasons',
@@ -257,10 +273,10 @@ $LANG = array(
     'select_hold_reason' => 'Select Hold Reason',
     'hold_reason_help' => 'Sets the default <b>hold reason</b>',
     /*
-|--------------------------------------------------------------------------
-| location trans
-|--------------------------------------------------------------------------
-*/
+    |--------------------------------------------------------------------------
+    | location trans
+    |--------------------------------------------------------------------------
+    */
     'locations' => 'Locations',
     'location_name' => 'Location Name',
     'location_code' => 'Location Code',
@@ -280,10 +296,10 @@ $LANG = array(
     'location_settings' => 'Location Settings',
     'location_help' => 'Sets the default <b>location</b>',
     /*
-|--------------------------------------------------------------------------
-| item brand trans
-|--------------------------------------------------------------------------
-*/
+    |--------------------------------------------------------------------------
+    | item brand trans
+    |--------------------------------------------------------------------------
+    */
     'brand' => 'Brand',
     'item_brand' => 'Item Brand',
     'item_brands' => 'Item Brands',
@@ -305,10 +321,10 @@ $LANG = array(
     'select_item_brand' => 'Select Item Brand',
     'item_brand_help' => 'Sets the default <b>item brand</b>',
     /*
-|--------------------------------------------------------------------------
-| item category trans
-|--------------------------------------------------------------------------
-*/
+    |--------------------------------------------------------------------------
+    | item category trans
+    |--------------------------------------------------------------------------
+    */
     'category' => 'Category',
     'item_category' => 'Item Category',
     'item_categories' => 'Item Categories',
@@ -330,10 +346,10 @@ $LANG = array(
     'select_item_category' => 'Select Item Category',
     'item_category_help' => 'Sets the default <b>item category</b>',
     /*
-|--------------------------------------------------------------------------
-| item unit trans
-|--------------------------------------------------------------------------
-*/
+    |--------------------------------------------------------------------------
+    | item unit trans
+    |--------------------------------------------------------------------------
+    */
     'unit' => 'Unit',
     'unit_name' => 'Unit of measure',
     'units' => 'Unit of measure',
@@ -355,10 +371,10 @@ $LANG = array(
     'item_unit_help' => 'Sets the default <b>item unit</b>',
 
     /*
-|--------------------------------------------------------------------------
-| item price trans
-|--------------------------------------------------------------------------
-*/
+    |--------------------------------------------------------------------------
+    | item price trans
+    |--------------------------------------------------------------------------
+    */
     'item_price' => 'Item Price',
     'item_prices' => 'Item Prices',
     'product_price' => 'Item Price',
@@ -378,10 +394,10 @@ $LANG = array(
     'item_price_settings' => 'Price Settings',
     'item_price_unique' => 'This item prices already had been taken.',
     /*
-|--------------------------------------------------------------------------
-| item category trans
-|--------------------------------------------------------------------------
-*/
+    |--------------------------------------------------------------------------
+    | item category trans
+    |--------------------------------------------------------------------------
+    */
     'movement' => 'Movement',
     'item_movements' => 'Inventory Movement',
     'item_movement' => 'Item Movement',
@@ -403,10 +419,10 @@ $LANG = array(
     'item_category_help' => 'Sets the default <b>item category</b>',
 
     /*
-|--------------------------------------------------------------------------
-| item store trans
-|--------------------------------------------------------------------------
-*/
+    |--------------------------------------------------------------------------
+    | item store trans
+    |--------------------------------------------------------------------------
+    */
     'item_stores' => 'Inventory Adjustment',
     'bin' => 'Bin Location',
     'reorder_level' => 'Reorder Level',
@@ -440,18 +456,18 @@ $LANG = array(
     'item_store_help' => 'Sets the default <b>item store</b>',
     'item_does_not_exist' => 'Item does not exist in this store or somethings went wrong.',
     /*
-|--------------------------------------------------------------------------
-| inventory trans
-|--------------------------------------------------------------------------
-*/
+    |--------------------------------------------------------------------------
+    | inventory trans
+    |--------------------------------------------------------------------------
+    */
     'product' => 'Product',
     'products' => 'Inventory',
 
     /*
-|--------------------------------------------------------------------------
-| Miscellaneous trans
-|--------------------------------------------------------------------------
-*/
+    |--------------------------------------------------------------------------
+    | Miscellaneous trans
+    |--------------------------------------------------------------------------
+    */
     'organization' => 'Organization',
     'name' => 'Name',
     'code' => 'Code',
@@ -550,13 +566,13 @@ $LANG = array(
     'no_items' => 'No items',
     'recurring_invoices' => 'Recurring Invoices',
     'recurring_help' => '<p>Automatically send clients the same invoices weekly, bi-monthly, monthly, quarterly or annually. </p>
-<p>Use :MONTH, :QUARTER or :YEAR for dynamic dates. Basic math works as well, for example :MONTH-1.</p>
-<p>Examples of dynamic invoice variables:</p>
-<ul>
-<li>"Gym membership for the month of :MONTH" >> "Gym membership for the month of July"</li>
-<li>":YEAR+1 yearly subscription" >> "2015 Yearly Subscription"</li>
-<li>"Retainer payment for :QUARTER+1" >> "Retainer payment for Q2"</li>
-</ul>',
+    <p>Use :MONTH, :QUARTER or :YEAR for dynamic dates. Basic math works as well, for example :MONTH-1.</p>
+    <p>Examples of dynamic invoice variables:</p>
+    <ul>
+    <li>"Gym membership for the month of :MONTH" >> "Gym membership for the month of July"</li>
+    <li>":YEAR+1 yearly subscription" >> "2015 Yearly Subscription"</li>
+    <li>"Retainer payment for :QUARTER+1" >> "Retainer payment for Q2"</li>
+    </ul>',
     'recurring_quotes' => 'Recurring Quotes',
     'in_total_revenue' => 'in total revenue',
     'billed_client' => 'billed client',
@@ -714,12 +730,12 @@ $LANG = array(
     'password' => 'Password',
     'pro_plan_product' => 'Pro Plan',
     'pro_plan_success' => 'Thanks for choosing Invoice Ninja\'s Pro plan!<p/>&nbsp;<br/>
-<b>Next Steps</b><p/>A payable invoice has been sent to the email
-address associated with your account. To unlock all of the awesome
-Pro features, please follow the instructions on the invoice to pay
-for a year of Pro-level invoicing.<p/>
-Can\'t find the invoice? Need further assistance? We\'re happy to help
--- email us at contact@invoiceninja.com',
+    <b>Next Steps</b><p/>A payable invoice has been sent to the email
+    address associated with your account. To unlock all of the awesome
+    Pro features, please follow the instructions on the invoice to pay
+    for a year of Pro-level invoicing.<p/>
+    Can\'t find the invoice? Need further assistance? We\'re happy to help
+    -- email us at contact@invoiceninja.com',
     'unsaved_changes' => 'You have unsaved changes',
     'custom_fields' => 'Custom Fields',
     'company_fields' => 'Company Fields',
@@ -951,7 +967,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'auto_wrap' => 'Auto Line Wrap',
     'duplicate_post' => 'the previous page was submitted twice. The second submission had been ignored.',
     'view_documentation' => 'View Documentation',
-//    'app_title' => 'Free Open-Source Online Invoicing',
+    //    'app_title' => 'Free Open-Source Online Invoicing',
     'app_title' => 'Ultimate Business HARON ERP',
     'app_description' => 'Invoice Ninja is a free, open-source solution for invoicing and billing customers. With Invoice Ninja, you can easily build and send beautiful invoices from any device that has access to the web. Your clients can print your invoices, download them as pdf files, and even pay you online from within the system.',
     'rows' => 'rows',
@@ -1095,7 +1111,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'primary_user' => 'Primary User',
     'help' => 'Help',
     'customize_help' => '<p>We use :pdfmake_link to define the invoice designs declaratively. The pdfmake :playground_link provides a great way to see the library in action.</p>
-<p>If you need help figuring something out post a question to our :forum_link with the design you\'re using.</p>',
+    <p>If you need help figuring something out post a question to our :forum_link with the design you\'re using.</p>',
     'playground' => 'playground',
     'support_forum' => 'support forum',
     'invoice_due_date' => 'Due Date',
@@ -1326,7 +1342,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'expenses' => 'Expenses',
     'new_expense' => 'Enter Expense',
     'enter_expense' => 'Enter Expense',
-//    'vendors' => 'Vendors',
+    //    'vendors' => 'Vendors',
     'vendors' => 'Suppliers',
     'new_vendor' => 'New Vendor',
     'payment_terms_net' => 'Net',
@@ -1370,18 +1386,18 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'archive_payment_term' => 'Archive Payment Term',
     'recurring_due_dates' => 'Recurring Invoice Due Dates',
     'recurring_due_date_help' => '<p>Automatically sets a due date for the invoice.</p>
-<p>Invoices on a monthly or yearly cycle set to be due on or before the day they are created will be due the next month. Invoices set to be due on the 29th or 30th in months that don\'t have that day will be due the last day of the month.</p>
-<p>Invoices on a weekly cycle set to be due on the day of the week they are created will be due the next week.</p>
-<p>For example:</p>
-<ul>
-<li>Today is the 15th, due date is 1st of the month. The due date should likely be the 1st of the next month.</li>
-<li>Today is the 15th, due date is the last day of the month. The due date will be the last day of the this month.
-</li>
-<li>Today is the 15th, due date is the 15th day of the month. The due date will be the 15th day of <strong>next</strong> month.
-</li>
-<li>Today is the Friday, due date is the 1st Friday after. The due date will be next Friday, not today.
-</li>
-</ul>',
+    <p>Invoices on a monthly or yearly cycle set to be due on or before the day they are created will be due the next month. Invoices set to be due on the 29th or 30th in months that don\'t have that day will be due the last day of the month.</p>
+    <p>Invoices on a weekly cycle set to be due on the day of the week they are created will be due the next week.</p>
+    <p>For example:</p>
+    <ul>
+    <li>Today is the 15th, due date is 1st of the month. The due date should likely be the 1st of the next month.</li>
+    <li>Today is the 15th, due date is the last day of the month. The due date will be the last day of the this month.
+    </li>
+    <li>Today is the 15th, due date is the 15th day of the month. The due date will be the 15th day of <strong>next</strong> month.
+    </li>
+    <li>Today is the Friday, due date is the 1st Friday after. The due date will be next Friday, not today.
+    </li>
+    </ul>',
     'due' => 'Due',
     'next_due_on' => 'Due Next: :date',
     'use_client_terms' => 'Use client terms',
@@ -1497,7 +1513,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'recurring_invoice_number' => 'Recurring Number',
     'recurring_invoice_number_prefix_help' => 'Speciy a prefix to be added to the invoice number for recurring invoices.',
 
-// Client Passwords
+    // Client Passwords
     'enable_portal_password' => 'Password Protect Invoices',
     'enable_portal_password_help' => 'Allows you to set a password for each contact. If a password is set, the contact will be required to enter a password before viewing invoices.',
     'send_portal_password' => 'Generate Automatically',
@@ -1510,7 +1526,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'cost' => 'Cost',
     'create_invoice_for_sample' => 'Note: create your first invoice to see a preview here.',
 
-// User Permissions
+    // User Permissions
     'owner' => 'Owner',
     'administrator' => 'Administrator',
     'administrator_help' => 'Allow user to manage users, change settings and modify all records',
@@ -1542,7 +1558,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'november' => 'November',
     'december' => 'December',
 
-// Documents
+    // Documents
     'documents_header' => 'Documents:',
     'email_documents_header' => 'Documents:',
     'email_documents_example_1' => 'Widgets Receipt.pdf',
@@ -1575,7 +1591,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'enable_client_portal_dashboard' => 'Dashboard',
     'enable_client_portal_dashboard_help' => 'Show/hide the dashboard page in the client portal.',
 
-// Plans
+    // Plans
     'account_management' => 'Account Management',
     'plan_status' => 'Plan Status',
 
@@ -1632,7 +1648,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'return_to_app' => 'Return To App',
 
 
-// Payment updates
+    // Payment updates
     'refund_payment' => 'Refund Payment',
     'refund_max' => 'Max:',
     'refund' => 'Refund',
@@ -1701,7 +1717,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'payment_method_removed' => 'Removed payment method.',
     'bank_account_verification_help' => 'We have made two deposits into your account with the description "VERIFICATION". These deposits will take 1-2 business days to appear on your statement. Please enter the amounts below.',
     'bank_account_verification_next_steps' => 'We have made two deposits into your account with the description "VERIFICATION". These deposits will take 1-2 business days to appear on your statement.
-Once you have the amounts, come back to this payment methods page and click "Complete Verification" next to the account.',
+    Once you have the amounts, come back to this payment methods page and click "Complete Verification" next to the account.',
     'unknown_bank' => 'Unknown Bank',
     'ach_verification_delay_help' => 'You will be able to use the account after completing verification. Verification usually takes 1-2 business days.',
     'add_credit_card' => 'Add Credit Card',
@@ -1749,7 +1765,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'ofx_file' => 'OFX File',
     'ofx_parse_failed' => 'Failed to parse OFX file',
 
-// WePay
+    // WePay
     'wepay' => 'WePay',
     'sign_up_with_wepay' => 'Sign up with WePay',
     'use_another_provider' => 'Use another provider',
@@ -1831,7 +1847,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'manual_entry' => 'Manual entry',
     'start_of_week' => 'First Day of the Week',
 
-// Frequencies
+    // Frequencies
     'freq_inactive' => 'Inactive',
     'freq_daily' => 'Daily',
     'freq_weekly' => 'Weekly',
@@ -1845,7 +1861,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'freq_annually' => 'Annually',
     'freq_two_years' => 'Two years',
 
-// Payment types
+    // Payment types
     'payment_type_Apply Credit' => 'Apply Credit',
     'payment_type_Bank Transfer' => 'Bank Transfer',
     'payment_type_Cash' => 'Cash',
@@ -1878,7 +1894,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'payment_type_GoCardless' => 'GoCardless',
     'select_payment_type' => 'Select Payment Type',
 
-// Industries
+    // Industries
     'industry_Accounting & Legal' => 'Accounting & Legal',
     'industry_Advertising' => 'Advertising',
     'industry_Aerospace' => 'Aerospace',
@@ -1912,7 +1928,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'industry_Others' => 'Other',
     'industry_Photography' => 'Photography',
 
-// Countries
+    // Countries
     'country_Afghanistan' => 'Afghanistan',
     'country_Albania' => 'Albania',
     'country_Antarctica' => 'Antarctica',
@@ -2163,7 +2179,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'country_Yemen' => 'Yemen',
     'country_Zambia' => 'Zambia',
 
-// Languages
+    // Languages
     'lang_Brazilian Portuguese' => 'Brazilian Portuguese',
     'lang_Croatian' => 'Croatian',
     'lang_Czech' => 'Czech',
@@ -2196,7 +2212,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'lang_Chinese - Taiwan' => 'Chinese - Taiwan',
     'lang_Serbian' => 'Serbian',
 
-// Industries
+    // Industries
     'industry_Accounting & Legal' => 'Accounting & Legal',
     'industry_Advertising' => 'Advertising',
     'industry_Aerospace' => 'Aerospace',
@@ -2332,7 +2348,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'total_expenses' => 'Total Expenses',
     'quote_to' => 'Quote to',
 
-// Limits
+    // Limits
     'limit' => 'Limit',
     'min_limit' => 'Min: :min',
     'max_limit' => 'Max: :max',
@@ -2406,11 +2422,11 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'authorization' => 'Authorization',
     'signed' => 'Signed',
 
-// BlueVine
+    // BlueVine
     'bluevine_promo' => 'Get flexible business lines of credit and invoice factoring using BlueVine.',
     'bluevine_modal_label' => 'Sign up with BlueVine',
     'bluevine_modal_text' => '<h3>Fast funding for your business. No paperwork.</h3>
-<ul><li>Flexible business lines of credit and invoice factoring.</li></ul>',
+    <ul><li>Flexible business lines of credit and invoice factoring.</li></ul>',
     'bluevine_create_account' => 'Create an account',
     'quote_types' => 'Get a quote for',
     'invoice_factoring' => 'Invoice factoring',
@@ -2531,7 +2547,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'domain' => 'Domain',
     'domain_help' => 'Used in the client portal and when sending emails.',
     'domain_help_website' => 'Used when sending emails.',
-//    'preview' => 'Preview',
+    //    'preview' => 'Preview',
     'preview' => 'Attachment',
     'import_invoices' => 'Import Invoices',
     'new_report' => 'New Report',
@@ -2575,7 +2591,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'reports_help' => 'Shift + Click to sort by multiple columns, Ctrl + Click to clear the grouping.',
     'this_year' => 'This Year',
 
-// Updated login screen
+    // Updated login screen
     'tag_line' => 'Ultimate care for your business',
     'login_or_existing' => 'Or login with a connected account.',
     'sign_up_now' => 'Sign Up Now',
@@ -2583,7 +2599,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'login_create_an_account' => 'Create an Account!',
     'client_login' => 'Client Login',
 
-// New Client Portal styling
+    // New Client Portal styling
     'invoice_from' => 'Invoices From:',
     'email_alias_message' => 'We require each company to have a unique email address.<br/>Consider using an alias. ie, email+label@example.com',
     'month_year' => 'MONTH/YEAR',
@@ -3076,7 +3092,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'archived_subscription' => 'Successfully archived subscription',
     'project_error_multiple_clients' => 'The projects can\'t belong to different clients',
     'invoice_project' => 'Invoice Project',
-//    modules list
+    //    modules list
     'module_recurring_invoice' => 'Recurring Invoices',
     'module_credit' => 'Credits',
     'module_quote' => 'Quotes & Proposals',

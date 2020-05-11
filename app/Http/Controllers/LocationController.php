@@ -149,7 +149,7 @@ class LocationController extends BaseController
             foreach ($locations as $location) {
                 $data[] = $location->location_key;
             }
-            return redirect("invoices/create")->with('selectedLocations', $data);
+            return redirect("invoices/create")->with('locations', $data);
         } else {
             $count = $this->locationService->bulk($ids, $action);
         }

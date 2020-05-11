@@ -260,6 +260,11 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
     Route::get('api/statuses', 'StatusController@getDatatable');
     Route::resource('statuses', 'StatusController');
     Route::post('statuses/bulk', 'StatusController@bulk');
+    //  manufacturer
+    Route::get('manufacturers/{manufacturers}/clone', 'ManufacturerController@cloneManufacturer');
+    Route::get('api/manufacturers', 'ManufacturerController@getDatatable');
+    Route::resource('manufacturers', 'ManufacturerController');
+    Route::post('manufacturers/bulk', 'ManufacturerController@bulk');
 //  product
     Route::get('products/{products}/clone', 'ProductController@cloneProduct');
     Route::get('api/products', 'ProductController@getDatatable');

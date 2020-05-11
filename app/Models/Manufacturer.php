@@ -16,6 +16,9 @@ class Manufacturer extends EntityModel
 
     protected $fillable = [
         'name',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     protected $table = 'manufacturers';

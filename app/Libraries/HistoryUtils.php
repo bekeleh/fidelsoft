@@ -4,7 +4,7 @@ namespace App\Libraries;
 
 use App\Models\Activity;
 use App\Models\EntityModel;
-use Session;
+use Illuminate\Support\Facades\Session;
 use stdClass;
 
 class HistoryUtils
@@ -54,7 +54,7 @@ class HistoryUtils
                 $entity = $activity->client;
             } elseif ($activity->activity_type_id == ACTIVITY_TYPE_CREATE_TASK || $activity->activity_type_id == ACTIVITY_TYPE_UPDATE_TASK) {
                 $entity = $activity->task;
-                if (! $entity) {
+                if (!$entity) {
                     continue;
                 }
                 $entity->setRelation('client', $activity->client);
@@ -66,13 +66,13 @@ class HistoryUtils
                 }
             } elseif ($activity->activity_type_id == ACTIVITY_TYPE_CREATE_EXPENSE || $activity->activity_type_id == ACTIVITY_TYPE_UPDATE_EXPENSE) {
                 $entity = $activity->expense;
-                if (! $entity) {
+                if (!$entity) {
                     continue;
                 }
                 $entity->setRelation('client', $activity->client);
             } else {
                 $entity = $activity->invoice;
-                if (! $entity) {
+                if (!$entity) {
                     continue;
                 }
                 $entity->setRelation('client', $activity->client);
@@ -88,7 +88,7 @@ class HistoryUtils
         $accountHistory = isset($history[$entity->account_id]) ? $history[$entity->account_id] : [];
         $remove = [];
 
-        for ($i=0; $i<count($accountHistory); $i++) {
+        for ($i = 0; $i < count($accountHistory); $i++) {
             $item = $accountHistory[$i];
             if ($entity->equalTo($item)) {
                 $remove[] = $i;
@@ -97,7 +97,7 @@ class HistoryUtils
             }
         }
 
-        for ($i=count($remove) - 1; $i>=0; $i--) {
+        for ($i = count($remove) - 1; $i >= 0; $i--) {
             array_splice($history[$entity->account_id], $remove[$i], 1);
         }
 
@@ -118,7 +118,7 @@ class HistoryUtils
             //ENTITY_RECURRING_EXPENSE,
         ];
 
-        if (! in_array($entityType, $trackedTypes)) {
+        if (!in_array($entityType, $trackedTypes)) {
             return;
         }
 
@@ -188,6 +188,7 @@ class HistoryUtils
 
     public static function renderHtml($accountId)
     {
+        dd($accountId);
         $lastClientId = false;
         $clientMap = [];
         $str = '';

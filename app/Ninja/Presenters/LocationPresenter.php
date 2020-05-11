@@ -42,7 +42,7 @@ class LocationPresenter extends EntityPresenter
             }
             $actions[] = ['url' => 'javascript:submitAction("archive")', 'label' => trans("texts.archive_location")];
         } else {
-            $actions[] = ['url' => 'javascript:submitAction("relocation")', 'label' => trans("texts.relocation_location")];
+            $actions[] = ['url' => 'javascript:submitAction("relocation")', 'label' => trans("texts.restore_location")];
         }
         if (!$location->is_deleted) {
             $actions[] = ['url' => 'javascript:onDeleteClick()', 'label' => trans("texts.delete_location")];

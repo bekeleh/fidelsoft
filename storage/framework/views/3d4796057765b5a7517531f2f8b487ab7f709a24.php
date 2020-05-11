@@ -4,10 +4,12 @@
         <style type="text/css">
             .nav-footer {
                 <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?>
-                                                          background-color: #50C878 !important;
+                                                            background-color: #50C878 !important;
                 <?php else: ?>
-                                                          background-color: #FD6A02 !important;
+                                                            background-color: #FD6A02 !important;
             <?php endif; ?>
+
+
 
 
 
@@ -371,6 +373,7 @@
                 'tasks' => false,
                 'expenses' => false,
                 'vendors' => false,
+                'manufacturers' => false,
                 'reports' => false,
                 'settings' => false,
                 ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -400,7 +403,7 @@
                 'projects',
                 'tasks',
                 'expenses',
-
+                'manufacturers',
                 ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <?php if(!Auth::user()->account->isModuleEnabled(substr($option, 0, -1))): ?>
                         <?php echo e(''); ?>
@@ -424,12 +427,11 @@
             </ul>
         </div>
         <!-- /#left-sidebar-wrapper -->
-        <div id="right-sidebar-wrapper" class="hide-phone" style="overflow-y:hidden">
-            <ul class="sidebar-nav <?php echo e(Auth::user()->dark_mode ? 'sidebar-nav-dark' : 'sidebar-nav-light'); ?>">
-                <?php echo \App\Libraries\HistoryUtils::renderHtml(Auth::user()->account_id); ?>
 
-            </ul>
-        </div>
+
+
+
+
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="container-fluid">

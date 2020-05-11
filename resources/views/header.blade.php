@@ -5,10 +5,13 @@
         <style type="text/css">
             .nav-footer {
                 @if (config('mail.driver') == 'log' && ! config('services.postmark'))
-                                                          background-color: #50C878 !important;
+                                                             background-color: #50C878 !important;
                 @else
-                                                          background-color: #FD6A02 !important;
+                                                             background-color: #FD6A02 !important;
             @endif
+
+
+
 
 
 
@@ -363,6 +366,7 @@
                 'tasks' => false,
                 'expenses' => false,
                 'vendors' => false,
+                'manufacturers' => false,
                 'reports' => false,
                 'settings' => false,
                 ] as $key => $value)
@@ -391,7 +395,7 @@
                 'projects',
                 'tasks',
                 'expenses',
-
+                'manufacturers',
                 ] as $option)
                     @if(!Auth::user()->account->isModuleEnabled(substr($option, 0, -1)))
                         {{ '' }}
