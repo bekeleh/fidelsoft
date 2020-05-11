@@ -3,6 +3,23 @@
 $LANG = array(
     /*
     |--------------------------------------------------------------------------
+    | schedule  trans
+    |--------------------------------------------------------------------------
+    */
+    'schedule_name' => 'Schedule Name',
+    'schedules' => 'Schedules',
+    'schedule_list' => 'Schedule List',
+    'archive_schedule' => 'Archive Schedule',
+    'delete_schedule' => 'Delete Schedule',
+    'edit_schedule' => 'Edit Schedule',
+    'clone_schedule' => 'Clone Schedule',
+    'restore_schedule' => 'Restore Schedule',
+    'new_schedule' => 'New Schedule',
+    'created_schedule' => 'Successfully Created Schedule',
+    'updated_schedule' => 'Successfully Updated Schedule',
+    'schedule_help' => 'Sets the default <b>Schedule</b>',
+    /*
+    |--------------------------------------------------------------------------
     | manufacturer  trans
     |--------------------------------------------------------------------------
     */
@@ -2253,6 +2270,7 @@ $LANG = array(
     'selected' => 'Selected',
     'categories' => 'Categories',
     'new_expense_category' => 'New Expense Category',
+    'expense_category_name' => 'Expense Category Name',
     'edit_category' => 'Edit Category',
     'archive_expense_category' => 'Archive Category',
     'expense_categories' => 'Expense Categories',

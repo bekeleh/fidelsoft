@@ -11,15 +11,13 @@
            href="<?php echo e(url('/reports/calendar')); ?>">
             <i class="fa fa-calendar" style="width:20px"></i>
         </a>
-    <?php elseif($option == 'dashboard'): ?>
-
     <?php elseif(Auth::user()->can('create', $option) || Auth::user()->can('create', substr($option, 0, -1))): ?>
         <a type="button" class="btn btn-primary btn-sm pull-right"
            href="<?php echo e(url("/{$option}/create")); ?>">
             <i class="fa fa-plus-circle" style="width:20px" title="<?php echo e(trans('texts.create_new')); ?>"></i>
         </a>
     <?php endif; ?>
-    <a href="<?php echo e(url($option == 'recurring' ? 'recurring_invoice' : $option)); ?>"
+    <a href="<?php echo e(url($option == 'recurring' ? 'recurring_invoices' : $option)); ?>"
        style="padding-top:6px; padding-bottom:6px"
        class="nav-link <?php echo e(Request::is("{$option}*") ? 'active' : ''); ?>">
         <i class="fa fa-<?php echo e(empty($icon) ? \App\Models\EntityModel::getIcon($option) : $icon); ?>"

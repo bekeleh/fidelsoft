@@ -2,7 +2,7 @@
 
 @section('content')
 
-	{!! Former::open($url)
+    {!! Former::open($url)
             ->addClass('col-lg-10 col-lg-offset-1 warn-on-exit')
             ->method($method)
             ->rules([
@@ -17,35 +17,31 @@
         {!! Former::text('public_id') !!}
     </span>
 
-	<div class="row">
+    <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
-
             <div class="panel panel-default">
-            <div class="panel-body">
-
-                {!! Former::text('name') !!}
-
+                <div class="panel-body">
+                    {!! Former::text('name')->label('texts.expense_category_name') !!}
+                    {!! Former::text('notes')->label('texts.notes') !!}
+                </div>
             </div>
-            </div>
-
         </div>
     </div>
 
-
-	<center class="buttons">
+    <center class="buttons">
         {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/expense_categories'))->appendIcon(Icon::create('remove-circle')) !!}
         {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
-		@if ($category && Auth::user()->can('create', ENTITY_EXPENSE))
-	    	{!! Button::primary(trans('texts.new_expense'))->large()
-					->asLinkTo(url("/expenses/create/0/0/{$category->public_id}"))
-					->appendIcon(Icon::create('plus-sign')) !!}
-		@endif
-	</center>
+        @if ($category && Auth::user()->can('create', ENTITY_EXPENSE))
+            {!! Button::primary(trans('texts.new_expense'))->large()
+                    ->asLinkTo(url("/expenses/create/0/0/{$category->public_id}"))
+                    ->appendIcon(Icon::create('plus-sign')) !!}
+        @endif
+    </center>
 
-	{!! Former::close() !!}
+    {!! Former::close() !!}
 
     <script>
-        $(function() {
+        $(function () {
             $('#name').focus();
         });
     </script>

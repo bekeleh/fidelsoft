@@ -63,6 +63,16 @@
         ['label' => trans('texts.new_hold_reason'), 'url' => url('/hold_reasons')],
         ])->split() !!}
     @endif
+@elseif (in_array($entityType, [ENTITY_PAYMENT]))
+    @if (Auth::user()->can('create', [ENTITY_PAYMENT]))
+        {!! DropdownButton::normal(trans('texts.maintenance'))
+        ->withAttributes(['class'=>'maintenanceDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_invoice'), 'url' => url('/invoices')],
+        ['label' => trans('texts.new_quote'), 'url' => url('/quotes')],
+        ['label' => trans('texts.new_client'), 'url' => url('/clients')],
+        ])->split() !!}
+    @endif
 @endif
 <!-- inventory menu -->
 @if (in_array($entityType, [ENTITY_PRODUCT]))

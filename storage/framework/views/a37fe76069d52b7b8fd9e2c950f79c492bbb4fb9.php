@@ -71,6 +71,17 @@
         ])->split(); ?>
 
     <?php endif; ?>
+<?php elseif(in_array($entityType, [ENTITY_PAYMENT])): ?>
+    <?php if(Auth::user()->can('create', [ENTITY_PAYMENT])): ?>
+        <?php echo DropdownButton::normal(trans('texts.maintenance'))
+        ->withAttributes(['class'=>'maintenanceDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_invoice'), 'url' => url('/invoices')],
+        ['label' => trans('texts.new_quote'), 'url' => url('/quotes')],
+        ['label' => trans('texts.new_client'), 'url' => url('/clients')],
+        ])->split(); ?>
+
+    <?php endif; ?>
 <?php endif; ?>
 <!-- inventory menu -->
 <?php if(in_array($entityType, [ENTITY_PRODUCT])): ?>

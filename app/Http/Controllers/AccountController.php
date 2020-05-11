@@ -130,9 +130,13 @@ class AccountController extends BaseController
         return Redirect::to($redirectTo)->with('sign_up', Input::get('sign_up'));
     }
 
-
     public function changePlan()
     {
+        $changePlan = Utils::hasPermission('admin') ?: false;
+
+        if (!$changePlan) {
+            return false;
+        }
         $user = Auth::user();
         $account = $user->account;
         $company = $account->company;

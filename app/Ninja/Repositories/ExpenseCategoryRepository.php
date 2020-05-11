@@ -31,7 +31,7 @@ class ExpenseCategoryRepository extends BaseRepository
             ->where('expense_categories.account_id', '=', $accountId)
 //            ->where('expense_categories.deleted_at', '=', null)
             ->select(
-                'expense_categories.name as category',
+                'expense_categories.name as expense_category_name',
                 'expense_categories.public_id',
                 'expense_categories.user_id',
                 'expense_categories.notes',

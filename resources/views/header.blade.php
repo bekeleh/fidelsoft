@@ -5,10 +5,37 @@
         <style type="text/css">
             .nav-footer {
                 @if (config('mail.driver') == 'log' && ! config('services.postmark'))
-                                                             background-color: #50C878 !important;
+                                                                                        background-color: #50C878 !important;
                 @else
-                                                             background-color: #FD6A02 !important;
+                                                                                        background-color: #FD6A02 !important;
             @endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -358,7 +385,7 @@
                 'locations' => false,
                 'invoices' => false,
                 'payments' => false,
-                'recurring_invoices' => 'recurring',
+                'recurring_invoices' => false,
                 'credits' => false,
                 'quotes' => false,
                 'proposals' => false,
@@ -367,6 +394,7 @@
                 'expenses' => false,
                 'vendors' => false,
                 'manufacturers' => false,
+                'schedules' => false,
                 'reports' => false,
                 'settings' => false,
                 ] as $key => $value)
@@ -380,38 +408,41 @@
         <!-- Sidebar -->
         <div id="left-sidebar-wrapper" class="hide-phone">
             <ul class="sidebar-nav {{ Auth::user()->dark_mode ? 'sidebar-nav-dark' : 'sidebar-nav-light' }}">
-                @foreach([
-                'dashboard',
-                'users',
-                'clients',
-                'vendors',
-                 'products',
-                'invoices',
-                'payments',
-                'recurring_invoices',
-                'credits',
-                'quotes',
-                'proposals',
-                'projects',
-                'tasks',
-                'expenses',
-                'manufacturers',
-                ] as $option)
-                    @if(!Auth::user()->account->isModuleEnabled(substr($option, 0, -1)))
-                        {{ '' }}
-                    @else
-                        @include('partials.navigation_option')
-                    @endif
-                @endforeach
-                @if ( ! Utils::isNinjaProd())
-                    @foreach (Module::collections() as $module)
-                        @includeWhen(empty($module->get('no-sidebar')) || $module->get('no-sidebar') != '1', 'partials.navigation_option', [
-                        'option' => $module->getAlias(),
-                        'icon' => $module->get('icon', 'th-large'),
-                        ])
-                    @endforeach
+            @foreach([
+            'dashboard',
+            'users',
+            'clients',
+            'vendors',
+             'products',
+            'invoices',
+            'payments',
+            'recurring_invoices' => 'recurring',
+            'credits',
+            'quotes',
+            'proposals',
+            'projects',
+            'tasks',
+             'schedules',
+            'expenses',
+            'manufacturers',
+            'settings'
+            ] as $option)
+                @if(!Auth::user()->account->isModuleEnabled(substr($option, 0, -1)))
+                    {{ '' }}
+                @else
+                    @include('partials.navigation_option')
                 @endif
-                @if (Auth::user()->isSuperUser() || Auth::user()->is_admin || Auth::user()->hasAccess('admin') )
+            @endforeach
+            @if ( ! Utils::isNinjaProd())
+                @foreach (Module::collections() as $module)
+                    @includeWhen(empty($module->get('no-sidebar')) || $module->get('no-sidebar') != '1', 'partials.navigation_option', [
+                    'option' => $module->getAlias(),
+                    'icon' => $module->get('icon', 'th-large'),
+                    ])
+                @endforeach
+            @endif
+            <!-- if user is administrator -->
+                @if (Auth::user()->is_admin || Auth::user()->hasAccess('admin') )
                     @include('partials.navigation_option', ['option' => 'reports'])
                     @include('partials.navigation_option', ['option' => 'settings'])
                 @endif

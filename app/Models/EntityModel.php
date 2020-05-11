@@ -383,16 +383,19 @@ class EntityModel extends Eloquent
             'invoices' => 'file-pdf-o',
             'payments' => 'credit-card',
             'recurring_invoices' => 'files-o',
+            'recurring' => 'files-o',
             'recurring_expenses' => 'files-o',
             'credits' => 'credit-card',
             'quotes' => 'file-text-o',
             'proposals' => 'th-large',
             'tasks' => 'clock-o',
+            'schedules' => 'clock-o',
             'expenses' => 'file-image-o',
             'settings' => 'cog',
             'self-update' => 'download',
             'reports' => 'th-list',
             'projects' => 'briefcase',
+            'manufacturers' => 'files-o',
         ];
 
         return array_get($icons, $entityType);
