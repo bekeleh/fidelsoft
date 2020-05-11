@@ -48,6 +48,7 @@ class ClientRepository extends BaseRepository
             ->join('contacts', 'contacts.client_id', '=', 'clients.id')
             ->join('sale_types', 'sale_types.id', '=', 'clients.sale_type_id')
             ->join('hold_reasons', 'hold_reasons.id', '=', 'clients.hold_reason_id')
+            ->where('hold_reasons.allow_invoice', '=', true)
             ->where('clients.account_id', '=', $accountId)
             ->where('contacts.is_primary', '=', true)
 //            ->where('contacts.deleted_at', '=', null)
