@@ -10,33 +10,31 @@
     ->addClass('warn-on-exit'); ?>
 
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title"><?php echo $title; ?></h3>
+        <div class="panel-heading" style="color:white;background-color: #777 !important;">
+            <h3 class="panel-title in-bold-white"><?php echo $title; ?></h3>
         </div>
         <div class="row">
             <div class="col-lg-10 col-lg-offset-1">
-                <div class="panel panel-default">
-                    <div class="panel-body form-padding-right">
-                        <?php if($taxRate): ?>
-                            <?php echo e(Former::populate($taxRate)); ?>
+                <div class="panel-body form-padding-right">
+                    <?php if($taxRate): ?>
+                        <?php echo e(Former::populate($taxRate)); ?>
 
-                            <?php echo e(Former::populateField('is_inclusive', intval($taxRate->is_inclusive))); ?>
+                        <?php echo e(Former::populateField('is_inclusive', intval($taxRate->is_inclusive))); ?>
 
-                        <?php endif; ?>
-                        <?php echo Former::text('name')->label('texts.tax_rate_name'); ?>
+                    <?php endif; ?>
+                    <?php echo Former::text('name')->label('texts.tax_rate_name'); ?>
 
-                        <?php echo Former::text('rate')->label('texts.rate')->append('%'); ?>
+                    <?php echo Former::text('rate')->label('texts.rate')->append('%'); ?>
 
-                        
-                        <?php echo Former::radios('is_inclusive')->radios([
-                        trans('texts.exclusive') . ': 100 + 10% = 100 + 10' => array('name' => 'is_inclusive', 'value' => 0),
-                        trans('texts.inclusive') . ':&nbsp; 100 + 10% = 90.91 + 9.09' => array('name' => 'is_inclusive', 'value' => 1),
-                        ])->check(0)
-                        ->label('type')
-                        ->help('tax_rate_type_help'); ?>
+                    
+                    <?php echo Former::radios('is_inclusive')->radios([
+                    trans('texts.exclusive') . ': 100 + 10% = 100 + 10' => array('name' => 'is_inclusive', 'value' => 0),
+                    trans('texts.inclusive') . ':&nbsp; 100 + 10% = 90.91 + 9.09' => array('name' => 'is_inclusive', 'value' => 1),
+                    ])->check(0)
+                    ->label('type')
+                    ->help('tax_rate_type_help'); ?>
 
-                        
-                    </div>
+                    
                 </div>
             </div>
         </div>

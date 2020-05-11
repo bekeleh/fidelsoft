@@ -11,8 +11,9 @@
     {{ Former::populateField('include_item_taxes_inline', intval($account->include_item_taxes_inline)) }}
     {{ Former::populateField('inclusive_taxes', intval($account->inclusive_taxes)) }}
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">{!! trans('texts.tax_settings') !!}</h3>
+        <div class="panel-heading" style="color:white;background-color: #777 !important;">
+            <h3 class="panel-title in-bold-white">
+                {!! trans('texts.tax_settings') !!}</h3>
         </div>
         <div class="panel-body">
             {!! Former::checkbox('invoice_taxes')

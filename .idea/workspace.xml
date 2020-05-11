@@ -2,22 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/Ln0VM99xXz8jD3PPvDac6FyTSZKUEIisMgQndk3h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/jZymnONdA2e4N4OM9bsZCBB9bEgI6ZBXkEq7uLjV" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/1ebec9e83e6d5ce70a5e1d59d733fa56ec0f0cd5.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/d207f5b998fcc0a089e86df9e1b9c92859a72f03.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/companies/details.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/companies/details.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/payments/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/payments/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/payments/payment_method.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/payments/payment_method.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/6teUX6N2S64UULYtGIuSZOxEFenvm0fVEWMtGWHk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/LHKaPeRYnUyfkQSRBKaJrDPYz2iiH8JdnR26Ic7B" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/X29Mbml7l0gYqXjPEnRCkJ70S8Wm2Uw6YfCB4zqo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/j4JkfPo1A14diEjRY73q3YudWyhFgQaZsJlPrYwF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/lRV6ZaoM1aWeD6WIzuqhGSVTcgrJerARa7lvV0Om" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/2716ccdc7649fdb21982806d1299aa7327752514.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/2716ccdc7649fdb21982806d1299aa7327752514.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/92c3fe269471bf3f6566addf60ae50c9bd963629.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/92c3fe269471bf3f6566addf60ae50c9bd963629.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/tax_rates/tax_rate.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/tax_rates/tax_rate.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/tax_rates/tax_rates.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/tax_rates/tax_rates.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/jZymnONdA2e4N4OM9bsZCBB9bEgI6ZBXkEq7uLjV" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/jZymnONdA2e4N4OM9bsZCBB9bEgI6ZBXkEq7uLjV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/15ecb4316db454149aaaeabf44a82ff2b579fcde.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/15ecb4316db454149aaaeabf44a82ff2b579fcde.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/34dafef1ed38f38ab3b632ae3ac0bf55ac3cc082.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/34dafef1ed38f38ab3b632ae3ac0bf55ac3cc082.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -406,14 +396,7 @@
       <workItem from="1588922905848" duration="6432000" />
       <workItem from="1588942391569" duration="2647000" />
       <workItem from="1588957261967" duration="9739000" />
-      <workItem from="1589183639300" duration="997000" />
-    </task>
-    <task id="LOCAL-00202" summary="2020-04-29 9:26">
-      <created>1588168039174</created>
-      <option name="number" value="00202" />
-      <option name="presentableId" value="LOCAL-00202" />
-      <option name="project" value="LOCAL" />
-      <updated>1588168039174</updated>
+      <workItem from="1589183639300" duration="1508000" />
     </task>
     <task id="LOCAL-00203" summary="2020-04-29 9:26">
       <created>1588168580372</created>
@@ -751,7 +734,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589183902974</updated>
     </task>
-    <option name="localTasksCounter" value="251" />
+    <task id="LOCAL-00251" summary="2020-05-11 9:26">
+      <created>1589184662682</created>
+      <option name="number" value="00251" />
+      <option name="presentableId" value="LOCAL-00251" />
+      <option name="project" value="LOCAL" />
+      <updated>1589184662682</updated>
+    </task>
+    <option name="localTasksCounter" value="252" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -828,10 +818,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1587939377952" />
-    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1589183901242">
+    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1589184661101">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1589183901242" />
+    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1589184661101" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="444" y="140" key="FileChooserDialogImpl" timestamp="1588865901098">
