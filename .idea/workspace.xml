@@ -2,25 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/26Y8obY8paPCMT9Jrzx2lTGNQ3LxBagSeCEA5Rds" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AccountController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AccountController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/RecurringInvoiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/RecurringInvoiceController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/EntityModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/EntityModel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/ExpenseCategoryDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/ExpenseCategoryDatatable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/ExpenseCategoryRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/ExpenseCategoryRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/ClientRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/ClientRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/expense_categories/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/expense_categories/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/header.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/menu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/menu.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/partials/navigation_option.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/partials/navigation_option.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/Ln0VM99xXz8jD3PPvDac6FyTSZKUEIisMgQndk3h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/26Y8obY8paPCMT9Jrzx2lTGNQ3LxBagSeCEA5Rds" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/26Y8obY8paPCMT9Jrzx2lTGNQ3LxBagSeCEA5Rds" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/sessions/xH0e2Ctf1th4LvalzSzsSEXXoFeqPTeCgaL9eLR9" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/xH0e2Ctf1th4LvalzSzsSEXXoFeqPTeCgaL9eLR9" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/0edeeb76b855f3844339ae2de31576108b89ac80.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/0edeeb76b855f3844339ae2de31576108b89ac80.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/3d4796057765b5a7517531f2f8b487ab7f709a24.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/3d4796057765b5a7517531f2f8b487ab7f709a24.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/77cff8268ccf09519cd8515352e69c3bc16767dd.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/77cff8268ccf09519cd8515352e69c3bc16767dd.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/a37fe76069d52b7b8fd9e2c950f79c492bbb4fb9.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/a37fe76069d52b7b8fd9e2c950f79c492bbb4fb9.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/04745a3998bf277d4e038fb6af6db06b785cddc5.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/04745a3998bf277d4e038fb6af6db06b785cddc5.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -260,10 +250,10 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/manufacturers" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="terminal" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -409,14 +399,8 @@
       <workItem from="1588922905848" duration="6432000" />
       <workItem from="1588942391569" duration="2647000" />
       <workItem from="1588957261967" duration="9739000" />
-      <workItem from="1589183639300" duration="30264000" />
-    </task>
-    <task id="LOCAL-00212" summary="2020-05-1 9:26">
-      <created>1588361343195</created>
-      <option name="number" value="00212" />
-      <option name="presentableId" value="LOCAL-00212" />
-      <option name="project" value="LOCAL" />
-      <updated>1588361343195</updated>
+      <workItem from="1589183639300" duration="31769000" />
+      <workItem from="1589308309558" duration="904000" />
     </task>
     <task id="LOCAL-00213" summary="2020-05-2 9:26">
       <created>1588456675625</created>
@@ -754,7 +738,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589214169080</updated>
     </task>
-    <option name="localTasksCounter" value="261" />
+    <task id="LOCAL-00261" summary="2020-05-11 9:26">
+      <created>1589218605275</created>
+      <option name="number" value="00261" />
+      <option name="presentableId" value="LOCAL-00261" />
+      <option name="project" value="LOCAL" />
+      <updated>1589218605275</updated>
+    </task>
+    <option name="localTasksCounter" value="262" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -831,16 +822,16 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1587939377952" />
-    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1589214167383">
+    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1589309262103">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1589214167383" />
+    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1589309262103" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
-    <state x="444" y="140" key="FileChooserDialogImpl" timestamp="1588865901098">
+    <state x="444" y="140" key="FileChooserDialogImpl" timestamp="1589308466844">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="444" y="140" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1588865901098" />
+    <state x="444" y="140" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1589308466844" />
     <state x="500" y="177" key="FileChooserDialogImpl/0.0.1440.860@0.0.1440.860" timestamp="1584881689405" />
     <state width="1397" height="222" key="GridCell.Tab.0.bottom" timestamp="1582731316355">
       <screen x="0" y="0" width="1440" height="860" />
@@ -877,10 +868,10 @@
     <state x="456" y="157" key="NewPhpFileDialog/0.0.1280.680@0.0.1280.680" timestamp="1589209352284" />
     <state x="447" y="189" key="NewPhpFileDialog/0.0.1366.728@0.0.1366.728" timestamp="1586116260809" />
     <state x="471" y="223" key="NewPhpFileDialog/0.0.1440.860@0.0.1440.860" timestamp="1585320200513" />
-    <state x="197" y="0" key="SettingsEditor" timestamp="1588618032920">
+    <state x="197" y="0" key="SettingsEditor" timestamp="1589308614029">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="197" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1588618032920" />
+    <state x="197" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1589308614029" />
     <state x="210" y="14" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1585946296100" />
     <state x="221" y="73" key="SettingsEditor/0.0.1440.860@0.0.1440.860" timestamp="1584008816522" />
     <state x="296" y="138" key="Vcs.Push.Dialog.v2" timestamp="1586200886074">
@@ -888,20 +879,20 @@
     </state>
     <state x="296" y="138" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1586200886074" />
     <state x="312" y="163" key="Vcs.Push.Dialog.v2/0.0.1440.860@0.0.1440.860" timestamp="1585235941756" />
-    <state x="421" y="115" key="com.intellij.ide.util.TipDialog" timestamp="1589183644141">
+    <state x="421" y="115" key="com.intellij.ide.util.TipDialog" timestamp="1589308310938">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="421" y="115" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1589183644141" />
+    <state x="421" y="115" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1589308310938" />
     <state x="408" y="139" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1586189894452" />
     <state x="430" y="164" key="com.intellij.ide.util.TipDialog/0.0.1440.860@0.0.1440.860" timestamp="1586154234151" />
     <state x="303" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1587324145930">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="303" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1280.680@0.0.1280.680" timestamp="1587324145930" />
-    <state x="191" y="55" width="906" height="606" key="find.popup" timestamp="1589212690561">
+    <state x="191" y="55" width="906" height="606" key="find.popup" timestamp="1589218676915">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="191" y="55" width="906" height="606" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1589212690561" />
+    <state x="191" y="55" width="906" height="606" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1589218676915" />
     <state x="316" y="37" width="983" height="691" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1586115855044" />
     <state x="215" y="69" width="849" height="606" key="find.popup/0.0.1440.860@0.0.1440.860" timestamp="1586178664001" />
     <state x="462" y="222" key="git4idea.merge.GitPullDialog" timestamp="1584633875966">

@@ -605,6 +605,7 @@ $LANG = array(
     'archive_payment' => 'Archive Payment',
     'delete_payment' => 'Delete Payment',
     'archive_credit' => 'Archive Credit',
+    'clone_credit' => 'Clone Credit',
     'delete_credit' => 'Delete Credit',
     'show_archived_deleted' => 'Show archived/deleted',
     'filter' => 'Filter',
@@ -1561,7 +1562,7 @@ $LANG = array(
     'view_all_help' => 'Allow user to view records they didn\'t create',
     'edit_all_help' => 'Allow user to modify records they didn\'t create',
     'view_payment' => 'View Payment',
-    'clone_payment' => 'View Clone',
+    'clone_payment' => 'Clone Payment',
 
     'january' => 'January',
     'february' => 'February',

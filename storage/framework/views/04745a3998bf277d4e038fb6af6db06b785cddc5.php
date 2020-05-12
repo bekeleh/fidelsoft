@@ -11,7 +11,6 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
-
     <?php echo Former::open($url)
     ->addClass('col-lg-10 col-lg-offset-1 warn-on-exit main-form')
     ->onsubmit('return onFormSubmit(event)')
@@ -43,10 +42,8 @@
 </span>
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
-
             <div class="panel panel-default">
                 <div class="panel-body">
-
                     <?php if($payment): ?>
                         <?php echo Former::plaintext()->label('client')->value($payment->client->present()->link); ?>
 

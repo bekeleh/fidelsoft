@@ -80,13 +80,13 @@ class ClientRepository extends BaseRepository
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
-                $query->where('client_name.name', 'like', '%' . $filter . '%')
+                $query->where('clients.name', 'like', '%' . $filter . '%')
                     ->orWhere('clients.id_number', 'like', '%' . $filter . '%')
                     ->orWhere('contacts.first_name', 'like', '%' . $filter . '%')
                     ->orWhere('contacts.last_name', 'like', '%' . $filter . '%')
                     ->orWhere('contacts.email', 'like', '%' . $filter . '%')
-                    ->orWhere('sale_type_name.name', 'like', '%' . $filter . '%')
-                    ->orWhere('hold_reason_name.name', 'like', '%' . $filter . '%');
+                    ->orWhere('sale_types.name', 'like', '%' . $filter . '%')
+                    ->orWhere('hold_reasons.name', 'like', '%' . $filter . '%');
             });
         }
 
