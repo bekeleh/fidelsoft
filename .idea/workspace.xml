@@ -2,15 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/ClientRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/ClientRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/26Y8obY8paPCMT9Jrzx2lTGNQ3LxBagSeCEA5Rds" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/26Y8obY8paPCMT9Jrzx2lTGNQ3LxBagSeCEA5Rds" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/xH0e2Ctf1th4LvalzSzsSEXXoFeqPTeCgaL9eLR9" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/xH0e2Ctf1th4LvalzSzsSEXXoFeqPTeCgaL9eLR9" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/04745a3998bf277d4e038fb6af6db06b785cddc5.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/04745a3998bf277d4e038fb6af6db06b785cddc5.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/menu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/menu.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/26Y8obY8paPCMT9Jrzx2lTGNQ3LxBagSeCEA5Rds" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/xH0e2Ctf1th4LvalzSzsSEXXoFeqPTeCgaL9eLR9" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -400,14 +396,7 @@
       <workItem from="1588942391569" duration="2647000" />
       <workItem from="1588957261967" duration="9739000" />
       <workItem from="1589183639300" duration="31769000" />
-      <workItem from="1589308309558" duration="904000" />
-    </task>
-    <task id="LOCAL-00213" summary="2020-05-2 9:26">
-      <created>1588456675625</created>
-      <option name="number" value="00213" />
-      <option name="presentableId" value="LOCAL-00213" />
-      <option name="project" value="LOCAL" />
-      <updated>1588456675626</updated>
+      <workItem from="1589308309558" duration="2118000" />
     </task>
     <task id="LOCAL-00214" summary="2020-05-2 9:26">
       <created>1588463500046</created>
@@ -745,7 +734,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589218605275</updated>
     </task>
-    <option name="localTasksCounter" value="262" />
+    <task id="LOCAL-00262" summary="2020-05-12 9:26">
+      <created>1589309301841</created>
+      <option name="number" value="00262" />
+      <option name="presentableId" value="LOCAL-00262" />
+      <option name="project" value="LOCAL" />
+      <updated>1589309301842</updated>
+    </task>
+    <option name="localTasksCounter" value="263" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -755,7 +751,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="2020-04-4 10:35" />
     <MESSAGE value="2020-04-05 10:13" />
     <MESSAGE value="2020-04-06 10:13" />
     <MESSAGE value="2020-04-06 9:26" />
@@ -780,7 +775,8 @@
     <MESSAGE value="2020-05-08 9:26" />
     <MESSAGE value="2020-05-09 9:26" />
     <MESSAGE value="2020-05-11 9:26" />
-    <option name="LAST_COMMIT_MESSAGE" value="2020-05-11 9:26" />
+    <MESSAGE value="2020-05-12 9:26" />
+    <option name="LAST_COMMIT_MESSAGE" value="2020-05-12 9:26" />
   </component>
   <component name="WindowStateProjectService">
     <state x="312" y="89" key="#Notifications" timestamp="1584513656594">
