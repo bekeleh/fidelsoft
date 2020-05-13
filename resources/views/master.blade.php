@@ -5,12 +5,11 @@
 
     @if (!auth()->check())
         <title>{{ trans('texts.client_portal') }}</title>
-        {{--        <link href="{{ asset('ic_cloud_circle.png') }}" rel="shortcut icon" type="image/png">--}}
+        <link href="{{ asset('logo.png') }}" rel="shortcut icon" type="image/png">
     @else
         <title>{{ isset($title) ? ($title . ' | '. trans('texts.team_source')) : ('E-Ninja Plus ERP' ) }}</title>
         <meta name="description" content="{{ isset($description) ? $description : trans('texts.app_description') }}"/>
-
-        {{--        <link href="{{ asset('favicon123.gif') }}" rel="shortcut icon" type="image/gif">--}}
+        <link href="{{ asset('logo.gif') }}" rel="shortcut icon" type="image/gif">
         <meta property="og:site_name" content="E-Ninja Plus ERP"/>
         <meta property="og:url" content="{{ SITE_URL }}"/>
         <meta property="og:title" content="E-Ninja Plus ERP"/>

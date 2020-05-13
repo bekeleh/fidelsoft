@@ -47,7 +47,7 @@
         <?php endif; ?>
 
         <div>
-            <?php echo Former::text('username')->placeholder(trans('texts.username'))->raw(); ?>
+            <?php echo Former::text('username')->placeholder(trans('texts.username_place_holder'))->raw(); ?>
 
             <?php echo Former::password('password')->placeholder(trans('texts.password'))->raw(); ?>
 

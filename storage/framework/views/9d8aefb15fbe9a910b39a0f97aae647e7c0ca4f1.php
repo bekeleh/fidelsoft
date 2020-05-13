@@ -5,12 +5,11 @@
 
     <?php if(!auth()->check()): ?>
         <title><?php echo e(trans('texts.client_portal')); ?></title>
-        
+        <link href="<?php echo e(asset('logo.png')); ?>" rel="shortcut icon" type="image/png">
     <?php else: ?>
         <title><?php echo e(isset($title) ? ($title . ' | '. trans('texts.team_source')) : ('E-Ninja Plus ERP' )); ?></title>
         <meta name="description" content="<?php echo e(isset($description) ? $description : trans('texts.app_description')); ?>"/>
-
-        
+        <link href="<?php echo e(asset('logo.gif')); ?>" rel="shortcut icon" type="image/gif">
         <meta property="og:site_name" content="E-Ninja Plus ERP"/>
         <meta property="og:url" content="<?php echo e(SITE_URL); ?>"/>
         <meta property="og:title" content="E-Ninja Plus ERP"/>

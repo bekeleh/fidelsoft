@@ -11195,9 +11195,9 @@ wysihtml5.commands.insertHTML = {
          *
          * @example
          *    // either ...
-         *    wysihtml5.commands.insertImage.exec(composer, "insertImage", "http://www.google.de/logo.jpg");
+         *    wysihtml5.commands.insertImage.exec(composer, "insertImage", "http://www.google.de/logo.png");
          *    // ... or ...
-         *    wysihtml5.commands.insertImage.exec(composer, "insertImage", { src: "http://www.google.de/logo.jpg", title: "foo" });
+         *    wysihtml5.commands.insertImage.exec(composer, "insertImage", { src: "http://www.google.de/logo.png", title: "foo" });
          */
         exec: function (composer, command, value) {
             value = typeof (value) === "object" ? value : {src: value};

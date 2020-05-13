@@ -43,7 +43,7 @@
         @endif
 
         <div>
-            {!! Former::text('username')->placeholder(trans('texts.username'))->raw() !!}
+            {!! Former::text('username')->placeholder(trans('texts.username_place_holder'))->raw() !!}
             {!! Former::password('password')->placeholder(trans('texts.password'))->raw() !!}
         </div>
 

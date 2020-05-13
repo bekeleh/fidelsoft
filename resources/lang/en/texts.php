@@ -116,6 +116,7 @@ $LANG = array(
     'confirmed' => 'Confirmed',
     'activated' => 'Activated',
     'updated_user_permission' => 'Successfully Updated User Permission',
+    'username_place_holder' => 'Username or email',
 
     /*
     |--------------------------------------------------------------------------
