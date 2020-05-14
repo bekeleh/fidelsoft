@@ -2,56 +2,47 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/xMWl7DY9Pjs56OYZi9X7WqEmWDwF4SryG4xeEZ0q" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/css/.htaccess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/fonts/.htaccess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/.htaccess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/credit_cards/.htaccess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/designs/.htaccess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/emails/.htaccess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/gateways/.htaccess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/lightbox/.htaccess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/pro_plan/.htaccess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/social/.htaccess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/.htaccess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/cache/HTML/4.12.0,42d2529d2d2aa4f137a4d6d6292a92e3ee82eb86,1.ser" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/kbifZESaw4SMyfq5SD0k2wQ72YEH5ByXJjFLQMbv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/0956fb495b4b6ea7f0889278248b8c30b2698808.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/2716ccdc7649fdb21982806d1299aa7327752514.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/68be9361ace2260e63a63d0db144d889104c1cd9.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/6dcd1d5f1aa14ef39e4fff36c9391dd760543946.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/72a1f99ea07329e97b538913d01038f2b575eefd.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/75e11237401b8cf0f4c007b2e3d61ed170cb05c8.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/86615bc9a6acc99db245c889510ff1ee3b78782f.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/a37fe76069d52b7b8fd9e2c950f79c492bbb4fb9.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/ab409e5dc6346ea88348aeb65121486025dfad94.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/b188f4bf176bb484b1a7a2ff448a0d292f253d58.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/b333d68d8131407c1a83803c03303577f0efa06a.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/bde6e4d84a93a1d5c3f3b3d6339314a2e8095126.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/c7a35e3db127bbc14744963fc723e20043f97bff.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/c9e0f6f4159b676ba8afbee550091bc69d48cab4.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/cf32b45de7e49e7683cae2c79b2aa6cb2da88c16.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/e50726394fb96b33e7a3fe023a9d5f8ff5a4dff4.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/favicon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/footer-logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/icon-login.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/icon-login.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/icon-login@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/icon-login@2x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/report_logo11.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/report_logo2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/report_logo2.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/report_logo3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/report_logo3.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/report_logo3.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/cache/04/08/0408b827b5d0ab03ed0d2d5d3aa9ea6910e3209e" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/cache/10/12/1012a26fa00c33f1fcfd81765662503bf73a04b1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/cache/1e/76/1e76e5f6e6931c61358b693276d322c6938a0ca8" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/cache/4d/1c/4d1c9064b26ac53645286bdecd392fa851c36511" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/cache/4d/1c/4d1c9064b26ac53645286bdecd392fa851c36511" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/cache/51/15/511542f678f1a9307c9be5f839be983a4080c7db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/cache/5c/78/5c785c036466adea360111aa28563bfd556b5fba" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/cache/83/00/8300fe4659de512e5c44925284fa82ccfcd33f9e" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/cache/83/00/8300fe4659de512e5c44925284fa82ccfcd33f9e" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/cache/86/35/8635b478167312806d2fa1e0134aa4ffb1925d28" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/cache/8b/1f/8b1f5ff8401b995b0f99ccc37e927597137967e9" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/cache/93/59/9359e558d7d40ed111fea6adac57e801b5201521" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/cache/93/59/9359e558d7d40ed111fea6adac57e801b5201521" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/cache/9b/20/9b20934eac1c5157c6350b983215466eb38d5289" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/cache/9b/20/9b20934eac1c5157c6350b983215466eb38d5289" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/cache/HTML/4.12.0,42d2529d2d2aa4f137a4d6d6292a92e3ee82eb86,1.ser" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/cache/d6/6d/d66deccbcbd73a9d509b044a2f945bd398aa56ef" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/cache/f6/68/f668281157c8537bbb7ec9e0a8a008582e03efab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/cache/ff/6b/ff6b532e6e6bc7bd7174bc5903b8771e0641e676" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/dJQLiRv3XPB4JQEE4t22Qrxxj1YB7szOw3K9Lt7n" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/0638d49048228602142f80fd5dd53cd5f376dc4a.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/0956fb495b4b6ea7f0889278248b8c30b2698808.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/0dded92a1d1d7ff682899fcb41d90fcd687ba3f7.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/10a63be4ee23fe9d83cdb1891a408b9c67193600.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/18aa35b235b3b64d881ae8da46a146bf0c81710b.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/1ba582d0ad067d01178c40e673f063074661f161.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/223623f4c443f6c65a66ebcb912df2e3d5a0ce00.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/2716ccdc7649fdb21982806d1299aa7327752514.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/287362df845dd6e7d6d2f00e04eb2e9c0dff7016.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/34dafef1ed38f38ab3b632ae3ac0bf55ac3cc082.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/5fec0911aa4a5a9dfb6c239fe6cffad15247d66c.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/68be9361ace2260e63a63d0db144d889104c1cd9.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/6dcd1d5f1aa14ef39e4fff36c9391dd760543946.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/6fd6ebe8ab3eb5507ec29098a1ced0853787da9c.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/72a1f99ea07329e97b538913d01038f2b575eefd.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/75e11237401b8cf0f4c007b2e3d61ed170cb05c8.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/86615bc9a6acc99db245c889510ff1ee3b78782f.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/92c3fe269471bf3f6566addf60ae50c9bd963629.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/a37fe76069d52b7b8fd9e2c950f79c492bbb4fb9.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/a71b7fca888cc7a2b77f99efc26e8c800250a8dd.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/ab409e5dc6346ea88348aeb65121486025dfad94.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/ac20aee1affb45d2358f69ddb50c4ad9a00759ff.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/ac3b73e0e67910e958e92283943f06c42646ee23.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/b188f4bf176bb484b1a7a2ff448a0d292f253d58.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/b333d68d8131407c1a83803c03303577f0efa06a.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/c91e352f0a3492d44f89cd385823bcf0e366e4ae.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/c9e0f6f4159b676ba8afbee550091bc69d48cab4.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/cf32b45de7e49e7683cae2c79b2aa6cb2da88c16.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/e50726394fb96b33e7a3fe023a9d5f8ff5a4dff4.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/f107dee31b476a32691c7319e1f200d6c490a770.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/emails/master.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/emails/master.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/pk2YoAAjmrL0Kgfi2AeJepOJAvhkD4DKlQ25GqEK" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/pk2YoAAjmrL0Kgfi2AeJepOJAvhkD4DKlQ25GqEK" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -298,19 +289,19 @@
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\wamp\www\invoiceninja\resources\views\manufacturers" />
-      <recent name="C:\wamp\www\invoiceninja\app\Ninja\Repositories" />
-      <recent name="C:\wamp\www\invoiceninja\app\Http\Requests" />
-      <recent name="C:\wamp\www\invoiceninja\app\Ninja\Presenters" />
-      <recent name="C:\wamp\www\invoiceninja\app\Policies" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\wamp\www\invoiceninja" />
       <recent name="C:\wamp\www\invoiceninja\resources\views\users" />
       <recent name="C:\wamp\www\invoiceninja\app\Ninja\Datatables" />
       <recent name="C:\wamp\www\invoiceninja\resources\views\companies" />
       <recent name="C:\wamp\www\invoiceninja\resources\views\products" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\wamp\www\invoiceninja\resources\views\manufacturers" />
+      <recent name="C:\wamp\www\invoiceninja\app\Ninja\Repositories" />
+      <recent name="C:\wamp\www\invoiceninja\app\Http\Requests" />
+      <recent name="C:\wamp\www\invoiceninja\app\Ninja\Presenters" />
+      <recent name="C:\wamp\www\invoiceninja\app\Policies" />
     </key>
   </component>
   <component name="RunManager" selected="Codeception.codeception.yml">
@@ -451,14 +442,8 @@
       <workItem from="1589375996718" duration="1539000" />
       <workItem from="1589395358092" duration="6000" />
       <workItem from="1589395384011" duration="7240000" />
-      <workItem from="1589446555665" duration="6318000" />
-    </task>
-    <task id="LOCAL-00218" summary="2020-05-2 9:26">
-      <created>1588474648076</created>
-      <option name="number" value="00218" />
-      <option name="presentableId" value="LOCAL-00218" />
-      <option name="project" value="LOCAL" />
-      <updated>1588474648076</updated>
+      <workItem from="1589446555665" duration="6451000" />
+      <workItem from="1589459639107" duration="559000" />
     </task>
     <task id="LOCAL-00219" summary="2020-05-2 9:26">
       <created>1588491220464</created>
@@ -796,7 +781,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589451612498</updated>
     </task>
-    <option name="localTasksCounter" value="267" />
+    <task id="LOCAL-00267" summary="2020-05-14 9:26">
+      <created>1589453446280</created>
+      <option name="number" value="00267" />
+      <option name="presentableId" value="LOCAL-00267" />
+      <option name="project" value="LOCAL" />
+      <updated>1589453446280</updated>
+    </task>
+    <option name="localTasksCounter" value="268" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -873,10 +865,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1587939377952" />
-    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1589451609821">
+    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1589453443305">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1589451609821" />
+    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1589453443305" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="444" y="140" key="FileChooserDialogImpl" timestamp="1589308466844">
