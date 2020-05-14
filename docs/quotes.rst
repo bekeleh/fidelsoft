@@ -8,9 +8,9 @@ List Quotes
 
 .. Note:: The Quotes feature is only available for Pro Plan users.
 
-As a freelancer, many jobs – whether big or small – will begin as a quote. How so? Well, a client expresses interest in your skills or product, but wants to know how much it’s going to cost, in advance. With the Quotes feature of Invoice Ninja, available to Pro Plan users only, you can easily create a price quote and send it to the client up front, helping them make the decision to commit, and helping you keep track of your projected work schedule and income.
+As a freelancer, many jobs – whether big or small – will begin as a quote. How so? Well, a client expresses interest in your skills or product, but wants to know how much it’s going to cost, in advance. With the Quotes feature of Fidel, available to Pro Plan users only, you can easily create a price quote and send it to the client up front, helping them make the decision to commit, and helping you keep track of your projected work schedule and income.
 
-Once the price quote is accepted by the client, the Invoice Ninja system enables automatic creation of an invoice that imports all the quote data, so your quotes and invoices are linked, organized and easily traceable. An advanced Invoice Ninja feature, Quotes is truly the cherry on top, giving you maximum functionality from A to Z in your invoicing activity.
+Once the price quote is accepted by the client, the Fidel system enables automatic creation of an invoice that imports all the quote data, so your quotes and invoices are linked, organized and easily traceable. An advanced Fidel feature, Quotes is truly the cherry on top, giving you maximum functionality from A to Z in your invoicing activity.
 
 To view your Quotes list page, click the Invoices tab on the main taskbar, and select Quotes from the drop-down menu. This will open the Quotes list page.
 
@@ -71,7 +71,7 @@ To create a new quote, go to the Invoices tab on the main taskbar, open the drop
 
 How to Create a New Quote
 
-When you open the Quotes / Create page, the Invoice Ninja system will automatically create a new, empty quote for you to complete. Note that the quote entry page is very similar in format to the invoice entry page. This makes converting the quote to an invoice extremely logical and simple.
+When you open the Quotes / Create page, the Fidel system will automatically create a new, empty quote for you to complete. Note that the quote entry page is very similar in format to the invoice entry page. This makes converting the quote to an invoice extremely logical and simple.
 
 The top section of the quote contains a range of important information specific to the client and the quote. Let’s explore them one by one:
 
@@ -113,8 +113,8 @@ Directly to the left of the Balance Due section, you'll see a text box with thre
 Below the quote data fields, you'll see a row of colorful buttons, giving you a range of options:
 
 - **Blue button – Download PDF**: Download the quote as a PDF file. You can then print or save to your PC or mobile device.
-- **Green button – Save Quote**: Save the last version of the quote. The data is saved in your Invoice Ninja account. You can return to the quote at any   time to continue working on it.
-- **Orange button – Email Quote**: Email the quote directly via the Invoice Ninja system to the email address specified for the client.
+- **Green button – Save Quote**: Save the last version of the quote. The data is saved in your Fidel account. You can return to the quote at any   time to continue working on it.
+- **Orange button – Email Quote**: Email the quote directly via the Fidel system to the email address specified for the client.
 - **Gray button – More Actions**:
 
 Click on More Actions to open the following action list:

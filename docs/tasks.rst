@@ -75,7 +75,7 @@ Create Task
 
 With many clients, and any number of projects ongoing at the same time, you need a simple, automatic way to keep track of the time spent on a particular task or project. Of course, this is really important when you charge clients according to time spent, such as by the hour. Yet, it can also be helpful to know just how much time you are devoting to a client or a project – even if the time spent doesn’t necessarily affect your billing.
 
-Either way, the Tasks component of Invoice Ninja allows you to record and manage your tasks and sessions for every one of your clients.
+Either way, the Tasks component of Fidel allows you to record and manage your tasks and sessions for every one of your clients.
 
 **Let’s Begin**
 

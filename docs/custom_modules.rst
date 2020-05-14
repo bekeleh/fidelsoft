@@ -1,7 +1,7 @@
 Custom Modules
 ==============
 
-Invoice Ninja support customs modules using https://github.com/nWidart/laravel-modules
+Fidel support customs modules using https://github.com/nWidart/laravel-modules
 
 You can watch this `short video <https://www.youtube.com/watch?v=8jJ-PYuq85k>`_ for a quick overview of the feature.
 

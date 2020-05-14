@@ -73,7 +73,7 @@ class PermissionGroupRepository extends BaseRepository
             $permissionGroup->created_by = Auth::user()->username;
         }
         $permissionGroup->fill($data);
-        $permissionGroup->name = isset($data['name']) ? ucwords(Str::lower(trim($data['name']))) : '';
+        $permissionGroup->name = isset($data['name']) ? (trim($data['name'])) : '';
         $permissionGroup->notes = isset($data['notes']) ? trim($data['notes']) : '';
         $permissionGroup->save();
 

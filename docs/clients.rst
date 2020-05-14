@@ -3,7 +3,7 @@ Clients
 
 They come in all shapes and sizes. They’re the reason you go to work in the morning. There are new ones coming up, and old ones coming back. What you need is a well-maintained, up-to-date, comprehensive client list to keep your invoicing in order.
 
-Your clients are the core of your freelance business, and your Clients page is the core of your activity on Invoice Ninja.
+Your clients are the core of your freelance business, and your Clients page is the core of your activity on Fidel.
 
 List Clients
 """"""""""""
@@ -78,7 +78,7 @@ So, you’ve taken on a new client? Congratulations!
 
 Your Clients list is at the heart of your invoicing activity, so it's really important to maintain current information on all your clients. When you start working with a new client, the first thing you’ll need to do is to add the new client by entering their contact information and business details.
 
-When creating and saving a new client to your Clients list, make sure to have the relevant, up-to-date information at hand. You are only required to enter the information one time. Invoice Ninja automatically tracks all invoicing activity for each client.
+When creating and saving a new client to your Clients list, make sure to have the relevant, up-to-date information at hand. You are only required to enter the information one time. Fidel automatically tracks all invoicing activity for each client.
 
 
 **Let’s Begin**

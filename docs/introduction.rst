@@ -1,31 +1,31 @@
 Introduction
 ============
 
-Let’s get acquainted with a basic overview of the structure of the Invoice Ninja website. Once you’ve wrapped your mind around a few central concepts, it’s as easy as ABC to effectively manage your freelance business accounts.
+Let’s get acquainted with a basic overview of the structure of the Fidel website. Once you’ve wrapped your mind around a few central concepts, it’s as easy as ABC to effectively manage your freelance business accounts.
 
-The Invoice Ninja system is based on two main pillars:
+The Fidel system is based on two main pillars:
 
-- **List pages** are summary pages of the various activities in your account. These include the Clients list page, Tasks list page, Invoices list page, Payments list page and more. List pages are located in the main sidebar of the Invoice Ninja site. The list pages provide a centralized overview and management station for the particular component of your account. For example, the Clients list page is a list of all your clients, with accompanying information and handy links, so you can manage all your clients on one page.
+- **List pages** are summary pages of the various activities in your account. These include the Clients list page, Tasks list page, Invoices list page, Payments list page and more. List pages are located in the main sidebar of the Fidel site. The list pages provide a centralized overview and management station for the particular component of your account. For example, the Clients list page is a list of all your clients, with accompanying information and handy links, so you can manage all your clients on one page.
 
-- **Action pages** are pages dedicated to a specific action you can take in your Invoice Ninja account. Examples include Create New Client, Enter Credit, Create New Invoice, Create Recurring Invoice, Enter Credit, Enter Payment and Create New Task. All actions you take will be recorded in the List pages, updated in real time to reflect your invoicing activity from minute to minute.
+- **Action pages** are pages dedicated to a specific action you can take in your Fidel account. Examples include Create New Client, Enter Credit, Create New Invoice, Create Recurring Invoice, Enter Credit, Enter Payment and Create New Task. All actions you take will be recorded in the List pages, updated in real time to reflect your invoicing activity from minute to minute.
 
 So remember the ninja rule: **list pages provide a summary overview**, and **action pages facilitate your invoicing activity**.
 
-You’re invited to browse the user guide for more detailed information. We’re always looking to take Invoice Ninja one step ahead, so if you have any comments, queries or suggestions, we’d love to hear from you.
+You’re invited to browse the user guide for more detailed information. We’re always looking to take Fidel one step ahead, so if you have any comments, queries or suggestions, we’d love to hear from you.
 
 Dashboard
 ^^^^^^^^^
 
-Welcome to the Dashboard page of your Invoice Ninja account. This is the first page you’ll see when you login. It provides a general overview of the invoicing status of your freelance business. It is easy on the eye, and easy to digest. When you arrive at the Dashboard page, you’ll glimpse a comprehensive and user-friendly snapshot of what’s going on right now in your invoicing world.
+Welcome to the Dashboard page of your Fidel account. This is the first page you’ll see when you login. It provides a general overview of the invoicing status of your freelance business. It is easy on the eye, and easy to digest. When you arrive at the Dashboard page, you’ll glimpse a comprehensive and user-friendly snapshot of what’s going on right now in your invoicing world.
 
 So let’s jump right in and take a look at the different elements that make up your invoicing dashboard.
 
-When you login to your Invoice Ninja account, you’ll automatically arrive on the Dashboard page. To go to the Dashboard page from anywhere in the site, click the Dashboard tab on the main sidebar at the left of your screen.
+When you login to your Fidel account, you’ll automatically arrive on the Dashboard page. To go to the Dashboard page from anywhere in the site, click the Dashboard tab on the main sidebar at the left of your screen.
 
-Sidebar – Navigating Your Invoice Ninja Account
+Sidebar – Navigating Your Fidel Account
 """""""""""""""""""""""""""""""""""""""""""""""
 
-The Sidebar, at the left of your screen, is always visible, no matter where you are in your Invoice Ninja account. Use the sidebar to get where you want to go, quickly and easily.
+The Sidebar, at the left of your screen, is always visible, no matter where you are in your Fidel account. Use the sidebar to get where you want to go, quickly and easily.
 When you click on a specific tab, you'll go to the list page. So, if you click on Invoices, you'll navigate to the Invoices list page. Same for Quotes, Payments, Products, Recurring, Credits and many others.
 
 Want to create a new invoice, quote, task, list, payment, or any other new item? Hover on the relevant tab, and click the blue plus sign that appears on the right hand side of the tab. You'll be automatically redirected to the "Create New…" page.
@@ -66,7 +66,7 @@ Window 1: Activity
 
 The Activity list is incredibly useful as it presents an up-to-date, action-packed summary of what is happening across your entire invoicing account. Every action taken, whether by you or by one of your clients, is listed in chronological order, together with the date the action occurred. The list is updated in real time, with more recent actions showing first, so you get a minute-to-minute understanding of your invoicing activity.
 
-The Activity list includes all possible actions occurring within your Invoice Ninja account, including:
+The Activity list includes all possible actions occurring within your Fidel account, including:
 
 - Creating an invoice
 - Sending an invoice
@@ -154,7 +154,7 @@ You can choose to hide or show the history sidebar at any time by clicking on th
 Need Help? Feel like Sharing? Introducing Quick Links
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 
-At the bottom left of the sidebar menu, you'll find a few quick links to make your Invoice Ninja experience even better.
+At the bottom left of the sidebar menu, you'll find a few quick links to make your Fidel experience even better.
 
 - **Email**: Click on the email icon to contact us.
 - **Support**: Click on the support icon to visit our Support Forum.

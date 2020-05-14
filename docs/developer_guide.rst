@@ -1,7 +1,7 @@
 Developer Guide
 ===============
 
-This guide will provide an overview of Invoice Ninja. If anything’s unclear please send us an email, we’re always working to improve it.
+This guide will provide an overview of Fidel. If anything’s unclear please send us an email, we’re always working to improve it.
 
 The application is written in PHP using the `Laravel <http://laravel.com/>`_ framework, the full list of libraries can be found on our `GitHub <https://github.com/invoiceninja/invoiceninja>`_ page.
 

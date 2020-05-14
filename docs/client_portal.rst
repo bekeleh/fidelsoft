@@ -1,7 +1,7 @@
 Client Portal
 =============
 
-The invoicing process is a two-way street. You bill the client; the client views and pays the invoice. Why not make it as easy as possible for you – and for your clients? This is the purpose of Invoice Ninja's Client Portal. With Invoice Ninja, you can choose to provide a portal for your clients where they can open and view your invoices, and even make payments, all via the Invoice Ninja website.
+The invoicing process is a two-way street. You bill the client; the client views and pays the invoice. Why not make it as easy as possible for you – and for your clients? This is the purpose of Fidel's Client Portal. With Fidel, you can choose to provide a portal for your clients where they can open and view your invoices, and even make payments, all via the Fidel website.
 
 You can modify the Client Portal with a range of settings. To modify the client portal, go to Advanced Settings > Client Portal.
 

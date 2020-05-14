@@ -4,9 +4,9 @@ Settings
 Intro
 """""
 
-Welcome to the Basic Settings section, where you can create the foundations of your Invoice Ninja account. All your company information, user details, product entries, notification preferences, tax rates, payment settings, location and currency selections, and so much more, can be found here. This is your first stop to set up and customize your account to your business. And any time you need to modify your settings, edit your details or change your preferences, this is where you'll return. We've made it simple and user friendly to manage your settings, so the Basic Settings section is a place that's fun to come back to. We promise.
+Welcome to the Basic Settings section, where you can create the foundations of your Fidel account. All your company information, user details, product entries, notification preferences, tax rates, payment settings, location and currency selections, and so much more, can be found here. This is your first stop to set up and customize your account to your business. And any time you need to modify your settings, edit your details or change your preferences, this is where you'll return. We've made it simple and user friendly to manage your settings, so the Basic Settings section is a place that's fun to come back to. We promise.
 
-To open the Basic Settings sections, click on the Settings tab, which is the last tab on the Invoice Ninja sidebar. The Basic Settings section will automatically open to the first settings page, Company Details. To move between settings pages, click on the relevant tab on the list situated at the left side of the Basic Settings page.
+To open the Basic Settings sections, click on the Settings tab, which is the last tab on the Fidel sidebar. The Basic Settings section will automatically open to the first settings page, Company Details. To move between settings pages, click on the relevant tab on the list situated at the left side of the Basic Settings page.
 
 Company Details
 """""""""""""""
@@ -24,7 +24,7 @@ Details
 - **Website**: Your company web address
 - **Email**: Your company email address
 - **Phone**: Your company phone number
-- **Logo**: Upload your company logo by clicking on the Choose File button. Browse your computer for the appropriate image file and upload it. Remember, the Invoice Ninja system supports JPEG, GIF and PNG file types. TIP: Once, you've uploaded your logo, the graphic image will appear on the page. Uploaded the wrong image? Got yourself a new logo? Click Remove logo, and upload a new one.
+- **Logo**: Upload your company logo by clicking on the Choose File button. Browse your computer for the appropriate image file and upload it. Remember, the Fidel system supports JPEG, GIF and PNG file types. TIP: Once, you've uploaded your logo, the graphic image will appear on the page. Uploaded the wrong image? Got yourself a new logo? Click Remove logo, and upload a new one.
 - **Company Size**: Select the company size from the options in the drop down list
 - **Industry Select**: the industry your company belongs to from the options in the drop down list
 
@@ -36,28 +36,28 @@ Complete the relevant address detail in each field. For the Country field, start
 Email Signature
 ^^^^^^^^^^^^^^^
 
-Create your unique company signature, which will appear on every email that is sent on your behalf from the Invoice Ninja system. First, enter free text in the text box. This may include your company name, address, phone number, website, email address or anything else you can think of. After you've entered the text, use the formatting toolbar to create the look you want. You can select the font, font size, font design (bold, italic, underline, strikethrough), font color, fill, numbering, bullets and alignment. You can also insert hyperlinks, which means you can create clickable links to your website or email address within your email signature.
+Create your unique company signature, which will appear on every email that is sent on your behalf from the Fidel system. First, enter free text in the text box. This may include your company name, address, phone number, website, email address or anything else you can think of. After you've entered the text, use the formatting toolbar to create the look you want. You can select the font, font size, font design (bold, italic, underline, strikethrough), font color, fill, numbering, bullets and alignment. You can also insert hyperlinks, which means you can create clickable links to your website or email address within your email signature.
 
 When you've completed your Company Details, click the green Save button at the bottom of the page. You can edit these details at any time by returning to the page, changing the details and clicking Save again.
 
 User Details
 """"""""""""
 
-As the business owner, you are the primary user of your Invoice Ninja account, so you'll need to define your user details. (Alternatively, if you are setting up the account on behalf of someone else, you'll need to have their details handy.)
+As the business owner, you are the primary user of your Fidel account, so you'll need to define your user details. (Alternatively, if you are setting up the account on behalf of someone else, you'll need to have their details handy.)
 
 Enter your first name, last name, email address and phone number in the fields provided.
 
 One Click Log In
 ^^^^^^^^^^^^^^^^
 
-If you want to login to your Invoice Ninja account without a password, you can do so via your other online accounts. By linking your Google, Facebook, GitHub or LinkedIn account to your Invoice Ninja account, you enable one-click login that truly makes life simpler.
+If you want to login to your Fidel account without a password, you can do so via your other online accounts. By linking your Google, Facebook, GitHub or LinkedIn account to your Fidel account, you enable one-click login that truly makes life simpler.
 
-To enable one click login, click the blue Enable button. A drop down menu will open, giving you the option to select an online account. Choose the account you want, and you'll be redirected to the third party website to link your Invoice Ninja account. Follow the prompts to complete the process.
+To enable one click login, click the blue Enable button. A drop down menu will open, giving you the option to select an online account. Choose the account you want, and you'll be redirected to the third party website to link your Fidel account. Follow the prompts to complete the process.
 
 Referral URL
 ^^^^^^^^^^^^
 
-Want to join our referral program and save money? Get your friends to sign up and receive a whopping discount on your Invoice Ninja fees.  To join the referral program, check the Enable box. To find out more about our referral program, go here.
+Want to join our referral program and save money? Get your friends to sign up and receive a whopping discount on your Fidel fees.  To join the referral program, check the Enable box. To find out more about our referral program, go here.
 
 Change Password
 ^^^^^^^^^^^^^^^
@@ -69,7 +69,7 @@ When you've finished completing your user details, click the green Save button t
 Localization
 """"""""""""
 
-The Localization page is the place to customize a bunch of settings that make your Invoice Ninja account feel like home.
+The Localization page is the place to customize a bunch of settings that make your Fidel account feel like home.
 
 - **Currency**: Select your default currency from the list of approximately 50 available currencies.
 - **Language**: Select your default language from the list of approximately 20 available languages.
@@ -218,7 +218,7 @@ Click the green Save button to create the product. It will now appear on the pro
 Email Notifications
 """""""""""""""""""
 
-The Invoice Ninja system sends automated emails notifying you about the status of invoices and quotes sent to clients. Set your notification preferences on the Email Notifications page.
+The Fidel system sends automated emails notifying you about the status of invoices and quotes sent to clients. Set your notification preferences on the Email Notifications page.
 
 To create your preferences for email notifications, check any of the following options:
 
@@ -230,14 +230,14 @@ To create your preferences for email notifications, check any of the following o
 Facebook and Twitter
 ^^^^^^^^^^^^^^^^^^^^
 
-Want to keep up to date with Invoice Ninja updates, features and news? Follow our feeds on Facebook and Twitter by clicking on the Follow buttons.
+Want to keep up to date with Fidel updates, features and news? Follow our feeds on Facebook and Twitter by clicking on the Follow buttons.
 
 To save your email notification preferences, click the green Save button.
 
 Import / Export
 """""""""""""""
 
-If you need to import data to your Invoice Ninja account, or, alternatively, if you need to export your Invoice Ninja invoicing data, you can do both from the Import / Export page.
+If you need to import data to your Fidel account, or, alternatively, if you need to export your Fidel invoicing data, you can do both from the Import / Export page.
 
 Import Data
 ^^^^^^^^^^^
@@ -254,7 +254,7 @@ To export data, select a source from the Source drop down menu. TIP: Export file
 Account Management
 """"""""""""""""""
 
-Whether upgrading, downgrading or cancelling (we hope not!), manage your Invoice Ninja account via this page.
+Whether upgrading, downgrading or cancelling (we hope not!), manage your Fidel account via this page.
 Plan Status
 
 View your current plan level (Free, Pro or Enterprise) and Renews status here.
@@ -271,9 +271,9 @@ Delete Account
 
 In the event that you wish to delete your account, click the red Delete Account button.
 
-.. NOTE:: If you delete your Invoice Ninja account, all data is permanently erased. There is no undo option.
+.. NOTE:: If you delete your Fidel account, all data is permanently erased. There is no undo option.
 
-You'll be prompted to confirm the delete action, and to provide us with a reason to help us improve the Invoice Ninja experience.
+You'll be prompted to confirm the delete action, and to provide us with a reason to help us improve the Fidel experience.
 
 If you're sure you want to delete, click the red Delete Account button.
 Changed your mind? Click the gray Go Back button.

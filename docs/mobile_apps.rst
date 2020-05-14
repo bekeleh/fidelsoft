@@ -1,22 +1,22 @@
 Mobile Applications
 ===================
 
-The Invoice Ninja iPhone and Android applications allows a user to connect to their self-hosted Invoice Ninja web application.
+The Fidel iPhone and Android applications allows a user to connect to their self-hosted Fidel web application.
 
 .. TIP:: If you're unable to access the Android app store you can download the APK here: https://download.invoiceninja.com/apk
 
-Connecting your to your self-hosted invoice ninja installation requires a couple of easy steps.
+Connecting your to your self-hosted Fidel installation requires a couple of easy steps.
 
 Web App configuration
 """""""""""""""""""""
 
-First, you'll need to add an additional field to your .env file which is located in the root directory of your self-hosted Invoice Ninja installation.
+First, you'll need to add an additional field to your .env file which is located in the root directory of your self-hosted Fidel installation.
 
 The additional field to add is API_SECRET, set this to your own defined alphanumeric string.
 
 .. image:: images/env_file_api_secret.png
 
-Save your .env file and now open Invoice Ninja on your iPhone.
+Save your .env file and now open Fidel on your iPhone.
 
 
 Mobile App configuration

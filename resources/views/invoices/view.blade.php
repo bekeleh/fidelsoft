@@ -31,128 +31,126 @@
             background-color: lightgrey;
         }
     </style>
+    {{--    @if (!empty($transactionToken) && $accountGateway->gateway_id == GATEWAY_BRAINTREE && $accountGateway->getPayPalEnabled())--}}
+    {{--        <div id="paypal-container"></div>--}}
+    {{--        <script type="text/javascript" src="https://js.braintreegateway.com/js/braintree-2.23.0.min.js"></script>--}}
+    {{--        <script type="text/javascript">--}}
+    {{--            $(function () {--}}
+    {{--                var paypalLink = $('a[href$="paypal"]'),--}}
+    {{--                    paypalUrl = paypalLink.attr('href'),--}}
+    {{--                    checkout;--}}
+    {{--                paypalLink.parent().attr('id', 'paypal-container');--}}
+    {{--                braintree.setup("{{ $transactionToken }}", "custom", {--}}
+    {{--                    onReady: function (integration) {--}}
+    {{--                        checkout = integration;--}}
+    {{--                        $('a[href$="#braintree_paypal"]').each(function () {--}}
+    {{--                            var el = $(this);--}}
+    {{--                            el.attr('href', el.attr('href').replace('#braintree_paypal', '?device_data=' + encodeURIComponent(integration.deviceData)))--}}
+    {{--                        })--}}
+    {{--                    },--}}
+    {{--                    paypal: {--}}
+    {{--                        container: "paypal-container",--}}
+    {{--                        singleUse: false,--}}
+    {{--                        enableShippingAddress: false,--}}
+    {{--                        enableBillingAddress: false,--}}
+    {{--                        headless: true,--}}
+    {{--                        locale: "{{ $invoice->client->language ? $invoice->client->language->locale : $invoice->account->language->locale }}"--}}
+    {{--                    },--}}
+    {{--                    dataCollector: {--}}
+    {{--                        paypal: true--}}
+    {{--                    },--}}
+    {{--                    onPaymentMethodReceived: function (obj) {--}}
+    {{--                        window.location.href = paypalUrl.replace('#braintree_paypal', '') + '/' + encodeURIComponent(obj.nonce) + "?device_data=" + encodeURIComponent(JSON.stringify(obj.details));--}}
+    {{--                    }--}}
+    {{--                });--}}
+    {{--                paypalLink.click(function (e) {--}}
+    {{--                    e.preventDefault();--}}
+    {{--                    @if ($account->requiresAuthorization($invoice))--}}
+    {{--                        window.pendingPaymentFunction = checkout.paypal.initAuthFlow;--}}
+    {{--                    showAuthorizationModal();--}}
+    {{--                    @else--}}
+    {{--                    checkout.paypal.initAuthFlow();--}}
+    {{--                    @endif--}}
+    {{--                })--}}
+    {{--            });--}}
+    {{--        </script>--}}
+    {{--    @elseif(!empty($enableWePayACH))--}}
+    {{--        <script type="text/javascript" src="https://static.wepay.com/js/tokenization.v2.js"></script>--}}
+    {{--        <script type="text/javascript">--}}
+    {{--            function payWithWepay() {--}}
+    {{--                var achLink = $('a[href$="/bank_transfer"]');--}}
+    {{--                $('#wepay-error').remove();--}}
+    {{--                var email = {!! json_encode($contact->email) !!} ||--}}
+    {{--                prompt('{{ trans('texts.ach_email_prompt') }}');--}}
+    {{--                if (!email) {--}}
+    {{--                    return;--}}
+    {{--                }--}}
 
-    @if (!empty($transactionToken) && $accountGateway->gateway_id == GATEWAY_BRAINTREE && $accountGateway->getPayPalEnabled())
-        <div id="paypal-container"></div>
-        <script type="text/javascript" src="https://js.braintreegateway.com/js/braintree-2.23.0.min.js"></script>
-        <script type="text/javascript">
-            $(function () {
-                var paypalLink = $('a[href$="paypal"]'),
-                    paypalUrl = paypalLink.attr('href'),
-                    checkout;
-                paypalLink.parent().attr('id', 'paypal-container');
-                braintree.setup("{{ $transactionToken }}", "custom", {
-                    onReady: function (integration) {
-                        checkout = integration;
-                        $('a[href$="#braintree_paypal"]').each(function () {
-                            var el = $(this);
-                            el.attr('href', el.attr('href').replace('#braintree_paypal', '?device_data=' + encodeURIComponent(integration.deviceData)))
-                        })
-                    },
-                    paypal: {
-                        container: "paypal-container",
-                        singleUse: false,
-                        enableShippingAddress: false,
-                        enableBillingAddress: false,
-                        headless: true,
-                        locale: "{{ $invoice->client->language ? $invoice->client->language->locale : $invoice->account->language->locale }}"
-                    },
-                    dataCollector: {
-                        paypal: true
-                    },
-                    onPaymentMethodReceived: function (obj) {
-                        window.location.href = paypalUrl.replace('#braintree_paypal', '') + '/' + encodeURIComponent(obj.nonce) + "?device_data=" + encodeURIComponent(JSON.stringify(obj.details));
-                    }
-                });
-                paypalLink.click(function (e) {
-                    e.preventDefault();
-                    @if ($account->requiresAuthorization($invoice))
-                        window.pendingPaymentFunction = checkout.paypal.initAuthFlow;
-                    showAuthorizationModal();
-                    @else
-                    checkout.paypal.initAuthFlow();
-                    @endif
-                })
-            });
-        </script>
-    @elseif(!empty($enableWePayACH))
-        <script type="text/javascript" src="https://static.wepay.com/js/tokenization.v2.js"></script>
-        <script type="text/javascript">
-            function payWithWepay() {
-                var achLink = $('a[href$="/bank_transfer"]');
-                $('#wepay-error').remove();
-                var email = {!! json_encode($contact->email) !!} ||
-                prompt('{{ trans('texts.ach_email_prompt') }}');
-                if (!email) {
-                    return;
-                }
+    {{--                WePay.bank_account.create({--}}
+    {{--                    'client_id': '{{ WEPAY_CLIENT_ID }}',--}}
+    {{--                    'email': email--}}
+    {{--                }, function (data) {--}}
+    {{--                    dataObj = JSON.parse(data);--}}
+    {{--                    if (dataObj.bank_account_id) {--}}
+    {{--                        window.location.href = achLink.attr('href') + '/' + dataObj.bank_account_id + "?details=" + encodeURIComponent(data);--}}
+    {{--                    } else if (dataObj.error) {--}}
+    {{--                        $('#wepay-error').remove();--}}
+    {{--                        achLink.closest('.container').prepend($('<div id="wepay-error" style="margin-top:20px" class="alert alert-danger"></div>').text(dataObj.error_description));--}}
+    {{--                    }--}}
+    {{--                });--}}
+    {{--            }--}}
 
-                WePay.bank_account.create({
-                    'client_id': '{{ WEPAY_CLIENT_ID }}',
-                    'email': email
-                }, function (data) {
-                    dataObj = JSON.parse(data);
-                    if (dataObj.bank_account_id) {
-                        window.location.href = achLink.attr('href') + '/' + dataObj.bank_account_id + "?details=" + encodeURIComponent(data);
-                    } else if (dataObj.error) {
-                        $('#wepay-error').remove();
-                        achLink.closest('.container').prepend($('<div id="wepay-error" style="margin-top:20px" class="alert alert-danger"></div>').text(dataObj.error_description));
-                    }
-                });
-            }
+    {{--            $(function () {--}}
+    {{--                var achLink = $('a[href$="/bank_transfer"]');--}}
+    {{--                WePay.set_endpoint('{{ WEPAY_ENVIRONMENT }}');--}}
+    {{--                achLink.click(function (e) {--}}
+    {{--                    e.preventDefault();--}}
+    {{--                    @if ($account->requiresAuthorization($invoice))--}}
+    {{--                        window.pendingPaymentFunction = window.payWithWepay;--}}
+    {{--                    showAuthorizationModal();--}}
+    {{--                    @else--}}
+    {{--                    payWithWepay();--}}
+    {{--                    @endif--}}
+    {{--                });--}}
+    {{--            });--}}
+    {{--        </script>--}}
+    {{--    @elseif (! empty($accountGateway) && $accountGateway->getApplePayEnabled())--}}
+    {{--        <script type="text/javascript" src="https://js.stripe.com/v3/"></script>--}}
+    {{--        <script type="text/javascript">--}}
+    {{--            // https://stripe.com/docs/stripe-js/elements/payment-request-button--}}
+    {{--            var stripe = Stripe('{{ $accountGateway->getPublishableKey() }}');--}}
+    {{--            var paymentRequest = stripe.paymentRequest({--}}
+    {{--                country: '{{ $invoice->client->getCountryCode() }}',--}}
+    {{--                currency: '{{ strtolower($invoice->client->getCurrencyCode()) }}',--}}
+    {{--                total: {--}}
+    {{--                    label: '{{ trans('texts.invoice') . ' ' . $invitation->invoice->invoice_number }}',--}}
+    {{--                    amount: {{ $invitation->invoice->getRequestedAmount() * 100 }},--}}
+    {{--                },--}}
+    {{--            });--}}
 
-            $(function () {
-                var achLink = $('a[href$="/bank_transfer"]');
-                WePay.set_endpoint('{{ WEPAY_ENVIRONMENT }}');
-                achLink.click(function (e) {
-                    e.preventDefault();
-                    @if ($account->requiresAuthorization($invoice))
-                        window.pendingPaymentFunction = window.payWithWepay;
-                    showAuthorizationModal();
-                    @else
-                    payWithWepay();
-                    @endif
-                });
-            });
-        </script>
-    @elseif (! empty($accountGateway) && $accountGateway->getApplePayEnabled())
-        <script type="text/javascript" src="https://js.stripe.com/v3/"></script>
-        <script type="text/javascript">
-            // https://stripe.com/docs/stripe-js/elements/payment-request-button
-            var stripe = Stripe('{{ $accountGateway->getPublishableKey() }}');
-            var paymentRequest = stripe.paymentRequest({
-                country: '{{ $invoice->client->getCountryCode() }}',
-                currency: '{{ strtolower($invoice->client->getCurrencyCode()) }}',
-                total: {
-                    label: '{{ trans('texts.invoice') . ' ' . $invitation->invoice->invoice_number }}',
-                    amount: {{ $invitation->invoice->getRequestedAmount() * 100 }},
-                },
-            });
+    {{--            var elements = stripe.elements();--}}
+    {{--            var prButton = elements.create('paymentRequestButton', {--}}
+    {{--                paymentRequest: paymentRequest,--}}
+    {{--            });--}}
 
-            var elements = stripe.elements();
-            var prButton = elements.create('paymentRequestButton', {
-                paymentRequest: paymentRequest,
-            });
+    {{--            $(function () {--}}
+    {{--                // Check the availability of the Payment Request API first.--}}
+    {{--                paymentRequest.canMakePayment().then(function (result) {--}}
+    {{--                    if (!result) {--}}
+    {{--                        $('#paymentButtons ul.dropdown-menu li').find('a[href$="apple_pay"]').remove();--}}
+    {{--                    }--}}
+    {{--                });--}}
 
-            $(function () {
-                // Check the availability of the Payment Request API first.
-                paymentRequest.canMakePayment().then(function (result) {
-                    if (!result) {
-                        $('#paymentButtons ul.dropdown-menu li').find('a[href$="apple_pay"]').remove();
-                    }
-                });
+    {{--            });--}}
 
-            });
+    {{--        </script>--}}
 
-        </script>
+    {{--    @endif--}}
 
-    @endif
 @stop
 
 @section('content')
-
     <div class="container">
-
         @if ($message = $invoice->client->customMessage($invoice->getCustomMessageType()))
             @include('invited.custom_message', ['message' => $message])
         @endif

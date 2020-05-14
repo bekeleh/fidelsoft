@@ -1,15 +1,15 @@
 Email Settings
 ==============
 
-Email communication with your clients is an important part of the Invoice Ninja invoicing process – sending invoices via email, notifying clients that an invoice is due, reminding clients about overdue payments, and more.
+Email communication with your clients is an important part of the Fidel invoicing process – sending invoices via email, notifying clients that an invoice is due, reminding clients about overdue payments, and more.
 
-With the Email Settings feature, you can specify certain settings and designs for the notification emails your clients receive from your Invoice Ninja account.
+With the Email Settings feature, you can specify certain settings and designs for the notification emails your clients receive from your Fidel account.
 
 The Email Settings page includes three sections: Email Settings, Email Designs and Email Signature.
 
 Email Settings
 """"""""""""""
-Reply-To Email: Specify the email address your clients will reply to. (This is the email address that will automatically come up when your clients click "Reply" to your Invoice Ninja emails.)
+Reply-To Email: Specify the email address your clients will reply to. (This is the email address that will automatically come up when your clients click "Reply" to your Fidel emails.)
 
 BCC Email: If you want to send a copy of your client emails privately to another email address, enter it here. (Your clients won't see it).
 

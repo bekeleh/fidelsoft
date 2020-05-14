@@ -1,7 +1,7 @@
 Invoice Design
 ==============
 
-Whether you're a design novice or programming pro, Invoice Ninja gives you the power to customize your invoice design, to give your invoices the exact look you want. The design tool is the perfect way to match your invoices to your company's graphical look and feel, including colors, fonts, logos, margin sizes, column names, headers, footers and much more.
+Whether you're a design novice or programming pro, Fidel gives you the power to customize your invoice design, to give your invoices the exact look you want. The design tool is the perfect way to match your invoices to your company's graphical look and feel, including colors, fonts, logos, margin sizes, column names, headers, footers and much more.
 
 You can design you invoice using the simple selection tools, or go deeper and customize it from the foundations with our customization feature.
 
@@ -12,7 +12,7 @@ To customize the invoice design, there are five tabs to choose from. Let's go th
 General Settings
 """"""""""""""""
 
-Standard Design: Invoice Ninja provides a selection of design templates. Examples include 'Bold', 'Elegant', 'Hipster' and 'Business'. The default template setting is 'Clean'. To change the template setting, select a design from the drop down menu. The PDF invoice display below will automatically update to show you a preview of the design template.
+Standard Design: Fidel provides a selection of design templates. Examples include 'Bold', 'Elegant', 'Hipster' and 'Business'. The default template setting is 'Clean'. To change the template setting, select a design from the drop down menu. The PDF invoice display below will automatically update to show you a preview of the design template.
 
 Quote Design: You can also select a design template for your quotes. Choose from the available options in the drop down menu.
 
@@ -57,7 +57,7 @@ Once you've selected all your settings, click the green Save button and the new 
 Customize
 """""""""
 
-If you have design experience, you can customize the invoice exactly as you want, beyond the options provided by Invoice Ninja. To work on the invoice document, click the blue Customize button. You'll be redirected to the programming page, where you'll have the option of working on the invoice Content, Styles, Defaults, Margins, Header and Footer layout. Simply click on the relevant tab and work away. The design changes you make will be reflected in the sample PDF invoice on the right side of the page.
+If you have design experience, you can customize the invoice exactly as you want, beyond the options provided by Fidel. To work on the invoice document, click the blue Customize button. You'll be redirected to the programming page, where you'll have the option of working on the invoice Content, Styles, Defaults, Margins, Header and Footer layout. Simply click on the relevant tab and work away. The design changes you make will be reflected in the sample PDF invoice on the right side of the page.
 
 To change the invoice design template, select the desired design from the drop down menu at the bottom left of the page.
 

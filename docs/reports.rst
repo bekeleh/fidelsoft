@@ -22,7 +22,7 @@ The Report Settings section enables you to set parameters and filter the data to
 
 - **Export**: To export the report data, click the gray Export button. The report will automatically download as a .csv file. If you want to export the data as an Excel, PDF or Zip file, click the drop-down menu at the left of the Export button and choose the desired file type. Then click Export. The file will download in the format you selected.
 
-- **Schedule**: Don't have the time or mindspace to remember to download reports? You don't have to! With the Schedule feature, you can pre-select reports to be automatically generated at a frequency of your choosing, and sent to the email address linked to your Invoice Ninja account.
+- **Schedule**: Don't have the time or mindspace to remember to download reports? You don't have to! With the Schedule feature, you can pre-select reports to be automatically generated at a frequency of your choosing, and sent to the email address linked to your Fidel account.
 
 To schedule receiving the defined report, click the blue Schedule button.
 
@@ -33,7 +33,7 @@ After the report has been scheduled, you'll see a gray Cancel Schedule button on
 Calendar
 """"""""
 
-Want a calendar style visualization of your Invoice Ninja activity? Click the gray Calendar button that appears at the top right of the Reports page. You can view details of Invoices, Payments, Quotes, Projects, Tasks and Expenses on the dates they occurred on the calendar.
+Want a calendar style visualization of your Fidel activity? Click the gray Calendar button that appears at the top right of the Reports page. You can view details of Invoices, Payments, Quotes, Projects, Tasks and Expenses on the dates they occurred on the calendar.
 
 The calendar will include details of all transactions by default. To filter the calendar so it only displays some of your invoicing data, click inside the Filter field at the top right of the page. Select your desired filters from the drop-down menu.
 

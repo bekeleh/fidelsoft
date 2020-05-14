@@ -14,7 +14,7 @@
   },
   "broker": {
     "@type": "Organization",
-    "name": "Invoice Ninja",
+    "name": "Fidel",
     "url": "{{ NINJA_WEB_URL }}"
   },
   "totalPaymentDue": {

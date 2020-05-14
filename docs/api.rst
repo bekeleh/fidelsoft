@@ -1,7 +1,7 @@
 API
 ===
 
-Invoice Ninja provides a RESTful API, `click here <https://app.invoiceninja.com/api-docs#/>`_ to see the full list of methods available.
+Fidel provides a RESTful API, `click here <https://app.invoiceninja.com/api-docs#/>`_ to see the full list of methods available.
 
 To access the API you first need to create a token using the "API Tokens” page under "Advanced Settings”.
 

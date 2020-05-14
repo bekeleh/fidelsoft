@@ -1,7 +1,7 @@
 Install
 =======
 
-Thanks for taking the time to setup Invoice Ninja.
+Thanks for taking the time to setup Fidel.
 
 .. Note:: The applications requires PHP >= 7.0.0 and MySQL.
 

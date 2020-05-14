@@ -151,7 +151,8 @@
             <div class="wrap">
                 @if (empty($account) || !$account->hasFeature(FEATURE_WHITE_LABEL))
                     <div class="copy">Copyright &copy;{{ date('Y') }}
-                        <a href="{{ NINJA_WEB_URL }}" target="_blank">HARON ERP Solution PLC</a>. All rights reserved.
+                        <a href="{{ NINJA_WEB_URL }}" target="_blank">{{trans('texts.team_source')}}</a>. All rights
+                        reserved.
                     </div>
                 @endif
             </div><!-- .wrap -->

@@ -6,6 +6,14 @@
         ['label' => trans('texts.new_permission_group'), 'url' => url('/permission_groups/create')],
         ])->split() !!}
     @endif
+@elseif($entityType == ENTITY_PERMISSION_GROUP)
+    @if (Auth::user()->can('create', [ENTITY_PERMISSION_GROUP]))
+        {!! DropdownButton::normal(trans('texts.maintenance'))
+        ->withAttributes(['class'=>'maintenanceDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_user'), 'url' => url('/users/create')],
+        ])->split() !!}
+    @endif
 @elseif (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET,ENTITY_PROPOSAL_CATEGORY]))
     @if (Auth::user()->can('create', [ENTITY_PROPOSAL_CATEGORY]))
         {!! DropdownButton::normal(trans('texts.maintenance'))

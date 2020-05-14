@@ -2,7 +2,7 @@
     {
         "@context":"http://schema.org",
         "@type":"EmailMessage",
-        "description":"Confirm your Invoice Ninja account",
+        "description":"Confirm your Fidel account",
         "action":
         {
             "@type":"ConfirmAction",
@@ -13,7 +13,7 @@
             },
             "publisher": {
                 "@type": "Organization",
-                "name": "Invoice Ninja",
+                "name": "Fidel",
                 "url": "{{{ NINJA_WEB_URL }}}"
             }
         }

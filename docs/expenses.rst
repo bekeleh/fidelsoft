@@ -1,7 +1,7 @@
 Expenses
 ========
 
-Running a freelance business isn't just about the money that's coming in. You also need to take care of the money going out. With Invoice Ninja, all your earnings, expenses, clients and vendors are stored and managed in one, smart system designed to keep you on top of things. What's more, the Expenses part of your Invoice Ninja account streamlines with your invoicing via a click of the mouse, across multiples currencies, so you get the complete bigger picture of your business expenses - with simplicity and ease.
+Running a freelance business isn't just about the money that's coming in. You also need to take care of the money going out. With Fidel, all your earnings, expenses, clients and vendors are stored and managed in one, smart system designed to keep you on top of things. What's more, the Expenses part of your Fidel account streamlines with your invoicing via a click of the mouse, across multiples currencies, so you get the complete bigger picture of your business expenses - with simplicity and ease.
 
 List Expenses
 """""""""""""
@@ -88,7 +88,7 @@ Create Expense
 
 You can create a new expense directly from the Expenses list page by clicking on the blue New Expense + button located at the top right side of the page. The Expenses / Create page will open.
 
-To ensure your business records are meticulous and organized, enter all your expenses in to your Invoice Ninja account. It's the perfect way to keep track, keep up to date and even invoice clients directly for expenses you've accrued while on the job. Managing and invoicing expenses on Invoice Ninja is so easy – but the first step is logging the expense. Here's how to do it.
+To ensure your business records are meticulous and organized, enter all your expenses in to your Fidel account. It's the perfect way to keep track, keep up to date and even invoice clients directly for expenses you've accrued while on the job. Managing and invoicing expenses on Fidel is so easy – but the first step is logging the expense. Here's how to do it.
 
 To create an expense, click on the Expenses tab on the main taskbar. Select New Expense from the drop-down menu and the Expenses / Create page will open.
 

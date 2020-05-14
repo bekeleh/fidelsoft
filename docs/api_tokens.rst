@@ -1,7 +1,7 @@
 API Tokens
 ==========
 
-Invoice Ninja uses API tokens to enable access to third party providers, so you can streamline many of your invoicing and payments functions with our partners.
+Fidel uses API tokens to enable access to third party providers, so you can streamline many of your invoicing and payments functions with our partners.
 
 Tokens
 """"""
@@ -30,9 +30,9 @@ To archive an existing token, click on the gray Select button in the Action colu
 Documentation
 ^^^^^^^^^^^^^
 
-Need some extra help? Click on the gray Documentation button directly above the API Tokens table, and you'll be redirected to https://www.eninjaplus.com/api-documentation/. Here, you can read all about using API documentation in your Invoice Ninja account.
+Need some extra help? Click on the gray Documentation button directly above the API Tokens table, and you'll be redirected to https://www.eninjaplus.com/api-documentation/. Here, you can read all about using API documentation in your Fidel account.
 
 Zapier
 """"""
 
-Invoice Ninja proudly partners with https://zapier.com/ to provide seamless app connections for your Invoice Ninja activity. Check out various Zaps that deliver integrated functionality between Invoice Ninja and other apps to help you streamline your accounting. Click on the gray Zapier button, just to the right of the Documentation button, to find out more.
+Fidel proudly partners with https://zapier.com/ to provide seamless app connections for your Fidel activity. Check out various Zaps that deliver integrated functionality between Fidel and other apps to help you streamline your accounting. Click on the gray Zapier button, just to the right of the Documentation button, to find out more.

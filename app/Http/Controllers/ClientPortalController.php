@@ -106,6 +106,7 @@ class ClientPortalController extends BaseController
             $invoice->invoice_design->javascript = $invoice->invoice_design->pdfmake;
         }
         $contact = $invitation->contact;
+
         $contact->setVisible([
             'first_name',
             'last_name',
@@ -127,11 +128,13 @@ class ClientPortalController extends BaseController
         $data = [];
         $paymentTypes = $this->getPaymentTypes($account, $client, $invitation);
         $paymentURL = '';
+
         if (count($paymentTypes) == 1) {
             $paymentURL = $paymentTypes[0]['url'];
             if (in_array($paymentTypes[0]['gatewayTypeId'], [GATEWAY_TYPE_CUSTOM1, GATEWAY_TYPE_CUSTOM2, GATEWAY_TYPE_CUSTOM3])) {
                 // do nothing
             } elseif (!$account->isGatewayConfigured(GATEWAY_PAYPAL_EXPRESS)) {
+
                 $paymentURL = URL::to($paymentURL);
             }
         }
@@ -172,7 +175,6 @@ class ClientPortalController extends BaseController
                 ];
             }
         }
-
         if ($account->hasFeature(FEATURE_DOCUMENTS) && $this->canCreateZip()) {
             $zipDocs = $this->getInvoiceZipDocuments($invoice, $size);
 

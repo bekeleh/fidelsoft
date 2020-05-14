@@ -1,7 +1,7 @@
 Invoices
 ========
 
-Well, it’s time to bill, and the Invoices function of Invoice Ninja lets you get the job done fast and with perfect accuracy.
+Well, it’s time to bill, and the Invoices function of Fidel lets you get the job done fast and with perfect accuracy.
 
 With a bustling freelance business, you’re going to be sending out a lot of invoices. Creating an invoice is simple with the New Invoice page. Once you’ve entered the client, job and rates information, you’ll see a live PDF preview of your invoice, and you’ll have a range of actions at your fingertips – from saving a draft, to sending the invoice to the client via email, to printing a PDF hard copy.
 
@@ -13,7 +13,7 @@ With numerous invoices to keep track of, the Invoices list page is your go-to gu
 Overview
 ^^^^^^^^
 
-The life of an invoice in the Invoice Ninja system is made up of a number of stages:
+The life of an invoice in the Fidel system is made up of a number of stages:
 
 - **Draft**: When you’ve created an invoice, but have not yet sent it. You may still need to edit.
 - **Sent**: You’ve sent the invoice, but the client has not yet paid.
@@ -89,7 +89,7 @@ Here, we’re going to focus on how to create a new invoice.
 
 To create a new invoice, go to the Invoices tab on the main sidebar, and click on the + sign. This will open the Invoices / Create page.
 
-When you open the Invoices / Create page, the Invoice Ninja system will automatically create a new, empty invoice for you to complete. Note that each new invoice you create will be automatically numbered in chronological order. This will ensure your records are kept logical and organized. (You have the option to change the invoice number manually. We'll discuss that a little later.)
+When you open the Invoices / Create page, the Fidel system will automatically create a new, empty invoice for you to complete. Note that each new invoice you create will be automatically numbered in chronological order. This will ensure your records are kept logical and organized. (You have the option to change the invoice number manually. We'll discuss that a little later.)
 
 The top section of the invoice contains a range of important information specific to the client and the work you are invoicing. Let’s explore them one by one:
 
@@ -134,9 +134,9 @@ Directly to the left of the Balance Due section, you'll see a text box with a nu
 .. TIP:: The Invoices page is rich in clickable links, providing you with a shortcut to relevant pages you may wish to view. For example, all invoice numbers are clickable, taking you directly to the specific invoice page, and all client names are clickable, taking you directly to the specific client summary page.
 
 - **Blue button – Download PDF**: Download the invoice as a PDF file. You can then print or save to your PC or mobile device.
-- **Gray button – Save Draft**: Save the latest version of the invoice. The data is saved in your Invoice Ninja account. You can return to the invoice at any time to continue working on it. Note: An invoice in the Draft stage is not viewable to the client in the client portal, and the amount on the invoice is not reflected in the client's invoicing balance.
+- **Gray button – Save Draft**: Save the latest version of the invoice. The data is saved in your Fidel account. You can return to the invoice at any time to continue working on it. Note: An invoice in the Draft stage is not viewable to the client in the client portal, and the amount on the invoice is not reflected in the client's invoicing balance.
 - **Green button – Mark Sent**: If you mark the invoice as sent, then the invoice will be viewable to your client in the client portal. The amount on the invoice will also be calculated in the client's balance data.
-- **Orange button - Email Invoice**: Email the invoice directly via the Invoice Ninja system to the email address specified for the client.
+- **Orange button - Email Invoice**: Email the invoice directly via the Fidel system to the email address specified for the client.
 - **Gray button – More Actions**: Click on More Actions to open the following action list:
 
 - **Clone Invoice**: Duplicate the current invoice. Then you can make minor adjustments. This is a fast way to create a new invoice that is identical or similar to a previous invoice.

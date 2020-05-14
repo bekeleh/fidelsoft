@@ -270,8 +270,8 @@ class Client extends EntityModel
         }
 
         $contact->fill($data);
-        $contact->first_name = isset($data['first_name']) ? ucwords(strtolower(trim($data['first_name']))) : '';
-        $contact->last_name = isset($data['last_name']) ? ucwords(strtolower(trim($data['last_name']))) : '';
+        $contact->first_name = isset($data['first_name']) ? trim($data['first_name']) : '';
+        $contact->last_name = isset($data['last_name']) ? trim($data['last_name']) : '';
         $contact->is_primary = $isPrimary;
         $contact->email = trim($contact->email);
 

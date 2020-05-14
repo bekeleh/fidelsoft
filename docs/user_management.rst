@@ -1,7 +1,7 @@
 User Management
 ===============
 
-Need help managing your invoicing? As an Invoice Ninja account owner, you can add as many users as you like to your account. Once added, users receive the status of 'Admin'. Your Admins have access to most areas and functions of your Invoice Ninja account.
+Need help managing your invoicing? As an Fidel account owner, you can add as many users as you like to your account. Once added, users receive the status of 'Admin'. Your Admins have access to most areas and functions of your Fidel account.
 
 The User Management page displays a table that includes all current users, with the following data columns:
 
@@ -33,7 +33,7 @@ If you wish to cancel the entry, click the gray Cancel button.
 Send Invitation
 ^^^^^^^^^^^^^^^
 
-When you click Send Invitation, the user will receive an email with an invitation to join your account. The new user will be prompted to confirm the invitation, and then redirected to the Invoice Ninja log in page. They will need to enter their email address, select and confirm a password to become a registered user.
+When you click Send Invitation, the user will receive an email with an invitation to join your account. The new user will be prompted to confirm the invitation, and then redirected to the Fidel log in page. They will need to enter their email address, select and confirm a password to become a registered user.
 
 Once registered, the new user will take on the status of Admin. Their name and details are now displayed in the User Management table.
 

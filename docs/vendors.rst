@@ -3,7 +3,7 @@ Vendors
 
 Running a business is a two way street. Sure, you serve clients and charge them for it. But you also use suppliers, companies and service providers who charge you for all the things you need to get your job done. Office supplies? Check. Coffee machine? Check. Gas for the car? Check. And a hundred-and-one other supplies and services you can name.
 
-Your expenses and vendors are managed with the same ease and one-click functionality as every other part of your business, right here in your Invoice Ninja account. With Invoice Ninja, managing your vendors and expenses is simple – and similar – to managing your clients and invoices. It's only a matter of which way the money's going...
+Your expenses and vendors are managed with the same ease and one-click functionality as every other part of your business, right here in your Fidel account. With Fidel, managing your vendors and expenses is simple – and similar – to managing your clients and invoices. It's only a matter of which way the money's going...
 
 List Vendors
 """"""""""""
@@ -13,7 +13,7 @@ To view your Vendors list page, go to the main taskbar and click the Expenses ta
 Overview
 ^^^^^^^^
 
-The Vendors page shows a list in table format of all companies, service providers or suppliers that you have entered to the Invoice Ninja system as part of your business activities. The table features the following data columns:
+The Vendors page shows a list in table format of all companies, service providers or suppliers that you have entered to the Fidel system as part of your business activities. The table features the following data columns:
 
 - **Vendor:** The company name of the vendor
 - **City:** The city where the vendor is located
@@ -64,7 +64,7 @@ You can choose to restore or delete the archived vendor. To restore an archived 
 Create Vendor
 """""""""""""
 
-To manage your earnings and expenses properly, you need a simple, effective system for every aspect of your accounts. Keeping an updated list and history of your vendors is another part of the puzzle, and, just like your clients, tasks and invoices, Invoice Ninja delivers the goods here too. Create and manage your vendor details with the familiar, fast functionality you've come to expect from Invoice Ninja.
+To manage your earnings and expenses properly, you need a simple, effective system for every aspect of your accounts. Keeping an updated list and history of your vendors is another part of the puzzle, and, just like your clients, tasks and invoices, Fidel delivers the goods here too. Create and manage your vendor details with the familiar, fast functionality you've come to expect from Fidel.
 
 You can create a new vendor either by going directly to the Vendors/ Create page from the main taskbar, or by clicking New Vendor + on the Vendors list page. Here, we’re going to focus on entering a new vendor via the Vendors/ Create page.
 

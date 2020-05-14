@@ -116,8 +116,8 @@ class UserRepository extends BaseRepository
 
         $user->fill($data);
         $user->account_id = Auth::user()->account_id;
-        $user->first_name = isset($data['first_name']) ? ucfirst(trim($data['first_name'])) : null;
-        $user->last_name = isset($data['last_name']) ? ucfirst(trim($data['last_name'])) : null;
+        $user->first_name = isset($data['first_name']) ? trim($data['first_name']) : null;
+        $user->last_name = isset($data['last_name']) ? trim($data['last_name']) : null;
         $user->username = isset($data['username']) ? trim($data['username']) : null;
         $user->email = isset($data['email']) ? trim($data['email']) : null;
         $user->confirmed = isset($data['confirmed']) ? boolval($data['confirmed']) : 0;

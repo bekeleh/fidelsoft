@@ -7,6 +7,15 @@
         ])->split(); ?>
 
     <?php endif; ?>
+<?php elseif($entityType == ENTITY_PERMISSION_GROUP): ?>
+    <?php if(Auth::user()->can('create', [ENTITY_PERMISSION_GROUP])): ?>
+        <?php echo DropdownButton::normal(trans('texts.maintenance'))
+        ->withAttributes(['class'=>'maintenanceDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_user'), 'url' => url('/users/create')],
+        ])->split(); ?>
+
+    <?php endif; ?>
 <?php elseif(in_array($entityType, [ENTITY_PROPOSAL_SNIPPET,ENTITY_PROPOSAL_CATEGORY])): ?>
     <?php if(Auth::user()->can('create', [ENTITY_PROPOSAL_CATEGORY])): ?>
         <?php echo DropdownButton::normal(trans('texts.maintenance'))

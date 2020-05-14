@@ -180,7 +180,7 @@ class ClientRepository extends BaseRepository
             $data['payment_terms'] = auth()->user()->account->payment_terms;
         }
         $client->fill($data);
-        $client->name = isset($data['name']) ? ucwords(strtolower(trim($data['name']))) : '';
+        $client->name = isset($data['name']) ? trim($data['name']) : '';
         $client->save();
         /*
         if ( ! isset($data['contact']) && ! isset($data['contacts'])) {

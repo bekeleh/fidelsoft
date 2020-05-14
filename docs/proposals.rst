@@ -5,7 +5,7 @@ When submitting a regular quote is not enough, the advanced Proposals feature co
 
 Proposals are a powerful sales and marketing tool to present your offer for a gig. Whether you're competing against other providers, or you want to make a fantastic impression, the proposal function is a great way to custom-create a personalized proposal containing all the information you need to convey.
 
-The proposals feature is based on grapesjs.com, which enables HTML and CSS management. This advanced tool gives experienced programmers the freedom to create customized, professional proposals with ease, directly within Invoice Ninja, integrating your quote information with one click.
+The proposals feature is based on grapesjs.com, which enables HTML and CSS management. This advanced tool gives experienced programmers the freedom to create customized, professional proposals with ease, directly within Fidel, integrating your quote information with one click.
 
 There are three key parts to creating proposals: Proposals, Templates and Snippets. Let's explore them one by one.
 
