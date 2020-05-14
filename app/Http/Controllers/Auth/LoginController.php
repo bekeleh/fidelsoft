@@ -125,10 +125,12 @@ class LoginController extends Controller
             return $this->sendLockoutResponse($request);
         }
 
+        $remember_me = $request->has('remember') ? true : false;
+
         $additionalInfo = ['activated' => 1];
         $data = array_merge($this->credentials($request), $additionalInfo);
 
-        $auth = Auth::attempt($data);
+        $auth = Auth::attempt($data, $remember_me);
 
         if (!$auth) {
             if (!$lockedOut) {
