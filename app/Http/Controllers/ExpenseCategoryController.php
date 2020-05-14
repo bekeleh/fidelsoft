@@ -38,6 +38,7 @@ class ExpenseCategoryController extends BaseController
     {
         $accountId = Auth::user()->account_id;
         $search = Input::get('sSearch');
+
         return $this->categoryService->getDatatable($accountId, $search);
     }
 

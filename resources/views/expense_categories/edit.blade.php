@@ -7,6 +7,7 @@
             ->method($method)
             ->rules([
                 'name' => 'required',
+                'notes' => 'required',
             ]) !!}
 
     @if ($category)

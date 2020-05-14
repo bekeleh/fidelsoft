@@ -15,39 +15,31 @@ class ExpenseCategory extends EntityModel
     use SoftDeletes;
     use PresentableTrait;
 
-    /**
-     * @var array
-     */
+
     protected $fillable = [
         'name',
+        'notes',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
-    /**
-     * @var string
-     */
+
     protected $presenter = 'App\Ninja\Presenters\EntityPresenter';
 
-    /**
-     * @return mixed
-     */
     public function getEntityType()
     {
         return ENTITY_EXPENSE_CATEGORY;
     }
 
-    /**
-     * @return BelongsTo
-     */
+    public function getRoute()
+    {
+        return "/expense_categories/{$this->public_id}/edit";
+    }
+
     public function expense()
     {
         return $this->belongsTo('App\Models\Expense');
     }
 
-    /**
-     * @return string
-     */
-    public function getRoute()
-    {
-        return "/expense_categories/{$this->public_id}/edit";
-    }
 }

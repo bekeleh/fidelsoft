@@ -2285,6 +2285,7 @@ $LANG = array(
     'archived_expense_category' => 'Successfully archived expense category',
     'archived_expense_categories' => 'Successfully archived :count expense category',
     'restore_expense_category' => 'Restore expense category',
+    'clone_expense_category' => 'Close expense category',
     'restored_expense_category' => 'Successfully restored expense category',
     'expense_category_help' => 'Sets the default <b>expense category</b>',
     'apply_taxes' => 'Apply taxes',

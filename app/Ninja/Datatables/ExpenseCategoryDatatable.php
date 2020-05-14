@@ -76,7 +76,7 @@ class ExpenseCategoryDatatable extends EntityDatatable
                 },
             ],
             [
-                trans('texts.clone_category'),
+                trans('texts.clone_expense_category'),
                 function ($model) {
                     return URL::to("expense_categories/{$model->public_id}/clone");
                 },

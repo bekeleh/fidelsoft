@@ -37,7 +37,7 @@ class ExpenseCategoryService extends BaseService
         // we don't support bulk edit and hide the client on the individual client page
         $datatable = new ExpenseCategoryDatatable();
 
-        $query = $this->categoryRepo->find($search);
+        $query = $this->categoryRepo->find($accountId, $search);
 
         return $this->datatableService->createDatatable($datatable, $query, 'expense_categories');
     }

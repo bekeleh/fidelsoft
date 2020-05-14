@@ -12,7 +12,7 @@ class ClientRequest extends EntityRequest
 
     public function authorize()
     {
-        return true;
+        return $this->user()->can('create', ENTITY_CLIENT);
     }
 
     public function entity()
