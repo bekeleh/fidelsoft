@@ -731,15 +731,20 @@ class AccountController extends BaseController
 
     private function saveCustomizeDesign()
     {
-        $designId = intval(Input::get('design_id')) ?: CUSTOM_DESIGN1;
-        $field = 'custom_design' . ($designId - 10);
 
-        if (Auth::user()->account->hasFeature(FEATURE_CUSTOMIZE_INVOICE_DESIGN)) {
+        $designId = intval(Input::get('design_id')) ?: CUSTOM_DESIGN1;
+
+        $field = ACCOUNT_CUSTOM_DESIGN . ($designId - 10);
+
+        if ($user = Auth::user()->account->hasFeature(FEATURE_CUSTOMIZE_INVOICE_DESIGN)) {
             $account = Auth::user()->account;
+
             if (!$account->custom_design1) {
                 $account->invoice_design_id = CUSTOM_DESIGN1;
             }
+
             $account->$field = Input::get('custom_design');
+
             $account->save();
         }
 

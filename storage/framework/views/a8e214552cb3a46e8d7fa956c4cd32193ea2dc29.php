@@ -39,25 +39,54 @@
             </div>
         <?php endif; ?>
 
-        <?php if(env('REMEMBER_ME_ENABLED')): ?>
-            <?php echo e(Former::populateField('remember', 'true')); ?>
-
-            <?php echo Former::hidden('remember')->raw(); ?>
-
-        <?php endif; ?>
-
         <div>
-            <?php echo Former::text('username')->placeholder(trans('texts.username_place_holder'))->raw(); ?>
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="fa fa-user"></i>
+                </span>
+            </div>
+            <input name="email" type="text" class="form-control<?php echo e($errors->has('email') ? ' is-invalid' : ''); ?>"
+                   required autofocus placeholder="<?php echo e(trans('texts.login_email_or_username')); ?>"
+                   value="<?php echo e(old('email', null)); ?>">
+            <?php if($errors->has('email')): ?>
+                <div class="invalid-feedback">
+                    <?php echo e($errors->first('email')); ?>
 
-            <?php echo Former::password('password')->placeholder(trans('texts.password'))->raw(); ?>
+                </div>
+            <?php endif; ?>
+        </div>
+        <div>
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-lock"></i></span>
+            </div>
+            <input name="password" type="password"
+                   class="form-control<?php echo e($errors->has('password') ? ' is-invalid' : ''); ?>" required
+                   placeholder="<?php echo e(trans('texts.login_password')); ?>">
+            <?php if($errors->has('password')): ?>
+                <div class="invalid-feedback">
+                    <?php echo e($errors->first('password')); ?>
 
+                </div>
+            <?php endif; ?>
         </div>
 
-        <?php echo Button::success(trans('texts.login'))
-                    ->withAttributes(['id' => 'loginButton', 'class' => 'green'])
-                    ->large()->submit()->block(); ?>
+        <div>
+            <div class="form-check checkbox">
+                <input class="form-check-input" name="remember" type="checkbox" id="remember"
+                       style="vertical-align: middle;"/>
+                <label class="form-check-label" for="remember" style="vertical-align: middle;">
+                    <?php echo e(trans('texts.remember_me')); ?>
 
-    <!-- social network key -->
+                </label>
+            </div>
+        </div>
+        <div>
+            <?php echo Button::success(trans('texts.login'))
+                        ->withAttributes(['id' => 'loginButton', 'class' => 'green'])
+                        ->large()->submit()->block(); ?>
+
+        </div>
+        <!-- social network key -->
         <?php if(Utils::isOAuthEnabled()): ?>
             <div class="row existing-accounts">
                 <p><?php echo e(trans('texts.login_or_existing')); ?></p>

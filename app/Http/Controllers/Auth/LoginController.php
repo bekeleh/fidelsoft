@@ -15,17 +15,18 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
     use ThrottlesLogins;
 
     protected $username = 'username';
+
     protected $redirectTo = '/dashboard';
 
     private $maxLoginAttempts;
@@ -124,7 +125,10 @@ class LoginController extends Controller
             return $this->sendLockoutResponse($request);
         }
 
-        $auth = Auth::attempt(['username' => $request->input('username'), 'password' => $request->input('password'), 'activated' => 1]);
+        $additionalInfo = ['activated' => 1];
+        $data = array_merge($this->credentials($request), $additionalInfo);
+
+        $auth = Auth::attempt($data);
 
         if (!$auth) {
             if (!$lockedOut) {
@@ -143,10 +147,22 @@ class LoginController extends Controller
         return redirect()->intended()->with('success', trans('auth/message.signin.success'));
     }
 
+    protected function credentials(Request $request)
+    {
+        $field = filter_var($request->get('email'), FILTER_VALIDATE_EMAIL)
+            ? 'email'
+            : $this->username();
+
+        return [
+            $field => $request->email,
+            'password' => $request->password,
+        ];
+    }
+
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'username' => 'required',
+            'email' => 'required',
             'password' => 'required',
         ]);
     }

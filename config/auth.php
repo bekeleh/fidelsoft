@@ -127,7 +127,7 @@ return [
     */
 
     'throttle' => [
-        'max_attempts' => env('LOGIN_MAX_ATTEMPTS', 10),
-        'lockout_duration' => env('LOGIN_LOCKOUT_DURATION', 60),
+        'max_attempts' => env('LOGIN_MAX_ATTEMPTS', 5),
+        'lockout_duration' => env('LOGIN_LOCKOUT_DURATION', 300),
     ],
 ];

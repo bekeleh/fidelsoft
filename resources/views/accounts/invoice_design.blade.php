@@ -175,12 +175,10 @@
                 {!! Former::text('invoice_fields_json')->data_bind('value: ko.mapping.toJSON(model)') !!}
             </div>
 
-
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{!! trans('texts.invoice_design') !!}</h3>
+                <div class="panel-heading" style="color: white;background-color: #777 !important;">
+                    <h3 class="panel-title in-bold-white">{!! trans('texts.invoice_design') !!}</h3>
                 </div>
-
                 <div class="panel-body">
                     <div role="tabpanel">
                         <ul class="nav nav-tabs" role="tablist" style="border: none">
@@ -202,10 +200,8 @@
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="general_settings">
                             <div class="panel-body">
-
                                 <div class="row">
                                     <div class="col-md-6">
-
                                         {!! Former::select('invoice_design_id')
                                                   ->label('invoice_design')
                                                 ->fromQuery($invoiceDesigns, 'name', 'id') !!}
@@ -219,13 +215,10 @@
 
                                     </div>
                                     <div class="col-md-6">
-
                                         {{ Former::setOption('TwitterBootstrap3.labelWidths.large', 6) }}
                                         {{ Former::setOption('TwitterBootstrap3.labelWidths.small', 6) }}
-
                                         {!! Former::select('page_size')
                                                 ->options($pageSizes) !!}
-
                                         {!! Former::text('font_size')
                                               ->type('number')
                                               ->min('0')
@@ -233,7 +226,6 @@
 
                                         {!! Former::text('primary_color') !!}
                                         {!! Former::text('secondary_color') !!}
-
 
                                         {{ Former::setOption('TwitterBootstrap3.labelWidths.large', 4) }}
                                         {{ Former::setOption('TwitterBootstrap3.labelWidths.small', 4) }}
@@ -311,7 +303,6 @@
                         </div>
                         <div role="tabpanel" class="tab-pane" id="invoice_options">
                             <div class="panel-body">
-
                                 @if (auth()->user()->isEnterprise())
                                     {!! Former::select('background_image_id')
                                             ->label('background_image')
@@ -348,7 +339,6 @@
                     </div>
                 </div>
             </div>
-
             <center class="buttons">
                 {!! $account->getCustomDesign(CUSTOM_DESIGN1) ?
                         DropdownButton::primary(trans('texts.customize'))
@@ -371,8 +361,6 @@
         </div>
     </div>
 
-
     @include('invoices.pdf', ['account' => Auth::user()->account, 'pdfHeight' => 800])
-
 
 @stop

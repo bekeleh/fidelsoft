@@ -5,11 +5,10 @@
         <style type="text/css">
             .nav-footer {
                 @if (config('mail.driver') == 'log' && ! config('services.postmark'))
-                                                                                         background-color: #50C878 !important;
+  background-color: #50C878 !important;
                 @else
-                                                                                         background-color: #FD6A02 !important;
+  background-color: #FD6A02 !important;
             @endif
-
 
             }
         </style>
@@ -254,9 +253,9 @@
             <a href="#" id="left-menu-toggle" class="menu-toggle" title="{{ trans('texts.toggle_navigation') }}"
                style="color:white;">
                 <div class="navbar-brand">
-                    <i class="fa fa-bars hide-phone"
-                       style="width:32px;padding-top:2px;float:left"></i>{{trans('texts.team_source')}}
-                    {{--                    <img src="{{ asset('images/round_logo.png') }}" width="193" height="25" style="float:left"/>--}}
+                    <i class="fa fa-bars hide-phone" style="width:32px;padding-top:2px;float:left"></i>
+                    {{trans('texts.team_source')}}
+                    {{--                    <img src="{{ asset('images/round_logo.png') }}" width="80" height="25" style="float:left"/>--}}
                 </div>
             </a>
         </div>

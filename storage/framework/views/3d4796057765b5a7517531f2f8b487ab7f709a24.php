@@ -4,11 +4,10 @@
         <style type="text/css">
             .nav-footer {
                 <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?>
-                                                                                         background-color: #50C878 !important;
+  background-color: #50C878 !important;
                 <?php else: ?>
-                                                                                         background-color: #FD6A02 !important;
+  background-color: #FD6A02 !important;
             <?php endif; ?>
-
 
             }
         </style>
@@ -254,8 +253,8 @@
             <a href="#" id="left-menu-toggle" class="menu-toggle" title="<?php echo e(trans('texts.toggle_navigation')); ?>"
                style="color:white;">
                 <div class="navbar-brand">
-                    <i class="fa fa-bars hide-phone"
-                       style="width:32px;padding-top:2px;float:left"></i><?php echo e(trans('texts.team_source')); ?>
+                    <i class="fa fa-bars hide-phone" style="width:32px;padding-top:2px;float:left"></i>
+                    <?php echo e(trans('texts.team_source')); ?>
 
                     
                 </div>

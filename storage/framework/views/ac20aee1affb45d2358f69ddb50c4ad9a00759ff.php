@@ -61,8 +61,10 @@
         <center class="buttons">
             <?php echo Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/item_transfers'))->appendIcon(Icon::create('remove-circle')); ?>
 
-            <?php echo Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')); ?>
+            <?php if(!$itemTransfer): ?>
+                <?php echo Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')); ?>
 
+            <?php endif; ?>
             <?php if($itemTransfer): ?>
                 <?php echo DropdownButton::normal(trans('texts.more_actions'))
                 ->withContents($itemTransfer->present()->moreActions())

@@ -190,12 +190,10 @@
 
             </div>
 
-
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><?php echo trans('texts.invoice_design'); ?></h3>
+                <div class="panel-heading" style="color: white;background-color: #777 !important;">
+                    <h3 class="panel-title in-bold-white"><?php echo trans('texts.invoice_design'); ?></h3>
                 </div>
-
                 <div class="panel-body">
                     <div role="tabpanel">
                         <ul class="nav nav-tabs" role="tablist" style="border: none">
@@ -217,10 +215,8 @@
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="general_settings">
                             <div class="panel-body">
-
                                 <div class="row">
                                     <div class="col-md-6">
-
                                         <?php echo Former::select('invoice_design_id')
                                                   ->label('invoice_design')
                                                 ->fromQuery($invoiceDesigns, 'name', 'id'); ?>
@@ -238,15 +234,12 @@
 
                                     </div>
                                     <div class="col-md-6">
-
                                         <?php echo e(Former::setOption('TwitterBootstrap3.labelWidths.large', 6)); ?>
 
                                         <?php echo e(Former::setOption('TwitterBootstrap3.labelWidths.small', 6)); ?>
 
-
                                         <?php echo Former::select('page_size')
                                                 ->options($pageSizes); ?>
-
 
                                         <?php echo Former::text('font_size')
                                               ->type('number')
@@ -257,7 +250,6 @@
                                         <?php echo Former::text('primary_color'); ?>
 
                                         <?php echo Former::text('secondary_color'); ?>
-
 
 
                                         <?php echo e(Former::setOption('TwitterBootstrap3.labelWidths.large', 4)); ?>
@@ -345,7 +337,6 @@
                         </div>
                         <div role="tabpanel" class="tab-pane" id="invoice_options">
                             <div class="panel-body">
-
                                 <?php if(auth()->user()->isEnterprise()): ?>
                                     <?php echo Former::select('background_image_id')
                                             ->label('background_image')
@@ -387,7 +378,6 @@
                     </div>
                 </div>
             </div>
-
             <center class="buttons">
                 <?php echo $account->getCustomDesign(CUSTOM_DESIGN1) ?
                         DropdownButton::primary(trans('texts.customize'))
@@ -413,9 +403,7 @@
         </div>
     </div>
 
-
     <?php echo $__env->make('invoices.pdf', ['account' => Auth::user()->account, 'pdfHeight' => 800], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-
 
 <?php $__env->stopSection(); ?>
 

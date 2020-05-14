@@ -24,9 +24,9 @@ class ItemTransferPresenter extends EntityPresenter
         $actions = [];
 
         if (!$itemTransfer->trashed()) {
-            if (auth()->user()->can('create', ENTITY_ITEM_TRANSFER)) {
-                $actions[] = ['url' => 'javascript:submitAction("clone")', 'label' => trans('texts.clone_item_transfer')];
-            }
+//            if (auth()->user()->can('create', ENTITY_ITEM_TRANSFER)) {
+//                $actions[] = ['url' => 'javascript:submitAction("clone")', 'label' => trans('texts.clone_item_transfer')];
+//            }
             if (count($actions)) {
                 $actions[] = DropdownButton::DIVIDER;
             }

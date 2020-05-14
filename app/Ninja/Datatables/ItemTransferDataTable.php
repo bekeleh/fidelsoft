@@ -132,9 +132,9 @@ class ItemTransferDataTable extends EntityDatatable
 //                },
 //            ],
 //            [
-//                'approved_date',
+//                'dispatch_date',
 //                function ($model) {
-//                    return Utils::timestampToDateString(strtotime($model->approved_date));
+//                    return Utils::timestampToDateString(strtotime($model->dispatch_date));
 //                },
 //            ],
             [
@@ -170,15 +170,15 @@ class ItemTransferDataTable extends EntityDatatable
                     return Auth::user()->can('edit', ENTITY_ITEM_TRANSFER);
                 },
             ],
-            [
-                trans('texts.clone_item_transfer'),
-                function ($model) {
-                    return URL::to("item_transfers/{$model->public_id}/clone");
-                },
-                function ($model) {
-                    return Auth::user()->can('create', ENTITY_ITEM_TRANSFER);
-                },
-            ],
+//            [
+//                trans('texts.clone_item_transfer'),
+//                function ($model) {
+//                    return URL::to("item_transfers/{$model->public_id}/clone");
+//                },
+//                function ($model) {
+//                    return Auth::user()->can('create', ENTITY_ITEM_TRANSFER);
+//                },
+//            ],
         ];
     }
 

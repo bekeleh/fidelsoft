@@ -54,7 +54,9 @@
     @if (Auth::user()->canCreateOrEdit(ENTITY_ITEM_STORE, $itemTransfer))
         <center class="buttons">
             {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/item_transfers'))->appendIcon(Icon::create('remove-circle')) !!}
-            {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
+            @if (!$itemTransfer)
+                {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
+            @endif
             @if ($itemTransfer)
                 {!! DropdownButton::normal(trans('texts.more_actions'))
                 ->withContents($itemTransfer->present()->moreActions())

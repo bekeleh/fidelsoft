@@ -116,7 +116,8 @@ $LANG = array(
     'confirmed' => 'Confirmed',
     'activated' => 'Activated',
     'updated_user_permission' => 'Successfully Updated User Permission',
-    'username_place_holder' => 'Username or email',
+
+    'login_email_or_username' => 'Email or username',
 
     /*
     |--------------------------------------------------------------------------
@@ -246,8 +247,8 @@ $LANG = array(
     */
     'new_item_transfer' => 'New Item Transfer',
     'list_item_transfers' => 'List Item Transfer',
-    'item_transfer' => 'Item Transfer',
-    'item_transfers' => 'Item Transfer',
+    'item_transfer' => 'Inventory Location Transfer',
+    'item_transfers' => 'Inventory Location Transfers',
     'create_item_transfer' => 'Create Item Transfer',
     'edit_item_transfer' => 'Edit Item Transfer',
     'clone_item_transfer' => 'Clone Item Transfer',
@@ -442,7 +443,7 @@ $LANG = array(
     | item store trans
     |--------------------------------------------------------------------------
     */
-    'item_stores' => 'Inventory Adjustment',
+    'item_stores' => 'Inventory Adjustments',
     'bin' => 'Bin Location',
     'reorder_level' => 'Reorder Level',
     'EOQ' => 'EOQ',
@@ -581,7 +582,7 @@ $LANG = array(
     'close' => 'Close',
     'provide_email' => 'Please provide a valid email address',
     'powered_by' => 'Powered by',
-    'team_source' => 'E-Ninja Plus ERP',
+    'team_source' => 'E-Fidel ERP',
     'no_items' => 'No items',
     'recurring_invoices' => 'Recurring Invoices',
     'recurring_help' => '<p>Automatically send clients the same invoices weekly, bi-monthly, monthly, quarterly or annually. </p>
@@ -732,6 +733,8 @@ $LANG = array(
     'notification_invoice_viewed' => 'The following client :client viewed Invoice :invoice for :amount.',
     'reset_password' => 'You can reset your user password by clicking the following button:',
     'force_reset_password' => 'You can force resetting user password',
+    'login_password' => 'Password',
+    'remember_me' => 'Remember Me',
     'reset_pwd' => 'Reset Password',
     'secure_payment' => 'Secure Payment',
     'card_number' => 'Card Number',

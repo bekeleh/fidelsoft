@@ -31,7 +31,7 @@ class ItemTransfer extends EntityModel
         'current_store_id',
         'status_id',
         'approver_id',
-        'approved_date',
+        'dispatch_date',
         'qty',
         'notes',
         'created_by',

@@ -58,7 +58,7 @@ class ItemTransferRepository extends BaseRepository
                 'item_transfers.qty',
                 'item_transfers.is_deleted',
                 'item_transfers.notes',
-                'item_transfers.approved_date',
+                'item_transfers.dispatch_date',
                 'item_transfers.created_at',
                 'item_transfers.updated_at',
                 'item_transfers.deleted_at',

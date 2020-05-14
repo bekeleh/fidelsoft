@@ -37,20 +37,50 @@
             </div>
         @endif
 
-        @if (env('REMEMBER_ME_ENABLED'))
-            {{ Former::populateField('remember', 'true') }}
-            {!! Former::hidden('remember')->raw() !!}
-        @endif
-
         <div>
-            {!! Former::text('username')->placeholder(trans('texts.username_place_holder'))->raw() !!}
-            {!! Former::password('password')->placeholder(trans('texts.password'))->raw() !!}
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="fa fa-user"></i>
+                </span>
+            </div>
+            <input name="email" type="text" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
+                   required autofocus placeholder="{{ trans('texts.login_email_or_username') }}"
+                   value="{{ old('email', null) }}">
+            @if($errors->has('email'))
+                <div class="invalid-feedback">
+                    {{ $errors->first('email') }}
+                </div>
+            @endif
+        </div>
+        <div>
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-lock"></i></span>
+            </div>
+            <input name="password" type="password"
+                   class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" required
+                   placeholder="{{ trans('texts.login_password') }}">
+            @if($errors->has('password'))
+                <div class="invalid-feedback">
+                    {{ $errors->first('password') }}
+                </div>
+            @endif
         </div>
 
-        {!! Button::success(trans('texts.login'))
-                    ->withAttributes(['id' => 'loginButton', 'class' => 'green'])
-                    ->large()->submit()->block() !!}
-    <!-- social network key -->
+        <div>
+            <div class="form-check checkbox">
+                <input class="form-check-input" name="remember" type="checkbox" id="remember"
+                       style="vertical-align: middle;"/>
+                <label class="form-check-label" for="remember" style="vertical-align: middle;">
+                    {{ trans('texts.remember_me') }}
+                </label>
+            </div>
+        </div>
+        <div>
+            {!! Button::success(trans('texts.login'))
+                        ->withAttributes(['id' => 'loginButton', 'class' => 'green'])
+                        ->large()->submit()->block() !!}
+        </div>
+        <!-- social network key -->
         @if (Utils::isOAuthEnabled())
             <div class="row existing-accounts">
                 <p>{{ trans('texts.login_or_existing') }}</p>
