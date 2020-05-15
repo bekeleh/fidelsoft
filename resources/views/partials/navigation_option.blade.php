@@ -1,4 +1,4 @@
-<!-- if settings or reports -->
+<!-- navigation option  -->
 <li class="nav-{{ $option }} {{ Request::is("{$option}*") ? 'active' : '' }}">
     @if ($option == 'settings')
         <a type="button" class="btn btn-default btn-sm pull-right"
@@ -15,6 +15,11 @@
         <a type="button" class="btn btn-primary btn-sm pull-right"
            href="{{ url("/{$option}/create") }}">
             <i class="fa fa-plus-circle" style="width:20px" title="{{ trans('texts.create_new') }}"></i>
+        </a>
+    @elseif (Auth::user()->can('view', substr($option, 0, -1)))
+        <a type="button" class="btn btn-primary btn-sm pull-right"
+           href="{{ url("/{$option}") }}">
+            <i class="fa fa-eye" style="width:20px" title="{{ trans('texts.view_record') }}"></i>
         </a>
     @endif
     <a href="{{ url($option == 'recurring' ? 'recurring_invoices' : $option) }}"

@@ -4,10 +4,68 @@
         <style type="text/css">
             .nav-footer {
                 <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?>
-  background-color: #50C878 !important;
+                            background-color: #50C878 !important;
                 <?php else: ?>
-  background-color: #FD6A02 !important;
+                            background-color: #FD6A02 !important;
             <?php endif; ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             }
         </style>
@@ -338,11 +396,13 @@
                     </ul>
                 </div>
             </div>
-      <?php echo Former::open('/handle_command')->id('search-form')->addClass('navbar-form navbar-right')->role('search'); ?>
+            <?php echo Former::open('/handle_command')->id('search-form')->addClass('navbar-form navbar-right')->role('search'); ?>
 
-        <div class="form-group has-feedback">
-          <input type="text" name="command" id="search" style="width: 380px;padding-top:0px;padding-bottom:0px;margin-right:20px;"
-            class="form-control" placeholder="<?php echo e(trans('texts.search') . ': ' . trans('texts.search_hotkey')); ?>"/>
+            <div class="form-group has-feedback">
+                <input type="text" name="command" id="search"
+                       style="width: 380px;padding-top:0px;padding-bottom:0px;margin-right:20px;"
+                       class="form-control"
+                       placeholder="<?php echo e(trans('texts.search') . ': ' . trans('texts.search_hotkey')); ?>"/>
                 
                 
                 
@@ -385,44 +445,43 @@
             <ul class="sidebar-nav <?php echo e(Auth::user()->dark_mode ? 'sidebar-nav-dark' : 'sidebar-nav-light'); ?>">
             <?php $__currentLoopData = [
             'dashboard',
-            'users',
-            'clients',
-            'vendors',
-             'products',
+            'POS',
             'invoices',
             'payments',
             'recurring_invoices' => 'recurring',
             'credits',
             'quotes',
+             'products',
+             'purchases',
             'proposals',
             'projects',
             'tasks',
-             'schedules',
+            'schedules',
             'expenses',
             'manufacturers',
-            'settings'
+            'clients',
+            'vendors',
+            'users',
             ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <?php if(!Auth::user()->account->isModuleEnabled(substr($option, 0, -1))): ?>
                     <?php echo e(''); ?>
 
                 <?php else: ?>
-                    <?php echo $__env->make('partials.navigation_option', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    <?php if(Utils::isAdmin() || Auth::user()->can('view', substr($option, 0, -1))): ?>
+                        <?php echo $__env->make('partials.navigation_option', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    <?php endif; ?>
                 <?php endif; ?>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            <?php if( ! Utils::isNinjaProd()): ?>
-                <?php $__currentLoopData = Module::collections(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $module): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <?php echo $__env->renderWhen(empty($module->get('no-sidebar')) || $module->get('no-sidebar') != '1', 'partials.navigation_option', [
-                    'option' => $module->getAlias(),
-                    'icon' => $module->get('icon', 'th-large'),
-                    ], array_except(get_defined_vars(), array('__data', '__path'))); ?>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            <?php endif; ?>
             <!-- if user is administrator -->
-                <?php if(Auth::user()->is_admin || Auth::user()->hasAccess('admin') ): ?>
+                <?php if(Utils::isAdmin() || Auth::user()->can('view',[ENTITY_REPORT])): ?>
                     <?php echo $__env->make('partials.navigation_option', ['option' => 'reports'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                <?php endif; ?>
+                <?php if(Utils::isAdmin() ): ?>
                     <?php echo $__env->make('partials.navigation_option', ['option' => 'settings'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 <?php endif; ?>
+                <h3 style="height: 15px;"></h3>
             </ul>
+
         </div>
         <!-- /#left-sidebar-wrapper -->
         <div id="right-sidebar-wrapper" class="hide-phone" style="overflow-y:hidden">

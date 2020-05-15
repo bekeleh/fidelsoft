@@ -5,10 +5,68 @@
         <style type="text/css">
             .nav-footer {
                 @if (config('mail.driver') == 'log' && ! config('services.postmark'))
-  background-color: #50C878 !important;
+                            background-color: #50C878 !important;
                 @else
-  background-color: #FD6A02 !important;
+                            background-color: #FD6A02 !important;
             @endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             }
         </style>
@@ -332,10 +390,12 @@
                     </ul>
                 </div>
             </div>
-      {!! Former::open('/handle_command')->id('search-form')->addClass('navbar-form navbar-right')->role('search') !!}
-        <div class="form-group has-feedback">
-          <input type="text" name="command" id="search" style="width: 380px;padding-top:0px;padding-bottom:0px;margin-right:20px;"
-            class="form-control" placeholder="{{ trans('texts.search') . ': ' . trans('texts.search_hotkey')}}"/>
+            {!! Former::open('/handle_command')->id('search-form')->addClass('navbar-form navbar-right')->role('search') !!}
+            <div class="form-group has-feedback">
+                <input type="text" name="command" id="search"
+                       style="width: 380px;padding-top:0px;padding-bottom:0px;margin-right:20px;"
+                       class="form-control"
+                       placeholder="{{ trans('texts.search') . ': ' . trans('texts.search_hotkey')}}"/>
                 {{--                @if (env('SPEECH_ENABLED'))--}}
                 {{--                    @include('partials/speech_recognition')--}}
                 {{--                @endif--}}
@@ -376,43 +436,42 @@
             <ul class="sidebar-nav {{ Auth::user()->dark_mode ? 'sidebar-nav-dark' : 'sidebar-nav-light' }}">
             @foreach([
             'dashboard',
-            'users',
-            'clients',
-            'vendors',
-             'products',
+            'POS',
             'invoices',
             'payments',
             'recurring_invoices' => 'recurring',
             'credits',
             'quotes',
+             'products',
+             'purchases',
             'proposals',
             'projects',
             'tasks',
-             'schedules',
+            'schedules',
             'expenses',
             'manufacturers',
-            'settings'
+            'clients',
+            'vendors',
+            'users',
             ] as $option)
                 @if(!Auth::user()->account->isModuleEnabled(substr($option, 0, -1)))
                     {{ '' }}
                 @else
-                    @include('partials.navigation_option')
+                    @if (Utils::isAdmin() || Auth::user()->can('view', substr($option, 0, -1)))
+                        @include('partials.navigation_option')
+                    @endif
                 @endif
             @endforeach
-            @if ( ! Utils::isNinjaProd())
-                @foreach (Module::collections() as $module)
-                    @includeWhen(empty($module->get('no-sidebar')) || $module->get('no-sidebar') != '1', 'partials.navigation_option', [
-                    'option' => $module->getAlias(),
-                    'icon' => $module->get('icon', 'th-large'),
-                    ])
-                @endforeach
-            @endif
             <!-- if user is administrator -->
-                @if (Auth::user()->is_admin || Auth::user()->hasAccess('admin') )
+                @if (Utils::isAdmin() || Auth::user()->can('view',[ENTITY_REPORT]))
                     @include('partials.navigation_option', ['option' => 'reports'])
+                @endif
+                @if (Utils::isAdmin() )
                     @include('partials.navigation_option', ['option' => 'settings'])
                 @endif
+                <h3 style="height: 15px;"></h3>
             </ul>
+
         </div>
         <!-- /#left-sidebar-wrapper -->
         <div id="right-sidebar-wrapper" class="hide-phone" style="overflow-y:hidden">

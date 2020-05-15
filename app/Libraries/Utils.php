@@ -256,7 +256,7 @@ class Utils
 
     public static function isAdmin()
     {
-        return Auth::check() && Auth::user()->hasAccess('admin');
+        return Auth::check() && Auth::user()->hasPermission('admin');
     }
 
     public static function hasPermission($permission, $requireAll = false)

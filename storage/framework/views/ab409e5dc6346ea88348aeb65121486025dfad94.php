@@ -66,7 +66,7 @@
 </div>
 
 <!-- Grid view -->
-<?php if(Auth::user()->can('create', $entityType)): ?>
+<?php if(Auth::user()->can('view', $entityType)): ?>
     <?php echo Datatable::table()
     ->addColumn(Utils::trans($datatable->columnFields(), $datatable->entityType))
     ->setUrl(empty($url) ? url('api/' . Utils::pluralizeEntityType($entityType)) : $url)

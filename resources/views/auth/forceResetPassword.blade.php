@@ -35,20 +35,19 @@
             </div>
         </div>
     </div>
-    @if ( ! Auth::user()->is_admin)
+    @if ( ! Utils::isAdmin())
         @include('accounts.partials.notifications')
     @endif
     <center class="buttons">
         {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/'))->appendIcon(Icon::create('remove-circle')) !!}
-        @can('passwordReset')
+        @if(Utils::isAdmin())
             {!! Button::primary(trans('texts.change_password'))
                     ->appendIcon(Icon::create('lock'))
                     ->large()->withAttributes(['onclick'=>'showChangePassword()']) !!}
-            {{--        @elseif (Auth::user()->registered && Utils::isNinja())--}}
             {!! Button::primary(trans('texts.resend_confirmation'))
                     ->appendIcon(Icon::create('send'))
                     ->asLinkTo(URL::to('/resend_confirmation'))->large() !!}
-        @endcan
+        @endif
         {{--        {!! Button::success(trans('texts.save'))--}}
         {{--                ->submit()->large()--}}
         {{--                ->appendIcon(Icon::create('floppy-disk')) !!}--}}

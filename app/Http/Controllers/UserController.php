@@ -180,6 +180,8 @@ class UserController extends BaseController
             $data = [
                 'user' => $user,
                 'account' => $account,
+                'url' => null,
+                'method' => null,
                 'actionLinks' => $actionLinks,
                 'showBreadcrumbs' => false,
                 'title' => trans('texts.view_user'),
@@ -291,6 +293,8 @@ class UserController extends BaseController
         $userAccount_id = Input::get('account_id');
         $userPublicId = Input::get('public_id');
         $userIsAdmin = Input::get('is_admin');
+        $userIsAdmin = isset($userIsAdmin) ? boolval($userIsAdmin) : 0;
+
         $user = User::where('account_id', '=', $userAccount_id)->where('public_id', '=', $userPublicId)->firstOrFail();
 
         if ($user) {

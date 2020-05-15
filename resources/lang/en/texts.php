@@ -1,6 +1,7 @@
 <?php
 
 $LANG = array(
+
     /*
 |--------------------------------------------------------------------------
 | schedule  trans
@@ -35,7 +36,23 @@ $LANG = array(
     'created_manufacturer' => 'Successfully Created Manufacturer',
     'updated_manufacturer' => 'Successfully Updated Manufacturer',
     'manufacturer_help' => 'Sets the default <b>manufacturer</b>',
-
+    /*
+|--------------------------------------------------------------------------
+| Purchase  trans
+|--------------------------------------------------------------------------
+*/
+    'purchase_name' => 'Purchase Name',
+    'purchases' => 'Purchases',
+    'purchase_list' => 'Purchase List',
+    'archive_purchase' => 'Archive Purchase',
+    'delete_purchase' => 'Delete Purchase',
+    'edit_purchase' => 'Edit Purchase',
+    'clone_purchase' => 'Clone Purchase',
+    'restore_purchase' => 'Restore Purchase',
+    'new_purchase' => 'New Purchase',
+    'created_purchase' => 'Successfully Created Purchase',
+    'updated_purchase' => 'Successfully Updated Purchase',
+    'purchase_help' => 'Sets the default <b>Purchase</b>',
     /*
 |--------------------------------------------------------------------------
 | Status  trans
@@ -66,7 +83,6 @@ $LANG = array(
 | Client  trans
 |--------------------------------------------------------------------------
 */
-
     'client_name' => 'Client Name',
     'client' => 'Client',
     'clients' => 'Clients',
@@ -85,6 +101,30 @@ $LANG = array(
     'created_clients' => 'Successfully created :count client(s)',
     'archived_client' => 'Successfully Archived Client',
     'client_settings' => 'Client Settings',
+
+    /*
+|--------------------------------------------------------------------------
+| POS  trans
+|--------------------------------------------------------------------------
+*/
+
+    'POS' => 'POS',
+    'new_POS' => 'New POS',
+    'list_POS' => 'List POS',
+    'create_POS' => 'Create POS',
+    'edit_POS' => 'Edit POS',
+    'view_POS' => 'View POS',
+    'clone_POS' => 'Clone POS',
+    'archive_POS' => 'Archive POS',
+    'delete_POS' => 'Delete POS',
+    'deleted_POS' => 'Deleted POS',
+    'purge_POS' => 'Purge POS',
+    'restore_POS' => 'Restore POS',
+    'restored_POS' => 'Restored POS',
+    'updated_POS' => 'Successfully Updated POS',
+    'created_POS' => 'Successfully Created POS',
+    'archived_POS' => 'Successfully Archived POS',
+    'POS_settings' => 'POS Settings',
 
     /*
 |--------------------------------------------------------------------------
@@ -116,8 +156,8 @@ $LANG = array(
     'confirmed' => 'Confirmed',
     'activated' => 'Activated',
     'updated_user_permission' => 'Successfully Updated User Permission',
-
     'login_email_or_username' => 'Email or phone',
+    'login_error' => 'The username or password is incorrect.',
 
     /*
 |--------------------------------------------------------------------------
@@ -605,10 +645,10 @@ $LANG = array(
     'archive' => 'Archive',
     'delete' => 'Delete',
     /*
-    |--------------------------------------------------------------------------
-    | Payment trans
-    |--------------------------------------------------------------------------
-    */
+|--------------------------------------------------------------------------
+| Payment trans
+|--------------------------------------------------------------------------
+*/
     'archive_payment' => 'Archive Payment',
     'delete_payment' => 'Delete Payment',
     'archive_credit' => 'Archive Credit',
@@ -795,10 +835,10 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'chart_builder' => 'Chart Builder',
     'ninja_email_footer' => 'Created by :site | Create. Send. Get Paid.',
     /*
-    |--------------------------------------------------------------------------
-    | Quote trans
-    |--------------------------------------------------------------------------
-    */
+|--------------------------------------------------------------------------
+| Quote trans
+|--------------------------------------------------------------------------
+*/
     'go_pro' => 'Go Pro',
     'quote' => 'Quote',
     'quotes' => 'Quotes',
@@ -976,7 +1016,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'account_login' => 'User Login',
     'recover_password' => 'Recover your password',
     'forgot_password' => 'Forgot your password?',
-    'email_address' => 'Email address',
+    'email_address' => 'Email address or username',
     'lets_go' => 'Let\'s go',
     'password_recovery' => 'Password Recovery',
     'send_email' => 'Send Email',
@@ -2361,6 +2401,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'update_invoiceninja_update_start' => 'Update now',
     'update_invoiceninja_download_start' => 'Download :version',
     'create_new' => 'Create New',
+    'view_record' => 'View Record',
 
     'toggle_navigation' => 'Toggle Navigation',
     'toggle_history' => 'Toggle History',

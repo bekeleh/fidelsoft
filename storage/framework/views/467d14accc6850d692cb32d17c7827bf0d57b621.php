@@ -1,101 +1,105 @@
-@extends('header')
-
-@section('content')
-    @parent
-    {!! Former::open($url)
+<?php $__env->startSection('content'); ?>
+    ##parent-placeholder-040f06fd774092478d450774f5ba30c5da78acc8##
+    <?php echo Former::open($url)
     ->method($method)
     ->autocomplete('off')
     ->rules([])
-    ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
-    @if ($user)
-        {{ Former::populate($user) }}
+    ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit'); ?>
+
+    <?php if($user): ?>
+        <?php echo e(Former::populate($user)); ?>
+
         <div style="display:none">
-            {!! Former::text('public_id') !!}
+            <?php echo Former::text('public_id'); ?>
+
         </div>
-    @endif
+    <?php endif; ?>
     <!-- user detail -->
     <div class="panel panel-default">
         <div class="panel-heading" style="background-color:#777 !important">
-            <h3 class="panel-title in-bold-white"> {{ trans('texts.user_details') }}</h3>
+            <h3 class="panel-title in-bold-white"> <?php echo e(trans('texts.user_details')); ?></h3>
         </div>
         <div class="panel-body">
             <div class="col-md-3">
-                @if ($user)
+                <?php if($user): ?>
                     <p><i class="fa fa-id-number"
-                          style="width: 20px"></i>{{ trans('texts.id_number').': '.$user->id }}</p>
-                @endif
-                @if ($user->first_name)
+                          style="width: 20px"></i><?php echo e(trans('texts.id_number').': '.$user->id); ?></p>
+                <?php endif; ?>
+                <?php if($user->first_name): ?>
                     <p><i class="fa fa-user-o"
-                          style="width: 20px"></i>{{ trans('texts.first_name').': '. $user->present()->fullName }}
+                          style="width: 20px"></i><?php echo e(trans('texts.first_name').': '. $user->present()->fullName); ?>
+
                     </p>
-                @endif
-                @if ($user->notes)
-                    <p><i>{!! nl2br(e($user->notes)) !!}</i></p>
-                @endif
-                @if ($user->last_login)
+                <?php endif; ?>
+                <?php if($user->notes): ?>
+                    <p><i><?php echo nl2br(e($user->notes)); ?></i></p>
+                <?php endif; ?>
+                <?php if($user->last_login): ?>
                     <h3 style="margin-top:0px"><small>
-                            {{ trans('texts.last_logged_in') }} {{ Utils::timestampToDateTimeString(strtotime($user->last_login)) }}
+                            <?php echo e(trans('texts.last_logged_in')); ?> <?php echo e(Utils::timestampToDateTimeString(strtotime($user->last_login))); ?>
+
                         </small>
                     </h3>
-                @endif
+                <?php endif; ?>
             </div>
             <div class="col-md-3">
-                <h3>{{ trans('texts.address') }}</h3>
+                <h3><?php echo e(trans('texts.address')); ?></h3>
                 <p>address details</p>
             </div>
             <div class="col-md-3">
-                <h3>{{ trans('texts.contacts') }}</h3>
-                @if ($user->email)
+                <h3><?php echo e(trans('texts.contacts')); ?></h3>
+                <?php if($user->email): ?>
                     <i class="fa fa-envelope"
-                       style="width: 20px"></i>{!! HTML::mailto($user->email, $user->email) !!}<br/>
-                @endif
-                @if ($user->phone)
-                    <i class="fa fa-phone" style="width: 20px"></i>{{ $user->phone }}<br/>
-                @endif
+                       style="width: 20px"></i><?php echo HTML::mailto($user->email, $user->email); ?><br/>
+                <?php endif; ?>
+                <?php if($user->phone): ?>
+                    <i class="fa fa-phone" style="width: 20px"></i><?php echo e($user->phone); ?><br/>
+                <?php endif; ?>
                 <br/>
             </div>
         </div>
     </div>
     <div class="panel panel-default">
         <div class="panel-heading" style="background-color:#777 !important">
-            <h3 class="panel-title in-bold-white"> {!! trans('texts.permissions') !!} </h3>
+            <h3 class="panel-title in-bold-white"> <?php echo trans('texts.permissions'); ?> </h3>
         </div>
         <div class="panel-body">
             <div>
-                @if ( ! Utils::hasFeature(FEATURE_USER_PERMISSIONS))
-                    <div class="alert alert-warning">{{ trans('texts.upgrade_for_permissions') }}</div>
+                <?php if( ! Utils::hasFeature(FEATURE_USER_PERMISSIONS)): ?>
+                    <div class="alert alert-warning"><?php echo e(trans('texts.upgrade_for_permissions')); ?></div>
                     <script type="text/javascript">
                         $(function () {
                             $('input[type=checkbox]').prop('disabled', true);
                         })
                     </script>
-                @endif
+                <?php endif; ?>
                 <div class="alert alert-warning">
-                    {!! Former::checkbox('is_admin')->label('&nbsp;')->text(trans('texts.administrator'))->value(1)->help(trans('texts.administrator_help')) !!}
+                    <?php echo Former::checkbox('is_admin')->label('&nbsp;')->text(trans('texts.administrator'))->value(1)->help(trans('texts.administrator_help')); ?>
+
                 </div>
             </div>
             <div>
                 <table class="table table-striped dataTable">
                     <thead>
                     <th></th>
-                    <th style="padding-bottom:0px">{!! Former::checkbox('create')
+                    <th style="padding-bottom:0px"><?php echo Former::checkbox('create')
     ->text( trans('texts.create') )
     ->value('create_')
     ->label('&nbsp;')
-    ->id('create_all') !!}</th>
-                    <th style="padding-bottom:0px">{!! Former::checkbox('view')
+    ->id('create_all'); ?></th>
+                    <th style="padding-bottom:0px"><?php echo Former::checkbox('view')
     ->text( trans('texts.view') )
     ->value('view_')
     ->label('&nbsp;')
-    ->id('view_all') !!}</th>
-                    <th style="padding-bottom:0px">{!! Former::checkbox('edit')
+    ->id('view_all'); ?></th>
+                    <th style="padding-bottom:0px"><?php echo Former::checkbox('edit')
     ->text( trans('texts.edit') )
     ->value('edit_')
     ->label('&nbsp;')
-    ->id('edit_all') !!}</th>
+    ->id('edit_all'); ?></th>
                     </thead>
                     <tbody>
-                    @foreach (json_decode(PERMISSION_ENTITIES,1) as $permissionEntity)
+                    <?php $__currentLoopData = json_decode(PERMISSION_ENTITIES,1); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $permissionEntity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <?php
                         if (isset($user->permissions))
                             $permissions = json_decode($user->permissions, 1);
@@ -103,25 +107,25 @@
                             $permissions = [];
                         ?>
                         <tr>
-                            <td>{{ ucfirst($permissionEntity) }}</td>
+                            <td><?php echo e(ucfirst($permissionEntity)); ?></td>
 
-                            <td>{!! Former::checkbox('permissions[create_' . $permissionEntity . ']')
+                            <td><?php echo Former::checkbox('permissions[create_' . $permissionEntity . ']')
     ->label('&nbsp;')
     ->value('create_' . $permissionEntity . '')
     ->id('create_' . $permissionEntity . '')
-    ->check(is_array($permissions) && in_array('create_' . $permissionEntity, $permissions, FALSE) ? true : false) !!}</td>
-                            <td>{!! Former::checkbox('permissions[view_' . $permissionEntity . ']')
+    ->check(is_array($permissions) && in_array('create_' . $permissionEntity, $permissions, FALSE) ? true : false); ?></td>
+                            <td><?php echo Former::checkbox('permissions[view_' . $permissionEntity . ']')
     ->label('&nbsp;')
     ->value('view_' . $permissionEntity . '')
     ->id('view_' . $permissionEntity . '')
-    ->check(is_array($permissions) && in_array('view_' . $permissionEntity, $permissions, FALSE) ? true : false) !!}</td>
-                            <td>{!! Former::checkbox('permissions[edit_' . $permissionEntity . ']')
+    ->check(is_array($permissions) && in_array('view_' . $permissionEntity, $permissions, FALSE) ? true : false); ?></td>
+                            <td><?php echo Former::checkbox('permissions[edit_' . $permissionEntity . ']')
     ->label('&nbsp;')
     ->value('edit_' . $permissionEntity . '')
     ->id('edit_' . $permissionEntity . '')
-    ->check(is_array($permissions) && in_array('edit_' . $permissionEntity, $permissions, FALSE) ? true : false) !!}</td>
+    ->check(is_array($permissions) && in_array('edit_' . $permissionEntity, $permissions, FALSE) ? true : false); ?></td>
                         </tr>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     <tr>
                         <td><input type="checkbox" id="view_contact" value="view_contact"
                                    name="permissions[view_contact]" style="display:none">
@@ -136,11 +140,15 @@
         </div>
     </div>
     <center class="buttons">
-        {!! Button::normal(trans('texts.cancel'))->asLinkTo(URL::to('/users'))->appendIcon(Icon::create('remove-circle'))->large() !!}
-        {!! ($user) ? Button::success(trans('texts.save'))->withAttributes(['onclick' => 'submitAction()'])->large()->appendIcon(Icon::create('floppy-disk')) : false !!}
-        {!! (! $user || ! $user->confirmed) ? Button::info(trans($user ? 'texts.resend_invite' : 'texts.send_invite'))->withAttributes(['onclick' => 'submitAction("email")'])->large()->appendIcon(Icon::create('send')) : false !!}
+        <?php echo Button::normal(trans('texts.cancel'))->asLinkTo(URL::to('/users'))->appendIcon(Icon::create('remove-circle'))->large(); ?>
+
+        <?php echo ($user) ? Button::success(trans('texts.save'))->withAttributes(['onclick' => 'submitAction()'])->large()->appendIcon(Icon::create('floppy-disk')) : false; ?>
+
+        <?php echo (! $user || ! $user->confirmed) ? Button::info(trans($user ? 'texts.resend_invite' : 'texts.send_invite'))->withAttributes(['onclick' => 'submitAction("email")'])->large()->appendIcon(Icon::create('send')) : false; ?>
+
     </center>
-    {!! Former::close() !!}
+    <?php echo Former::close(); ?>
+
     <script type="text/javascript">
         function submitAction() {
             var inputElements = document.querySelectorAll('input[type=checkbox]:checked');
@@ -148,16 +156,16 @@
 
             var $isAdmin = document.getElementById('is_admin').checked ? 1 : 0;
 
-            var $account_id ={{$user->account_id}};
-            var $public_id ={{$user->public_id}};
+            var $account_id =<?php echo e($user->account_id); ?>;
+            var $public_id =<?php echo e($user->public_id); ?>;
             $.ajax({
-                url: '{{ URL::to('/users/change_permission') }}',
+                url: '<?php echo e(URL::to('/users/change_permission')); ?>',
                 type: 'POST',
                 dataType: 'json',
                 data: 'permissions=' + permissions + '&account_id=' + $account_id + '&public_id=' + $public_id + '&is_admin=' + $isAdmin,
                 success: function (result) {
                     if (result.success) {
-                        swal("{{trans('texts.updated_user_permission')}}");
+                        swal("<?php echo e(trans('texts.updated_user_permission')); ?>");
                     }
                 }
             });
@@ -183,9 +191,9 @@
             return JSON.stringify(result);
         }
     </script>
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('onReady')
+<?php $__env->startSection('onReady'); ?>
 
     $('#first_name').focus();
 
@@ -292,4 +300,5 @@
     $('#create_contact').prop('checked', $('#create_client').is(':checked') );
 
     }
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

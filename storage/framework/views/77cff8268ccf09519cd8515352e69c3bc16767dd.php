@@ -1,4 +1,4 @@
-<!-- if settings or reports -->
+<!-- navigation option  -->
 <li class="nav-<?php echo e($option); ?> <?php echo e(Request::is("{$option}*") ? 'active' : ''); ?>">
     <?php if($option == 'settings'): ?>
         <a type="button" class="btn btn-default btn-sm pull-right"
@@ -15,6 +15,11 @@
         <a type="button" class="btn btn-primary btn-sm pull-right"
            href="<?php echo e(url("/{$option}/create")); ?>">
             <i class="fa fa-plus-circle" style="width:20px" title="<?php echo e(trans('texts.create_new')); ?>"></i>
+        </a>
+    <?php elseif(Auth::user()->can('view', substr($option, 0, -1))): ?>
+        <a type="button" class="btn btn-primary btn-sm pull-right"
+           href="<?php echo e(url("/{$option}")); ?>">
+            <i class="fa fa-eye" style="width:20px" title="<?php echo e(trans('texts.view_record')); ?>"></i>
         </a>
     <?php endif; ?>
     <a href="<?php echo e(url($option == 'recurring' ? 'recurring_invoices' : $option)); ?>"
