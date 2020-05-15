@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 class DatabaseBackup extends Command
 {
 
-    protected $name = 'eninjaplus:backup';
+    protected $name = 'fidel:backup';
 
     protected $description = 'This command creates a database dump and zips up all of the uploaded files in the upload directories.';
 

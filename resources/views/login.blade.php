@@ -15,20 +15,20 @@
 @endsection
 
 @section('body')
-    @if (!Utils::isWhiteLabel())
-        <div class="container-fluid">
-            <div class="row header">
-                <div class="col-md-6 col-xs-12 text-center">
-                    <a href="https://www.eninjaplus.com/" target="_blank" style="color:white;">E-Ninja Plus ERP
-                        {{--                        <img width="231" src="{{ asset('images/invoiceninja-logox53.png') }}"/>--}}
-                    </a>
-                </div>
-                <div class="col-md-6 text-right visible-lg">
-                    <p>{{trans('texts.tag_line')}}</p>
-                </div>
+    <div class="container-fluid">
+        <div class="row header">
+            <div class="col-md-6 col-xs-12 text-center">
+                <a href="https://www.fidel.com.et/" target="_blank" style="color:white;">
+                    {{--                    {{trans('texts.team_source')}}--}}
+                    <img width="193" height="25" src="{{ asset('images/fidel-logo.png') }}"/>
+                </a>
+            </div>
+            <div class="col-md-6 text-right visible-lg">
+                <p>{{trans('texts.tag_line')}}</p>
             </div>
         </div>
-    @endif
-
+    </div>
+    <!-- login form -->
     @yield('form')
+
 @endsection

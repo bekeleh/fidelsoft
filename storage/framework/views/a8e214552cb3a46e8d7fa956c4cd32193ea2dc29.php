@@ -1,10 +1,13 @@
 <?php $__env->startSection('form'); ?>
+
     <?php echo $__env->make('partials.warn_session', ['redirectTo' => '/logout?reason=inactive'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
     <div class="container">
-        <?php echo Former::open('login')->addClass('form-signin')->rules([
-            'username' => 'required',
-            'password' => 'required'
-            ]); ?>
+
+        <?php echo Former::open('login')
+                ->rules(['email' => 'required', 'password' => 'required'])
+                ->addClass('form-signin'); ?>
+
 
         <h2 class="form-signin-heading">
             <?php if(strstr(session('url.intended'), 'time_tracker')): ?>
@@ -16,6 +19,7 @@
             <?php endif; ?>
         </h2>
         <hr class="green">
+
         <?php if(count($errors->all())): ?>
             <div class="alert alert-danger">
                 <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -23,12 +27,11 @@
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
         <?php endif; ?>
-        <?php if(Session::has('success')): ?>
-            <div class="alert alert-warning"><?php echo Session::get('success'); ?></div>
-        <?php endif; ?>
+
         <?php if(Session::has('warning')): ?>
             <div class="alert alert-warning"><?php echo Session::get('warning'); ?></div>
         <?php endif; ?>
+
         <?php if(Session::has('message')): ?>
             <div class="alert alert-info"><?php echo Session::get('message'); ?></div>
         <?php endif; ?>
@@ -39,54 +42,25 @@
             </div>
         <?php endif; ?>
 
-        <div>
-            <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <i class="fa fa-user"></i>
-                </span>
-            </div>
-            <input name="email" type="text" class="form-control<?php echo e($errors->has('email') ? ' is-invalid' : ''); ?>"
-                   required autofocus placeholder="<?php echo e(trans('texts.login_email_or_username')); ?>"
-                   value="<?php echo e(old('email', null)); ?>">
-            <?php if($errors->has('email')): ?>
-                <div class="invalid-feedback">
-                    <?php echo e($errors->first('email')); ?>
+        <?php if(env('REMEMBER_ME_ENABLED')): ?>
+            <?php echo e(Former::populateField('remember', 'true')); ?>
 
-                </div>
-            <?php endif; ?>
-        </div>
-        <div>
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fa fa-lock"></i></span>
-            </div>
-            <input name="password" type="password"
-                   class="form-control<?php echo e($errors->has('password') ? ' is-invalid' : ''); ?>" required
-                   placeholder="<?php echo e(trans('texts.login_password')); ?>">
-            <?php if($errors->has('password')): ?>
-                <div class="invalid-feedback">
-                    <?php echo e($errors->first('password')); ?>
+            <?php echo Former::hidden('remember')->raw(); ?>
 
-                </div>
-            <?php endif; ?>
-        </div>
+        <?php endif; ?>
 
         <div>
-            <div class="form-check checkbox">
-                <input class="form-check-input" name="remember" type="checkbox" id="remember"
-                       style="vertical-align: middle;"/>
-                <label class="form-check-label" for="remember" style="vertical-align: middle;">
-                    <?php echo e(trans('texts.remember_me')); ?>
+            <?php echo Former::text('email')->placeholder(trans('texts.email_address'))->raw(); ?>
 
-                </label>
-            </div>
-        </div>
-        <div>
-            <?php echo Button::success(trans('texts.login'))
-                        ->withAttributes(['id' => 'loginButton', 'class' => 'green'])
-                        ->large()->submit()->block(); ?>
+            <?php echo Former::password('password')->placeholder(trans('texts.password'))->raw(); ?>
 
         </div>
-        <!-- social network key -->
+
+        <?php echo Button::success(trans('texts.login'))
+                    ->withAttributes(['id' => 'loginButton', 'class' => 'green'])
+                    ->large()->submit()->block(); ?>
+
+
         <?php if(Utils::isOAuthEnabled()): ?>
             <div class="row existing-accounts">
                 <p><?php echo e(trans('texts.login_or_existing')); ?></p>
@@ -95,7 +69,7 @@
                         <a href="<?php echo e(URL::to('auth/' . $provider)); ?>" class="btn btn-primary btn-lg"
                            title="<?php echo e($provider); ?>"
                            id="<?php echo e(strtolower($provider)); ?>LoginButton">
-                            <?php if($provider == SOCIAL_GITHUB_123): ?>
+                            <?php if($provider == SOCIAL_GITHUB): ?>
                                 <i class="fa fa-github-alt"></i>
                             <?php else: ?>
                                 <i class="fa fa-<?php echo e(strtolower($provider)); ?>"></i>
@@ -105,6 +79,7 @@
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
         <?php endif; ?>
+
         <div class="row meta">
             <?php if(Utils::isWhiteLabel()): ?>
                 <center>
@@ -121,7 +96,7 @@
                         <?php echo link_to('#', trans('texts.self_host_login'), ['onclick' => 'setSelfHostUrl()']); ?>
 
                     <?php else: ?>
-                        <?php echo link_to(NINJA_WEB_URL.'/', trans('texts.knowledge_base'), ['target' => '_blank']); ?>
+                        <?php echo link_to(NINJA_WEB_URL.'/knowledge-base/', trans('texts.knowledge_base'), ['target' => '_blank']); ?>
 
                     <?php endif; ?>
                 </div>
@@ -137,20 +112,20 @@
                     <p><?php echo e(trans('texts.login_create_an_account')); ?></p>
                 </div>
                 <div class="col-md-3 col-xs-12">
-                    <?php echo Button::primary(trans('texts.sign_up_now'))->asLinkTo(URL::to('/invoice_now?sign_up=true'))
-                        ->withAttributes(['class' => 'blue'])
-                        ->large()->submit()->block(); ?>
+                    <?php echo Button::primary(trans('texts.sign_up_now'))->asLinkTo(URL::to('/invoice_now?sign_up=true'))->withAttributes(['class' => 'blue'])->large()->submit()->block(); ?>
 
                 </div>
             </div>
         <?php endif; ?>
     </div>
+
+
     <script type="text/javascript">
         $(function () {
-            if ($('#username').val()) {
+            if ($('#email').val()) {
                 $('#password').focus();
             } else {
-                $('#username').focus();
+                $('#email').focus();
             }
 
             <?php if(Utils::isTimeTracker()): ?>
@@ -160,12 +135,12 @@
                     location.href = selfHostUrl;
                     return;
                 }
-                $('#username').change(function () {
-                    localStorage.setItem('last:time_tracker:username', $('#username').val());
+                $('#email').change(function () {
+                    localStorage.setItem('last:time_tracker:email', $('#email').val());
                 })
-                var username = localStorage.getItem('last:time_tracker:username');
-                if (username) {
-                    $('#username').val(username);
+                var email = localStorage.getItem('last:time_tracker:email');
+                if (email) {
+                    $('#email').val(email);
                     $('#password').focus();
                 }
             }

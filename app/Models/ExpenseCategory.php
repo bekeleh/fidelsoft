@@ -16,6 +16,8 @@ class ExpenseCategory extends EntityModel
 
     protected $presenter = 'App\Ninja\Presenters\EntityPresenter';
 
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+
     protected $fillable = [
         'name',
         'notes',

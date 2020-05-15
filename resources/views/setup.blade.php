@@ -39,9 +39,9 @@
                         <pre>sudo chown www-data:www-data {{ base_path('.env') }}</pre>
                     </div>
                 @endif
-                If you need help you can either post to our <a href="https://www.eninjaplus.com/forums/forum/support/"
+                If you need help you can either post to our <a href="https://www.fidel.com/forums/forum/support/"
                                                                target="_blank">support forum</a> or email us at <a
-                        href="mailto:contact@invoiceninja.com" target="_blank">info@eninjaplus.com</a>.
+                        href="mailto:contact@invoiceninja.com" target="_blank">info@fidel.com</a>.
 
                 @if (! env('PRECONFIGURED_INSTALL'))
                     <p>

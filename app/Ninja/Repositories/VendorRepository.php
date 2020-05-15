@@ -88,6 +88,7 @@ class VendorRepository extends BaseRepository
         }
 
         $vendor->fill($data);
+
         $vendor->save();
 
         $first = true;

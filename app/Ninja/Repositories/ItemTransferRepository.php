@@ -10,6 +10,7 @@ use App\Models\ItemTransfer;
 use App\Models\Product;
 use App\Models\Status;
 use App\Models\Store;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -159,7 +160,6 @@ class ItemTransferRepository extends BaseRepository
             foreach ($itemTransfers as $itemStore) {
                 $itemTransfer = $this->getInstanceOfItemTransfer($itemTransferData, $itemTransfer, $update);
                 $itemTransfer->product_id = $itemStore->product_id;
-
                 if (!empty($itemTransferData['transfer_all_item'])) {
                     $itemTransfer->qty = $itemStore->qty;
                     $itemTransferDate['qty'] = 0;
@@ -200,10 +200,12 @@ class ItemTransferRepository extends BaseRepository
     {
         if ($update) {
             $itemTransfer = ItemTransfer::createNew();
+            $itemTransfer->dispatch_date = Carbon::now();
             $itemTransfer->updated_by = Auth::user()->username;
             $itemTransfer->fill(collect($data)->except(['product_id'])->toArray());
         } else {
             $itemTransfer = ItemTransfer::createNew();
+            $itemTransfer->dispatch_date = Carbon::now();
             $itemTransfer->fill(collect($data)->except(['product_id'])->toArray());
             $itemTransfer->created_by = Auth::user()->username;
 

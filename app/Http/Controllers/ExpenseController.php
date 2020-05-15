@@ -30,9 +30,6 @@ class ExpenseController extends BaseController
     protected $expenseService;
     protected $entityType = ENTITY_EXPENSE;
 
-    /**
-     * @var InvoiceRepository
-     */
     protected $invoiceRepo;
 
     public function __construct(ExpenseRepository $expenseRepo, ExpenseService $expenseService, InvoiceRepository $invoiceRepo)
@@ -88,12 +85,19 @@ class ExpenseController extends BaseController
         ];
 
         $data = array_merge($data, self::getViewModel());
+
         return View::make('expenses.edit', $data);
     }
 
-    public function cloneExpense(ExpenseRequest $request, $publicId)
+    public function store(CreateExpenseRequest $request)
     {
-        return self::edit($request, $publicId, true);
+        $data = $request->input();
+
+        $data['documents'] = $request->file('documents');
+
+        $expense = $this->expenseService->save($data);
+
+        return redirect()->to("expenses/{$expense->public_id}/edit")->with('message', trans('texts.created_expense'));
     }
 
     public function edit(ExpenseRequest $request, $publicId = false, $clone = false)
@@ -167,12 +171,6 @@ class ExpenseController extends BaseController
         return View::make('expenses.edit', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param UpdateExpenseRequest $request
-     * @return Response
-     */
     public function update(UpdateExpenseRequest $request)
     {
         $data = $request->input();
@@ -180,40 +178,21 @@ class ExpenseController extends BaseController
 
         $expense = $this->expenseService->save($data, $request->entity());
 
-        Session::flash('message', trans('texts.updated_expense'));
-
         $action = Input::get('action');
         if (in_array($action, ['archive', 'delete', 'restore', 'invoice', 'add_to_invoice'])) {
             return self::bulk();
         }
 
         if ($action == 'clone') {
-            return redirect()->to(sprintf('expenses/%s/clone', $expense->public_id));
+            return redirect()->to(sprintf('expenses/%s/clone', $expense->public_id))->with('message', trans('texts.updated_expense'));
         } else {
-            return redirect()->to("expenses/{$expense->public_id}/edit");
+            return redirect()->to("expenses/{$expense->public_id}/edit")->with('message', trans('texts.updated_expense'));
         }
     }
 
-    public function store(CreateExpenseRequest $request)
+    public function cloneExpense(ExpenseRequest $request, $publicId)
     {
-        $data = $request->input();
-        $data['documents'] = $request->file('documents');
-
-        // check for possible duplicate expense
-        $duplcate = Expense::scope()->whereAmount($request->amount)
-            ->whereExpenseDate(Utils::toSqlDate($request->expense_date))
-            ->orderBy('created_at')
-            ->first();
-        if ($duplcate) {
-            Session::flash('warning', trans('texts.duplicate_expense_warning',
-                ['link' => link_to($duplcate->present()->url, trans('texts.expense_link'), ['target' => '_blank'])]));
-        }
-
-        $expense = $this->expenseService->save($data);
-
-        Session::flash('message', trans('texts.created_expense'));
-
-        return redirect()->to("expenses/{$expense->public_id}/edit");
+        return self::edit($request, $publicId, true);
     }
 
     public function bulk()

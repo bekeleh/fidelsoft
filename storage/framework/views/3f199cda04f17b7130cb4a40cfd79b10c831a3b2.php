@@ -43,7 +43,8 @@
 
                     <?php echo Former::select('vendor_id')->addOption('', '')
                     ->label(trans('texts.vendor'))
-                    ->addGroupClass('vendor-select'); ?>
+                    ->addGroupClass('vendor-select')
+                   ->help(trans('texts.vendor_help') . ' | ' . link_to('/vendors/', trans('texts.customize_options'))); ?>
 
 
                     <?php echo Former::select('expense_category_id')->addOption('', '')

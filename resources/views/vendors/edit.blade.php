@@ -13,15 +13,14 @@
         <div class="alert alert-danger">{{ trans($errors->first('vendor_contacts')) }}</div>
     @endif
     <div class="row">
-    {!! Former::open($url)
-    ->autocomplete('off')
-    ->rules([
-    'name' => 'required',
-    'email' => 'required|email'
-    ])->addClass('col-md-12 warn-on-exit')
-    ->method($method) !!}
-    <!-- notification -->
-        @include('notifications')
+        {!! Former::open($url)
+        ->autocomplete('off')
+        ->rules([
+        'name' => 'required',
+        'email' => 'required|email'
+        ])->addClass('col-md-12 warn-on-exit')
+        ->method($method) !!}
+
         @include('partials.autocomplete_fix')
         @if ($vendor)
             {!! Former::populate($vendor) !!}

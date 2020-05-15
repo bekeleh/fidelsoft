@@ -1,7 +1,7 @@
 <!-- powered by -->
 <?php echo e(trans('texts.powered_by')); ?>
 
-<?php echo link_to('https://eninjaplus.com/?tm_source=powered_by', trans('texts.team_source'), ['target' => '_blank', 'title' => trans('texts.created_by', ['name' => 'E-Ninja Plus Team'])]); ?>
+<?php echo link_to('https://fidel.com/?tm_source=powered_by', trans('texts.team_source'), ['target' => '_blank', 'title' => trans('texts.created_by', ['name' => 'E-Ninja Plus Team'])]); ?>
 
 
 <?php if(Auth::user()->account->hasFeature(FEATURE_WHITE_LABEL)): ?>

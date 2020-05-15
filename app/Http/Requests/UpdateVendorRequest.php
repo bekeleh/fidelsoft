@@ -2,17 +2,59 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
+use App\Models\Vendor;
+
 class UpdateVendorRequest extends VendorRequest
 {
+    protected $entityType = ENTITY_VENDOR;
+
     public function authorize()
     {
-        return true;
+        return $this->user()->can('edit', ENTITY_VENDOR);
     }
 
     public function rules()
     {
-        return [
-            'name' => 'required',
-        ];
+        $this->sanitize();
+        $this->validationData();
+
+        $rules = [];
+
+        $vendor = Vendor::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
+        if ($vendor)
+            $rules['name'] = 'required|max:191|unique:vendors,name,' . $vendor->id . ',id,account_id,' . $vendor->account_id;
+
+        $rules['is_deleted'] = 'boolean';
+        $rules['private_notes'] = 'nullable';
+
+        return $rules;
+    }
+
+    public function sanitize()
+    {
+        $input = $this->all();
+
+        if (!empty($input['name'])) {
+            $input['name'] = filter_var($input['name'], FILTER_SANITIZE_STRING);
+        }
+
+        if (!empty($input['private_notes'])) {
+            $input['private_notes'] = filter_var($input['private_notes'], FILTER_SANITIZE_STRING);
+        }
+
+        $this->replace($input);
+    }
+
+    public function validationData()
+    {
+        $input = $this->input();
+
+        if (count($input)) {
+            $this->request->add([
+                'account_id' => User::getAccountId(),
+            ]);
+        }
+        return $this->request->all();
     }
 }

@@ -1,11 +1,15 @@
 @extends('login')
+
 @section('form')
+
     @include('partials.warn_session', ['redirectTo' => '/logout?reason=inactive'])
+
     <div class="container">
-        {!! Former::open('login')->addClass('form-signin')->rules([
-            'username' => 'required',
-            'password' => 'required'
-            ]) !!}
+
+        {!! Former::open('login')
+                ->rules(['email' => 'required', 'password' => 'required'])
+                ->addClass('form-signin') !!}
+
         <h2 class="form-signin-heading">
             @if (strstr(session('url.intended'), 'time_tracker'))
                 {{ trans('texts.time_tracker_login') }}
@@ -14,6 +18,7 @@
             @endif
         </h2>
         <hr class="green">
+
         @if (count($errors->all()))
             <div class="alert alert-danger">
                 @foreach ($errors->all() as $error)
@@ -21,12 +26,11 @@
                 @endforeach
             </div>
         @endif
-        @if (Session::has('success'))
-            <div class="alert alert-warning">{!! Session::get('success') !!}</div>
-        @endif
+
         @if (Session::has('warning'))
             <div class="alert alert-warning">{!! Session::get('warning') !!}</div>
         @endif
+
         @if (Session::has('message'))
             <div class="alert alert-info">{!! Session::get('message') !!}</div>
         @endif
@@ -37,50 +41,20 @@
             </div>
         @endif
 
-        <div>
-            <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <i class="fa fa-user"></i>
-                </span>
-            </div>
-            <input name="email" type="text" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                   required autofocus placeholder="{{ trans('texts.login_email_or_username') }}"
-                   value="{{ old('email', null) }}">
-            @if($errors->has('email'))
-                <div class="invalid-feedback">
-                    {{ $errors->first('email') }}
-                </div>
-            @endif
-        </div>
-        <div>
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fa fa-lock"></i></span>
-            </div>
-            <input name="password" type="password"
-                   class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" required
-                   placeholder="{{ trans('texts.login_password') }}">
-            @if($errors->has('password'))
-                <div class="invalid-feedback">
-                    {{ $errors->first('password') }}
-                </div>
-            @endif
-        </div>
+        @if (env('REMEMBER_ME_ENABLED'))
+            {{ Former::populateField('remember', 'true') }}
+            {!! Former::hidden('remember')->raw() !!}
+        @endif
 
         <div>
-            <div class="form-check checkbox">
-                <input class="form-check-input" name="remember" type="checkbox" id="remember"
-                       style="vertical-align: middle;"/>
-                <label class="form-check-label" for="remember" style="vertical-align: middle;">
-                    {{ trans('texts.remember_me') }}
-                </label>
-            </div>
+            {!! Former::text('email')->placeholder(trans('texts.email_address'))->raw() !!}
+            {!! Former::password('password')->placeholder(trans('texts.password'))->raw() !!}
         </div>
-        <div>
-            {!! Button::success(trans('texts.login'))
-                        ->withAttributes(['id' => 'loginButton', 'class' => 'green'])
-                        ->large()->submit()->block() !!}
-        </div>
-        <!-- social network key -->
+
+        {!! Button::success(trans('texts.login'))
+                    ->withAttributes(['id' => 'loginButton', 'class' => 'green'])
+                    ->large()->submit()->block() !!}
+
         @if (Utils::isOAuthEnabled())
             <div class="row existing-accounts">
                 <p>{{ trans('texts.login_or_existing') }}</p>
@@ -89,7 +63,7 @@
                         <a href="{{ URL::to('auth/' . $provider) }}" class="btn btn-primary btn-lg"
                            title="{{ $provider }}"
                            id="{{ strtolower($provider) }}LoginButton">
-                            @if($provider == SOCIAL_GITHUB_123)
+                            @if($provider == SOCIAL_GITHUB)
                                 <i class="fa fa-github-alt"></i>
                             @else
                                 <i class="fa fa-{{ strtolower($provider) }}"></i>
@@ -99,6 +73,7 @@
                 @endforeach
             </div>
         @endif
+
         <div class="row meta">
             @if (Utils::isWhiteLabel())
                 <center>
@@ -112,7 +87,7 @@
                     @if (Utils::isTimeTracker())
                         {!! link_to('#', trans('texts.self_host_login'), ['onclick' => 'setSelfHostUrl()']) !!}
                     @else
-                        {!! link_to(NINJA_WEB_URL.'/', trans('texts.knowledge_base'), ['target' => '_blank']) !!}
+                        {!! link_to(NINJA_WEB_URL.'/knowledge-base/', trans('texts.knowledge_base'), ['target' => '_blank']) !!}
                     @endif
                 </div>
             @endif
@@ -126,19 +101,19 @@
                     <p>{{trans('texts.login_create_an_account')}}</p>
                 </div>
                 <div class="col-md-3 col-xs-12">
-                    {!! Button::primary(trans('texts.sign_up_now'))->asLinkTo(URL::to('/invoice_now?sign_up=true'))
-                        ->withAttributes(['class' => 'blue'])
-                        ->large()->submit()->block() !!}
+                    {!! Button::primary(trans('texts.sign_up_now'))->asLinkTo(URL::to('/invoice_now?sign_up=true'))->withAttributes(['class' => 'blue'])->large()->submit()->block() !!}
                 </div>
             </div>
         @endif
     </div>
+
+
     <script type="text/javascript">
         $(function () {
-            if ($('#username').val()) {
+            if ($('#email').val()) {
                 $('#password').focus();
             } else {
-                $('#username').focus();
+                $('#email').focus();
             }
 
             @if (Utils::isTimeTracker())
@@ -148,12 +123,12 @@
                     location.href = selfHostUrl;
                     return;
                 }
-                $('#username').change(function () {
-                    localStorage.setItem('last:time_tracker:username', $('#username').val());
+                $('#email').change(function () {
+                    localStorage.setItem('last:time_tracker:email', $('#email').val());
                 })
-                var username = localStorage.getItem('last:time_tracker:username');
-                if (username) {
-                    $('#username').val(username);
+                var email = localStorage.getItem('last:time_tracker:email');
+                if (email) {
+                    $('#email').val(email);
                     $('#password').focus();
                 }
             }

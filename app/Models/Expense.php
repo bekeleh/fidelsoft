@@ -17,9 +17,8 @@ class Expense extends EntityModel
     use SoftDeletes;
     use PresentableTrait;
 
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
-
     protected $presenter = 'App\Ninja\Presenters\ExpensePresenter';
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $fillable = [
         'client_id',
@@ -46,6 +45,9 @@ class Expense extends EntityModel
         'should_be_invoiced',
         'custom_value1',
         'custom_value2',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     public static function getImportColumns()

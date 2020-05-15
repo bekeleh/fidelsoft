@@ -1,6 +1,6 @@
 <!-- powered by -->
 {{ trans('texts.powered_by') }}
-{!! link_to('https://eninjaplus.com/?tm_source=powered_by', trans('texts.team_source'), ['target' => '_blank', 'title' => trans('texts.created_by', ['name' => 'E-Ninja Plus Team'])]) !!}
+{!! link_to('https://fidel.com/?tm_source=powered_by', trans('texts.team_source'), ['target' => '_blank', 'title' => trans('texts.created_by', ['name' => 'E-Ninja Plus Team'])]) !!}
 
 @if (Auth::user()->account->hasFeature(FEATURE_WHITE_LABEL))
     <a href="#" onclick="showWhiteLabelModal()">{{ trans('texts.white_label_link') }}</a>

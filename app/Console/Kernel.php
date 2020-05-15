@@ -55,7 +55,7 @@ class Kernel extends ConsoleKernel
             ->daily();
 
         $schedule
-            ->command('eninjaplus:backup')
+            ->command('fidel:backup')
             ->weekly();
     }
 }

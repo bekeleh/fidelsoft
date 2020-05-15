@@ -68,7 +68,7 @@
                     </button>
                     @if (empty($account) || !$account->hasFeature(FEATURE_WHITE_LABEL))
                         <a class="navbar-brand" href="{{ URL::to(NINJA_WEB_URL) }}" target="_blank">
-                            {{--                            <img src="{{ asset('images/invoiceninja-logo.png') }}" style="height:27px">--}}
+                            {{--                            <img src="{{ asset('images/fidel-logo.png') }}" style="height:27px">--}}
                         </a>
                     @endif
                 </div>

@@ -13,22 +13,22 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('body'); ?>
-    <?php if(!Utils::isWhiteLabel()): ?>
-        <div class="container-fluid">
-            <div class="row header">
-                <div class="col-md-6 col-xs-12 text-center">
-                    <a href="https://www.eninjaplus.com/" target="_blank" style="color:white;">E-Ninja Plus ERP
-                        
-                    </a>
-                </div>
-                <div class="col-md-6 text-right visible-lg">
-                    <p><?php echo e(trans('texts.tag_line')); ?></p>
-                </div>
+    <div class="container-fluid">
+        <div class="row header">
+            <div class="col-md-6 col-xs-12 text-center">
+                <a href="https://www.fidel.com.et/" target="_blank" style="color:white;">
+                    
+                    <img width="193" height="25" src="<?php echo e(asset('images/fidel-logo.png')); ?>"/>
+                </a>
+            </div>
+            <div class="col-md-6 text-right visible-lg">
+                <p><?php echo e(trans('texts.tag_line')); ?></p>
             </div>
         </div>
-    <?php endif; ?>
-
+    </div>
+    <!-- login form -->
     <?php echo $__env->yieldContent('form'); ?>
+
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

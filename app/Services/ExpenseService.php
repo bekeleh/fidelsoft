@@ -2,14 +2,10 @@
 
 namespace App\Services;
 
-use App\Models\Client;
-use App\Models\Vendor;
+use App\Libraries\Utils;
 use App\Ninja\Datatables\ExpenseDatatable;
 use App\Ninja\Repositories\ExpenseRepository;
-use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use App\Libraries\Utils;
 
 /**
  * Class ExpenseService.
@@ -35,14 +31,6 @@ class ExpenseService extends BaseService
 
     public function save($data, $expense = null)
     {
-        if (isset($data['client_id']) && $data['client_id']) {
-            $data['client_id'] = Client::getPrivateId($data['client_id']);
-        }
-
-        if (isset($data['vendor_id']) && $data['vendor_id']) {
-            $data['vendor_id'] = Vendor::getPrivateId($data['vendor_id']);
-        }
-
         return $this->expenseRepo->save($data, $expense);
     }
 
