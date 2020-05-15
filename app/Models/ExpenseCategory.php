@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
@@ -15,6 +14,7 @@ class ExpenseCategory extends EntityModel
     use SoftDeletes;
     use PresentableTrait;
 
+    protected $presenter = 'App\Ninja\Presenters\EntityPresenter';
 
     protected $fillable = [
         'name',
@@ -23,9 +23,6 @@ class ExpenseCategory extends EntityModel
         'updated_by',
         'deleted_by',
     ];
-
-
-    protected $presenter = 'App\Ninja\Presenters\EntityPresenter';
 
     public function getEntityType()
     {

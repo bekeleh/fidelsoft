@@ -9,13 +9,11 @@ use App\Events\QuoteInvitationWasEmailed;
 use App\Events\QuoteWasCreated;
 use App\Events\QuoteWasUpdated;
 use App\Libraries\CurlUtils;
+use App\Libraries\Utils;
 use App\Models\Traits\ChargesFees;
 use App\Models\Traits\HasRecurrence;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
-use App\Libraries\Utils;
 
 /**
  * Model Class Invoice.
@@ -43,6 +41,9 @@ class Invoice extends EntityModel implements BalanceAffecting
         'private_notes',
         'last_sent_date',
         'invoice_design_id',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     protected $casts = [
@@ -123,6 +124,20 @@ class Invoice extends EntityModel implements BalanceAffecting
             'product' => 'item_product',
             'tax' => 'item_tax1',
         ];
+    }
+
+    public function getEntityType()
+    {
+        return $this->isType(INVOICE_TYPE_QUOTE) ? ENTITY_QUOTE : ENTITY_INVOICE;
+    }
+
+    public function subEntityType()
+    {
+        if ($this->is_recurring) {
+            return ENTITY_RECURRING_INVOICE;
+        } else {
+            return $this->getEntityType();
+        }
     }
 
     public function getRoute()
@@ -668,20 +683,6 @@ class Invoice extends EntityModel implements BalanceAffecting
         }
 
         return $this->invitations[0]->getLink($type, $forceOnsite, $forcePlain);
-    }
-
-    public function getEntityType()
-    {
-        return $this->isType(INVOICE_TYPE_QUOTE) ? ENTITY_QUOTE : ENTITY_INVOICE;
-    }
-
-    public function subEntityType()
-    {
-        if ($this->is_recurring) {
-            return ENTITY_RECURRING_INVOICE;
-        } else {
-            return $this->getEntityType();
-        }
     }
 
     public function isSent()

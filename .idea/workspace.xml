@@ -2,25 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/nDQQQCo9CTEp2e6XiLgEWsynKOU5WWJXJ8FomK00" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/3f199cda04f17b7130cb4a40cfd79b10c831a3b2.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/93c82e837649edac67437dc135d544cc7b51234c.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/c5b645e0e1de7d78d44091fd07ddd147bca16485.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ExpenseCategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ExpenseCategoryController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ExpenseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ExpenseController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/ClientRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/ClientRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/CreateExpenseCategoryRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/CreateExpenseCategoryRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdateExpenseCategoryRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateExpenseCategoryRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Document.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Document.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Expense.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Expense.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/ExpenseCategory.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ExpenseCategory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/ExpenseCategoryDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/ExpenseCategoryDatatable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Services/ExpenseCategoryService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/ExpenseCategoryService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/passwords/reset.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/passwords/reset.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/expense_categories/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/expense_categories/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/header.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/zV6r5Fn0gGgtgXHeUfOQybwDe34rdXvNF9thrb9N" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/zV6r5Fn0gGgtgXHeUfOQybwDe34rdXvNF9thrb9N" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/3d4796057765b5a7517531f2f8b487ab7f709a24.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/3d4796057765b5a7517531f2f8b487ab7f709a24.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Invoice.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Invoice.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
     </list>
@@ -423,7 +409,8 @@
       <workItem from="1589395384011" duration="7240000" />
       <workItem from="1589446555665" duration="6451000" />
       <workItem from="1589459639107" duration="7300000" />
-      <workItem from="1589486906102" duration="2023000" />
+      <workItem from="1589486906102" duration="2049000" />
+      <workItem from="1589540440646" duration="825000" />
     </task>
     <task id="LOCAL-00221" summary="2020-05-4 9:26">
       <created>1588625735417</created>
@@ -431,13 +418,6 @@
       <option name="presentableId" value="LOCAL-00221" />
       <option name="project" value="LOCAL" />
       <updated>1588625735418</updated>
-    </task>
-    <task id="LOCAL-00222" summary="2020-05-4 9:26">
-      <created>1588618041372</created>
-      <option name="number" value="00222" />
-      <option name="presentableId" value="LOCAL-00222" />
-      <option name="project" value="LOCAL" />
-      <updated>1588618041373</updated>
     </task>
     <task id="LOCAL-00223" summary="2020-05-4 9:26">
       <created>1588621941207</created>
@@ -768,7 +748,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589470402376</updated>
     </task>
-    <option name="localTasksCounter" value="270" />
+    <task id="LOCAL-00270" summary="2020-05-14 9:26">
+      <created>1589488952239</created>
+      <option name="number" value="00270" />
+      <option name="presentableId" value="LOCAL-00270" />
+      <option name="project" value="LOCAL" />
+      <updated>1589488952239</updated>
+    </task>
+    <option name="localTasksCounter" value="271" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -845,10 +832,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1587939377952" />
-    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1589470399789">
+    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1589488950397">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1589470399789" />
+    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1589488950397" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="444" y="140" key="FileChooserDialogImpl" timestamp="1589308466844">
@@ -902,10 +889,10 @@
     </state>
     <state x="296" y="138" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1586200886074" />
     <state x="312" y="163" key="Vcs.Push.Dialog.v2/0.0.1440.860@0.0.1440.860" timestamp="1585235941756" />
-    <state x="421" y="115" key="com.intellij.ide.util.TipDialog" timestamp="1589486906311">
+    <state x="421" y="115" key="com.intellij.ide.util.TipDialog" timestamp="1589540440903">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="421" y="115" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1589486906311" />
+    <state x="421" y="115" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1589540440903" />
     <state x="408" y="139" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1586189894452" />
     <state x="430" y="164" key="com.intellij.ide.util.TipDialog/0.0.1440.860@0.0.1440.860" timestamp="1586154234151" />
     <state x="303" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1587324145930">
