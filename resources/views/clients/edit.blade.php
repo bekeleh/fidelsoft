@@ -137,8 +137,8 @@
                     </div>
                     <div class="panel-body">
                         <div data-bind='template: { foreach: contacts,
-beforeRemove: hideContact,
-afterAdd: showContact }'>
+                                beforeRemove: hideContact,
+                                afterAdd: showContact }'>
                             {!! Former::hidden('public_id')->data_bind("value: public_id, valueUpdate: 'afterkeydown',
                             attr: {name: 'contacts[' + \$index() + '][public_id]'}") !!}
                             {!! Former::text('first_name')->data_bind("value: first_name, valueUpdate: 'afterkeydown',

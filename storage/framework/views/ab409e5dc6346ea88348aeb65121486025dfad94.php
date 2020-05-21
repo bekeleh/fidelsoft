@@ -53,7 +53,7 @@
            value="<?php echo e(Input::get('filter')); ?>"/>
 
     <!-- create records -->
-    <?php if(Auth::user()->can('create', $entityType)): ?>
+    <?php if(Auth::user()->can('create', $entityType) || Utils::isAdmin()): ?>
         <?php echo Button::primary(mtrans($entityType, "new_{$entityType}"))
         ->asLinkTo(url(
         (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_TEMPLATE]) ? str_replace('_', 's/', Utils::pluralizeEntityType($entityType)) : Utils::pluralizeEntityType($entityType)) .
@@ -62,11 +62,12 @@
         ->appendIcon(Icon::create('plus-sign')); ?>
 
     <?php endif; ?>
+
     <?php echo $__env->make('menu',['entityType', $entityType], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 </div>
 
 <!-- Grid view -->
-<?php if(Auth::user()->can('view', $entityType)): ?>
+<?php if(Auth::user()->can('view', $entityType)  || Utils::isAdmin()): ?>
     <?php echo Datatable::table()
     ->addColumn(Utils::trans($datatable->columnFields(), $datatable->entityType))
     ->setUrl(empty($url) ? url('api/' . Utils::pluralizeEntityType($entityType)) : $url)

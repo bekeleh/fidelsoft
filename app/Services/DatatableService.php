@@ -49,7 +49,7 @@ class DatatableService
             $hasAction = false;
             $str = '<center style="min-width:100px">';
 
-            $can_edit = Auth::user()->hasAccess('edit_' . $section) || (isset($model->user_id) && Auth::user()->id == $model->user_id);
+            $can_edit = Auth::user()->hasPermission('edit_' . $section) || (isset($model->user_id) && Auth::user()->id == $model->user_id);
 
             if (property_exists($model, 'is_deleted') && $model->is_deleted) {
                 $str .= '<button type="button" class="btn btn-sm btn-danger tr-status">' . trans('texts.deleted') . '</button>';
@@ -98,19 +98,18 @@ class DatatableService
                 if (!$hasAction) {
                     return '';
                 }
-
                 if ($can_edit && !$lastIsDivider) {
                     $dropdown_contents .= '<li class="divider"></li>';
                 }
 
                 if (!$model->deleted_at || $model->deleted_at == '0000-00-00') {
-                    if (($datatable->entityType != ENTITY_USER || $model->public_id) && $can_edit) {
+//                    if (($datatable->entityType != ENTITY_USER || $model->public_id) && $can_edit) {
+                    if (($datatable->entityType || $model->public_id) && $can_edit) {
                         $dropdown_contents .= "<li><a href=\"javascript:submitForm_{$datatable->entityType}('archive', {$model->public_id})\">"
                             . mtrans($datatable->entityType, "archive_{$datatable->entityType}") . '</a></li>';
                     }
                 }
             }
-
             if ($model->deleted_at && $model->deleted_at != '0000-00-00' && $can_edit) {
                 $dropdown_contents .= "<li><a href=\"javascript:submitForm_{$datatable->entityType}('restore', {$model->public_id})\">"
                     . mtrans($datatable->entityType, "restore_{$datatable->entityType}") . '</a></li>';

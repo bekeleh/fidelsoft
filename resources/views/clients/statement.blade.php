@@ -154,19 +154,13 @@
 
             {{ trans('texts.status') }}
 
-            &nbsp;&nbsp;
-
             {!! Former::select('status_id')
                     ->label('status')
                     ->addOption(trans('texts.all'), 'false')
                     ->addOption(trans('texts.unpaid'), INVOICE_STATUS_UNPAID)
                     ->addOption(trans('texts.paid'), INVOICE_STATUS_PAID) !!}
 
-            &nbsp;&nbsp;&nbsp;&nbsp;
-
             {{ trans('texts.date_range') }}
-
-            &nbsp;&nbsp;
 
             <span id="reportrange"
                   style="background: #f9f9f9; cursor: pointer; padding: 9px 14px; border: 1px solid #dfe0e1; margin-top: 0px;">
@@ -178,8 +172,6 @@
                 {!! Former::text('start_date') !!}
                 {!! Former::text('end_date') !!}
             </div>
-
-            &nbsp;&nbsp;&nbsp;&nbsp;
 
             @if (empty($extends))
                 {!! Former::checkbox('show_payments')->text('show_payments') !!}

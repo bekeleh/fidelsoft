@@ -47,7 +47,7 @@
            value="{{ Input::get('filter') }}"/>
 
     <!-- create records -->
-    @if (Auth::user()->can('create', $entityType))
+    @if (Auth::user()->can('create', $entityType) || Utils::isAdmin())
         {!! Button::primary(mtrans($entityType, "new_{$entityType}"))
         ->asLinkTo(url(
         (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_TEMPLATE]) ? str_replace('_', 's/', Utils::pluralizeEntityType($entityType)) : Utils::pluralizeEntityType($entityType)) .
@@ -55,11 +55,12 @@
         ))
         ->appendIcon(Icon::create('plus-sign')) !!}
     @endif
+
     @include('menu',['entityType', $entityType])
 </div>
 
 <!-- Grid view -->
-@if(Auth::user()->can('view', $entityType))
+@if(Auth::user()->can('view', $entityType)  || Utils::isAdmin())
     {!! Datatable::table()
     ->addColumn(Utils::trans($datatable->columnFields(), $datatable->entityType))
     ->setUrl(empty($url) ? url('api/' . Utils::pluralizeEntityType($entityType)) : $url)
