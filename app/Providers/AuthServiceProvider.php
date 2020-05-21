@@ -9,6 +9,7 @@ use App\Models\BankAccount;
 use App\Models\Client;
 use App\Models\Contact;
 use App\Models\Credit;
+use App\Models\Department;
 use App\Models\Document;
 use App\Models\Expense;
 use App\Models\ExpenseCategory;
@@ -21,7 +22,6 @@ use App\Models\ItemTransfer;
 use App\Models\Location;
 use App\Models\Payment;
 use App\Models\PaymentTerm;
-use App\Models\Permission;
 use App\Models\PermissionGroup;
 use App\Models\Product;
 use App\Models\Project;
@@ -44,6 +44,7 @@ use App\Policies\ClientPolicy;
 use App\Policies\ContactPolicy;
 use App\Policies\CreditPolicy;
 use App\Policies\CustomerPolicy;
+use App\Policies\DepartmentPolicy;
 use App\Policies\DocumentPolicy;
 use App\Policies\ExpenseCategoryPolicy;
 use App\Policies\ExpensePolicy;
@@ -58,7 +59,6 @@ use App\Policies\LocationPolicy;
 use App\Policies\PaymentPolicy;
 use App\Policies\PaymentTermPolicy;
 use App\Policies\PermissionGroupPolicy;
-use App\Policies\PermissionPolicy;
 use App\Policies\ProductPolicy;
 use App\Policies\ProjectPolicy;
 use App\Policies\ProposalCategoryPolicy;
@@ -89,7 +89,6 @@ class AuthServiceProvider extends ServiceProvider
         Status::class => StatusPolicy::class,
         User::class => UserPolicy::class,
         PermissionGroup::class => PermissionGroupPolicy::class,
-        Permission::class => PermissionPolicy::class,
         Client::class => ClientPolicy::class,
         Contact::class => ContactPolicy::class,
         Vendor::class => VendorPolicy::class,
@@ -106,6 +105,7 @@ class AuthServiceProvider extends ServiceProvider
         ItemCategory::class => ItemCategoryPolicy::class,
         ItemBrand::class => ItemBrandPolicy::class,
         Location::class => LocationPolicy::class,
+        Department::class => DepartmentPolicy::class,
         Store::class => StorePolicy::class,
         ItemStore::class => ItemStorePolicy::class,
         ItemTransfer::class => ItemTransferPolicy::class,

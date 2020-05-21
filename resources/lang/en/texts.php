@@ -21,6 +21,23 @@ $LANG = array(
     'schedule_help' => 'Sets the default <b>Schedule</b>',
     /*
 |--------------------------------------------------------------------------
+| department  trans
+|--------------------------------------------------------------------------
+*/
+    'department_name' => 'Department Name',
+    'departments' => 'Departments',
+    'department_list' => 'Department List',
+    'archive_department' => 'Archive Department',
+    'delete_department' => 'Delete Department',
+    'edit_department' => 'Edit Department',
+    'clone_department' => 'Clone Department',
+    'restore_department' => 'Restore Department',
+    'new_department' => 'New Department',
+    'created_department' => 'Successfully Created Department',
+    'updated_department' => 'Successfully Updated Department',
+    'department_help' => 'Sets the default <b>department</b>',
+    /*
+|--------------------------------------------------------------------------
 | manufacturer  trans
 |--------------------------------------------------------------------------
 */
@@ -36,6 +53,7 @@ $LANG = array(
     'created_manufacturer' => 'Successfully Created Manufacturer',
     'updated_manufacturer' => 'Successfully Updated Manufacturer',
     'manufacturer_help' => 'Sets the default <b>manufacturer</b>',
+
     /*
 |--------------------------------------------------------------------------
 | Purchase  trans

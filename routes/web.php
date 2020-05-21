@@ -306,6 +306,11 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
     Route::resource('item_prices', 'ItemPriceController');
     Route::get('api/item_prices', 'ItemPriceController@getDatatable');
     Route::post('item_prices/bulk', 'ItemPriceController@bulk');
+//       department
+    Route::get('departments/{departments}/clone', 'departmentController@cloneDepartment');
+    Route::get('api/departments', 'departmentController@getDatatable');
+    Route::resource('departments', 'departmentController');
+    Route::post('departments/bulk', 'departmentController@bulk');
 //   location
     Route::get('locations/{locations}/clone', 'LocationController@cloneLocation');
     Route::get('api/locations', 'LocationController@getDatatable');

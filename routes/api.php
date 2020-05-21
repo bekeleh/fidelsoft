@@ -33,6 +33,7 @@ Route::resource('item_prices', 'ItemPriceApiController');
 Route::resource('item_movements', 'ItemMovementApiController');
 Route::resource('item_brands', 'ItemBrandApiController');
 Route::resource('item_categories', 'ItemCategoryApiController');
+Route::resource('departments', 'DepartmentApiController');
 Route::resource('locations', 'LocationApiController');
 Route::resource('sale_types', 'SaleTypeApiController');
 Route::resource('hold_reasons', 'HoldReasonApiController');
