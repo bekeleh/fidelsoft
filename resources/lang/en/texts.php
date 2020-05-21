@@ -10,6 +10,7 @@ $LANG = array(
     'schedule_name' => 'Schedule Name',
     'schedules' => 'Schedules',
     'schedule_list' => 'Schedule List',
+    'list_schedules' => 'List Schedules',
     'archive_schedule' => 'Archive Schedule',
     'delete_schedule' => 'Delete Schedule',
     'edit_schedule' => 'Edit Schedule',
@@ -18,7 +19,10 @@ $LANG = array(
     'new_schedule' => 'New Schedule',
     'created_schedule' => 'Successfully Created Schedule',
     'updated_schedule' => 'Successfully Updated Schedule',
+    'archived_schedule' => 'Successfully Archived Schedule',
+    'restored_schedule' => 'Successfully Restored Schedule',
     'schedule_help' => 'Sets the default <b>Schedule</b>',
+
     /*
 |--------------------------------------------------------------------------
 | department  trans
@@ -38,7 +42,9 @@ $LANG = array(
     'created_department' => 'Successfully Created Department',
     'updated_department' => 'Successfully Updated Department',
     'archived_department' => 'Successfully Archived Department',
+    'restored_department' => 'Successfully Restored Department',
     'department_help' => 'Sets the default <b>department</b>',
+
     /*
 |--------------------------------------------------------------------------
 | manufacturer  trans
@@ -50,12 +56,15 @@ $LANG = array(
     'list_manufacturers' => 'List Manufacturer',
     'archive_manufacturer' => 'Archive Manufacturer',
     'delete_manufacturer' => 'Delete Manufacturer',
+    'create_manufacturer' => 'Create Manufacturer',
     'edit_manufacturer' => 'Edit Manufacturer',
     'clone_manufacturer' => 'Clone Manufacturer',
     'restore_manufacturer' => 'Restore Manufacturer',
     'new_manufacturer' => 'New Manufacturer',
     'created_manufacturer' => 'Successfully Created Manufacturer',
     'updated_manufacturer' => 'Successfully Updated Manufacturer',
+    'archived_manufacturer' => 'Successfully Archived Manufacturer',
+    'restored_manufacturer' => 'Successfully Restored Manufacturer',
     'manufacturer_help' => 'Sets the default <b>manufacturer</b>',
 
     /*
@@ -67,15 +76,19 @@ $LANG = array(
     'purchases' => 'Purchases',
     'purchase_list' => 'Purchase List',
     'list_purchases' => 'List Purchase',
-    'archive_purchase' => 'Archive Purchase',
-    'delete_purchase' => 'Delete Purchase',
+    'create_purchase' => 'Create Purchase',
     'edit_purchase' => 'Edit Purchase',
     'clone_purchase' => 'Clone Purchase',
     'restore_purchase' => 'Restore Purchase',
+    'archive_purchase' => 'Archive Purchase',
+    'delete_purchase' => 'Delete Purchase',
     'new_purchase' => 'New Purchase',
     'created_purchase' => 'Successfully Created Purchase',
     'updated_purchase' => 'Successfully Updated Purchase',
+    'archived_purchase' => 'Successfully Archived Purchase',
+    'restored_purchase' => 'Successfully Restored Purchase',
     'purchase_help' => 'Sets the default <b>Purchase</b>',
+
     /*
 |--------------------------------------------------------------------------
 | Status  trans
@@ -93,10 +106,10 @@ $LANG = array(
     'delete_status' => 'Delete Status',
     'deleted_status' => 'Deleted Status',
     'restore_status' => 'Restore Status',
-    'restored_status' => 'Restored Status',
     'updated_status' => 'Successfully Updated Status',
     'created_status' => 'Successfully Created Status',
     'archived_status' => 'Successfully Archived Status',
+    'restored_status' => 'Successfully Restored Status',
     'status_settings' => 'Status Settings',
     'select_status' => 'Select Status',
     'status_help' => 'Sets the default <b>status</b>',
@@ -118,11 +131,11 @@ $LANG = array(
     'delete_client' => 'Delete Client',
     'deleted_client' => 'Deleted Client',
     'restore_client' => 'Restore Client',
-    'restored_client' => 'Restored Client',
     'updated_client' => 'Successfully Updated Client',
     'created_client' => 'Successfully Created Client',
     'created_clients' => 'Successfully created :count client(s)',
     'archived_client' => 'Successfully Archived Client',
+    'restored_client' => 'Successfully Restored Client',
     'client_settings' => 'Client Settings',
 
     /*
@@ -171,10 +184,10 @@ $LANG = array(
     'deleted_user' => 'Deleted User',
     'purge_user' => 'Purge User',
     'restore_user' => 'Restore User',
-    'restored_user' => 'Restored User',
     'updated_user' => 'Successfully Updated User',
     'created_user' => 'Successfully Created User',
     'archived_user' => 'Successfully Archived User',
+    'restored_user' => 'Successfully Restored User',
     'user_settings' => 'User Settings',
     'confirmed' => 'Confirmed',
     'activated' => 'Activated',
@@ -200,10 +213,10 @@ $LANG = array(
     'delete_permission_group' => 'Delete User Group',
     'deleted_permission_group' => 'Deleted User Group',
     'restore_permission_group' => 'Restore User Group',
-    'restored_permission_group' => 'Restored User Group',
     'updated_permission_group' => 'Successfully Updated User Group',
     'created_permission_group' => 'Successfully Created User Group',
     'archived_permission_group' => 'Successfully Archived User Group',
+    'restored_permission_group' => 'Successfully Restored User Group',
     'permission_group_settings' => 'User Group Settings',
     'permission_group_help' => 'Sets the default <b>User Group</b>',
     'group_permission_help' => 'Sets the default User group',
@@ -225,11 +238,12 @@ $LANG = array(
     'delete_permission' => 'Delete Permission',
     'deleted_permission' => 'Deleted Permission',
     'restore_permission' => 'Restore Permission',
-    'restored_permission' => 'Restored Permission',
     'updated_permission' => 'Successfully Updated Permission',
     'created_permission' => 'Successfully Created Permission',
     'archived_permission' => 'Successfully Archived Permission',
+    'restored_permission' => 'Successfully Restored Permission',
     'permission_settings' => 'Permission Settings',
+
     /*
 |--------------------------------------------------------------------------
 | sales type trans
@@ -247,13 +261,14 @@ $LANG = array(
     'delete_sale_type' => 'Delete Sales Type',
     'deleted_sale_type' => 'Deleted Sales Type',
     'restore_sale_type' => 'Restore Sales Type',
-    'restored_sale_type' => 'Restored Sales Type',
     'updated_sale_type' => 'Successfully Updated Sales Type',
     'created_sale_type' => 'Successfully Created Sales Type',
     'archived_sale_type' => 'Successfully Archived Sales Type',
+    'restored_sale_type' => 'Successfully Restored Sales Type',
     'sale_type_settings' => 'Sale Type Settings',
     'select_sale_type' => 'Select Sale Type',
     'sale_type_help' => 'Sets the default <b>sales type</b>',
+
     /*
 |--------------------------------------------------------------------------
 | tax rate trans
@@ -271,12 +286,13 @@ $LANG = array(
     'delete_tax_rate' => 'Delete Tax Rate',
     'deleted_tax_rate' => 'Deleted Tax Rate',
     'restore_tax_rate' => 'Restore Tax Rate',
-    'restored_tax_rate' => 'Restored Tax Rate',
     'updated_tax_rate' => 'Successfully Updated Tax Rate',
     'created_tax_rate' => 'Successfully Created Tax Rate',
     'archived_tax_rate' => 'Successfully Archived Tax Rate',
+    'restored_tax_rate' => 'Successfully Restored Tax Rate',
     'default_tax_rate_id' => 'Default Tax Rate',
     'tax_rate_settings' => 'Tax Rate Settings',
+
     /*
 |--------------------------------------------------------------------------
 | item store location trans
@@ -296,13 +312,14 @@ $LANG = array(
     'delete_store' => 'Delete Store',
     'deleted_store' => 'Deleted Store',
     'restore_store' => 'Restore Store',
-    'restored_store' => 'Restored Store',
     'updated_store' => 'Successfully Updated Store',
     'created_store' => 'Successfully Created Store',
     'archived_store' => 'Successfully Archived Store',
+    'restored_store' => 'Successfully Restored Store',
     'store_settings' => 'Store Settings',
     'select_location' => 'Select Location',
     'store_help' => 'Sets the default <b>store</b>',
+
     /*
 |--------------------------------------------------------------------------
 | item transfer trans
@@ -319,10 +336,10 @@ $LANG = array(
     'delete_item_transfer' => 'Delete Item Transfer',
     'deleted_item_transfer' => 'Deleted Item Transfer',
     'restore_item_transfer' => 'Restore Item Transfer',
-    'restored_item_transfer' => 'Restored Item Transfer',
     'updated_item_transfer' => 'Successfully Updated Item Transfer',
     'created_item_transfer' => 'Successfully Created Item Transfer',
     'archived_item_transfer' => 'Successfully Archived Item Transfer',
+    'restored_item_transfer' => 'Successfully Restored Item Transfer',
     'item_transfer_settings' => 'Item Transfer Settings',
     'approver_name' => 'Approver Name',
     'approved_date' => 'Approved Date',
@@ -347,14 +364,15 @@ $LANG = array(
     'delete_hold_reason' => 'Delete Hold Reason',
     'deleted_hold_reason' => 'Deleted Hold Reason',
     'restore_hold_reason' => 'Restore Hold Reason',
-    'restored_hold_reason' => 'Restored Hold Reason',
     'allow_invoice' => 'Allow Invoice',
     'updated_hold_reason' => 'Successfully Updated Hold Reason',
     'created_hold_reason' => 'Successfully Created Hold Reason',
     'archived_hold_reason' => 'Successfully Archived Hold Reason',
+    'restored_hold_reason' => 'Successfully Restored Hold Reason',
     'hold_reason_settings' => 'Hold Reason Settings',
     'select_hold_reason' => 'Select Hold Reason',
     'hold_reason_help' => 'Sets the default <b>hold reason</b>',
+
     /*
 |--------------------------------------------------------------------------
 | location trans
@@ -372,12 +390,13 @@ $LANG = array(
     'delete_location' => 'Delete Location',
     'deleted_location' => 'Deleted Location',
     'restore_location' => 'Restore Location',
-    'restored_location' => 'Restored Location',
     'updated_location' => 'Successfully Updated Location',
     'created_location' => 'Successfully Created Location',
     'archived_location' => 'Successfully Archived Location',
+    'restored_location' => 'Successfully Restored Location',
     'location_settings' => 'Location Settings',
     'location_help' => 'Sets the default <b>location</b>',
+
     /*
 |--------------------------------------------------------------------------
 | item brand trans
@@ -396,13 +415,14 @@ $LANG = array(
     'delete_item_brand' => 'Delete Item Brand',
     'deleted_item_brand' => 'Deleted Item Brand',
     'restore_item_brand' => 'Restore Item Brand',
-    'restored_item_brand' => 'Restored Item Brand',
     'updated_item_brand' => 'Successfully Updated Item Brand',
     'created_item_brand' => 'Successfully Created Item Brand',
     'archived_item_brand' => 'Successfully Archived Item Brand',
+    'restored_item_brand' => 'Successfully Restored Item Brand',
     'item_brand_settings' => 'Item Brand Settings',
     'select_item_brand' => 'Select Item Brand',
     'item_brand_help' => 'Sets the default <b>item brand</b>',
+
     /*
 |--------------------------------------------------------------------------
 | item category trans
@@ -421,13 +441,14 @@ $LANG = array(
     'delete_item_category' => 'Delete Item Category',
     'deleted_item_category' => 'Deleted Item Category',
     'restore_item_category' => 'Restore Item Category',
-    'restored_item_category' => 'Restored Item Category',
     'updated_item_category' => 'Successfully Updated Item Category',
     'created_item_category' => 'Successfully Created Item Category',
     'archived_item_category' => 'Successfully Archived Item Category',
+    'restored_item_category' => 'Successfully Restored Item Category',
     'item_category_settings' => 'Item Category Settings',
     'select_item_category' => 'Select Item Category',
     'item_category_help' => 'Sets the default <b>item category</b>',
+
     /*
 |--------------------------------------------------------------------------
 | item unit trans
@@ -445,10 +466,10 @@ $LANG = array(
     'delete_unit' => 'Delete Unit',
     'deleted_unit' => 'Deleted Unit',
     'restore_unit' => 'Restore Unit',
-    'restored_unit' => 'Restored Unit',
-    'updated_unit' => 'Successfully Updated Unit',
     'created_unit' => 'Successfully Created Unit',
+    'updated_unit' => 'Successfully Updated Unit',
     'archived_unit' => 'Successfully Archived Unit',
+    'restored_unit' => 'Successfully Restored Unit',
     'unit_settings' => 'Unit Settings',
     'select_item_unit' => 'Select Item Unit',
     'item_unit_help' => 'Sets the default <b>item unit</b>',
@@ -470,12 +491,13 @@ $LANG = array(
     'delete_item_price' => 'Delete Item Price',
     'deleted_item_price' => 'Deleted Item Price',
     'restore_item_price' => 'Restore Item Price',
-    'restored_item_price' => 'Restored Item Price',
     'updated_item_price' => 'Successfully Updated Item Price',
     'created_item_price' => 'Successfully Created Item Price',
     'archived_item_price' => 'Successfully Archived Item Price',
+    'restored_item_price' => 'Successfully Restored Item Price',
     'item_price_settings' => 'Price Settings',
     'item_price_unique' => 'This item prices already had been taken.',
+
     /*
 |--------------------------------------------------------------------------
 | item category trans
@@ -494,12 +516,11 @@ $LANG = array(
     'delete_item_movement' => 'Delete Item Movement',
     'deleted_item_movement' => 'Deleted Item Movement',
     'restore_item_movement' => 'Restore Item Movement',
-    'restored_item_movement' => 'Restored Item Movement',
     'updated_item_movement' => 'Successfully Updated Item Movement',
     'created_item_movement' => 'Successfully Created Item Movement',
     'archived_item_movement' => 'Successfully Archived Item Movement',
+    'restored_item_movement' => 'Successfully Restored Item Movement',
     'item_movement_settings' => 'Item Movement Settings',
-    'item_category_help' => 'Sets the default <b>item category</b>',
 
     /*
 |--------------------------------------------------------------------------
@@ -513,7 +534,6 @@ $LANG = array(
     'allQty' => 'Transfer All Qty',
     'item_name' => 'Item Name',
     'item_list' => 'Item List',
-    'product_name' => 'Item Name',
     'store_name' => 'Store Name',
     'category_name' => 'Item Category',
     'new_item_store' => 'New Item Store',
@@ -525,10 +545,10 @@ $LANG = array(
     'delete_item_store' => 'Delete Item Store',
     'deleted_item_store' => 'Deleted Item Store',
     'restore_item_store' => 'Restore Item Store',
-    'restored_item_store' => 'Restored Item Store',
-    'updated_item_store' => 'Successfully Updated Item Store',
     'created_item_store' => 'Successfully Created Item Store',
+    'updated_item_store' => 'Successfully Updated Item Store',
     'archived_item_store' => 'Successfully Archived Item Store',
+    'restored_item_store' => 'Successfully Restored Item Store',
     'item_store_settings' => 'Item Store Settings',
     'select_item_store' => 'Select Item Store',
     'select_from_store' => 'Select Source Store',
@@ -538,13 +558,31 @@ $LANG = array(
     'item_qty_help' => 'If not set <b>item qty</b> all available qty will be transferred.',
     'item_store_help' => 'Sets the default <b>item store</b>',
     'item_does_not_exist' => 'Item does not exist in this store or somethings went wrong.',
+
     /*
 |--------------------------------------------------------------------------
-| inventory trans
+| Product trans
 |--------------------------------------------------------------------------
 */
     'product' => 'Product',
-    'products' => 'Inventory',
+    'product_name' => 'Product',
+    'products' => 'Product of measure',
+    'new_product' => 'New Product',
+    'list_products' => 'List Products',
+    'create_product' => 'Create Product',
+    'edit_product' => 'Edit Product',
+    'clone_product' => 'Clone Product',
+    'archive_product' => 'Archive Product',
+    'delete_product' => 'Delete Product',
+    'deleted_product' => 'Deleted Product',
+    'restore_product' => 'Restore Product',
+    'created_product' => 'Successfully Created Product',
+    'updated_product' => 'Successfully Updated Product',
+    'archived_product' => 'Successfully Archived Product',
+    'restored_product' => 'Successfully Restored Product',
+    'product_settings' => 'Product Settings',
+    'select_product' => 'Select Product',
+    'product_help' => 'Sets the default <b>Product</b>',
 
     /*
 |--------------------------------------------------------------------------
@@ -843,12 +881,6 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'fill_products_help' => 'Selecting a product will automatically <b>fill in the description and cost</b>',
     'update_products' => 'Auto-update products',
     'update_products_help' => 'Updating an invoice will automatically <b>update the product library</b>',
-    'create_product' => 'Add Product',
-    'edit_product' => 'Edit Product',
-    'archive_product' => 'Archive Product',
-    'updated_product' => 'Successfully updated product',
-    'created_product' => 'Successfully created product',
-    'archived_product' => 'Successfully archived product',
     'pro_plan_custom_fields' => ':link to enable custom fields by joining the Pro Plan',
     'advanced_settings' => 'Advanced Settings',
     'pro_plan_advanced_settings' => ':link to enable the advanced settings by joining the Pro Plan',
@@ -1061,7 +1093,6 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'more_fields' => 'More Fields',
     'less_fields' => 'Less Fields',
     'pdf_settings' => 'PDF Settings',
-    'product_settings' => 'Product Settings',
     'auto_wrap' => 'Auto Line Wrap',
     'duplicate_post' => 'the previous page was submitted twice. The second submission had been ignored.',
     'view_documentation' => 'View Documentation',
@@ -1111,7 +1142,6 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'minutes' => 'Minutes',
     'hour' => 'Hour',
     'hours' => 'Hours',
-    'task_details' => 'Task Details',
     'duration' => 'Duration',
     'time_log' => 'Time Log',
     'end_time' => 'End Time',
@@ -1604,7 +1634,6 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'tax_name' => 'Tax Name',
     'report_settings' => 'Report Settings',
     'search_hotkey' => 'or jump to...',
-    'new_product' => 'New Product',
     'invoiced_amount' => 'Invoiced Amount',
     'invoice_item_fields' => 'Invoice Item Fields',
     'custom_invoice_item_fields_help' => 'Add a field when creating an invoice item and display the label and value on the PDF.',
@@ -1900,7 +1929,6 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'product_file' => 'Product File',
     'import_products' => 'Import Products',
     'products_will_create' => 'products will be created',
-    'name' => 'Product',
     'created_products' => 'Successfully created/updated :count product(s)',
     'export_help' => 'Use JSON if you plan to import the data into Fidel.<br/>The file includes clients, products, invoices, quotes and payments.',
     'selfhost_export_help' => '<br/>We recommend using mysqldump to create a full backup.',
@@ -2408,7 +2436,6 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'security_code_email_line1' => 'This is your Fidel Bot security code.',
     'security_code_email_line2' => 'Note: it will expire in 10 minutes.',
     'bot_help_message' => 'I currently support:<br/>• Create\update\email an invoice<br/>• List products<br/>For example:<br/><i>invoice bob for 2 tickets, set the due date to next thursday and the discount to 10 percent</i>',
-    'list_products' => 'List Products',
 
     'include_item_taxes_inline' => 'Include <b>line item taxes in line total</b>',
     'created_quotes' => 'Successfully created :count quotes(s)',
@@ -2467,7 +2494,6 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'update' => 'Update',
     'invoice_fields_help' => 'Drag and drop fields to change their order and location',
     'new_category' => 'New Category',
-    'restore_product' => 'Restore Product',
     'blank' => 'Blank',
     'invoice_save_error' => 'There was an error saving your invoice',
     'enable_recurring' => 'Enable Recurring',
@@ -2577,10 +2603,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'deleted_projects' => 'Successfully deleted :count projects',
     'delete_expense_category' => 'Delete category',
     'deleted_expense_category' => 'Successfully deleted category',
-    'delete_product' => 'Delete Product',
-    'deleted_product' => 'Successfully deleted product',
     'deleted_products' => 'Successfully deleted :count products',
-    'restored_product' => 'Successfully restored product',
     'update_credit' => 'Update Credit',
     'updated_credit' => 'Successfully updated credit',
     'edit_credit' => 'Edit Credit',
@@ -3383,7 +3406,6 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'purge_client' => 'Purge Client',
     'purged_client' => 'Successfully purged client',
     'purge_client_warning' => 'All related records (invoices, tasks, expenses, documents, etc) will also be deleted.',
-    'clone_product' => 'Clone Product',
     'item_details' => 'Item Details',
     'send_item_details_help' => 'Send line item details to the payment gateway.',
     'view_proposal' => 'View Proposal',
