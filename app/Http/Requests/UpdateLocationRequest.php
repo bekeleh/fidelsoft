@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Models\Location;
-use Illuminate\Support\Facades\Auth;
 
 class UpdateLocationRequest extends EntityRequest
 {
@@ -11,7 +10,7 @@ class UpdateLocationRequest extends EntityRequest
 
     public function authorize()
     {
-        return Auth::user()->can('create', ENTITY_LOCATION);
+        return $this->user()->can('create', ENTITY_LOCATION);
     }
 
     public function rules()

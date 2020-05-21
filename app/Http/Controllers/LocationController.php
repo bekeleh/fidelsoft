@@ -24,9 +24,6 @@ class LocationController extends BaseController
 
     protected $locationService;
 
-    /**
-     * @var LocationRepository
-     */
     protected $locationRepo;
 
     /**

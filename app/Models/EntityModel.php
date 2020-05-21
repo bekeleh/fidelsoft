@@ -377,6 +377,7 @@ class EntityModel extends Eloquent
             'item_stores' => 'cubes',
             'item_movements' => 'exchange',
             'stores' => 'building',
+            'departments' => 'building',
             'sale_types' => 'files-o',
             'item_prices' => 'money',
             'locations' => 'location-arrow',

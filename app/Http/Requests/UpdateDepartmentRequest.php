@@ -2,27 +2,27 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Location;
+use App\Models\Department;
 
-class CreateLocationRequest extends EntityRequest
+class UpdateDepartmentRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_LOCATION;
+    protected $entityType = ENTITY_DEPARTMENT;
 
     public function authorize()
     {
-        return $this->user()->can('create', ENTITY_LOCATION);
+        return $this->user()->can('create', ENTITY_DEPARTMENT);
     }
 
     public function rules()
     {
-        $this->sanitize();
         $rules = [];
+        $this->sanitize();
         $this->validationData();
-        $rules['name'] = 'required|max:90|unique:locations,name,' . $this->id . ',id,account_id,' . $this->account_id;
-        $rules['notes'] = 'nullable';
+        $department = Department::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
+        if ($department)
+            $rules['name'] = 'required|max:90|unique:departments,name,' . $department->id . ',id,account_id,' . $department->account_id;
         $rules['is_deleted'] = 'boolean';
         $rules['notes'] = 'nullable';
-
         return $rules;
     }
 
@@ -44,9 +44,10 @@ class CreateLocationRequest extends EntityRequest
         $input = $this->all();
         if (count($input)) {
             $this->request->add([
-                'account_id' => Location::getAccountId()
+                'account_id' => Department::getAccountId()
             ]);
         }
+
         return $this->request->all();
     }
 }

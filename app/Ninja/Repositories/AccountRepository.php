@@ -300,6 +300,7 @@ class AccountRepository
             ENTITY_HOLD_REASON,
             ENTITY_STORE,
             ENTITY_LOCATION,
+            ENTITY_DEPARTMENT,
             ENTITY_ITEM_CATEGORY,
             ENTITY_ITEM_BRAND,
             ENTITY_ITEM_STORE,
