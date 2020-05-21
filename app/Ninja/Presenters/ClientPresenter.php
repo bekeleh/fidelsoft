@@ -104,10 +104,6 @@ class ClientPresenter extends EntityPresenter
         return $str;
     }
 
-    /**
-     * @param string $addressType
-     * @return string
-     */
     public function getCityState($addressType = ADDRESS_BILLING)
     {
         $client = $this->entity;
@@ -125,10 +121,6 @@ class ClientPresenter extends EntityPresenter
         }
     }
 
-
-    /**
-     * @return string
-     */
     public function taskRate()
     {
         if (floatval($this->entity->task_rate)) {
@@ -138,9 +130,6 @@ class ClientPresenter extends EntityPresenter
         }
     }
 
-    /**
-     * @return string
-     */
     public function defaultTaskRate()
     {
         if ($rate = $this->taskRate()) {
