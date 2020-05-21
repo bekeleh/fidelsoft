@@ -20,8 +20,6 @@
  * This file was generated from the file
  * https://github.com/google/googleapis/blob/master/google/cloud/dataproc/v1/autoscaling_policies.proto
  * and updates to that file get reflected here through a refresh process.
- *
- * @experimental
  */
 
 namespace Google\Cloud\Dataproc\V1\Gapic;
@@ -54,9 +52,8 @@ use Google\Protobuf\GPBEmpty;
  * ```
  * $autoscalingPolicyServiceClient = new AutoscalingPolicyServiceClient();
  * try {
- *     $formattedParent = $autoscalingPolicyServiceClient->regionName('[PROJECT]', '[REGION]');
  *     $policy = new AutoscalingPolicy();
- *     $response = $autoscalingPolicyServiceClient->createAutoscalingPolicy($formattedParent, $policy);
+ *     $response = $autoscalingPolicyServiceClient->updateAutoscalingPolicy($policy);
  * } finally {
  *     $autoscalingPolicyServiceClient->close();
  * }
@@ -66,8 +63,6 @@ use Google\Protobuf\GPBEmpty;
  * with these names, this class includes a format method for each type of name, and additionally
  * a parseName method to extract the individual identifiers contained within formatted names
  * that are returned by the API.
- *
- * @experimental
  */
 class AutoscalingPolicyServiceGapicClient
 {
@@ -100,6 +95,9 @@ class AutoscalingPolicyServiceGapicClient
         'https://www.googleapis.com/auth/cloud-platform',
     ];
     private static $autoscalingPolicyNameTemplate;
+    private static $locationNameTemplate;
+    private static $projectLocationAutoscalingPolicyNameTemplate;
+    private static $projectRegionAutoscalingPolicyNameTemplate;
     private static $regionNameTemplate;
     private static $pathTemplateMap;
 
@@ -125,10 +123,37 @@ class AutoscalingPolicyServiceGapicClient
     private static function getAutoscalingPolicyNameTemplate()
     {
         if (null == self::$autoscalingPolicyNameTemplate) {
-            self::$autoscalingPolicyNameTemplate = new PathTemplate('projects/{project}/regions/{region}/autoscalingPolicies/{autoscaling_policy}');
+            self::$autoscalingPolicyNameTemplate = new PathTemplate('projects/{project}/locations/{location}/autoscalingPolicies/{autoscaling_policy}');
         }
 
         return self::$autoscalingPolicyNameTemplate;
+    }
+
+    private static function getLocationNameTemplate()
+    {
+        if (null == self::$locationNameTemplate) {
+            self::$locationNameTemplate = new PathTemplate('projects/{project}/locations/{location}');
+        }
+
+        return self::$locationNameTemplate;
+    }
+
+    private static function getProjectLocationAutoscalingPolicyNameTemplate()
+    {
+        if (null == self::$projectLocationAutoscalingPolicyNameTemplate) {
+            self::$projectLocationAutoscalingPolicyNameTemplate = new PathTemplate('projects/{project}/locations/{location}/autoscalingPolicies/{autoscaling_policy}');
+        }
+
+        return self::$projectLocationAutoscalingPolicyNameTemplate;
+    }
+
+    private static function getProjectRegionAutoscalingPolicyNameTemplate()
+    {
+        if (null == self::$projectRegionAutoscalingPolicyNameTemplate) {
+            self::$projectRegionAutoscalingPolicyNameTemplate = new PathTemplate('projects/{project}/regions/{region}/autoscalingPolicies/{autoscaling_policy}');
+        }
+
+        return self::$projectRegionAutoscalingPolicyNameTemplate;
     }
 
     private static function getRegionNameTemplate()
@@ -145,6 +170,9 @@ class AutoscalingPolicyServiceGapicClient
         if (null == self::$pathTemplateMap) {
             self::$pathTemplateMap = [
                 'autoscalingPolicy' => self::getAutoscalingPolicyNameTemplate(),
+                'location' => self::getLocationNameTemplate(),
+                'projectLocationAutoscalingPolicy' => self::getProjectLocationAutoscalingPolicyNameTemplate(),
+                'projectRegionAutoscalingPolicy' => self::getProjectRegionAutoscalingPolicyNameTemplate(),
                 'region' => self::getRegionNameTemplate(),
             ];
         }
@@ -157,15 +185,69 @@ class AutoscalingPolicyServiceGapicClient
      * a autoscaling_policy resource.
      *
      * @param string $project
-     * @param string $region
+     * @param string $location
      * @param string $autoscalingPolicy
      *
      * @return string The formatted autoscaling_policy resource.
-     * @experimental
      */
-    public static function autoscalingPolicyName($project, $region, $autoscalingPolicy)
+    public static function autoscalingPolicyName($project, $location, $autoscalingPolicy)
     {
         return self::getAutoscalingPolicyNameTemplate()->render([
+            'project' => $project,
+            'location' => $location,
+            'autoscaling_policy' => $autoscalingPolicy,
+        ]);
+    }
+
+    /**
+     * Formats a string containing the fully-qualified path to represent
+     * a location resource.
+     *
+     * @param string $project
+     * @param string $location
+     *
+     * @return string The formatted location resource.
+     */
+    public static function locationName($project, $location)
+    {
+        return self::getLocationNameTemplate()->render([
+            'project' => $project,
+            'location' => $location,
+        ]);
+    }
+
+    /**
+     * Formats a string containing the fully-qualified path to represent
+     * a project_location_autoscaling_policy resource.
+     *
+     * @param string $project
+     * @param string $location
+     * @param string $autoscalingPolicy
+     *
+     * @return string The formatted project_location_autoscaling_policy resource.
+     */
+    public static function projectLocationAutoscalingPolicyName($project, $location, $autoscalingPolicy)
+    {
+        return self::getProjectLocationAutoscalingPolicyNameTemplate()->render([
+            'project' => $project,
+            'location' => $location,
+            'autoscaling_policy' => $autoscalingPolicy,
+        ]);
+    }
+
+    /**
+     * Formats a string containing the fully-qualified path to represent
+     * a project_region_autoscaling_policy resource.
+     *
+     * @param string $project
+     * @param string $region
+     * @param string $autoscalingPolicy
+     *
+     * @return string The formatted project_region_autoscaling_policy resource.
+     */
+    public static function projectRegionAutoscalingPolicyName($project, $region, $autoscalingPolicy)
+    {
+        return self::getProjectRegionAutoscalingPolicyNameTemplate()->render([
             'project' => $project,
             'region' => $region,
             'autoscaling_policy' => $autoscalingPolicy,
@@ -180,7 +262,6 @@ class AutoscalingPolicyServiceGapicClient
      * @param string $region
      *
      * @return string The formatted region resource.
-     * @experimental
      */
     public static function regionName($project, $region)
     {
@@ -194,7 +275,10 @@ class AutoscalingPolicyServiceGapicClient
      * Parses a formatted name string and returns an associative array of the components in the name.
      * The following name formats are supported:
      * Template: Pattern
-     * - autoscalingPolicy: projects/{project}/regions/{region}/autoscalingPolicies/{autoscaling_policy}
+     * - autoscalingPolicy: projects/{project}/locations/{location}/autoscalingPolicies/{autoscaling_policy}
+     * - location: projects/{project}/locations/{location}
+     * - projectLocationAutoscalingPolicy: projects/{project}/locations/{location}/autoscalingPolicies/{autoscaling_policy}
+     * - projectRegionAutoscalingPolicy: projects/{project}/regions/{region}/autoscalingPolicies/{autoscaling_policy}
      * - region: projects/{project}/regions/{region}.
      *
      * The optional $template argument can be supplied to specify a particular pattern, and must
@@ -208,7 +292,6 @@ class AutoscalingPolicyServiceGapicClient
      * @return array An associative array from name component IDs to component values.
      *
      * @throws ValidationException If $formattedName could not be matched.
-     * @experimental
      */
     public static function parseName($formattedName, $template = null)
     {
@@ -285,74 +368,11 @@ class AutoscalingPolicyServiceGapicClient
      * }
      *
      * @throws ValidationException
-     * @experimental
      */
     public function __construct(array $options = [])
     {
         $clientOptions = $this->buildClientOptions($options);
         $this->setClientOptions($clientOptions);
-    }
-
-    /**
-     * Creates new autoscaling policy.
-     *
-     * Sample code:
-     * ```
-     * $autoscalingPolicyServiceClient = new AutoscalingPolicyServiceClient();
-     * try {
-     *     $formattedParent = $autoscalingPolicyServiceClient->regionName('[PROJECT]', '[REGION]');
-     *     $policy = new AutoscalingPolicy();
-     *     $response = $autoscalingPolicyServiceClient->createAutoscalingPolicy($formattedParent, $policy);
-     * } finally {
-     *     $autoscalingPolicyServiceClient->close();
-     * }
-     * ```
-     *
-     * @param string $parent Required. The "resource name" of the region or location, as described
-     *                       in https://cloud.google.com/apis/design/resource_names.
-     *
-     * * For `projects.regions.autoscalingPolicies.create`, the resource name
-     *   of the region has the following format:
-     *   `projects/{project_id}/regions/{region}`
-     *
-     * * For `projects.locations.autoscalingPolicies.create`, the resource name
-     *   of the location has the following format:
-     *   `projects/{project_id}/locations/{location}`
-     * @param AutoscalingPolicy $policy       The autoscaling policy to create.
-     * @param array             $optionalArgs {
-     *                                        Optional.
-     *
-     *     @type RetrySettings|array $retrySettings
-     *          Retry settings to use for this call. Can be a
-     *          {@see Google\ApiCore\RetrySettings} object, or an associative array
-     *          of retry settings parameters. See the documentation on
-     *          {@see Google\ApiCore\RetrySettings} for example usage.
-     * }
-     *
-     * @return \Google\Cloud\Dataproc\V1\AutoscalingPolicy
-     *
-     * @throws ApiException if the remote call fails
-     * @experimental
-     */
-    public function createAutoscalingPolicy($parent, $policy, array $optionalArgs = [])
-    {
-        $request = new CreateAutoscalingPolicyRequest();
-        $request->setParent($parent);
-        $request->setPolicy($policy);
-
-        $requestParams = new RequestParamsHeaderDescriptor([
-          'parent' => $request->getParent(),
-        ]);
-        $optionalArgs['headers'] = isset($optionalArgs['headers'])
-            ? array_merge($requestParams->getHeader(), $optionalArgs['headers'])
-            : $requestParams->getHeader();
-
-        return $this->startCall(
-            'CreateAutoscalingPolicy',
-            AutoscalingPolicy::class,
-            $optionalArgs,
-            $request
-        )->wait();
     }
 
     /**
@@ -386,7 +406,6 @@ class AutoscalingPolicyServiceGapicClient
      * @return \Google\Cloud\Dataproc\V1\AutoscalingPolicy
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function updateAutoscalingPolicy($policy, array $optionalArgs = [])
     {
@@ -409,14 +428,75 @@ class AutoscalingPolicyServiceGapicClient
     }
 
     /**
+     * Creates new autoscaling policy.
+     *
+     * Sample code:
+     * ```
+     * $autoscalingPolicyServiceClient = new AutoscalingPolicyServiceClient();
+     * try {
+     *     $formattedParent = $autoscalingPolicyServiceClient->regionName('[PROJECT]', '[REGION]');
+     *     $policy = new AutoscalingPolicy();
+     *     $response = $autoscalingPolicyServiceClient->createAutoscalingPolicy($formattedParent, $policy);
+     * } finally {
+     *     $autoscalingPolicyServiceClient->close();
+     * }
+     * ```
+     *
+     * @param string $parent Required. The "resource name" of the region or location, as described
+     *                       in https://cloud.google.com/apis/design/resource_names.
+     *
+     * * For `projects.regions.autoscalingPolicies.create`, the resource name
+     *   of the region has the following format:
+     *   `projects/{project_id}/regions/{region}`
+     *
+     * * For `projects.locations.autoscalingPolicies.create`, the resource name
+     *   of the location has the following format:
+     *   `projects/{project_id}/locations/{location}`
+     * @param AutoscalingPolicy $policy       Required. The autoscaling policy to create.
+     * @param array             $optionalArgs {
+     *                                        Optional.
+     *
+     *     @type RetrySettings|array $retrySettings
+     *          Retry settings to use for this call. Can be a
+     *          {@see Google\ApiCore\RetrySettings} object, or an associative array
+     *          of retry settings parameters. See the documentation on
+     *          {@see Google\ApiCore\RetrySettings} for example usage.
+     * }
+     *
+     * @return \Google\Cloud\Dataproc\V1\AutoscalingPolicy
+     *
+     * @throws ApiException if the remote call fails
+     */
+    public function createAutoscalingPolicy($parent, $policy, array $optionalArgs = [])
+    {
+        $request = new CreateAutoscalingPolicyRequest();
+        $request->setParent($parent);
+        $request->setPolicy($policy);
+
+        $requestParams = new RequestParamsHeaderDescriptor([
+          'parent' => $request->getParent(),
+        ]);
+        $optionalArgs['headers'] = isset($optionalArgs['headers'])
+            ? array_merge($requestParams->getHeader(), $optionalArgs['headers'])
+            : $requestParams->getHeader();
+
+        return $this->startCall(
+            'CreateAutoscalingPolicy',
+            AutoscalingPolicy::class,
+            $optionalArgs,
+            $request
+        )->wait();
+    }
+
+    /**
      * Retrieves autoscaling policy.
      *
      * Sample code:
      * ```
      * $autoscalingPolicyServiceClient = new AutoscalingPolicyServiceClient();
      * try {
-     *     $formattedName = $autoscalingPolicyServiceClient->autoscalingPolicyName('[PROJECT]', '[REGION]', '[AUTOSCALING_POLICY]');
-     *     $response = $autoscalingPolicyServiceClient->getAutoscalingPolicy($formattedName);
+     *     $name = '';
+     *     $response = $autoscalingPolicyServiceClient->getAutoscalingPolicy($name);
      * } finally {
      *     $autoscalingPolicyServiceClient->close();
      * }
@@ -445,7 +525,6 @@ class AutoscalingPolicyServiceGapicClient
      * @return \Google\Cloud\Dataproc\V1\AutoscalingPolicy
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function getAutoscalingPolicy($name, array $optionalArgs = [])
     {
@@ -528,7 +607,6 @@ class AutoscalingPolicyServiceGapicClient
      * @return \Google\ApiCore\PagedListResponse
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function listAutoscalingPolicies($parent, array $optionalArgs = [])
     {
@@ -564,8 +642,8 @@ class AutoscalingPolicyServiceGapicClient
      * ```
      * $autoscalingPolicyServiceClient = new AutoscalingPolicyServiceClient();
      * try {
-     *     $formattedName = $autoscalingPolicyServiceClient->autoscalingPolicyName('[PROJECT]', '[REGION]', '[AUTOSCALING_POLICY]');
-     *     $autoscalingPolicyServiceClient->deleteAutoscalingPolicy($formattedName);
+     *     $name = '';
+     *     $autoscalingPolicyServiceClient->deleteAutoscalingPolicy($name);
      * } finally {
      *     $autoscalingPolicyServiceClient->close();
      * }
@@ -592,7 +670,6 @@ class AutoscalingPolicyServiceGapicClient
      * }
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function deleteAutoscalingPolicy($name, array $optionalArgs = [])
     {

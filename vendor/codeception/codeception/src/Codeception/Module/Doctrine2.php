@@ -109,55 +109,7 @@ EOF;
     public function _before(TestInterface $test)
     {
         $this->retrieveEntityManager();
-
         if ($this->config['cleanup']) {
-
-            if($this->em->getConnection()->isTransactionActive()) {
-                try {
-                    while ($this->em->getConnection()->getTransactionNestingLevel() > 0) {
-                        $this->em->getConnection()->rollback();
-                    }
-                    $this->debugSection('Database', 'Transaction cancelled; all changes reverted.');
-                } catch (\PDOException $e) {
-                }
-            }
-
-            $this->em->getConnection()->beginTransaction();
-            $this->debugSection('Database', 'Transaction started');
-        }
-    }
-
-    /**
-     * @throws ModuleConfigException
-     */
-    public function onReconfigure()
-    {
-        if (!$this->em instanceof \Doctrine\ORM\EntityManagerInterface) {
-            return;
-        }
-        if ($this->config['cleanup'] && $this->em->getConnection()->isTransactionActive()) {
-            try {
-                $this->em->getConnection()->rollback();
-                $this->debugSection('Database', 'Transaction cancelled; all changes reverted.');
-            } catch (\PDOException $e) {
-            }
-        }
-        $this->clean();
-        $this->em->getConnection()->close();
-
-        $this->retrieveEntityManager();
-        if ($this->config['cleanup']) {
-
-            if($this->em->getConnection()->isTransactionActive()) {
-                try {
-                    while ($this->em->getConnection()->getTransactionNestingLevel() > 0) {
-                        $this->em->getConnection()->rollback();
-                    }
-                    $this->debugSection('Database', 'Transaction cancelled; all changes reverted.');
-                } catch (\PDOException $e) {
-                }
-            }
-
             $this->em->getConnection()->beginTransaction();
             $this->debugSection('Database', 'Transaction started');
         }
@@ -203,9 +155,7 @@ EOF;
         }
         if ($this->config['cleanup'] && $this->em->getConnection()->isTransactionActive()) {
             try {
-                while ($this->em->getConnection()->getTransactionNestingLevel() > 0) {
-                    $this->em->getConnection()->rollback();
-                }
+                $this->em->getConnection()->rollback();
                 $this->debugSection('Database', 'Transaction cancelled; all changes reverted.');
             } catch (\PDOException $e) {
             }
@@ -481,7 +431,7 @@ EOF;
      *
      * @version 1.1
      * @param $entity
-     * @param array $params. For `IS NULL`, use `array('field'=>null)`
+     * @param array $params
      * @return array
      */
     public function grabEntitiesFromRepository($entity, $params = [])
@@ -493,7 +443,7 @@ EOF;
         $qb->select('s');
         $this->buildAssociationQuery($qb, $entity, 's', $params);
         $this->debug($qb->getDQL());
-
+        
         return $qb->getQuery()->getResult();
     }
 
@@ -512,7 +462,7 @@ EOF;
      *
      * @version 1.1
      * @param $entity
-     * @param array $params. For `IS NULL`, use `array('field'=>null)`
+     * @param array $params
      * @return object
      */
     public function grabEntityFromRepository($entity, $params = [])
@@ -524,11 +474,11 @@ EOF;
         $qb->select('s');
         $this->buildAssociationQuery($qb, $entity, 's', $params);
         $this->debug($qb->getDQL());
-
+        
         return $qb->getQuery()->getSingleResult();
     }
 
-
+    
 
     /**
      * It's Fuckin Recursive!

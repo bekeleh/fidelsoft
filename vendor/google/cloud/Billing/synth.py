@@ -14,7 +14,6 @@
 
 """This script is used to synthesize generated parts of this library."""
 
-import os
 import synthtool as s
 import synthtool.gcp as gcp
 import logging
@@ -25,7 +24,9 @@ gapic = gcp.GAPICBazel()
 
 library = gapic.php_library(
     service="billing",
-    version="v1")
+    version="v1",
+    bazel_target='//google/cloud/billing/v1:google-cloud-billing-v1-php',
+)
 
 # copy all src
 s.move(library / f"src/V1")
@@ -54,6 +55,12 @@ s.replace(
     "**/Gapic/*GapicClient.php",
     r"\$transportConfig, and any \$serviceAddress",
     r"$transportConfig, and any `$apiEndpoint`")
+
+# V1 is GA, so remove @experimental tags
+s.replace(
+    'src/V1/**/*Client.php',
+    r'^(\s+\*\n)?\s+\*\s@experimental\n',
+    '')
 
 # fix year
 s.replace(

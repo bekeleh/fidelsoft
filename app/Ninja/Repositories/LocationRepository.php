@@ -30,6 +30,8 @@ class LocationRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('locations')
+            ->where('locations.account_id', '=', $accountId)
+//            ->where('locations.deleted_at', '=', null)
             ->select(
                 'locations.id',
                 'locations.public_id',
@@ -42,7 +44,7 @@ class LocationRepository extends BaseRepository
                 'locations.created_by',
                 'locations.updated_by',
                 'locations.deleted_by'
-            )->where('locations.account_id', '=', $accountId);
+            );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
@@ -69,7 +71,7 @@ class LocationRepository extends BaseRepository
             $location->created_by = auth::user()->username;
         }
         $location->fill($data);
-        $location->name = isset($data['name']) ? ucwords(strtolower(trim($data['name']))) : '';
+        $location->name = isset($data['name']) ? trim($data['name']) : '';
 
         $location->notes = isset($data['notes']) ? trim($data['notes']) : '';
         $location->save();

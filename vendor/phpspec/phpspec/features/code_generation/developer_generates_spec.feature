@@ -11,6 +11,7 @@ Feature: Developer generates a spec
 
       namespace spec\CodeGeneration\SpecExample1;
 
+      use CodeGeneration\SpecExample1\Markdown;
       use PhpSpec\ObjectBehavior;
       use Prophecy\Argument;
 
@@ -18,12 +19,34 @@ Feature: Developer generates a spec
       {
           function it_is_initializable()
           {
-              $this->shouldHaveType('CodeGeneration\SpecExample1\Markdown');
+              $this->shouldHaveType(Markdown::class);
           }
       }
 
       """
 
+  @issue1210
+  Scenario: Generating a spec with alphabetised imports
+    When I start describing the "Zyzzyva/SpecExample/Example" class
+    Then a new spec should be generated in the "spec/Zyzzyva/SpecExample/ExampleSpec.php":
+      """
+      <?php
+
+      namespace spec\Zyzzyva\SpecExample;
+
+      use PhpSpec\ObjectBehavior;
+      use Prophecy\Argument;
+      use Zyzzyva\SpecExample\Example;
+
+      class ExampleSpec extends ObjectBehavior
+      {
+          function it_is_initializable()
+          {
+              $this->shouldHaveType(Example::class);
+          }
+      }
+
+      """
 
   @issue687
   Scenario: Generating a spec with the same namespace as the source
@@ -43,6 +66,7 @@ Feature: Developer generates a spec
 
     namespace CodeGeneration\SpecExample2;
 
+    use CodeGeneration\SpecExample2\Markdown;
     use PhpSpec\ObjectBehavior;
     use Prophecy\Argument;
 
@@ -50,7 +74,7 @@ Feature: Developer generates a spec
     {
         function it_is_initializable()
         {
-            $this->shouldHaveType('CodeGeneration\SpecExample2\Markdown');
+            $this->shouldHaveType(Markdown::class);
         }
     }
 
@@ -75,6 +99,7 @@ Feature: Developer generates a spec
 
     namespace CodeGeneration\SpecExample2;
 
+    use CodeGeneration\SpecExample2\Markdown;
     use PhpSpec\ObjectBehavior;
     use Prophecy\Argument;
 
@@ -82,7 +107,7 @@ Feature: Developer generates a spec
     {
         function it_is_initializable()
         {
-            $this->shouldHaveType('CodeGeneration\SpecExample2\Markdown');
+            $this->shouldHaveType(Markdown::class);
         }
     }
 
@@ -97,6 +122,7 @@ Feature: Developer generates a spec
 
       namespace spec\CodeGeneration\SpecExample1;
 
+      use CodeGeneration\SpecExample1\Text_Markdown;
       use PhpSpec\ObjectBehavior;
       use Prophecy\Argument;
 
@@ -104,7 +130,7 @@ Feature: Developer generates a spec
       {
           function it_is_initializable()
           {
-              $this->shouldHaveType('CodeGeneration\SpecExample1\Text_Markdown');
+              $this->shouldHaveType(Text_Markdown::class);
           }
       }
 
@@ -119,6 +145,7 @@ Feature: Developer generates a spec
 
       namespace spec\CodeGeneration\Spec_Example2;
 
+      use CodeGeneration\Spec_Example2\Text_Markdown;
       use PhpSpec\ObjectBehavior;
       use Prophecy\Argument;
 
@@ -126,7 +153,7 @@ Feature: Developer generates a spec
       {
           function it_is_initializable()
           {
-              $this->shouldHaveType('CodeGeneration\Spec_Example2\Text_Markdown');
+              $this->shouldHaveType(Text_Markdown::class);
           }
       }
 
@@ -147,6 +174,7 @@ Feature: Developer generates a spec
 
       namespace spec\Behat\CodeGeneration;
 
+      use Behat\CodeGeneration\Markdown;
       use PhpSpec\ObjectBehavior;
       use Prophecy\Argument;
 
@@ -154,8 +182,13 @@ Feature: Developer generates a spec
       {
           function it_is_initializable()
           {
-              $this->shouldHaveType('Behat\CodeGeneration\Markdown');
+              $this->shouldHaveType(Markdown::class);
           }
       }
 
       """
+
+  Scenario: Generating a spec for class with namespace containing reserved keyword
+    Given I have started describing the "Namespace/ClassExample1/Markdown" class
+    Then I should an error about invalid class name "Namespace\ClassExample1\Markdown" to generate spec for
+    And there should be no file "spec/Namespace/ClassExample1/MarkdownSpec.php"

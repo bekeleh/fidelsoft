@@ -14,30 +14,31 @@
 
 """This script is used to synthesize generated parts of this library."""
 
-import os
 import synthtool as s
 import synthtool.gcp as gcp
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
 
-gapic = gcp.GAPICGenerator()
+gapic = gcp.GAPICBazel()
 common = gcp.CommonTemplates()
 
-library = gapic.php_library(
-    service='webrisk',
-    version='v1beta1',
-    artman_output_name='google-cloud-webrisk-v1beta1')
+for version in ['v1', 'v1beta1']:
+    library = gapic.php_library(
+        service='webrisk',
+        version=version,
+        bazel_target=f'//google/cloud/webrisk/{version}:google-cloud-webrisk-{version}-php',
+    )
 
-# copy all src including partial veneer classes
-s.move(library / 'src')
+    # copy all src including partial veneer classes
+    s.move(library / 'src')
 
-# copy proto files to src also
-s.move(library / 'proto/src/Google/Cloud/WebRisk', 'src/')
-s.move(library / 'tests/')
+    # copy proto files to src also
+    s.move(library / 'proto/src/Google/Cloud/WebRisk', 'src/')
+    s.move(library / 'tests/')
 
-# copy GPBMetadata file to metadata
-s.move(library / 'proto/src/GPBMetadata/Google/Cloud/WebRisk', 'metadata/')
+    # copy GPBMetadata file to metadata
+    s.move(library / 'proto/src/GPBMetadata/Google/Cloud/Webrisk', 'metadata/')
 
 # document and utilize apiEndpoint instead of serviceAddress
 s.replace(
@@ -59,26 +60,34 @@ s.replace(
 
 # fix year
 s.replace(
-    '**/Gapic/*GapicClient.php',
+    'src/V1beta1/**/*Client.php',
     r'Copyright \d{4}',
     r'Copyright 2019')
 s.replace(
-    '**/*Client.php',
+    'src/V1/**/*Client.php',
     r'Copyright \d{4}',
-    r'Copyright 2019')
+    r'Copyright 2020')
 s.replace(
     'tests/**/V1beta1/*Test.php',
     r'Copyright \d{4}',
     r'Copyright 2019')
+s.replace(
+    'tests/**/V1/*Test.php',
+    r'Copyright \d{4}',
+    r'Copyright 2020')
 
 # Fix class references in gapic samples
-for version in ['V1beta1']:
-    pathExpr = 'src/' + version + '/Gapic/WebRiskServiceV1Beta1GapicClient.php'
+for version in ['V1', 'V1beta1']:
+    if version == 'V1beta1':
+        clientName = 'WebRiskServiceV1Beta1'
+    else:
+        clientName = 'WebRiskService'
+    pathExpr = 'src/' + version + '/Gapic/' + clientName + 'GapicClient.php'
 
     types = {
         'new Constraints': r'new Google\\Cloud\\WebRisk\\' + version + r'\\ComputeThreatListDiffRequest\\Constraints',
         '= ThreatType::': r'= Google\\Cloud\\WebRisk\\' + version + r'\\ThreatType::',
-        '= new WebRiskServiceV1Beta1Client': r'= new Google\\Cloud\\WebRisk\\' + version + r'\\WebRiskServiceV1Beta1Client'
+        '= new ' + clientName + 'Client': r'= new Google\\Cloud\\WebRisk\\' + version + r'\\' + clientName + 'Client'
     }
 
     for search, replace in types.items():
@@ -112,3 +121,10 @@ s.replace(
 )
 
 ### [END] protoc backwards compatibility fixes
+
+# fix relative cloud.google.com links
+s.replace(
+    "src/**/V*/**/*.php",
+    r"(.{0,})\]\((/.{0,})\)",
+    r"\1](https://cloud.google.com\2)"
+)

@@ -202,6 +202,7 @@ clips\.ua\.ac\.be
 Cloud mapping
 CloudEndure
 CloudFlare-AlwaysOnline
+Cloudflare-Healthchecks
 Cloudinary
 cmcm\.com
 coccoc
@@ -277,6 +278,7 @@ Drupal \(\+http:\/\/drupal\.org\/\)
 DTS Agent
 dubaiindex
 DuplexWeb-Google
+DynatraceSynthetic
 EARTHCOM
 Easy-Thumb
 EasyDL
@@ -1204,6 +1206,7 @@ WhereGoes\?
 Whibse
 WhoRunsCoinHive
 Whynder Magnet
+WinHttp-Autoproxy-Service
 Windows-RSS-Platform
 WinPodder
 wkhtmlto

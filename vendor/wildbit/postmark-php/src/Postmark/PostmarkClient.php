@@ -40,11 +40,12 @@ class PostmarkClient extends PostmarkClientBase {
 	 * @param  array $attachments  An array of PostmarkAttachment objects.
 	 * @param  string $trackLinks  Can be any of "None", "HtmlAndText", "HtmlOnly", "TextOnly" to enable link tracking.
 	 * @param  array $metadata  Add metadata to the message. The metadata is an associative array, and values will be evaluated as strings by Postmark.
+	 * @param  array $messageStream  The message stream used to send this message. If not provided, the default transactional stream "outbound" will be used.
 	 * @return DynamicResponseModel
 	 */
 	function sendEmail($from, $to, $subject, $htmlBody = NULL, $textBody = NULL,
 		$tag = NULL, $trackOpens = true, $replyTo = NULL, $cc = NULL, $bcc = NULL,
-		$headers = NULL, $attachments = NULL, $trackLinks = NULL, $metadata = NULL) {
+		$headers = NULL, $attachments = NULL, $trackLinks = NULL, $metadata = NULL, $messageStream = NULL) {
 
 		$body = array();
 		$body['From'] = $from;
@@ -60,6 +61,7 @@ class PostmarkClient extends PostmarkClientBase {
 		$body['TrackOpens'] = $trackOpens;
 		$body['Attachments'] = $attachments;
 		$body['Metadata'] = $metadata;
+		$body['MessageStream'] = $messageStream;
 
 		// Since this parameter can override a per-server setting
 		// we have to check whether it was actually set.
@@ -88,12 +90,13 @@ class PostmarkClient extends PostmarkClientBase {
 	 * @param  array $attachments  An array of PostmarkAttachment objects.
 	 * @param  string $trackLinks  Can be any of "None", "HtmlAndText", "HtmlOnly", "TextOnly" to enable link tracking.
 	 * @param  array $metadata  Add metadata to the message. The metadata is an associative array , and values will be evaluated as strings by Postmark.
+	 * @param  array $messageStream  The message stream used to send this message. If not provided, the default transactional stream "outbound" will be used.
 	 * @return DynamicResponseModel
 	 */
 	function sendEmailWithTemplate($from, $to, $templateIdOrAlias, $templateModel, $inlineCss = true,
 		$tag = NULL, $trackOpens = true, $replyTo = NULL,
 		$cc = NULL, $bcc = NULL, $headers = NULL, $attachments = NULL,
-		$trackLinks = NULL, $metadata = NULL) {
+		$trackLinks = NULL, $metadata = NULL, $messageStream = NULL) {
 
 		$body = array();
 		$body['From'] = $from;
@@ -108,6 +111,7 @@ class PostmarkClient extends PostmarkClientBase {
 		$body['TemplateModel'] = $templateModel;
 		$body['InlineCss'] = $inlineCss;
 		$body['Metadata'] = $metadata;
+		$body['MessageStream'] = $messageStream;
 
 
 		// Since this parameter can override a per-server setting
@@ -244,6 +248,9 @@ class PostmarkClient extends PostmarkClientBase {
 	 * Locate information on a specific email bounce.
 	 *
 	 * @param  integer $id The ID of the bounce to get.
+	 *
+	 * If the $id value is greater than PHP_INT_MAX, the ID can be passed as a string.
+	 *
 	 * @return DynamicResponseModel
 	 */
 	function getBounce($id) {
@@ -254,6 +261,9 @@ class PostmarkClient extends PostmarkClientBase {
 	 * Get a "dump" for a specific bounce.
 	 *
 	 * @param  integer $id The ID of the bounce for which we want a dump.
+	 *
+	 * If the $id value is greater than PHP_INT_MAX, the ID can be passed as a string.
+	 *
 	 * @return string
 	 */
 	function getBounceDump($id) {
@@ -264,6 +274,9 @@ class PostmarkClient extends PostmarkClientBase {
 	 * Cause the email address associated with a Bounce to be reactivated.
 	 *
 	 * @param  integer $id The bounce which has a deactivated email address.
+	 *
+	 * If the $id value is greater than PHP_INT_MAX, the ID can be passed as a string.
+	 *
 	 * @return DynamicResponseModel
 	 */
 	function activateBounce($id) {
@@ -1061,6 +1074,73 @@ class PostmarkClient extends PostmarkClientBase {
 		$body["Triggers"] = $triggers;
 
 		return new DynamicResponseModel($this->processRestRequest('PUT', "/webhooks/$id", $body));
+	}
+
+	/**
+	 * Create Suppressions for the specified recipients.
+	 *
+	 * @param string $suppressionChanges Array of SuppressionChangeRequest objects that specify what recipients to suppress.
+	 * @param string $messageStream Message stream where the recipients should be suppressed. If not provided, they will be suppressed on the default transactional stream.
+	 *
+	 * Suppressions will be generated with a Customer Origin and will have a ManualSuppression reason.
+	 * @return DynamicResponseModel
+	 */
+	function createSuppressions($suppressionChanges = array(), $messageStream = NULL) {
+		$body = array();
+		$body["Suppressions"] = $suppressionChanges;
+		
+		if ($messageStream === NULL) {
+			$messageStream = "outbound";
+		}
+		
+		return new DynamicResponseModel($this->processRestRequest('POST', "/message-streams/$messageStream/suppressions", $body));
+	}
+
+	/**
+	 * Reactivate Suppressions for the specified recipients.
+	 *
+	 * @param string $suppressionChanges Array of SuppressionChangeRequest objects that specify what recipients to reactivate.
+	 * @param string $messageStream Message stream where the recipients should be reactivated. If not provided, they will be reactivated on the default transactional stream.
+	 *
+	 * Only 'Customer' origin 'ManualSuppression' suppressions and 'Recipient' origin 'HardBounce' suppressions can be reactivated.
+	 * @return DynamicResponseModel
+	 */
+	function deleteSuppressions($suppressionChanges = array(), $messageStream = NULL) {
+		$body = array();
+		$body["Suppressions"] = $suppressionChanges;
+		
+		if ($messageStream === NULL) {
+			$messageStream = "outbound";
+		}
+		
+		return new DynamicResponseModel($this->processRestRequest('POST', "/message-streams/$messageStream/suppressions/delete", $body));
+	}
+
+	/**
+	 * List Suppressions that match the provided query parameters.
+	 *
+	 * @param string $messageStream Filter Suppressions by MessageStream. If not provided, Suppressions for the default transactional stream will be returned. (optional)
+	 * @param string $suppressionReason Filter Suppressions by reason. E.g.: HardBounce, SpamComplaint, ManualSuppression. (optional)
+	 * @param string $origin Filter Suppressions by the origin that created them. E.g.: Customer, Recipient, Admin. (optional)
+	 * @param string $fromDate Filter suppressions from the date specified - inclusive. (optional)
+	 * @param string $toDate Filter suppressions up to the date specified - inclusive. (optional)
+	 * @param string $emailAddress Filter by a specific email address. (optional)
+	 *
+	 * @return DynamicResponseModel
+	 */
+	function getSuppressions($messageStream = NULL, $suppressionReason = NULL, $origin = NULL, $fromDate = NULL, $toDate = NULL, $emailAddress = NULL) {
+		$query = array();
+		$query["SuppressionReason"] = $suppressionReason;
+		$query["Origin"] = $origin;
+		$query["FromDate"] = $fromDate;
+		$query["ToDate"] = $toDate;
+		$query["EmailAddress"] = $emailAddress;
+		
+		if ($messageStream === NULL) {
+			$messageStream = "outbound";
+		}
+		
+		return new DynamicResponseModel($this->processRestRequest('GET', "/message-streams/$messageStream/suppressions/dump", $query));
 	}
 }
 

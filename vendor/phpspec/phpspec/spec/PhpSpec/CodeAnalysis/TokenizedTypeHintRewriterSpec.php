@@ -2,7 +2,7 @@
 
 namespace spec\PhpSpec\CodeAnalysis;
 
-use PhpSpec\CodeAnalysis\DisallowedScalarTypehintException;
+use PhpSpec\CodeAnalysis\DisallowedNonObjectTypehintException;
 use PhpSpec\CodeAnalysis\NamespaceResolver;
 use PhpSpec\Loader\Transformer\TypeHintIndex;
 use PhpSpec\ObjectBehavior;
@@ -13,10 +13,16 @@ class TokenizedTypeHintRewriterSpec extends ObjectBehavior
     function let(TypeHintIndex $typeHintIndex, NamespaceResolver $namespaceResolver)
     {
         $this->beConstructedWith($typeHintIndex, $namespaceResolver);
+        $namespaceResolver->resolve(Argument::cetera())->willReturn('someClass');
+        $namespaceResolver->analyse(Argument::any())->shouldBeCalled();
     }
 
-    function it_is_a_typehint_rewriter()
+    function it_is_a_typehint_rewriter(TypeHintIndex $typeHintIndex, NamespaceResolver $namespaceResolver)
     {
+        $this->beConstructedWith($typeHintIndex, $namespaceResolver);
+        $namespaceResolver->resolve(Argument::cetera())->willReturn('someClass');
+        $namespaceResolver->analyse(Argument::any())->shouldNotBeCalled();
+
         $this->shouldHaveType('PhpSpec\CodeAnalysis\TypeHintRewriter');
     }
 
@@ -156,7 +162,7 @@ class TokenizedTypeHintRewriterSpec extends ObjectBehavior
         TypeHintIndex $typeHintIndex,
         NamespaceResolver $namespaceResolver
     ) {
-        $e = new DisallowedScalarTypehintException();
+        $e = new DisallowedNonObjectTypehintException();
         $namespaceResolver->analyse(Argument::any())->shouldBeCalled();
 
         $namespaceResolver->resolve('FooSpec')->willReturn('FooSpec');

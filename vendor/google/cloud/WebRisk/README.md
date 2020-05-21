@@ -39,10 +39,10 @@ on authenticating your client. Once authenticated, you'll be ready to start maki
 ### Sample
 
 ```php
-use Google\Cloud\WebRisk\V1beta1\ThreatType;
-use Google\Cloud\WebRisk\V1beta1\WebRiskServiceV1Beta1Client;
+use Google\Cloud\WebRisk\V1\ThreatType;
+use Google\Cloud\WebRisk\V1\WebRiskServiceClient;
 
-$webrisk = new WebRiskServiceV1Beta1Client();
+$webrisk = new WebRiskServiceClient();
 
 $uri = 'http://testsafebrowsing.appspot.com/s/malware.html';
 $response = $webrisk->searchUris($uri, [
@@ -61,7 +61,9 @@ if ($threats) {
 
 ### Version
 
-This component is considered alpha. As such, it is still a work-in-progress and is more likely to get backwards-incompatible updates.
+This component is considered beta. As such, it should be expected to be mostly
+stable and we're working towards a release candidate. We will address issues
+and requests with a higher priority.
 
 ### Next Steps
 

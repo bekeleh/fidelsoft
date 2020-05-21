@@ -75,7 +75,7 @@ class HoldReasonRepository extends BaseRepository
             $holdReason->created_by = Auth::user()->username;
         }
         $holdReason->fill($data);
-        $holdReason->name = isset($data['name']) ? (ucwords(trim($data['name']))) : '';
+        $holdReason->name = isset($data['name']) ? trim($data['name']) : '';
 
         $holdReason->save();
 

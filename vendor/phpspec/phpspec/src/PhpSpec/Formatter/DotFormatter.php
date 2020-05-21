@@ -16,7 +16,7 @@ namespace PhpSpec\Formatter;
 use PhpSpec\Event\SuiteEvent;
 use PhpSpec\Event\ExampleEvent;
 
-class DotFormatter extends ConsoleFormatter
+final class DotFormatter extends ConsoleFormatter
 {
     /**
      * @var int
@@ -28,7 +28,7 @@ class DotFormatter extends ConsoleFormatter
      */
     public function beforeSuite(SuiteEvent $event)
     {
-        $this->examplesCount = count($event->getSuite());
+        $this->examplesCount = \count($event->getSuite());
     }
 
     /**
@@ -70,7 +70,7 @@ class DotFormatter extends ConsoleFormatter
         }
 
         if ($lastRow || $endOfRow) {
-            $length = strlen((string) $this->examplesCount);
+            $length = \strlen((string) $this->examplesCount);
             $format = sprintf(' %%%dd / %%%dd', $length, $length);
 
             $io->write(sprintf($format, $eventsCount, $this->examplesCount));
@@ -92,7 +92,7 @@ class DotFormatter extends ConsoleFormatter
         $this->outputSuiteSummary($event);
     }
 
-    private function outputExceptions()
+    private function outputExceptions(): void
     {
         $stats = $this->getStatisticsCollector();
         $notPassed = array_filter(array(
@@ -107,7 +107,7 @@ class DotFormatter extends ConsoleFormatter
         }
     }
 
-    private function outputSuiteSummary(SuiteEvent $event)
+    private function outputSuiteSummary(SuiteEvent $event): void
     {
         $this->outputTotalSpecCount();
         $this->outputTotalExamplesCount();
@@ -121,19 +121,19 @@ class DotFormatter extends ConsoleFormatter
         return $count !== 1 ? 's' : '';
     }
 
-    private function outputTotalSpecCount()
+    private function outputTotalSpecCount(): void
     {
         $count = $this->getStatisticsCollector()->getTotalSpecs();
         $this->getIO()->writeln(sprintf("%d spec%s", $count, $this->plural($count)));
     }
 
-    private function outputTotalExamplesCount()
+    private function outputTotalExamplesCount(): void
     {
         $count = $this->getStatisticsCollector()->getEventsCount();
         $this->getIO()->write(sprintf("%d example%s ", $count, $this->plural($count)));
     }
 
-    private function outputSpecificExamplesCount()
+    private function outputSpecificExamplesCount(): void
     {
         $typesWithEvents = array_filter($this->getStatisticsCollector()->getCountsHash());
 
@@ -142,7 +142,7 @@ class DotFormatter extends ConsoleFormatter
             $counts[] = sprintf('<%s>%d %s</%s>', $type, $count, $type, $type);
         }
 
-        if (count($counts)) {
+        if (\count($counts)) {
             $this->getIO()->write(sprintf("(%s)", implode(', ', $counts)));
         }
     }

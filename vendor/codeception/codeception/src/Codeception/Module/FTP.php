@@ -2,7 +2,6 @@
 namespace Codeception\Module;
 
 use Codeception\TestInterface;
-use Codeception\Exception\ModuleException;
 
 /**
  *
@@ -26,15 +25,17 @@ use Codeception\Exception\ModuleException;
  * For SFTP, add [phpseclib](http://phpseclib.sourceforge.net/) to require list.
  * ```
  * "require": {
- *  "phpseclib/phpseclib": "^2.0.14"
+ *  "phpseclib/phpseclib": "0.3.6"
  * }
  * ```
  *
  * ## Status
  *
+ * * Maintainer: **nathanmac**
  * * Stability:
  *     - FTP: **stable**
  *     - SFTP: **stable**
+ * * Contact: nathan.macnamara@outlook.com
  *
  * ## Config
  *
@@ -683,14 +684,12 @@ class FTP extends Filesystem
         file_put_contents($tmp_file, $contents);
 
         // Update variables
-        $this->filepath = $filename;
+        $this->filepath = $tmp_file;
         $this->file = $contents;
 
         // Upload the file to server
         if ($this->isSFTP()) {
-            $flag = defined('NET_SFTP_LOCAL_FILE') ? NET_SFTP_LOCAL_FILE : \phpseclib\Net\SFTP::SOURCE_LOCAL_FILE;
-
-            $uploaded = @$this->ftp->put($filename, $tmp_file, $flag);
+            $uploaded = @$this->ftp->put($filename, $tmp_file, NET_SFTP_LOCAL_FILE);
         } else {
             $uploaded = ftp_put($this->ftp, $filename, $tmp_file, FTP_BINARY);
         }
@@ -837,14 +836,7 @@ class FTP extends Filesystem
      */
     protected function sftpConnect($user, $password)
     {
-        if (class_exists('Net_SFTP')) {
-            $this->ftp = new \Net_SFTP($this->config['host'], $this->config['port'], $this->config['timeout']);
-        } elseif (class_exists('phpseclib\Net\SFTP')) {
-            $this->ftp = new \phpseclib\Net\SFTP($this->config['host'], $this->config['port'], $this->config['timeout']);
-        } else {
-            throw new ModuleException('phpseclib/phpseclib library is not installed');
-        }
-
+        $this->ftp = new \Net_SFTP($this->config['host'], $this->config['port'], $this->config['timeout']);
         if ($this->ftp === false) {
             $this->ftp = null;
             $this->fail('failed to connect to ftp server');
@@ -852,15 +844,7 @@ class FTP extends Filesystem
 
         if (isset($this->config['key'])) {
             $keyFile = file_get_contents($this->config['key']);
-
-            if (class_exists('Crypt_RSA')) {
-                $password = new \Crypt_RSA();
-            } elseif (class_exists('phpseclib\Crypt\RSA')) {
-                $password = new \phpseclib\Crypt\RSA();
-            } else {
-                throw new ModuleException('phpseclib/phpseclib library is not installed');
-            }
-
+            $password = new \Crypt_RSA();
             $password->loadKey($keyFile);
         }
 

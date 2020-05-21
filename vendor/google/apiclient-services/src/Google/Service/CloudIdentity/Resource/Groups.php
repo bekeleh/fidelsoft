@@ -28,11 +28,11 @@ class Google_Service_CloudIdentity_Resource_Groups extends Google_Service_Resour
   /**
    * Creates a Group. (groups.create)
    *
-   * @param Google_Service_CloudIdENTITY_PERMISSION_GROUP $postBody
+   * @param Google_Service_CloudIdentity_Group $postBody
    * @param array $optParams Optional parameters.
    * @return Google_Service_CloudIdentity_Operation
    */
-  public function create(Google_Service_CloudIdENTITY_PERMISSION_GROUP $postBody, $optParams = array())
+  public function create(Google_Service_CloudIdentity_Group $postBody, $optParams = array())
   {
     $params = array('postBody' => $postBody);
     $params = array_merge($params, $optParams);
@@ -62,26 +62,26 @@ class Google_Service_CloudIdentity_Resource_Groups extends Google_Service_Resour
    * the format: `groups/{group_id}`, where `group_id` is the unique ID assigned
    * to the Group.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_CloudIdENTITY_PERMISSION_GROUP
+   * @return Google_Service_CloudIdentity_Group
    */
   public function get($name, $optParams = array())
   {
     $params = array('name' => $name);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_CloudIdENTITY_PERMISSION_GROUP");
+    return $this->call('get', array($params), "Google_Service_CloudIdentity_Group");
   }
   /**
    * Lists groups within a customer or a domain. (groups.listGroups)
    *
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string parent Required. Customer ID to list all groups from.
    * @opt_param string pageToken The next_page_token value returned from a
    * previous list request, if any.
    * @opt_param int pageSize The default page size is 200 (max 1000) for the BASIC
    * view, and 50 (max 500) for the FULL view.
    * @opt_param string view Group resource view to be returned. Defaults to
    * [View.BASIC]().
+   * @opt_param string parent Required. Customer ID to list all groups from.
    * @return Google_Service_CloudIdentity_ListGroupsResponse
    */
   public function listGroups($optParams = array())
@@ -96,14 +96,14 @@ class Google_Service_CloudIdentity_Resource_Groups extends Google_Service_Resour
    *
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string groupKey.id The ID of the entity within the given
+   * namespace. The ID must be unique within its namespace.
    * @opt_param string groupKey.namespace Namespaces provide isolation for IDs, so
    * an ID only needs to be unique within its namespace.
    *
    * Namespaces are currently only created as part of IdentitySource creation from
    * Admin Console. A namespace `"identitysources/{identity_source_id}"` is
    * created corresponding to every Identity Source `identity_source_id`.
-   * @opt_param string groupKey.id The ID of the entity within the given
-   * namespace. The ID must be unique within its namespace.
    * @return Google_Service_CloudIdentity_LookupGroupNameResponse
    */
   public function lookup($optParams = array())
@@ -121,14 +121,14 @@ class Google_Service_CloudIdentity_Resource_Groups extends Google_Service_Resour
    * the Group.
    *
    * Must be left blank while creating a Group.
-   * @param Google_Service_CloudIdENTITY_PERMISSION_GROUP $postBody
+   * @param Google_Service_CloudIdentity_Group $postBody
    * @param array $optParams Optional parameters.
    *
    * @opt_param string updateMask Required. Editable fields: `display_name`,
    * `description`
    * @return Google_Service_CloudIdentity_Operation
    */
-  public function patch($name, Google_Service_CloudIdENTITY_PERMISSION_GROUP $postBody, $optParams = array())
+  public function patch($name, Google_Service_CloudIdentity_Group $postBody, $optParams = array())
   {
     $params = array('name' => $name, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);

@@ -1,9 +1,21 @@
 <?php
+// Copyright 2004-present Facebook. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 namespace Facebook\WebDriver;
 
 use Facebook\WebDriver\Exception\IndexOutOfBoundsException;
-use Facebook\WebDriver\Exception\UnsupportedOperationException;
 use Facebook\WebDriver\Remote\DriverCommand;
 use Facebook\WebDriver\Remote\ExecuteMethod;
 
@@ -16,15 +28,10 @@ class WebDriverWindow
      * @var ExecuteMethod
      */
     protected $executor;
-    /**
-     * @var bool
-     */
-    protected $isW3cCompliant;
 
-    public function __construct(ExecuteMethod $executor, $isW3cCompliant = false)
+    public function __construct(ExecuteMethod $executor)
     {
         $this->executor = $executor;
-        $this->isW3cCompliant = $isW3cCompliant;
     }
 
     /**
@@ -66,52 +73,16 @@ class WebDriverWindow
     }
 
     /**
-     * Minimizes the current window if it is not already minimized.
-     *
-     * @return WebDriverWindow The instance.
-     */
-    public function minimize()
-    {
-        if (!$this->isW3cCompliant) {
-            throw new UnsupportedOperationException('Minimize window is only supported in W3C mode');
-        }
-
-        $this->executor->execute(DriverCommand::MINIMIZE_WINDOW, []);
-
-        return $this;
-    }
-
-    /**
      * Maximizes the current window if it is not already maximized
      *
      * @return WebDriverWindow The instance.
      */
     public function maximize()
     {
-        if ($this->isW3cCompliant) {
-            $this->executor->execute(DriverCommand::MAXIMIZE_WINDOW, []);
-        } else {
-            $this->executor->execute(
-                DriverCommand::MAXIMIZE_WINDOW,
-                [':windowHandle' => 'current']
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * Makes the current window full screen.
-     *
-     * @return WebDriverWindow The instance.
-     */
-    public function fullscreen()
-    {
-        if (!$this->isW3cCompliant) {
-            throw new UnsupportedOperationException('The Fullscreen window command is only supported in W3C mode');
-        }
-
-        $this->executor->execute(DriverCommand::FULLSCREEN_WINDOW, []);
+        $this->executor->execute(
+            DriverCommand::MAXIMIZE_WINDOW,
+            [':windowHandle' => 'current']
+        );
 
         return $this;
     }

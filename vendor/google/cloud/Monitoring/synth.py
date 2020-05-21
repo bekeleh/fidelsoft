@@ -14,21 +14,20 @@
 
 """This script is used to synthesize generated parts of this library."""
 
-import os
 import synthtool as s
 import synthtool.gcp as gcp
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
 
-gapic = gcp.GAPICGenerator()
+gapic = gcp.GAPICBazel()
 common = gcp.CommonTemplates()
 
 library = gapic.php_library(
     service='monitoring',
     version='v3',
-    config_path='/google/monitoring/artman_monitoring.yaml',
-    artman_output_name='google-cloud-monitoring-v3')
+    bazel_target='//google/monitoring/v3:google-cloud-monitoring-v3-php',
+)
 
 # copy all src including partial veneer classes
 s.move(library / 'src')
@@ -57,6 +56,12 @@ s.replace(
     "**/Gapic/*GapicClient.php",
     r"\$transportConfig, and any \$serviceAddress",
     r"$transportConfig, and any `$apiEndpoint`")
+
+# V3 is GA, so remove @experimental tags
+s.replace(
+    'src/V3/**/*Client.php',
+    r'^(\s+\*\n)?\s+\*\s@experimental\n',
+    '')
 
 # fix year
 for client in ['GroupService', 'MetricService', 'UptimeCheckService']:
@@ -130,3 +135,10 @@ s.replace(
 )
 
 ### [END] protoc backwards compatibility fixes
+
+# fix relative cloud.google.com links
+s.replace(
+    "src/**/V*/**/*.php",
+    r"(.{0,})\]\((/.{0,})\)",
+    r"\1](https://cloud.google.com\2)"
+)

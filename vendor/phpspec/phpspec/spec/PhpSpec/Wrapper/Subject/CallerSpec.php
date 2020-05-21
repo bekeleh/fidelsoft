@@ -2,8 +2,10 @@
 
 namespace spec\PhpSpec\Wrapper\Subject;
 
-use Phpspec\CodeAnalysis\AccessInspectorInterface;
+use Phpspec\CodeAnalysis\AccessInspector;
+use PhpSpec\Exception\Example\FailureException;
 use PhpSpec\Exception\ExceptionFactory;
+use PhpSpec\Exception\Fracture\PropertyNotFoundException;
 use PhpSpec\Wrapper\Subject\WrappedObject;
 use PhpSpec\Wrapper\Wrapper;
 use PhpSpec\Wrapper\Subject;
@@ -18,14 +20,22 @@ use Prophecy\Argument;
 class CallerSpec extends ObjectBehavior
 {
     function let(WrappedObject $wrappedObject, ExampleNode $example, Dispatcher $dispatcher,
-                 ExceptionFactory $exceptions, Wrapper $wrapper, AccessInspectorInterface $accessInspector)
+                 ExceptionFactory $exceptions, Wrapper $wrapper, AccessInspector $accessInspector, Subject $subject)
     {
         $this->beConstructedWith($wrappedObject, $example, $dispatcher,
             $exceptions, $wrapper, $accessInspector);
+        $wrapper->wrap(Argument::cetera())->willReturn($subject);
+
+        $wrappedObject->isInstantiated()->willReturn(false);
+        $wrappedObject->getClassName()->willReturn(null);
+        $wrappedObject->getInstance()->willReturn(null);
+        $exceptions->propertyNotFound(Argument::cetera())->willReturn(new PropertyNotFoundException('Message', 'subject', 'prop'));
+
+        $accessInspector->isMethodCallable(Argument::cetera())->willReturn(false);
     }
 
     function it_dispatches_method_call_events(Dispatcher $dispatcher, WrappedObject $wrappedObject,
-                                              AccessInspectorInterface $accessInspector)
+                                              AccessInspector $accessInspector)
     {
         $wrappedObject->isInstantiated()->willReturn(true);
         $wrappedObject->getInstance()->willReturn(new \ArrayObject());
@@ -45,8 +55,10 @@ class CallerSpec extends ObjectBehavior
         $this->call('count');
     }
 
-    function it_sets_a_property_on_the_wrapped_object(WrappedObject $wrappedObject,
-                                                      AccessInspectorInterface $accessInspector)
+    function it_sets_a_property_on_the_wrapped_object(
+        WrappedObject $wrappedObject,
+        AccessInspector $accessInspector,
+        Wrapper $wrapper)
     {
         $obj = new \stdClass();
         $obj->id = 1;
@@ -55,14 +67,23 @@ class CallerSpec extends ObjectBehavior
             Argument::type('stdClass'), 'id'
         )->willReturn('true');
 
+        $accessInspector->isPropertyReadable(
+            Argument::type('stdClass'), 'id'
+        )->willReturn('true');
+
         $wrappedObject->isInstantiated()->willReturn(true);
         $wrappedObject->getInstance()->willReturn($obj);
 
-        $this->set('id', 2)->shouldReturn(2);
+        $wrapper->wrap(2)->willReturn(2);
+
+        $this->set('id', 2);
+        if ($obj->id !== 2) {
+            throw new FailureException();
+        }
     }
 
     function it_proxies_method_calls_to_wrapped_object(\ArrayObject $obj, WrappedObject $wrappedObject,
-                                                       AccessInspectorInterface $accessInspector)
+                                                       AccessInspector $accessInspector)
     {
         $obj->asort()->shouldBeCalled();
 
@@ -90,13 +111,18 @@ class CallerSpec extends ObjectBehavior
             ->duringGetWrappedObject();
     }
 
-    function it_delegates_throwing_method_not_found_exception(WrappedObject $wrappedObject, ExceptionFactory $exceptions)
-    {
+    function it_delegates_throwing_method_not_found_exception(
+        WrappedObject $wrappedObject,
+        ExceptionFactory $exceptions,
+        AccessInspector $accessInspector
+    ) {
         $obj = new \ArrayObject();
 
         $wrappedObject->isInstantiated()->willReturn(true);
         $wrappedObject->getInstance()->willReturn($obj);
         $wrappedObject->getClassName()->willReturn('ArrayObject');
+
+        $accessInspector->isMethodCallable($obj,'foo')->willReturn(false);
 
         $exceptions->methodNotFound('ArrayObject', 'foo', array())
             ->willReturn(new \PhpSpec\Exception\Fracture\MethodNotFoundException(
@@ -158,13 +184,18 @@ class CallerSpec extends ObjectBehavior
             ->duringCall('foo');
     }
 
-    function it_delegates_throwing_method_not_visible_exception(WrappedObject $wrappedObject, ExceptionFactory $exceptions)
-    {
+    function it_delegates_throwing_method_not_visible_exception(
+        WrappedObject $wrappedObject,
+        ExceptionFactory $exceptions,
+        AccessInspector $accessInspector
+    ) {
         $obj = new ExampleClass();
 
         $wrappedObject->isInstantiated()->willReturn(true);
         $wrappedObject->getInstance()->willReturn($obj);
         $wrappedObject->getClassName()->willReturn('spec\PhpSpec\Wrapper\Subject\ExampleClass');
+
+        $accessInspector->isMethodCallable($obj,'privateMethod')->willReturn(false);
 
         $exceptions->methodNotVisible('spec\PhpSpec\Wrapper\Subject\ExampleClass', 'privateMethod', array())
             ->willReturn(new \PhpSpec\Exception\Fracture\MethodNotVisibleException(
@@ -179,12 +210,17 @@ class CallerSpec extends ObjectBehavior
             ->duringCall('privateMethod');
     }
 
-    function it_delegates_throwing_property_not_found_exception(WrappedObject $wrappedObject, ExceptionFactory $exceptions)
-    {
+    function it_delegates_throwing_property_not_found_exception(
+        WrappedObject $wrappedObject,
+        ExceptionFactory $exceptions,
+        AccessInspector $accessInspector
+    ) {
         $obj = new ExampleClass();
 
         $wrappedObject->isInstantiated()->willReturn(true);
         $wrappedObject->getInstance()->willReturn($obj);
+
+        $accessInspector->isPropertyWritable($obj,'nonExistentProperty')->willReturn(false);
 
         $exceptions->propertyNotFound($obj, 'nonExistentProperty')
             ->willReturn(new \PhpSpec\Exception\Fracture\PropertyNotFoundException(

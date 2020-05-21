@@ -4,6 +4,212 @@ All Notable changes to `laravel-modules` will be documented in this file.
 
 ## Next
 
+## 4.1.0 - 2019-03-04
+
+### Changed
+
+- Updated to laravel mix 4
+- Add `--api` argument to `module:make-controller` command
+- Seeding modules outside out `Modules` namespace
+
+## 4.0.0 - 2018-09-30
+
+### Added
+
+- New way of handling routes by default using a RouteServiceProvider (instead of start.php)
+- Laravel 5.7 support
+
+### Changed
+
+- Allow class resolution on short name and abstract
+- `module:seed` accepts a `--class` option
+
+## 3.3.1 - 2018-07-13
+
+### Changed
+
+- Added the ability to set a sub-namespace to controllers `module:make-controller Api\\TestController`
+
+## 3.3.0 - 2018-06-21
+
+### Changed
+
+- `module:update` command has now the possibility to update all modules at once
+- Fixing commented code for Laravel Mix
+
+## 3.2.0 - 2018-04-16
+
+### Added
+
+- Added possibility to update all modules at once if any not specified (PR #523)
+
+### Changed
+
+- Mix: Fix css relative urls by changing the route folder (PR #521)
+- Mix: Prevents every build from deleting previous Mix config file (PR #521)
+
+## 3.1.0 - 2018-04-01
+
+### Added
+
+- Laravel mix configuration (https://nwidart.com/laravel-modules/v3/basic-usage/compiling-assets)
+
+### Changed
+
+- Allow symlinks in module path
+- Returns the parameter `--class` to the `SeedCommand`.
+- Generate folders recursively
+- Removing link that has become a 404
+- Fixed seed command exception typehint
+
+### Removed
+
+- Removed the optimize command on the `module:make-migration` command
+
+## 3.0.1 - 2018-02-16
+
+### Changed
+
+- Update publish commands to use the new API to get all enabled modules (PR #483 )
+
+## 3.0.0 - 2018-02-14
+
+## Added
+
+- Added support for laravel 5.6
+- Using phpunit 7
+
+## Changed
+
+- **BC:** `Repository` class: renamed `enabled` to `allEnabled`
+- **BC:** `Repository` class: renamed `disabled` to `allDisabled`
+- **BC:** `Repository` class: renamed `active` to `enabled`
+- **BC:** `Repository` class: renamed `notActive` to `disabled`
+
+## Removed
+
+- Dropped php 7.0 support
+- **BC:** `Module` class: Deprecated `active()` method, use `enabled()`
+- **BC:** `Module` class: Deprecated `notActive()` method, use `disabled()`
+- **BC:** `Repository` class: Deprecated `addPath()` method, use `addLocation()`
+- **BC:** `Repository` class: Deprecated `get()` method, use `find()`
+- **BC:** `Repository` class: Deprecated `getUsed()` method, use `getUsedNow()`
+
+
+## 2.7.0 - 2018-01-13
+
+## Changed
+
+- Rename the `before` method to `boot` in the `RouterServiceProvider` stub file
+- Fixing caching issue if modules were loaded from a different directory
+- Fixing how modules are loaded from vendor directory (#423 #417)
+- Update to Mockery 1.0
+- use default file stubs only if override does not exists
+- Fix non well formed numeric value in seed command
+
+## 2.6.0 - 2017-11-07
+
+## Added
+
+- Ability to customise the destination folder & namespace of a generated class
+- Added `php artisan module:migrate-status` command
+- `config_path()` helper for Lumen
+- Added views tag to view config in ServiceProvider
+- added package auto discovery for laravel 5.5 in generated module `composer.json`
+
+## Changed
+
+- Adding the ability to correctly load modules from multiple locations, together
+- Custom seeder path now also used in the `module:seed` command
+
+## 2.5.1 - 2017-10-13
+
+## Changed
+
+- added config_path helper to helpers for Lumen support
+- updated readme on how to install laravel-modules in Lumen
+
+## 2.5.0 - 2017-10-03
+
+## Changed
+
+- Making the path to migrations for `loadMigrationsFrom()` call dynamic based of configuration
+- Making the factory path dynamic for master service provider & make-factory command
+- Make the route file location dynamic in start.php based of `stubs.files.routes`
+- Making the route path dynamic on the route service provider based of `stubs.files.routes`
+- New structure in configuration to set which folders will be generated on `module:make` (old format still supported)
+- Setting new sensible defaults to what folders to generate by default.
+- Change the assets directory default location `resources/assets`
+
+## 2.4.1 - 2017-09-27
+
+## Changed
+
+- Setting a default value for `modules.paths.modules` configuration key
+
+
+## 2.4.0 - 2017-09-27
+
+## Added
+
+- New `module:make-resource` command to generate resource classes
+- New `module:make-test` command to generate test classes
+
+## Changed
+
+- Improved error output of the `module:seed` command
+- Marking methods that served as proxies in `Module` and `Repository` classes as deprecated for next major
+- Fixed `module:make` and `module:make-provider` to generate the correct master service provider
+- Tests: tests are now using `spatie/phpunit-snapshot-assertions` to make sure the generated files have the correct content
+- Adding a sync option to the `module:make-job` command to make a synchronous job class
+- Changed `module:make-event` command to allow duck typed events (not type hinted event class)
+- Changed `module:make-listener` to allow a `--queued` option to make the event queueable
+- Changed `module:make-listener` command to not use the full class typehint when class was previous imported
+
+## 2.3.0 - 2017-09-26
+
+## Added
+
+- Ability to ignore some folders to generate
+- Creating an module:unuse command to forget the previously saved module
+- New command to generate Policy classes
+- New command for creating factories
+- New command for creating rules
+- new `public_path` helper for Lumen
+
+## Changed
+
+- Refactored class names that generate something to be fully consistent
+
+## 2.2.1 - 2017-09-14
+
+## Changed
+
+- Fixed class namespace to `Repository` in `ContractsServiceProvider`
+
+## 2.2.0 - 2017-09-14
+
+### Added
+
+- Lumen compatibility with new way to register providers
+
+
+## 2.1.0 - 2017-09-10
+
+### Changed
+
+- Register module migrations
+- Fixed issue with `module:migrate-refresh` command
+- Improved module loading of their service providers. Using laravel caching system. Allowing usage of deferred providers.
+- Fixed path to module factories
+
+## 2.0.0 - 2017-08-31
+
+### Added
+
+- Support Laravel 5.5
+
+
 ## 1.27.2 - 2017-08-29
 
 ### Changed

@@ -14,21 +14,19 @@
 
 """This script is used to synthesize generated parts of this library."""
 
-import os
 import synthtool as s
 import synthtool.gcp as gcp
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
 
-gapic = gcp.GAPICGenerator()
+gapic = gcp.GAPICBazel()
 common = gcp.CommonTemplates()
 
 v1_library = gapic.php_library(
     service='container',
     version='v1',
-    config_path='/google/container/artman_container_v1.yaml',
-    artman_output_name='google-cloud-container-v1')
+    bazel_target=f'//google/container/v1:google-cloud-container-v1-php')
 
 # copy all src including partial veneer classes
 s.move(v1_library / 'src')
@@ -58,6 +56,12 @@ s.replace(
     r"\$transportConfig, and any \$serviceAddress",
     r"$transportConfig, and any `$apiEndpoint`")
 
+# V1 is GA, so remove @experimental tags
+s.replace(
+    'src/V1/**/*Client.php',
+    r'^(\s+\*\n)?\s+\*\s@experimental\n',
+    '')
+
 # fix year
 s.replace(
     '**/Gapic/*GapicClient.php',
@@ -71,13 +75,6 @@ s.replace(
     'tests/**/V1/*Test.php',
     r'Copyright \d{4}',
     'Copyright 2018')
-
-# fix documentation links
-s.replace(
-    '**/*.php',
-    r"\(\/compute\/docs",
-    '(https://cloud.google.com/compute/docs'
-)
 
 # Fix class references in gapic samples
 for version in ['V1']:
@@ -126,3 +123,10 @@ s.replace(
 )
 
 ### [END] protoc backwards compatibility fixes
+
+# fix relative cloud.google.com links
+s.replace(
+    "src/**/V*/**/*.php",
+    r"(.{0,})\]\((/.{0,})\)",
+    r"\1](https://cloud.google.com\2)"
+)

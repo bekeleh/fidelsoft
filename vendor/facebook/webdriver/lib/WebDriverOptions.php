@@ -1,8 +1,20 @@
 <?php
+// Copyright 2004-present Facebook. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 namespace Facebook\WebDriver;
 
-use Facebook\WebDriver\Exception\NoSuchCookieException;
 use Facebook\WebDriver\Remote\DriverCommand;
 use Facebook\WebDriver\Remote\ExecuteMethod;
 use InvalidArgumentException;
@@ -16,15 +28,10 @@ class WebDriverOptions
      * @var ExecuteMethod
      */
     protected $executor;
-    /**
-     * @var bool
-     */
-    protected $isW3cCompliant;
 
-    public function __construct(ExecuteMethod $executor, $isW3cCompliant = false)
+    public function __construct(ExecuteMethod $executor)
     {
         $this->executor = $executor;
-        $this->isW3cCompliant = $isW3cCompliant;
     }
 
     /**
@@ -36,7 +43,7 @@ class WebDriverOptions
      */
     public function addCookie($cookie)
     {
-        if (is_array($cookie)) { // @todo @deprecated remove in 2.0
+        if (is_array($cookie)) {
             $cookie = Cookie::createFromArray($cookie);
         }
         if (!$cookie instanceof Cookie) {
@@ -64,7 +71,7 @@ class WebDriverOptions
     }
 
     /**
-     * Delete the cookie with the given name.
+     * Delete the cookie with the give name.
      *
      * @param string $name
      * @return WebDriverOptions The current instance.
@@ -83,24 +90,10 @@ class WebDriverOptions
      * Get the cookie with a given name.
      *
      * @param string $name
-     * @throws NoSuchCookieException In W3C compliant mode if no cookie with the given name is present
-     * @return Cookie|null The cookie, or null in JsonWire mode if no cookie with the given name is present
+     * @return Cookie|null The cookie, or null if no cookie with the given name is presented.
      */
     public function getCookieNamed($name)
     {
-        if ($this->isW3cCompliant) {
-            $cookieArray = $this->executor->execute(
-                DriverCommand::GET_NAMED_COOKIE,
-                [':name' => $name]
-            );
-
-            if (!is_array($cookieArray)) { // Microsoft Edge returns null even in W3C mode => emulate proper behavior
-                throw new NoSuchCookieException('no such cookie');
-            }
-
-            return Cookie::createFromArray($cookieArray);
-        }
-
         $cookies = $this->getCookies();
         foreach ($cookies as $cookie) {
             if ($cookie['name'] === $name) {
@@ -119,11 +112,8 @@ class WebDriverOptions
     public function getCookies()
     {
         $cookieArrays = $this->executor->execute(DriverCommand::GET_ALL_COOKIES);
-        if (!is_array($cookieArrays)) { // Microsoft Edge returns null if there are no cookies...
-            return [];
-        }
-
         $cookies = [];
+
         foreach ($cookieArrays as $cookieArray) {
             $cookies[] = Cookie::createFromArray($cookieArray);
         }
@@ -138,7 +128,7 @@ class WebDriverOptions
      */
     public function timeouts()
     {
-        return new WebDriverTimeouts($this->executor, $this->isW3cCompliant);
+        return new WebDriverTimeouts($this->executor);
     }
 
     /**
@@ -149,7 +139,7 @@ class WebDriverOptions
      */
     public function window()
     {
-        return new WebDriverWindow($this->executor, $this->isW3cCompliant);
+        return new WebDriverWindow($this->executor);
     }
 
     /**

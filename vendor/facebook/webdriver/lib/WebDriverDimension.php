@@ -1,4 +1,17 @@
 <?php
+// Copyright 2004-present Facebook. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 namespace Facebook\WebDriver;
 
@@ -8,17 +21,17 @@ namespace Facebook\WebDriver;
 class WebDriverDimension
 {
     /**
-     * @var int|float
+     * @var int
      */
     private $height;
     /**
-     * @var int|float
+     * @var int
      */
     private $width;
 
     /**
-     * @param int|float $width
-     * @param int|float $height
+     * @param int $width
+     * @param int $height
      */
     public function __construct($width, $height)
     {
@@ -33,7 +46,7 @@ class WebDriverDimension
      */
     public function getHeight()
     {
-        return (int) $this->height;
+        return $this->height;
     }
 
     /**
@@ -43,7 +56,7 @@ class WebDriverDimension
      */
     public function getWidth()
     {
-        return (int) $this->width;
+        return $this->width;
     }
 
     /**

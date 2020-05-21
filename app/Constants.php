@@ -30,6 +30,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_TAX_RATE', 'tax_rate');
     define('ENTITY_PRODUCT', 'product');
     define('ENTITY_LOCATION', 'location');
+    define('ENTITY_DEPARTMENT', 'department');
     define('ENTITY_STORE', 'store');
     define('ENTITY_STORE_TO', 'store_to');
     define('ENTITY_UNIT', 'unit');
@@ -82,6 +83,7 @@ if (!defined('APP_NAME')) {
         ENTITY_ITEM_STORE,
         ENTITY_ITEM_TRANSFER,
         ENTITY_LOCATION,
+        ENTITY_DEPARTMENT,
         ENTITY_MANUFACTURER,
         ENTITY_MANUFACTURER_PRODUCT_DETAIL,
         ENTITY_PAYMENT,
@@ -148,6 +150,7 @@ if (!defined('APP_NAME')) {
     define('ACCOUNT_ITEM_CATEGORIES', 'item_categories');
     define('ACCOUNT_ITEM_BRANDS', 'item_brands');
     define('ACCOUNT_LOCATIONS', 'locations');
+    define('ACCOUNT_DEPARTMENTS', 'departments');
     define('ACCOUNT_STORES', 'stores');
     define('ACCOUNT_PRICES', 'item_prices');
     define('ACCOUNT_UNIT', 'units');

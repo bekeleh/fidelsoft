@@ -20,8 +20,6 @@
  * This file was generated from the file
  * https://github.com/google/googleapis/blob/master/google/container/v1/cluster_service.proto
  * and updates to that file get reflected here through a refresh process.
- *
- * @experimental
  */
 
 namespace Google\Cloud\Container\V1\Gapic;
@@ -97,8 +95,6 @@ use Google\Protobuf\GPBEmpty;
  *     $clusterManagerClient->close();
  * }
  * ```
- *
- * @experimental
  */
 class ClusterManagerGapicClient
 {
@@ -203,7 +199,6 @@ class ClusterManagerGapicClient
      * }
      *
      * @throws ValidationException
-     * @experimental
      */
     public function __construct(array $options = [])
     {
@@ -239,7 +234,7 @@ class ClusterManagerGapicClient
      *          This field has been deprecated and replaced by the parent field.
      *     @type string $parent
      *          The parent (project and location) where the clusters will be listed.
-     *          Specified in the format 'projects/&#42;/locations/*'.
+     *          Specified in the format `projects/&#42;/locations/*`.
      *          Location "-" matches all zones and all regions.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
@@ -251,7 +246,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\ListClustersResponse
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function listClusters(array $optionalArgs = [])
     {
@@ -311,7 +305,7 @@ class ClusterManagerGapicClient
      *          This field has been deprecated and replaced by the name field.
      *     @type string $name
      *          The name (project, location, cluster) of the cluster to retrieve.
-     *          Specified in the format 'projects/&#42;/locations/&#42;/clusters/*'.
+     *          Specified in the format `projects/&#42;/locations/&#42;/clusters/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -322,7 +316,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\Cluster
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function getCluster(array $optionalArgs = [])
     {
@@ -397,7 +390,7 @@ class ClusterManagerGapicClient
      *          This field has been deprecated and replaced by the parent field.
      *     @type string $parent
      *          The parent (project and location) where the cluster will be created.
-     *          Specified in the format 'projects/&#42;/locations/*'.
+     *          Specified in the format `projects/&#42;/locations/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -408,7 +401,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\Operation
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function createCluster($cluster, array $optionalArgs = [])
     {
@@ -471,7 +463,7 @@ class ClusterManagerGapicClient
      *          This field has been deprecated and replaced by the name field.
      *     @type string $name
      *          The name (project, location, cluster) of the cluster to update.
-     *          Specified in the format 'projects/&#42;/locations/&#42;/clusters/*'.
+     *          Specified in the format `projects/&#42;/locations/&#42;/clusters/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -482,7 +474,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\Operation
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function updateCluster($update, array $optionalArgs = [])
     {
@@ -564,7 +555,7 @@ class ClusterManagerGapicClient
      *     @type string $name
      *          The name (project, location, cluster, node pool) of the node pool to
      *          update. Specified in the format
-     *          'projects/&#42;/locations/&#42;/clusters/&#42;/nodePools/*'.
+     *          `projects/&#42;/locations/&#42;/clusters/&#42;/nodePools/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -575,7 +566,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\Operation
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function updateNodePool($nodeVersion, $imageType, array $optionalArgs = [])
     {
@@ -649,7 +639,7 @@ class ClusterManagerGapicClient
      *     @type string $name
      *          The name (project, location, cluster, node pool) of the node pool to set
      *          autoscaler settings. Specified in the format
-     *          'projects/&#42;/locations/&#42;/clusters/&#42;/nodePools/*'.
+     *          `projects/&#42;/locations/&#42;/clusters/&#42;/nodePools/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -660,7 +650,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\Operation
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function setNodePoolAutoscaling($autoscaling, array $optionalArgs = [])
     {
@@ -733,7 +722,7 @@ class ClusterManagerGapicClient
      *          This field has been deprecated and replaced by the name field.
      *     @type string $name
      *          The name (project, location, cluster) of the cluster to set logging.
-     *          Specified in the format 'projects/&#42;/locations/&#42;/clusters/*'.
+     *          Specified in the format `projects/&#42;/locations/&#42;/clusters/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -744,7 +733,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\Operation
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function setLoggingService($loggingService, array $optionalArgs = [])
     {
@@ -816,7 +804,7 @@ class ClusterManagerGapicClient
      *          This field has been deprecated and replaced by the name field.
      *     @type string $name
      *          The name (project, location, cluster) of the cluster to set monitoring.
-     *          Specified in the format 'projects/&#42;/locations/&#42;/clusters/*'.
+     *          Specified in the format `projects/&#42;/locations/&#42;/clusters/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -827,7 +815,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\Operation
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function setMonitoringService($monitoringService, array $optionalArgs = [])
     {
@@ -894,7 +881,7 @@ class ClusterManagerGapicClient
      *          This field has been deprecated and replaced by the name field.
      *     @type string $name
      *          The name (project, location, cluster) of the cluster to set addons.
-     *          Specified in the format 'projects/&#42;/locations/&#42;/clusters/*'.
+     *          Specified in the format `projects/&#42;/locations/&#42;/clusters/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -905,7 +892,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\Operation
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function setAddonsConfig($addonsConfig, array $optionalArgs = [])
     {
@@ -977,7 +963,7 @@ class ClusterManagerGapicClient
      *          This field has been deprecated and replaced by the name field.
      *     @type string $name
      *          The name (project, location, cluster) of the cluster to set locations.
-     *          Specified in the format 'projects/&#42;/locations/&#42;/clusters/*'.
+     *          Specified in the format `projects/&#42;/locations/&#42;/clusters/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -988,7 +974,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\Operation
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function setLocations($locations, array $optionalArgs = [])
     {
@@ -1063,7 +1048,7 @@ class ClusterManagerGapicClient
      *          This field has been deprecated and replaced by the name field.
      *     @type string $name
      *          The name (project, location, cluster) of the cluster to update.
-     *          Specified in the format 'projects/&#42;/locations/&#42;/clusters/*'.
+     *          Specified in the format `projects/&#42;/locations/&#42;/clusters/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -1074,7 +1059,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\Operation
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function updateMaster($masterVersion, array $optionalArgs = [])
     {
@@ -1145,7 +1129,7 @@ class ClusterManagerGapicClient
      *          This field has been deprecated and replaced by the name field.
      *     @type string $name
      *          The name (project, location, cluster) of the cluster to set auth.
-     *          Specified in the format 'projects/&#42;/locations/&#42;/clusters/*'.
+     *          Specified in the format `projects/&#42;/locations/&#42;/clusters/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -1156,7 +1140,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\Operation
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function setMasterAuth($action, $update, array $optionalArgs = [])
     {
@@ -1229,7 +1212,7 @@ class ClusterManagerGapicClient
      *          This field has been deprecated and replaced by the name field.
      *     @type string $name
      *          The name (project, location, cluster) of the cluster to delete.
-     *          Specified in the format 'projects/&#42;/locations/&#42;/clusters/*'.
+     *          Specified in the format `projects/&#42;/locations/&#42;/clusters/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -1240,7 +1223,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\Operation
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function deleteCluster(array $optionalArgs = [])
     {
@@ -1299,7 +1281,7 @@ class ClusterManagerGapicClient
      *          all zones. This field has been deprecated and replaced by the parent field.
      *     @type string $parent
      *          The parent (project and location) where the operations will be listed.
-     *          Specified in the format 'projects/&#42;/locations/*'.
+     *          Specified in the format `projects/&#42;/locations/*`.
      *          Location "-" matches all zones and all regions.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
@@ -1311,7 +1293,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\ListOperationsResponse
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function listOperations(array $optionalArgs = [])
     {
@@ -1371,7 +1352,7 @@ class ClusterManagerGapicClient
      *          This field has been deprecated and replaced by the name field.
      *     @type string $name
      *          The name (project, location, operation id) of the operation to get.
-     *          Specified in the format 'projects/&#42;/locations/&#42;/operations/*'.
+     *          Specified in the format `projects/&#42;/locations/&#42;/operations/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -1382,7 +1363,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\Operation
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function getOperation(array $optionalArgs = [])
     {
@@ -1444,7 +1424,7 @@ class ClusterManagerGapicClient
      *          This field has been deprecated and replaced by the name field.
      *     @type string $name
      *          The name (project, location, operation id) of the operation to cancel.
-     *          Specified in the format 'projects/&#42;/locations/&#42;/operations/*'.
+     *          Specified in the format `projects/&#42;/locations/&#42;/operations/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -1453,7 +1433,6 @@ class ClusterManagerGapicClient
      * }
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function cancelOperation(array $optionalArgs = [])
     {
@@ -1512,7 +1491,7 @@ class ClusterManagerGapicClient
      *          This field has been deprecated and replaced by the name field.
      *     @type string $name
      *          The name (project and location) of the server config to get,
-     *          specified in the format 'projects/&#42;/locations/*'.
+     *          specified in the format `projects/&#42;/locations/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -1523,7 +1502,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\ServerConfig
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function getServerConfig(array $optionalArgs = [])
     {
@@ -1583,7 +1561,7 @@ class ClusterManagerGapicClient
      *          This field has been deprecated and replaced by the parent field.
      *     @type string $parent
      *          The parent (project, location, cluster id) where the node pools will be
-     *          listed. Specified in the format 'projects/&#42;/locations/&#42;/clusters/*'.
+     *          listed. Specified in the format `projects/&#42;/locations/&#42;/clusters/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -1594,7 +1572,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\ListNodePoolsResponse
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function listNodePools(array $optionalArgs = [])
     {
@@ -1661,7 +1638,7 @@ class ClusterManagerGapicClient
      *     @type string $name
      *          The name (project, location, cluster, node pool id) of the node pool to
      *          get. Specified in the format
-     *          'projects/&#42;/locations/&#42;/clusters/&#42;/nodePools/*'.
+     *          `projects/&#42;/locations/&#42;/clusters/&#42;/nodePools/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -1672,7 +1649,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\NodePool
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function getNodePool(array $optionalArgs = [])
     {
@@ -1741,7 +1717,7 @@ class ClusterManagerGapicClient
      *     @type string $parent
      *          The parent (project, location, cluster id) where the node pool will be
      *          created. Specified in the format
-     *          'projects/&#42;/locations/&#42;/clusters/*'.
+     *          `projects/&#42;/locations/&#42;/clusters/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -1752,7 +1728,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\Operation
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function createNodePool($nodePool, array $optionalArgs = [])
     {
@@ -1820,7 +1795,7 @@ class ClusterManagerGapicClient
      *     @type string $name
      *          The name (project, location, cluster, node pool id) of the node pool to
      *          delete. Specified in the format
-     *          'projects/&#42;/locations/&#42;/clusters/&#42;/nodePools/*'.
+     *          `projects/&#42;/locations/&#42;/clusters/&#42;/nodePools/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -1831,7 +1806,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\Operation
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function deleteNodePool(array $optionalArgs = [])
     {
@@ -1902,7 +1876,7 @@ class ClusterManagerGapicClient
      *     @type string $name
      *          The name (project, location, cluster, node pool id) of the node poll to
      *          rollback upgrade.
-     *          Specified in the format 'projects/&#42;/locations/&#42;/clusters/&#42;/nodePools/*'.
+     *          Specified in the format `projects/&#42;/locations/&#42;/clusters/&#42;/nodePools/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -1913,7 +1887,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\Operation
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function rollbackNodePoolUpgrade(array $optionalArgs = [])
     {
@@ -1985,7 +1958,7 @@ class ClusterManagerGapicClient
      *     @type string $name
      *          The name (project, location, cluster, node pool id) of the node pool to set
      *          management properties. Specified in the format
-     *          'projects/&#42;/locations/&#42;/clusters/&#42;/nodePools/*'.
+     *          `projects/&#42;/locations/&#42;/clusters/&#42;/nodePools/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -1996,7 +1969,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\Operation
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function setNodePoolManagement($management, array $optionalArgs = [])
     {
@@ -2072,7 +2044,7 @@ class ClusterManagerGapicClient
      *          This field has been deprecated and replaced by the name field.
      *     @type string $name
      *          The name (project, location, cluster id) of the cluster to set labels.
-     *          Specified in the format 'projects/&#42;/locations/&#42;/clusters/*'.
+     *          Specified in the format `projects/&#42;/locations/&#42;/clusters/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -2083,7 +2055,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\Operation
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function setLabels($resourceLabels, $labelFingerprint, array $optionalArgs = [])
     {
@@ -2150,7 +2121,7 @@ class ClusterManagerGapicClient
      *          This field has been deprecated and replaced by the name field.
      *     @type string $name
      *          The name (project, location, cluster id) of the cluster to set legacy abac.
-     *          Specified in the format 'projects/&#42;/locations/&#42;/clusters/*'.
+     *          Specified in the format `projects/&#42;/locations/&#42;/clusters/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -2161,7 +2132,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\Operation
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function setLegacyAbac($enabled, array $optionalArgs = [])
     {
@@ -2225,7 +2195,7 @@ class ClusterManagerGapicClient
      *          This field has been deprecated and replaced by the name field.
      *     @type string $name
      *          The name (project, location, cluster id) of the cluster to start IP
-     *          rotation. Specified in the format 'projects/&#42;/locations/&#42;/clusters/*'.
+     *          rotation. Specified in the format `projects/&#42;/locations/&#42;/clusters/*`.
      *     @type bool $rotateCredentials
      *          Whether to rotate credentials during IP rotation.
      *     @type RetrySettings|array $retrySettings
@@ -2238,7 +2208,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\Operation
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function startIPRotation(array $optionalArgs = [])
     {
@@ -2304,7 +2273,7 @@ class ClusterManagerGapicClient
      *          This field has been deprecated and replaced by the name field.
      *     @type string $name
      *          The name (project, location, cluster id) of the cluster to complete IP
-     *          rotation. Specified in the format 'projects/&#42;/locations/&#42;/clusters/*'.
+     *          rotation. Specified in the format `projects/&#42;/locations/&#42;/clusters/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -2315,7 +2284,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\Operation
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function completeIPRotation(array $optionalArgs = [])
     {
@@ -2384,7 +2352,7 @@ class ClusterManagerGapicClient
      *     @type string $name
      *          The name (project, location, cluster, node pool id) of the node pool to set
      *          size.
-     *          Specified in the format 'projects/&#42;/locations/&#42;/clusters/&#42;/nodePools/*'.
+     *          Specified in the format `projects/&#42;/locations/&#42;/clusters/&#42;/nodePools/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -2395,7 +2363,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\Operation
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function setNodePoolSize($nodeCount, array $optionalArgs = [])
     {
@@ -2464,7 +2431,7 @@ class ClusterManagerGapicClient
      *          This field has been deprecated and replaced by the name field.
      *     @type string $name
      *          The name (project, location, cluster id) of the cluster to set networking
-     *          policy. Specified in the format 'projects/&#42;/locations/&#42;/clusters/*'.
+     *          policy. Specified in the format `projects/&#42;/locations/&#42;/clusters/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -2475,7 +2442,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\Operation
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function setNetworkPolicy($networkPolicy, array $optionalArgs = [])
     {
@@ -2540,7 +2506,7 @@ class ClusterManagerGapicClient
      *     @type string $name
      *          The name (project, location, cluster id) of the cluster to set maintenance
      *          policy.
-     *          Specified in the format 'projects/&#42;/locations/&#42;/clusters/*'.
+     *          Specified in the format `projects/&#42;/locations/&#42;/clusters/*`.
      *     @type RetrySettings|array $retrySettings
      *          Retry settings to use for this call. Can be a
      *          {@see Google\ApiCore\RetrySettings} object, or an associative array
@@ -2551,7 +2517,6 @@ class ClusterManagerGapicClient
      * @return \Google\Cloud\Container\V1\Operation
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function setMaintenancePolicy($projectId, $zone, $clusterId, $maintenancePolicy, array $optionalArgs = [])
     {
@@ -2612,7 +2577,7 @@ class ClusterManagerGapicClient
      *
      *     @type string $parent
      *          The parent project where subnetworks are usable.
-     *          Specified in the format 'projects/*'.
+     *          Specified in the format `projects/*`.
      *     @type string $filter
      *          Filtering currently only supports equality on the networkProjectId and must
      *          be in the form: "networkProjectId=[PROJECTID]", where `networkProjectId`
@@ -2637,7 +2602,6 @@ class ClusterManagerGapicClient
      * @return \Google\ApiCore\PagedListResponse
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function listUsableSubnetworks(array $optionalArgs = [])
     {

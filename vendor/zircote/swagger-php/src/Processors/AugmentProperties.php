@@ -63,7 +63,21 @@ class AugmentProperties
                 continue;
             }
             $comment = str_replace("\r\n", "\n", $context->comment);
-            if (preg_match('/@var\s+(?<type>[^\s]+)([ \t])?(?<description>.+)?$/im', $comment, $varMatches)) {
+            if ($property->type === UNDEFINED && $context->type && $context->type !== UNDEFINED) {
+                if ($context->nullable === true) {
+                    $property->nullable = true;
+                }
+                $type = strtolower($context->type);
+                if (isset(self::$types[$type])) {
+                    $this->applyType($property, static::$types[$type]);
+                } else {
+                    $key = strtolower($context->fullyQualifiedName($type));
+                    if ($property->ref === UNDEFINED && array_key_exists($key, $refs)) {
+                        $this->applyRef($property, $refs[$key]);
+                        continue;
+                    }
+                }
+            } else if (preg_match('/@var\s+(?<type>[^\s]+)([ \t])?(?<description>.+)?$/im', $comment, $varMatches)) {
                 if ($property->type === UNDEFINED) {
                     preg_match('/^([^\[]+)(.*$)/', trim($varMatches['type']), $typeMatches);
                     $isNullable = $this->isNullable($typeMatches[1]);
@@ -109,6 +123,9 @@ class AugmentProperties
                         }
                         $property->type = 'array';
                     }
+                    if ($isNullable && $property->nullable === UNDEFINED) {
+                        $property->nullable = true;
+                    }
                 }
                 if ($property->description === UNDEFINED && isset($varMatches['description'])) {
                     $property->description = trim($varMatches['description']);
@@ -144,5 +161,31 @@ class AugmentProperties
         }
 
         return implode('|', $types);
+    }
+
+    protected function applyType(Property $property, $type): void
+    {
+        if (is_array($type)) {
+            if ($property->format === UNDEFINED) {
+                $property->format = $type[1];
+            }
+            $type = $type[0];
+        }
+
+        $property->type = $type;
+    }
+
+    protected function applyRef(Property $property, string $ref): void
+    {
+        if ($property->nullable === true) {
+            $property->oneOf = [
+                new Schema([
+                    '_context' => $property->_context,
+                    'ref' => $ref,
+                ]),
+            ];
+        } else {
+            $property->ref = $ref;
+        }
     }
 }

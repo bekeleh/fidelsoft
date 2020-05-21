@@ -3,33 +3,6 @@ This project versioning adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
-## 1.8.1 - 2020-02-17
-### Fixed
-- Accept array as possible input to `sendKeys()` method. (Unintentional BC break in 1.8.0.)
-- Use relative offset when moving mouse pointer in W3C WebDriver mode.
-
-## 1.8.0 - 2020-02-10
-### Added
-- Experimental W3C WebDriver protocol support. The protocol will be used automatically when remote end (like Geckodriver, newer Chromedriver etc.) supports it.
-- `getStatus()` method of `RemoteWebDriver` to get information about remote-end readiness to create new sessions.
-- `takeElementScreenshot()` method of `RemoteWebElement` to do the obvious - take screenshot of the particular element.
-- Support for sending custom commands via `executeCustomCommand()`. See [wiki](https://github.com/php-webdriver/php-webdriver/wiki/Custom-commands) for more information.
-
-### Changed
-- The repository was migrated to [`php-webdriver/php-webdriver`](https://github.com/php-webdriver/php-webdriver/).
-- The Packagist package was renamed to [`php-webdriver/webdriver`](https://packagist.org/packages/php-webdriver/webdriver) and the original [`facebook/webdriver`](https://packagist.org/packages/facebook/webdriver) was marked as abandoned.
-- Revert no longer needed workaround for Chromedriver bug [2943](https://bugs.chromium.org/p/chromedriver/issues/detail?id=2943).
-- Allow installation of Symfony 5 components.
-- Rename environment variable used to pass path to ChromeDriver executable from `webdriver.chrome.driver` to `WEBDRIVER_CHROME_DRIVER`. However the old one also still works to keep backward compatibility
-- If subdirectories in a path to screenshot destination does not exists (using `takeScreenshot()` or `takeElementScreenshot()` methods), they are automatically created.
-- When zip archive cannot be created during file upload, throw an exception instead of silently returning false.
-- `WebDriverNavigation` and `EventFiringWebDriverNavigation` now both implement new `WebDriverNavigationInterface`.
-
-### Fixed
-- `WebDriverExpectedCondition::presenceOfElementLocated()` works correctly when used within `WebDriverExpectedCondition::not()`.
-- Improper behavior of Microsoft Edge when retrieving all cookies via `getCookies()` (it was causing fatal error  when there were no cookies).
-- Avoid "path is not canonical" error when uploading file to Chromedriver.
-
 ## 1.7.1 - 2019-06-13
 ### Fixed
 - Error `Call to a member function toArray()` if capabilities were already converted to an array.

@@ -17,7 +17,7 @@ use Symfony\Component\Debug\ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-require_once __DIR__ . '/HeaderMock.php';
+require_once __DIR__.'/HeaderMock.php';
 
 class ExceptionHandlerTest extends TestCase
 {
@@ -39,7 +39,7 @@ class ExceptionHandlerTest extends TestCase
         $handler->sendPhpResponse(new \RuntimeException('Foo'));
         $response = ob_get_clean();
 
-        $this->assertStringContainsString('Something went wrong. Check your account privilege, or contact your IT admin.', $response);
+        $this->assertStringContainsString('Whoops, looks like something went wrong.', $response);
         $this->assertStringNotContainsString('<div class="trace trace-as-html">', $response);
 
         $handler = new ExceptionHandler(true);
@@ -48,7 +48,7 @@ class ExceptionHandlerTest extends TestCase
         $handler->sendPhpResponse(new \RuntimeException('Foo'));
         $response = ob_get_clean();
 
-        $this->assertStringContainsString('Something went wrong. Check your account privilege, or contact your IT admin.', $response);
+        $this->assertStringContainsString('Whoops, looks like something went wrong.', $response);
         $this->assertStringContainsString('<div class="trace trace-as-html">', $response);
     }
 
@@ -123,8 +123,7 @@ class ExceptionHandlerTest extends TestCase
     public function testHandleWithACustomHandlerThatOutputsNothing()
     {
         $handler = new ExceptionHandler(true);
-        $handler->setHandler(function () {
-        });
+        $handler->setHandler(function () {});
 
         $handler->handle(new \Exception('ccc'));
 

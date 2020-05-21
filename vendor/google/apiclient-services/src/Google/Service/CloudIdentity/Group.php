@@ -15,7 +15,7 @@
  * the License.
  */
 
-class Google_Service_CloudIdENTITY_PERMISSION_GROUP extends Google_Model
+class Google_Service_CloudIdentity_Group extends Google_Model
 {
   public $createTime;
   public $description;

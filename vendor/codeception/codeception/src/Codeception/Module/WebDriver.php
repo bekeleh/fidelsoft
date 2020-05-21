@@ -95,10 +95,10 @@ use Symfony\Component\DomCrawler\Crawler;
  *              port: 9515
  *              browser: chrome
  *              capabilities:
- *                  "goog:chromeOptions": # additional chrome options
+ *                  chromeOptions: # additional chrome options
  * ```
  *
- * Additional [Chrome options](https://sites.google.com/a/chromium.org/chromedriver/capabilities) can be set in `goog:chromeOptions` capabilities. Note that Selenium 3.8 renamed this capability from `chromeOptions` to `goog:chromeOptions`.
+ * Additional [Chrome options](https://sites.google.com/a/chromium.org/chromedriver/capabilities) can be set in `chromeOptions` capabilities.
  *
  *
  * ### PhantomJS
@@ -531,7 +531,7 @@ class WebDriver extends CodeceptionModule implements
     /**
      * Print out latest Selenium Logs in debug mode
      *
-     * @param \Codeception\TestInterface $test
+     * @param TestInterface $test
      */
     public function debugWebDriverLogs(TestInterface $test = null)
     {
@@ -822,18 +822,6 @@ class WebDriver extends CodeceptionModule implements
             $urlParts = parse_url($this->config['url']);
             if (isset($urlParts['host'])) {
                 $params['domain'] = $urlParts['host'];
-            }
-        }
-        // #5401 Supply defaults, otherwise chromedriver 2.46 complains.
-        $defaults = [
-            'path' => '/',
-            'expiry' => time() + 86400,
-            'secure' => false,
-            'httpOnly' => false,
-        ];
-        foreach ($defaults as $key => $default) {
-            if (empty($params[$key])) {
-                $params[$key] = $default;
             }
         }
         $this->webDriver->manage()->addCookie($params);
@@ -1458,7 +1446,6 @@ class WebDriver extends CodeceptionModule implements
             $this->setBaseElement();
             $this->initialWindowSize();
         } catch (WebDriverCurlException $e) {
-            codecept_debug('Curl error: ' . $e->getMessage());
             throw new ConnectionException("Can't connect to Webdriver at {$this->wdHost}. Please make sure that Selenium Server or PhantomJS is running.");
         }
     }
@@ -2355,27 +2342,6 @@ class WebDriver extends CodeceptionModule implements
     }
 
     /**
-     * Waits up to $timeout seconds for the given element to be clickable.
-     * If element doesn't become clickable, a timeout exception is thrown.
-     *
-     * ``` php
-     * <?php
-     * $I->waitForElementClickable('#agree_button', 30); // secs
-     * $I->click('#agree_button');
-     * ?>
-     * ```
-     *
-     * @param $element
-     * @param int $timeout seconds
-     * @throws \Exception
-     */
-    public function waitForElementClickable($element, $timeout = 10)
-    {
-        $condition = WebDriverExpectedCondition::elementToBeClickable($this->getLocator($element));
-        $this->webDriver->wait($timeout)->until($condition);
-    }
-
-    /**
      * Waits up to $timeout seconds for the given string to appear on the page.
      *
      * Can also be passed a selector to search in, be as specific as possible when using selectors.
@@ -2906,23 +2872,12 @@ class WebDriver extends CodeceptionModule implements
 
     protected function assertNodesContain($text, $nodes, $selector = null)
     {
-        $this->assertNodeConstraint($nodes, new WebDriverConstraint($text, $this->_getCurrentUri()), $selector);
+        $this->assertThat($nodes, new WebDriverConstraint($text, $this->_getCurrentUri()), $selector);
     }
 
     protected function assertNodesNotContain($text, $nodes, $selector = null)
     {
-        $this->assertNodeConstraint($nodes, new WebDriverConstraintNot($text, $this->_getCurrentUri()), $selector);
-    }
-
-    protected function assertNodeConstraint($nodes, WebDriverConstraint $constraint, $selector = null)
-    {
-        $message = $selector;
-        if (is_array($selector)) {
-            $type = key($selector);
-            $locator = $selector[$type];
-            $message = $type . ':' . $locator;
-        }
-        $this->assertThat($nodes, $constraint, $message);
+        $this->assertThat($nodes, new WebDriverConstraintNot($text, $this->_getCurrentUri()), $selector);
     }
 
     protected function assertPageContains($needle, $message = '')
@@ -3100,16 +3055,9 @@ class WebDriver extends CodeceptionModule implements
         if (!isset($this->sessionSnapshots[$name])) {
             return false;
         }
-        
-        foreach ($this->webDriver->manage()->getCookies() as $cookie) {
-            if (in_array(trim($cookie['name']), [LocalServer::COVERAGE_COOKIE, LocalServer::COVERAGE_COOKIE_ERROR])) {
-                continue;
-            }
-            $this->webDriver->manage()->deleteCookieNamed($cookie['name']);
-        }
-        
+        $this->webDriver->manage()->deleteAllCookies();
         foreach ($this->sessionSnapshots[$name] as $cookie) {
-            $this->setCookie($cookie['name'], $cookie['value'], (array)$cookie);
+            $this->webDriver->manage()->addCookie($cookie);
         }
         $this->debugSection('Snapshot', "Restored \"$name\" session snapshot");
         return true;

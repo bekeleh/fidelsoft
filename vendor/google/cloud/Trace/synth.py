@@ -14,21 +14,20 @@
 
 """This script is used to synthesize generated parts of this library."""
 
-import os
 import synthtool as s
 import synthtool.gcp as gcp
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
 
-gapic = gcp.GAPICGenerator()
+gapic = gcp.GAPICBazel()
 common = gcp.CommonTemplates()
 
 library = gapic.php_library(
     service='cloudtrace',
     version='v2',
-    config_path='/google/devtools/cloudtrace/artman_cloudtrace_v2.yaml',
-    artman_output_name='google-cloud-trace-v2')
+    bazel_target='//google/devtools/cloudtrace/v2:google-cloud-devtools-cloudtrace-v2-php',
+)
 
 # copy all src including partial veneer classes
 s.move(library / 'src')
@@ -114,3 +113,10 @@ s.replace(
 )
 
 ### [END] protoc backwards compatibility fixes
+
+# fix relative cloud.google.com links
+s.replace(
+    "src/**/V*/**/*.php",
+    r"(.{0,})\]\((/.{0,})\)",
+    r"\1](https://cloud.google.com\2)"
+)

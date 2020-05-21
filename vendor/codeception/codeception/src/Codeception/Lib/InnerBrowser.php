@@ -62,16 +62,7 @@ class InnerBrowser extends Module implements Web, PageSourceSaver, ElementLocato
             return;
         }
         $filename = preg_replace('~\W~', '.', Descriptor::getTestSignatureUnique($test));
-        
-        $extensions = ['application/json' => 'json', 'text/xml' => 'xml', 'application/xml' => 'xml'];
-        
-        $internalResponse = $this->client->getInternalResponse();
-        
-        $responseContentType = $internalResponse ? $internalResponse->getHeader('content-type') : null;
-        
-        $extension = isset($extensions[$responseContentType]) ? $extensions[$responseContentType] : 'html';
-        
-        $filename = mb_strcut($filename, 0, 244, 'utf-8') . '.fail.' . $extension;
+        $filename = mb_strcut($filename, 0, 244, 'utf-8') . '.fail.html';
         $this->_savePageSource($report = codecept_output_dir() . $filename);
         $test->getMetadata()->addReport('html', $report);
     }
@@ -513,7 +504,7 @@ class InnerBrowser extends Module implements Web, PageSourceSaver, ElementLocato
             $this->fail("No links containing text '$text' were found in page " . $this->_getCurrentUri());
         }
         if ($url) {
-            $crawler = $crawler->filterXPath(sprintf('.//a[substring(@href, string-length(@href) - string-length(%1$s) + 1)=%1$s]', Crawler::xpathLiteral($url)));
+            $crawler = $crawler->filterXPath(sprintf('.//a[contains(@href, %s)]', Crawler::xpathLiteral($url)));
             if ($crawler->count() === 0) {
                 $this->fail("No links containing text '$text' and URL '$url' were found in page " . $this->_getCurrentUri());
             }
@@ -529,7 +520,7 @@ class InnerBrowser extends Module implements Web, PageSourceSaver, ElementLocato
                 $this->fail("Link containing text '$text' was found in page " . $this->_getCurrentUri());
             }
         }
-        $crawler = $crawler->filterXPath(sprintf('.//a[substring(@href, string-length(@href) - string-length(%1$s) + 1)=%1$s]', Crawler::xpathLiteral($url)));
+        $crawler = $crawler->filterXPath(sprintf('.//a[contains(@href, %s)]', Crawler::xpathLiteral($url)));
         if ($crawler->count() > 0) {
             $this->fail("Link containing text '$text' and URL '$url' was found in page " . $this->_getCurrentUri());
         }
@@ -831,7 +822,6 @@ class InnerBrowser extends Module implements Web, PageSourceSaver, ElementLocato
      */
     protected function proceedSubmitForm(Crawler $frmCrawl, array $params, $button = null)
     {
-        $url = null;
         $form = $this->getFormFor($frmCrawl);
         $defaults = $this->getFormValuesFor($form);
         $merged = array_merge($defaults, $params);
@@ -844,17 +834,10 @@ class InnerBrowser extends Module implements Web, PageSourceSaver, ElementLocato
             ));
             if (count($btnCrawl)) {
                 $requestParams[$button] = $btnCrawl->attr('value');
-                $formaction = $btnCrawl->attr('formaction');
-                if ($formaction) {
-                    $url = $formaction;
-                }
             }
         }
 
-        if (!$url) {
-            $url = $this->getFormUrl($frmCrawl);
-        }
-        
+        $url = $this->getFormUrl($frmCrawl);
         if (strcasecmp($form->getMethod(), 'GET') === 0) {
             $url = Uri::mergeUrls($url, '?' . http_build_query($requestParams));
         }

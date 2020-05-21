@@ -27,9 +27,27 @@ class UpdateCommand extends Command
     /**
      * Execute the console command.
      */
-    public function fire()
+    public function handle()
     {
-        $this->laravel['modules']->update($name = $this->getModuleName());
+        $name = $this->argument('module');
+
+        if ($name) {
+            $this->updateModule($name);
+
+            return;
+        }
+
+        /** @var \Nwidart\Modules\Module $module */
+        foreach ($this->laravel['modules']->getOrdered() as $module) {
+            $this->updateModule($module->getName());
+        }
+    }
+
+    protected function updateModule($name)
+    {
+        $this->line('Running for module: <info>' . $name . '</info>');
+
+        $this->laravel['modules']->update($name);
 
         $this->info("Module [{$name}] updated successfully.");
     }
@@ -41,8 +59,8 @@ class UpdateCommand extends Command
      */
     protected function getArguments()
     {
-        return array(
-            array('module', InputArgument::OPTIONAL, 'The name of module will be updated.'),
-        );
+        return [
+            ['module', InputArgument::OPTIONAL, 'The name of module will be updated.'],
+        ];
     }
 }

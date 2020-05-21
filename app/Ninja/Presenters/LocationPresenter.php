@@ -34,7 +34,7 @@ class LocationPresenter extends EntityPresenter
         $actions = [];
 
         if (!$location->trashed()) {
-            if (auth()->user()->can('create', ENTITY_PRODUCT)) {
+            if (auth()->user()->can('create', ENTITY_LOCATION)) {
                 $actions[] = ['url' => 'javascript:submitAction("clone")', 'label' => trans('texts.clone_location')];
             }
             if (count($actions)) {

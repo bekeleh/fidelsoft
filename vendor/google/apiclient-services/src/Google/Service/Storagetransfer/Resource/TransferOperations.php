@@ -69,10 +69,10 @@ class Google_Service_Storagetransfer_Resource_TransferOperations extends Google_
    * "operation_names":["opid1","opid2",...],
    * "transfer_statuses":["status1","status2",...]}. Since `job_names`,
    * `operation_names`, and `transfer_statuses` support multiple values, they must
-   * be specified with array notation. `project_id` is required. `job_names`,
+   * be specified with array notation. `project``_``id` is required. `job_names`,
    * `operation_names`, and `transfer_statuses` are optional. The valid values for
-   * `transfer_statuses` are case-insensitive: `IN_PROGRESS`, `PAUSED`, `SUCCESS`,
-   * `FAILED`, and `ABORTED`.
+   * `transfer_statuses` are case-insensitive: IN_PROGRESS, PAUSED, SUCCESS,
+   * FAILED, and ABORTED.
    * @return Google_Service_Storagetransfer_ListOperationsResponse
    */
   public function listTransferOperations($name, $optParams = array())

@@ -14,25 +14,23 @@
 
 """This script is used to synthesize generated parts of this library."""
 
-import os
 import synthtool as s
 import synthtool.gcp as gcp
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
 
-gapic = gcp.GAPICGenerator()
+gapic = gcp.GAPICBazel()
 common = gcp.CommonTemplates()
 
 library = gapic.php_library(
     service='iot',
     version='v1',
-    config_path='artman_cloudiot.yaml',
-    artman_output_name='google-cloud-iot-v1')
+    bazel_target='//google/cloud/iot/v1:google-cloud-iot-v1-php',
+)
 
-# copy all src except partial veneer classes
-s.move(library / f'src/V1/Gapic')
-s.move(library / f'src/V1/resources')
+# copy all src including partial veneer classes
+s.move(library / f'src')
 
 # copy proto files to src also
 s.move(library / f'proto/src/Google/Cloud/Iot', f'src/')
@@ -59,9 +57,15 @@ s.replace(
     r"\$transportConfig, and any \$serviceAddress",
     r"$transportConfig, and any `$apiEndpoint`")
 
+# V1 is GA, so remove @experimental tags
+s.replace(
+    'src/V1/**/*Client.php',
+    r'^(\s+\*\n)?\s+\*\s@experimental\n',
+    '')
+
 # fix year
 s.replace(
-    '**/Gapic/*GapicClient.php',
+    '**/*Client.php',
     r'Copyright \d{4}',
     r'Copyright 2018')
 s.replace(
@@ -93,3 +97,10 @@ s.replace(
 )
 
 ### [END] protoc backwards compatibility fixes
+
+# fix relative cloud.google.com links
+s.replace(
+    "src/**/V*/**/*.php",
+    r"(.{0,})\]\((/.{0,})\)",
+    r"\1](https://cloud.google.com\2)"
+)

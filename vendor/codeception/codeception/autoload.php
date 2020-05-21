@@ -13,7 +13,7 @@ if (file_exists('./vendor/autoload.php') && file_exists($autoloadFile) && __FILE
     die;
 } elseif (file_exists(__DIR__ . '/vendor/autoload.php')) {
     // for phar
-    require_once __DIR__ . '/vendor/autoload.php';
+    require_once(__DIR__ . '/vendor/autoload.php');
 } elseif (file_exists(__DIR__ . '/../../autoload.php')) {
     //for composer
     require_once __DIR__ . '/../../autoload.php';
@@ -33,6 +33,27 @@ if (PHP_MAJOR_VERSION < 7) {
     }
 }
 // @codingStandardsIgnoreEnd
+
+if (!function_exists('json_last_error_msg')) {
+    /**
+     * Copied from http://php.net/manual/en/function.json-last-error-msg.php#117393
+     * @return string
+     */
+    function json_last_error_msg()
+    {
+        static $errors = array(
+            JSON_ERROR_NONE => 'No error',
+            JSON_ERROR_DEPTH => 'Maximum stack depth exceeded',
+            JSON_ERROR_STATE_MISMATCH => 'State mismatch (invalid or malformed JSON)',
+            JSON_ERROR_CTRL_CHAR => 'Control character error, possibly incorrectly encoded',
+            JSON_ERROR_SYNTAX => 'Syntax error',
+            JSON_ERROR_UTF8 => 'Malformed UTF-8 characters, possibly incorrectly encoded'
+        );
+
+        $error = json_last_error();
+        return isset($errors[$error]) ? $errors[$error] : 'Unknown error';
+    }
+}
 
 // function not autoloaded in PHP, thus its a good place for them
 if (!function_exists('codecept_debug')) {

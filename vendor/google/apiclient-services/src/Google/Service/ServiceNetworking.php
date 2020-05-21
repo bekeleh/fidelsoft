@@ -41,6 +41,7 @@ class Google_Service_ServiceNetworking extends Google_Service
   public $operations;
   public $services;
   public $services_connections;
+  public $services_roles;
   
   /**
    * Constructs the internal representation of the ServiceNetworking service.
@@ -106,13 +107,13 @@ class Google_Service_ServiceNetworking extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'pageSize' => array(
-                  'location' => 'query',
-                  'type' => 'integer',
-                ),
                 'filter' => array(
                   'location' => 'query',
                   'type' => 'string',
+                ),
+                'pageSize' => array(
+                  'location' => 'query',
+                  'type' => 'integer',
                 ),
               ),
             ),
@@ -225,6 +226,26 @@ class Google_Service_ServiceNetworking extends Google_Service
                 'force' => array(
                   'location' => 'query',
                   'type' => 'boolean',
+                ),
+              ),
+            ),
+          )
+        )
+    );
+    $this->services_roles = new Google_Service_ServiceNetworking_Resource_ServicesRoles(
+        $this,
+        $this->serviceName,
+        'roles',
+        array(
+          'methods' => array(
+            'add' => array(
+              'path' => 'v1/{+parent}/roles:add',
+              'httpMethod' => 'POST',
+              'parameters' => array(
+                'parent' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
                 ),
               ),
             ),

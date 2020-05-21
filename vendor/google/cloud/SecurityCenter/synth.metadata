@@ -1,19 +1,25 @@
 {
-  "updateTime": "2020-02-10T22:29:42.162769Z",
   "sources": [
     {
-      "generator": {
-        "name": "artman",
-        "version": "0.45.0",
-        "dockerImage": "googleapis/artman@sha256:6aec9c34db0e4be221cdaf6faba27bdc07cfea846808b3d3b964dfce3a9a0f9b"
+      "git": {
+        "name": ".",
+        "remote": "https://github.com/googleapis/google-cloud-php.git",
+        "sha": "bcd4a202f2bce169da47b239d8c00917b2148fa8"
       }
     },
     {
       "git": {
         "name": "googleapis",
         "remote": "https://github.com/googleapis/googleapis.git",
-        "sha": "fcc86bee0e84dc11e9abbff8d7c3529c0626f390",
-        "internalRef": "294264582"
+        "sha": "862cd840dbb0101a0630913217bf8b6d4101c84c",
+        "internalRef": "307739946"
+      }
+    },
+    {
+      "git": {
+        "name": "synthtool",
+        "remote": "https://github.com/googleapis/synthtool.git",
+        "sha": "716f741f2d307b48cbe8a5bc3bc883571212344a"
       }
     }
   ],
@@ -24,8 +30,7 @@
         "apiName": "securitycenter",
         "apiVersion": "v1",
         "language": "php",
-        "generator": "gapic",
-        "config": "google/cloud/securitycenter/artman_securitycenter_v1.yaml"
+        "generator": "bazel"
       }
     },
     {
@@ -34,8 +39,7 @@
         "apiName": "securitycenter",
         "apiVersion": "v1p1beta1",
         "language": "php",
-        "generator": "gapic",
-        "config": "google/cloud/securitycenter/artman_securitycenter_v1p1beta1.yaml"
+        "generator": "bazel"
       }
     }
   ]

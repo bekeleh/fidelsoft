@@ -154,11 +154,6 @@ $I->haveInRepository('Entity\User', array('name' => 'davert'));
 ```
 
 
-### onReconfigure
- 
-@throws ModuleConfigException
-
-
 ### persistEntity
  
 Adds entity to repository and flushes. You can redefine it's properties with the second parameter.
@@ -195,4 +190,4 @@ Fails if record for given criteria can\'t be found,
  * `param` $entity
  * `param array` $params
 
-<p>&nbsp;</p><div class="alert alert-warning">Module reference is taken from the source code. <a href="https://github.com/Codeception/Codeception/tree/2.5/src/Codeception/Module/Doctrine2.php">Help us to improve documentation. Edit module reference</a></div>
+<p>&nbsp;</p><div class="alert alert-warning">Module reference is taken from the source code. <a href="https://github.com/Codeception/Codeception/tree/2.4/src/Codeception/Module/Doctrine2.php">Help us to improve documentation. Edit module reference</a></div>

@@ -14,7 +14,7 @@ class Location extends EntityModel
     use PresentableTrait;
     use SoftDeletes;
 
-    protected $table = 'locations';
+
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
 
     protected $fillable = [
@@ -47,6 +47,21 @@ class Location extends EntityModel
     public function getEntityType()
     {
         return ENTITY_LOCATION;
+    }
+
+    public function getRoute()
+    {
+        return "/locations/{$this->public_id}";
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getDisplayName()
+    {
+        return $this->getName();
     }
 
     public function getUpperAttributes()
@@ -82,21 +97,6 @@ class Location extends EntityModel
     public function stores()
     {
         return $this->hasMany('App\Models\Store')->withTrashed();
-    }
-
-    public function getRoute()
-    {
-        return "/locations/{$this->public_id}";
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function getDisplayName()
-    {
-        return $this->getName();
     }
 
 }

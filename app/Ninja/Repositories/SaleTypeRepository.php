@@ -78,7 +78,7 @@ class SaleTypeRepository extends BaseRepository
         }
 
         $saleType->fill($data);
-        $saleType->name = isset($data['name']) ? ucwords(trim($data['name'])) : '';
+        $saleType->name = isset($data['name']) ? trim($data['name']) : '';
         $saleType->notes = isset($data['notes']) ? trim($data['notes']) : '';
         $saleType->save();
 

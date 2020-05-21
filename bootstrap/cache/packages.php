@@ -17,6 +17,17 @@
       0 => 'Barryvdh\\Cors\\ServiceProvider',
     ),
   ),
+  'barryvdh/laravel-debugbar' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Barryvdh\\Debugbar\\ServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Debugbar' => 'Barryvdh\\Debugbar\\Facade',
+    ),
+  ),
   'barryvdh/laravel-ide-helper' => 
   array (
     'providers' => 
@@ -44,17 +55,6 @@
     'aliases' => 
     array (
       'Crawler' => 'Jaybizzle\\LaravelCrawlerDetect\\Facades\\LaravelCrawlerDetect',
-    ),
-  ),
-  'laravel/socialite' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Laravel\\Socialite\\SocialiteServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'Socialite' => 'Laravel\\Socialite\\Facades\\Socialite',
     ),
   ),
   'laravel/tinker' => 
@@ -103,6 +103,13 @@
     'aliases' => 
     array (
       'Module' => 'Nwidart\\Modules\\Facades\\Module',
+    ),
+  ),
+  'owen-it/laravel-auditing' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'OwenIt\\Auditing\\AuditingServiceProvider',
     ),
   ),
   'pragmarx/google2fa-laravel' => 

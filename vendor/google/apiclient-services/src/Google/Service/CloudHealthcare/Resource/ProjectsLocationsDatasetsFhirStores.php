@@ -46,9 +46,8 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsFhirStore
    * De-identifies data from the source store and writes it to the destination
    * store. The metadata field type is OperationMetadata. If the request is
    * successful, the response field type is DeidentifyFhirStoreSummary. If errors
-   * occur, error details field type is DeidentifyErrorDetails. Errors are also
-   * logged to Stackdriver (see [Viewing logs](/healthcare/docs/how-tos
-   * /stackdriver-logging)). (fhirStores.deidentify)
+   * occur, error is set. Error details are also logged to Cloud Logging (see
+   * [Viewing logs](/healthcare/docs/how-tos/logging)). (fhirStores.deidentify)
    *
    * @param string $sourceStore Source FHIR store resource name. For example, `pro
    * jects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{
@@ -84,10 +83,10 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsFhirStore
    * export by calling GetOperation.
    *
    * Immediate fatal errors appear in the error field, errors are also logged to
-   * Stackdriver (see [Viewing logs](/healthcare/docs/how-tos/stackdriver-
-   * logging)). Otherwise, when the operation finishes, a detailed response of
-   * type ExportResourcesResponse is returned in the response field. The metadata
-   * field type for this operation is OperationMetadata. (fhirStores.export)
+   * Cloud Logging (see [Viewing logs](/healthcare/docs/how-tos/logging)).
+   * Otherwise, when the operation finishes, a detailed response of type
+   * ExportResourcesResponse is returned in the response field. The metadata field
+   * type for this operation is OperationMetadata. (fhirStores.export)
    *
    * @param string $name The name of the FHIR store to export resource from. The
    * name should be in the format of `projects/{project_id}/locations/{location_id
@@ -133,6 +132,10 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsFhirStore
    * Requests for policies with any conditional bindings must specify version 3.
    * Policies without any conditional bindings may specify any valid value or
    * leave the field unset.
+   *
+   * To learn which resources support conditions in their IAM policies, see the
+   * [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-
+   * policies).
    * @return Google_Service_CloudHealthcare_Policy
    */
   public function getIamPolicy($resource, $optParams = array())
@@ -159,6 +162,9 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsFhirStore
    * grouping or ordering, but if the input data contains invalid references or if
    * some resources fail to be imported, the FHIR store might be left in a state
    * that violates referential integrity.
+   *
+   * The import process does not trigger Pub/Sub notification or BigQuery
+   * streaming update, regardless of how those are configured on the FHIR store.
    *
    * If a resource with the specified ID already exists, the most recent version
    * of the resource is overwritten without creating a new historical version,
@@ -196,10 +202,10 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsFhirStore
    * import by calling GetOperation.
    *
    * Immediate fatal errors appear in the error field, errors are also logged to
-   * Stackdriver (see [Viewing logs](/healthcare/docs/how-tos/stackdriver-
-   * logging)). Otherwise, when the operation finishes, a detailed response of
-   * type ImportResourcesResponse is returned in the response field. The metadata
-   * field type for this operation is OperationMetadata. (fhirStores.import)
+   * Cloud Logging (see [Viewing logs](/healthcare/docs/how-tos/logging)).
+   * Otherwise, when the operation finishes, a detailed response of type
+   * ImportResourcesResponse is returned in the response field. The metadata field
+   * type for this operation is OperationMetadata. (fhirStores.import)
    *
    * @param string $name The name of the FHIR store to import FHIR resources to.
    * The name should be in the format of `projects/{project_id}/locations/{locatio
@@ -221,14 +227,14 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsFhirStore
    * @param string $parent Name of the dataset.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter Restricts stores returned to those matching a
-   * filter. Syntax:
-   * https://cloud.google.com/appengine/docs/standard/python/search/query_strings
-   * Only filtering on labels is supported, for example `labels.key=value`.
    * @opt_param string pageToken The next_page_token value returned from the
    * previous List request, if any.
    * @opt_param int pageSize Limit on the number of FHIR stores to return in a
    * single response.  If zero the default page size of 100 is used.
+   * @opt_param string filter Restricts stores returned to those matching a
+   * filter. Syntax:
+   * https://cloud.google.com/appengine/docs/standard/python/search/query_strings
+   * Only filtering on labels is supported, for example `labels.key=value`.
    * @return Google_Service_CloudHealthcare_ListFhirStoresResponse
    */
   public function listProjectsLocationsDatasetsFhirStores($parent, $optParams = array())
@@ -260,7 +266,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsFhirStore
    * Sets the access control policy on the specified resource. Replaces any
    * existing policy.
    *
-   * Can return Public Errors: NOT_FOUND, INVALID_ARGUMENT and PERMISSION_DENIED
+   * Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors.
    * (fhirStores.setIamPolicy)
    *
    * @param string $resource REQUIRED: The resource for which the policy is being
@@ -279,7 +285,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsFhirStore
   /**
    * Returns permissions that a caller has on the specified resource. If the
    * resource does not exist, this will return an empty set of permissions, not a
-   * NOT_FOUND error.
+   * `NOT_FOUND` error.
    *
    * Note: This operation is designed to be used for building permission-aware UIs
    * and command-line tools, not for authorization checking. This operation may

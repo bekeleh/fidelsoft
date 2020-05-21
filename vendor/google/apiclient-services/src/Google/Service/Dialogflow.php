@@ -43,11 +43,13 @@ class Google_Service_Dialogflow extends Google_Service
   public $projects_agent_entityTypes;
   public $projects_agent_entityTypes_entities;
   public $projects_agent_environments;
+  public $projects_agent_environments_users_sessions;
+  public $projects_agent_environments_users_sessions_contexts;
+  public $projects_agent_environments_users_sessions_entityTypes;
   public $projects_agent_intents;
   public $projects_agent_sessions;
   public $projects_agent_sessions_contexts;
   public $projects_agent_sessions_entityTypes;
-  public $projects_agent_versions;
   public $projects_locations_operations;
   public $projects_operations;
   
@@ -72,21 +74,7 @@ class Google_Service_Dialogflow extends Google_Service
         'projects',
         array(
           'methods' => array(
-            'agent' => array(
-              'path' => 'v2/{+parent}/agent',
-              'httpMethod' => 'POST',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'updateMask' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-              ),
-            ),'deleteAgent' => array(
+            'deleteAgent' => array(
               'path' => 'v2/{+parent}/agent',
               'httpMethod' => 'DELETE',
               'parameters' => array(
@@ -104,6 +92,20 @@ class Google_Service_Dialogflow extends Google_Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ),
+              ),
+            ),'setAgent' => array(
+              'path' => 'v2/{+parent}/agent',
+              'httpMethod' => 'POST',
+              'parameters' => array(
+                'parent' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'updateMask' => array(
+                  'location' => 'query',
+                  'type' => 'string',
                 ),
               ),
             ),
@@ -289,15 +291,15 @@ class Google_Service_Dialogflow extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'pageToken' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
                 'pageSize' => array(
                   'location' => 'query',
                   'type' => 'integer',
                 ),
                 'languageCode' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'pageToken' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -370,18 +372,72 @@ class Google_Service_Dialogflow extends Google_Service
         'environments',
         array(
           'methods' => array(
-            'create' => array(
+            'list' => array(
               'path' => 'v2/{+parent}/environments',
-              'httpMethod' => 'POST',
+              'httpMethod' => 'GET',
               'parameters' => array(
                 'parent' => array(
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
                 ),
-                'environmentId' => array(
+                'pageToken' => array(
                   'location' => 'query',
                   'type' => 'string',
+                ),
+                'pageSize' => array(
+                  'location' => 'query',
+                  'type' => 'integer',
+                ),
+              ),
+            ),
+          )
+        )
+    );
+    $this->projects_agent_environments_users_sessions = new Google_Service_Dialogflow_Resource_ProjectsAgentEnvironmentsUsersSessions(
+        $this,
+        $this->serviceName,
+        'sessions',
+        array(
+          'methods' => array(
+            'deleteContexts' => array(
+              'path' => 'v2/{+parent}/contexts',
+              'httpMethod' => 'DELETE',
+              'parameters' => array(
+                'parent' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),'detectIntent' => array(
+              'path' => 'v2/{+session}:detectIntent',
+              'httpMethod' => 'POST',
+              'parameters' => array(
+                'session' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),
+          )
+        )
+    );
+    $this->projects_agent_environments_users_sessions_contexts = new Google_Service_Dialogflow_Resource_ProjectsAgentEnvironmentsUsersSessionsContexts(
+        $this,
+        $this->serviceName,
+        'contexts',
+        array(
+          'methods' => array(
+            'create' => array(
+              'path' => 'v2/{+parent}/contexts',
+              'httpMethod' => 'POST',
+              'parameters' => array(
+                'parent' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
                 ),
               ),
             ),'delete' => array(
@@ -404,8 +460,8 @@ class Google_Service_Dialogflow extends Google_Service
                   'required' => true,
                 ),
               ),
-            ),'getHistory' => array(
-              'path' => 'v2/{+parent}/history',
+            ),'list' => array(
+              'path' => 'v2/{+parent}/contexts',
               'httpMethod' => 'GET',
               'parameters' => array(
                 'parent' => array(
@@ -422,8 +478,62 @@ class Google_Service_Dialogflow extends Google_Service
                   'type' => 'integer',
                 ),
               ),
+            ),'patch' => array(
+              'path' => 'v2/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => array(
+                'name' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'updateMask' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+              ),
+            ),
+          )
+        )
+    );
+    $this->projects_agent_environments_users_sessions_entityTypes = new Google_Service_Dialogflow_Resource_ProjectsAgentEnvironmentsUsersSessionsEntityTypes(
+        $this,
+        $this->serviceName,
+        'entityTypes',
+        array(
+          'methods' => array(
+            'create' => array(
+              'path' => 'v2/{+parent}/entityTypes',
+              'httpMethod' => 'POST',
+              'parameters' => array(
+                'parent' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),'delete' => array(
+              'path' => 'v2/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => array(
+                'name' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),'get' => array(
+              'path' => 'v2/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => array(
+                'name' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
             ),'list' => array(
-              'path' => 'v2/{+parent}/environments',
+              'path' => 'v2/{+parent}/entityTypes',
               'httpMethod' => 'GET',
               'parameters' => array(
                 'parent' => array(
@@ -565,15 +675,15 @@ class Google_Service_Dialogflow extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
+                'intentView' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
                 'languageCode' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
                 'updateMask' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'intentView' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -729,75 +839,13 @@ class Google_Service_Dialogflow extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'pageToken' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
                 'pageSize' => array(
                   'location' => 'query',
                   'type' => 'integer',
                 ),
-              ),
-            ),'patch' => array(
-              'path' => 'v2/{+name}',
-              'httpMethod' => 'PATCH',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'updateMask' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-              ),
-            ),
-          )
-        )
-    );
-    $this->projects_agent_versions = new Google_Service_Dialogflow_Resource_ProjectsAgentVersions(
-        $this,
-        $this->serviceName,
-        'versions',
-        array(
-          'methods' => array(
-            'create' => array(
-              'path' => 'v2/{+parent}/versions',
-              'httpMethod' => 'POST',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'get' => array(
-              'path' => 'v2/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'list' => array(
-              'path' => 'v2/{+parent}/versions',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
                 'pageToken' => array(
                   'location' => 'query',
                   'type' => 'string',
-                ),
-                'pageSize' => array(
-                  'location' => 'query',
-                  'type' => 'integer',
                 ),
               ),
             ),'patch' => array(

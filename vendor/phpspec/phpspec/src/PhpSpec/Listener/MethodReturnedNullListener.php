@@ -14,7 +14,7 @@
 namespace PhpSpec\Listener;
 
 use PhpSpec\CodeGenerator\GeneratorManager;
-use PhpSpec\Console\IO;
+use PhpSpec\Console\ConsoleIO;
 use PhpSpec\Event\ExampleEvent;
 use PhpSpec\Event\MethodCallEvent;
 use PhpSpec\Event\SuiteEvent;
@@ -23,10 +23,10 @@ use PhpSpec\Locator\ResourceManager;
 use PhpSpec\Util\MethodAnalyser;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class MethodReturnedNullListener implements EventSubscriberInterface
+final class MethodReturnedNullListener implements EventSubscriberInterface
 {
     /**
-     * @var IO
+     * @var ConsoleIO
      */
     private $io;
 
@@ -53,12 +53,13 @@ class MethodReturnedNullListener implements EventSubscriberInterface
     private $methodAnalyser;
 
     /**
-     * @param IO               $io
-     * @param ResourceManager  $resources
+     * @param ConsoleIO $io
+     * @param ResourceManager $resources
      * @param GeneratorManager $generator
+     * @param MethodAnalyser $methodAnalyser
      */
     public function __construct(
-        IO $io,
+        ConsoleIO $io,
         ResourceManager $resources,
         GeneratorManager $generator,
         MethodAnalyser $methodAnalyser
@@ -81,12 +82,12 @@ class MethodReturnedNullListener implements EventSubscriberInterface
         );
     }
 
-    public function afterMethodCall(MethodCallEvent $methodCallEvent)
+    public function afterMethodCall(MethodCallEvent $methodCallEvent): void
     {
         $this->lastMethodCallEvent = $methodCallEvent;
     }
 
-    public function afterExample(ExampleEvent $exampleEvent)
+    public function afterExample(ExampleEvent $exampleEvent): void
     {
         $exception = $exampleEvent->getException();
 
@@ -98,9 +99,9 @@ class MethodReturnedNullListener implements EventSubscriberInterface
             return;
         }
 
-        if (is_object($exception->getExpected())
-         || is_array($exception->getExpected())
-         || is_resource($exception->getExpected())
+        if (\is_object($exception->getExpected())
+         || \is_array($exception->getExpected())
+         || \is_resource($exception->getExpected())
         ) {
             return;
         }
@@ -109,7 +110,7 @@ class MethodReturnedNullListener implements EventSubscriberInterface
             return;
         }
 
-        $class = get_class($this->lastMethodCallEvent->getSubject());
+        $class = \get_class($this->lastMethodCallEvent->getSubject());
         $method = $this->lastMethodCallEvent->getMethod();
 
         if (!$this->methodAnalyser->methodIsEmpty($class, $method)) {
@@ -129,7 +130,7 @@ class MethodReturnedNullListener implements EventSubscriberInterface
         $this->nullMethods[$key]['expected'][] = $exception->getExpected();
     }
 
-    public function afterSuite(SuiteEvent $event)
+    public function afterSuite(SuiteEvent $event): void
     {
         if (!$this->io->isCodeGenerationEnabled()) {
             return;
@@ -142,7 +143,7 @@ class MethodReturnedNullListener implements EventSubscriberInterface
         foreach ($this->nullMethods as $methodString => $failedCall) {
             $failedCall['expected'] = array_unique($failedCall['expected']);
 
-            if (count($failedCall['expected'])>1) {
+            if (\count($failedCall['expected'])>1) {
                 continue;
             }
 

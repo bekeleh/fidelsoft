@@ -11,6 +11,9 @@ class CompositeReRunnerSpec extends ObjectBehavior
 {
     function let(PlatformSpecificReRunner $reRunner1, PlatformSpecificReRunner $reRunner2)
     {
+        $reRunner1->isSupported()->willReturn(false);
+        $reRunner2->isSupported()->willReturn(false);
+
         $this->beConstructedWith(
             array(
                 $reRunner1->getWrappedObject(),
@@ -44,7 +47,7 @@ class CompositeReRunnerSpec extends ObjectBehavior
         $reRunner1->isSupported()->willReturn(false);
         $reRunner2->isSupported()->willReturn(true);
 
-        $reRunner2->reRunSuite()->willReturn();
+        $reRunner2->reRunSuite()->should(function() {});;
 
         $this->reRunSuite();
 

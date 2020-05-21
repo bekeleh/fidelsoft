@@ -407,7 +407,7 @@ Checks that current url doesn't match the given regular expression.
 ``` php
 <?php
 // to match root url
-$I->dontSeeCurrentUrlMatches('~^/users/(\d+)~');
+$I->dontSeeCurrentUrlMatches('~$/users/(\d+)~');
 ?>
 ```
 
@@ -629,7 +629,7 @@ If no parameters are provided, the full URI is returned.
 
 ``` php
 <?php
-$user_id = $I->grabFromCurrentUrl('~^/user/(\d+)/~');
+$user_id = $I->grabFromCurrentUrl('~$/user/(\d+)/~');
 $uri = $I->grabFromCurrentUrl();
 ?>
 ```
@@ -768,11 +768,6 @@ Invalidate previously cached routes.
 Moves back in history.
 
  * `param int` $numberOfSteps (default value 1)
-
-
-### onReconfigure
- 
-HOOK to be executed when config changes with `_reconfigure`.
 
 
 ### persistService
@@ -914,7 +909,7 @@ Checks that the current URL matches the given regular expression.
 ``` php
 <?php
 // to match root url
-$I->seeCurrentUrlMatches('~^/users/(\d+)~');
+$I->seeCurrentUrlMatches('~$/users/(\d+)~');
 ?>
 ```
 
@@ -1503,4 +1498,4 @@ Remove service $serviceName from the lists of persistent services.
 
  * `param string` $serviceName
 
-<p>&nbsp;</p><div class="alert alert-warning">Module reference is taken from the source code. <a href="https://github.com/Codeception/Codeception/tree/2.5/src/Codeception/Module/Symfony.php">Help us to improve documentation. Edit module reference</a></div>
+<p>&nbsp;</p><div class="alert alert-warning">Module reference is taken from the source code. <a href="https://github.com/Codeception/Codeception/tree/2.4/src/Codeception/Module/Symfony.php">Help us to improve documentation. Edit module reference</a></div>

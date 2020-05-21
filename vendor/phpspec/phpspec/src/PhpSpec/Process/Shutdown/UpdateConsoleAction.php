@@ -16,7 +16,7 @@ namespace PhpSpec\Process\Shutdown;
 use PhpSpec\Formatter\FatalPresenter;
 use PhpSpec\Message\CurrentExampleTracker;
 
-final class UpdateConsoleAction implements ShutdownActionInterface
+final class UpdateConsoleAction implements ShutdownAction
 {
     /**
      * @var CurrentExampleTracker
@@ -24,7 +24,7 @@ final class UpdateConsoleAction implements ShutdownActionInterface
     private $currentExample;
 
     /**
-     * @var CurrentExampleWriter
+     * @var FatalPresenter
      */
     private $currentExampleWriter;
 
@@ -34,7 +34,7 @@ final class UpdateConsoleAction implements ShutdownActionInterface
         $this->currentExampleWriter = $currentExampleWriter;
     }
 
-    public function runAction($error)
+    public function runAction($error): void
     {
         $this->currentExampleWriter->displayFatal($this->currentExample, $error);
     }

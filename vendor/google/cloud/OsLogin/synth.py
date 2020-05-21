@@ -14,25 +14,26 @@
 
 """This script is used to synthesize generated parts of this library."""
 
-import os
 import synthtool as s
 import synthtool.gcp as gcp
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
 
-gapic = gcp.GAPICGenerator()
+gapic = gcp.GAPICBazel()
 common = gcp.CommonTemplates()
 
 v1beta = gapic.php_library(
     service='oslogin',
     version='v1beta',
-    artman_output_name='google-cloud-os-login-v1beta')
+    bazel_target='//google/cloud/oslogin/v1beta:google-cloud-oslogin-v1beta-php'
+)
 
 v1 = gapic.php_library(
     service='oslogin',
     version='v1',
-    artman_output_name='google-cloud-os-login-v1')
+    bazel_target='//google/cloud/oslogin/v1:google-cloud-oslogin-v1-php'
+)
 
 # copy all src
 s.move(v1beta / f'src/V1beta')
@@ -66,6 +67,12 @@ s.replace(
     "**/Gapic/*GapicClient.php",
     r"\$transportConfig, and any \$serviceAddress",
     r"$transportConfig, and any `$apiEndpoint`")
+
+# V1 is GA, so remove @experimental tags
+s.replace(
+    'src/V1/**/*Client.php',
+    r'^(\s+\*\n)?\s+\*\s@experimental\n',
+    '')
 
 # fix copyright year
 s.replace(
@@ -109,3 +116,10 @@ s.replace(
 )
 
 ### [END] protoc backwards compatibility fixes
+
+# fix relative cloud.google.com links
+s.replace(
+    "src/**/V*/**/*.php",
+    r"(.{0,})\]\((/.{0,})\)",
+    r"\1](https://cloud.google.com\2)"
+)

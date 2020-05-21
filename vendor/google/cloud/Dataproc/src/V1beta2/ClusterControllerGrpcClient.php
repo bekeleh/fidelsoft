@@ -96,7 +96,7 @@ class ClusterControllerGrpcClient extends \Grpc\BaseStub {
     }
 
     /**
-     * Lists all regions/{region}/clusters in a project.
+     * Lists all regions/{region}/clusters in a project alphabetically.
      * @param \Google\Cloud\Dataproc\V1beta2\ListClustersRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options
@@ -116,7 +116,7 @@ class ClusterControllerGrpcClient extends \Grpc\BaseStub {
      * After the operation completes,
      * [Operation.response][google.longrunning.Operation.response]
      * contains
-     * [Empty](google.protobuf.Empty).
+     * [Empty][google.protobuf.Empty].
      * @param \Google\Cloud\Dataproc\V1beta2\DiagnoseClusterRequest $argument input argument
      * @param array $metadata metadata
      * @param array $options call options

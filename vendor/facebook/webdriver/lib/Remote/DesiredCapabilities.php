@@ -1,4 +1,17 @@
 <?php
+// Copyright 2004-present Facebook. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 namespace Facebook\WebDriver\Remote;
 
@@ -12,34 +25,14 @@ use Facebook\WebDriver\WebDriverPlatform;
 
 class DesiredCapabilities implements WebDriverCapabilities
 {
-    /** @var array */
+    /**
+     * @var array
+     */
     private $capabilities;
-
-    /** @var array */
-    private static $ossToW3c = [
-        WebDriverCapabilityType::PLATFORM => 'platformName',
-        WebDriverCapabilityType::VERSION => 'browserVersion',
-        WebDriverCapabilityType::ACCEPT_SSL_CERTS => 'acceptInsecureCerts',
-        ChromeOptions::CAPABILITY => ChromeOptions::CAPABILITY_W3C,
-    ];
 
     public function __construct(array $capabilities = [])
     {
         $this->capabilities = $capabilities;
-    }
-
-    public static function createFromW3cCapabilities(array $capabilities = [])
-    {
-        $w3cToOss = array_flip(static::$ossToW3c);
-
-        foreach ($w3cToOss as $w3cCapability => $ossCapability) {
-            // Copy W3C capabilities to OSS ones
-            if (array_key_exists($w3cCapability, $capabilities)) {
-                $capabilities[$ossCapability] = $capabilities[$w3cCapability];
-            }
-        }
-
-        return new self($capabilities);
     }
 
     /**
@@ -183,77 +176,6 @@ class DesiredCapabilities implements WebDriverCapabilities
         }
 
         return $this->capabilities;
-    }
-
-    /**
-     * @return array
-     */
-    public function toW3cCompatibleArray()
-    {
-        $allowedW3cCapabilities = [
-            'browserName',
-            'browserVersion',
-            'platformName',
-            'acceptInsecureCerts',
-            'pageLoadStrategy',
-            'proxy',
-            'setWindowRect',
-            'timeouts',
-            'strictFileInteractability',
-            'unhandledPromptBehavior',
-        ];
-
-        $ossCapabilities = $this->toArray();
-        $w3cCapabilities = [];
-
-        foreach ($ossCapabilities as $capabilityKey => $capabilityValue) {
-            // Copy already W3C compatible capabilities
-            if (in_array($capabilityKey, $allowedW3cCapabilities, true)) {
-                $w3cCapabilities[$capabilityKey] = $capabilityValue;
-            }
-
-            // Convert capabilities with changed name
-            if (array_key_exists($capabilityKey, static::$ossToW3c)) {
-                if ($capabilityKey === WebDriverCapabilityType::PLATFORM) {
-                    $w3cCapabilities[static::$ossToW3c[$capabilityKey]] = mb_strtolower($capabilityValue);
-
-                    // Remove platformName if it is set to "any"
-                    if ($w3cCapabilities[static::$ossToW3c[$capabilityKey]] === 'any') {
-                        unset($w3cCapabilities[static::$ossToW3c[$capabilityKey]]);
-                    }
-                } else {
-                    $w3cCapabilities[static::$ossToW3c[$capabilityKey]] = $capabilityValue;
-                }
-            }
-
-            // Copy vendor extensions
-            if (mb_strpos($capabilityKey, ':') !== false) {
-                $w3cCapabilities[$capabilityKey] = $capabilityValue;
-            }
-        }
-
-        // Convert ChromeOptions
-        if (array_key_exists(ChromeOptions::CAPABILITY, $ossCapabilities)) {
-            if (array_key_exists(ChromeOptions::CAPABILITY_W3C, $ossCapabilities)) {
-                $w3cCapabilities[ChromeOptions::CAPABILITY_W3C] = array_merge_recursive(
-                    $ossCapabilities[ChromeOptions::CAPABILITY],
-                    $ossCapabilities[ChromeOptions::CAPABILITY_W3C]
-                );
-            } else {
-                $w3cCapabilities[ChromeOptions::CAPABILITY_W3C] = $ossCapabilities[ChromeOptions::CAPABILITY];
-            }
-        }
-
-        // Convert Firefox profile
-        if (array_key_exists(FirefoxDriver::PROFILE, $ossCapabilities)) {
-            // Convert profile only if not already set in moz:firefoxOptions
-            if (!array_key_exists('moz:firefoxOptions', $ossCapabilities)
-                || !array_key_exists('profile', $ossCapabilities['moz:firefoxOptions'])) {
-                $w3cCapabilities['moz:firefoxOptions']['profile'] = $ossCapabilities[FirefoxDriver::PROFILE];
-            }
-        }
-
-        return $w3cCapabilities;
     }
 
     /**

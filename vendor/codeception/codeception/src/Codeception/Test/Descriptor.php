@@ -32,22 +32,15 @@ class Descriptor
      */
     public static function getTestSignatureUnique(\PHPUnit\Framework\SelfDescribing $testCase)
     {
-        $env     = '';
-        $example = '';
-
-        if (method_exists($testCase, 'getScenario')
-            && !empty($testCase->getScenario()->current('env'))
-        ) {
-            $env = ':' . $testCase->getScenario()->current('env');
-        }
+        $example = null;
 
         if (method_exists($testCase, 'getMetaData')
-            && !empty($testCase->getMetadata()->getCurrent('example'))
+            && $example = $testCase->getMetadata()->getCurrent('example')
         ) {
-            $example = ':' . substr(sha1(json_encode($testCase->getMetadata()->getCurrent('example'))), 0, 7);
+            $example = ':' . substr(sha1(json_encode($example)), 0, 7);
         }
 
-        return self::getTestSignature($testCase) . $env . $example;
+        return self::getTestSignature($testCase) . $example;
     }
 
     public static function getTestAsString(\PHPUnit\Framework\SelfDescribing $testCase)

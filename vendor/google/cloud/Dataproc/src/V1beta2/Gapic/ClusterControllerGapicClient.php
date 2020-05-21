@@ -664,7 +664,7 @@ class ClusterControllerGapicClient
     }
 
     /**
-     * Lists all regions/{region}/clusters in a project.
+     * Lists all regions/{region}/clusters in a project alphabetically.
      *
      * Sample code:
      * ```
@@ -770,7 +770,7 @@ class ClusterControllerGapicClient
      * After the operation completes,
      * [Operation.response][google.longrunning.Operation.response]
      * contains
-     * [Empty](https://cloud.google.comgoogle.protobuf.Empty).
+     * [Empty][google.protobuf.Empty].
      *
      * Sample code:
      * ```

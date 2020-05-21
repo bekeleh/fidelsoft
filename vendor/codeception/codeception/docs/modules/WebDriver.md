@@ -45,10 +45,10 @@ To run tests in Chrome browser you may connect to ChromeDriver directly, without
              port: 9515
              browser: chrome
              capabilities:
-                 "goog:chromeOptions": # additional chrome options
+                 chromeOptions: # additional chrome options
 ```
 
-Additional [Chrome options](https://sites.google.com/a/chromium.org/chromedriver/capabilities) can be set in `goog:chromeOptions` capabilities. Note that Selenium 3.8 renamed this capability from `chromeOptions` to `goog:chromeOptions`.
+Additional [Chrome options](https://sites.google.com/a/chromium.org/chromedriver/capabilities) can be set in `chromeOptions` capabilities.
 
 
 ### PhantomJS
@@ -649,7 +649,7 @@ Can't be used with PhantomJS
  
 Print out latest Selenium Logs in debug mode
 
- * `param \Codeception\TestInterface` $test
+ * `param TestInterface` $test
 
 
 ### deleteSessionSnapshot
@@ -738,7 +738,7 @@ Checks that current url doesn't match the given regular expression.
 ``` php
 <?php
 // to match root url
-$I->dontSeeCurrentUrlMatches('~^/users/(\d+)~');
+$I->dontSeeCurrentUrlMatches('~$/users/(\d+)~');
 ?>
 ```
 
@@ -1043,7 +1043,7 @@ If no parameters are provided, the full URI is returned.
 
 ``` php
 <?php
-$user_id = $I->grabFromCurrentUrl('~^/user/(\d+)/~');
+$user_id = $I->grabFromCurrentUrl('~$/user/(\d+)/~');
 $uri = $I->grabFromCurrentUrl();
 ?>
 ```
@@ -1441,7 +1441,7 @@ Checks that the current URL matches the given regular expression.
 ``` php
 <?php
 // to match root url
-$I->seeCurrentUrlMatches('~^/users/(\d+)~');
+$I->seeCurrentUrlMatches('~$/users/(\d+)~');
 ?>
 ```
 
@@ -2064,23 +2064,6 @@ $I->waitForElementChange('#menu', function(WebDriverElement $el) {
 @throws \Codeception\Exception\ElementNotFound
 
 
-### waitForElementClickable
- 
-Waits up to $timeout seconds for the given element to be clickable.
-If element doesn't become clickable, a timeout exception is thrown.
-
-``` php
-<?php
-$I->waitForElementClickable('#agree_button', 30); // secs
-$I->click('#agree_button');
-?>
-```
-
- * `param` $element
- * `param int` $timeout seconds
-@throws \Exception
-
-
 ### waitForElementNotVisible
  
 Waits up to $timeout seconds for the given element to become invisible.
@@ -2150,4 +2133,4 @@ $I->waitForText('foo', 30, '.title'); // secs
  * `param string` $selector optional
 @throws \Exception
 
-<p>&nbsp;</p><div class="alert alert-warning">Module reference is taken from the source code. <a href="https://github.com/Codeception/Codeception/tree/2.5/src/Codeception/Module/WebDriver.php">Help us to improve documentation. Edit module reference</a></div>
+<p>&nbsp;</p><div class="alert alert-warning">Module reference is taken from the source code. <a href="https://github.com/Codeception/Codeception/tree/2.4/src/Codeception/Module/WebDriver.php">Help us to improve documentation. Edit module reference</a></div>

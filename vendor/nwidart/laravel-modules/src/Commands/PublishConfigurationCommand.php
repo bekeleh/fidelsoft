@@ -25,7 +25,7 @@ class PublishConfigurationCommand extends Command
     /**
      * Execute the console command.
      */
-    public function fire()
+    public function handle()
     {
         if ($module = $this->argument('module')) {
             $this->publishConfiguration($module);
@@ -33,7 +33,7 @@ class PublishConfigurationCommand extends Command
             return;
         }
 
-        foreach ($this->laravel['modules']->enabled() as $module) {
+        foreach ($this->laravel['modules']->allEnabled() as $module) {
             $this->publishConfiguration($module->getName());
         }
     }

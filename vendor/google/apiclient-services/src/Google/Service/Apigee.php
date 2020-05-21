@@ -19,11 +19,12 @@
  * Service definition for Apigee (v1).
  *
  * <p>
- * The Apigee API lets you programmatically manage Apigee Hybrid with a set of
+ * The Apigee API lets you programmatically manage Apigee hybrid with a set of
  * RESTful operations, including:  Create, edit, and delete API proxies  Manage
  * users  Deploy and undeploy proxy revisions  Configure environmentsFor
  * information on using the APIs described in this section, see Get started
- * using the APIs.</p>
+ * using the APIs.Note: This product is available as a free trial for a time
+ * period of 60 days.</p>
  *
  * <p>
  * For more information about this service, see the API
@@ -48,9 +49,6 @@ class Google_Service_Apigee extends Google_Service
   public $organizations_apis_revisions;
   public $organizations_apis_revisions_deployments;
   public $organizations_apps;
-  public $organizations_companies;
-  public $organizations_companies_apps;
-  public $organizations_companies_apps_keys;
   public $organizations_deployments;
   public $organizations_developers;
   public $organizations_developers_apps;
@@ -187,16 +185,6 @@ class Google_Service_Apigee extends Google_Service
                   'required' => true,
                 ),
               ),
-            ),'updateOrganization' => array(
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'POST',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
             ),
           )
         )
@@ -246,14 +234,6 @@ class Google_Service_Apigee extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'query' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'entity' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
               ),
             ),'list' => array(
               'path' => 'v1/{+parent}/apiproducts',
@@ -268,11 +248,7 @@ class Google_Service_Apigee extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'count' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'startKey' => array(
+                'attributevalue' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -280,7 +256,11 @@ class Google_Service_Apigee extends Google_Service
                   'location' => 'query',
                   'type' => 'boolean',
                 ),
-                'attributevalue' => array(
+                'startKey' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'count' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -364,17 +344,17 @@ class Google_Service_Apigee extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'name' => array(
+                'validate' => array(
                   'location' => 'query',
-                  'type' => 'string',
+                  'type' => 'boolean',
                 ),
                 'action' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'validate' => array(
+                'name' => array(
                   'location' => 'query',
-                  'type' => 'boolean',
+                  'type' => 'string',
                 ),
               ),
             ),'delete' => array(
@@ -406,11 +386,11 @@ class Google_Service_Apigee extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'includeRevisions' => array(
+                'includeMetaData' => array(
                   'location' => 'query',
                   'type' => 'boolean',
                 ),
-                'includeMetaData' => array(
+                'includeRevisions' => array(
                   'location' => 'query',
                   'type' => 'boolean',
                 ),
@@ -465,16 +445,6 @@ class Google_Service_Apigee extends Google_Service
                   'required' => true,
                 ),
               ),
-            ),'list' => array(
-              'path' => 'v1/{+parent}/keyvaluemaps',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
             ),
           )
         )
@@ -507,16 +477,6 @@ class Google_Service_Apigee extends Google_Service
                 'format' => array(
                   'location' => 'query',
                   'type' => 'string',
-                ),
-              ),
-            ),'list' => array(
-              'path' => 'v1/{+parent}/revisions',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
                 ),
               ),
             ),'updateApiProxyRevision' => array(
@@ -582,19 +542,11 @@ class Google_Service_Apigee extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'apptype' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
                 'expand' => array(
                   'location' => 'query',
                   'type' => 'boolean',
                 ),
-                'keyStatus' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'ids' => array(
+                'startKey' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -602,215 +554,27 @@ class Google_Service_Apigee extends Google_Service
                   'location' => 'query',
                   'type' => 'boolean',
                 ),
-                'rows' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'apiProduct' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'startKey' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
                 'status' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
-              ),
-            ),
-          )
-        )
-    );
-    $this->organizations_companies = new Google_Service_Apigee_Resource_OrganizationsCompanies(
-        $this,
-        $this->serviceName,
-        'companies',
-        array(
-          'methods' => array(
-            'create' => array(
-              'path' => 'v1/{+parent}/companies',
-              'httpMethod' => 'POST',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'delete' => array(
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'DELETE',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'get' => array(
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'list' => array(
-              'path' => 'v1/{+parent}/companies',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'includeDevelopers' => array(
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ),
-                'startKey' => array(
+                'rows' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'count' => array(
+                'ids' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'expand' => array(
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ),
-              ),
-            ),'update' => array(
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'PUT',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'action' => array(
+                'keyStatus' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
-              ),
-            ),
-          )
-        )
-    );
-    $this->organizations_companies_apps = new Google_Service_Apigee_Resource_OrganizationsCompaniesApps(
-        $this,
-        $this->serviceName,
-        'apps',
-        array(
-          'methods' => array(
-            'create' => array(
-              'path' => 'v1/{+parent}/apps',
-              'httpMethod' => 'POST',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'delete' => array(
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'DELETE',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'get' => array(
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'list' => array(
-              'path' => 'v1/{+parent}/apps',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'count' => array(
+                'apptype' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'expand' => array(
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ),
-                'startKey' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-              ),
-            ),'update' => array(
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'PUT',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),
-          )
-        )
-    );
-    $this->organizations_companies_apps_keys = new Google_Service_Apigee_Resource_OrganizationsCompaniesAppsKeys(
-        $this,
-        $this->serviceName,
-        'keys',
-        array(
-          'methods' => array(
-            'delete' => array(
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'DELETE',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'get' => array(
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'updateCompanyAppKey' => array(
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'POST',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'action' => array(
+                'apiProduct' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -902,23 +666,23 @@ class Google_Service_Apigee extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'startKey' => array(
+                'includeCompany' => array(
                   'location' => 'query',
-                  'type' => 'string',
+                  'type' => 'boolean',
                 ),
                 'expand' => array(
                   'location' => 'query',
                   'type' => 'boolean',
                 ),
-                'ids' => array(
+                'startKey' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'includeCompany' => array(
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ),
                 'count' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'ids' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -1032,6 +796,10 @@ class Google_Service_Apigee extends Google_Service
                   'location' => 'query',
                   'type' => 'boolean',
                 ),
+                'expand' => array(
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ),
                 'startKey' => array(
                   'location' => 'query',
                   'type' => 'string',
@@ -1039,10 +807,6 @@ class Google_Service_Apigee extends Google_Service
                 'count' => array(
                   'location' => 'query',
                   'type' => 'string',
-                ),
-                'expand' => array(
-                  'location' => 'query',
-                  'type' => 'boolean',
                 ),
               ),
             ),'update' => array(
@@ -1317,32 +1081,6 @@ class Google_Service_Apigee extends Google_Service
                   'required' => true,
                 ),
               ),
-            ),'getDatalocation' => array(
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'repo' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'contentType' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'relativeFilePath' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'dataset' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-              ),
             ),'getDebugmask' => array(
               'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
@@ -1375,16 +1113,6 @@ class Google_Service_Apigee extends Google_Service
                 'options.requestedPolicyVersion' => array(
                   'location' => 'query',
                   'type' => 'integer',
-                ),
-              ),
-            ),'list' => array(
-              'path' => 'v1/{+parent}/environments',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
                 ),
               ),
             ),'setIamPolicy' => array(
@@ -1573,6 +1301,16 @@ class Google_Service_Apigee extends Google_Service
                   'required' => true,
                 ),
               ),
+            ),'get' => array(
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => array(
+                'name' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
             ),'list' => array(
               'path' => 'v1/{+parent}/debugsessions',
               'httpMethod' => 'GET',
@@ -1603,20 +1341,6 @@ class Google_Service_Apigee extends Google_Service
                   'required' => true,
                 ),
               ),
-            ),'list' => array(
-              'path' => 'v1/{+parent}/data',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'limit' => array(
-                  'location' => 'query',
-                  'type' => 'integer',
-                ),
-              ),
             ),
           )
         )
@@ -1632,16 +1356,6 @@ class Google_Service_Apigee extends Google_Service
               'httpMethod' => 'DELETE',
               'parameters' => array(
                 'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'list' => array(
-              'path' => 'v1/{+parent}/caches',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'parent' => array(
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
@@ -1711,16 +1425,6 @@ class Google_Service_Apigee extends Google_Service
                   'required' => true,
                 ),
               ),
-            ),'list' => array(
-              'path' => 'v1/{+parent}/flowhooks',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
             ),
           )
         )
@@ -1765,16 +1469,6 @@ class Google_Service_Apigee extends Google_Service
                   'required' => true,
                 ),
               ),
-            ),'list' => array(
-              'path' => 'v1/{+parent}/keystores',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
             ),
           )
         )
@@ -1794,15 +1488,15 @@ class Google_Service_Apigee extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'ignoreNewlineValidation' => array(
+                'alias' => array(
                   'location' => 'query',
-                  'type' => 'boolean',
+                  'type' => 'string',
                 ),
                 'ignoreExpiryValidation' => array(
                   'location' => 'query',
                   'type' => 'boolean',
                 ),
-                'alias' => array(
+                '_password' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -1810,9 +1504,9 @@ class Google_Service_Apigee extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                '_password' => array(
+                'ignoreNewlineValidation' => array(
                   'location' => 'query',
-                  'type' => 'string',
+                  'type' => 'boolean',
                 ),
               ),
             ),'csr' => array(
@@ -1855,16 +1549,6 @@ class Google_Service_Apigee extends Google_Service
                   'required' => true,
                 ),
               ),
-            ),'list' => array(
-              'path' => 'v1/{+parent}/aliases',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
             ),'update' => array(
               'path' => 'v1/{+name}',
               'httpMethod' => 'PUT',
@@ -1874,11 +1558,11 @@ class Google_Service_Apigee extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'ignoreExpiryValidation' => array(
+                'ignoreNewlineValidation' => array(
                   'location' => 'query',
                   'type' => 'boolean',
                 ),
-                'ignoreNewlineValidation' => array(
+                'ignoreExpiryValidation' => array(
                   'location' => 'query',
                   'type' => 'boolean',
                 ),
@@ -1913,16 +1597,6 @@ class Google_Service_Apigee extends Google_Service
                   'required' => true,
                 ),
               ),
-            ),'list' => array(
-              'path' => 'v1/{+parent}/keyvaluemaps',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
             ),
           )
         )
@@ -1942,7 +1616,27 @@ class Google_Service_Apigee extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
+                'limit' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'timeRange' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'realtime' => array(
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ),
                 'sort' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'filter' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'timeUnit' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -1950,11 +1644,11 @@ class Google_Service_Apigee extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'tsAscending' => array(
+                'sortby' => array(
                   'location' => 'query',
-                  'type' => 'boolean',
+                  'type' => 'string',
                 ),
-                'timeRange' => array(
+                'offset' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -1962,11 +1656,7 @@ class Google_Service_Apigee extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'limit' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'offset' => array(
+                'tzo' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -1978,29 +1668,13 @@ class Google_Service_Apigee extends Google_Service
                   'location' => 'query',
                   'type' => 'boolean',
                 ),
-                'realtime' => array(
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ),
-                'tzo' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'sortby' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'filter' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
                 'aggTable' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'timeUnit' => array(
+                'tsAscending' => array(
                   'location' => 'query',
-                  'type' => 'string',
+                  'type' => 'boolean',
                 ),
               ),
             ),
@@ -2043,16 +1717,6 @@ class Google_Service_Apigee extends Google_Service
                   'required' => true,
                 ),
               ),
-            ),'getResultView' => array(
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
             ),'list' => array(
               'path' => 'v1/{+parent}/queries',
               'httpMethod' => 'GET',
@@ -2062,7 +1726,7 @@ class Google_Service_Apigee extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'to' => array(
+                'submittedBy' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -2070,15 +1734,15 @@ class Google_Service_Apigee extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'dataset' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'submittedBy' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
                 'from' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'to' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'dataset' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -2127,16 +1791,6 @@ class Google_Service_Apigee extends Google_Service
                   'required' => true,
                 ),
               ),
-            ),'list' => array(
-              'path' => 'v1/{+parent}/references',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
             ),'update' => array(
               'path' => 'v1/{+name}',
               'httpMethod' => 'PUT',
@@ -2176,7 +1830,7 @@ class Google_Service_Apigee extends Google_Service
                 ),
               ),
             ),'delete' => array(
-              'path' => 'v1/{+parent}/resourcefiles/{type}/{resourceFileId}',
+              'path' => 'v1/{+parent}/resourcefiles/{type}/{name}',
               'httpMethod' => 'DELETE',
               'parameters' => array(
                 'parent' => array(
@@ -2189,14 +1843,14 @@ class Google_Service_Apigee extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'resourceFileId' => array(
+                'name' => array(
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
                 ),
               ),
             ),'get' => array(
-              'path' => 'v1/{+parent}/resourcefiles/{type}/{resourceFileId}',
+              'path' => 'v1/{+parent}/resourcefiles/{type}/{name}',
               'httpMethod' => 'GET',
               'parameters' => array(
                 'parent' => array(
@@ -2209,7 +1863,7 @@ class Google_Service_Apigee extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'resourceFileId' => array(
+                'name' => array(
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
@@ -2245,7 +1899,7 @@ class Google_Service_Apigee extends Google_Service
                 ),
               ),
             ),'update' => array(
-              'path' => 'v1/{+parent}/resourcefiles/{type}/{resourceFileId}',
+              'path' => 'v1/{+parent}/resourcefiles/{type}/{name}',
               'httpMethod' => 'PUT',
               'parameters' => array(
                 'parent' => array(
@@ -2258,7 +1912,7 @@ class Google_Service_Apigee extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'resourceFileId' => array(
+                'name' => array(
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
@@ -2333,51 +1987,15 @@ class Google_Service_Apigee extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'sort' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'topk' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'tsAscending' => array(
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ),
                 'timeRange' => array(
                   'location' => 'query',
                   'type' => 'string',
-                ),
-                'select' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'limit' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'offset' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'accuracy' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'sonar' => array(
-                  'location' => 'query',
-                  'type' => 'boolean',
                 ),
                 'realtime' => array(
                   'location' => 'query',
                   'type' => 'boolean',
                 ),
-                'tzo' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'sortby' => array(
+                'sort' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -2389,7 +2007,43 @@ class Google_Service_Apigee extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
+                'topk' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'offset' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'sortby' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'select' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'tzo' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'accuracy' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'sonar' => array(
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ),
                 'aggTable' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'tsAscending' => array(
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ),
+                'limit' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -2438,16 +2092,6 @@ class Google_Service_Apigee extends Google_Service
                   'required' => true,
                 ),
               ),
-            ),'list' => array(
-              'path' => 'v1/{+parent}/targetservers',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
             ),'update' => array(
               'path' => 'v1/{+name}',
               'httpMethod' => 'PUT',
@@ -2488,16 +2132,6 @@ class Google_Service_Apigee extends Google_Service
                   'required' => true,
                 ),
               ),
-            ),'list' => array(
-              'path' => 'v1/{+parent}/keyvaluemaps',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
             ),
           )
         )
@@ -2508,27 +2142,7 @@ class Google_Service_Apigee extends Google_Service
         'operations',
         array(
           'methods' => array(
-            'cancel' => array(
-              'path' => 'v1/{+name}:cancel',
-              'httpMethod' => 'POST',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'delete' => array(
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'DELETE',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'get' => array(
+            'get' => array(
               'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => array(
@@ -2547,7 +2161,7 @@ class Google_Service_Apigee extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'pageToken' => array(
+                'filter' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -2555,7 +2169,7 @@ class Google_Service_Apigee extends Google_Service
                   'location' => 'query',
                   'type' => 'integer',
                 ),
-                'filter' => array(
+                'pageToken' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -2681,11 +2295,11 @@ class Google_Service_Apigee extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'includeRevisions' => array(
+                'includeMetaData' => array(
                   'location' => 'query',
                   'type' => 'boolean',
                 ),
-                'includeMetaData' => array(
+                'includeRevisions' => array(
                   'location' => 'query',
                   'type' => 'boolean',
                 ),
@@ -2742,16 +2356,6 @@ class Google_Service_Apigee extends Google_Service
                 'format' => array(
                   'location' => 'query',
                   'type' => 'string',
-                ),
-              ),
-            ),'list' => array(
-              'path' => 'v1/{+parent}/revisions',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'parent' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
                 ),
               ),
             ),'updateSharedFlowRevision' => array(

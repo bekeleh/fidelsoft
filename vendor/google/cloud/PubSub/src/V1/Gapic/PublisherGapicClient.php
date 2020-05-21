@@ -44,6 +44,8 @@ use Google\Cloud\Iam\V1\TestIamPermissionsRequest;
 use Google\Cloud\Iam\V1\TestIamPermissionsResponse;
 use Google\Cloud\PubSub\V1\DeleteTopicRequest;
 use Google\Cloud\PubSub\V1\GetTopicRequest;
+use Google\Cloud\PubSub\V1\ListTopicSnapshotsRequest;
+use Google\Cloud\PubSub\V1\ListTopicSnapshotsResponse;
 use Google\Cloud\PubSub\V1\ListTopicSubscriptionsRequest;
 use Google\Cloud\PubSub\V1\ListTopicSubscriptionsResponse;
 use Google\Cloud\PubSub\V1\ListTopicsRequest;
@@ -67,7 +69,7 @@ use Google\Protobuf\GPBEmpty;
  * ```
  * $publisherClient = new PublisherClient();
  * try {
- *     $formattedName = $publisherClient->topicName('[PROJECT]', '[TOPIC]');
+ *     $formattedName = $publisherClient->projectTopicName('[PROJECT]', '[TOPIC]');
  *     $response = $publisherClient->createTopic($formattedName);
  * } finally {
  *     $publisherClient->close();
@@ -113,6 +115,7 @@ class PublisherGapicClient
         'https://www.googleapis.com/auth/pubsub',
     ];
     private static $projectNameTemplate;
+    private static $projectTopicNameTemplate;
     private static $topicNameTemplate;
     private static $pathTemplateMap;
 
@@ -144,6 +147,15 @@ class PublisherGapicClient
         return self::$projectNameTemplate;
     }
 
+    private static function getProjectTopicNameTemplate()
+    {
+        if (null == self::$projectTopicNameTemplate) {
+            self::$projectTopicNameTemplate = new PathTemplate('projects/{project}/topics/{topic}');
+        }
+
+        return self::$projectTopicNameTemplate;
+    }
+
     private static function getTopicNameTemplate()
     {
         if (null == self::$topicNameTemplate) {
@@ -158,6 +170,7 @@ class PublisherGapicClient
         if (null == self::$pathTemplateMap) {
             self::$pathTemplateMap = [
                 'project' => self::getProjectNameTemplate(),
+                'projectTopic' => self::getProjectTopicNameTemplate(),
                 'topic' => self::getTopicNameTemplate(),
             ];
         }
@@ -178,6 +191,24 @@ class PublisherGapicClient
     {
         return self::getProjectNameTemplate()->render([
             'project' => $project,
+        ]);
+    }
+
+    /**
+     * Formats a string containing the fully-qualified path to represent
+     * a project_topic resource.
+     *
+     * @param string $project
+     * @param string $topic
+     *
+     * @return string The formatted project_topic resource.
+     * @experimental
+     */
+    public static function projectTopicName($project, $topic)
+    {
+        return self::getProjectTopicNameTemplate()->render([
+            'project' => $project,
+            'topic' => $topic,
         ]);
     }
 
@@ -204,6 +235,7 @@ class PublisherGapicClient
      * The following name formats are supported:
      * Template: Pattern
      * - project: projects/{project}
+     * - projectTopic: projects/{project}/topics/{topic}
      * - topic: projects/{project}/topics/{topic}.
      *
      * The optional $template argument can be supplied to specify a particular pattern, and must
@@ -311,14 +343,14 @@ class PublisherGapicClient
      * ```
      * $publisherClient = new PublisherClient();
      * try {
-     *     $formattedName = $publisherClient->topicName('[PROJECT]', '[TOPIC]');
+     *     $formattedName = $publisherClient->projectTopicName('[PROJECT]', '[TOPIC]');
      *     $response = $publisherClient->createTopic($formattedName);
      * } finally {
      *     $publisherClient->close();
      * }
      * ```
      *
-     * @param string $name         The name of the topic. It must have the format
+     * @param string $name         Required. The name of the topic. It must have the format
      *                             `"projects/{project}/topics/{topic}"`. `{topic}` must start with a letter,
      *                             and contain only letters (`[A-Za-z]`), numbers (`[0-9]`), dashes (`-`),
      *                             underscores (`_`), periods (`.`), tildes (`~`), plus (`+`) or percent
@@ -396,12 +428,12 @@ class PublisherGapicClient
      * }
      * ```
      *
-     * @param Topic     $topic        The updated topic object.
-     * @param FieldMask $updateMask   Indicates which fields in the provided topic to update. Must be specified
-     *                                and non-empty. Note that if `update_mask` contains
-     *                                "message_storage_policy" then the new value will be determined based on the
-     *                                policy configured at the project or organization level. The
-     *                                `message_storage_policy` must not be set in the `topic` provided above.
+     * @param Topic     $topic        Required. The updated topic object.
+     * @param FieldMask $updateMask   Required. Indicates which fields in the provided topic to update. Must be
+     *                                specified and non-empty. Note that if `update_mask` contains
+     *                                "message_storage_policy" but the `message_storage_policy` is not set in
+     *                                the `topic` provided above, then the updated value is determined by the
+     *                                policy configured at the project or organization level.
      * @param array     $optionalArgs {
      *                                Optional.
      *
@@ -446,7 +478,7 @@ class PublisherGapicClient
      * ```
      * $publisherClient = new PublisherClient();
      * try {
-     *     $formattedTopic = $publisherClient->topicName('[PROJECT]', '[TOPIC]');
+     *     $formattedTopic = $publisherClient->projectTopicName('[PROJECT]', '[TOPIC]');
      *     $data = '';
      *     $messagesElement = new PubsubMessage();
      *     $messagesElement->setData($data);
@@ -457,9 +489,9 @@ class PublisherGapicClient
      * }
      * ```
      *
-     * @param string          $topic        The messages in the request will be published on this topic.
+     * @param string          $topic        Required. The messages in the request will be published on this topic.
      *                                      Format is `projects/{project}/topics/{topic}`.
-     * @param PubsubMessage[] $messages     The messages to publish.
+     * @param PubsubMessage[] $messages     Required. The messages to publish.
      * @param array           $optionalArgs {
      *                                      Optional.
      *
@@ -503,14 +535,14 @@ class PublisherGapicClient
      * ```
      * $publisherClient = new PublisherClient();
      * try {
-     *     $formattedTopic = $publisherClient->topicName('[PROJECT]', '[TOPIC]');
+     *     $formattedTopic = $publisherClient->projectTopicName('[PROJECT]', '[TOPIC]');
      *     $response = $publisherClient->getTopic($formattedTopic);
      * } finally {
      *     $publisherClient->close();
      * }
      * ```
      *
-     * @param string $topic        The name of the topic to get.
+     * @param string $topic        Required. The name of the topic to get.
      *                             Format is `projects/{project}/topics/{topic}`.
      * @param array  $optionalArgs {
      *                             Optional.
@@ -576,7 +608,7 @@ class PublisherGapicClient
      * }
      * ```
      *
-     * @param string $project      The name of the project in which to list topics.
+     * @param string $project      Required. The name of the project in which to list topics.
      *                             Format is `projects/{project-id}`.
      * @param array  $optionalArgs {
      *                             Optional.
@@ -635,7 +667,7 @@ class PublisherGapicClient
      * ```
      * $publisherClient = new PublisherClient();
      * try {
-     *     $formattedTopic = $publisherClient->topicName('[PROJECT]', '[TOPIC]');
+     *     $formattedTopic = $publisherClient->projectTopicName('[PROJECT]', '[TOPIC]');
      *     // Iterate over pages of elements
      *     $pagedResponse = $publisherClient->listTopicSubscriptions($formattedTopic);
      *     foreach ($pagedResponse->iteratePages() as $page) {
@@ -657,7 +689,7 @@ class PublisherGapicClient
      * }
      * ```
      *
-     * @param string $topic        The name of the topic that subscriptions are attached to.
+     * @param string $topic        Required. The name of the topic that subscriptions are attached to.
      *                             Format is `projects/{project}/topics/{topic}`.
      * @param array  $optionalArgs {
      *                             Optional.
@@ -710,6 +742,92 @@ class PublisherGapicClient
     }
 
     /**
+     * Lists the names of the snapshots on this topic. Snapshots are used in
+     * <a href="https://cloud.google.com/pubsub/docs/replay-overview">Seek</a>
+     * operations, which allow
+     * you to manage message acknowledgments in bulk. That is, you can set the
+     * acknowledgment state of messages in an existing subscription to the state
+     * captured by a snapshot.
+     *
+     * Sample code:
+     * ```
+     * $publisherClient = new PublisherClient();
+     * try {
+     *     $formattedTopic = $publisherClient->projectTopicName('[PROJECT]', '[TOPIC]');
+     *     // Iterate over pages of elements
+     *     $pagedResponse = $publisherClient->listTopicSnapshots($formattedTopic);
+     *     foreach ($pagedResponse->iteratePages() as $page) {
+     *         foreach ($page as $element) {
+     *             // doSomethingWith($element);
+     *         }
+     *     }
+     *
+     *
+     *     // Alternatively:
+     *
+     *     // Iterate through all elements
+     *     $pagedResponse = $publisherClient->listTopicSnapshots($formattedTopic);
+     *     foreach ($pagedResponse->iterateAllElements() as $element) {
+     *         // doSomethingWith($element);
+     *     }
+     * } finally {
+     *     $publisherClient->close();
+     * }
+     * ```
+     *
+     * @param string $topic        Required. The name of the topic that snapshots are attached to.
+     *                             Format is `projects/{project}/topics/{topic}`.
+     * @param array  $optionalArgs {
+     *                             Optional.
+     *
+     *     @type int $pageSize
+     *          The maximum number of resources contained in the underlying API
+     *          response. The API may return fewer values in a page, even if
+     *          there are additional values to be retrieved.
+     *     @type string $pageToken
+     *          A page token is used to specify a page of values to be returned.
+     *          If no page token is specified (the default), the first page
+     *          of values will be returned. Any page token used here must have
+     *          been generated by a previous call to the API.
+     *     @type RetrySettings|array $retrySettings
+     *          Retry settings to use for this call. Can be a
+     *          {@see Google\ApiCore\RetrySettings} object, or an associative array
+     *          of retry settings parameters. See the documentation on
+     *          {@see Google\ApiCore\RetrySettings} for example usage.
+     * }
+     *
+     * @return \Google\ApiCore\PagedListResponse
+     *
+     * @throws ApiException if the remote call fails
+     * @experimental
+     */
+    public function listTopicSnapshots($topic, array $optionalArgs = [])
+    {
+        $request = new ListTopicSnapshotsRequest();
+        $request->setTopic($topic);
+        if (isset($optionalArgs['pageSize'])) {
+            $request->setPageSize($optionalArgs['pageSize']);
+        }
+        if (isset($optionalArgs['pageToken'])) {
+            $request->setPageToken($optionalArgs['pageToken']);
+        }
+
+        $requestParams = new RequestParamsHeaderDescriptor([
+          'topic' => $request->getTopic(),
+        ]);
+        $optionalArgs['headers'] = isset($optionalArgs['headers'])
+            ? array_merge($requestParams->getHeader(), $optionalArgs['headers'])
+            : $requestParams->getHeader();
+
+        return $this->getPagedListResponse(
+            'ListTopicSnapshots',
+            $optionalArgs,
+            ListTopicSnapshotsResponse::class,
+            $request
+        );
+    }
+
+    /**
      * Deletes the topic with the given name. Returns `NOT_FOUND` if the topic
      * does not exist. After a topic is deleted, a new topic may be created with
      * the same name; this is an entirely new topic with none of the old
@@ -720,14 +838,14 @@ class PublisherGapicClient
      * ```
      * $publisherClient = new PublisherClient();
      * try {
-     *     $formattedTopic = $publisherClient->topicName('[PROJECT]', '[TOPIC]');
+     *     $formattedTopic = $publisherClient->projectTopicName('[PROJECT]', '[TOPIC]');
      *     $publisherClient->deleteTopic($formattedTopic);
      * } finally {
      *     $publisherClient->close();
      * }
      * ```
      *
-     * @param string $topic        Name of the topic to delete.
+     * @param string $topic        Required. Name of the topic to delete.
      *                             Format is `projects/{project}/topics/{topic}`.
      * @param array  $optionalArgs {
      *                             Optional.
@@ -763,16 +881,19 @@ class PublisherGapicClient
     }
 
     /**
-     * Sets the access control policy on the specified resource. Replaces any
-     * existing policy.
+     * Sets the access control policy on the specified resource. Replaces
+     * any existing policy.
+     *
+     * Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED`
+     * errors.
      *
      * Sample code:
      * ```
      * $publisherClient = new PublisherClient();
      * try {
-     *     $formattedResource = $publisherClient->topicName('[PROJECT]', '[TOPIC]');
+     *     $resource = '';
      *     $policy = new Policy();
-     *     $response = $publisherClient->setIamPolicy($formattedResource, $policy);
+     *     $response = $publisherClient->setIamPolicy($resource, $policy);
      * } finally {
      *     $publisherClient->close();
      * }
@@ -823,16 +944,15 @@ class PublisherGapicClient
     }
 
     /**
-     * Gets the access control policy for a resource.
-     * Returns an empty policy if the resource exists and does not have a policy
-     * set.
+     * Gets the access control policy for a resource. Returns an empty policy
+     * if the resource exists and does not have a policy set.
      *
      * Sample code:
      * ```
      * $publisherClient = new PublisherClient();
      * try {
-     *     $formattedResource = $publisherClient->topicName('[PROJECT]', '[TOPIC]');
-     *     $response = $publisherClient->getIamPolicy($formattedResource);
+     *     $resource = '';
+     *     $response = $publisherClient->getIamPolicy($resource);
      * } finally {
      *     $publisherClient->close();
      * }
@@ -884,21 +1004,21 @@ class PublisherGapicClient
     }
 
     /**
-     * Returns permissions that a caller has on the specified resource.
-     * If the resource does not exist, this will return an empty set of
-     * permissions, not a NOT_FOUND error.
+     * Returns permissions that a caller has on the specified resource. If the
+     * resource does not exist, this will return an empty set of
+     * permissions, not a `NOT_FOUND` error.
      *
-     * Note: This operation is designed to be used for building permission-aware
-     * UIs and command-line tools, not for authorization checking. This operation
-     * may "fail open" without warning.
+     * Note: This operation is designed to be used for building
+     * permission-aware UIs and command-line tools, not for authorization
+     * checking. This operation may "fail open" without warning.
      *
      * Sample code:
      * ```
      * $publisherClient = new PublisherClient();
      * try {
-     *     $formattedResource = $publisherClient->topicName('[PROJECT]', '[TOPIC]');
+     *     $resource = '';
      *     $permissions = [];
-     *     $response = $publisherClient->testIamPermissions($formattedResource, $permissions);
+     *     $response = $publisherClient->testIamPermissions($resource, $permissions);
      * } finally {
      *     $publisherClient->close();
      * }

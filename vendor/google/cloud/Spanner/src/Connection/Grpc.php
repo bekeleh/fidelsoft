@@ -20,18 +20,28 @@ namespace Google\Cloud\Spanner\Connection;
 use Google\ApiCore\Call;
 use Google\ApiCore\CredentialsWrapper;
 use Google\ApiCore\Serializer;
+use Google\Cloud\Core\EmulatorTrait;
 use Google\Cloud\Core\GrpcRequestWrapper;
 use Google\Cloud\Core\GrpcTrait;
 use Google\Cloud\Core\LongRunning\OperationResponseTrait;
+use Google\Cloud\Spanner\Admin\Database\V1\Backup;
+use Google\Cloud\Spanner\Admin\Database\V1\CreateBackupMetadata;
+use Google\Cloud\Spanner\Admin\Database\V1\CreateDatabaseMetadata;
 use Google\Cloud\Spanner\Admin\Database\V1\Database;
 use Google\Cloud\Spanner\Admin\Database\V1\DatabaseAdminClient;
+use Google\Cloud\Spanner\Admin\Database\V1\OptimizeRestoredDatabaseMetadata;
+use Google\Cloud\Spanner\Admin\Database\V1\RestoreDatabaseMetadata;
+use Google\Cloud\Spanner\Admin\Database\V1\UpdateDatabaseDdlMetadata;
+use Google\Cloud\Spanner\Admin\Instance\V1\CreateInstanceMetadata;
 use Google\Cloud\Spanner\Admin\Instance\V1\Instance;
 use Google\Cloud\Spanner\Admin\Instance\V1\InstanceAdminClient;
+use Google\Cloud\Spanner\Admin\Instance\V1\UpdateInstanceMetadata;
 use Google\Cloud\Spanner\Operation;
 use Google\Cloud\Spanner\SpannerClient as ManualSpannerClient;
 use Google\Cloud\Spanner\V1\CreateSessionRequest;
 use Google\Cloud\Spanner\V1\DeleteSessionRequest;
 use Google\Cloud\Spanner\V1\ExecuteBatchDmlRequest\Statement;
+use Google\Cloud\Spanner\V1\ExecuteSqlRequest\QueryOptions;
 use Google\Cloud\Spanner\V1\KeySet;
 use Google\Cloud\Spanner\V1\Mutation;
 use Google\Cloud\Spanner\V1\Mutation\Delete;
@@ -58,6 +68,7 @@ use GuzzleHttp\Promise\PromiseInterface;
  */
 class Grpc implements ConnectionInterface
 {
+    use EmulatorTrait;
     use GrpcTrait;
     use OperationResponseTrait;
 
@@ -84,6 +95,11 @@ class Grpc implements ConnectionInterface
     /**
      * @var array
      */
+    private $defaultQueryOptions;
+
+    /**
+     * @var array
+     */
     private $grpcConfig;
 
     /**
@@ -104,19 +120,55 @@ class Grpc implements ConnectionInterface
         [
             'method' => 'updateDatabaseDdl',
             'typeUrl' => 'type.googleapis.com/google.spanner.admin.database.v1.UpdateDatabaseDdlMetadata',
-            'message' => GPBEmpty::class
+            'message' => UpdateDatabaseDdlMetadata::class
         ], [
             'method' => 'createDatabase',
             'typeUrl' => 'type.googleapis.com/google.spanner.admin.database.v1.CreateDatabaseMetadata',
-            'message' => Database::class
+            'message' => CreateDatabaseMetadata::class
         ], [
             'method' => 'createInstance',
             'typeUrl' => 'type.googleapis.com/google.spanner.admin.instance.v1.CreateInstanceMetadata',
-            'message' => Instance::class
+            'message' => CreateInstanceMetadata::class
         ], [
             'method' => 'updateInstance',
             'typeUrl' => 'type.googleapis.com/google.spanner.admin.instance.v1.UpdateInstanceMetadata',
+            'message' => UpdateInstanceMetadata::class
+        ], [
+            'method' => 'createBackup',
+            'typeUrl' => 'type.googleapis.com/google.spanner.admin.database.v1.CreateBackupMetadata',
+            'message' => CreateBackupMetadata::class
+        ], [
+            'method' => 'restoreDatabase',
+            'typeUrl' => 'type.googleapis.com/google.spanner.admin.database.v1.RestoreDatabaseMetadata',
+            'message' => RestoreDatabaseMetadata::class
+        ], [
+            'method' => 'restoreDatabase',
+            'typeUrl' => 'type.googleapis.com/google.spanner.admin.database.v1.OptimizeRestoredDatabaseMetadata',
+            'message' => OptimizeRestoredDatabaseMetadata::class
+        ], [
+            'method' => 'updateDatabaseDdl',
+            'typeUrl' => 'type.googleapis.com/google.protobuf.Empty',
+            'message' => GPBEmpty::class
+        ], [
+            'method' => 'createDatabase',
+            'typeUrl' => 'type.googleapis.com/google.spanner.admin.database.v1.Database',
+            'message' => Database::class
+        ], [
+            'method' => 'createInstance',
+            'typeUrl' => 'type.googleapis.com/google.spanner.admin.instance.v1.Instance',
             'message' => Instance::class
+        ], [
+            'method' => 'updateInstance',
+            'typeUrl' => 'type.googleapis.com/google.spanner.admin.instance.v1.Instance',
+            'message' => Instance::class
+        ], [
+            'method' => 'createBackup',
+            'typeUrl' => 'type.googleapis.com/google.spanner.admin.database.v1.Backup',
+            'message' => Backup::class
+        ], [
+            'method' => 'restoreDatabase',
+            'typeUrl' => 'type.googleapis.com/google.spanner.admin.database.v1.Database',
+            'message' => Database::class
         ]
     ];
 
@@ -131,14 +183,7 @@ class Grpc implements ConnectionInterface
     public function __construct(array $config = [])
     {
         //@codeCoverageIgnoreStart
-        $this->serializer = new Serializer([
-            'commit_timestamp' => function ($v) {
-                return $this->formatTimestampFromApi($v);
-            },
-            'read_timestamp' => function ($v) {
-                return $this->formatTimestampFromApi($v);
-            }
-        ], [
+        $this->serializer = new Serializer([], [
             'google.protobuf.Value' => function ($v) {
                 return $this->flattenValue($v);
             },
@@ -148,6 +193,9 @@ class Grpc implements ConnectionInterface
             'google.protobuf.Struct' => function ($v) {
                 return $this->flattenStruct($v);
             },
+            'google.protobuf.Timestamp' => function ($v) {
+                return $this->formatTimestampFromApi($v);
+            }
         ]);
         //@codeCoverageIgnoreEnd
 
@@ -160,11 +208,20 @@ class Grpc implements ConnectionInterface
                 : null
         );
 
-        $this->credentialsWrapper = $grpcConfig['credentials'];
-
-        if (isset($config['apiEndpoint'])) {
-            $grpcConfig['apiEndpoint'] = $config['apiEndpoint'];
+        $config += [
+            'emulatorHost' => null,
+            'queryOptions' => []
+        ];
+        if ((bool) $config['emulatorHost']) {
+            $grpcConfig += $this->emulatorGapicConfig($config['emulatorHost']);
+        } else {
+            $this->credentialsWrapper = $grpcConfig['credentials'];
+            if (isset($config['apiEndpoint'])) {
+                $grpcConfig['apiEndpoint'] = $config['apiEndpoint'];
+            }
         }
+
+        $this->defaultQueryOptions = $config['queryOptions'];
 
         $this->spannerClient = isset($config['gapicSpannerClient'])
             ? $config['gapicSpannerClient']
@@ -332,6 +389,127 @@ class Grpc implements ConnectionInterface
             $resource,
             $this->pluck('permissions', $args),
             $this->addResourcePrefixHeader($args, $resource)
+        ]);
+    }
+
+    /**
+     * @param array $args
+     */
+    public function listBackups(array $args)
+    {
+        $instanceName = $this->pluck('instance', $args);
+        return $this->send([$this->getDatabaseAdminClient(), 'listBackups'], [
+            $instanceName,
+            $this->addResourcePrefixHeader($args, $instanceName)
+        ]);
+    }
+
+    /**
+     * @param array $args
+     */
+    public function listBackupOperations(array $args)
+    {
+        $instanceName = $this->pluck('instance', $args);
+        $result = $this->send([$this->getDatabaseAdminClient(), 'listBackupOperations'], [
+            $instanceName,
+            $this->addResourcePrefixHeader($args, $instanceName)
+        ]);
+        foreach ($result['operations'] as $index => $operation) {
+            $result['operations'][$index] = $this->deserializeOperationArray($operation);
+        }
+        return $result;
+    }
+
+    /**
+     * @param array $args
+     */
+    public function listDatabaseOperations(array $args)
+    {
+        $instanceName = $this->pluck('instance', $args);
+        $result = $this->send([$this->getDatabaseAdminClient(), 'listDatabaseOperations'], [
+            $instanceName,
+            $this->addResourcePrefixHeader($args, $instanceName)
+        ]);
+        foreach ($result['operations'] as $index => $operation) {
+            $result['operations'][$index] = $this->deserializeOperationArray($operation);
+        }
+        return $result;
+    }
+
+    /**
+     * @param array $args
+     */
+    public function restoreDatabase(array $args)
+    {
+        $instanceName = $this->pluck('instance', $args);
+        $res = $this->send([$this->getDatabaseAdminClient(), 'restoreDatabase'], [
+            $instanceName,
+            $this->pluck('databaseId', $args),
+            $this->addResourcePrefixHeader($args, $instanceName)
+        ]);
+
+        return $this->operationToArray($res, $this->serializer, $this->lroResponseMappers);
+    }
+
+    /**
+     * @param array $args
+     */
+    public function updateBackup(array $args)
+    {
+        $backup = $this->pluck('backup', $args);
+        $backup['expireTime'] = $this->formatTimestampForApi($this->pluck('expireTime', $backup));
+        $backupInfo = $this->serializer->decodeMessage(new Backup(), $backup);
+
+        $backupName = $backupInfo->getName();
+        $updateMask = $this->serializer->decodeMessage(new FieldMask(), $this->pluck('updateMask', $args));
+        return $this->send([$this->getDatabaseAdminClient(), 'updateBackup'], [
+            $backupInfo,
+            $updateMask,
+            $this->addResourcePrefixHeader($args, $backupName)
+        ]);
+    }
+
+    /**
+     * @param array $args
+     */
+    public function createBackup(array $args)
+    {
+        $backup = $this->pluck('backup', $args);
+        $backup['expireTime'] = $this->formatTimestampForApi($this->pluck('expireTime', $backup));
+        $backupInfo = $this->serializer->decodeMessage(new Backup(), $backup);
+
+        $instanceName = $this->pluck('instance', $args);
+        $res = $this->send([$this->getDatabaseAdminClient(), 'createBackup'], [
+            $instanceName,
+            $this->pluck('backupId', $args),
+            $backupInfo,
+            $this->addResourcePrefixHeader($args, $instanceName)
+        ]);
+
+        return $this->operationToArray($res, $this->serializer, $this->lroResponseMappers);
+    }
+
+    /**
+     * @param array $args
+     */
+    public function deleteBackup(array $args)
+    {
+        $backupName = $this->pluck('name', $args);
+        return $this->send([$this->getDatabaseAdminClient(), 'deleteBackup'], [
+            $backupName,
+            $this->addResourcePrefixHeader($args, $backupName)
+        ]);
+    }
+
+    /**
+     * @param array $args
+     */
+    public function getBackup(array $args)
+    {
+        $backupName = $this->pluck('name', $args);
+        return $this->send([$this->getDatabaseAdminClient(), 'getBackup'], [
+            $backupName,
+            $this->addResourcePrefixHeader($args, $backupName)
         ]);
     }
 
@@ -587,6 +765,21 @@ class Grpc implements ConnectionInterface
         $args['transaction'] = $this->createTransactionSelector($args);
 
         $database = $this->pluck('database', $args);
+        $queryOptions = $this->pluck('queryOptions', $args, false) ?: [];
+
+        // Query options precedence is query-level, then environment-level, then client-level.
+        $envQueryOptimizerVersion = getenv('SPANNER_OPTIMIZER_VERSION');
+        if (!empty($envQueryOptimizerVersion)) {
+            $queryOptions += ['optimizerVersion' => $envQueryOptimizerVersion];
+        }
+        $queryOptions += $this->defaultQueryOptions;
+
+        if ($queryOptions) {
+            $args['queryOptions'] = $this->serializer->decodeMessage(
+                new QueryOptions,
+                $queryOptions
+            );
+        }
 
         return $this->send([$this->spannerClient, 'executeStreamingSql'], [
             $this->pluck('session', $args),
@@ -802,7 +995,7 @@ class Grpc implements ConnectionInterface
     {
         $name = $this->pluck('name', $args);
 
-        $operation = $this->getOperationByName($this->databaseAdminClient, $name);
+        $operation = $this->getOperationByName($this->getDatabaseAdminClient(), $name);
 
         return $this->operationToArray($operation, $this->serializer, $this->lroResponseMappers);
     }
@@ -813,9 +1006,9 @@ class Grpc implements ConnectionInterface
     public function cancelOperation(array $args)
     {
         $name = $this->pluck('name', $args);
-        $method = $this->pluck('method', $args);
+        $method = $this->pluck('method', $args, false);
 
-        $operation = $this->getOperationByName($this->databaseAdminClient, $name, $method);
+        $operation = $this->getOperationByName($this->getDatabaseAdminClient(), $name, $method);
         $operation->cancel();
 
         return $this->operationToArray($operation, $this->serializer, $this->lroResponseMappers);
@@ -827,9 +1020,9 @@ class Grpc implements ConnectionInterface
     public function deleteOperation(array $args)
     {
         $name = $this->pluck('name', $args);
-        $method = $this->pluck('method', $args);
+        $method = $this->pluck('method', $args, false);
 
-        $operation = $this->getOperationByName($this->databaseAdminClient, $name, $method);
+        $operation = $this->getOperationByName($this->getDatabaseAdminClient(), $name, $method);
         $operation->delete();
 
         return $this->operationToArray($operation, $this->serializer, $this->lroResponseMappers);
@@ -843,7 +1036,7 @@ class Grpc implements ConnectionInterface
         $name = $this->pluck('name', $args, false) ?: '';
         $filter = $this->pluck('filter', $args, false) ?: '';
 
-        $client = $this->databaseAdminClient->getOperationsClient();
+        $client = $this->getDatabaseAdminClient()->getOperationsClient();
 
         return $this->send([$client, 'listOperations'], [
             $name,
@@ -1105,5 +1298,43 @@ class Grpc implements ConnectionInterface
         $this->databaseAdminClient = $this->constructGapic(DatabaseAdminClient::class, $this->grpcConfig);
 
         return $this->databaseAdminClient;
+    }
+
+    private function deserializeOperationArray($operation)
+    {
+        $operation['metadata'] =
+            $this->deserializeMessageArray($operation['metadata']) +
+            ['typeUrl' => $operation['metadata']['typeUrl']];
+
+        if (isset($operation['response']) and isset($operation['response']['typeUrl'])) {
+            $operation['response'] = $this->deserializeMessageArray($operation['response']);
+        }
+
+        return $operation;
+    }
+
+    private function deserializeMessageArray($message)
+    {
+        $typeUrl = $message['typeUrl'];
+        $mapper = $this->getLroResponseMapper($typeUrl);
+        if (!isset($mapper)) {
+            return $message;
+        }
+
+        $className = $mapper['message'];
+        $response = new $className;
+        $response->mergeFromString($message['value']);
+        return $this->serializer->encodeMessage($response);
+    }
+
+    private function getLroResponseMapper($typeUrl)
+    {
+        foreach ($this->lroResponseMappers as $mapper) {
+            if ($mapper['typeUrl'] == $typeUrl) {
+                return $mapper;
+            }
+        }
+
+        return null;
     }
 }

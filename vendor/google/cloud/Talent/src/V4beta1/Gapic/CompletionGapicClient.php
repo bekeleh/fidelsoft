@@ -99,6 +99,8 @@ class CompletionGapicClient
     private static $companyNameTemplate;
     private static $companyWithoutTenantNameTemplate;
     private static $projectNameTemplate;
+    private static $projectCompanyNameTemplate;
+    private static $projectTenantCompanyNameTemplate;
     private static $tenantNameTemplate;
     private static $pathTemplateMap;
 
@@ -148,6 +150,24 @@ class CompletionGapicClient
         return self::$projectNameTemplate;
     }
 
+    private static function getProjectCompanyNameTemplate()
+    {
+        if (null == self::$projectCompanyNameTemplate) {
+            self::$projectCompanyNameTemplate = new PathTemplate('projects/{project}/companies/{company}');
+        }
+
+        return self::$projectCompanyNameTemplate;
+    }
+
+    private static function getProjectTenantCompanyNameTemplate()
+    {
+        if (null == self::$projectTenantCompanyNameTemplate) {
+            self::$projectTenantCompanyNameTemplate = new PathTemplate('projects/{project}/tenants/{tenant}/companies/{company}');
+        }
+
+        return self::$projectTenantCompanyNameTemplate;
+    }
+
     private static function getTenantNameTemplate()
     {
         if (null == self::$tenantNameTemplate) {
@@ -164,6 +184,8 @@ class CompletionGapicClient
                 'company' => self::getCompanyNameTemplate(),
                 'companyWithoutTenant' => self::getCompanyWithoutTenantNameTemplate(),
                 'project' => self::getProjectNameTemplate(),
+                'projectCompany' => self::getProjectCompanyNameTemplate(),
+                'projectTenantCompany' => self::getProjectTenantCompanyNameTemplate(),
                 'tenant' => self::getTenantNameTemplate(),
             ];
         }
@@ -199,7 +221,9 @@ class CompletionGapicClient
      * @param string $company
      *
      * @return string The formatted company_without_tenant resource.
-     * @experimental
+     *
+     * @deprecated Multi-pattern resource names will have unified formatting functions.
+     *             This helper function will be deleted in the next major version.
      */
     public static function companyWithoutTenantName($project, $company)
     {
@@ -222,6 +246,44 @@ class CompletionGapicClient
     {
         return self::getProjectNameTemplate()->render([
             'project' => $project,
+        ]);
+    }
+
+    /**
+     * Formats a string containing the fully-qualified path to represent
+     * a project_company resource.
+     *
+     * @param string $project
+     * @param string $company
+     *
+     * @return string The formatted project_company resource.
+     * @experimental
+     */
+    public static function projectCompanyName($project, $company)
+    {
+        return self::getProjectCompanyNameTemplate()->render([
+            'project' => $project,
+            'company' => $company,
+        ]);
+    }
+
+    /**
+     * Formats a string containing the fully-qualified path to represent
+     * a project_tenant_company resource.
+     *
+     * @param string $project
+     * @param string $tenant
+     * @param string $company
+     *
+     * @return string The formatted project_tenant_company resource.
+     * @experimental
+     */
+    public static function projectTenantCompanyName($project, $tenant, $company)
+    {
+        return self::getProjectTenantCompanyNameTemplate()->render([
+            'project' => $project,
+            'tenant' => $tenant,
+            'company' => $company,
         ]);
     }
 
@@ -250,6 +312,8 @@ class CompletionGapicClient
      * - company: projects/{project}/tenants/{tenant}/companies/{company}
      * - companyWithoutTenant: projects/{project}/companies/{company}
      * - project: projects/{project}
+     * - projectCompany: projects/{project}/companies/{company}
+     * - projectTenantCompany: projects/{project}/tenants/{tenant}/companies/{company}
      * - tenant: projects/{project}/tenants/{tenant}.
      *
      * The optional $template argument can be supplied to specify a particular pattern, and must

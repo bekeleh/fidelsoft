@@ -5,6 +5,7 @@ namespace Nwidart\Modules\Migrations;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Collection;
 use Nwidart\Modules\Module;
+use Nwidart\Modules\Support\Config\GenerateConfigReader;
 
 class Migrator
 {
@@ -73,7 +74,8 @@ class Migrator
     {
         $config = $this->module->get('migration');
 
-        $path = (is_array($config) && array_key_exists('path', $config)) ? $config['path'] : config('modules.paths.generator.migration');
+        $migrationPath = GenerateConfigReader::read('migration');
+        $path = (is_array($config) && array_key_exists('path', $config)) ? $config['path'] : $migrationPath->getPath();
 
         return $this->module->getExtraPath($path);
     }
@@ -92,7 +94,7 @@ class Migrator
         // extension and take the basename of the file which is all we need when
         // finding the migrations that haven't been run against the databases.
         if ($files === false) {
-            return array();
+            return [];
         }
 
         $files = array_map(function ($file) {

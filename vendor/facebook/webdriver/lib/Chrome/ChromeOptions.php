@@ -1,4 +1,17 @@
 <?php
+// Copyright 2004-present Facebook. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 namespace Facebook\WebDriver\Chrome;
 
@@ -12,14 +25,9 @@ use Facebook\WebDriver\Remote\DesiredCapabilities;
 class ChromeOptions
 {
     /**
-     * The key of chrome options desired capabilities (in legacy OSS JsonWire protocol)
-     * @deprecated
+     * The key of chrome options in desired capabilities.
      */
     const CAPABILITY = 'chromeOptions';
-    /**
-     * The key of chrome options desired capabilities (in W3C compatible protocol)
-     */
-    const CAPABILITY_W3C = 'goog:chromeOptions';
     /**
      * @var array
      */
@@ -129,11 +137,11 @@ class ChromeOptions
         // set the 'binary' to avoid returning an empty array.
         $options['binary'] = $this->binary;
 
-        if (!empty($this->arguments)) {
+        if ($this->arguments) {
             $options['args'] = $this->arguments;
         }
 
-        if (!empty($this->extensions)) {
+        if ($this->extensions) {
             $options['extensions'] = $this->extensions;
         }
 

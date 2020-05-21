@@ -78,12 +78,11 @@ class Configuration
             'commands' => [],
         ],
         'reporters'  => [
-            'xml'         => 'Codeception\PHPUnit\Log\JUnit',
-            'html'        => 'Codeception\PHPUnit\ResultPrinter\HTML',
-            'report'      => 'Codeception\PHPUnit\ResultPrinter\Report',
-            'tap'         => 'PHPUnit\Util\Log\TAP',
-            'json'        => 'PHPUnit\Util\Log\JSON',
-            'phpunit-xml' => 'Codeception\PHPUnit\Log\PhpUnit',
+            'xml'    => 'Codeception\PHPUnit\Log\JUnit',
+            'html'   => 'Codeception\PHPUnit\ResultPrinter\HTML',
+            'report' => 'Codeception\PHPUnit\ResultPrinter\Report',
+            'tap'    => 'PHPUnit\Util\Log\TAP',
+            'json'   => 'PHPUnit\Util\Log\JSON',
         ],
         'groups'     => [],
         'settings'   => [
@@ -95,8 +94,7 @@ class Configuration
             'log_incomplete_skipped'    => false,
             'report_useless_tests'      => false,
             'disallow_test_output'      => false,
-            'be_strict_about_changes_to_global_state' => false,
-            'shuffle'     => false,
+            'be_strict_about_changes_to_global_state' => false
         ],
         'coverage'   => [],
         'params'     => [],
@@ -424,7 +422,6 @@ class Configuration
      * @param string $filename filename
      * @param mixed $nonExistentValue value used if filename is not found
      * @return array
-     * @throws ConfigurationException
      */
     protected static function getConfFromFile($filename, $nonExistentValue = [])
     {
@@ -441,7 +438,6 @@ class Configuration
      *
      * @param $suite
      * @return array
-     * @throws ConfigurationException
      */
     public static function suiteEnvironments($suite)
     {
@@ -547,7 +543,7 @@ class Configuration
 
         if (!is_writable($dir)) {
             throw new ConfigurationException(
-                "Path for output is not writable. Please, set appropriate access mode for output path: {$dir}"
+                "Path for output is not writable. Please, set appropriate access mode for output path."
             );
         }
 
@@ -557,7 +553,6 @@ class Configuration
     /**
      * Compatibility alias to `Configuration::logDir()`
      * @return string
-     * @throws ConfigurationException
      */
     public static function logDir()
     {
@@ -680,7 +675,6 @@ class Configuration
      * @param $path
      * @param $settings
      * @return array
-     * @throws ConfigurationException
      */
     protected static function loadSuiteConfig($suite, $path, $settings)
     {
@@ -716,7 +710,6 @@ class Configuration
      *
      * @param $includes
      * @return array
-     * @throws ConfigurationException
      */
     protected static function expandWildcardedIncludes(array $includes)
     {

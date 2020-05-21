@@ -55,9 +55,8 @@ use Google\Protobuf\GPBEmpty;
  * ```
  * $applicationServiceClient = new ApplicationServiceClient();
  * try {
- *     $formattedParent = $applicationServiceClient->profileName('[PROJECT]', '[TENANT]', '[PROFILE]');
- *     $application = new Application();
- *     $response = $applicationServiceClient->createApplication($formattedParent, $application);
+ *     $formattedName = $applicationServiceClient->applicationName('[PROJECT]', '[TENANT]', '[PROFILE]', '[APPLICATION]');
+ *     $applicationServiceClient->deleteApplication($formattedName);
  * } finally {
  *     $applicationServiceClient->close();
  * }
@@ -102,7 +101,15 @@ class ApplicationServiceGapicClient
         'https://www.googleapis.com/auth/jobs',
     ];
     private static $applicationNameTemplate;
+    private static $companyNameTemplate;
+    private static $companyWithoutTenantNameTemplate;
+    private static $jobNameTemplate;
+    private static $jobWithoutTenantNameTemplate;
     private static $profileNameTemplate;
+    private static $projectCompanyNameTemplate;
+    private static $projectJobNameTemplate;
+    private static $projectTenantCompanyNameTemplate;
+    private static $projectTenantJobNameTemplate;
     private static $pathTemplateMap;
 
     private static function getClientDefaults()
@@ -133,6 +140,42 @@ class ApplicationServiceGapicClient
         return self::$applicationNameTemplate;
     }
 
+    private static function getCompanyNameTemplate()
+    {
+        if (null == self::$companyNameTemplate) {
+            self::$companyNameTemplate = new PathTemplate('projects/{project}/tenants/{tenant}/companies/{company}');
+        }
+
+        return self::$companyNameTemplate;
+    }
+
+    private static function getCompanyWithoutTenantNameTemplate()
+    {
+        if (null == self::$companyWithoutTenantNameTemplate) {
+            self::$companyWithoutTenantNameTemplate = new PathTemplate('projects/{project}/companies/{company}');
+        }
+
+        return self::$companyWithoutTenantNameTemplate;
+    }
+
+    private static function getJobNameTemplate()
+    {
+        if (null == self::$jobNameTemplate) {
+            self::$jobNameTemplate = new PathTemplate('projects/{project}/tenants/{tenant}/jobs/{job}');
+        }
+
+        return self::$jobNameTemplate;
+    }
+
+    private static function getJobWithoutTenantNameTemplate()
+    {
+        if (null == self::$jobWithoutTenantNameTemplate) {
+            self::$jobWithoutTenantNameTemplate = new PathTemplate('projects/{project}/jobs/{job}');
+        }
+
+        return self::$jobWithoutTenantNameTemplate;
+    }
+
     private static function getProfileNameTemplate()
     {
         if (null == self::$profileNameTemplate) {
@@ -142,12 +185,56 @@ class ApplicationServiceGapicClient
         return self::$profileNameTemplate;
     }
 
+    private static function getProjectCompanyNameTemplate()
+    {
+        if (null == self::$projectCompanyNameTemplate) {
+            self::$projectCompanyNameTemplate = new PathTemplate('projects/{project}/companies/{company}');
+        }
+
+        return self::$projectCompanyNameTemplate;
+    }
+
+    private static function getProjectJobNameTemplate()
+    {
+        if (null == self::$projectJobNameTemplate) {
+            self::$projectJobNameTemplate = new PathTemplate('projects/{project}/jobs/{job}');
+        }
+
+        return self::$projectJobNameTemplate;
+    }
+
+    private static function getProjectTenantCompanyNameTemplate()
+    {
+        if (null == self::$projectTenantCompanyNameTemplate) {
+            self::$projectTenantCompanyNameTemplate = new PathTemplate('projects/{project}/tenants/{tenant}/companies/{company}');
+        }
+
+        return self::$projectTenantCompanyNameTemplate;
+    }
+
+    private static function getProjectTenantJobNameTemplate()
+    {
+        if (null == self::$projectTenantJobNameTemplate) {
+            self::$projectTenantJobNameTemplate = new PathTemplate('projects/{project}/tenants/{tenant}/jobs/{job}');
+        }
+
+        return self::$projectTenantJobNameTemplate;
+    }
+
     private static function getPathTemplateMap()
     {
         if (null == self::$pathTemplateMap) {
             self::$pathTemplateMap = [
                 'application' => self::getApplicationNameTemplate(),
+                'company' => self::getCompanyNameTemplate(),
+                'companyWithoutTenant' => self::getCompanyWithoutTenantNameTemplate(),
+                'job' => self::getJobNameTemplate(),
+                'jobWithoutTenant' => self::getJobWithoutTenantNameTemplate(),
                 'profile' => self::getProfileNameTemplate(),
+                'projectCompany' => self::getProjectCompanyNameTemplate(),
+                'projectJob' => self::getProjectJobNameTemplate(),
+                'projectTenantCompany' => self::getProjectTenantCompanyNameTemplate(),
+                'projectTenantJob' => self::getProjectTenantJobNameTemplate(),
             ];
         }
 
@@ -178,6 +265,86 @@ class ApplicationServiceGapicClient
 
     /**
      * Formats a string containing the fully-qualified path to represent
+     * a company resource.
+     *
+     * @param string $project
+     * @param string $tenant
+     * @param string $company
+     *
+     * @return string The formatted company resource.
+     * @experimental
+     */
+    public static function companyName($project, $tenant, $company)
+    {
+        return self::getCompanyNameTemplate()->render([
+            'project' => $project,
+            'tenant' => $tenant,
+            'company' => $company,
+        ]);
+    }
+
+    /**
+     * Formats a string containing the fully-qualified path to represent
+     * a company_without_tenant resource.
+     *
+     * @param string $project
+     * @param string $company
+     *
+     * @return string The formatted company_without_tenant resource.
+     *
+     * @deprecated Multi-pattern resource names will have unified formatting functions.
+     *             This helper function will be deleted in the next major version.
+     */
+    public static function companyWithoutTenantName($project, $company)
+    {
+        return self::getCompanyWithoutTenantNameTemplate()->render([
+            'project' => $project,
+            'company' => $company,
+        ]);
+    }
+
+    /**
+     * Formats a string containing the fully-qualified path to represent
+     * a job resource.
+     *
+     * @param string $project
+     * @param string $tenant
+     * @param string $job
+     *
+     * @return string The formatted job resource.
+     * @experimental
+     */
+    public static function jobName($project, $tenant, $job)
+    {
+        return self::getJobNameTemplate()->render([
+            'project' => $project,
+            'tenant' => $tenant,
+            'job' => $job,
+        ]);
+    }
+
+    /**
+     * Formats a string containing the fully-qualified path to represent
+     * a job_without_tenant resource.
+     *
+     * @param string $project
+     * @param string $job
+     *
+     * @return string The formatted job_without_tenant resource.
+     *
+     * @deprecated Multi-pattern resource names will have unified formatting functions.
+     *             This helper function will be deleted in the next major version.
+     */
+    public static function jobWithoutTenantName($project, $job)
+    {
+        return self::getJobWithoutTenantNameTemplate()->render([
+            'project' => $project,
+            'job' => $job,
+        ]);
+    }
+
+    /**
+     * Formats a string containing the fully-qualified path to represent
      * a profile resource.
      *
      * @param string $project
@@ -197,11 +364,95 @@ class ApplicationServiceGapicClient
     }
 
     /**
+     * Formats a string containing the fully-qualified path to represent
+     * a project_company resource.
+     *
+     * @param string $project
+     * @param string $company
+     *
+     * @return string The formatted project_company resource.
+     * @experimental
+     */
+    public static function projectCompanyName($project, $company)
+    {
+        return self::getProjectCompanyNameTemplate()->render([
+            'project' => $project,
+            'company' => $company,
+        ]);
+    }
+
+    /**
+     * Formats a string containing the fully-qualified path to represent
+     * a project_job resource.
+     *
+     * @param string $project
+     * @param string $job
+     *
+     * @return string The formatted project_job resource.
+     * @experimental
+     */
+    public static function projectJobName($project, $job)
+    {
+        return self::getProjectJobNameTemplate()->render([
+            'project' => $project,
+            'job' => $job,
+        ]);
+    }
+
+    /**
+     * Formats a string containing the fully-qualified path to represent
+     * a project_tenant_company resource.
+     *
+     * @param string $project
+     * @param string $tenant
+     * @param string $company
+     *
+     * @return string The formatted project_tenant_company resource.
+     * @experimental
+     */
+    public static function projectTenantCompanyName($project, $tenant, $company)
+    {
+        return self::getProjectTenantCompanyNameTemplate()->render([
+            'project' => $project,
+            'tenant' => $tenant,
+            'company' => $company,
+        ]);
+    }
+
+    /**
+     * Formats a string containing the fully-qualified path to represent
+     * a project_tenant_job resource.
+     *
+     * @param string $project
+     * @param string $tenant
+     * @param string $job
+     *
+     * @return string The formatted project_tenant_job resource.
+     * @experimental
+     */
+    public static function projectTenantJobName($project, $tenant, $job)
+    {
+        return self::getProjectTenantJobNameTemplate()->render([
+            'project' => $project,
+            'tenant' => $tenant,
+            'job' => $job,
+        ]);
+    }
+
+    /**
      * Parses a formatted name string and returns an associative array of the components in the name.
      * The following name formats are supported:
      * Template: Pattern
      * - application: projects/{project}/tenants/{tenant}/profiles/{profile}/applications/{application}
-     * - profile: projects/{project}/tenants/{tenant}/profiles/{profile}.
+     * - company: projects/{project}/tenants/{tenant}/companies/{company}
+     * - companyWithoutTenant: projects/{project}/companies/{company}
+     * - job: projects/{project}/tenants/{tenant}/jobs/{job}
+     * - jobWithoutTenant: projects/{project}/jobs/{job}
+     * - profile: projects/{project}/tenants/{tenant}/profiles/{profile}
+     * - projectCompany: projects/{project}/companies/{company}
+     * - projectJob: projects/{project}/jobs/{job}
+     * - projectTenantCompany: projects/{project}/tenants/{tenant}/companies/{company}
+     * - projectTenantJob: projects/{project}/tenants/{tenant}/jobs/{job}.
      *
      * The optional $template argument can be supplied to specify a particular pattern, and must
      * match one of the templates listed above. If no $template argument is provided, or if the
@@ -297,6 +548,58 @@ class ApplicationServiceGapicClient
     {
         $clientOptions = $this->buildClientOptions($options);
         $this->setClientOptions($clientOptions);
+    }
+
+    /**
+     * Deletes specified application.
+     *
+     * Sample code:
+     * ```
+     * $applicationServiceClient = new ApplicationServiceClient();
+     * try {
+     *     $formattedName = $applicationServiceClient->applicationName('[PROJECT]', '[TENANT]', '[PROFILE]', '[APPLICATION]');
+     *     $applicationServiceClient->deleteApplication($formattedName);
+     * } finally {
+     *     $applicationServiceClient->close();
+     * }
+     * ```
+     *
+     * @param string $name Required. The resource name of the application to be deleted.
+     *
+     * The format is
+     * "projects/{project_id}/tenants/{tenant_id}/profiles/{profile_id}/applications/{application_id}".
+     * For example, "projects/foo/tenants/bar/profiles/baz/applications/qux".
+     * @param array $optionalArgs {
+     *                            Optional.
+     *
+     *     @type RetrySettings|array $retrySettings
+     *          Retry settings to use for this call. Can be a
+     *          {@see Google\ApiCore\RetrySettings} object, or an associative array
+     *          of retry settings parameters. See the documentation on
+     *          {@see Google\ApiCore\RetrySettings} for example usage.
+     * }
+     *
+     * @throws ApiException if the remote call fails
+     * @experimental
+     */
+    public function deleteApplication($name, array $optionalArgs = [])
+    {
+        $request = new DeleteApplicationRequest();
+        $request->setName($name);
+
+        $requestParams = new RequestParamsHeaderDescriptor([
+          'name' => $request->getName(),
+        ]);
+        $optionalArgs['headers'] = isset($optionalArgs['headers'])
+            ? array_merge($requestParams->getHeader(), $optionalArgs['headers'])
+            : $requestParams->getHeader();
+
+        return $this->startCall(
+            'DeleteApplication',
+            GPBEmpty::class,
+            $optionalArgs,
+            $request
+        )->wait();
     }
 
     /**
@@ -466,58 +769,6 @@ class ApplicationServiceGapicClient
         return $this->startCall(
             'UpdateApplication',
             Application::class,
-            $optionalArgs,
-            $request
-        )->wait();
-    }
-
-    /**
-     * Deletes specified application.
-     *
-     * Sample code:
-     * ```
-     * $applicationServiceClient = new ApplicationServiceClient();
-     * try {
-     *     $formattedName = $applicationServiceClient->applicationName('[PROJECT]', '[TENANT]', '[PROFILE]', '[APPLICATION]');
-     *     $applicationServiceClient->deleteApplication($formattedName);
-     * } finally {
-     *     $applicationServiceClient->close();
-     * }
-     * ```
-     *
-     * @param string $name Required. The resource name of the application to be deleted.
-     *
-     * The format is
-     * "projects/{project_id}/tenants/{tenant_id}/profiles/{profile_id}/applications/{application_id}".
-     * For example, "projects/foo/tenants/bar/profiles/baz/applications/qux".
-     * @param array $optionalArgs {
-     *                            Optional.
-     *
-     *     @type RetrySettings|array $retrySettings
-     *          Retry settings to use for this call. Can be a
-     *          {@see Google\ApiCore\RetrySettings} object, or an associative array
-     *          of retry settings parameters. See the documentation on
-     *          {@see Google\ApiCore\RetrySettings} for example usage.
-     * }
-     *
-     * @throws ApiException if the remote call fails
-     * @experimental
-     */
-    public function deleteApplication($name, array $optionalArgs = [])
-    {
-        $request = new DeleteApplicationRequest();
-        $request->setName($name);
-
-        $requestParams = new RequestParamsHeaderDescriptor([
-          'name' => $request->getName(),
-        ]);
-        $optionalArgs['headers'] = isset($optionalArgs['headers'])
-            ? array_merge($requestParams->getHeader(), $optionalArgs['headers'])
-            : $requestParams->getHeader();
-
-        return $this->startCall(
-            'DeleteApplication',
-            GPBEmpty::class,
             $optionalArgs,
             $request
         )->wait();

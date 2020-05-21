@@ -26,19 +26,24 @@ return [
         'enabled' => false,
         'path' => base_path() . '/vendor/nwidart/laravel-modules/src/Commands/stubs',
         'files' => [
-            'start' => 'start.php',
-            'routes' => 'Http/routes.php',
+            'routes/web' => 'Routes/web.php',
+            'routes/api' => 'Routes/api.php',
             'views/index' => 'Resources/views/index.blade.php',
             'views/master' => 'Resources/views/layouts/master.blade.php',
             'scaffold/config' => 'Config/config.php',
             'composer' => 'composer.json',
+            'assets/js/app' => 'Resources/assets/js/app.js',
+            'assets/sass/app' => 'Resources/assets/sass/app.scss',
+            'webpack' => 'webpack.mix.js',
+            'package' => 'package.json',
         ],
         'replacements' => [
-            'start' => ['LOWER_NAME'],
-            'routes' => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE'],
+            'routes/web' => ['LOWER_NAME', 'STUDLY_NAME'],
+            'routes/api' => ['LOWER_NAME'],
+            'webpack' => ['LOWER_NAME'],
             'json' => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE'],
             'views/index' => ['LOWER_NAME'],
-            'views/master' => ['STUDLY_NAME'],
+            'views/master' => ['LOWER_NAME', 'STUDLY_NAME'],
             'scaffold/config' => ['STUDLY_NAME'],
             'composer' => [
                 'LOWER_NAME',
@@ -49,6 +54,7 @@ return [
                 'MODULE_NAMESPACE',
             ],
         ],
+        'gitkeep' => true,
     ],
     'paths' => [
         /*
@@ -87,31 +93,33 @@ return [
         |--------------------------------------------------------------------------
         | Generator path
         |--------------------------------------------------------------------------
-        |
-        | Here you may update the modules generator path.
-        |
+        | Customise the paths where the folders will be generated.
+        | Set the generate key to false to not generate that folder
         */
-
         'generator' => [
-            'assets' => 'Assets',
-            'config' => 'Config',
-            'command' => 'Console',
-            'event' => 'Events',
-            'listener' => 'Listeners',
-            'migration' => 'Database/Migrations',
-            'model' => 'Entities',
-            'repository' => 'Repositories',
-            'seeder' => 'Database/Seeders',
-            'controller' => 'Http/Controllers',
-            'filter' => 'Http/Middleware',
-            'request' => 'Http/Requests',
-            'provider' => 'Providers',
-            'lang' => 'Resources/lang',
-            'views' => 'Resources/views',
-            'test' => 'Tests',
-            'jobs' => 'Jobs',
-            'emails' => 'Emails',
-            'notifications' => 'Notifications',
+            'config' => ['path' => 'Config', 'generate' => true],
+            'command' => ['path' => 'Console', 'generate' => true],
+            'migration' => ['path' => 'Database/Migrations', 'generate' => true],
+            'seeder' => ['path' => 'Database/Seeders', 'generate' => true],
+            'factory' => ['path' => 'Database/factories', 'generate' => true],
+            'model' => ['path' => 'Entities', 'generate' => true],
+            'controller' => ['path' => 'Http/Controllers', 'generate' => true],
+            'filter' => ['path' => 'Http/Middleware', 'generate' => true],
+            'request' => ['path' => 'Http/Requests', 'generate' => true],
+            'provider' => ['path' => 'Providers', 'generate' => true],
+            'assets' => ['path' => 'Resources/assets', 'generate' => true],
+            'lang' => ['path' => 'Resources/lang', 'generate' => true],
+            'views' => ['path' => 'Resources/views', 'generate' => true],
+            'test' => ['path' => 'Tests', 'generate' => true],
+            'repository' => ['path' => 'Repositories', 'generate' => false],
+            'event' => ['path' => 'Events', 'generate' => false],
+            'listener' => ['path' => 'Listeners', 'generate' => false],
+            'policies' => ['path' => 'Policies', 'generate' => false],
+            'rules' => ['path' => 'Rules', 'generate' => false],
+            'jobs' => ['path' => 'Jobs', 'generate' => false],
+            'emails' => ['path' => 'Emails', 'generate' => false],
+            'notifications' => ['path' => 'Notifications', 'generate' => false],
+            'resource' => ['path' => 'Transformers', 'generate' => false],
         ],
     ],
     /*
@@ -162,11 +170,19 @@ return [
     /*
     |--------------------------------------------------------------------------
     | Choose what laravel-modules will register as custom namespaces.
-    | Setting one to false will require to register that part
+    | Setting one to false will require you to register that part
     | in your own Service Provider class.
     |--------------------------------------------------------------------------
     */
     'register' => [
         'translations' => true,
+        /**
+         * load files on boot or register method
+         *
+         * Note: boot not compatible with asgardcms
+         *
+         * @example boot|register
+         */
+        'files' => 'register',
     ],
 ];

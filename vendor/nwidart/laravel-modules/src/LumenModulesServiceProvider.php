@@ -36,4 +36,17 @@ class LumenModulesServiceProvider extends ModulesServiceProvider
             Stub::setBasePath(app('modules')->config('stubs.path'));
         }
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function registerServices()
+    {
+        $this->app->singleton(Contracts\RepositoryInterface::class, function ($app) {
+            $path = $app['config']->get('modules.paths.modules');
+
+            return new Lumen\LumenFileRepository($app, $path);
+        });
+        $this->app->alias(Contracts\RepositoryInterface::class, 'modules');
+    }
 }

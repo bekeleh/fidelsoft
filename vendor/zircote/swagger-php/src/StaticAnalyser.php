@@ -79,6 +79,7 @@ class StaticAnalyser
         $parseContext->uses = [];
         $schemaContext = $parseContext; // Use the parseContext until a definitionContext  (class or trait) is created.
         $classDefinition = false;
+        $interfaceDefinition = false;
         $traitDefinition = false;
         $comment = false;
         $line = 0;
@@ -111,6 +112,11 @@ class StaticAnalyser
                     // php7 anonymous classes (i.e. new class() { public function foo() {} };)
                     continue;
                 }
+                
+                if (is_array($token) && ($token[1] === 'extends' || $token[1] === 'implements')) {
+                    // php7 anonymous classes with extends (i.e. new class() extends { public function foo() {} };)
+                    continue;
+                }
 
                 $schemaContext = new Context(['class' => $token[1], 'line' => $token[2]], $parseContext);
                 if ($classDefinition) {
@@ -128,6 +134,33 @@ class StaticAnalyser
                 if ($token[0] === T_EXTENDS) {
                     $schemaContext->extends = $this->parseNamespace($tokens, $token, $parseContext);
                     $classDefinition['extends'] = $schemaContext->fullyQualifiedName($schemaContext->extends);
+                }
+                if ($comment) {
+                    $schemaContext->line = $line;
+                    $this->analyseComment($analysis, $analyser, $comment, $schemaContext);
+                    $comment = false;
+                    continue;
+                }
+            }
+            if ($token[0] === T_INTERFACE) { // Doc-comment before an interface?
+                $classDefinition = false;
+                $token = $this->nextToken($tokens, $parseContext);
+                $schemaContext = new Context(['interface' => $token[1], 'line' => $token[2]], $parseContext);
+                if ($interfaceDefinition) {
+                    $analysis->addInterfaceDefinition($interfaceDefinition);
+                }
+                $interfaceDefinition = [
+                    'interface' => $token[1],
+                    'extends' => null,
+                    'properties' => [],
+                    'methods' => [],
+                    'context' => $schemaContext,
+                ];
+                // @todo detect end-of-class and reset $schemaContext
+                $token = $this->nextToken($tokens, $parseContext);
+                if ($token[0] === T_EXTENDS) {
+                    $schemaContext->extends = $this->parseNamespace($tokens, $token, $parseContext);
+                    $interfaceDefinition['extends'] = $schemaContext->fullyQualifiedName($schemaContext->extends);
                 }
                 if ($comment) {
                     $schemaContext->line = $line;
@@ -182,14 +215,13 @@ class StaticAnalyser
             }
 
             if (in_array($token[0], [T_PRIVATE, T_PROTECTED, T_PUBLIC, T_VAR])) { // Scope
-                $token = $this->nextToken($tokens, $parseContext);
-                if ($token[0] == T_STATIC) {
-                    $token = $this->nextToken($tokens, $parseContext);
-                }
+                [$type, $nullable, $token] = $this->extractTypeAndNextToken($tokens, $parseContext);
                 if ($token[0] === T_VARIABLE) { // instance property
                     $propertyContext = new Context(
                         [
                             'property' => substr($token[1], 1),
+                            'type' => $type,
+                            'nullable' => $nullable,
                             'line' => $line,
                         ],
                         $schemaContext
@@ -390,5 +422,31 @@ class StaticAnalyser
         }
 
         return $statements;
+    }
+
+    private function extractTypeAndNextToken(array &$tokens, Context $parseContext): array
+    {
+        $type = UNDEFINED;
+        $nullable = false;
+        $token = $this->nextToken($tokens, $parseContext);
+
+        if ($token[0] === T_STATIC) {
+            $token = $this->nextToken($tokens, $parseContext);
+        }
+
+        if ($token === '?') { // nullable type
+            $nullable = true;
+            $token = $this->nextToken($tokens, $parseContext);
+        }
+
+        // drill down namespace segments to basename property type declaration
+        while (in_array($token[0], [T_NS_SEPARATOR, T_STRING, T_ARRAY])) {
+            if ($token[0] === T_STRING) {
+                $type = $token[1];
+            }
+            $token = $this->nextToken($tokens, $parseContext);
+        }
+
+        return [$type, $nullable, $token];
     }
 }

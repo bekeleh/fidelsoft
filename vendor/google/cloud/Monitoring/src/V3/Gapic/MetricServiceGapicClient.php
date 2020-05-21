@@ -20,8 +20,6 @@
  * This file was generated from the file
  * https://github.com/google/googleapis/blob/master/google/monitoring/v3/metric_service.proto
  * and updates to that file get reflected here through a refresh process.
- *
- * @experimental
  */
 
 namespace Google\Cloud\Monitoring\V3\Gapic;
@@ -90,8 +88,6 @@ use Google\Protobuf\GPBEmpty;
  * with these names, this class includes a format method for each type of name, and additionally
  * a parseName method to extract the individual identifiers contained within formatted names
  * that are returned by the API.
- *
- * @experimental
  */
 class MetricServiceGapicClient
 {
@@ -198,7 +194,6 @@ class MetricServiceGapicClient
      * @param string $metricDescriptor
      *
      * @return string The formatted metric_descriptor resource.
-     * @experimental
      */
     public static function metricDescriptorName($project, $metricDescriptor)
     {
@@ -216,7 +211,6 @@ class MetricServiceGapicClient
      * @param string $monitoredResourceDescriptor
      *
      * @return string The formatted monitored_resource_descriptor resource.
-     * @experimental
      */
     public static function monitoredResourceDescriptorName($project, $monitoredResourceDescriptor)
     {
@@ -233,7 +227,6 @@ class MetricServiceGapicClient
      * @param string $project
      *
      * @return string The formatted project resource.
-     * @experimental
      */
     public static function projectName($project)
     {
@@ -261,7 +254,6 @@ class MetricServiceGapicClient
      * @return array An associative array from name component IDs to component values.
      *
      * @throws ValidationException If $formattedName could not be matched.
-     * @experimental
      */
     public static function parseName($formattedName, $template = null)
     {
@@ -338,7 +330,6 @@ class MetricServiceGapicClient
      * }
      *
      * @throws ValidationException
-     * @experimental
      */
     public function __construct(array $options = [])
     {
@@ -347,7 +338,7 @@ class MetricServiceGapicClient
     }
 
     /**
-     * Lists monitored resource descriptors that match a filter. This method does not require a Stackdriver account.
+     * Lists monitored resource descriptors that match a filter. This method does not require a Workspace.
      *
      * Sample code:
      * ```
@@ -407,7 +398,6 @@ class MetricServiceGapicClient
      * @return \Google\ApiCore\PagedListResponse
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function listMonitoredResourceDescriptors($name, array $optionalArgs = [])
     {
@@ -439,7 +429,7 @@ class MetricServiceGapicClient
     }
 
     /**
-     * Gets a single monitored resource descriptor. This method does not require a Stackdriver account.
+     * Gets a single monitored resource descriptor. This method does not require a Workspace.
      *
      * Sample code:
      * ```
@@ -471,7 +461,6 @@ class MetricServiceGapicClient
      * @return \Google\Api\MonitoredResourceDescriptor
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function getMonitoredResourceDescriptor($name, array $optionalArgs = [])
     {
@@ -494,7 +483,7 @@ class MetricServiceGapicClient
     }
 
     /**
-     * Lists metric descriptors that match a filter. This method does not require a Stackdriver account.
+     * Lists metric descriptors that match a filter. This method does not require a Workspace.
      *
      * Sample code:
      * ```
@@ -556,7 +545,6 @@ class MetricServiceGapicClient
      * @return \Google\ApiCore\PagedListResponse
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function listMetricDescriptors($name, array $optionalArgs = [])
     {
@@ -588,7 +576,7 @@ class MetricServiceGapicClient
     }
 
     /**
-     * Gets a single metric descriptor. This method does not require a Stackdriver account.
+     * Gets a single metric descriptor. This method does not require a Workspace.
      *
      * Sample code:
      * ```
@@ -620,7 +608,6 @@ class MetricServiceGapicClient
      * @return \Google\Api\MetricDescriptor
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function getMetricDescriptor($name, array $optionalArgs = [])
     {
@@ -677,7 +664,6 @@ class MetricServiceGapicClient
      * @return \Google\Api\MetricDescriptor
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function createMetricDescriptor($name, $metricDescriptor, array $optionalArgs = [])
     {
@@ -733,7 +719,6 @@ class MetricServiceGapicClient
      * }
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function deleteMetricDescriptor($name, array $optionalArgs = [])
     {
@@ -756,7 +741,7 @@ class MetricServiceGapicClient
     }
 
     /**
-     * Lists time series that match a filter. This method does not require a Stackdriver account.
+     * Lists time series that match a filter. This method does not require a Workspace.
      *
      * Sample code:
      * ```
@@ -833,7 +818,6 @@ class MetricServiceGapicClient
      * @return \Google\ApiCore\PagedListResponse
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function listTimeSeries($name, $filter, $interval, $view, array $optionalArgs = [])
     {
@@ -909,7 +893,6 @@ class MetricServiceGapicClient
      * }
      *
      * @throws ApiException if the remote call fails
-     * @experimental
      */
     public function createTimeSeries($name, $timeSeries, array $optionalArgs = [])
     {

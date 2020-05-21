@@ -48,7 +48,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenFields($code)
     {
-        return Arr::add(
+        return array_add(
             parent::getTokenFields($code), 'grant_type', 'authorization_code'
         );
     }
@@ -79,7 +79,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
         $avatarUrl = Arr::get($user, 'picture');
 
         return (new User)->setRaw($user)->map([
-            'id' => $user['id'],
+            'id' => Arr::get($user, 'id'),
             'nickname' => Arr::get($user, 'nickname'),
             'name' => Arr::get($user, 'name'),
             'email' => Arr::get($user, 'email'),

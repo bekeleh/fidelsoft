@@ -13,6 +13,8 @@
 
 namespace PhpSpec\Config;
 
+use Symfony\Component\Console\Output\OutputInterface;
+
 class OptionsConfig
 {
     /**
@@ -34,10 +36,16 @@ class OptionsConfig
      * @var bool
      */
     private $fakingEnabled;
+
     /**
      * @var string|bool
      */
     private $bootstrapPath;
+
+    /**
+     * @var string
+     */
+    private $isVerbose;
 
     /**
      * @param bool $stopOnFailureEnabled
@@ -45,25 +53,28 @@ class OptionsConfig
      * @param bool $reRunEnabled
      * @param bool $fakingEnabled
      * @param string|bool $bootstrapPath
+     * @param bool $isVerbose
      */
     public function __construct(
-        $stopOnFailureEnabled,
-        $codeGenerationEnabled,
-        $reRunEnabled,
-        $fakingEnabled,
-        $bootstrapPath
+        bool $stopOnFailureEnabled,
+        bool $codeGenerationEnabled,
+        bool $reRunEnabled,
+        bool $fakingEnabled,
+        $bootstrapPath,
+        $isVerbose
     ) {
         $this->stopOnFailureEnabled  = $stopOnFailureEnabled;
         $this->codeGenerationEnabled = $codeGenerationEnabled;
         $this->reRunEnabled = $reRunEnabled;
         $this->fakingEnabled = $fakingEnabled;
         $this->bootstrapPath = $bootstrapPath;
+        $this->isVerbose = $isVerbose;
     }
 
     /**
      * @return bool
      */
-    public function isStopOnFailureEnabled()
+    public function isStopOnFailureEnabled(): bool
     {
         return $this->stopOnFailureEnabled;
     }
@@ -71,17 +82,17 @@ class OptionsConfig
     /**
      * @return bool
      */
-    public function isCodeGenerationEnabled()
+    public function isCodeGenerationEnabled(): bool
     {
         return $this->codeGenerationEnabled;
     }
 
-    public function isReRunEnabled()
+    public function isReRunEnabled(): bool
     {
         return $this->reRunEnabled;
     }
 
-    public function isFakingEnabled()
+    public function isFakingEnabled(): bool
     {
         return $this->fakingEnabled;
     }
@@ -89,5 +100,10 @@ class OptionsConfig
     public function getBootstrapPath()
     {
         return $this->bootstrapPath;
+    }
+
+    public function isVerbose(): bool
+    {
+        return $this->isVerbose;
     }
 }
