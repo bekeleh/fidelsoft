@@ -23,7 +23,29 @@ $LANG = array(
     'restored_schedule' => 'Successfully Restored Schedule',
     'deleted_schedule' => 'Successfully Deleted Schedule',
     'schedule_help' => 'Sets the default <b>Schedule</b>',
-
+    /*
+|--------------------------------------------------------------------------
+| schedule category trans
+|--------------------------------------------------------------------------
+*/
+    'text_color' => 'Text color',
+    'bg_color' => 'BG color',
+    'schedule_category_name' => 'Schedule Category Name',
+    'schedule_categories' => 'Schedules Category',
+    'schedule_category_list' => 'Schedule Category List',
+    'list_schedule_categories' => 'List Schedules Categories',
+    'archive_schedule_category' => 'Archive Schedule Category',
+    'delete_schedule_category' => 'Delete Schedule Category',
+    'edit_schedule_category' => 'Edit Schedule Category',
+    'clone_schedule_category' => 'Clone Schedule Category',
+    'restore_schedule_category' => 'Restore Schedule Category',
+    'new_schedule_category' => 'New Schedule',
+    'created_schedule_category' => 'Successfully Created Schedule Category',
+    'updated_schedule_category' => 'Successfully Updated Schedule Category',
+    'archived_schedule_category' => 'Successfully Archived Schedule Category',
+    'restored_schedule_category' => 'Successfully Restored Schedule Category',
+    'deleted_schedule_category' => 'Successfully Deleted Schedule Category',
+    'schedule_category_help' => 'Sets the default <b>Schedule Category</b>',
     /*
 |--------------------------------------------------------------------------
 | department  trans

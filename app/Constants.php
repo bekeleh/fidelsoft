@@ -66,6 +66,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_DASHBOARD', 'dashboard');
     define('ENTITY_SEARCH', 'search');
     define('ENTITY_POINT_OF_SALE', 'point_of_sale');
+    define('ENTITY_SCHEDULE_CATEGORY', 'schedule_category');
 
     $permissionEntities = [
         ENTITY_ACTIVITY,
@@ -111,6 +112,8 @@ if (!defined('APP_NAME')) {
         ENTITY_UNIT,
         ENTITY_USER,
         ENTITY_VENDOR,
+        ENTITY_SCHEDULE_CATEGORY,
+
 
     ];
 
@@ -181,6 +184,8 @@ if (!defined('APP_NAME')) {
     define('ACCOUNT_MANUFACTURER', 'manufacturers');
     define('ACCOUNT_MANUFACTURER_PRODUCT_DETAIL', 'manufacturer_product_details');
     define('ACCOUNT_POINT_OF_SALE', 'point_of_sales');
+    define('ACCOUNT_SCHEDULE_CATEGORY', 'schedule_categories');
+
 
     define('ACTIVITY_TYPE_CREATE_CLIENT', 1);
     define('ACTIVITY_TYPE_ARCHIVE_CLIENT', 2);

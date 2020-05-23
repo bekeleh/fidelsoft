@@ -2,16 +2,12 @@
 
 namespace App\Ninja\Presenters;
 
-use Laracasts\Presenter\Presenter;
-use URL;
 use App\Libraries\Utils;
+use Laracasts\Presenter\Presenter;
 use stdClass;
 
 class EntityPresenter extends Presenter
 {
-    /**
-     * @return string
-     */
     public function url()
     {
         return SITE_URL . $this->path();
@@ -68,9 +64,6 @@ class EntityPresenter extends Presenter
         }
     }
 
-    /**
-     * @return mixed
-     */
     public function link()
     {
         $name = $this->entity->getDisplayName();

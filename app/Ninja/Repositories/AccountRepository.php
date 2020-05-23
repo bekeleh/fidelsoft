@@ -307,6 +307,8 @@ class AccountRepository
             ENTITY_ITEM_TRANSFER,
             ENTITY_ITEM_PRICE,
             ENTITY_ITEM_MOVEMENT,
+            ENTITY_SCHEDULE_CATEGORY,
+
         ];
 
         foreach ($entityTypes as $entityType) {

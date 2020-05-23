@@ -2,25 +2,26 @@
 
 namespace App\Http\Requests;
 
-use App\Models\ExpenseCategory;
+use App\Models\ScheduleCategory;
 
-class UpdateExpenseCategoryRequest extends ExpenseCategoryRequest
+class UpdateScheduleCategoryRequest extends ScheduleCategoryRequest
 {
-    protected $entityType = ENTITY_EXPENSE_CATEGORY;
+    protected $entityType = ENTITY_SCHEDULE_CATEGORY;
 
     public function authorize()
     {
-        return $this->user()->can('edit', ENTITY_EXPENSE_CATEGORY);
+        return $this->user()->can('create', $this->entityType);
     }
 
     public function rules()
     {
-        $rules = [];
         $this->sanitize();
+        $rules = [];
         $this->validationData();
-        $expenseCategory = ExpenseCategory::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
-        if ($expenseCategory)
-            $rules['name'] = 'required|unique:expense_categories,name,' . $expenseCategory->id . ',id,account_id,' . $expenseCategory->account_id;
+
+        $scheduleCategory = ScheduleCategory::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
+        if ($scheduleCategory)
+            $rules['name'] = 'required|unique:schedule_categories,name,' . $scheduleCategory->id . ',id,account_id,' . $scheduleCategory->account_id;
 
         return $rules;
     }
@@ -45,7 +46,7 @@ class UpdateExpenseCategoryRequest extends ExpenseCategoryRequest
 
         if (count($input)) {
             $this->request->add([
-                'account_id' => ExpenseCategory::getAccountId()
+                'account_id' => ScheduleCategory::getAccountId()
             ]);
         }
 

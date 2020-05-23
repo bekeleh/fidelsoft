@@ -692,6 +692,8 @@ class Utils
             return 'expense_categories';
         } elseif ($type === ENTITY_PROPOSAL_CATEGORY) {
             return 'proposal_categories';
+        } elseif ($type === ENTITY_SCHEDULE_CATEGORY) {
+            return 'schedule_categories';
         } elseif ($type === ENTITY_STATUS) {
             return 'statuses';
         } elseif ($type === ENTITY_TASK_STATUS) {

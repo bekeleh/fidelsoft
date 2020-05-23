@@ -342,6 +342,11 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
     Route::get('api/hold_reasons', 'HoldReasonController@getDatatable');
     Route::resource('hold_reasons', 'HoldReasonController');
     Route::post('hold_reasons/bulk', 'HoldReasonController@bulk');
+    //   schedule category
+    Route::get('schedule_categories/{schedule_categories}/clone', 'ScheduleCategoryController@cloneScheduleCategory');
+    Route::get('api/schedule_categories', 'ScheduleCategoryController@getDatatable');
+    Route::resource('schedule_categories', 'ScheduleCategoryController');
+    Route::post('schedule_categories/bulk', 'ScheduleCategoryController@bulk');
 //   account
     Route::get('/resend_confirmation', 'AccountController@resendConfirmation');
     Route::post('/update_setup', 'AppController@updateSetup');

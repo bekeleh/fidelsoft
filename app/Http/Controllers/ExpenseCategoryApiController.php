@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ExpenseCategoryRequest;
 use App\Http\Requests\CreateExpenseCategoryRequest;
 use App\Http\Requests\UpdateExpenseCategoryRequest;
 use App\Models\ExpenseCategory;
 use App\Ninja\Repositories\ExpenseCategoryRepository;
 use App\Services\ExpenseCategoryService;
-use Input;
 
 class ExpenseCategoryApiController extends BaseAPIController
 {
@@ -72,6 +70,8 @@ class ExpenseCategoryApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
+     * @param ExpenseCategory $request
+     * @return
      */
     public function show(ExpenseCategory $request)
     {
@@ -99,6 +99,8 @@ class ExpenseCategoryApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
+     * @param CreateExpenseCategoryRequest $request
+     * @return
      */
     public function store(CreateExpenseCategoryRequest $request)
     {
@@ -134,6 +136,8 @@ class ExpenseCategoryApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
+     * @param UpdateExpenseCategoryRequest $request
+     * @return
      */
     public function update(UpdateExpenseCategoryRequest $request)
     {
@@ -164,6 +168,8 @@ class ExpenseCategoryApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
+     * @param UpdateExpenseCategoryRequest $request
+     * @return
      */
     public function destroy(UpdateExpenseCategoryRequest $request)
     {

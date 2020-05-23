@@ -18,17 +18,13 @@ class ExpensePresenter extends EntityPresenter
         return $this->entity->vendor ? $this->entity->vendor->getDisplayName() : '';
     }
 
-    /**
-     * @return \DateTime|string
-     */
+
     public function expense_date()
     {
         return Utils::fromSqlDate($this->entity->expense_date);
     }
 
-    /**
-     * @return \DateTime|string
-     */
+
     public function payment_date()
     {
         return Utils::fromSqlDate($this->entity->payment_date);
@@ -82,7 +78,6 @@ class ExpensePresenter extends EntityPresenter
         if ($this->public_notes) {
             $data->title .= ' | ' . $this->public_notes;
         }
-
 
         $data->start = $expense->expense_date;
 

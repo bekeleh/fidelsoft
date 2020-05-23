@@ -4,23 +4,21 @@ namespace App\Http\Requests;
 
 use App\Models\ExpenseCategory;
 
-class UpdateExpenseCategoryRequest extends ExpenseCategoryRequest
+class CreateScheduleCategoryRequest extends ScheduleCategoryRequest
 {
-    protected $entityType = ENTITY_EXPENSE_CATEGORY;
+    protected $entityType = ENTITY_SCHEDULE_CATEGORY;
 
     public function authorize()
     {
-        return $this->user()->can('edit', ENTITY_EXPENSE_CATEGORY);
+        return $this->user()->can('create', $this->entityType);
     }
 
     public function rules()
     {
-        $rules = [];
         $this->sanitize();
+        $rules = [];
         $this->validationData();
-        $expenseCategory = ExpenseCategory::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
-        if ($expenseCategory)
-            $rules['name'] = 'required|unique:expense_categories,name,' . $expenseCategory->id . ',id,account_id,' . $expenseCategory->account_id;
+        $rules['name'] = 'required|unique:schedule_categories,name,' . $this->id . ',id,account_id,' . $this->account_id;
 
         return $rules;
     }
