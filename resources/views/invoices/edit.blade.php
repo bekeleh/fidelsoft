@@ -80,7 +80,6 @@
             @endif
         </ol>
     @endif
-
     {!! Former::open($url)
     ->method($method)
     ->addClass('warn-on-exit main-form search')
@@ -93,9 +92,8 @@
     'invoice_date' => 'required',
     'name' => 'required|max:255',
     ]) !!}
-
     @include('partials.autocomplete_fix')
-
+    {{--    @include('pointofsale/pointofsale')--}}
     <input type="submit" style="display:none" name="submitButton" id="submitButton">
     <div data-bind="with: invoice">
         <div class="panel panel-default">
@@ -1770,4 +1768,4 @@
         @endforeach
     @endif
 
-@stop
+@includeWhen(\Request::is('invoices/*'), 'pointofsale::invoices.edit')@stop

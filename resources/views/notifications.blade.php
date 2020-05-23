@@ -15,7 +15,7 @@
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <i class="fa fa-check faa-pulse animated"></i>
             <strong>Success: </strong>
-            {{ $message }}
+            {!! $message !!}
         </div>
     </div>
 @endif
@@ -26,7 +26,7 @@
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <i class="fa fa-check faa-pulse animated"></i>
             <strong>Message: </strong>
-            {{ $message }}
+            {!! $message !!}
         </div>
     </div>
 @endif
@@ -37,7 +37,7 @@
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <i class="fa fa-check faa-pulse animated"></i>
             <strong>Success: </strong>
-            {{ $message }}
+            {!! $message !!}
         </div>
     </div>
 @endif
@@ -48,7 +48,7 @@
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <i class="fa fa-exclamation-circle faa-pulse animated"></i>
             <strong>Error: </strong>
-            {{ $message }}
+            {!! $message !!}
         </div>
     </div>
 @endif
@@ -59,7 +59,7 @@
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <i class="fa fa-warning faa-pulse animated"></i>
             <strong>Warning: </strong>
-            {{ $message }}
+            {!! $message !!}
         </div>
     </div>
 @endif
@@ -70,7 +70,7 @@
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <i class="fa fa-info-circle faa-pulse animated"></i>
             <strong>Info: </strong>
-            {{ $message }}
+            {!! $message !!}
         </div>
     </div>
 @endif

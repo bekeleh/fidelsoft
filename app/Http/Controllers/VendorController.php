@@ -104,7 +104,9 @@ class VendorController extends BaseController
 
     public function update(UpdateVendorRequest $request)
     {
-        $vendor = $this->vendorService->save($request->input(), $request->entity());
+        $data = $request->input();
+        $vendor = $request->entity();
+        $vendor = $this->vendorService->save($data, $vendor);
 
         Session::flash('message', trans('texts.updated_vendor'));
 
@@ -134,7 +136,9 @@ class VendorController extends BaseController
 
     public function cloneVendor(VendorRequest $request, $publicId)
     {
-        return self::edit($request, $publicId, true);
+        if (Auth::user()->can('create', [ENTITY_VENDOR])) {
+            return self::edit($request, $publicId, true);
+        }
     }
 
     public function bulk()

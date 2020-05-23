@@ -98,11 +98,20 @@ Route::group(['middleware' => 'lookup:account'], function () {
 //Route::post('/hook/bot/{platform?}', 'BotController@handleMessage');
 
 // Laravel auth routes
-Route::get('/login', ['as' => 'login', 'uses' => 'Auth\LoginController@getLoginWrapper']);
 Route::get('/logout', ['as' => 'logout', 'uses' => 'Auth\LoginController@getLogoutWrapper']);
-Route::get('/recover_password', ['as' => 'forgot', 'uses' => 'Auth\ForgotPasswordController@showLinkRequestForm']);
-Route::get('/password/reset/{token}', ['as' => 'forgot', 'uses' => 'Auth\ResetPasswordController@showResetForm']);
-Route::get('/auth/{provider}', 'Auth\AuthController@oauthLogin');
+
+
+Route::group(['middleware' => 'guest'], function () {
+    Route::get('/', 'HomeController@home')->name('home');
+//    Route::get('password/reset', 'UserController@showLinkRequestForm')->name('password.request');
+//    Route::post('password/email', 'UserController@sendResetLinkEmail')->name('password.email');
+//    Route::get('password/reset/{token}', 'UserController@showResetForm')->name('password.reset');
+//    Route::post('password/reset/{token}', 'UserController@reset')->name('password.reset');
+    Route::get('/login', ['as' => 'login', 'uses' => 'Auth\LoginController@getLoginWrapper'])->name('login');
+    Route::get('/recover_password', ['as' => 'forgot', 'uses' => 'Auth\ForgotPasswordController@showLinkRequestForm'])->name('password.email');
+    Route::get('/password/reset/{token}', ['as' => 'forgot', 'uses' => 'Auth\ResetPasswordController@showResetForm'])->name('password.reset');
+    Route::get('/auth/{provider}', 'Auth\AuthController@oauthLogin');
+});
 
 Route::group(['middleware' => ['lookup:user']], function () {
     Route::get('/user/confirm/{confirmation_code}', 'UserController@confirm');
@@ -127,7 +136,7 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
     Route::get('force_reset_password/{public_key}', 'Auth\ForceResetPasswordController@showUserForPasswordReset');
     Route::post('force_reset_password/force_reset_password', 'Auth\ForceResetPasswordController@changePassword');
     Route::get('logged_in', 'HomeController@loggedIn');
-    Route::get('dashboard', 'DashboardController@index');
+    Route::get('dashboard', 'DashboardController@index')->name('dashboard');;
     Route::get('dashboard_chart_data/{group_by}/{start_date}/{end_date}/{currency_id}/{include_expenses}', 'DashboardController@chartData');
     Route::get('set_entity_filter/{entity_type}/{filter?}', 'AccountController@setEntityFilter');
     Route::get('hide_message', 'HomeController@hideMessage');
@@ -265,6 +274,8 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
     Route::get('api/manufacturers', 'ManufacturerController@getDatatable');
     Route::resource('manufacturers', 'ManufacturerController');
     Route::post('manufacturers/bulk', 'ManufacturerController@bulk');
+//   Point of sale
+    Route::get('api/pointofsale/productsByBarcode', 'PointOfSaleApiController@productsByBarcode')->name('productsByBarcode');
 //  product
     Route::get('products/{products}/clone', 'ProductController@cloneProduct');
     Route::get('api/products', 'ProductController@getDatatable');
@@ -336,11 +347,13 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
     Route::post('/update_setup', 'AppController@updateSetup');
 
     // vendor
+    Route::get('vendors/{vendors}/clone', 'VendorController@cloneVendor');
     Route::resource('vendors', 'VendorController');
     Route::get('api/vendors', 'VendorController@getDatatable');
     Route::post('vendors/bulk', 'VendorController@bulk');
 
     // Expense
+    Route::get('expenses/{expenses}/clone', 'ExpenseController@cloneExpense');
     Route::resource('expenses', 'ExpenseController');
     Route::get('expenses/create/{client_id?}/{vendor_id?}/{category_id?}', 'ExpenseController@create');
     Route::get('expenses/{expenses}/clone', 'ExpenseController@cloneExpense');
@@ -402,10 +415,10 @@ Route::group([
     Route::post('permission_groups/bulk', 'PermissionGroupController@bulk');
     Route::post('permission_groups/change_permission', 'PermissionGroupController@changePermission');
 //    permissions
-    Route::get('permissions/{permissions}/clone', 'permissionController@clonePermission');
-    Route::get('api/permissions', 'permissionController@getDatatable');
-    Route::resource('permissions', 'permissionController');
-    Route::post('permissions/bulk', 'permissionController@bulk');
+//    Route::get('permissions/{permissions}/clone', 'permissionController@clonePermission');
+//    Route::get('api/permissions', 'permissionController@getDatatable');
+//    Route::resource('permissions', 'permissionController');
+//    Route::post('permissions/bulk', 'permissionController@bulk');
 //  tax
     Route::get('api/tax_rates', 'TaxRateController@getDatatable');
     Route::resource('tax_rates', 'TaxRateController');

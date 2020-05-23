@@ -27,7 +27,7 @@ class LoginController extends Controller
 
     protected $username = 'username';
 
-    protected $redirectTo = '/dashboard';
+    protected $redirectTo = '/';
 
     private $maxLoginAttempts;
     private $lockoutTime;

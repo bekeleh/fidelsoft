@@ -81,6 +81,36 @@ class InvoiceDatatable extends EntityDatatable
                     return $model->quote_invoice_id ? link_to("invoices/{$model->quote_invoice_id}/edit", trans('texts.converted'))->toHtml() : self::getStatusLabel($model);
                 },
             ],
+            [
+                'created_by',
+                function ($model) {
+                    return $model->created_by;
+                },
+            ],
+            [
+                'updated_by',
+                function ($model) {
+                    return $model->updated_by;
+                },
+            ],
+            [
+                'created_at',
+                function ($model) {
+                    return Utils::timestampToDateString(strtotime($model->created_at));
+                },
+            ],
+            [
+                'updated_at',
+                function ($model) {
+                    return Utils::timestampToDateString(strtotime($model->updated_at));
+                },
+            ],
+//            [
+//                'date_deleted',
+//                function ($model) {
+//                    return Utils::timestampToDateString(strtotime($model->deleted_at));
+//                },
+//            ],
         ];
     }
 
@@ -89,6 +119,15 @@ class InvoiceDatatable extends EntityDatatable
         $entityType = $this->entityType;
 
         return [
+            [
+                trans('texts.edit_invoice'),
+                function ($model) {
+                    return URL::to("invoices/{$model->public_id}/edit");
+                },
+                function ($model) {
+                    return !$model->is_public && Auth::user()->can('edit', [ENTITY_INVOICE, $model]);
+                },
+            ],
             [
                 trans('texts.convert_to_invoice'),
                 function ($model) {

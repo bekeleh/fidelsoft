@@ -4,71 +4,14 @@
         <style type="text/css">
             .nav-footer {
                 <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?>
-                            background-color: #50C878 !important;
+                                   background-color: #50C878 !important;
                 <?php else: ?>
-                            background-color: #FD6A02 !important;
+                                   background-color: #FD6A02 !important;
             <?php endif; ?>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            }
-        </style>
+            }</style>
     <?php endif; ?>
 <?php $__env->stopSection(); ?>
 
@@ -415,6 +358,7 @@
                 'users' => false,
                 'permission_groups' => false,
                 'clients' => false,
+                'point_of_sales' => false,
                 'products' => false,
                 'locations' => false,
                 'invoices' => false,
@@ -445,8 +389,9 @@
             <ul class="sidebar-nav <?php echo e(Auth::user()->dark_mode ? 'sidebar-nav-dark' : 'sidebar-nav-light'); ?>">
             <?php $__currentLoopData = [
             'dashboard',
-            'POS',
+            'point_of_sales',
             'invoices',
+            'expenses',
             'payments',
             'recurring_invoices' => 'recurring',
             'credits',
@@ -457,7 +402,6 @@
             'projects',
             'tasks',
             'schedules',
-            'expenses',
             'manufacturers',
             'clients',
             'vendors',

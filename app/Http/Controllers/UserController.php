@@ -397,7 +397,7 @@ class UserController extends BaseController
 
     public function cloneUser(UserRequest $request, $publicId)
     {
-        if (Auth::user()->can('create', [ENTITY_PERMISSION_GROUP,])) {
+        if (Auth::user()->can('create', [ENTITY_USER])) {
             return self::edit($request, $publicId, true);
         }
         return false;

@@ -52,6 +52,9 @@
         <div>
             <?php echo Former::text('email')->placeholder(trans('texts.email_address'))->raw(); ?>
 
+        </div>
+
+        <div>
             <?php echo Former::password('password')->placeholder(trans('texts.password'))->raw(); ?>
 
         </div>

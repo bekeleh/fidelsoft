@@ -4,6 +4,7 @@ namespace App\Ninja\Repositories;
 
 use App\Libraries\Utils;
 use App\Models\Vendor;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class VendorRepository extends BaseRepository
@@ -34,7 +35,7 @@ class VendorRepository extends BaseRepository
         $query = DB::table('vendors')
             ->join('accounts', 'accounts.id', '=', 'vendors.account_id')
             ->join('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
-            ->where('vendors.account_id', '=', \Auth::user()->account_id)
+            ->where('vendors.account_id', '=', Auth::user()->account_id)
             ->where('vendor_contacts.is_primary', '=', true)
             ->where('vendor_contacts.deleted_at', '=', null)
             ->select(

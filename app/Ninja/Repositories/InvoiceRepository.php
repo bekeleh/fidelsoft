@@ -100,7 +100,13 @@ class InvoiceRepository extends BaseRepository
                 'invoices.user_id',
                 'invoices.is_public',
                 'invoices.is_recurring',
-                'invoices.private_notes'
+                'invoices.private_notes',
+                'invoices.created_at',
+                'invoices.updated_at',
+                'invoices.deleted_at',
+                'invoices.created_by',
+                'invoices.updated_by',
+                'invoices.deleted_by'
             );
 
 //      explicitly passing table name recommend
@@ -191,7 +197,13 @@ class InvoiceRepository extends BaseRepository
                 'invoices.due_date as due_date_sql',
                 'invoices.is_recurring',
                 'invoices.quote_invoice_id',
-                'invoices.private_notes'
+                'invoices.private_notes',
+                'invoices.created_at',
+                'invoices.updated_at',
+                'invoices.deleted_at',
+                'invoices.created_by',
+                'invoices.updated_by',
+                'invoices.deleted_by'
             );
 
         if ($clientPublicId) {
@@ -245,7 +257,13 @@ class InvoiceRepository extends BaseRepository
                 'invoices.end_date',
                 'invoices.auto_bill',
                 'invoices.client_enable_auto_bill',
-                'frequencies.name as frequency'
+                'frequencies.name as frequency',
+                'invoices.created_at',
+                'invoices.updated_at',
+                'invoices.deleted_at',
+                'invoices.created_by',
+                'invoices.updated_by',
+                'invoices.deleted_by'
             );
 
         $table = \Datatable::query($query)
@@ -313,7 +331,13 @@ class InvoiceRepository extends BaseRepository
                 'invoices.amount',
                 'invoices.start_date',
                 'invoices.end_date',
-                'invoices.partial'
+                'invoices.partial',
+                'invoices.created_at',
+                'invoices.updated_at',
+                'invoices.deleted_at',
+                'invoices.created_by',
+                'invoices.updated_by',
+                'invoices.deleted_by'
             );
 
         $table = \Datatable::query($query)
@@ -389,6 +413,8 @@ class InvoiceRepository extends BaseRepository
         if ($invoice) {
             // do nothing
             $entityType = $invoice->getEntityType();
+            $invoice->updated_by = Auth::user()->username;
+
         } elseif ($isNew) {
             $entityType = ENTITY_INVOICE;
             if (isset($data['is_recurring']) && filter_var($data['is_recurring'], FILTER_VALIDATE_BOOLEAN)) {
@@ -400,6 +426,7 @@ class InvoiceRepository extends BaseRepository
             $invoice->invoice_date = date_create()->format('Y-m-d');
             $invoice->custom_taxes1 = $account->custom_invoice_taxes1 ?: false;
             $invoice->custom_taxes2 = $account->custom_invoice_taxes2 ?: false;
+            $invoice->created_by = Auth::user()->username;
 
             // set the default due date
             if ($entityType == ENTITY_INVOICE && empty($data['partial_due_date'])) {

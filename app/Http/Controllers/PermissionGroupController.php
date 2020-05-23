@@ -19,6 +19,9 @@ class PermissionGroupController extends BaseController
     protected $userGroupService;
     protected $entityType = ENTITY_PERMISSION_GROUP;
 
+    protected $permissionGroupRepo;
+    protected $permissionGroupService;
+
     public function __construct(PermissionGroupRepository $userGroupRepo, PermissionGroupService $userGroupService)
     {
         // parent::__construct();
@@ -157,7 +160,9 @@ class PermissionGroupController extends BaseController
 
     public function clonePermissionGroup(PermissionGroupRequest $request, $publicId)
     {
-        return self::edit($request, $publicId, true);
+        if (Auth::user()->can('create', [ENTITY_PERMISSION_GROUP])) {
+            return self::edit($request, $publicId, true);
+        }
     }
 
     private static function getViewModel($userGroup = false)

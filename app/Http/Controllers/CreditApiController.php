@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreditRequest;
 use App\Http\Requests\CreateCreditRequest;
+use App\Http\Requests\CreditRequest;
 use App\Http\Requests\UpdateCreditRequest;
-use App\Models\Invoice;
 use App\Models\Credit;
 use App\Ninja\Repositories\CreditRepository;
-use Input;
-use Response;
 
 class CreditApiController extends BaseAPIController
 {
@@ -44,9 +41,9 @@ class CreditApiController extends BaseAPIController
     public function index()
     {
         $credits = Credit::scope()
-                        ->withTrashed()
-                        ->with(['client'])
-                        ->orderBy('updated_at', 'desc');
+            ->withTrashed()
+            ->with(['client'])
+            ->orderBy('updated_at', 'desc');
 
         return $this->listResponse($credits);
     }
@@ -73,6 +70,8 @@ class CreditApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
+     * @param CreditRequest $request
+     * @return
      */
     public function show(CreditRequest $request)
     {
@@ -100,6 +99,8 @@ class CreditApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
+     * @param CreateCreditRequest $request
+     * @return
      */
     public function store(CreateCreditRequest $request)
     {
@@ -136,7 +137,9 @@ class CreditApiController extends BaseAPIController
      *   )
      * )
      *
+     * @param UpdateCreditRequest $request
      * @param mixed $publicId
+     * @return
      */
     public function update(UpdateCreditRequest $request, $publicId)
     {
@@ -173,6 +176,8 @@ class CreditApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
+     * @param UpdateCreditRequest $request
+     * @return
      */
     public function destroy(UpdateCreditRequest $request)
     {

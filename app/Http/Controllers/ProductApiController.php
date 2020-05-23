@@ -12,14 +12,9 @@ use Google\Cloud\Vision\V1\CreateProductRequest;
  */
 class ProductApiController extends BaseAPIController
 {
-    /**
-     * @var string
-     */
+
     protected $entityType = ENTITY_PRODUCT;
 
-    /**
-     * @var ProductRepository
-     */
     protected $productRepo;
 
     /**

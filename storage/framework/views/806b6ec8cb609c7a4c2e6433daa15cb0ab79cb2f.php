@@ -15,7 +15,7 @@
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <i class="fa fa-check faa-pulse animated"></i>
             <strong>Success: </strong>
-            <?php echo e($message); ?>
+            <?php echo $message; ?>
 
         </div>
     </div>
@@ -27,7 +27,7 @@
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <i class="fa fa-check faa-pulse animated"></i>
             <strong>Message: </strong>
-            <?php echo e($message); ?>
+            <?php echo $message; ?>
 
         </div>
     </div>
@@ -39,7 +39,7 @@
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <i class="fa fa-check faa-pulse animated"></i>
             <strong>Success: </strong>
-            <?php echo e($message); ?>
+            <?php echo $message; ?>
 
         </div>
     </div>
@@ -51,7 +51,7 @@
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <i class="fa fa-exclamation-circle faa-pulse animated"></i>
             <strong>Error: </strong>
-            <?php echo e($message); ?>
+            <?php echo $message; ?>
 
         </div>
     </div>
@@ -63,7 +63,7 @@
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <i class="fa fa-warning faa-pulse animated"></i>
             <strong>Warning: </strong>
-            <?php echo e($message); ?>
+            <?php echo $message; ?>
 
         </div>
     </div>
@@ -75,7 +75,7 @@
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <i class="fa fa-info-circle faa-pulse animated"></i>
             <strong>Info: </strong>
-            <?php echo e($message); ?>
+            <?php echo $message; ?>
 
         </div>
     </div>

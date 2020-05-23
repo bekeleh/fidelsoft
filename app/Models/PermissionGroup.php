@@ -22,6 +22,7 @@ class PermissionGroup extends EntityModel
 
     protected $fillable = [
         'name',
+        'permissions',
         'is_deleted',
         'notes',
         'created_by',

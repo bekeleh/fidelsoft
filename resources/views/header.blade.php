@@ -5,71 +5,14 @@
         <style type="text/css">
             .nav-footer {
                 @if (config('mail.driver') == 'log' && ! config('services.postmark'))
-                            background-color: #50C878 !important;
+                                   background-color: #50C878 !important;
                 @else
-                            background-color: #FD6A02 !important;
+                                   background-color: #FD6A02 !important;
             @endif
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            }
-        </style>
+            }</style>
     @endif
 @stop
 
@@ -407,6 +350,7 @@
                 'users' => false,
                 'permission_groups' => false,
                 'clients' => false,
+                'point_of_sales' => false,
                 'products' => false,
                 'locations' => false,
                 'invoices' => false,
@@ -436,8 +380,9 @@
             <ul class="sidebar-nav {{ Auth::user()->dark_mode ? 'sidebar-nav-dark' : 'sidebar-nav-light' }}">
             @foreach([
             'dashboard',
-            'POS',
+            'point_of_sales',
             'invoices',
+            'expenses',
             'payments',
             'recurring_invoices' => 'recurring',
             'credits',
@@ -448,7 +393,6 @@
             'projects',
             'tasks',
             'schedules',
-            'expenses',
             'manufacturers',
             'clients',
             'vendors',

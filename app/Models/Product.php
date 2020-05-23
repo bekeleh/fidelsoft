@@ -11,7 +11,6 @@ class Product extends EntityModel
     use PresentableTrait;
     use SoftDeletes;
 
-    protected $table = 'Products';
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
 
     protected $fillable = [
@@ -103,6 +102,11 @@ class Product extends EntityModel
     public function itemMovements()
     {
         return $this->morphMany('\App\Models\ItemMovement', 'movable', 'movable_type', 'movable_id');
+    }
+
+    public function manufacturerProductDetails()
+    {
+        return $this->hasMany('App\Models\ItemPrice', 'product_id')->withTrashed();
     }
 
 }

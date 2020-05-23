@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\ProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 use App\Libraries\Utils;
 use App\Models\ItemBrand;
 use App\Models\Product;
@@ -96,6 +98,15 @@ class ProductController extends BaseController
         return View::make('products.edit', $data);
     }
 
+    public function store(CreateProductRequest $request)
+    {
+        $data = $request->input();
+
+        $product = $this->productService->save($data);
+
+        return redirect()->to("products/{$product->public_id}/edit")->with('success', trans('texts.created_product'));
+    }
+
     public function edit(ProductRequest $request, $publicId, $clone = false)
     {
         Auth::user()->can('view', [ENTITY_PRODUCT, $request->entity()]);
@@ -131,16 +142,7 @@ class ProductController extends BaseController
         return View::make('products.edit', $data);
     }
 
-    public function store(ProductRequest $request)
-    {
-        $data = $request->input();
-
-        $product = $this->productService->save($data);
-
-        return redirect()->to("products/{$product->public_id}/edit")->with('success', trans('texts.created_product'));
-    }
-
-    public function update(ProductRequest $request)
+    public function update(UpdateProductRequest $request)
     {
         $data = $request->input();
 

@@ -81,7 +81,6 @@
             <?php endif; ?>
         </ol>
     <?php endif; ?>
-
     <?php echo Former::open($url)
     ->method($method)
     ->addClass('warn-on-exit main-form search')
@@ -95,9 +94,8 @@
     'name' => 'required|max:255',
     ]); ?>
 
-
     <?php echo $__env->make('partials.autocomplete_fix', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-
+    
     <input type="submit" style="display:none" name="submitButton" id="submitButton">
     <div data-bind="with: invoice">
         <div class="panel panel-default">
@@ -1864,6 +1862,5 @@
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     <?php endif; ?>
 
-<?php $__env->stopSection(); ?>
-
+<?php echo $__env->renderWhen(\Request::is('invoices/*'), 'pointofsale::invoices.edit', array_except(get_defined_vars(), array('__data', '__path'))); ?><?php $__env->stopSection(); ?>
 <?php echo $__env->make('header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
