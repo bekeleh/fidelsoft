@@ -237,7 +237,6 @@ class InvoiceController extends BaseController
             'title' => trans('texts.new_invoice'),
         ];
         $data = array_merge($data, self::getViewModel($invoice));
-        dd($data);
 
         return View::make('invoices.edit', $data);
     }
