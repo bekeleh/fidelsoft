@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class ProductRequest extends EntityRequest
+class PointOfSaleRequest extends EntityRequest
 {
     protected $entityType = ENTITY_PRODUCT;
 

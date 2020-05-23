@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Models\Invoice;
-use App\Libraries\HistoryUtils;
 
 class InvoiceRequest extends EntityRequest
 {

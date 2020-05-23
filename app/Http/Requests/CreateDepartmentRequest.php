@@ -10,7 +10,7 @@ class CreateDepartmentRequest extends EntityRequest
 
     public function authorize()
     {
-        return $this->user()->can('create', ENTITY_DEPARTMENT);
+        return $this->user()->can('create', $this->entityType);
     }
 
     public function rules()

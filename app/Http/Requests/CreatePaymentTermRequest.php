@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Invoice;
-
 class CreatePaymentTermRequest extends PaymentTermRequest
 {
     public function authorize()
