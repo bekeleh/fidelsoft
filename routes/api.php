@@ -38,6 +38,7 @@ Route::resource('locations', 'LocationApiController');
 Route::resource('sale_types', 'SaleTypeApiController');
 Route::resource('hold_reasons', 'HoldReasonApiController');
 Route::resource('schedule_categories', 'ScheduleCategoryApiController');
+Route::resource('schedules', 'ScheduleApiController');
 Route::resource('scheduled_reports', 'ScheduleReportApiController');
 Route::resource('units', 'UnitApiController');
 Route::resource('projects', 'ProjectApiController');

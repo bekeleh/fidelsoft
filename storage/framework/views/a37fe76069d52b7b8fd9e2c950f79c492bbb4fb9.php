@@ -25,6 +25,16 @@
         ])->split(); ?>
 
     <?php endif; ?>
+<?php elseif(in_array($entityType, [ENTITY_SCHEDULE])): ?>
+    <?php if(Auth::user()->can('create', [ENTITY_SCHEDULE])): ?>
+        <?php echo DropdownButton::normal(trans('texts.maintenance'))
+        ->withAttributes(['class'=>'maintenanceDropdown'])
+        ->withContents([
+            ['label' => trans('texts.list_scheduled_reports'), 'url' => url('/scheduled_reports')],
+        ['label' => trans('texts.new_schedule_category'), 'url' => url('/schedule_categories/create')],
+        ])->split(); ?>
+
+    <?php endif; ?>
 <?php endif; ?>
 <?php if(in_array($entityType, [ENTITY_EXPENSE,ENTITY_EXPENSE_CATEGORY,ENTITY_RECURRING_EXPENSE, ENTITY_RECURRING_INVOICE,ENTITY_VENDOR])): ?>
     <?php if(Auth::user()->can('create', [ENTITY_EXPENSE_CATEGORY,ENTITY_RECURRING_EXPENSE, ENTITY_RECURRING_INVOICE,ENTITY_VENDOR])): ?>

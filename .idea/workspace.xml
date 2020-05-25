@@ -2,34 +2,53 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/ScheduledReportApiController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/ScheduledReportController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/CreateScheduledReportRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/ScheduledReportRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateScheduledReportRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Ninja/Presenters/ScheduledReportPresenter.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Policies/ScheduledReportPolicy.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Services/ScheduledReportService.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/scheduled_reports/edit.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/f5kgZH651iizENT2NtMZl3PanjB0I8KCptJdzaek" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/6412f4662eafa0818b7689e939ffe8bcc78be44a.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/ScheduleApiController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/ScheduleController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Requests/CreateScheduleRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Requests/ScheduleRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateScheduleRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Ninja/Datatables/ScheduleDatatable.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Ninja/Presenters/SchedulePresenter.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Ninja/Repositories/ScheduleRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Policies/SchedulePolicy.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Services/ScheduleService.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/schedules/edit.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/zoxvcmtz2WeZKygWJ5ntF29bGjxdVq1xj51ZXcWW" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/7fb0488a950dd8a149a9b2d0c905d936e8882f8b.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Constants.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Constants.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ScheduleCategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ScheduleCategoryController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ScheduledReportController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ScheduledReportController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/CreateScheduleCategoryRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/CreateScheduleCategoryRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdateScheduleCategoryRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateScheduleCategoryRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/CreateScheduledReportRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/CreateScheduledReportRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Schedule.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Schedule.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/ScheduledReport.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ScheduledReport.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/ScheduleReportDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/ScheduledReportDatatable.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/AccountRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/AccountRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/ScheduleReportRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/ScheduledReportRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/DepartmentPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/DepartmentPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/ScheduleReportPolicy.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/schedule_categories/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/schedule_categories/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/menu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/menu.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/scheduled_reports/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/scheduled_reports/edit.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/Oa0uqcw53uHy9SZLb1GWWuW2YmnMC93Uh2S52oTX" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/f5kgZH651iizENT2NtMZl3PanjB0I8KCptJdzaek" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/0956fb495b4b6ea7f0889278248b8c30b2698808.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/0b0317c472c3c6579b92a3fd696dfd373765491a.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/2716ccdc7649fdb21982806d1299aa7327752514.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/3e3a352fac4114f5f1122bb15641176a5d9ec5ea.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/5d54d87cbd68177f04f4011a9c1c34965131c548.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/626066e21669c3c0963be6662b0c23e18dd7881b.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/6412f4662eafa0818b7689e939ffe8bcc78be44a.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/6412f4662eafa0818b7689e939ffe8bcc78be44a.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/68be9361ace2260e63a63d0db144d889104c1cd9.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/6dcd1d5f1aa14ef39e4fff36c9391dd760543946.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/6fa524c879f672159ba6d0cd743d03590bc34db5.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/72a1f99ea07329e97b538913d01038f2b575eefd.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/75e11237401b8cf0f4c007b2e3d61ed170cb05c8.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/81ba3a9f7daca26cbbc3f998216adda0af45f286.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/86615bc9a6acc99db245c889510ff1ee3b78782f.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/a37fe76069d52b7b8fd9e2c950f79c492bbb4fb9.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/a37fe76069d52b7b8fd9e2c950f79c492bbb4fb9.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/a8e214552cb3a46e8d7fa956c4cd32193ea2dc29.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/b188f4bf176bb484b1a7a2ff448a0d292f253d58.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/c18fa3865e1151b9981fcdd9ba5c37d38cbef917.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/c9e0f6f4159b676ba8afbee550091bc69d48cab4.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -445,14 +464,7 @@
       <workItem from="1589807013120" duration="3447000" />
       <workItem from="1590052935815" duration="13173000" />
       <workItem from="1590248073057" duration="5205000" />
-      <workItem from="1590404199611" duration="10631000" />
-    </task>
-    <task id="LOCAL-00237" summary="2020-05-6 9:26">
-      <created>1588787418839</created>
-      <option name="number" value="00237" />
-      <option name="presentableId" value="LOCAL-00237" />
-      <option name="project" value="LOCAL" />
-      <updated>1588787418839</updated>
+      <workItem from="1590404199611" duration="14520000" />
     </task>
     <task id="LOCAL-00238" summary="2020-05-6 9:26">
       <created>1588787682061</created>
@@ -790,7 +802,14 @@
       <option name="project" value="LOCAL" />
       <updated>1590409759644</updated>
     </task>
-    <option name="localTasksCounter" value="286" />
+    <task id="LOCAL-00286" summary="2020-05-25 9:26">
+      <created>1590430630913</created>
+      <option name="number" value="00286" />
+      <option name="presentableId" value="LOCAL-00286" />
+      <option name="project" value="LOCAL" />
+      <updated>1590430630913</updated>
+    </task>
+    <option name="localTasksCounter" value="287" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -867,10 +886,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1587939377952" />
-    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1590409757529">
+    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1590430629168">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1590409757529" />
+    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1590430629168" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="418" y="255" key="ComposerInitDialogKey" timestamp="1589789975070">
@@ -911,10 +930,10 @@
     </state>
     <state x="468" y="194" key="NewPhpClassDialog/0.0.1280.680@0.0.1280.680" timestamp="1588618851545" />
     <state x="527" y="245" key="NewPhpClassDialog/0.0.1440.860@0.0.1440.860" timestamp="1585293911127" />
-    <state x="536" y="236" key="NewPhpFileDialog" timestamp="1590412481958">
+    <state x="536" y="236" key="NewPhpFileDialog" timestamp="1590435552570">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="536" y="236" key="NewPhpFileDialog/0.0.1280.680@0.0.1280.680" timestamp="1590412481958" />
+    <state x="536" y="236" key="NewPhpFileDialog/0.0.1280.680@0.0.1280.680" timestamp="1590435552570" />
     <state x="447" y="189" key="NewPhpFileDialog/0.0.1366.728@0.0.1366.728" timestamp="1586116260809" />
     <state x="471" y="223" key="NewPhpFileDialog/0.0.1440.860@0.0.1440.860" timestamp="1585320200513" />
     <state x="197" y="0" key="SettingsEditor" timestamp="1589308614029">

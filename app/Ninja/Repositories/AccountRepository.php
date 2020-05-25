@@ -308,6 +308,7 @@ class AccountRepository
             ENTITY_ITEM_PRICE,
             ENTITY_ITEM_MOVEMENT,
             ENTITY_SCHEDULE_CATEGORY,
+            ENTITY_SCHEDULE,
             ENTITY_SCHEDULED_REPORT,
 
         ];

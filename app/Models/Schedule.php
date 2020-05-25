@@ -22,6 +22,30 @@ class Schedule extends EntityModel
 
     public $timestamps = true;
 
+    protected $fillable = [
+        'title',
+        'description',
+        'notes',
+        'rrule',
+        'url',
+        'will_call',
+        'isRecurring',
+        'is_deleted',
+        'created_by',
+        'updated_by',
+        'deleted_by',
+    ];
+
+    public function getEntityType()
+    {
+        return ENTITY_SCHEDULE;
+    }
+
+    public function getRoute()
+    {
+        return "/schedules/{$this->public_id}/edit";
+    }
+
     //necessary here for scope below
     public function getStartDateAttribute()
     {
@@ -35,13 +59,12 @@ class Schedule extends EntityModel
 
     public function scopeWithOccurrences($query)
     {
-        $query->leftjoin('schedule_occurrences', 'schedule.id', '=',
-            'schedule_occurrences.schedule_id');
+        $query->leftjoin('schedule_occurrences', 'schedule.id', '=', 'schedule_occurrences.schedule_id');
     }
 
     public function category()
     {
-        return $this->hasOne('Modules\Scheduler\Models\Category', 'id', 'category_id');
+        return $this->hasOne('Modules\Scheduler\Models\ScheduleCategory', 'id', 'category_id');
     }
 
     public function occurrences()

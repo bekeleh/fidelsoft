@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\ExpenseCategory;
+use App\Models\ScheduledReport;
 
 class CreateScheduledReportRequest extends ScheduledReportRequest
 {
@@ -40,7 +40,7 @@ class CreateScheduledReportRequest extends ScheduledReportRequest
 
         if (count($input)) {
             $this->request->add([
-                'account_id' => ExpenseCategory::getAccountId()
+                'account_id' => ScheduledReport::getAccountId()
             ]);
         }
 

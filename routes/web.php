@@ -347,7 +347,12 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
     Route::get('api/schedule_categories', 'ScheduleCategoryController@getDatatable');
     Route::resource('schedule_categories', 'ScheduleCategoryController');
     Route::post('schedule_categories/bulk', 'ScheduleCategoryController@bulk');
-    //   schedule report
+    //   schedule
+    Route::get('schedules/{schedules}/clone', 'ScheduleController@cloneSchedule');
+    Route::get('api/schedules', 'ScheduleController@getDatatable');
+    Route::resource('schedules', 'ScheduleController');
+    Route::post('schedules/bulk', 'ScheduleController@bulk');
+    //   scheduled report
     Route::get('scheduled_reports/{scheduled_reports}/clone', 'ScheduledReportController@cloneScheduleReport');
     Route::get('api/scheduled_reports', 'ScheduledReportController@getDatatable');
     Route::resource('scheduled_reports', 'ScheduledReportController');

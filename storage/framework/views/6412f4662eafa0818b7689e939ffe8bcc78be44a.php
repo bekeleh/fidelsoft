@@ -9,8 +9,8 @@
             ]); ?>
 
 
-    <?php if($ScheduledReport): ?>
-        <?php echo Former::populate($ScheduledReport); ?>
+    <?php if($scheduledReport): ?>
+        <?php echo Former::populate($scheduledReport); ?>
 
     <?php endif; ?>
 
@@ -23,7 +23,7 @@
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <?php echo Former::text('id')->label('texts.ip'); ?>
+                    <?php echo Former::text('ip')->label('texts.ip'); ?>
 
                     <?php echo Former::text('frequency')->label('texts.frequency'); ?>
 
@@ -35,7 +35,7 @@
     </div>
 
     <center class="buttons">
-        <?php echo Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/SCHEDULED_REPORTs'))->appendIcon(Icon::create('remove-circle')); ?>
+        <?php echo Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/schedules'))->appendIcon(Icon::create('remove-circle')); ?>
 
         <?php echo Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')); ?>
 

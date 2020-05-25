@@ -7,7 +7,10 @@ $LANG = array(
 | schedule  trans
 |--------------------------------------------------------------------------
 */
-    'schedule_name' => 'Schedule Name',
+    'title' => 'Title',
+    'rrule' => 'Recurring Rule',
+    'will_call' => 'Will Call',
+    'is_recurring' => 'Is Recurring',
     'schedules' => 'Schedules',
     'schedule_list' => 'Schedule List',
     'list_schedules' => 'List Schedules',
@@ -40,7 +43,7 @@ $LANG = array(
     'edit_schedule_category' => 'Edit Schedule Category',
     'clone_schedule_category' => 'Clone Schedule Category',
     'restore_schedule_category' => 'Restore Schedule Category',
-    'new_schedule_category' => 'New Schedule',
+    'new_schedule_category' => 'New Schedule Category',
     'created_schedule_category' => 'Successfully Created Schedule Category',
     'updated_schedule_category' => 'Successfully Updated Schedule Category',
     'archived_schedule_category' => 'Successfully Archived Schedule Category',

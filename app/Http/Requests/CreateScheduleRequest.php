@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Models\ScheduleCategory;
+use App\Models\Schedule;
 
-class CreateScheduleCategoryRequest extends ScheduleCategoryRequest
+class CreateScheduleRequest extends ScheduleRequest
 {
-    protected $entityType = ENTITY_SCHEDULE_CATEGORY;
+    protected $entityType = ENTITY_SCHEDULE;
 
     public function authorize()
     {
@@ -17,9 +17,9 @@ class CreateScheduleCategoryRequest extends ScheduleCategoryRequest
     {
         $this->sanitize();
         $this->validationData();
-
         $rules = [];
-        $rules['name'] = 'required|unique:schedule_categories,name,' . $this->id . ',id,account_id,' . $this->account_id;
+        $rules['title'] = 'required';
+        $rules['description'] = 'required';
 
         return $rules;
     }
@@ -28,11 +28,11 @@ class CreateScheduleCategoryRequest extends ScheduleCategoryRequest
     {
         $input = $this->all();
 
-        if (!empty($input['name'])) {
-            $input['name'] = filter_var($input['name'], FILTER_SANITIZE_STRING);
+        if (!empty($input['title'])) {
+            $input['title'] = filter_var($input['title'], FILTER_SANITIZE_STRING);
         }
-        if (!empty($input['notes'])) {
-            $input['notes'] = filter_var($input['notes'], FILTER_SANITIZE_STRING);
+        if (!empty($input['description'])) {
+            $input['description'] = filter_var($input['description'], FILTER_SANITIZE_STRING);
         }
 
         $this->replace($input);
@@ -44,7 +44,7 @@ class CreateScheduleCategoryRequest extends ScheduleCategoryRequest
 
         if (count($input)) {
             $this->request->add([
-                'account_id' => ScheduleCategory::getAccountId()
+                'account_id' => Schedule::getAccountId()
             ]);
         }
 

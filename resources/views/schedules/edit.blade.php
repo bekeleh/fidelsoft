@@ -6,12 +6,12 @@
             ->addClass('col-lg-10 col-lg-offset-1 warn-on-exit')
             ->method($method)
             ->rules([
-                'ip' => 'required',
-                'frequency' => 'required',
+                'title' => 'required',
+                'description' => 'required',
             ]) !!}
 
-    @if ($scheduledReport)
-        {!! Former::populate($scheduledReport) !!}
+    @if ($schedule)
+        {!! Former::populate($schedule) !!}
     @endif
 
     <span style="display:none">
@@ -22,9 +22,11 @@
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    {!! Former::text('ip')->label('texts.ip') !!}
-                    {!! Former::text('frequency')->label('texts.frequency') !!}
-                    {!! Former::date('send_date')->label('texts.send_date') !!}
+                    {!! Former::text('title')->label('texts.title') !!}
+                    {!! Former::text('description')->label('texts.description') !!}
+                    {!! Former::text('rrule')->label('texts.rrule') !!}
+                    {!! Former::text('url')->label('texts.url') !!}
+                    {!! Former::textarea('notes')->rows(6)->label('texts.notes') !!}
                 </div>
             </div>
         </div>

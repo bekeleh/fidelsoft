@@ -2,50 +2,50 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateScheduledReportRequest;
-use App\Http\Requests\ScheduledReportRequest;
-use App\Http\Requests\UpdateScheduledReportRequest;
-use App\Ninja\Datatables\ScheduledReportDatatable;
-use App\Ninja\Repositories\ScheduledReportRepository;
-use App\Services\ScheduledReportService;
+use App\Http\Requests\CreatescheduledReportRequest;
+use App\Http\Requests\scheduledReportRequest;
+use App\Http\Requests\UpdatescheduledReportRequest;
+use App\Ninja\Datatables\scheduledReportDatatable;
+use App\Ninja\Repositories\scheduledReportRepository;
+use App\Services\scheduledReportService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 
-class ScheduledReportController extends BaseController
+class scheduledReportController extends BaseController
 {
-    protected $ScheduledReportRepo;
-    protected $ScheduledReportService;
+    protected $scheduledReportRepo;
+    protected $scheduledReportService;
     protected $entityType = ENTITY_SCHEDULED_REPORT;
 
-    public function __construct(ScheduledReportRepository $ScheduledReportRepo, ScheduledReportService $ScheduledReportService)
+    public function __construct(scheduledReportRepository $scheduledReportRepo, scheduledReportService $scheduledReportService)
     {
-        $this->ScheduledReportRepo = $ScheduledReportRepo;
-        $this->ScheduledReportService = $ScheduledReportService;
+        $this->scheduledReportRepo = $scheduledReportRepo;
+        $this->scheduledReportService = $scheduledReportService;
     }
 
     public function index()
     {
         return View::make('list_wrapper', [
             'entityType' => ENTITY_SCHEDULED_REPORT,
-            'datatable' => new ScheduledReportDatatable(),
+            'datatable' => new scheduledReportDatatable(),
             'title' => trans('texts.scheduled_reports'),
         ]);
     }
 
-    public function getDatatable($ScheduledReportPublicId = null)
+    public function getDatatable($scheduledReportPublicId = null)
     {
         $accountId = Auth::user()->account_id;
         $search = Input::get('sSearch');
 
-        return $this->ScheduledReportService->getDatatable($accountId, $search);
+        return $this->scheduledReportService->getDatatable($accountId, $search);
     }
 
-    public function create(ScheduledReportRequest $request)
+    public function create(scheduledReportRequest $request)
     {
         $data = [
-            'ScheduledReport' => null,
+            'scheduledReport' => null,
             'method' => 'POST',
             'url' => 'scheduled_reports',
             'title' => trans('texts.new_scheduled_report'),
@@ -54,39 +54,39 @@ class ScheduledReportController extends BaseController
         return View::make('scheduled_reports.edit', $data);
     }
 
-    public function edit(ScheduledReportRequest $request)
+    public function edit(scheduledReportRequest $request)
     {
-        $ScheduledReport = $request->entity();
+        $scheduledReport = $request->entity();
 
         $data = [
-            'ScheduledReport' => $ScheduledReport,
+            'scheduledReport' => $scheduledReport,
             'method' => 'PUT',
-            'url' => 'scheduled_reports/' . $ScheduledReport->public_id,
+            'url' => 'scheduled_reports/' . $scheduledReport->public_id,
             'title' => trans('texts.edit_scheduled_report'),
         ];
 
         return View::make('scheduled_reports.edit', $data);
     }
 
-    public function store(CreateScheduledReportRequest $request)
+    public function store(CreatescheduledReportRequest $request)
     {
-        $ScheduledReport = $this->ScheduledReportRepo->save($request->input());
+        $scheduledReport = $this->scheduledReportRepo->save($request->input());
 
         Session::flash('message', trans('texts.created_scheduled_report'));
 
-        return redirect()->to($ScheduledReport->getRoute());
+        return redirect()->to($scheduledReport->getRoute());
     }
 
-    public function update(UpdateScheduledReportRequest $request)
+    public function update(UpdatescheduledReportRequest $request)
     {
-        $ScheduledReport = $this->ScheduledReportRepo->save($request->input(), $request->entity());
+        $scheduledReport = $this->scheduledReportRepo->save($request->input(), $request->entity());
 
         Session::flash('message', trans('texts.updated_scheduled_report'));
 
-        return redirect()->to($ScheduledReport->getRoute());
+        return redirect()->to($scheduledReport->getRoute());
     }
 
-    public function cloneScheduledReport(ScheduledReportRequest $request, $publicId)
+    public function cloneScheduledReport(scheduledReportRequest $request, $publicId)
     {
         return self::edit($request, $publicId, true);
     }
@@ -95,7 +95,7 @@ class ScheduledReportController extends BaseController
     {
         $action = Input::get('action');
         $ids = Input::get('public_id') ? Input::get('public_id') : Input::get('ids');
-        $count = $this->ScheduledReportService->bulk($ids, $action);
+        $count = $this->scheduledReportService->bulk($ids, $action);
 
         if ($count > 0) {
             $field = $count == 1 ? "{$action}d_scheduled_report" : "{$action}d_scheduled_reports";

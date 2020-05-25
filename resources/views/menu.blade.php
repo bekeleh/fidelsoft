@@ -22,6 +22,15 @@
         ['label' => trans('texts.new_proposal_category'), 'url' => url('/proposals/categories/create')],
         ])->split() !!}
     @endif
+@elseif (in_array($entityType, [ENTITY_SCHEDULE]))
+    @if (Auth::user()->can('create', [ENTITY_SCHEDULE]))
+        {!! DropdownButton::normal(trans('texts.maintenance'))
+        ->withAttributes(['class'=>'maintenanceDropdown'])
+        ->withContents([
+            ['label' => trans('texts.list_scheduled_reports'), 'url' => url('/scheduled_reports')],
+        ['label' => trans('texts.new_schedule_category'), 'url' => url('/schedule_categories/create')],
+        ])->split() !!}
+    @endif
 @endif
 @if (in_array($entityType, [ENTITY_EXPENSE,ENTITY_EXPENSE_CATEGORY,ENTITY_RECURRING_EXPENSE, ENTITY_RECURRING_INVOICE,ENTITY_VENDOR]))
     @if (Auth::user()->can('create', [ENTITY_EXPENSE_CATEGORY,ENTITY_RECURRING_EXPENSE, ENTITY_RECURRING_INVOICE,ENTITY_VENDOR]))

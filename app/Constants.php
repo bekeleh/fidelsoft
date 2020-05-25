@@ -66,7 +66,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_DASHBOARD', 'dashboard');
     define('ENTITY_SEARCH', 'search');
     define('ENTITY_POINT_OF_SALE', 'point_of_sale');
-    define('ENTITY_SCHEDULE', 'ENTITY_SCHEDULE');
+    define('ENTITY_SCHEDULE', 'schedule');
     define('ENTITY_SCHEDULE_CATEGORY', 'schedule_category');
     define('ENTITY_SCHEDULE_OCCURRENCE', 'schedule_occurrence');
     define('ENTITY_SCHEDULE_REMINDER', 'schedule_reminder');
