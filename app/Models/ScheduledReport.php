@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laracasts\Presenter\PresentableTrait;
 
 /**
  * Class Scheduled Report
@@ -11,6 +12,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ScheduledReport extends EntityModel
 {
     use SoftDeletes;
+    use PresentableTrait;
+
+    protected $presenter = 'App\Ninja\Presenters\ScheduledReportPresenter';
+
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
 
     protected $fillable = [
@@ -19,6 +25,15 @@ class ScheduledReport extends EntityModel
         'send_date',
     ];
 
+    public function getEntityType()
+    {
+        return ENTITY_SCHEDULED_REPORT;
+    }
+
+    public function getRoute()
+    {
+        return "/scheduled_reports/{$this->public_id}/edit";
+    }
 
     public function account()
     {

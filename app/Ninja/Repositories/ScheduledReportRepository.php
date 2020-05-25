@@ -6,7 +6,7 @@ use App\Models\ScheduledReport;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class ScheduleReportRepository extends BaseRepository
+class ScheduledReportRepository extends BaseRepository
 {
     private $model;
 
@@ -35,6 +35,7 @@ class ScheduleReportRepository extends BaseRepository
                 'scheduled_reports.user_id',
                 'scheduled_reports.ip',
                 'scheduled_reports.frequency',
+                'scheduled_reports.send_date',
                 'scheduled_reports.created_by',
                 'scheduled_reports.updated_by',
                 'scheduled_reports.deleted_by',
@@ -51,29 +52,29 @@ class ScheduleReportRepository extends BaseRepository
             });
         }
 
-        $this->applyFilters($query, ENTITY_SCHEDULE_CATEGORY);
+        $this->applyFilters($query, ENTITY_SCHEDULED_REPORT);
 
         return $query;
     }
 
-    public function save($data, $scheduleReport = false)
+    public function save($data, $ScheduledReport = false)
     {
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
-        if ($scheduleReport) {
-            $scheduleReport->updated_by = Auth::user()->username;
+        if ($ScheduledReport) {
+            $ScheduledReport->updated_by = Auth::user()->username;
 
         } elseif ($publicId) {
-            $scheduleReport = ScheduledReport::scope($publicId)->withArchived()->firstOrFail();
+            $ScheduledReport = ScheduledReport::scope($publicId)->withArchived()->firstOrFail();
             \Log::warning('Entity not set in schedule report repo save');
         } else {
-            $scheduleReport = ScheduledReport::createNew();
-            $scheduleReport->created_by = Auth::user()->name;
+            $ScheduledReport = ScheduledReport::createNew();
+            $ScheduledReport->created_by = Auth::user()->name;
         }
 
-        $scheduleReport->fill($data);
+        $ScheduledReport->fill($data);
 
-        $scheduleReport->save();
+        $ScheduledReport->save();
 
-        return $scheduleReport;
+        return $ScheduledReport;
     }
 }

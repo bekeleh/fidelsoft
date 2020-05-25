@@ -72,7 +72,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_SCHEDULE_REMINDER', 'schedule_reminder');
     define('ENTITY_SCHEDULE_RESOURCE', 'schedule_resource');
     define('ENTITY_SCHEDULE_SETTING', 'schedule_setting');
-    define('ENTITY_SCHEDULE_REPORT', 'schedule_report');
+    define('ENTITY_SCHEDULED_REPORT', 'scheduled_report');
 
     $permissionEntities = [
         ENTITY_ACTIVITY,
@@ -123,7 +123,7 @@ if (!defined('APP_NAME')) {
         ENTITY_SCHEDULE_OCCURRENCE,
         ENTITY_SCHEDULE_REMINDER,
         ENTITY_SCHEDULE_RESOURCE,
-        ENTITY_SCHEDULE_REPORT,
+        ENTITY_SCHEDULED_REPORT,
         ENTITY_SCHEDULE_SETTING,
 
     ];
@@ -199,7 +199,7 @@ if (!defined('APP_NAME')) {
     define('ACCOUNT_SCHEDULE_OCCURRENCE', 'schedule_occurrences');
     define('ACCOUNT_SCHEDULE_REMINDER', 'schedule_reminders');
     define('ACCOUNT_SCHEDULE_RESOURCE', 'schedule_resources');
-    define('ACCOUNT_SCHEDULE_REPORT', 'schedule_reports');
+    define('ACCOUNT_SCHEDULED_REPORT', 'scheduled_reports');
     define('ACCOUNT_SCHEDULE_SETTING', 'schedule_settings');
 
     define('ACTIVITY_TYPE_CREATE_CLIENT', 1);

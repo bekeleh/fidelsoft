@@ -4,9 +4,9 @@ namespace App\Http\Requests;
 
 use App\Models\ExpenseCategory;
 
-class CreateScheduleCategoryRequest extends ScheduleCategoryRequest
+class CreateScheduledReportRequest extends ScheduledReportRequest
 {
-    protected $entityType = ENTITY_SCHEDULE_CATEGORY;
+    protected $entityType = ENTITY_SCHEDULED_REPORT;
 
     public function authorize()
     {
@@ -17,9 +17,8 @@ class CreateScheduleCategoryRequest extends ScheduleCategoryRequest
     {
         $this->sanitize();
         $this->validationData();
-
         $rules = [];
-        $rules['name'] = 'required|unique:schedule_categories,name,' . $this->id . ',id,account_id,' . $this->account_id;
+        $rules['name'] = 'required';
 
         return $rules;
     }
@@ -28,11 +27,8 @@ class CreateScheduleCategoryRequest extends ScheduleCategoryRequest
     {
         $input = $this->all();
 
-        if (!empty($input['name'])) {
-            $input['name'] = filter_var($input['name'], FILTER_SANITIZE_STRING);
-        }
-        if (!empty($input['notes'])) {
-            $input['notes'] = filter_var($input['notes'], FILTER_SANITIZE_STRING);
+        if (!empty($input['ip'])) {
+            $input['ip'] = filter_var($input['ip'], FILTER_SANITIZE_STRING);
         }
 
         $this->replace($input);

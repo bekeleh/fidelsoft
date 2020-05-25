@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateScheduleCategoryRequest;
-use App\Http\Requests\ExpenseCategoryRequest;
 use App\Http\Requests\ScheduleCategoryRequest;
 use App\Http\Requests\UpdateScheduleCategoryRequest;
 use App\Ninja\Datatables\ScheduleCategoryDatatable;
@@ -35,7 +34,7 @@ class ScheduleCategoryController extends BaseController
         ]);
     }
 
-    public function getDatatable($expensePublicId = null)
+    public function getDatatable($scheduleCategoryPublicId = null)
     {
         $accountId = Auth::user()->account_id;
         $search = Input::get('sSearch');
@@ -43,7 +42,7 @@ class ScheduleCategoryController extends BaseController
         return $this->scheduleCategoryService->getDatatable($accountId, $search);
     }
 
-    public function create(ExpenseCategoryRequest $request)
+    public function create(ScheduleCategoryRequest $request)
     {
         $data = [
             'scheduleCategory' => null,

@@ -6,9 +6,9 @@ use App\Libraries\Utils;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 
-class ScheduleReportDatatable extends EntityDatatable
+class ScheduledReportDatatable extends EntityDatatable
 {
-    public $entityType = ENTITY_SCHEDULE_REPORT;
+    public $entityType = ENTITY_SCHEDULED_REPORT;
     public $sortCol = 1;
 
     public function columns()
@@ -17,8 +17,8 @@ class ScheduleReportDatatable extends EntityDatatable
             [
                 'ip',
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_SCHEDULE_REPORT, $model]))
-                        return link_to("schedule_reports/{$model->public_id}/edit", $model->ip)->toHtml();
+                    if (Auth::user()->can('edit', [ENTITY_SCHEDULED_REPORT, $model]))
+                        return link_to("scheduled_reports/{$model->public_id}/edit", $model->ip)->toHtml();
                     else
                         return $model->ip;
 
@@ -33,7 +33,7 @@ class ScheduleReportDatatable extends EntityDatatable
             [
                 'send_date',
                 function ($model) {
-                    return $model->send_date;
+                    return Utils::timestampToDateString(strtotime($model->send_date));
                 },
             ],
             [
@@ -73,21 +73,21 @@ class ScheduleReportDatatable extends EntityDatatable
     {
         return [
             [
-                trans('texts.edit_schedule_report'),
+                trans('texts.edit_scheduled_report'),
                 function ($model) {
-                    return URL::to("schedule_reports/{$model->public_id}/edit");
+                    return URL::to("scheduled_reports/{$model->public_id}/edit");
                 },
                 function ($model) {
-                    return Auth::user()->can('edit', [ENTITY_SCHEDULE_REPORT, $model]);
+                    return Auth::user()->can('edit', [ENTITY_SCHEDULED_REPORT, $model]);
                 },
             ],
             [
-                trans('texts.clone_schedule_report'),
+                trans('texts.clone_scheduled_report'),
                 function ($model) {
-                    return URL::to("schedule_reports/{$model->public_id}/clone");
+                    return URL::to("scheduled_reports/{$model->public_id}/clone");
                 },
                 function ($model) {
-                    return Auth::user()->can('create', [ENTITY_SCHEDULE_REPORT, $model]);
+                    return Auth::user()->can('create', [ENTITY_SCHEDULED_REPORT, $model]);
                 },
             ],
             [
@@ -95,7 +95,7 @@ class ScheduleReportDatatable extends EntityDatatable
                 return false;
             },
                 function ($model) {
-                    return Auth::user()->can('edit', [ENTITY_SCHEDULE_REPORT]);
+                    return Auth::user()->can('edit', [ENTITY_SCHEDULED_REPORT]);
                 },
             ],
         ];

@@ -31,6 +31,8 @@ use App\Models\ProposalSnippet;
 use App\Models\ProposalTemplate;
 use App\Models\Quote;
 use App\Models\RecurringExpense;
+use App\Models\ScheduleCategory;
+use App\Models\ScheduledReport;
 use App\Models\Status;
 use App\Models\Store;
 use App\Models\Subscription;
@@ -67,6 +69,8 @@ use App\Policies\ProposalSnippetPolicy;
 use App\Policies\ProposalTemplatePolicy;
 use App\Policies\QuotePolicy;
 use App\Policies\RecurringExpensePolicy;
+use App\Policies\ScheduleCategoryPolicy;
+use App\Policies\ScheduledReportPolicy;
 use App\Policies\StatusPolicy;
 use App\Policies\StorePolicy;
 use App\Policies\SubscriptionPolicy;
@@ -122,6 +126,9 @@ class AuthServiceProvider extends ServiceProvider
         ProposalSnippet::class => ProposalSnippetPolicy::class,
         ProposalTemplate::class => ProposalTemplatePolicy::class,
         ProposalCategory::class => ProposalCategoryPolicy::class,
+        ScheduleCategory::class => ScheduleCategoryPolicy::class,
+        ScheduledReport::class => ScheduledReportPolicy::class,
+
     ];
 
     /**

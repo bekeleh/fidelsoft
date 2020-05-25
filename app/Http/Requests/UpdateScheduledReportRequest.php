@@ -4,9 +4,9 @@ namespace App\Http\Requests;
 
 use App\Models\ScheduleCategory;
 
-class UpdateScheduleCategoryRequest extends ScheduleCategoryRequest
+class UpdateScheduledReportRequest extends ScheduledReportRequest
 {
-    protected $entityType = ENTITY_SCHEDULE_CATEGORY;
+    protected $entityType = ENTITY_SCHEDULED_REPORT;
 
     public function authorize()
     {
@@ -19,9 +19,11 @@ class UpdateScheduleCategoryRequest extends ScheduleCategoryRequest
         $this->validationData();
 
         $rules = [];
-        $scheduleCategory = ScheduleCategory::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
-        if ($scheduleCategory)
-            $rules['name'] = 'required|unique:schedule_categories,name,' . $scheduleCategory->id . ',id,account_id,' . $scheduleCategory->account_id;
+//        $ScheduledReport = ScheduleCategory::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
+//        if ($ScheduledReport)
+//            $rules['name'] = 'required|unique:scheduled_reports,name,' . $ScheduledReport->id . ',id,account_id,' . $ScheduledReport->account_id;
+
+        $rules['name'] = 'required';
 
         return $rules;
     }
@@ -30,11 +32,8 @@ class UpdateScheduleCategoryRequest extends ScheduleCategoryRequest
     {
         $input = $this->all();
 
-        if (!empty($input['name'])) {
-            $input['name'] = filter_var($input['name'], FILTER_SANITIZE_STRING);
-        }
-        if (!empty($input['notes'])) {
-            $input['notes'] = filter_var($input['notes'], FILTER_SANITIZE_STRING);
+        if (!empty($input['ip'])) {
+            $input['ip'] = filter_var($input['ip'], FILTER_SANITIZE_STRING);
         }
 
         $this->replace($input);

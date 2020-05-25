@@ -6,12 +6,12 @@
             ->addClass('col-lg-10 col-lg-offset-1 warn-on-exit')
             ->method($method)
             ->rules([
-                'name' => 'required',
-                'notes' => 'required',
+                'ip' => 'required',
+                'frequency' => 'required',
             ]) !!}
 
-    @if ($scheduleCategory)
-        {!! Former::populate($scheduleCategory) !!}
+    @if ($ScheduledReport)
+        {!! Former::populate($ScheduledReport) !!}
     @endif
 
     <span style="display:none">
@@ -22,17 +22,16 @@
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    {!! Former::text('name')->label('texts.schedule_category_name') !!}
-                    {!! Former::text('text_color')->label('texts.text_color') !!}
-                    {!! Former::text('bg_color')->label('texts.bg_color') !!}
-                    {!! Former::textarea('notes')->rows(6)->label('texts.notes') !!}
+                    {!! Former::text('id')->label('texts.ip') !!}
+                    {!! Former::text('frequency')->label('texts.frequency') !!}
+                    {!! Former::date('send_date')->label('texts.send_date') !!}
                 </div>
             </div>
         </div>
     </div>
 
     <center class="buttons">
-        {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/schedule_categories'))->appendIcon(Icon::create('remove-circle')) !!}
+        {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/SCHEDULED_REPORTs'))->appendIcon(Icon::create('remove-circle')) !!}
         {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
     </center>
 

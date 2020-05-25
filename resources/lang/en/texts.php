@@ -23,6 +23,7 @@ $LANG = array(
     'restored_schedule' => 'Successfully Restored Schedule',
     'deleted_schedule' => 'Successfully Deleted Schedule',
     'schedule_help' => 'Sets the default <b>Schedule</b>',
+
     /*
 |--------------------------------------------------------------------------
 | schedule category trans
@@ -46,6 +47,33 @@ $LANG = array(
     'restored_schedule_category' => 'Successfully Restored Schedule Category',
     'deleted_schedule_category' => 'Successfully Deleted Schedule Category',
     'schedule_category_help' => 'Sets the default <b>Schedule Category</b>',
+    'scheduled_report_help' => 'Email the :report report as :format to :email',
+
+    /*
+|--------------------------------------------------------------------------
+| scheduled report trans
+|--------------------------------------------------------------------------
+*/
+    'ip' => 'IP',
+    'frequency' => 'Frequency',
+    'start_date' => 'Start Date',
+    'send_date' => 'Send Date',
+    'scheduled_report_name' => 'Scheduled Report Name',
+    'scheduled_reports' => 'Scheduled Reports',
+    'scheduled_report_list' => 'Scheduled Report List',
+    'list_scheduled_reports' => 'List Scheduled Reports',
+    'archive_scheduled_report' => 'Archive Scheduled Report',
+    'delete_scheduled_report' => 'Delete Scheduled Report',
+    'edit_scheduled_report' => 'Edit Scheduled Report',
+    'clone_scheduled_report' => 'Clone Scheduled Report',
+    'restore_scheduled_report' => 'Restore Scheduled Report',
+    'new_scheduled_report' => 'New Schedule',
+    'created_scheduled_report' => 'Successfully Created Scheduled Report',
+    'updated_scheduled_report' => 'Successfully Updated Scheduled Report',
+    'archived_scheduled_report' => 'Successfully Archived Scheduled Report',
+    'restored_scheduled_report' => 'Successfully Restored Scheduled Report',
+    'deleted_scheduled_report' => 'Successfully Deleted Scheduled Report',
+
     /*
 |--------------------------------------------------------------------------
 | department  trans
@@ -748,8 +776,6 @@ $LANG = array(
     'balance' => 'Balance',
     'action' => 'Action',
     'invoice_total' => 'Invoice Total',
-    'frequency' => 'Frequency',
-    'start_date' => 'Start Date',
     'end_date' => 'End Date',
     'transaction_reference' => 'Transaction Reference',
     'method' => 'Method',
@@ -3187,10 +3213,6 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'delivery_note' => 'Delivery Note',
     'show_tasks_in_portal' => 'Show tasks in the client portal',
     'cancel_schedule' => 'Cancel Schedule',
-    'scheduled_report' => 'Scheduled Report',
-    'scheduled_report_help' => 'Email the :report report as :format to :email',
-    'created_scheduled_report' => 'Successfully scheduled report',
-    'deleted_scheduled_report' => 'Successfully canceled scheduled report',
     'scheduled_report_attached' => 'Your scheduled :type report is attached.',
     'scheduled_report_error' => 'Failed to create schedule report',
     'invalid_one_time_password' => 'Invalid one time password',
