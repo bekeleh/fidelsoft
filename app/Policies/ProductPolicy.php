@@ -7,8 +7,5 @@ namespace App\Policies;
  */
 class ProductPolicy extends EntityPolicy
 {
-    protected function tableName()
-    {
-        return 'products';
-    }
+
 }

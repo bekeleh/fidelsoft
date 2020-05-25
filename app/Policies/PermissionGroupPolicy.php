@@ -7,8 +7,5 @@ namespace App\Policies;
  */
 class PermissionGroupPolicy extends EntityPolicy
 {
-    public function tableName()
-    {
-        return 'permission_groups';
-    }
+
 }

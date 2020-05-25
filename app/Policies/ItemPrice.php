@@ -7,8 +7,5 @@ namespace App\Policies;
  */
 class ItemPrice extends EntityPolicy
 {
-    public function tableName()
-    {
-        return 'item_prices';
-    }
+
 }

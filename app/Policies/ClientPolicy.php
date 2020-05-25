@@ -4,8 +4,5 @@ namespace App\Policies;
 
 class ClientPolicy extends EntityPolicy
 {
-    protected function tableName()
-    {
-        return 'clients';
-    }
+
 }

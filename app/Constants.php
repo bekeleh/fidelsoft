@@ -66,7 +66,13 @@ if (!defined('APP_NAME')) {
     define('ENTITY_DASHBOARD', 'dashboard');
     define('ENTITY_SEARCH', 'search');
     define('ENTITY_POINT_OF_SALE', 'point_of_sale');
+    define('ENTITY_SCHEDULE', 'ENTITY_SCHEDULE');
     define('ENTITY_SCHEDULE_CATEGORY', 'schedule_category');
+    define('ENTITY_SCHEDULE_OCCURRENCE', 'schedule_occurrence');
+    define('ENTITY_SCHEDULE_REMINDER', 'schedule_reminder');
+    define('ENTITY_SCHEDULE_RESOURCE', 'schedule_resource');
+    define('ENTITY_SCHEDULE_SETTING', 'schedule_setting');
+    define('ENTITY_SCHEDULE_REPORT', 'schedule_report');
 
     $permissionEntities = [
         ENTITY_ACTIVITY,
@@ -112,8 +118,13 @@ if (!defined('APP_NAME')) {
         ENTITY_UNIT,
         ENTITY_USER,
         ENTITY_VENDOR,
+        ENTITY_SCHEDULE,
         ENTITY_SCHEDULE_CATEGORY,
-
+        ENTITY_SCHEDULE_OCCURRENCE,
+        ENTITY_SCHEDULE_REMINDER,
+        ENTITY_SCHEDULE_RESOURCE,
+        ENTITY_SCHEDULE_REPORT,
+        ENTITY_SCHEDULE_SETTING,
 
     ];
 
@@ -185,7 +196,11 @@ if (!defined('APP_NAME')) {
     define('ACCOUNT_MANUFACTURER_PRODUCT_DETAIL', 'manufacturer_product_details');
     define('ACCOUNT_POINT_OF_SALE', 'point_of_sales');
     define('ACCOUNT_SCHEDULE_CATEGORY', 'schedule_categories');
-
+    define('ACCOUNT_SCHEDULE_OCCURRENCE', 'schedule_occurrences');
+    define('ACCOUNT_SCHEDULE_REMINDER', 'schedule_reminders');
+    define('ACCOUNT_SCHEDULE_RESOURCE', 'schedule_resources');
+    define('ACCOUNT_SCHEDULE_REPORT', 'schedule_reports');
+    define('ACCOUNT_SCHEDULE_SETTING', 'schedule_settings');
 
     define('ACTIVITY_TYPE_CREATE_CLIENT', 1);
     define('ACTIVITY_TYPE_ARCHIVE_CLIENT', 2);

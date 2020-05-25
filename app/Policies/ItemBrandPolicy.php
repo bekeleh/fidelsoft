@@ -7,8 +7,5 @@ namespace App\Policies;
  */
 class ItemBrandPolicy extends EntityPolicy
 {
-    public function tableName()
-    {
-        return 'item_brands';
-    }
+
 }

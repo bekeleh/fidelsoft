@@ -7,8 +7,5 @@ namespace App\Policies;
  */
 class StatusPolicy extends EntityPolicy
 {
-    public function tableName()
-    {
-        return 'statuses';
-    }
+
 }

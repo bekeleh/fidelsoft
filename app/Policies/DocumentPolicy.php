@@ -7,8 +7,5 @@ namespace App\Policies;
  */
 class DocumentPolicy extends EntityPolicy
 {
-    protected function tableName()
-    {
-        return 'documents';
-    }
+
 }

@@ -7,8 +7,5 @@ namespace App\Policies;
  */
 class LocationPolicy extends EntityPolicy
 {
-    public function tableName()
-    {
-        return 'locations';
-    }
+
 }

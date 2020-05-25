@@ -29,7 +29,7 @@
 
                     <?php echo Former::text('bg_color')->label('texts.bg_color'); ?>
 
-                    <?php echo Former::text('notes')->label('texts.notes'); ?>
+                    <?php echo Former::textarea('notes')->rows(6)->label('texts.notes'); ?>
 
                 </div>
             </div>

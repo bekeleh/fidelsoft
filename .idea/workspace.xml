@@ -2,39 +2,68 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/ScheduleCategoryApiController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/ScheduleCategoryController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/CreateScheduleCategoryRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/ScheduleCategoryRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateScheduleCategoryRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Models/ScheduleCategory.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Ninja/Datatables/ScheduleCategoryDatatable.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Ninja/Presenters/ScheduleCategoryPresenter.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Ninja/Repositories/ScheduleCategoryRepository.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Services/ScheduleCategoryService.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/schedule_categories/edit.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/3e3a352fac4114f5f1122bb15641176a5d9ec5ea.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/4c881c5bce0e08d497492577cac022599e397464.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/930ca693b25da5649f8f8deb5ec4351a1c766c77.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/cf32b45de7e49e7683cae2c79b2aa6cb2da88c16.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Models/Schedule.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Ninja/Datatables/ScheduleReportDatatable.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Ninja/Repositories/ScheduleReportRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Policies/ScheduleCategoryPolicy.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Policies/ScheduleReportPolicy.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/Oa0uqcw53uHy9SZLb1GWWuW2YmnMC93Uh2S52oTX" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/0b0317c472c3c6579b92a3fd696dfd373765491a.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/5d54d87cbd68177f04f4011a9c1c34965131c548.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/626066e21669c3c0963be6662b0c23e18dd7881b.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/81ba3a9f7daca26cbbc3f998216adda0af45f286.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/a8e214552cb3a46e8d7fa956c4cd32193ea2dc29.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/c18fa3865e1151b9981fcdd9ba5c37d38cbef917.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Constants.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Constants.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ExpenseCategoryApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ExpenseCategoryApiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdateExpenseCategoryRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateExpenseCategoryRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Libraries/Utils.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Libraries/Utils.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/ScheduledReport.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ScheduledReport.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Presenters/EntityPresenter.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Presenters/EntityPresenter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Presenters/ExpensePresenter.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Presenters/ExpensePresenter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/AccountRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/AccountRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Transformers/EntityTransformer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Transformers/EntityTransformer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Transformers/ExpenseCategoryTransformer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Transformers/ExpenseCategoryTransformer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Transformers/UserTransformer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Transformers/UserTransformer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/I8oL1IELtswwL5R9N1Y2hqcqas2oQAvHfmAsKOwW" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/I8oL1IELtswwL5R9N1Y2hqcqas2oQAvHfmAsKOwW" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/ScheduleCategoryDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/ScheduleCategoryDatatable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/AccountGatewayPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/AccountGatewayPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/BankAccountPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/BankAccountPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/ClientPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ClientPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/ContactPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ContactPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/CreditPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/CreditPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/CustomerPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/CustomerPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/DepartmentPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/DepartmentPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/DocumentPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/DocumentPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/ExpenseCategoryPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ExpenseCategoryPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/HoldReason.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/HoldReason.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/InvoicePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/InvoicePolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/ItemBrandPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ItemBrandPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/ItemCategoryPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ItemCategoryPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/ItemMovementPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ItemMovementPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/ItemPrice.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ItemPrice.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/ItemStorePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ItemStorePolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/ItemTransferPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ItemTransferPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/LocationPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/LocationPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/PaymentPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/PaymentPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/PaymentTermPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/PaymentTermPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/PermissionGroupPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/PermissionGroupPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/PermissionPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/PermissionPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/ProductPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ProductPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/ProjectPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ProjectPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/ProposalCategoryPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ProposalCategoryPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/ProposalPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ProposalPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/ProposalSnippetPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ProposalSnippetPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/ProposalTemplatePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ProposalTemplatePolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/QuotePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/QuotePolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/RecurringExpensePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/RecurringExpensePolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/RecurringInvoicePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/RecurringInvoicePolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/SaleTypePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/SaleTypePolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/StatusPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/StatusPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/StorePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/StorePolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/SubscriptionPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/SubscriptionPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/TaskPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/TaskPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/TaxRatePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/TaxRatePolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/TokenPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/TokenPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/UnitPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/UnitPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/UserPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/UserPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/VendorPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/VendorPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/expense_categories/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/expense_categories/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/schedule_categories/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/schedule_categories/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/I8oL1IELtswwL5R9N1Y2hqcqas2oQAvHfmAsKOwW" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/b06JWXI3hHv4rn4rLGlVf9fUS5k8deSY8tKTIOL5" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/3e3a352fac4114f5f1122bb15641176a5d9ec5ea.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/3e3a352fac4114f5f1122bb15641176a5d9ec5ea.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -449,6 +478,7 @@
       <workItem from="1589807013120" duration="3447000" />
       <workItem from="1590052935815" duration="13173000" />
       <workItem from="1590248073057" duration="5205000" />
+      <workItem from="1590404199611" duration="4423000" />
     </task>
     <task id="LOCAL-00236" summary="2020-05-6 9:26">
       <created>1588783475698</created>
@@ -870,10 +900,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1587939377952" />
-    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1590249223184">
+    <state x="310" y="0" key="CommitChangelistDialog2" timestamp="1590256151396">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1590249223184" />
+    <state x="310" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1590256151396" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="418" y="255" key="ComposerInitDialogKey" timestamp="1589789975070">
@@ -914,10 +944,10 @@
     </state>
     <state x="468" y="194" key="NewPhpClassDialog/0.0.1280.680@0.0.1280.680" timestamp="1588618851545" />
     <state x="527" y="245" key="NewPhpClassDialog/0.0.1440.860@0.0.1440.860" timestamp="1585293911127" />
-    <state x="594" y="151" key="NewPhpFileDialog" timestamp="1590254843919">
+    <state x="594" y="151" key="NewPhpFileDialog" timestamp="1590409116766">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="594" y="151" key="NewPhpFileDialog/0.0.1280.680@0.0.1280.680" timestamp="1590254843919" />
+    <state x="594" y="151" key="NewPhpFileDialog/0.0.1280.680@0.0.1280.680" timestamp="1590409116766" />
     <state x="447" y="189" key="NewPhpFileDialog/0.0.1366.728@0.0.1366.728" timestamp="1586116260809" />
     <state x="471" y="223" key="NewPhpFileDialog/0.0.1440.860@0.0.1440.860" timestamp="1585320200513" />
     <state x="197" y="0" key="SettingsEditor" timestamp="1589308614029">
@@ -931,10 +961,10 @@
     </state>
     <state x="296" y="138" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1586200886074" />
     <state x="312" y="163" key="Vcs.Push.Dialog.v2/0.0.1440.860@0.0.1440.860" timestamp="1585235941756" />
-    <state x="421" y="115" key="com.intellij.ide.util.TipDialog" timestamp="1589807013094">
+    <state x="421" y="115" key="com.intellij.ide.util.TipDialog" timestamp="1590404203665">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="421" y="115" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1589807013094" />
+    <state x="421" y="115" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1590404203665" />
     <state x="408" y="139" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1586189894452" />
     <state x="430" y="164" key="com.intellij.ide.util.TipDialog/0.0.1440.860@0.0.1440.860" timestamp="1586154234151" />
     <state x="303" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1587324145930">

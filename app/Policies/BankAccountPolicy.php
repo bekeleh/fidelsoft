@@ -9,8 +9,5 @@ use App\Models\User;
  */
 class BankAccountPolicy extends EntityPolicy
 {
-    protected function tableName()
-    {
-        return 'bank_accounts';
-    }
+
 }

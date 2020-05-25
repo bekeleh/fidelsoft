@@ -7,8 +7,5 @@ namespace App\Policies;
  */
 class UnitPolicy extends EntityPolicy
 {
-    public function tableName()
-    {
-        return 'units';
-    }
+
 }

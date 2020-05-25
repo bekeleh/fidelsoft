@@ -7,8 +7,5 @@ namespace App\Policies;
  */
 class ItemMovementPolicy extends EntityPolicy
 {
-    public function tableName()
-    {
-        return 'item_movements';
-    }
+
 }

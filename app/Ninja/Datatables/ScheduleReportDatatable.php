@@ -6,40 +6,34 @@ use App\Libraries\Utils;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 
-class ScheduleCategoryDatatable extends EntityDatatable
+class ScheduleReportDatatable extends EntityDatatable
 {
-    public $entityType = ENTITY_SCHEDULE_CATEGORY;
+    public $entityType = ENTITY_SCHEDULE_REPORT;
     public $sortCol = 1;
 
     public function columns()
     {
         return [
             [
-                'schedule_category_name',
+                'ip',
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_SCHEDULE_CATEGORY, $model]))
-                        return link_to("schedule_categories/{$model->public_id}/edit", $model->schedule_category_name)->toHtml();
+                    if (Auth::user()->can('edit', [ENTITY_SCHEDULE_REPORT, $model]))
+                        return link_to("schedule_reports/{$model->public_id}/edit", $model->ip)->toHtml();
                     else
-                        return $model->schedule_category_name;
+                        return $model->ip;
 
                 },
             ],
             [
-                'text_color',
+                'frequency',
                 function ($model) {
-                    return $model->text_color;
+                    return $model->frequency;
                 },
             ],
             [
-                'bg_color',
+                'send_date',
                 function ($model) {
-                    return $model->bg_color;
-                },
-            ],
-            [
-                'notes',
-                function ($model) {
-                    return $model->notes;
+                    return $model->send_date;
                 },
             ],
             [
@@ -79,21 +73,21 @@ class ScheduleCategoryDatatable extends EntityDatatable
     {
         return [
             [
-                trans('texts.edit_schedule_category'),
+                trans('texts.edit_schedule_report'),
                 function ($model) {
-                    return URL::to("schedule_categories/{$model->public_id}/edit");
+                    return URL::to("schedule_reports/{$model->public_id}/edit");
                 },
                 function ($model) {
-                    return Auth::user()->can('edit', [ENTITY_SCHEDULE_CATEGORY, $model]);
+                    return Auth::user()->can('edit', [ENTITY_SCHEDULE_REPORT, $model]);
                 },
             ],
             [
-                trans('texts.clone_schedule_category'),
+                trans('texts.clone_schedule_report'),
                 function ($model) {
-                    return URL::to("schedule_categories/{$model->public_id}/clone");
+                    return URL::to("schedule_reports/{$model->public_id}/clone");
                 },
                 function ($model) {
-                    return Auth::user()->can('create', [ENTITY_SCHEDULE_CATEGORY, $model]);
+                    return Auth::user()->can('create', [ENTITY_SCHEDULE_REPORT, $model]);
                 },
             ],
             [
@@ -101,7 +95,7 @@ class ScheduleCategoryDatatable extends EntityDatatable
                 return false;
             },
                 function ($model) {
-                    return Auth::user()->can('edit', [ENTITY_SCHEDULE_CATEGORY]);
+                    return Auth::user()->can('edit', [ENTITY_SCHEDULE_REPORT]);
                 },
             ],
         ];

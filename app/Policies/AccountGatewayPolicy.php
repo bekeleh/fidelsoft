@@ -7,8 +7,5 @@ namespace App\Policies;
  */
 class AccountGatewayPolicy extends EntityPolicy
 {
-    protected function tableName()
-    {
-        return 'account_gateways';
-    }
+
 }

@@ -6,13 +6,13 @@ use App\Models\User;
 
 class UserPolicy extends EntityPolicy
 {
-    protected function tableName()
+    public static function edit(User $user, $item)
     {
-        return 'users';
+        return $user->hasPermission('admin');
     }
 
-    public function passwordReset(User $user, $item = null)
+    public static function create(User $user, $item)
     {
-        return $user->hasAccess('users.password_reset');
+        return $user->hasPermission('admin');
     }
 }

@@ -7,8 +7,5 @@ namespace App\Policies;
  */
 class ItemTransferPolicy extends EntityPolicy
 {
-    public function tableName()
-    {
-        return 'item_transfers';
-    }
+
 }

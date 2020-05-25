@@ -7,8 +7,5 @@ namespace App\Policies;
  */
 class StorePolicy extends EntityPolicy
 {
-    public function tableName()
-    {
-        return 'stores';
-    }
+
 }

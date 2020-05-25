@@ -23,7 +23,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     {!! Former::text('name')->label('texts.expense_category_name') !!}
-                    {!! Former::text('notes')->label('texts.notes') !!}
+                    {!! Former::textarea('notes')->rows(6)->label('texts.notes') !!}
                 </div>
             </div>
         </div>

@@ -25,7 +25,7 @@
                     {!! Former::text('name')->label('texts.schedule_category_name') !!}
                     {!! Former::text('text_color')->label('texts.text_color') !!}
                     {!! Former::text('bg_color')->label('texts.bg_color') !!}
-                    {!! Former::text('notes')->label('texts.notes') !!}
+                    {!! Former::textarea('notes')->rows(6)->label('texts.notes') !!}
                 </div>
             </div>
         </div>
