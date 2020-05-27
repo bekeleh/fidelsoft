@@ -4,35 +4,35 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
-use App\Events\ItemTransferWasCreated;
-use App\Events\ItemTransferWasUpdated;
+use App\Events\ItemRequestWasCreated;
+use App\Events\ItemRequestWasUpdated;
 
 /**
- * Model Class ItemTransferPresenter.
+ * Model Class ItemRequestPresenter.
  */
-class ItemTransfer extends EntityModel
+class ItemRequest extends EntityModel
 {
-    protected $presenter = 'App\Ninja\Presenters\ItemTransferPresenter';
+    protected $presenter = 'App\Ninja\Presenters\ItemRequestPresenter';
     use PresentableTrait;
     use SoftDeletes;
 
-
-    protected $table = 'item_transfers';
     protected $dates = ['approved_date', 'created_at', 'deleted_at', 'deleted_at'];
 
     protected $casts = [];
     protected $hidden = [];
     protected $appends = [];
 
-
     protected $fillable = [
         'product_id',
-        'previous_store_id',
-        'current_store_id',
+        'department_id',
+        'store_id',
         'status_id',
-        'approver_id',
-        'dispatch_date',
         'qty',
+        'delivered_qty',
+        'qty',
+        'date_required',
+        'dispatch_date',
+        'is_deleted',
         'notes',
         'created_by',
         'updated_by',
@@ -42,12 +42,12 @@ class ItemTransfer extends EntityModel
 
     public function getEntityType()
     {
-        return ENTITY_ITEM_TRANSFER;
+        return ENTITY_ITEM_REQUEST;
     }
 
     public function getRoute()
     {
-        return "/item_transfers/{$this->public_id}/edit";
+        return "/item_requests/{$this->public_id}/edit";
     }
 
     public function account()
@@ -60,11 +60,6 @@ class ItemTransfer extends EntityModel
         return $this->belongsTo('App\Models\User', 'user_id')->withTrashed();
     }
 
-    public function itemMovements()
-    {
-        return $this->morphMany('\App\Models\ItemMovement', 'movable', 'movable_type', 'movable_id');
-    }
-
     public function product()
     {
         return $this->belongsTo('\App\Models\Product', 'product_id');
@@ -75,24 +70,16 @@ class ItemTransfer extends EntityModel
         return $this->belongsTo('\App\Models\Status', 'status_id');
     }
 
-    public function approver()
+    public function store()
     {
-        return $this->belongsTo('\App\Models\User', 'approver_id');
+        return $this->belongsTo('\App\Models\Store', 'store_id');
     }
-
-    public function previousStore()
-    {
-        return $this->belongsTo('\App\Models\Store', 'previous_store_id');
-    }
-
-    public function currentStore()
-    {
-        return $this->belongsTo('\App\Models\Store', 'current_store_id');
-    }
-
 
     public static function calcStatusLabel($qoh, $reorderLevel)
     {
+        if (!$qoh || !$reorderLevel) {
+            return false;
+        }
         if ($qoh) {
             if (floatval($qoh) > 0) {
                 $label = $qoh;
@@ -105,6 +92,10 @@ class ItemTransfer extends EntityModel
 
     public static function calcStatusClass($qoh, $reorderLevel)
     {
+        if (!$qoh || !$reorderLevel) {
+            return false;
+        }
+
         if (!empty($qoh) && !empty($reorderLevel)) {
             if (floatval($qoh) > floatval($reorderLevel)) {
 //                return 'default';
@@ -120,10 +111,10 @@ class ItemTransfer extends EntityModel
     }
 }
 
-ItemTransfer::created(function ($itemTransfer) {
-    event(new ItemTransferWasCreated($itemTransfer));
+ItemRequest::created(function ($itemRequest) {
+    event(new ItemRequestWasCreated($itemRequest));
 });
 
-ItemTransfer::updating(function ($itemTransfer) {
-    event(new ItemTransferWasUpdated());
+ItemRequest::updating(function ($itemRequest) {
+    event(new ItemRequestWasUpdated());
 });

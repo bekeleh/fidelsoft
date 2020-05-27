@@ -14,9 +14,10 @@ class ItemCategory extends EntityModel
     use PresentableTrait;
     use SoftDeletes;
 
-    protected $appends = [];
+
     protected $table = 'item_categories';
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
+    protected $appends = [];
 
     protected $fillable = [
         'name',

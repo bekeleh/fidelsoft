@@ -14,7 +14,6 @@ class ItemMovement extends EntityModel
     use PresentableTrait;
     use SoftDeletes;
 
-    protected $table = 'item_movements';
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
 
     protected $fillable = [
@@ -32,12 +31,14 @@ class ItemMovement extends EntityModel
     protected $casts = [];
 
 
-    /**
-     * @return mixed
-     */
     public function getEntityType()
     {
         return ENTITY_ITEM_MOVEMENT;
+    }
+
+    public function getRoute()
+    {
+        return "/item_movements/{$this->public_id}/edit";
     }
 
     public function getUpperAttributes()
@@ -45,9 +46,6 @@ class ItemMovement extends EntityModel
         return strtoupper($this->name);
     }
 
-    /**
-     * @return mixed
-     */
     public function user()
     {
         return $this->belongsTo('App\Models\User', 'user_id')->withTrashed();
@@ -77,21 +75,6 @@ class ItemMovement extends EntityModel
     public function store()
     {
         return $this->belongsTo('\App\Models\Store', $this->movable());
-    }
-
-    /**
-     * -----------------------------------------------
-     * BEGIN QUERY SCOPES
-     * -----------------------------------------------
-     * @param $query
-     * @param $date_from
-     * @param $date_to
-     * @return mixed
-     */
-
-    public function scopeDateBetween($query, $date_from, $date_to)
-    {
-        return $query->whereBetween('created_at', [$date_from, $date_to]);
     }
 
 }

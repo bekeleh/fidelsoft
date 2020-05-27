@@ -17,12 +17,6 @@ class ItemTransferDataTable extends EntityDatatable
         $account = Auth::user()->account;
 
         return [
-//            [
-//                'id',
-//                function ($model) {
-//                    return $model->id;
-//                },
-//            ],
             [
                 'item_name',
                 function ($model) {

@@ -16,7 +16,6 @@ class ItemPrice extends EntityModel
 
     protected $presenter = 'App\Ninja\Presenters\ItemPricePresenter';
 
-    protected $table = 'item_prices';
     protected $dates = ['start_date', 'end_date', 'created_at', 'updated_at', 'deleted_at'];
 
     protected $fillable = [

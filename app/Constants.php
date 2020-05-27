@@ -36,6 +36,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_UNIT', 'unit');
     define('ENTITY_REPORT', 'report');
     define('ENTITY_ITEM_STORE', 'item_store');
+    define('ENTITY_ITEM_REQUEST', 'item_request');
     define('ENTITY_ITEM_TRANSFER', 'item_transfer');
     define('ENTITY_ITEM_MOVEMENT', 'item_movement');
     define('ENTITY_ITEM_CATEGORY', 'item_category');
@@ -89,6 +90,7 @@ if (!defined('APP_NAME')) {
         ENTITY_ITEM_MOVEMENT,
         ENTITY_ITEM_PRICE,
         ENTITY_ITEM_STORE,
+        ENTITY_ITEM_REQUEST,
         ENTITY_ITEM_TRANSFER,
         ENTITY_LOCATION,
         ENTITY_DEPARTMENT,
@@ -160,6 +162,7 @@ if (!defined('APP_NAME')) {
     define('ACCOUNT_PRODUCTS', 'products');
     define('ACCOUNT_SALE_TYPES', 'sale_types');
     define('ACCOUNT_ITEM_STORES', 'item_stores');
+    define('ACCOUNT_ITEM_REQUESTS', 'item_requests');
     define('ACCOUNT_ITEM_TRANSFERS', 'item_transfers');
     define('ACCOUNT_HOLD_REASONS', 'hold_reasons');
     define('ACCOUNT_ITEM_MOVEMENT', 'item_movements');
