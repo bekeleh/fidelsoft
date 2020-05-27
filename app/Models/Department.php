@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
- * Model Class Location.
+ * Model Class Department.
  */
 class Department extends EntityModel
 {
@@ -45,6 +45,16 @@ class Department extends EntityModel
         return strtoupper($this->name);
     }
 
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getDisplayName()
+    {
+        return $this->getName();
+    }
+
     public static function findDepartmentByKey($key)
     {
         return self::scope()->where('name', '=', $key)->first();
@@ -75,14 +85,9 @@ class Department extends EntityModel
         return $this->hasMany('App\Models\Store')->withTrashed();
     }
 
-    public function getName()
+    public function itemRequest()
     {
-        return $this->name;
-    }
-
-    public function getDisplayName()
-    {
-        return $this->getName();
+        return $this->hasMany('App\Models\ItemRequest')->withTrashed();
     }
 
 }

@@ -307,6 +307,11 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
     Route::resource('item_stores', 'ItemStoreController');
     Route::get('api/item_stores', 'ItemStoreController@getDatatable');
     Route::post('item_stores/bulk', 'ItemStoreController@bulk');
+//    item request
+    Route::get('item_requests/{item_requests}/clone', 'ItemRequestController@cloneItemRequest');
+    Route::resource('item_requests', 'ItemRequestController');
+    Route::get('api/item_requests', 'ItemRequestController@getDatatable');
+    Route::post('item_requests/bulk', 'ItemRequestController@bulk');
 //         item transfer
     Route::get('item_transfers/{item_transfers}/clone', 'ItemTransferController@cloneItemTransfer');
     Route::resource('item_transfers', 'ItemTransferController');

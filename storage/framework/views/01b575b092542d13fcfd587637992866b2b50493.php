@@ -16,8 +16,6 @@
 <div class="container">
     <h1>403</h1>
     <p><strong>Access forbidden :(</strong></p>
-    <p>
-        You are not authorized to access this page. Contact your IT Admin.
-    </p>
-    You maybe <a href="{{ url('/') }}">return to the home</a>.
+    <p> You are not authorized to access this page. Contact your IT Admin.</p>
+    You maybe <a href="<?php echo e(url('/')); ?>">return to the home</a>.
 </div>

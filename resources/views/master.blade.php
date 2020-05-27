@@ -7,22 +7,22 @@
         <title>{{ trans('texts.client_portal') }}</title>
         <link href="{{ asset('logo.png') }}" rel="shortcut icon" type="image/png">
     @else
-        {{--        <title>{{ isset($title) ? ($title . ' | '. trans('texts.team_source')) : ('E-Ninja Plus ERP' ) }}</title>--}}
+        {{--        <title>{{ isset($title) ? ($title . ' | '. trans('texts.team_source')) : ('Fidel ERP' ) }}</title>--}}
         <title>{{ isset($title) ? ($title) : (trans('texts.team_source')) }}</title>
         <meta name="description" content="{{ isset($description) ? $description : trans('texts.app_description') }}"/>
         <link href="{{ asset('logo.gif') }}" rel="shortcut icon" type="image/gif">
-        <meta property="og:site_name" content="E-Ninja Plus ERP"/>
+        <meta property="og:site_name" content="Fidel ERP"/>
         <meta property="og:url" content="{{ SITE_URL }}"/>
-        <meta property="og:title" content="E-Ninja Plus ERP"/>
+        <meta property="og:title" content="Fidel ERP"/>
         <meta property="og:image" content="{{ SITE_URL }}/images/round_logo.png"/>
-        <meta property="og:description" content="E-Ninja Plus ERP"/>
+        <meta property="og:description" content="Fidel ERP"/>
 
         <!-- http://realfavicongenerator.net -->
         {{--        <link rel="manifest" href="{{ url('manifest.json') }}">--}}
         {{--        <link rel="mask-icon" href="{{ url('safari-pinned-tab.svg') }}" color="#3bc65c">--}}
         <link rel="shortcut icon" href="{{ url('favicon.ico') }}">
-        <meta name="apple-mobile-web-app-title" content="E-Ninja Plus ERP">
-        <meta name="application-name" content="E-Ninja Plus ERP">
+        <meta name="apple-mobile-web-app-title" content="Fidel ERP">
+        <meta name="application-name" content="Fidel ERP">
         <meta name="theme-color" content="#ffffff">
     @endif
     <meta http-equiv="cache-control" content="max-age=0"/>

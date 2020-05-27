@@ -17,6 +17,7 @@ use App\Models\Invoice;
 use App\Models\ItemBrand;
 use App\Models\ItemCategory;
 use App\Models\ItemMovement;
+use App\Models\ItemRequest;
 use App\Models\ItemStore;
 use App\Models\ItemTransfer;
 use App\Models\Location;
@@ -56,6 +57,7 @@ use App\Policies\InvoicePolicy;
 use App\Policies\ItemBrandPolicy;
 use App\Policies\ItemCategoryPolicy;
 use App\Policies\ItemMovementPolicy;
+use App\Policies\ItemRequestPolicy;
 use App\Policies\ItemStorePolicy;
 use App\Policies\ItemTransferPolicy;
 use App\Policies\LocationPolicy;
@@ -115,6 +117,7 @@ class AuthServiceProvider extends ServiceProvider
         Store::class => StorePolicy::class,
         ItemStore::class => ItemStorePolicy::class,
         ItemTransfer::class => ItemTransferPolicy::class,
+        ItemRequest::class => ItemRequestPolicy::class,
         ItemMovement::class => ItemMovementPolicy::class,
         TaxRate::class => TaxRatePolicy::class,
         AccountGateway::class => AccountGatewayPolicy::class,

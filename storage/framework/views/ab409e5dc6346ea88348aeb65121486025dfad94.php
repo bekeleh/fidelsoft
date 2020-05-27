@@ -103,6 +103,7 @@
 </style>
 
 <script type="text/javascript">
+
     var submittedForm;
 
     function submitForm_<?php echo e($entityType); ?>(action, id) {

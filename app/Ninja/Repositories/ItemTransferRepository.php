@@ -106,7 +106,7 @@ class ItemTransferRepository extends BaseRepository
         }
         $productId = Product::getPrivateId($productPublicId);
 
-        $query = $this->find()->where('products.product_id', '=', $productId);
+        $query = $this->find()->where('item_requests.product_id', '=', $productId);
 
         return $query;
     }

@@ -67,14 +67,15 @@ class StatusRepository extends BaseRepository
             $Status->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $Status = Status::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in approval status repo save');
+            \Log::warning('Entity not set in status repo save');
         } else {
             $Status = Status::createNew();
             $Status->created_by = Auth::user()->username;
         }
         $Status->fill($data);
-        $Status->name = isset($data['name']) ? ucwords(Str::lower(trim($data['name']))) : '';
+        $Status->name = isset($data['name']) ? trim($data['name']) : '';
         $Status->notes = isset($data['notes']) ? trim($data['notes']) : '';
+
         $Status->save();
 
         return $Status;

@@ -83,6 +83,18 @@ class ItemRequestDatatable extends EntityDatatable
                 },
             ],
             [
+                'required_date',
+                function ($model) {
+                    return Utils::timestampToDateString(strtotime($model->required_date));
+                },
+            ],
+            [
+                'dispatch_date',
+                function ($model) {
+                    return Utils::timestampToDateString(strtotime($model->dispatch_date));
+                },
+            ],
+            [
                 'created_by',
                 function ($model) {
                     return $model->created_by;
@@ -95,29 +107,17 @@ class ItemRequestDatatable extends EntityDatatable
                 },
             ],
             [
-                'required_date',
-                function ($model) {
-                    return Utils::timestampToDateString(strtotime($model->date_required));
-                },
-            ],
-            [
-                'dispatch_date',
-                function ($model) {
-                    return Utils::timestampToDateString(strtotime($model->dispatch_date));
-                },
-            ],
-            [
                 'created_at',
                 function ($model) {
                     return Utils::timestampToDateString(strtotime($model->created_at));
                 },
             ],
-//            [
-//                'updated_at',
-//                function ($model) {
-//                    return Utils::timestampToDateString(strtotime($model->updated_at));
-//                },
-//            ],
+            [
+                'updated_at',
+                function ($model) {
+                    return Utils::timestampToDateString(strtotime($model->updated_at));
+                },
+            ],
             //            [
 //                'date_deleted',
 //                function ($model) {

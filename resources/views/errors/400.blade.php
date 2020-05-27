@@ -1,14 +1,23 @@
-<div class="row">
-    <div class="col-md-8 col-md-offset-2">
-        <div style="padding-top: 200px">
-            <div class="error-content">
-                <h2><i class="fa fa-warning text-yellow"></i> 404 Page not found.</h2>
-                <h4>
-                    We could not find the page you were looking for.
-                    You should maybe <a href="{{ url('/') }}">return to the dashboard</a>, or contact the system
-                    administrator.
-                </h4>
-            </div>
-        </div>
-    </div>
+<style type="text/css" media="screen">
+    .container {
+        margin: 10px auto;
+        max-width: 600px;
+        text-align: center;
+    }
+
+    h1 {
+        margin: 30px 0;
+        font-size: 4em;
+        line-height: 1;
+        letter-spacing: -1px;
+    }
+</style>
+
+<div class="container">
+    <h1>404</h1>
+    <p><strong>Page not found :(</strong></p>
+    <p>
+        We could not find the page you were looking for.
+    </p>
+    You maybe <a href="{{ url('/') }}">return to the home</a>.
 </div>

@@ -151,7 +151,7 @@ $LANG = array(
 | Status  trans
 |--------------------------------------------------------------------------
 */
-    'status_name' => 'Status Name',
+    'status_name' => 'Status',
     'status' => 'Status',
     'statuses' => 'Statuses',
     'new_status' => 'New Status',
@@ -398,6 +398,32 @@ $LANG = array(
     'approved_date' => 'Approved Date',
     'from_store_name' => 'From Store',
     'to_store_name' => 'To Store',
+
+    /*
+|--------------------------------------------------------------------------
+| item request trans
+|--------------------------------------------------------------------------
+*/
+    'new_item_request' => 'New Item Request',
+    'list_item_requests' => 'List Item Request',
+    'item_request' => 'Item Request',
+    'item_requests' => 'Item Request',
+    'create_item_request' => 'Create Item Request',
+    'edit_item_request' => 'Edit Item Request',
+    'clone_item_request' => 'Clone Item Request',
+    'archive_item_request' => 'Archive Item Request',
+    'delete_item_request' => 'Delete Item Request',
+    'restore_item_request' => 'Restore Item Request',
+    'updated_item_request' => 'Successfully Updated Item Request',
+    'created_item_request' => 'Successfully Created Item Request',
+    'archived_item_request' => 'Successfully Archived Item Request',
+    'restored_item_request' => 'Successfully Restored Item Request',
+    'deleted_item_request' => 'Successfully Deleted Item Request',
+    'item_request_settings' => 'Item Request Settings',
+
+    'delivered_qty' => 'Delivered Qty',
+    'dispatch_date' => 'Dispatch Date',
+    'required_date' => 'Required Date',
 
     /*
 |--------------------------------------------------------------------------

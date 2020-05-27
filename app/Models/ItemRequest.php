@@ -30,7 +30,7 @@ class ItemRequest extends EntityModel
         'qty',
         'delivered_qty',
         'qty',
-        'date_required',
+        'required_date',
         'dispatch_date',
         'is_deleted',
         'notes',
@@ -58,6 +58,11 @@ class ItemRequest extends EntityModel
     public function user()
     {
         return $this->belongsTo('App\Models\User', 'user_id')->withTrashed();
+    }
+
+    public function department()
+    {
+        return $this->belongsTo('\App\Models\Department', 'department_id');
     }
 
     public function product()
@@ -116,5 +121,5 @@ ItemRequest::created(function ($itemRequest) {
 });
 
 ItemRequest::updating(function ($itemRequest) {
-    event(new ItemRequestWasUpdated());
+    event(new ItemRequestWasUpdated($itemRequest));
 });

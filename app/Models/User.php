@@ -350,7 +350,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
                 return true;
             }
         }
-//        note: e-ninja plus master account
+//        note: Fidel ERP master account
         if ((array_key_exists('superuser', $userPermissions)) && ($userPermissions['superuser'] == '1')) {
             return true;
         }

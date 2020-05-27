@@ -11,18 +11,18 @@
         <title><?php echo e(isset($title) ? ($title) : (trans('texts.team_source'))); ?></title>
         <meta name="description" content="<?php echo e(isset($description) ? $description : trans('texts.app_description')); ?>"/>
         <link href="<?php echo e(asset('logo.gif')); ?>" rel="shortcut icon" type="image/gif">
-        <meta property="og:site_name" content="E-Ninja Plus ERP"/>
+        <meta property="og:site_name" content="Fidel ERP"/>
         <meta property="og:url" content="<?php echo e(SITE_URL); ?>"/>
-        <meta property="og:title" content="E-Ninja Plus ERP"/>
+        <meta property="og:title" content="Fidel ERP"/>
         <meta property="og:image" content="<?php echo e(SITE_URL); ?>/images/round_logo.png"/>
-        <meta property="og:description" content="E-Ninja Plus ERP"/>
+        <meta property="og:description" content="Fidel ERP"/>
 
         <!-- http://realfavicongenerator.net -->
         
         
         <link rel="shortcut icon" href="<?php echo e(url('favicon.ico')); ?>">
-        <meta name="apple-mobile-web-app-title" content="E-Ninja Plus ERP">
-        <meta name="application-name" content="E-Ninja Plus ERP">
+        <meta name="apple-mobile-web-app-title" content="Fidel ERP">
+        <meta name="application-name" content="Fidel ERP">
         <meta name="theme-color" content="#ffffff">
     <?php endif; ?>
     <meta http-equiv="cache-control" content="max-age=0"/>

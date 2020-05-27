@@ -9,7 +9,6 @@ use App\Models\Country;
 use App\Models\License;
 use App\Ninja\Mailers\ContactMailer;
 use App\Ninja\Repositories\AccountRepository;
-use Omnipay\Common\CreditCard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Input;
@@ -17,6 +16,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+use Omnipay\Common\CreditCard;
 use Omnipay\Omnipay;
 
 class NinjaController extends BaseController

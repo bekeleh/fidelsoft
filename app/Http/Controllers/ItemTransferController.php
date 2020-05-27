@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateItemTransferRequest;
 use App\Http\Requests\ItemTransferRequest;
+use App\Http\Requests\UpdateItemTransferRequest;
 use App\Libraries\Utils;
 use App\Models\ItemTransfer;
 use App\Models\Product;
 use App\Models\Status;
 use App\Models\Store;
 use App\Ninja\Datatables\ItemTransferDatatable;
-use App\Ninja\Repositories\StoreRepository;
+use App\Ninja\Repositories\ItemTransferRepository;
 use App\Services\ItemTransferService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -26,7 +28,7 @@ class ItemTransferController extends BaseController
     protected $itemTransferService;
     protected $entityType = ENTITY_ITEM_TRANSFER;
 
-    public function __construct(StoreRepository $itemTransferRepo, ItemTransferService $itemTransferService)
+    public function __construct(ItemTransferRepository $itemTransferRepo, ItemTransferService $itemTransferService)
     {
         // parent::__construct();
 
@@ -107,7 +109,7 @@ class ItemTransferController extends BaseController
         return View::make('item_transfers.edit', $data);
     }
 
-    public function store(ItemTransferRequest $request)
+    public function store(CreateItemTransferRequest $request)
     {
         $data = $request->input();
 
@@ -154,7 +156,7 @@ class ItemTransferController extends BaseController
         return View::make('item_transfers.edit', $data);
     }
 
-    public function update(ItemTransferRequest $request)
+    public function update(UpdateItemTransferRequest $request)
     {
         $data = $request->input();
 

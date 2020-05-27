@@ -51,7 +51,7 @@
         </div>
     </div>
 
-    @if (Auth::user()->canCreateOrEdit(ENTITY_ITEM_STORE, $itemTransfer))
+    @if (Auth::user()->canCreateOrEdit(ENTITY_ITEM_TRANSFER, $itemTransfer))
         <center class="buttons">
             {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/item_transfers'))->appendIcon(Icon::create('remove-circle')) !!}
             @if (!$itemTransfer)

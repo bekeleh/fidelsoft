@@ -1,19 +1,23 @@
-<style>
-    p {
-        font-size: 16px;
+<style type="text/css" media="screen">
+    .container {
+        margin: 10px auto;
+        max-width: 600px;
+        text-align: center;
     }
 
-    h3 {
-        padding-bottom: 10px;
+    h1 {
+        margin: 30px 0;
+        font-size: 4em;
+        line-height: 1;
+        letter-spacing: -1px;
     }
 </style>
-<div class="row">
-    <div class="col-md-9 col-md-offset-1">
-        <div class="col-md-10">
-            <div class="callout callout-danger">
-                <h3><i class="icon fa fa-warning"></i> System Unavailable</h3>
-                <p>{!! json_decode(file_get_contents(storage_path('framework/down')), true)['message'] !!}</p>
-            </div>
-        </div>
-    </div>
+
+<div class="container">
+    <h1>503</h1>
+    <p><strong>System Unavailable :(</strong></p>
+    <p>
+        {!! json_decode(file_get_contents(storage_path('framework/down')), true)['message'] !!}
+    </p>
+    You maybe <a href="{{ url('/') }}">return to the home</a>.
 </div>

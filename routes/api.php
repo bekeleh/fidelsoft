@@ -28,6 +28,7 @@ Route::resource('statuses', 'StatusApiController');
 Route::resource('products', 'ProductApiController');
 Route::resource('stores', 'StoreApiController');
 Route::resource('item_stores', 'ItemStoreApiController');
+Route::resource('item_requests', 'ItemRequestApiController');
 Route::resource('item_transfers', 'ItemTransferApiController');
 Route::resource('item_prices', 'ItemPriceApiController');
 Route::resource('item_movements', 'ItemMovementApiController');

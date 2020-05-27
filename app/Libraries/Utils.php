@@ -4,6 +4,7 @@ namespace App\Libraries;
 
 use App;
 use App\Models\Location;
+use App\Models\Status;
 use Carbon\Carbon;
 use DateTime;
 use DateTimeZone;
@@ -1005,6 +1006,17 @@ class Utils
         }
     }
 
+    public static function getStatus($name)
+    {
+        if (!$name) {
+            return null;
+        }
+
+        $status = Status::where('name', $name)->first();
+
+        return $status->id ?: null;
+    }
+
     public static function getLocationName($id)
     {
         if ($id) {
@@ -1267,7 +1279,7 @@ class Utils
     public static function formatWebsite($link)
     {
         if (!$link) {
-            return '';
+            return null;
         }
 
         $title = $link;
