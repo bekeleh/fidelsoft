@@ -5,8 +5,8 @@ namespace App\Ninja\Reports;
 use Barracuda\ArchiveStream\Archive;
 use App\Models\Expense;
 use App\Models\TaxRate;
-use Auth;
-use Utils;
+use Illuminate\Support\Facades\Auth;
+use App\Libraries\Utils;
 
 class ExpenseReport extends AbstractReport
 {
@@ -57,14 +57,14 @@ class ExpenseReport extends AbstractReport
         }
 
         $expenses = Expense::scope()
-                        ->orderBy('expense_date', 'desc')
-                        ->withArchived()
-                        ->with('client.contacts', 'vendor', 'expense_category', 'user')
-                        ->where('expense_date', '>=', $this->startDate)
-                        ->where('expense_date', '<=', $this->endDate);
+            ->orderBy('expense_date', 'desc')
+            ->withArchived()
+            ->with('client.contacts', 'vendor', 'expense_category', 'user')
+            ->where('expense_date', '>=', $this->startDate)
+            ->where('expense_date', '<=', $this->endDate);
 
         if ($this->isExport && $exportFormat == 'zip') {
-            if (! extension_loaded('GMP')) {
+            if (!extension_loaded('GMP')) {
                 die(trans('texts.gmp_required'));
             }
 

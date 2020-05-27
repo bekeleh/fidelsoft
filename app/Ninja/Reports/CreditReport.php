@@ -3,7 +3,7 @@
 namespace App\Ninja\Reports;
 
 use App\Models\Client;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class CreditReport extends AbstractReport
 {
@@ -25,13 +25,13 @@ class CreditReport extends AbstractReport
         $subgroup = $this->options['subgroup'];
 
         $clients = Client::scope()
-                        ->orderBy('name')
-                        ->withArchived()
-                        ->with(['contacts', 'user', 'credits' => function ($query) {
-                            $query->where('credit_date', '>=', $this->startDate)
-                                  ->where('credit_date', '<=', $this->endDate)
-                                  ->withArchived();
-                        }]);
+            ->orderBy('name')
+            ->withArchived()
+            ->with(['contacts', 'user', 'credits' => function ($query) {
+                $query->where('credit_date', '>=', $this->startDate)
+                    ->where('credit_date', '<=', $this->endDate)
+                    ->withArchived();
+            }]);
 
         foreach ($clients->get() as $client) {
             $amount = 0;
@@ -45,7 +45,7 @@ class CreditReport extends AbstractReport
                 $this->addChartData($dimension, $credit->credit_date, $credit->amount);
             }
 
-            if (! $amount && ! $balance) {
+            if (!$amount && !$balance) {
                 continue;
             }
 

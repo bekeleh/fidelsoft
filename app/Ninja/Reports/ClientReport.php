@@ -3,7 +3,7 @@
 namespace App\Ninja\Reports;
 
 use App\Models\Client;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class ClientReport extends AbstractReport
 {
@@ -40,16 +40,16 @@ class ClientReport extends AbstractReport
         $subgroup = $this->options['subgroup'];
 
         $clients = Client::scope()
-                        ->orderBy('name')
-                        ->withArchived()
-                        ->with(['contacts', 'user'])
-                        ->with(['invoices' => function ($query) {
-                            $query->where('invoice_date', '>=', $this->startDate)
-                                  ->where('invoice_date', '<=', $this->endDate)
-                                  ->where('invoice_type_id', '=', INVOICE_TYPE_STANDARD)
-                                  ->where('is_recurring', '=', false)
-                                  ->withArchived();
-                        }]);
+            ->orderBy('name')
+            ->withArchived()
+            ->with(['contacts', 'user'])
+            ->with(['invoices' => function ($query) {
+                $query->where('invoice_date', '>=', $this->startDate)
+                    ->where('invoice_date', '<=', $this->endDate)
+                    ->where('invoice_type_id', '=', INVOICE_TYPE_STANDARD)
+                    ->where('is_recurring', '=', false)
+                    ->withArchived();
+            }]);
 
         foreach ($clients->get() as $client) {
             $amount = 0;

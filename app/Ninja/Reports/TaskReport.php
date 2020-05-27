@@ -3,8 +3,8 @@
 namespace App\Ninja\Reports;
 
 use App\Models\Task;
-use Utils;
-use Auth;
+use App\Libraries\Utils;
+use Illuminate\Support\Facades\Auth;
 
 class TaskReport extends AbstractReport
 {
@@ -41,10 +41,10 @@ class TaskReport extends AbstractReport
         $subgroup = $this->options['subgroup'];
 
         $tasks = Task::scope()
-                    ->orderBy('created_at', 'desc')
-                    ->with('client.contacts', 'project', 'account', 'user')
-                    ->withArchived()
-                    ->dateRange($startDate, $endDate);
+            ->orderBy('created_at', 'desc')
+            ->with('client.contacts', 'project', 'account', 'user')
+            ->withArchived()
+            ->dateRange($startDate, $endDate);
 
         foreach ($tasks->get() as $task) {
             $duration = $task->getDuration($startDate->format('U'), $endDate->modify('+1 day')->format('U'));

@@ -3,7 +3,7 @@
 namespace App\Ninja\Reports;
 
 use App\Models\Client;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class AgingReport extends AbstractReport
 {
@@ -27,18 +27,18 @@ class AgingReport extends AbstractReport
         $subgroup = $this->options['subgroup'];
 
         $clients = Client::scope()
-                        ->orderBy('name')
-                        ->withArchived()
-                        ->with('contacts')
-                        ->with(['invoices' => function ($query) {
-                            $query->invoices()
-                                  ->whereIsPublic(true)
-                                  ->withArchived()
-                                  ->where('balance', '>', 0)
-                                  ->where('invoice_date', '>=', $this->startDate)
-                                  ->where('invoice_date', '<=', $this->endDate)
-                                  ->with(['invoice_items']);
-                        }]);
+            ->orderBy('name')
+            ->withArchived()
+            ->with('contacts')
+            ->with(['invoices' => function ($query) {
+                $query->invoices()
+                    ->whereIsPublic(true)
+                    ->withArchived()
+                    ->where('balance', '>', 0)
+                    ->where('invoice_date', '>=', $this->startDate)
+                    ->where('invoice_date', '<=', $this->endDate)
+                    ->with(['invoice_items']);
+            }]);
 
         foreach ($clients->get() as $client) {
             foreach ($client->invoices as $invoice) {
@@ -59,7 +59,7 @@ class AgingReport extends AbstractReport
                 //$this->addToTotals($client->currency_id, 'balance', $invoice->balance);
 
                 if ($subgroup == 'age') {
-                    $dimension = trans('texts.' .$invoice->present()->ageGroup);
+                    $dimension = trans('texts.' . $invoice->present()->ageGroup);
                 } else {
                     $dimension = $this->getDimension($client);
                 }

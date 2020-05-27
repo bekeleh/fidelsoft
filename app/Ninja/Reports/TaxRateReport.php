@@ -3,7 +3,7 @@
 namespace App\Ninja\Reports;
 
 use App\Models\Client;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class TaxRateReport extends AbstractReport
 {
@@ -27,31 +27,31 @@ class TaxRateReport extends AbstractReport
         $subgroup = $this->options['subgroup'];
 
         $clients = Client::scope()
-                        ->orderBy('name')
-                        ->withArchived()
-                        ->with('contacts', 'user')
-                        ->with(['invoices' => function ($query) {
-                            $query->with('invoice_items')
-                                ->withArchived()
-                                ->invoices()
-                                ->where('is_public', '=', true);
-                            if ($this->options['date_field'] == FILTER_INVOICE_DATE) {
-                                $query->where('invoice_date', '>=', $this->startDate)
-                                      ->where('invoice_date', '<=', $this->endDate)
-                                      ->with('payments');
-                            } else {
-                                $query->whereHas('payments', function ($query) {
-                                    $query->where('payment_date', '>=', $this->startDate)
-                                                  ->where('payment_date', '<=', $this->endDate)
-                                                  ->withArchived();
-                                })
-                                        ->with(['payments' => function ($query) {
-                                            $query->where('payment_date', '>=', $this->startDate)
-                                                  ->where('payment_date', '<=', $this->endDate)
-                                                  ->withArchived();
-                                        }]);
-                            }
+            ->orderBy('name')
+            ->withArchived()
+            ->with('contacts', 'user')
+            ->with(['invoices' => function ($query) {
+                $query->with('invoice_items')
+                    ->withArchived()
+                    ->invoices()
+                    ->where('is_public', '=', true);
+                if ($this->options['date_field'] == FILTER_INVOICE_DATE) {
+                    $query->where('invoice_date', '>=', $this->startDate)
+                        ->where('invoice_date', '<=', $this->endDate)
+                        ->with('payments');
+                } else {
+                    $query->whereHas('payments', function ($query) {
+                        $query->where('payment_date', '>=', $this->startDate)
+                            ->where('payment_date', '<=', $this->endDate)
+                            ->withArchived();
+                    })
+                        ->with(['payments' => function ($query) {
+                            $query->where('payment_date', '>=', $this->startDate)
+                                ->where('payment_date', '<=', $this->endDate)
+                                ->withArchived();
                         }]);
+                }
+            }]);
 
         foreach ($clients->get() as $client) {
             $currencyId = $client->currency_id ?: Auth::user()->account->getCurrencyId();
@@ -60,7 +60,7 @@ class TaxRateReport extends AbstractReport
                 $taxTotals = [];
 
                 foreach ($invoice->getTaxes(true) as $key => $tax) {
-                    if (! isset($taxTotals[$currencyId])) {
+                    if (!isset($taxTotals[$currencyId])) {
                         $taxTotals[$currencyId] = [];
                     }
                     if (isset($taxTotals[$currencyId][$key])) {
