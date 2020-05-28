@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateStatusRequest;
 use App\Http\Requests\StatusRequest;
+use App\Http\Requests\UpdateStatusRequest;
 use App\Libraries\Utils;
 use App\Models\Status;
 use App\Ninja\Datatables\StatusDatatable;
@@ -108,12 +110,12 @@ class StatusController extends BaseController
         return View::make('statuses.edit', $data);
     }
 
-    public function store(StatusRequest $request)
+    public function store(CreateStatusRequest $request)
     {
         return $this->save();
     }
 
-    public function update(StatusRequest $request, $publicId)
+    public function update(UpdateStatusRequest $request, $publicId)
     {
         return $this->save($publicId);
     }

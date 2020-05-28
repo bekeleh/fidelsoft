@@ -707,7 +707,7 @@ class AccountController extends BaseController
         $user->save();
 
         $account->live_preview = Input::get('live_preview') ? true : false;
-//        dd(Cache::get('fonts'));
+
         // Automatically disable live preview when using a large font
         $fonts = Cache::get('fonts')->filter(function ($font) use ($account) {
             if ($font->google_font) {

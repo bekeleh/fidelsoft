@@ -71,12 +71,6 @@ class TaskController extends BaseController
         return $this->taskService->getDatatable($clientPublicId, $projectPublicId, Input::get('sSearch'));
     }
 
-
-    public function store(CreateTaskRequest $request)
-    {
-        return $this->save($request);
-    }
-
     public function show($publicId)
     {
         Session::reflash();
@@ -102,6 +96,11 @@ class TaskController extends BaseController
         $data = array_merge($data, self::getViewModel());
 
         return View::make('tasks.edit', $data);
+    }
+
+    public function store(CreateTaskRequest $request)
+    {
+        return $this->save($request);
     }
 
     public function edit(TaskRequest $request)

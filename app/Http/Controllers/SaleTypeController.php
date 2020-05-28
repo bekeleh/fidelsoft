@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateSaleTypeRequest;
 use App\Http\Requests\SaleTypeRequest;
+use App\Http\Requests\UpdateSaleTypeRequest;
 use App\Libraries\Utils;
 use App\Ninja\Datatables\SaleTypeDatatable;
 use App\Ninja\Repositories\SaleTypeRepository;
@@ -28,11 +30,6 @@ class SaleTypeController extends BaseController
         $this->saleTypeService = $saleTypeService;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
     public function index()
     {
         return View::make('list_wrapper', [
@@ -99,13 +96,16 @@ class SaleTypeController extends BaseController
         return View::make('sale_types.edit', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param SaleTypeRequest $request
-     * @return Response
-     */
-    public function update(SaleTypeRequest $request)
+    public function store(CreateSaleTypeRequest $request)
+    {
+        $data = $request->input();
+
+        $saleType = $this->saleTypeService->save($data);
+
+        return redirect()->to("sale_types/{$saleType->public_id}/edit")->with('success', trans('texts.created_sale_type'));
+    }
+
+    public function update(UpdateSaleTypeRequest $request)
     {
         $data = $request->input();
 
@@ -121,15 +121,6 @@ class SaleTypeController extends BaseController
         } else {
             return redirect()->to("sale_types/{$saleType->public_id}/edit")->with('success', trans('texts.updated_sale_type'));
         }
-    }
-
-    public function store(SaleTypeRequest $request)
-    {
-        $data = $request->input();
-
-        $saleType = $this->saleTypeService->save($data);
-
-        return redirect()->to("sale_types/{$saleType->public_id}/edit")->with('success', trans('texts.created_sale_type'));
     }
 
     public function bulk()

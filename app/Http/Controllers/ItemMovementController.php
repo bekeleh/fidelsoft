@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateItemMovementRequest;
 use App\Http\Requests\ItemMovementRequest;
+use App\Http\Requests\UpdateItemMovementRequest;
 use App\Libraries\Utils;
 use App\Ninja\Datatables\ItemMovementDatatable;
 use App\Ninja\Repositories\ItemMovementRepository;
@@ -89,7 +91,7 @@ class ItemMovementController extends BaseController
         return View::make('item_movements.edit', $data);
     }
 
-    public function update(ItemMovementRequest $request)
+    public function update(UpdateItemMovementRequest $request)
     {
         $data = $request->input();
 
@@ -107,7 +109,7 @@ class ItemMovementController extends BaseController
         }
     }
 
-    public function store(ItemMovementRequest $request)
+    public function store(CreateItemMovementRequest $request)
     {
         $data = $request->input();
 

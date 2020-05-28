@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateHoldReasonRequest;
 use App\Http\Requests\HoldReasonRequest;
+use App\Http\Requests\UpdateHoldReasonRequest;
 use App\Libraries\Utils;
 use App\Models\HoldReason;
 use App\Ninja\Datatables\HoldReasonDatatable;
@@ -111,12 +113,12 @@ class HoldReasonController extends BaseController
         return View::make('hold_reasons.edit', $data);
     }
 
-    public function store(HoldReasonRequest $request)
+    public function store(CreateHoldReasonRequest $request)
     {
         return $this->save();
     }
 
-    public function update(HoldReasonRequest $request, $publicId)
+    public function update(UpdateHoldReasonRequest $request, $publicId)
     {
         return $this->save($publicId);
     }

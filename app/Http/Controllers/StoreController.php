@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateStoreRequest;
 use App\Http\Requests\StoreRequest;
+use App\Http\Requests\UpdateStoreRequest;
 use App\Libraries\Utils;
 use App\Models\Location;
 use App\Ninja\Datatables\StoreDatatable;
@@ -79,7 +81,7 @@ class StoreController extends BaseController
         return View::make('stores.edit', $data);
     }
 
-    public function store(StoreRequest $request)
+    public function store(CreateStoreRequest $request)
     {
         $data = $request->input();
 
@@ -117,7 +119,7 @@ class StoreController extends BaseController
         return View::make('stores.edit', $data);
     }
 
-    public function update(StoreRequest $request)
+    public function update(UpdateStoreRequest $request)
     {
         $data = $request->input();
 

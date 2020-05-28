@@ -30,11 +30,6 @@ class CreditController extends BaseController
         $this->creditService = $creditService;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
     public function index()
     {
         return View::make('list_wrapper', [
@@ -84,11 +79,6 @@ class CreditController extends BaseController
         return View::make('credits.edit', $data);
     }
 
-    /**
-     * @param $publicId
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function show($publicId)
     {
         Session::reflash();

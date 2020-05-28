@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreatePermissionGroupRequest;
 use App\Http\Requests\PermissionGroupRequest;
+use App\Http\Requests\UpdatePermissionGroupRequest;
 use App\Libraries\Utils;
 use App\Models\PermissionGroup;
 use App\Ninja\Datatables\PermissionGroupDatatable;
@@ -77,7 +79,7 @@ class PermissionGroupController extends BaseController
         return View::make('permission_groups.show', $data);
     }
 
-    public function create(PermissionGroupRequest $request)
+    public function create(CreatePermissionGroupRequest $request)
     {
         $data = [
             'userGroup' => null,
@@ -118,7 +120,7 @@ class PermissionGroupController extends BaseController
         return View::make('permission_groups.edit', $data);
     }
 
-    public function update(PermissionGroupRequest $request)
+    public function update(UpdatePermissionGroupRequest $request)
     {
         $data = $request->input();
 

@@ -5,15 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateProposalTemplateRequest;
 use App\Http\Requests\ProposalTemplateRequest;
 use App\Http\Requests\UpdateProposalTemplateRequest;
-use App\Models\Invoice;
 use App\Models\ProposalTemplate;
 use App\Ninja\Datatables\ProposalTemplateDatatable;
 use App\Ninja\Repositories\ProposalTemplateRepository;
 use App\Services\ProposalTemplateService;
-use Auth;
-use Input;
-use Session;
-use View;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\View;
 
 class ProposalTemplateController extends BaseController
 {
@@ -27,11 +26,6 @@ class ProposalTemplateController extends BaseController
         $this->proposalTemplateService = $proposalTemplateService;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
     public function index()
     {
         return View::make('list_wrapper', [
@@ -71,13 +65,13 @@ class ProposalTemplateController extends BaseController
         $defaultLabel = trans('texts.default');
 
         foreach ($customTemplates as $template) {
-            if (! isset($options[$customLabel])) {
+            if (!isset($options[$customLabel])) {
                 $options[$customLabel] = [];
             }
             $options[trans('texts.custom')][$template->public_id] = $template->name;
         }
         foreach ($defaultTemplates as $template) {
-            if (! isset($options[$defaultLabel])) {
+            if (!isset($options[$defaultLabel])) {
                 $options[$defaultLabel] = [];
             }
             $options[trans('texts.default')][$template->public_id] = $template->name;

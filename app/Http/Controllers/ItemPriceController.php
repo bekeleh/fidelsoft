@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateItemPriceRequest;
 use App\Http\Requests\ItemPriceRequest;
+use App\Http\Requests\UpdateItemPriceRequest;
 use App\Libraries\Utils;
 use App\Models\Product;
 use App\Models\SaleType;
@@ -82,7 +84,7 @@ class ItemPriceController extends BaseController
         return View::make('item_prices.edit', $data);
     }
 
-    public function store(ItemPriceRequest $request)
+    public function store(CreateItemPriceRequest $request)
     {
         $data = $request->input();
 
@@ -121,7 +123,7 @@ class ItemPriceController extends BaseController
         return View::make('item_prices.edit', $data);
     }
 
-    public function update(ItemPriceRequest $request)
+    public function update(UpdateItemPriceRequest $request)
     {
         $data = $request->input();
 

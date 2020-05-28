@@ -5,19 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateProposalRequest;
 use App\Http\Requests\ProposalRequest;
 use App\Http\Requests\UpdateProposalRequest;
-use App\Jobs\SendInvoiceEmail;
 use App\Jobs\ConvertProposalToPdf;
+use App\Jobs\SendInvoiceEmail;
 use App\Models\Invoice;
-use App\Models\Proposal;
 use App\Models\ProposalTemplate;
-use App\Ninja\Mailers\ContactMailer;
 use App\Ninja\Datatables\ProposalDatatable;
+use App\Ninja\Mailers\ContactMailer;
 use App\Ninja\Repositories\ProposalRepository;
 use App\Services\ProposalService;
-use Auth;
-use Input;
-use Session;
-use View;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\View;
 
 class ProposalController extends BaseController
 {
@@ -102,7 +101,7 @@ class ProposalController extends BaseController
         $account = auth()->user()->account;
         $templates = ProposalTemplate::whereAccountId($account->id)->withActiveOrSelected($proposal ? $proposal->proposal_template_id : false)->orderBy('name')->get();
 
-        if (! $templates->count()) {
+        if (!$templates->count()) {
             $templates = ProposalTemplate::whereNull('account_id')->orderBy('name')->get();
         }
 

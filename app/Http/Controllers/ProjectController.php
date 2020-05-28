@@ -28,12 +28,6 @@ class ProjectController extends BaseController
         $this->projectService = $projectService;
     }
 
-    /**
-     *
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
     public function index()
     {
         return View::make('list_wrapper', [

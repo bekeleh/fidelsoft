@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreatePaymentTermRequest;
 use App\Http\Requests\PaymentTermRequest;
+use App\Http\Requests\UpdatePaymentTermRequest;
 use App\Libraries\Utils;
 use App\Models\PaymentTerm;
 use App\Services\PaymentTermService;
@@ -33,17 +35,11 @@ class PaymentTermController extends BaseController
         $this->paymentTermService = $paymentTermService;
     }
 
-    /**
-     * @return RedirectResponse
-     */
     public function index()
     {
         return Redirect::to('settings/' . ACCOUNT_PAYMENT_TERMS);
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function getDatatable()
     {
         $accountId = Auth::user()->account_id;
@@ -51,11 +47,6 @@ class PaymentTermController extends BaseController
         return $this->paymentTermService->getDatatable($accountId);
     }
 
-    /**
-     * @param $publicId
-     *
-     * @return \Illuminate\Contracts\View\View
-     */
     public function edit($publicId)
     {
         $data = [
@@ -68,9 +59,6 @@ class PaymentTermController extends BaseController
         return View::make('accounts.payment_term', $data);
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
     public function create()
     {
         $data = [
@@ -83,31 +71,16 @@ class PaymentTermController extends BaseController
         return View::make('accounts.payment_term', $data);
     }
 
-    /**
-     * @param PaymentTermRequest $request
-     * @return RedirectResponse
-     */
-    public function store(PaymentTermRequest $request)
+    public function store(CreatePaymentTermRequest $request)
     {
         return $this->save();
     }
 
-    /**
-     * @param PaymentTermRequest $request
-     * @param $publicId
-     *
-     * @return RedirectResponse
-     */
-    public function update(PaymentTermRequest $request, $publicId)
+    public function update(UpdatePaymentTermRequest $request, $publicId)
     {
         return $this->save($publicId);
     }
 
-    /**
-     * @param bool $publicId
-     *
-     * @return RedirectResponse
-     */
     private function save($publicId = false)
     {
         if ($publicId) {
@@ -126,9 +99,6 @@ class PaymentTermController extends BaseController
         return Redirect::to('settings/' . ACCOUNT_PAYMENT_TERMS);
     }
 
-    /**
-     * @return RedirectResponse
-     */
     public function bulk()
     {
         $action = Input::get('bulk_action');

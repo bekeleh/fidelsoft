@@ -4,13 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Subscription;
 use App\Services\SubscriptionService;
-use Auth;
-use Input;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
 use Redirect;
-use Session;
-use URL;
-use Validator;
-use View;
 
 /**
  * Class SubscriptionController.
@@ -34,27 +33,16 @@ class SubscriptionController extends BaseController
         $this->subscriptionService = $subscriptionService;
     }
 
-    /**
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function index()
     {
         return Redirect::to('settings/' . ACCOUNT_API_TOKENS);
     }
 
-    /**
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function getDatatable()
     {
         return $this->subscriptionService->getDatatable(Auth::user()->account_id);
     }
 
-    /**
-     * @param $publicId
-     *
-     * @return \Illuminate\Contracts\View\View
-     */
     public function edit($publicId)
     {
         $subscription = Subscription::scope($publicId)->firstOrFail();
@@ -69,42 +57,30 @@ class SubscriptionController extends BaseController
         return View::make('accounts.subscription', $data);
     }
 
-    /**
-     * @param $publicId
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function update($publicId)
     {
         return $this->save($publicId);
     }
 
-    /**
-     * @return \Illuminate\Http\RedirectResponse
-     */
+
     public function store()
     {
         return $this->save();
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
     public function create()
     {
         $data = [
-          'subscription' => null,
-          'method' => 'POST',
-          'url' => 'subscriptions',
-          'title' => trans('texts.add_subscription'),
+            'subscription' => null,
+            'method' => 'POST',
+            'url' => 'subscriptions',
+            'title' => trans('texts.add_subscription'),
         ];
 
         return View::make('accounts.subscription', $data);
     }
 
-    /**
-     * @return \Illuminate\Http\RedirectResponse
-     */
+
     public function bulk()
     {
         $action = Input::get('bulk_action');
@@ -117,11 +93,6 @@ class SubscriptionController extends BaseController
         return Redirect::to('settings/' . ACCOUNT_API_TOKENS);
     }
 
-    /**
-     * @param bool $subscriptionPublicId
-     *
-     * @return $this|\Illuminate\Http\RedirectResponse
-     */
     public function save($subscriptionPublicId = false)
     {
         if (Auth::user()->account->hasFeature(FEATURE_API)) {

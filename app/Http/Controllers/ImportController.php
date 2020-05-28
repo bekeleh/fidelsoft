@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Services\ImportService;
 use App\Jobs\ImportData;
+use App\Libraries\Utils;
+use App\Services\ImportService;
 use Exception;
-use Input;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\View;
 use Redirect;
-use Session;
-use Utils;
-use View;
-use Auth;
 
 class ImportController extends BaseController
 {
@@ -22,7 +22,7 @@ class ImportController extends BaseController
 
     public function doImport(Request $request)
     {
-        if (! Auth::user()->confirmed) {
+        if (!Auth::user()->confirmed) {
             return redirect('/settings/' . ACCOUNT_IMPORT_EXPORT)->withError(trans('texts.confirm_account_to_import'));
         }
 
@@ -46,7 +46,7 @@ class ImportController extends BaseController
                         return redirect()->to('/settings/' . ACCOUNT_IMPORT_EXPORT)->withError(trans('texts.invalid_file'));
                     }
                 } else {
-                    if (! in_array($extension, ['csv', 'xls', 'xlsx', 'json'])) {
+                    if (!in_array($extension, ['csv', 'xls', 'xlsx', 'json'])) {
                         return redirect()->to('/settings/' . ACCOUNT_IMPORT_EXPORT)->withError(trans('texts.invalid_file'));
                     }
                 }
@@ -57,7 +57,7 @@ class ImportController extends BaseController
             }
         }
 
-        if (! count($files)) {
+        if (!count($files)) {
             Session::flash('error', trans('texts.select_file'));
             return Redirect::to('/settings/' . ACCOUNT_IMPORT_EXPORT);
         }

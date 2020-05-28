@@ -7,9 +7,7 @@ use App\Http\Requests\DocumentRequest;
 use App\Http\Requests\UpdateDocumentRequest;
 use App\Models\Document;
 use App\Ninja\Repositories\DocumentRepository;
-use Redirect;
-use Response;
-use View;
+use Illuminate\Support\Facades\Response;
 
 class DocumentController extends BaseController
 {
@@ -82,12 +80,12 @@ class DocumentController extends BaseController
             $name = substr($name, 0, -3);
         }
 
-        if (! $document->isPDFEmbeddable()) {
+        if (!$document->isPDFEmbeddable()) {
             return Response::view('error', ['error' => 'Image does not exist!'], 404);
         }
 
         $content = $document->preview ? $document->getRawPreview() : $document->getRaw();
-        $content = 'ninjaAddVFSDoc('.json_encode(intval($publicId).'/'.strval($name)).',"'.base64_encode($content).'")';
+        $content = 'ninjaAddVFSDoc(' . json_encode(intval($publicId) . '/' . strval($name)) . ',"' . base64_encode($content) . '")';
         $response = Response::make($content, 200);
         $response->header('content-type', 'text/javascript');
         $response->header('cache-control', 'max-age=31536000');

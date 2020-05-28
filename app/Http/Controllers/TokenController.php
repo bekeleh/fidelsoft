@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\AccountToken;
 use App\Services\TokenService;
-use Auth;
-use Input;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 use Redirect;
-use Session;
-use URL;
-use Validator;
-use View;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
 
 /**
  * Class TokenController.
@@ -34,78 +34,53 @@ class TokenController extends BaseController
         $this->tokenService = $tokenService;
     }
 
-    /**
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function index()
     {
         return Redirect::to('settings/' . ACCOUNT_API_TOKENS);
     }
 
-    /**
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function getDatatable()
     {
         return $this->tokenService->getDatatable(Auth::user()->id);
     }
 
-    /**
-     * @param $publicId
-     *
-     * @return \Illuminate\Contracts\View\View
-     */
+    public function create()
+    {
+        $data = [
+            'token' => null,
+            'method' => 'POST',
+            'url' => 'tokens',
+            'title' => trans('texts.add_token'),
+        ];
+
+        return View::make('accounts.token', $data);
+    }
+
+    public function store()
+    {
+        return $this->save();
+    }
+
     public function edit($publicId)
     {
         $token = AccountToken::where('account_id', '=', Auth::user()->account_id)
-                        ->where('public_id', '=', $publicId)->firstOrFail();
+            ->where('public_id', '=', $publicId)->firstOrFail();
 
         $data = [
             'token' => $token,
             'method' => 'PUT',
-            'url' => 'tokens/'.$publicId,
+            'url' => 'tokens/' . $publicId,
             'title' => trans('texts.edit_token'),
         ];
 
         return View::make('accounts.token', $data);
     }
 
-    /**
-     * @param $publicId
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function update($publicId)
     {
         return $this->save($publicId);
     }
 
-    /**
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function store()
-    {
-        return $this->save();
-    }
-
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
-    public function create()
-    {
-        $data = [
-          'token' => null,
-          'method' => 'POST',
-          'url' => 'tokens',
-          'title' => trans('texts.add_token'),
-        ];
-
-        return View::make('accounts.token', $data);
-    }
-
-    /**
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function bulk()
     {
         $action = Input::get('bulk_action');
@@ -117,11 +92,6 @@ class TokenController extends BaseController
         return Redirect::to('settings/' . ACCOUNT_API_TOKENS);
     }
 
-    /**
-     * @param bool $tokenPublicId
-     *
-     * @return $this|\Illuminate\Http\RedirectResponse
-     */
     public function save($tokenPublicId = false)
     {
         if (Auth::user()->account->hasFeature(FEATURE_API)) {
@@ -131,7 +101,7 @@ class TokenController extends BaseController
 
             if ($tokenPublicId) {
                 $token = AccountToken::where('account_id', '=', Auth::user()->account_id)
-                            ->where('public_id', '=', $tokenPublicId)->firstOrFail();
+                    ->where('public_id', '=', $tokenPublicId)->firstOrFail();
             }
 
             $validator = Validator::make(Input::all(), $rules);

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateItemCategoryRequest;
 use App\Http\Requests\ItemCategoryRequest;
+use App\Http\Requests\UpdateItemCategoryRequest;
 use App\Libraries\Utils;
 use App\Models\ItemCategory;
 use App\Ninja\Datatables\ItemCategoryDatatable;
@@ -106,12 +108,12 @@ class ItemCategoryController extends BaseController
         return View::make('item_categories.edit', $data);
     }
 
-    public function store(ItemCategoryRequest $request)
+    public function store(CreateItemCategoryRequest $request)
     {
         return $this->save();
     }
 
-    public function update(ItemCategoryRequest $request, $publicId)
+    public function update(UpdateItemCategoryRequest $request, $publicId)
     {
         return $this->save($publicId);
     }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateTaxRateRequest;
 use App\Http\Requests\TaxRateRequest;
+use App\Http\Requests\UpdateTaxRateRequest;
 use App\Models\TaxRate;
 use App\Ninja\Repositories\TaxRateRepository;
 use App\Services\TaxRateService;
@@ -59,7 +61,7 @@ class TaxRateController extends BaseController
         return View::make('tax_rates.tax_rate', $data);
     }
 
-    public function store(TaxRateRequest $request)
+    public function store(CreateTaxRateRequest $request)
     {
         $this->taxRateRepo->save($request->input());
 
@@ -68,7 +70,7 @@ class TaxRateController extends BaseController
         return Redirect::to('settings/' . ACCOUNT_TAX_RATES);
     }
 
-    public function update(TaxRateRequest $request, $publicId)
+    public function update(UpdateTaxRateRequest $request, $publicId)
     {
         $this->taxRateRepo->save($request->input(), $request->entity());
 

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateUnitRequest;
 use App\Http\Requests\UnitRequest;
+use App\Http\Requests\UpdateUnitRequest;
 use App\Libraries\Utils;
 use App\Ninja\Datatables\UnitDatatable;
 use App\Ninja\Repositories\UnitRepository;
@@ -62,6 +64,15 @@ class UnitController extends BaseController
         return View::make('units.edit', $data);
     }
 
+    public function store(CreateUnitRequest $request)
+    {
+        $data = $request->input();
+
+        $unit = $this->unitService->save($data);
+
+        return redirect()->to("units/{$unit->public_id}/edit")->with('message', trans('texts.created_unit'));
+    }
+
     public function edit(UnitRequest $request, $publicId = false, $clone = false)
     {
         $unit = $request->entity();
@@ -89,7 +100,7 @@ class UnitController extends BaseController
         return View::make('units.edit', $data);
     }
 
-    public function update(UnitRequest $request)
+    public function update(UpdateUnitRequest $request)
     {
         $data = $request->input();
 
@@ -105,15 +116,6 @@ class UnitController extends BaseController
         } else {
             return redirect()->to("units/{$unit->public_id}/edit")->with('message', trans('texts.updated_unit'));
         }
-    }
-
-    public function store(UnitRequest $request)
-    {
-        $data = $request->input();
-
-        $unit = $this->unitService->save($data);
-
-        return redirect()->to("units/{$unit->public_id}/edit")->with('message', trans('texts.created_unit'));
     }
 
     public function bulk()

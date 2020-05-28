@@ -12,11 +12,10 @@ use App\Models\Vendor;
 use App\Ninja\Datatables\RecurringExpenseDatatable;
 use App\Ninja\Repositories\RecurringExpenseRepository;
 use App\Services\RecurringExpenseService;
-use Auth;
-use Input;
-use Session;
-use View;
-use Cache;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\View;
 
 class RecurringExpenseController extends BaseController
 {
@@ -30,11 +29,6 @@ class RecurringExpenseController extends BaseController
         $this->recurringExpenseService = $recurringExpenseService;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
     public function index()
     {
         return View::make('list_wrapper', [
@@ -83,7 +77,7 @@ class RecurringExpenseController extends BaseController
         $expense = $request->entity();
 
         $actions = [];
-        if (! $expense->trashed()) {
+        if (!$expense->trashed()) {
             $actions[] = ['url' => 'javascript:submitAction("archive")', 'label' => trans('texts.archive_expense')];
             $actions[] = ['url' => 'javascript:onDeleteClick()', 'label' => trans('texts.delete_expense')];
         } else {
@@ -95,7 +89,7 @@ class RecurringExpenseController extends BaseController
             'expense' => $expense,
             'entity' => $expense,
             'method' => 'PUT',
-            'url' => 'recurring_expenses/'.$expense->public_id,
+            'url' => 'recurring_expenses/' . $expense->public_id,
             'title' => 'Edit Expense',
             'actions' => $actions,
             'vendors' => Vendor::scope()->with('vendor_contacts')->orderBy('name')->get(),

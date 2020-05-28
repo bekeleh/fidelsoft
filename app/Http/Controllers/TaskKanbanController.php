@@ -9,9 +9,7 @@ use App\Models\Client;
 
 class TaskKanbanController extends BaseController
 {
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
+
     public function index($clientPublicId = false, $projectPublicId = false)
     {
         $tasks = Task::scope()
@@ -30,7 +28,7 @@ class TaskKanbanController extends BaseController
         $clients = Client::scope()->with(['contacts'])->get();
 
         // check initial statuses exist
-        if (! $statuses->count()) {
+        if (!$statuses->count()) {
             $statuses = collect([]);
             $firstStatus = false;
             $defaults = [
@@ -39,13 +37,13 @@ class TaskKanbanController extends BaseController
                 'in_progress',
                 'done',
             ];
-            for ($i=0; $i<count($defaults); $i++) {
+            for ($i = 0; $i < count($defaults); $i++) {
                 $status = TaskStatus::createNew();
                 $status->name = trans('texts.' . $defaults[$i]);
                 $status->sort_order = $i;
                 $status->save();
                 $statuses[] = $status;
-                if (! $firstStatus) {
+                if (!$firstStatus) {
                     $firstStatus = $status;
                 }
             }
@@ -55,9 +53,9 @@ class TaskKanbanController extends BaseController
                 $task->task_status_sort_order = $i++;
                 $task->save();
             }
-        // otherwise, check that the orders are correct
+            // otherwise, check that the orders are correct
         } else {
-            for ($i=0; $i<$statuses->count(); $i++) {
+            for ($i = 0; $i < $statuses->count(); $i++) {
                 $status = $statuses[$i];
                 if ($status->sort_order != $i) {
                     $status->sort_order = $i;
@@ -68,11 +66,11 @@ class TaskKanbanController extends BaseController
             $firstStatus = $statuses[0];
             $counts = [];
             foreach ($tasks as $task) {
-                if (! $task->task_status || $task->task_status->trashed()) {
+                if (!$task->task_status || $task->task_status->trashed()) {
                     $task->task_status_id = $firstStatus->id;
                     $task->setRelation('task_status', $firstStatus);
                 }
-                if (! isset($counts[$task->task_status_id])) {
+                if (!isset($counts[$task->task_status_id])) {
                     $counts[$task->task_status_id] = 0;
                 }
                 if ($task->task_status_sort_order != $counts[$task->task_status_id]) {
@@ -101,9 +99,7 @@ class TaskKanbanController extends BaseController
         return view('tasks.kanban', $data);
     }
 
-    /**
-     * @return \Illuminate\Http\RedirectResponse
-     */
+
     public function storeStatus()
     {
         $status = TaskStatus::createNew();
@@ -113,11 +109,6 @@ class TaskKanbanController extends BaseController
         return response()->json($status);
     }
 
-    /**
-     * @param $publicId
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function updateStatus($publicId)
     {
         $status = TaskStatus::scope($publicId)->firstOrFail();
@@ -141,9 +132,6 @@ class TaskKanbanController extends BaseController
         return response()->json($status);
     }
 
-    /**
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function deleteStatus($publicId)
     {
         $status = TaskStatus::scope($publicId)->firstOrFail();
@@ -170,11 +158,6 @@ class TaskKanbanController extends BaseController
         return response()->json(['message' => RESULT_SUCCESS]);
     }
 
-    /**
-     * @param $publicId
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function updateTask($publicId)
     {
         $task = Task::scope($publicId)->firstOrFail();

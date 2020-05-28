@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Requests;
-use App\Models\Task;
-use App\Models\TaskStatus;
 use App\Models\Client;
 use App\Models\Project;
+use App\Models\Task;
+use App\Models\TaskStatus;
 
 class TimeTrackerController extends Controller
 {
@@ -16,7 +14,7 @@ class TimeTrackerController extends Controller
         $user = auth()->user();
         $account = $user->account;
 
-        if (! $account->hasFeature(FEATURE_TASKS)) {
+        if (!$account->hasFeature(FEATURE_TASKS)) {
             return trans('texts.tasks_not_enabled');
         }
 

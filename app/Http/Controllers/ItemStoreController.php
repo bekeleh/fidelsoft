@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateItemStoreRequest;
 use App\Http\Requests\ItemStoreRequest;
 use App\Http\Requests\Request;
+use App\Http\Requests\UpdateItemStoreRequest;
 use App\Libraries\Utils;
 use App\Models\ItemStore;
 use App\Models\Product;
@@ -99,7 +101,7 @@ class ItemStoreController extends BaseController
         return View::make('item_stores.edit', $data);
     }
 
-    public function store(ItemStoreRequest $request)
+    public function store(CreateItemStoreRequest $request)
     {
         $data = $request->input();
 
@@ -142,7 +144,7 @@ class ItemStoreController extends BaseController
         return View::make('item_stores.edit', $data);
     }
 
-    public function update(ItemStoreRequest $request)
+    public function update(UpdateItemStoreRequest $request)
     {
         $data = $request->input();
 

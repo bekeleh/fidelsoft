@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreatePermissionRequest;
 use App\Http\Requests\PermissionRequest;
+use App\Http\Requests\UpdatePermissionRequest;
 use App\Libraries\Utils;
 use App\Ninja\Datatables\PermissionDatatable;
 use App\Ninja\Repositories\PermissionGroupRepository;
@@ -89,7 +91,16 @@ class PermissionController extends BaseController
         return View::make('permissions.edit', $data);
     }
 
-    public function update(PermissionRequest $request)
+    public function store(CreatePermissionRequest $request)
+    {
+        $data = $request->input();
+
+        $permission = $this->permissionService->save($data);
+
+        return redirect()->to("permissions/{$permission->public_id}/edit")->with('message', trans('texts.created_permission'));
+    }
+
+    public function update(UpdatePermissionRequest $request)
     {
         $data = $request->input();
 
@@ -105,15 +116,6 @@ class PermissionController extends BaseController
         } else {
             return redirect()->to("permissions/{$permission->public_id}/edit")->with('message', trans('texts.updated_permission'));
         }
-    }
-
-    public function store(PermissionRequest $request)
-    {
-        $data = $request->input();
-
-        $permission = $this->permissionService->save($data);
-
-        return redirect()->to("permissions/{$permission->public_id}/edit")->with('message', trans('texts.created_permission'));
     }
 
     public function bulk()

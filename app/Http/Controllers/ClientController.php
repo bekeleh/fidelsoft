@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ClientRequest;
+use App\Http\Requests\CreateClientRequest;
+use App\Http\Requests\UpdateClientRequest;
 use App\Jobs\Client\GenerateStatementData;
 use App\Jobs\LoadPostmarkHistory;
 use App\Jobs\ReactivatePostmarkEmail;
@@ -105,7 +107,7 @@ class ClientController extends BaseController
         return View::make('clients.edit', $data);
     }
 
-    public function store(ClientRequest $request)
+    public function store(CreateClientRequest $request)
     {
         $data = $request->input();
 
@@ -139,7 +141,7 @@ class ClientController extends BaseController
         return View::make('clients.edit', $data);
     }
 
-    public function update(ClientRequest $request)
+    public function update(UpdateClientRequest $request)
     {
         $data = $request->input();
 

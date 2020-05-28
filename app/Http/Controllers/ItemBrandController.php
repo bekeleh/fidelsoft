@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateItemBrandRequest;
 use App\Http\Requests\ItemBrandRequest;
+use App\Http\Requests\UpdateItemBrandRequest;
 use App\Libraries\Utils;
 use App\Models\ItemBrand;
 use App\Models\ItemCategory;
-use App\Models\Store;
 use App\Ninja\Datatables\ItemBrandDatatable;
 use App\Ninja\Repositories\ItemBrandRepository;
 use App\Services\ItemBrandService;
@@ -78,7 +79,7 @@ class ItemBrandController extends BaseController
         return View::make('item_brands.edit', $data);
     }
 
-    public function store(ItemBrandRequest $request)
+    public function store(CreateItemBrandRequest $request)
     {
         $data = $request->input();
 
@@ -120,7 +121,7 @@ class ItemBrandController extends BaseController
         return View::make('item_brands.edit', $data);
     }
 
-    public function update(ItemBrandRequest $request)
+    public function update(UpdateItemBrandRequest $request)
     {
         $data = $request->input();
 
