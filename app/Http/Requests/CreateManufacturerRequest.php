@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class CreateManufacturerRequest extends EntityRequest
+class CreateManufacturerRequest extends ManufacturerRequest
 {
     /**
      * Determine if the user is authorized to make this request.

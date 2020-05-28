@@ -19,7 +19,7 @@ class UpdateItemTransferRequest extends ItemTransferRequest
         $this->sanitize();
         $this->validationData();
         $rules = [];
-        $itemTransfer = ItemTransfer::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
+        $itemTransfer = $this->entity();
         $rules['product_id'] = 'required|array';
         $rules['previous_store_id'] = 'required|numeric';
         $rules['current_store_id'] = 'required|numeric|different:previous_store_id';

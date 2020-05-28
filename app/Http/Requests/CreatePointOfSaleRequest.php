@@ -6,7 +6,7 @@ use App\Models\ItemBrand;
 use App\Models\Product;
 use App\Models\Unit;
 
-class CreatePointOfSaleRequest extends EntityRequest
+class CreatePointOfSaleRequest extends PointOfSaleRequest
 {
     protected $entityType = ENTITY_PRODUCT;
 

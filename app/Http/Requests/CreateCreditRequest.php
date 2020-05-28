@@ -4,9 +4,11 @@ namespace App\Http\Requests;
 
 class CreateCreditRequest extends CreditRequest
 {
+    protected $entityType = ENTITY_CREDIT;
+
     public function authorize()
     {
-        return true;
+        return $this->user()->can('create', $this->entityType);
     }
 
     public function rules()

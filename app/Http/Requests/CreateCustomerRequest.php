@@ -4,10 +4,11 @@ namespace App\Http\Requests;
 
 class CreateCustomerRequest extends CustomerRequest
 {
+    protected $entityType = ENTITY_CUSTOMER;
 
     public function authorize()
     {
-        return true;
+        return $this->user()->can('create', $this->entityType);
     }
 
     public function rules()

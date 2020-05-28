@@ -97,11 +97,23 @@ class UserDatatable extends EntityDatatable
                 },
             ],
 //            [
-//                'deleted_at',
+//                'date_deleted',
 //                function ($model) {
 //                    return Utils::timestampToDateString(strtotime($model->deleted_at));
 //                },
 //            ],
+            [
+                'created_by',
+                function ($model) {
+                    return $model->created_by;
+                },
+            ],
+            [
+                'updated_by',
+                function ($model) {
+                    return $model->updated_by;
+                },
+            ],
         ];
     }
 

@@ -19,7 +19,7 @@ class UpdateScheduleRequest extends ScheduleRequest
         $this->validationData();
 
         $rules = [];
-//        $ScheduledReport = Schedule::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
+//        $ScheduledReport = $this->entity();
 //        if ($ScheduledReport)
 //            $rules['name'] = 'required|unique:scheduled_reports,name,' . $ScheduledReport->id . ',id,account_id,' . $ScheduledReport->account_id;
 

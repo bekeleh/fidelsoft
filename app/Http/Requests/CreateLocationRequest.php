@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\Location;
 
-class CreateLocationRequest extends EntityRequest
+class CreateLocationRequest extends LocationRequest
 {
     protected $entityType = ENTITY_LOCATION;
 
@@ -16,8 +16,9 @@ class CreateLocationRequest extends EntityRequest
     public function rules()
     {
         $this->sanitize();
-        $rules = [];
         $this->validationData();
+
+        $rules = [];
         $rules['name'] = 'required|max:90|unique:locations,name,' . $this->id . ',id,account_id,' . $this->account_id;
         $rules['notes'] = 'nullable';
         $rules['is_deleted'] = 'boolean';

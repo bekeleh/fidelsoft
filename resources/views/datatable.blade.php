@@ -1,36 +1,40 @@
-<table class="table table-striped data-table {{ $class = str_random(8) }}">
-    <colgroup>
-        @for ($i = 0; $i < count($columns); $i++)
-            <col class="con{{ $i }}"/>
-        @endfor
-    </colgroup>
-    <thead>
-    <tr>
-        @foreach($columns as $i => $c)
-            <th align="center" valign="middle" class="head{{ $i }}"
-                @if ($c == 'checkbox')
-                style="width:20px"
-                    @endif
-            >
-                @if ($c == 'checkbox' && $hasCheckboxes = true)
-                    <input type="checkbox" class="selectAll"/>
-                @else
-                    {{ $c }}
-                @endif
-            </th>
-        @endforeach
-    </tr>
-    </thead>
-    <tbody>
-    @foreach($data as $d)
-        <tr>
-            @foreach($d as $dd)
-                <td>{{ $dd }}</td>
+<div class="table-responsive">
+    <div>
+        <table class="table table-striped data-table {{ $class = str_random(8) }}">
+            <colgroup>
+                @for ($i = 0; $i < count($columns); $i++)
+                    <col class="con{{ $i }}"/>
+                @endfor
+            </colgroup>
+            <thead>
+            <tr>
+                @foreach($columns as $i => $c)
+                    <th align="center" valign="middle" class="head{{ $i }}"
+                        @if ($c == 'checkbox')
+                        style="width:20px"
+                            @endif
+                    >
+                        @if ($c == 'checkbox' && $hasCheckboxes = true)
+                            <input type="checkbox" class="selectAll"/>
+                        @else
+                            {{ $c }}
+                        @endif
+                    </th>
+                @endforeach
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($data as $d)
+                <tr>
+                    @foreach($d as $dd)
+                        <td>{{ $dd }}</td>
+                    @endforeach
+                </tr>
             @endforeach
-        </tr>
-    @endforeach
-    </tbody>
-</table>
+            </tbody>
+        </table>
+    </div>
+</div>
 <script type="text/javascript">
     @if (isset($values['clientId']) && $values['clientId'])
         window.load_{{ $values['entityType'] }} = function load_{{ $values['entityType'] }}() {
@@ -59,7 +63,8 @@
                     $(row).addClass('entityArchived');
                 }
             },
-            "bAutoWidth": false,
+
+            "bAutoWidth": true,
             "aoColumnDefs": [
                 @if (isset($hasCheckboxes) && $hasCheckboxes)
                 // Disable sorting on the first column

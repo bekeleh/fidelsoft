@@ -21,8 +21,6 @@ class ProjectDatatable extends EntityDatatable
                         return $this->addNote(link_to("projects/{$model->public_id}", $model->project)->toHtml(), $model->private_notes);
                     else
                         return $model->project;
-
-
                 },
             ],
             [
@@ -56,6 +54,36 @@ class ProjectDatatable extends EntityDatatable
                 function ($model) {
                     return floatval($model->task_rate) ? Utils::formatMoney($model->task_rate) : '';
                 }
+            ],
+            [
+                'created_at',
+                function ($model) {
+                    return Utils::timestampToDateString(strtotime($model->created_at));
+                },
+            ],
+            [
+                'updated_at',
+                function ($model) {
+                    return Utils::timestampToDateString(strtotime($model->updated_at));
+                },
+            ],
+//            [
+//                'date_deleted',
+//                function ($model) {
+//                    return Utils::timestampToDateString(strtotime($model->deleted_at));
+//                },
+//            ],
+            [
+                'created_by',
+                function ($model) {
+                    return $model->created_by;
+                },
+            ],
+            [
+                'updated_by',
+                function ($model) {
+                    return $model->updated_by;
+                },
             ],
         ];
     }

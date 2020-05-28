@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Models\Location;
 use App\Models\User;
 
-class CreateUserRequest extends EntityRequest
+class CreateUserRequest extends UserRequest
 {
     protected $entityType = ENTITY_USER;
 
@@ -17,14 +17,15 @@ class CreateUserRequest extends EntityRequest
     public function rules()
     {
         $this->sanitize();
-        $rules = [];
         $this->validationData();
+
+        $rules = [];
         $rules['first_name'] = 'required|max:50';
         $rules['last_name'] = 'required|max:50';
         $rules['username'] = 'required|max:50|unique:users,username,' . $this->id . ',id,account_id,' . $this->account_id;
         $rules['email'] = 'required|email|max:50|unique:users,email,' . $this->id . ',id';
         $rules['permission_groups'] = 'required|array';
-        $rules['location_id'] = 'numeric';
+        $rules['location_id'] = 'required|exists:locations,id';
         $rules['is_deleted'] = 'boolean';
         $rules['notes'] = 'nullable';
 
@@ -68,6 +69,7 @@ class CreateUserRequest extends EntityRequest
                 'account_id' => User::getAccountId(),
             ]);
         }
+
         return $this->request->all();
     }
 }

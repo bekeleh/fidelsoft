@@ -2,12 +2,13 @@
 
 namespace App\Http\Requests;
 
-class CreateBankAccountRequest extends Request
+class CreateBankAccountRequest extends BankAccountRequest
 {
     protected $entityType = ENTITY_BANK_ACCOUNT;
+
     public function authorize()
     {
-        return true;
+        return $this->user()->can('create', $this->entityType);
     }
 
     public function rules()

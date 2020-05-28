@@ -4,9 +4,11 @@ namespace App\Http\Requests;
 
 class CreateContactRequest extends ContactRequest
 {
+    protected $entityType = ENTITY_CONTACT;
+
     public function authorize()
     {
-        return true;
+        return $this->user()->can('create', $this->entityType);
     }
 
     public function rules()

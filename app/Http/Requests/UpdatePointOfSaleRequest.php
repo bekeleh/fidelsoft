@@ -21,7 +21,7 @@ class UpdatePointOfSaleRequest extends EntityRequest
         $this->sanitize();
         $this->validationData();
 
-        $product = Product::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
+        $product = $this->entity();
         if ($product)
             $rules['name'] = 'required|unique:products,name,' . $product->id . ',id,item_brand_id,' . $product->item_brand_id . ',account_id,' . $product->account_id;
         $rules['item_brand_id'] = 'required|numeric';

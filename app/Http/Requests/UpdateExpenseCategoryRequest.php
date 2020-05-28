@@ -15,10 +15,11 @@ class UpdateExpenseCategoryRequest extends ExpenseCategoryRequest
 
     public function rules()
     {
-        $rules = [];
         $this->sanitize();
         $this->validationData();
-        $expenseCategory = ExpenseCategory::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
+
+        $rules = [];
+        $expenseCategory = $this->entity();
         if ($expenseCategory)
             $rules['name'] = 'required|unique:expense_categories,name,' . $expenseCategory->id . ',id,account_id,' . $expenseCategory->account_id;
 

@@ -2,6 +2,7 @@
 
 namespace App\Ninja\Datatables;
 
+use App\Libraries\Utils;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 
@@ -17,6 +18,36 @@ class PaymentTermDatatable extends EntityDatatable
                 'num_days',
                 function ($model) {
                     return link_to("payment_terms/{$model->public_id}/edit", trans('texts.payment_terms_net') . ' ' . ($model->num_days == -1 ? 0 : $model->num_days))->toHtml();
+                },
+            ],
+            [
+                'created_at',
+                function ($model) {
+                    return Utils::timestampToDateString(strtotime($model->created_at));
+                },
+            ],
+            [
+                'updated_at',
+                function ($model) {
+                    return Utils::timestampToDateString(strtotime($model->updated_at));
+                },
+            ],
+//            [
+//                'date_deleted',
+//                function ($model) {
+//                    return Utils::timestampToDateString(strtotime($model->deleted_at));
+//                },
+//            ],
+            [
+                'created_by',
+                function ($model) {
+                    return $model->created_by;
+                },
+            ],
+            [
+                'updated_by',
+                function ($model) {
+                    return $model->updated_by;
                 },
             ],
         ];

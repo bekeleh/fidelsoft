@@ -6,20 +6,19 @@
     {!! Former::text('public_id')->id('public_id_' . $entityType) !!}
     {!! Former::text('datatable')->value('true') !!}
 </div>
-
-<div class="pull-left">
-    @if (in_array($entityType, [ENTITY_TASK, ENTITY_EXPENSE, ENTITY_PRODUCT, ENTITY_PROJECT]))
-        @if (Auth::user()->can('create', $entityType))
-            {!! Button::primary(trans('texts.invoice'))->withAttributes(['class'=>'invoice', 'onclick' =>'submitForm_'.$entityType.'("invoice")'])->appendIcon(Icon::create('check')) !!}
+<div class="row">
+    <div class="pull-left">
+        @if (in_array($entityType, [ENTITY_TASK, ENTITY_EXPENSE, ENTITY_PRODUCT, ENTITY_PROJECT]))
+            @if (Auth::user()->can('create', $entityType))
+                {!! Button::primary(trans('texts.invoice'))->withAttributes(['class'=>'invoice', 'onclick' =>'submitForm_'.$entityType.'("invoice")'])->appendIcon(Icon::create('check')) !!}
+            @endif
         @endif
-    @endif
 
-    {!! DropdownButton::normal(trans('texts.archive'))
-    ->withContents($datatable->bulkActions())
-    ->withAttributes(['class'=>'archive'])
-    ->split() !!}
-
-    <span id="statusWrapper_{{ $entityType }}" style="display:none">
+        {!! DropdownButton::normal(trans('texts.archive'))
+        ->withContents($datatable->bulkActions())
+        ->withAttributes(['class'=>'archive'])
+        ->split() !!}
+        <span id="statusWrapper_{{ $entityType }}" style="display:none">
     <select class="form-control" style="width: 220px" id="statuses_{{ $entityType }}" multiple="true">
     @if (count(\App\Models\EntityModel::getStatusesFor($entityType)))
             <optgroup label="{{ trans('texts.entity_state') }}">
@@ -39,37 +38,38 @@
         @endif
     </select>
     </span>
-</div>
-<div id="top_right_buttons" class="pull-right">
-    <input id="tableFilter_{{ $entityType }}" type="text"
-           style="width:180px;margin-right:17px;background-color: white !important"
-           class="form-control pull-left" placeholder="{{ trans('texts.filter') }}"
-           value="{{ Input::get('filter') }}"/>
+    </div>
+    <div id="top_right_buttons" class="pull-right">
+        <input id="tableFilter_{{ $entityType }}" type="text"
+               style="width:180px;margin-right:17px;background-color: white !important"
+               class="form-control pull-left" placeholder="{{ trans('texts.filter') }}"
+               value="{{ Input::get('filter') }}"/>
+        <!-- create records -->
+        @if (Auth::user()->can('create', $entityType) || Utils::isAdmin())
+            {!! Button::primary(mtrans($entityType, "new_{$entityType}"))
+            ->asLinkTo(url(
+            (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_TEMPLATE]) ? str_replace('_', 's/', Utils::pluralizeEntityType($entityType)) : Utils::pluralizeEntityType($entityType)) .
+            '/create/' . (isset($clientId) ? ($clientId . (isset($projectId) ? '/' . $projectId : '')) : '')
+            ))
+            ->appendIcon(Icon::create('plus-sign')) !!}
+        @endif
 
-    <!-- create records -->
-    @if (Auth::user()->can('create', $entityType) || Utils::isAdmin())
-        {!! Button::primary(mtrans($entityType, "new_{$entityType}"))
-        ->asLinkTo(url(
-        (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_TEMPLATE]) ? str_replace('_', 's/', Utils::pluralizeEntityType($entityType)) : Utils::pluralizeEntityType($entityType)) .
-        '/create/' . (isset($clientId) ? ($clientId . (isset($projectId) ? '/' . $projectId : '')) : '')
-        ))
-        ->appendIcon(Icon::create('plus-sign')) !!}
+        @include('menu',['entityType', $entityType])
+    </div>
+</div>
+<div class="row">
+    <!-- view records -->
+    @if(Auth::user()->can('view', $entityType)  || Utils::isAdmin())
+        {!! Datatable::table()
+        ->addColumn(Utils::trans($datatable->columnFields(), $datatable->entityType))
+        ->setUrl(empty($url) ? url('api/' . Utils::pluralizeEntityType($entityType)) : $url)
+        ->setCustomValues('entityType', Utils::pluralizeEntityType($entityType))
+        ->setCustomValues('clientId', isset($clientId) && $clientId && empty($projectId))
+        ->setOptions('sPaginationType', 'bootstrap')
+        ->setOptions('aaSorting', [[isset($clientId) ? ($datatable->sortCol-1) : $datatable->sortCol, 'desc']])
+        ->render('datatable') !!}
     @endif
-
-    @include('menu',['entityType', $entityType])
 </div>
-
-<!-- Grid view -->
-@if(Auth::user()->can('view', $entityType)  || Utils::isAdmin())
-    {!! Datatable::table()
-    ->addColumn(Utils::trans($datatable->columnFields(), $datatable->entityType))
-    ->setUrl(empty($url) ? url('api/' . Utils::pluralizeEntityType($entityType)) : $url)
-    ->setCustomValues('entityType', Utils::pluralizeEntityType($entityType))
-    ->setCustomValues('clientId', isset($clientId) && $clientId && empty($projectId))
-    ->setOptions('sPaginationType', 'bootstrap')
-    ->setOptions('aaSorting', [[isset($clientId) ? ($datatable->sortCol-1) : $datatable->sortCol, 'desc']])
-    ->render('datatable') !!}
-@endif
 
 @if ($entityType == ENTITY_PAYMENT)
     @include('partials/refund_payment')

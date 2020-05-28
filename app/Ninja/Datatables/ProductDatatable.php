@@ -83,18 +83,6 @@ class ProductDatatable extends EntityDatatable
                     return $model->tax_rate2 ? ($model->tax_name2 . ' ' . $model->tax_rate2 . '%') : '';
                 },
             ],
-//            [
-//                'created_by',
-//                function ($model) {
-//                    return $model->created_by;
-//                },
-//            ],
-//            [
-//                'updated_by',
-//                function ($model) {
-//                    return $model->updated_by;
-//                },
-//            ],
             [
                 'created_at',
                 function ($model) {
@@ -107,12 +95,24 @@ class ProductDatatable extends EntityDatatable
                     return Utils::timestampToDateString(strtotime($model->updated_at));
                 },
             ],
-            //            [
+//            [
 //                'date_deleted',
 //                function ($model) {
 //                    return Utils::timestampToDateString(strtotime($model->deleted_at));
 //                },
 //            ],
+            [
+                'created_by',
+                function ($model) {
+                    return $model->created_by;
+                },
+            ],
+            [
+                'updated_by',
+                function ($model) {
+                    return $model->updated_by;
+                },
+            ],
         ];
     }
 

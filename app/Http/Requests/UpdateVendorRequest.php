@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Models\User;
-use App\Models\Vendor;
 
 class UpdateVendorRequest extends VendorRequest
 {
@@ -20,8 +19,7 @@ class UpdateVendorRequest extends VendorRequest
         $this->validationData();
 
         $rules = [];
-
-        $vendor = Vendor::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
+        $vendor = $this->entity();
         if ($vendor)
             $rules['name'] = 'required|max:191|unique:vendors,name,' . $vendor->id . ',id,account_id,' . $vendor->account_id;
 

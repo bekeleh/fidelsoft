@@ -16,8 +16,9 @@ class CreateExpenseCategoryRequest extends ExpenseCategoryRequest
     public function rules()
     {
         $this->sanitize();
-        $rules = [];
         $this->validationData();
+
+        $rules = [];
         $rules['name'] = 'required|unique:expense_categories,name,' . $this->id . ',id,account_id,' . $this->account_id;
 
         return $rules;

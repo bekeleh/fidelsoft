@@ -6,7 +6,7 @@ use App\Models\ItemBrand;
 use App\Models\Product;
 use App\Models\Unit;
 
-class CreateProductRequest extends EntityRequest
+class CreateProductRequest extends ProductRequest
 {
     protected $entityType = ENTITY_PRODUCT;
 
@@ -19,8 +19,8 @@ class CreateProductRequest extends EntityRequest
     {
         $this->sanitize();
         $this->validationData();
-        $rules = [];
 
+        $rules = [];
         $rules['name'] = 'required|unique:products,name,' . $this->id . ',id,item_brand_id,' . $this->item_brand_id . ',account_id,' . $this->account_id;
         $rules['item_brand_id'] = 'required|numeric';
         $rules['barcode'] = 'nullable';
@@ -29,6 +29,7 @@ class CreateProductRequest extends EntityRequest
         $rules['item_cost'] = 'required|numeric';
         $rules['is_deleted'] = 'boolean';
         $rules['notes'] = 'nullable';
+
         return $rules;
     }
 
@@ -61,6 +62,7 @@ class CreateProductRequest extends EntityRequest
                 'account_id' => Product::getAccountId()
             ]);
         }
+
         return $this->request->all();
     }
 }

@@ -18,7 +18,7 @@ class UpdateDepartmentRequest extends EntityRequest
         $rules = [];
         $this->sanitize();
         $this->validationData();
-        $department = Department::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
+        $department = $this->entity();
         if ($department)
             $rules['name'] = 'required|max:90|unique:departments,name,' . $department->id . ',id,account_id,' . $department->account_id;
         $rules['is_deleted'] = 'boolean';

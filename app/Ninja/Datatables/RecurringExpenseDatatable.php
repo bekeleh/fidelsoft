@@ -24,7 +24,7 @@ class RecurringExpenseDatatable extends EntityDatatable
                             return $model->vendor_name;
 
                     } else {
-                        return '';
+                        return null;
                     }
                 },
                 !$this->hideClient,
@@ -37,10 +37,8 @@ class RecurringExpenseDatatable extends EntityDatatable
                             return link_to("clients/{$model->client_public_id}", Utils::getClientDisplayName($model))->toHtml();
                         else
                             return Utils::getClientDisplayName($model);
-
-
                     } else {
-                        return '';
+                        return null;
                     }
                 },
                 !$this->hideClient,
@@ -87,9 +85,9 @@ class RecurringExpenseDatatable extends EntityDatatable
             [
                 'category',
                 function ($model) {
-                    $category = $model->category != null ? substr($model->category, 0, 100) : '';
+                    $category = $model->category != null ? substr($model->category, 0, 100) : null;
                     if (Auth::user()->can('view', [ENTITY_EXPENSE_CATEGORY, $model]))
-                        return $model->category_public_id ? link_to("expense_categories/{$model->category_public_id}/edit", $category)->toHtml() : '';
+                        return $model->category_public_id ? link_to("expense_categories/{$model->category_public_id}/edit", $category)->toHtml() : null;
                     else
                         return $category;
 
@@ -99,6 +97,36 @@ class RecurringExpenseDatatable extends EntityDatatable
                 'public_notes',
                 function ($model) {
                     return $this->showWithTooltip($model->public_notes, 100);
+                },
+            ],
+            [
+                'created_at',
+                function ($model) {
+                    return Utils::timestampToDateString(strtotime($model->created_at));
+                },
+            ],
+            [
+                'updated_at',
+                function ($model) {
+                    return Utils::timestampToDateString(strtotime($model->updated_at));
+                },
+            ],
+//            [
+//                'date_deleted',
+//                function ($model) {
+//                    return Utils::timestampToDateString(strtotime($model->deleted_at));
+//                },
+//            ],
+            [
+                'created_by',
+                function ($model) {
+                    return $model->created_by;
+                },
+            ],
+            [
+                'updated_by',
+                function ($model) {
+                    return $model->updated_by;
                 },
             ],
         ];

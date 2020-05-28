@@ -72,8 +72,8 @@ class LocationRepository extends BaseRepository
         }
         $location->fill($data);
         $location->name = isset($data['name']) ? trim($data['name']) : '';
-
         $location->notes = isset($data['notes']) ? trim($data['notes']) : '';
+
         $location->save();
 
         if ($publicId) {

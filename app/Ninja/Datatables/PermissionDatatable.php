@@ -21,18 +21,6 @@ class PermissionDatatable extends EntityDatatable
                 },
             ],
             [
-                'created_by',
-                function ($model) {
-                    return $model->created_by;
-                },
-            ],
-            [
-                'updated_by',
-                function ($model) {
-                    return $model->updated_by;
-                },
-            ],
-            [
                 'created_at',
                 function ($model) {
                     return Utils::timestampToDateString(strtotime($model->created_at));
@@ -50,6 +38,18 @@ class PermissionDatatable extends EntityDatatable
 //                    return Utils::timestampToDateString(strtotime($model->deleted_at));
 //                },
 //            ],
+            [
+                'created_by',
+                function ($model) {
+                    return $model->created_by;
+                },
+            ],
+            [
+                'updated_by',
+                function ($model) {
+                    return $model->updated_by;
+                },
+            ],
         ];
     }
 
@@ -59,7 +59,7 @@ class PermissionDatatable extends EntityDatatable
             [
                 trans('texts.edit_permission'),
                 function ($model) {
-                        return URL::to("permissions/{$model->public_id}/edit");
+                    return URL::to("permissions/{$model->public_id}/edit");
                 },
                 function ($model) {
                     return Auth::user()->can('create', ENTITY_PERMISSION);

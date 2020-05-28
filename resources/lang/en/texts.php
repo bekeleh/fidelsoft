@@ -801,6 +801,7 @@ $LANG = array(
     'new_credit' => 'Enter Credit',
     'contact' => 'Contact',
     'date_created' => 'Date Created',
+    'date_deleted' => 'Date Deleted',
     'last_login' => 'Last Login',
     'balance' => 'Balance',
     'action' => 'Action',

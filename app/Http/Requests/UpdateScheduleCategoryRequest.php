@@ -19,7 +19,7 @@ class UpdateScheduleCategoryRequest extends ScheduleCategoryRequest
         $this->validationData();
 
         $rules = [];
-        $scheduleCategory = ScheduleCategory::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
+        $scheduleCategory = $this->entity();
         if ($scheduleCategory)
             $rules['name'] = 'required|unique:schedule_categories,name,' . $scheduleCategory->id . ',id,account_id,' . $scheduleCategory->account_id;
 

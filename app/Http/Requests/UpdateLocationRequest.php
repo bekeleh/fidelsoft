@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\Location;
 
-class UpdateLocationRequest extends EntityRequest
+class UpdateLocationRequest extends LocationRequest
 {
     protected $entityType = ENTITY_LOCATION;
 
@@ -16,10 +16,10 @@ class UpdateLocationRequest extends EntityRequest
     public function rules()
     {
         $this->sanitize();
-        $rules = [];
-
         $this->validationData();
-        $location = Location::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
+
+        $rules = [];
+        $location = $this->entity();
         if ($location)
             $rules['name'] = 'required|max:90|unique:locations,name,' . $location->id . ',id,account_id,' . $location->account_id;
         $rules['is_deleted'] = 'boolean';

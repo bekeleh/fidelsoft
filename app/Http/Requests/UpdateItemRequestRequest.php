@@ -22,6 +22,7 @@ class UpdateItemRequestRequest extends ItemRequestRequest
         $this->validationData();
 
         $rules = [];
+//        $itemRequest = $this->entity();
         $rules['product_id'] = 'required|numeric';
         $rules['department_id'] = 'required|numeric';
         $rules['store_id'] = 'required|numeric';

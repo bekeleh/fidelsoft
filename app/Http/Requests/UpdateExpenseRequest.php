@@ -23,8 +23,7 @@ class UpdateExpenseRequest extends ExpenseRequest
         $this->validationData();
 
         $rules = [];
-
-        $expense = Expense::where('public_id', (int)request()->segment(2))->where('account_id', $this->account_id)->first();
+        $expense = $this->entity();
         if ($expense) {
             $rules['vendor_id'] = 'required|unique:expenses,vendor_id,' . $expense->id . ',id,amount,' . $expense->amount . ',expense_date,' . $expense->expense_date . ',client_id,' . $expense->client_id . ',account_id,' . $expense->account_id;
             $rules['client_id'] = 'required|unique:expenses,client_id,' . $expense->id . ',id,amount,' . $expense->amount . ',expense_date,' . $expense->expense_date . ',vendor_id,' . $expense->vendor_id . ',account_id,' . $expense->account_id;

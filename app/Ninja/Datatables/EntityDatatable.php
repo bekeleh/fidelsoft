@@ -33,12 +33,12 @@ class EntityDatatable
     {
         return [
             [
-                'label' => mtrans($this->entityType, 'archive_'.$this->entityType),
-                'url' => 'javascript:submitForm_'.$this->entityType.'("archive")',
+                'label' => mtrans($this->entityType, 'archive_' . $this->entityType),
+                'url' => 'javascript:submitForm_' . $this->entityType . '("archive")',
             ],
             [
-                'label' => mtrans($this->entityType, 'delete_'.$this->entityType),
-                'url' => 'javascript:submitForm_'.$this->entityType.'("delete")',
+                'label' => mtrans($this->entityType, 'delete_' . $this->entityType),
+                'url' => 'javascript:submitForm_' . $this->entityType . '("delete")',
             ],
         ];
     }
@@ -55,7 +55,7 @@ class EntityDatatable
         foreach ($columns as $column) {
             if (count($column) == 3) {
                 // third column is optionally used to determine visibility
-                if (! $column[2]) {
+                if (!$column[2]) {
                     continue;
                 }
             }
@@ -91,15 +91,17 @@ class EntityDatatable
         return $indices;
     }
 
-    public function addNote($str, $note) {
-        if (! $note) {
+    public function addNote($str, $note)
+    {
+        if (!$note) {
             return $str;
         }
 
         return $str . '&nbsp; <span class="fa fa-file-o" data-toggle="tooltip" data-placement="bottom" title="' . e($note) . '"></span>';
     }
 
-    public function showWithTooltip($str, $max = 60) {
+    public function showWithTooltip($str, $max = 60)
+    {
         $str = e($str);
 
         if (strlen($str) > $max) {

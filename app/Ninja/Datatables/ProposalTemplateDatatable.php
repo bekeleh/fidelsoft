@@ -2,6 +2,7 @@
 
 namespace App\Ninja\Datatables;
 
+use App\Libraries\Utils;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 
@@ -32,6 +33,36 @@ class ProposalTemplateDatatable extends EntityDatatable
                 'private_notes',
                 function ($model) {
                     return $this->showWithTooltip($model->private_notes);
+                },
+            ],
+            [
+                'created_at',
+                function ($model) {
+                    return Utils::timestampToDateString(strtotime($model->created_at));
+                },
+            ],
+            [
+                'updated_at',
+                function ($model) {
+                    return Utils::timestampToDateString(strtotime($model->updated_at));
+                },
+            ],
+//            [
+//                'date_deleted',
+//                function ($model) {
+//                    return Utils::timestampToDateString(strtotime($model->deleted_at));
+//                },
+//            ],
+            [
+                'created_by',
+                function ($model) {
+                    return $model->created_by;
+                },
+            ],
+            [
+                'updated_by',
+                function ($model) {
+                    return $model->updated_by;
                 },
             ],
         ];

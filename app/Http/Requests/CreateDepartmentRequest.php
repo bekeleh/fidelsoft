@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\Department;
 
-class CreateDepartmentRequest extends EntityRequest
+class CreateDepartmentRequest extends DepartmentRequest
 {
     protected $entityType = ENTITY_DEPARTMENT;
 

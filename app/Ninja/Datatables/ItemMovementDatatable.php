@@ -59,18 +59,6 @@ class ItemMovementDatatable extends EntityDatatable
                 },
             ],
             [
-                'created_by',
-                function ($model) {
-                    return $model->created_by;
-                },
-            ],
-            [
-                'updated_by',
-                function ($model) {
-                    return $model->updated_by;
-                },
-            ],
-            [
                 'created_at',
                 function ($model) {
                     return Utils::timestampToDateString(strtotime($model->created_at));
@@ -82,12 +70,24 @@ class ItemMovementDatatable extends EntityDatatable
                     return Utils::timestampToDateString(strtotime($model->updated_at));
                 },
             ],
-            //            [
+//            [
 //                'date_deleted',
 //                function ($model) {
 //                    return Utils::timestampToDateString(strtotime($model->deleted_at));
 //                },
 //            ],
+            [
+                'created_by',
+                function ($model) {
+                    return $model->created_by;
+                },
+            ],
+            [
+                'updated_by',
+                function ($model) {
+                    return $model->updated_by;
+                },
+            ],
         ];
     }
 
