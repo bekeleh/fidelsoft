@@ -39,7 +39,12 @@
                 <!-- qty -->
                 {!! Former::text('qty')->label('texts.qty') !!}
                 <!-- required date -->
-                {!! Former::date('required_date')->label('texts.required_date') !!}
+                {{--                {!! Former::date('required_date')->label('texts.required_date') !!}--}}
+                {!! Former::text('required_date')
+                    ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
+                    ->appendIcon('calendar')
+                    ->addGroupClass('required_date')
+                    !!}
 
                 <!-- NOTES -->
                     {!! Former::textarea('notes')->rows(4) !!}
@@ -152,5 +157,8 @@
                 submitAction('delete');
             });
         }
+
+        $('#required_date').datepicker('update', '{{ $itemRequest ? Utils::fromSqlDate($itemRequest->required_date) : '' }}');
+        $('#dispatch_date').datepicker('update', '{{ $itemRequest ? Utils::fromSqlDate($itemRequest->dispatch_date) : '' }}');
     </script>
 @stop

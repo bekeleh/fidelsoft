@@ -59,8 +59,9 @@ class ItemRequestDatatable extends EntityDatatable
                 function ($model) {
                     if ($model->status_public_id) {
                         if (Auth::user()->can('view', [ENTITY_STATUS, $model]))
-//                            return link_to("statuses/{$model->status_public_id}", self::getStatusLabel($model))->toHtml();
-                            return self::getStatusLabel($model);
+                            //                            return link_to("statuses/{$model->status_public_id}", $model->status_name)->toHtml();
+                            return Self::getStatusLabel($model);
+
                         else
                             return Self::getStatusLabel($model);
                     }
