@@ -106,7 +106,6 @@
                 setComboboxValue($('.sale-type-select'), type.public_id, type.name);
             }
 
-
         });
 
         function submitAction(action) {
@@ -122,5 +121,6 @@
 
         $('#start_date').datepicker('update', '{{ $itemPrice ? Utils::fromSqlDate($itemPrice->start_date) : '' }}');
         $('#end_date').datepicker('update', '{{ $itemPrice ? Utils::fromSqlDate($itemPrice->end_date) : '' }}');
+
     </script>
 @stop
