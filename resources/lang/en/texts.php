@@ -3453,6 +3453,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'platforms' => 'Platforms',
     'email_clients' => 'Email Clients',
     'mobile' => 'Mobile',
+    'slack' => 'Slack',
     'desktop' => 'Desktop',
     'webmail' => 'Webmail',
     'subgroup' => 'Subgroup',

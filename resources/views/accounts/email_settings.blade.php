@@ -76,9 +76,6 @@
                         ->addOption(trans('texts.light'), EMAIL_DESIGN_LIGHT)
                         ->addOption(trans('texts.dark'), EMAIL_DESIGN_DARK)
                         ->help(trans('texts.email_design_help')) !!}
-
-            &nbsp;
-
             @if (Utils::isNinja())
                 {!! Former::checkbox('enable_email_markup')
                         ->text(trans('texts.enable') .
