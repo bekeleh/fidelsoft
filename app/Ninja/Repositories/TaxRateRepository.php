@@ -35,7 +35,13 @@ class TaxRateRepository extends BaseRepository
                 'tax_rates.name',
                 'tax_rates.rate',
                 'tax_rates.deleted_at',
-                'tax_rates.is_inclusive'
+                'tax_rates.is_inclusive',
+                'tax_rates.created_at',
+                'tax_rates.updated_at',
+                'tax_rates.deleted_at',
+                'tax_rates.created_by',
+                'tax_rates.updated_by',
+                'tax_rates.deleted_by'
             );
     }
 

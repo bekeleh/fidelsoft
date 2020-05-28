@@ -75,7 +75,13 @@ class PaymentRepository extends BaseRepository
                 'invoices.is_deleted as invoice_is_deleted',
                 'gateways.name as gateway_name',
                 'gateways.id as gateway_id',
-                'payment_statuses.name as status'
+                'payment_statuses.name as status',
+                'payments.created_at',
+                'payments.updated_at',
+                'payments.deleted_at',
+                'payments.created_by',
+                'payments.updated_by',
+                'payments.deleted_by'
             );
 
         $this->applyFilters($query, ENTITY_PAYMENT);
@@ -164,7 +170,7 @@ class PaymentRepository extends BaseRepository
         $publicId = isset($input['public_id']) ? $input['public_id'] : false;
 
         if ($payment) {
-            // do nothing
+            $payment->updated_by = auth::user()->username;
         } elseif ($publicId) {
             $payment = Payment::scope($publicId)->firstOrFail();
             if (Utils::isNinjaDev()) {
@@ -172,10 +178,10 @@ class PaymentRepository extends BaseRepository
             }
         } else {
             $payment = Payment::createNew();
-
             if (Auth::check() && Auth::user()->account->payment_type_id) {
                 $payment->payment_type_id = Auth::user()->account->payment_type_id;
             }
+            $payment->created_by = auth::user()->username;
         }
 
         if ($payment->is_deleted) {

@@ -24,7 +24,7 @@ class TaskRepository extends BaseRepository
         return 'App\Models\Task';
     }
 
-    public function find($clientPublicId  = false, $projectPublicId = null, $filter = null)
+    public function find($clientPublicId = false, $projectPublicId = null, $filter = null)
     {
         $query = DB::table('tasks')
             ->leftJoin('clients', 'tasks.client_id', '=', 'clients.id')
@@ -59,6 +59,11 @@ class TaskRepository extends BaseRepository
                 'tasks.time_log',
                 'tasks.time_log as duration',
                 'tasks.created_at',
+                'tasks.updated_at',
+                'tasks.deleted_at',
+                'tasks.created_by',
+                'tasks.updated_by',
+                'tasks.deleted_by',
                 DB::raw("SUBSTRING(time_log, 3, 10) date"),
                 'tasks.user_id',
                 'projects.name as project',

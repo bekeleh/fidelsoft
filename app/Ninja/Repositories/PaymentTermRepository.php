@@ -19,11 +19,16 @@ class PaymentTermRepository extends BaseRepository
         return 'App\Models\PaymentTerm';
     }
 
-    public function find($accountId  = false)
+    public function find($accountId = false)
     {
         return DB::table('payment_terms')
             ->where('payment_terms.account_id', '=', $accountId)
             ->where('payment_terms.deleted_at', '=', null)
-            ->select('payment_terms.public_id', 'payment_terms.name', 'payment_terms.num_days', 'payment_terms.deleted_at');
+            ->select(
+                'payment_terms.public_id',
+                'payment_terms.name',
+                'payment_terms.num_days',
+                'payment_terms.deleted_at'
+            );
     }
 }

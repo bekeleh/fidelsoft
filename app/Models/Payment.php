@@ -22,6 +22,9 @@ class Payment extends EntityModel
         'private_notes',
         'exchange_rate',
         'exchange_currency_id',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     public static $statusClasses = [

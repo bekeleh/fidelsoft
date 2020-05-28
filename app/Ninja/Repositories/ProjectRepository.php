@@ -26,7 +26,7 @@ class ProjectRepository extends BaseRepository
         return Project::scope()->get();
     }
 
-    public function find($filter  = false, $userId = false)
+    public function find($filter = false, $userId = false)
     {
         $query = DB::table('projects')
             ->where('projects.account_id', '=', Auth::user()->account_id)
@@ -48,6 +48,12 @@ class ProjectRepository extends BaseRepository
                 'projects.due_date',
                 'projects.budgeted_hours',
                 'projects.private_notes',
+                'projects.created_at',
+                'projects.updated_at',
+                'projects.deleted_at',
+                'projects.created_by',
+                'projects.updated_by',
+                'projects.deleted_by',
                 DB::raw("COALESCE(NULLIF(clients.name,''), NULLIF(CONCAT(contacts.first_name, ' ', contacts.last_name),''), NULLIF(contacts.email,'')) client_name"),
                 'clients.user_id as client_user_id',
                 'clients.public_id as client_public_id'

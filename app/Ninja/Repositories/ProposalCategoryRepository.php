@@ -33,8 +33,13 @@ class ProposalCategoryRepository extends BaseRepository
                 'proposal_categories.name',
                 'proposal_categories.public_id',
                 'proposal_categories.user_id',
+                'proposal_categories.is_deleted',
+                'proposal_categories.created_at',
+                'proposal_categories.updated_at',
                 'proposal_categories.deleted_at',
-                'proposal_categories.is_deleted'
+                'proposal_categories.created_by',
+                'proposal_categories.updated_by',
+                'proposal_categories.deleted_by'
             );
 
         $this->applyFilters($query, ENTITY_PROPOSAL_CATEGORY);

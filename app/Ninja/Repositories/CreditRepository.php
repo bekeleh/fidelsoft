@@ -49,7 +49,13 @@ class CreditRepository extends BaseRepository
                 'credits.public_notes',
                 'credits.deleted_at',
                 'credits.is_deleted',
-                'credits.user_id'
+                'credits.user_id',
+                'credits.created_at',
+                'credits.updated_at',
+                'credits.deleted_at',
+                'credits.created_by',
+                'credits.updated_by',
+                'credits.deleted_by'
             );
 
         if ($clientPublicId) {

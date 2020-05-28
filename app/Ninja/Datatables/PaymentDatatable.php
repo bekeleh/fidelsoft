@@ -52,6 +52,12 @@ class PaymentDatatable extends EntityDatatable
                 },
             ],
             [
+                'private_notes',
+                function ($model) {
+                    return $model->private_notes;
+                },
+            ],
+            [
                 'method',
                 function ($model) {
                     return $model->account_gateway_id ? $model->gateway_name : ($model->payment_type ? trans('texts.payment_type_' . $model->payment_type) : '');

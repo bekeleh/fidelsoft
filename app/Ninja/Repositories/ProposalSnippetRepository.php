@@ -39,6 +39,12 @@ class ProposalSnippetRepository extends BaseRepository
                 'proposal_snippets.icon',
                 'proposal_snippets.private_notes',
                 'proposal_snippets.html as content',
+                'proposal_snippets.created_at',
+                'proposal_snippets.updated_at',
+                'proposal_snippets.deleted_at',
+                'proposal_snippets.created_by',
+                'proposal_snippets.updated_by',
+                'proposal_snippets.deleted_by',
                 'proposal_categories.name as category',
                 'proposal_categories.public_id as category_public_id',
                 'proposal_categories.user_id as category_user_id'

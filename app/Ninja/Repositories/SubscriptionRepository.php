@@ -29,7 +29,13 @@ class SubscriptionRepository extends BaseRepository
                 'subscriptions.target_url as target',
                 'subscriptions.event_id as event',
                 'subscriptions.deleted_at',
-                'subscriptions.format'
+                'subscriptions.format',
+                'subscriptions.created_at',
+                'subscriptions.updated_at',
+                'subscriptions.deleted_at',
+                'subscriptions.created_by',
+                'subscriptions.updated_by',
+                'subscriptions.deleted_by'
             );
 
         return $query;

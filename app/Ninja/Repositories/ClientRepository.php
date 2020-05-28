@@ -72,10 +72,17 @@ class ClientRepository extends BaseRepository
                 'clients.is_deleted',
                 'clients.user_id',
                 'clients.id_number',
+                'clients.created_at',
+                'clients.updated_at',
+                'clients.deleted_at',
+                'clients.created_by',
+                'clients.updated_by',
+                'clients.deleted_by',
                 'sale_types.name as sale_type_name',
                 'sale_types.public_id as sale_type_public_id',
                 'hold_reasons.name as hold_reason_name',
                 'hold_reasons.public_id as hold_reason_public_id'
+
             );
 
         if ($filter) {

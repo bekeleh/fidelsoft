@@ -40,7 +40,13 @@ class BankAccountRepository extends BaseRepository
                 'banks.name as bank_name',
                 'banks.public_id as bank_public_id',
                 'bank_accounts.deleted_at',
-                'banks.bank_library_id'
+                'banks.bank_library_id',
+                'bank_accounts.created_at',
+                'bank_accounts.updated_at',
+                'bank_accounts.deleted_at',
+                'bank_accounts.created_by',
+                'bank_accounts.updated_by',
+                'bank_accounts.deleted_by'
             );
         if ($filter) {
             $query->where(function ($query) use ($filter) {

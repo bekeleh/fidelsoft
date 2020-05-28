@@ -36,7 +36,13 @@ class ProposalTemplateRepository extends BaseRepository
                 'proposal_templates.deleted_at',
                 'proposal_templates.is_deleted',
                 'proposal_templates.html as content',
-                'proposal_templates.private_notes'
+                'proposal_templates.private_notes',
+                'proposal_templates.created_at',
+                'proposal_templates.updated_at',
+                'proposal_templates.deleted_at',
+                'proposal_templates.created_by',
+                'proposal_templates.updated_by',
+                'proposal_templates.deleted_by'
             );
 
         $this->applyFilters($query, ENTITY_PROPOSAL_TEMPLATE);

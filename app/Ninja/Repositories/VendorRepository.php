@@ -52,7 +52,13 @@ class VendorRepository extends BaseRepository
                 'vendors.deleted_at',
                 'vendors.is_deleted',
                 'vendors.user_id',
-                'vendors.private_notes'
+                'vendors.private_notes',
+                'vendors.created_at',
+                'vendors.updated_at',
+                'vendors.deleted_at',
+                'vendors.created_by',
+                'vendors.updated_by',
+                'vendors.deleted_by'
             );
 
         $this->applyFilters($query, ENTITY_VENDOR);
