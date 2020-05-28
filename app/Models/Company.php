@@ -26,6 +26,9 @@ class Company extends Eloquent
         'plan_paid',
         'plan_started',
         'plan_expires',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
 

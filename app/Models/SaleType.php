@@ -19,15 +19,10 @@ class SaleType extends EntityModel
     protected $presenter = 'App\Ninja\Presenters\SaleTypePresenter';
 
     protected $table = 'sale_types';
-    /**
-     * @var array
-     */
-    protected $dates = ['deleted_at'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $hidden = ['deleted_at'];
-    /**
-     * @var array
-     */
+
     protected $fillable = [
         'name',
         'notes',
@@ -36,9 +31,6 @@ class SaleType extends EntityModel
         'deleted_by',
     ];
 
-    /**
-     * @return array
-     */
     public static function getImportColumns()
     {
         return [
@@ -47,9 +39,6 @@ class SaleType extends EntityModel
         ];
     }
 
-    /**
-     * @return array
-     */
     public static function getImportMap()
     {
         return [
@@ -58,9 +47,6 @@ class SaleType extends EntityModel
         ];
     }
 
-    /**
-     * @return mixed
-     */
     public function getEntityType()
     {
         return ENTITY_SALE_TYPE;

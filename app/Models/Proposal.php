@@ -13,80 +13,52 @@ class Proposal extends EntityModel
     use SoftDeletes;
     use PresentableTrait;
 
-    /**
-     * @var array
-     */
+
     protected $dates = ['deleted_at'];
-    /**
-     * @var string
-     */
+
     protected $presenter = 'App\Ninja\Presenters\ProposalPresenter';
 
-    /**
-     * @var array
-     */
+
     protected $fillable = [
         'private_notes',
         'html',
         'css',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
-    /**
-     * @var string
-     */
-    //protected $presenter = 'App\Ninja\Presenters\ProjectPresenter';
-
-    /**
-     * @return mixed
-     */
     public function getEntityType()
     {
         return ENTITY_PROPOSAL;
     }
 
-    /**
-     * @return string
-     */
+
     public function getRoute()
     {
         return "/proposals/{$this->public_id}";
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function account()
     {
         return $this->belongsTo('App\Models\Account');
     }
 
-    /**
-     * @return mixed
-     */
     public function invoice()
     {
         return $this->belongsTo('App\Models\Invoice')->withTrashed();
     }
 
-    /**
-     * @return mixed
-     */
     public function invitations()
     {
         return $this->hasMany('App\Models\ProposalInvitation')->orderBy('proposal_invitations.contact_id');
     }
 
-    /**
-     * @return mixed
-     */
     public function proposal_invitations()
     {
         return $this->hasMany('App\Models\ProposalInvitation')->orderBy('proposal_invitations.contact_id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function proposal_template()
     {
         return $this->belongsTo('App\Models\ProposalTemplate')->withTrashed();
@@ -116,9 +88,6 @@ class Proposal extends EntityModel
         return trans('texts.proposal') . '_' . $this->invoice->invoice_number . '.' . $extension;
     }
 
-    /**
-     * @return string
-     */
     public function getCustomMessageType()
     {
         if ($this->invoice->quote_invoice_id) {

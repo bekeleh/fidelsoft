@@ -25,6 +25,9 @@ class Task extends EntityModel
         'is_running',
         'custom_value1',
         'custom_value2',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
 

@@ -7,7 +7,7 @@ namespace App\Models;
 use App\Models\Traits\HasRecurrence;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
-use Utils;
+use App\Libraries\Utils;
 
 /**
  * Class Expense.
@@ -19,18 +19,11 @@ class RecurringExpense extends EntityModel
     use PresentableTrait;
     use HasRecurrence;
 
-    /**
-     * @var array
-     */
     protected $dates = ['deleted_at'];
-    /**
-     * @var string
-     */
+
     protected $presenter = 'App\Ninja\Presenters\ExpensePresenter';
 
-    /**
-     * @var array
-     */
+
     protected $fillable = [
         'client_id',
         'vendor_id',
@@ -49,51 +42,36 @@ class RecurringExpense extends EntityModel
         //'start_date',
         //'end_date',
         'frequency_id',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function expense_category()
     {
         return $this->belongsTo('App\Models\ExpenseCategory')->withTrashed();
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function account()
     {
         return $this->belongsTo('App\Models\Account');
     }
 
-    /**
-     * @return mixed
-     */
     public function user()
     {
         return $this->belongsTo('App\Models\User')->withTrashed();
     }
 
-    /**
-     * @return mixed
-     */
     public function vendor()
     {
         return $this->belongsTo('App\Models\Vendor')->withTrashed();
     }
 
-    /**
-     * @return mixed
-     */
     public function client()
     {
         return $this->belongsTo('App\Models\Client')->withTrashed();
     }
 
-    /**
-     * @return mixed
-     */
     public function getName()
     {
         if ($this->public_notes) {
@@ -103,25 +81,16 @@ class RecurringExpense extends EntityModel
         }
     }
 
-    /**
-     * @return mixed
-     */
     public function getDisplayName()
     {
         return $this->getName();
     }
 
-    /**
-     * @return string
-     */
     public function getRoute()
     {
         return "/recurring_expenses/{$this->public_id}/edit";
     }
 
-    /**
-     * @return mixed
-     */
     public function getEntityType()
     {
         return ENTITY_RECURRING_EXPENSE;

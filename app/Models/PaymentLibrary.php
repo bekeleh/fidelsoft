@@ -18,9 +18,6 @@ class PaymentLibrary extends Eloquent
      */
     public $timestamps = true;
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function gateways()
     {
         return $this->hasMany('App\Models\Gateway', 'payment_library_id');

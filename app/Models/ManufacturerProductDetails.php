@@ -18,7 +18,10 @@ class ManufacturerProductDetails extends EntityModel
         'manufacturer_id',
         'part_number',
         'upc',
-        'serialized'
+        'serialized',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     protected $table = 'manufacturer_product_details';

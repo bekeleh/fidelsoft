@@ -22,15 +22,15 @@ class Product extends EntityModel
         'item_cost',
         'item_brand_id',
         'unit_id',
-        'created_by',
-        'updated_by',
-        'deleted_by',
         'tax_name1',
         'tax_rate1',
         'tax_name2',
         'tax_rate2',
         'custom_value1',
         'custom_value2',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
     protected $hidden = [];
     protected $casts = [];

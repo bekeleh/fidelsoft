@@ -32,48 +32,33 @@ class Project extends EntityModel
         'budgeted_hours',
         'custom_value1',
         'custom_value2',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
-    /**
-     * @var string
-     */
     protected $presenter = 'App\Ninja\Presenters\ProjectPresenter';
 
-    /**
-     * @return mixed
-     */
     public function getEntityType()
     {
         return ENTITY_PROJECT;
     }
 
-    /**
-     * @return string
-     */
     public function getRoute()
     {
         return "/projects/{$this->public_id}";
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function account()
     {
         return $this->belongsTo('App\Models\Account');
     }
 
-    /**
-     * @return mixed
-     */
     public function client()
     {
         return $this->belongsTo('App\Models\Client')->withTrashed();
     }
 
-    /**
-     * @return HasMany
-     */
     public function tasks()
     {
         return $this->hasMany('App\Models\Task');

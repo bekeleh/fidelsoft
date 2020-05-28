@@ -22,6 +22,9 @@ class ScheduledReport extends EntityModel
         'frequency',
         'config',
         'send_date',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     public function getEntityType()

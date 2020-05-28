@@ -26,6 +26,9 @@ class Country extends Eloquent
         'decimal_separator',
         'iso_3166_2',
         'iso_3166_3',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     /**

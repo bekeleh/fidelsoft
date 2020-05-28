@@ -24,6 +24,9 @@ class BankAccount extends EntityModel
         'bank_id',
         'app_version',
         'ofx_version',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     /**
