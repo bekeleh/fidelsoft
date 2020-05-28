@@ -505,6 +505,22 @@ class EntityModel extends Eloquent
         return $this->id == $obj->id && $this->getEntityType() == $obj->entityType;
     }
 
+    public static function getStdStatus($status = null)
+    {
+        if (!$status) {
+            return 'danger';
+        }
+        if ($status == 'pending') {
+            return 'warning';
+        } elseif ($status == 'approved') {
+            return 'default';
+        } elseif ($status == 'completed' || $status == 'closed') {
+            return 'success';
+        } else {
+            return 'danger';
+        }
+    }
+
     public function __call($method, $params)
     {
         if (count(config('modules.relations'))) {
@@ -521,4 +537,5 @@ class EntityModel extends Eloquent
 
         return parent::__call($method, $params);
     }
+
 }

@@ -34,16 +34,15 @@ class ItemRequestRepository extends BaseRepository
         return ItemRequest::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
-
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('item_requests')
             ->join('accounts', 'accounts.id', '=', 'item_requests.account_id')
             ->join('users', 'users.id', '=', 'item_requests.user_id')
             ->join('products', 'products.id', '=', 'item_requests.product_id')
-            ->join('departments', 'departments.id', '=', 'item_requests.department_id')
-            ->join('stores', 'stores.id', '=', 'item_requests.store_id')
-            ->join('statuses', 'statuses.id', '=', 'item_requests.status_id')
+            ->leftjoin('departments', 'departments.id', '=', 'item_requests.department_id')
+            ->leftjoin('stores', 'stores.id', '=', 'item_requests.store_id')
+            ->leftjoin('statuses', 'statuses.id', '=', 'item_requests.status_id')
             ->where('item_requests.account_id', '=', $accountId)
             //->where('item_requests.deleted_at', '=', null)
             ->select(
@@ -81,6 +80,7 @@ class ItemRequestRepository extends BaseRepository
                     ->orWhere('products.name', 'like', '%' . $filter . '%')
                     ->orWhere('departments.name', 'like', '%' . $filter . '%')
                     ->orWhere('stores.name', 'like', '%' . $filter . '%')
+                    ->orWhere('statuses.name', 'like', '%' . $filter . '%')
                     ->orWhere('item_requests.created_by', 'like', '%' . $filter . '%')
                     ->orWhere('item_requests.updated_by', 'like', '%' . $filter . '%');
             });
@@ -89,6 +89,30 @@ class ItemRequestRepository extends BaseRepository
         $this->applyFilters($query, ENTITY_ITEM_REQUEST);
 
         return $query;
+    }
+
+    public function save($data, $itemRequest = null)
+    {
+        $publicId = isset($data['public_id']) ? $data['public_id'] : false;
+
+        if ($itemRequest) {
+            $itemRequest->updated_by = Auth::user()->username;
+        } elseif ($publicId) {
+            $itemRequest = ItemRequest::scope($publicId)->withArchived()->firstOrFail();
+            \Log::warning('Entity not set in item request repo save');
+        } else {
+            $itemRequest = ItemRequest::createNew();
+            $itemRequest->created_by = Auth::user()->username;
+        }
+
+        if (empty($data['status_id'])) {
+            $itemRequest->status_id = Utils::getStatusId('pending');
+        }
+
+        $itemRequest->fill($data);
+        $itemRequest->save();
+
+        return $itemRequest;
     }
 
     public function findProduct($productPublicId)
@@ -141,32 +165,7 @@ class ItemRequestRepository extends BaseRepository
         return $query;
     }
 
-    public function save($data, $itemRequest = null)
-    {
-        $publicId = isset($data['public_id']) ? $data['public_id'] : false;
-
-        if ($itemRequest) {
-            $itemRequest->updated_by = Auth::user()->username;
-        } elseif ($publicId) {
-            $itemRequest = ItemRequest::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in item request repo save');
-        } else {
-            $itemRequest = ItemRequest::createNew();
-            $itemRequest->created_by = Auth::user()->username;
-        }
-//      pending status
-        if (empty($data['status_id'])) {
-            $itemRequest->status_id = Utils::getStatus('pending');
-        }
-        $itemRequest->fill($data);
-//        dd($itemRequest);
-        $itemRequest->save();
-
-        return $itemRequest;
-    }
-
-
-    public function quantityAdjustment($data, $itemRequest = null, $update = false)
+    public function inventoryAdjustment($data, $itemRequest = null, $update = false)
     {
         if ($update) {
             $this->qoh = (int)$itemRequest->qty;

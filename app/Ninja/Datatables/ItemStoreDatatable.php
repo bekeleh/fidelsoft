@@ -26,7 +26,7 @@ class ItemStoreDatatable extends EntityDatatable
                         else
                             return $model->item_name;
                     }
-                    return false;
+                    return null;
                 }
             ],
             [
@@ -38,7 +38,7 @@ class ItemStoreDatatable extends EntityDatatable
                         else
                             return $model->item_brand_name;
                     }
-                    return false;
+                    return null;
                 }
             ],
             [
@@ -50,7 +50,7 @@ class ItemStoreDatatable extends EntityDatatable
                         else
                             return $model->item_category_name;
                     }
-                    return false;
+                    return null;
                 }
             ],
             [
@@ -62,7 +62,7 @@ class ItemStoreDatatable extends EntityDatatable
                         else
                             return $model->store_name;
                     }
-                    return false;
+                    return null;
                 }
             ],
             [

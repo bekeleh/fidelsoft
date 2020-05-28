@@ -1006,7 +1006,7 @@ class Utils
         }
     }
 
-    public static function getStatus($name)
+    public static function getStatusId($name = null)
     {
         if (!$name) {
             return null;
@@ -1015,6 +1015,17 @@ class Utils
         $status = Status::where('name', $name)->first();
 
         return $status->id ?: null;
+    }
+
+    public static function getStatusName($id = null)
+    {
+        if (!$id) {
+            return null;
+        }
+
+        $status = Status::where('id', $id)->first();
+
+        return $status->name ?: null;
     }
 
     public static function getLocationName($id)

@@ -3,8 +3,10 @@
 namespace App\Ninja\Datatables;
 
 use App\Libraries\Utils;
+use App\Models\ItemRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
+use phpDocumentor\Reflection\Types\Self_;
 
 class ItemRequestDatatable extends EntityDatatable
 {
@@ -25,7 +27,7 @@ class ItemRequestDatatable extends EntityDatatable
                         else
                             return $model->product_name;
                     }
-                    return false;
+                    return null;
                 },
             ],
             [
@@ -37,7 +39,7 @@ class ItemRequestDatatable extends EntityDatatable
                         else
                             return $model->department_name;
                     }
-                    return false;
+                    return null;
                 },
             ],
             [
@@ -49,7 +51,7 @@ class ItemRequestDatatable extends EntityDatatable
                         else
                             return $model->store_name;
                     }
-                    return false;
+                    return null;
                 },
             ],
             [
@@ -57,11 +59,12 @@ class ItemRequestDatatable extends EntityDatatable
                 function ($model) {
                     if ($model->status_public_id) {
                         if (Auth::user()->can('view', [ENTITY_STATUS, $model]))
-                            return link_to("statuses/{$model->status_public_id}", $model->status_name)->toHtml();
+//                            return link_to("statuses/{$model->status_public_id}", self::getStatusLabel($model))->toHtml();
+                            return self::getStatusLabel($model);
                         else
-                            return $model->status_name;
+                            return Self::getStatusLabel($model);
                     }
-                    return false;
+                    return null;
                 },
             ],
             [
@@ -151,4 +154,10 @@ class ItemRequestDatatable extends EntityDatatable
         ];
     }
 
+    private function getStatusLabel($model)
+    {
+        $class = ItemRequest::getStdStatus(Utils::getStatusName($model->status_id));
+
+        return "<h4><div class=\"label label-{$class}\">$model->status_name</div></h4>";
+    }
 }

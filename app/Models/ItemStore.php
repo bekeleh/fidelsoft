@@ -101,5 +101,4 @@ class ItemStore extends EntityModel
             return 'warning';
         }
     }
-
 }

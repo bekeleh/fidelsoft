@@ -75,15 +75,11 @@
         var statusMap = {};
 
         $(function () {
-            $('#name').focus();
-        });
-
-        $(function () {
 // product
             var productId = {{ $productPublicId ?: 0 }};
             var $productSelect = $('select#product_id');
             @if (Auth::user()->can('create', ENTITY_PRODUCT))
-            $productSelect.append(new Option("{{ trans('texts.create_product')}}: $name", '-1'));
+            $productSelect.append(new Option("{{ trans('texts.create_product')}} : $name", '-1'));
                     @endif
             for (var i = 0; i < products.length; i++) {
                 var product = products[i];
@@ -111,7 +107,7 @@
                 var department = departmentMap[departmentId];
                 setComboboxValue($('.department-select'), department.public_id, department.name);
             }
-            // store
+// store
             var storeId = {{ $storePublicId ?: 0 }};
             var $storeSelect = $('select#store_id');
             @if (Auth::user()->can('create', ENTITY_STORE))
@@ -127,7 +123,7 @@
                 var store = storeMap[storeId];
                 setComboboxValue($('.store-select'), store.public_id, store.name);
             }
-// status
+            // status
             var statusId = {{ $statusPublicId ?: 0 }};
             var $statusSelect = $('select#status_id');
             @if (Auth::user()->can('create', ENTITY_STATUS))
@@ -145,67 +141,6 @@
             }
 
         });
-
-        function selectProductAction() {
-// var $storeId = $('select#store_id').val();
-// if ($storeId != '' && $productModel != null) {
-//     $productModel.empty();
-//     onSourceStoreChanges($productModel, $storeId);
-// }
-        }
-
-        function onSourceStoreValueChanges() {
-// var $storeId = $('select#store_id').val();
-// if ($storeId != '' && $productModel != null) {
-//     $productModel.empty();
-//     onSourceStoreChanges($productModel, $storeId);
-// }
-        }
-
-        // find items in the selected store.
-        function onSourceStoreChanges($productModel, $storeId, $item_checked = null) {
-            if ($storeId != null && $storeId != '') {
-                $.ajax({
-                    url: '{{ URL::to('item_stores/item_list') }}',
-                    type: 'POST',
-                    dataType: "json",
-                    data: 'store_id=' + $storeId,
-                    success: function (result) {
-                        if (result.success) {
-                            appendItems($productModel, result.data);
-                        } else {
-                            swal({!! json_encode(trans('texts.item_does_not_exist')) !!});
-                        }
-                    },
-                    error: function () {
-                        swal({!! json_encode(trans('texts.item_does_not_exist')) !!});
-                    },
-                });
-            }
-        }
-
-        function appendItems($productModel, $data) {
-            if ($productModel != '' && $data != '') {
-                if ($data.length > 0) {
-                    $productModel.empty();
-                    for (var i in $data) {
-                        var row = $data[i];
-                        $productModel.append("<option value='" + row.id + "' selected>" + row.name + "</option>");
-                    }
-                }
-            }
-        }
-
-        function transferAllQtyChecked() {
-            var $transferAllQty = $('#transfer_all_item').val();
-
-            if (document.getElementById('transfer_all_item').checked) {
-                document.getElementById('qty').value = '';
-                document.getElementById('qty').disabled = true;
-            } else {
-                document.getElementById('qty').disabled = false;
-            }
-        }
 
         function submitAction(action) {
             $('#action').val(action);
