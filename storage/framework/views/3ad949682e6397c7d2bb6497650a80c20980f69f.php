@@ -30,27 +30,27 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">{{ trans('texts.help') }}</h4>
+                <h4 class="modal-title" id="myModalLabel"><?php echo e(trans('texts.help')); ?></h4>
             </div>
 
             <div class="container" style="width: 100%; padding-bottom: 0px !important">
                 <div class="panel panel-default">
                     <div class="panel-body help-panel">
-                        @if (env('SPEECH_ENABLED'))
+                        <?php if(env('SPEECH_ENABLED')): ?>
                             <div role="tabpanel">
                                 <ul class="nav nav-tabs" role="tablist" style="border: none">
                                     <li role="presentation" class="active">
                                         <a href="#keyboard_shortcuts" aria-controls="keyboard_shortcuts" role="tab"
-                                           data-toggle="tab">{{ trans('texts.keyboard_shortcuts') }}</a>
+                                           data-toggle="tab"><?php echo e(trans('texts.keyboard_shortcuts')); ?></a>
                                     </li>
                                     <li role="presentation">
                                         <a href="#voice_commands" aria-controls="voice_commands" role="tab"
-                                           data-toggle="tab">{{ trans('texts.voice_commands') }}</a>
+                                           data-toggle="tab"><?php echo e(trans('texts.voice_commands')); ?></a>
                                     </li>
                                 </ul>
                             </div>
                             </br>
-                        @endif
+                        <?php endif; ?>
 
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane active" id="keyboard_shortcuts">
@@ -59,40 +59,40 @@
                                     <div class="col-md-3">
                                         <div>?</div>
                                     </div>
-                                    <div class="col-md-3 key-label">{{ trans('texts.help') }}</div>
+                                    <div class="col-md-3 key-label"><?php echo e(trans('texts.help')); ?></div>
                                     <div class="col-md-3">
                                         <div>N</div>
                                         <div>C</div>
                                     </div>
-                                    <div class="col-md-3 key-label">{{ trans('texts.new_client') }}</div>
+                                    <div class="col-md-3 key-label"><?php echo e(trans('texts.new_client')); ?></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div>/</div>
                                     </div>
-                                    <div class="col-md-3 key-label">{{ trans('texts.search') }}</div>
+                                    <div class="col-md-3 key-label"><?php echo e(trans('texts.search')); ?></div>
                                     <div class="col-md-3">
                                         <div>N</div>
                                         <div>I</div>
                                     </div>
-                                    <div class="col-md-3 key-label">{{ trans('texts.new_invoice') }}</div>
+                                    <div class="col-md-3 key-label"><?php echo e(trans('texts.new_invoice')); ?></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div>M</div>
                                     </div>
-                                    <div class="col-md-3 key-label">{{ trans('texts.menu') }}</div>
+                                    <div class="col-md-3 key-label"><?php echo e(trans('texts.menu')); ?></div>
                                     <div class="col-md-3">
                                         <div>N</div>
                                         <div>...</div>
                                     </div>
-                                    <div class="col-md-3 key-label">{{ trans('texts.new_...') }}</div>
+                                    <div class="col-md-3 key-label"><?php echo e(trans('texts.new_...')); ?></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div>H</div>
                                     </div>
-                                    <div class="col-md-3 key-label">{{ trans('texts.history') }}</div>
+                                    <div class="col-md-3 key-label"><?php echo e(trans('texts.history')); ?></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3"></div>
@@ -101,31 +101,31 @@
                                         <div>L</div>
                                         <div>C</div>
                                     </div>
-                                    <div class="col-md-3 key-label">{{ trans('texts.list_clients') }}</div>
+                                    <div class="col-md-3 key-label"><?php echo e(trans('texts.list_clients')); ?></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div>G</div>
                                         <div>D</div>
                                     </div>
-                                    <div class="col-md-3 key-label">{{ trans('texts.dashboard') }}</div>
+                                    <div class="col-md-3 key-label"><?php echo e(trans('texts.dashboard')); ?></div>
                                     <div class="col-md-3">
                                         <div>L</div>
                                         <div>I</div>
                                     </div>
-                                    <div class="col-md-3 key-label">{{ trans('texts.list_invoices') }}</div>
+                                    <div class="col-md-3 key-label"><?php echo e(trans('texts.list_invoices')); ?></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div>G</div>
                                         <div>S</div>
                                     </div>
-                                    <div class="col-md-3 key-label">{{ trans('texts.settings') }}</div>
+                                    <div class="col-md-3 key-label"><?php echo e(trans('texts.settings')); ?></div>
                                     <div class="col-md-3">
                                         <div>L</div>
                                         <div>...</div>
                                     </div>
-                                    <div class="col-md-3 key-label">{{ trans('texts.list_...') }}</div>
+                                    <div class="col-md-3 key-label"><?php echo e(trans('texts.list_...')); ?></div>
                                 </div>
 
                             </div>
@@ -133,7 +133,7 @@
                             <div role="tabpanel" class="tab-pane" id="voice_commands">
                                 <div class="row">
                                     <p>
-                                        {{ trans('texts.sample_commands') }}:
+                                        <?php echo e(trans('texts.sample_commands')); ?>:
                                     </p>
                                     <p>
                                     <ul>
@@ -146,7 +146,8 @@
                                     </ul>
                                     </p>
                                     <p>
-                                        {!! trans('texts.voice_commands_feedback', ['email' => HTML::mailto(env('CONTACT_EMAIL', CONTACT_EMAIL))]) !!}
+                                        <?php echo trans('texts.voice_commands_feedback', ['email' => HTML::mailto(env('CONTACT_EMAIL', CONTACT_EMAIL))]); ?>
+
                                     </p>
                                 </div>
                             </div>
@@ -156,13 +157,13 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('texts.close') }}</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo e(trans('texts.close')); ?></button>
                 <a class="btn btn-primary" href="#"
-                   target="_blank">{{ trans('texts.knowledge_base') }}</a>
+                   target="_blank"><?php echo e(trans('texts.knowledge_base')); ?></a>
                 <a class="btn btn-primary" href="#"
-                   target="_blank">{{ trans('texts.user_guide') }}</a>
+                   target="_blank"><?php echo e(trans('texts.user_guide')); ?></a>
                 <a class="btn btn-primary" href="#"
-                   target="_blank">YouTube {{ trans('texts.videos') }}</a>
+                   target="_blank">YouTube <?php echo e(trans('texts.videos')); ?></a>
             </div>
         </div>
     </div>
@@ -176,12 +177,12 @@
 
     $(function () {
 
-        var settingsURL = '{{ url('/settings/company_details') }}';
+        var settingsURL = '<?php echo e(url('/settings/company_details')); ?>';
         if (isStorageSupported()) {
             settingsURL = localStorage.getItem('last:settings_page') || settingsURL;
         }
         // if they're on the last viewed settings page link to main settings page
-        if ('{{ request()->fullUrl() }}' != settingsURL) {
+        if ('<?php echo e(request()->fullUrl()); ?>' != settingsURL) {
             $('.nav-settings .nav-link').attr("href", settingsURL);
         }
 
@@ -195,17 +196,17 @@
         });
 
         Mousetrap.bind('g d', function (e) {
-            location.href = "{{ url('/dashboard') }}";
+            location.href = "<?php echo e(url('/dashboard')); ?>";
         });
 
         /*
         Mousetrap.bind('g r c', function(e) {
-            location.href = "{{ url('/reports/calendar') }}";
+            location.href = "<?php echo e(url('/reports/calendar')); ?>";
         });
         */
 
         Mousetrap.bind('g r', function (e) {
-            location.href = "{{ url('/reports') }}";
+            location.href = "<?php echo e(url('/reports')); ?>";
         });
 
         Mousetrap.bind('g s', function (e) {
@@ -220,13 +221,13 @@
             $('#left-menu-toggle').trigger('click');
         });
 
-        @if (env('SPEECH_ENABLED'))
+        <?php if(env('SPEECH_ENABLED')): ?>
         Mousetrap.bind('v', function (e) {
             onMicrophoneClick();
         });
-        @endif
+        <?php endif; ?>
 
-        @foreach([
+        <?php $__currentLoopData = [
             'i' => ENTITY_INVOICE,
             'p' => ENTITY_PAYMENT,
             'e' => ENTITY_EXPENSE,
@@ -235,25 +236,25 @@
             'q' => ENTITY_QUOTE,
             'v' => ENTITY_VENDOR,
             'r' => ENTITY_RECURRING_INVOICE,
-        ] as $key => $value)
-        Mousetrap.bind('n {{ $key }}', function (e) {
-            var link = "{{ url($value . 's/create') }}";
-            @if (in_array($value, [ENTITY_INVOICE, ENTITY_PAYMENT, ENTITY_TASK, ENTITY_VENDOR, ENTITY_RECURRING_INVOICE]))
+        ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        Mousetrap.bind('n <?php echo e($key); ?>', function (e) {
+            var link = "<?php echo e(url($value . 's/create')); ?>";
+            <?php if(in_array($value, [ENTITY_INVOICE, ENTITY_PAYMENT, ENTITY_TASK, ENTITY_VENDOR, ENTITY_RECURRING_INVOICE])): ?>
             if (location.pathname.indexOf('/clients/') >= 0) {
                 var matches = location.pathname.match(/\d+/g);
                 if (matches.length) {
                     link += '/' + matches[0];
                 }
             }
-            @endif
+            <?php endif; ?>
                 location.href = link;
         });
-        Mousetrap.bind('l {{ $key }}', function (e) {
-            location.href = "{{ url($value . 's') }}";
+        Mousetrap.bind('l <?php echo e($key); ?>', function (e) {
+            location.href = "<?php echo e(url($value . 's')); ?>";
         });
-        @endforeach
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-        @foreach([
+        <?php $__currentLoopData = [
             'g c d' => 'company_details',
             'g u d' => 'user_details',
             'g l' => 'localization',
@@ -272,11 +273,11 @@
             'g v' => 'data_visualizations',
             'g a t' => 'api_tokens',
             'g u m' => 'user_management',
-        ] as $key => $val)
-        Mousetrap.bind('{{ $key }}', function (e) {
-            location.href = "{{ url('/settings/' . $val) }}";
+        ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        Mousetrap.bind('<?php echo e($key); ?>', function (e) {
+            location.href = "<?php echo e(url('/settings/' . $val)); ?>";
         });
-        @endforeach
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
 
     });

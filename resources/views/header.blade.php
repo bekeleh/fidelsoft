@@ -5,10 +5,76 @@
         <style type="text/css">
             .nav-footer {
                 @if (config('mail.driver') == 'log' && ! config('services.postmark'))
-                                     background-color: #50C878 !important;
+                                                                                                       background-color: #50C878 !important;
                 @else
-                                     background-color: #FD6A02 !important;
+                                                                                                       background-color: #FD6A02 !important;
             @endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             }
         </style>
     @endif
@@ -264,17 +330,24 @@
         </a>
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
             <div class="navbar-form navbar-right">
+                <a href="javascript:showKeyboardShortcuts()" title="{{ trans('texts.help') }}"
+                   style="color: white;">
+                    <i class="fa fa-question-circle"></i>
+                </a>
                 @if (Auth::check())
-                    @if (!Auth::user()->registered)
-                        @if (!Auth::user()->confirmed)
-                            {!! Button::success(trans('texts.sign_up'))->withAttributes(array('id' => 'signUpButton', 'onclick' => 'showSignUp()', 'style' => 'max-width:100px;;overflow:hidden'))->small() !!}
-                        @endif
-                    @elseif (Utils::isNinjaProd() && (!Auth::user()->isPro() || Auth::user()->isTrial()))
-                        @if (Auth::user()->account->company->hasActivePromo())
-                            {!! Button::warning(trans('texts.plan_upgrade'))->withAttributes(array('onclick' => 'showUpgradeModal()', 'style' => 'max-width:100px;overflow:hidden'))->small() !!}
-                        @else
-                            {!! Button::success(trans('texts.plan_upgrade'))->withAttributes(array('onclick' => 'showUpgradeModal()', 'style' => 'max-width:100px;overflow:hidden'))->small() !!}
-                        @endif
+                    <a href="javascript:showContactUs()" title="{{ trans('texts.contact_us') }}"
+                       style="color: white;">
+                        contact<i class="fa fa-envelope"></i>
+                    </a>
+                @endif
+                @if (!Auth::check())
+                    {!! Button::success(trans('texts.sign_up'))->withAttributes(array('id' => 'signUpButton', 'onclick' => 'showSignUp()', 'style' => 'max-width:100px;;overflow:hidden'))->small() !!}
+                @endif
+                @if (Auth::check() && Utils::isNinjaProd() && (!Auth::user()->isPro() || Auth::user()->isTrial()))
+                    @if (Auth::user()->account->company->hasActivePromo())
+                        {!! Button::warning(trans('texts.plan_upgrade'))->withAttributes(array('onclick' => 'showUpgradeModal()', 'style' => 'max-width:100px;overflow:hidden'))->small() !!}
+                    @else
+                        {!! Button::success(trans('texts.plan_upgrade'))->withAttributes(array('onclick' => 'showUpgradeModal()', 'style' => 'max-width:100px;overflow:hidden'))->small() !!}
                     @endif
                 @endif
                 <div class="btn-group user-dropdown">
@@ -324,10 +397,14 @@
                             ])
                         @endif
                         <li class="divider"></li>
-                        @if (Auth::user()->isSuperUser())
-                            <li>{!! link_to('#', trans('texts.add_company'), ['onclick' => 'showSignUp()']) !!}</li>
+                        @if (Utils::isAdmin() && Auth::user()->confirmed && Utils::getResllerType() != RESELLER_ACCOUNT_COUNT)
+                            @if (!session(SESSION_USER_ACCOUNTS) || count(session(SESSION_USER_ACCOUNTS)) < 5)
+                                <li>{!! link_to('#', trans('texts.add_company'), ['onclick' => 'showSignUp()']) !!}</li>
+                            @endif
                         @endif
-                        <li>{!! link_to('#', trans('texts.logout'), array('onclick'=>'logout()')) !!}</li>
+                        <li>
+                            {!! link_to('#', trans('texts.logout'), array('onclick'=>'logout()')) !!}
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -405,15 +482,14 @@
                 @endif
             @endforeach
             <!-- if user is administrator -->
-                @if (Utils::isAdmin() || Auth::user()->can('view',[ENTITY_REPORT]))
+                @if (Utils::isAdmin() || Auth::user()->canCreateOrEdit('view',[ENTITY_REPORT]))
                     @include('partials.navigation_option', ['option' => 'reports'])
                 @endif
                 @if (Utils::isAdmin() )
                     @include('partials.navigation_option', ['option' => 'settings'])
                 @endif
                 <h3 style="height: 15px;"></h3>
-            </ul>
-
+            </ul><!-- /.. ul -->
         </div>
         <!-- /#left-sidebar-wrapper -->
         <div id="right-sidebar-wrapper" class="hide-phone" style="overflow-y:hidden">
@@ -472,8 +548,12 @@
             </div>
             <!-- /. #page-content-wrapper -->
         </div>
-        @if (auth()->check() && auth()->user()->registered && ! auth()->user()->hasAcceptedLatestTerms())
+        @include('partials.contact_us')
+        @include('partials.sign_up')
+        @include('partials.keyboard_shortcuts')
+        @if (auth()->check() && auth()->user()->registered && !auth()->user()->hasAcceptedLatestTerms())
             @include('partials.accept_terms')
         @endif
     </div>
+    <p>&nbsp;</p>
 @stop

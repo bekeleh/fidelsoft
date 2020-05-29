@@ -4,10 +4,76 @@
         <style type="text/css">
             .nav-footer {
                 <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?>
-                                     background-color: #50C878 !important;
+                                                                                                       background-color: #50C878 !important;
                 <?php else: ?>
-                                     background-color: #FD6A02 !important;
+                                                                                                       background-color: #FD6A02 !important;
             <?php endif; ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             }
         </style>
     <?php endif; ?>
@@ -265,20 +331,27 @@
         </a>
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
             <div class="navbar-form navbar-right">
+                <a href="javascript:showKeyboardShortcuts()" title="<?php echo e(trans('texts.help')); ?>"
+                   style="color: white;">
+                    <i class="fa fa-question-circle"></i>
+                </a>
                 <?php if(Auth::check()): ?>
-                    <?php if(!Auth::user()->registered): ?>
-                        <?php if(!Auth::user()->confirmed): ?>
-                            <?php echo Button::success(trans('texts.sign_up'))->withAttributes(array('id' => 'signUpButton', 'onclick' => 'showSignUp()', 'style' => 'max-width:100px;;overflow:hidden'))->small(); ?>
+                    <a href="javascript:showContactUs()" title="<?php echo e(trans('texts.contact_us')); ?>"
+                       style="color: white;">
+                        contact<i class="fa fa-envelope"></i>
+                    </a>
+                <?php endif; ?>
+                <?php if(!Auth::check()): ?>
+                    <?php echo Button::success(trans('texts.sign_up'))->withAttributes(array('id' => 'signUpButton', 'onclick' => 'showSignUp()', 'style' => 'max-width:100px;;overflow:hidden'))->small(); ?>
 
-                        <?php endif; ?>
-                    <?php elseif(Utils::isNinjaProd() && (!Auth::user()->isPro() || Auth::user()->isTrial())): ?>
-                        <?php if(Auth::user()->account->company->hasActivePromo()): ?>
-                            <?php echo Button::warning(trans('texts.plan_upgrade'))->withAttributes(array('onclick' => 'showUpgradeModal()', 'style' => 'max-width:100px;overflow:hidden'))->small(); ?>
+                <?php endif; ?>
+                <?php if(Auth::check() && Utils::isNinjaProd() && (!Auth::user()->isPro() || Auth::user()->isTrial())): ?>
+                    <?php if(Auth::user()->account->company->hasActivePromo()): ?>
+                        <?php echo Button::warning(trans('texts.plan_upgrade'))->withAttributes(array('onclick' => 'showUpgradeModal()', 'style' => 'max-width:100px;overflow:hidden'))->small(); ?>
 
-                        <?php else: ?>
-                            <?php echo Button::success(trans('texts.plan_upgrade'))->withAttributes(array('onclick' => 'showUpgradeModal()', 'style' => 'max-width:100px;overflow:hidden'))->small(); ?>
+                    <?php else: ?>
+                        <?php echo Button::success(trans('texts.plan_upgrade'))->withAttributes(array('onclick' => 'showUpgradeModal()', 'style' => 'max-width:100px;overflow:hidden'))->small(); ?>
 
-                        <?php endif; ?>
                     <?php endif; ?>
                 <?php endif; ?>
                 <div class="btn-group user-dropdown">
@@ -330,10 +403,15 @@
                             ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                         <?php endif; ?>
                         <li class="divider"></li>
-                        <?php if(Auth::user()->isSuperUser()): ?>
-                            <li><?php echo link_to('#', trans('texts.add_company'), ['onclick' => 'showSignUp()']); ?></li>
+                        <?php if(Utils::isAdmin() && Auth::user()->confirmed && Utils::getResllerType() != RESELLER_ACCOUNT_COUNT): ?>
+                            <?php if(!session(SESSION_USER_ACCOUNTS) || count(session(SESSION_USER_ACCOUNTS)) < 5): ?>
+                                <li><?php echo link_to('#', trans('texts.add_company'), ['onclick' => 'showSignUp()']); ?></li>
+                            <?php endif; ?>
                         <?php endif; ?>
-                        <li><?php echo link_to('#', trans('texts.logout'), array('onclick'=>'logout()')); ?></li>
+                        <li>
+                            <?php echo link_to('#', trans('texts.logout'), array('onclick'=>'logout()')); ?>
+
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -415,15 +493,14 @@
                 <?php endif; ?>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             <!-- if user is administrator -->
-                <?php if(Utils::isAdmin() || Auth::user()->can('view',[ENTITY_REPORT])): ?>
+                <?php if(Utils::isAdmin() || Auth::user()->canCreateOrEdit('view',[ENTITY_REPORT])): ?>
                     <?php echo $__env->make('partials.navigation_option', ['option' => 'reports'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 <?php endif; ?>
                 <?php if(Utils::isAdmin() ): ?>
                     <?php echo $__env->make('partials.navigation_option', ['option' => 'settings'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 <?php endif; ?>
                 <h3 style="height: 15px;"></h3>
-            </ul>
-
+            </ul><!-- /.. ul -->
         </div>
         <!-- /#left-sidebar-wrapper -->
         <div id="right-sidebar-wrapper" class="hide-phone" style="overflow-y:hidden">
@@ -486,10 +563,14 @@
             </div>
             <!-- /. #page-content-wrapper -->
         </div>
-        <?php if(auth()->check() && auth()->user()->registered && ! auth()->user()->hasAcceptedLatestTerms()): ?>
+        <?php echo $__env->make('partials.contact_us', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        <?php echo $__env->make('partials.sign_up', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        <?php echo $__env->make('partials.keyboard_shortcuts', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        <?php if(auth()->check() && auth()->user()->registered && !auth()->user()->hasAcceptedLatestTerms()): ?>
             <?php echo $__env->make('partials.accept_terms', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
         <?php endif; ?>
     </div>
+    <p>&nbsp;</p>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
