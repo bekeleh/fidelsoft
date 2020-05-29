@@ -2,34 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/Http/Middleware/CheckBanned.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/PfBenYK8qVxo77KuhCwRpCmvFJndQWBop48FSJkq" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/0b0317c472c3c6579b92a3fd696dfd373765491a.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/5d54d87cbd68177f04f4011a9c1c34965131c548.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/73fd7baa800ac1da169f835a2d2990ac28ab7e42.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/81ba3a9f7daca26cbbc3f998216adda0af45f286.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/84a39de7d982ec2e60eecf6f77f4532d17fcf0eb.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/9f58a96f43cf8975ebcb091ff23e93452afbf721.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/b9c184f59cfa610898c251f319bb77b77e2de5ce.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/BankAccount.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/BankAccount.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/BankSubaccount.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/BankSubaccount.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Client.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Client.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Company.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Company.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Contact.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Contact.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Country.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Country.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Credit.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Credit.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/InvoiceItem.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/InvoiceItem.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/ManufacturerProductDetails.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ManufacturerProductDetails.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/PaymentLibrary.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/PaymentLibrary.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/PaymentMethod.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/PaymentMethod.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Product.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Project.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Project.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Proposal.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Proposal.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/ProposalCategory.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ProposalCategory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/ProposalInvitation.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ProposalInvitation.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/ProposalSnippet.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ProposalSnippet.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/ProposalTemplate.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ProposalTemplate.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/RecurringExpense.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/RecurringExpense.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/SaleType.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/SaleType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/ScheduledReport.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ScheduledReport.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Subscription.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Subscription.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Task.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Task.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/TaskStatus.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/TaskStatus.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/TaxRate.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/TaxRate.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/UserAccount.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/UserAccount.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/VendorContact.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/VendorContact.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/Av038zl91TgZRJ4PtbOZuBH9VIGLj5i4Tj91u0ii" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/Av038zl91TgZRJ4PtbOZuBH9VIGLj5i4Tj91u0ii" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/IhnzWG56kjiyDhKnxzaH9rqACwZYqR9S5qqnqb9h" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/IhnzWG56kjiyDhKnxzaH9rqACwZYqR9S5qqnqb9h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -450,14 +435,8 @@
       <workItem from="1590500292285" duration="875000" />
       <workItem from="1590571948062" duration="14944000" />
       <workItem from="1590613061450" duration="5441000" />
-      <workItem from="1590674963229" duration="28623000" />
-    </task>
-    <task id="LOCAL-00250" summary="2020-05-11 9:26">
-      <created>1589183902973</created>
-      <option name="number" value="00250" />
-      <option name="presentableId" value="LOCAL-00250" />
-      <option name="project" value="LOCAL" />
-      <updated>1589183902974</updated>
+      <workItem from="1590674963229" duration="28682000" />
+      <workItem from="1590741481647" duration="1940000" />
     </task>
     <task id="LOCAL-00251" summary="2020-05-11 9:26">
       <created>1589184662682</created>
@@ -795,7 +774,14 @@
       <option name="project" value="LOCAL" />
       <updated>1590705149274</updated>
     </task>
-    <option name="localTasksCounter" value="299" />
+    <task id="LOCAL-00299" summary="2020-05-28 9:27">
+      <created>1590706123086</created>
+      <option name="number" value="00299" />
+      <option name="presentableId" value="LOCAL-00299" />
+      <option name="project" value="LOCAL" />
+      <updated>1590706123086</updated>
+    </task>
+    <option name="localTasksCounter" value="300" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -873,10 +859,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1590585842435" />
-    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1590705147443">
+    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1590706121474">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1590705147443" />
+    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1590706121474" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="418" y="255" key="ComposerInitDialogKey" timestamp="1589789975070">
@@ -934,10 +920,10 @@
     </state>
     <state x="296" y="138" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1586200886074" />
     <state x="312" y="163" key="Vcs.Push.Dialog.v2/0.0.1440.860@0.0.1440.860" timestamp="1585235941756" />
-    <state x="421" y="115" key="com.intellij.ide.util.TipDialog" timestamp="1590675001424">
+    <state x="421" y="115" key="com.intellij.ide.util.TipDialog" timestamp="1590741634159">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="421" y="115" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1590675001424" />
+    <state x="421" y="115" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1590741634159" />
     <state x="408" y="139" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1586189894452" />
     <state x="430" y="164" key="com.intellij.ide.util.TipDialog/0.0.1440.860@0.0.1440.860" timestamp="1586154234151" />
     <state x="303" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1587324145930">
