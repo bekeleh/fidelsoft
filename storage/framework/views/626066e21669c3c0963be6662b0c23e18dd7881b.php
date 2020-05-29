@@ -9,7 +9,7 @@
 <?php $__env->startSection('content'); ?>
 
     <script type="text/javascript">
-        <?php if(Auth::user()->hasPermission('admin')): ?>
+        <?php if(Utils::isAdmin()): ?>
         function loadChart(data) {
             var ctx = document.getElementById('chart-canvas').getContext('2d');
             if (window.myChart) {

@@ -14,11 +14,10 @@ use App\Models\Store;
 use App\Ninja\Datatables\ItemRequestDatatable;
 use App\Ninja\Repositories\ItemRequestRepository;
 use App\Services\ItemRequestService;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
-use Redirect;
 
 /**
  * Class ItemRequestController.
@@ -211,8 +210,55 @@ class ItemRequestController extends BaseController
 
     public function show($publicId)
     {
-        Session::reflash();
+        $itemRequest = ItemRequest::scope($publicId)->withTrashed()->firstOrFail();
 
-        return Redirect::to("item_requests/{$publicId}/edit");
+        if ($publicId) {
+            $method = 'PUT';
+            $url = 'item_requests/' . $itemRequest->public_id;
+        }
+
+        $data = [
+            'status' => null,
+            'product' => null,
+            'store' => null,
+            'department' => null,
+            'itemRequest' => $itemRequest,
+            'entity' => $itemRequest,
+            'method' => $method,
+            'url' => $url,
+            'title' => trans('texts.edit_item_request'),
+            'statusPublicId' => $itemRequest->status ? $itemRequest->status->public_id : null,
+            'productPublicId' => $itemRequest->product ? $itemRequest->product->public_id : null,
+            'storePublicId' => $itemRequest->store ? $itemRequest->store->public_id : null,
+            'departmentPublicId' => $itemRequest->department ? $itemRequest->department->public_id : null,
+        ];
+
+        $data = array_merge($data, self::getViewModel($itemRequest));
+
+        return View::make('item_requests.show', $data);
+    }
+
+    public function approve(ItemRequest $request)
+    {
+        $AccountId = Input::get('account_id');
+        $PublicId = Input::get('public_id');
+        $statusId = Input::get('status_id');
+        $deliveredQty = Input::get('delivered_qty');
+        $dispatchDate = Input::get('dispatch_date');
+
+        $itemRequest = ItemRequest::where('account_id', '=', $AccountId)->where('public_id', '=', $PublicId)->firstOrFail();
+
+        if ($itemRequest) {
+            $itemRequest->status_id = Status::getPrivateId($statusId);
+            $itemRequest->delivered_qty = $deliveredQty;
+            $itemRequest->dispatch_date = !empty($dispatchDate) ? Utils::toSqlDate($dispatchDate) : Carbon::now()->format('Y-m-d');
+
+            $itemRequest->save();
+
+//            return response()->json(['success' => true, 'data' => RESULT_SUCCESS], 200);
+            return Redirect::to("item_requests")->with('success', trans('texts.approve_success'));
+        }
+
+        return RESULT_FAILURE;
     }
 }

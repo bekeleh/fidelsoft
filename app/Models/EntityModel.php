@@ -517,7 +517,7 @@ class EntityModel extends Eloquent
         if ($status == 'pending') {
             return 'warning';
         } elseif ($status == 'approved') {
-            return 'default';
+            return 'success';
         } elseif ($status == 'completed' || $status == 'closed') {
             return 'success';
         } else {

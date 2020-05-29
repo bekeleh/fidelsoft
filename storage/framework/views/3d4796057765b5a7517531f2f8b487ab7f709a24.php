@@ -4,9 +4,9 @@
         <style type="text/css">
             .nav-footer {
                 <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?>
-                                                                                                                                                    background-color: #50C878 !important;
+                                                                                                                                                            background-color: #50C878 !important;
                 <?php else: ?>
-                                                                                                                                                    background-color: #FD6A02 !important;
+                                                                                                                                                            background-color: #FD6A02 !important;
             <?php endif; ?>
 
 
@@ -14,113 +14,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            }
-        </style>
+            }</style>
     <?php endif; ?>
 <?php $__env->stopSection(); ?>
 
@@ -383,7 +277,7 @@
                 <?php if(Auth::check()): ?>
                     <a href="javascript:showContactUs()" title="<?php echo e(trans('texts.contact_us')); ?>"
                        style="color: white;">
-                        contact<i class="fa fa-envelope"></i>
+                        <?php echo e(trans('texts.contact_us')); ?> <i class="fa fa-envelope"></i>
                     </a>
                     
                 <?php endif; ?>
@@ -469,7 +363,7 @@
                 <input type="text" name="command" id="search"
                        style="width: 380px;padding-top:0px;padding-bottom:0px;margin-right:20px;"
                        class="form-control"
-                       placeholder="<?php echo e(trans('texts.search') . ': ' . trans('texts.search_hotkey')); ?>"/>
+                       placeholder="<?php echo e(trans('texts.search') . trans('texts.search_hotkey')); ?>"/>
                 
                 
                 

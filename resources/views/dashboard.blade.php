@@ -11,7 +11,7 @@
 @section('content')
 
     <script type="text/javascript">
-        @if (Auth::user()->hasPermission('admin'))
+        @if (Utils::isAdmin())
         function loadChart(data) {
             var ctx = document.getElementById('chart-canvas').getContext('2d');
             if (window.myChart) {

@@ -5,7 +5,7 @@
     {!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['product_id' => 'required', 'status_id' => 'required', 'store_id' => 'required', 'department_id' => 'required', 'required_date' => 'required', 'qty' => 'required', 'notes' => 'required' ])
+    ->rules(['status_id' => 'required', 'dispatch_date' => 'required', 'delivered_qty' => 'required' ])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     @if ($itemRequest)
         {{ Former::populate($itemRequest) }}
@@ -21,14 +21,19 @@
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
-                    <!-- product -->
+                    <!-- approve status -->
+                {!! Former::select('status_id')->addOption('', '')
+                ->label(trans('texts.status_name'))->addGroupClass('status-select')
+                ->help(trans('texts.status_help') . ' | ' . link_to('/statuses/', trans('texts.customize_options')))
+                !!}
+                <!-- product -->
                 {!! Former::select('product_id')->addOption('', '')
-                ->label(trans('texts.product_name'))->addGroupClass('product-select')
+                ->label(trans('texts.product_name'))->addGroupClass('product-select')->readonly()
                 ->help(trans('texts.product_help') . ' | ' . link_to('/products/', trans('texts.customize_options')))
                 !!}
                 <!-- department -->
                 {!! Former::select('department_id')->addOption('', '')
-                ->label(trans('texts.department_name'))->addGroupClass('department-select')
+                ->label(trans('texts.department_name'))->addGroupClass('department-select')->readonly()
                 ->help(trans('texts.department_help') . ' | ' . link_to('/departments/', trans('texts.customize_options')))
                 !!}
                 <!-- store -->
@@ -36,16 +41,22 @@
                 ->label(trans('texts.store_name'))->addGroupClass('store-select')
                 ->help(trans('texts.store_help') . ' | ' . link_to('/stores/', trans('texts.customize_options')))
                 !!}
-                <!-- qty -->
-                {!! Former::text('qty')->label('texts.qty') !!}
+                <!-- required qty -->
+                {!! Former::text('qty')->label('texts.required_qty')->readonly()!!}
+                <!-- delivered qty -->
+                {!! Former::text('delivered_qty')->label('texts.delivered_qty')!!}
                 <!-- required date -->
-                {!! Former::text('required_date')
+                {!! Former::text('required_date')->label('texts.required_date')->readonly()
+                  ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
+                  !!}
+                <!-- dispatch date -->
+                {!! Former::text('dispatch_date')
                     ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
                     ->appendIcon('calendar')
-                    ->addGroupClass('required_date')
+                    ->addGroupClass('dispatch_date')
                     !!}
                 <!-- NOTES -->
-                    {!! Former::textarea('notes')->rows(4) !!}
+                    {!! Former::textarea('notes')->rows(4)->readonly() !!}
                 </div>
             </div>
         </div>
@@ -54,13 +65,7 @@
     @if (Auth::user()->canCreateOrEdit(ENTITY_ITEM_REQUEST, $itemRequest))
         <center class="buttons">
             {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/item_requests'))->appendIcon(Icon::create('remove-circle')) !!}
-            {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
-            @if ($itemRequest)
-                {!! DropdownButton::normal(trans('texts.more_actions'))
-                ->withContents($itemRequest->present()->moreActions())
-                ->large()
-                ->dropup() !!}
-            @endif
+            {!! ($itemRequest) ? Button::success(trans('texts.save'))->withAttributes(['onclick' => 'submitAction()'])->large()->appendIcon(Icon::create('floppy-disk')) : false !!}
         </center>
     @endif
 
@@ -156,7 +161,40 @@
             });
         }
 
-        $('#required_date').datepicker('update', '{{ $itemRequest ? Utils::fromSqlDate($itemRequest->required_date) : '' }}');
+        function submitAction() {
+            var $statusSelect = $('select#status_id').val();
+            var $qty = $('#qty').val();
+            var $delivered_qty = $('#delivered_qty').val();
+            var $dispatch_date = $('#dispatch_date').val();
+
+            var $account_id ={{$itemRequest->account_id}};
+            var $public_id ={{$itemRequest->public_id}};
+
+            if ($delivered_qty == null || $delivered_qty > $qty) {
+                swal("{{trans('texts.item_delivered_qty_error')}}");
+            } else if ($statusSelect == null) {
+                swal("{{trans('texts.error_title')}}");
+            } else {
+                $.ajax({
+                    url: '{{ URL::to('/item_requests/approve') }}',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: 'account_id=' + $account_id + '&public_id=' + $public_id + '&status_id=' + $statusSelect + '&delivered_qty=' + $delivered_qty + '&dispatch_date=' + $dispatch_date,
+                    success: function (result) {
+                        if (result.success) {
+                            swal("{{trans('texts.approved_success')}}");
+                        }
+                    },
+                    error: function (result) {
+                        if (result) {
+                            swal("{{trans('texts.approved_failure')}}");
+                        }
+                    }
+                });
+            }
+        }
+
+        {{--$('#required_date').datepicker('update', '{{ $itemRequest ? Utils::fromSqlDate($itemRequest->required_date) : '' }}');--}}
         $('#dispatch_date').datepicker('update', '{{ $itemRequest ? Utils::fromSqlDate($itemRequest->dispatch_date) : '' }}');
     </script>
 @stop

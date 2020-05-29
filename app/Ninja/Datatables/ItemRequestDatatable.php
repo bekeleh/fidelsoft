@@ -140,18 +140,36 @@ class ItemRequestDatatable extends EntityDatatable
                     return URL::to("item_requests/{$model->public_id}/edit");
                 },
                 function ($model) {
-                    return Auth::user()->can('edit', ENTITY_ITEM_REQUEST);
+                    return Auth::user()->can('edit', ENTITY_ITEM_REQUEST) && $model->status_id != Utils::getStatusId('approved');
                 },
             ],
-//            [
-//                trans('texts.clone_item_request'),
-//                function ($model) {
-//                    return URL::to("item_requests/{$model->public_id}/clone");
-//                },
-//                function ($model) {
-//                    return Auth::user()->can('create', ENTITY_ITEM_REQUEST);
-//                },
-//            ],
+            [
+                trans('texts.clone_item_request'),
+                function ($model) {
+                    return URL::to("item_requests/{$model->public_id}/clone");
+                },
+                function ($model) {
+                    return Auth::user()->can('create', ENTITY_ITEM_REQUEST);
+                },
+            ],
+            [
+                trans('texts.approve'),
+                function ($model) {
+                    return URL::to("item_requests/{$model->public_id}");
+                },
+                function ($model) {
+                    return Utils::isAdmin() && $model->status_id != Utils::getStatusId('approved');
+                }
+            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return Auth::user()->can('edit', [ENTITY_ITEM_REQUEST, $model]);
+                },
+
+            ],
         ];
     }
 
