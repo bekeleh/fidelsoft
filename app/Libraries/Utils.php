@@ -255,6 +255,11 @@ class Utils
         return Auth::check() && Auth::user()->hasFeature($feature);
     }
 
+    public static function isSuperUser()
+    {
+        return Auth::check() && Auth::user()->account->is_ninja;
+    }
+
     public static function isAdmin()
     {
         return Auth::check() && Auth::user()->hasPermission('admin');

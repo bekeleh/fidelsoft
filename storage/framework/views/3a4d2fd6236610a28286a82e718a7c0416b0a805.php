@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <br/>
-                        <p><?php echo trans('texts.reseller_text', ['email' => HTML::mailto('contact@invoiceninja.com')]); ?></p>
+                        <p><?php echo trans('texts.reseller_text', ['email' => HTML::mailto('fidelinvoice@gmail.com')]); ?></p>
                     </div>
                 </div>
             </div>

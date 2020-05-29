@@ -39,7 +39,8 @@ class UserRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('users')
-            ->join('locations', 'locations.id', '=', 'users.location_id')
+            ->join('accounts', 'accounts.id', '=', 'users.account_id')
+            ->leftJoin('locations', 'locations.id', '=', 'users.location_id')
             ->where('users.account_id', '=', $accountId)
 //            ->where('users.deleted_at', '=', null)
             ->select(

@@ -5,10 +5,55 @@
         <style type="text/css">
             .nav-footer {
                 @if (config('mail.driver') == 'log' && ! config('services.postmark'))
-                                                                                                       background-color: #50C878 !important;
+                                                                                                                                                    background-color: #50C878 !important;
                 @else
-                                                                                                       background-color: #FD6A02 !important;
+                                                                                                                                                    background-color: #FD6A02 !important;
             @endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -339,8 +384,9 @@
                        style="color: white;">
                         contact<i class="fa fa-envelope"></i>
                     </a>
+                    {{--                    {!! Button::success(trans('texts.contact_us'))->withAttributes(array('id' => 'signUpButton', 'onclick' => 'showContactUs()', 'style' => 'max-width:100px;;overflow:hidden'))->small() !!}--}}
                 @endif
-                @if (!Auth::check())
+                @if (Auth::check() && !Auth::user()->registered)
                     {!! Button::success(trans('texts.sign_up'))->withAttributes(array('id' => 'signUpButton', 'onclick' => 'showSignUp()', 'style' => 'max-width:100px;;overflow:hidden'))->small() !!}
                 @endif
                 @if (Auth::check() && Utils::isNinjaProd() && (!Auth::user()->isPro() || Auth::user()->isTrial()))
@@ -376,18 +422,20 @@
                                     ])
                                 @endif
                             @endforeach
-                            @foreach (session(SESSION_USER_ACCOUNTS) as $item)
-                                @if ($item->user_id != Auth::user()->id)
-                                    @include('user_account', [
-                                    'user_account_id' => $item->id,
-                                    'user_id' => $item->user_id,
-                                    'account_name' => $item->account_name,
-                                    'user_name' => $item->user_name,
-                                    'logo_url' => isset($item->logo_url) ? $item->logo_url : "",
-                                    'selected' => false,
-                                    ])
-                                @endif
-                            @endforeach
+                            @if (Utils::isSuperUser())
+                                @foreach (session(SESSION_USER_ACCOUNTS) as $item)
+                                    @if ($item->user_id != Auth::user()->id)
+                                        @include('user_account', [
+                                        'user_account_id' => $item->id,
+                                        'user_id' => $item->user_id,
+                                        'account_name' => $item->account_name,
+                                        'user_name' => $item->user_name,
+                                        'logo_url' => isset($item->logo_url) ? $item->logo_url : "",
+                                        'selected' => false,
+                                        ])
+                                    @endif
+                                @endforeach
+                            @endif
                         @else
                             @include('user_account', [
                             'account_name' => Auth::user()->account->name ?: trans('texts.untitled'),
@@ -397,7 +445,7 @@
                             ])
                         @endif
                         <li class="divider"></li>
-                        @if (Utils::isAdmin() && Auth::user()->confirmed && Utils::getResllerType() != RESELLER_ACCOUNT_COUNT)
+                        @if (Utils::isSuperUser() && Auth::user()->confirmed && Utils::getResllerType() != RESELLER_ACCOUNT_COUNT)
                             @if (!session(SESSION_USER_ACCOUNTS) || count(session(SESSION_USER_ACCOUNTS)) < 5)
                                 <li>{!! link_to('#', trans('texts.add_company'), ['onclick' => 'showSignUp()']) !!}</li>
                             @endif
@@ -476,7 +524,7 @@
                 @if(!Auth::user()->account->isModuleEnabled(substr($option, 0, -1)))
                     {{ '' }}
                 @else
-                    @if (Utils::isAdmin() || Auth::user()->can('view', substr($option, 0, -1)))
+                    @if (Auth::check() ||Utils::isAdmin() || Auth::user()->can('view', substr($option, 0, -1)))
                         @include('partials.navigation_option')
                     @endif
                 @endif
@@ -548,6 +596,7 @@
             </div>
             <!-- /. #page-content-wrapper -->
         </div>
+
         @include('partials.contact_us')
         @include('partials.sign_up')
         @include('partials.keyboard_shortcuts')

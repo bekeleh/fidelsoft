@@ -407,7 +407,7 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
 
 Route::group([
     'middleware' => ['lookup:user', 'auth:user', 'permissions.required'],
-    'permissions' => 'admin',
+//    'permissions' => 'admin',
 ], function () {
 //    user
     Route::get('api/users', 'UserController@getDatatable');

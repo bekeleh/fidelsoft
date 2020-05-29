@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Str;
 use Redirect;
 
 class UserController extends BaseController
@@ -322,7 +323,7 @@ class UserController extends BaseController
 
                 // regenerate token to prevent open pages
                 // from saving under the wrong account
-                Session::put('_token', str_random(40));
+                Session::put('_token', Str::random(40));
             }
         }
 

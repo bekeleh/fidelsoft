@@ -26,7 +26,7 @@ Although the bugs have always been fixed in some cases they've caused the client
 balance, paid to date and/or activity records to become inaccurate. This script will
 check for errors and correct the data.
 
-If you have any questions please email us at contact@invoiceninja.com
+If you have any questions please email us at fidelinvoice@gmail.com
 
 Usage:
 

@@ -115,6 +115,9 @@ class HomeController extends BaseController
 
     public function contactUs()
     {
+        if (Auth::check() && !Auth::user()->email) {
+            return RESULT_FAILURE;
+        }
         $message = request()->contact_us_message;
 
         if (request()->include_errors) {

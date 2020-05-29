@@ -127,7 +127,7 @@ class UserDatatable extends EntityDatatable
                         if (Auth::user()->can('edit', [ENTITY_USER]))
                             return URL::to("users/{$model->public_id}/edit");
                     } else
-                        return false;
+                        return URL::to("users");
                 },
             ],
             [

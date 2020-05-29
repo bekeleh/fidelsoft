@@ -147,7 +147,7 @@ return [
         'vendor' => 'invoiceninja',
         'author' => [
             'name' => 'Hillel Coren',
-            'email' => 'contact@invoiceninja.com',
+            'email' => 'fidelinvoice@gmail.com',
         ],
     ],
     /*

@@ -4,10 +4,55 @@
         <style type="text/css">
             .nav-footer {
                 <?php if(config('mail.driver') == 'log' && ! config('services.postmark')): ?>
-                                                                                                       background-color: #50C878 !important;
+                                                                                                                                                    background-color: #50C878 !important;
                 <?php else: ?>
-                                                                                                       background-color: #FD6A02 !important;
+                                                                                                                                                    background-color: #FD6A02 !important;
             <?php endif; ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -340,8 +385,9 @@
                        style="color: white;">
                         contact<i class="fa fa-envelope"></i>
                     </a>
+                    
                 <?php endif; ?>
-                <?php if(!Auth::check()): ?>
+                <?php if(Auth::check() && !Auth::user()->registered): ?>
                     <?php echo Button::success(trans('texts.sign_up'))->withAttributes(array('id' => 'signUpButton', 'onclick' => 'showSignUp()', 'style' => 'max-width:100px;;overflow:hidden'))->small(); ?>
 
                 <?php endif; ?>
@@ -382,18 +428,20 @@
                                     ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                                 <?php endif; ?>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            <?php $__currentLoopData = session(SESSION_USER_ACCOUNTS); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <?php if($item->user_id != Auth::user()->id): ?>
-                                    <?php echo $__env->make('user_account', [
-                                    'user_account_id' => $item->id,
-                                    'user_id' => $item->user_id,
-                                    'account_name' => $item->account_name,
-                                    'user_name' => $item->user_name,
-                                    'logo_url' => isset($item->logo_url) ? $item->logo_url : "",
-                                    'selected' => false,
-                                    ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                                <?php endif; ?>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <?php if(Utils::isSuperUser()): ?>
+                                <?php $__currentLoopData = session(SESSION_USER_ACCOUNTS); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <?php if($item->user_id != Auth::user()->id): ?>
+                                        <?php echo $__env->make('user_account', [
+                                        'user_account_id' => $item->id,
+                                        'user_id' => $item->user_id,
+                                        'account_name' => $item->account_name,
+                                        'user_name' => $item->user_name,
+                                        'logo_url' => isset($item->logo_url) ? $item->logo_url : "",
+                                        'selected' => false,
+                                        ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                    <?php endif; ?>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <?php endif; ?>
                         <?php else: ?>
                             <?php echo $__env->make('user_account', [
                             'account_name' => Auth::user()->account->name ?: trans('texts.untitled'),
@@ -403,7 +451,7 @@
                             ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                         <?php endif; ?>
                         <li class="divider"></li>
-                        <?php if(Utils::isAdmin() && Auth::user()->confirmed && Utils::getResllerType() != RESELLER_ACCOUNT_COUNT): ?>
+                        <?php if(Utils::isSuperUser() && Auth::user()->confirmed && Utils::getResllerType() != RESELLER_ACCOUNT_COUNT): ?>
                             <?php if(!session(SESSION_USER_ACCOUNTS) || count(session(SESSION_USER_ACCOUNTS)) < 5): ?>
                                 <li><?php echo link_to('#', trans('texts.add_company'), ['onclick' => 'showSignUp()']); ?></li>
                             <?php endif; ?>
@@ -487,7 +535,7 @@
                     <?php echo e(''); ?>
 
                 <?php else: ?>
-                    <?php if(Utils::isAdmin() || Auth::user()->can('view', substr($option, 0, -1))): ?>
+                    <?php if(Auth::check() ||Utils::isAdmin() || Auth::user()->can('view', substr($option, 0, -1))): ?>
                         <?php echo $__env->make('partials.navigation_option', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                     <?php endif; ?>
                 <?php endif; ?>
@@ -563,6 +611,7 @@
             </div>
             <!-- /. #page-content-wrapper -->
         </div>
+
         <?php echo $__env->make('partials.contact_us', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
         <?php echo $__env->make('partials.sign_up', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
         <?php echo $__env->make('partials.keyboard_shortcuts', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

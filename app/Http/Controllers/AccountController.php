@@ -206,7 +206,7 @@ class AccountController extends BaseController
     public function setEntityFilter($entityType, $filter = '')
     {
         if ($filter == 'true') {
-            $filter = '';
+            $filter = null;
         }
 
         // separate state and status filters
@@ -505,8 +505,8 @@ class AccountController extends BaseController
             $client->work_phone = '(011) 2-526-9854';
             $client->work_email = 'sample@example.com';
             $client->balance = 100;
-            $client->vat_number = $account->vat_number ? '1234567890' : '';
-            $client->id_number = $account->id_number ? '1234567890' : '';
+            $client->vat_number = $account->vat_number ? '1234567890' : null;
+            $client->id_number = $account->id_number ? '1234567890' : null;
 
             if ($account->customLabel('client1')) {
                 $client->custom_value1 = '0000';
@@ -590,7 +590,7 @@ class AccountController extends BaseController
     private function showClientPortal()
     {
         $account = Auth::user()->account->load('country');
-        $css = $account->client_view_css ? $account->client_view_css : '';
+        $css = $account->client_view_css ? $account->client_view_css : null;
 
         if (Utils::isNinja() && $css) {
             // Unescape the CSS for display purposes
@@ -999,7 +999,7 @@ class AccountController extends BaseController
         $data = $request->input();
         $account = Auth::user()->account;
         $account->fill($data);
-        $account->name = isset($data['name']) ? ucwords($data['name']) : '';
+        $account->name = isset($data['name']) ? ucwords($data['name']) : null;
 //        $this->accountRepo->save($request->input(), $account);
 
         $account->save($data);
@@ -1227,6 +1227,9 @@ class AccountController extends BaseController
 
     public function submitSignup()
     {
+        if (!Utils::isSuperUser()) {
+            return null;
+        }
         $user = Auth::user();
         $ip = Request::getClientIp();
         $account = $user->account;
@@ -1239,35 +1242,32 @@ class AccountController extends BaseController
             'new_email' => 'email|required|unique:users,email',
         ];
 
-        if (!$user->registered) {
-            $rules['new_email'] .= ',' . Auth::user()->id . ',id';
-        }
-
         $validator = Validator::make(Input::all(), $rules);
 
         if ($validator->fails()) {
-            return '';
+            return null;
         }
 
-        $firstName = ucfirst(trim(Input::get('new_first_name')));
-        $lastName = ucfirst(trim(Input::get('new_last_name')));
+        $firstName = trim(Input::get('new_first_name'));
+        $lastName = trim(Input::get('new_last_name'));
         $username = trim(Input::get('new_username'));
         $email = trim(strtolower(Input::get('new_email')));
         $password = trim(Input::get('new_password'));
 
         if (!LookupUser::validateField('email', $email, $user)) {
-            return '';
+            return null;
         }
 
         if ($user->registered) {
-            $newAccount = $this->accountRepo->create($firstName, $lastName, $email, $password, $account->company);
+            $newAccount = $this->accountRepo->create($firstName, $lastName, $username, $email, $password, $account->company);
             $newUser = $newAccount->users()->first();
             $newUser->acceptLatestTerms($ip)->save();
             $users = $this->accountRepo->associateAccounts($user->id, $newUser->id);
 
             Session::flash('message', trans('texts.created_new_company'));
             Session::put(SESSION_USER_ACCOUNTS, $users);
-            Auth::loginUsingId($newUser->id);
+//            switch user account
+//            Auth::loginUsingId($newUser->id);
 
             return RESULT_SUCCESS;
         } else {
@@ -1279,6 +1279,7 @@ class AccountController extends BaseController
             $user->password = bcrypt($password);
             $user->registered = true;
             $user->acceptLatestTerms($ip);
+
             $user->save();
 
             $user->account->startTrial(PLAN_PRO);

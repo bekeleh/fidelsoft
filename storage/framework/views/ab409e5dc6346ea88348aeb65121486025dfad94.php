@@ -65,8 +65,7 @@
     </div>
 </div>
 <div class="row">
-    <!-- view records -->
-    <?php if(Auth::user()->can('view', $entityType)  || Utils::isAdmin()): ?>
+    <?php if( Auth::check() || Utils::isAdmin() || Auth::user()->can('view', $entityType)): ?>
         <?php echo Datatable::table()
         ->addColumn(Utils::trans($datatable->columnFields(), $datatable->entityType))
         ->setUrl(empty($url) ? url('api/' . Utils::pluralizeEntityType($entityType)) : $url)

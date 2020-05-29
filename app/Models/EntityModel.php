@@ -56,8 +56,12 @@ class EntityModel extends Eloquent
         return $entity;
     }
 
-    private static function getNextPublicId($accountId)
+    public static function getNextPublicId($accountId)
     {
+        if (!$accountId) {
+            return null;
+        }
+
         $className = get_called_class();
 
         if (method_exists($className, 'trashed')) {

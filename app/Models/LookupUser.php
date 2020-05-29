@@ -2,11 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
-use App\Models\User;
-
 /**
- * Class ExpenseCategory.
+ * Class LookupUser.
  */
 class LookupUser extends LookupModel
 {

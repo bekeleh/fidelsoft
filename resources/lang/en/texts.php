@@ -944,7 +944,7 @@ address associated with your account. To unlock all of the awesome
 Pro features, please follow the instructions on the invoice to pay
 for a year of Pro-level invoicing.<p/>
 Can\'t find the invoice? Need further assistance? We\'re happy to help
--- email us at contact@invoiceninja.com',
+-- email us at fidelinvoice@gmail.com',
     'unsaved_changes' => 'You have unsaved changes',
     'custom_fields' => 'Custom Fields',
     'company_fields' => 'Company Fields',
@@ -2795,6 +2795,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'tag_line' => 'Ultimate care for your business',
     'login_or_existing' => 'Or login with a connected account.',
     'sign_up_now' => 'Sign Up Now',
+    'sign_up_for_contact_us' => 'Your mail address is empty, sign up with your appropriate email address to contact us.',
     'not_a_member_yet' => 'Not a member yet?',
     'login_create_an_account' => 'Create an Account!',
     'client_login' => 'Client Login',
@@ -3131,7 +3132,8 @@ Once you have the amounts, come back to this payment methods page and click "Com
 
     'contact_us_help' => 'If you\'re reporting an error please include any relevant logs from storage/logs/laravel-error.log',
     'include_errors' => 'Include Errors',
-    'include_errors_help' => 'Include :link from storage/logs/laravel-error.log',
+//    'include_errors_help' => 'Include :link from storage/logs/laravel-error.log',
+    'include_errors_help' => 'Include :link',
     'recent_errors' => 'recent errors',
     'customer' => 'Customer',
     'customers' => 'Customers',

@@ -35,7 +35,7 @@ class AccountRepository
         $this->model = $model;
     }
 
-    public function create($firstName = '', $lastName = '', $email = '', $password = '', $company = false)
+    public function create($firstName = '', $lastName = '', $username = '', $email = '', $password = '', $company = null)
     {
         if (!$company) {
             if (Utils::isNinja()) {
@@ -73,7 +73,7 @@ class AccountRepository
         $account->currency_id = DEFAULT_CURRENCY;
 
         // Set default language/currency based on IP
-        // TODO Disabled until GDPR implications are understood
+        // TODO: Disabled until GDPR implications are understood
         /*
         if (\Cache::get('currencies')) {
             if ($data = unserialize(@file_get_contents('http://www.geoplugin.net/php.gp?ip=' . $account->ip))) {
@@ -113,7 +113,8 @@ class AccountRepository
         } else {
             $user->first_name = $firstName;
             $user->last_name = $lastName;
-            $user->email = $user->username = $email;
+            $user->username = $username;
+            $user->email = $email;
             if (!$password) {
                 $password = strtolower(str_random(RANDOM_KEY_LENGTH));
             }
@@ -127,6 +128,13 @@ class AccountRepository
             $user->confirmation_code = strtolower(str_random(RANDOM_KEY_LENGTH));
         }
 
+        $user->public_id = User::getNextPublicId($account->id);
+
+        if (auth::check()) {
+            $user->is_admin = true;
+            $user->user_id = auth::user()->id;
+            $user->created_by = auth::user()->username;
+        }
         $account->users()->save($user);
 
         $emailSettings = new AccountEmailSettings();
@@ -468,9 +476,9 @@ class AccountRepository
             $company->save();
 
             $account = new Account();
-            $account->name = 'Fidel';
-            $account->work_email = 'contact@invoiceninja.com';
-            $account->work_phone = '(800) 763-1948';
+            $account->name = 'Fidel Business Care Solution';
+            $account->work_email = 'fidelinvoice@gmail.com';
+            $account->work_phone = ' +251 (0) 930-011-756';
             $account->account_key = NINJA_ACCOUNT_KEY;
             $account->company_id = $company->id;
             $account->save();
@@ -595,7 +603,7 @@ class AccountRepository
     public function registerNinjaUser($user)
     {
         if (!$user || $user->email == TEST_USERNAME) {
-            return false;
+            return null;
         }
 
         $url = (Utils::isNinjaDev() ? SITE_URL : NINJA_APP_URL) . '/signup/register';
@@ -648,13 +656,13 @@ class AccountRepository
             }
         }
 
-        return false;
+        return null;
     }
 
-    public function findUserAccounts($userId1, $userId2 = false)
+    public function findUserAccounts($userId1, $userId2 = null)
     {
         if (!Schema::hasTable('user_accounts')) {
-            return false;
+            return null;
         }
 
         $query = UserAccount::where('user_id1', '=', $userId1)
@@ -677,7 +685,7 @@ class AccountRepository
     public function getUserAccounts($record, $with = null)
     {
         if (!$record) {
-            return false;
+            return null;
         }
 
         $userIds = [];
@@ -701,7 +709,7 @@ class AccountRepository
     public function prepareUsersData($record)
     {
         if (!$record) {
-            return false;
+            return null;
         }
 
         $users = $this->getUserAccounts($record);
@@ -817,7 +825,7 @@ class AccountRepository
         $user = $account->users()->first();
         $userAccount = $this->findUserAccounts($user->id);
 
-        return $userAccount ? $userAccount->id : false;
+        return $userAccount ? $userAccount->id : null;
     }
 
     public function save($data, $account)

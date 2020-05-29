@@ -41,7 +41,7 @@
                 @endif
                 If you need help you can either post to our <a href="https://www.fidel.com/forums/forum/support/"
                                                                target="_blank">support forum</a> or email us at <a
-                        href="mailto:contact@invoiceninja.com" target="_blank">info@fidel.com</a>.
+                        href="mailto:fidelinvoice@gmail.com" target="_blank">info@fidel.com</a>.
 
                 @if (! env('PRECONFIGURED_INSTALL'))
                     <p>

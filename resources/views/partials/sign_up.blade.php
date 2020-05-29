@@ -3,7 +3,7 @@
         validateSignUp();
         $('#signUpModal').on('shown.bs.modal', function () {
             trackEvent('/account', '/view_sign_up');
-            // change the type after page load to prevent errors in Chrome console
+// change the type after page load to prevent errors in Chrome console
             $('#new_password').attr('type', 'password');
             $(['first_name', 'last_name', 'email', 'password']).each(function (i, field) {
                 var $input = $('form.signUpForm #new_' + field);
@@ -113,6 +113,7 @@
             url: '{{ URL::to('signup/submit') }}',
             data: 'new_email=' + encodeURIComponent($('form.signUpForm #new_email').val()) +
                 '&new_password=' + encodeURIComponent($('form.signUpForm #new_password').val()) +
+                '&new_username=' + encodeURIComponent($('form.signUpForm #new_username').val()) +
                 '&new_first_name=' + encodeURIComponent($('form.signUpForm #new_first_name').val()) +
                 '&new_last_name=' + encodeURIComponent($('form.signUpForm #new_last_name').val()) +
                 '&go_pro=' + $('#go_pro').val(),
@@ -160,9 +161,10 @@
                             <div id="signUpDiv" onkeyup="validateSignUp()" onclick="validateSignUp()"
                                  onkeydown="checkForEnter(event)">
                                 {!! Former::open('signup/submit')->addClass('signUpForm')->autocomplete('off') !!}
-                                @if (Auth::check() && ! Auth::user()->registered)
+                                @if (Auth::check() && !Auth::user()->registered)
                                     {!! Former::populateField('new_first_name', Auth::user()->first_name) !!}
                                     {!! Former::populateField('new_last_name', Auth::user()->last_name) !!}
+                                    {!! Former::populateField('new_username', Auth::user()->username) !!}
                                     {!! Former::populateField('new_email', Auth::user()->email) !!}
                                 @endif
                                 <div style="display:none">
@@ -222,6 +224,11 @@
                                                     ->autocomplete('family-name')
                                                     ->data_lpignore('true')
                                                     ->label(' ') !!}
+                                                    {!! Former::text('new_username')
+                                                    ->placeholder(trans('texts.username'))
+                                                    ->autocomplete('username')
+                                                    ->data_lpignore('true')
+                                                    ->label(' ') !!}
                                                     {!! Former::text('new_email')
                                                     ->placeholder(trans('texts.email'))
                                                     ->autocomplete('email')
@@ -279,12 +286,14 @@
                             </div>
                         </div>
                         <div class="modal-footer" style="margin-top: 0px;padding-right:0px">
-    <span id="signUpFooter">
-    <button type="button" class="btn btn-default" id="closeSignUpButton" data-dismiss="modal">{{ trans('texts.close') }} <i
-                class="glyphicon glyphicon-remove-circle"></i></button>
-    <button type="button" class="btn btn-primary" id="saveSignUpButton" onclick="validateServerSignUp()"
-            disabled>{{ trans('texts.save') }} <i class="glyphicon glyphicon-floppy-disk"></i></button>
-    </span>
+                            <span id="signUpFooter">
+                            <button type="button" class="btn btn-default" id="closeSignUpButton" data-dismiss="modal">{{ trans('texts.close') }} <i
+                                        class="glyphicon glyphicon-remove-circle"></i></button>
+                            <button type="button" class="btn btn-primary" id="saveSignUpButton"
+                                    onclick="validateServerSignUp()"
+                                    disabled>{{ trans('texts.save') }} <i
+                                        class="glyphicon glyphicon-floppy-disk"></i></button>
+                            </span>
                         </div>
                     </div>
                 </div>

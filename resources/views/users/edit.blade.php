@@ -30,7 +30,9 @@
                 {!! Former::select('location_id')
                 ->placeholder(trans('texts.select_location'))
                 ->label(trans('texts.location'))
-                ->addGroupClass('location-select') !!}
+                ->addGroupClass('location-select')
+                  ->help(trans('texts.location_help') . ' | ' . link_to('/locations/', trans('texts.customize_options')))
+                !!}
                 <!-- activate user -->
                 {!! Former::checkbox('activated')->label('activated')->text(trans('texts.activated'))->value(1) !!}
                 <!-- notes -->

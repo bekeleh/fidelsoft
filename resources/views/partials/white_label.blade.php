@@ -40,7 +40,7 @@
                             </div>
                         </div>
                         <br/>
-                        <p>{!! trans('texts.reseller_text', ['email' => HTML::mailto('contact@invoiceninja.com')]) !!}</p>
+                        <p>{!! trans('texts.reseller_text', ['email' => HTML::mailto('fidelinvoice@gmail.com')]) !!}</p>
                     </div>
                 </div>
             </div>
