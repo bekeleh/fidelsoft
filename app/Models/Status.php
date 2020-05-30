@@ -29,7 +29,6 @@ class Status extends EntityModel
     protected $hidden = [];
     protected $casts = [];
 
-
     public function getEntityType()
     {
         return ENTITY_STATUS;

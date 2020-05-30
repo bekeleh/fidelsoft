@@ -18,7 +18,6 @@ use Redirect;
 
 class StoreController extends BaseController
 {
-    // Stores
     protected $storeRepo;
     protected $storeService;
     protected $entityType = ENTITY_STORE;

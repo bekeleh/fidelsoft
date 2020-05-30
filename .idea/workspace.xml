@@ -2,23 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/pd8dxEK6vTs1Uyeo445a12N4TD6qtV6OEMf0ATCw" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/8644ae4c6cfccca921348f08c40b59ac6b89a443.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/4fcWoK2UyMAIhKx7kNerokf9ck6gXV80JQBHfkGq" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/4d12b5cac1ec88b442d9ad43f98801b0ad576927.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ItemRequestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ItemRequestController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/QueryLogging.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/QueryLogging.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/ItemRequestRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/ItemRequestRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/item_requests/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/item_requests/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/item_requests/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/item_requests/show.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/users/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/users/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/ANCymyXxOWL2ZgJvCAlnfcONRXybxaXZHBfSFIic" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/Tp92nsJmm0NaZtxirW2eUdEJUbosME7T2CLt0UZc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/pSGivlKib4yR5Ydo9XmalHUvWqpvZEhmodw3GwlV" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/tZWJhJ4pV3dw31TB9H6PLcesXRAtXozQjRReODHS" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/v572DMj4ruzoL1bEJB5qZvHyvDAHK1hs02ssXoz3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/1403fcb348069ab718317dbe920d8e28abe77860.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/1403fcb348069ab718317dbe920d8e28abe77860.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/791bad466a15a1f59763460f3bbbfe59b9fefe31.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/791bad466a15a1f59763460f3bbbfe59b9fefe31.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ItemStoreController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ItemStoreController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/StoreController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/StoreController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/CreateStoreRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/CreateStoreRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/StoreRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/StoreRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdateStoreRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateStoreRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Status.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Status.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Store.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Store.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/StoreRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/StoreRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/pd8dxEK6vTs1Uyeo445a12N4TD6qtV6OEMf0ATCw" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/pd8dxEK6vTs1Uyeo445a12N4TD6qtV6OEMf0ATCw" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -441,14 +438,7 @@
       <workItem from="1590613061450" duration="5441000" />
       <workItem from="1590674963229" duration="28682000" />
       <workItem from="1590741481647" duration="39098000" />
-      <workItem from="1590838326492" duration="6021000" />
-    </task>
-    <task id="LOCAL-00255" summary="2020-05-11 9:26">
-      <created>1589192073283</created>
-      <option name="number" value="00255" />
-      <option name="presentableId" value="LOCAL-00255" />
-      <option name="project" value="LOCAL" />
-      <updated>1589192073283</updated>
+      <workItem from="1590838326492" duration="7992000" />
     </task>
     <task id="LOCAL-00256" summary="2020-05-11 9:26">
       <created>1589199198905</created>
@@ -786,7 +776,14 @@
       <option name="project" value="LOCAL" />
       <updated>1590791129469</updated>
     </task>
-    <option name="localTasksCounter" value="304" />
+    <task id="LOCAL-00304" summary="2020-05-30 9:27">
+      <created>1590844836736</created>
+      <option name="number" value="00304" />
+      <option name="presentableId" value="LOCAL-00304" />
+      <option name="project" value="LOCAL" />
+      <updated>1590844836737</updated>
+    </task>
+    <option name="localTasksCounter" value="305" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -796,7 +793,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="2020-04-25 9:26" />
     <MESSAGE value="2020-04-26 9:26" />
     <MESSAGE value="2020-04-27 9:26" />
     <MESSAGE value="2020-04-28 9:26" />
@@ -821,7 +817,8 @@
     <MESSAGE value="2020-05-27 9:27" />
     <MESSAGE value="2020-05-28 9:27" />
     <MESSAGE value="2020-05-29 9:27" />
-    <option name="LAST_COMMIT_MESSAGE" value="2020-05-29 9:27" />
+    <MESSAGE value="2020-05-30 9:27" />
+    <option name="LAST_COMMIT_MESSAGE" value="2020-05-30 9:27" />
   </component>
   <component name="WindowStateProjectService">
     <state x="312" y="89" key="#Notifications" timestamp="1584513656594">
@@ -864,10 +861,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1590585842435" />
-    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1590791126635">
+    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1590844833741">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1590791126635" />
+    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1590844833741" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="418" y="255" key="ComposerInitDialogKey" timestamp="1589789975070">

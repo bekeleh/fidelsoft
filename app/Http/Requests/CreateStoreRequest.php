@@ -11,7 +11,7 @@ class CreateStoreRequest extends StoreRequest
 
     public function authorize()
     {
-        return $this->user()->user('create', $this->entityType);
+        return $this->user()->can('create', ENTITY_STORE);
     }
 
     public function rules()

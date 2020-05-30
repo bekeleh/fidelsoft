@@ -11,7 +11,7 @@ class UpdateStoreRequest extends StoreRequest
 
     public function authorize()
     {
-        return $this->user()->user('edit', $this->entityType);
+        return $this->user()->can('create', ENTITY_STORE);
     }
 
     public function rules()

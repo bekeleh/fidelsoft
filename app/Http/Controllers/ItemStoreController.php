@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateItemStoreRequest;
 use App\Http\Requests\ItemStoreRequest;
-use App\Http\Requests\Request;
 use App\Http\Requests\UpdateItemStoreRequest;
 use App\Libraries\Utils;
 use App\Models\ItemStore;
@@ -15,7 +14,6 @@ use App\Ninja\Repositories\ItemStoreRepository;
 use App\Services\ItemStoreService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use Redirect;
@@ -112,8 +110,6 @@ class ItemStoreController extends BaseController
 
     public function edit(ItemStoreRequest $request, $publicId = false, $clone = false)
     {
-        Auth::user()->can('view', [ENTITY_ITEM_STORE, $request->entity()]);
-
         $itemStore = ItemStore::scope($publicId)->withTrashed()->firstOrFail();
 
         if ($clone) {
@@ -147,7 +143,7 @@ class ItemStoreController extends BaseController
     public function update(UpdateItemStoreRequest $request)
     {
         $data = $request->input();
-
+        dd($data);
         $itemStore = $this->itemStoreService->save($data, $request->entity());
 
         $action = Input::get('action');

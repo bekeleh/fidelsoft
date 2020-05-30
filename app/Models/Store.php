@@ -14,7 +14,6 @@ class Store extends EntityModel
     use PresentableTrait;
     use SoftDeletes;
 
-    protected $table = 'stores';
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
 
     protected $fillable = [
@@ -29,35 +28,15 @@ class Store extends EntityModel
     protected $hidden = [];
     protected $casts = [];
 
-    /**
-     * @return array
-     */
-    public static function getImportColumns()
-    {
-        return [
-            'name',
-            'store_code',
-            'notes',
-        ];
-    }
 
-    /**
-     * @return array
-     */
-    public static function getImportMap()
-    {
-        return [
-            'name|Name' => 'name',
-            'store_code|code' => 'store_code',
-        ];
-    }
-
-    /**
-     * @return mixed
-     */
     public function getEntityType()
     {
         return ENTITY_STORE;
+    }
+
+    public function getRoute()
+    {
+        return "/stores/{$this->public_id}/edit";
     }
 
     public function getUpperAttributes()
@@ -65,11 +44,6 @@ class Store extends EntityModel
         return strtoupper($this->name);
     }
 
-    /**
-     * @param $key
-     *
-     * @return mixed
-     */
     public static function findProductByKey($key)
     {
         return self::scope()->where('name', '=', $key)->first();
@@ -80,9 +54,6 @@ class Store extends EntityModel
         return $this->belongsTo('App\Models\Account', 'account_id')->withTrashed();
     }
 
-    /**
-     * @return mixed
-     */
     public function user()
     {
         return $this->belongsTo('App\Models\User', 'user_id')->withTrashed();
@@ -101,21 +72,6 @@ class Store extends EntityModel
     public function products()
     {
         return $this->hasMany('App\Models\ItemStore', 'product_id')->withTrashed();
-    }
-
-    /**
-     * -----------------------------------------------
-     * BEGIN QUERY SCOPES
-     * -----------------------------------------------
-     * @param $query
-     * @param $date_from
-     * @param $date_to
-     * @return mixed
-     */
-
-    public function scopeDateBetween($query, $date_from, $date_to)
-    {
-        return $query->whereBetween('created_at', [$date_from, $date_to]);
     }
 
 }

@@ -10,5 +10,4 @@ class StoreRequest extends EntityRequest
     {
         return true;
     }
-
 }
