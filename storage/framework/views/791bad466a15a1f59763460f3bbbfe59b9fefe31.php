@@ -76,10 +76,10 @@
 
 
     <script type="text/javascript">
-        var products = <?php echo $products; ?>;
-        var departments = <?php echo $departments; ?>;
-        var statuses = <?php echo $statuses; ?>;
-        var stores = <?php echo $stores; ?>;
+        var products = <?php echo isset($products)? $products: null; ?>;
+        var departments = <?php echo isset($departments)? $departments: null; ?>;
+        var statuses = <?php echo isset($statuses)? $statuses: null; ?>;
+        var stores = <?php echo isset($stores)? $stores: null; ?>;
 
         var productMap = {};
         var departmentMap = {};

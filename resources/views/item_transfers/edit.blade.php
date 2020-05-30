@@ -70,9 +70,9 @@
 
     <script type="text/javascript">
         var $productModel = $('#product_id');
-        var statuses = {!! $statuses !!};
-        var previousStores = {!! $previousStores !!};
-        var currentStores = {!! $currentStores !!};
+        var statuses = {!! isset($statuses) ? $statuses:null !!};
+        var previousStores = {!! isset($previousStores) ? $previousStores:null !!};
+        var currentStores = {!! isset($currentStores) ? $currentStores:null !!};
 
         var statusMap = {};
         var previousMap = {};

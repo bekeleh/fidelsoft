@@ -72,8 +72,18 @@ class ItemRequestController extends BaseController
         return $this->itemRequestService->getDatatableStatus($statusPublicId);
     }
 
+    public function setDefaultStore()
+    {
+        $storeId = isset(auth::user()->store->id) ? auth::user()->store->id : null;
+        if (!$storeId) {
+            $errorMessage = trans('texts.default_store_required', ['link' => link_to('/users', trans('texts.click_here'))]);
+            Session::flash('error', $errorMessage);
+        }
+    }
+
     public function create(ItemRequestRequest $request)
     {
+        $this->setDefaultStore();
         if ($request->status_id != 0) {
             $status = Status::scope($request->status_id)->firstOrFail();
         } else {
@@ -126,7 +136,7 @@ class ItemRequestController extends BaseController
 
     public function edit(ItemRequestRequest $request, $publicId = false, $clone = false)
     {
-        Auth::user()->can('view', [ENTITY_ITEM_REQUEST, $request->entity()]);
+        $this->setDefaultStore();
 
         $itemRequest = ItemRequest::scope($publicId)->withTrashed()->firstOrFail();
 
@@ -199,12 +209,16 @@ class ItemRequestController extends BaseController
 
     private static function getViewModel($itemRequest = false)
     {
+        $storeId = isset(auth::user()->store->id) ? auth::user()->store->id : null;
+        if (!$storeId) {
+            return [];
+        }
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
             'statuses' => Status::scope()->withActiveOrSelected($itemRequest ? $itemRequest->status_id : false)->orderBy('name')->get(),
             'products' => Product::withCategory('itemBrand.itemCategory'),
-            'stores' => Store::scope()->withActiveOrSelected($itemRequest ? $itemRequest->store_id : false)->orderBy('name')->get(),
+            'stores' => Store::scope()->withActiveOrSelected($itemRequest ? $itemRequest->store_id : false)->where('id', '!=', $storeId)->orderBy('name')->get(),
             'departments' => Department::scope()->withActiveOrSelected($itemRequest ? $itemRequest->department_id : false)->orderBy('name')->get(),
         ];
     }
@@ -244,6 +258,8 @@ class ItemRequestController extends BaseController
         $AccountId = Input::get('account_id');
         $PublicId = Input::get('public_id');
         $statusId = Input::get('status_id');
+        $productId = Input::get('product_id');
+        $requestedStoreId = Input::get('store_id');
         $deliveredQty = Input::get('delivered_qty');
         $dispatchDate = Input::get('dispatch_date');
 
@@ -254,7 +270,9 @@ class ItemRequestController extends BaseController
             $itemRequest->delivered_qty = $deliveredQty;
             $itemRequest->dispatch_date = !empty($dispatchDate) ? Utils::toSqlDate($dispatchDate) : Carbon::now();
 
-            $itemRequest->save();
+            if ($itemRequest->save()) {
+                ItemRequest::quantityAdjustment($productId, $requestedStoreId, $itemRequest->qty, auth::user()->store->id, $deliveredQty);
+            }
 
             return response()->json(['success' => true, 'data' => RESULT_SUCCESS], 200);
 
@@ -262,4 +280,5 @@ class ItemRequestController extends BaseController
 
         return RESULT_FAILURE;
     }
+
 }

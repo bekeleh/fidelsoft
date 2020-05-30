@@ -67,10 +67,10 @@
     {!! Former::close() !!}
 
     <script type="text/javascript">
-        var products = {!! $products !!};
-        var departments = {!! $departments !!};
-        var statuses = {!! $statuses !!};
-        var stores = {!! $stores !!};
+        var products = {!! isset($products)? $products: null !!};
+        var departments = {!! isset($departments)? $departments: null !!};
+        var statuses = {!! isset($statuses)? $statuses: null !!};
+        var stores = {!! isset($stores)? $stores: null  !!};
 
         var productMap = {};
         var departmentMap = {};

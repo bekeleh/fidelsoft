@@ -871,6 +871,7 @@ $LANG = array(
     'payment_error' => 'There was an error processing your payment. Please try again later.',
     'registration_required' => 'Please sign up to email an invoice',
     'confirmation_required' => 'Please confirm your email address, :link to resend the confirmation email.',
+    'default_store_required' => 'Please define default user store, :link to set default user store.',
     'archived_clients' => 'Successfully archived :count clients',
     'updated_invoice' => 'Successfully updated invoice',
     'created_invoice' => 'Successfully created invoice',

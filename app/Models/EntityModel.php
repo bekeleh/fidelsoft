@@ -509,6 +509,16 @@ class EntityModel extends Eloquent
         return $this->id == $obj->id && $this->getEntityType() == $obj->entityType;
     }
 
+    public static function quantityAdjustment($productId = null, $requestedStoreId = null, $requestedQty = null, $deliveredStoreId = null, $deliveredQty = null)
+    {
+        if (!$requestedStoreId || !$deliveredStoreId) {
+            return null;
+        }
+
+
+        return true;
+    }
+
     public static function getStdStatus($status = null)
     {
         if (!$status) {

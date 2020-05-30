@@ -177,6 +177,7 @@
             var $delivered_qty = $('#delivered_qty').val();
             var $dispatch_date = $('#dispatch_date').val();
 
+            var $id =<?php echo e($itemRequest->id); ?>;
             var $account_id =<?php echo e($itemRequest->account_id); ?>;
             var $public_id =<?php echo e($itemRequest->public_id); ?>;
 
@@ -191,7 +192,7 @@
                     url: '<?php echo e(URL::to('/item_requests/approve')); ?>',
                     type: 'POST',
                     dataType: 'json',
-                    data: 'account_id=' + $account_id + '&public_id=' + $public_id + '&status_id=' + $statusSelect + '&delivered_qty=' + $delivered_qty + '&dispatch_date=' + $dispatch_date,
+                    data: 'id=' + $id + '&account_id=' + $account_id + '&public_id=' + $public_id + '&status_id=' + $statusSelect + '&delivered_qty=' + $delivered_qty + '&dispatch_date=' + $dispatch_date,
                     success: function (result) {
                         if (result.success) {
                             swal("<?php echo e(trans('texts.approved_success')); ?>");

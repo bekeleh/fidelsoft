@@ -2,12 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/bc6e8fa16651f6e512a9b355996ba94fa9273942.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/f5d29704fee4f0313117540b83fff765d5ab06ed.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/nudJE7B9IQDzTFOiDq4h6RnYIEHuVFC205yLWBcB" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/ItemBrandRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/ItemBrandRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/ItemCategoryRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/ItemCategoryRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ItemRequestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ItemRequestController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/EntityModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/EntityModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/item_requests/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/item_requests/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/item_transfers/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/item_transfers/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/4fcWoK2UyMAIhKx7kNerokf9ck6gXV80JQBHfkGq" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/sessions/pd8dxEK6vTs1Uyeo445a12N4TD6qtV6OEMf0ATCw" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/pd8dxEK6vTs1Uyeo445a12N4TD6qtV6OEMf0ATCw" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/1403fcb348069ab718317dbe920d8e28abe77860.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/1403fcb348069ab718317dbe920d8e28abe77860.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/791bad466a15a1f59763460f3bbbfe59b9fefe31.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/791bad466a15a1f59763460f3bbbfe59b9fefe31.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -430,14 +436,7 @@
       <workItem from="1590613061450" duration="5441000" />
       <workItem from="1590674963229" duration="28682000" />
       <workItem from="1590741481647" duration="39098000" />
-      <workItem from="1590838326492" duration="11062000" />
-    </task>
-    <task id="LOCAL-00258" summary="2020-05-11 9:26">
-      <created>1589206230168</created>
-      <option name="number" value="00258" />
-      <option name="presentableId" value="LOCAL-00258" />
-      <option name="project" value="LOCAL" />
-      <updated>1589206230168</updated>
+      <workItem from="1590838326492" duration="15850000" />
     </task>
     <task id="LOCAL-00259" summary="2020-05-11 9:26">
       <created>1589212129454</created>
@@ -775,7 +774,14 @@
       <option name="project" value="LOCAL" />
       <updated>1590850959542</updated>
     </task>
-    <option name="localTasksCounter" value="307" />
+    <task id="LOCAL-00307" summary="2020-05-30 9:27">
+      <created>1590851269642</created>
+      <option name="number" value="00307" />
+      <option name="presentableId" value="LOCAL-00307" />
+      <option name="project" value="LOCAL" />
+      <updated>1590851269643</updated>
+    </task>
+    <option name="localTasksCounter" value="308" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -853,10 +859,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1590585842435" />
-    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1590850956879">
+    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1590856249921">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1590850956879" />
+    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1590856249921" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="418" y="255" key="ComposerInitDialogKey" timestamp="1589789975070">
