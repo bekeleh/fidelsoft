@@ -87,7 +87,7 @@ class ItemBrandRepository extends BaseRepository
             $itemBrand->created_by = Auth::user()->username;
         }
         $itemBrand->fill($data);
-        $itemBrand->name = isset($data['name']) ? ucwords(Str::lower(trim($data['name']))) : '';
+        $itemBrand->name = isset($data['name']) ? trim($data['name']) : '';
         $itemBrand->notes = isset($data['notes']) ? trim($data['notes']) : '';
         $itemBrand->save();
 
