@@ -5,6 +5,7 @@ namespace App\Ninja\Repositories;
 use App\Events\UserWasCreated;
 use App\Events\UserWasUpdated;
 use App\Models\Location;
+use App\Models\Store;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -41,6 +42,7 @@ class UserRepository extends BaseRepository
         $query = DB::table('users')
             ->join('accounts', 'accounts.id', '=', 'users.account_id')
             ->leftJoin('locations', 'locations.id', '=', 'users.location_id')
+            ->leftJoin('stores', 'stores.id', '=', 'users.store_id')
             ->where('users.account_id', '=', $accountId)
 //            ->where('users.deleted_at', '=', null)
             ->select(
@@ -65,6 +67,9 @@ class UserRepository extends BaseRepository
                 'users.updated_by',
                 'users.deleted_by',
                 'users.last_login',
+                'stores.public_id as store_public_id',
+                'stores.name as store_name',
+                'locations.public_id as location_public_id',
                 'locations.name as location_name'
             );
 
@@ -75,6 +80,7 @@ class UserRepository extends BaseRepository
                     ->where('users.email', 'like', '%' . $filter . '%')
                     ->where('users.confirmed', 'like', '%' . $filter . '%')
                     ->where('users.activated', 'like', '%' . $filter . '%')
+                    ->orWhere('stores.name', 'like', '%' . $filter . '%')
                     ->orWhere('locations.name', 'like', '%' . $filter . '%');
             });
         }
@@ -89,6 +95,15 @@ class UserRepository extends BaseRepository
         $locationId = Location::getPrivateId($locationPublicId);
 
         $query = $this->find()->where('locations.location_id', '=', $locationId);
+
+        return $query;
+    }
+
+    public function findStore($storePublicId)
+    {
+        $storeId = Store::getPrivateId($storePublicId);
+
+        $query = $this->find()->where('stores.store_id', '=', $storeId);
 
         return $query;
     }

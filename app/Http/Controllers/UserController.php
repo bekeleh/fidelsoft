@@ -8,6 +8,7 @@ use App\Http\Requests\UserRequest;
 use App\Libraries\Utils;
 use App\Models\Location;
 use App\Models\PermissionGroup;
+use App\Models\Store;
 use App\Models\User;
 use App\Ninja\Datatables\UserDatatable;
 use App\Ninja\Mailers\ContactMailer;
@@ -67,6 +68,11 @@ class UserController extends BaseController
         return $this->userService->getDatatableLocation($locationPublicId);
     }
 
+    public function getDatatableStore($storePublicId = null)
+    {
+        return $this->userService->getDatatableStore($storePublicId);
+    }
+
     public function forcePDFJS()
     {
         $user = Auth::user();
@@ -83,15 +89,22 @@ class UserController extends BaseController
         } else {
             $location = null;
         }
+        if ($request->store_id != 0) {
+            $store = Store::scope($request->store_id)->firstOrFail();
+        } else {
+            $store = null;
+        }
 
         $data = [
             'locationPublicId' => Input::old('location') ? Input::old('location') : $request->location_id,
+            'storePublicId' => Input::old('store') ? Input::old('store') : $request->store_id,
             'user' => null,
             'userGroups' => null,
             'method' => 'POST',
             'url' => 'users',
             'title' => trans('texts.new_user'),
             'location' => $location,
+            'store' => $store,
         ];
 
         $data = array_merge($data, self::getViewModel());
@@ -128,6 +141,7 @@ class UserController extends BaseController
 
         $data = [
             'location' => null,
+            'store' => null,
             'user' => $user,
             'userGroups' => $userGroups,
             'entity' => $user,
@@ -135,6 +149,7 @@ class UserController extends BaseController
             'url' => $url,
             'title' => trans('texts.edit_user'),
             'locationPublicId' => $user->location ? $user->location->public_id : null,
+            'storePublicId' => $user->store ? $user->store->public_id : null,
         ];
 
         $data = array_merge($data, self::getViewModel($user));
@@ -410,6 +425,7 @@ class UserController extends BaseController
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
             'locations' => Location::scope()->withActiveOrSelected($user ? $user->location_id : false)->orderBy('name')->get(),
+            'stores' => Store::scope()->withActiveOrSelected($user ? $user->store_id : false)->orderBy('name')->get(),
             'groups' => PermissionGroup::scope()->withActiveOrSelected(false)->orderBy('name')->pluck('name', 'id'),
         ];
     }

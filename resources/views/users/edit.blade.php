@@ -5,7 +5,7 @@
     {!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['first_name' => 'required|max:50','last_name' => 'required|max:50','username' => 'required|max:50','email' => 'required|email|max:50','location_id' => 'required','notes' => 'required|max:255'])
+    ->rules(['first_name' => 'required|max:50','last_name' => 'required|max:50','username' => 'required|max:50','email' => 'required|email|max:50','store_id' => 'required','location_id' => 'required','notes' => 'required|max:255'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     @if ($user)
         {{ Former::populate($user) }}
@@ -26,6 +26,13 @@
                 {!! Former::text('username')->label('texts.username') !!}
                 {!! Former::text('email')->label('texts.email') !!}
                 {!! Former::text('phone')->label('texts.phone') !!}
+                <!-- default store-->
+                {!! Former::select('store_id')
+                ->placeholder(trans('texts.select_store'))
+                ->label(trans('texts.store_name'))
+                ->addGroupClass('store-select')
+                  ->help(trans('texts.store_help') . ' | ' . link_to('/stores/', trans('texts.customize_options')))
+                !!}
                 <!-- location-->
                 {!! Former::select('location_id')
                 ->placeholder(trans('texts.select_location'))
@@ -66,7 +73,9 @@
     @endif
     {!! Former::close() !!}
     <script type="text/javascript">
+        var stores = {!! $stores !!};
         var locations = {!! $locations !!};
+        var storeMap = {};
         var locationMap = {};
 
         $(function () {
@@ -90,6 +99,24 @@
                 var location = locationMap[locationId];
                 setComboboxValue($('.location-select'), location.public_id, location.name);
             }<!-- /. user location  -->
+
+            <!-- default store -->
+            var storeId = {{ $storePublicId ?: 0 }};
+            var $storeSelect = $('select#store_id');
+            @if (Auth::user()->can('create', ENTITY_STORE))
+            $storeSelect.append(new Option("{{ trans('texts.create_store')}}: $name", '-1'));
+                    @endif
+            for (var i = 0; i < stores.length; i++) {
+                var store = stores[i];
+                storeMap[store.public_id] = store;
+                $storeSelect.append(new Option(getClientDisplayName(store), store.public_id));
+            }
+            @include('partials/entity_combobox', ['entityType' => ENTITY_STORE])
+            if (storeId) {
+                var store = storeMap[storeId];
+                setComboboxValue($('.location-select'), store.public_id, store.name);
+            }<!-- /. default store  -->
+
         });
 
         function submitAction(action) {

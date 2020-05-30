@@ -36,11 +36,12 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
 //        'edit_all' => 0b0100,
     ];
 
-    protected $table = 'users';
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $fillable = [
         'manager_id',
         'user_id',
+        'store_id',
         'location_id',
         'first_name',
         'last_name',
@@ -69,8 +70,6 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
         'remember_2fa_token',
         'slack_webhook_url',
     ];
-
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     public function getEntityType()
     {
@@ -114,6 +113,11 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
     public function location()
     {
         return $this->belongsTo('App\Models\Location');
+    }
+
+    public function store()
+    {
+        return $this->belongsTo('App\Models\Store');
     }
 
     public function theme()

@@ -3,7 +3,7 @@
     <?php echo Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['first_name' => 'required|max:50','last_name' => 'required|max:50','username' => 'required|max:50','email' => 'required|email|max:50','location_id' => 'required','notes' => 'required|max:255'])
+    ->rules(['first_name' => 'required|max:50','last_name' => 'required|max:50','username' => 'required|max:50','email' => 'required|email|max:50','store_id' => 'required','location_id' => 'required','notes' => 'required|max:255'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit'); ?>
 
     <?php if($user): ?>
@@ -34,6 +34,13 @@
 
                 <?php echo Former::text('phone')->label('texts.phone'); ?>
 
+                <!-- default store-->
+                <?php echo Former::select('store_id')
+                ->placeholder(trans('texts.select_store'))
+                ->label(trans('texts.store_name'))
+                ->addGroupClass('store-select')
+                  ->help(trans('texts.store_help') . ' | ' . link_to('/stores/', trans('texts.customize_options'))); ?>
+
                 <!-- location-->
                 <?php echo Former::select('location_id')
                 ->placeholder(trans('texts.select_location'))
@@ -50,7 +57,7 @@
                 <!-- user permission_groups -->
                     <?php echo Former::label('permission_groups', trans('texts.group')); ?>
 
-                    <?php echo Form::select('permission_groups[]', $groups, $userGroups, ['class' => 'form-control padding-right', 'multiple' => 'multiple',]); ?>
+                    <?php echo Form::select('permission_groups[]', $groups, $userGroups, ['class' => 'form-control padding-right', 'multiple' => 'multiple']); ?>
 
                     <?php if($errors->has('permission_groups') ): ?>
                         <div class="alert alert-danger" role="alert">
@@ -83,7 +90,9 @@
     <?php echo Former::close(); ?>
 
     <script type="text/javascript">
+        var stores = <?php echo $stores; ?>;
         var locations = <?php echo $locations; ?>;
+        var storeMap = {};
         var locationMap = {};
 
         $(function () {
@@ -107,6 +116,24 @@
                 var location = locationMap[locationId];
                 setComboboxValue($('.location-select'), location.public_id, location.name);
             }<!-- /. user location  -->
+
+            <!-- default store -->
+            var storeId = <?php echo e($storePublicId ?: 0); ?>;
+            var $storeSelect = $('select#store_id');
+            <?php if(Auth::user()->can('create', ENTITY_STORE)): ?>
+            $storeSelect.append(new Option("<?php echo e(trans('texts.create_store')); ?>: $name", '-1'));
+                    <?php endif; ?>
+            for (var i = 0; i < stores.length; i++) {
+                var store = stores[i];
+                storeMap[store.public_id] = store;
+                $storeSelect.append(new Option(getClientDisplayName(store), store.public_id));
+            }
+            <?php echo $__env->make('partials/entity_combobox', ['entityType' => ENTITY_STORE], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            if (storeId) {
+                var store = storeMap[storeId];
+                setComboboxValue($('.location-select'), store.public_id, store.name);
+            }<!-- /. default store  -->
+
         });
 
         function submitAction(action) {

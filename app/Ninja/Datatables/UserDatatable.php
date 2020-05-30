@@ -24,7 +24,7 @@ class UserDatatable extends EntityDatatable
                 'username',
                 function ($model) {
                     if (Auth::user()->can('view', [ENTITY_USER]))
-                        return $model->public_id ? link_to("users/{$model->public_id}", $model->username)->toHtml() : '';
+                        return $model->public_id ? link_to("users/{$model->public_id}", $model->username)->toHtml() : null;
                     else
                         return $model->username;
                 },
@@ -48,15 +48,28 @@ class UserDatatable extends EntityDatatable
                 },
             ],
             [
+                'store_name',
+                function ($model) {
+                    if ($model->store_public_id) {
+                        if (Auth::user()->can('view', [ENTITY_STORE]))
+                            return link_to("stores/{$model->store_public_id}", $model->store_name)->toHtml();
+                        else
+                            return $model->store_name;
+                    } else {
+                        return null;
+                    }
+                }
+            ],
+            [
                 'location_name',
                 function ($model) {
-                    if ($model->location_id) {
+                    if ($model->location_public_id) {
                         if (Auth::user()->can('view', [ENTITY_LOCATION]))
-                            return link_to("locations/{$model->location_id}", $model->location_name)->toHtml();
+                            return link_to("locations/{$model->location_public_id}", $model->location_name)->toHtml();
                         else
                             return $model->location_name;
                     } else {
-                        return '';
+                        return null;
                     }
                 }
             ],
