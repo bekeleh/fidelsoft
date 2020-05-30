@@ -425,6 +425,7 @@ $LANG = array(
     'delivered_qty' => 'Delivered Qty',
     'dispatch_date' => 'Dispatch Date',
     'required_date' => 'Required Date',
+    'store_request' => 'Location from which to request item',
 
     /*
 |--------------------------------------------------------------------------
@@ -612,7 +613,7 @@ $LANG = array(
     'reorder_level' => 'Reorder Level',
     'EOQ' => 'EOQ',
     'allQty' => 'Transfer All Qty',
-    'item_name' => 'Item Name',
+    'item_name' => 'Item Code',
     'item_list' => 'Item List',
     'store_name' => 'Store Name',
     'category_name' => 'Item Category',
@@ -645,7 +646,7 @@ $LANG = array(
 |--------------------------------------------------------------------------
 */
     'product' => 'Product',
-    'product_name' => 'Product',
+    'product_name' => 'Item Code',
     'products' => 'Inventory',
     'new_product' => 'New Product',
     'list_products' => 'List Products',
@@ -2487,7 +2488,9 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'payment_error_code' => 'There was an error processing your payment [:code]. Please try again later.',
     'standard_fees_apply' => 'Fee: 2.9%/1.2% [Credit Card/Bank Transfer] + $0.30 per successful charge.',
     'limit_import_rows' => 'Data needs to be imported in batches of :count rows or less',
-    'error_title' => 'Something went wrong',
+    'error_status' => 'Approve status cannot be empty, please select again.',
+    'error_title' => 'Something went wrong.',
+    'error_delivered_qty' => 'Delivered qty cannot be zero (0).',
     'error_contact_text' => 'If you\'d like help please email us at :mailaddress',
     'no_undo' => 'this can\'t be undone.',
     'no_contact_selected' => 'Please select a contact',

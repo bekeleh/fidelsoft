@@ -55,7 +55,7 @@
                   ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT)); ?>
 
                 <!-- dispatch date -->
-                <?php echo Former::text('dispatch_date')
+                <?php echo Former::text('dispatch_date')->required()
                     ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
                     ->appendIcon('calendar')
                     ->addGroupClass('dispatch_date'); ?>
@@ -172,6 +172,7 @@
 
         function submitAction() {
             var $statusSelect = $('select#status_id').val();
+            console.log($statusSelect);
             var $qty = $('#qty').val();
             var $delivered_qty = $('#delivered_qty').val();
             var $dispatch_date = $('#dispatch_date').val();
@@ -179,10 +180,12 @@
             var $account_id =<?php echo e($itemRequest->account_id); ?>;
             var $public_id =<?php echo e($itemRequest->public_id); ?>;
 
-            if ($delivered_qty == null || $delivered_qty > $qty) {
+            if ($delivered_qty > $qty) {
                 swal("<?php echo e(trans('texts.item_delivered_qty_error')); ?>");
-            } else if ($statusSelect == null) {
-                swal("<?php echo e(trans('texts.error_title')); ?>");
+            } else if ($delivered_qty == 0) {
+                swal("<?php echo e(trans('texts.error_delivered_qty')); ?>");
+            } else if ($statusSelect == '') {
+                swal("<?php echo e(trans('texts.error_status')); ?>");
             } else {
                 $.ajax({
                     url: '<?php echo e(URL::to('/item_requests/approve')); ?>',

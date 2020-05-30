@@ -23,17 +23,17 @@ class QueryLogging
 
         $response = $next($request);
 
-        if (Utils::isNinjaDev()) {
-            // hide requests made by debugbar
-            if (strstr($request->url(), '_debugbar') === false) {
-                $queries = DB::getQueryLog();
-                $count = count($queries);
-                $timeEnd = microtime(true);
-                $time = $timeEnd - $timeStart;
-                Log::info($request->method() . ' - ' . $request->url() . ": $count queries - " . $time);
-                Log::info($queries);
-            }
-        }
+//        if (Utils::isNinjaDev()) {
+//            // hide requests made by debugbar
+//            if (strstr($request->url(), '_debugbar') === false) {
+//                $queries = DB::getQueryLog();
+//                $count = count($queries);
+//                $timeEnd = microtime(true);
+//                $time = $timeEnd - $timeStart;
+//                Log::info($request->method() . ' - ' . $request->url() . ": $count queries - " . $time);
+//                Log::info($queries);
+//            }
+//        }
 
         return $response;
     }

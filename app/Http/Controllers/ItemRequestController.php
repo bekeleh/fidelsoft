@@ -17,6 +17,7 @@ use App\Services\ItemRequestService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 
 /**
@@ -249,14 +250,14 @@ class ItemRequestController extends BaseController
         $itemRequest = ItemRequest::where('account_id', '=', $AccountId)->where('public_id', '=', $PublicId)->firstOrFail();
 
         if ($itemRequest) {
-            $itemRequest->status_id = Status::getPrivateId($statusId);
+            $itemRequest->status_id = !empty($statusId) ? Status::getPrivateId($statusId) : Utils::getStatusId('pending');
             $itemRequest->delivered_qty = $deliveredQty;
-            $itemRequest->dispatch_date = !empty($dispatchDate) ? Utils::toSqlDate($dispatchDate) : Carbon::now()->format('Y-m-d');
+            $itemRequest->dispatch_date = !empty($dispatchDate) ? Utils::toSqlDate($dispatchDate) : Carbon::now();
 
             $itemRequest->save();
 
-//            return response()->json(['success' => true, 'data' => RESULT_SUCCESS], 200);
-            return Redirect::to("item_requests")->with('success', trans('texts.approve_success'));
+            return response()->json(['success' => true, 'data' => RESULT_SUCCESS], 200);
+
         }
 
         return RESULT_FAILURE;

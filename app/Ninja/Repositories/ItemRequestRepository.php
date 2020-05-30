@@ -110,6 +110,7 @@ class ItemRequestRepository extends BaseRepository
         }
 
         $itemRequest->fill($data);
+        $itemRequest->required_date = isset($data['required_date']) ? Utils::toSqlDate($data['required_date']) : Carbon::now();
         $itemRequest->save();
 
         return $itemRequest;

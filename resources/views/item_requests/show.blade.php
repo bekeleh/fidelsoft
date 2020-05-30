@@ -50,7 +50,7 @@
                   ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
                   !!}
                 <!-- dispatch date -->
-                {!! Former::text('dispatch_date')
+                {!! Former::text('dispatch_date')->required()
                     ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
                     ->appendIcon('calendar')
                     ->addGroupClass('dispatch_date')
@@ -163,23 +163,27 @@
 
         function submitAction() {
             var $statusSelect = $('select#status_id').val();
+            console.log($statusSelect);
             var $qty = $('#qty').val();
             var $delivered_qty = $('#delivered_qty').val();
             var $dispatch_date = $('#dispatch_date').val();
 
+            var $id ={{$itemRequest->id}};
             var $account_id ={{$itemRequest->account_id}};
             var $public_id ={{$itemRequest->public_id}};
 
-            if ($delivered_qty == null || $delivered_qty > $qty) {
+            if ($delivered_qty > $qty) {
                 swal("{{trans('texts.item_delivered_qty_error')}}");
-            } else if ($statusSelect == null) {
-                swal("{{trans('texts.error_title')}}");
+            } else if ($delivered_qty == 0) {
+                swal("{{trans('texts.error_delivered_qty')}}");
+            } else if ($statusSelect == '') {
+                swal("{{trans('texts.error_status')}}");
             } else {
                 $.ajax({
                     url: '{{ URL::to('/item_requests/approve') }}',
                     type: 'POST',
                     dataType: 'json',
-                    data: 'account_id=' + $account_id + '&public_id=' + $public_id + '&status_id=' + $statusSelect + '&delivered_qty=' + $delivered_qty + '&dispatch_date=' + $dispatch_date,
+                    data: 'id=' + $id + '&account_id=' + $account_id + '&public_id=' + $public_id + '&status_id=' + $statusSelect + '&delivered_qty=' + $delivered_qty + '&dispatch_date=' + $dispatch_date,
                     success: function (result) {
                         if (result.success) {
                             swal("{{trans('texts.approved_success')}}");

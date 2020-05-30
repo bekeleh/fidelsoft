@@ -21,15 +21,15 @@
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
-                    <!-- product -->
-                {!! Former::select('product_id')->addOption('', '')
-                ->label(trans('texts.product_name'))->addGroupClass('product-select')
-                ->help(trans('texts.product_help') . ' | ' . link_to('/products/', trans('texts.customize_options')))
-                !!}
-                <!-- department -->
+                    <!-- department -->
                 {!! Former::select('department_id')->addOption('', '')
                 ->label(trans('texts.department_name'))->addGroupClass('department-select')
                 ->help(trans('texts.department_help') . ' | ' . link_to('/departments/', trans('texts.customize_options')))
+                !!}
+                <!-- product -->
+                {!! Former::select('product_id')->addOption('', '')
+                ->label(trans('texts.product_name'))->addGroupClass('product-select')
+                ->help(trans('texts.product_help') . ' | ' . link_to('/products/', trans('texts.customize_options')))
                 !!}
                 <!-- store -->
                 {!! Former::select('store_id')->addOption('', '')
