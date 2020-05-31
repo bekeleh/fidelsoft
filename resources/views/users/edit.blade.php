@@ -114,7 +114,7 @@
             @include('partials/entity_combobox', ['entityType' => ENTITY_STORE])
             if (storeId) {
                 var store = storeMap[storeId];
-                setComboboxValue($('.location-select'), store.public_id, store.name);
+                setComboboxValue($('.store-select'), store.public_id, store.name);
             }<!-- /. default store  -->
 
         });

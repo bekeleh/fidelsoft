@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Location;
+use App\Models\Store;
 use App\Models\User;
 
 class CreateUserRequest extends UserRequest

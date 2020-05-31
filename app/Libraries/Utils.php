@@ -257,7 +257,7 @@ class Utils
 
     public static function isSuperUser()
     {
-        return Auth::check() && Auth::user()->account->is_ninja;
+        return Auth::check() && Auth::user()->isSuperUser();
     }
 
     public static function isAdmin()

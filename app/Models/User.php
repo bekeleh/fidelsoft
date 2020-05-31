@@ -302,7 +302,6 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
 
     public function hasPermission($permission, $requireAll = false)
     {
-//        dd(test);
         if ($this->is_admin) {
             return true;
         } elseif (is_string($permission)) {
@@ -354,7 +353,24 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
 
     public function isSuperUser()
     {
-        return $this->account()->is_ninja;
+        if ($user_permissions = json_decode($this->permissions, true)) {
+            if ((array_key_exists('superuser', $user_permissions)) && ($user_permissions['superuser'] == '1')) {
+                return true;
+            }
+        }
+
+        $user_groups = $this->groups;
+        if ((count($user_groups) > 0)) {
+            foreach ($this->groups as $user_group) {
+                $group_permissions = json_decode($user_group->permissions, true);
+                $group_array = (array)$group_permissions;
+                if ((array_key_exists('superuser', $group_array)) && ($group_permissions['superuser'] == '1')) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public function groups()

@@ -19,7 +19,7 @@ class CreatePermissionGroupRequest extends PermissionGroupRequest
         $this->validationData();
 
         $rules = [];
-        $rules['name'] = 'required|max:90|unique:permission_groups,name,' . $this->id . ',id,account_id,' . $this->account_id;
+        $rules['name'] = 'required|min:2,max:50|unique:permission_groups,name,' . $this->id . ',id,account_id,' . $this->account_id;
         $rules['notes'] = 'nullable';
         $rules['is_deleted'] = 'boolean';
 

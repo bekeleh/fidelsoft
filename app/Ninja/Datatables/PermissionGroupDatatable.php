@@ -17,8 +17,7 @@ class PermissionGroupDatatable extends EntityDatatable
             [
                 'permission_group_name',
                 function ($model) {
-                    $str = link_to("permission_groups/{$model->public_id}", $model->permission_group_name ?: '')->toHtml();
-                    return $str;
+                    return link_to("permission_groups/{$model->public_id}", $model->permission_group_name ?: '')->toHtml();
                 },
             ],
             [
@@ -87,7 +86,7 @@ class PermissionGroupDatatable extends EntityDatatable
             },
             ],
             [
-                trans('texts.edit_permission'),
+                trans('texts.edit_permission_group'),
                 function ($model) {
                     return URL::to("permission_groups/{$model->public_id}");
                 },

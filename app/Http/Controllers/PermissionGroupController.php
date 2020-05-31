@@ -79,7 +79,7 @@ class PermissionGroupController extends BaseController
         return View::make('permission_groups.show', $data);
     }
 
-    public function create(CreatePermissionGroupRequest $request)
+    public function create(PermissionGroupRequest $request)
     {
         $data = [
             'userGroup' => null,
@@ -91,6 +91,15 @@ class PermissionGroupController extends BaseController
         $data = array_merge($data, self::getViewModel());
 
         return View::make('permission_groups.edit', $data);
+    }
+
+    public function store(CreatePermissionGroupRequest $request)
+    {
+        $data = $request->input();
+
+        $userGroup = $this->permissionGroupService->save($data);
+
+        return redirect()->to("permission_groups/{$userGroup->public_id}/edit")->with('message', trans('texts.created_permission_group'));
     }
 
     public function edit(PermissionGroupRequest $request, $publicId = false, $clone = false)
@@ -136,15 +145,6 @@ class PermissionGroupController extends BaseController
         } else {
             return redirect()->to("permission_groups/{$userGroup->public_id}/edit")->with('message', trans('texts.updated_permission_group'));
         }
-    }
-
-    public function store(PermissionGroupRequest $request)
-    {
-        $data = $request->input();
-
-        $userGroup = $this->permissionGroupService->save($data);
-
-        return redirect()->to("permission_groups/{$userGroup->public_id}/edit")->with('message', trans('texts.created_permission_group'));
     }
 
     public function bulk()

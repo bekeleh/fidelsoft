@@ -131,7 +131,7 @@
             <?php echo $__env->make('partials/entity_combobox', ['entityType' => ENTITY_STORE], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             if (storeId) {
                 var store = storeMap[storeId];
-                setComboboxValue($('.location-select'), store.public_id, store.name);
+                setComboboxValue($('.store-select'), store.public_id, store.name);
             }<!-- /. default store  -->
 
         });
