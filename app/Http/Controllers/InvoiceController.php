@@ -92,6 +92,66 @@ class InvoiceController extends BaseController
         return $this->recurringInvoiceService->getDatatable($accountId, $clientPublicId, ENTITY_RECURRING_INVOICE, $search);
     }
 
+    public function create(InvoiceRequest $request, $clientPublicId = 0, $isRecurring = false)
+    {
+        $account = Auth::user()->account;
+
+        $entityType = $isRecurring ? ENTITY_RECURRING_INVOICE : ENTITY_INVOICE;
+        $clientId = null;
+
+        if ($request->client_id) {
+            $clientId = Client::getPrivateId($request->client_id);
+        }
+
+        $invoice = $account->createInvoice($entityType, $clientId);
+        $invoice->public_id = 0;
+        $invoice->loadFromRequest();
+
+        $clients = Client::scope()->with('contacts', 'country')->orderBy('name');
+        if (!Utils::hasPermission('view_client')) {
+            $clients = $clients->where('clients.user_id', '=', Auth::user()->id);
+        }
+
+        $data = [
+            'clients' => $clients->get(),
+            'entityType' => $invoice->getEntityType(),
+            'invoice' => $invoice,
+            'method' => 'POST',
+            'url' => 'invoices',
+            'title' => trans('texts.new_invoice'),
+        ];
+        $data = array_merge($data, self::getViewModel($invoice));
+
+        return View::make('invoices.edit', $data);
+    }
+
+    public function store(CreateInvoiceRequest $request)
+    {
+        $data = $request->input();
+        $data['documents'] = $request->file('documents');
+
+        $action = Input::get('action');
+        $entityType = Input::get('entityType');
+
+        $invoice = $this->invoiceService->save($data);
+        $entityType = $invoice->getEntityType();
+        $message = trans("texts.created_{$entityType}");
+
+        $input = $request->input();
+        $clientPublicId = isset($input['client']['public_id']) ? $input['client']['public_id'] : false;
+        if ($clientPublicId == '-1') {
+            $message = $message . ' ' . trans('texts.and_created_client');
+        }
+
+        Session::flash('message', $message);
+
+        if ($action == 'email') {
+            $this->emailInvoice($invoice);
+        }
+
+        return url($invoice->getRoute());
+    }
+
     public function edit(InvoiceRequest $request, $publicId, $clone = false)
     {
         $account = Auth::user()->account;
@@ -208,37 +268,31 @@ class InvoiceController extends BaseController
         return View::make('invoices.edit', $data);
     }
 
-    public function create(InvoiceRequest $request, $clientPublicId = 0, $isRecurring = false)
+    public function update(UpdateInvoiceRequest $request)
     {
-        $account = Auth::user()->account;
+        $data = $request->input();
+        $data['documents'] = $request->file('documents');
 
-        $entityType = $isRecurring ? ENTITY_RECURRING_INVOICE : ENTITY_INVOICE;
-        $clientId = null;
+        $action = Input::get('action');
+        $entityType = Input::get('entityType');
 
-        if ($request->client_id) {
-            $clientId = Client::getPrivateId($request->client_id);
+        $invoice = $this->invoiceService->save($data, $request->entity());
+
+        $entityType = $invoice->getEntityType();
+        $message = trans("texts.updated_{$entityType}");
+        Session::flash('message', $message);
+
+        if ($action == 'clone_invoice') {
+            return url(sprintf('invoices/%s/clone', $invoice->public_id));
+        } else if ($action == 'clone_quote') {
+            return url(sprintf('quotes/%s/clone', $invoice->public_id));
+        } elseif ($action == 'convert') {
+            return $this->convertQuote($request, $invoice->public_id);
+        } elseif ($action == 'email') {
+            $this->emailInvoice($invoice);
         }
 
-        $invoice = $account->createInvoice($entityType, $clientId);
-        $invoice->public_id = 0;
-        $invoice->loadFromRequest();
-
-        $clients = Client::scope()->with('contacts', 'country')->orderBy('name');
-        if (!Utils::hasPermission('view_client')) {
-            $clients = $clients->where('clients.user_id', '=', Auth::user()->id);
-        }
-
-        $data = [
-            'clients' => $clients->get(),
-            'entityType' => $invoice->getEntityType(),
-            'invoice' => $invoice,
-            'method' => 'POST',
-            'url' => 'invoices',
-            'title' => trans('texts.new_invoice'),
-        ];
-        $data = array_merge($data, self::getViewModel($invoice));
-
-        return View::make('invoices.edit', $data);
+        return url($invoice->getRoute());
     }
 
     public function createRecurring(InvoiceRequest $request, $clientPublicId = 0)
@@ -341,60 +395,6 @@ class InvoiceController extends BaseController
             'expenseCurrencyId' => Session::get('expenseCurrencyId') ?: null,
             'expenses' => Expense::scope(Session::get('expenses'))->with('documents', 'expense_category')->get(),
         ];
-    }
-
-    public function store(CreateInvoiceRequest $request)
-    {
-        $data = $request->input();
-        $data['documents'] = $request->file('documents');
-
-        $action = Input::get('action');
-        $entityType = Input::get('entityType');
-
-        $invoice = $this->invoiceService->save($data);
-        $entityType = $invoice->getEntityType();
-        $message = trans("texts.created_{$entityType}");
-
-        $input = $request->input();
-        $clientPublicId = isset($input['client']['public_id']) ? $input['client']['public_id'] : false;
-        if ($clientPublicId == '-1') {
-            $message = $message . ' ' . trans('texts.and_created_client');
-        }
-
-        Session::flash('message', $message);
-
-        if ($action == 'email') {
-            $this->emailInvoice($invoice);
-        }
-
-        return url($invoice->getRoute());
-    }
-
-    public function update(UpdateInvoiceRequest $request)
-    {
-        $data = $request->input();
-        $data['documents'] = $request->file('documents');
-
-        $action = Input::get('action');
-        $entityType = Input::get('entityType');
-
-        $invoice = $this->invoiceService->save($data, $request->entity());
-
-        $entityType = $invoice->getEntityType();
-        $message = trans("texts.updated_{$entityType}");
-        Session::flash('message', $message);
-
-        if ($action == 'clone_invoice') {
-            return url(sprintf('invoices/%s/clone', $invoice->public_id));
-        } else if ($action == 'clone_quote') {
-            return url(sprintf('quotes/%s/clone', $invoice->public_id));
-        } elseif ($action == 'convert') {
-            return $this->convertQuote($request, $invoice->public_id);
-        } elseif ($action == 'email') {
-            $this->emailInvoice($invoice);
-        }
-
-        return url($invoice->getRoute());
     }
 
     private function emailInvoice($invoice)

@@ -2,11 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/AUu7Rjj7szEnDEpSRbstjpDwVNEIw3Sj8Qg0lxZB" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/sLIk2RdE3Whympl7XI9ZZdd2dw9vMn5kZawoyE9D" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/8569a8498aa3b2ca2c741ae9de667910da92d086.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/header.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/0zVzg3AU1AHqOyTKoXHd7sKFd9qppGlc7nWXdy9M" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/0zVzg3AU1AHqOyTKoXHd7sKFd9qppGlc7nWXdy9M" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/qabQCPYLx6UbK1JOw58bb3qwxCe8qYIDAyMhy4K5" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/qabQCPYLx6UbK1JOw58bb3qwxCe8qYIDAyMhy4K5" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/3d4796057765b5a7517531f2f8b487ab7f709a24.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/3d4796057765b5a7517531f2f8b487ab7f709a24.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/InvoiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/InvoiceController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Libraries/HistoryUtils.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Libraries/HistoryUtils.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/AnalyticsListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/AnalyticsListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/CreditListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/CreditListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/DNSListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/DNSListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/ExpenseListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/ExpenseListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/InvoiceListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/InvoiceListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Invoice.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Invoice.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/0zVzg3AU1AHqOyTKoXHd7sKFd9qppGlc7nWXdy9M" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/qabQCPYLx6UbK1JOw58bb3qwxCe8qYIDAyMhy4K5" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -432,14 +441,7 @@
       <workItem from="1590838326492" duration="29459000" />
       <workItem from="1590914712821" duration="4418000" />
       <workItem from="1590919382560" duration="1608000" />
-      <workItem from="1590925480962" duration="8442000" />
-    </task>
-    <task id="LOCAL-00264" summary="2020-05-13 9:26">
-      <created>1589379593764</created>
-      <option name="number" value="00264" />
-      <option name="presentableId" value="LOCAL-00264" />
-      <option name="project" value="LOCAL" />
-      <updated>1589379593765</updated>
+      <workItem from="1590925480962" duration="12148000" />
     </task>
     <task id="LOCAL-00265" summary="2020-05-14 9:26">
       <created>1589451171209</created>
@@ -777,7 +779,14 @@
       <option name="project" value="LOCAL" />
       <updated>1590935123055</updated>
     </task>
-    <option name="localTasksCounter" value="313" />
+    <task id="LOCAL-00313" summary="2020-05-31 9:27">
+      <created>1590936329969</created>
+      <option name="number" value="00313" />
+      <option name="presentableId" value="LOCAL-00313" />
+      <option name="project" value="LOCAL" />
+      <updated>1590936329969</updated>
+    </task>
+    <option name="localTasksCounter" value="314" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -859,10 +868,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1590585842435" />
-    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1590935122212">
+    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1590936329094">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1590935122212" />
+    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1590936329094" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="418" y="255" key="ComposerInitDialogKey" timestamp="1589789975070">
@@ -930,10 +939,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="303" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1280.680@0.0.1280.680" timestamp="1587324145930" />
-    <state x="305" y="61" width="906" height="606" key="find.popup" timestamp="1590933916250">
+    <state x="305" y="61" width="906" height="606" key="find.popup" timestamp="1590939069494">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="305" y="61" width="906" height="606" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1590933916250" />
+    <state x="305" y="61" width="906" height="606" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1590939069494" />
     <state x="316" y="37" width="983" height="691" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1586115855044" />
     <state x="215" y="69" width="849" height="606" key="find.popup/0.0.1440.860@0.0.1440.860" timestamp="1586178664001" />
     <state x="462" y="222" key="git4idea.merge.GitPullDialog" timestamp="1584633875966">

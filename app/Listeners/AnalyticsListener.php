@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\PaymentWasCreated;
-use Utils;
+use App\Libraries\Utils;
 
 /**
  * Class AnalyticsListener.
@@ -31,7 +31,7 @@ class AnalyticsListener
             }
         }
 
-        if (! $analyticsId) {
+        if (!$analyticsId) {
             return;
         }
 

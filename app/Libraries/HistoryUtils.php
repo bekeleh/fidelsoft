@@ -132,6 +132,7 @@ class HistoryUtils
         $data = [];
 
         // Add to the list and make sure to only show each item once
+        $counts = [];
         for ($i = 0; $i < count($accountHistory); $i++) {
             $item = $accountHistory[$i];
 
@@ -193,7 +194,6 @@ class HistoryUtils
         $str = '';
 
         $history = Session::get(RECENTLY_VIEWED, []);
-
         $history = isset($history[$accountId]) ? $history[$accountId] : [];
 
         foreach ($history as $item) {

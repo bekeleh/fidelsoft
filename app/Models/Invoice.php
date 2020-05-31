@@ -13,6 +13,7 @@ use App\Libraries\Utils;
 use App\Models\Traits\ChargesFees;
 use App\Models\Traits\HasRecurrence;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
@@ -1289,7 +1290,7 @@ class Invoice extends EntityModel implements BalanceAffecting
             return $statuses;
         }
 
-        foreach (\Cache::get('invoiceStatus') as $status) {
+        foreach (Cache::get('invoiceStatus') as $status) {
             if ($entityType == ENTITY_QUOTE) {
                 if (in_array($status->id, [INVOICE_STATUS_PAID, INVOICE_STATUS_PARTIAL])) {
                     continue;

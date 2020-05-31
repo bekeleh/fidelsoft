@@ -49,6 +49,7 @@ class InvoiceListener
     public function updatedInvoice(InvoiceWasUpdated $event)
     {
         $invoice = $event->invoice;
+
         $invoice->updatePaidStatus(false, false);
     }
 
