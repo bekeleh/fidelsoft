@@ -10,6 +10,9 @@
     @if ($taxRate)
         {{ Former::populate($taxRate) }}
         {{ Former::populateField('is_inclusive', intval($taxRate->is_inclusive)) }}
+        <div style="display:none">
+            {!! Former::text('public_id') !!}
+        </div>
     @endif
     <span style="display:none">
         {!! Former::text('public_id') !!}

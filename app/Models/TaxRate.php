@@ -23,6 +23,7 @@ class TaxRate extends EntityModel
         'rate',
         'notes',
         'is_inclusive',
+        'is_deleted',
         'created_by',
         'updated_by',
         'deleted_by',

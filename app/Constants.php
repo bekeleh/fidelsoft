@@ -11,6 +11,7 @@ if (!defined('APP_NAME')) {
     define('RECENTLY_VIEWED', 'recent_history');
     define('ENTITY_STATUS', 'status');
     define('ENTITY_CLIENT', 'client');
+    define('ENTITY_CLIENT_CONTACT', 'client_contact');
     define('ENTITY_CONTACT', 'contact');
     define('ENTITY_INVOICE', 'invoice');
     define('ENTITY_DOCUMENT', 'document');
@@ -46,6 +47,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_HOLD_REASON', 'hold_reason');
     define('ENTITY_ACTIVITY', 'activity');
     define('ENTITY_VENDOR', 'vendor');
+    define('ENTITY_VENDOR_CONTACT', 'vendor_contact');
     define('ENTITY_VENDOR_ACTIVITY', 'vendor_activity');
     define('ENTITY_EXPENSE', 'expense');
     define('ENTITY_PAYMENT_TERM', 'payment_term');
@@ -78,6 +80,7 @@ if (!defined('APP_NAME')) {
     $permissionEntities = [
         ENTITY_ACTIVITY,
         ENTITY_CLIENT,
+        ENTITY_CLIENT_CONTACT,
         ENTITY_CONTACT,
         ENTITY_CREDIT,
         ENTITY_DASHBOARD,
@@ -120,6 +123,7 @@ if (!defined('APP_NAME')) {
         ENTITY_UNIT,
         ENTITY_USER,
         ENTITY_VENDOR,
+        ENTITY_VENDOR_CONTACT,
         ENTITY_SCHEDULE,
         ENTITY_SCHEDULE_CATEGORY,
         ENTITY_SCHEDULE_OCCURRENCE,
@@ -143,7 +147,10 @@ if (!defined('APP_NAME')) {
 
     define('PERSON_CONTACT', 'contact');
     define('PERSON_USER', 'user');
-    define('PERSON_VENDOR_CONTACT', 'vendorcontact');
+    define('PERSON_VENDOR_CONTACT', 'vendor_contact');
+    define('ACCOUNT_CLIENT', 'clients');
+    define('ACCOUNT_CLIENT_CONTACT', 'client_contacts');
+    define('ACCOUNT_VENDOR_CONTACT', 'vendor_contacts');
     define('BASIC_SETTINGS', 'basic_settings');
     define('ADVANCED_SETTINGS', 'advanced_settings');
     define('ACCOUNT_STATUS', 'statuses');

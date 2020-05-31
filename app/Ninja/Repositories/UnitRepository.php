@@ -2,11 +2,9 @@
 
 namespace App\Ninja\Repositories;
 
-
 use App\Models\Unit;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class UnitRepository extends BaseRepository
 {
@@ -26,7 +24,6 @@ class UnitRepository extends BaseRepository
     {
         return Unit::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
-
 
     public function find($accountId = false, $filter = null)
     {
@@ -74,10 +71,13 @@ class UnitRepository extends BaseRepository
             $unit = Unit::createNew();
             $unit->created_by = Auth::user()->username;
         }
+
         $unit->fill($data);
-        $unit->name = isset($data['name']) ? ucwords(Str::lower(trim($data['name']))) : '';
+        $unit->name = isset($data['name']) ? trim($data['name']) : '';
         $unit->notes = isset($data['notes']) ? trim($data['notes']) : '';
+
         $unit->save();
+
         return $unit;
     }
 

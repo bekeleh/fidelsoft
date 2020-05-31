@@ -62,13 +62,13 @@ class TaxRateRepository extends BaseRepository
         return $query;
     }
 
-    public
-    function save($data, $taxRate = null)
+    public function save($data, $taxRate = null)
     {
+        $publicId = isset($data['public_id']) ? $data['public_id'] : false;
         if ($taxRate) {
             $taxRate->updated_by = Auth::user()->username;
             // do nothing
-        } elseif (isset($data['public_id'])) {
+        } elseif ($publicId) {
             $taxRate = TaxRate::scope($data['public_id'])->firstOrFail();
             \Log::warning('Entity not set in tax rate repo save');
         } else {

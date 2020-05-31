@@ -35,9 +35,9 @@ class VendorRepository extends BaseRepository
         $query = DB::table('vendors')
             ->join('accounts', 'accounts.id', '=', 'vendors.account_id')
             ->join('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
-            ->where('vendors.account_id', '=', Auth::user()->account_id)
+            ->where('vendors.account_id', '=', $accountId)
             ->where('vendor_contacts.is_primary', '=', true)
-            ->where('vendor_contacts.deleted_at', '=', null)
+//            ->where('vendor_contacts.deleted_at', '=', null)
             ->select(
                 DB::raw('COALESCE(vendors.currency_id, accounts.currency_id) currency_id'),
                 DB::raw('COALESCE(vendors.country_id, accounts.country_id) country_id'),

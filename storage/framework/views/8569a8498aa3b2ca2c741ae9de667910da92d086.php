@@ -11,6 +11,10 @@
 
         <?php echo e(Former::populateField('is_inclusive', intval($taxRate->is_inclusive))); ?>
 
+        <div style="display:none">
+            <?php echo Former::text('public_id'); ?>
+
+        </div>
     <?php endif; ?>
     <span style="display:none">
         <?php echo Former::text('public_id'); ?>

@@ -10,10 +10,10 @@ use Laracasts\Presenter\PresentableTrait;
  */
 class Store extends EntityModel
 {
-    protected $presenter = 'App\Ninja\Presenters\StorePresenter';
     use PresentableTrait;
     use SoftDeletes;
 
+    protected $presenter = 'App\Ninja\Presenters\StorePresenter';
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
 
     protected $fillable = [
