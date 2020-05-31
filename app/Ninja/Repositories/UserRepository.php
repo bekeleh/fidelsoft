@@ -41,6 +41,8 @@ class UserRepository extends BaseRepository
     {
         $query = DB::table('users')
             ->join('accounts', 'accounts.id', '=', 'users.account_id')
+            ->leftJoin('users_groups', 'users_groups.user_id', '=', 'users.id')
+            ->join('permission_groups', 'permission_groups.id', '=', 'users_groups.group_id')
             ->leftJoin('locations', 'locations.id', '=', 'users.location_id')
             ->leftJoin('stores', 'stores.id', '=', 'users.store_id')
             ->where('users.account_id', '=', $accountId)
@@ -67,6 +69,7 @@ class UserRepository extends BaseRepository
                 'users.updated_by',
                 'users.deleted_by',
                 'users.last_login',
+                'permission_groups.name as permission_group_name',
                 'stores.public_id as store_public_id',
                 'stores.name as store_name',
                 'locations.public_id as location_public_id',
@@ -127,7 +130,6 @@ class UserRepository extends BaseRepository
             $user->confirmation_code = strtolower(str_random(RANDOM_KEY_LENGTH));
             $user->registered = true;
             $user->created_by = auth::user()->username;
-
         }
 
         $user->fill($data);
@@ -146,6 +148,7 @@ class UserRepository extends BaseRepository
         } else {
             $user->groups()->sync(array());
         }
+
         if ($publicId) {
             event(new UserWasUpdated($user, $data));
         } else {

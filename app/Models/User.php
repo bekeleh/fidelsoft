@@ -302,21 +302,51 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
 
     public function hasPermission($permission, $requireAll = false)
     {
+//        dd(test);
         if ($this->is_admin) {
             return true;
         } elseif (is_string($permission)) {
-
+            //If the user is explicitly granted, return true
             if (is_array(json_decode($this->permissions, 1)) && in_array($permission, json_decode($this->permissions, 1))) {
                 return true;
+            } else {
+                $this->hasPermissionThroughGroup();
             }
 
         } elseif (is_array($permission)) {
 
             if ($requireAll)
                 return count(array_intersect($permission, json_decode($this->permissions, 1))) == count($permission);
-            else
-                return count(array_intersect($permission, json_decode($this->permissions, 1))) > 0;
+            else {
+                $count = count(array_intersect($permission, json_decode($this->permissions, 1)));
+                if ($count > 0) {
+                    return true;
+                } else {
+                    $this->hasPermissionThroughGroup();
+                }
+            }
+        }
 
+        return false;
+    }
+
+    public function hasPermissionThroughGroup($permission = null)
+    {
+        $user_groups = $this->groups;
+
+        if ((count($user_groups) == 0)) {
+            return false;
+        }
+
+        foreach ($this->groups as $user_group) {
+            $group_permissions = json_decode($user_group->permissions, true);
+            if (is_string($permission)) {
+                if (is_array($group_permissions) && in_array($permission, $group_permissions)) {
+                    return true;
+                }
+            } elseif (is_array($permission)) {
+                return count(array_intersect($permission, $group_permissions)) > 0;
+            }
         }
 
         return false;
@@ -324,7 +354,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
 
     public function isSuperUser()
     {
-        return Utils::isAdmin();
+        return $this->account()->is_ninja;
     }
 
     public function groups()

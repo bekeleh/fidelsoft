@@ -49,6 +49,7 @@ class PermissionGroupRepository extends BaseRepository
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('permission_groups.name', 'like', '%' . $filter . '%')
+                    ->orWhere('permission_groups.created_by', 'like', '%' . $filter . '%')
                     ->orWhere('permission_groups.notes', 'like', '%' . $filter . '%');
             });
         }
@@ -72,9 +73,11 @@ class PermissionGroupRepository extends BaseRepository
             $permissionGroup = PermissionGroup::createNew();
             $permissionGroup->created_by = Auth::user()->username;
         }
+
         $permissionGroup->fill($data);
-        $permissionGroup->name = isset($data['name']) ? (trim($data['name'])) : '';
+        $permissionGroup->name = isset($data['name']) ? trim($data['name']) : '';
         $permissionGroup->notes = isset($data['notes']) ? trim($data['notes']) : '';
+
         $permissionGroup->save();
 
         return $permissionGroup;

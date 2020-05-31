@@ -49,19 +49,21 @@ class TaxRateRepository extends BaseRepository
             );
 
         if ($filter) {
-            $query->where('tax_rates.name', 'like', '%' . $filter . '%')
-                ->orWhere('tax_rates.rate', 'like', '%' . $filter . '%')
-                ->orWhere('tax_rates.is_inclusive', 'like', '%' . $filter . '%')
-                ->orWhere('tax_rates.created_by', 'like', '%' . $filter . '%');
+            $query->where(function ($query) use ($filter) {
+                $query->where('tax_rates.name', 'like', '%' . $filter . '%')
+                    ->orWhere('tax_rates.rate', 'like', '%' . $filter . '%')
+                    ->orWhere('tax_rates.is_inclusive', 'like', '%' . $filter . '%')
+                    ->orWhere('tax_rates.created_by', 'like', '%' . $filter . '%');
+            });
         }
 
         $this->applyFilters($query, ENTITY_TAX_RATE);
 
-
         return $query;
     }
 
-    public function save($data, $taxRate = null)
+    public
+    function save($data, $taxRate = null)
     {
         if ($taxRate) {
             $taxRate->updated_by = Auth::user()->username;
