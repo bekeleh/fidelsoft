@@ -242,9 +242,9 @@
                style="color:white;">
                 <div class="navbar-brand">
                     <i class="fa fa-bars hide-phone" style="width:32px;padding-top:2px;float:left"></i>
+                    <img src="<?php echo e(asset('images/round_logo.png')); ?>" width="25" height="25" style="float:left"/>
                     <?php echo e(trans('texts.team_source')); ?>
 
-                    
                 </div>
             </a>
         </div>
@@ -254,16 +254,20 @@
         </a>
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
             <div class="navbar-form navbar-right">
-                <a href="javascript:showKeyboardShortcuts()" title="<?php echo e(trans('texts.help')); ?>"
-                   style="color: white;">
-                    <i class="fa fa-question-circle"></i>
-                </a>
+                
+                
+                
+                
+                <?php echo Button::success(trans('texts.help'))->withAttributes(array('id' => 'showKeyboardShortcuts', 'onclick' => 'showKeyboardShortcuts()', 'style' => 'max-width:100px;;overflow:hidden'))->small(); ?>
+
+
                 <?php if(Auth::check()): ?>
-                    <a href="javascript:showContactUs()" title="<?php echo e(trans('texts.contact_us')); ?>"
-                       style="color: white;">
-                        <?php echo e(trans('texts.contact_us')); ?> <i class="fa fa-envelope"></i>
-                    </a>
                     
+                    
+                    
+                    
+                    <?php echo Button::success(trans('texts.contact_us'))->withAttributes(array('id' => 'showContactUs', 'onclick' => 'showContactUs()', 'style' => 'max-width:100px;;overflow:hidden'))->small(); ?>
+
                 <?php endif; ?>
                 <?php if(Auth::check() && !Auth::user()->registered): ?>
                     <?php echo Button::success(trans('texts.sign_up'))->withAttributes(array('id' => 'signUpButton', 'onclick' => 'showSignUp()', 'style' => 'max-width:100px;;overflow:hidden'))->small(); ?>
