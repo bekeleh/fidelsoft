@@ -242,7 +242,8 @@ class ClientPortalController extends BaseController
     public function dashboard($contactKey = false)
     {
         if ($contactKey) {
-            if (!$contact = Contact::where('contact_key', '=', $contactKey)->first()) {
+            $contact = Contact::where('contact_key', '=', $contactKey)->first();
+            if (!$contact) {
                 return $this->returnError();
             }
             Session::put('contact_key', $contactKey); // track current contact

@@ -149,12 +149,10 @@
     <footer id="footer" role="contentinfo">
         <div class="bottom">
             <div class="wrap">
-                @if (empty($account) || !$account->hasFeature(FEATURE_WHITE_LABEL))
-                    <div class="copy">Copyright &copy;{{ date('Y') }}
-                        <a href="{{ NINJA_WEB_URL }}" target="_blank">{{trans('texts.team_source')}}</a>. All rights
-                        reserved.
-                    </div>
-                @endif
+                <div class="copy">Copyright &copy;{{ date('Y') }}
+                    <a href="#" target="_blank"> <strong>{{trans('texts.team_source')}}</strong> </a>. All rights
+                    reserved.
+                </div>
             </div><!-- .wrap -->
         </div><!-- .bottom -->
     </footer><!-- #footer -->

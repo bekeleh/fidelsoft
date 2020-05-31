@@ -31,7 +31,9 @@
         @endif
 
         @if (Session::has('error'))
-            <div class="alert alert-danger"><li>{{ Session::get('error') }}</li></div>
+            <div class="alert alert-danger">
+                <li>{{ Session::get('error') }}</li>
+            </div>
         @endif
 
         {{ Former::populateField('remember', 'true') }}
@@ -58,7 +60,7 @@
 
 
     <script type="text/javascript">
-        $(function() {
+        $(function () {
             if ($('#email').val()) {
                 $('#password').focus();
             } else {

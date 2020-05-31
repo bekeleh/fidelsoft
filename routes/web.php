@@ -102,7 +102,8 @@ Route::get('/logout', ['as' => 'logout', 'uses' => 'Auth\LoginController@getLogo
 
 
 Route::group(['middleware' => 'guest'], function () {
-    Route::get('/', 'HomeController@home')->name('home');
+//    Route::get('/', 'HomeController@home')->name('home');
+    Route::get('/', 'DashboardController@index')->name('dashboard');
 //    Route::get('password/reset', 'UserController@showLinkRequestForm')->name('password.request');
 //    Route::post('password/email', 'UserController@sendResetLinkEmail')->name('password.email');
 //    Route::get('password/reset/{token}', 'UserController@showResetForm')->name('password.reset');
@@ -136,7 +137,7 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
     Route::get('force_reset_password/{public_key}', 'Auth\ForceResetPasswordController@showUserForPasswordReset');
     Route::post('force_reset_password/force_reset_password', 'Auth\ForceResetPasswordController@changePassword');
     Route::get('logged_in', 'HomeController@loggedIn');
-    Route::get('dashboard', 'DashboardController@index')->name('dashboard');;
+    Route::get('dashboard', 'DashboardController@index')->name('dashboard');
     Route::get('dashboard_chart_data/{group_by}/{start_date}/{end_date}/{currency_id}/{include_expenses}', 'DashboardController@chartData');
     Route::get('set_entity_filter/{entity_type}/{filter?}', 'AccountController@setEntityFilter');
     Route::get('hide_message', 'HomeController@hideMessage');

@@ -305,13 +305,13 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
         if ($this->is_admin) {
             return true;
         } elseif (is_string($permission)) {
+
             if (is_array(json_decode($this->permissions, 1)) && in_array($permission, json_decode($this->permissions, 1))) {
                 return true;
-            } else {
-                // Loop through the permission to see if any of them granted this via groups.
-                return $this->hasPermission($permission);
             }
+
         } elseif (is_array($permission)) {
+
             if ($requireAll)
                 return count(array_intersect($permission, json_decode($this->permissions, 1))) == count($permission);
             else
@@ -324,46 +324,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
 
     public function isSuperUser()
     {
-        $userPermissions = json_decode($this->permissions, true);
-        if (!$userPermissions) {
-            return false;
-        }
-
-        foreach ($this->groups as $userGroup) {
-            $group_permissions = json_decode($userGroup->permissions, true);
-            $group_array = (array)$group_permissions;
-            if ((array_key_exists('superuser', $group_array)) && ($group_permissions['superuser'] == '1')) {
-                return true;
-            }
-        }
-//        note: Fidel ERP master account
-        if ((array_key_exists('superuser', $userPermissions)) && ($userPermissions['superuser'] == '1')) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public function isAdminUser()
-    {
-        $userPermissions = json_decode($this->permissions, true);
-        if (!$userPermissions) {
-            return false;
-        }
-
-        foreach ($this->groups as $userGroup) {
-            $group_permissions = json_decode($userGroup->permissions, true);
-            $group_array = (array)$group_permissions;
-            if ((array_key_exists('admin', $group_array)) && ($group_permissions['admin'] == '1')) {
-                return true;
-            }
-        }
-//        note: companies master account
-        if ((array_key_exists('admin', $userPermissions)) && ($userPermissions['admin'] == '1')) {
-            return true;
-        }
-
-        return false;
+        return Utils::isAdmin();
     }
 
     public function groups()

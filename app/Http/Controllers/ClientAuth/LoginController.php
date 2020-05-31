@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\ClientAuth;
 
 use App\Http\Controllers\Controller;
+use App\Libraries\Utils;
 use App\Models\Account;
 use App\Models\Contact;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use App\Libraries\Utils;
-use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {

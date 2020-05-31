@@ -40,7 +40,7 @@ Route::resource('sale_types', 'SaleTypeApiController');
 Route::resource('hold_reasons', 'HoldReasonApiController');
 Route::resource('schedule_categories', 'ScheduleCategoryApiController');
 Route::resource('schedules', 'ScheduleApiController');
-Route::resource('scheduled_reports', 'ScheduleReportApiController');
+Route::resource('scheduled_reports', 'ScheduledReportApiController');
 Route::resource('units', 'UnitApiController');
 Route::resource('projects', 'ProjectApiController');
 Route::resource('tax_rates', 'TaxRateApiController');
