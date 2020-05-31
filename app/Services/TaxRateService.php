@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Libraries\Utils;
 use App\Ninja\Datatables\TaxRateDatatable;
 use App\Ninja\Repositories\TaxRateRepository;
 use Illuminate\Http\JsonResponse;
@@ -27,11 +28,20 @@ class TaxRateService extends BaseService
         return $this->taxRateRepo;
     }
 
-    public function getDatatable($accountId)
+    public function save($data, $taxRate = null)
     {
-        $datatable = new TaxRateDatatable(false);
-        $query = $this->taxRateRepo->find($accountId);
+        return $this->taxRateRepo->save($data, $taxRate);
+    }
 
+    public function getDatatable($accountId, $search)
+    {
+        $datatable = new TaxRateDatatable(true);
+
+        $query = $this->taxRateRepo->find($accountId, $search);
+
+        if (!Utils::hasPermission('view_tax_rate')) {
+            $query->where('tax_rates.user_id', '=', Auth::user()->id);
+        }
         return $this->datatableService->createDatatable($datatable, $query);
     }
 }

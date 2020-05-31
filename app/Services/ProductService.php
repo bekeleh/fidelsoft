@@ -51,7 +51,7 @@ class ProductService extends BaseService
 
         $query = $this->productRepo->findItemBrand($itemBrandPublicId);
 
-        if (!Utils::hasAccess('view_item_brands')) {
+        if (!Utils::hasPermission('view_item_brands')) {
             $query->where('item_brands.user_id', '=', Auth::user()->id);
         }
 
@@ -64,7 +64,7 @@ class ProductService extends BaseService
 
         $query = $this->productRepo->findUnit($unitPublicId);
 
-        if (!Utils::hasAccess('view_units')) {
+        if (!Utils::hasPermission('view_units')) {
             $query->where('units.user_id', '=', Auth::user()->id);
         }
 

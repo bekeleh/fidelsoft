@@ -309,7 +309,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
                 return true;
             } else {
                 // Loop through the permission to see if any of them granted this via groups.
-                return $this->hasAccess($permission);
+                return $this->hasPermission($permission);
             }
         } elseif (is_array($permission)) {
             if ($requireAll)
@@ -319,24 +319,6 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
 
         }
 
-        return false;
-    }
-
-    public function hasAccess($permission)
-    {
-        $user = Auth::user();
-        $accountId = $user->Account_id;
-        $userGroups = $user->groups;
-        if (count($userGroups) == 0) {
-            return false;
-        }
-
-        // Loop through permission group to see if any of them granted this via groups.
-        foreach ($userGroups as $userGroup) {
-            if (is_array(json_decode($userGroup->permissions, 1)) && in_array($permission, json_decode($userGroup->permissions, 1))) {
-                return true;
-            }
-        }
         return false;
     }
 
@@ -407,7 +389,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
     public function viewModel($model, $entityType)
     {
         //todo permissions
-        if ($this->hasAccess('view_' . $entityType))
+        if ($this->hasPermission('view_' . $entityType))
             return true;
         elseif ($model->user_id == $this->id)
             return true;
@@ -429,13 +411,13 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
     public function filterId()
     {
         //todo permissions
-        return $this->hasAccess('view_all') ? false : $this->id;
+        return $this->hasPermission('view_all') ? false : $this->id;
     }
 
     public function filterIdByEntity($entity)
     {
         //todo permissions
-        return $this->hasAccess('view_' . $entity) ? false : $this->id;
+        return $this->hasPermission('view_' . $entity) ? false : $this->id;
     }
 
     public function canAddUsers()

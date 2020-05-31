@@ -204,7 +204,7 @@ class AccountRepository
             $data[$account->present()->customLabel('invoice_text2')] = [];
         }
 
-        if ($user->hasAccess('view_clients', true)) {
+        if ($user->hasPermission('view_clients', true)) {
             $clients = Client::scope()
                 ->with('contacts', 'invoices')
                 ->withTrashed()

@@ -15,9 +15,12 @@ class TaxRateDatatable extends EntityDatatable
     {
         return [
             [
-                'name',
+                'tax_rate_name',
                 function ($model) {
-                    return link_to("tax_rates/{$model->public_id}/edit", $model->name)->toHtml();
+                    if (Auth::user()->can('view', [ENTITY_TAX_RATE]))
+                        return link_to("tax_rates/{$model->public_id}", $model->tax_rate_name ?: '')->toHtml();
+                    else
+                        return $model->tax_rate_name;
                 },
             ],
             [
@@ -34,6 +37,12 @@ class TaxRateDatatable extends EntityDatatable
                     } else {
                         return $model->is_inclusive ? trans('texts.inclusive') : trans('texts.exclusive');
                     }
+                },
+            ],
+            [
+                'notes',
+                function ($model) {
+                    return $this->showWithTooltip($model->notes);
                 },
             ],
             [
@@ -95,9 +104,8 @@ class TaxRateDatatable extends EntityDatatable
                 return false;
             },
                 function ($model) {
-                    return Auth::user()->can('edit', [ENTITY_TAX_RATE, $model]);
+                    return Auth::user()->can('edit', [ENTITY_TAX_RATE]);
                 },
-
             ],
         ];
     }

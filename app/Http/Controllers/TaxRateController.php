@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateTaxRateRequest;
 use App\Http\Requests\TaxRateRequest;
 use App\Http\Requests\UpdateTaxRateRequest;
-use App\Models\TaxRate;
+use App\Ninja\Datatables\TaxRateDatatable;
 use App\Ninja\Repositories\TaxRateRepository;
 use App\Services\TaxRateService;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +19,7 @@ class TaxRateController extends BaseController
     protected $taxRateService;
     protected $taxRateRepo;
 
-    public function __construct(TaxRateService $taxRateService, TaxRateRepository $taxRateRepo)
+    public function __construct(TaxRateRepository $taxRateRepo, TaxRateService $taxRateService)
     {
         //parent::__construct();
 
@@ -29,27 +29,21 @@ class TaxRateController extends BaseController
 
     public function index()
     {
-        return Redirect::to('settings/' . ACCOUNT_TAX_RATES);
+        return View::make('list_wrapper', [
+            'entityType' => ENTITY_TAX_RATE,
+            'datatable' => new TaxRateDatatable(),
+            'title' => trans('texts.tax_rates'),
+        ]);
     }
 
     public function getDatatable()
     {
-        return $this->taxRateService->getDatatable(Auth::user()->account_id);
+        $account = Auth::user()->account_id;
+        $search = Input::get('sSearch');
+        return $this->taxRateService->getDatatable($account, $search);
     }
 
-    public function edit($publicId)
-    {
-        $data = [
-            'taxRate' => TaxRate::scope($publicId)->firstOrFail(),
-            'method' => 'PUT',
-            'url' => 'tax_rates/' . $publicId,
-            'title' => trans('texts.edit_tax_rate'),
-        ];
-
-        return View::make('tax_rates.tax_rate', $data);
-    }
-
-    public function create()
+    public function create(TaxRateRequest $request)
     {
         $data = [
             'taxRate' => null,
@@ -58,25 +52,61 @@ class TaxRateController extends BaseController
             'title' => trans('texts.create_tax_rate'),
         ];
 
-        return View::make('tax_rates.tax_rate', $data);
+        return View::make('tax_rates.edit', $data);
     }
 
     public function store(CreateTaxRateRequest $request)
     {
-        $this->taxRateRepo->save($request->input());
+        $data = $request->input();
 
-        Session::flash('message', trans('texts.created_tax_rate'));
+        $taxRate = $this->taxRateService->save($data);
 
-        return Redirect::to('settings/' . ACCOUNT_TAX_RATES);
+        return redirect()->to("tax_rates/{$taxRate->public_id}/edit")->with('message', trans('texts.created_tax_rate'));
     }
 
-    public function update(UpdateTaxRateRequest $request, $publicId)
+    public function edit(TaxRateRequest $request, $publicId = false, $clone = false)
     {
-        $this->taxRateRepo->save($request->input(), $request->entity());
+        $taxRate = $request->entity();
+        if ($clone) {
+            $taxRate->id = null;
+            $taxRate->public_id = null;
+            $taxRate->deleted_at = null;
+            $method = 'POST';
+            $url = 'tax_rates';
+        } else {
+            $method = 'PUT';
+            $url = 'tax_rates/' . $taxRate->public_id;
+        }
 
-        Session::flash('message', trans('texts.updated_tax_rate'));
+        $data = [
+            'taxRate' => $taxRate,
+            'entity' => $taxRate,
+            'method' => $method,
+            'url' => $url,
+            'title' => trans('texts.edit_tax_rate'),
+        ];
 
-        return Redirect::to('settings/' . ACCOUNT_TAX_RATES);
+        $data = array_merge($data, self::getViewModel($taxRate));
+
+        return View::make('tax_rates.edit', $data);
+    }
+
+    public function update(UpdateTaxRateRequest $request)
+    {
+        $data = $request->input();
+
+        $taxRate = $this->taxRateService->save($data, $request->entity());
+
+        $action = Input::get('action');
+        if (in_array($action, ['archive', 'delete', 'restore', 'invoice', 'add_to_invoice'])) {
+            return self::bulk();
+        }
+
+        if ($action == 'clone') {
+            return redirect()->to(sprintf('tax_rates/%s/clone', $taxRate->public_id))->with('message', trans('texts.clone_tax_rate'));
+        } else {
+            return redirect()->to("tax_rates/{$taxRate->public_id}/edit")->with('message', trans('texts.updated_tax_rate'));
+        }
     }
 
     public function show($publicId)
@@ -94,6 +124,19 @@ class TaxRateController extends BaseController
 
         Session::flash('message', trans('texts.archived_tax_rate'));
 
-        return Redirect::to('settings/' . ACCOUNT_TAX_RATES);
+        return Redirect::to('tax_rates/' . ACCOUNT_TAX_RATES);
+    }
+
+    public function cloneTaxRate(TaxRateRequest $request, $publicId)
+    {
+        return self::edit($request, $publicId, true);
+    }
+
+    private static function getViewModel($taxRate = false)
+    {
+        return [
+            'data' => Input::old('data'),
+            'account' => Auth::user()->account,
+        ];
     }
 }

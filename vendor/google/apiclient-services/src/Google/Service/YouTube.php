@@ -1183,7 +1183,7 @@ class Google_Service_YouTube extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'hasAccessToLevel' => array(
+                'hasPermissionToLevel' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),

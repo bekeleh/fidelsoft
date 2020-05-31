@@ -37,7 +37,7 @@ class Google_Service_YouTube_Resource_Members extends Google_Service_Resource
    * members that are part of this list will be included in the response. It can
    * be used to efficiently check whether specific users are entitled to perks
    * offered via third parties.
-   * @opt_param string hasAccessToLevel The hasAccessToLevel parameter specifies,
+   * @opt_param string hasPermissionToLevel The hasPermissionToLevel parameter specifies,
    * when set, the ID of a pricing level that members from the results set should
    * have access to. When not set, all members will be considered, regardless of
    * their active pricing level.

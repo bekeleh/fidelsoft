@@ -6,23 +6,16 @@ use App\Http\Requests\TaxRateRequest;
 use App\Models\TaxRate;
 use App\Ninja\Repositories\TaxRateRepository;
 
+/**
+ * Class TaxRateApiController.
+ */
 class TaxRateApiController extends BaseAPIController
 {
-    /**
-     * @var TaxRateRepository
-     */
-    protected $taxRateRepo;
 
-    /**
-     * @var string
-     */
     protected $entityType = ENTITY_TAX_RATE;
 
-    /**
-     * TaxRateApiController constructor.
-     *
-     * @param TaxRateRepository $taxRateRepo
-     */
+    protected $taxRateRepo;
+
     public function __construct(TaxRateRepository $taxRateRepo)
     {
         parent::__construct();
@@ -33,12 +26,12 @@ class TaxRateApiController extends BaseAPIController
     /**
      * @SWG\Get(
      *   path="/tax_rates",
-     *   summary="List tax rates",
-     *   operationId="listTaxRates",
-     *   tags={"tax_rate"},
+     *   summary="List tax_rates",
+     *   operationId="listTaxRate",
+     *   tags={"tax rate"},
      *   @SWG\Response(
      *     response=200,
-     *     description="A list of tax rates",
+     *     description="A list of tax_rates",
      *      @SWG\Schema(type="array", @SWG\Items(ref="#/definitions/TaxRate"))
      *   ),
      *   @SWG\Response(
@@ -49,10 +42,7 @@ class TaxRateApiController extends BaseAPIController
      */
     public function index()
     {
-        dd('index..');
-        $taxRates = TaxRate::scope()
-            ->withTrashed()
-            ->orderBy('created_at', 'desc');
+        $taxRates = TaxRate::scope()->withTrashed()->orderBy('created_at', 'desc');
 
         return $this->listResponse($taxRates);
     }
@@ -62,7 +52,7 @@ class TaxRateApiController extends BaseAPIController
      *   path="/tax_rates/{tax_rate_id}",
      *   summary="Retrieve a tax rate",
      *   operationId="getTaxRate",
-     *   tags={"tax_rate"},
+     *   tags={"tax rate"},
      *   @SWG\Parameter(
      *     in="path",
      *     name="tax_rate_id",
@@ -84,7 +74,6 @@ class TaxRateApiController extends BaseAPIController
      */
     public function show(TaxRateRequest $request)
     {
-        dd('show..');
         return $this->itemResponse($request->entity());
     }
 
@@ -93,10 +82,10 @@ class TaxRateApiController extends BaseAPIController
      *   path="/tax_rates",
      *   summary="Create a tax rate",
      *   operationId="createTaxRate",
-     *   tags={"tax_rate"},
+     *   tags={"tax rate"},
      *   @SWG\Parameter(
      *     in="body",
-     *     name="tax_rate",
+     *     name="body",
      *     @SWG\Schema(ref="#/definitions/TaxRate")
      *   ),
      *   @SWG\Response(
@@ -124,7 +113,7 @@ class TaxRateApiController extends BaseAPIController
      *   path="/tax_rates/{tax_rate_id}",
      *   summary="Update a tax rate",
      *   operationId="updateTaxRate",
-     *   tags={"tax_rate"},
+     *   tags={"tax rate"},
      *   @SWG\Parameter(
      *     in="path",
      *     name="tax_rate_id",
@@ -133,7 +122,7 @@ class TaxRateApiController extends BaseAPIController
      *   ),
      *   @SWG\Parameter(
      *     in="body",
-     *     name="tax_rate",
+     *     name="tax rate",
      *     @SWG\Schema(ref="#/definitions/TaxRate")
      *   ),
      *   @SWG\Response(
@@ -169,7 +158,7 @@ class TaxRateApiController extends BaseAPIController
      *   path="/tax_rates/{tax_rate_id}",
      *   summary="Delete a tax rate",
      *   operationId="deleteTaxRate",
-     *   tags={"tax_rate"},
+     *   tags={"tax rate"},
      *   @SWG\Parameter(
      *     in="path",
      *     name="tax_rate_id",
@@ -191,10 +180,10 @@ class TaxRateApiController extends BaseAPIController
      */
     public function destroy(TaxRateRequest $request)
     {
-        $entity = $request->entity();
+        $taxRate = $request->entity();
 
-        $this->taxRateRepo->delete($entity);
+        $this->taxRateRepo->delete($taxRate);
 
-        return $this->itemResponse($entity);
+        return $this->itemResponse($taxRate);
     }
 }

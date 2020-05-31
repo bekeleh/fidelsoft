@@ -65,7 +65,7 @@ class ExpenseService extends BaseService
 
         $query = $this->expenseRepo->findClient($clientPublicId);
 
-        if (!Utils::hasAccess('view_clients')) {
+        if (!Utils::hasPermission('view_clients')) {
             $query->where('expenses.user_id', '=', Auth::user()->id);
         }
 

@@ -14,9 +14,10 @@ class ItemStore extends EntityModel
     use PresentableTrait;
     use SoftDeletes;
 
-    protected $appends = [];
-    protected $table = 'item_stores';
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
+    protected $appends = [];
+    protected $hidden = [];
+    protected $casts = [];
 
     protected $fillable = [
         'product_id',
@@ -30,9 +31,6 @@ class ItemStore extends EntityModel
         'updated_by',
         'deleted_by',
     ];
-    protected $hidden = [];
-    protected $casts = [];
-
 
     public function getEntityType()
     {

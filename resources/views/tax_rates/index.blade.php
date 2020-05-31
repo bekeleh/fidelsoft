@@ -36,7 +36,7 @@
                 ->label('&nbsp;')
                 ->value(1) !!}
 
-            @if (! $hasInclusiveTaxRates && $countInvoices == 0)
+            @if (!$hasInclusiveTaxRates && $countInvoices == 0)
                 <br/>
                 <br/>
                 {!! Former::checkbox('inclusive_taxes')
@@ -51,36 +51,38 @@
                         trans('texts.change_requires_purge', ['link' => link_to(url('/settings/account_management'), trans('texts.purging'))])) !!}
             @else
                 {!! Former::plaintext(' ')->help(
-                        trans($account->inclusive_taxes ? 'texts.taxes_are_included_help' : 'texts.taxes_are_not_included_help'))  !!}
+                        trans($account->inclusive_taxes ? 'texts.taxes_are_included_help' : 'texts.taxes_are_not_included_help'))
+                        !!}
             @endif
             @if ($taxRates->count())
                 @include('partials.tax_rates', ['taxRateLabel' => trans('texts.default_tax_rate_id')])
             @endif
-            {!! Former::actions( Button::success(trans('texts.save'))->submit()->appendIcon(Icon::create('floppy-disk')) ) !!}
+            {!! Former::actions(Button::success(trans('texts.save'))->submit()->appendIcon(Icon::create('floppy-disk')) ) !!}
             {!! Former::close() !!}
         </div> <!-- end of configuration setting -->
     </div>
-
-    {!! Button::primary(trans('texts.create_tax_rate'))
-          ->asLinkTo(URL::to('/tax_rates/create'))
-          ->withAttributes(['class' => 'pull-right'])
-          ->appendIcon(Icon::create('plus-sign')) !!}
-
-    @include('partials.bulk_form', ['entityType' => ENTITY_TAX_RATE])
-    {!! Datatable::table()
-        ->addColumn(
-          trans('texts.tax_rate_name'),
-          trans('texts.rate'),
-          trans('texts.type'),
-          trans('texts.action'))
-        ->setUrl(url('api/tax_rates/'))
-        ->setOptions('sPaginationType', 'bootstrap')
-        ->setOptions('bFilter', true)
-        ->setOptions('bAutoWidth', false)
-        ->setOptions('aoColumns', [[ "sWidth"=> "25%" ], [ "sWidth"=> "25%" ], ["sWidth"=> "25%"], ["sWidth"=> "25%"]])
-        ->setOptions('aoColumnDefs', [['bSortable'=>false, 'aTargets'=>[2]]])
-        ->render('datatable') !!}
-
+    <div class="row pull-right">
+        {!! Button::primary(trans('texts.create_tax_rate'))
+              ->asLinkTo(URL::to('/tax_rates/create'))
+              ->withAttributes(['class' => 'pull-right'])
+              ->appendIcon(Icon::create('plus-sign')) !!}
+    </div>
+    <div class="row pull-right">
+        @include('partials.bulk_form', ['entityType' => ENTITY_TAX_RATE])
+        {!! Datatable::table()
+            ->addColumn(
+              trans('texts.tax_rate_name'),
+              trans('texts.rate'),
+              trans('texts.type'),
+              trans('texts.action'))
+            ->setUrl(url('api/tax_rates/'))
+            ->setOptions('sPaginationType', 'bootstrap')
+            ->setOptions('bFilter', true)
+            ->setOptions('bAutoWidth', false)
+            ->setOptions('aoColumns', [[ "sWidth"=> "25%" ], [ "sWidth"=> "25%" ], ["sWidth"=> "25%"], ["sWidth"=> "25%"]])
+            ->setOptions('aoColumnDefs', [['bSortable'=>false, 'aTargets'=>[2]]])
+            ->render('datatable') !!}
+    </div>
     <script>
         window.onDatatableReady = actionListHandler;
     </script>

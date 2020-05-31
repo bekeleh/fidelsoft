@@ -1,3 +1,4 @@
+<!-- tax rate -->
 {!! Former::select('tax_select1')
   ->addOption('','')
   ->label(isset($taxRateLabel) ? $taxRateLabel : trans('texts.tax_rate'))
@@ -5,21 +6,21 @@
   ->fromQuery($taxRates, null, 'public_id') !!}
 
 <div style="display:none">
-  {!! Former::input('tax_rate1') !!}
-  {!! Former::input('tax_name1') !!}
+    {!! Former::input('tax_rate1') !!}
+    {!! Former::input('tax_name1') !!}
 </div>
 
 <div style="display:{{ $account->enable_second_tax_rate ? 'block' : 'none' }}">
-  {!! Former::select('tax_select2')
-      ->addOption('','')
-      ->label(isset($taxRateLabel) ? $taxRateLabel : trans('texts.tax_rate'))
-      ->onchange('taxSelectChange(event)')
-      ->fromQuery($taxRates, null, 'public_id') !!}
+    {!! Former::select('tax_select2')
+        ->addOption('','')
+        ->label(isset($taxRateLabel) ? $taxRateLabel : trans('texts.tax_rate'))
+        ->onchange('taxSelectChange(event)')
+        ->fromQuery($taxRates, null, 'public_id') !!}
 
-  <div style="display:none">
-      {!! Former::input('tax_rate2') !!}
-      {!! Former::input('tax_name2') !!}
-  </div>
+    <div style="display:none">
+        {!! Former::input('tax_rate2') !!}
+        {!! Former::input('tax_name2') !!}
+    </div>
 </div>
 
 <script type="text/javascript">
@@ -31,7 +32,7 @@
         var tax = $select.find('option:selected').text();
 
         var index = tax.lastIndexOf(': ');
-        var taxName =  tax.substring(0, index);
+        var taxName = tax.substring(0, index);
         var taxRate = tax.substring(index + 2, tax.length - 1);
 
         var selectName = $select.attr('name');
@@ -48,7 +49,7 @@
         if (!taxRate || !taxName) {
             return;
         }
-        var tax = _.findWhere(taxRates, {name:taxName, rate:taxRate});
+        var tax = _.findWhere(taxRates, {name: taxName, rate: taxRate});
         if (tax) {
             $select.val(tax.public_id);
         } else {
@@ -58,7 +59,7 @@
         }
     }
 
-    $(function() {
+    $(function () {
         setTaxSelect(1);
         setTaxSelect(2);
     });

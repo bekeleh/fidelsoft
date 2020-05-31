@@ -52,7 +52,7 @@ class StoreService extends BaseService
 
         $query = $this->storeRepo->findLocation($locationPublicId);
 
-        if (!Utils::hasAccess('view_locations')) {
+        if (!Utils::hasPermission('view_locations')) {
             $query->where('stores.user_id', '=', Auth::user()->id);
         }
 

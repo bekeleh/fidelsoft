@@ -1,22 +1,17 @@
 @extends('master')
 @section('head_css')
     <link href="{{ asset('css/built.css') }}?no_cache={{ NINJA_VERSION }}" rel="stylesheet" type="text/css"/>
-    @if (Utils::isNinjaDev())
-        <style type="text/css">
-            .nav-footer {
-                @if (config('mail.driver') == 'log' && ! config('services.postmark'))
-                                                                                                                                                            background-color: #50C878 !important;
-                @else
-                                                                                                                                                            background-color: #FD6A02 !important;
-            @endif
+    {{--    @if (Utils::isNinjaDev())--}}
+    {{--        <style type="text/css">--}}
+    {{--            .nav-footer {--}}
+    {{--                @if (config('mail.driver') == 'log' && ! config('services.postmark'))--}}
+    {{-- background-color: #50C878 !important;--}}
+    {{--                @else--}}
+    {{-- background-color: #FD6A02 !important;--}}
+    {{--            @endif--}}
 
-
-
-
-
-
-            }</style>
-    @endif
+    {{--            }</style>--}}
+    {{--    @endif--}}
 @stop
 
 @section('head')

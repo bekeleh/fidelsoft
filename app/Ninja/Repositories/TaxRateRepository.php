@@ -2,6 +2,7 @@
 
 namespace App\Ninja\Repositories;
 
+use App\Libraries\Utils;
 use App\Models\TaxRate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -25,17 +26,20 @@ class TaxRateRepository extends BaseRepository
         return TaxRate::scope()->get();
     }
 
-    public function find($accountId = false)
+    public function find($accountId = false, $filter = null)
     {
-        return DB::table('tax_rates')
+        $query = DB::table('tax_rates')
             ->where('tax_rates.account_id', '=', $accountId)
-            ->where('tax_rates.deleted_at', '=', null)
+//            ->where('tax_rates.deleted_at', '=', null)
             ->select(
+                'tax_rates.id',
                 'tax_rates.public_id',
-                'tax_rates.name',
+                'tax_rates.name as tax_rate_name',
                 'tax_rates.rate',
+                'tax_rates.notes',
                 'tax_rates.deleted_at',
                 'tax_rates.is_inclusive',
+                'tax_rates.is_deleted',
                 'tax_rates.created_at',
                 'tax_rates.updated_at',
                 'tax_rates.deleted_at',
@@ -43,6 +47,18 @@ class TaxRateRepository extends BaseRepository
                 'tax_rates.updated_by',
                 'tax_rates.deleted_by'
             );
+
+        if ($filter) {
+            $query->where('tax_rates.name', 'like', '%' . $filter . '%')
+                ->orWhere('tax_rates.rate', 'like', '%' . $filter . '%')
+                ->orWhere('tax_rates.is_inclusive', 'like', '%' . $filter . '%')
+                ->orWhere('tax_rates.created_by', 'like', '%' . $filter . '%');
+        }
+
+        $this->applyFilters($query, ENTITY_TAX_RATE);
+
+
+        return $query;
     }
 
     public function save($data, $taxRate = null)
@@ -59,7 +75,9 @@ class TaxRateRepository extends BaseRepository
         }
 
         $taxRate->fill($data);
-        $taxRate->name = isset($data['name']) ? ucwords($data['name']) : '';
+        $taxRate->name = isset($data['name']) ? trim($data['name']) : '';
+        $taxRate->rate = Utils::parseFloat($data['rate']);
+
         $taxRate->save();
 
         return $taxRate;

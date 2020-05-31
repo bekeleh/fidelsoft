@@ -17,14 +17,14 @@
 
 class Google_Service_CloudSearch_CheckAccessResponse extends Google_Model
 {
-  public $hasAccess;
+  public $hasPermission;
 
-  public function setHasAccess($hasAccess)
+  public function sethasPermission($hasPermission)
   {
-    $this->hasAccess = $hasAccess;
+    $this->hasPermission = $hasPermission;
   }
-  public function getHasAccess()
+  public function gethasPermission()
   {
-    return $this->hasAccess;
+    return $this->hasPermission;
   }
 }

@@ -92,7 +92,7 @@ class UnitController extends BaseController
             'entity' => $unit,
             'method' => $method,
             'url' => $url,
-            'title' => trans('texts.unit.edit'),
+            'title' => trans('texts.edit_unit'),
         ];
 
         $data = array_merge($data, self::getViewModel($unit));

@@ -441,6 +441,7 @@ Route::group([
 //    Route::resource('permissions', 'permissionController');
 //    Route::post('permissions/bulk', 'permissionController@bulk');
 //  tax
+    Route::get('tax_rates/{tax_rates}/clone', 'TaxRateController@cloneTaxRate');
     Route::get('api/tax_rates', 'TaxRateController@getDatatable');
     Route::resource('tax_rates', 'TaxRateController');
     Route::post('tax_rates/bulk', 'TaxRateController@bulk');

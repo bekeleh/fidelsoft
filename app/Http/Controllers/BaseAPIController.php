@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Libraries\Utils;
 use App\Models\EntityModel;
 use App\Ninja\Serializers\ArraySerializer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Response;
 use League\Fractal\Manager;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use League\Fractal\Serializer\JsonApiSerializer;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Response;
-use App\Libraries\Utils;
 
 class BaseAPIController extends Controller
 {
@@ -60,6 +60,7 @@ class BaseAPIController extends Controller
     protected function listResponse($query)
     {
         $transformerClass = EntityModel::getTransformerName($this->entityType);
+
         $transformer = new $transformerClass(Auth::user()->account, Input::get('serializer'));
 
         $includes = $transformer->getDefaultIncludes();
@@ -84,7 +85,7 @@ class BaseAPIController extends Controller
             $query->whereHas('client', $filter);
         }
 
-        if (!Utils::hasAccess('view_' . $this->entityType)) {
+        if (!Utils::hasPermission('view_' . $this->entityType)) {
             if ($this->entityType == ENTITY_USER) {
                 $query->where('id', '=', Auth::user()->id);
             } else {

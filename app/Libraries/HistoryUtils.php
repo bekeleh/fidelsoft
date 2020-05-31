@@ -115,7 +115,7 @@ class HistoryUtils
             ENTITY_EXPENSE,
             ENTITY_PROJECT,
             ENTITY_PROPOSAL,
-            //ENTITY_RECURRING_EXPENSE,
+            ENTITY_RECURRING_EXPENSE,
         ];
 
         if (!in_array($entityType, $trackedTypes)) {
@@ -193,6 +193,7 @@ class HistoryUtils
         $str = '';
 
         $history = Session::get(RECENTLY_VIEWED, []);
+
         $history = isset($history[$accountId]) ? $history[$accountId] : [];
 
         foreach ($history as $item) {

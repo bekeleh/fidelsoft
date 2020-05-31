@@ -871,7 +871,7 @@ $LANG = array(
     'payment_error' => 'There was an error processing your payment. Please try again later.',
     'registration_required' => 'Please sign up to email an invoice',
     'confirmation_required' => 'Please confirm your email address, :link to resend the confirmation email.',
-    'default_store_required' => 'Please define default user store, :link to set default user store.',
+    'default_store_required' => 'Please specify default user store, :link to set default user store.',
     'archived_clients' => 'Successfully archived :count clients',
     'updated_invoice' => 'Successfully updated invoice',
     'created_invoice' => 'Successfully created invoice',
@@ -1851,6 +1851,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'preview' => 'Preview',
     'list_vendors' => 'List Vendors',
     'add_users_not_supported' => 'Upgrade to the Enterprise plan to add additional users to your account.',
+    'add_tax_rates_not_supported' => 'Upgrade to the Enterprise plan to add additional tax rates to your account.',
     'enterprise_plan_features' => 'The Enterprise plan adds support for multiple users and file attachments, :link to see the full list of features.',
     'return_to_app' => 'Return To App',
 
