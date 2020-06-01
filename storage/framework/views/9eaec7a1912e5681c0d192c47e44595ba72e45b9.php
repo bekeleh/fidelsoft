@@ -3,13 +3,13 @@
     <?php echo Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['name' => 'required|max:255','item_cost' => 'required|numeric','item_brand_id' => 'required|numeric','unit_id' => 'required|numeric','notes' => 'required|string'])
+    ->rules(['name' => 'required|max:255','cost' => 'required|numeric','item_brand_id' => 'required|numeric','unit_id' => 'required|numeric','notes' => 'required|string'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit'); ?>
 
     <?php if($product): ?>
         <?php echo e(Former::populate($product)); ?>
 
-        <?php echo e(Former::populateField('item_cost', Utils::roundSignificant($product->item_cost))); ?>
+        <?php echo e(Former::populateField('cost', Utils::roundSignificant($product->cost))); ?>
 
         <div style="display:none">
             <?php echo Former::text('public_id'); ?>
@@ -45,7 +45,7 @@
 
                     <?php echo Former::text('item_tag')->label('texts.item_tag'); ?>
 
-                    <?php echo Former::text('item_cost')->label('item_cost'); ?>
+                    <?php echo Former::text('cost')->label('cost'); ?>
 
                     <?php echo Former::textarea('notes')->rows(6); ?>
 

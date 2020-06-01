@@ -58,7 +58,7 @@ class ItemPriceRepository extends BaseRepository
                 'item_prices.deleted_by',
                 'sale_types.name as sale_type_name',
                 'products.name as item_name',
-                'products.item_cost',
+                'products.cost',
                 'item_brands.name as item_brand_name',
                 'item_categories.name as item_category_name'
             );

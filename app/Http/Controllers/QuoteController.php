@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\InvoiceRequest;
 use App\Http\Requests\QuoteRequest;
-use App\Models\Account;
+use App\Libraries\Utils;
 use App\Models\Client;
-use App\Models\Country;
 use App\Models\Invitation;
 use App\Models\Invoice;
 use App\Models\InvoiceDesign;
@@ -21,10 +19,9 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Input;
-use Redirect;
 use Illuminate\Support\Facades\Session;
-use App\Libraries\Utils;
 use Illuminate\Support\Facades\View;
+use Redirect;
 
 class QuoteController extends BaseController
 {

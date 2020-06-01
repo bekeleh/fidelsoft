@@ -28,7 +28,7 @@ class UpdatePointOfSaleRequest extends EntityRequest
         $rules['barcode'] = 'nullable';
         $rules['item_tag'] = 'nullable';
         $rules['unit_id'] = 'required|numeric';
-        $rules['item_cost'] = 'required|numeric';
+        $rules['cost'] = 'required|numeric';
         $rules['is_deleted'] = 'boolean';
         $rules['notes'] = 'nullable';
 

@@ -19,7 +19,7 @@ class PointOfSale extends EntityModel
         'item_barcode',
         'item_tag',
         'notes',
-        'item_cost',
+        'cost',
         'item_brand_id',
         'unit_id',
         'created_by',

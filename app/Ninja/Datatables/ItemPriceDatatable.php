@@ -67,9 +67,9 @@ class ItemPriceDatatable extends EntityDatatable
                 },
             ],
             [
-                'item_cost',
+                'cost',
                 function ($model) {
-                    return $model->item_cost;
+                    return $model->cost;
                 },
             ],
             [
@@ -159,7 +159,7 @@ class ItemPriceDatatable extends EntityDatatable
     private function getStatusLabel($model)
     {
 
-        $class = ItemPrice::getStatusClass($model->item_price, $model->item_cost);
+        $class = ItemPrice::getStatusClass($model->item_price, $model->cost);
 
         return "<h4><div class=\"label label-{$class}\">$model->item_price</div></h4>";
     }

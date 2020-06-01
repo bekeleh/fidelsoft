@@ -16,7 +16,7 @@ class ProductReport extends AbstractReport
             'invoice_date' => [],
             'product' => [],
             'description' => [],
-            'item_cost' => [],
+            'cost' => [],
             //'tax_rate1',
             //'tax_rate2',
         ];

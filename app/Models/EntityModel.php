@@ -99,6 +99,7 @@ class EntityModel extends Eloquent
                 $query = self::getNameWithCategory($query, $related);
             }
         }
+
         return $query;
     }
 

@@ -76,6 +76,18 @@
         ])->split(); ?>
 
     <?php endif; ?>
+<?php elseif(in_array($entityType, [ENTITY_QUOTE])): ?>
+    <?php if(Auth::user()->can('create', [ENTITY_QUOTE])): ?>
+        <?php echo DropdownButton::normal(trans('texts.maintenance'))
+        ->withAttributes(['class'=>'maintenanceDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_invoice'), 'url' => url('/invoices')],
+        ['label' => trans('texts.new_client'), 'url' => url('/clients')],
+        ['label' => trans('texts.new_credit'), 'url' => url('/credits')],
+        ['label' => trans('texts.new_expense'), 'url' => url('/expenses')],
+        ])->split(); ?>
+
+    <?php endif; ?>
 <?php elseif(in_array($entityType, [ENTITY_CLIENT])): ?>
     <?php if(Auth::user()->can('create', [ENTITY_CLIENT])): ?>
         <?php echo DropdownButton::normal(trans('texts.maintenance'))

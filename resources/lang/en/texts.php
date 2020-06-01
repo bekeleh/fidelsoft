@@ -3124,7 +3124,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
 
     'item_product' => 'Item Product',
     'item_notes' => 'Item Notes',
-    'item_cost' => 'Item Cost',
+    'cost' => 'Item Cost',
     'item_quantity' => 'Item Quantity',
     'item_tax_rate' => 'Item Tax Rate',
     'item_tax_name' => 'Item Tax Name',

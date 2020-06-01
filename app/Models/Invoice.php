@@ -100,7 +100,7 @@ class Invoice extends EntityModel implements BalanceAffecting
             'item_product',
             'item_notes',
             'item_quantity',
-            'item_cost',
+            'cost',
             'item_tax1',
             'item_tax2',
         ];
@@ -121,7 +121,7 @@ class Invoice extends EntityModel implements BalanceAffecting
             'private notes' => 'private_notes',
             'description' => 'item_notes',
             'quantity|qty' => 'item_quantity',
-            'amount|cost' => 'item_cost',
+            'amount|cost' => 'cost',
             'product' => 'item_product',
             'tax' => 'item_tax1',
         ];

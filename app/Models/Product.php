@@ -19,7 +19,7 @@ class Product extends EntityModel
         'item_barcode',
         'item_tag',
         'notes',
-        'item_cost',
+        'cost',
         'item_brand_id',
         'unit_id',
         'tax_name1',
@@ -41,7 +41,7 @@ class Product extends EntityModel
         return [
             'name',
             'notes',
-            'item_cost',
+            'cost',
             'custom_value1',
             'custom_value2',
         ];
@@ -52,7 +52,7 @@ class Product extends EntityModel
         return [
             'product|item' => 'name',
             'notes|description|details' => 'notes',
-            'item_cost|amount|price' => 'item_cost',
+            'cost|amount|price' => 'cost',
             'custom_value1' => 'custom_value1',
             'custom_value2' => 'custom_value2',
         ];

@@ -50,7 +50,7 @@ class PointOfSaleRepository extends BaseRepository
                 'products.item_serial',
                 'products.item_barcode',
                 'products.item_tag',
-                'products.item_cost',
+                'products.cost',
                 'products.tax_name1',
                 'products.tax_name2',
                 'products.tax_rate1',
@@ -122,7 +122,7 @@ class PointOfSaleRepository extends BaseRepository
         $product->name = isset($data['name']) ? ucwords(trim($data['name'])) : '';
         $product->item_barcode = isset($data['item_barcode']) ? strtolower(trim($data['item_barcode'])) : '';
         $product->item_tag = isset($data['item_tag']) ? strtolower(trim($data['item_tag'])) : '';
-        $product->item_cost = isset($data['item_cost']) ? Utils::parseFloat($data['item_cost']) : 0;
+        $product->cost = isset($data['cost']) ? Utils::parseFloat($data['cost']) : 0;
 
         $product->save();
 
