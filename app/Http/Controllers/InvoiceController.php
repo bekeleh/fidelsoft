@@ -163,10 +163,11 @@ class InvoiceController extends BaseController
             ->join('contacts', 'contacts.id', '=', 'invitations.contact_id')
             ->where('invitations.invoice_id', '=', $invoice->id)
             ->where('invitations.account_id', '=', Auth::user()->account_id)
-            ->where('invitations.deleted_at', '=', null)
-            ->select('contacts.public_id')->pluck('public_id');
+            ->select('contacts.public_id')->pluck('public_id')
+            ->where('invitations.deleted_at', '=', null);
 
         $clients = Client::scope()->withTrashed()->with('contacts', 'country');
+
         if ($clone) {
             $entityType = $clone == INVOICE_TYPE_STANDARD ? ENTITY_INVOICE : ENTITY_QUOTE;
             $invoice->id = $invoice->public_id = null;
@@ -226,6 +227,7 @@ class InvoiceController extends BaseController
             'client' => $invoice->client,
             'isRecurring' => $invoice->is_recurring,
             'lastSent' => $lastSent,];
+
         $data = array_merge($data, self::getViewModel($invoice));
 
         if ($invoice->isSent() && $invoice->getAutoBillEnabled() && !$invoice->isPaid()) {

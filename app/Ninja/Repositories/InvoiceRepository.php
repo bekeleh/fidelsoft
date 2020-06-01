@@ -594,8 +594,9 @@ class InvoiceRepository extends BaseRepository
 
             $total += round($lineTotal, 2);
         }
-
+//      client already specified, we can override here
         foreach ($data['invoice_items'] as $item) {
+            \Log::Info($item);
             $item = (array)$item;
             $invoiceItemCost = Utils::roundSignificant(Utils::parseFloat($item['cost']));
             $invoiceItemQty = Utils::roundSignificant(Utils::parseFloat($item['qty']));

@@ -56,9 +56,9 @@ class InvoiceService extends BaseService
     public function save(array $data, Invoice $invoice = null)
     {
 //       adjust inventory
-        if (!empty($data['invoice_items'])) {
-            $this->inventoryAdjustment($data['invoice_items']);
-        }
+//        if (!empty($data['invoice_items'])) {
+//            $this->inventoryAdjustment($data['invoice_items']);
+//        }
         if (!empty($data['client'])) {
             $canSaveClient = false;
             $canViewClient = false;

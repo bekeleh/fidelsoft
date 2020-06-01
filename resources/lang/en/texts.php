@@ -649,6 +649,7 @@ $LANG = array(
     'product_name' => 'Item Code',
     'products' => 'Inventory',
     'new_product' => 'New Product',
+    'new_item' => 'New Item',
     'list_products' => 'List Products',
     'create_product' => 'Create Product',
     'edit_product' => 'Edit Product',

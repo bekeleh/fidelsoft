@@ -102,8 +102,8 @@ Route::get('/logout', ['as' => 'logout', 'uses' => 'Auth\LoginController@getLogo
 
 
 Route::group(['middleware' => 'guest'], function () {
-//    Route::get('/', 'HomeController@home')->name('home');
-    Route::get('/', 'DashboardController@index')->name('dashboard');
+    Route::get('/', 'HomeController@home')->name('home');
+//    Route::get('/', 'DashboardController@index')->name('dashboard');
 //    Route::get('password/reset', 'UserController@showLinkRequestForm')->name('password.request');
 //    Route::post('password/email', 'UserController@sendResetLinkEmail')->name('password.email');
 //    Route::get('password/reset/{token}', 'UserController@showResetForm')->name('password.reset');

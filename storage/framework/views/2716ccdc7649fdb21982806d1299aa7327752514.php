@@ -145,9 +145,9 @@
                                         <?php endif; ?>
                                         <span data-bind="visible: $root.invoice().client().public_id() > 0"
                                               style="display:none">|
-<a data-bind="attr: {href: '<?php echo e(url('/clients')); ?>/' + $root.invoice().client().public_id()}"
-   target="_blank"><?php echo e(trans('texts.view_client')); ?></a>
-</span>
+                                        <a data-bind="attr: {href: '<?php echo e(url('/clients')); ?>/' + $root.invoice().client().public_id()}"
+                                           target="_blank"><?php echo e(trans('texts.view_client')); ?></a>
+                                        </span>
                                     </div>
                                 </div>
                                 <?php if($invoice->id || $data): ?>
@@ -165,31 +165,31 @@
                                         <input type="checkbox" value="1"
                                                data-bind="visible: email() || first_name() || last_name(), checked: send_invoice, attr: {id: $index() + '_check', name: 'client[contacts][' + $index() + '][send_invoice]'}">
                                         <span data-bind="visible: first_name || last_name">
-<span data-bind="text: (first_name() || '') + ' ' + (last_name() || '')"></span>
-<br/>
-</span>
+                                            <span data-bind="text: (first_name() || '') + ' ' + (last_name() || '')"></span>
+                                            <br/>
+                                            </span>
                                         <span data-bind="visible: email">
-<span data-bind="text: email"></span>
-<br/>
-</span>
+                                        <span data-bind="text: email"></span>
+                                        <br/>
+                                        </span>
                                     </label>
                                     <?php if( ! $invoice->is_deleted && ! $invoice->client->is_deleted): ?>
                                         <span data-bind="visible: !$root.invoice().is_recurring()">
-<span data-bind="html: $data.view_as_recipient"></span>&nbsp;&nbsp;
-<?php if(Utils::isConfirmed()): ?>
+                                                <span data-bind="html: $data.view_as_recipient"></span>&nbsp;&nbsp;
+                                                <?php if(Utils::isConfirmed()): ?>
                                                 <span style="vertical-align:text-top;color:red"
                                                       class="fa fa-exclamation-triangle"
                                                       data-bind="visible: $data.email_error, tooltip: {title: $data.email_error}"></span>
                                                 <span style="vertical-align:text-top;padding-top:2px"
                                                       class="fa fa-info-circle"
                                                       data-bind="visible: $data.invitation_status, tooltip: {title: $data.invitation_status, html: true},
-style: {color: $data.info_color}"></span>
+                                                    style: {color: $data.info_color}"></span>
                                                 <span class="signature-wrapper">&nbsp;
-<span style="vertical-align:text-top;color:#888" class="fa fa-user"
-      data-bind="visible: $data.invitation_signature_svg, tooltip: {title: $data.invitation_signature_svg, html: true}"></span>
-</span>
+                                                <span style="vertical-align:text-top;color:#888" class="fa fa-user"
+                                                      data-bind="visible: $data.invitation_signature_svg, tooltip: {title: $data.invitation_signature_svg, html: true}"></span>
+                                                </span>
                                             <?php endif; ?>
-</span>
+                                            </span>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -253,47 +253,47 @@ style: {color: $data.info_color}"></span>
                         <?php endif; ?>
                     </div>
                     <div class="col-md-4" id="col_2">
-<span data-bind="visible: !is_recurring()">
-<?php echo Former::text('invoice_number')
-->label(trans("texts.{$entityType}_number_short"))
-->onchange('checkInvoiceNumber()')
-->addGroupClass('invoice-number')
-->data_bind("value: invoice_number, valueUpdate: 'afterkeydown'"); ?>
+                        <span data-bind="visible: !is_recurring()">
+                        <?php echo Former::text('invoice_number')
+                        ->label(trans("texts.{$entityType}_number_short"))
+                        ->onchange('checkInvoiceNumber()')
+                        ->addGroupClass('invoice-number')
+                        ->data_bind("value: invoice_number, valueUpdate: 'afterkeydown'"); ?>
 
-</span>
+                        </span>
                         <span data-bind="visible: is_recurring()" style="display: none">
-<div data-bind="visible: !(auto_bill() == <?php echo e(AUTO_BILL_OPT_IN); ?> &amp;&amp; client_enable_auto_bill()) &amp;&amp; !(auto_bill() == <?php echo e(AUTO_BILL_OPT_OUT); ?> &amp;&amp; !client_enable_auto_bill())"
-     style="display: none">
-<?php echo Former::select('auto_bill')
-->data_bind("value: auto_bill, valueUpdate: 'afterkeydown', event:{change:function(){if(auto_bill()==".AUTO_BILL_OPT_IN.")client_enable_auto_bill(0);if(auto_bill()==".AUTO_BILL_OPT_OUT.")client_enable_auto_bill(1)}}")
-->options([
-AUTO_BILL_OFF => trans('texts.off'),
-AUTO_BILL_OPT_IN => trans('texts.opt_in'),
-AUTO_BILL_OPT_OUT => trans('texts.opt_out'),
-AUTO_BILL_ALWAYS => trans('texts.always'),
-]); ?>
+                        <div data-bind="visible: !(auto_bill() == <?php echo e(AUTO_BILL_OPT_IN); ?> &amp;&amp; client_enable_auto_bill()) &amp;&amp; !(auto_bill() == <?php echo e(AUTO_BILL_OPT_OUT); ?> &amp;&amp; !client_enable_auto_bill())"
+                             style="display: none">
+                        <?php echo Former::select('auto_bill')
+                        ->data_bind("value: auto_bill, valueUpdate: 'afterkeydown', event:{change:function(){if(auto_bill()==".AUTO_BILL_OPT_IN.")client_enable_auto_bill(0);if(auto_bill()==".AUTO_BILL_OPT_OUT.")client_enable_auto_bill(1)}}")
+                        ->options([
+                        AUTO_BILL_OFF => trans('texts.off'),
+                        AUTO_BILL_OPT_IN => trans('texts.opt_in'),
+                        AUTO_BILL_OPT_OUT => trans('texts.opt_out'),
+                        AUTO_BILL_ALWAYS => trans('texts.always'),
+                        ]); ?>
 
-</div>
-<input type="hidden" name="client_enable_auto_bill"
-       data-bind="attr: { value: client_enable_auto_bill() }"/>
-<div class="form-group"
-     data-bind="visible: auto_bill() == <?php echo e(AUTO_BILL_OPT_IN); ?> &amp;&amp; client_enable_auto_bill()">
-<div class="col-sm-4 control-label"><?php echo e(trans('texts.auto_bill')); ?></div>
-<div class="col-sm-8" style="padding-top:10px;padding-bottom:9px">
-<?php echo e(trans('texts.opted_in')); ?> -
-<a href="#" data-bind="click:function(){client_enable_auto_bill(false)}">(<?php echo e(trans('texts.disable')); ?>)</a>
-</div>
-</div>
-<div class="form-group"
-     data-bind="visible: auto_bill() == <?php echo e(AUTO_BILL_OPT_OUT); ?> &amp;&amp; !client_enable_auto_bill()">
-<div class="col-sm-4 control-label"><?php echo e(trans('texts.auto_bill')); ?></div>
-<div class="col-sm-8" style="padding-top:10px;padding-bottom:9px">
-<?php echo e(trans('texts.opted_out')); ?> -
-<a href="#"
-   data-bind="click:function(){client_enable_auto_bill(true)}">(<?php echo e(trans('texts.enable')); ?>)</a>
-</div>
-</div>
-</span>
+                        </div>
+                            <input type="hidden" name="client_enable_auto_bill"
+                                   data-bind="attr: { value: client_enable_auto_bill() }"/>
+                            <div class="form-group"
+                                 data-bind="visible: auto_bill() == <?php echo e(AUTO_BILL_OPT_IN); ?> &amp;&amp; client_enable_auto_bill()">
+                            <div class="col-sm-4 control-label"><?php echo e(trans('texts.auto_bill')); ?></div>
+                            <div class="col-sm-8" style="padding-top:10px;padding-bottom:9px">
+                            <?php echo e(trans('texts.opted_in')); ?> -
+                            <a href="#" data-bind="click:function(){client_enable_auto_bill(false)}">(<?php echo e(trans('texts.disable')); ?>)</a>
+                            </div>
+                            </div>
+                            <div class="form-group"
+                                 data-bind="visible: auto_bill() == <?php echo e(AUTO_BILL_OPT_OUT); ?> &amp;&amp; !client_enable_auto_bill()">
+                            <div class="col-sm-4 control-label"><?php echo e(trans('texts.auto_bill')); ?></div>
+                            <div class="col-sm-8" style="padding-top:10px;padding-bottom:9px">
+                            <?php echo e(trans('texts.opted_out')); ?> -
+                            <a href="#"
+                               data-bind="click:function(){client_enable_auto_bill(true)}">(<?php echo e(trans('texts.enable')); ?>)</a>
+                            </div>
+                            </div>
+                            </span>
                         <?php echo Former::text('po_number')->label($account->getLabel('po_number', 'po_number_short'))->data_bind("value: po_number, valueUpdate: 'afterkeydown'"); ?>
 
                         <?php echo Former::text('discount')->data_bind("value: discount, valueUpdate: 'afterkeydown'")
@@ -681,20 +681,20 @@ AUTO_BILL_ALWAYS => trans('texts.always'),
 
                                         <?php if( ! $account->client_number_counter): ?>
                                             <span data-bind="visible: $root.showMore">
-<?php endif; ?>
+                                            <?php endif; ?>
                                                 <?php echo Former::text('client[id_number]')
                                                 ->label('id_number')
                                                 ->placeholder($account->clientNumbersEnabled() ? $account->getNextNumber() : ' ')
                                                 ->data_bind("value: id_number, valueUpdate: 'afterkeydown'"); ?>
 
                                                 <?php if( ! $account->client_number_counter): ?>
-</span>
+                                                </span>
                                         <?php endif; ?>
 
                                         <span data-bind="visible: $root.showMore">
-<?php echo Former::text('client[vat_number]')
-->label('vat_number')
-->data_bind("value: vat_number, valueUpdate: 'afterkeydown'"); ?>
+                                            <?php echo Former::text('client[vat_number]')
+                                            ->label('vat_number')
+                                            ->data_bind("value: vat_number, valueUpdate: 'afterkeydown'"); ?>
 
                                             <?php echo Former::text('client[website]')
                                             ->label('website')
@@ -704,7 +704,7 @@ AUTO_BILL_ALWAYS => trans('texts.always'),
                                             ->label('work_phone')
                                             ->data_bind("value: work_phone, valueUpdate: 'afterkeydown'"); ?>
 
-</span>
+                                            </span>
                                         <?php if(Auth::user()->hasFeature(FEATURE_INVOICE_SETTINGS)): ?>
                                             <?php if($account->customLabel('client1')): ?>
                                                 <?php echo $__env->make('partials.custom_field', [
@@ -722,9 +722,9 @@ AUTO_BILL_ALWAYS => trans('texts.always'),
                                             <?php endif; ?>
                                         <?php endif; ?>
                                         <span data-bind="visible: $root.showMore">
-<?php echo Former::text('client[address1]')
-->label(trans('texts.address1'))
-->data_bind("value: address1, valueUpdate: 'afterkeydown'"); ?>
+                                            <?php echo Former::text('client[address1]')
+                                            ->label(trans('texts.address1'))
+                                            ->data_bind("value: address1, valueUpdate: 'afterkeydown'"); ?>
 
                                             <?php echo Former::text('client[address2]')
                                             ->label(trans('texts.address2'))
@@ -749,14 +749,13 @@ AUTO_BILL_ALWAYS => trans('texts.always'),
                                             ->fromQuery($countries, 'name', 'id')
                                             ->data_bind("dropdown: country_id"); ?>
 
-</span>
-
+                                            </span>
                                     </div>
                                     <div style="margin-left:0px;margin-right:0px"
                                          data-bind="css: {'col-md-6': $root.showMore}">
                                         <div data-bind='template: { foreach: contacts,
-beforeRemove: hideContact,
-afterAdd: showContact }'>
+                                            beforeRemove: hideContact,
+                                            afterAdd: showContact }'>
                                             <?php echo Former::hidden('public_id')->data_bind("value: public_id, valueUpdate: 'afterkeydown',
                                             attr: {name: 'client[contacts][' + \$index() + '][public_id]'}"); ?>
 
@@ -798,43 +797,49 @@ afterAdd: showContact }'>
                                             <?php endif; ?>
                                             <div class="form-group">
                                                 <div class="col-lg-8 col-lg-offset-4">
-<span class="redlink bold"
-      data-bind="visible: $parent.contacts().length > 1">
-<?php echo link_to('#', trans('texts.remove_contact').' -', array('data-bind'=>'click: $parent.removeContact')); ?>
+                                                    <span class="redlink bold"
+                                                          data-bind="visible: $parent.contacts().length > 1">
+                                                    <?php echo link_to('#', trans('texts.remove_contact').' -', array('data-bind'=>'click: $parent.removeContact')); ?>
 
-</span>
+                                                    </span>
                                                     <span data-bind="visible: $index() === ($parent.contacts().length - 1)"
                                                           class="pull-right greenlink bold">
-<?php echo link_to('#', trans('texts.add_contact').' +', array('data-bind'=>'click: $parent.addContact')); ?>
+                                                    <?php echo link_to('#', trans('texts.add_contact').' +', array('data-bind'=>'click: $parent.addContact')); ?>
 
-</span>
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
                                         <span data-bind="visible: $root.showMore">
-</span>
+                                        </span>
+                                        <!-- client currency -->
                                         <?php echo Former::select('client[currency_id]')->addOption('','')
                                         ->placeholder($account->currency ? trans('texts.currency_'.Str::slug($account->currency->name, '_')) : '')
                                         ->label(trans('texts.currency_id'))
                                         ->data_bind('value: currency_id')
                                         ->fromQuery($currencies, 'name', 'id'); ?>
 
+
                                         <span data-bind="visible: $root.showMore">
-<?php echo Former::select('client[language_id]')->addOption('','')
-->placeholder($account->language ? trans('texts.lang_'.$account->language->name) : '')
-->label(trans('texts.language_id'))
-->data_bind('value: language_id')
-->fromQuery($languages, 'name', 'id'); ?>
+                                            <!-- client language -->
+                                        <?php echo Former::select('client[language_id]')->addOption('','')
+                                        ->placeholder($account->language ? trans('texts.lang_'.$account->language->name) : '')
+                                        ->label(trans('texts.language_id'))
+                                        ->data_bind('value: language_id')
+                                        ->fromQuery($languages, 'name', 'id'); ?>
 
-                                            <?php echo Former::select('client[payment_terms]')->addOption('','')->data_bind('value: payment_terms')
-                                            ->fromQuery(\App\Models\PaymentTerm::getSelectOptions(), 'name', 'num_days')
-                                            ->label(trans('texts.payment_terms'))
-                                            ->help(trans('texts.payment_terms_help')); ?>
+                                        <!-- payment term -->
+                                        <?php echo Former::select('client[payment_terms]')->addOption('','')->data_bind('value: payment_terms')
+                                        ->fromQuery(\App\Models\PaymentTerm::getSelectOptions(), 'name', 'num_days')
+                                        ->label(trans('texts.payment_terms'))
+                                        ->help(trans('texts.payment_terms_help')); ?>
 
-                                            <?php echo Former::select('client[size_id]')->addOption('','')->data_bind('value: size_id')
-                                            ->label(trans('texts.size_id'))
-                                            ->fromQuery($sizes, 'name', 'id'); ?>
+                                        <!-- company size -->
+                                        <?php echo Former::select('client[size_id]')->addOption('','')->data_bind('value: size_id')
+                                        ->label(trans('texts.size_id'))
+                                        ->fromQuery($sizes, 'name', 'id'); ?>
 
+                                        <!-- industry -->
                                             <?php echo Former::select('client[industry_id]')->addOption('','')->data_bind('value: industry_id')
                                             ->label(trans('texts.industry_id'))
                                             ->fromQuery($industries, 'name', 'id'); ?>
@@ -843,15 +848,16 @@ afterAdd: showContact }'>
                                             ->label(trans('texts.private_notes'))
                                             ->data_bind("value: private_notes, attr:{ name: 'client[private_notes]'}"); ?>
 
-</span>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- footer  -->
                     <div class="modal-footer">
-<span class="error-block" id="emailError"
-      style="display:none;float:left;font-weight:bold"><?php echo e(trans('texts.provide_name_or_email')); ?></span>
+                        <span class="error-block" id="emailError"
+                              style="display:none;float:left;font-weight:bold"><?php echo e(trans('texts.provide_name_or_email')); ?></span>
                         <button type="button" class="btn btn-default"
                                 data-dismiss="modal"><?php echo e(trans('texts.cancel')); ?></button>
                         <button type="button" class="btn btn-default"
@@ -864,6 +870,7 @@ afterAdd: showContact }'>
                 </div>
             </div>
         </div>
+        <!-- model -->
         <div class="modal fade" id="recurringModal" tabindex="-1" role="dialog" aria-labelledby="recurringModalLabel"
              aria-hidden="true">
             <div class="modal-dialog" style="min-width:150px">
@@ -924,11 +931,11 @@ afterAdd: showContact }'>
         <?php echo Former::populateField('bulk_public_id', $invoice->public_id); ?>
 
         <span style="display:none">
-<?php echo Former::text('bulk_public_id'); ?>
+          <?php echo Former::text('bulk_public_id'); ?>
 
             <?php echo Former::text('bulk_action'); ?>
 
-</span>
+         </span>
         <?php echo Former::close(); ?>
 
     </div>
@@ -1552,9 +1559,8 @@ afterAdd: showContact }'>
                 <?php else: ?>
                 showPermissionErrorModal();
                 <?php endif; ?>
-
             }
-
+            // save item invoice
             $('#action').val(value);
             $('#submitButton').click();
         }

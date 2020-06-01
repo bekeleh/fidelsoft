@@ -1,9 +1,7 @@
-@extends('layouts.master')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="home-con">
         <div class="header-bg">
-            @include('partials.home-nav')
+            <?php echo $__env->make('partials.home-nav', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             <div>
                 <div style="padding: 109px 0px;" class="text-center">
                     <div style="margin-bottom: 45px;">
@@ -17,7 +15,7 @@
                         taskes
                         and manufacturing management solution.</p>
                     <div class="brand-buttons text-center">
-                        <a href="{{route('login')}}" class="btn btn-default home-head-btn">Login</a>
+                        <a href="<?php echo e(route('login')); ?>" class="btn btn-default home-head-btn">Login</a>
                     </div>
                 </div>
 
@@ -205,11 +203,13 @@
                         </ul>
                     </div>
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-right">
-                        Copyright © {{ date("Y") }}
+                        Copyright © <?php echo e(date("Y")); ?>
+
                         <a href="mailto:fidelinvoice@gmail.com" style="text-decoration: none;">FIDEL TEAM</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
