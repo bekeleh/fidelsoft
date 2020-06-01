@@ -60,6 +60,7 @@ class LoginController extends Controller
         return view('clientauth.login')->with(['clientauth' => true]);
     }
 
+//  after validate login
     protected function credentials(Request $request)
     {
         if ($contactKey = session('contact_key')) {
@@ -73,29 +74,29 @@ class LoginController extends Controller
             if ($auth) {
                 $account = $auth->account;
                 // resolve the email to a contact/account
-//            if (!Utils::isNinja() && Account::count() == 1) {
-//                $account = Account::first();
-//            } elseif ($accountKey = request()->account_key) {
-//                $account = Account::whereAccountKey($accountKey)->first();
-//            } else {
-//                $subdomain = Utils::getSubdomain(\Request::server('HTTP_HOST'));
-//                if ($subdomain && $subdomain != 'app') {
-//                    $account = Account::whereSubdomain($subdomain)->first();
+//                if (!Utils::isNinja() && Account::count() == 1) {
+//                    $account = Account::first();
+//                } elseif ($accountKey = request()->account_key) {
+//                    $account = Account::whereAccountKey($accountKey)->first();
+//                } else {
+//                    $subdomain = Utils::getSubdomain(\Request::server('HTTP_HOST'));
+//                    if ($subdomain && $subdomain != 'app') {
+//                        $account = Account::whereSubdomain($subdomain)->first();
+//                    }
 //                }
-//            }
-
                 if ($account) {
                     $credentials['account_id'] = $account->id;
                 }
             } else {
 //                return to login page
-                abort(500, 'Account not resolved in client login');
+                $this->sendFailedLoginResponse($request);
             }
         }
 
         return $credentials;
     }
 
+//  if valid client
     private function authenticated(Request $request, Authenticatable $contact)
     {
         session(['contact_key' => $contact->contact_key]);
@@ -112,6 +113,7 @@ class LoginController extends Controller
             ]);
     }
 
+// post client login
     protected function validateLogin(Request $request)
     {
         $rules = [
@@ -123,6 +125,7 @@ class LoginController extends Controller
         }
 
         $this->validate($request, $rules);
+
     }
 
     public function getSessionExpired()

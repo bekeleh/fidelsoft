@@ -2,33 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/storage/framework/cache/3b/9f/3b9f12f9e77f3b9632295abe99202c3e7484d5f1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/cache/83/1e/831e0f9c16a914db9dc1455669805acf911b2e86" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/cache/b2/be/b2be86c6673e09baa8c7608309514b989555ca07" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/cache/c1/f5/c1f5b78013057a5e0dfd4e1978538cab5611457d" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/zSxTCVY6Vumo204lkY9EcmSPe4Byi4Fc2gu31gjC" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/QuoteController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/QuoteController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/CreatePointOfSaleRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/CreatePointOfSaleRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/CreateProductRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/CreateProductRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdatePointOfSaleRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdatePointOfSaleRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdateProductRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateProductRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/EntityModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/EntityModel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Invoice.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Invoice.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/PointOfSale.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/PointOfSale.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Product.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/ItemPriceDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/ItemPriceDatatable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/ProductDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/ProductDatatable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Import/CSV/InvoiceTransformer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Import/CSV/InvoiceTransformer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Reports/ProductReport.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Reports/ProductReport.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/InvoiceRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/InvoiceRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/ItemPriceRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/ItemPriceRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/PointOfSaleRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/PointOfSaleRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/ProductRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/ProductRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/export/invoices.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/export/invoices.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/export/recurring_invoices.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/export/recurring_invoices.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/products/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/products/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/4b5Ij0LoVodtLxs8PlSzf1jjVfTenCIrDKIxkGvi" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/4b5Ij0LoVodtLxs8PlSzf1jjVfTenCIrDKIxkGvi" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ClientAuth/LoginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ClientAuth/LoginController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/4b5Ij0LoVodtLxs8PlSzf1jjVfTenCIrDKIxkGvi" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/sessions/GDDfllIXiHRkqd5vjH9MNH6VRhMXWvYern9bXkpW" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/GDDfllIXiHRkqd5vjH9MNH6VRhMXWvYern9bXkpW" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/sessions/S36n9e94atgBx8qHmWVfrqiU35KIYrpd6pChaisU" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/S36n9e94atgBx8qHmWVfrqiU35KIYrpd6pChaisU" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/9eaec7a1912e5681c0d192c47e44595ba72e45b9.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/9eaec7a1912e5681c0d192c47e44595ba72e45b9.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/a37fe76069d52b7b8fd9e2c950f79c492bbb4fb9.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/a37fe76069d52b7b8fd9e2c950f79c492bbb4fb9.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -457,14 +440,7 @@
       <workItem from="1590925480962" duration="13047000" />
       <workItem from="1590955586935" duration="3659000" />
       <workItem from="1590964257927" duration="587000" />
-      <workItem from="1591013684114" duration="8820000" />
-    </task>
-    <task id="LOCAL-00268" summary="2020-05-14 9:26">
-      <created>1589461527873</created>
-      <option name="number" value="00268" />
-      <option name="presentableId" value="LOCAL-00268" />
-      <option name="project" value="LOCAL" />
-      <updated>1589461527874</updated>
+      <workItem from="1591013684114" duration="11983000" />
     </task>
     <task id="LOCAL-00269" summary="2020-05-14 9:26">
       <created>1589470402376</created>
@@ -802,7 +778,14 @@
       <option name="project" value="LOCAL" />
       <updated>1591029079444</updated>
     </task>
-    <option name="localTasksCounter" value="317" />
+    <task id="LOCAL-00317" summary="2020-06-01 9:27">
+      <created>1591031891100</created>
+      <option name="number" value="00317" />
+      <option name="presentableId" value="LOCAL-00317" />
+      <option name="project" value="LOCAL" />
+      <updated>1591031891100</updated>
+    </task>
+    <option name="localTasksCounter" value="318" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -959,10 +942,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="303" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1280.680@0.0.1280.680" timestamp="1587324145930" />
-    <state x="305" y="61" width="906" height="606" key="find.popup" timestamp="1591031012903">
+    <state x="305" y="61" width="906" height="606" key="find.popup" timestamp="1591035775548">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="305" y="61" width="906" height="606" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1591031012903" />
+    <state x="305" y="61" width="906" height="606" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1591035775548" />
     <state x="316" y="37" width="983" height="691" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1586115855044" />
     <state x="215" y="69" width="849" height="606" key="find.popup/0.0.1440.860@0.0.1440.860" timestamp="1586178664001" />
     <state x="462" y="222" key="git4idea.merge.GitPullDialog" timestamp="1584633875966">
