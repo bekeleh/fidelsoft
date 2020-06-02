@@ -22,6 +22,8 @@ class Product extends EntityModel
         'item_tag',
         'notes',
         'cost',
+        'is_locked',
+        'is_public_id',
         'item_brand_id',
         'unit_id',
         'tax_name1',
