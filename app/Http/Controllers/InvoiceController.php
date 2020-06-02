@@ -381,11 +381,13 @@ class InvoiceController extends BaseController
                 $taxRateOptions[$key] = $rate['name'] . ' ' . $rate['rate'] . '%';
             }
         }
-        $userBranch = isset(Auth::user()->store->id) ? intval(Auth::user()->store->id) : null;
+
+        $userBranch = isset(Auth::user()->branch->id) ? intval(Auth::user()->branch->id) : null;
+
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account->load('country'),
-            'products' => Inventory::scope()->where('store_id', '=', $userBranch)->orderBy('name')->get(),
+            'products' => Inventory::scope()->where('branch_id', '=', $userBranch)->where('qty', '>', 0)->orderBy('name')->get(),
 //            'products' => Product::withCategory('itemBrand.itemCategory'),
             'taxRateOptions' => $taxRateOptions,
             'sizes' => Cache::get('sizes'),

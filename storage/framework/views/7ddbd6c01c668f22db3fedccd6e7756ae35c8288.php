@@ -33,7 +33,7 @@
                     ->help(trans('texts.item_help') . ' | ' . link_to('/products/', trans('texts.customize_options'))); ?>
 
                     <?php echo Former::select('store_id')->addOption('', '')
-                    ->label(trans('texts.store'))->addGroupClass('store-select')
+                    ->label(trans('texts.store_name'))->addGroupClass('store-select')
                     ->help(trans('texts.store_help') . ' | ' . link_to('/stores/', trans('texts.customize_options'))); ?>
 
 

@@ -98,11 +98,13 @@ class QuoteController extends BaseController
     private static function getViewModel()
     {
         $account = Auth::user()->account;
-        $userBranch = isset(Auth::user()->store->id) ? intval(Auth::user()->store->id) : null;
+
+        $userBranch = isset(Auth::user()->branch->id) ? intval(Auth::user()->branch->id) : null;
+
         return [
             'entityType' => ENTITY_QUOTE,
             'account' => Auth::user()->account->load('country'),
-            'products' => Inventory::scope()->where('store_id', '=', $userBranch)->orderBy('name')->get(),
+            'products' => Inventory::scope()->where('branch_id', '=', $userBranch)->where('qty', '>', 0)->orderBy('name')->get(),
 //            'products' => Product::withCategory('itemBrand.itemCategory'),
             'taxRateOptions' => $account->present()->taxRateOptions,
             'clients' => Client::scope()->with('contacts', 'country')->orderBy('name')->get(),
