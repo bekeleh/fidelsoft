@@ -99,4 +99,9 @@ class Location extends EntityModel
         return $this->hasMany('App\Models\Store')->withTrashed();
     }
 
+    public function branches()
+    {
+        return $this->hasMany('App\Models\Branch')->withTrashed();
+    }
+
 }

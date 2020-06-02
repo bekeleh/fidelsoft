@@ -3,6 +3,7 @@
 namespace App\Ninja\Repositories;
 
 use App\Models\Contact;
+use Illuminate\Support\Facades\DB;
 
 class ContactRepository extends BaseRepository
 {
@@ -18,6 +19,37 @@ class ContactRepository extends BaseRepository
         return Contact::scope()
             ->withTrashed()
             ->get();
+    }
+
+    public function find($accountId = false, $filter = null)
+    {
+        $query = DB::table('contacts')
+            ->where('contacts.account_id', '=', $accountId)
+//            ->where('contacts.deleted_at', '=', null)
+            ->select(
+                'contacts.id',
+                'contacts.public_id',
+                'contacts.first_name',
+                'contacts.is_deleted',
+                'contacts.notes',
+                'contacts.created_at',
+                'contacts.updated_at',
+                'contacts.deleted_at',
+                'contacts.created_by',
+                'contacts.updated_by',
+                'contacts.deleted_by'
+            );
+
+        if ($filter) {
+            $query->where(function ($query) use ($filter) {
+                $query->where('contacts.first_name', 'like', '%' . $filter . '%')
+                    ->orWhere('contacts.notes', 'like', '%' . $filter . '%');
+            });
+        }
+
+        $this->applyFilters($query, ENTITY_BRANCH);
+
+        return $query;
     }
 
     public function save($data, $contact = false)

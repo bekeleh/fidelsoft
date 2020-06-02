@@ -3,6 +3,7 @@
 namespace App\Ninja\Repositories;
 
 use App\Models\Branch;
+use App\Models\Location;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -28,6 +29,7 @@ class BranchRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('branches')
+            ->leftJoin('locations', 'locations.id', '=', 'branches.location_id')
             ->where('branches.account_id', '=', $accountId)
 //            ->where('branches.deleted_at', '=', null)
             ->select(
@@ -41,7 +43,9 @@ class BranchRepository extends BaseRepository
                 'branches.deleted_at',
                 'branches.created_by',
                 'branches.updated_by',
-                'branches.deleted_by'
+                'branches.deleted_by',
+                'locations.public_id as location_public_id',
+                'locations.name as location_name'
             );
 
         if ($filter) {
@@ -52,6 +56,15 @@ class BranchRepository extends BaseRepository
         }
 
         $this->applyFilters($query, ENTITY_BRANCH);
+
+        return $query;
+    }
+
+    public function findVendor($locationPublicId)
+    {
+        $locationId = Location::getPrivateId($locationPublicId);
+
+        $query = $this->find()->where('branches.location_id', '=', $locationId);
 
         return $query;
     }

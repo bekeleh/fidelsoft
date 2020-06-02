@@ -23,10 +23,7 @@
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
-                    {!! Former::text('name')->label('texts.hold_reason') !!}
-                    {!! Former::select('allow_invoice')
-                             ->placeholder(trans('texts.select_hold_reason'))
-                             ->fromQuery(\App\Models\HoldReason::getSelectOptions(), 'name', 'id') !!}
+                    {!! Former::text('name')->label('texts.branch_name') !!}
                     {!! Former::textarea('notes')->rows(6) !!}
                 </div>
             </div>
@@ -46,4 +43,20 @@
         </center>
     @endif
     {!! Former::close() !!}
+    <script type="text/javascript">
+        $(function () {
+            $('#name').focus();
+        });
+
+        function submitAction(action) {
+            $('#action').val(action);
+            $('.main-form').submit();
+        }
+
+        function onDeleteClick() {
+            sweetConfirm(function () {
+                submitAction('delete');
+            });
+        }
+    </script>
 @stop

@@ -74,7 +74,6 @@ class ExpenseController extends BaseController
         }
 
         $data = [
-            'vendorPublicId' => Input::old('vendor') ? Input::old('vendor') : $request->vendor_id,
             'expense' => null,
             'method' => 'POST',
             'url' => 'expenses',
@@ -82,6 +81,7 @@ class ExpenseController extends BaseController
             'vendor' => $vendor,
             'clientPublicId' => $request->client_id,
             'categoryPublicId' => $request->category_id,
+            'vendorPublicId' => Input::old('vendor') ? Input::old('vendor') : $request->vendor_id,
         ];
 
         $data = array_merge($data, self::getViewModel());

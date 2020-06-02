@@ -7,6 +7,7 @@ use App\Http\Requests\BranchRequest;
 use App\Http\Requests\UpdateBranchRequest;
 use App\Libraries\Utils;
 use App\Models\Branch;
+use App\Models\Location;
 use App\Ninja\Datatables\BranchDatatable;
 use App\Ninja\Repositories\BranchRepository;
 use App\Services\BranchService;
@@ -22,20 +23,20 @@ use Redirect;
 class BranchController extends BaseController
 {
 
-    protected $brachService;
+    protected $branchService;
 
     protected $branchRepo;
 
     /**
      * BranchController constructor.
      *
-     * @param BranchService $brachService
+     * @param BranchService $branchService
      * @param BranchRepository $branchRepo
      */
-    public function __construct(BranchService $brachService, BranchRepository $branchRepo)
+    public function __construct(BranchService $branchService, BranchRepository $branchRepo)
     {
         //parent::__construct();
-        $this->brachService = $brachService;
+        $this->branchService = $branchService;
         $this->branchRepo = $branchRepo;
     }
 
@@ -61,17 +62,28 @@ class BranchController extends BaseController
         $accountId = Auth::user()->account_id;
         $search = Input::get('sSearch');
 
-        return $this->brachService->getDatatable($accountId, $search);
+        return $this->branchService->getDatatable($accountId, $search);
+    }
+
+    public function getDatatableLocation($locationPublicId = null)
+    {
+        return $this->branchService->getDatatableLocation($locationPublicId);
     }
 
     public function create(BranchRequest $request)
     {
-        Auth::user()->can('create', [ENTITY_BRANCH, $request->entity()]);
+        if ($request->location_id != 0) {
+            $location = Location::scope($request->location_id)->firstOrFail();
+        } else {
+            $location = null;
+        }
+
         $data = [
             'branch' => null,
             'method' => 'POST',
             'url' => 'branches',
             'title' => trans('texts.create_branch'),
+            'locationPublicId' => Input::old('location') ? Input::old('location') : $request->location_id,
         ];
 
         $data = array_merge($data, self::getViewModel());
@@ -83,7 +95,7 @@ class BranchController extends BaseController
     {
         $data = $request->input();
 
-        $branch = $this->brachService->save($data);
+        $branch = $this->branchService->save($data);
 
         return redirect()->to("branches/{$branch->public_id}/edit")->with('success', trans('texts.created_branch'));
     }
@@ -111,6 +123,7 @@ class BranchController extends BaseController
             'method' => $method,
             'url' => $url,
             'title' => trans('texts.edit_branch'),
+            'locationPublicId' => $branch->location ? $branch->location->public_id : null
         ];
 
         $data = array_merge($data, self::getViewModel($branch));
@@ -121,7 +134,7 @@ class BranchController extends BaseController
     public function update(UpdateBranchRequest $request, $publicId)
     {
         $data = $request->input();
-        $branch = $this->brachService->save($data, $request->entity());
+        $branch = $this->branchService->save($data, $request->entity());
 
         $action = Input::get('action');
         if (in_array($action, ['archive', 'delete', 'restore', 'invoice', 'add_to_invoice'])) {
@@ -149,7 +162,7 @@ class BranchController extends BaseController
 
             return redirect("invoices/create")->with('branches', $data);
         } else {
-            $count = $this->brachService->bulk($ids, $action);
+            $count = $this->branchService->bulk($ids, $action);
         }
 
         $message = Utils::pluralize($action . 'd_branch', $count);
@@ -167,6 +180,7 @@ class BranchController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
+            'locations' => Location::scope()->withActiveOrSelected($branch ? $branch->vendor_id : false)->orderBy('name')->get(),
         ];
     }
 }

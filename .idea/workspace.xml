@@ -2,21 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/5NEajIlHK0piCLPEddbAhqYLWHtRdWrNtrSHJxiD" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/TYoUQsA9rdoRIqLE3JJOFtswp9vKwnO0HawMc2Ub" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/lDHkExy9JQpDUU6fEBiTrVT9fjt3R3B84f2ufGoU" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/8644ae4c6cfccca921348f08c40b59ac6b89a443.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/926c0e7484d7216f358911aa7183caf629bfbac1.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AccountGatewayController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AccountGatewayController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Libraries/Utils.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Libraries/Utils.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/AccountGatewayRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/AccountGatewayRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/AccountRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/AccountRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BranchController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BranchController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ExpenseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ExpenseController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/CreateBranchRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/CreateBranchRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdateBranchRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateBranchRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Branch.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Branch.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Location.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Location.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/BranchDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/BranchDatatable.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/BranchRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/BranchRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Services/AccountGatewayService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/AccountGatewayService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/ContactRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/ContactRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Services/BranchService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/BranchService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/Gm76eAt9w7xd1vyht3iNaY1M7M2qE8uy3XPTNTtg" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/Gm76eAt9w7xd1vyht3iNaY1M7M2qE8uy3XPTNTtg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/VuD77DewBZZKU7LIovtfREPs92IbotKAZXALWoqo" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/VuD77DewBZZKU7LIovtfREPs92IbotKAZXALWoqo" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/branches/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/branches/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/TYoUQsA9rdoRIqLE3JJOFtswp9vKwnO0HawMc2Ub" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/TYoUQsA9rdoRIqLE3JJOFtswp9vKwnO0HawMc2Ub" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/lDHkExy9JQpDUU6fEBiTrVT9fjt3R3B84f2ufGoU" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/lDHkExy9JQpDUU6fEBiTrVT9fjt3R3B84f2ufGoU" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +47,13 @@
   <component name="Git.Settings">
     <option name="PUSH_AUTO_UPDATE" value="true" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="hiddenUrls">
+      <set>
+        <option value="https://github.com/bekeleh/care.git" />
+      </set>
+    </option>
   </component>
   <component name="IgnoredFileRootStore">
     <option name="generatedRoots">
@@ -446,14 +454,7 @@
       <workItem from="1590955586935" duration="3659000" />
       <workItem from="1590964257927" duration="587000" />
       <workItem from="1591013684114" duration="13700000" />
-      <workItem from="1591082629811" duration="11653000" />
-    </task>
-    <task id="LOCAL-00273" summary="2020-05-15 9:26">
-      <created>1589580179052</created>
-      <option name="number" value="00273" />
-      <option name="presentableId" value="LOCAL-00273" />
-      <option name="project" value="LOCAL" />
-      <updated>1589580179053</updated>
+      <workItem from="1591082629811" duration="14413000" />
     </task>
     <task id="LOCAL-00274" summary="2020-05-21 9:26">
       <created>1590055258057</created>
@@ -791,11 +792,29 @@
       <option name="project" value="LOCAL" />
       <updated>1591094585027</updated>
     </task>
-    <option name="localTasksCounter" value="322" />
+    <task id="LOCAL-00322" summary="2020-06-02 9:27">
+      <created>1591097355927</created>
+      <option name="number" value="00322" />
+      <option name="presentableId" value="LOCAL-00322" />
+      <option name="project" value="LOCAL" />
+      <updated>1591097355927</updated>
+    </task>
+    <option name="localTasksCounter" value="323" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
@@ -855,10 +874,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="371" y="89" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1280.680@0.0.1280.680" timestamp="1588775995159" />
-    <state x="400" y="147" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1591096936139">
+    <state x="400" y="147" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1591101332993">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="400" y="147" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1280.680@0.0.1280.680" timestamp="1591096936139" />
+    <state x="400" y="147" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1280.680@0.0.1280.680" timestamp="1591101332993" />
     <state x="427" y="157" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.728@0.0.1366.728" timestamp="1586118013995" />
     <state x="450" y="185" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.860@0.0.1440.860" timestamp="1585300838388" />
     <state x="500" y="356" key="#com.jetbrains.php.lang.intentions.PhpImportClassDialog#" timestamp="1583994492849">
