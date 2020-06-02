@@ -11,6 +11,7 @@ use App\Models\Activity;
 use App\Models\Client;
 use App\Models\Expense;
 use App\Models\Frequency;
+use App\Models\Inventory;
 use App\Models\Invoice;
 use App\Models\InvoiceDesign;
 use App\Models\Payment;
@@ -304,6 +305,7 @@ class InvoiceController extends BaseController
 
     private static function getViewModel($invoice)
     {
+
         $account = Auth::user()->account;
         $recurringHelp = '';
         $recurringDueDateHelp = '';
@@ -379,11 +381,12 @@ class InvoiceController extends BaseController
                 $taxRateOptions[$key] = $rate['name'] . ' ' . $rate['rate'] . '%';
             }
         }
-
+        $userBranch = isset(Auth::user()->store->id) ? intval(Auth::user()->store->id) : null;
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account->load('country'),
-            'products' => Product::withCategory('itemBrand.itemCategory'),
+            'products' => Inventory::scope()->where('store_id', '=', $userBranch)->orderBy('name')->get(),
+//            'products' => Product::withCategory('itemBrand.itemCategory'),
             'taxRateOptions' => $taxRateOptions,
             'sizes' => Cache::get('sizes'),
             'invoiceDesigns' => InvoiceDesign::getDesigns(),

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\QuoteRequest;
 use App\Libraries\Utils;
 use App\Models\Client;
+use App\Models\Inventory;
 use App\Models\Invitation;
 use App\Models\Invoice;
 use App\Models\InvoiceDesign;
@@ -97,11 +98,11 @@ class QuoteController extends BaseController
     private static function getViewModel()
     {
         $account = Auth::user()->account;
-
+        $userBranch = isset(Auth::user()->store->id) ? intval(Auth::user()->store->id) : null;
         return [
             'entityType' => ENTITY_QUOTE,
             'account' => Auth::user()->account->load('country'),
-            'products' => Product::scope()->orderBy('name')->get(),
+            'products' => Inventory::scope()->where('store_id', '=', $userBranch)->orderBy('name')->get(),
 //            'products' => Product::withCategory('itemBrand.itemCategory'),
             'taxRateOptions' => $account->present()->taxRateOptions,
             'clients' => Client::scope()->with('contacts', 'country')->orderBy('name')->get(),

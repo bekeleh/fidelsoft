@@ -2,16 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/storage/framework/cache/3b/9f/3b9f12f9e77f3b9632295abe99202c3e7484d5f1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/cache/83/1e/831e0f9c16a914db9dc1455669805acf911b2e86" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/cache/b2/be/b2be86c6673e09baa8c7608309514b989555ca07" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/cache/c1/f5/c1f5b78013057a5e0dfd4e1978538cab5611457d" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/zSxTCVY6Vumo204lkY9EcmSPe4Byi4Fc2gu31gjC" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Models/Inventory.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/Gm76eAt9w7xd1vyht3iNaY1M7M2qE8uy3XPTNTtg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/RrzG6cE8b6sJvxcjwaWdB9uJbrNVQNIDUgNReiYv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/VuD77DewBZZKU7LIovtfREPs92IbotKAZXALWoqo" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/gtM1H1kbyPAI81ORrfF4YgS1vHFxRnn276d2N9Tn" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/2263b0fc9627f0d3f11e4cc743ebf89613685dc2.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/3ec85e5a74104818341afdba66b9d058ab5d670d.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/7ddbd6c01c668f22db3fedccd6e7756ae35c8288.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/927eb1ef74f25f82622223038ffaefecb561658c.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/a801fc4af465e812f8db877722e017bcb2816dfa.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ClientAuth/LoginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ClientAuth/LoginController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/4b5Ij0LoVodtLxs8PlSzf1jjVfTenCIrDKIxkGvi" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/GDDfllIXiHRkqd5vjH9MNH6VRhMXWvYern9bXkpW" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/GDDfllIXiHRkqd5vjH9MNH6VRhMXWvYern9bXkpW" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/S36n9e94atgBx8qHmWVfrqiU35KIYrpd6pChaisU" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/S36n9e94atgBx8qHmWVfrqiU35KIYrpd6pChaisU" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/InvoiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/InvoiceController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/QuoteController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/QuoteController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/EntityModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/EntityModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Product.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Project.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Project.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/InvoiceRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/InvoiceRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/cache/b2/be/b2be86c6673e09baa8c7608309514b989555ca07" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/cache/c1/f5/c1f5b78013057a5e0dfd4e1978538cab5611457d" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/99yT1sAujgfVdBkU1oH4Hvwk218GLMoaebFcLfqA" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/S36n9e94atgBx8qHmWVfrqiU35KIYrpd6pChaisU" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/zSxTCVY6Vumo204lkY9EcmSPe4Byi4Fc2gu31gjC" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -440,14 +452,8 @@
       <workItem from="1590925480962" duration="13047000" />
       <workItem from="1590955586935" duration="3659000" />
       <workItem from="1590964257927" duration="587000" />
-      <workItem from="1591013684114" duration="11983000" />
-    </task>
-    <task id="LOCAL-00269" summary="2020-05-14 9:26">
-      <created>1589470402376</created>
-      <option name="number" value="00269" />
-      <option name="presentableId" value="LOCAL-00269" />
-      <option name="project" value="LOCAL" />
-      <updated>1589470402376</updated>
+      <workItem from="1591013684114" duration="13700000" />
+      <workItem from="1591082629811" duration="5272000" />
     </task>
     <task id="LOCAL-00270" summary="2020-05-14 9:26">
       <created>1589488952239</created>
@@ -785,7 +791,14 @@
       <option name="project" value="LOCAL" />
       <updated>1591031891100</updated>
     </task>
-    <option name="localTasksCounter" value="318" />
+    <task id="LOCAL-00318" summary="2020-06-01 9:27">
+      <created>1591036110605</created>
+      <option name="number" value="00318" />
+      <option name="presentableId" value="LOCAL-00318" />
+      <option name="project" value="LOCAL" />
+      <updated>1591036110605</updated>
+    </task>
+    <option name="localTasksCounter" value="319" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -849,10 +862,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="371" y="89" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1280.680@0.0.1280.680" timestamp="1588775995159" />
-    <state x="400" y="147" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1590963042963">
+    <state x="400" y="147" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1591088970695">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="400" y="147" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1280.680@0.0.1280.680" timestamp="1590963042963" />
+    <state x="400" y="147" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1280.680@0.0.1280.680" timestamp="1591088970695" />
     <state x="427" y="157" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.728@0.0.1366.728" timestamp="1586118013995" />
     <state x="450" y="185" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.860@0.0.1440.860" timestamp="1585300838388" />
     <state x="500" y="356" key="#com.jetbrains.php.lang.intentions.PhpImportClassDialog#" timestamp="1583994492849">
@@ -867,10 +880,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1590585842435" />
-    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1591031888761">
+    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1591089933485">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1591031888761" />
+    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1591089933485" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="418" y="255" key="ComposerInitDialogKey" timestamp="1589789975070">
@@ -911,10 +924,10 @@
     </state>
     <state x="468" y="194" key="NewPhpClassDialog/0.0.1280.680@0.0.1280.680" timestamp="1590585779521" />
     <state x="527" y="245" key="NewPhpClassDialog/0.0.1440.860@0.0.1440.860" timestamp="1585293911127" />
-    <state x="536" y="236" key="NewPhpFileDialog" timestamp="1590879321310">
+    <state x="536" y="236" key="NewPhpFileDialog" timestamp="1591082663417">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="536" y="236" key="NewPhpFileDialog/0.0.1280.680@0.0.1280.680" timestamp="1590879321310" />
+    <state x="536" y="236" key="NewPhpFileDialog/0.0.1280.680@0.0.1280.680" timestamp="1591082663417" />
     <state x="447" y="189" key="NewPhpFileDialog/0.0.1366.728@0.0.1366.728" timestamp="1586116260809" />
     <state x="471" y="223" key="NewPhpFileDialog/0.0.1440.860@0.0.1440.860" timestamp="1585320200513" />
     <state x="394" y="64" key="RollbackChangesDialog" timestamp="1590957127259">
@@ -932,10 +945,10 @@
     </state>
     <state x="296" y="138" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1586200886074" />
     <state x="312" y="163" key="Vcs.Push.Dialog.v2/0.0.1440.860@0.0.1440.860" timestamp="1585235941756" />
-    <state x="421" y="115" key="com.intellij.ide.util.TipDialog" timestamp="1591013785076">
+    <state x="421" y="115" key="com.intellij.ide.util.TipDialog" timestamp="1591082631451">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="421" y="115" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1591013785076" />
+    <state x="421" y="115" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1591082631451" />
     <state x="408" y="139" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1586189894452" />
     <state x="430" y="164" key="com.intellij.ide.util.TipDialog/0.0.1440.860@0.0.1440.860" timestamp="1586154234151" />
     <state x="303" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1587324145930">

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Laracasts\Presenter\PresentableTrait;
 
 class Product extends EntityModel
@@ -109,4 +111,22 @@ class Product extends EntityModel
         return $this->hasMany('App\Models\ItemPrice', 'product_id')->withTrashed();
     }
 
+    public function scopeInventory($query, $publicId = false, $accountId = false)
+    {
+        $query = DB::table('products')
+            ->leftJoin('item_brands', 'item_brands.id', 'products.item_brand_id')
+            ->leftJoin('item_categories', 'item_categories.id', 'item_brands.item_category_id')
+            ->leftJoin('item_stores', 'item_stores.product_id', 'products.id')
+            ->leftJoin('item_stores', 'item_stores.store_id', 'stores.id')
+            ->where('products.account_id', '=', $accountId)
+//            ->where('products.is_deleted', '=', null)
+            ->select
+            (
+                'products.id',
+                'products.name'
+            );
+
+
+        return $query;
+    }
 }

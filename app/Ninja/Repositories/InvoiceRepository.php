@@ -594,9 +594,8 @@ class InvoiceRepository extends BaseRepository
 
             $total += round($lineTotal, 2);
         }
-//      client already specified, we can override here
+//      client item price already specified, we can override here
         foreach ($data['invoice_items'] as $item) {
-            \Log::Info($item);
             $item = (array)$item;
             $invoiceItemCost = Utils::roundSignificant(Utils::parseFloat($item['cost']));
             $invoiceItemQty = Utils::roundSignificant(Utils::parseFloat($item['qty']));
@@ -784,6 +783,7 @@ class InvoiceRepository extends BaseRepository
                             if (!$account->convert_products) {
                                 $product->cost = $expense ? 0 : Utils::parseFloat($item['cost']);
                             }
+
                             $product->tax_name1 = isset($item['tax_name1']) ? $item['tax_name1'] : null;
                             $product->tax_rate1 = isset($item['tax_rate1']) ? $item['tax_rate1'] : 0;
                             $product->tax_name2 = isset($item['tax_name2']) ? $item['tax_name2'] : null;
@@ -804,6 +804,7 @@ class InvoiceRepository extends BaseRepository
             $invoiceItem->notes = trim($invoice->is_recurring ? $item['notes'] : Utils::processVariables($item['notes']));
             $invoiceItem->cost = Utils::parseFloat($item['cost']);
             $invoiceItem->qty = Utils::parseFloat($item['qty']);
+            $invoiceItem->created_by = auth::user()->username;
 
             if (isset($item['custom_value1'])) {
                 $invoiceItem->custom_value1 = $item['custom_value1'];
