@@ -2,14 +2,33 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/branchs/edit.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/17306dd54178d975d5a208d13cc096f90740d1ff.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/9d1ea7ef5ef9171247a81875bea241e18618ca43.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/b9c184f59cfa610898c251f319bb77b77e2de5ce.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/BranchApiController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/BranchController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Requests/BranchRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Requests/CreateBranchRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateBranchRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Models/Branch.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Ninja/Datatables/BranchDatatable.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Ninja/Presenters/BranchPresenter.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Ninja/Repositories/BranchRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Policies/BranchPolicy.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Services/BranchService.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/0dded92a1d1d7ff682899fcb41d90fcd687ba3f7.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/92c3fe269471bf3f6566addf60ae50c9bd963629.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/a71b7fca888cc7a2b77f99efc26e8c800250a8dd.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/partials/system_settings.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/partials/system_settings.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Constants.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Constants.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/DepartmentApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/DepartmentApiController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/CreateDepartmentRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/CreateDepartmentRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/branchs/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/branches/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/hold_reasons/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/hold_reasons/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/sessions/VuD77DewBZZKU7LIovtfREPs92IbotKAZXALWoqo" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/VuD77DewBZZKU7LIovtfREPs92IbotKAZXALWoqo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -439,14 +458,7 @@
       <workItem from="1590955586935" duration="3659000" />
       <workItem from="1590964257927" duration="587000" />
       <workItem from="1591013684114" duration="13700000" />
-      <workItem from="1591082629811" duration="6797000" />
-    </task>
-    <task id="LOCAL-00271" summary="2020-05-15 9:26">
-      <created>1589541287981</created>
-      <option name="number" value="00271" />
-      <option name="presentableId" value="LOCAL-00271" />
-      <option name="project" value="LOCAL" />
-      <updated>1589541287983</updated>
+      <workItem from="1591082629811" duration="9270000" />
     </task>
     <task id="LOCAL-00272" summary="2020-05-15 9:26">
       <created>1589555976189</created>
@@ -784,7 +796,14 @@
       <option name="project" value="LOCAL" />
       <updated>1591089936666</updated>
     </task>
-    <option name="localTasksCounter" value="320" />
+    <task id="LOCAL-00320" summary="2020-06-02 9:27">
+      <created>1591091478448</created>
+      <option name="number" value="00320" />
+      <option name="presentableId" value="LOCAL-00320" />
+      <option name="project" value="LOCAL" />
+      <updated>1591091478448</updated>
+    </task>
+    <option name="localTasksCounter" value="321" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -866,10 +885,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1590585842435" />
-    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1591089933485">
+    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1591091476590">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1591089933485" />
+    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1591091476590" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="418" y="255" key="ComposerInitDialogKey" timestamp="1589789975070">
@@ -910,10 +929,10 @@
     </state>
     <state x="468" y="194" key="NewPhpClassDialog/0.0.1280.680@0.0.1280.680" timestamp="1590585779521" />
     <state x="527" y="245" key="NewPhpClassDialog/0.0.1440.860@0.0.1440.860" timestamp="1585293911127" />
-    <state x="536" y="236" key="NewPhpFileDialog" timestamp="1591090344026">
+    <state x="536" y="236" key="NewPhpFileDialog" timestamp="1591094395188">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="536" y="236" key="NewPhpFileDialog/0.0.1280.680@0.0.1280.680" timestamp="1591090344026" />
+    <state x="536" y="236" key="NewPhpFileDialog/0.0.1280.680@0.0.1280.680" timestamp="1591094395188" />
     <state x="447" y="189" key="NewPhpFileDialog/0.0.1366.728@0.0.1366.728" timestamp="1586116260809" />
     <state x="471" y="223" key="NewPhpFileDialog/0.0.1440.860@0.0.1440.860" timestamp="1585320200513" />
     <state x="394" y="64" key="RollbackChangesDialog" timestamp="1590957127259">

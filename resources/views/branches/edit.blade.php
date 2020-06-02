@@ -5,10 +5,10 @@
     {!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['name' => 'required|max:255','allow_invoice' => 'required','notes' => 'required|max:255'])
+    ->rules(['name' => 'required|max:255','notes' => 'required|max:255'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
-    @if ($holdReason)
-        {{ Former::populate($holdReason) }}
+    @if ($branch)
+        {{ Former::populate($branch) }}
         <div style="display:none">
             {!! Former::text('public_id') !!}
         </div>
@@ -33,32 +33,13 @@
         </div>
     </div>
 
-    @foreach(Module::getOrdered() as $module)
-        @if(View::exists($module->alias . '::hold_reasons.edit'))
-            <div class="row">
-                <div class="col-lg-10 col-lg-offset-1">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title in-white">
-                                <i class="fa fa-{{ $module->icon }}"></i>
-                                {{ $module->name}}
-                            </h3>
-                        </div>
-                        <div class="panel-body form-padding-right">
-                            @includeIf($module->alias . '::hold_reasons.edit')
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
-    @endforeach
-    @if (Auth::user()->canCreateOrEdit(ENTITY_HOLD_REASON, $holdReason))
+    @if (Auth::user()->canCreateOrEdit(ENTITY_BRANCH, $branch))
         <center class="buttons">
-            {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/hold_reasons'))->appendIcon(Icon::create('remove-circle')) !!}
+            {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/branches'))->appendIcon(Icon::create('remove-circle')) !!}
             {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
-            @if ($holdReason)
+            @if ($branch)
                 {!! DropdownButton::normal(trans('texts.more_actions'))
-                ->withContents($holdReason->present()->moreActions())
+                ->withContents($branch->present()->moreActions())
                 ->large()
                 ->dropup() !!}
             @endif

@@ -2,27 +2,27 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Department;
+use App\Models\Branch;
 
-class CreateDepartmentRequest extends DepartmentRequest
+class UpdateBranchRequest extends BranchRequest
 {
     protected $entityType = ENTITY_DEPARTMENT;
 
     public function authorize()
     {
-        return $this->user()->can('create', $this->entityType);
+        return $this->user()->can('create', ENTITY_DEPARTMENT);
     }
 
     public function rules()
     {
-        $this->sanitize();
         $rules = [];
+        $this->sanitize();
         $this->validationData();
-        $rules['name'] = 'required|max:90|unique:departments,name,' . $this->id . ',id,account_id,' . $this->account_id;
-        $rules['notes'] = 'nullable';
+        $branch = $this->entity();
+        if ($branch)
+            $rules['name'] = 'required|max:90|unique:departments,name,' . $branch->id . ',id,account_id,' . $branch->account_id;
         $rules['is_deleted'] = 'boolean';
         $rules['notes'] = 'nullable';
-
         return $rules;
     }
 
@@ -44,10 +44,10 @@ class CreateDepartmentRequest extends DepartmentRequest
         $input = $this->all();
         if (count($input)) {
             $this->request->add([
-                'account_id' => Department::getAccountId()
+                'account_id' => Branch::getAccountId()
             ]);
         }
-        
+
         return $this->request->all();
     }
 }

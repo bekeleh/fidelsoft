@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Department;
+use App\Models\Branch;
 
-class CreateDepartmentRequest extends DepartmentRequest
+class CreateBranchRequest extends BranchRequest
 {
-    protected $entityType = ENTITY_DEPARTMENT;
+    protected $entityType = ENTITY_BRANCH;
 
     public function authorize()
     {
@@ -44,10 +44,10 @@ class CreateDepartmentRequest extends DepartmentRequest
         $input = $this->all();
         if (count($input)) {
             $this->request->add([
-                'account_id' => Department::getAccountId()
+                'account_id' => Branch::getAccountId()
             ]);
         }
-        
+
         return $this->request->all();
     }
 }

@@ -6,6 +6,7 @@ use App\Models\AccountGateway;
 use App\Models\AccountGatewayToken;
 use App\Models\AccountToken;
 use App\Models\BankAccount;
+use App\Models\Branch;
 use App\Models\Client;
 use App\Models\Contact;
 use App\Models\Credit;
@@ -44,6 +45,7 @@ use App\Models\User;
 use App\Models\Vendor;
 use App\Policies\AccountGatewayPolicy;
 use App\Policies\BankAccountPolicy;
+use App\Policies\BranchPolicy;
 use App\Policies\ClientPolicy;
 use App\Policies\ContactPolicy;
 use App\Policies\CreditPolicy;
@@ -114,6 +116,7 @@ class AuthServiceProvider extends ServiceProvider
         ItemBrand::class => ItemBrandPolicy::class,
         Location::class => LocationPolicy::class,
         Department::class => DepartmentPolicy::class,
+        Branch::class => BranchPolicy::class,
         Store::class => StorePolicy::class,
         ItemStore::class => ItemStorePolicy::class,
         ItemTransfer::class => ItemTransferPolicy::class,

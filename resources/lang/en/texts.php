@@ -76,6 +76,28 @@ $LANG = array(
     'archived_scheduled_report' => 'Successfully Archived Scheduled Report',
     'restored_scheduled_report' => 'Successfully Restored Scheduled Report',
     'deleted_scheduled_report' => 'Successfully Deleted Scheduled Report',
+    /*
+|--------------------------------------------------------------------------
+| branch  trans
+|--------------------------------------------------------------------------
+*/
+    'branch_name' => 'Branch Name',
+    'branches' => 'Branches',
+    'branch_list' => 'Branch List',
+    'list_branches' => 'List Branch',
+    'archive_branch' => 'Archive Branch',
+    'create_branch' => 'Create Branch',
+    'edit_branch' => 'Edit Branch',
+    'delete_branch' => 'Delete Branch',
+    'clone_branch' => 'Clone Branch',
+    'restore_branch' => 'Restore Branch',
+    'new_branch' => 'New Branch',
+    'created_branch' => 'Successfully Created Branch',
+    'updated_branch' => 'Successfully Updated Branch',
+    'archived_branch' => 'Successfully Archived Branch',
+    'restored_branch' => 'Successfully Restored Branch',
+    'deleted_branch' => 'Successfully Deleted Branch',
+    'branch_help' => 'Sets the default <b>branch</b>',
 
     /*
 |--------------------------------------------------------------------------

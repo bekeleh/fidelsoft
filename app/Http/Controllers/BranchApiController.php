@@ -2,35 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateDepartmentRequest;
-use App\Http\Requests\DepartmentRequest;
-use App\Http\Requests\UpdateDepartmentRequest;
-use App\Models\Department;
-use App\Ninja\Repositories\DepartmentRepository;
+use App\Http\Requests\CreateBranchRequest;
+use App\Http\Requests\BranchRequest;
+use App\Http\Requests\UpdateBranchRequest;
+use App\Models\Branch;
+use App\Ninja\Repositories\BranchRepository;
 
-class DepartmentApiController extends BaseAPIController
+class BranchApiController extends BaseAPIController
 {
-    protected $departmentRepo;
+    protected $branchRepo;
 
-    protected $entityType = ENTITY_DEPARTMENT;
+    protected $entityType = ENTITY_BRANCH;
 
-    public function __construct(DepartmentRepository $departmentRepo)
+    public function __construct(BranchRepository $branchRepo)
     {
         parent::__construct();
 
-        $this->departmentRepo = $departmentRepo;
+        $this->branchRepo = $branchRepo;
     }
 
     /**
      * @SWG\Get(
-     *   path="/departments",
-     *   summary="List departments",
-     *   operationId="listDepartments",
+     *   path="/branchs",
+     *   summary="List branchs",
+     *   operationId="listBranchs",
      *   tags={"credit"},
      *   @SWG\Response(
      *     response=200,
-     *     description="A list of departments",
-     *      @SWG\Schema(type="array", @SWG\Items(ref="#/definitions/Department"))
+     *     description="A list of branchs",
+     *      @SWG\Schema(type="array", @SWG\Branches(ref="#/definitions/Branch"))
      *   ),
      *   @SWG\Response(
      *     response="default",
@@ -40,95 +40,95 @@ class DepartmentApiController extends BaseAPIController
      */
     public function index()
     {
-        $departments = Department::scope()
+        $branchs = Branch::scope()
             ->withTrashed()
             ->orderBy('updated_at', 'desc');
 
-        return $this->listResponse($departments);
+        return $this->listResponse($branchs);
     }
 
     /**
      * @SWG\Get(
-     *   path="/departments/{department_id}",
+     *   path="/branchs/{branch_id}",
      *   summary="Retrieve a credit",
-     *   operationId="getDepartment",
+     *   operationId="getBranch",
      *   tags={"credit"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="department_id",
+     *     name="branch_id",
      *     type="integer",
      *     required=true
      *   ),
      *   @SWG\Response(
      *     response=200,
      *     description="A single credit",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Department"))
+     *      @SWG\Schema(type="object", @SWG\Branches(ref="#/definitions/Branch"))
      *   ),
      *   @SWG\Response(
      *     response="default",
      *     description="an ""unexpected"" error"
      *   )
      * )
-     * @param DepartmentRequest $request
+     * @param BranchRequest $request
      * @return
      */
-    public function show(DepartmentRequest $request)
+    public function show(BranchRequest $request)
     {
         return $this->itemResponse($request->entity());
     }
 
     /**
      * @SWG\Post(
-     *   path="/departments",
+     *   path="/branchs",
      *   summary="Create a credit",
-     *   operationId="createDepartment",
+     *   operationId="createBranch",
      *   tags={"credit"},
      *   @SWG\Parameter(
      *     in="body",
      *     name="credit",
-     *     @SWG\Schema(ref="#/definitions/Department")
+     *     @SWG\Schema(ref="#/definitions/Branch")
      *   ),
      *   @SWG\Response(
      *     response=200,
      *     description="New credit",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Department"))
+     *      @SWG\Schema(type="object", @SWG\Branches(ref="#/definitions/Branch"))
      *   ),
      *   @SWG\Response(
      *     response="default",
      *     description="an ""unexpected"" error"
      *   )
      * )
-     * @param CreateDepartmentRequest $request
+     * @param CreateBranchRequest $request
      * @return
      */
-    public function store(CreateDepartmentRequest $request)
+    public function store(CreateBranchRequest $request)
     {
-        $department = $this->departmentRepo->save($request->input());
+        $branch = $this->branchRepo->save($request->input());
 
-        return $this->itemResponse($department);
+        return $this->itemResponse($branch);
     }
 
     /**
      * @SWG\Put(
-     *   path="/departments/{department_id}",
+     *   path="/branchs/{branch_id}",
      *   summary="Update a credit",
-     *   operationId="updateDepartment",
+     *   operationId="updateBranch",
      *   tags={"credit"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="department_id",
+     *     name="branch_id",
      *     type="integer",
      *     required=true
      *   ),
      *   @SWG\Parameter(
      *     in="body",
      *     name="credit",
-     *     @SWG\Schema(ref="#/definitions/Department")
+     *     @SWG\Schema(ref="#/definitions/Branch")
      *   ),
      *   @SWG\Response(
      *     response=200,
      *     description="Updated credit",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Department"))
+     *      @SWG\Schema(type="object", @SWG\Branches(ref="#/definitions/Branch"))
      *   ),
      *   @SWG\Response(
      *     response="default",
@@ -136,11 +136,11 @@ class DepartmentApiController extends BaseAPIController
      *   )
      * )
      *
-     * @param UpdateDepartmentRequest $request
+     * @param UpdateBranchRequest $request
      * @param mixed $publicId
      * @return
      */
-    public function update(UpdateDepartmentRequest $request, $publicId)
+    public function update(UpdateBranchRequest $request, $publicId)
     {
         if ($request->action) {
             return $this->handleAction($request);
@@ -148,42 +148,42 @@ class DepartmentApiController extends BaseAPIController
 
         $data = $request->input();
         $data['public_id'] = $publicId;
-        $department = $this->departmentRepo->save($data, $request->entity());
+        $branch = $this->branchRepo->save($data, $request->entity());
 
-        return $this->itemResponse($department);
+        return $this->itemResponse($branch);
     }
 
     /**
      * @SWG\Delete(
-     *   path="/departments/{department_id}",
+     *   path="/branchs/{branch_id}",
      *   summary="Delete a credit",
-     *   operationId="deleteDepartment",
+     *   operationId="deleteBranch",
      *   tags={"credit"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="department_id",
+     *     name="branch_id",
      *     type="integer",
      *     required=true
      *   ),
      *   @SWG\Response(
      *     response=200,
      *     description="Deleted credit",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Department"))
+     *      @SWG\Schema(type="object", @SWG\Branches(ref="#/definitions/Branch"))
      *   ),
      *   @SWG\Response(
      *     response="default",
      *     description="an ""unexpected"" error"
      *   )
      * )
-     * @param UpdateDepartmentRequest $request
+     * @param UpdateBranchRequest $request
      * @return
      */
-    public function destroy(UpdateDepartmentRequest $request)
+    public function destroy(UpdateBranchRequest $request)
     {
-        $department = $request->entity();
+        $branch = $request->entity();
 
-        $this->departmentRepo->delete($department);
+        $this->branchRepo->delete($branch);
 
-        return $this->itemResponse($department);
+        return $this->itemResponse($branch);
     }
 }

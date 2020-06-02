@@ -265,12 +265,12 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
     Route::get('credits/create/{client_id?}/{invoice_id?}', 'CreditController@create');
     Route::get('api/credits/{client_id?}', 'CreditController@getDatatable');
     Route::post('credits/bulk', 'CreditController@bulk');
-    //  approval status
+//  approval status
     Route::get('statuses/{statuses}/clone', 'StatusController@cloneStatus');
     Route::get('api/statuses', 'StatusController@getDatatable');
     Route::resource('statuses', 'StatusController');
     Route::post('statuses/bulk', 'StatusController@bulk');
-    //  manufacturer
+//  manufacturer
     Route::get('manufacturers/{manufacturers}/clone', 'ManufacturerController@cloneManufacturer');
     Route::get('api/manufacturers', 'ManufacturerController@getDatatable');
     Route::resource('manufacturers', 'ManufacturerController');
@@ -324,6 +324,11 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
     Route::resource('item_prices', 'ItemPriceController');
     Route::get('api/item_prices', 'ItemPriceController@getDatatable');
     Route::post('item_prices/bulk', 'ItemPriceController@bulk');
+//       branch
+    Route::get('branches/{branches}/clone', 'BranchController@cloneBranch');
+    Route::get('api/branches', 'BranchController@getDatatable');
+    Route::resource('branches', 'BranchController');
+    Route::post('branches/bulk', 'BranchController@bulk');
 //       department
     Route::get('departments/{departments}/clone', 'departmentController@cloneDepartment');
     Route::get('api/departments', 'departmentController@getDatatable');
@@ -349,17 +354,17 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
     Route::get('api/hold_reasons', 'HoldReasonController@getDatatable');
     Route::resource('hold_reasons', 'HoldReasonController');
     Route::post('hold_reasons/bulk', 'HoldReasonController@bulk');
-    //   schedule category
+//   schedule category
     Route::get('schedule_categories/{schedule_categories}/clone', 'ScheduleCategoryController@cloneScheduleCategory');
     Route::get('api/schedule_categories', 'ScheduleCategoryController@getDatatable');
     Route::resource('schedule_categories', 'ScheduleCategoryController');
     Route::post('schedule_categories/bulk', 'ScheduleCategoryController@bulk');
-    //   schedule
+//   schedule
     Route::get('schedules/{schedules}/clone', 'ScheduleController@cloneSchedule');
     Route::get('api/schedules', 'ScheduleController@getDatatable');
     Route::resource('schedules', 'ScheduleController');
     Route::post('schedules/bulk', 'ScheduleController@bulk');
-    //   scheduled report
+//   scheduled report
     Route::get('scheduled_reports/{scheduled_reports}/clone', 'ScheduledReportController@cloneScheduleReport');
     Route::get('api/scheduled_reports', 'ScheduledReportController@getDatatable');
     Route::resource('scheduled_reports', 'ScheduledReportController');
@@ -368,13 +373,13 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
     Route::get('/resend_confirmation', 'AccountController@resendConfirmation');
     Route::post('/update_setup', 'AppController@updateSetup');
 
-    // vendor
+// vendor
     Route::get('vendors/{vendors}/clone', 'VendorController@cloneVendor');
     Route::resource('vendors', 'VendorController');
     Route::get('api/vendors', 'VendorController@getDatatable');
     Route::post('vendors/bulk', 'VendorController@bulk');
 
-    // Expense
+// Expense
     Route::get('expenses/{expenses}/clone', 'ExpenseController@cloneExpense');
     Route::resource('expenses', 'ExpenseController');
     Route::get('expenses/create/{client_id?}/{vendor_id?}/{category_id?}', 'ExpenseController@create');
@@ -391,7 +396,7 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
     Route::get('expense_categories/{expense_categories}/edit', 'ExpenseCategoryController@edit');
     Route::post('expense_categories/bulk', 'ExpenseCategoryController@bulk');
 
-    // BlueVine
+// BlueVine
     Route::post('bluevine/signup', 'BlueVineController@signup');
     Route::get('bluevine/hide_message', 'BlueVineController@hideMessage');
     Route::get('bluevine/completed', 'BlueVineController@handleCompleted');
@@ -487,9 +492,9 @@ Route::group([
     Route::post('bank_accounts/validate', 'BankAccountController@validateAccount');
     Route::post('bank_accounts/import_expenses/{bank_id}', 'BankAccountController@importExpenses');
 
-    //Route::get('self-update', 'SelfUpdateController@index');
-    //Route::post('self-update', 'SelfUpdateController@update');
-    //Route::get('self-update/download', 'SelfUpdateController@download');
+//Route::get('self-update', 'SelfUpdateController@index');
+//Route::post('self-update', 'SelfUpdateController@update');
+//Route::get('self-update/download', 'SelfUpdateController@download');
 });
 //    setting
 Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
