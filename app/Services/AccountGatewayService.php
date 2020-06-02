@@ -20,16 +20,14 @@ class AccountGatewayService extends BaseService
         $this->datatableService = $datatableService;
     }
 
-
     protected function getRepo()
     {
         return $this->accountGatewayRepo;
     }
 
-
-    public function getDatatable($accountId)
+    public function getDatatable($accountId, $search = null)
     {
-        $query = $this->accountGatewayRepo->find($accountId);
+        $query = $this->accountGatewayRepo->find($accountId, $search);
 
         return $this->datatableService->createDatatable(new AccountGatewayDatatable(false), $query, 'account_gateways');
     }

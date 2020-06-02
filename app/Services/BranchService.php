@@ -34,6 +34,7 @@ class BranchService extends BaseService
     public function getDatatable($accountId, $search)
     {
         $datatable = new BranchDatatable(true);
+
         $query = $this->branchRepo->find($accountId, $search);
 
         if (!Utils::hasPermission('view_branch')) {

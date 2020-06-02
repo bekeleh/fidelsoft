@@ -51,7 +51,7 @@ class BranchRepository extends BaseRepository
             });
         }
 
-        $this->applyFilters($query, ENTITY_DEPARTMENT);
+        $this->applyFilters($query, ENTITY_BRANCH);
 
         return $query;
     }
@@ -68,6 +68,7 @@ class BranchRepository extends BaseRepository
             $branch = Branch::createNew();
             $branch->created_by = auth::user()->username;
         }
+
         $branch->fill($data);
         $branch->name = isset($data['name']) ? trim($data['name']) : '';
         $branch->notes = isset($data['notes']) ? trim($data['notes']) : '';

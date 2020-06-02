@@ -706,6 +706,8 @@ class Utils
             return 'task_statuses';
         } elseif ($type === ENTITY_ITEM_CATEGORY) {
             return 'item_categories';
+        } elseif ($type === ENTITY_BRANCH) {
+            return 'branches';
         } else {
             return $type . 's';
         }
