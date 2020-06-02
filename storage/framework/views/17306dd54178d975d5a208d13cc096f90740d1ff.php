@@ -1,0 +1,1 @@
+<?php echo e(nl2br($text)); ?>
