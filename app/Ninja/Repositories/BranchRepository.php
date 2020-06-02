@@ -4,6 +4,7 @@ namespace App\Ninja\Repositories;
 
 use App\Models\Branch;
 use App\Models\Location;
+use App\Models\Store;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -29,6 +30,7 @@ class BranchRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('branches')
+            ->leftJoin('stores', 'stores.id', '=', 'branches.store_id')
             ->leftJoin('locations', 'locations.id', '=', 'branches.location_id')
             ->where('branches.account_id', '=', $accountId)
 //            ->where('branches.deleted_at', '=', null)
@@ -45,13 +47,17 @@ class BranchRepository extends BaseRepository
                 'branches.updated_by',
                 'branches.deleted_by',
                 'locations.public_id as location_public_id',
-                'locations.name as location_name'
+                'locations.name as location_name',
+                'stores.public_id as store_public_id',
+                'stores.name as store_name'
             );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('branches.name', 'like', '%' . $filter . '%')
-                    ->orWhere('branches.notes', 'like', '%' . $filter . '%');
+                    ->orWhere('branches.notes', 'like', '%' . $filter . '%')
+                    ->orWhere('stores.name', 'like', '%' . $filter . '%')
+                    ->orWhere('locations.name', 'like', '%' . $filter . '%');
             });
         }
 
@@ -60,7 +66,7 @@ class BranchRepository extends BaseRepository
         return $query;
     }
 
-    public function findVendor($locationPublicId)
+    public function findLocation($locationPublicId)
     {
         $locationId = Location::getPrivateId($locationPublicId);
 
@@ -69,9 +75,19 @@ class BranchRepository extends BaseRepository
         return $query;
     }
 
+    public function findStore($storePublicId)
+    {
+        $storeId = Store::getPrivateId($storePublicId);
+
+        $query = $this->find()->where('branches.store_id', '=', $storeId);
+
+        return $query;
+    }
+
     public function save($data, $branch = null)
     {
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
+
         if ($branch) {
             $branch->updated_by = auth::user()->username;
         } elseif ($publicId) {

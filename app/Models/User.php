@@ -41,7 +41,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
     protected $fillable = [
         'manager_id',
         'user_id',
-        'store_id',
+        'branch_id',
         'location_id',
         'first_name',
         'last_name',
@@ -118,6 +118,11 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
     public function store()
     {
         return $this->belongsTo('App\Models\Store');
+    }
+
+    public function branch()
+    {
+        return $this->belongsTo('App\Models\Branch');
     }
 
     public function theme()

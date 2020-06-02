@@ -5,7 +5,7 @@
     {!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['name' => 'required|max:255','notes' => 'required|max:255'])
+    ->rules(['name' => 'required|max:255','store_id' => 'required','location_id' => 'required','notes' => 'required|max:255'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     @if ($branch)
         {{ Former::populate($branch) }}
@@ -23,7 +23,20 @@
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
-                    {!! Former::text('name')->label('texts.branch_name') !!}
+                    <!-- branch name -->
+                {!! Former::text('name')->label('texts.branch_name') !!}
+                <!-- branch default store dropdown -->
+                {!! Former::select('store_id')->addOption('', '')
+                    ->label(trans('texts.store_name'))
+                    ->addGroupClass('store-select')
+                    ->help(trans('texts.store_help') . ' | ' . link_to('/stores/', trans('texts.customize_options')))
+                    !!}
+                <!-- location dropdown -->
+                    {!! Former::select('location_id')->addOption('', '')
+                    ->label(trans('texts.location_name'))
+                    ->addGroupClass('location-select')
+                    ->help(trans('texts.location_help') . ' | ' . link_to('/locations/', trans('texts.customize_options')))
+                    !!}
                     {!! Former::textarea('notes')->rows(6) !!}
                 </div>
             </div>
@@ -42,6 +55,7 @@
             @endif
         </center>
     @endif
+
     {!! Former::close() !!}
     <script type="text/javascript">
         $(function () {
@@ -58,5 +72,48 @@
                 submitAction('delete');
             });
         }
+    </script>
+    <script type="text/javascript">
+        var locations = {!! $locations !!};
+        var stores = {!! $stores !!};
+
+        var locationMap = {};
+        var storeMap = {};
+
+        $(function () {
+            // location dropdown
+            var locationId = {{ $locationPublicId ?: 0 }};
+            var $locationSelect = $('select#location_id');
+            @if (Auth::user()->can('create', ENTITY_LOCATION))
+            $locationSelect.append(new Option("{{ trans('texts.create_location')}}: $name", '-1'));
+                    @endif
+            for (var i = 0; i < locations.length; i++) {
+                var location = locations[i];
+                locationMap[location.public_id] = location;
+                $locationSelect.append(new Option(getClientDisplayName(location), location.public_id));
+            }
+            @include('partials/entity_combobox', ['entityType' => ENTITY_LOCATION])
+            if (locationId) {
+                var location = locationMap[locationId];
+                setComboboxValue($('.location-select'), location.public_id, location.name);
+            }
+            // store dropdown
+            var storeId = {{ $storePublicId ?: 0 }};
+            var $storeSelect = $('select#store_id');
+            @if (Auth::user()->can('create', ENTITY_STORE))
+            $storeSelect.append(new Option("{{ trans('texts.create_store')}}: $name", '-1'));
+                    @endif
+            for (var i = 0; i < stores.length; i++) {
+                var store = stores[i];
+                storeMap[store.public_id] = store;
+                $storeSelect.append(new Option(getClientDisplayName(store), store.public_id));
+            }
+            @include('partials/entity_combobox', ['entityType' => ENTITY_STORE])
+            if (storeId) {
+                var store = storeMap[storeId];
+                setComboboxValue($('.store-select'), store.public_id, store.name);
+            }
+        });
+
     </script>
 @stop

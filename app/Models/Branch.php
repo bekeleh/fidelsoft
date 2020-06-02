@@ -18,6 +18,7 @@ class Branch extends EntityModel
 
     protected $fillable = [
         'name',
+        'store_id',
         'location_id',
         'company_id',
         'is_deleted',
@@ -81,9 +82,14 @@ class Branch extends EntityModel
         return $this->belongsTo('App\Models\User')->withTrashed();
     }
 
+    public function store()
+    {
+        return $this->belongsTo('App\Models\Store')->withTrashed();
+    }
+
     public function location()
     {
-        return $this->belongsTo('App\Models\Branch')->withTrashed();
+        return $this->belongsTo('App\Models\Location')->withTrashed();
     }
 
     public function stores()

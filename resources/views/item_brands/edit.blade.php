@@ -50,16 +50,26 @@
     @endif
     {!! Former::close() !!}
     <script type="text/javascript">
-        var categories = {!! $itemCategories !!};
-
-        var categoryMap = {};
-
         $(function () {
             $('#name').focus();
         });
 
-        $(function () {
+        function submitAction(action) {
+            $('#action').val(action);
+            $('.main-form').submit();
+        }
 
+        function onDeleteClick() {
+            sweetConfirm(function () {
+                submitAction('delete');
+            });
+        }
+    </script>
+    <script type="text/javascript">
+        var categories = {!! $itemCategories !!};
+        var categoryMap = {};
+
+        $(function () {
             var categoryId = {{ $itemCategoryPublicId ?: 0 }};
             var $item_categorySelect = $('select#item_category_id');
             @if (Auth::user()->can('create', ENTITY_ITEM_CATEGORY))
@@ -75,18 +85,7 @@
                 var category = categoryMap[categoryId];
                 setComboboxValue($('.item-category-select'), category.public_id, category.name);
             }
-
         });
 
-        function submitAction(action) {
-            $('#action').val(action);
-            $('.main-form').submit();
-        }
-
-        function onDeleteClick() {
-            sweetConfirm(function () {
-                submitAction('delete');
-            });
-        }
     </script>
 @stop

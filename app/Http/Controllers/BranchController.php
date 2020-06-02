@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateBranchRequest;
 use App\Libraries\Utils;
 use App\Models\Branch;
 use App\Models\Location;
+use App\Models\Store;
 use App\Ninja\Datatables\BranchDatatable;
 use App\Ninja\Repositories\BranchRepository;
 use App\Services\BranchService;
@@ -70,6 +71,11 @@ class BranchController extends BaseController
         return $this->branchService->getDatatableLocation($locationPublicId);
     }
 
+    public function getDatatableStore($storePublicId = null)
+    {
+        return $this->branchService->getDatatableLocation($storePublicId);
+    }
+
     public function create(BranchRequest $request)
     {
         if ($request->location_id != 0) {
@@ -77,12 +83,18 @@ class BranchController extends BaseController
         } else {
             $location = null;
         }
+        if ($request->store_id != 0) {
+            $store = Store::scope($request->store_id)->firstOrFail();
+        } else {
+            $store = null;
+        }
 
         $data = [
             'branch' => null,
             'method' => 'POST',
             'url' => 'branches',
             'title' => trans('texts.create_branch'),
+            'storePublicId' => Input::old('store') ? Input::old('store') : $request->store_id,
             'locationPublicId' => Input::old('location') ? Input::old('location') : $request->location_id,
         ];
 
@@ -102,8 +114,6 @@ class BranchController extends BaseController
 
     public function edit(BranchRequest $request, $publicId, $clone = false)
     {
-        Auth::user()->can('edit', [ENTITY_BRANCH, $request->entity()]);
-
         $branch = Branch::scope($publicId)->withTrashed()->firstOrFail();
 
         if ($clone) {
@@ -123,6 +133,7 @@ class BranchController extends BaseController
             'method' => $method,
             'url' => $url,
             'title' => trans('texts.edit_branch'),
+            'storePublicId' => $branch->store ? $branch->store->public_id : null,
             'locationPublicId' => $branch->location ? $branch->location->public_id : null
         ];
 
@@ -134,6 +145,7 @@ class BranchController extends BaseController
     public function update(UpdateBranchRequest $request, $publicId)
     {
         $data = $request->input();
+
         $branch = $this->branchService->save($data, $request->entity());
 
         $action = Input::get('action');
@@ -180,7 +192,8 @@ class BranchController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
-            'locations' => Location::scope()->withActiveOrSelected($branch ? $branch->vendor_id : false)->orderBy('name')->get(),
+            'stores' => Store::scope()->withActiveOrSelected($branch ? $branch->store_id : false)->orderBy('name')->get(),
+            'locations' => Location::scope()->withActiveOrSelected($branch ? $branch->location_id : false)->orderBy('name')->get(),
         ];
     }
 }

@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Libraries\Utils;
 use App\Ninja\Datatables\LocationDatatable;
-use App\Ninja\Datatables\StoreDatatable;
+use App\Ninja\Datatables\BranchDatatable;
 use App\Ninja\Datatables\UserDatatable;
 use App\Ninja\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
@@ -61,14 +61,14 @@ class UserService extends BaseService
         return $this->datatableService->createDatatable($datatable, $query);
     }
 
-    public function getDatatableStore($storePublicId)
+    public function getDatatableBranch($branchPublicId)
     {
-        $datatable = new StoreDatatable(true, true);
+        $datatable = new BranchDatatable(true, true);
 
-        $query = $this->userRepo->findStore($storePublicId);
+        $query = $this->userRepo->findBranch($branchPublicId);
 
-        if (!Utils::hasPermission('view_store')) {
-            $query->where('stores.user_id', '=', Auth::user()->id);
+        if (!Utils::hasPermission('view_branch')) {
+            $query->where('branches.user_id', '=', Auth::user()->id);
         }
 
         return $this->datatableService->createDatatable($datatable, $query);

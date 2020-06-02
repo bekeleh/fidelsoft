@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Branch;
 use App\Models\Location;
+use App\Models\Store;
 use App\Models\User;
 
 class CreateBranchRequest extends BranchRequest
@@ -20,8 +20,9 @@ class CreateBranchRequest extends BranchRequest
         $this->sanitize();
         $this->validationData();
         $rules = [];
-        $rules['name'] = 'required|max:90|unique:departments,name,' . $this->id . ',id,account_id,' . $this->account_id;
+        $rules['name'] = 'required|max:90|unique:branches,name,' . $this->id . ',id,account_id,' . $this->account_id;
         $rules['location_id'] = 'required|numeric|exists:locations,id';
+        $rules['store_id'] = 'required|numeric|exists:stores,id';
         $rules['notes'] = 'nullable';
         $rules['is_deleted'] = 'boolean';
         $rules['notes'] = 'nullable';
@@ -32,6 +33,9 @@ class CreateBranchRequest extends BranchRequest
     public function sanitize()
     {
         $input = $this->all();
+        if (!empty($input['store_id'])) {
+            $input['store_id'] = filter_var($input['store_id'], FILTER_SANITIZE_NUMBER_INT);
+        }
         if (!empty($input['location_id'])) {
             $input['location_id'] = filter_var($input['location_id'], FILTER_SANITIZE_NUMBER_INT);
         }
@@ -48,11 +52,16 @@ class CreateBranchRequest extends BranchRequest
     protected function validationData()
     {
         $input = $this->all();
+
         if (!empty($input['location_id'])) {
             $input['location_id'] = Location::getPrivateId($input['location_id']);
         }
+        if (!empty($input['store_id'])) {
+            $input['store_id'] = Store::getPrivateId($input['store_id']);
+        }
         if (!empty($input['location_id'])) {
             $this->request->add([
+                'store_id' => $input['store_id'],
                 'location_id' => $input['location_id'],
                 'account_id' => User::getAccountId(),
             ]);

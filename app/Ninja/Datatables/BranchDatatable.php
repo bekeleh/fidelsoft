@@ -24,6 +24,19 @@ class BranchDatatable extends EntityDatatable
                 },
             ],
             [
+                'store_name',
+                function ($model) {
+                    if ($model->store_public_id) {
+                        if (Auth::user()->can('view', [ENTITY_STORE]))
+                            return link_to("stores/{$model->store_public_id}", $model->store_name ?: '')->toHtml();
+                        else
+                            return $model->store_name;
+                    } else {
+                        return $model->store_name;
+                    }
+                },
+            ],
+            [
                 'location_name',
                 function ($model) {
                     if ($model->location_public_id) {

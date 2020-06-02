@@ -48,13 +48,13 @@ class UserDatatable extends EntityDatatable
                 },
             ],
             [
-                'store_name',
+                'branch_name',
                 function ($model) {
-                    if ($model->store_public_id) {
-                        if (Auth::user()->can('view', [ENTITY_STORE]))
-                            return link_to("stores/{$model->store_public_id}", $model->store_name)->toHtml();
+                    if ($model->branch_public_id) {
+                        if (Auth::user()->can('view', [ENTITY_BRANCH]))
+                            return link_to("branches/{$model->branch_public_id}", $model->branch_name)->toHtml();
                         else
-                            return $model->store_name;
+                            return $model->branch_name;
                     } else {
                         return null;
                     }

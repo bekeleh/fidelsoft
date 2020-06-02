@@ -6,9 +6,9 @@ use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\UserRequest;
 use App\Libraries\Utils;
+use App\Models\Branch;
 use App\Models\Location;
 use App\Models\PermissionGroup;
-use App\Models\Store;
 use App\Models\User;
 use App\Ninja\Datatables\UserDatatable;
 use App\Ninja\Mailers\ContactMailer;
@@ -34,7 +34,12 @@ class UserController extends BaseController
     protected $userMailer;
     protected $userService;
 
-    public function __construct(UserRepository $userRepo, AccountRepository $accountRepo, ContactMailer $contactMailer, UserMailer $userMailer, UserService $userService)
+    public function __construct(
+        UserRepository $userRepo,
+        AccountRepository $accountRepo,
+        ContactMailer $contactMailer,
+        UserMailer $userMailer,
+        UserService $userService)
     {
         //parent::__construct();
 
@@ -68,9 +73,9 @@ class UserController extends BaseController
         return $this->userService->getDatatableLocation($locationPublicId);
     }
 
-    public function getDatatableStore($storePublicId = null)
+    public function getDatatableBranch($branchPublicId = null)
     {
-        return $this->userService->getDatatableStore($storePublicId);
+        return $this->userService->getDatatableBranch($branchPublicId);
     }
 
     public function forcePDFJS()
@@ -89,22 +94,22 @@ class UserController extends BaseController
         } else {
             $location = null;
         }
-        if ($request->store_id != 0) {
-            $store = Store::scope($request->store_id)->firstOrFail();
+        if ($request->branch_id != 0) {
+            $branch = Branch::scope($request->branch_id)->firstOrFail();
         } else {
-            $store = null;
+            $branch = null;
         }
 
         $data = [
             'locationPublicId' => Input::old('location') ? Input::old('location') : $request->location_id,
-            'storePublicId' => Input::old('store') ? Input::old('store') : $request->store_id,
+            'branchPublicId' => Input::old('branch') ? Input::old('branch') : $request->branch_id,
             'user' => null,
             'userGroups' => null,
             'method' => 'POST',
             'url' => 'users',
             'title' => trans('texts.new_user'),
             'location' => $location,
-            'store' => $store,
+            'branch' => $branch,
         ];
 
         $data = array_merge($data, self::getViewModel());
@@ -141,7 +146,7 @@ class UserController extends BaseController
 
         $data = [
             'location' => null,
-            'store' => null,
+            'branch' => null,
             'user' => $user,
             'userGroups' => $userGroups,
             'entity' => $user,
@@ -149,7 +154,7 @@ class UserController extends BaseController
             'url' => $url,
             'title' => trans('texts.edit_user'),
             'locationPublicId' => $user->location ? $user->location->public_id : null,
-            'storePublicId' => $user->store ? $user->store->public_id : null,
+            'branchPublicId' => $user->branch ? $user->branch->public_id : null,
         ];
 
         $data = array_merge($data, self::getViewModel($user));
@@ -425,7 +430,7 @@ class UserController extends BaseController
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
             'locations' => Location::scope()->withActiveOrSelected($user ? $user->location_id : false)->orderBy('name')->get(),
-            'stores' => Store::scope()->withActiveOrSelected($user ? $user->store_id : false)->orderBy('name')->get(),
+            'branches' => Branch::scope()->withActiveOrSelected($user ? $user->branch_id : false)->orderBy('name')->get(),
             'groups' => PermissionGroup::scope()->withActiveOrSelected(false)->orderBy('name')->pluck('name', 'id'),
         ];
     }

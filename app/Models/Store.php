@@ -69,9 +69,14 @@ class Store extends EntityModel
         return $this->belongsTo('App\Models\Location', 'location_id')->withTrashed();
     }
 
+    public function branches()
+    {
+        return $this->hasMany('App\Models\Branch', 'store_id')->withTrashed();
+    }
+
     public function products()
     {
-        return $this->hasMany('App\Models\ItemStore', 'product_id')->withTrashed();
+        return $this->hasManyThrough('App\Models\ItemStore', 'App\Models\Item', 'store_id', 'product_id')->withTrashed();
     }
 
 }

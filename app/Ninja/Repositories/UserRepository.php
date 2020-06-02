@@ -44,7 +44,7 @@ class UserRepository extends BaseRepository
 //            ->leftJoin('users_groups', 'users_groups.user_id', '=', 'users.id')
 //            ->join('permission_groups', 'permission_groups.id', '=', 'users_groups.group_id')
             ->leftJoin('locations', 'locations.id', '=', 'users.location_id')
-            ->leftJoin('stores', 'stores.id', '=', 'users.store_id')
+            ->leftJoin('branches', 'branches.id', '=', 'users.branch_id')
             ->where('users.account_id', '=', $accountId)
 //            ->where('users.deleted_at', '=', null)
             ->select(
@@ -69,8 +69,8 @@ class UserRepository extends BaseRepository
                 'users.updated_by',
                 'users.deleted_by',
                 'users.last_login',
-                'stores.public_id as store_public_id',
-                'stores.name as store_name',
+                'branches.public_id as branch_public_id',
+                'branches.name as branch_name',
                 'locations.public_id as location_public_id',
                 'locations.name as location_name'
             );
@@ -82,7 +82,7 @@ class UserRepository extends BaseRepository
                     ->where('users.email', 'like', '%' . $filter . '%')
                     ->where('users.confirmed', 'like', '%' . $filter . '%')
                     ->where('users.activated', 'like', '%' . $filter . '%')
-                    ->orWhere('stores.name', 'like', '%' . $filter . '%')
+                    ->orWhere('branches.name', 'like', '%' . $filter . '%')
                     ->orWhere('locations.name', 'like', '%' . $filter . '%');
             });
         }
@@ -101,11 +101,11 @@ class UserRepository extends BaseRepository
         return $query;
     }
 
-    public function findStore($storePublicId)
+    public function findBranch($branchPublicId)
     {
-        $storeId = Store::getPrivateId($storePublicId);
+        $branchId = Store::getPrivateId($branchPublicId);
 
-        $query = $this->find()->where('stores.store_id', '=', $storeId);
+        $query = $this->find()->where('branches.store_id', '=', $branchId);
 
         return $query;
     }

@@ -3,7 +3,7 @@
     <?php echo Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['first_name' => 'required|max:50','last_name' => 'required|max:50','username' => 'required|max:50','email' => 'required|email|max:50','store_id' => 'required','location_id' => 'required','notes' => 'required|max:255'])
+    ->rules(['first_name' => 'required|max:50','last_name' => 'required|max:50','username' => 'required|max:50','email' => 'required|email|max:50','branch_id' => 'required','location_id' => 'required','notes' => 'required|max:255'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit'); ?>
 
     <?php if($user): ?>
@@ -34,17 +34,17 @@
 
                 <?php echo Former::text('phone')->label('texts.phone'); ?>
 
-                <!-- default store-->
-                <?php echo Former::select('store_id')
-                ->placeholder(trans('texts.select_store'))
-                ->label(trans('texts.store_name'))
-                ->addGroupClass('store-select')
-                  ->help(trans('texts.store_help') . ' | ' . link_to('/stores/', trans('texts.customize_options'))); ?>
+                <!-- default user branch-->
+                <?php echo Former::select('branch_id')
+                ->placeholder(trans('texts.select_branch'))
+                ->label(trans('texts.branch_name'))
+                ->addGroupClass('branch-select')
+                  ->help(trans('texts.branch_help') . ' | ' . link_to('/branches/', trans('texts.customize_options'))); ?>
 
-                <!-- location-->
+                <!-- default user location-->
                 <?php echo Former::select('location_id')
                 ->placeholder(trans('texts.select_location'))
-                ->label(trans('texts.location'))
+                ->label(trans('texts.location_name'))
                 ->addGroupClass('location-select')
                   ->help(trans('texts.location_help') . ' | ' . link_to('/locations/', trans('texts.customize_options'))); ?>
 
@@ -90,9 +90,10 @@
     <?php echo Former::close(); ?>
 
     <script type="text/javascript">
-        var stores = <?php echo $stores; ?>;
         var locations = <?php echo $locations; ?>;
-        var storeMap = {};
+        var branches = <?php echo $branches; ?>;
+
+        var branchMap = {};
         var locationMap = {};
 
         $(function () {
@@ -117,22 +118,22 @@
                 setComboboxValue($('.location-select'), location.public_id, location.name);
             }<!-- /. user location  -->
 
-            <!-- default store -->
-            var storeId = <?php echo e($storePublicId ?: 0); ?>;
-            var $storeSelect = $('select#store_id');
-            <?php if(Auth::user()->can('create', ENTITY_STORE)): ?>
-            $storeSelect.append(new Option("<?php echo e(trans('texts.create_store')); ?>: $name", '-1'));
+            <!-- default branch -->
+            var branchId = <?php echo e($branchPublicId ?: 0); ?>;
+            var $branchSelect = $('select#branch_id');
+            <?php if(Auth::user()->can('create', ENTITY_BRANCH)): ?>
+            $branchSelect.append(new Option("<?php echo e(trans('texts.create_branch')); ?>: $name", '-1'));
                     <?php endif; ?>
-            for (var i = 0; i < stores.length; i++) {
-                var store = stores[i];
-                storeMap[store.public_id] = store;
-                $storeSelect.append(new Option(getClientDisplayName(store), store.public_id));
+            for (var i = 0; i < branches.length; i++) {
+                var branch = branches[i];
+                branchMap[branch.public_id] = branch;
+                $branchSelect.append(new Option(getClientDisplayName(branch), branch.public_id));
             }
-            <?php echo $__env->make('partials/entity_combobox', ['entityType' => ENTITY_STORE], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-            if (storeId) {
-                var store = storeMap[storeId];
-                setComboboxValue($('.store-select'), store.public_id, store.name);
-            }<!-- /. default store  -->
+            <?php echo $__env->make('partials/entity_combobox', ['entityType' => ENTITY_BRANCH], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            if (branchId) {
+                var branch = branchMap[branchId];
+                setComboboxValue($('.branch-select'), branch.public_id, branch.name);
+            }<!-- /. default branch  -->
 
         });
 

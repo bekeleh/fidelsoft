@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Branch;
 use App\Models\Location;
-use App\Models\Store;
 use App\Models\User;
 
 class UpdateUserRequest extends UserRequest
@@ -30,7 +30,7 @@ class UpdateUserRequest extends UserRequest
         $rules['last_name'] = 'required|max:50';
         $rules['permission_groups'] = 'required|array';
         $rules['location_id'] = 'required|exists:locations,id';
-        $rules['store_id'] = 'required|exists:stores,id';
+        $rules['branch_id'] = 'required|exists:branches,id';
         $rules['is_deleted'] = 'boolean';
         $rules['notes'] = 'nullable';
 
@@ -55,8 +55,8 @@ class UpdateUserRequest extends UserRequest
         if (!empty($input['location_id'])) {
             $input['location_id'] = filter_var($input['location_id'], FILTER_SANITIZE_NUMBER_INT);
         }
-        if (!empty($input['store_id'])) {
-            $input['store_id'] = filter_var($input['store_id'], FILTER_SANITIZE_NUMBER_INT);
+        if (!empty($input['branch_id'])) {
+            $input['branch_id'] = filter_var($input['branch_id'], FILTER_SANITIZE_NUMBER_INT);
         }
         if (!empty($input['notes'])) {
             $input['notes'] = filter_var($input['notes'], FILTER_SANITIZE_STRING);
@@ -71,13 +71,13 @@ class UpdateUserRequest extends UserRequest
         if (!empty($input['location_id'])) {
             $input['location_id'] = Location::getPrivateId($input['location_id']);
         }
-        if (!empty($input['store_id'])) {
-            $input['store_id'] = Store::getPrivateId($input['store_id']);
+        if (!empty($input['branch_id'])) {
+            $input['branch_id'] = Branch::getPrivateId($input['branch_id']);
         }
-        if (!empty($input['location_id']) && !empty($input['store_id'])) {
+        if (!empty($input['location_id']) && !empty($input['branch_id'])) {
             $this->request->add([
                 'location_id' => $input['location_id'],
-                'store_id' => $input['store_id'],
+                'branch_id' => $input['branch_id'],
                 'account_id' => User::getAccountId(),
             ]);
         }

@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use stdClass;
 use WePay;
 
@@ -680,7 +681,8 @@ class Utils
 
     public static function pluralize($string, $count)
     {
-        $field = $count == 1 ? $string : $string . 's';
+//        $field = $count == 1 ? $string : $string . 's';
+        $field = $count == 1 ? $string : Str::plural($string);
         $string = trans("texts.$field", ['count' => $count]);
 
         return $string;

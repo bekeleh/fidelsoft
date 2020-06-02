@@ -56,4 +56,17 @@ class BranchService extends BaseService
 
         return $this->datatableService->createDatatable($datatable, $query);
     }
+
+    public function getDatatableStore($storePublicId)
+    {
+        $datatable = new BranchDatatable(true, true);
+
+        $query = $this->branchRepo->findStore($storePublicId);
+
+        if (!Utils::hasPermission('view_store')) {
+            $query->where('stores.user_id', '=', Auth::user()->id);
+        }
+
+        return $this->datatableService->createDatatable($datatable, $query);
+    }
 }
