@@ -4,7 +4,7 @@
 
     <style type="text/css">
         table.dataTable thead > tr > th, table.invoice-table thead > tr > th {
-            background-color: {{ $color }}      !important;
+            background-color: {{ $color }}        !important;
         }
 
         .pagination > .active > a,
@@ -40,8 +40,10 @@
         @for ($i = 0; $i < count($columns); $i++)
 			table.dataTable td:nth-child({{ $i + 1 }}) {
             @if ($columns[$i] == trans('texts.status'))
-     text-align: center;
+       text-align: center;
         @endif
+
+
 
         }
         @endfor
@@ -51,8 +53,8 @@
     <div class="container" id="main-container">
         <p>&nbsp;</p>
         <div id="top_right_buttons" class="pull-right">
-            <input id="tableFilter" type="text" style="width:140px;margin-right:17px" class="form-control pull-left"
-                   placeholder="{{ trans('texts.filter') }}"/>
+            <input id="tableFilter" type="text" style="width:140px;margin-right:17px"
+                   class="form-control pull-left" placeholder="{{ trans('texts.filter') }}"/>
         </div>
         @if($entityType == ENTITY_INVOICE && $client->hasRecurringInvoices())
             <div class="pull-right" style="margin-top:5px">

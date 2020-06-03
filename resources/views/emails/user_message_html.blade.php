@@ -21,7 +21,7 @@
                 @include('partials.email_button', [
                     'link' => $invoiceLink,
                     'field' => "view_invoice",
-                    'color' => '#0b4d78',
+                    'color' => '#777',
                 ])
             </center>
         </div>

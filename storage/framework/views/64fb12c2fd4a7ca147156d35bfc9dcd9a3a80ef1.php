@@ -2,7 +2,7 @@
 
     <style type="text/css">
         table.dataTable thead > tr > th, table.invoice-table thead > tr > th {
-            background-color: <?php echo e($color); ?>      !important;
+            background-color: <?php echo e($color); ?>        !important;
         }
 
         .pagination > .active > a,
@@ -38,8 +38,10 @@
         <?php for($i = 0; $i < count($columns); $i++): ?>
 			table.dataTable td:nth-child(<?php echo e($i + 1); ?>) {
             <?php if($columns[$i] == trans('texts.status')): ?>
-     text-align: center;
+       text-align: center;
         <?php endif; ?>
+
+
 
         }
         <?php endfor; ?>
@@ -49,8 +51,8 @@
     <div class="container" id="main-container">
         <p>&nbsp;</p>
         <div id="top_right_buttons" class="pull-right">
-            <input id="tableFilter" type="text" style="width:140px;margin-right:17px" class="form-control pull-left"
-                   placeholder="<?php echo e(trans('texts.filter')); ?>"/>
+            <input id="tableFilter" type="text" style="width:140px;margin-right:17px"
+                   class="form-control pull-left" placeholder="<?php echo e(trans('texts.filter')); ?>"/>
         </div>
         <?php if($entityType == ENTITY_INVOICE && $client->hasRecurringInvoices()): ?>
             <div class="pull-right" style="margin-top:5px">

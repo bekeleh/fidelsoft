@@ -1431,6 +1431,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'reset_footer' => 'Reset footer',
     'invoice_sent' => ':count invoice sent',
     'invoices_sent' => ':count invoices sent',
+    'status_approved' => 'Approved',
     'status_draft' => 'Draft',
     'status_sent' => 'Sent',
     'status_viewed' => 'Viewed',

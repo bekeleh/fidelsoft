@@ -6,11 +6,11 @@
         }
 
         if (invoice && invoice.invoice_type_id == {{ INVOICE_TYPE_QUOTE }} || entityType == '{{ ENTITY_QUOTE }}') {
-            var viewButton = {!! json_encode(Form::flatButton('view_quote', '#0b4d78')) !!} +'$password';
+            var viewButton = {!! json_encode(Form::flatButton('view_quote', '#777')) !!} +'$password';
         } else if (entityType == '{{ ENTITY_PROPOSAL }}') {
-            var viewButton = {!! json_encode(Form::flatButton('view_proposal', '#0b4d78')) !!} +'$password';
+            var viewButton = {!! json_encode(Form::flatButton('view_proposal', '#777')) !!} +'$password';
         } else {
-            var viewButton = {!! json_encode(Form::flatButton('view_invoice', '#0b4d78')) !!} +'$password';
+            var viewButton = {!! json_encode(Form::flatButton('view_invoice', '#777')) !!} +'$password';
         }
 
         var passwordHtml = {!! $account->isPro() && $account->enable_portal_password && $account->send_portal_password ? json_encode('<br/>' . trans('texts.password') . ': XXXXXXXXX<br/>') : json_encode('') !!};

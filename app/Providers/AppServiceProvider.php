@@ -80,7 +80,7 @@ class AppServiceProvider extends ServiceProvider
                 ->with([
                     'link' => $link,
                     'field' => "view_{$entityType}",
-                    'color' => '#0b4d78',
+                    'color' => '#777',
                 ])
                 ->render();
         });

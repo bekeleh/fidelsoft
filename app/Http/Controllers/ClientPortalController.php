@@ -260,7 +260,7 @@ class ClientPortalController extends BaseController
             return redirect(request()->url());
         }
 
-        $color = $account->primary_color ? $account->primary_color : '#0b4d78';
+        $color = $account->primary_color ? $account->primary_color : '#777';
         $customer = false;
 
         if (!$account->enable_client_portal) {
@@ -337,7 +337,7 @@ class ClientPortalController extends BaseController
             return $this->returnError();
         }
 
-        $color = $account->primary_color ? $account->primary_color : '#0b4d78';
+        $color = $account->primary_color ? $account->primary_color : '#777';
         $columns = ['frequency', 'start_date', 'end_date', 'invoice_total'];
         $client = $contact->client;
 
@@ -370,7 +370,7 @@ class ClientPortalController extends BaseController
             return $this->returnError();
         }
 
-        $color = $account->primary_color ? $account->primary_color : '#0b4d78';
+        $color = $account->primary_color ? $account->primary_color : '#777';
 
         $data = [
             'color' => $color,
@@ -415,7 +415,7 @@ class ClientPortalController extends BaseController
             return $this->returnError();
         }
 
-        $color = $account->primary_color ? $account->primary_color : '#0b4d78';
+        $color = $account->primary_color ? $account->primary_color : '#777';
 
         $data = [
             'color' => $color,
@@ -500,7 +500,7 @@ class ClientPortalController extends BaseController
             return $this->returnError();
         }
 
-        $color = $account->primary_color ? $account->primary_color : '#0b4d78';
+        $color = $account->primary_color ? $account->primary_color : '#777';
 
         $data = [
             'color' => $color,
@@ -535,7 +535,7 @@ class ClientPortalController extends BaseController
             return $this->returnError();
         }
 
-        $color = $account->primary_color ? $account->primary_color : '#0b4d78';
+        $color = $account->primary_color ? $account->primary_color : '#777';
 
         $data = [
             'color' => $color,
@@ -574,7 +574,7 @@ class ClientPortalController extends BaseController
             return $this->returnError();
         }
 
-        $color = $account->primary_color ? $account->primary_color : '#0b4d78';
+        $color = $account->primary_color ? $account->primary_color : '#777';
 
         $data = [
             'color' => $color,
@@ -609,7 +609,7 @@ class ClientPortalController extends BaseController
             return $this->returnError();
         }
 
-        $color = $account->primary_color ? $account->primary_color : '#0b4d78';
+        $color = $account->primary_color ? $account->primary_color : '#777';
 
         $data = [
             'color' => $color,
@@ -829,7 +829,7 @@ class ClientPortalController extends BaseController
         $data = [
             'account' => $account,
             'contact' => $contact,
-            'color' => $account->primary_color ? $account->primary_color : '#0b4d78',
+            'color' => $account->primary_color ? $account->primary_color : '#777',
             'client' => $client,
             'paymentMethods' => $customer ? $customer->payment_methods : false,
             'gateway' => $account->getTokenGateway(),

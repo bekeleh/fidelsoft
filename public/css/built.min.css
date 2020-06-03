@@ -11215,7 +11215,7 @@ body {
 }
 
 a {
-    color: #0b4d78
+    color: #777
 }
 
 .breadcrumb {
@@ -11390,7 +11390,7 @@ table.data-table tr {
 }
 
 .datepicker table tr td.active.active, .datepicker table tr td.active:hover.active {
-    background-color: #0b4d78;
+    background-color: #777;
     background-image: none
 }
 
@@ -11411,7 +11411,7 @@ table.data-table tr {
 
 .modal-header {
     border-bottom: none;
-    background-color: #0b4d78;
+    background-color: #777;
     padding: 20px;
     color: #fff
 }
@@ -11474,8 +11474,8 @@ table.data-table tr {
 }
 
 .btn-primary {
-    background-color: #0b4d78;
-    border-color: #0b4d78
+    background-color: #777;
+    border-color: #777
 }
 
 .btn-primary.active, .btn-primary:active, .btn-primary:focus, .btn-primary:hover, .open .dropdown-toggle.btn-primary {
@@ -11536,7 +11536,7 @@ table.data-table tr {
 }
 
 .btn-primary i {
-    border-color: #0b4d78
+    border-color: #777
 }
 
 .form-actions .btn, .form-actions div.btn-group {
@@ -11608,8 +11608,8 @@ table td {
 }
 
 .pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
-    background-color: #0b4d78;
-    border-color: #0b4d78
+    background-color: #777;
+    border-color: #777
 }
 
 .pagination > li:first-child > a, .pagination > li:first-child > span {
@@ -11680,7 +11680,7 @@ table.table thead .sorting {
 }
 
 .navbar {
-    background-color: #0b4d78 !important;
+    background-color: #777 !important;
     background-image: none;
     background-repeat: no-repeat;
     filter: none
@@ -11729,7 +11729,7 @@ table.table thead .sorting {
 }
 
 .navbar .dropdown-menu {
-    border-top: 1px solid #0b4d78
+    border-top: 1px solid #777
 }
 
 .navbar-brand {
@@ -11773,7 +11773,7 @@ table.table thead .sorting {
 }
 
 .active-clients {
-    background-color: #0b4d78;
+    background-color: #777;
     background-image: url(../images/activeclients.png);
     background-position: 50%;
     background-repeat: no-repeat;
@@ -12292,7 +12292,7 @@ div.checkbox > label {
 }
 
 .panel-heading {
-    background-color: #0b4d78 !important
+    background-color: #777 !important
 }
 
 div.alert {
