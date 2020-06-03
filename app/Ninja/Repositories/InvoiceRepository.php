@@ -62,8 +62,8 @@ class InvoiceRepository extends BaseRepository
         $query = DB::table('invoices')
             ->join('accounts', 'accounts.id', '=', 'invoices.account_id')
             ->join('clients', 'clients.id', '=', 'invoices.client_id')
-            ->join('invoice_statuses', 'invoice_statuses.id', '=', 'invoices.invoice_status_id')
-            ->join('contacts', 'contacts.client_id', '=', 'clients.id')
+            ->leftJoin('invoice_statuses', 'invoice_statuses.id', '=', 'invoices.invoice_status_id')
+            ->LeftJoin('contacts', 'contacts.client_id', '=', 'clients.id')
             ->where('invoices.account_id', '=', $accountId)
             ->where('contacts.deleted_at', '=', null)
             ->where('invoices.is_recurring', '=', false)
@@ -109,6 +109,17 @@ class InvoiceRepository extends BaseRepository
                 'invoices.deleted_by'
             );
 
+        if ($filter) {
+            $query->where(function ($query) use ($filter) {
+                $query->where('clients.name', 'like', '%' . $filter . '%')
+                    ->orWhere('invoices.invoice_number', 'like', '%' . $filter . '%')
+                    ->orWhere('invoice_statuses.name', 'like', '%' . $filter . '%')
+                    ->orWhere('contacts.email', 'like', '%' . $filter . '%')
+                    ->orWhere('contacts.first_name', 'like', '%' . $filter . '%')
+                    ->orWhere('contacts.last_name', 'like', '%' . $filter . '%');
+            });
+        }
+
 //      explicitly passing table name recommend
         $this->applyFilters($query, $entityType, 'invoices');
 
@@ -141,16 +152,6 @@ class InvoiceRepository extends BaseRepository
             $query->where('clients.public_id', '=', $clientPublicId);
         } else {
             $query->whereNull('clients.deleted_at');
-        }
-
-        if ($filter) {
-            $query->where(function ($query) use ($filter) {
-                $query->where('clients.name', 'like', '%' . $filter . '%')
-                    ->orWhere('invoices.invoice_number', 'like', '%' . $filter . '%')
-                    ->orWhere('contacts.first_name', 'like', '%' . $filter . '%')
-                    ->orWhere('contacts.last_name', 'like', '%' . $filter . '%')
-                    ->orWhere('contacts.email', 'like', '%' . $filter . '%');
-            });
         }
 
         return $query;
@@ -422,6 +423,7 @@ class InvoiceRepository extends BaseRepository
             } elseif (isset($data['is_quote']) && filter_var($data['is_quote'], FILTER_VALIDATE_BOOLEAN)) {
                 $entityType = ENTITY_QUOTE;
             }
+
             $invoice = $account->createInvoice($entityType, $data['client_id']);
             $invoice->invoice_date = date_create()->format('Y-m-d');
             $invoice->custom_taxes1 = $account->custom_invoice_taxes1 ?: false;
@@ -494,14 +496,15 @@ class InvoiceRepository extends BaseRepository
             $invoice->invoice_date = Utils::toSqlDate($data['invoice_date']);
         }
 
-        /*
         if (isset($data['invoice_status_id'])) {
             if ($data['invoice_status_id'] == 0) {
                 $data['invoice_status_id'] = INVOICE_STATUS_DRAFT;
             }
-            $invoice->invoice_status_id = $data['invoice_status_id'];
+            $invoice->invoice_status_id = isset($data['invoice_status_id']) ? $data['invoice_status_id'] : INVOICE_STATUS_DRAFT;
+        } else {
+            $invoice->invoice_status_id = isset($data['invoice_status_id']) ? $data['invoice_status_id'] : INVOICE_STATUS_DRAFT;
         }
-        */
+
 
         if ($invoice->is_recurring) {
             if (!$isNew && isset($data['start_date']) && $invoice->start_date && $invoice->start_date != Utils::toSqlDate($data['start_date'])) {
@@ -578,7 +581,8 @@ class InvoiceRepository extends BaseRepository
                 continue;
             }
 
-            $invoiceItemCost = Utils::roundSignificant(Utils::parseFloat($item['cost']));
+            $invoiceItemCost = isset($item['cost']) ? Utils::roundSignificant(Utils::parseFloat($item['cost'])) : Utils::getItemDetail('name', $item['name']);
+            \Log::info($invoiceItemCost);
             $invoiceItemQty = Utils::roundSignificant(Utils::parseFloat($item['qty']));
             $discount = empty($item['discount']) ? 0 : round(Utils::parseFloat($item['discount']), 2);
 

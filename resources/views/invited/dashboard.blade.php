@@ -246,7 +246,7 @@
         }
 
         table.dataTable thead > tr > th, table.invoice-table thead > tr > th {
-            background-color: {{ $color }}              !important;
+            background-color: {{ $color }}               !important;
         }
 
         .pagination > .active > a,

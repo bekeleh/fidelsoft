@@ -72,13 +72,13 @@
                     </button>
                     <?php if(empty($account) || !$account->hasFeature(FEATURE_WHITE_LABEL)): ?>
                         <a class="navbar-brand" href="<?php echo e(URL::to(NINJA_WEB_URL)); ?>" target="_blank">
-                            
+                            <img src="<?php echo e(asset('images/fidel-logo.png')); ?>" style="height:27px">
                         </a>
                     <?php endif; ?>
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <?php if(! empty($account) && $account->enable_client_portal): ?>
+                        <?php if(!empty($account) && $account->enable_client_portal): ?>
                             <?php if(isset($account) && $account->enable_client_portal_dashboard): ?>
                                 <li <?php echo Request::is('*client/dashboard*') ? 'class="active"' : ''; ?>>
                                     <?php echo link_to('/client/dashboard', trans('texts.dashboard') ); ?>
@@ -131,7 +131,7 @@
 
                                 </li>
                             <?php endif; ?>
-                        <?php elseif(! empty($account)): ?>
+                        <?php elseif(!empty($account)): ?>
                             <?php if(isset($hasPaymentMethods) && $hasPaymentMethods): ?>
                                 <li <?php echo Request::is('*client/payment_methods') ? 'class="active"' : ''; ?>>
                                     <?php echo link_to('/client/payment_methods', trans('texts.payment_methods') ); ?>

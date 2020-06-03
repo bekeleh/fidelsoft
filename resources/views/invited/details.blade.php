@@ -6,7 +6,6 @@
 
     <div class="container">
         <p>&nbsp;</p>
-
         <div class="panel panel-default">
             <div class="panel-body client-details">
                 <p>&nbsp;</p>

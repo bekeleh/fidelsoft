@@ -256,6 +256,7 @@ class ClientPortalController extends BaseController
 
         if (request()->silent) {
             session(['silent:' . $client->id => true]);
+
             return redirect(request()->url());
         }
 

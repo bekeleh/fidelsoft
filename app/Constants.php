@@ -452,7 +452,7 @@ if (!defined('APP_NAME')) {
 
     define('REQUESTED_PRO_PLAN', 'REQUESTED_PRO_PLAN');
     define('NINJA_ACCOUNT_KEY', env('NINJA_ACCOUNT_KEY', 'zg4ylmzDkdkPOT8yoKQw9LTWaoZJx79h'));
-    define('NINJA_ACCOUNT_EMAIL', env('NINJA_ACCOUNT_EMAIL', 'contact@e-ninja.com'));
+    define('NINJA_ACCOUNT_EMAIL', env('NINJA_ACCOUNT_EMAIL', 'contact@fidel.com.et'));
     define('NINJA_LICENSE_ACCOUNT_KEY', 'AsFmBAeLXF0IKf7tmi0eiyZfmWW9hxMT');
     define('NINJA_GATEWAY_ID', GATEWAY_STRIPE);
     define('NINJA_GATEWAY_CONFIG', 'NINJA_GATEWAY_CONFIG');
@@ -738,6 +738,7 @@ if (!defined('APP_NAME')) {
         8 => ['card' => 'images/credit_cards/Test-Diners-Icon.png', 'text' => 'Diners'],
         16 => ['card' => 'images/credit_cards/Test-Discover-Icon.png', 'text' => 'Discover'],
     ];
+
     define('CREDIT_CARDS', serialize($creditCards));
 
     $cachedTables = [

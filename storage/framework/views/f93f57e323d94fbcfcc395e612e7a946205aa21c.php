@@ -245,7 +245,7 @@
         }
 
         table.dataTable thead > tr > th, table.invoice-table thead > tr > th {
-            background-color: <?php echo e($color); ?>              !important;
+            background-color: <?php echo e($color); ?>               !important;
         }
 
         .pagination > .active > a,

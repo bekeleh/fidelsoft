@@ -35,13 +35,10 @@
                 <li>{{ Session::get('error') }}</li>
             </div>
         @endif
-
         {{ Former::populateField('remember', 'true') }}
-
         <div>
-            @if (! session('contact_key'))
-                {!! Former::text('email')->placeholder(trans('texts.email'))->raw() !!}
-            @endif
+            {{--            @if (!session('contact_key'))@endif--}}
+            {!! Former::text('email')->placeholder(trans('texts.email'))->raw() !!}
             {!! Former::password('password')->placeholder(trans('texts.password'))->raw() !!}
         </div>
         {!! Former::hidden('remember')->raw() !!}
@@ -49,7 +46,6 @@
         {!! Button::success(trans('texts.login'))
                     ->withAttributes(['id' => 'loginButton', 'class' => 'green'])
                     ->large()->submit()->block() !!}
-
         <div class="row meta">
             <div class="col-md-12 col-sm-12" style="text-align:center;padding-top:8px;">
                 {!! link_to('/client/recover_password' . (request()->account_key ? '?account_key=' . request()->account_key : ''), trans('texts.recover_password')) !!}
@@ -57,7 +53,6 @@
         </div>
         {!! Former::close() !!}
     </div>
-
 
     <script type="text/javascript">
         $(function () {

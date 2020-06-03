@@ -118,7 +118,6 @@
                                 {!! Former::select('shipping_country_id')->addOption('','')
                                 ->autocomplete('off')
                                 ->fromQuery($countries, 'name', 'id')->label('country_id') !!}
-
                                 <div class="form-group" id="copyBillingDiv" style="display:none;">
                                     <label for="city" class="control-label col-lg-4 col-sm-4"></label>
                                     <div class="col-lg-8 col-sm-8">
@@ -174,13 +173,13 @@
 
                             <div class="form-group">
                                 <div class="col-lg-8 col-lg-offset-4 bold">
-<span class="redlink bold" data-bind="visible: $parent.contacts().length > 1">
-{!! link_to('#', trans('texts.remove_contact').' -', array('data-bind'=>'click: $parent.removeContact')) !!}
-</span>
+                                <span class="redlink bold" data-bind="visible: $parent.contacts().length > 1">
+                                {!! link_to('#', trans('texts.remove_contact').' -', array('data-bind'=>'click: $parent.removeContact')) !!}
+                                </span>
                                     <span data-bind="visible: $index() === ($parent.contacts().length - 1)"
                                           class="pull-right greenlink bold">
-{!! link_to('#', trans('texts.add_contact').' +', array('onclick'=>'return addContact()')) !!}
-</span>
+                                        {!! link_to('#', trans('texts.add_contact').' +', array('onclick'=>'return addContact()')) !!}
+                                        </span>
                                 </div>
                             </div>
                         </div>

@@ -3,7 +3,9 @@
 namespace App\Libraries;
 
 use App;
+use App\Models\InvoiceStatus;
 use App\Models\Location;
+use App\Models\Product;
 use App\Models\Status;
 use Carbon\Carbon;
 use DateTime;
@@ -1013,6 +1015,28 @@ class Utils
         } else {
             return $model->username ?: '';
         }
+    }
+
+    public static function getItemDetail($field = null, $name = null)
+    {
+        if (!$field || !$name) {
+            return null;
+        }
+
+        $product = Product::where($field, $name)->first();
+
+        return $product->$field ?: null;
+    }
+
+    public static function defaultInvoiceStatusId($name = null)
+    {
+        if (!$name) {
+            return null;
+        }
+
+        $status = InvoiceStatus::where('name', $name)->first();
+
+        return $status->id ?: null;
     }
 
     public static function getStatusId($name = null)

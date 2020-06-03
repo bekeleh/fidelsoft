@@ -34,15 +34,12 @@
                 <li><?php echo e(Session::get('error')); ?></li>
             </div>
         <?php endif; ?>
-
         <?php echo e(Former::populateField('remember', 'true')); ?>
 
-
         <div>
-            <?php if(! session('contact_key')): ?>
-                <?php echo Former::text('email')->placeholder(trans('texts.email'))->raw(); ?>
+            
+            <?php echo Former::text('email')->placeholder(trans('texts.email'))->raw(); ?>
 
-            <?php endif; ?>
             <?php echo Former::password('password')->placeholder(trans('texts.password'))->raw(); ?>
 
         </div>
@@ -53,7 +50,6 @@
                     ->withAttributes(['id' => 'loginButton', 'class' => 'green'])
                     ->large()->submit()->block(); ?>
 
-
         <div class="row meta">
             <div class="col-md-12 col-sm-12" style="text-align:center;padding-top:8px;">
                 <?php echo link_to('/client/recover_password' . (request()->account_key ? '?account_key=' . request()->account_key : ''), trans('texts.recover_password')); ?>
@@ -63,7 +59,6 @@
         <?php echo Former::close(); ?>
 
     </div>
-
 
     <script type="text/javascript">
         $(function () {

@@ -4,6 +4,8 @@
         ->withAttributes(['class'=>'maintenanceDropdown'])
         ->withContents([
         ['label' => trans('texts.new_permission_group'), 'url' => url('/permission_groups/create')],
+        ['label' => trans('texts.new_branch'), 'url' => url('/branches')],
+        ['label' => trans('texts.new_location'), 'url' => url('/locations')],
         ])->split(); ?>
 
     <?php endif; ?>
@@ -13,6 +15,8 @@
         ->withAttributes(['class'=>'maintenanceDropdown'])
         ->withContents([
         ['label' => trans('texts.new_user'), 'url' => url('/users/create')],
+        ['label' => trans('texts.new_branch'), 'url' => url('/branches')],
+        ['label' => trans('texts.new_location'), 'url' => url('/locations')],
         ])->split(); ?>
 
     <?php endif; ?>
@@ -120,7 +124,7 @@
         <?php echo DropdownButton::normal(trans('texts.maintenance'))
         ->withAttributes(['class'=>'maintenanceDropdown'])
         ->withContents([
-        ['label' => trans('texts.new_item_brand'), 'url' => url('/item_brands/create')],
+        ['label' => trans('texts.new_item_brand'), 'url' => url('/item_brands')],
         ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories')],
         ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices')],
         ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores')],
@@ -192,6 +196,7 @@
         ->withContents([
         ['label' => trans('texts.new_product'), 'url' => url('/products')],
         ['label' => trans('texts.new_store'), 'url' => url('/stores')],
+        ['label' => trans('texts.new_branch'), 'url' => url('/branches')],
         ['label' => trans('texts.new_item_transfer'), 'url' => url('/item_transfers')],
         ['label' => trans('texts.new_item_movement'), 'url' => url('/item_movements')],
         ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices')],
@@ -205,6 +210,7 @@
         ->withContents([
         ['label' => trans('texts.new_product'), 'url' => url('/products')],
         ['label' => trans('texts.new_store'), 'url' => url('/stores')],
+        ['label' => trans('texts.new_branch'), 'url' => url('/branches')],
         ['label' => trans('texts.new_item_transfer'), 'url' => url('/item_transfers')],
         ['label' => trans('texts.new_item_movement'), 'url' => url('/item_movements')],
         ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types')],
@@ -220,6 +226,7 @@
         ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores')],
         ['label' => trans('texts.new_item_transfer'), 'url' => url('/item_transfers')],
         ['label' => trans('texts.new_item_movement'), 'url' => url('/item_movements')],
+        ['label' => trans('texts.new_branch'), 'url' => url('/branches')],
         ])->split(); ?>
 
     <?php endif; ?>
@@ -230,6 +237,7 @@
         ->withContents([
         ['label' => trans('texts.new_product'), 'url' => url('/products')],
         ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices')],
+        ['label' => trans('texts.new_branch'), 'url' => url('/branches')],
         ])->split(); ?>
 
     <?php endif; ?>
