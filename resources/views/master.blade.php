@@ -18,8 +18,8 @@
         <meta property="og:description" content="Fidel ERP"/>
 
         <!-- http://realfavicongenerator.net -->
-        {{--        <link rel="manifest" href="{{ url('manifest.json') }}">--}}
-        {{--        <link rel="mask-icon" href="{{ url('safari-pinned-tab.svg') }}" color="#3bc65c">--}}
+        <link rel="manifest" href="{{ url('manifest.json') }}">
+        <link rel="mask-icon" href="{{ url('safari-pinned-tab.svg') }}" color="#3bc65c">
         <link rel="shortcut icon" href="{{ url('favicon.ico') }}">
         <meta name="apple-mobile-web-app-title" content="Fidel ERP">
         <meta name="application-name" content="Fidel ERP">

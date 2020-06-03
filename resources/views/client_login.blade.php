@@ -15,5 +15,7 @@
 @endsection
 
 @section('body')
+
     @yield('form')
+
 @endsection

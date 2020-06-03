@@ -8,6 +8,7 @@ use App\Models\Invitation;
 use Config;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Password;
 
@@ -18,11 +19,10 @@ class PasswordController extends Controller
      *
      * If no token is present, display the link request form.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param string|null              $key
-     * @param string|null              $token
+     * @param Request $request
+     * @param string|null $token
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function showResetForm(Request $request, $token = null)
     {
@@ -31,11 +31,11 @@ class PasswordController extends Controller
         }
 
         $data = array(
-        	'token' => $token,
-			'clientauth' => true,
-		);
+            'token' => $token,
+            'clientauth' => true,
+        );
 
-        if (! session('contact_key')) {
+        if (!session('contact_key')) {
             return \Redirect::to('/client/session_expired');
         }
 
@@ -47,11 +47,10 @@ class PasswordController extends Controller
      *
      * If no token is present, display the link request form.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param string|null              $key
-     * @param string|null              $token
+     * @param Request $request
+     * @param string|null $token
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function getReset(Request $request, $token = null)
     {
@@ -61,9 +60,9 @@ class PasswordController extends Controller
     /**
      * Reset the given user's password.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function reset(Request $request)
     {
@@ -78,7 +77,7 @@ class PasswordController extends Controller
         $contactKey = session('contact_key');
         if ($contactKey) {
             $contact = Contact::where('contact_key', '=', $contactKey)->first();
-            if ($contact && ! $contact->is_deleted) {
+            if ($contact && !$contact->is_deleted) {
                 $credentials['id'] = $contact->id;
             }
         }

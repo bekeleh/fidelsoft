@@ -2,11 +2,8 @@
 
 @section('head')
     @parent
-
     @include('money_script')
-
     <link href='https://fonts.googleapis.com/css?family=Roboto+Mono' rel='stylesheet' type='text/css'>
-
     <style>
         .checkbox-inline input[type="checkbox"] {
             margin-left: -20px !important;

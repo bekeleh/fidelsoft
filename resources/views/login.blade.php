@@ -19,7 +19,6 @@
         <div class="row header">
             <div class="col-md-6 col-xs-12 text-center">
                 <a href="https://www.fidel.com.et/" target="_blank" style="color:white;">
-                    {{--                    {{trans('texts.team_source')}}--}}
                     <img width="193" height="25" src="{{ asset('images/fidel-logo.png') }}"/>
                 </a>
             </div>
@@ -28,6 +27,7 @@
             </div>
         </div>
     </div>
+
     <!-- login form -->
     @yield('form')
 

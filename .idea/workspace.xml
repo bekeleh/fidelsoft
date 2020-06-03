@@ -2,20 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/L2HpPTxlBZ6JKXAik9cuAcdXFestKZLlMjhOXDIV" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/5289dff8d0e9d6b3c8e84a32189d5248622606a0.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/f93f57e323d94fbcfcc395e612e7a946205aa21c.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/fae9d217345b62dfdce840c8348af5c60ebfccd1.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Constants.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Constants.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ClientPortalController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ClientPortalController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/emails/invoice_paid_html.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/emails/invoice_paid_html.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/emails/invoice_sent_html.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/emails/invoice_sent_html.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/emails/invoice_viewed_html.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/emails/invoice_viewed_html.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/emails/quote_approved_html.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/emails/quote_approved_html.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/emails/user_message_html.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/emails/user_message_html.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/partials/email_templates.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/partials/email_templates.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/public_list.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/public_list.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/c9e0f6f4159b676ba8afbee550091bc69d48cab4.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/c9e0f6f4159b676ba8afbee550091bc69d48cab4.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ClientAuth/ForgotPasswordController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ClientAuth/ForgotPasswordController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ClientAuth/PasswordController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ClientAuth/PasswordController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Presenters/AccountPresenter.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Presenters/AccountPresenter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/accounts/client_portal.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/accounts/client_portal.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/client_login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/client_login.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/login.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/master.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/master.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/V5lDBBxF3KhfqNCegEzHaJuKSHx0LuYkSj9Jul1Y" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/9d8aefb15fbe9a910b39a0f97aae647e7c0ca4f1.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/9d8aefb15fbe9a910b39a0f97aae647e7c0ca4f1.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -455,14 +455,7 @@
       <workItem from="1591082629811" duration="24671000" />
       <workItem from="1591133516876" duration="241000" />
       <workItem from="1591133827322" duration="74000" />
-      <workItem from="1591172913978" duration="12341000" />
-    </task>
-    <task id="LOCAL-00280" summary="2020-05-23 9:26">
-      <created>1590248264990</created>
-      <option name="number" value="00280" />
-      <option name="presentableId" value="LOCAL-00280" />
-      <option name="project" value="LOCAL" />
-      <updated>1590248264990</updated>
+      <workItem from="1591172913978" duration="13847000" />
     </task>
     <task id="LOCAL-00281" summary="2020-05-23 9:26">
       <created>1590248537469</created>
@@ -800,7 +793,14 @@
       <option name="project" value="LOCAL" />
       <updated>1591195663361</updated>
     </task>
-    <option name="localTasksCounter" value="329" />
+    <task id="LOCAL-00329" summary="2020-06-03 9:27">
+      <created>1591196249903</created>
+      <option name="number" value="00329" />
+      <option name="presentableId" value="LOCAL-00329" />
+      <option name="project" value="LOCAL" />
+      <updated>1591196249903</updated>
+    </task>
+    <option name="localTasksCounter" value="330" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -970,10 +970,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="303" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1280.680@0.0.1280.680" timestamp="1587324145930" />
-    <state x="305" y="61" width="906" height="606" key="find.popup" timestamp="1591196180666">
+    <state x="305" y="61" width="906" height="606" key="find.popup" timestamp="1591198065589">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="305" y="61" width="906" height="606" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1591196180666" />
+    <state x="305" y="61" width="906" height="606" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1591198065589" />
     <state x="316" y="37" width="983" height="691" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1586115855044" />
     <state x="215" y="69" width="849" height="606" key="find.popup/0.0.1440.860@0.0.1440.860" timestamp="1586178664001" />
     <state x="462" y="222" key="git4idea.merge.GitPullDialog" timestamp="1584633875966">

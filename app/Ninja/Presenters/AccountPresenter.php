@@ -15,17 +15,12 @@ use stdClass;
  */
 class AccountPresenter extends Presenter
 {
-    /**
-     * @return mixed
-     */
+
     public function name()
     {
         return $this->entity->name ?: trans('texts.untitled_account');
     }
 
-    /**
-     * @return string
-     */
     public function address()
     {
         $account = $this->entity;
@@ -45,17 +40,11 @@ class AccountPresenter extends Presenter
         return $str . $account->getCityState();
     }
 
-    /**
-     * @return string
-     */
     public function website()
     {
         return Utils::addHttp($this->entity->website);
     }
 
-    /**
-     * @return string
-     */
     public function taskRate()
     {
         if (floatval($this->entity->task_rate)) {
@@ -65,9 +54,6 @@ class AccountPresenter extends Presenter
         }
     }
 
-    /**
-     * @return mixed
-     */
     public function currencyCode()
     {
         $currencyId = $this->entity->getCurrencyId();
