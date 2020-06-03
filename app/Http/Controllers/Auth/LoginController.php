@@ -27,7 +27,7 @@ class LoginController extends Controller
 
     protected $username = 'username';
 
-    protected $redirectTo = '/';
+    protected $redirectTo = '/dashboard';
 
     private $maxLoginAttempts;
     private $lockoutTime;
@@ -143,8 +143,10 @@ class LoginController extends Controller
         }
         if ($user = Auth::user()) {
             $user->last_login = Carbon::now();
+
             $user->save();
         }
+
         // Redirect to the users page
         return redirect()->intended()->with('success', trans('auth/message.signin.success'));
     }
