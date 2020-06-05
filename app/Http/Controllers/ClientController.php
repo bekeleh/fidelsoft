@@ -21,9 +21,9 @@ use App\Ninja\Repositories\ClientRepository;
 use App\Services\ClientService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Input;
 
 class ClientController extends BaseController
 {
