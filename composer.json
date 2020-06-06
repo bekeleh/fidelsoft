@@ -54,7 +54,8 @@
     "turbo124/laravel-push-notification": "2.*",
     "webpatser/laravel-countries": "dev-master#75992ad",
     "wepay/php-sdk": "^0.2",
-    "wildbit/postmark-php": "^2.5"
+    "wildbit/postmark-php": "^2.5",
+    "ext-json": "*"
   },
   "require-dev": {
     "codeception/c3": "2.4.1",

@@ -1253,7 +1253,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'account_login' => 'User Login',
     'recover_password' => 'Recover your password',
     'forgot_password' => 'Forgot your password?',
-    'email_address' => 'Email address or username',
+    'email_address' => 'Email or Phone',
     'lets_go' => 'Let\'s go',
     'password_recovery' => 'Password Recovery',
     'send_email' => 'Send Email',

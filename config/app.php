@@ -4,7 +4,7 @@ use App\Libraries\Utils;
 
 return [
 
-    'name' => env('APP_NAME', 'FIDEL Business Solutoin APP'),
+    'name' => env('APP_NAME', 'FIDEL ERP'),
 
     /*
     |--------------------------------------------------------------------------

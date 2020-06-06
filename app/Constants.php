@@ -758,6 +758,7 @@ if (!defined('APP_NAME')) {
         'gatewayTypes' => 'App\Models\GatewayType',
         'fonts' => 'App\Models\Font',
         'banks' => 'App\Models\Bank',
+        'units' => 'App\Models\Unit',
     ];
     define('CACHED_TABLES', serialize($cachedTables));
 

@@ -46,7 +46,7 @@ class LoginController extends Controller
 
     public function username()
     {
-        return 'username';
+        return $this->username;
     }
 
     public function showLoginForm(Request $request)
@@ -54,6 +54,7 @@ class LoginController extends Controller
         if (Auth::check()) {
             return redirect()->intended('dashboard');
         }
+
         return view('auth.login');
     }
 
