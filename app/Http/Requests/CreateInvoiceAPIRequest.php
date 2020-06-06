@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 class CreateInvoiceAPIRequest extends InvoiceRequest
 {
+    protected $entityType = ENTITY_INVOICE;
+
     public function authorize()
     {
         return true;

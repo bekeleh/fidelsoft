@@ -5,7 +5,6 @@ namespace App\Ninja\Repositories;
 use App\Models\PermissionGroup;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class PermissionGroupRepository extends BaseRepository
 {
@@ -68,7 +67,6 @@ class PermissionGroupRepository extends BaseRepository
             $permissionGroup->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $permissionGroup = PermissionGroup::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in permission group repo save');
         } else {
             $permissionGroup = PermissionGroup::createNew();
             $permissionGroup->created_by = Auth::user()->username;
@@ -103,6 +101,7 @@ class PermissionGroupRepository extends BaseRepository
                 }
             }
         }
+
         return ($permissionGroupId && isset($map[$permissionGroupId])) ? $map[$permissionGroupId] : null;
     }
 

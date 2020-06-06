@@ -8,8 +8,8 @@ use Form;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rule;
 
 
 /**
@@ -35,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
             }
         });
 
-        Validator::mixin(new RulesMixin());
+        Rule::mixin(new RulesMixin());
         Form::mixin(new FormsMixin());
 
     }

@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
+use Mail;
 use stdClass;
 
 class AccountRepository
@@ -157,7 +158,7 @@ class AccountRepository
         })->count();
 
         if ($count > 10 && $errorEmail = env('ERROR_EMAIL')) {
-            \Mail::raw($ip, function ($message) use ($ip, $errorEmail) {
+            Mail::raw($ip, function ($message) use ($ip, $errorEmail) {
                 $message->to($errorEmail)
                     ->from(CONTACT_EMAIL)
                     ->subject('Duplicate company for IP: ' . $ip);
@@ -477,7 +478,7 @@ class AccountRepository
             $company->save();
 
             $account = new Account();
-            $account->name = 'Fidel Business Care Solution';
+            $account->name = 'FIDEL ERP';
             $account->work_email = 'fidelinvoice@gmail.com';
             $account->work_phone = ' +251 (0) 930-011-756';
             $account->account_key = NINJA_ACCOUNT_KEY;

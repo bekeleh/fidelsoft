@@ -2,22 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Mixins/FormsMixin.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Mixins/RulesMixin.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/ViewComposers/InventoryComposer.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/cache/91/76/917625318331cc88a4cff225fe7c0800dce625b6" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/kec0DIiUUC6aW8iIrYVk7Ofd47A5xpPs5uuVAHgO" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/nkbKIjcou4dqveHYhFidKNcNv7Mb7gPO66PQpp2U" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/3e083a31f81db2b794ade4a4fd76edc024429776.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/8ded3d124e772c3a905f5ca89bb8e23e1d5a3fc2.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Constants.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Constants.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Bank.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Bank.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Mixins/RulesMixin.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Mixins/RulesMixin.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/CreateInvoiceAPIRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/CreateInvoiceAPIRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/AccountRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/AccountRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/PermissionGroupRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/PermissionGroupRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/ComposerServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/ComposerServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/E-Ninja Plus.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/invoiceninja - Shortcut.lnk" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/kec0DIiUUC6aW8iIrYVk7Ofd47A5xpPs5uuVAHgO" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -276,19 +272,19 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\wamp\www\invoiceninja\resources\views\schedule_categories" />
-      <recent name="C:\wamp\www\invoiceninja\resources\views\departments" />
-      <recent name="C:\wamp\www\invoiceninja\resources\views\manufacturers" />
-      <recent name="C:\wamp\www\invoiceninja\app\Ninja\Repositories" />
-      <recent name="C:\wamp\www\invoiceninja\app\Http\Requests" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\wamp\www\invoiceninja" />
       <recent name="C:\wamp\www\invoiceninja\resources\views\users" />
       <recent name="C:\wamp\www\invoiceninja\app\Ninja\Datatables" />
       <recent name="C:\wamp\www\invoiceninja\resources\views\companies" />
       <recent name="C:\wamp\www\invoiceninja\resources\views\products" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\wamp\www\invoiceninja\resources\views\schedule_categories" />
+      <recent name="C:\wamp\www\invoiceninja\resources\views\departments" />
+      <recent name="C:\wamp\www\invoiceninja\resources\views\manufacturers" />
+      <recent name="C:\wamp\www\invoiceninja\app\Ninja\Repositories" />
+      <recent name="C:\wamp\www\invoiceninja\app\Http\Requests" />
     </key>
   </component>
   <component name="RunManager" selected="Codeception.codeception.yml">
@@ -464,14 +460,7 @@
       <workItem from="1591271857514" duration="599000" />
       <workItem from="1591371724859" duration="1096000" />
       <workItem from="1591373890731" duration="3620000" />
-      <workItem from="1591430666981" duration="8219000" />
-    </task>
-    <task id="LOCAL-00285" summary="2020-05-25 9:26">
-      <created>1590409759643</created>
-      <option name="number" value="00285" />
-      <option name="presentableId" value="LOCAL-00285" />
-      <option name="project" value="LOCAL" />
-      <updated>1590409759644</updated>
+      <workItem from="1591430666981" duration="9556000" />
     </task>
     <task id="LOCAL-00286" summary="2020-05-25 9:26">
       <created>1590430630913</created>
@@ -809,11 +798,21 @@
       <option name="project" value="LOCAL" />
       <updated>1591373518673</updated>
     </task>
-    <option name="localTasksCounter" value="334" />
+    <task id="LOCAL-00334" summary="2020-06-06 9:27">
+      <created>1591439132108</created>
+      <option name="number" value="00334" />
+      <option name="presentableId" value="LOCAL-00334" />
+      <option name="project" value="LOCAL" />
+      <updated>1591439132111</updated>
+    </task>
+    <option name="localTasksCounter" value="335" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="UpdateCopyrightCheckinHandler">
+    <option name="UPDATE_COPYRIGHT" value="true" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -830,9 +829,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="2020-05-2 9:26" />
     <MESSAGE value="2020-05-4 9:26" />
     <MESSAGE value="2020-05-5 9:26" />
     <MESSAGE value="2020-05-6 9:26" />
@@ -857,7 +856,11 @@
     <MESSAGE value="2020-06-02 9:27" />
     <MESSAGE value="2020-06-03 9:27" />
     <MESSAGE value="2020-06-05 9:27" />
-    <option name="LAST_COMMIT_MESSAGE" value="2020-06-05 9:27" />
+    <MESSAGE value="2020-06-06 9:27" />
+    <option name="LAST_COMMIT_MESSAGE" value="2020-06-06 9:27" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="277" y="0" key="#Notifications" timestamp="1591374104608">
@@ -905,10 +908,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1590585842435" />
-    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1591373516976">
+    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1591439152461">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1591373516976" />
+    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1591439152461" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="418" y="255" key="ComposerInitDialogKey" timestamp="1589789975070">
@@ -964,10 +967,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="303" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1280.680@0.0.1280.680" timestamp="1587324145930" />
-    <state x="305" y="61" width="906" height="606" key="find.popup" timestamp="1591435455151">
+    <state x="305" y="42" width="906" height="638" key="find.popup" timestamp="1591442994047">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="305" y="61" width="906" height="606" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1591435455151" />
+    <state x="305" y="42" width="906" height="638" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1591442994047" />
     <state x="316" y="37" width="983" height="691" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1586115855044" />
     <state x="215" y="69" width="849" height="606" key="find.popup/0.0.1440.860@0.0.1440.860" timestamp="1586178664001" />
     <state x="462" y="222" key="git4idea.merge.GitPullDialog" timestamp="1584633875966">
@@ -979,10 +982,10 @@
     </state>
     <state x="334" y="154" width="672" height="677" key="run.anything.popup/0.0.1280.680@0.0.1280.680" timestamp="1591376025555" />
     <state x="376" y="195" key="run.anything.popup/0.0.1440.860@0.0.1440.860" timestamp="1584184043681" />
-    <state x="340" y="142" width="672" height="537" key="search.everywhere.popup" timestamp="1591436616457">
+    <state x="340" y="142" width="672" height="537" key="search.everywhere.popup" timestamp="1591442752322">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="340" y="142" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1591436616457" />
+    <state x="340" y="142" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1591442752322" />
     <state x="383" y="180" width="672" height="678" key="search.everywhere.popup/0.0.1440.860@0.0.1440.860" timestamp="1584690366242" />
   </component>
 </project>

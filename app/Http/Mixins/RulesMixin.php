@@ -3,6 +3,7 @@
 namespace App\Http\Mixins;
 
 use App\Libraries\Utils;
+use App\Models\Client;
 use Carbon\Carbon;
 
 class RulesMixin
@@ -21,7 +22,7 @@ class RulesMixin
             $publicClientId = $parameters[0];
             $amount = $parameters[1];
 
-            $client = \App\Models\Client::scope($publicClientId)->firstOrFail();
+            $client = Client::scope($publicClientId)->firstOrFail();
             $credit = $client->getTotalCredit();
 
             return $credit >= $amount;
@@ -74,7 +75,7 @@ class RulesMixin
             foreach ($value as $item) {
                 $qty = !empty($item['qty']) ? Utils::parseFloat($item['qty']) : 1;
                 $cost = !empty($item['cost']) ? Utils::parseFloat($item['cost']) : 1;
-                $total += $qty * $cost;
+                $total += ($qty * $cost);
             }
 
             return $total <= MAX_INVOICE_AMOUNT;
