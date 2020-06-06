@@ -4,9 +4,6 @@
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/nkbKIjcou4dqveHYhFidKNcNv7Mb7gPO66PQpp2U" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/nkbKIjcou4dqveHYhFidKNcNv7Mb7gPO66PQpp2U" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -452,21 +449,7 @@
       <workItem from="1591271857514" duration="599000" />
       <workItem from="1591371724859" duration="1096000" />
       <workItem from="1591373890731" duration="3620000" />
-      <workItem from="1591430666981" duration="10501000" />
-    </task>
-    <task id="LOCAL-00287" summary="2020-05-25 9:26">
-      <created>1590436718459</created>
-      <option name="number" value="00287" />
-      <option name="presentableId" value="LOCAL-00287" />
-      <option name="project" value="LOCAL" />
-      <updated>1590436718459</updated>
-    </task>
-    <task id="LOCAL-00288" summary="2020-05-25 9:27">
-      <created>1590575522353</created>
-      <option name="number" value="00288" />
-      <option name="presentableId" value="LOCAL-00288" />
-      <option name="project" value="LOCAL" />
-      <updated>1590575522354</updated>
+      <workItem from="1591430666981" duration="10564000" />
     </task>
     <task id="LOCAL-00289" summary="2020-05-27 9:27">
       <created>1590576006401</created>
@@ -797,7 +780,21 @@
       <option name="project" value="LOCAL" />
       <updated>1591443011258</updated>
     </task>
-    <option name="localTasksCounter" value="336" />
+    <task id="LOCAL-00336" summary="2020-06-06 9:27">
+      <created>1591444172337</created>
+      <option name="number" value="00336" />
+      <option name="presentableId" value="LOCAL-00336" />
+      <option name="project" value="LOCAL" />
+      <updated>1591444172337</updated>
+    </task>
+    <task id="LOCAL-00337" summary="2020-06-06 9:27">
+      <created>1591444197003</created>
+      <option name="number" value="00337" />
+      <option name="presentableId" value="LOCAL-00337" />
+      <option name="project" value="LOCAL" />
+      <updated>1591444197003</updated>
+    </task>
+    <option name="localTasksCounter" value="338" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -900,10 +897,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1590585842435" />
-    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1591444171483">
+    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1591444196246">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1591444171483" />
+    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1591444196246" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="418" y="255" key="ComposerInitDialogKey" timestamp="1589789975070">
