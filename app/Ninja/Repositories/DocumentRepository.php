@@ -4,6 +4,7 @@ namespace App\Ninja\Repositories;
 
 use App\Libraries\Utils;
 use App\Models\Document;
+use Datatable;
 use Form;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -33,6 +34,7 @@ class DocumentRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $accountid = Auth::user()->account_id;
+
         $query = DB::table('clients')
             ->join('accounts', 'accounts.id', '=', 'clients.account_id')
             ->leftjoin('clients', 'clients.id', '=', 'clients.client_id')
@@ -220,7 +222,7 @@ class DocumentRepository extends BaseRepository
                 'documents.size'
             );
 
-        $table = \Datatable::query($query)
+        $table = Datatable::query($query)
             ->addColumn('invoice_number', function ($model) {
                 return link_to(
                     '/view/' . $model->invitation_key,

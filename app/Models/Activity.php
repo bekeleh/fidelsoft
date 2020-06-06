@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Auth;
-use Eloquent;
+use Illuminate\Database\Eloquent\Model as Eloquent;
+use Illuminate\Support\Facades\Auth;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
@@ -13,77 +13,47 @@ class Activity extends Eloquent
 {
     use PresentableTrait;
 
-    /**
-     * @var string
-     */
     protected $presenter = 'App\Ninja\Presenters\ActivityPresenter';
 
-    /**
-     * @var bool
-     */
+
     public $timestamps = true;
 
-    /**
-     * @param $query
-     *
-     * @return mixed
-     */
+
     public function scopeScope($query)
     {
         return $query->whereAccountId(Auth::user()->account_id);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function account()
     {
         return $this->belongsTo('App\Models\Account');
     }
 
-    /**
-     * @return mixed
-     */
     public function user()
     {
         return $this->belongsTo('App\Models\User')->withTrashed();
     }
 
-    /**
-     * @return mixed
-     */
     public function contact()
     {
         return $this->belongsTo('App\Models\Contact')->withTrashed();
     }
 
-    /**
-     * @return mixed
-     */
     public function client()
     {
         return $this->belongsTo('App\Models\Client')->withTrashed();
     }
 
-    /**
-     * @return mixed
-     */
     public function invoice()
     {
         return $this->belongsTo('App\Models\Invoice')->withTrashed();
     }
 
-    /**
-     * @return mixed
-     */
     public function credit()
     {
         return $this->belongsTo('App\Models\Credit')->withTrashed();
     }
 
-    /**
-     * @return mixed
-     */
     public function payment()
     {
         return $this->belongsTo('App\Models\Payment')->withTrashed();
@@ -104,9 +74,6 @@ class Activity extends Eloquent
         return sprintf('%s-%s-%s', $this->activity_type_id, $this->client_id, $this->created_at->timestamp);
     }
 
-    /**
-     * @return mixed
-     */
     public function getMessage()
     {
         $activityTypeId = $this->activity_type_id;
@@ -131,8 +98,8 @@ class Activity extends Eloquent
             'payment_amount' => $payment ? $account->formatMoney($payment->amount, $payment) : null,
             'adjustment' => $this->adjustment ? $account->formatMoney($this->adjustment, $this) : null,
             'credit' => $credit ? $account->formatMoney($credit->amount, $client) : null,
-            'task' => $task ? link_to($task->getRoute(), substr($task->description, 0, 30).'...') : null,
-            'expense' => $expense ? link_to($expense->getRoute(), substr($expense->public_notes, 0, 30).'...') : null,
+            'task' => $task ? link_to($task->getRoute(), substr($task->description, 0, 30) . '...') : null,
+            'expense' => $expense ? link_to($expense->getRoute(), substr($expense->public_notes, 0, 30) . '...') : null,
         ];
 
         return trans("texts.activity_{$activityTypeId}", $data);
@@ -204,4 +171,5 @@ class Activity extends Eloquent
                 break;
         }
     }
+
 }

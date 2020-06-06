@@ -23,7 +23,7 @@ class AccountGatewayRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('account_gateways')
-            ->join('gateways', 'gateways.id', '=', 'account_gateways.gateway_id')
+            ->leftJoin('gateways', 'gateways.id', '=', 'account_gateways.gateway_id')
             ->join('accounts', 'accounts.id', '=', 'account_gateways.account_id')
             ->where('account_gateways.account_id', '=', $accountId)
 //            ->whereNull('account_gateways.deleted_at')
@@ -57,11 +57,11 @@ class AccountGatewayRepository extends BaseRepository
             $accountGateway->updated_by = auth::user()->username;
         } elseif ($publicId) {
             $accountGateway = AccountGateway::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in account gateway repo save');
         } else {
             $accountGateway = AccountGateway::createNew();
             $accountGateway->created_by = auth::user()->username;
         }
+
         $accountGateway->fill($data);
         $accountGateway->name = isset($data['name']) ? trim($data['name']) : '';
         $accountGateway->notes = isset($data['notes']) ? trim($data['notes']) : '';

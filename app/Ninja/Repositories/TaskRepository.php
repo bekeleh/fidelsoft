@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\TaskStatus;
+use Datatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -138,7 +139,7 @@ class TaskRepository extends BaseRepository
                 'projects.name as project'
             );
 
-        $table = \Datatable::query($query)
+        $table = Datatable::query($query)
             ->addColumn('project', function ($model) {
                 return $model->project;
             })
@@ -157,13 +158,16 @@ class TaskRepository extends BaseRepository
 
     public function save($publicId, $data, $task = null)
     {
+        $publicId = isset($data['publicId']) ? $data['publicId'] : false;
+
         if ($task) {
-            // do nothing
+            $task->updated_by = auth::user()->username;
         } elseif ($publicId) {
             $task = Task::scope($publicId)->withTrashed()->firstOrFail();
         } else {
             $task = Task::createNew();
             $task->task_status_sort_order = 9999;
+            $task->created_by = auth::user()->username;
         }
 
         if ($task->is_deleted) {

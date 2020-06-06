@@ -3,6 +3,7 @@
 namespace App\Ninja\Repositories;
 
 use App\Models\Subscription;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SubscriptionRepository extends BaseRepository
@@ -19,11 +20,11 @@ class SubscriptionRepository extends BaseRepository
         return 'App\Models\Subscription';
     }
 
-    public function find($accountId = false)
+    public function find($accountId = false, $filter = null)
     {
         $query = DB::table('subscriptions')
             ->where('subscriptions.account_id', '=', $accountId)
-            ->whereNull('subscriptions.deleted_at')
+//            ->whereNull('subscriptions.deleted_at')
             ->select(
                 'subscriptions.public_id',
                 'subscriptions.target_url as target',
@@ -38,6 +39,36 @@ class SubscriptionRepository extends BaseRepository
                 'subscriptions.deleted_by'
             );
 
+        if ($filter) {
+            $query->where(function ($query) use ($filter) {
+                $query->where('subscriptions.target_url', 'like', '%' . $filter . '%')
+                    ->orWhere('subscriptions.created_by', 'like', '%' . $filter . '%');
+            });
+        }
+
+        $this->applyFilters($query, ENTITY_SUBSCRIPTION);
+
         return $query;
+    }
+
+    public function save($publicId, $data, $subscription = null)
+    {
+        $publicId = isset($data['public_id']) ? $data['public_id'] : false;
+
+        if ($subscription) {
+            $subscription->updated_by = Auth::user()->username;
+
+        } elseif ($publicId) {
+            $subscription = Subscription::scope($data['public_id'])->firstOrFail();
+        } else {
+            $subscription = Subscription::createNew();
+            $subscription->created_by = Auth::user()->username;
+        }
+
+        $subscription->fill($data);
+
+        $subscription->save();
+
+        return $subscription;
     }
 }

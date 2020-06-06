@@ -144,9 +144,9 @@ return [
     */
 
     'composer' => [
-        'vendor' => 'invoiceninja',
+        'vendor' => 'FIDEL ERP',
         'author' => [
-            'name' => 'Hillel Coren',
+            'name' => 'Fidel Team',
             'email' => 'fidelinvoice@gmail.com',
         ],
     ],

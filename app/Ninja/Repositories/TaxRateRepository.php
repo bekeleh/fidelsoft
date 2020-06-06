@@ -70,7 +70,6 @@ class TaxRateRepository extends BaseRepository
             // do nothing
         } elseif ($publicId) {
             $taxRate = TaxRate::scope($data['public_id'])->firstOrFail();
-            \Log::warning('Entity not set in tax rate repo save');
         } else {
             $taxRate = TaxRate::createNew();
             $taxRate->created_by = Auth::user()->username;
