@@ -13,29 +13,34 @@ class InvoiceItem extends EntityModel
     use PresentableTrait;
     use SoftDeletes;
 
-
     protected $presenter = 'App\Ninja\Presenters\InvoiceItemPresenter';
 
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
-    protected $dates = ['deleted_at'];
+    protected $fillable = [
+//        'name',
+//        'cost',
+//        'qty',
+        'invoice_item_type_id',
+        'tax_name1',
+        'tax_rate1',
+        'tax_name2',
+        'tax_rate2',
+        'discount',
+        'created_by',
+        'updated_by',
+        'deleted_by',
+    ];
 
     public function getEntityType()
     {
         return ENTITY_INVOICE_ITEM;
     }
 
-
-    protected $fillable = [
-        'tax_name1',
-        'tax_rate1',
-        'tax_name2',
-        'tax_rate2',
-        'invoice_item_type_id',
-        'discount',
-        'created_by',
-        'updated_by',
-        'deleted_by',
-    ];
+    public function getRoute()
+    {
+        return "/invoice_items/{$this->public_id}/edit";
+    }
 
     public function invoice()
     {

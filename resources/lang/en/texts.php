@@ -205,16 +205,15 @@ $LANG = array(
     'clone_status' => 'Clone Status',
     'archive_status' => 'Archive Status',
     'delete_status' => 'Delete Status',
-    'deleted_status' => 'Deleted Status',
     'restore_status' => 'Restore Status',
     'updated_status' => 'Successfully Updated Status',
     'created_status' => 'Successfully Created Status',
     'archived_status' => 'Successfully Archived Status',
     'archived_statuses' => 'Successfully Archived :count Statuses',
-    'restored_Status' => 'Successfully Restored Status',
-    'restored_Statuses' => 'Successfully Restored :count Statuses',
-    'deleted_Status' => 'Successfully Deleted Status',
-    'deleted_Statuses' => 'Successfully Deleted :count Statuses',
+    'restored_status' => 'Successfully Restored Status',
+    'restored_statuses' => 'Successfully Restored :count Statuses',
+    'deleted_status' => 'Successfully Deleted Status',
+    'deleted_statuses' => 'Successfully Deleted :count Statuses',
     'status_settings' => 'Status Settings',
     'select_status' => 'Select Status',
     'status_help' => 'Sets the default <b>status</b>',
@@ -226,7 +225,7 @@ $LANG = array(
 */
     'client_name' => 'Client Name',
     'client' => 'Client',
-    'clients' => 'Clients',
+    'clients' => 'Customers',
     'new_client' => 'New Client',
     'list_client' => 'List Client',
     'create_client' => 'Create Client',
@@ -275,7 +274,7 @@ $LANG = array(
     'last_name' => 'Last Name',
     'username' => 'Username',
     'user' => 'User',
-    'users' => 'Users',
+    'users' => 'Employees',
     'new_user' => 'New User',
     'list_users' => 'List Users',
     'create_user' => 'Create User',
@@ -1149,6 +1148,39 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'invoice_issued_to' => 'Invoice issued to',
     'invalid_counter' => 'To prevent a possible conflict please set either an invoice or quote number prefix',
     'mark_sent' => 'Mark Sent',
+    /*
+|--------------------------------------------------------------------------
+| invoice item  trans
+|--------------------------------------------------------------------------
+*/
+    'invoice_item_name' => 'Item Name',
+    'invoice_item' => 'Invoice Item',
+    'invoice_items' => 'Invoice Items',
+    'new_invoice_item' => 'New Invoice Item',
+    'list_invoice_item' => 'List Invoice Item',
+    'create_invoice_item' => 'Create Invoice Item',
+    'edit_invoice_item' => 'Edit Invoice Item',
+    'clone_invoice_item' => 'Clone Invoice Item',
+    'archive_invoice_item' => 'Archive Invoice Item',
+    'delete_invoice_item' => 'Delete Invoice Item',
+    'restore_invoice_item' => 'Restore Invoice Item',
+    'updated_invoice_item' => 'Successfully Updated Invoice Item',
+    'created_invoice_item' => 'Successfully Created Invoice Item',
+    'archived_invoice_item' => 'Successfully Archived Invoice Item',
+    'archived_invoice_items' => 'Successfully Archived :count Invoice Items',
+    'restored_invoice_item' => 'Successfully Restored Status',
+    'restored_invoice_items' => 'Successfully Restored :count Invoice Items',
+    'deleted_invoice_item' => 'Successfully Deleted Invoice Item',
+    'deleted_invoice_items' => 'Successfully Deleted :count Invoice Items',
+    'invoice_item_settings' => 'Status Settings',
+    'select_invoice_item' => 'Select Invoice Item',
+    'invoice_item_help' => 'Sets the default <b>status</b>',
+
+    /*
+|--------------------------------------------------------------------------
+| Gateway  trans
+|--------------------------------------------------------------------------
+*/
     'gateway_help_1' => ':link to sign up for Authorize.net.',
     'gateway_help_2' => ':link to sign up for Authorize.net.',
     'gateway_help_17' => ':link to get your PayPal API signature.',
@@ -1653,7 +1685,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'expenses' => 'Expenses',
     'new_expense' => 'Enter Expense',
     'enter_expense' => 'Enter Expense',
-    'vendors' => 'Vendors',
+    'vendors' => 'Suppliers',
     'new_vendor' => 'New Vendor',
     'payment_terms_net' => 'Net',
     'vendor' => 'Vendor',

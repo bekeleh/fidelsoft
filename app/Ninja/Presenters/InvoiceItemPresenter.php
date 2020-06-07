@@ -2,33 +2,43 @@
 
 namespace App\Ninja\Presenters;
 
-use Str;
-use stdClass;
+use App\Libraries\Skype\HeroCard;
+use DropdownButton;
 
 class InvoiceItemPresenter extends EntityPresenter
 {
-    public function rBits()
+    public function skypeBot($account)
     {
-        $data = new stdClass();
-        $data->description = $this->entity->notes;
-        $data->item_price = floatval($this->entity->cost);
-        $data->quantity = floatval($this->entity->qty);
-        $data->amount = round($data->item_price * $data->quantity, 2);
+        $invoiceItem = $this->entity;
 
-        return $data;
+        $card = new HeroCard();
+        $card->setTitle($invoiceItem->name);
+        $card->setText($invoiceItem->notes);
+
+        return $card;
     }
 
-    public function tax1()
+    public function moreActions()
     {
-        $item = $this->entity;
+        $invoiceItem = $this->entity;
+        $actions = [];
 
-        return $item->tax_name1 . ' ' . $item->tax_rate1 . '%';
+        if (!$invoiceItem->trashed()) {
+            if (auth()->user()->can('create', ENTITY_INVOICE_ITEM)) {
+                $actions[] = ['url' => 'javascript:submitAction("clone")', 'label' => trans('texts.clone_invoice_item')];
+            }
+            if (count($actions)) {
+                $actions[] = DropdownButton::DIVIDER;
+            }
+            $actions[] = ['url' => 'javascript:submitAction("archive")', 'label' => trans("texts.archive_invoice_item")];
+        } else {
+            $actions[] = ['url' => 'javascript:submitAction("restore")', 'label' => trans("texts.restore_invoice_item")];
+        }
+        if (!$invoiceItem->is_deleted) {
+            $actions[] = ['url' => 'javascript:onDeleteClick()', 'label' => trans("texts.delete_invoice_item")];
+        }
+
+        return $actions;
     }
 
-    public function tax2()
-    {
-        $item = $this->entity;
-
-        return $item->tax_name2 . ' ' . $item->tax_rate2 . '%';
-    }
 }

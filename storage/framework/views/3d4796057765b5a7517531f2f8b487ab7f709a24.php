@@ -1,5 +1,8 @@
-<?php $__env->startSection('head_css'); ?>
-    <link href="<?php echo e(asset('css/built.css')); ?>?no_cache=<?php echo e(NINJA_VERSION); ?>" rel="stylesheet" type="text/css"/>
+<?php use App\Libraries\HistoryUtils;
+
+$__env->startSection('head_css'); ?>
+    <link href="<?php echo e(asset('css/built.css')); ?>?no_cache=<?php echo e(NINJA_VERSION); ?>" rel="stylesheet"
+          type="text/css"/>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('head'); ?>
@@ -205,7 +208,7 @@
 
             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
                 if (isStorageSupported() && /\/settings\//.test(location.href)) {
-                    var target = $(e.target).attr("href") // activated tab
+                    var target = $(e.target).attr("href"); // activated tab
                     if (history.pushState) {
                         history.pushState(null, null, target);
                     }
@@ -360,25 +363,25 @@
 
             <ul class="nav navbar-nav hide-non-phone" style="font-weight: bold">
                 <?php $__currentLoopData = [
-                'dashboard' => false,
-                'users' => false,
-                'permission_groups' => false,
-                'clients' => false,
-                'point_of_sales' => false,
-                'products' => false,
-                'locations' => false,
-                'invoices' => false,
-                'payments' => false,
-                'recurring_invoices' => false,
-                'credits' => false,
-                'quotes' => false,
-                'proposals' => false,
-                'projects' => false,
-                'tasks' => false,
-                'expenses' => false,
-                'vendors' => false,
-                'manufacturers' => false,
-                'schedules' => false,
+                    'dashboard' => false,
+                    'users' => false,
+                    'permission_groups' => false,
+                    'clients' => false,
+                    'point_of_sales' => false,
+                    'products' => false,
+                    'locations' => false,
+                    'invoices' => false,
+                    'quotes' => false,
+                    'payments' => false,
+                    'recurring_invoices' => false,
+                    'credits' => false,
+                    'proposals' => false,
+                    'projects' => false,
+                    'tasks' => false,
+                    'expenses' => false,
+                    'vendors' => false,
+                    'manufacturers' => false,
+                    'schedules' => false,
                 'reports' => false,
                 'settings' => false,
                 ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -394,24 +397,24 @@
         <div id="left-sidebar-wrapper" class="hide-phone">
             <ul class="sidebar-nav <?php echo e(Auth::user()->dark_mode ? 'sidebar-nav-dark' : 'sidebar-nav-light'); ?>">
             <?php $__currentLoopData = [
-            'dashboard',
-            'point_of_sales',
-            'invoices',
-            'payments',
-            'recurring_invoices' => 'recurring',
-            'credits',
-            'quotes',
-             'expenses',
-             'products',
-             'purchases',
-            'proposals',
-            'projects',
-            'tasks',
-            'schedules',
+                'dashboard',
+                'clients',
+                'vendors',
+                'users',
+                'point_of_sales',
+                'invoices',
+                'quotes',
+                'payments',
+                'recurring_invoices' => 'recurring',
+                'credits',
+                'expenses',
+                'products',
+                'purchases',
+                'proposals',
+                'projects',
+                'tasks',
+                'schedules',
             'manufacturers',
-            'clients',
-            'vendors',
-            'users',
             ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <?php if(!Auth::user()->account->isModuleEnabled(substr($option, 0, -1))): ?>
                     <?php echo e(''); ?>
@@ -426,7 +429,7 @@
                 <?php if(Utils::isAdmin() || Auth::user()->canCreateOrEdit('view',[ENTITY_REPORT])): ?>
                     <?php echo $__env->make('partials.navigation_option', ['option' => 'reports'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 <?php endif; ?>
-                <?php if(Utils::isAdmin() ): ?>
+                <?php if (Utils::isAdmin()): ?>
                     <?php echo $__env->make('partials.navigation_option', ['option' => 'settings'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 <?php endif; ?>
                 <h3 style="height: 15px;"></h3>
@@ -435,7 +438,7 @@
         <!-- /#left-sidebar-wrapper -->
         <div id="right-sidebar-wrapper" class="hide-phone" style="overflow-y:hidden">
             <ul class="sidebar-nav <?php echo e(Auth::user()->dark_mode ? 'sidebar-nav-dark' : 'sidebar-nav-light'); ?>">
-                <?php echo \App\Libraries\HistoryUtils::renderHtml(Auth::user()->account_id); ?>
+                <?php echo HistoryUtils::renderHtml(Auth::user()->account_id); ?>
 
             </ul>
         </div>
@@ -444,7 +447,7 @@
             <div class="container-fluid">
                 <!-- New message feed area -->
                 <?php echo $__env->make('partials.warn_session', ['redirectTo' => '/dashboard'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                <?php if(Session::has('news_feed_message')): ?>
+                <?php if (Session::has('news_feed_message')): ?>
                     <div class="alert alert-info">
                         <?php echo Session::get('news_feed_message'); ?>
 

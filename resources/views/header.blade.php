@@ -205,7 +205,7 @@
 
             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
                 if (isStorageSupported() && /\/settings\//.test(location.href)) {
-                    var target = $(e.target).attr("href") // activated tab
+                    var target = $(e.target).attr("href"); // activated tab
                     if (history.pushState) {
                         history.pushState(null, null, target);
                     }
@@ -357,10 +357,10 @@
                 'products' => false,
                 'locations' => false,
                 'invoices' => false,
+                 'quotes' => false,
                 'payments' => false,
                 'recurring_invoices' => false,
                 'credits' => false,
-                'quotes' => false,
                 'proposals' => false,
                 'projects' => false,
                 'tasks' => false,
@@ -383,12 +383,15 @@
             <ul class="sidebar-nav {{ Auth::user()->dark_mode ? 'sidebar-nav-dark' : 'sidebar-nav-light' }}">
             @foreach([
             'dashboard',
+             'clients',
+             'vendors',
+             'users',
             'point_of_sales',
             'invoices',
+             'quotes',
             'payments',
             'recurring_invoices' => 'recurring',
             'credits',
-            'quotes',
              'expenses',
              'products',
              'purchases',
@@ -397,9 +400,6 @@
             'tasks',
             'schedules',
             'manufacturers',
-            'clients',
-            'vendors',
-            'users',
             ] as $option)
                 @if(!Auth::user()->account->isModuleEnabled(substr($option, 0, -1)))
                     {{ '' }}

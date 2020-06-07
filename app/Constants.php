@@ -78,6 +78,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_SCHEDULE_SETTING', 'schedule_setting');
     define('ENTITY_SCHEDULED_REPORT', 'scheduled_report');
 
+
     $permissionEntities = [
         ENTITY_ACTIVITY,
         ENTITY_CLIENT,
@@ -89,6 +90,7 @@ if (!defined('APP_NAME')) {
         ENTITY_EXPENSE_CATEGORY,
         ENTITY_HOLD_REASON,
         ENTITY_INVOICE,
+        ENTITY_INVOICE_ITEM,
         ENTITY_ITEM_BRAND,
         ENTITY_ITEM_CATEGORY,
         ENTITY_ITEM_MOVEMENT,
@@ -143,6 +145,7 @@ if (!defined('APP_NAME')) {
 
     define('INVOICE_ITEM_TYPE_STANDARD', 1);
     define('INVOICE_ITEM_TYPE_TASK', 2);
+
     define('INVOICE_ITEM_TYPE_PENDING_GATEWAY_FEE', 3);
     define('INVOICE_ITEM_TYPE_PAID_GATEWAY_FEE', 4);
     define('INVOICE_ITEM_TYPE_LATE_FEE', 5);

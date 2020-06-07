@@ -10,9 +10,6 @@ use Str;
  */
 class InvoiceStatus extends Eloquent
 {
-    /**
-     * @var bool
-     */
     public $timestamps = false;
 
     public static function getIdFromAlias($status)

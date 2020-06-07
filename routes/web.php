@@ -187,7 +187,7 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
     Route::get('projects/{projects}/edit', 'ProjectController@edit');
     Route::get('projects/{projects}', 'ProjectController@show');
     Route::post('projects/bulk', 'ProjectController@bulk');
-
+//     invoice
     Route::get('api/recurring_invoices/{client_id?}', 'InvoiceController@getRecurringDatatable');
 
     Route::get('invoices/delivery_note/{invoice_id}', 'InvoiceController@deliveryNote');
@@ -204,7 +204,12 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
     Route::get('invoices/{invoices}/clone', 'InvoiceController@cloneInvoice');
     Route::post('invoices/bulk', 'InvoiceController@bulk');
     Route::post('recurring_invoices/bulk', 'InvoiceController@bulk');
-
+//   invoice item
+    Route::get('invoice_items/{invoice_items}/clone', 'invoiceItemController@cloneinvoiceItem');
+    Route::get('api/invoice_items', 'invoiceItemController@getDatatable');
+    Route::resource('invoice_items', 'invoiceItemController');
+    Route::post('invoice_items/bulk', 'invoiceItemController@bulk');
+//     expense
     Route::get('recurring_expenses', 'RecurringExpenseController@index');
     Route::get('api/recurring_expenses', 'RecurringExpenseController@getDatatable');
     Route::get('recurring_expenses/create/{vendor_id?}/{client_id?}/{category_id?}', 'RecurringExpenseController@create');
