@@ -93,12 +93,11 @@ class InvoiceItemService extends BaseService
         return $invoice;
     }
 
-    public function getDatatable($accountId, $invoiceItemPublicId, $entityType, $search)
+    public function getDatatable($accountId, $search)
     {
-        $datatable = new InvoiceItemDatatable(true, $invoiceItemPublicId);
-        $datatable->entityType = $entityType;
+        $datatable = new InvoiceItemDatatable(true);
 
-        $query = $this->invoiceItemRepo->getInvoices($accountId, $invoiceItemPublicId, $entityType, $search);
+        $query = $this->invoiceItemRepo->find($accountId, $search);
 
         if (!Utils::hasPermission('view_invoice_item')) {
             $query->where('invoice_items.user_id', '=', Auth::user()->id);

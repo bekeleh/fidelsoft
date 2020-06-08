@@ -44,8 +44,9 @@ class InvoiceItemRepository extends BaseRepository
         $query = DB::table('invoice_items')
             ->join('accounts', 'accounts.id', '=', 'invoice_items.account_id')
             ->leftJoin('products', 'products.id', '=', 'invoice_items.product_id')
+            ->leftJoin('invoices', 'invoices.id', '=', 'invoice_items.invoice_id')
             ->join('users', 'users.id', '=', 'invoice_items.user_id')
-            ->where('invoice_items.invoice_type_id', '=', true)
+            ->where('invoice_items.invoice_item_type_id', '=', true)
             ->where('invoice_items.account_id', '=', $accountId)
 //            ->where('invoice_items.deleted_at', '=', null)
             ->select(
@@ -60,6 +61,8 @@ class InvoiceItemRepository extends BaseRepository
                 'invoice_items.created_by',
                 'invoice_items.updated_by',
                 'invoice_items.deleted_by',
+                'invoices.public_id as invoice_public_id',
+                'invoices.invoice_number',
                 'products.public_id as product_public_id',
                 'products.name as item_name'
             );

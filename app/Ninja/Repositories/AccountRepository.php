@@ -289,6 +289,7 @@ class AccountRepository
         $entityTypes = [
             ENTITY_STATUS,
             ENTITY_INVOICE,
+            ENTITY_INVOICE_ITEM,
             ENTITY_USER,
             ENTITY_PERMISSION_GROUP,
             ENTITY_CLIENT,

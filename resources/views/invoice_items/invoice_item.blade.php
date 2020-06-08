@@ -5,11 +5,10 @@
     {!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['name' => 'required|max:90','item_category_id' => 'required','notes' => 'required'])
+    ->rules(['name' => 'required|max:90','product_id' => 'required','notes' => 'required'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     @if ($invoiceItem)
         {{ Former::populate($invoiceItem) }}
-        {{ Former::populateField('qty','0.00') }}
         <div style="display:none">
             {!! Former::text('public_id') !!}
         </div>
@@ -24,11 +23,11 @@
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
-                    {!! Former::text('name')->label('texts.item_brand') !!}
-                    {!! Former::select('item_category_id')->addOption('', '')
-                    ->label(trans('texts.item_category'))
-                    ->addGroupClass('item-category-select')
-                    ->help(trans('texts.item_category_help') . ' | ' . link_to('/item_categories/', trans('texts.customize_options')))
+                    {!! Former::text('name')->label('texts.item_name') !!}
+                    {!! Former::select('item_id')->addOption('', '')
+                    ->label(trans('texts.item'))
+                    ->addGroupClass('item-select')
+                    ->help(trans('texts.product_help') . ' | ' . link_to('/products/', trans('texts.customize_options')))
                     !!}
                     {!! Former::textarea('notes')->rows(6) !!}
                 </div>
@@ -36,7 +35,7 @@
         </div>
     </div>
 
-    @if (Auth::user()->canCreateOrEdit(ENTITY_ITEM_CATEGORY, $invoiceItem))
+    @if (Auth::user()->canCreateOrEdit(ENTITY_PRODUCT, $invoiceItem))
         <center class="buttons">
             {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/item_brands'))->appendIcon(Icon::create('remove-circle')) !!}
             {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
@@ -58,32 +57,26 @@
             $('#action').val(action);
             $('.main-form').submit();
         }
-
-        function onDeleteClick() {
-            sweetConfirm(function () {
-                submitAction('delete');
-            });
-        }
     </script>
     <script type="text/javascript">
-        var categories = {!! $itemCategories !!};
-        var categoryMap = {};
+        var products = {!! $products !!};
+        var productMap = {};
 
         $(function () {
-            var categoryId = {{ $itemCategoryPublicId ?: 0 }};
-            var $item_categorySelect = $('select#item_category_id');
-            @if (Auth::user()->can('create', ENTITY_ITEM_CATEGORY))
-            $item_categorySelect.append(new Option("{{ trans('texts.create_item_category')}}: $name", '-1'));
+            var productId = {{ $productPublicId ?: 0 }};
+            var $productSelect = $('select#product_id');
+            @if (Auth::user()->can('create', ENTITY_PRODUCT))
+            $productSelect.append(new Option("{{ trans('texts.create_product')}}: $name", '-1'));
                     @endif
-            for (var i = 0; i < categories.length; i++) {
-                var category = categories[i];
-                categoryMap[category.public_id] = category;
-                $item_categorySelect.append(new Option(getClientDisplayName(category), category.public_id));
+            for (var i = 0; i < products.length; i++) {
+                var product = products[i];
+                productMap[product.public_id] = product;
+                $productSelect.append(new Option(getClientDisplayName(product), product.public_id));
             }
-            @include('partials/entity_combobox', ['entityType' => ENTITY_ITEM_CATEGORY])
-            if (categoryId) {
-                var category = categoryMap[categoryId];
-                setComboboxValue($('.item-category-select'), category.public_id, category.name);
+            @include('partials/entity_combobox', ['entityType' => ENTITY_PRODUCT])
+            if (productId) {
+                var product = productMap[productId];
+                setComboboxValue($('.product-select'), product.public_id, product.name);
             }
         });
 

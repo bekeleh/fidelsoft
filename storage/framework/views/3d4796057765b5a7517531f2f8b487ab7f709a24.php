@@ -382,8 +382,8 @@ $__env->startSection('head_css'); ?>
                     'vendors' => false,
                     'manufacturers' => false,
                     'schedules' => false,
-                'reports' => false,
-                'settings' => false,
+                    'reports' => false,
+                    'settings' => false,
                 ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <?php echo Form::nav_link($key, $value ?: $key); ?>
 
@@ -414,19 +414,24 @@ $__env->startSection('head_css'); ?>
                 'projects',
                 'tasks',
                 'schedules',
-            'manufacturers',
-            ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <?php if(!Auth::user()->account->isModuleEnabled(substr($option, 0, -1))): ?>
+                'manufacturers',
+            ];
+            $__env->addLoop($__currentLoopData);
+            foreach ($__currentLoopData as $option): $__env->incrementLoopIndices();
+                $loop = $__env->getLastLoop(); ?>
+                <?php if (!Auth::user()->account->isModuleEnabled(substr($option, 0, -1))): ?>
                     <?php echo e(''); ?>
 
                 <?php else: ?>
-                    <?php if(Auth::check() ||Utils::isAdmin() || Auth::user()->can('view', substr($option, 0, -1))): ?>
+                    <?php if (Auth::check() || Utils::isAdmin() || Auth::user()->can('view', substr($option, 0, -1))): ?>
                         <?php echo $__env->make('partials.navigation_option', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                     <?php endif; ?>
                 <?php endif; ?>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            <!-- if user is administrator -->
-                <?php if(Utils::isAdmin() || Auth::user()->canCreateOrEdit('view',[ENTITY_REPORT])): ?>
+            <?php endforeach;
+            $__env->popLoop();
+            $loop = $__env->getLastLoop(); ?>
+                <!-- if user is administrator -->
+                <?php if (Utils::isAdmin() || Auth::user()->canCreateOrEdit('view', [ENTITY_REPORT])): ?>
                     <?php echo $__env->make('partials.navigation_option', ['option' => 'reports'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 <?php endif; ?>
                 <?php if (Utils::isAdmin()): ?>
@@ -457,8 +462,8 @@ $__env->startSection('head_css'); ?>
                 <div class="pull-right">
                     <?php echo $__env->yieldContent('top-right'); ?>
                 </div>
-                <?php if(!isset($showBreadcrumbs) || $showBreadcrumbs): ?>
-                    <?php echo Form::breadcrumbs((! empty($entity) && $entity->exists) ? $entity->present()->statusLabel : false); ?>
+                <?php if (!isset($showBreadcrumbs) || $showBreadcrumbs): ?>
+                    <?php echo Form::breadcrumbs((!empty($entity) && $entity->exists) ? $entity->present()->statusLabel : false); ?>
 
                 <?php endif; ?>
                 <br/>

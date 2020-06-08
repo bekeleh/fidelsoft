@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\Unit;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Log;
 
 class ProductRepository extends BaseRepository
 {
@@ -38,9 +39,10 @@ class ProductRepository extends BaseRepository
         $query = DB::table('products')
             ->join('accounts', 'accounts.id', '=', 'products.account_id')
             ->join('users', 'users.id', '=', 'products.user_id')
-            ->join('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
-            ->join('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
-            ->join('units', 'units.id', '=', 'products.unit_id')
+//            ->leftJoin('item_stores', 'item_stores.product_id', '=', 'products.id')
+            ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
+            ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
+            ->leftJoin('units', 'units.id', '=', 'products.unit_id')
             ->where('products.account_id', '=', $accountId)
             //->where('products.deleted_at', '=', null)
             ->select(
@@ -112,7 +114,7 @@ class ProductRepository extends BaseRepository
             $product->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $product = Product::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in product repo save');
+            Log::warning('Entity not set in product repo save');
         } else {
             $product = Product::createNew();
             $product->created_by = auth::user()->username;

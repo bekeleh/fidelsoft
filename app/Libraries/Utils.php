@@ -3,6 +3,7 @@
 namespace App\Libraries;
 
 use App;
+use App\Models\Contact;
 use App\Models\InvoiceStatus;
 use App\Models\Location;
 use App\Models\Product;
@@ -22,6 +23,7 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use Module;
 use stdClass;
 use WePay;
 
@@ -167,7 +169,7 @@ class Utils
         if (Auth::check()) {
             $account = Auth::user()->account;
         } elseif ($contactKey = session('contact_key')) {
-            if ($contact = \App\Models\Contact::whereContactKey($contactKey)->first()) {
+            if ($contact = Contact::whereContactKey($contactKey)->first()) {
                 $account = $contact->account;
             }
         }
@@ -187,7 +189,7 @@ class Utils
         if (Auth::check()) {
             $account = Auth::user()->account;
         } elseif ($contactKey = session('contact_key')) {
-            if ($contact = \App\Models\Contact::whereContactKey($contactKey)->first()) {
+            if ($contact = Contact::whereContactKey($contactKey)->first()) {
                 $account = $contact->account;
             }
         }
@@ -208,7 +210,7 @@ class Utils
             if (Auth::check()) {
                 $account = Auth::user()->account;
             } elseif ($contactKey = session('contact_key')) {
-                if ($contact = \App\Models\Contact::whereContactKey($contactKey)->first()) {
+                if ($contact = Contact::whereContactKey($contactKey)->first()) {
                     $account = $contact->account;
                 }
             }
@@ -245,7 +247,7 @@ class Utils
 
     public static function allowNewAccounts()
     {
-        return self::isNinja() || Auth::check();
+        return self::isNinja() || !Auth::check();
     }
 
     public static function isPro()
@@ -693,7 +695,7 @@ class Utils
     public static function pluralizeEntityType($type)
     {
         if (!self::isNinjaProd()) {
-            if ($module = \Module::find($type)) {
+            if ($module = Module::find($type)) {
                 return $module->get('plural', $type);
             }
         }

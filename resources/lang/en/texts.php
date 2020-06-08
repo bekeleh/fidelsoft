@@ -251,9 +251,8 @@ $LANG = array(
 |--------------------------------------------------------------------------
 */
 
-    'pointofsale' => 'Point of Sales',
-    'point_of_sales' => 'Point of Sales',
-    'point_of_sale' => 'Point of Sale',
+    'point_of_sale' => 'Point of Sales',
+    'point_of_sales' => 'Sales',
     'point_of_sale_list' => 'POS Transaction List',
     'archive_point_of_sale' => 'Archive POS purchase',
     'delete_point_of_sale' => 'Delete POS purchase',
@@ -447,8 +446,8 @@ $LANG = array(
 */
     'new_item_transfer' => 'New Item Transfer',
     'list_item_transfers' => 'List Item Transfer',
-    'item_transfer' => 'Inventory Location Transfer',
-    'item_transfers' => 'Inventory Location Transfers',
+    'item_transfer' => 'Item Store Transfer',
+    'item_transfers' => 'Item Store Transfers',
     'create_item_transfer' => 'Create Item Transfer',
     'edit_item_transfer' => 'Edit Item Transfer',
     'clone_item_transfer' => 'Clone Item Transfer',
@@ -676,7 +675,7 @@ $LANG = array(
 |--------------------------------------------------------------------------
 */
     'movement' => 'Movement',
-    'item_movements' => 'Inventory Movement',
+    'item_movements' => 'Item Movement',
     'item_movement' => 'Item Movement',
     'item_movement_name' => 'Item Movement',
     'new_item_movement' => 'New Item Movement',
@@ -702,7 +701,7 @@ $LANG = array(
 | item store trans
 |--------------------------------------------------------------------------
 */
-    'item_stores' => 'Inventory Adjustments',
+    'item_stores' => 'Item Stores',
     'bin' => 'Bin Location',
     'reorder_level' => 'Reorder Level',
     'EOQ' => 'EOQ',
@@ -742,11 +741,12 @@ $LANG = array(
 | Product trans
 |--------------------------------------------------------------------------
 */
+
     'product' => 'Product',
-    'product_name' => 'Item Code',
-    'products' => 'Inventory',
+    'product_name' => 'Product Code',
+    'products' => 'Products',
     'new_product' => 'New Product',
-    'new_item' => 'New Item',
+    'new_item' => 'New Product',
     'list_products' => 'List Products',
     'create_product' => 'Create Product',
     'edit_product' => 'Edit Product',
@@ -865,7 +865,7 @@ $LANG = array(
     'close' => 'Close',
     'provide_email' => 'Please provide a valid email address',
     'powered_by' => 'Powered by',
-    'team_source' => 'FIDEL ERP',
+    'team_source' => 'FIDEL Business Manager',
     'no_items' => 'No items',
     'recurring_invoices' => 'Recurring Invoices',
     'recurring_help' => '<p>Automatically send clients the same invoices weekly, bi-monthly, monthly, quarterly or annually. </p>
@@ -1157,7 +1157,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'invoice_item' => 'Invoice Item',
     'invoice_items' => 'Invoice Items',
     'new_invoice_item' => 'New Invoice Item',
-    'list_invoice_item' => 'List Invoice Item',
+    'list_invoice_items' => 'List Invoice Item',
     'create_invoice_item' => 'Create Invoice Item',
     'edit_invoice_item' => 'Edit Invoice Item',
     'clone_invoice_item' => 'Clone Invoice Item',

@@ -104,7 +104,6 @@
         </div>
         <?php echo Former::close(); ?>
 
-
         <?php if(Utils::allowNewAccounts() && ! strstr(session('url.intended'), 'time_tracker')): ?>
             <div class="row sign-up">
                 <div class="col-md-3 col-md-offset-3 col-xs-12">
@@ -119,6 +118,7 @@
         <?php endif; ?>
     </div>
 
+<?php echo $__env->make('footer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
     <script type="text/javascript">
         $(function () {
@@ -137,7 +137,7 @@
                 }
                 $('#email').change(function () {
                     localStorage.setItem('last:time_tracker:email', $('#email').val());
-                })
+                });
                 var email = localStorage.getItem('last:time_tracker:email');
                 if (email) {
                     $('#email').val(email);
@@ -145,7 +145,7 @@
                 }
             }
             <?php endif; ?>
-        })
+        });
 
         <?php if(Utils::isTimeTracker()): ?>
         function setSelfHostUrl() {
@@ -160,7 +160,7 @@
                 confirmButtonText: 'Save',
             }).then(function (value) {
                 if (!value || value.indexOf('http') !== 0) {
-                    swal("<?php echo e(trans('texts.invalid_url')); ?>")
+                    swal("<?php echo e(trans('texts.invalid_url')); ?>");
                     return;
                 }
                 value = value.replace(/\/+$/, '') + '/time_tracker';

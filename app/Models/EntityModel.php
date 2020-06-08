@@ -4,9 +4,11 @@ namespace App\Models;
 
 use App\Libraries\Utils;
 use Illuminate\Database\Eloquent\Model as Eloquent;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Module;
 
 
 /**
@@ -267,7 +269,7 @@ class EntityModel extends Eloquent
     public static function getClassName($entityType)
     {
         if (!Utils::isNinjaProd()) {
-            if ($module = \Module::find($entityType)) {
+            if ($module = Module::find($entityType)) {
                 return "Modules\\{$module->getName()}\\Models\\{$module->getName()}";
             }
         }
@@ -307,7 +309,7 @@ class EntityModel extends Eloquent
     public static function getTransformerName($entityType)
     {
         if (!Utils::isNinjaProd()) {
-            if ($module = \Module::find($entityType)) {
+            if ($module = Module::find($entityType)) {
                 return "Modules\\{$module->getName()}\\Transformers\\{$module->getName()}Transformer";
             }
         }
@@ -402,9 +404,9 @@ class EntityModel extends Eloquent
             'expenses' => 'file-image-o',
             'settings' => 'cog',
             'self-update' => 'download',
-            'reports' => 'th-list',
+            'manufacturers' => 'th-list',
+            'reports' => 'bar-chart',
             'projects' => 'briefcase',
-            'manufacturers' => 'files-o',
         ];
 
         return array_get($icons, $entityType);
@@ -484,7 +486,7 @@ class EntityModel extends Eloquent
     {
         try {
             return parent::save($options);
-        } catch (\Illuminate\Database\QueryException $exception) {
+        } catch (QueryException $exception) {
             // check if public_id has been taken
             if ($exception->getCode() == 23000 && static::$hasPublicId) {
                 $nextId = static::getNextPublicId($this->account_id);
