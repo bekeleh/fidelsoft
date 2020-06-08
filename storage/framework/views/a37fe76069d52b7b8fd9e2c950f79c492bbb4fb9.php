@@ -208,12 +208,13 @@
         <?php echo DropdownButton::normal(trans('texts.maintenance'))
         ->withAttributes(['class'=>'maintenanceDropdown'])
         ->withContents([
-        ['label' => trans('texts.new_product'), 'url' => url('/products')],
-        ['label' => trans('texts.new_store'), 'url' => url('/stores')],
-        ['label' => trans('texts.new_branch'), 'url' => url('/branches')],
-        ['label' => trans('texts.new_item_transfer'), 'url' => url('/item_transfers')],
-        ['label' => trans('texts.new_item_movement'), 'url' => url('/item_movements')],
-        ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types')],
+            ['label' => trans('texts.new_product'), 'url' => url('/products')],
+            ['label' => trans('texts.new_store'), 'url' => url('/stores')],
+            ['label' => trans('texts.new_branch'), 'url' => url('/branches')],
+            ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores')],
+            ['label' => trans('texts.new_item_transfer'), 'url' => url('/item_transfers')],
+            ['label' => trans('texts.new_item_movement'), 'url' => url('/item_movements')],
+            ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types')],
         ])->split(); ?>
 
     <?php endif; ?>

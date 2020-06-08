@@ -129,6 +129,15 @@ class ProductDatatable extends EntityDatatable
                 },
             ],
             [
+                uctrans('texts.detail_product'),
+                function ($model) {
+                    return URL::to("products/{$model->public_id}/edit");
+                },
+                function ($model) {
+                    return Auth::user()->can('edit', ENTITY_PRODUCT);
+                },
+            ],
+            [
                 trans('texts.clone_product'),
                 function ($model) {
                     return URL::to("products/{$model->public_id}/clone");

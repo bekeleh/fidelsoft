@@ -618,6 +618,7 @@ $LANG = array(
     'list_products' => 'List Products',
     'create_product' => 'Create Product',
     'edit_product' => 'Edit Product',
+    'detail_product' => 'Detail Product',
     'clone_product' => 'Clone Product',
     'archive_product' => 'Archive Product',
     'delete_product' => 'Delete Product',
