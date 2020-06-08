@@ -337,9 +337,9 @@ $__env->startSection('head_css'); ?>
                         <?php endif; ?>
                         <li class="divider"></li>
                         <?php if(Utils::isSuperUser() && Auth::user()->confirmed && Utils::getResllerType() != RESELLER_ACCOUNT_COUNT): ?>
-                            <?php if(!session(SESSION_USER_ACCOUNTS) || count(session(SESSION_USER_ACCOUNTS)) < 5): ?>
-                                <li><?php echo link_to('#', trans('texts.add_company'), ['onclick' => 'showSignUp()']); ?></li>
-                            <?php endif; ?>
+
+                            <li><?php echo link_to('#', trans('texts.add_company'), ['onclick' => 'showSignUp()']); ?></li>
+
                         <?php endif; ?>
                         <li>
                             <?php echo link_to('#', trans('texts.logout'), array('onclick'=>'logout()')); ?>
@@ -387,7 +387,9 @@ $__env->startSection('head_css'); ?>
                 ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <?php echo Form::nav_link($key, $value ?: $key); ?>
 
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <?php endforeach;
+                $__env->popLoop();
+                $loop = $__env->getLastLoop(); ?>
             </ul>
         </div><!-- /.navbar-collapse -->
     </nav>
@@ -396,40 +398,40 @@ $__env->startSection('head_css'); ?>
         <!-- Sidebar -->
         <div id="left-sidebar-wrapper" class="hide-phone">
             <ul class="sidebar-nav <?php echo e(Auth::user()->dark_mode ? 'sidebar-nav-dark' : 'sidebar-nav-light'); ?>">
-            <?php $__currentLoopData = [
-                'dashboard',
-                'clients',
-                'vendors',
-                'users',
-                'point_of_sales',
-                'invoices',
-                'quotes',
-                'payments',
-                'recurring_invoices' => 'recurring',
-                'credits',
-                'expenses',
-                'products',
-                'purchases',
-                'proposals',
-                'projects',
-                'tasks',
-                'schedules',
-                'manufacturers',
-            ];
-            $__env->addLoop($__currentLoopData);
-            foreach ($__currentLoopData as $option): $__env->incrementLoopIndices();
-                $loop = $__env->getLastLoop(); ?>
-                <?php if (!Auth::user()->account->isModuleEnabled(substr($option, 0, -1))): ?>
-                    <?php echo e(''); ?>
+                <?php $__currentLoopData = [
+                    'dashboard',
+                    'clients',
+                    'vendors',
+                    'users',
+                    'point_of_sales',
+                    'invoices',
+                    'quotes',
+                    'payments',
+                    'recurring_invoices' => 'recurring',
+                    'credits',
+                    'expenses',
+                    'products',
+                    'purchases',
+                    'proposals',
+                    'projects',
+                    'tasks',
+                    'schedules',
+                    'manufacturers',
+                ];
+                $__env->addLoop($__currentLoopData);
+                foreach ($__currentLoopData as $option): $__env->incrementLoopIndices();
+                    $loop = $__env->getLastLoop(); ?>
+                    <?php if (!Auth::user()->account->isModuleEnabled(substr($option, 0, -1))): ?>
+                        <?php echo e(''); ?>
 
-                <?php else: ?>
-                    <?php if (Auth::check() || Utils::isAdmin() || Auth::user()->can('view', substr($option, 0, -1))): ?>
-                        <?php echo $__env->make('partials.navigation_option', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    <?php else: ?>
+                        <?php if (Auth::check() || Utils::isAdmin() || Auth::user()->can('view', substr($option, 0, -1))): ?>
+                            <?php echo $__env->make('partials.navigation_option', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        <?php endif; ?>
                     <?php endif; ?>
-                <?php endif; ?>
-            <?php endforeach;
-            $__env->popLoop();
-            $loop = $__env->getLastLoop(); ?>
+                <?php endforeach;
+                $__env->popLoop();
+                $loop = $__env->getLastLoop(); ?>
                 <!-- if user is administrator -->
                 <?php if (Utils::isAdmin() || Auth::user()->canCreateOrEdit('view', [ENTITY_REPORT])): ?>
                     <?php echo $__env->make('partials.navigation_option', ['option' => 'reports'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

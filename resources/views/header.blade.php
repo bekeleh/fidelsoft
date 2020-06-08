@@ -326,9 +326,9 @@
                         @endif
                         <li class="divider"></li>
                         @if (Utils::isSuperUser() && Auth::user()->confirmed && Utils::getResllerType() != RESELLER_ACCOUNT_COUNT)
-                            @if (!session(SESSION_USER_ACCOUNTS) || count(session(SESSION_USER_ACCOUNTS)) < 5)
-                                <li>{!! link_to('#', trans('texts.add_company'), ['onclick' => 'showSignUp()']) !!}</li>
-                            @endif
+                            {{--                            @if (!session(SESSION_USER_ACCOUNTS) || count(session(SESSION_USER_ACCOUNTS)) < 5)--}}
+                            <li>{!! link_to('#', trans('texts.add_company'), ['onclick' => 'showSignUp()']) !!}</li>
+                            {{--                            @endif--}}
                         @endif
                         <li>
                             {!! link_to('#', trans('texts.logout'), array('onclick'=>'logout()')) !!}

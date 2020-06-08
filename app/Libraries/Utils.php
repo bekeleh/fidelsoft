@@ -81,7 +81,8 @@ class Utils
 
     public static function isSelfHost()
     {
-        return !static::isNinjaProd();
+//        return !static::isNinjaProd();
+        return static::isNinjaProd();
     }
 
     public static function isNinjaProd()

@@ -42,7 +42,9 @@ class VendorController extends BaseController
 
     public function getDatatable()
     {
-        return $this->vendorService->getDatatable(Input::get('sSearch'));
+        $accountId = auth::user()->account_id;
+        $search = Input::get('sSearch');
+        return $this->vendorService->getDatatable($accountId, $search);
     }
 
     private static function getViewModel()

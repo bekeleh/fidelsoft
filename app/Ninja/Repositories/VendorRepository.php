@@ -2,7 +2,6 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Libraries\Utils;
 use App\Models\Vendor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -34,7 +33,7 @@ class VendorRepository extends BaseRepository
     {
         $query = DB::table('vendors')
             ->join('accounts', 'accounts.id', '=', 'vendors.account_id')
-            ->join('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
+            ->LeftJoin('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
             ->where('vendors.account_id', '=', $accountId)
             ->where('vendor_contacts.is_primary', '=', true)
 //            ->where('vendor_contacts.deleted_at', '=', null)
@@ -45,7 +44,6 @@ class VendorRepository extends BaseRepository
                 'vendors.name as vendor_name',
                 'vendor_contacts.first_name',
                 'vendor_contacts.last_name',
-                'vendors.created_at',
                 'vendors.work_phone',
                 'vendors.city',
                 'vendor_contacts.email',
@@ -80,14 +78,12 @@ class VendorRepository extends BaseRepository
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
 
         if ($vendor) {
-            // do nothing
+            $vendor->updated_by = auth::user()->username;
         } elseif (!$publicId || intval($publicId) < 0) {
             $vendor = Vendor::createNew();
         } else {
             $vendor = Vendor::scope($publicId)->with('vendor_contacts')->firstOrFail();
-            if (Utils::isNinjaDev()) {
-                \Log::warning('Entity not set in vendor repo save');
-            }
+            $vendor->created_by = auth::user()->username;
         }
 
         if ($vendor->is_deleted) {

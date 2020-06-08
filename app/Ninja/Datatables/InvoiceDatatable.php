@@ -4,6 +4,7 @@ namespace App\Ninja\Datatables;
 
 use App\Libraries\Utils;
 use App\Models\Invoice;
+use DropdownButton;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 
@@ -242,6 +243,8 @@ class InvoiceDatatable extends EntityDatatable
 
     public function bulkActions()
     {
+        $entityType = $this->entityType;
+
         $actions = [];
 
         if ($this->entityType == ENTITY_INVOICE || $this->entityType == ENTITY_QUOTE) {
@@ -255,7 +258,7 @@ class InvoiceDatatable extends EntityDatatable
                     'url' => 'javascript:submitForm_' . $this->entityType . '("emailInvoice")',
                 ];
             }
-            $actions[] = \DropdownButton::DIVIDER;
+            $actions[] = DropdownButton::DIVIDER;
             $actions[] = [
                 'label' => mtrans($this->entityType, 'mark_sent'),
                 'url' => 'javascript:submitForm_' . $this->entityType . '("markSent")',
@@ -269,7 +272,8 @@ class InvoiceDatatable extends EntityDatatable
             ];
         }
 
-        $actions[] = \DropdownButton::DIVIDER;
+        $actions[] = DropdownButton::DIVIDER;
+
         $actions = array_merge($actions, parent::bulkActions());
 
         return $actions;

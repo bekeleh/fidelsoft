@@ -249,9 +249,18 @@ class InvoicePresenter extends EntityPresenter
         }
 
         $actions[] = ['url' => url("{$entityType}s/{$entityType}_history/{$invoice->public_id}"), 'label' => trans('texts.view_history')];
-
+//     delivery note
         if ($entityType == ENTITY_INVOICE) {
             $actions[] = ['url' => url("invoices/delivery_note/{$invoice->public_id}"), 'label' => trans('texts.delivery_note')];
+        }
+//    packing list
+        if ($entityType == ENTITY_INVOICE) {
+            $actions[] = ['url' => url("invoices/packing_list/{$invoice->public_id}"), 'label' => trans('texts.packing_list')];
+        }
+
+//      Return sales
+        if ($entityType == ENTITY_INVOICE) {
+            $actions[] = ['url' => url("invoices/return_sale/{$invoice->public_id}"), 'label' => trans('texts.return_sale')];
         }
 
         $actions[] = DropdownButton::DIVIDER;
