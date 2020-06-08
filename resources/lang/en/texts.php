@@ -2,11 +2,7 @@
 
 $LANG = array(
 
-    /*
-|--------------------------------------------------------------------------
-| schedule  trans
-|--------------------------------------------------------------------------
-*/
+//   Schedules
     'title' => 'Title',
     'rrule' => 'Recurring Rule',
     'will_call' => 'Will Call',
@@ -29,12 +25,7 @@ $LANG = array(
     'deleted_schedule' => 'Successfully Deleted Schedule',
     'deleted_schedules' => 'Successfully Deleted :count Schedules',
     'schedule_help' => 'Sets the default <b>Schedule</b>',
-
-    /*
-|--------------------------------------------------------------------------
-| schedule category trans
-|--------------------------------------------------------------------------
-*/
+//   Schedule Categories
     'text_color' => 'Text color',
     'bg_color' => 'BG color',
     'schedule_category_name' => 'Schedule Category Name',
@@ -57,12 +48,7 @@ $LANG = array(
     'deleted_schedule_categories' => 'Successfully Deleted Schedule :count Categories',
     'schedule_category_help' => 'Sets the default <b>Schedule Category</b>',
     'scheduled_report_help' => 'Email the :report report as :format to :email',
-
-    /*
-|--------------------------------------------------------------------------
-| scheduled report trans
-|--------------------------------------------------------------------------
-*/
+//   Scheduled Reports
     'ip' => 'IP',
     'frequency' => 'Frequency',
     'start_date' => 'Start Date',
@@ -85,11 +71,7 @@ $LANG = array(
     'restored_scheduled_reports' => 'Successfully Restored :count Scheduled Reports',
     'deleted_scheduled_report' => 'Successfully Deleted Scheduled Report',
     'deleted_scheduled_reports' => 'Successfully Deleted :count Scheduled Reports',
-    /*
-|--------------------------------------------------------------------------
-| branch  trans
-|--------------------------------------------------------------------------
-*/
+//   Branches
     'branch_name' => 'Default Branch',
     'branches' => 'Branches',
     'branch_list' => 'Branch List',
@@ -112,11 +94,7 @@ $LANG = array(
     'select_branch' => 'Select Default Branch',
     'branch_help' => 'Sets the default <b>branch</b>',
 
-    /*
-|--------------------------------------------------------------------------
-| department  trans
-|--------------------------------------------------------------------------
-*/
+//   Departments
     'department_name' => 'Department Name',
     'departments' => 'Departments',
     'department_list' => 'Department List',
@@ -137,12 +115,7 @@ $LANG = array(
     'deleted_department' => 'Successfully Deleted Department',
     'deleted_departments' => 'Successfully Deleted :count Departments',
     'department_help' => 'Sets the default <b>department</b>',
-
-    /*
-|--------------------------------------------------------------------------
-| manufacturer  trans
-|--------------------------------------------------------------------------
-*/
+//   Manufacturers
     'manufacturer_name' => 'Manufacturer Name',
     'manufacturers' => 'Manufacturers',
     'manufacturer_list' => 'Manufacturer List',
@@ -163,12 +136,7 @@ $LANG = array(
     'deleted_manufacturer' => 'Successfully Deleted Manufacturer',
     'deleted_manufacturers' => 'Successfully Deleted :count Manufacturers',
     'manufacturer_help' => 'Sets the default <b>manufacturer</b>',
-
-    /*
-|--------------------------------------------------------------------------
-| Purchase  trans
-|--------------------------------------------------------------------------
-*/
+//   Purchases
     'purchase_name' => 'Purchase Name',
     'purchases' => 'Purchases',
     'purchase_list' => 'Purchase List',
@@ -189,12 +157,7 @@ $LANG = array(
     'deleted_purchase' => 'Successfully Deleted Purchase',
     'deleted_purchases' => 'Successfully Deleted :count Purchases',
     'purchase_help' => 'Sets the default <b>Purchase</b>',
-
-    /*
-|--------------------------------------------------------------------------
-| Status  trans
-|--------------------------------------------------------------------------
-*/
+//  Statuses
     'status_name' => 'Status',
     'status' => 'Status',
     'statuses' => 'Statuses',
@@ -217,12 +180,7 @@ $LANG = array(
     'status_settings' => 'Status Settings',
     'select_status' => 'Select Status',
     'status_help' => 'Sets the default <b>status</b>',
-
-    /*
-|--------------------------------------------------------------------------
-| Client  trans
-|--------------------------------------------------------------------------
-*/
+//   Clients
     'client_name' => 'Client Name',
     'client' => 'Client',
     'clients' => 'Customers',
@@ -244,13 +202,7 @@ $LANG = array(
     'deleted_client' => 'Successfully Deleted Client',
     'deleted_clients' => 'Successfully Deleted :count Clients',
     'client_settings' => 'Client Settings',
-
-    /*
-|--------------------------------------------------------------------------
-| POS  trans
-|--------------------------------------------------------------------------
-*/
-
+//   POS
     'point_of_sale' => 'Point of Sales',
     'point_of_sales' => 'Sales',
     'point_of_sale_list' => 'POS Transaction List',
@@ -262,12 +214,7 @@ $LANG = array(
     'created_point_of_sale' => 'Successfully created POS purchase',
     'updated_point_of_sale' => 'Successfully updated POS purchase',
     'upc' => 'Scan UPC',
-
-    /*
-|--------------------------------------------------------------------------
-| User  trans
-|--------------------------------------------------------------------------
-*/
+//   Users
     'full_name' => 'Full Name',
     'first_name' => 'Full Name',
     'last_name' => 'Last Name',
@@ -298,12 +245,7 @@ $LANG = array(
     'updated_user_permission' => 'Successfully Updated User Permission',
     'login_email_or_username' => 'Email or phone',
     'login_error' => 'The username or password is incorrect.',
-
-    /*
-|--------------------------------------------------------------------------
-| User groups  trans
-|--------------------------------------------------------------------------
-*/
+//  User Groups
     'permission_group_name' => 'User Group Name',
     'permission_group' => 'User Group',
     'permission_groups' => 'User Group List',
@@ -327,12 +269,7 @@ $LANG = array(
     'permission_group_settings' => 'User Group Settings',
     'permission_group_help' => 'Sets the default <b>User Group</b>',
     'group_permission_help' => 'Sets the default User group',
-
-    /*
-|--------------------------------------------------------------------------
-| User permission groups  trans
-|--------------------------------------------------------------------------
-*/
+//  User Permission
     'permission_name' => 'Permission Name',
     'permission' => 'permission',
     'permissions' => 'Permission List',
@@ -353,13 +290,8 @@ $LANG = array(
     'deleted_permission' => 'Successfully Deleted Permission',
     'deleted_permissions' => 'Successfully Deleted :count Permissions',
     'permission_settings' => 'Permission Settings',
-
-    /*
-|--------------------------------------------------------------------------
-| sales type trans
-|--------------------------------------------------------------------------
-*/
-    'sale_type_name' => 'Sale Type Name',
+//   Sale Type
+    'sale_type_name' => 'Sale Type',
     'sale_types' => 'Sale Type',
     'sale_type' => 'Sale Type',
     'new_sale_type' => 'New Sale Type',
@@ -381,12 +313,7 @@ $LANG = array(
     'sale_type_settings' => 'Sale Type Settings',
     'select_sale_type' => 'Select Sale Type',
     'sale_type_help' => 'Sets the default <b>sales type</b>',
-
-    /*
-|--------------------------------------------------------------------------
-| tax rate trans
-|--------------------------------------------------------------------------
-*/
+//   Tax Rates
     'tax_rate_name' => 'Tax Rate Name',
     'tax_rates' => 'Tax Rate',
     'tax_rate' => 'Tax Rate',
@@ -408,12 +335,7 @@ $LANG = array(
     'deleted_tax_rates' => 'Successfully Deleted :count Tax Rates',
     'default_tax_rate_id' => 'Default Tax Rate',
     'tax_rate_settings' => 'Tax Rate Settings',
-
-    /*
-|--------------------------------------------------------------------------
-| item store location trans
-|--------------------------------------------------------------------------
-*/
+//  Item Stores
     'store.edit' => 'Edit Store',
     'new_store' => 'New Store',
     'list_stores' => 'List Stores',
@@ -438,12 +360,7 @@ $LANG = array(
     'store_settings' => 'Store Settings',
     'select_location' => 'Select Location',
     'store_help' => 'Sets the default <b>store</b>',
-
-    /*
-|--------------------------------------------------------------------------
-| item transfer trans
-|--------------------------------------------------------------------------
-*/
+//   Item transfers
     'new_item_transfer' => 'New Item Transfer',
     'list_item_transfers' => 'List Item Transfer',
     'item_transfer' => 'Item Store Transfer',
@@ -468,11 +385,7 @@ $LANG = array(
     'from_store_name' => 'From Store',
     'to_store_name' => 'To Store',
 
-    /*
-|--------------------------------------------------------------------------
-| item request trans
-|--------------------------------------------------------------------------
-*/
+//   Item requests
     'new_item_request' => 'New Item Request',
     'list_item_requests' => 'List Item Request',
     'item_request' => 'Item Request',
@@ -498,12 +411,7 @@ $LANG = array(
     'dispatch_date' => 'Dispatch Date',
     'required_date' => 'Required Date',
     'store_request' => 'Location from which to request item',
-
-    /*
-|--------------------------------------------------------------------------
-| hold reason trans
-|--------------------------------------------------------------------------
-*/
+//   Hold reasons
     'hold_reason_name' => 'Hold Reason Name',
     'new_hold_reason' => 'New Hold Reason',
     'list_hold_reasons' => 'List Hold Reasons',
@@ -528,12 +436,7 @@ $LANG = array(
     'hold_reason_settings' => 'Hold Reason Settings',
     'select_hold_reason' => 'Select Hold Reason',
     'hold_reason_help' => 'Sets the default <b>hold reason</b>',
-
-    /*
-|--------------------------------------------------------------------------
-| location trans
-|--------------------------------------------------------------------------
-*/
+//  Locations
     'locations' => 'Locations',
     'location_name' => 'Default Location',
     'location_code' => 'Location Code',
@@ -556,11 +459,7 @@ $LANG = array(
     'location_settings' => 'Location Settings',
     'location_help' => 'Sets the default <b>location</b>',
 
-    /*
-|--------------------------------------------------------------------------
-| item brand trans
-|--------------------------------------------------------------------------
-*/
+//   Item Brands
     'brand' => 'Brand',
     'item_brand' => 'Item Brand',
     'item_brands' => 'Item Brands',
@@ -584,12 +483,7 @@ $LANG = array(
     'item_brand_settings' => 'Item Brand Settings',
     'select_item_brand' => 'Select Item Brand',
     'item_brand_help' => 'Sets the default <b>item brand</b>',
-
-    /*
-|--------------------------------------------------------------------------
-| item category trans
-|--------------------------------------------------------------------------
-*/
+//   Item Categories
     'category' => 'Category',
     'item_category' => 'Item Category',
     'item_categories' => 'Item Categories',
@@ -613,12 +507,7 @@ $LANG = array(
     'item_category_settings' => 'Item Category Settings',
     'select_item_category' => 'Select Item Category',
     'item_category_help' => 'Sets the default <b>item category</b>',
-
-    /*
-|--------------------------------------------------------------------------
-| item unit trans
-|--------------------------------------------------------------------------
-*/
+//   Unit of Measures
     'unit' => 'Unit',
     'unit_name' => 'Unit of measure',
     'units' => 'Unit of measure',
@@ -641,12 +530,7 @@ $LANG = array(
     'unit_settings' => 'Unit Settings',
     'select_item_unit' => 'Select Item Unit',
     'item_unit_help' => 'Sets the default <b>item unit</b>',
-
-    /*
-|--------------------------------------------------------------------------
-| item price trans
-|--------------------------------------------------------------------------
-*/
+//   Item Prices
     'item_price' => 'Item Price',
     'item_prices' => 'Item Prices',
     'product_price' => 'Item Price',
@@ -668,12 +552,7 @@ $LANG = array(
     'deleted_item_prices' => 'Successfully Deleted :count Item Prices',
     'item_price_settings' => 'Price Settings',
     'item_price_unique' => 'This item prices already had been taken.',
-
-    /*
-|--------------------------------------------------------------------------
-| item category trans
-|--------------------------------------------------------------------------
-*/
+//   Item Categories
     'movement' => 'Movement',
     'item_movements' => 'Item Movement',
     'item_movement' => 'Item Movement',
@@ -695,12 +574,7 @@ $LANG = array(
     'deleted_item_movement' => 'Successfully Deleted Item Movement',
     'deleted_item_movements' => 'Successfully Deleted :count Item Movements',
     'item_movement_settings' => 'Item Movement Settings',
-
-    /*
-|--------------------------------------------------------------------------
-| item store trans
-|--------------------------------------------------------------------------
-*/
+//   Item Stores
     'item_stores' => 'Item Stores',
     'bin' => 'Bin Location',
     'reorder_level' => 'Reorder Level',
@@ -735,13 +609,7 @@ $LANG = array(
     'item_qty_help' => 'If not set <b>item qty</b> all available qty will be transferred.',
     'item_store_help' => 'Sets the default <b>item store</b>',
     'item_does_not_exist' => 'Item does not exist in this store or somethings went wrong.',
-
-    /*
-|--------------------------------------------------------------------------
-| Product trans
-|--------------------------------------------------------------------------
-*/
-
+//   Products
     'product' => 'Product',
     'product_name' => 'Product Code',
     'products' => 'Products',
@@ -765,12 +633,7 @@ $LANG = array(
     'product_settings' => 'Product Settings',
     'select_product' => 'Select Product',
     'product_help' => 'Sets the default <b>Product</b>',
-
-    /*
-|--------------------------------------------------------------------------
-| Miscellaneous trans
-|--------------------------------------------------------------------------
-*/
+//   Companies
     'organization' => 'Organization',
     'name' => 'Name',
     'code' => 'Code',
@@ -887,11 +750,7 @@ $LANG = array(
     'average_invoice' => 'Average Invoice',
     'archive' => 'Archive',
     'delete' => 'Delete',
-    /*
-|--------------------------------------------------------------------------
-| Payment trans
-|--------------------------------------------------------------------------
-*/
+//   Payments
     'archive_payment' => 'Archive Payment',
     'delete_payment' => 'Delete Payment',
     'archive_credit' => 'Archive Credit',
@@ -1070,11 +929,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'specify_colors_label' => 'Select the colors used in the invoice',
     'chart_builder' => 'Chart Builder',
     'ninja_email_footer' => 'Created by :site | Create. Send. Get Paid.',
-    /*
-|--------------------------------------------------------------------------
-| Quote trans
-|--------------------------------------------------------------------------
-*/
+//   Quotes
     'go_pro' => 'Go Pro',
     'quote' => 'Quote',
     'quotes' => 'Quotes',
@@ -1148,11 +1003,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'invoice_issued_to' => 'Invoice issued to',
     'invalid_counter' => 'To prevent a possible conflict please set either an invoice or quote number prefix',
     'mark_sent' => 'Mark Sent',
-    /*
-|--------------------------------------------------------------------------
-| invoice item  trans
-|--------------------------------------------------------------------------
-*/
+//   Invoices
     'invoice_item_name' => 'Item Name',
     'invoice_item' => 'Invoice Item',
     'invoice_items' => 'Invoice Items',
@@ -1175,12 +1026,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'invoice_item_settings' => 'Status Settings',
     'select_invoice_item' => 'Select Invoice Item',
     'invoice_item_help' => 'Sets the default <b>status</b>',
-
-    /*
-|--------------------------------------------------------------------------
-| Gateway  trans
-|--------------------------------------------------------------------------
-*/
+//   Gateways
     'gateway_help_1' => ':link to sign up for Authorize.net.',
     'gateway_help_2' => ':link to sign up for Authorize.net.',
     'gateway_help_17' => ':link to get your PayPal API signature.',
@@ -1533,6 +1379,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'invoice_counter' => 'Invoice Counter',
     'quote_counter' => 'Quote Counter',
     'type' => 'Type',
+//   Activities
     'activity_1' => ':user created client :client',
     'activity_2' => ':user archived client :client',
     'activity_3' => ':user deleted client :client',
@@ -1810,8 +1657,6 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'trial_call_to_action' => 'Start Free Trial',
     'trial_success' => 'Successfully enabled two week free pro plan trial',
     'overdue' => 'Overdue',
-
-
     'white_label_text' => 'Purchase a ONE YEAR white label license for $:price to remove the Fidel branding from the invoice and client portal.',
     'user_email_footer' => 'To adjust your email notification settings please visit :link',
     'reset_password_footer' => 'If you did not request this password reset please email our support: :email',
@@ -1885,7 +1730,6 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'edit_all_help' => 'Allow user to modify records they didn\'t create',
     'view_payment' => 'View Payment',
     'clone_payment' => 'Clone Payment',
-
     'january' => 'January',
     'february' => 'February',
     'march' => 'March',
@@ -1935,7 +1779,6 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
 // Plans
     'account_management' => 'Account Management',
     'plan_status' => 'Plan Status',
-
     'plan_upgrade' => 'Upgrade',
     'plan_change' => 'Change Plan',
     'pending_change_to' => 'Changes To',
@@ -1965,9 +1808,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'plan_paid' => 'Term Started',
     'plan_started' => 'Plan Started',
     'plan_expires' => 'Plan Expires',
-
     'white_label_button' => 'White Label',
-
     'pro_plan_year_description' => 'One year enrollment in the Fidel Pro Plan.',
     'pro_plan_month_description' => 'One month enrollment in the Fidel Pro Plan.',
     'enterprise_plan_product' => 'Enterprise Plan',
@@ -2554,37 +2395,37 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'lang_Serbian' => 'Serbian',
 
 // Industries
-    'industry_Accounting & Legal' => 'Accounting & Legal',
-    'industry_Advertising' => 'Advertising',
-    'industry_Aerospace' => 'Aerospace',
-    'industry_Agriculture' => 'Agriculture',
-    'industry_Automotive' => 'Automotive',
-    'industry_Banking & Finance' => 'Banking & Finance',
-    'industry_Biotechnology' => 'Biotechnology',
-    'industry_Broadcasting' => 'Broadcasting',
-    'industry_Business Services' => 'Business Services',
-    'industry_Commodities & Chemicals' => 'Commodities & Chemicals',
-    'industry_Communications' => 'Communications',
-    'industry_Computers & Hightech' => 'Computers & Hightech',
-    'industry_Defense' => 'Defense',
-    'industry_Energy' => 'Energy',
-    'industry_Entertainment' => 'Entertainment',
-    'industry_Government' => 'Government',
-    'industry_Healthcare & Life Sciences' => 'Healthcare & Life Sciences',
-    'industry_Insurance' => 'Insurance',
-    'industry_Manufacturing' => 'Manufacturing',
-    'industry_Marketing' => 'Marketing',
-    'industry_Media' => 'Media',
-    'industry_Nonprofit & Higher Ed' => 'Nonprofit & Higher Ed',
-    'industry_Pharmaceuticals' => 'Pharmaceuticals',
-    'industry_Professional Services & Consulting' => 'Professional Services & Consulting',
-    'industry_Real Estate' => 'Real Estate',
-    'industry_Retail & Wholesale' => 'Retail & Wholesale',
-    'industry_Sports' => 'Sports',
-    'industry_Transportation' => 'Transportation',
-    'industry_Travel & Luxury' => 'Travel & Luxury',
-    'industry_Other' => 'Other',
-    'industry_Photography' => 'Photography',
+//    'industry_Accounting & Legal' => 'Accounting & Legal',
+//    'industry_Advertising' => 'Advertising',
+//    'industry_Aerospace' => 'Aerospace',
+//    'industry_Agriculture' => 'Agriculture',
+//    'industry_Automotive' => 'Automotive',
+//    'industry_Banking & Finance' => 'Banking & Finance',
+//    'industry_Biotechnology' => 'Biotechnology',
+//    'industry_Broadcasting' => 'Broadcasting',
+//    'industry_Business Services' => 'Business Services',
+//    'industry_Commodities & Chemicals' => 'Commodities & Chemicals',
+//    'industry_Communications' => 'Communications',
+//    'industry_Computers & Hightech' => 'Computers & Hightech',
+//    'industry_Defense' => 'Defense',
+//    'industry_Energy' => 'Energy',
+//    'industry_Entertainment' => 'Entertainment',
+//    'industry_Government' => 'Government',
+//    'industry_Healthcare & Life Sciences' => 'Healthcare & Life Sciences',
+//    'industry_Insurance' => 'Insurance',
+//    'industry_Manufacturing' => 'Manufacturing',
+//    'industry_Marketing' => 'Marketing',
+//    'industry_Media' => 'Media',
+//    'industry_Nonprofit & Higher Ed' => 'Nonprofit & Higher Ed',
+//    'industry_Pharmaceuticals' => 'Pharmaceuticals',
+//    'industry_Professional Services & Consulting' => 'Professional Services & Consulting',
+//    'industry_Real Estate' => 'Real Estate',
+//    'industry_Retail & Wholesale' => 'Retail & Wholesale',
+//    'industry_Sports' => 'Sports',
+//    'industry_Transportation' => 'Transportation',
+//    'industry_Travel & Luxury' => 'Travel & Luxury',
+//    'industry_Other' => 'Other',
+//    'industry_Photography' => 'Photography',
 
     'view_client_portal' => 'View client portal',
     'view_portal' => 'View Portal',
