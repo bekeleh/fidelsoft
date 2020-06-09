@@ -9,21 +9,25 @@ use App\Events\UserSignedUp;
 use App\Http\Requests\SaveClientPortalSettings;
 use App\Http\Requests\SaveEmailSettings;
 use App\Http\Requests\UpdateAccountRequest;
+use App\Jobs\PurgeAccountData;
+use App\Jobs\PurgeClientData;
 use App\Libraries\Utils;
 use App\Models\Account;
 use App\Models\AccountEmailSettings;
 use App\Models\AccountGateway;
 use App\Models\Affiliate;
 use App\Models\Document;
+use App\Models\EntityModel;
 use App\Models\Gateway;
 use App\Models\GatewayType;
+use App\Models\Invitation;
 use App\Models\Invoice;
 use App\Models\InvoiceDesign;
 use App\Models\License;
+use App\Models\LookupAccount;
 use App\Models\LookupUser;
 use App\Models\Product;
 use App\Models\TaxRate;
-use App\Models\LookupAccount;
 use App\Models\User;
 use App\Ninja\Mailers\ContactMailer;
 use App\Ninja\Mailers\UserMailer;
@@ -43,6 +47,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Intervention\Image\Facades\Image;
+use Log;
 use Nwidart\Modules\Facades\Module;
 use Redirect;
 use stdClass;
@@ -214,7 +219,7 @@ class AccountController extends BaseController
         $stateFilter = [];
         $statusFilter = [];
         foreach ($filters as $filter) {
-            if (in_array($filter, \App\Models\EntityModel::$statuses)) {
+            if (in_array($filter, EntityModel::$statuses)) {
                 $stateFilter[] = $filter;
             } else {
                 $statusFilter[] = $filter;
@@ -731,7 +736,6 @@ class AccountController extends BaseController
 
     private function saveCustomizeDesign()
     {
-
         $designId = intval(Input::get('design_id')) ?: CUSTOM_DESIGN1;
 
         $field = ACCOUNT_CUSTOM_DESIGN . ($designId - 10);
@@ -1317,10 +1321,9 @@ class AccountController extends BaseController
         return RESULT_SUCCESS;
     }
 
-
     public function purgeData()
     {
-        $this->dispatch(new \App\Jobs\PurgeAccountData());
+        $this->dispatch(new PurgeAccountData());
 
         return redirect('/settings/account_management')->with('success', trans('texts.purge_successful'));
     }
@@ -1343,7 +1346,7 @@ class AccountController extends BaseController
         $user = Auth::user();
         $account = Auth::user()->account;
 
-        \Log::info("Canceled Account: {$account->name} - {$user->email}");
+        Log::info("Canceled Account: {$account->name} - {$user->email}");
         $type = $account->hasMultipleAccounts() ? 'company' : 'account';
         $subject = trans("texts.deleted_{$type}");
         $message = trans("texts.deleted_{$type}_details", ['account' => $account->getDisplayName()]);
@@ -1355,7 +1358,7 @@ class AccountController extends BaseController
             $refunded = $company->processRefund(Auth::user());
 
             $ninjaClient = $this->accountRepo->getNinjaClient($account);
-            dispatch(new \App\Jobs\PurgeClientData($ninjaClient));
+            dispatch(new PurgeClientData($ninjaClient));
         }
 
         Document::scope()->each(function ($item, $key) {
@@ -1407,7 +1410,7 @@ class AccountController extends BaseController
     public function previewEmail(TemplateService $templateService)
     {
         $template = Input::get('template');
-        $invitation = \App\Models\Invitation::scope()
+        $invitation = Invitation::scope()
             ->with('invoice.client.contacts')
             ->first();
 

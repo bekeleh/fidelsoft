@@ -384,7 +384,10 @@ $__env->startSection('head_css'); ?>
                     'schedules' => false,
                     'reports' => false,
                     'settings' => false,
-                ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                ];
+                $__env->addLoop($__currentLoopData);
+                foreach ($__currentLoopData as $key => $value): $__env->incrementLoopIndices();
+                    $loop = $__env->getLastLoop(); ?>
                     <?php echo Form::nav_link($key, $value ?: $key); ?>
 
                 <?php endforeach;

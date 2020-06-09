@@ -91,12 +91,14 @@ class Utils
             return true;
         }
 
-        return env('NINJA_PROD') == 'true';
+//        return env('NINJA_PROD') == 'true';
+        return env('APP_ENV') == 'production';
     }
 
     public static function isNinjaDev()
     {
-        return env('NINJA_DEV') == 'true';
+//        return env('NINJA_DEV') == 'true';
+        return env('APP_ENV') == 'development';
     }
 
     public static function isTimeTracker()

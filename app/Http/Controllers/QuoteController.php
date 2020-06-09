@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\QuoteRequest;
 use App\Libraries\Utils;
 use App\Models\Client;
-use App\Models\Inventory;
 use App\Models\Invitation;
 use App\Models\Invoice;
 use App\Models\InvoiceDesign;
@@ -104,8 +103,8 @@ class QuoteController extends BaseController
         return [
             'entityType' => ENTITY_QUOTE,
             'account' => Auth::user()->account->load('country'),
-            'products' => Inventory::scope()->where('branch_id', '=', $userBranch)->where('qty', '>', 0)->orderBy('name')->get(),
-//            'products' => Product::withCategory('itemBrand.itemCategory'),
+//            'products' => Inventory::scope()->where('branch_id', '=', $userBranch)->where('qty', '>', 0)->orderBy('name')->get(),
+            'products' => Product::withCategory('itemBrand.itemCategory'),
             'taxRateOptions' => $account->present()->taxRateOptions,
             'clients' => Client::scope()->with('contacts', 'country')->orderBy('name')->get(),
             'taxRates' => TaxRate::scope()->orderBy('name')->get(),
@@ -121,7 +120,7 @@ class QuoteController extends BaseController
 
     public function bulk()
     {
-        $action = Input::get('bulk_action') ?: Input::get('action');;
+        $action = Input::get('bulk_action') ?: Input::get('action');
         $ids = Input::get('bulk_public_id') ?: (Input::get('public_id') ?: Input::get('ids'));
 
         if ($action == 'convert') {

@@ -3,25 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Events\UserSettingsChanged;
+use App\Libraries\Utils;
 use App\Models\Account;
 use App\Models\Industry;
 use App\Models\Invoice;
 use App\Ninja\Mailers\Mailer;
 use App\Ninja\Repositories\AccountRepository;
 use App\Services\EmailService;
-use Artisan;
-use Auth;
-use Cache;
-use Config;
-use DB;
-use Event;
 use Exception;
-use Input;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\View;
 use Redirect;
-use Response;
-use Session;
-use Utils;
-use View;
 
 class AppController extends BaseController
 {
@@ -119,9 +119,10 @@ class AppController extends BaseController
         }
 
         // Write Config Settings
-        $fp = fopen(base_path() . '/.env', 'w');
-        fwrite($fp, $config);
-        fclose($fp);
+
+//        $fp = fopen(base_path() . '/.env', 'w');
+//        fwrite($fp, $config);
+//        fclose($fp);
 
         if (!Utils::isDatabaseSetup()) {
             // == DB Migrate & Seed == //

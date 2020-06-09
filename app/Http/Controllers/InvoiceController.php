@@ -11,7 +11,6 @@ use App\Models\Activity;
 use App\Models\Client;
 use App\Models\Expense;
 use App\Models\Frequency;
-use App\Models\Inventory;
 use App\Models\Invoice;
 use App\Models\InvoiceDesign;
 use App\Models\Payment;
@@ -30,6 +29,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use Redirect;
+use Request;
 
 class InvoiceController extends BaseController
 {
@@ -387,8 +387,8 @@ class InvoiceController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account->load('country'),
-            'products' => Inventory::scope()->where('branch_id', '=', $userBranch)->where('qty', '>', 0)->orderBy('name')->get(),
-//            'products' => Product::withCategory('itemBrand.itemCategory'),
+//            'products' => Inventory::scope()->where('branch_id', '=', $userBranch)->where('qty', '>', 0)->orderBy('name')->get(),
+            'products' => Product::withCategory('itemBrand.itemCategory'),
             'taxRateOptions' => $taxRateOptions,
             'sizes' => Cache::get('sizes'),
             'invoiceDesigns' => InvoiceDesign::getDesigns(),
@@ -491,7 +491,7 @@ class InvoiceController extends BaseController
             Session::flash('message', $message);
         }
 
-        if (strpos(\Request::server('HTTP_REFERER'), 'recurring_invoices')) {
+        if (strpos(Request::server('HTTP_REFERER'), 'recurring_invoices')) {
             $entityType = ENTITY_RECURRING_INVOICE;
         }
 
