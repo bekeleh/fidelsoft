@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ClientWasUpdated;
 use App\Events\InvoiceInvitationWasViewed;
 use App\Events\QuoteInvitationWasViewed;
 use App\Jobs\Client\GenerateStatementData;
@@ -1010,7 +1011,7 @@ class ClientPortalController extends BaseController
         $client->fill(request()->all());
         $client->save();
 
-        event(new \App\Events\ClientWasUpdated($client));
+        event(new ClientWasUpdated($client));
 
         return redirect($account->enable_client_portal_dashboard ? '/client/dashboard' : '/client/payment_methods')
             ->withMessage(trans('texts.updated_client_details'));
@@ -1030,6 +1031,7 @@ class ClientPortalController extends BaseController
         }
 
         $statusId = request()->status_id;
+
         $startDate = request()->start_date;
         $endDate = request()->end_date;
 

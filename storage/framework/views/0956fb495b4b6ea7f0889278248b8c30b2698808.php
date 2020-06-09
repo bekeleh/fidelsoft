@@ -9,65 +9,78 @@
     <canvas id="signatureCanvas" style="display:none;"></canvas>
 <?php endif; ?>
 
-<?php if(!Utils::isPro() && !request()->borderless): ?>)
-<div class="modal fade" id="moreDesignsModal" tabindex="-1" role="dialog" aria-labelledby="moreDesignsModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><?php echo e(trans('texts.more_designs_title')); ?></h4>
-            </div>
+<?php if (!Utils::isPro() && !request()->borderless): ?>
+    <br/>
+    <div class="modal fade" id="moreDesignsModal" tabindex="-1" role="dialog" aria-labelledby="moreDesignsModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"><?php echo e(trans('texts.more_designs_title')); ?></h4>
+                </div>
 
-            <div class="container">
-                <?php if(Utils::isNinja()): ?>
-                    <h3><?php echo e(trans('texts.more_designs_cloud_header')); ?></h3>
-                    <p><?php echo e(trans('texts.more_designs_cloud_text')); ?></p>
-                <?php else: ?>
-                    <h3><?php echo e(trans('texts.more_designs_self_host_header', ['price' => INVOICE_DESIGNS_PRICE])); ?></h3>
-                    <p><?php echo e(trans('texts.more_designs_self_host_text')); ?></p>
-                <?php endif; ?>
-            </div>
+                <div class="container">
+                    <?php if (Utils::isNinja()): ?>
+                        <h3><?php echo e(trans('texts.more_designs_cloud_header')); ?></h3>
+                        <p><?php echo e(trans('texts.more_designs_cloud_text')); ?></p>
+                    <?php else: ?>
+                        <h3><?php echo e(trans('texts.more_designs_self_host_header', ['price' => INVOICE_DESIGNS_PRICE])); ?></h3>
+                        <p><?php echo e(trans('texts.more_designs_self_host_text')); ?></p>
+                    <?php endif; ?>
+                </div>
 
-            <center id="designThumbs">
-                <p>&nbsp;</p>
-                <a href="<?php echo e(asset('/images/designs/business.png')); ?>" data-lightbox="more-designs"
-                   data-title="Business">
-                    <img src="<?php echo e(BLANK_IMAGE); ?>" data-src="<?php echo e(asset('/images/designs/business_thumb.png')); ?>"/>
-                </a>&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="<?php echo e(asset('/images/designs/creative.png')); ?>" data-lightbox="more-designs"
-                   data-title="Creative">
-                    <img src="<?php echo e(BLANK_IMAGE); ?>" data-src="<?php echo e(asset('/images/designs/creative_thumb.png')); ?>"/>
-                </a>&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="<?php echo e(asset('/images/designs/elegant.png')); ?>" data-lightbox="more-designs" data-title="Elegant">
-                    <img src="<?php echo e(BLANK_IMAGE); ?>" data-src="<?php echo e(asset('/images/designs/elegant_thumb.png')); ?>"/>
-                </a>
-                <p>&nbsp;</p>
-                <a href="<?php echo e(asset('/images/designs/hipster.png')); ?>" data-lightbox="more-designs" data-title="Hipster">
-                    <img src="<?php echo e(BLANK_IMAGE); ?>" data-src="<?php echo e(asset('/images/designs/hipster_thumb.png')); ?>"/>
-                </a>&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="<?php echo e(asset('/images/designs/playful.png')); ?>" data-lightbox="more-designs" data-title="Playful">
-                    <img src="<?php echo e(BLANK_IMAGE); ?>" data-src="<?php echo e(asset('/images/designs/playful_thumb.png')); ?>"/>
-                </a>&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="<?php echo e(asset('/images/designs/photo.png')); ?>" data-lightbox="more-designs" data-title="Photo">
-                    <img src="<?php echo e(BLANK_IMAGE); ?>" data-src="<?php echo e(asset('/images/designs/photo_thumb.png')); ?>"/>
-                </a>
-                <p>&nbsp;</p>
-            </center>
+                <center id="designThumbs">
+                    <p>&nbsp;</p>
+                    <a href="<?php echo e(asset('/images/designs/business.png')); ?>" data-lightbox="more-designs"
+                       data-title="Business">
+                        <img src="<?php echo e(BLANK_IMAGE); ?>"
+                             data-src="<?php echo e(asset('/images/designs/business_thumb.png')); ?>"/>
+                    </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="<?php echo e(asset('/images/designs/creative.png')); ?>" data-lightbox="more-designs"
+                       data-title="Creative">
+                        <img src="<?php echo e(BLANK_IMAGE); ?>"
+                             data-src="<?php echo e(asset('/images/designs/creative_thumb.png')); ?>"/>
+                    </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="<?php echo e(asset('/images/designs/elegant.png')); ?>" data-lightbox="more-designs"
+                       data-title="Elegant">
+                        <img src="<?php echo e(BLANK_IMAGE); ?>"
+                             data-src="<?php echo e(asset('/images/designs/elegant_thumb.png')); ?>"/>
+                    </a>
+                    <p>&nbsp;</p>
+                    <a href="<?php echo e(asset('/images/designs/hipster.png')); ?>" data-lightbox="more-designs"
+                       data-title="Hipster">
+                        <img src="<?php echo e(BLANK_IMAGE); ?>"
+                             data-src="<?php echo e(asset('/images/designs/hipster_thumb.png')); ?>"/>
+                    </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="<?php echo e(asset('/images/designs/playful.png')); ?>" data-lightbox="more-designs"
+                       data-title="Playful">
+                        <img src="<?php echo e(BLANK_IMAGE); ?>"
+                             data-src="<?php echo e(asset('/images/designs/playful_thumb.png')); ?>"/>
+                    </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="<?php echo e(asset('/images/designs/photo.png')); ?>" data-lightbox="more-designs"
+                       data-title="Photo">
+                        <img src="<?php echo e(BLANK_IMAGE); ?>"
+                             data-src="<?php echo e(asset('/images/designs/photo_thumb.png')); ?>"/>
+                    </a>
+                    <p>&nbsp;</p>
+                </center>
 
-            <div class="modal-footer" id="signUpFooter">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo e(trans('texts.cancel')); ?></button>
+                <div class="modal-footer" id="signUpFooter">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal"><?php echo e(trans('texts.cancel')); ?></button>
 
-                <?php if(Utils::isNinjaProd()): ?>
-                    <a class="btn btn-primary" href="javascript:showUpgradeModal()"><?php echo e(trans('texts.go_pro')); ?></a>
-                <?php else: ?>
-                    <button type="button" class="btn btn-primary"
-                            onclick="buyProduct('<?php echo e(INVOICE_DESIGNS_AFFILIATE_KEY); ?>', '<?php echo e(PRODUCT_INVOICE_DESIGNS); ?>')"><?php echo e(trans('texts.buy')); ?></button>
-                <?php endif; ?>
+                    <?php if (Utils::isNinjaProd()): ?>
+                        <a class="btn btn-primary"
+                           href="javascript:showUpgradeModal()"><?php echo e(trans('texts.go_pro')); ?></a>
+                    <?php else: ?>
+                        <button type="button" class="btn btn-primary"
+                                onclick="buyProduct('<?php echo e(INVOICE_DESIGNS_AFFILIATE_KEY); ?>', '<?php echo e(PRODUCT_INVOICE_DESIGNS); ?>')"><?php echo e(trans('texts.buy')); ?></button>
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
     </div>
-</div>
 <?php endif; ?>
 
 
@@ -76,7 +89,7 @@
 
     logoImages.imageLogo1 = "<?php echo e(Form::image_data('images/report_logo1.jpg')); ?>";
     logoImages.imageLogoWidth1 = 120;
-    logoImages.imageLogoHeight1 = 40
+    logoImages.imageLogoHeight1 = 40;
 
     logoImages.imageLogo2 = "<?php echo e(Form::image_data('images/report_logo2.jpg')); ?>";
     logoImages.imageLogoWidth2 = 325 / 2;
@@ -150,7 +163,6 @@
         <?php if( !empty($hide_pdf)): ?>
             return;
         <?php endif; ?>
-
             PDFJS.workerSrc = '<?php echo e(asset('js/pdf_viewer.worker.js')); ?>';
         var forceJS = <?php echo e(Auth::check() && Auth::user()->force_pdfjs ? 'true' : 'false'); ?>;
         // Use the browser's built in PDF viewer
@@ -230,7 +242,7 @@
                 var image = signatureDiv.toDataURL("image/png") || blankImage;
                 window.signatureAsPNG = invoice.invitations[0].signature_base64 = image;
                 refreshPDF();
-            }
+            };
 
             return false;
         }

@@ -25,33 +25,33 @@ class ProductDatatable extends EntityDatatable
             [
                 'item_brand_name',
                 function ($model) {
-                    return link_to('item_brands/' . $model->public_id . '/edit', $model->item_brand_name)->toHtml();
+                    return link_to('item_brands/' . $model->item_brand_public_id . '/edit', $model->item_brand_name)->toHtml();
                 },
             ],
             [
                 'item_category_name',
                 function ($model) {
-                    return link_to('item_categories/' . $model->public_id . '/edit', $model->item_category_name)->toHtml();
+                    return link_to('item_categories/' . $model->item_category_public_id . '/edit', $model->item_category_name)->toHtml();
                 },
             ],
-//            [
-//                'item_serial',
-//                function ($model) {
-//                    return $model->item_serial;
-//                },
-//            ],
-//            [
-//                'item_barcode',
-//                function ($model) {
-//                    return $model->item_barcode;
-//                },
-//            ],
-//            [
-//                'item_tag',
-//                function ($model) {
-//                    return $model->item_tag;
-//                },
-//            ],
+            [
+                'item_serial',
+                function ($model) {
+                    return $model->item_serial;
+                },
+            ],
+            [
+                'item_barcode',
+                function ($model) {
+                    return $model->item_barcode;
+                },
+            ],
+            [
+                'item_tag',
+                function ($model) {
+                    return $model->item_tag;
+                },
+            ],
             [
                 'cost',
                 function ($model) {
@@ -61,7 +61,7 @@ class ProductDatatable extends EntityDatatable
             [
                 'unit_name',
                 function ($model) {
-                    return link_to('units/' . $model->public_id . '/edit', $model->unit_name)->toHtml();
+                    return link_to('units/' . $model->unit_public_id . '/edit', $model->unit_name)->toHtml();
                 },
             ],
             [
@@ -75,7 +75,7 @@ class ProductDatatable extends EntityDatatable
                 function ($model) {
                     return $model->tax_rate1 ? ($model->tax_name1 . ' ' . $model->tax_rate1 . '%') : '';
                 },
-//                $account->invoice_item_taxes,
+                $account->invoice_item_taxes,
             ],
             [
                 'tax_rate2',

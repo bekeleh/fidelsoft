@@ -115,6 +115,7 @@ class HoldReasonController extends BaseController
 
     public function store(CreateHoldReasonRequest $request)
     {
+
         return $this->save();
     }
 

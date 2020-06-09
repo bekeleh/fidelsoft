@@ -47,7 +47,9 @@ class UnitController extends BaseController
 
     public function getDatatable($unitPublicId = null)
     {
-        return $this->unitService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
+        $accountId = Auth::user()->account_id;
+        $search = Input::get('sSearch');
+        return $this->unitService->getDatatable($accountId, $search);
     }
 
     public function create(UnitRequest $request)

@@ -9,65 +9,70 @@
     <canvas id="signatureCanvas" style="display:none;"></canvas>
 @endif
 
-@if (!Utils::isPro() && !request()->borderless))
-<div class="modal fade" id="moreDesignsModal" tabindex="-1" role="dialog" aria-labelledby="moreDesignsModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">{{ trans('texts.more_designs_title') }}</h4>
-            </div>
+@if (!Utils::isPro() && !request()->borderless)
+    <br/>
+    <div class="modal fade" id="moreDesignsModal" tabindex="-1" role="dialog" aria-labelledby="moreDesignsModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{{ trans('texts.more_designs_title') }}</h4>
+                </div>
 
-            <div class="container">
-                @if (Utils::isNinja())
-                    <h3>{{ trans('texts.more_designs_cloud_header') }}</h3>
-                    <p>{{ trans('texts.more_designs_cloud_text') }}</p>
-                @else
-                    <h3>{{ trans('texts.more_designs_self_host_header', ['price' => INVOICE_DESIGNS_PRICE]) }}</h3>
-                    <p>{{ trans('texts.more_designs_self_host_text') }}</p>
-                @endif
-            </div>
+                <div class="container">
+                    @if (Utils::isNinja())
+                        <h3>{{ trans('texts.more_designs_cloud_header') }}</h3>
+                        <p>{{ trans('texts.more_designs_cloud_text') }}</p>
+                    @else
+                        <h3>{{ trans('texts.more_designs_self_host_header', ['price' => INVOICE_DESIGNS_PRICE]) }}</h3>
+                        <p>{{ trans('texts.more_designs_self_host_text') }}</p>
+                    @endif
+                </div>
 
-            <center id="designThumbs">
-                <p>&nbsp;</p>
-                <a href="{{ asset('/images/designs/business.png') }}" data-lightbox="more-designs"
-                   data-title="Business">
-                    <img src="{{ BLANK_IMAGE }}" data-src="{{ asset('/images/designs/business_thumb.png') }}"/>
-                </a>&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="{{ asset('/images/designs/creative.png') }}" data-lightbox="more-designs"
-                   data-title="Creative">
-                    <img src="{{ BLANK_IMAGE }}" data-src="{{ asset('/images/designs/creative_thumb.png') }}"/>
-                </a>&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="{{ asset('/images/designs/elegant.png') }}" data-lightbox="more-designs" data-title="Elegant">
-                    <img src="{{ BLANK_IMAGE }}" data-src="{{ asset('/images/designs/elegant_thumb.png') }}"/>
-                </a>
-                <p>&nbsp;</p>
-                <a href="{{ asset('/images/designs/hipster.png') }}" data-lightbox="more-designs" data-title="Hipster">
-                    <img src="{{ BLANK_IMAGE }}" data-src="{{ asset('/images/designs/hipster_thumb.png') }}"/>
-                </a>&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="{{ asset('/images/designs/playful.png') }}" data-lightbox="more-designs" data-title="Playful">
-                    <img src="{{ BLANK_IMAGE }}" data-src="{{ asset('/images/designs/playful_thumb.png') }}"/>
-                </a>&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="{{ asset('/images/designs/photo.png') }}" data-lightbox="more-designs" data-title="Photo">
-                    <img src="{{ BLANK_IMAGE }}" data-src="{{ asset('/images/designs/photo_thumb.png') }}"/>
-                </a>
-                <p>&nbsp;</p>
-            </center>
+                <center id="designThumbs">
+                    <p>&nbsp;</p>
+                    <a href="{{ asset('/images/designs/business.png') }}" data-lightbox="more-designs"
+                       data-title="Business">
+                        <img src="{{ BLANK_IMAGE }}" data-src="{{ asset('/images/designs/business_thumb.png') }}"/>
+                    </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="{{ asset('/images/designs/creative.png') }}" data-lightbox="more-designs"
+                       data-title="Creative">
+                        <img src="{{ BLANK_IMAGE }}" data-src="{{ asset('/images/designs/creative_thumb.png') }}"/>
+                    </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="{{ asset('/images/designs/elegant.png') }}" data-lightbox="more-designs"
+                       data-title="Elegant">
+                        <img src="{{ BLANK_IMAGE }}" data-src="{{ asset('/images/designs/elegant_thumb.png') }}"/>
+                    </a>
+                    <p>&nbsp;</p>
+                    <a href="{{ asset('/images/designs/hipster.png') }}" data-lightbox="more-designs"
+                       data-title="Hipster">
+                        <img src="{{ BLANK_IMAGE }}" data-src="{{ asset('/images/designs/hipster_thumb.png') }}"/>
+                    </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="{{ asset('/images/designs/playful.png') }}" data-lightbox="more-designs"
+                       data-title="Playful">
+                        <img src="{{ BLANK_IMAGE }}" data-src="{{ asset('/images/designs/playful_thumb.png') }}"/>
+                    </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="{{ asset('/images/designs/photo.png') }}" data-lightbox="more-designs" data-title="Photo">
+                        <img src="{{ BLANK_IMAGE }}" data-src="{{ asset('/images/designs/photo_thumb.png') }}"/>
+                    </a>
+                    <p>&nbsp;</p>
+                </center>
 
-            <div class="modal-footer" id="signUpFooter">
-                <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('texts.cancel') }}</button>
+                <div class="modal-footer" id="signUpFooter">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">{{ trans('texts.cancel') }}</button>
 
-                @if (Utils::isNinjaProd())
-                    <a class="btn btn-primary" href="javascript:showUpgradeModal()">{{ trans('texts.go_pro') }}</a>
-                @else
-                    <button type="button" class="btn btn-primary"
-                            onclick="buyProduct('{{ INVOICE_DESIGNS_AFFILIATE_KEY }}', '{{ PRODUCT_INVOICE_DESIGNS }}')">{{ trans('texts.buy') }}</button>
-                @endif
+                    @if (Utils::isNinjaProd())
+                        <a class="btn btn-primary" href="javascript:showUpgradeModal()">{{ trans('texts.go_pro') }}</a>
+                    @else
+                        <button type="button" class="btn btn-primary"
+                                onclick="buyProduct('{{ INVOICE_DESIGNS_AFFILIATE_KEY }}', '{{ PRODUCT_INVOICE_DESIGNS }}')">{{ trans('texts.buy') }}</button>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
-</div>
 @endif
 
 
@@ -76,7 +81,7 @@
 
     logoImages.imageLogo1 = "{{ Form::image_data('images/report_logo1.jpg') }}";
     logoImages.imageLogoWidth1 = 120;
-    logoImages.imageLogoHeight1 = 40
+    logoImages.imageLogoHeight1 = 40;
 
     logoImages.imageLogo2 = "{{ Form::image_data('images/report_logo2.jpg') }}";
     logoImages.imageLogoWidth2 = 325 / 2;
@@ -150,7 +155,6 @@
         @if ( !empty($hide_pdf))
             return;
         @endif
-
             PDFJS.workerSrc = '{{ asset('js/pdf_viewer.worker.js') }}';
         var forceJS = {{ Auth::check() && Auth::user()->force_pdfjs ? 'true' : 'false' }};
         // Use the browser's built in PDF viewer
@@ -230,7 +234,7 @@
                 var image = signatureDiv.toDataURL("image/png") || blankImage;
                 window.signatureAsPNG = invoice.invitations[0].signature_base64 = image;
                 refreshPDF();
-            }
+            };
 
             return false;
         }

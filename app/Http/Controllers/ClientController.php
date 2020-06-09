@@ -19,11 +19,12 @@ use App\Models\Task;
 use App\Ninja\Datatables\ClientDatatable;
 use App\Ninja\Repositories\ClientRepository;
 use App\Services\ClientService;
+use DropdownButton;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Input;
 
 class ClientController extends BaseController
 {
@@ -176,7 +177,7 @@ class ClientController extends BaseController
             }
 
             if (!empty($actionLinks)) {
-                $actionLinks[] = \DropdownButton::DIVIDER;
+                $actionLinks[] = DropdownButton::DIVIDER;
             }
 
             if ($user->can('create', ENTITY_PAYMENT)) {
@@ -252,6 +253,7 @@ class ClientController extends BaseController
         $startDate = request()->start_date;
         $endDate = request()->end_date;
         $account = Auth::user()->account;
+
         $client = Client::scope(request()->client_id)->with('contacts')->firstOrFail();
 
         if (!$startDate) {

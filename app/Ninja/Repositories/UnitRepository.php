@@ -66,7 +66,6 @@ class UnitRepository extends BaseRepository
             $unit->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $unit = Unit::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in unit repo save');
         } else {
             $unit = Unit::createNew();
             $unit->created_by = Auth::user()->username;

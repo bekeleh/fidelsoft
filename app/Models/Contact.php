@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
+use App\Libraries\Utils;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
-use App\Libraries\Utils;
 
 /**
  * Class Contact.
@@ -21,14 +21,7 @@ class Contact extends EntityModel implements AuthenticatableContract, CanResetPa
     use Notifiable;
 
     protected $guard = 'client';
-    protected $dates = ['deleted_at'];
-
-
-    public function getEntityType()
-    {
-        return ENTITY_CONTACT;
-    }
-
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $fillable = [
         'first_name',
@@ -45,6 +38,8 @@ class Contact extends EntityModel implements AuthenticatableContract, CanResetPa
 
 
     protected $hidden = [
+        'password',
+        'confirmation_code',
         'remember_token',
         'confirmation_code',
     ];
@@ -55,12 +50,20 @@ class Contact extends EntityModel implements AuthenticatableContract, CanResetPa
     public static $fieldEmail = 'email';
     public static $fieldPhone = 'phone';
 
+    public function getEntityType()
+    {
+        return ENTITY_CONTACT;
+    }
+
+    public function getRoute()
+    {
+        return "/contacts/{$this->public_id}";
+    }
 
     public function account()
     {
         return $this->belongsTo('App\Models\Account');
     }
-
 
     public function user()
     {

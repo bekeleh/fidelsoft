@@ -14,9 +14,11 @@ class Unit extends EntityModel
     use PresentableTrait;
     use SoftDeletes;
 
-    protected $appends = [];
-    protected $table = 'units';
+
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
+    protected $hidden = [];
+    protected $casts = [];
+    protected $appends = [];
 
     protected $fillable = [
         'name',
@@ -25,13 +27,16 @@ class Unit extends EntityModel
         'updated_by',
         'deleted_by',
     ];
-    protected $hidden = [];
-    protected $casts = [];
 
 
     public function getEntityType()
     {
         return ENTITY_UNIT;
+    }
+
+    public function getRoute()
+    {
+        return "/units/{$this->public_id}";
     }
 
     public static function findUnitByKey($key)

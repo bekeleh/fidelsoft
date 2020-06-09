@@ -59,11 +59,11 @@ class DepartmentRepository extends BaseRepository
     public function save($data, $department = null)
     {
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
+
         if ($department) {
             $department->updated_by = auth::user()->username;
         } elseif ($publicId) {
             $department = Department::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in department repo save');
         } else {
             $department = Department::createNew();
             $department->created_by = auth::user()->username;

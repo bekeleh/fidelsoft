@@ -66,8 +66,11 @@ class ProductRepository extends BaseRepository
                 'products.created_by',
                 'products.updated_by',
                 'products.deleted_by',
+                'item_brands.public_id as item_brand_public_id',
                 'item_brands.name as item_brand_name',
+                'item_categories.public_id as item_category_public_id',
                 'item_categories.name as item_category_name',
+                'units.public_id as unit_public_id',
                 'units.name as unit_name'
             );
         if ($filter) {

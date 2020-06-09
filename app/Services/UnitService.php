@@ -28,20 +28,21 @@ class UnitService extends BaseService
         return $this->unitRepo;
     }
 
-    public function save($data)
+    public function save($data, $unit = null)
     {
-        return $this->unitRepo->save($data);
+        return $this->unitRepo->save($data, $unit);
     }
-
 
     public function getDatatable($accountId, $search)
     {
+        $unit = new UnitDatatable(true);
+
         $query = $this->unitRepo->find($accountId, $search);
 
         if (!Utils::hasPermission('view_unit')) {
             $query->where('units.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable(new UnitDatatable(), $query);
+        return $this->datatableService->createDatatable($unit, $query);
     }
 }
