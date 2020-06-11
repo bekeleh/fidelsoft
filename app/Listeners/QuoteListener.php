@@ -2,7 +2,6 @@
 
 namespace App\Listeners;
 
-use App\Events\InvoiceWasEmailed;
 use App\Events\QuoteInvitationWasViewed;
 use App\Events\QuoteWasEmailed;
 
@@ -21,12 +20,13 @@ class QuoteListener
     }
 
     /**
-     * @param InvoiceWasEmailed $event
+     * @param QuoteWasEmailed $event
      */
     public function emailedQuote(QuoteWasEmailed $event)
     {
         $quote = $event->quote;
         $quote->last_sent_date = date('Y-m-d');
+
         $quote->save();
     }
 

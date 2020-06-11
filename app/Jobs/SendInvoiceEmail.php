@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Auth;
+use Monolog\Logger;
 
 /**
  * Class SendInvoiceEmail.
@@ -68,12 +69,12 @@ class SendInvoiceEmail extends Job implements ShouldQueue
      * @param ContactMailer $mailer
      * @param Logger $logger
      */
-    /*
-   public function failed(ContactMailer $mailer, Logger $logger)
-   {
-       $this->jobName = $this->job->getName();
 
-       parent::failed($mailer, $logger);
-   }
-   */
+    public function failed(ContactMailer $mailer, Logger $logger)
+    {
+        $this->jobName = $this->job->getName();
+
+        parent::failed($mailer, $logger);
+    }
+
 }

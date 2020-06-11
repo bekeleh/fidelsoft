@@ -16,6 +16,7 @@ use App\Libraries\Utils;
 use App\Models\Activity;
 use Illuminate\Queue\Events\JobExceptionOccurred;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * Class InvoiceListener.
@@ -38,6 +39,7 @@ class InvoiceListener
 
             if ($invoice->invoice_design_id && $account->invoice_design_id != $invoice->invoice_design_id) {
                 $account->invoice_design_id = $invoice->invoice_design_id;
+
                 $account->save();
             }
         }
@@ -179,15 +181,13 @@ class InvoiceListener
 
     public function jobFailed(JobExceptionOccurred $exception)
     {
-        /*
         if ($errorEmail = env('ERROR_EMAIL')) {
-            \Mail::raw(print_r($exception->data, true), function ($message) use ($errorEmail) {
+            Mail::raw(print_r($exception->data, true), function ($message) use ($errorEmail) {
                 $message->to($errorEmail)
-                        ->from(CONTACT_EMAIL)
-                        ->subject('Job failed');
+                    ->from(CONTACT_EMAIL)
+                    ->subject('Job failed');
             });
         }
-        */
 
         Utils::logError($exception->exception);
     }

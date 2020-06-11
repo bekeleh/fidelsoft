@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App;
 use App\Events\ClientWasArchived;
 use App\Events\ClientWasCreated;
 use App\Events\ClientWasDeleted;
@@ -119,9 +120,7 @@ class ActivityListener
     public function createdInvoice(InvoiceWasCreated $event)
     {
         $this->activityRepo->create(
-            $event->invoice,
-            ACTIVITY_TYPE_CREATE_INVOICE,
-            $event->invoice->getAdjustment()
+            $event->invoice, ACTIVITY_TYPE_CREATE_INVOICE, $event->invoice->getAdjustment()
         );
     }
 
@@ -130,13 +129,13 @@ class ActivityListener
      */
     public function updatedInvoice(InvoiceWasUpdated $event)
     {
-        if (! $event->invoice->isChanged()) {
+        if (!$event->invoice->isChanged()) {
             return;
         }
 
         $backupInvoice = Invoice::with('invoice_items', 'client.account', 'client.contacts')
-                            ->withTrashed()
-                            ->find($event->invoice->id);
+            ->withTrashed()
+            ->find($event->invoice->id);
 
         $activity = $this->activityRepo->create(
             $event->invoice,
@@ -145,6 +144,7 @@ class ActivityListener
         );
 
         $activity->json_backup = $backupInvoice->hidePrivateFields()->toJSON();
+
         $activity->save();
     }
 
@@ -238,13 +238,13 @@ class ActivityListener
      */
     public function updatedQuote(QuoteWasUpdated $event)
     {
-        if (! $event->quote->isChanged()) {
+        if (!$event->quote->isChanged()) {
             return;
         }
 
         $backupQuote = Invoice::with('invoice_items', 'client.account', 'client.contacts')
-                            ->withTrashed()
-                            ->find($event->quote->id);
+            ->withTrashed()
+            ->find($event->quote->id);
 
         $activity = $this->activityRepo->create(
             $event->quote,
@@ -394,7 +394,7 @@ class ActivityListener
             $event->payment->amount * -1,
             $event->payment->amount,
             false,
-            \App::runningInConsole() ? 'auto_billed' : ''
+            App::runningInConsole() ? 'auto_billed' : ''
         );
     }
 
@@ -483,8 +483,8 @@ class ActivityListener
         $this->activityRepo->create(
             $payment,
             ACTIVITY_TYPE_RESTORE_PAYMENT,
-            $event->fromDeleted && ! $payment->isFailedOrVoided() ? $payment->getCompletedAmount() * -1 : 0,
-            $event->fromDeleted && ! $payment->isFailedOrVoided() ? $payment->getCompletedAmount() : 0
+            $event->fromDeleted && !$payment->isFailedOrVoided() ? $payment->getCompletedAmount() * -1 : 0,
+            $event->fromDeleted && !$payment->isFailedOrVoided() ? $payment->getCompletedAmount() : 0
         );
     }
 
@@ -508,7 +508,7 @@ class ActivityListener
      */
     public function updatedTask(TaskWasUpdated $event)
     {
-        if (! $event->task->isChanged()) {
+        if (!$event->task->isChanged()) {
             return;
         }
 
@@ -556,7 +556,7 @@ class ActivityListener
 
     public function updatedExpense(ExpenseWasUpdated $event)
     {
-        if (! $event->expense->isChanged()) {
+        if (!$event->expense->isChanged()) {
             return;
         }
 

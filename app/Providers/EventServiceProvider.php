@@ -256,14 +256,18 @@ class EventServiceProvider extends ServiceProvider
         //DNS Remove A record from Cloudflare
         'App\Events\SubdomainWasRemoved' => [
             'App\Listeners\DNSListener@removeDNSRecord'
-        ]
-
-        /*
-        // Update events
-        \Codedge\Updater\Events\UpdateAvailable::class => [
-            \Codedge\Updater\Listeners\SendUpdateAvailableNotification::class,
         ],
-        */
+
+//                 Product events
+        'App\Events\ProductWasCreated' => [
+            'App\Listeners\ProductListener@createdProduct',
+        ],
+        'App\Events\ProductWasUpdated' => [
+            'App\Listeners\ProductListener@updatedProduct',
+        ],
+        'App\Events\ProductWasDeleted' => [
+            'App\Listeners\ProductListener@deletedProduct',
+        ],
     ];
 
     /**
