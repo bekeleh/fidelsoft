@@ -355,9 +355,8 @@ $__env->startSection('head_css'); ?>
                        style="width: 380px;padding-top:0px;padding-bottom:0px;margin-right:20px;"
                        class="form-control"
                        placeholder="<?php echo e(trans('texts.search') . trans('texts.search_hotkey')); ?>"/>
-                
-                
-                
+
+
             </div>
             <?php echo Former::close(); ?>
 
