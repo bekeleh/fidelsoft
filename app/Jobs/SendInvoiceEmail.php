@@ -2,14 +2,13 @@
 
 namespace App\Jobs;
 
+use App;
 use App\Models\Invoice;
 use App\Ninja\Mailers\ContactMailer;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Monolog\Logger;
-use Auth;
-use App;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class SendInvoiceEmail.
@@ -18,43 +17,21 @@ class SendInvoiceEmail extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
-    /**
-     * @var Invoice
-     */
     protected $invoice;
-
-    /**
-     * @var bool
-     */
     protected $reminder;
-
-    /**
-     * @var array
-     */
     protected $template;
-
-    /**
-     * @var int
-     */
     protected $userId;
-
-    /**
-     * @var string
-     */
     protected $server;
-
-    /**
-     * @var Proposal
-     */
     protected $proposal;
 
     /**
      * Create a new job instance.
      *
      * @param Invoice $invoice
-     * @param string  $pdf
-     * @param bool    $reminder
-     * @param mixed   $pdfString
+     * @param bool $userId
+     * @param bool $reminder
+     * @param bool $template
+     * @param bool $proposal
      */
     public function __construct(Invoice $invoice, $userId = false, $reminder = false, $template = false, $proposal = false)
     {
@@ -91,12 +68,12 @@ class SendInvoiceEmail extends Job implements ShouldQueue
      * @param ContactMailer $mailer
      * @param Logger $logger
      */
-     /*
-    public function failed(ContactMailer $mailer, Logger $logger)
-    {
-        $this->jobName = $this->job->getName();
+    /*
+   public function failed(ContactMailer $mailer, Logger $logger)
+   {
+       $this->jobName = $this->job->getName();
 
-        parent::failed($mailer, $logger);
-    }
-    */
+       parent::failed($mailer, $logger);
+   }
+   */
 }
