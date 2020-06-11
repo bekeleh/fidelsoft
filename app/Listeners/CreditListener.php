@@ -12,9 +12,7 @@ use Carbon\Carbon;
  */
 class CreditListener
 {
-    /**
-     * @var CreditRepository
-     */
+
     protected $creditRepo;
 
     /**
@@ -27,9 +25,7 @@ class CreditListener
         $this->creditRepo = $creditRepo;
     }
 
-    /**
-     * @param PaymentWasDeleted $event
-     */
+
     public function deletedPayment(PaymentWasDeleted $event)
     {
         $payment = $event->payment;

@@ -12,9 +12,7 @@ use App\Ninja\Transformers\ClientTransformer;
  */
 class ClientListener extends EntityListener
 {
-    /**
-     * @param ClientWasCreated $event
-     */
+
     public function createdClient(ClientWasCreated $event)
     {
         $transformer = new ClientTransformer($event->client->account);
@@ -22,13 +20,11 @@ class ClientListener extends EntityListener
         $this->checkSubscriptions(EVENT_CREATE_CLIENT, $event->client, $transformer);
     }
 
-
     public function updatedClient(ClientWasUpdated $event)
     {
         $transformer = new ClientTransformer($event->client->account);
         $this->checkSubscriptions(EVENT_UPDATE_CLIENT, $event->client, $transformer);
     }
-
 
     public function deletedClient(ClientWasDeleted $event)
     {

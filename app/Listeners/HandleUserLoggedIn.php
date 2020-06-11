@@ -5,11 +5,11 @@ namespace App\Listeners;
 use App\Events\UserLoggedIn;
 use App\Events\UserSignedUp;
 use App\Libraries\HistoryUtils;
+use App\Libraries\Utils;
 use App\Models\Gateway;
 use App\Ninja\Repositories\AccountRepository;
-use App\Libraries\Utils;
-use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 /**
@@ -17,9 +17,7 @@ use Illuminate\Support\Facades\Session;
  */
 class HandleUserLoggedIn
 {
-    /**
-     * @var AccountRepository
-     */
+
     protected $accountRepo;
 
     /**

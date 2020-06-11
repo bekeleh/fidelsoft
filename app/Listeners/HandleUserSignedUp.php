@@ -3,31 +3,25 @@
 namespace App\Listeners;
 
 use App\Events\UserSignedUp;
+use App\Libraries\Utils;
 use App\Ninja\Mailers\UserMailer;
 use App\Ninja\Repositories\AccountRepository;
-use Auth;
-use Utils;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class HandleUserSignedUp.
  */
 class HandleUserSignedUp
 {
-    /**
-     * @var AccountRepository
-     */
-    protected $accountRepo;
 
-    /**
-     * @var UserMailer
-     */
+    protected $accountRepo;
     protected $userMailer;
 
     /**
      * Create the event handler.
      *
      * @param AccountRepository $accountRepo
-     * @param UserMailer        $userMailer
+     * @param UserMailer $userMailer
      */
     public function __construct(AccountRepository $accountRepo, UserMailer $userMailer)
     {
@@ -46,7 +40,7 @@ class HandleUserSignedUp
     {
         $user = Auth::user();
 
-        if (Utils::isNinjaProd() && ! $user->confirmed) {
+        if (Utils::isNinjaProd() && !$user->confirmed) {
             $this->userMailer->sendConfirmation($user);
         } elseif (Utils::isNinjaDev()) {
             // do nothing

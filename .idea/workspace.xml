@@ -2,31 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Events/PaymentWasUpdated.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Listeners/ClientListener.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Listeners/EntityListener.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Listeners/PaymentListener.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Listeners/ProductListener.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/cache/3b/9f/3b9f12f9e77f3b9632295abe99202c3e7484d5f1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/cache/83/1e/831e0f9c16a914db9dc1455669805acf911b2e86" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/9W1zWVFxACgKF4WaXqJpS8wtfJZ1VdpDlmKCwqBV" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/5289dff8d0e9d6b3c8e84a32189d5248622606a0.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/bbaf9bc588ae0be245fb784d5ffed54269a2ac26.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/f0df1fee8df6fd72b08d6cd22c66c8f1d0ff8fc4.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/fae9d217345b62dfdce840c8348af5c60ebfccd1.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/Event.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/Event.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Jobs/Job.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/Job.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Jobs/SendInvoiceEmail.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/SendInvoiceEmail.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Listeners/ActivityListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/ActivityListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/InvoiceListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/InvoiceListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/QuoteListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/QuoteListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/SubscriptionListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/SubscriptionListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/cache/07/b7/07b7833e9c6f911d9405c0ed5ef3bd9b7e4e4b0f" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/cache/07/b7/07b7833e9c6f911d9405c0ed5ef3bd9b7e4e4b0f" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/cache/ec/5a/ec5a1cdd71240cc1fe1853320e10f39625a92f72" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/cache/ec/5a/ec5a1cdd71240cc1fe1853320e10f39625a92f72" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/CwoKs1GmJnIZTTWHIrWRDYfAdHRoMahwAiSmlCGB" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/CwoKs1GmJnIZTTWHIrWRDYfAdHRoMahwAiSmlCGB" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/ClientListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/ClientListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/CreditListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/CreditListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/HandleUserLoggedIn.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/HandleUserLoggedIn.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/HandleUserSettingsChanged.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/HandleUserSettingsChanged.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/HandleUserSignedUp.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/HandleUserSignedUp.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/LogSuccessfulLogin.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/LogSuccessfulLogin.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/TaskListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/TaskListener.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -476,14 +460,7 @@
       <workItem from="1591481869266" duration="1172000" />
       <workItem from="1591516647984" duration="21647000" />
       <workItem from="1591689873745" duration="15786000" />
-      <workItem from="1591867403950" duration="9989000" />
-    </task>
-    <task id="LOCAL-00312" summary="2020-05-31 9:27">
-      <created>1590935123055</created>
-      <option name="number" value="00312" />
-      <option name="presentableId" value="LOCAL-00312" />
-      <option name="project" value="LOCAL" />
-      <updated>1590935123055</updated>
+      <workItem from="1591867403950" duration="10419000" />
     </task>
     <task id="LOCAL-00313" summary="2020-05-31 9:27">
       <created>1590936329969</created>
@@ -821,7 +798,14 @@
       <option name="project" value="LOCAL" />
       <updated>1591871653393</updated>
     </task>
-    <option name="localTasksCounter" value="361" />
+    <task id="LOCAL-00361" summary="2020-06-11 9:27">
+      <created>1591878322665</created>
+      <option name="number" value="00361" />
+      <option name="presentableId" value="LOCAL-00361" />
+      <option name="project" value="LOCAL" />
+      <updated>1591878322665</updated>
+    </task>
+    <option name="localTasksCounter" value="362" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -923,10 +907,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1590585842435" />
-    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1591871652453">
+    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1591878320624">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1591871652453" />
+    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1591878320624" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="418" y="255" key="ComposerInitDialogKey" timestamp="1589789975070">

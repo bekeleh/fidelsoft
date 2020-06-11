@@ -22,10 +22,8 @@ class LogSuccessfulLogin
 
     public function handle(Login $event)
     {
-        $now = new Carbon();
-
         try {
-
+            $now = new Carbon();
             DB::table('login_attempts')->insert(
                 [
                     'username' => $event->user->username,
