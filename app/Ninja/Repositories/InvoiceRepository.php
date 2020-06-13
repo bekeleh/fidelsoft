@@ -772,7 +772,8 @@ class InvoiceRepository extends BaseRepository
                 }
             }
 //           stock adjustment
-            $this->stockAdjustment($invoice, $item);
+//            $this->stockAdjustment($invoice, $item, $isNew);
+
 //          update invoice line item
             $this->invoiceLineItemAdjustment($invoice, $item);
 //
@@ -791,7 +792,7 @@ class InvoiceRepository extends BaseRepository
     private function stockAdjustment($invoice = null, $item = null, $isNew = null)
     {
         if (!$invoice || !$item) {
-            return null;
+            return false;
         }
         $account = $invoice ? $invoice->account : Auth::user()->account;
 
@@ -809,10 +810,10 @@ class InvoiceRepository extends BaseRepository
                     }
                 }
                 if ($product && (Auth::user()->can('edit', $product))) {
-                    $product->notes = ($task || $expense) ? '' : $item['notes'];
-                    if (!$account->convert_products) {
-                        $product->cost = $expense ? 0 : ($item['cost'] ? Utils::parseFloat($item['cost']) : false);
-                    }
+//                    $product->notes = ($task || $expense) ? '' : $item['notes'];
+//                    if (!$account->convert_products) {
+//                        $product->cost = $expense ? 0 : ($item['cost'] ? Utils::parseFloat($item['cost']) : false);
+//                    }
                     $product->tax_name1 = isset($item['tax_name1']) ? $item['tax_name1'] : null;
                     $product->tax_rate1 = isset($item['tax_rate1']) ? $item['tax_rate1'] : 0;
                     $product->tax_name2 = isset($item['tax_name2']) ? $item['tax_name2'] : null;
@@ -831,11 +832,12 @@ class InvoiceRepository extends BaseRepository
     private function invoiceLineItemAdjustment($invoice = null, $item = null)
     {
         if (!$invoice || !$item) {
-            return null;
+            return false;
         }
         $invoiceItem = InvoiceItem::createNew($invoice);
         $invoiceItem->fill($item);
-        $invoiceItem->product_id = isset($product) ? $product->id : null;
+//        $invoiceItem->product_id = isset($item['name']) ? Utils::get : null;
+        $invoiceItem->product_key = isset($item['name']) ? $item['name'] : null;
         $invoiceItem->name = isset($item['name']) ? (trim($invoice->is_recurring ? $item['name'] : Utils::processVariables($item['name']))) : '';
         $invoiceItem->notes = trim($invoice->is_recurring ? $item['notes'] : Utils::processVariables($item['notes']));
         $invoiceItem->cost = Utils::parseFloat($item['cost']);

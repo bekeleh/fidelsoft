@@ -33,6 +33,9 @@
                class="fa fa-sort"></i>
         </td>
         <td>
+            <input type="hidden"
+                   data-bind="value: public_id, attr: {name: 'invoice_items[{{ $isTasks ? 'T' : '' }}' + $index() + '][public_id]'}"
+                   style="display: none"/>
             <div id="scrollable-dropdown-menu">
                 <input type="text"
                        data-bind="productTypeahead: name, items: $root.products, key: 'name', valueUpdate: 'afterkeydown', attr: {name: 'invoice_items[{{ $isTasks ? 'T' : '' }}' + $index() + '][name]'}"
