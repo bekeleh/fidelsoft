@@ -21,7 +21,8 @@ class CreateProductRequest extends ProductRequest
         $this->validationData();
 
         $rules = [];
-        $rules['name'] = 'required|unique:products,name,' . $this->id . ',id,item_brand_id,' . $this->item_brand_id . ',account_id,' . $this->account_id;
+//        $rules['name'] = 'required|unique:products,name,' . $this->id . ',id,item_brand_id,' . $this->item_brand_id . ',account_id,' . $this->account_id;
+        $rules['name'] = 'required|unique:products,name';
         $rules['item_brand_id'] = 'required|numeric';
         $rules['barcode'] = 'nullable';
         $rules['item_tag'] = 'nullable';

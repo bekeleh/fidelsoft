@@ -89,12 +89,12 @@ class QuoteController extends BaseController
             'url' => 'invoices',
             'title' => trans('texts.new_quote'),
         ];
-        $data = array_merge($data, self::getViewModel());
+        $data = array_merge($data, self::getViewModel($invoice));
 
         return View::make('invoices.edit', $data);
     }
 
-    private static function getViewModel()
+    private static function getViewModel($invoice = null)
     {
         $account = Auth::user()->account;
 
@@ -103,8 +103,7 @@ class QuoteController extends BaseController
         return [
             'entityType' => ENTITY_QUOTE,
             'account' => Auth::user()->account->load('country'),
-//            'products' => Inventory::scope()->where('branch_id', '=', $userBranch)->where('qty', '>', 0)->orderBy('name')->get(),
-            'products' => Product::withCategory('itemBrand.itemCategory'),
+            'products' => Product::scope()->withActiveOrSelected($invoice ? $invoice->product_id : false)->orderBy('name')->get(),
             'taxRateOptions' => $account->present()->taxRateOptions,
             'clients' => Client::scope()->with('contacts', 'country')->orderBy('name')->get(),
             'taxRates' => TaxRate::scope()->orderBy('name')->get(),

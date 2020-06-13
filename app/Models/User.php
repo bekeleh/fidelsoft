@@ -12,7 +12,6 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Laracasts\Presenter\PresentableTrait;
 
@@ -69,6 +68,10 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
         'google_2fa_phone',
         'remember_2fa_token',
         'slack_webhook_url',
+    ];
+
+    protected $casts = [
+        'is_admin' => 'boolean',
     ];
 
     public function getEntityType()

@@ -567,6 +567,7 @@ class Utils
         $data = [];
 
         $cachedTables = unserialize(CACHED_TABLES);
+
         foreach ($cachedTables as $name => $class) {
             $data[$name] = Cache::get($name);
         }
@@ -578,30 +579,35 @@ class Utils
             })->sortBy(function ($industry) {
                 return $industry->name;
             })->values();
+
 //         static data countries
             $data['countries'] = Cache::get('countries')->each(function ($country) {
                 $country->name = trans('texts.country_' . $country->name);
             })->sortBy(function ($country) {
                 return $country->name;
             })->values();
+
 //          static data payment types
             $data['paymentTypes'] = Cache::get('paymentTypes')->each(function ($pType) {
                 $pType->name = trans('texts.payment_type_' . $pType->name);
             })->sortBy(function ($pType) {
                 return $pType->name;
             })->values();
+
 //          static data languages
             $data['languages'] = Cache::get('languages')->each(function ($lang) {
                 $lang->name = trans('texts.lang_' . $lang->name);
             })->sortBy(function ($lang) {
                 return $lang->name;
             })->values();
+
 //          static data currencies
             $data['currencies'] = Cache::get('currencies')->each(function ($currency) {
                 $currency->name = trans('texts.currency_' . Str::slug($currency->name, '_'));
             })->sortBy(function ($currency) {
                 return $currency->name;
             })->values();
+
 //          static data Measure of units
             $data['units'] = Cache::get('units')->each(function ($unit) {
                 $unit->name = trans('texts.unit_' . Str::slug($unit->name, '_'));
