@@ -10,11 +10,6 @@ abstract class Job
 {
     use Queueable;
 
-    /**
-     * The name of the job.
-     *
-     * @var string
-     */
     protected $jobName;
 
     /*

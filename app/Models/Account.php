@@ -12,6 +12,7 @@ use App\Models\Traits\PresentsInvoice;
 use App\Models\Traits\SendsEmails;
 use Carbon\Carbon;
 use DateTime;
+use DateTimeZone;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
@@ -572,8 +573,8 @@ class Account extends Eloquent
     {
         if (!$date) {
             return null;
-        } elseif (!$date instanceof \DateTime) {
-            $date = new \DateTime($date);
+        } elseif (!$date instanceof DateTime) {
+            $date = new DateTime($date);
         }
 
         return $date;
@@ -582,7 +583,7 @@ class Account extends Eloquent
     public function getDateTime($date = 'now', $formatted = false)
     {
         $date = $this->getDate($date);
-        $date->setTimeZone(new \DateTimeZone($this->getTimezone()));
+        $date->setTimeZone(new DateTimeZone($this->getTimezone()));
 
         return $formatted ? $date->format($this->getCustomDateTimeFormat()) : $date;
     }
@@ -868,9 +869,8 @@ class Account extends Eloquent
         Session::put(SESSION_DATE_FORMAT, $this->date_format ? $this->date_format->format : DEFAULT_DATE_FORMAT);
         Session::put(SESSION_DATE_PICKER_FORMAT, $this->date_format ? $this->date_format->picker_format : DEFAULT_DATE_PICKER_FORMAT);
 
-        $currencyId = ($client && $client->currency_id) ? $client->currency_id : $this->currency_id ?: DEFAULT_CURRENCY;
-        $locale = ($client && $client->language_id) ? $client->language->locale : ($this->language_id ? $this->Language->locale : DEFAULT_LOCALE);
-
+        $currencyId = (($client && $client->currency_id) ? $client->currency_id : $this->currency_id) ?: DEFAULT_CURRENCY;
+        $locale = (($client && $client->language_id) ? $client->language->locale : ($this->language_id)) ? $this->Language->locale : DEFAULT_LOCALE;
         Session::put(SESSION_CURRENCY, $currencyId);
         Session::put(SESSION_CURRENCY_DECORATOR, $this->show_currency_code ? CURRENCY_DECORATOR_CODE : CURRENCY_DECORATOR_SYMBOL);
         Session::put(SESSION_LOCALE, $locale);

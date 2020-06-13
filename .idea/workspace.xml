@@ -2,15 +2,43 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/4cCrfd2KwGp4V2RIGsHyVlMe4N0VdKH11nIKiHYi" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/7PUSAImOZuS76Gsb1Tg8wYy8NapyBsJGNBUT4Poi" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/8hrqmWajx8Pjj44a0XuRgX43uF3u0KcsuhWPCQC8" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/IJUYVTVPWps331f0Cd7IwXUSWAhrOLqIoy2keeGz" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/VIgnMfkfU4RlXFUHJAn82fZGjxm2uee0K4FHmT8T" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/ZIfOjJOxkWPvW3rcDmmIJgDXowpoJDxqkchXqqRU" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/04bcd8d0c33a06738f3a0cf20be325a8e80abd87.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/1ffc5a48d31f2c3b9b126953d256dd49c7ba6277.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/215576199c605f0164477ad391b2e4510b1ad6e8.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/223623f4c443f6c65a66ebcb912df2e3d5a0ce00.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/2610909a85b75126c9ff435a9701ff0215a79908.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/287362df845dd6e7d6d2f00e04eb2e9c0dff7016.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/2fdecf3903ef6e2c45ecf0d0ba8143dd3d8da6c0.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/3089c2ecd2608b8720ec5fdcdfa242abd79554c9.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/34e7fbfc10b03f071e7ca8cfd076ae535ef9ed5b.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/4c285a3a1f38eab4c0dd2537ec71f0ff0f66fffc.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/51a20cb8a2a0dfbdac633e30e63a4d8b6e8725e5.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/6ac3b6c785ced0d671051c64671d9dd2fc9d1ca7.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/883dad89353f7444fdfd18f9fc3a2ee10ccda384.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/920de876500919d13aee278747204ad01bca62a7.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/aa781096038702c231d33345ec9fad8b184ab67d.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/ac29f3ad3f534accf75fb7a5ecd8689ead325757.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/b315fa472dc8fc05ca66a9c541cb437f086383ed.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/bde6e4d84a93a1d5c3f3b3d6339314a2e8095126.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/c7a35e3db127bbc14744963fc723e20043f97bff.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/ce86b367d9fbfea4a7e2933b19cda586a622934f.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/e1eb864893ce896ca168e502eaf9a6dba66f6385.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/e95dc09228d48cde82ee7d868e834d00f809695c.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/f788decf80bc57029a0783bb898f59651f56124b.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/ActivityListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/ActivityListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/ClientListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/ClientListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/CreditListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/CreditListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/HandleUserLoggedIn.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/HandleUserLoggedIn.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/HandleUserSettingsChanged.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/HandleUserSettingsChanged.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/HandleUserSignedUp.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/HandleUserSignedUp.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/LogSuccessfulLogin.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/LogSuccessfulLogin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/TaskListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/TaskListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Jobs/Job.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/Job.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Account.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Account.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Unit.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Unit.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/CwoKs1GmJnIZTTWHIrWRDYfAdHRoMahwAiSmlCGB" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,6 +64,9 @@
     </option>
     <expand />
     <select />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="invoiceninja" />
   </component>
   <component name="Git.Settings">
     <option name="PUSH_AUTO_UPDATE" value="true" />
@@ -262,10 +293,10 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Listeners" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.vagrant" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -460,14 +491,12 @@
       <workItem from="1591481869266" duration="1172000" />
       <workItem from="1591516647984" duration="21647000" />
       <workItem from="1591689873745" duration="15786000" />
-      <workItem from="1591867403950" duration="10419000" />
-    </task>
-    <task id="LOCAL-00313" summary="2020-05-31 9:27">
-      <created>1590936329969</created>
-      <option name="number" value="00313" />
-      <option name="presentableId" value="LOCAL-00313" />
-      <option name="project" value="LOCAL" />
-      <updated>1590936329969</updated>
+      <workItem from="1591867403950" duration="13716000" />
+      <workItem from="1591964973327" duration="1366000" />
+      <workItem from="1591968626937" duration="2197000" />
+      <workItem from="1591995887873" duration="405000" />
+      <workItem from="1591997215969" duration="604000" />
+      <workItem from="1592033367801" duration="3582000" />
     </task>
     <task id="LOCAL-00314" summary="2020-05-31 9:27">
       <created>1590940039029</created>
@@ -805,7 +834,14 @@
       <option name="project" value="LOCAL" />
       <updated>1591878322665</updated>
     </task>
-    <option name="localTasksCounter" value="362" />
+    <task id="LOCAL-00362" summary="2020-06-11 9:27">
+      <created>1591878758140</created>
+      <option name="number" value="00362" />
+      <option name="presentableId" value="LOCAL-00362" />
+      <option name="project" value="LOCAL" />
+      <updated>1591878758140</updated>
+    </task>
+    <option name="localTasksCounter" value="363" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -862,10 +898,10 @@
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="277" y="0" key="#Notifications" timestamp="1591374104608">
+    <state x="277" y="0" key="#Notifications" timestamp="1591965113806">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="277" y="0" key="#Notifications/0.0.1280.680@0.0.1280.680" timestamp="1591374104608" />
+    <state x="277" y="0" key="#Notifications/0.0.1280.680@0.0.1280.680" timestamp="1591965113806" />
     <state x="312" y="89" key="#Notifications/0.0.1440.860@0.0.1440.860" timestamp="1584513656594" />
     <state x="347" y="14" width="600" height="652" key="#codeception.yml" timestamp="1590875093688">
       <screen x="0" y="0" width="1280" height="680" />
@@ -907,10 +943,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1590585842435" />
-    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1591878320624">
+    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1591878756593">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1591878320624" />
+    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1591878756593" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="418" y="255" key="ComposerInitDialogKey" timestamp="1589789975070">
@@ -945,10 +981,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="394" y="64" key="RollbackChangesDialog/0.0.1280.680@0.0.1280.680" timestamp="1590957127259" />
-    <state x="67" y="0" key="SettingsEditor" timestamp="1591876183129">
+    <state x="67" y="0" key="SettingsEditor" timestamp="1591970010557">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="67" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1591876183129" />
+    <state x="67" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1591970010557" />
     <state x="210" y="14" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1585946296100" />
     <state x="221" y="73" key="SettingsEditor/0.0.1440.860@0.0.1440.860" timestamp="1584008816522" />
     <state x="296" y="138" key="Vcs.Push.Dialog.v2" timestamp="1586200886074">
@@ -981,10 +1017,10 @@
     </state>
     <state x="334" y="154" width="672" height="677" key="run.anything.popup/0.0.1280.680@0.0.1280.680" timestamp="1591376025555" />
     <state x="376" y="195" key="run.anything.popup/0.0.1440.860@0.0.1440.860" timestamp="1584184043681" />
-    <state x="340" y="142" width="672" height="537" key="search.everywhere.popup" timestamp="1591877504444">
+    <state x="340" y="142" width="672" height="537" key="search.everywhere.popup" timestamp="1592038761156">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="340" y="142" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1591877504444" />
+    <state x="340" y="142" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1592038761156" />
     <state x="383" y="180" width="672" height="678" key="search.everywhere.popup/0.0.1440.860@0.0.1440.860" timestamp="1584690366242" />
   </component>
 </project>
