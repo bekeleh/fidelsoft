@@ -124,7 +124,6 @@ if (!defined('APP_NAME')) {
         ENTITY_STORE,
         ENTITY_TASK,
         ENTITY_TAX_RATE,
-        ENTITY_UNIT,
         ENTITY_USER,
         ENTITY_VENDOR,
         ENTITY_VENDOR_CONTACT,
@@ -762,7 +761,9 @@ if (!defined('APP_NAME')) {
         'fonts' => 'App\Models\Font',
         'banks' => 'App\Models\Bank',
         'units' => 'App\Models\Unit',
+        'statuses' => 'App\Models\Status',
     ];
+
     define('CACHED_TABLES', serialize($cachedTables));
 
 // Fix for mPDF: https://github.com/kartik-v/yii2-mpdf/issues/9

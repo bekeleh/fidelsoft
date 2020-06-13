@@ -2,22 +2,16 @@
 
 namespace App\Models;
 
-use Eloquent;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class PaymentType.
  */
 class PaymentType extends Eloquent
 {
-    /**
-     * @var bool
-     */
+
     public $timestamps = false;
 
-    /**
-     * @return BelongsTo
-     */
     public function gatewayType()
     {
         return $this->belongsTo('App\Models\GatewayType');

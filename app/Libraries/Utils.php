@@ -81,8 +81,7 @@ class Utils
 
     public static function isSelfHost()
     {
-//        return !static::isNinjaProd();
-        return static::isNinjaProd();
+        return !static::isNinjaProd();
     }
 
     public static function isNinjaProd()
@@ -573,35 +572,50 @@ class Utils
         }
 
         if ($locale) {
+//           static data industries
             $data['industries'] = Cache::get('industries')->each(function ($industry) {
                 $industry->name = trans('texts.industry_' . $industry->name);
             })->sortBy(function ($industry) {
                 return $industry->name;
             })->values();
-
+//         static data countries
             $data['countries'] = Cache::get('countries')->each(function ($country) {
                 $country->name = trans('texts.country_' . $country->name);
             })->sortBy(function ($country) {
                 return $country->name;
             })->values();
-
+//          static data payment types
             $data['paymentTypes'] = Cache::get('paymentTypes')->each(function ($pType) {
                 $pType->name = trans('texts.payment_type_' . $pType->name);
             })->sortBy(function ($pType) {
                 return $pType->name;
             })->values();
-
+//          static data languages
             $data['languages'] = Cache::get('languages')->each(function ($lang) {
                 $lang->name = trans('texts.lang_' . $lang->name);
             })->sortBy(function ($lang) {
                 return $lang->name;
             })->values();
-
+//          static data currencies
             $data['currencies'] = Cache::get('currencies')->each(function ($currency) {
-                $currency->name = trans('texts.currency_' . \Str::slug($currency->name, '_'));
+                $currency->name = trans('texts.currency_' . Str::slug($currency->name, '_'));
             })->sortBy(function ($currency) {
                 return $currency->name;
             })->values();
+//          static data Measure of units
+            $data['units'] = Cache::get('units')->each(function ($unit) {
+                $unit->name = trans('texts.unit_' . Str::slug($unit->name, '_'));
+            })->sortBy(function ($unit) {
+                return $unit->name;
+            })->values();
+
+//       static data status
+            $data['statuses'] = Cache::get('statuses')->each(function ($status) {
+                $status->name = trans('texts.status_' . Str::slug($status->name, '_'));
+            })->sortBy(function ($status) {
+                return $status->name;
+            })->values();
+
         }
 
         return $data;
@@ -734,7 +748,7 @@ class Utils
         return str_repeat('*', $length - 4) . $lastDigits;
     }
 
-    // http://wephp.co/detect-credit-card-type-php/
+// http://wephp.co/detect-credit-card-type-php/
     public static function getCardType($number)
     {
         $number = preg_replace('/[^\d]/', '', $number);
@@ -1200,8 +1214,8 @@ class Utils
         }
     }
 
-    // nouns in German and French should be uppercase
-    // TODO remove this
+// nouns in German and French should be uppercase
+// TODO remove this
     public static function transFlowText($key)
     {
         $str = trans("texts.$key");
@@ -1520,20 +1534,22 @@ class Utils
         return strlen($string) > $length ? rtrim(substr($string, 0, $length)) . '...' : $string;
     }
 
-    // http://stackoverflow.com/a/14238078/497368
+// http://stackoverflow.com/a/14238078/497368
     public static function isInterlaced($filename)
     {
         $handle = fopen($filename, 'r');
         $contents = fread($handle, 32);
         fclose($handle);
+
         return (ord($contents[28]) != 0);
     }
 
-    //Source: https://stackoverflow.com/questions/3302857/algorithm-to-get-the-excel-like-column-name-of-a-number
+//Source: https://stackoverflow.com/questions/3302857/algorithm-to-get-the-excel-like-column-name-of-a-number
     public static function num2alpha($n)
     {
         for ($r = ""; $n >= 0; $n = intval($n / 26) - 1)
             $r = chr($n % 26 + 0x41) . $r;
+
         return $r;
     }
 
@@ -1562,6 +1578,7 @@ class Utils
     {
         $color = static::brewerColor($number);
         list($r, $g, $b) = sscanf($color, "#%02x%02x%02x");
+
         return "{$r},{$g},{$b}";
     }
 
@@ -1615,6 +1632,7 @@ class Utils
             'ы' => 'y', 'ŷ' => 'y', 'ý' => 'y', 'ÿ' => 'y', 'Ÿ' => 'y', 'Ŷ' => 'y',
             'Ы' => 'y', 'ž' => 'z', 'З' => 'z', 'з' => 'z', 'ź' => 'z', 'ז' => 'z', 'ż' => 'z', 'ſ' => 'z', 'Ж' => 'zh', 'ж' => 'zh'
         );
+
         return strtr($s, $replace);
     }
 }

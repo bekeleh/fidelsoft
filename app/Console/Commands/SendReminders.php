@@ -2,26 +2,25 @@
 
 namespace App\Console\Commands;
 
-use App\Libraries\CurlUtils;
-use Carbon;
-use Str;
-use Cache;
-use Utils;
-use Exception;
-use DateTime;
-use Auth;
+use App\Jobs\ExportReportResults;
+use App\Jobs\RunReport;
 use App\Jobs\SendInvoiceEmail;
-use App\Models\Invoice;
+use App\Libraries\CurlUtils;
+use App\Libraries\Utils;
 use App\Models\Currency;
+use App\Models\Invoice;
+use App\Models\ScheduledReport;
 use App\Ninja\Mailers\UserMailer;
 use App\Ninja\Repositories\AccountRepository;
 use App\Ninja\Repositories\InvoiceRepository;
-use App\Models\ScheduledReport;
 use App\Services\PaymentService;
+use DateTime;
+use DB;
+use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Auth;
+use Mail;
 use Symfony\Component\Console\Input\InputOption;
-use App\Jobs\ExportReportResults;
-use App\Jobs\RunReport;
 
 /**
  * Class SendReminders.
@@ -56,9 +55,10 @@ class SendReminders extends Command
     /**
      * SendReminders constructor.
      *
-     * @param Mailer            $mailer
      * @param InvoiceRepository $invoiceRepo
+     * @param PaymentService $paymentService
      * @param accountRepository $accountRepo
+     * @param UserMailer $userMailer
      */
     public function __construct(InvoiceRepository $invoiceRepo, PaymentService $paymentService, AccountRepository $accountRepo, UserMailer $userMailer)
     {
@@ -87,10 +87,10 @@ class SendReminders extends Command
         $this->info(date('r') . ' Done');
 
         if ($errorEmail = env('ERROR_EMAIL')) {
-            \Mail::raw('EOM', function ($message) use ($errorEmail, $database) {
+            Mail::raw('EOM', function ($message) use ($errorEmail, $database) {
                 $message->to($errorEmail)
-                        ->from(CONTACT_EMAIL)
-                        ->subject("SendReminders [{$database}]: Finished successfully");
+                    ->from(CONTACT_EMAIL)
+                    ->subject("SendReminders [{$database}]: Finished successfully");
             });
         }
     }
@@ -128,7 +128,7 @@ class SendReminders extends Command
         $this->info(date('r ') . $accounts->count() . ' accounts found with fees');
 
         foreach ($accounts as $account) {
-            if (! $account->hasFeature(FEATURE_EMAIL_TEMPLATES_REMINDERS)) {
+            if (!$account->hasFeature(FEATURE_EMAIL_TEMPLATES_REMINDERS)) {
                 continue;
             }
 
@@ -155,7 +155,7 @@ class SendReminders extends Command
         $this->info(date('r ') . count($accounts) . ' accounts found with reminders');
 
         foreach ($accounts as $account) {
-            if (! $account->hasFeature(FEATURE_EMAIL_TEMPLATES_REMINDERS)) {
+            if (!$account->hasFeature(FEATURE_EMAIL_TEMPLATES_REMINDERS)) {
                 continue;
             }
 
@@ -201,11 +201,11 @@ class SendReminders extends Command
             $account = $scheduledReport->account;
             $account->loadLocalizationSettings();
 
-            if (! $account->hasFeature(FEATURE_REPORTS)) {
+            if (!$account->hasFeature(FEATURE_REPORTS)) {
                 continue;
             }
 
-            $config = (array) json_decode($scheduledReport->config);
+            $config = (array)json_decode($scheduledReport->config);
             $reportType = $config['report_type'];
 
             // send email as user
@@ -251,10 +251,10 @@ class SendReminders extends Command
                 }
             } else {
                 $this->info(date('r') . ' Error: failed to load exchange rates - ' . $response);
-                \DB::table('currencies')->update(['exchange_rate' => 1]);
+                DB::table('currencies')->update(['exchange_rate' => 1]);
             }
         } else {
-            \DB::table('currencies')->update(['exchange_rate' => 1]);
+            DB::table('currencies')->update(['exchange_rate' => 1]);
         }
 
         CurlUtils::get(SITE_URL . '?clear_cache=true');
