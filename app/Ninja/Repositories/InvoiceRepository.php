@@ -19,8 +19,10 @@ use App\Models\InvoiceItem;
 use App\Models\Product;
 use App\Models\Task;
 use App\Services\PaymentService;
+use Datatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Log;
 
 class InvoiceRepository extends BaseRepository
 {
@@ -267,7 +269,7 @@ class InvoiceRepository extends BaseRepository
                 'invoices.deleted_by'
             );
 
-        $table = \Datatable::query($query)
+        $table = Datatable::query($query)
             ->addColumn('frequency', function ($model) {
                 $frequency = strtolower($model->frequency);
                 $frequency = preg_replace('/\s/', '_', $frequency);
@@ -341,7 +343,7 @@ class InvoiceRepository extends BaseRepository
                 'invoices.deleted_by'
             );
 
-        $table = \Datatable::query($query)
+        $table = Datatable::query($query)
             ->addColumn('invoice_number', function ($model) use ($entityType) {
                 return link_to('/view/' . $model->invitation_key, $model->invoice_number)->toHtml();
             })
@@ -438,7 +440,7 @@ class InvoiceRepository extends BaseRepository
         } else {
             $invoice = Invoice::scope($publicId)->firstOrFail();
             if (Utils::isNinjaDev()) {
-                \Log::warning('Entity not set in invoice repo save');
+                Log::warning('Entity not set in invoice repo save');
             }
         }
 
@@ -476,6 +478,7 @@ class InvoiceRepository extends BaseRepository
             if (isset($data['set_default_footer']) && $data['set_default_footer']) {
                 $account->invoice_footer = trim($data['invoice_footer']);
             }
+//          if save any account related information
             $account->save();
         }
 
@@ -572,9 +575,11 @@ class InvoiceRepository extends BaseRepository
             $data['tax_rate1'] = $data['tax_rate'];
         }
 
+        Log::warning($invoice);
+        Log::info($data['invoice_items']);
+
         $total = 0;
         $itemTax = 0;
-
         foreach ($data['invoice_items'] as $item) {
             $item = (array)$item;
             if (!$item['cost'] && !$item['name'] && !$item['notes']) {
@@ -582,7 +587,7 @@ class InvoiceRepository extends BaseRepository
             }
 
             $invoiceItemCost = isset($item['cost']) ? Utils::roundSignificant(Utils::parseFloat($item['cost'])) : Utils::getItemDetail('name', $item['name']);
-            \Log::info($invoiceItemCost);
+            Log::info($invoiceItemCost);
             $invoiceItemQty = Utils::roundSignificant(Utils::parseFloat($item['qty']));
             $discount = empty($item['discount']) ? 0 : round(Utils::parseFloat($item['discount']), 2);
 
@@ -598,7 +603,9 @@ class InvoiceRepository extends BaseRepository
 
             $total += round($lineTotal, 2);
         }
-//      client item price already specified, we can override here
+        /** ../ end foreach each order line  */
+
+//    if any special client item price already specified, we can override here
         foreach ($data['invoice_items'] as $item) {
             $item = (array)$item;
             $invoiceItemCost = Utils::roundSignificant(Utils::parseFloat($item['cost']));
@@ -703,12 +710,12 @@ class InvoiceRepository extends BaseRepository
         }
 
         $invoice->amount = $total;
+//      save invoice
         $invoice->save();
-
+//      delete invoice items
         if ($publicId) {
             $invoice->invoice_items()->forceDelete();
         }
-
         if (!empty($data['document_ids'])) {
             $document_ids = array_map('intval', $data['document_ids']);
             foreach ($document_ids as $document_id) {
@@ -719,7 +726,6 @@ class InvoiceRepository extends BaseRepository
                         $document = $document->cloneDocument();
                         $document_ids[] = $document->public_id; // Don't remove this document
                     }
-
                     $document->invoice_id = $invoice->id;
                     $document->expense_id = null;
                     $document->save();
@@ -765,83 +771,97 @@ class InvoiceRepository extends BaseRepository
                     $expense->save();
                 }
             }
-//          product update
-            if (Auth::check()) {
-                if ($productKey = trim($item['name'])) {
-                    if ($account->update_products &&
-                        !$invoice->has_tasks &&
-                        !$invoice->has_expenses &&
-                        !in_array($productKey, Utils::trans(['surcharge', 'discount', 'fee', 'gateway_fee_item']))
-                    ) {
-                        $product = Product::findProductByKey($productKey);
-                        if (!$product) {
-                            if (Auth::user()->can('create', ENTITY_PRODUCT)) {
-                                $product = Product::createNew();
-                                $product->name = trim($item['name']);
-                            } else {
-                                $product = null;
-                            }
-                        }
-                        if ($product && (Auth::user()->can('edit', $product))) {
-                            $product->notes = ($task || $expense) ? '' : $item['notes'];
-                            if (!$account->convert_products) {
-                                $product->cost = $expense ? 0 : Utils::parseFloat($item['cost']);
-                            }
-
-                            $product->tax_name1 = isset($item['tax_name1']) ? $item['tax_name1'] : null;
-                            $product->tax_rate1 = isset($item['tax_rate1']) ? $item['tax_rate1'] : 0;
-                            $product->tax_name2 = isset($item['tax_name2']) ? $item['tax_name2'] : null;
-                            $product->tax_rate2 = isset($item['tax_rate2']) ? $item['tax_rate2'] : 0;
-                            $product->custom_value1 = isset($item['custom_value1']) ? $item['custom_value1'] : null;
-                            $product->custom_value2 = isset($item['custom_value2']) ? $item['custom_value2'] : null;
-
-                            $product->save();
-                        }
-                    }
-                }
-            }
-//          invoice items update
-            $invoiceItem = InvoiceItem::createNew($invoice);
-            $invoiceItem->fill($item);
-            $invoiceItem->product_id = isset($product) ? $product->id : null;
-            $invoiceItem->name = isset($item['name']) ? (trim($invoice->is_recurring ? $item['name'] : Utils::processVariables($item['name']))) : '';
-            $invoiceItem->notes = trim($invoice->is_recurring ? $item['notes'] : Utils::processVariables($item['notes']));
-            $invoiceItem->cost = Utils::parseFloat($item['cost']);
-            $invoiceItem->qty = Utils::parseFloat($item['qty']);
-            $invoiceItem->created_by = auth::user()->username;
-
-            if (isset($item['custom_value1'])) {
-                $invoiceItem->custom_value1 = $item['custom_value1'];
-            }
-            if (isset($item['custom_value2'])) {
-                $invoiceItem->custom_value2 = $item['custom_value2'];
-            }
-
-            // provide backwards compatibility
-            if (isset($item['tax_name']) && isset($item['tax_rate'])) {
-                $item['tax_name1'] = $item['tax_name'];
-                $item['tax_rate1'] = $item['tax_rate'];
-            }
-
-            // provide backwards compatibility
-            if (!isset($item['invoice_item_type_id']) && in_array($invoiceItem->notes, [trans('texts.online_payment_surcharge'), trans('texts.online_payment_discount')])) {
-                $invoiceItem->invoice_item_type_id = $invoice->balance > 0 ? INVOICE_ITEM_TYPE_PENDING_GATEWAY_FEE : INVOICE_ITEM_TYPE_PAID_GATEWAY_FEE;
-            }
-
-            $invoiceItem->fill($item);
-
-            $invoice->invoice_items()->save($invoiceItem);
-        }
-
-        $invoice->load('invoice_items');
+//           stock adjustment
+            $this->stockAdjustment($invoice, $item);
+//          update invoice line item
+            $this->invoiceLineItemAdjustment($invoice, $item);
+//
+        } // end of for loop
 
         if (Auth::check()) {
             $invoice = $this->saveInvitations($invoice);
         }
 
+//      dispatch events
         $this->dispatchEvents($invoice);
 
-        return $invoice;
+        return $invoice->load('invoice_items');
+    }
+
+    private function stockAdjustment($invoice = null, $item = null, $isNew = null)
+    {
+        if (!$invoice || !$item) {
+            return null;
+        }
+        $account = $invoice ? $invoice->account : Auth::user()->account;
+
+        if ($productKey = trim($item['name'])) {
+            if ($account->update_products && !$invoice->has_tasks && !$invoice->has_expenses &&
+                !in_array($productKey, Utils::trans(['surcharge', 'discount', 'fee', 'gateway_fee_item']))
+            ) {
+                $product = Product::findProductByKey($productKey);
+                if (!$product) {
+                    if (Auth::user()->can('create', ENTITY_PRODUCT)) {
+                        $product = Product::createNew();
+                        $product->name = trim($item['name']);
+                    } else {
+                        $product = null;
+                    }
+                }
+                if ($product && (Auth::user()->can('edit', $product))) {
+                    $product->notes = ($task || $expense) ? '' : $item['notes'];
+                    if (!$account->convert_products) {
+                        $product->cost = $expense ? 0 : ($item['cost'] ? Utils::parseFloat($item['cost']) : false);
+                    }
+                    $product->tax_name1 = isset($item['tax_name1']) ? $item['tax_name1'] : null;
+                    $product->tax_rate1 = isset($item['tax_rate1']) ? $item['tax_rate1'] : 0;
+                    $product->tax_name2 = isset($item['tax_name2']) ? $item['tax_name2'] : null;
+                    $product->tax_rate2 = isset($item['tax_rate2']) ? $item['tax_rate2'] : 0;
+                    $product->custom_value1 = isset($item['custom_value1']) ? $item['custom_value1'] : null;
+                    $product->custom_value2 = isset($item['custom_value2']) ? $item['custom_value2'] : null;
+//                          update  product
+                    $product->save();
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private function invoiceLineItemAdjustment($invoice = null, $item = null)
+    {
+        if (!$invoice || !$item) {
+            return null;
+        }
+        $invoiceItem = InvoiceItem::createNew($invoice);
+        $invoiceItem->fill($item);
+        $invoiceItem->product_id = isset($product) ? $product->id : null;
+        $invoiceItem->name = isset($item['name']) ? (trim($invoice->is_recurring ? $item['name'] : Utils::processVariables($item['name']))) : '';
+        $invoiceItem->notes = trim($invoice->is_recurring ? $item['notes'] : Utils::processVariables($item['notes']));
+        $invoiceItem->cost = Utils::parseFloat($item['cost']);
+        $invoiceItem->qty = Utils::parseFloat($item['qty']);
+        $invoiceItem->created_by = auth::user()->username;
+
+        if (isset($item['custom_value1'])) {
+            $invoiceItem->custom_value1 = $item['custom_value1'];
+        }
+        if (isset($item['custom_value2'])) {
+            $invoiceItem->custom_value2 = $item['custom_value2'];
+        }
+        // provide backwards compatibility
+        if (isset($item['tax_name']) && isset($item['tax_rate'])) {
+            $item['tax_name1'] = $item['tax_name'];
+            $item['tax_rate1'] = $item['tax_rate'];
+        }
+
+        // provide backwards compatibility
+        if (!isset($item['invoice_item_type_id']) && in_array($invoiceItem->notes, [trans('texts.online_payment_surcharge'), trans('texts.online_payment_discount')])) {
+            $invoiceItem->invoice_item_type_id = $invoice->balance > 0 ? INVOICE_ITEM_TYPE_PENDING_GATEWAY_FEE : INVOICE_ITEM_TYPE_PAID_GATEWAY_FEE;
+        }
+
+        $invoiceItem->fill($item);
+
+        return ($invoice->invoice_items()->save($invoiceItem));
     }
 
     private function saveInvitations($invoice)

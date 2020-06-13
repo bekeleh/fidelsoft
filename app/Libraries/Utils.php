@@ -137,7 +137,7 @@ class Utils
 
     public static function selectedPermissionsArray($permissions, $selected_arr = array())
     {
-        $collection = '';
+        $collection = null;
         $permissions_arr = array();
 
         foreach ($permissions as $permission) {
@@ -181,7 +181,7 @@ class Utils
             $account = \App\Models\Account::first();
         }
 
-        return $account ? $account->clientViewCSS() : '';
+        return $account ? $account->clientViewCSS() : null;
     }
 
     public static function getAccountFontsUrl($protocol = '')
@@ -309,7 +309,7 @@ class Utils
         }
 
         $mysqlVersion = DB::select(DB::raw("select version() as version"))[0]->version;
-        $accountKey = Auth::check() ? Auth::user()->account->account_key : '';
+        $accountKey = Auth::check() ? Auth::user()->account->account_key : null;
 
         $info = "App Version: v" . NINJA_VERSION . "\\n" .
             "White Label: " . (Utils::isWhiteLabel() ? 'Yes' : 'No') . " - {$accountKey}\\n" .
@@ -345,8 +345,8 @@ class Utils
         }
 
         $response = new stdClass();
-        $response->message = isset($_ENV["{$userType}_MESSAGE"]) ? $_ENV["{$userType}_MESSAGE"] : '';
-        $response->id = isset($_ENV["{$userType}_ID"]) ? $_ENV["{$userType}_ID"] : '';
+        $response->message = isset($_ENV["{$userType}_MESSAGE"]) ? $_ENV["{$userType}_MESSAGE"] : null;
+        $response->id = isset($_ENV["{$userType}_ID"]) ? $_ENV["{$userType}_ID"] : null;
         $response->version = NINJA_VERSION;
 
         return $response;
@@ -359,7 +359,7 @@ class Utils
             && $feature == ACCOUNT_ADVANCED_SETTINGS) {
             return '&nbsp;<sup class="pro-label">PRO</sup>';
         } else {
-            return '';
+            return null;
         }
     }
 
@@ -428,7 +428,7 @@ class Utils
                     $data[] = trans("texts.$field");
                 }
             } else {
-                $data[] = '';
+                $data[] = null;
             }
         }
 
@@ -838,14 +838,14 @@ class Utils
     public static function timestampToString($timestamp, $timezone, $format)
     {
         if (!$timestamp) {
-            return '';
+            return null;
         }
         $date = Carbon::createFromTimeStamp($timestamp);
         if ($timezone) {
             $date->tz = $timezone;
         }
         if ($date->year < 1900) {
-            return '';
+            return null;
         }
 
         return $date->format($format);
@@ -870,7 +870,7 @@ class Utils
     public static function fromSqlDate($date, $formatResult = true)
     {
         if (!$date || $date == '0000-00-00') {
-            return '';
+            return null;
         }
 
         $format = Session::get(SESSION_DATE_FORMAT, DEFAULT_DATE_FORMAT);
@@ -886,7 +886,7 @@ class Utils
     public static function fromSqlDateTime($date, $formatResult = true)
     {
         if (!$date || $date == '0000-00-00 00:00:00') {
-            return '';
+            return null;
         }
 
         $timezone = Session::get(SESSION_TIMEZONE, DEFAULT_TIMEZONE);
@@ -923,7 +923,7 @@ class Utils
     public static function processVariables($str, $client = false)
     {
         if (!$str) {
-            return '';
+            return null;
         }
 
         $variables = ['MONTH', 'QUARTER', 'YEAR'];
@@ -1029,7 +1029,7 @@ class Utils
         } elseif ($model->first_name || $model->last_name) {
             return $model->first_name . ' ' . $model->last_name;
         } else {
-            return $model->email ?: '';
+            return $model->email ?: null;
         }
     }
 
@@ -1038,7 +1038,7 @@ class Utils
         if ($model->first_name || $model->last_name) {
             return $model->first_name . ' ' . $model->last_name;
         } else {
-            return $model->username ?: '';
+            return $model->username ?: null;
         }
     }
 
@@ -1091,14 +1091,14 @@ class Utils
         if ($id) {
             $location = Location::where('id', $id)->first();
             if ($location)
-                return $location->name ?: '';
+                return $location->name ?: null;
         }
     }
 
     public static function getVendorDisplayName($model)
     {
         if (is_null($model)) {
-            return '';
+            return null;
         }
 
         if ($model->vendor_name) {
@@ -1179,10 +1179,10 @@ class Utils
 
     public static function getEntityRowClass($model)
     {
-        $str = '';
+        $str = null;
 
         if (property_exists($model, 'is_deleted')) {
-            $str = $model->is_deleted ? 'DISABLED ' : '';
+            $str = $model->is_deleted ? 'DISABLED ' : null;
 
             if ($model->is_deleted) {
                 $str .= 'ENTITY_DELETED ';
@@ -1239,7 +1239,7 @@ class Utils
         }
 
         $parts = parse_url($url);
-        $subdomain = '';
+        $subdomain = null;
 
         if (isset($parts['host']) || isset($parts['path'])) {
             if (isset($parts['host'])) {
@@ -1263,7 +1263,7 @@ class Utils
     public static function getDomainPlaceholder()
     {
         $parts = parse_url(SITE_URL);
-        $domain = '';
+        $domain = null;
         if (isset($parts['host'])) {
             $host = explode('.', $parts['host']);
             if (count($host) > 2) {
@@ -1461,7 +1461,7 @@ class Utils
 
     public static function getDocsUrl($path)
     {
-        $page = '';
+        $page = null;
         $parts = explode('/', $path);
         $first = count($parts) ? $parts[0] : false;
         $second = count($parts) > 1 ? $parts[1] : false;
@@ -1490,7 +1490,7 @@ class Utils
             $page = '/expenses.html#expense-categories';
         } elseif ($first == 'settings') {
             if ($second == 'bank_accounts') {
-                $page = ''; // TODO write docs
+                $page = null; // TODO write docs
             } elseif (in_array($second, \App\Models\Account::$basicSettings)) {
                 if ($second == 'products') {
                     $second = 'product_library';
