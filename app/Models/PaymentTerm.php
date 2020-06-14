@@ -31,7 +31,7 @@ class PaymentTerm extends EntityModel
     {
         $terms = PaymentTerm::whereAccountId(0)->get();
 
-        foreach (PaymentTerm::scope()->get() as $term) {
+        foreach (PaymentTerm::Scope()->get() as $term) {
             $terms->push($term);
         }
 

@@ -41,7 +41,7 @@ class Status extends EntityModel
 
     public static function findStatusByKey($key)
     {
-        return self::scope()->where('name', '=', $key)->first();
+        return self::Scope()->where('name', '=', $key)->first();
     }
 
     public function account()

@@ -8,6 +8,7 @@ use App\Models\Location;
 use App\Models\Store;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Log;
 
 class StoreRepository extends BaseRepository
 {
@@ -25,7 +26,7 @@ class StoreRepository extends BaseRepository
 
     public function all()
     {
-        return Store::scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return Store::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
     public function find($accountId = false, $filter = null)
@@ -83,7 +84,7 @@ class StoreRepository extends BaseRepository
             $store->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $store = Store::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in store repo save');
+            Log::warning('Entity not set in store repo save');
         } else {
             $store = Store::createNew();
             $store->created_by = Auth::user()->username;
@@ -112,7 +113,7 @@ class StoreRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $storeId = 0;
-        $stores = Store::scope()->get();
+        $stores = Store::Scope()->get();
         if (!empty($stores)) {
             foreach ($stores as $store) {
                 if (!$store->name) {

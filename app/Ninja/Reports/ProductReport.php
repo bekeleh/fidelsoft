@@ -2,9 +2,9 @@
 
 namespace App\Ninja\Reports;
 
+use App\Libraries\Utils;
 use App\Models\Client;
 use Illuminate\Support\Facades\Auth;
-use App\Libraries\Utils;
 
 class ProductReport extends AbstractReport
 {
@@ -47,7 +47,7 @@ class ProductReport extends AbstractReport
         $statusIds = $this->options['status_ids'];
         $subgroup = $this->options['subgroup'];
 
-        $clients = Client::scope()
+        $clients = Client::Scope()
             ->orderBy('name')
             ->withArchived()
             ->with('contacts', 'user')

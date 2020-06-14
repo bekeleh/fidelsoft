@@ -9,6 +9,7 @@ use App\Models\Store;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Log;
 
 class UserRepository extends BaseRepository
 {
@@ -31,7 +32,7 @@ class UserRepository extends BaseRepository
 
     public function all()
     {
-        return User::scope()->with('contacts', 'country')
+        return User::Scope()->with('contacts', 'country')
             ->withTrashed()
             ->where('is_deleted', '=', false)
             ->get();
@@ -118,7 +119,7 @@ class UserRepository extends BaseRepository
             $user->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $user = User::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in user repo save');
+            Log::warning('Entity not set in user repo save');
         } else {
             $user = User::createNew();
             $lastUser = User::withTrashed()

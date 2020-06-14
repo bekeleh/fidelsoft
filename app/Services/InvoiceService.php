@@ -3,16 +3,15 @@
 namespace App\Services;
 
 use App\Events\QuoteInvitationWasApproved;
+use App\Jobs\DownloadInvoices;
+use App\Libraries\Utils;
 use App\Models\Client;
 use App\Models\Invitation;
 use App\Models\Invoice;
-use App\Models\Product;
 use App\Ninja\Datatables\InvoiceDatatable;
 use App\Ninja\Repositories\ClientRepository;
 use App\Ninja\Repositories\InvoiceRepository;
-use App\Jobs\DownloadInvoices;
 use Illuminate\Support\Facades\Auth;
-use App\Libraries\Utils;
 
 class InvoiceService extends BaseService
 {
@@ -55,10 +54,6 @@ class InvoiceService extends BaseService
 
     public function save(array $data, Invoice $invoice = null)
     {
-//       adjust inventory
-//        if (!empty($data['invoice_items'])) {
-//            $this->inventoryAdjustment($data['invoice_items']);
-//        }
         if (!empty($data['client'])) {
             $canSaveClient = false;
             $canViewClient = false;
@@ -79,26 +74,6 @@ class InvoiceService extends BaseService
         }
 
         return $this->invoiceRepo->save($data, $invoice);
-    }
-
-// stock adjustment
-    public function inventoryAdjustment($items_data)
-    {
-        foreach ($items_data as $item_data) {
-            if (!empty($item_data['qty'])) {
-                if ((int)$item_data['qty'] > 0) {
-                    $product = Product::scope($item_data['name'])->first();
-                    if ($product) {
-                        $qty = (int)$product->qty - (int)$item_data['qty'];
-                        if ($qty > 0) {
-                            $product->qty = (int)$product->qty - (int)$item_data['qty'];
-                            $product->updated_by = auth::user()->username;
-                            $product->save();
-                        }
-                    }
-                }
-            }
-        }
     }
 
     public function convertQuote($quote)

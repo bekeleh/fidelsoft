@@ -42,7 +42,7 @@ class ScheduleCategoryApiController extends BaseAPIController
      */
     public function index()
     {
-        $clients = ScheduleCategory::scope()
+        $clients = ScheduleCategory::Scope()
             ->orderBy('created_at', 'desc')
             ->withTrashed();
 

@@ -44,7 +44,7 @@ class ItemStore extends EntityModel
 
     public static function findProductByKey($key)
     {
-        return self::scope()->where('bin', '=', $key)->first();
+        return self::Scope()->where('bin', '=', $key)->first();
     }
 
     public function account()

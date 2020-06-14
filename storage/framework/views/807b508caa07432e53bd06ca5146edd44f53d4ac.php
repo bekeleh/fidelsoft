@@ -14,51 +14,36 @@ echo Former::open(EntityModel::getFormUrl($entityType) . '/bulk')->addClass('lis
 </div>
 <div class="row">
     <div class="pull-left">
-        <?php if (in_array($entityType, [ENTITY_TASK, ENTITY_EXPENSE, ENTITY_PRODUCT, ENTITY_PROJECT])): ?>
-            <?php if (Auth::user()->can('create', $entityType)): ?>
-                <?php echo Button::primary(trans('texts.invoice'))->withAttributes(['class' => 'invoice', 'onclick' => 'submitForm_' . $entityType . '("invoice")'])->appendIcon(Icon::create('check')); ?>
+        <?php if(in_array($entityType, [ENTITY_TASK, ENTITY_EXPENSE, ENTITY_PRODUCT, ENTITY_PROJECT])): ?>
+            <?php if(Auth::user()->can('create', $entityType)): ?>
+                <?php echo Button::primary(trans('texts.invoice'))->withAttributes(['class'=>'invoice', 'onclick' =>'submitForm_'.$entityType.'("invoice")'])->appendIcon(Icon::create('check')); ?>
 
             <?php endif; ?>
         <?php endif; ?>
 
         <?php echo DropdownButton::normal(trans('texts.archive'))
-            ->withContents($datatable->bulkActions())
-            ->withAttributes(['class' => 'archive'])
-            ->split(); ?>
+        ->withContents($datatable->bulkActions())
+        ->withAttributes(['class'=>'archive'])
+        ->split(); ?>
 
         <span id="statusWrapper_<?php echo e($entityType); ?>" style="display:none">
     <select class="form-control" style="width: 220px" id="statuses_<?php echo e($entityType); ?>" multiple="true">
-    <?php if (count(EntityModel::getStatusesFor($entityType))): ?>
-        <optgroup label="<?php echo e(trans('texts.entity_state')); ?>">
-    <?php $__currentLoopData = EntityModel::getStatesFor($entityType);
-    $__env->addLoop($__currentLoopData);
-    foreach ($__currentLoopData as $key => $value): $__env->incrementLoopIndices();
-        $loop = $__env->getLastLoop(); ?>
-        <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
-    <?php endforeach;
-    $__env->popLoop();
-    $loop = $__env->getLastLoop(); ?>
+    <?php if(count(EntityModel::getStatusesFor($entityType))): ?>
+            <optgroup label="<?php echo e(trans('texts.entity_state')); ?>">
+    <?php $__currentLoopData = EntityModel::getStatesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </optgroup>
-        <optgroup label="<?php echo e(trans('texts.status')); ?>">
-    <?php $__currentLoopData = EntityModel::getStatusesFor($entityType);
-    $__env->addLoop($__currentLoopData);
-    foreach ($__currentLoopData as $key => $value): $__env->incrementLoopIndices();
-        $loop = $__env->getLastLoop(); ?>
-        <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
-    <?php endforeach;
-    $__env->popLoop();
-    $loop = $__env->getLastLoop(); ?>
+            <optgroup label="<?php echo e(trans('texts.status')); ?>">
+    <?php $__currentLoopData = EntityModel::getStatusesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </optgroup>
-    <?php else: ?>
-        <?php $__currentLoopData = EntityModel::getStatesFor($entityType);
-        $__env->addLoop($__currentLoopData);
-        foreach ($__currentLoopData as $key => $value): $__env->incrementLoopIndices();
-            $loop = $__env->getLastLoop(); ?>
-            <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
-        <?php endforeach;
-        $__env->popLoop();
-        $loop = $__env->getLastLoop(); ?>
-    <?php endif; ?>
+        <?php else: ?>
+            <?php $__currentLoopData = EntityModel::getStatesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        <?php endif; ?>
     </select>
     </span>
     </div>
@@ -68,34 +53,34 @@ echo Former::open(EntityModel::getFormUrl($entityType) . '/bulk')->addClass('lis
                class="form-control pull-left" placeholder="<?php echo e(trans('texts.filter')); ?>"
                value="<?php echo e(Input::get('filter')); ?>"/>
         <!-- create records -->
-        <?php if (Auth::user()->can('create', $entityType) || Utils::isAdmin()): ?>
+        <?php if(Auth::user()->can('create', $entityType) || Utils::isAdmin()): ?>
             <?php echo Button::primary(mtrans($entityType, "new_{$entityType}"))
-                ->asLinkTo(url(
-                    (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_TEMPLATE]) ? str_replace('_', 's/', Utils::pluralizeEntityType($entityType)) : Utils::pluralizeEntityType($entityType)) .
-                    '/create/' . (isset($clientId) ? ($clientId . (isset($projectId) ? '/' . $projectId : '')) : '')
-                ))
-                ->appendIcon(Icon::create('plus-sign')); ?>
+            ->asLinkTo(url(
+            (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_TEMPLATE]) ? str_replace('_', 's/', Utils::pluralizeEntityType($entityType)) : Utils::pluralizeEntityType($entityType)) .
+            '/create/' . (isset($clientId) ? ($clientId . (isset($projectId) ? '/' . $projectId : '')) : '')
+            ))
+            ->appendIcon(Icon::create('plus-sign')); ?>
 
         <?php endif; ?>
 
-        <?php echo $__env->make('menu', ['entityType', $entityType], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        <?php echo $__env->make('menu',['entityType', $entityType], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
     </div>
 </div>
 <div class="row">
-    <?php if (Auth::check() || Utils::isAdmin() || Auth::user()->can('view', $entityType)): ?>
+    <?php if( Auth::check() || Utils::isAdmin() || Auth::user()->can('view', $entityType)): ?>
         <?php echo Datatable::table()
-            ->addColumn(Utils::trans($datatable->columnFields(), $datatable->entityType))
-            ->setUrl(empty($url) ? url('api/' . Utils::pluralizeEntityType($entityType)) : $url)
-            ->setCustomValues('entityType', Utils::pluralizeEntityType($entityType))
-            ->setCustomValues('clientId', isset($clientId) && $clientId && empty($projectId))
-            ->setOptions('sPaginationType', 'bootstrap')
-            ->setOptions('aaSorting', [[isset($clientId) ? ($datatable->sortCol - 1) : $datatable->sortCol, 'desc']])
-            ->render('datatable'); ?>
+        ->addColumn(Utils::trans($datatable->columnFields(), $datatable->entityType))
+        ->setUrl(empty($url) ? url('api/' . Utils::pluralizeEntityType($entityType)) : $url)
+        ->setCustomValues('entityType', Utils::pluralizeEntityType($entityType))
+        ->setCustomValues('clientId', isset($clientId) && $clientId && empty($projectId))
+        ->setOptions('sPaginationType', 'bootstrap')
+        ->setOptions('aaSorting', [[isset($clientId) ? ($datatable->sortCol-1) : $datatable->sortCol, 'desc']])
+        ->render('datatable'); ?>
 
     <?php endif; ?>
 </div>
 
-<?php if ($entityType == ENTITY_PAYMENT): ?>
+<?php if($entityType == ENTITY_PAYMENT): ?>
     <?php echo $__env->make('partials/refund_payment', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php endif; ?>
 
@@ -115,7 +100,6 @@ echo Former::open(EntityModel::getFormUrl($entityType) . '/bulk')->addClass('lis
     .listForm_<?php echo e($entityType); ?> table.dataTable td:nth-child(<?php echo e($index); ?>) {
         text-align: center;
     }
-
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 </style>
 

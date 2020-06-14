@@ -5,8 +5,9 @@ namespace App\Ninja\Repositories;
 use App\Events\SaleTypeWasCreated;
 use App\Events\SaleTypeWasUpdated;
 use App\Models\SaleType;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Log;
 
 class SaleTypeRepository extends BaseRepository
 {
@@ -24,7 +25,7 @@ class SaleTypeRepository extends BaseRepository
 
     public function all()
     {
-        return SaleType::scope()
+        return SaleType::Scope()
             ->withTrashed()
             ->where('is_deleted', '=', false)
             ->get();
@@ -33,8 +34,8 @@ class SaleTypeRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('sale_types')
-            ->join('accounts', 'accounts.id', '=', 'sale_types.account_id')
-            ->join('users', 'users.id', '=', 'sale_types.user_id')
+            ->leftJoin('accounts', 'accounts.id', '=', 'sale_types.account_id')
+            ->leftJoin('users', 'users.id', '=', 'sale_types.user_id')
             ->where('sale_types.account_id', '=', $accountId)
             //->where('sale_types.deleted_at', '=', null)
             ->select(
@@ -71,7 +72,7 @@ class SaleTypeRepository extends BaseRepository
             $saleType->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $saleType = SaleType::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in sales_type repo save');
+            Log::warning('Entity not set in sales_type repo save');
         } else {
             $saleType = SaleType::createNew();
             $saleType->created_by = Auth::user()->username;
@@ -80,12 +81,13 @@ class SaleTypeRepository extends BaseRepository
         $saleType->fill($data);
         $saleType->name = isset($data['name']) ? trim($data['name']) : '';
         $saleType->notes = isset($data['notes']) ? trim($data['notes']) : '';
+
         $saleType->save();
 
         if ($publicId) {
-            event(new SaleTypeWasUpdated($saleType, $data));
+            event(new SaleTypeWasUpdated($saleType));
         } else {
-            event(new SaleTypeWasCreated($saleType, $data));
+            event(new SaleTypeWasCreated($saleType));
         }
 
         return $saleType;
@@ -99,7 +101,7 @@ class SaleTypeRepository extends BaseRepository
         $max = SIMILAR_MIN_THRESHOLD;
         $saleTypeId = 0;
 
-        $saleTypes = SaleType::scope()->get();
+        $saleTypes = SaleType::Scope()->get();
 
         foreach ($saleTypes as $saleType) {
             if (!$saleType->name) {

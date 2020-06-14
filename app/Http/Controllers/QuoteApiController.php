@@ -29,7 +29,7 @@ class QuoteApiController extends InvoiceApiController
      */
     public function index()
     {
-        $invoices = Invoice::scope()
+        $invoices = Invoice::Scope()
             ->withTrashed()
             ->quotes()
             ->with('invoice_items', 'client')

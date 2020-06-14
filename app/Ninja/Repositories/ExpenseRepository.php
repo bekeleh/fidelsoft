@@ -2,13 +2,14 @@
 
 namespace App\Ninja\Repositories;
 
+use App\Libraries\Utils;
+use App\Models\Client;
 use App\Models\Document;
 use App\Models\Expense;
 use App\Models\Vendor;
-use App\Models\Client;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Libraries\Utils;
+use Log;
 
 class ExpenseRepository extends BaseRepository
 {
@@ -28,7 +29,7 @@ class ExpenseRepository extends BaseRepository
 
     public function all()
     {
-        return Expense::scope()->with('user')->withTrashed()->where('is_deleted', '=', false)->get();
+        return Expense::Scope()->with('user')->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
     public function findVendor($vendorPublicId)
@@ -150,7 +151,7 @@ class ExpenseRepository extends BaseRepository
                 $query->where('expenses.public_notes', 'like', '%' . $filter . '%')
                     ->orWhere('clients.name', 'like', '%' . $filter . '%')
                     ->orWhere('vendors.name', 'like', '%' . $filter . '%')
-                    ->orWhere('expense_categories.name', 'like', '%' . $filter . '%');;
+                    ->orWhere('expense_categories.name', 'like', '%' . $filter . '%');
             });
         }
 
@@ -168,7 +169,7 @@ class ExpenseRepository extends BaseRepository
         } elseif ($publicId) {
             $expense = Expense::scope($publicId)->firstOrFail();
             if (Utils::isNinjaDev()) {
-                \Log::warning('Entity not set in expense repo save');
+                Log::warning('Entity not set in expense repo save');
             }
         } else {
             $expense = Expense::createNew();

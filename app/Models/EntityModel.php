@@ -92,11 +92,11 @@ class EntityModel extends Eloquent
         if ($related != '') {
             if (is_array($related)) {
                 foreach ($related as $relatedName) {
-                    $query = $className::scope()->withActiveOrSelected(false)->with($relatedName)->orderBy('name')->get();
+                    $query = $className::Scope()->withActiveOrSelected(false)->with($relatedName)->orderBy('name')->get();
                     $query = self::getNameWithCategory($query, $relatedName);
                 }
             } else {
-                $query = $className::scope()->withActiveOrSelected(false)->with($related)->orderBy('name')->get();
+                $query = $className::Scope()->withActiveOrSelected(false)->with($related)->orderBy('name')->get();
 
                 $query = self::getNameWithCategory($query, $related);
             }

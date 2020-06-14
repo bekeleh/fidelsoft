@@ -6,7 +6,7 @@ namespace App\Ninja\Repositories;
 use App\Models\ItemCategory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
+use Log;
 
 class ItemCategoryRepository extends BaseRepository
 {
@@ -24,7 +24,7 @@ class ItemCategoryRepository extends BaseRepository
 
     public function all()
     {
-        return ItemCategory::scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return ItemCategory::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
 
@@ -69,7 +69,7 @@ class ItemCategoryRepository extends BaseRepository
             $itemCategory->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $itemCategory = ItemCategory::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in item category repo save');
+            Log::warning('Entity not set in item category repo save');
         } else {
             $itemCategory = ItemCategory::createNew();
             $itemCategory->created_by = Auth::user()->username;
@@ -87,7 +87,7 @@ class ItemCategoryRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $itemCategoryId = 0;
-        $itemCategories = ItemCategory::scope()->get();
+        $itemCategories = ItemCategory::Scope()->get();
         if (!empty($itemCategories)) {
             foreach ($itemCategories as $itemCategory) {
                 if (!$itemCategory->name) {

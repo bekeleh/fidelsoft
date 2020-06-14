@@ -48,7 +48,7 @@ class ItemTransferApiController extends BaseAPIController
      */
     public function index()
     {
-        $itemTransfers = ItemTransfer::scope()->withTrashed()->orderBy('created_at', 'desc');
+        $itemTransfers = ItemTransfer::Scope()->withTrashed()->orderBy('created_at', 'desc');
 
         return $this->listResponse($itemTransfers);
     }

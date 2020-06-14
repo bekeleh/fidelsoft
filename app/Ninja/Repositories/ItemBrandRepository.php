@@ -6,7 +6,7 @@ use App\Models\ItemBrand;
 use App\Models\ItemCategory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
+use Log;
 
 class ItemBrandRepository extends BaseRepository
 {
@@ -24,7 +24,7 @@ class ItemBrandRepository extends BaseRepository
 
     public function all()
     {
-        return ItemBrand::scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return ItemBrand::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
 
@@ -81,7 +81,7 @@ class ItemBrandRepository extends BaseRepository
             $itemBrand->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $itemBrand = ItemBrand::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in item brand repo save');
+            Log::warning('Entity not set in item brand repo save');
         } else {
             $itemBrand = ItemBrand::createNew();
             $itemBrand->created_by = Auth::user()->username;
@@ -100,7 +100,7 @@ class ItemBrandRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $itemBrandId = 0;
-        $itemBrands = ItemBrand::scope()->get();
+        $itemBrands = ItemBrand::Scope()->get();
         if (!empty($itemBrands)) {
             foreach ($itemBrands as $itemBrand) {
                 if (!$itemBrand->name) {

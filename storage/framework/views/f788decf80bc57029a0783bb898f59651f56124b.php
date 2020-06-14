@@ -3,14 +3,13 @@
 <head>
     <meta charset="utf-8">
 
-    <?php if (!auth()->check()): ?>
+    <?php if(!auth()->check()): ?>
         <title><?php echo e(trans('texts.client_portal')); ?></title>
         <link href="<?php echo e(asset('logo.png')); ?>" rel="shortcut icon" type="image/png">
     <?php else: ?>
-
+        
         <title><?php echo e(isset($title) ? ($title) : (trans('texts.team_source'))); ?></title>
-        <meta name="description"
-              content="<?php echo e(isset($description) ? $description : trans('texts.app_description')); ?>"/>
+        <meta name="description" content="<?php echo e(isset($description) ? $description : trans('texts.app_description')); ?>"/>
         <link href="<?php echo e(asset('logo.gif')); ?>" rel="shortcut icon" type="image/gif">
         <meta property="og:site_name" content="Fidel ERP"/>
         <meta property="og:url" content="<?php echo e(SITE_URL); ?>"/>
@@ -40,8 +39,7 @@
 
     <?php echo $__env->yieldContent('head_css'); ?>
 
-    <script src="<?php echo e(asset('built.js')); ?>?no_cache=<?php echo e(NINJA_VERSION); ?>"
-            type="text/javascript"></script>
+    <script src="<?php echo e(asset('built.js')); ?>?no_cache=<?php echo e(NINJA_VERSION); ?>" type="text/javascript"></script>
 
     <script type="text/javascript">
         var NINJA = NINJA || {};
@@ -204,10 +202,10 @@
         }
 
         <?php endif; ?>
-        window._fbq = window._fbq || [];
+            window._fbq = window._fbq || [];
     </script>
 
-    <?php if (!request()->borderless): ?>
+    <?php if(! request()->borderless): ?>
         <link rel="stylesheet" type="text/css" href="<?php echo e(asset('css/cookieconsent.min.css')); ?>"/>
         <script src="<?php echo e(asset('js/cookieconsent.min.js')); ?>"></script>
         <script>
@@ -236,7 +234,7 @@
         </script>
     <?php endif; ?>
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
@@ -246,12 +244,12 @@
 
 </head>
 <body class="body">
-<?php if (request()->phantomjs): ?>
+<?php if(request()->phantomjs): ?>
     <script>
         function trackEvent(category, action) {
         }
     </script>
-<?php elseif (Utils::isNinjaProd() && isset($_ENV['ANALYTICS_KEY']) && $_ENV['ANALYTICS_KEY']): ?>
+<?php elseif(Utils::isNinjaProd() && isset($_ENV['ANALYTICS_KEY']) && $_ENV['ANALYTICS_KEY']): ?>
     <script>
         (function (i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r;

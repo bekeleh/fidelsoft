@@ -12,8 +12,11 @@ use App\Ninja\Datatables\BankAccountDatatable;
 use App\Ninja\Repositories\BankAccountRepository;
 use App\Ninja\Repositories\ExpenseRepository;
 use App\Ninja\Repositories\VendorRepository;
+use Auth;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Support\Facades\Hash;
+use OfxParser\Parser;
 use stdClass;
 
 /**
@@ -42,7 +45,7 @@ class BankAccountService extends BaseService
 
     private function getExpenses($bankId = null)
     {
-        $expenses = Expense::scope()
+        $expenses = Expense::Scope()
             ->bankId($bankId)
             ->where('transaction_id', '!=', '')
             ->where('expense_date', '>=', Carbon::now()->subYear()->format('Y-m-d'))
@@ -65,7 +68,7 @@ class BankAccountService extends BaseService
         $bankId = $bankAccount->bank_id;
         $expenses = $this->getExpenses();
         $vendorMap = $this->createVendorMap();
-        $bankAccounts = BankSubaccount::scope()
+        $bankAccounts = BankSubaccount::Scope()
             ->whereHas('bank_account', function ($query) use ($bankId) {
                 $query->where('bank_id', '=', $bankId);
             })
@@ -99,7 +102,7 @@ class BankAccountService extends BaseService
             }
 
             return $data;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Utils::logError($e);
             return false;
         }
@@ -136,7 +139,7 @@ class BankAccountService extends BaseService
 
     private function parseTransactions($account, $data, $expenses, $vendorMap)
     {
-        $ofxParser = new \OfxParser\Parser();
+        $ofxParser = new Parser();
         $ofx = $ofxParser->loadFromString($data);
 
         $bankAccount = reset($ofx->bankAccounts);
@@ -161,7 +164,7 @@ class BankAccountService extends BaseService
             $transaction->vendor = $vendor ? $vendor->name : $this->prepareValue($vendorName);
             $transaction->info = $this->prepareValue(substr($transaction->name, 20));
             $transaction->memo = $this->prepareValue($transaction->memo);
-            $transaction->date = \Auth::user()->account->formatDate($transaction->date);
+            $transaction->date = Auth::user()->account->formatDate($transaction->date);
             $transaction->amount *= -1;
             $account->transactions[] = $transaction;
         }
@@ -186,7 +189,7 @@ class BankAccountService extends BaseService
     private function createVendorMap()
     {
         $vendorMap = [];
-        $vendors = Vendor::scope()
+        $vendors = Vendor::Scope()
             ->withTrashed()
             ->get(['id', 'name', 'transaction_name']);
         foreach ($vendors as $vendor) {

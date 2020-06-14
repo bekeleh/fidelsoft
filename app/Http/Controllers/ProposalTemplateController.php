@@ -57,7 +57,7 @@ class ProposalTemplateController extends BaseController
 
     private function getViewmodel()
     {
-        $customTemplates = ProposalTemplate::scope()->orderBy('name')->get();
+        $customTemplates = ProposalTemplate::Scope()->orderBy('name')->get();
         $defaultTemplates = ProposalTemplate::whereNull('account_id')->orderBy('public_id')->get();
 
         $options = [];

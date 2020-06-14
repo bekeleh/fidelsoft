@@ -213,7 +213,7 @@ trait GeneratesNumbers
 
     public function previewNextInvoiceNumber($entityType = ENTITY_INVOICE)
     {
-        $client = \App\Models\Client::scope()->first();
+        $client = Client::Scope()->first();
 
         $invoice = $this->createInvoice($entityType, $client ? $client->id : 0);
 

@@ -22,7 +22,7 @@ class PermissionGroupRepository extends BaseRepository
 
     public function all()
     {
-        return PermissionGroup::scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return PermissionGroup::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
     public function find($accountId = false, $filter = null)
@@ -87,7 +87,7 @@ class PermissionGroupRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $permissionGroupId = 0;
-        $permissionGroups = PermissionGroup::scope()->get();
+        $permissionGroups = PermissionGroup::Scope()->get();
         if (!empty($permissionGroups)) {
             foreach ($permissionGroups as $permissionGroup) {
                 if (!$permissionGroup->name) {

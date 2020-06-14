@@ -135,7 +135,7 @@ class ItemPriceController extends BaseController
         }
 
         if ($action == 'clone') {
-            return redirect()->to(sprintf('item_prices/%s/clone', $itemPrice->public_id))->with('success', trans('texts.clone_item_price'));;
+            return redirect()->to(sprintf('item_prices/%s/clone', $itemPrice->public_id))->with('success', trans('texts.clone_item_price'));
         } else {
             return redirect()->to("item_prices/{$itemPrice->public_id}/edit")->with('success', trans('texts.updated_item_price'));
         }
@@ -164,7 +164,7 @@ class ItemPriceController extends BaseController
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
             'products' => Product::withCategory('itemBrand.itemCategory'),
-            'saleTypes' => SaleType::scope()->withActiveOrSelected($itemPrice ? $itemPrice->sale_type_id : false)->orderBy('name')->get(),
+            'saleTypes' => SaleType::Scope()->withActiveOrSelected($itemPrice ? $itemPrice->sale_type_id : false)->orderBy('name')->get(),
         ];
     }
 

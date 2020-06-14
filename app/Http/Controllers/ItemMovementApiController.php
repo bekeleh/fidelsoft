@@ -52,7 +52,7 @@ class ItemMovementApiController extends BaseAPIController
      */
     public function index()
     {
-        $itemMovements = ItemMovement::scope()->withTrashed()->orderBy('created_at', 'desc');
+        $itemMovements = ItemMovement::Scope()->withTrashed()->orderBy('created_at', 'desc');
 
         return $this->listResponse($itemMovements);
     }

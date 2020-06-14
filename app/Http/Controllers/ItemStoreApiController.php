@@ -3,13 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ItemStoreRequest;
-use App\Libraries\Utils;
 use App\Models\ItemStore;
-use App\Models\Store;
 use App\Ninja\Repositories\ItemStoreRepository;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Auth;
 
 /**
  * Class StoreApiController.
@@ -53,7 +48,7 @@ class ItemStoreApiController extends BaseAPIController
      */
     public function index()
     {
-        $itemStores = ItemStore::scope()->withTrashed()->orderBy('created_at', 'desc');
+        $itemStores = ItemStore::Scope()->withTrashed()->orderBy('created_at', 'desc');
 
         return $this->listResponse($itemStores);
     }

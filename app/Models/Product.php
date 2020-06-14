@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Laracasts\Presenter\PresentableTrait;
 
@@ -70,7 +69,7 @@ class Product extends EntityModel
 
     public static function findProductByKey($key)
     {
-        return self::scope()->where('name', '=', $key)->first();
+        return self::Scope()->where('name', '=', $key)->first();
     }
 
     public function account()

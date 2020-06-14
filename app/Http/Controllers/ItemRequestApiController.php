@@ -48,7 +48,7 @@ class ItemRequestApiController extends BaseAPIController
      */
     public function index()
     {
-        $itemRequests = ItemRequest::scope()->withTrashed()->orderBy('created_at', 'desc');
+        $itemRequests = ItemRequest::Scope()->withTrashed()->orderBy('created_at', 'desc');
 
         return $this->listResponse($itemRequests);
     }

@@ -52,7 +52,7 @@ class LocationApiController extends BaseAPIController
      */
     public function index()
     {
-        $locations = Location::scope()->withTrashed()->orderBy('created_at', 'desc');
+        $locations = Location::Scope()->withTrashed()->orderBy('created_at', 'desc');
 
         return $this->listResponse($locations);
     }

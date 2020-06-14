@@ -21,11 +21,11 @@ class ActivityReport extends AbstractReport
     {
         $account = Auth::user()->account;
 
-        $startDate = $this->startDate;;
+        $startDate = $this->startDate;
         $endDate = $this->endDate;
         $subgroup = $this->options['subgroup'];
 
-        $activities = Activity::scope()
+        $activities = Activity::Scope()
             ->with('client.contacts', 'user', 'invoice', 'payment', 'credit', 'task', 'expense', 'account')
             ->whereRaw("DATE(created_at) >= \"{$startDate}\" and DATE(created_at) <= \"$endDate\"")
             ->orderBy('id', 'desc');

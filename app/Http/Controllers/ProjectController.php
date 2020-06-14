@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\GenerateProjectChartData;
 use App\Http\Requests\CreateProjectRequest;
 use App\Http\Requests\ProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Jobs\GenerateProjectChartData;
 use App\Models\Client;
 use App\Models\Project;
 use App\Ninja\Datatables\ProjectDatatable;
@@ -71,7 +71,7 @@ class ProjectController extends BaseController
             'method' => 'POST',
             'url' => 'projects',
             'title' => trans('texts.new_project'),
-            'clients' => Client::scope()->with('contacts')->orderBy('name')->get(),
+            'clients' => Client::Scope()->with('contacts')->orderBy('name')->get(),
             'clientPublicId' => $request->client_id,
         ];
 
@@ -88,7 +88,7 @@ class ProjectController extends BaseController
             'method' => 'PUT',
             'url' => 'projects/' . $project->public_id,
             'title' => trans('texts.edit_project'),
-            'clients' => Client::scope()->with('contacts')->orderBy('name')->get(),
+            'clients' => Client::Scope()->with('contacts')->orderBy('name')->get(),
             'clientPublicId' => $project->client ? $project->client->public_id : null,
         ];
 

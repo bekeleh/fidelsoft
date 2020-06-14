@@ -36,7 +36,7 @@
             <div class="container" style="width: 100%; padding-bottom: 0px !important">
                 <div class="panel panel-default">
                     <div class="panel-body help-panel">
-                        <?php if (env('SPEECH_ENABLED')): ?>
+                        <?php if(env('SPEECH_ENABLED')): ?>
                             <div role="tabpanel">
                                 <ul class="nav nav-tabs" role="tablist" style="border: none">
                                     <li role="presentation" class="active">
@@ -157,8 +157,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default"
-                        data-dismiss="modal"><?php echo e(trans('texts.close')); ?></button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo e(trans('texts.close')); ?></button>
                 <a class="btn btn-primary" href="#"
                    target="_blank"><?php echo e(trans('texts.knowledge_base')); ?></a>
                 <a class="btn btn-primary" href="#"
@@ -229,15 +228,15 @@
         <?php endif; ?>
 
         <?php $__currentLoopData = [
-        'i' => ENTITY_INVOICE,
-        'p' => ENTITY_PAYMENT,
-        'e' => ENTITY_EXPENSE,
-        't' => ENTITY_TASK,
-        'c' => ENTITY_CLIENT,
-        'q' => ENTITY_QUOTE,
-        'v' => ENTITY_VENDOR,
-        'r' => ENTITY_RECURRING_INVOICE,
-    ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            'i' => ENTITY_INVOICE,
+            'p' => ENTITY_PAYMENT,
+            'e' => ENTITY_EXPENSE,
+            't' => ENTITY_TASK,
+            'c' => ENTITY_CLIENT,
+            'q' => ENTITY_QUOTE,
+            'v' => ENTITY_VENDOR,
+            'r' => ENTITY_RECURRING_INVOICE,
+        ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         Mousetrap.bind('n <?php echo e($key); ?>', function (e) {
             var link = "<?php echo e(url($value . 's/create')); ?>";
             <?php if(in_array($value, [ENTITY_INVOICE, ENTITY_PAYMENT, ENTITY_TASK, ENTITY_VENDOR, ENTITY_RECURRING_INVOICE])): ?>
@@ -248,7 +247,7 @@
                 }
             }
             <?php endif; ?>
-            location.href = link;
+                location.href = link;
         });
         Mousetrap.bind('l <?php echo e($key); ?>', function (e) {
             location.href = "<?php echo e(url($value . 's')); ?>";
@@ -256,25 +255,25 @@
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
         <?php $__currentLoopData = [
-        'g c d' => 'company_details',
-        'g u d' => 'user_details',
-        'g l' => 'localization',
-        'g o p' => 'online_payments',
-        'g t x' => 'tax_rates',
-        'g p' => 'products',
-        'g n' => 'notifications',
-        'g i e' => 'import_export',
-        'g a m' => 'account_management',
-        'g i s' => 'invoice_settings',
-        'g i d' => 'invoice_design',
-        'g c p' => 'client_portal',
-        'g e' => 'email_settings',
-        'g t r' => 'templates_and_reminders',
-        'g c c' => 'bank_accounts',
-        'g v' => 'data_visualizations',
-        'g a t' => 'api_tokens',
-        'g u m' => 'user_management',
-    ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            'g c d' => 'company_details',
+            'g u d' => 'user_details',
+            'g l' => 'localization',
+            'g o p' => 'online_payments',
+            'g t x' => 'tax_rates',
+            'g p' => 'products',
+            'g n' => 'notifications',
+            'g i e' => 'import_export',
+            'g a m' => 'account_management',
+            'g i s' => 'invoice_settings',
+            'g i d' => 'invoice_design',
+            'g c p' => 'client_portal',
+            'g e' => 'email_settings',
+            'g t r' => 'templates_and_reminders',
+            'g c c' => 'bank_accounts',
+            'g v' => 'data_visualizations',
+            'g a t' => 'api_tokens',
+            'g u m' => 'user_management',
+        ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         Mousetrap.bind('<?php echo e($key); ?>', function (e) {
             location.href = "<?php echo e(url('/settings/' . $val)); ?>";
         });

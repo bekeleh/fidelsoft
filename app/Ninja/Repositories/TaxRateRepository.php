@@ -23,7 +23,7 @@ class TaxRateRepository extends BaseRepository
 
     public function all()
     {
-        return TaxRate::scope()->get();
+        return TaxRate::Scope()->get();
     }
 
     public function find($accountId = false, $filter = null)
@@ -111,7 +111,7 @@ class TaxRateRepository extends BaseRepository
             $taxRateIds[] = $taxRate->public_id;
         }
 
-        $taxRates = TaxRate::scope()->get();
+        $taxRates = TaxRate::Scope()->get();
 
         foreach ($taxRates as $taxRate) {
             if (!in_array($taxRate->public_id, $taxRateIds)) {

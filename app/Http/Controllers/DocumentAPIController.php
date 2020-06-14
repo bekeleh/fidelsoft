@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\DocumentRequest;
 use App\Http\Requests\CreateDocumentRequest;
+use App\Http\Requests\DocumentRequest;
 use App\Http\Requests\UpdateDocumentRequest;
 use App\Models\Document;
 use App\Ninja\Repositories\DocumentRepository;
+use Illuminate\Http\Response;
+use Redirect;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Class DocumentAPIController.
@@ -54,7 +57,7 @@ class DocumentAPIController extends BaseAPIController
      */
     public function index()
     {
-        $documents = Document::scope();
+        $documents = Document::Scope();
 
         return $this->listResponse($documents);
     }
@@ -62,7 +65,7 @@ class DocumentAPIController extends BaseAPIController
     /**
      * @param DocumentRequest $request
      *
-     * @return \Illuminate\Http\Response|\Redirect|\Symfony\Component\HttpFoundation\StreamedResponse
+     * @return Response|Redirect|StreamedResponse
      *
      * @SWG\Get(
      *   path="/documents/{document_id}",

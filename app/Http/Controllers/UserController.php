@@ -16,6 +16,7 @@ use App\Ninja\Mailers\UserMailer;
 use App\Ninja\Repositories\AccountRepository;
 use App\Ninja\Repositories\UserRepository;
 use App\Services\UserService;
+use DropdownButton;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Password;
@@ -196,7 +197,7 @@ class UserController extends BaseController
             }
 
             if (!empty($actionLinks)) {
-                $actionLinks[] = \DropdownButton::DIVIDER;
+                $actionLinks[] = DropdownButton::DIVIDER;
             }
             $data = [
                 'user' => $user,
@@ -206,8 +207,8 @@ class UserController extends BaseController
                 'actionLinks' => $actionLinks,
                 'showBreadcrumbs' => false,
                 'title' => trans('texts.view_user'),
-//                'hasPermissions' => $account->isModuleEnabled(ENTITY_PERMISSION_GROUP) && Permission::scope()->withArchived()->whereUserId($user->id)->count() > 0,
-//                'hasGroups' => $account->isModuleEnabled(ENTITY_PERMISSION_GROUP) && PermissionGroup::scope()->withArchived()->whereUserId($user->id)->count() > 0,
+//                'hasPermissions' => $account->isModuleEnabled(ENTITY_PERMISSION_GROUP) && Permission::Scope()->withArchived()->whereUserId($user->id)->count() > 0,
+//                'hasGroups' => $account->isModuleEnabled(ENTITY_PERMISSION_GROUP) && PermissionGroup::Scope()->withArchived()->whereUserId($user->id)->count() > 0,
 
             ];
 
@@ -429,9 +430,9 @@ class UserController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
-            'locations' => Location::scope()->withActiveOrSelected($user ? $user->location_id : false)->orderBy('name')->get(),
-            'branches' => Branch::scope()->withActiveOrSelected($user ? $user->branch_id : false)->orderBy('name')->get(),
-            'groups' => PermissionGroup::scope()->withActiveOrSelected(false)->orderBy('name')->pluck('name', 'id'),
+            'locations' => Location::Scope()->withActiveOrSelected($user ? $user->location_id : false)->orderBy('name')->get(),
+            'branches' => Branch::Scope()->withActiveOrSelected($user ? $user->branch_id : false)->orderBy('name')->get(),
+            'groups' => PermissionGroup::Scope()->withActiveOrSelected(false)->orderBy('name')->pluck('name', 'id'),
         ];
     }
 

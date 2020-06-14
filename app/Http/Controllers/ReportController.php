@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use App\Jobs\ExportReportResults;
 use App\Jobs\LoadPostmarkStats;
 use App\Jobs\RunReport;
+use App\Libraries\Utils;
 use App\Models\Account;
 use App\Models\ScheduledReport;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
-use App\Libraries\Utils;
-use Illuminate\Support\Facades\View;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
 
 
 /**
@@ -133,7 +133,7 @@ class ReportController extends BaseController
             $params['report'] = false;
         }
 
-        $params['scheduledReports'] = ScheduledReport::scope()->whereUserId(auth()->user()->id)->get();
+        $params['scheduledReports'] = ScheduledReport::Scope()->whereUserId(auth()->user()->id)->get();
 
         return View::make('reports.report_builder', $params);
     }
@@ -171,7 +171,7 @@ class ReportController extends BaseController
 
     private function cancelSchdule()
     {
-        ScheduledReport::scope()
+        ScheduledReport::Scope()
             ->whereUserId(auth()->user()->id)
             ->wherePublicId(request('scheduled_report_id'))
             ->delete();

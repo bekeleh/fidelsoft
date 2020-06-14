@@ -45,6 +45,7 @@ class Client extends EntityModel
         'industry_id',
         'currency_id',
         'language_id',
+        'client_type_id',
         'sale_type_id',
         'hold_reason_id',
         'payment_terms',
@@ -505,6 +506,18 @@ class Client extends EntityModel
                 return $invitation->invitation_key;
             }
         }
+    }
+
+    public function scopeHoldReason($query)
+    {
+        return $query->where('allow_invoice', '=', 1);
+    }
+
+    public function scopeHoldReasons($query)
+    {
+        return $query->whereHas('hold_reasons', function ($query) {
+            $query->where('allow_invoice', '=', 1);
+        });
     }
 }
 

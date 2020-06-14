@@ -10,6 +10,7 @@ use App\Models\ProposalInvitation;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Redirect;
 
 /**
  * Class Authenticate.
@@ -60,7 +61,7 @@ class Authenticate
                 Session::put('contact_key', $contact->contact_key);
             }
             if (!$contact) {
-                return \Redirect::to('client/login');
+                return Redirect::to('client/login');
             }
 
             $account = $contact->account;
@@ -107,6 +108,7 @@ class Authenticate
                 } else {
                     $url = '/login';
                 }
+
                 return redirect()->guest($url);
             }
         }

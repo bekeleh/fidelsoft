@@ -43,7 +43,7 @@ class TaskApiController extends BaseAPIController
      */
     public function index()
     {
-        $tasks = Task::scope()
+        $tasks = Task::Scope()
                         ->withTrashed()
                         ->with('client', 'invoice', 'project')
                         ->orderBy('updated_at', 'desc');

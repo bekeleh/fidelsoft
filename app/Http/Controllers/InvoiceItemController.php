@@ -83,7 +83,7 @@ class InvoiceItemController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
-            'products' => Product::scope()->withActiveOrSelected($invoiceItem ? $invoiceItem->product_id : false)->orderBy('name')->get(),
+            'products' => Product::Scope()->withActiveOrSelected($invoiceItem ? $invoiceItem->product_id : false)->orderBy('name')->get(),
         ];
     }
 

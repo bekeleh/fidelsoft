@@ -40,7 +40,7 @@ class CreditApiController extends BaseAPIController
      */
     public function index()
     {
-        $credits = Credit::scope()
+        $credits = Credit::Scope()
             ->withTrashed()
             ->with(['client'])
             ->orderBy('updated_at', 'desc');

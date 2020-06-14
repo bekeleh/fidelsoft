@@ -440,7 +440,7 @@ class AppController extends BaseController
 
     public function testHeadless()
     {
-        $invoice = Invoice::scope()->orderBy('id')->first();
+        $invoice = Invoice::Scope()->orderBy('id')->first();
 
         if (!$invoice) {
             dd('Please create an invoice to run this test');

@@ -61,7 +61,7 @@ class InvoiceItemApiController extends BaseAPIController
      */
     public function index()
     {
-        $invoices = InvoiceItem::scope()
+        $invoices = InvoiceItem::Scope()
             ->withTrashed()
             ->with('invoice_items', 'client')
             ->orderBy('updated_at', 'desc');

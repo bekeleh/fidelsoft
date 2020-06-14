@@ -52,7 +52,7 @@ class StatusApiController extends BaseAPIController
      */
     public function index()
     {
-        $Statuses = Status::scope()->withTrashed()->orderBy('created_at', 'desc');
+        $Statuses = Status::Scope()->withTrashed()->orderBy('created_at', 'desc');
 
         return $this->listResponse($Statuses);
     }

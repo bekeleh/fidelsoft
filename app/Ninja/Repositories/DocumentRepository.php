@@ -26,7 +26,7 @@ class DocumentRepository extends BaseRepository
 
     public function all()
     {
-        return Document::scope()
+        return Document::Scope()
             ->with('user')
             ->get();
     }

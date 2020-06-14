@@ -5,7 +5,7 @@ namespace App\Ninja\Repositories;
 use App\Models\Status;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
+use Log;
 
 class StatusRepository extends BaseRepository
 {
@@ -23,7 +23,7 @@ class StatusRepository extends BaseRepository
 
     public function all()
     {
-        return Status::scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return Status::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
     public function find($accountId = false, $filter = null)
@@ -67,7 +67,7 @@ class StatusRepository extends BaseRepository
             $Status->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $Status = Status::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in status repo save');
+            Log::warning('Entity not set in status repo save');
         } else {
             $Status = Status::createNew();
             $Status->created_by = Auth::user()->username;
@@ -87,7 +87,7 @@ class StatusRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $StatusId = 0;
-        $Statuses = Status::scope()->get();
+        $Statuses = Status::Scope()->get();
         if (!empty($Statuses)) {
             foreach ($Statuses as $Status) {
                 if (!$Status->name) {

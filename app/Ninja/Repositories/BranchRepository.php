@@ -7,6 +7,7 @@ use App\Models\Location;
 use App\Models\Store;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Log;
 
 class BranchRepository extends BaseRepository
 {
@@ -24,7 +25,7 @@ class BranchRepository extends BaseRepository
 
     public function all()
     {
-        return Branch::scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return Branch::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
     public function find($accountId = false, $filter = null)
@@ -92,7 +93,7 @@ class BranchRepository extends BaseRepository
             $branch->updated_by = auth::user()->username;
         } elseif ($publicId) {
             $branch = Branch::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in branch repo save');
+            Log::warning('Entity not set in branch repo save');
         } else {
             $branch = Branch::createNew();
             $branch->created_by = auth::user()->username;
@@ -114,7 +115,7 @@ class BranchRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $branchId = 0;
-        $branches = Branch::scope()->get();
+        $branches = Branch::Scope()->get();
         if (!empty($branches)) {
             foreach ($branches as $branch) {
                 if (!$branch->name) {

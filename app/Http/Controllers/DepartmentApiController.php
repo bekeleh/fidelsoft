@@ -40,7 +40,7 @@ class DepartmentApiController extends BaseAPIController
      */
     public function index()
     {
-        $departments = Department::scope()
+        $departments = Department::Scope()
             ->withTrashed()
             ->orderBy('updated_at', 'desc');
 

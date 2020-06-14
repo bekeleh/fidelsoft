@@ -3,9 +3,9 @@
 namespace App\Ninja\Reports;
 
 use App\Models\Client;
-use Illuminate\Support\Facades\Auth;
-use Barracuda\ArchiveStream\Archive;
 use App\Models\TaxRate;
+use Barracuda\ArchiveStream\Archive;
+use Illuminate\Support\Facades\Auth;
 
 class QuoteReport extends AbstractReport
 {
@@ -21,7 +21,7 @@ class QuoteReport extends AbstractReport
             'user' => ['columnSelector-false'],
         ];
 
-        if (TaxRate::scope()->count()) {
+        if (TaxRate::Scope()->count()) {
             $columns['tax'] = ['columnSelector-false'];
         }
 
@@ -42,10 +42,10 @@ class QuoteReport extends AbstractReport
         $account = Auth::user()->account;
         $statusIds = $this->options['status_ids'];
         $exportFormat = $this->options['export_format'];
-        $hasTaxRates = TaxRate::scope()->count();
+        $hasTaxRates = TaxRate::Scope()->count();
         $subgroup = $this->options['subgroup'];
 
-        $clients = Client::scope()
+        $clients = Client::Scope()
             ->orderBy('name')
             ->withArchived()
             ->with('contacts', 'user')

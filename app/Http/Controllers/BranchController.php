@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateBranchRequest;
 use App\Http\Requests\BranchRequest;
+use App\Http\Requests\CreateBranchRequest;
 use App\Http\Requests\UpdateBranchRequest;
 use App\Libraries\Utils;
 use App\Models\Branch;
@@ -192,8 +192,8 @@ class BranchController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
-            'stores' => Store::scope()->withActiveOrSelected($branch ? $branch->store_id : false)->orderBy('name')->get(),
-            'locations' => Location::scope()->withActiveOrSelected($branch ? $branch->location_id : false)->orderBy('name')->get(),
+            'stores' => Store::Scope()->withActiveOrSelected($branch ? $branch->store_id : false)->orderBy('name')->get(),
+            'locations' => Location::Scope()->withActiveOrSelected($branch ? $branch->location_id : false)->orderBy('name')->get(),
         ];
     }
 }

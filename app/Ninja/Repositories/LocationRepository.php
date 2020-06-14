@@ -7,6 +7,7 @@ use App\Events\LocationWasUpdated;
 use App\Models\Location;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Log;
 
 class LocationRepository extends BaseRepository
 {
@@ -24,7 +25,7 @@ class LocationRepository extends BaseRepository
 
     public function all()
     {
-        return Location::scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return Location::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
     public function find($accountId = false, $filter = null)
@@ -65,7 +66,7 @@ class LocationRepository extends BaseRepository
             $location->updated_by = auth::user()->username;
         } elseif ($publicId) {
             $location = Location::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in location repo save');
+            Log::warning('Entity not set in location repo save');
         } else {
             $location = Location::createNew();
             $location->created_by = auth::user()->username;
@@ -90,7 +91,7 @@ class LocationRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $locationId = 0;
-        $locations = Location::scope()->get();
+        $locations = Location::Scope()->get();
         if (!empty($locations)) {
             foreach ($locations as $location) {
                 if (!$location->name) {

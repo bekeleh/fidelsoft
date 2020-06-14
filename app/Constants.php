@@ -44,6 +44,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_ITEM_CATEGORY', 'item_category');
     define('ENTITY_ITEM_BRAND', 'item_brand');
     define('ENTITY_ITEM_PRICE', 'item_price');
+    define('ENTITY_CLIENT_TYPE', 'client_type');
     define('ENTITY_SALE_TYPE', 'sale_type');
     define('ENTITY_HOLD_REASON', 'hold_reason');
     define('ENTITY_ACTIVITY', 'activity');
@@ -82,6 +83,7 @@ if (!defined('APP_NAME')) {
     $permissionEntities = [
         ENTITY_ACTIVITY,
         ENTITY_CLIENT,
+        ENTITY_CLIENT_TYPE,
         ENTITY_CLIENT_CONTACT,
         ENTITY_CONTACT,
         ENTITY_CREDIT,
@@ -171,6 +173,7 @@ if (!defined('APP_NAME')) {
     define('ACCOUNT_EXPORT', 'export');
     define('ACCOUNT_TAX_RATES', 'tax_rates');
     define('ACCOUNT_PRODUCTS', 'products');
+    define('ACCOUNT_CLIENT_TYPES', 'client_types');
     define('ACCOUNT_SALE_TYPES', 'sale_types');
     define('ACCOUNT_ITEM_STORES', 'item_stores');
     define('ACCOUNT_ITEM_REQUESTS', 'item_requests');

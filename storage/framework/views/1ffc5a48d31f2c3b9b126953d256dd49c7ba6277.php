@@ -4,13 +4,13 @@
 <?php echo link_to('https://fidel.com/?tm_source=powered_by', trans('texts.team_source'), ['target' => '_blank', 'title' => trans('texts.created_by', ['name' => 'Fidel ERP Team'])]); ?>
 
 
-<?php if (Auth::user()->account->hasFeature(FEATURE_WHITE_LABEL)): ?>
+<?php if(Auth::user()->account->hasFeature(FEATURE_WHITE_LABEL)): ?>
     <a href="#" onclick="showWhiteLabelModal()"><?php echo e(trans('texts.white_label_link')); ?></a>
-    <?php if (!Utils::isNinja() && $company->hasActivePlan() && $company->daysUntilPlanExpires() <= 10 && $company->daysUntilPlanExpires() > 0): ?>
+    <?php if(! Utils::isNinja() && $company->hasActivePlan() && $company->daysUntilPlanExpires() <= 10 && $company->daysUntilPlanExpires() > 0): ?>
         <br/><b><?php echo trans('texts.license_expiring', [
-                'count' => $company->daysUntilPlanExpires(),
-                'link' => '<a href="#" onclick="showWhiteLabelModal()">' . trans('texts.click_here') . '</a>',
-            ]); ?></b>
+        'count' => $company->daysUntilPlanExpires(),
+        'link' => '<a href="#" onclick="showWhiteLabelModal()">' . trans('texts.click_here') . '</a>',
+    ]); ?></b>
     <?php endif; ?>
 <?php else: ?>
 <?php endif; ?>
@@ -31,15 +31,13 @@
                             <div class="col-md-6">
                                 <h4><?php echo e(trans('texts.before')); ?></h4>
                                 <img src="<?php echo e(BLANK_IMAGE); ?>"
-                                     data-src="<?php echo e(asset('images/pro_plan/white_label_before.png')); ?>"
-                                     width="100%"
+                                     data-src="<?php echo e(asset('images/pro_plan/white_label_before.png')); ?>" width="100%"
                                      alt="before">
                             </div>
                             <div class="col-md-6">
                                 <h4><?php echo e(trans('texts.after')); ?></h4>
                                 <img src="<?php echo e(BLANK_IMAGE); ?>"
-                                     data-src="<?php echo e(asset('images/pro_plan/white_label_after.png')); ?>"
-                                     width="100%"
+                                     data-src="<?php echo e(asset('images/pro_plan/white_label_after.png')); ?>" width="100%"
                                      alt="after">
                             </div>
                         </div>
@@ -50,9 +48,8 @@
             </div>
 
             <div class="modal-footer" id="signUpFooter" style="margin-top: 0px">
-                <button type="button" class="btn btn-default"
-                        data-dismiss="modal"><?php echo e(trans('texts.close')); ?> </button>
-                <!-- <button type="button" class="btn btn-primary" onclick="showRecoverLicense()"><?php echo e(trans('texts.recover')); ?> </button> -->
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo e(trans('texts.close')); ?> </button>
+            <!-- <button type="button" class="btn btn-primary" onclick="showRecoverLicense()"><?php echo e(trans('texts.recover')); ?> </button> -->
                 <button type="button" class="btn btn-primary"
                         onclick="showApplyLicense()"><?php echo e(trans('texts.apply')); ?> </button>
                 <button type="button" class="btn btn-success"
@@ -85,8 +82,7 @@
             </div>
 
             <div class="modal-footer" id="signUpFooter" style="margin-top: 0px">
-                <button type="button" class="btn btn-default"
-                        data-dismiss="modal"><?php echo e(trans('texts.close')); ?> </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo e(trans('texts.close')); ?> </button>
                 <button type="button" class="btn btn-success"
                         onclick="applyLicense()"><?php echo e(trans('texts.submit')); ?> </button>
             </div>
@@ -100,8 +96,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"
-                    id="myModalLabel"><?php echo e(trans('texts.recover_white_label_header')); ?></h4>
+                <h4 class="modal-title" id="myModalLabel"><?php echo e(trans('texts.recover_white_label_header')); ?></h4>
             </div>
 
             <div class="container" style="width: 100%; padding-bottom: 0px !important">
@@ -118,8 +113,7 @@
             </div>
 
             <div class="modal-footer" id="signUpFooter" style="margin-top: 0px">
-                <button type="button" class="btn btn-default"
-                        data-dismiss="modal"><?php echo e(trans('texts.close')); ?> </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo e(trans('texts.close')); ?> </button>
                 <button type="button" class="btn btn-success"
                         onclick="applyLicense()"><?php echo e(trans('texts.submit')); ?> </button>
             </div>

@@ -7,6 +7,7 @@ use App\Models\Credit;
 use App\Models\Payment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Log;
 
 class PaymentRepository extends BaseRepository
 {
@@ -174,7 +175,7 @@ class PaymentRepository extends BaseRepository
         } elseif ($publicId) {
             $payment = Payment::scope($publicId)->firstOrFail();
             if (Utils::isNinjaDev()) {
-                \Log::warning('Entity not set in payment repo save');
+                Log::warning('Entity not set in payment repo save');
             }
         } else {
             $payment = Payment::createNew();
@@ -210,7 +211,7 @@ class PaymentRepository extends BaseRepository
             $amount = min($amount, MAX_INVOICE_AMOUNT);
 
             if ($paymentTypeId == PAYMENT_TYPE_CREDIT) {
-                $credits = Credit::scope()->where('client_id', '=', $clientId)
+                $credits = Credit::Scope()->where('client_id', '=', $clientId)
                     ->where('balance', '>', 0)->orderBy('created_at')->get();
 
                 $remaining = $amount;

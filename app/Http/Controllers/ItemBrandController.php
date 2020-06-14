@@ -161,7 +161,7 @@ class ItemBrandController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
-            'itemCategories' => ItemCategory::scope()->withActiveOrSelected($itemBrand ? $itemBrand->item_category_id : false)->orderBy('name')->get(),
+            'itemCategories' => ItemCategory::Scope()->withActiveOrSelected($itemBrand ? $itemBrand->item_category_id : false)->orderBy('name')->get(),
         ];
     }
 

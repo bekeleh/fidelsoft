@@ -2,10 +2,10 @@
 
 namespace App\Ninja\Repositories;
 
+use App\Libraries\Utils;
 use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Libraries\Utils;
 
 class ProjectRepository extends BaseRepository
 {
@@ -23,7 +23,7 @@ class ProjectRepository extends BaseRepository
 
     public function all()
     {
-        return Project::scope()->get();
+        return Project::Scope()->get();
     }
 
     public function find($filter = false, $userId = false)

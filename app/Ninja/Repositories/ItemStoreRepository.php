@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\Store;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Log;
 
 class ItemStoreRepository extends BaseRepository
 {
@@ -27,7 +28,7 @@ class ItemStoreRepository extends BaseRepository
 
     public function all()
     {
-        return ItemStore::scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return ItemStore::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
 
@@ -158,7 +159,7 @@ class ItemStoreRepository extends BaseRepository
             $itemStore->save();
         } elseif ($publicId) {
             $itemStore = ItemStore::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in item store repo save');
+            Log::warning('Entity not set in item store repo save');
         } else {
             $itemStore = ItemStore::createNew();
             $itemStore->fill($data);
@@ -214,7 +215,7 @@ class ItemStoreRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $itemStoreId = 0;
-        $itemStores = ItemStore::scope()->get();
+        $itemStores = ItemStore::Scope()->get();
         if (!empty($itemStores)) {
             foreach ($itemStores as $itemStore) {
                 if (!$itemStore->bin) {

@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PaymentRequest;
 use App\Http\Requests\CreatePaymentAPIRequest;
+use App\Http\Requests\PaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
-use App\Models\Invoice;
 use App\Models\Payment;
 use App\Ninja\Mailers\ContactMailer;
 use App\Ninja\Repositories\PaymentRepository;
@@ -48,7 +47,7 @@ class PaymentApiController extends BaseAPIController
      */
     public function index()
     {
-        $payments = Payment::scope()
+        $payments = Payment::Scope()
                         ->withTrashed()
                         ->with(['invoice'])
                         ->orderBy('updated_at', 'desc');

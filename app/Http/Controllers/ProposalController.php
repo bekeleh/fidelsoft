@@ -63,7 +63,7 @@ class ProposalController extends BaseController
             'method' => 'POST',
             'url' => 'proposals',
             'title' => trans('texts.new_proposal'),
-            'invoices' => Invoice::scope()->with('client.contacts', 'client.country')->unapprovedQuotes()->orderBy('id')->get(),
+            'invoices' => Invoice::Scope()->with('client.contacts', 'client.country')->unapprovedQuotes()->orderBy('id')->get(),
             'invoicePublicId' => $request->invoice_id,
             'templatePublicId' => $request->proposal_template_id,
         ]);
@@ -88,7 +88,7 @@ class ProposalController extends BaseController
             'method' => 'PUT',
             'url' => 'proposals/' . $proposal->public_id,
             'title' => trans('texts.edit_proposal'),
-            'invoices' => Invoice::scope()->with('client.contacts', 'client.country')->withActiveOrSelected($proposal->invoice_id)->unapprovedQuotes($proposal->invoice_id)->orderBy('id')->get(),
+            'invoices' => Invoice::Scope()->with('client.contacts', 'client.country')->withActiveOrSelected($proposal->invoice_id)->unapprovedQuotes($proposal->invoice_id)->orderBy('id')->get(),
             'invoicePublicId' => $proposal->invoice ? $proposal->invoice->public_id : null,
             'templatePublicId' => $proposal->proposal_template ? $proposal->proposal_template->public_id : null,
         ]);

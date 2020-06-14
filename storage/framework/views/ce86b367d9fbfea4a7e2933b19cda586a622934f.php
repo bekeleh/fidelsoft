@@ -1,10 +1,10 @@
 <?php echo Former::vertical_open()
-    ->onsubmit('return onContactUsFormSubmit()')
-    ->addClass('contact-us-form')
-    ->rules([
-        'contact_us_from' => 'required',
-        'contact_us_message' => 'required',
-    ]); ?>
+        ->onsubmit('return onContactUsFormSubmit()')
+        ->addClass('contact-us-form')
+        ->rules([
+            'contact_us_from' => 'required',
+            'contact_us_message' => 'required',
+        ]); ?>
 
 
 <div class="modal fade" id="contactUsModal" tabindex="-1" role="dialog" aria-labelledby="contactUsModalLabel"
@@ -20,16 +20,16 @@
                     <div class="panel-body">
                         <div class="input-div">
                             <?php echo Former::plaintext('contact_us_from')
-                                ->label('from')
-                                ->value(Auth::user()->present()->email); ?>
+                                  ->label('from')
+                                  ->value(Auth::user()->present()->email); ?>
 
 
                             <?php echo Former::textarea('contact_us_message')
-                                ->label('message')
-                                ->rows(10); ?>
+                                  ->label('message')
+                                  ->rows(10); ?>
 
 
-                            <?php if (!Utils::isNinjaProd()): ?>
+                            <?php if(! Utils::isNinjaProd()): ?>
                                 <?php echo Former::checkbox('include_errors')->label(false)
                                     ->text(trans('texts.include_errors_help', [
                                         'link' => link_to('/errors', trans('texts.recent_errors'), ['target' => '_blank'])
@@ -37,7 +37,7 @@
 
                             <?php endif; ?>
                         </div>
-                        <?php if (Auth::user()->email): ?>
+                        <?php if(Auth::user()->email): ?>
                             <div class="response-div" style="display: none; font-size: 16px">
                                 <?php echo e(trans('texts.contact_us_response')); ?>
 
@@ -79,8 +79,8 @@
     $(function () {
         $('#contactUsModal').on('shown.bs.modal', function () {
             var message = '';
-            <?php if(!Utils::isNinjaProd()): ?>
-            message = '\n\n' + "<?php echo e(Utils::getDebugInfo()); ?>";
+            <?php if(! Utils::isNinjaProd()): ?>
+                message = '\n\n' + "<?php echo e(Utils::getDebugInfo()); ?>";
             <?php endif; ?>
             $('#contactUsModal .input-div').show();
             $('#contactUsModal .response-div').hide();

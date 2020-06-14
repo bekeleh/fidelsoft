@@ -42,7 +42,7 @@ class UnitApiController extends BaseAPIController
      */
     public function index()
     {
-        $units = Unit::scope()->withTrashed()->orderBy('created_at', 'desc');
+        $units = Unit::Scope()->withTrashed()->orderBy('created_at', 'desc');
 
         return $this->listResponse($units);
     }

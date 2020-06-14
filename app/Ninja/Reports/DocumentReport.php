@@ -2,8 +2,8 @@
 
 namespace App\Ninja\Reports;
 
-use App\Models\Invoice;
 use App\Models\Expense;
+use App\Models\Invoice;
 use Barracuda\ArchiveStream\Archive;
 
 class DocumentReport extends AbstractReport
@@ -28,7 +28,7 @@ class DocumentReport extends AbstractReport
         $records = false;
 
         if (!$filter || $filter == ENTITY_INVOICE) {
-            $records = Invoice::scope()
+            $records = Invoice::Scope()
                 ->withArchived()
                 ->with(['documents'])
                 ->where('invoice_date', '>=', $this->startDate)
@@ -37,7 +37,7 @@ class DocumentReport extends AbstractReport
         }
 
         if (!$filter || $filter == ENTITY_EXPENSE) {
-            $expenses = Expense::scope()
+            $expenses = Expense::Scope()
                 ->withArchived()
                 ->with(['documents'])
                 ->where('expense_date', '>=', $this->startDate)

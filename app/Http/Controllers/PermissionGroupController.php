@@ -10,6 +10,7 @@ use App\Models\PermissionGroup;
 use App\Ninja\Datatables\PermissionGroupDatatable;
 use App\Ninja\Repositories\PermissionGroupRepository;
 use App\Services\PermissionGroupService;
+use DropdownButton;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\URL;
@@ -62,7 +63,7 @@ class PermissionGroupController extends BaseController
         }
 
         if (!empty($actionLinks)) {
-            $actionLinks[] = \DropdownButton::DIVIDER;
+            $actionLinks[] = DropdownButton::DIVIDER;
         }
 
         $data = [
@@ -71,8 +72,8 @@ class PermissionGroupController extends BaseController
             'actionLinks' => $actionLinks,
             'showBreadcrumbs' => false,
             'title' => trans('texts.view_permission_group'),
-//            'hasPermissions' => $account->isModuleEnabled(ENTITY_PERMISSION_GROUP) && Permission::scope()->withArchived()->whereUserId($userGroup->id)->count() > 0,
-//            'hasGroups' => $account->isModuleEnabled(ENTITY_PERMISSION_GROUP) && PermissionGroup::scope()->withArchived()->whereUserId($userGroup->id)->count() > 0,
+//            'hasPermissions' => $account->isModuleEnabled(ENTITY_PERMISSION_GROUP) && Permission::Scope()->withArchived()->whereUserId($userGroup->id)->count() > 0,
+//            'hasGroups' => $account->isModuleEnabled(ENTITY_PERMISSION_GROUP) && PermissionGroup::Scope()->withArchived()->whereUserId($userGroup->id)->count() > 0,
 
         ];
 

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateBranchRequest;
 use App\Http\Requests\BranchRequest;
+use App\Http\Requests\CreateBranchRequest;
 use App\Http\Requests\UpdateBranchRequest;
 use App\Models\Branch;
 use App\Ninja\Repositories\BranchRepository;
@@ -40,7 +40,7 @@ class BranchApiController extends BaseAPIController
      */
     public function index()
     {
-        $branchs = Branch::scope()
+        $branchs = Branch::Scope()
             ->withTrashed()
             ->orderBy('updated_at', 'desc');
 

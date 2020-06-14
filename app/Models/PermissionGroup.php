@@ -52,7 +52,7 @@ class PermissionGroup extends EntityModel
 
     public static function findPermissionGroupByKey($key)
     {
-        return self::scope()->where('name', '=', $key)->first();
+        return self::Scope()->where('name', '=', $key)->first();
     }
 
     public function users()

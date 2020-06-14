@@ -10,7 +10,7 @@ class ListProductsIntent extends ProductIntent
     public function process()
     {
         $account = Auth::user()->account;
-        $products = Product::scope()->orderBy('name')->limit(5)->get()
+        $products = Product::Scope()->orderBy('name')->limit(5)->get()
             ->transform(function ($item, $key) use ($account) {
                 $card = $item->present()->skypeBot($account);
                 if ($this->stateEntity(ENTITY_INVOICE)) {

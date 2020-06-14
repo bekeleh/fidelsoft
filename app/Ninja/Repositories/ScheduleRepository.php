@@ -5,6 +5,7 @@ namespace App\Ninja\Repositories;
 use App\Models\Schedule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Log;
 
 class ScheduleRepository extends BaseRepository
 {
@@ -22,7 +23,7 @@ class ScheduleRepository extends BaseRepository
 
     public function all()
     {
-        return Schedule::scope()->get();
+        return Schedule::Scope()->get();
     }
 
     public function find($accountId = false, $filter = null)
@@ -70,7 +71,7 @@ class ScheduleRepository extends BaseRepository
 
         } elseif ($publicId) {
             $Schedule = Schedule::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in schedule report repo save');
+            Log::warning('Entity not set in schedule report repo save');
         } else {
             $Schedule = Schedule::createNew();
             $Schedule->created_by = Auth::user()->name;

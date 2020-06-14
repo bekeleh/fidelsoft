@@ -2,11 +2,11 @@
 
 namespace App\Ninja\Reports;
 
-use Barracuda\ArchiveStream\Archive;
+use App\Libraries\Utils;
 use App\Models\Expense;
 use App\Models\TaxRate;
+use Barracuda\ArchiveStream\Archive;
 use Illuminate\Support\Facades\Auth;
-use App\Libraries\Utils;
 
 class ExpenseReport extends AbstractReport
 {
@@ -33,7 +33,7 @@ class ExpenseReport extends AbstractReport
             $columns[$account->present()->customLabel('expense2')] = ['columnSelector-false', 'custom'];
         }
 
-        if (TaxRate::scope()->count()) {
+        if (TaxRate::Scope()->count()) {
             $columns['tax'] = ['columnSelector-false'];
         }
 
@@ -50,13 +50,13 @@ class ExpenseReport extends AbstractReport
         $exportFormat = $this->options['export_format'];
         $subgroup = $this->options['subgroup'];
         $with = ['client.contacts', 'vendor'];
-        $hasTaxRates = TaxRate::scope()->count();
+        $hasTaxRates = TaxRate::Scope()->count();
 
         if ($exportFormat == 'zip') {
             $with[] = ['documents'];
         }
 
-        $expenses = Expense::scope()
+        $expenses = Expense::Scope()
             ->orderBy('expense_date', 'desc')
             ->withArchived()
             ->with('client.contacts', 'vendor', 'expense_category', 'user')

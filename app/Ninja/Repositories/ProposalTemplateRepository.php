@@ -22,7 +22,7 @@ class ProposalTemplateRepository extends BaseRepository
 
     public function all()
     {
-        return ProposalTemplate::scope()->get();
+        return ProposalTemplate::Scope()->get();
     }
 
     public function find($account = false, $filter = null, $userId = false)

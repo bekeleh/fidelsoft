@@ -2,7 +2,7 @@
 
     var currencies = <?php echo Cache::get('currencies'); ?>;
     var currencyMap = {};
-    for (var i = 0; i < currencies.length; i++) {
+    for (var i=0; i<currencies.length; i++) {
         var currency = currencies[i];
         currencyMap[currency.id] = currency;
         currencyMap[currency.code] = currency;
@@ -10,17 +10,17 @@
 
     var countries = <?php echo Cache::get('countries'); ?>;
     var countryMap = {};
-    for (var i = 0; i < countries.length; i++) {
+    for (var i=0; i<countries.length; i++) {
         var country = countries[i];
         countryMap[country.id] = country;
     }
 
     fx.base = '<?php echo e(config('ninja.exchange_rates_base')); ?>';
     fx.rates = <?php echo cache('currencies')
-        ->keyBy('code')
-        ->map(function ($item, $key) {
-            return $item->exchange_rate ?: 1;
-        }); ?>;
+                    ->keyBy('code')
+                    ->map(function($item, $key) {
+                        return $item->exchange_rate ?: 1;
+                    }); ?>;
 
     var NINJA = NINJA || {};
     <?php if(Auth::check()): ?>
@@ -56,7 +56,7 @@
             countryId = account.country_id;
         }
 
-        if (account && !decorator) {
+        if (account && ! decorator) {
             decorator = parseInt(account.show_currency_code) ? 'code' : 'symbol';
         }
 
@@ -135,7 +135,7 @@
 
         if (decorator == 'none') {
             return value;
-        } else if (decorator == '<?php echo e(CURRENCY_DECORATOR_CODE); ?>' || !symbol) {
+        } else if (decorator == '<?php echo e(CURRENCY_DECORATOR_CODE); ?>' || ! symbol) {
             return value + ' ' + code;
         } else if (swapSymbol) {
             return value + ' ' + symbol.trim();

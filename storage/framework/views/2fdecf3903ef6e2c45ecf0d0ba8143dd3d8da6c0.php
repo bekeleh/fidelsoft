@@ -16,7 +16,7 @@
     <link href="/plugins/atjs/jquery.atwho.min.css" rel="stylesheet">
     <link href="/plugins/select2/select2.min.css" rel="stylesheet">
 </head>
-<body <?php if (isset($editWiki) && $editWiki === true): ?> style="overflow: hidden;" <?php endif; ?>>
+<body <?php if(isset($editWiki) && $editWiki === true): ?> style="overflow: hidden;" <?php endif; ?>>
 <div class="modal fade" id="team-logo-modal" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -37,11 +37,11 @@
     </div>
 </div>
 <div id="app">
-    <?php if (Auth::user()): ?>
-        <?php if (!isset($entityType)): ?>
+    <?php if(Auth::user()): ?>
+        <?php if(!isset($entityType)): ?>
             <?php echo $__env->make('partials.menu', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
         <?php endif; ?>
-        <div <?php if (!isset($entityType)): ?> style="position: absolute; top: 50px; width: 100%; height: calc(100% - 62px);" <?php endif; ?>>
+        <div <?php if(!isset($entityType)): ?> style="position: absolute; top: 50px; width: 100%; height: calc(100% - 62px);" <?php endif; ?>>
             <?php echo $__env->yieldContent('content'); ?>
         </div>
     <?php else: ?>
@@ -72,6 +72,16 @@
         hljs.initHighlightingOnLoad();
     })();
 </script>
+
+
+
+
+
+
+
+
+
+
 
 
 </body>

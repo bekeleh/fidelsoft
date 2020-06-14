@@ -12,6 +12,8 @@ use App\Libraries\CurlUtils;
 use App\Libraries\Utils;
 use App\Models\Traits\ChargesFees;
 use App\Models\Traits\HasRecurrence;
+use DateTime;
+use Exception;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 use Laracasts\Presenter\PresentableTrait;
@@ -911,7 +913,7 @@ class Invoice extends EntityModel implements BalanceAffecting
                     $now = $invoice_date;
                 } elseif (is_string($invoice_date)) {
                     $now = strtotime($invoice_date);
-                } elseif ($invoice_date instanceof \DateTime) {
+                } elseif ($invoice_date instanceof DateTime) {
                     $now = $invoice_date->getTimestamp();
                 }
             }
@@ -1055,7 +1057,7 @@ class Invoice extends EntityModel implements BalanceAffecting
                 $pdfString = CurlUtils::get($url);
                 $pdfString = strip_tags($pdfString);
             }
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             Utils::logError("PhantomJS - Failed to load {$phantomjsLink}: {$exception->getMessage()}");
             return false;
         }
@@ -1314,7 +1316,7 @@ class Invoice extends EntityModel implements BalanceAffecting
 
     public function emailHistory()
     {
-        return Activity::scope()
+        return Activity::Scope()
             ->with(['contact'])
             ->whereInvoiceId($this->id)
             ->whereIn('activity_type_id', [ACTIVITY_TYPE_EMAIL_INVOICE, ACTIVITY_TYPE_EMAIL_QUOTE])

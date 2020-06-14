@@ -28,7 +28,7 @@ class ProductRepository extends BaseRepository
 
     public function all()
     {
-        return Product::scope()
+        return Product::Scope()
             ->withTrashed()
             ->where('is_deleted', '=', false)
             ->get();
@@ -39,7 +39,7 @@ class ProductRepository extends BaseRepository
         $query = DB::table('products')
             ->join('accounts', 'accounts.id', '=', 'products.account_id')
             ->join('users', 'users.id', '=', 'products.user_id')
-//            ->leftJoin('item_stores', 'item_stores.product_id', '=', 'products.id')
+            ->leftJoin('item_stores', 'item_stores.product_id', '=', 'products.id')
             ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
             ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
             ->leftJoin('units', 'units.id', '=', 'products.unit_id')
@@ -147,7 +147,7 @@ class ProductRepository extends BaseRepository
         $max = SIMILAR_MIN_THRESHOLD;
         $productId = 0;
 
-        $products = Product::scope()->get();
+        $products = Product::Scope()->get();
 
         foreach ($products as $product) {
             if (!$product->name) {

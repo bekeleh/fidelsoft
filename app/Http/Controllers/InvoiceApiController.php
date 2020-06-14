@@ -65,7 +65,7 @@ class InvoiceApiController extends BaseAPIController
      */
     public function index()
     {
-        $invoices = Invoice::scope()
+        $invoices = Invoice::Scope()
             ->withTrashed()
             ->with('invoice_items', 'client')
             ->orderBy('updated_at', 'desc');
@@ -150,7 +150,7 @@ class InvoiceApiController extends BaseAPIController
 
         if (isset($data['email'])) {
             $email = $data['email'];
-            $client = Client::scope()->whereHas('contacts', function ($query) use ($email) {
+            $client = Client::Scope()->whereHas('contacts', function ($query) use ($email) {
                 $query->where('email', '=', $email);
             })->first();
 

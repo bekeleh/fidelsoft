@@ -11,8 +11,10 @@ use App\Models\Product;
 use App\Models\Status;
 use App\Models\Store;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Log;
 
 class ItemTransferRepository extends BaseRepository
 {
@@ -30,7 +32,7 @@ class ItemTransferRepository extends BaseRepository
 
     public function all()
     {
-        return ItemTransfer::scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return ItemTransfer::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
 
@@ -143,7 +145,7 @@ class ItemTransferRepository extends BaseRepository
             $queryResult = $this->storeQuantityAdjustment($data, $itemTransfer, $update = true);
         } elseif ($publicId) {
             $queryResult = ItemTransfer::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in item transfer repo save');
+            Log::warning('Entity not set in item transfer repo save');
         } else {
             $itemRepo = $this->storeQuantityAdjustment($data, $itemTransfer, $update = false);
         }
@@ -191,7 +193,7 @@ class ItemTransferRepository extends BaseRepository
 
             return true;
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return false;
         }
     }
@@ -250,7 +252,7 @@ class ItemTransferRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $itemTransferId = 0;
-        $itemTransfers = ItemTransfer::scope()->get();
+        $itemTransfers = ItemTransfer::Scope()->get();
         if (!empty($itemTransfers)) {
             foreach ($itemTransfers as $itemTransfer) {
                 if (!$itemTransfer->bin) {

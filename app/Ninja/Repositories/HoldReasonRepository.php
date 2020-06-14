@@ -6,6 +6,7 @@ namespace App\Ninja\Repositories;
 use App\Models\HoldReason;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Log;
 
 class HoldReasonRepository extends BaseRepository
 {
@@ -23,7 +24,7 @@ class HoldReasonRepository extends BaseRepository
 
     public function all()
     {
-        return HoldReason::scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return HoldReason::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
 
@@ -69,7 +70,7 @@ class HoldReasonRepository extends BaseRepository
             $holdReason->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $holdReason = HoldReason::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in hold reason repo save');
+            Log::warning('Entity not set in hold reason repo save');
         } else {
             $holdReason = HoldReason::createNew();
             $holdReason->created_by = Auth::user()->username;
@@ -88,7 +89,7 @@ class HoldReasonRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $holdReasonId = 0;
-        $holdReasons = HoldReason::scope()->get();
+        $holdReasons = HoldReason::Scope()->get();
         if (!empty($holdReasons)) {
             foreach ($holdReasons as $holdReason) {
                 if (!$holdReason->reason) {

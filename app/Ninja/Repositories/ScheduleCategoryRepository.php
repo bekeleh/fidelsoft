@@ -5,6 +5,7 @@ namespace App\Ninja\Repositories;
 use App\Models\ScheduleCategory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Log;
 
 class ScheduleCategoryRepository extends BaseRepository
 {
@@ -22,7 +23,7 @@ class ScheduleCategoryRepository extends BaseRepository
 
     public function all()
     {
-        return ScheduleCategory::scope()->get();
+        return ScheduleCategory::Scope()->get();
     }
 
     public function find($accountId = false, $filter = null)
@@ -66,7 +67,7 @@ class ScheduleCategoryRepository extends BaseRepository
 
         } elseif ($publicId) {
             $scheduleCategory = ScheduleCategory::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in schedule category repo save');
+            Log::warning('Entity not set in schedule category repo save');
         } else {
             $scheduleCategory = ScheduleCategory::createNew();
             $scheduleCategory->created_by = Auth::user()->name;

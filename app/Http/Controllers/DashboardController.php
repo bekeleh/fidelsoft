@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use App\Libraries\Utils;
 use App\Models\Client;
 use App\Models\Expense;
@@ -87,8 +88,8 @@ class DashboardController extends BaseController
             'showBlueVinePromo' => $showBlueVinePromo,
             'showWhiteLabelExpired' => $showWhiteLabelExpired,
             'showExpenses' => $expenses->count() && $account->isModuleEnabled(ENTITY_EXPENSE),
-            'headerClass' => in_array(\App::getLocale(), ['lt', 'pl', 'cs', 'sl', 'tr_TR']) ? 'in-large' : 'in-thin',
-            'footerClass' => in_array(\App::getLocale(), ['lt', 'pl', 'cs', 'sl', 'tr_TR']) ? '' : 'in-thin',
+            'headerClass' => in_array(App::getLocale(), ['lt', 'pl', 'cs', 'sl', 'tr_TR']) ? 'in-large' : 'in-thin',
+            'footerClass' => in_array(App::getLocale(), ['lt', 'pl', 'cs', 'sl', 'tr_TR']) ? '' : 'in-thin',
         ];
 
         if ($showBlueVinePromo) {
@@ -120,7 +121,7 @@ class DashboardController extends BaseController
         $currencyIds = $account->currency_id ? [$account->currency_id] : [DEFAULT_CURRENCY];
 
         // get client/invoice currencies
-        $data = Client::scope()
+        $data = Client::Scope()
             ->withArchived()
             ->distinct()
             ->get(['currency_id'])
@@ -134,7 +135,7 @@ class DashboardController extends BaseController
         }, $data);
 
         // get expense currencies
-        $data = Expense::scope()
+        $data = Expense::Scope()
             ->withArchived()
             ->distinct()
             ->get(['expense_currency_id'])

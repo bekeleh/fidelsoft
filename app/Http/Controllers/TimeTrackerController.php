@@ -20,10 +20,10 @@ class TimeTrackerController extends Controller
 
         $data = [
             'title' => trans('texts.time_tracker'),
-            'tasks' => Task::scope()->with('project', 'client.contacts', 'task_status')->whereNull('invoice_id')->get(),
-            'clients' => Client::scope()->with('contacts')->orderBy('name')->get(),
-            'projects' => Project::scope()->with('client.contacts')->orderBy('name')->get(),
-            'statuses' => TaskStatus::scope()->orderBy('sort_order')->get(),
+            'tasks' => Task::Scope()->with('project', 'client.contacts', 'task_status')->whereNull('invoice_id')->get(),
+            'clients' => Client::Scope()->with('contacts')->orderBy('name')->get(),
+            'projects' => Project::Scope()->with('client.contacts')->orderBy('name')->get(),
+            'statuses' => TaskStatus::Scope()->orderBy('sort_order')->get(),
             'account' => $account,
         ];
 

@@ -57,7 +57,7 @@ class VendorController extends BaseController
 
     public function create(VendorRequest $request)
     {
-        if (Vendor::scope()->count() > Auth::user()->getMaxNumVendors()) {
+        if (Vendor::Scope()->count() > Auth::user()->getMaxNumVendors()) {
             return View::make('error', ['hideHeader' => true, 'error' => "Sorry, you've exceeded the limit of " . Auth::user()->getMaxNumVendors() . ' vendors']);
         }
 

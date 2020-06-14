@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\Unit;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Log;
 
 class PointOfSaleRepository extends BaseRepository
 {
@@ -27,7 +28,7 @@ class PointOfSaleRepository extends BaseRepository
 
     public function all()
     {
-        return Product::scope()
+        return Product::Scope()
             ->withTrashed()
             ->where('is_deleted', '=', false)
             ->get();
@@ -112,7 +113,7 @@ class PointOfSaleRepository extends BaseRepository
             $product->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $product = Product::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in product repo save');
+            Log::warning('Entity not set in product repo save');
         } else {
             $product = Product::createNew();
             $product->created_by = auth::user()->username;
@@ -142,7 +143,7 @@ class PointOfSaleRepository extends BaseRepository
         $max = SIMILAR_MIN_THRESHOLD;
         $productId = 0;
 
-        $products = Product::scope()->get();
+        $products = Product::Scope()->get();
 
         foreach ($products as $product) {
             if (!$product->name) {

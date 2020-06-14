@@ -5,6 +5,7 @@ namespace App\Ninja\Repositories;
 use App\Models\ScheduledReport;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Log;
 
 class ScheduledReportRepository extends BaseRepository
 {
@@ -22,7 +23,7 @@ class ScheduledReportRepository extends BaseRepository
 
     public function all()
     {
-        return ScheduledReport::scope()->get();
+        return ScheduledReport::Scope()->get();
     }
 
     public function find($accountId = false, $filter = null)
@@ -65,7 +66,7 @@ class ScheduledReportRepository extends BaseRepository
 
         } elseif ($publicId) {
             $ScheduledReport = ScheduledReport::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in schedule report repo save');
+            Log::warning('Entity not set in schedule report repo save');
         } else {
             $ScheduledReport = ScheduledReport::createNew();
             $ScheduledReport->created_by = Auth::user()->name;

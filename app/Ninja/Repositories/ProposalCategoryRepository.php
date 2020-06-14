@@ -22,7 +22,7 @@ class ProposalCategoryRepository extends BaseRepository
 
     public function all()
     {
-        return ProposalCategory::scope()->get();
+        return ProposalCategory::Scope()->get();
     }
 
     public function find($account = false, $filter = null, $userId = false)

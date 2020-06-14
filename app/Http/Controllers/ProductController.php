@@ -89,7 +89,7 @@ class ProductController extends BaseController
             'method' => 'POST',
             'url' => 'products',
             'title' => trans('texts.create_product'),
-            'taxRates' => $account->invoice_item_taxes ? TaxRate::scope()->whereIsInclusive(false)->get(['id', 'name', 'rate']) : null,
+            'taxRates' => $account->invoice_item_taxes ? TaxRate::Scope()->whereIsInclusive(false)->get(['id', 'name', 'rate']) : null,
             'itemBrandPublicId' => Input::old('itemBrand') ? Input::old('itemBrand') : $request->item_brand_id,
             'unitPublicId' => Input::old('unit') ? Input::old('unit') : $request->unit_id,
         ];
@@ -128,7 +128,7 @@ class ProductController extends BaseController
             'itemBrand' => null,
             'unit' => null,
             'product' => $product,
-            'taxRates' => $account->invoice_item_taxes ? TaxRate::scope()->whereIsInclusive(false)->get() : null,
+            'taxRates' => $account->invoice_item_taxes ? TaxRate::Scope()->whereIsInclusive(false)->get() : null,
             'entity' => $product,
             'method' => $method,
             'url' => $url,
@@ -166,7 +166,7 @@ class ProductController extends BaseController
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
             'itemBrands' => ItemBrand::withCategory('itemCategory'),
-            'units' => Unit::scope()->withActiveOrSelected($product ? $product->unit_id : false)->orderBy('name')->get(),
+            'units' => Unit::Scope()->withActiveOrSelected($product ? $product->unit_id : false)->orderBy('name')->get(),
         ];
     }
 

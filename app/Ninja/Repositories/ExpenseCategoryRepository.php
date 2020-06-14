@@ -5,6 +5,7 @@ namespace App\Ninja\Repositories;
 use App\Models\ExpenseCategory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Log;
 
 class ExpenseCategoryRepository extends BaseRepository
 {
@@ -22,7 +23,7 @@ class ExpenseCategoryRepository extends BaseRepository
 
     public function all()
     {
-        return ExpenseCategory::scope()->get();
+        return ExpenseCategory::Scope()->get();
     }
 
     public function find($accountId = false, $filter = null)
@@ -64,7 +65,7 @@ class ExpenseCategoryRepository extends BaseRepository
 
         } elseif ($publicId) {
             $expenseCategory = ExpenseCategory::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in expense category repo save');
+            Log::warning('Entity not set in expense category repo save');
         } else {
             $expenseCategory = ExpenseCategory::createNew();
             $expenseCategory->created_by = Auth::user()->name;

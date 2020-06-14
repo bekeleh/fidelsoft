@@ -26,7 +26,7 @@ class TaxRateReport extends AbstractReport
         $account = Auth::user()->account;
         $subgroup = $this->options['subgroup'];
 
-        $clients = Client::scope()
+        $clients = Client::Scope()
             ->orderBy('name')
             ->withArchived()
             ->with('contacts', 'user')

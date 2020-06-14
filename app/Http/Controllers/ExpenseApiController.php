@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ExpenseRequest;
 use App\Http\Requests\CreateExpenseRequest;
+use App\Http\Requests\ExpenseRequest;
 use App\Http\Requests\UpdateExpenseRequest;
 use App\Models\Expense;
 use App\Ninja\Repositories\ExpenseRepository;
@@ -44,7 +44,7 @@ class ExpenseApiController extends BaseAPIController
      */
     public function index()
     {
-        $expenses = Expense::scope()
+        $expenses = Expense::Scope()
             ->withTrashed()
             ->with('client', 'invoice', 'vendor', 'expense_category')
             ->orderBy('updated_at', 'desc');

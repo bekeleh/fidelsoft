@@ -51,7 +51,7 @@ class ProposalSnippetController extends BaseController
             'method' => 'POST',
             'url' => 'proposals/snippets',
             'title' => trans('texts.new_proposal_snippet'),
-            'categories' => ProposalCategory::scope()->orderBy('name')->get(),
+            'categories' => ProposalCategory::Scope()->orderBy('name')->get(),
             'categoryPublicId' => 0,
             'icons' => $this->getIcons(),
         ];
@@ -77,7 +77,7 @@ class ProposalSnippetController extends BaseController
             'method' => 'PUT',
             'url' => 'proposals/snippets/' . $proposalSnippet->public_id,
             'title' => trans('texts.edit_proposal_snippet'),
-            'categories' => ProposalCategory::scope()->withActiveOrSelected($proposalSnippet->proposal_category_id)->orderBy('name')->get(),
+            'categories' => ProposalCategory::Scope()->withActiveOrSelected($proposalSnippet->proposal_category_id)->orderBy('name')->get(),
             'categoryPublicId' => $proposalSnippet->proposal_category ? $proposalSnippet->proposal_category->public_id : null,
             'icons' => $this->getIcons(),
         ];

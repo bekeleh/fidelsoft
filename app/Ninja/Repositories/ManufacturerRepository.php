@@ -2,12 +2,12 @@
 
 namespace App\Ninja\Repositories;
 
+use App\Events\ManufacturerWasCreated;
+use App\Events\ManufacturerWasUpdated;
 use App\Models\Manufacturer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
-use App\Events\ManufacturerWasCreated;
-use App\Events\ManufacturerWasUpdated;
+use Log;
 
 class ManufacturerRepository extends BaseRepository
 {
@@ -18,7 +18,7 @@ class ManufacturerRepository extends BaseRepository
 
     public function all()
     {
-        return Manufacturer::scope()
+        return Manufacturer::Scope()
             ->withTrashed()
             ->where('is_deleted', '=', false)
             ->orderBy('created_at', 'desc')
@@ -61,7 +61,7 @@ class ManufacturerRepository extends BaseRepository
             $manufacturer->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $manufacturer = Manufacturer::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in manufacturer repo save');
+            Log::warning('Entity not set in manufacturer repo save');
         } else {
             $manufacturer = Manufacturer::createNew();
             $manufacturer->created_by = Auth::user()->username;

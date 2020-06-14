@@ -4,8 +4,8 @@ namespace App\Ninja\Repositories;
 
 use App\Events\ClientWasCreated;
 use App\Events\ClientWasUpdated;
-use App\Jobs\PurgeClientData;
 use App\Models\Client;
+use App\Models\ClientType;
 use App\Models\Contact;
 use App\Models\HoldReason;
 use App\Models\SaleType;
@@ -34,7 +34,7 @@ class ClientRepository extends BaseRepository
 
     public function all()
     {
-        return Client::scope()
+        return Client::Scope()
             ->with('user', 'contacts', 'country')
             ->withTrashed()
             ->where('is_deleted', '=', false)
@@ -45,10 +45,10 @@ class ClientRepository extends BaseRepository
     {
         $query = DB::table('clients')
             ->join('accounts', 'accounts.id', '=', 'clients.account_id')
-            ->join('contacts', 'contacts.client_id', '=', 'clients.id')
-            ->join('sale_types', 'sale_types.id', '=', 'clients.sale_type_id')
-            ->join('hold_reasons', 'hold_reasons.id', '=', 'clients.hold_reason_id')
-            ->where('hold_reasons.allow_invoice', '=', true)
+            ->leftJoin('contacts', 'contacts.client_id', '=', 'clients.id')
+            ->leftJoin('client_types', 'client_types.id', '=', 'clients.client_type_id')
+            ->leftJoin('sale_types', 'sale_types.id', '=', 'clients.sale_type_id')
+            ->leftJoin('hold_reasons', 'hold_reasons.id', '=', 'clients.hold_reason_id')
             ->where('clients.account_id', '=', $accountId)
             ->where('contacts.is_primary', '=', true)
 //            ->where('contacts.deleted_at', '=', null)
@@ -78,6 +78,8 @@ class ClientRepository extends BaseRepository
                 'clients.created_by',
                 'clients.updated_by',
                 'clients.deleted_by',
+                'client_types.name as client_type_name',
+                'client_types.public_id as client_type_public_id',
                 'sale_types.name as sale_type_name',
                 'sale_types.public_id as sale_type_public_id',
                 'hold_reasons.name as hold_reason_name',
@@ -92,6 +94,7 @@ class ClientRepository extends BaseRepository
                     ->orWhere('contacts.first_name', 'like', '%' . $filter . '%')
                     ->orWhere('contacts.last_name', 'like', '%' . $filter . '%')
                     ->orWhere('contacts.email', 'like', '%' . $filter . '%')
+                    ->orWhere('client_types.name', 'like', '%' . $filter . '%')
                     ->orWhere('sale_types.name', 'like', '%' . $filter . '%')
                     ->orWhere('hold_reasons.name', 'like', '%' . $filter . '%');
             });
@@ -104,7 +107,16 @@ class ClientRepository extends BaseRepository
 
     public function purge($client)
     {
-        dispatch(new PurgeClientData($client));
+//        dispatch(new PurgeClientData($client));
+    }
+
+    public function findClientType($clintTypePublicId)
+    {
+        $clientTypeId = ClientType::getPrivateId($clintTypePublicId);
+
+        $query = $this->find()->where('client_types.client_type_id', '=', $clientTypeId);
+
+        return $query;
     }
 
     public function findSaleType($saleTypePublicId)
@@ -239,7 +251,7 @@ class ClientRepository extends BaseRepository
         $max = SIMILAR_MIN_THRESHOLD;
         $clientId = 0;
 
-        $clients = Client::scope()->get(['id', 'name', 'public_id']);
+        $clients = Client::Scope()->get(['id', 'name', 'public_id']);
 
         foreach ($clients as $client) {
 
@@ -257,7 +269,7 @@ class ClientRepository extends BaseRepository
             }
         }
 
-        $contacts = Contact::scope()->get(['client_id', 'first_name', 'last_name', 'public_id']);
+        $contacts = Contact::Scope()->get(['client_id', 'first_name', 'last_name', 'public_id']);
 
         foreach ($contacts as $contact) {
             if (!$contact->getFullName() || !isset($map[$contact->client_id])) {

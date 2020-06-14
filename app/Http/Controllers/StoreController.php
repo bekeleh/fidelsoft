@@ -158,7 +158,7 @@ class StoreController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
-            'locations' => Location::scope()->withActiveOrSelected($store ? $store->location_id : false)->orderBy('name')->get(),
+            'locations' => Location::Scope()->withActiveOrSelected($store ? $store->location_id : false)->orderBy('name')->get(),
         ];
     }
 }

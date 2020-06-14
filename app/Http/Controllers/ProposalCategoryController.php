@@ -57,8 +57,8 @@ class ProposalCategoryController extends BaseController
             'method' => 'POST',
             'url' => 'proposals/categories',
             'title' => trans('texts.new_proposal_category'),
-            'quotes' => Invoice::scope()->with('client.contacts')->quotes()->orderBy('id')->get(),
-            'templates' => ProposalCategory::scope()->orderBy('name')->get(),
+            'quotes' => Invoice::Scope()->with('client.contacts')->quotes()->orderBy('id')->get(),
+            'templates' => ProposalCategory::Scope()->orderBy('name')->get(),
             'quotePublicId' => $request->quote_id,
         ];
 

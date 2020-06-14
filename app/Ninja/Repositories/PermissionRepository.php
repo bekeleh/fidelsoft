@@ -6,6 +6,7 @@ use App\Models\Permission;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Log;
 
 class PermissionRepository extends BaseRepository
 {
@@ -23,7 +24,7 @@ class PermissionRepository extends BaseRepository
 
     public function all()
     {
-        return Permission::scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return Permission::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
     public function find($accountId = false, $filter = null)
@@ -67,7 +68,7 @@ class PermissionRepository extends BaseRepository
             $permission->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $permission = Permission::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in permission repo save');
+            Log::warning('Entity not set in permission repo save');
         } else {
             $permission = Permission::createNew();
             $permission->created_by = Auth::user()->username;
@@ -85,7 +86,7 @@ class PermissionRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $permissionId = 0;
-        $permissions = Permission::scope()->get();
+        $permissions = Permission::Scope()->get();
         if (!empty($permissions)) {
             foreach ($permissions as $permission) {
                 if (!$permission->name) {

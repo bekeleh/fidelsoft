@@ -7,7 +7,6 @@ use App\Models\Account;
 use App\Models\Client;
 use App\Models\GatewayType;
 use App\Models\Invitation;
-use App\Models\Payment;
 use App\Models\PaymentMethod;
 use App\Models\Product;
 use App\Ninja\Mailers\UserMailer;
@@ -18,7 +17,10 @@ use App\Services\PaymentService;
 use Auth;
 use Crawler;
 use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Input;
+use Request;
 use Session;
 use URL;
 use Utils;
@@ -64,7 +66,7 @@ class OnlinePaymentController extends BaseController
      * @param bool  $sourceId
      * @param mixed $gatewayTypeAlias
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function showPayment($invitationKey, $gatewayTypeAlias = false, $sourceId = false)
     {
@@ -108,7 +110,7 @@ class OnlinePaymentController extends BaseController
             if (cache($key)) {
                 return redirect()->to('view/' . $invitation->invitation_key);
             } else {
-                cache([$key => true], \Carbon::now()->addSeconds(10));
+                cache([$key => true], Carbon::now()->addSeconds(10));
             }
         }
 
@@ -122,7 +124,7 @@ class OnlinePaymentController extends BaseController
     /**
      * @param CreateOnlinePaymentRequest $request
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function doPayment(CreateOnlinePaymentRequest $request, $invitationKey, $gatewayTypeAlias = false)
     {
@@ -161,7 +163,7 @@ class OnlinePaymentController extends BaseController
      * @param bool  $invitationKey
      * @param mixed $gatewayTypeAlias
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function offsitePayment($invitationKey = false, $gatewayTypeAlias = false)
     {
@@ -233,7 +235,7 @@ class OnlinePaymentController extends BaseController
      * @param $exception
      * @param bool $showPayment
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     private function error($paymentDriver, $exception, $showPayment = false)
     {
@@ -259,7 +261,7 @@ class OnlinePaymentController extends BaseController
     /**
      * @param $routingNumber
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getBankInfo($routingNumber)
     {
@@ -288,7 +290,7 @@ class OnlinePaymentController extends BaseController
      * @param $accountKey
      * @param $gatewayId
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function handlePaymentWebhook($accountKey, $gatewayId)
     {
@@ -350,7 +352,7 @@ class OnlinePaymentController extends BaseController
         // check for existing client using contact_key
         $client = false;
         if ($contactKey = Input::get('contact_key')) {
-            $client = Client::scope()->whereHas('contacts', function ($query) use ($contactKey) {
+            $client = Client::Scope()->whereHas('contacts', function ($query) use ($contactKey) {
                 $query->where('contact_key', $contactKey);
             })->first();
         }
@@ -436,7 +438,7 @@ class OnlinePaymentController extends BaseController
     public function showAppleMerchantId()
     {
         if (Utils::isNinja()) {
-            $subdomain = Utils::getSubdomain(\Request::server('HTTP_HOST'));
+            $subdomain = Utils::getSubdomain(Request::server('HTTP_HOST'));
             if (! $subdomain || $subdomain == 'app') {
                 exit('Invalid subdomain');
             }

@@ -51,7 +51,7 @@ class InvoiceRepository extends BaseRepository
 
     public function all()
     {
-        return Invoice::scope()
+        return Invoice::Scope()
             ->invoiceType(INVOICE_TYPE_STANDARD)
             ->with('user', 'client.contacts', 'invoice_status')
             ->withTrashed()
@@ -434,7 +434,7 @@ class InvoiceRepository extends BaseRepository
 
             // set the default due date
             if ($entityType == ENTITY_INVOICE && empty($data['partial_due_date'])) {
-                $client = Client::scope()->whereId($data['client_id'])->first();
+                $client = Client::Scope()->whereId($data['client_id'])->first();
                 $invoice->due_date = $account->defaultDueDate($client);
             }
         } else {
@@ -888,7 +888,7 @@ class InvoiceRepository extends BaseRepository
         }
 
         foreach ($client->contacts as $contact) {
-            $invitation = Invitation::scope()->whereContactId($contact->id)->whereInvoiceId($invoice->id)->first();
+            $invitation = Invitation::Scope()->whereContactId($contact->id)->whereInvoiceId($invoice->id)->first();
 
             if (in_array($contact->id, $sendInvoiceIds) && !$invitation) {
                 $invitation = Invitation::createNew($invoice);
@@ -1132,7 +1132,7 @@ class InvoiceRepository extends BaseRepository
      */
     public function findOpenInvoices($clientId)
     {
-        $query = Invoice::scope()
+        $query = Invoice::Scope()
             ->invoiceType(INVOICE_TYPE_STANDARD)
             ->whereClientId($clientId)
             ->whereIsRecurring(false)
@@ -1415,7 +1415,7 @@ class InvoiceRepository extends BaseRepository
         $max = SIMILAR_MIN_THRESHOLD;
         $invoiceId = 0;
 
-        $invoices = Invoice::scope()->get(['id', 'invoice_number', 'public_id']);
+        $invoices = Invoice::Scope()->get(['id', 'invoice_number', 'public_id']);
 
         foreach ($invoices as $invoice) {
             $map[$invoice->id] = $invoice;

@@ -2,6 +2,7 @@
 
 namespace App\Ninja\Repositories;
 
+use App\Models\Invitation;
 use App\Models\Invoice;
 use App\Models\Proposal;
 use App\Models\ProposalInvitation;
@@ -25,7 +26,7 @@ class ProposalRepository extends BaseRepository
 
     public function all()
     {
-        return Proposal::scope()->get();
+        return Proposal::Scope()->get();
     }
 
     public function find($account = false, $filter = null, $userId = false)
@@ -144,7 +145,7 @@ class ProposalRepository extends BaseRepository
         list($invitationKey) = explode('&', $invitationKey);
         $invitationKey = substr($invitationKey, 0, RANDOM_KEY_LENGTH);
 
-        /** @var \App\Models\Invitation $invitation */
+        /** @var Invitation $invitation */
         $invitation = ProposalInvitation::where('invitation_key', '=', $invitationKey)->first();
         if (!$invitation) {
             return false;

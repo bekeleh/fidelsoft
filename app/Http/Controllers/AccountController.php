@@ -431,7 +431,7 @@ class AccountController extends BaseController
         $account = Auth::user()->account;
         $account->load('account_gateways');
         $count = $account->account_gateways->count();
-        $trashedCount = AccountGateway::scope()->withTrashed()->count();
+        $trashedCount = AccountGateway::Scope()->withTrashed()->count();
 
         if ($accountGateway = $account->getGatewayConfig(GATEWAY_STRIPE)) {
             if (!$accountGateway->getPublishableKey()) {
@@ -449,7 +449,7 @@ class AccountController extends BaseController
             'title' => trans('texts.online_payments'),
             'tokenBillingOptions' => $tokenBillingOptions,
             'currency' => Utils::getFromCache(Session::get(SESSION_CURRENCY, DEFAULT_CURRENCY), 'currencies'),
-            'taxRates' => TaxRate::scope()->whereIsInclusive(false)->orderBy('rate')->get(['public_id', 'name', 'rate']),
+            'taxRates' => TaxRate::Scope()->whereIsInclusive(false)->orderBy('rate')->get(['public_id', 'name', 'rate']),
             'account' => $account,
         ]);
     }
@@ -469,9 +469,9 @@ class AccountController extends BaseController
         $data = [
             'account' => Auth::user()->account,
             'title' => trans('texts.tax_rates'),
-            'taxRates' => TaxRate::scope()->whereIsInclusive(false)->get(),
-            'countInvoices' => Invoice::scope()->withTrashed()->count(),
-            'hasInclusiveTaxRates' => TaxRate::scope()->whereIsInclusive(true)->count() ? true : false,
+            'taxRates' => TaxRate::Scope()->whereIsInclusive(false)->get(),
+            'countInvoices' => Invoice::Scope()->withTrashed()->count(),
+            'hasInclusiveTaxRates' => TaxRate::Scope()->whereIsInclusive(true)->count() ? true : false,
         ];
 
         return View::make('accounts.tax_rates', $data);
@@ -492,7 +492,7 @@ class AccountController extends BaseController
     {
         $account = Auth::user()->account->load('country');
 
-        if ($invoice = Invoice::scope()->invoices()->orderBy('id')->first()) {
+        if ($invoice = Invoice::Scope()->invoices()->orderBy('id')->first()) {
             $invoice->load('account', 'client.contacts', 'invoice_items');
             $invoice->invoice_date = Utils::fromSqlDate($invoice->invoice_date);
             $invoice->due_date = Utils::fromSqlDate($invoice->due_date);
@@ -628,7 +628,7 @@ class AccountController extends BaseController
             'title' => trans('texts.client_portal'),
             'section' => ACCOUNT_CLIENT_PORTAL,
             'account' => $account,
-            'products' => Product::scope()->orderBy('name')->get(),
+            'products' => Product::Scope()->orderBy('name')->get(),
             'gateway_types' => $options,
         ];
 
@@ -1361,7 +1361,7 @@ class AccountController extends BaseController
             dispatch(new PurgeClientData($ninjaClient));
         }
 
-        Document::scope()->each(function ($item, $key) {
+        Document::Scope()->each(function ($item, $key) {
             $item->delete();
         });
 
@@ -1410,7 +1410,7 @@ class AccountController extends BaseController
     public function previewEmail(TemplateService $templateService)
     {
         $template = Input::get('template');
-        $invitation = Invitation::scope()
+        $invitation = Invitation::Scope()
             ->with('invoice.client.contacts')
             ->first();
 

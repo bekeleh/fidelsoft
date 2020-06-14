@@ -2,12 +2,12 @@
 
 namespace App\Ninja\Datatables;
 
+use App\Libraries\Utils;
 use App\Models\AccountGateway;
 use App\Models\AccountGatewaySettings;
-use App\Models\GatewayType;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\URL;
-use App\Libraries\Utils;
+use WePayException;
 
 class AccountGatewayDatatable extends EntityDatatable
 {
@@ -55,7 +55,7 @@ class AccountGatewayDatatable extends EntityDatatable
                                 $model->resendConfirmationUrl = $url = URL::to("gateways/{$accountGateway->public_id}/resend_confirmation");
                                 $html = link_to($url, $linkText)->toHtml();
                             }
-                        } catch (\WePayException $ex) {
+                        } catch (WePayException $ex) {
                         }
 
                         return $html;
@@ -124,7 +124,7 @@ class AccountGatewayDatatable extends EntityDatatable
                         if ($accountGatewaySettings->hasTaxes()) {
                             $html .= ' + ' . trans('texts.tax');
                         }
-                    };
+                    }
                     return $html ?: trans('texts.no_fees');
                 },
             ],
@@ -225,7 +225,7 @@ class AccountGatewayDatatable extends EntityDatatable
             return static::$accountGatewaySettings[$gatewayTypeId];
         }
 
-        static::$accountGatewaySettings[$gatewayTypeId] = AccountGatewaySettings::scope()
+        static::$accountGatewaySettings[$gatewayTypeId] = AccountGatewaySettings::Scope()
             ->where('account_gateway_settings.gateway_type_id', '=', $gatewayTypeId)->first();
 
         return static::$accountGatewaySettings[$gatewayTypeId];

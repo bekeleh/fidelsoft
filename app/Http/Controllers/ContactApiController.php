@@ -42,7 +42,7 @@ class ContactApiController extends BaseAPIController
      */
     public function index()
     {
-        $contacts = Contact::scope()
+        $contacts = Contact::Scope()
             ->withTrashed()
             ->orderBy('created_at', 'desc');
 

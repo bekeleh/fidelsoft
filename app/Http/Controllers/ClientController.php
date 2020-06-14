@@ -88,7 +88,7 @@ class ClientController extends BaseController
             $holdReason = null;
         }
 
-        if (Client::scope()->withTrashed()->count() > Auth::user()->getMaxNumClients()) {
+        if (Client::Scope()->withTrashed()->count() > Auth::user()->getMaxNumClients()) {
             return View::make('error', ['hideHeader' => true, 'error' => "Sorry, you've exceeded the limit of " . Auth::user()->getMaxNumClients() . ' clients']);
         }
 
@@ -201,10 +201,10 @@ class ClientController extends BaseController
                 'client' => $client,
                 'credit' => $client->getTotalCredit(),
                 'title' => trans('texts.view_client'),
-                'hasRecurringInvoices' => $account->isModuleEnabled(ENTITY_RECURRING_INVOICE) && Invoice::scope()->recurring()->withArchived()->whereClientId($client->id)->count() > 0,
-                'hasQuotes' => $account->isModuleEnabled(ENTITY_QUOTE) && Invoice::scope()->quotes()->withArchived()->whereClientId($client->id)->count() > 0,
-                'hasTasks' => $account->isModuleEnabled(ENTITY_TASK) && Task::scope()->withArchived()->whereClientId($client->id)->count() > 0,
-                'hasExpenses' => $account->isModuleEnabled(ENTITY_EXPENSE) && Expense::scope()->withArchived()->whereClientId($client->id)->count() > 0,
+                'hasRecurringInvoices' => $account->isModuleEnabled(ENTITY_RECURRING_INVOICE) && Invoice::Scope()->recurring()->withArchived()->whereClientId($client->id)->count() > 0,
+                'hasQuotes' => $account->isModuleEnabled(ENTITY_QUOTE) && Invoice::Scope()->quotes()->withArchived()->whereClientId($client->id)->count() > 0,
+                'hasTasks' => $account->isModuleEnabled(ENTITY_TASK) && Task::Scope()->withArchived()->whereClientId($client->id)->count() > 0,
+                'hasExpenses' => $account->isModuleEnabled(ENTITY_EXPENSE) && Expense::Scope()->withArchived()->whereClientId($client->id)->count() > 0,
                 'gatewayLink' => $token ? $token->gatewayLink() : false,
                 'gatewayName' => $token ? $token->gatewayName() : false,
             ];
@@ -222,8 +222,8 @@ class ClientController extends BaseController
             'sizes' => Cache::get('sizes'),
             'customLabel1' => Auth::user()->account->customLabel('client1'),
             'customLabel2' => Auth::user()->account->customLabel('client2'),
-            'saleTypes' => SaleType::scope()->withActiveOrSelected($client ? $client->sale_type_id : false)->orderBy('name')->get(),
-            'holdReasons' => HoldReason::scope()->withActiveOrSelected($client ? $client->hold_reason_id : false)->orderBy('name')->get(),
+            'saleTypes' => SaleType::Scope()->withActiveOrSelected($client ? $client->sale_type_id : false)->orderBy('name')->get(),
+            'holdReasons' => HoldReason::Scope()->withActiveOrSelected($client ? $client->hold_reason_id : false)->orderBy('name')->get(),
         ];
     }
 

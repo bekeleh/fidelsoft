@@ -5,6 +5,7 @@ namespace App\Ninja\Repositories;
 use App\Models\ItemMovement;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Log;
 
 class ItemMovementRepository extends BaseRepository
 {
@@ -22,7 +23,7 @@ class ItemMovementRepository extends BaseRepository
 
     public function all()
     {
-        return ItemMovement::scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return ItemMovement::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
 
@@ -82,7 +83,7 @@ class ItemMovementRepository extends BaseRepository
             $itemMovement->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $itemMovement = ItemMovement::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in store repo save');
+            Log::warning('Entity not set in store repo save');
         } else {
             $itemMovement = ItemMovement::createNew();
             $itemMovement->created_by = Auth::user()->username;
@@ -101,7 +102,7 @@ class ItemMovementRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $itemMovementId = 0;
-        $itemMovements = ItemMovement::scope()->get();
+        $itemMovements = ItemMovement::Scope()->get();
         if (!empty($itemMovements)) {
             foreach ($itemMovements as $itemMovement) {
                 if (!$itemMovement->name) {

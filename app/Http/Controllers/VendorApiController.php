@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\DeleteVendorRequest;
-use App\Http\Requests\VendorRequest;
 use App\Http\Requests\CreateVendorRequest;
+use App\Http\Requests\DeleteVendorRequest;
 use App\Http\Requests\UpdateVendorRequest;
+use App\Http\Requests\VendorRequest;
 use App\Models\Vendor;
 use App\Ninja\Repositories\VendorRepository;
 use Input;
@@ -51,7 +51,7 @@ class VendorApiController extends BaseAPIController
      */
     public function index()
     {
-        $vendors = Vendor::scope()
+        $vendors = Vendor::Scope()
                     ->withTrashed()
                     ->orderBy('updated_at', 'desc');
 

@@ -57,7 +57,7 @@
                     window.loadingFonts = false;
                     ninjaLoadFontVfs();
                     refreshPDF()
-                }
+                };
             )
             }
         }
@@ -307,7 +307,7 @@
                                     {!! Former::select('background_image_id')
                                             ->label('background_image')
                                             ->addOption('', '')
-                                            ->fromQuery(\App\Models\Document::scope()->proposalImages()->get(), function($model) { return $model->name . ' - ' . Utils::formatNumber($model->size / 1000, null, 1) . ' KB'; }, 'public_id')
+                                            ->fromQuery(\App\Models\Document::Scope()->proposalImages()->get(), function($model) { return $model->name . ' - ' . Utils::formatNumber($model->size / 1000, null, 1) . ' KB'; }, 'public_id')
                                             ->help($account->isModuleEnabled(ENTITY_PROPOSAL)
                                                     ? trans('texts.background_image_help', ['link' => link_to('/proposals/create?show_assets=true', trans('texts.proposal_editor'), ['target' => '_blank'])])
                                                     //: trans('texts.enable_proposals_for_background', ['link' => link_to('/settings/account_management', trans('texts.click_here'), ['target' => '_blank'])])

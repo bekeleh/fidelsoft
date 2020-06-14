@@ -2,11 +2,8 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Events\ItemRequestWasCreated;
-use App\Events\ItemRequestWasUpdated;
 use App\Libraries\Utils;
 use App\Models\ItemMovement;
-use App\Models\ItemStore;
 use App\Models\ItemRequest;
 use App\Models\Product;
 use App\Models\Status;
@@ -14,6 +11,7 @@ use App\Models\Store;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Log;
 
 class ItemRequestRepository extends BaseRepository
 {
@@ -31,7 +29,7 @@ class ItemRequestRepository extends BaseRepository
 
     public function all()
     {
-        return ItemRequest::scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return ItemRequest::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
     public function find($accountId = false, $filter = null)
@@ -99,7 +97,7 @@ class ItemRequestRepository extends BaseRepository
             $itemRequest->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $itemRequest = ItemRequest::scope($publicId)->withArchived()->firstOrFail();
-            \Log::warning('Entity not set in item request repo save');
+            Log::warning('Entity not set in item request repo save');
         } else {
             $itemRequest = ItemRequest::createNew();
             $itemRequest->created_by = Auth::user()->username;
@@ -202,7 +200,7 @@ class ItemRequestRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $itemRequestId = 0;
-        $itemRequests = ItemRequest::scope()->get();
+        $itemRequests = ItemRequest::Scope()->get();
         if (!empty($itemRequests)) {
             foreach ($itemRequests as $itemRequest) {
                 if (!$itemRequest->bin) {

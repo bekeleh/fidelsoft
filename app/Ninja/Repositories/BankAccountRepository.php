@@ -4,6 +4,7 @@ namespace App\Ninja\Repositories;
 
 use App\Models\BankAccount;
 use App\Models\BankSubaccount;
+use Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
@@ -23,7 +24,7 @@ class BankAccountRepository extends BaseRepository
 
     public function all()
     {
-        return BankAccount::scope()
+        return BankAccount::Scope()
             ->withTrashed()
             ->where('is_deleted', '=', false)
             ->get();
@@ -65,7 +66,7 @@ class BankAccountRepository extends BaseRepository
         $bankAccount->username = Crypt::encrypt(trim($input['bank_username']));
         $bankAccount->fill($input);
 
-        $account = \Auth::user()->account;
+        $account = Auth::user()->account;
         $account->bank_accounts()->save($bankAccount);
 
         foreach ($input['bank_accounts'] as $data) {

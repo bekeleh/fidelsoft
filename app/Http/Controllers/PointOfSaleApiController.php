@@ -80,7 +80,7 @@ class PointOfSaleApiController extends BaseAPIController
      */
     public function index()
     {
-        $products = Product::scope()->withTrashed()->orderBy('created_at', 'desc');
+        $products = Product::Scope()->withTrashed()->orderBy('created_at', 'desc');
 
         return $this->listResponse($products);
     }

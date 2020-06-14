@@ -41,7 +41,7 @@ class ExpenseCategoryApiController extends BaseAPIController
      */
     public function index()
     {
-        $clients = ExpenseCategory::scope()
+        $clients = ExpenseCategory::Scope()
             ->orderBy('created_at', 'desc')
             ->withTrashed();
 

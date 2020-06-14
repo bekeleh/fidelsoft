@@ -2,8 +2,8 @@
 
 namespace App\Ninja\Reports;
 
-use App\Models\Task;
 use App\Libraries\Utils;
+use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
 
 class TaskReport extends AbstractReport
@@ -40,7 +40,7 @@ class TaskReport extends AbstractReport
         $endDate = date_create($this->endDate);
         $subgroup = $this->options['subgroup'];
 
-        $tasks = Task::scope()
+        $tasks = Task::Scope()
             ->orderBy('created_at', 'desc')
             ->with('client.contacts', 'project', 'account', 'user')
             ->withArchived()

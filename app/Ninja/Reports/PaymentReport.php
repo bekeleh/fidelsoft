@@ -2,9 +2,9 @@
 
 namespace App\Ninja\Reports;
 
+use App\Libraries\Utils;
 use App\Models\Payment;
 use Illuminate\Support\Facades\Auth;
-use App\Libraries\Utils;
 
 class PaymentReport extends AbstractReport
 {
@@ -30,7 +30,7 @@ class PaymentReport extends AbstractReport
         $invoiceMap = [];
         $subgroup = $this->options['subgroup'];
 
-        $payments = Payment::scope()
+        $payments = Payment::Scope()
             ->orderBy('payment_date', 'desc')
             ->withArchived()
             ->excludeFailed()

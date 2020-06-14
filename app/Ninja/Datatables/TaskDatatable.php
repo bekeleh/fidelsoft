@@ -5,6 +5,7 @@ namespace App\Ninja\Datatables;
 use App\Libraries\Utils;
 use App\Models\Task;
 use App\Models\TaskStatus;
+use DropdownButton;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 
@@ -172,7 +173,7 @@ class TaskDatatable extends EntityDatatable
     {
         $actions = [];
 
-        $statuses = TaskStatus::scope()->orderBy('sort_order')->get();
+        $statuses = TaskStatus::Scope()->orderBy('sort_order')->get();
 
         foreach ($statuses as $status) {
             $actions[] = [
@@ -182,7 +183,7 @@ class TaskDatatable extends EntityDatatable
         }
 
         if (count($actions)) {
-            $actions[] = \DropdownButton::DIVIDER;
+            $actions[] = DropdownButton::DIVIDER;
         }
 
         $actions = array_merge($actions, parent::bulkActions());

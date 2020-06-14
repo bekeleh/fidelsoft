@@ -7,6 +7,7 @@ use App\Models\Expense;
 use App\Models\RecurringExpense;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Log;
 
 class RecurringExpenseRepository extends BaseRepository
 {
@@ -24,7 +25,7 @@ class RecurringExpenseRepository extends BaseRepository
 
     public function all()
     {
-        return RecurringExpense::scope()
+        return RecurringExpense::Scope()
             ->with('user')
             ->withTrashed()
             ->where('is_deleted', '=', false)
@@ -95,7 +96,7 @@ class RecurringExpenseRepository extends BaseRepository
                 $query->where('recurring_expenses.public_notes', 'like', '%' . $filter . '%')
                     ->orWhere('clients.name', 'like', '%' . $filter . '%')
                     ->orWhere('vendors.name', 'like', '%' . $filter . '%')
-                    ->orWhere('expense_categories.name', 'like', '%' . $filter . '%');;
+                    ->orWhere('expense_categories.name', 'like', '%' . $filter . '%');
             });
         }
 
@@ -111,7 +112,7 @@ class RecurringExpenseRepository extends BaseRepository
         } elseif ($publicId) {
             $expense = RecurringExpense::scope($publicId)->firstOrFail();
             if (Utils::isNinjaDev()) {
-                \Log::warning('Entity not set in expense repo save');
+                Log::warning('Entity not set in expense repo save');
             }
         } else {
             $expense = RecurringExpense::createNew();

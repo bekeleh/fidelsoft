@@ -8,6 +8,7 @@ use App\Models\AccountGateway;
 use App\Models\AccountGatewaySettings;
 use App\Models\Gateway;
 use App\Services\AccountGatewayService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
@@ -16,8 +17,10 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Redirect;
+use Request;
 use stdClass;
 use WePay;
+use WePayException;
 
 class AccountGatewayController extends BaseController
 {
@@ -87,7 +90,7 @@ class AccountGatewayController extends BaseController
      */
     public function create()
     {
-        if (!\Request::secure() && !Utils::isNinjaDev()) {
+        if (!Request::secure() && !Utils::isNinjaDev()) {
             Session::now('warning', trans('texts.enable_https'));
         }
 
@@ -229,7 +232,7 @@ class AccountGatewayController extends BaseController
             } else {
                 // check they don't already have an active gateway for this provider
                 // TODO complete this
-                $accountGateway = AccountGateway::scope()
+                $accountGateway = AccountGateway::Scope()
                     ->whereGatewayId($gatewayId)
                     ->first();
                 if ($accountGateway) {
@@ -422,8 +425,8 @@ class AccountGatewayController extends BaseController
                 'email' => Input::get('email'),
                 'first_name' => Input::get('first_name'),
                 'last_name' => Input::get('last_name'),
-                'original_ip' => \Request::getClientIp(true),
-                'original_device' => \Request::server('HTTP_USER_AGENT'),
+                'original_ip' => Request::getClientIp(true),
+                'original_device' => Request::server('HTTP_USER_AGENT'),
                 'tos_acceptance_time' => time(),
                 'redirect_uri' => URL::to('gateways'),
                 'scope' => 'manage_accounts,collect_payments,view_user,preapprove_payments,send_money',
@@ -457,7 +460,7 @@ class AccountGatewayController extends BaseController
             try {
                 $wepay->request('user/send_confirmation/', []);
                 $confirmationRequired = true;
-            } catch (\WePayException $ex) {
+            } catch (WePayException $ex) {
                 if ($ex->getMessage() == 'This access_token is already approved.') {
                     $confirmationRequired = false;
                 } else {
@@ -493,7 +496,7 @@ class AccountGatewayController extends BaseController
             $response = Redirect::to("gateways/{$accountGateway->public_id}/edit");
 
             return true;
-        } catch (\WePayException $e) {
+        } catch (WePayException $e) {
             Session::flash('error', $e->getMessage());
             $response = Redirect::to('gateways/create')
                 ->withInput();
@@ -512,7 +515,7 @@ class AccountGatewayController extends BaseController
                 $wepay->request('user/send_confirmation', []);
 
                 Session::flash('message', trans('texts.resent_confirmation_email'));
-            } catch (\WePayException $e) {
+            } catch (WePayException $e) {
                 Session::flash('error', $e->getMessage());
             }
         }
@@ -521,12 +524,12 @@ class AccountGatewayController extends BaseController
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function savePaymentGatewayLimits()
     {
         $gateway_type_id = intval(Input::get('gateway_type_id'));
-        $gateway_settings = AccountGatewaySettings::scope()->where('gateway_type_id', '=', $gateway_type_id)->first();
+        $gateway_settings = AccountGatewaySettings::Scope()->where('gateway_type_id', '=', $gateway_type_id)->first();
 
         if (!$gateway_settings) {
             $gateway_settings = AccountGatewaySettings::createNew();

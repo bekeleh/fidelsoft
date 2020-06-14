@@ -1,4 +1,4 @@
-<?php if ($errors->any()): ?>
+<?php if($errors->any()): ?>
     <div class="col-xs-12">
         <div class="alert alert-danger fade in">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -9,7 +9,7 @@
     </div>
 <?php endif; ?>
 
-<?php if ($message = Session::get('status')): ?>
+<?php if($message = Session::get('status')): ?>
     <div class="col-xs-12">
         <div class="alert alert-success fade in">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -21,7 +21,7 @@
     </div>
 <?php endif; ?>
 
-<?php if ($message = Session::get('message')): ?>
+<?php if($message = Session::get('message')): ?>
     <div class="col-xs-12">
         <div class="alert alert-success fade in">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -33,7 +33,7 @@
     </div>
 <?php endif; ?>
 
-<?php if ($message = Session::get('success')): ?>
+<?php if($message = Session::get('success')): ?>
     <div class="col-xs-12">
         <div class="alert alert-success fade in">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -45,7 +45,7 @@
     </div>
 <?php endif; ?>
 
-<?php if ($message = Session::get('error')): ?>
+<?php if($message = Session::get('error')): ?>
     <div class="col-xs-12">
         <div class="alert alert alert-danger fade in">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -57,7 +57,7 @@
     </div>
 <?php endif; ?>
 
-<?php if ($message = Session::get('warning')): ?>
+<?php if($message = Session::get('warning')): ?>
     <div class="col-xs-12">
         <div class="alert alert-warning fade in">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -69,7 +69,7 @@
     </div>
 <?php endif; ?>
 
-<?php if ($message = Session::get('info')): ?>
+<?php if($message = Session::get('info')): ?>
     <div class="col-xs-12">
         <div class="alert alert-info fade in">
             <button type="button" class="close" data-dismiss="alert">&times;</button>

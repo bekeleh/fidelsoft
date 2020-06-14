@@ -72,7 +72,7 @@ class ProjectApiController extends BaseAPIController
 
     public function index()
     {
-        $projects = Project::scope()
+        $projects = Project::Scope()
             ->withTrashed()
             ->orderBy('updated_at', 'desc');
 

@@ -181,7 +181,7 @@ class ItemStoreController extends BaseController
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
             'products' => Product::withCategory('itemBrand.itemCategory'),
-            'stores' => Store::scope()->withActiveOrSelected($itemStore ? $itemStore->store_id : false)->orderBy('name')->get(),
+            'stores' => Store::Scope()->withActiveOrSelected($itemStore ? $itemStore->store_id : false)->orderBy('name')->get(),
         ];
     }
 
