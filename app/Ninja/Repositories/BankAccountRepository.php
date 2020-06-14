@@ -4,7 +4,7 @@ namespace App\Ninja\Repositories;
 
 use App\Models\BankAccount;
 use App\Models\BankSubaccount;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 

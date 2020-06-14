@@ -83,7 +83,6 @@ class ItemMovementRepository extends BaseRepository
             $itemMovement->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $itemMovement = ItemMovement::scope($publicId)->withArchived()->firstOrFail();
-            Log::warning('Entity not set in store repo save');
         } else {
             $itemMovement = ItemMovement::createNew();
             $itemMovement->created_by = Auth::user()->username;

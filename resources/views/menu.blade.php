@@ -3,7 +3,7 @@
         {!! DropdownButton::normal(trans('texts.maintenance'))
         ->withAttributes(['class'=>'maintenanceDropdown'])
         ->withContents([
-        ['label' => trans('texts.new_permission_group'), 'url' => url('/permission_groups/create')],
+        ['label' => trans('texts.new_permission_group'), 'url' => url('/permission_groups')],
         ['label' => trans('texts.new_branch'), 'url' => url('/branches')],
         ['label' => trans('texts.new_location'), 'url' => url('/locations')],
         ])->split() !!}
@@ -13,7 +13,7 @@
         {!! DropdownButton::normal(trans('texts.maintenance'))
         ->withAttributes(['class'=>'maintenanceDropdown'])
         ->withContents([
-        ['label' => trans('texts.new_user'), 'url' => url('/users/create')],
+        ['label' => trans('texts.new_user'), 'url' => url('/users')],
         ['label' => trans('texts.new_branch'), 'url' => url('/branches')],
         ['label' => trans('texts.new_location'), 'url' => url('/locations')],
         ])->split() !!}
@@ -23,7 +23,7 @@
         {!! DropdownButton::normal(trans('texts.maintenance'))
         ->withAttributes(['class'=>'maintenanceDropdown'])
         ->withContents([
-        ['label' => trans('texts.new_proposal_category'), 'url' => url('/proposals/categories/create')],
+        ['label' => trans('texts.new_proposal_category'), 'url' => url('/proposals/categories')],
         ])->split() !!}
     @endif
 @elseif (in_array($entityType, [ENTITY_SCHEDULE]))
@@ -32,7 +32,7 @@
         ->withAttributes(['class'=>'maintenanceDropdown'])
         ->withContents([
             ['label' => trans('texts.list_scheduled_reports'), 'url' => url('/scheduled_reports')],
-        ['label' => trans('texts.new_schedule_category'), 'url' => url('/schedule_categories/create')],
+        ['label' => trans('texts.new_schedule_category'), 'url' => url('/schedule_categories')],
         ])->split() !!}
     @endif
 @endif
@@ -50,8 +50,8 @@
         {!! DropdownButton::normal(trans('texts.maintenance'))
         ->withAttributes(['class'=>'maintenanceDropdown'])
         ->withContents([
-        ['label' => trans('texts.new_proposal_template'), 'url' => url('/proposals/templates/create')],
-        ['label' => trans('texts.new_proposal_snippet'), 'url' => url('/proposals/snippets/create')],
+        ['label' => trans('texts.new_proposal_template'), 'url' => url('/proposals/templates')],
+        ['label' => trans('texts.new_proposal_snippet'), 'url' => url('/proposals/snippets')],
         ])->split() !!}
     @endif
     <!-- task menu -->
@@ -91,6 +91,21 @@
         ['label' => trans('texts.new_quote'), 'url' => url('/quotes')],
         ['label' => trans('texts.new_credit'), 'url' => url('/credits')],
         ['label' => trans('texts.new_expense'), 'url' => url('/expenses')],
+        ['label' => trans('texts.new_client_type'), 'url' => url('/client_types')],
+        ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types')],
+        ['label' => trans('texts.new_hold_reason'), 'url' => url('/hold_reasons')],
+        ])->split() !!}
+    @endif
+@elseif (in_array($entityType, [ENTITY_CLIENT_TYPE]))
+    @if (Auth::user()->can('create', [ENTITY_CLIENT_TYPE]))
+        {!! DropdownButton::normal(trans('texts.maintenance'))
+        ->withAttributes(['class'=>'maintenanceDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_invoice'), 'url' => url('/invoices')],
+        ['label' => trans('texts.new_quote'), 'url' => url('/quotes')],
+        ['label' => trans('texts.new_credit'), 'url' => url('/credits')],
+        ['label' => trans('texts.new_expense'), 'url' => url('/expenses')],
+        ['label' => trans('texts.new_client'), 'url' => url('/clients')],
         ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types')],
         ['label' => trans('texts.new_hold_reason'), 'url' => url('/hold_reasons')],
         ])->split() !!}
@@ -127,7 +142,7 @@
         {!! DropdownButton::normal(trans('texts.maintenance'))
         ->withAttributes(['class'=>'maintenanceDropdown'])
         ->withContents([
-        ['label' => trans('texts.new_item'), 'url' => url('/products/create')],
+        ['label' => trans('texts.new_item'), 'url' => url('/products')],
         ['label' => trans('texts.new_item_category'), 'url' => url('/item_categories')],
         ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices')],
         ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores')],
@@ -142,7 +157,7 @@
         {!! DropdownButton::normal(trans('texts.maintenance'))
         ->withAttributes(['class'=>'maintenanceDropdown'])
         ->withContents([
-        ['label' => trans('texts.new_item'), 'url' => url('/products/create')],
+        ['label' => trans('texts.new_item'), 'url' => url('/products')],
         ['label' => trans('texts.new_item_brand'), 'url' => url('/item_brands')],
         ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices')],
         ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores')],
@@ -216,6 +231,8 @@
         {!! DropdownButton::normal(trans('texts.maintenance'))
         ->withAttributes(['class'=>'maintenanceDropdown'])
         ->withContents([
+        ['label' => trans('texts.new_client'), 'url' => url('/clients')],
+        ['label' => trans('texts.new_client_type'), 'url' => url('/client_types')],
         ['label' => trans('texts.new_product'), 'url' => url('/products')],
         ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices')],
         ['label' => trans('texts.new_branch'), 'url' => url('/branches')],

@@ -134,11 +134,6 @@ class ProposalRepository extends BaseRepository
         return $proposal;
     }
 
-    /**
-     * @param $invitationKey
-     *
-     * @return Invitation|bool
-     */
     public function findInvitationByKey($invitationKey)
     {
         // check for extra params at end of value (from website feature)

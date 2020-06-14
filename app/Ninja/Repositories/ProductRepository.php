@@ -10,7 +10,7 @@ use App\Models\Product;
 use App\Models\Unit;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 class ProductRepository extends BaseRepository
 {
@@ -95,7 +95,7 @@ class ProductRepository extends BaseRepository
     {
         $itemBrandId = ItemBrand::getPrivateId($itemBrandPublicId);
 
-        $query = $this->find()->where('item_brands.item_brand_id', '=', $itemBrandId);
+        $query = $this->find()->where('products.item_brand_id', '=', $itemBrandId);
 
         return $query;
     }
@@ -104,7 +104,7 @@ class ProductRepository extends BaseRepository
     {
         $unitId = Unit::getPrivateId($unitPublicId);
 
-        $query = $this->find()->where('units.unit_id', '=', $unitId);
+        $query = $this->find()->where('products.unit_id', '=', $unitId);
 
         return $query;
     }
@@ -117,7 +117,6 @@ class ProductRepository extends BaseRepository
             $product->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $product = Product::scope($publicId)->withArchived()->firstOrFail();
-            Log::warning('Entity not set in product repo save');
         } else {
             $product = Product::createNew();
             $product->created_by = auth::user()->username;

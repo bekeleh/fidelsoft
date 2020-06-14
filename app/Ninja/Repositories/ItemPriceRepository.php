@@ -84,7 +84,7 @@ class ItemPriceRepository extends BaseRepository
     {
         $itemId = Product::getPrivateId($itemPublicId);
 
-        $query = $this->find()->where('products.product_id', '=', $itemId);
+        $query = $this->find()->where('item_prices.product_id', '=', $itemId);
 
         return $query;
     }
@@ -93,7 +93,7 @@ class ItemPriceRepository extends BaseRepository
     {
         $saleTypeId = SaleType::getPrivateId($saleTypePublicId);
 
-        $query = $this->find()->where('sale_types.sale_type_id', '=', $saleTypeId);
+        $query = $this->find()->where('item_prices.sale_type_id', '=', $saleTypeId);
 
         return $query;
     }

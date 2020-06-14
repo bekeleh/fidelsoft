@@ -9,7 +9,7 @@ use App\Models\Expense;
 use App\Models\Vendor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 class ExpenseRepository extends BaseRepository
 {

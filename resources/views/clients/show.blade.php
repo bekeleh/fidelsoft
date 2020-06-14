@@ -133,7 +133,7 @@
                     @endif
                     <p>{{ trans('texts.payment_terms').': '.trans('texts.payment_terms_net')}} {{ $client->present()->paymentTerms }}</p>
                     <!--- client client type -->
-                    <p>{{ trans('texts.sale_type_name').': '}} {{ $client->present()->clientType}}</p>
+                    <p>{{ trans('texts.client_type_name').': '}} {{ $client->present()->clientType}}</p>
                     <!--- client sale type -->
                     <p>{{ trans('texts.sale_type_name').': '}} {{ $client->present()->saleType}}</p>
                     <!--- client hold reason -->
@@ -147,7 +147,6 @@
                         @endif
                     </div>
                 </div>
-
                 <div class="col-md-3">
                     <h3>{{ trans('texts.address') }}</h3>
                     @if ($client->addressesMatch())

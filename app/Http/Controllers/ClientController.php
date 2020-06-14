@@ -154,6 +154,7 @@ class ClientController extends BaseController
                 $data['planDetails'] = $account->getPlanDetails(false, false);
             }
         }
+
         return View::make('clients.edit', $data);
     }
 

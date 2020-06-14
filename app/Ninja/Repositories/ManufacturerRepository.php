@@ -61,7 +61,6 @@ class ManufacturerRepository extends BaseRepository
             $manufacturer->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $manufacturer = Manufacturer::scope($publicId)->withArchived()->firstOrFail();
-            Log::warning('Entity not set in manufacturer repo save');
         } else {
             $manufacturer = Manufacturer::createNew();
             $manufacturer->created_by = Auth::user()->username;

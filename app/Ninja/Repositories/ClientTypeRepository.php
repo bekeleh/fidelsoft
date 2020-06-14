@@ -7,7 +7,6 @@ use App\Events\ClientTypeWasUpdated;
 use App\Models\ClientType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Log;
 
 class ClientTypeRepository extends BaseRepository
 {
@@ -36,7 +35,7 @@ class ClientTypeRepository extends BaseRepository
         $query = DB::table('client_types')
             ->leftJoin('accounts', 'accounts.id', '=', 'client_types.account_id')
             ->leftJoin('users', 'users.id', '=', 'client_types.user_id')
-            ->where('client_types.account_id', '=', $accountId)
+//            ->where('client_types.account_id', '=', $accountId)
             //->where('client_types.deleted_at', '=', null)
             ->select(
                 'client_types.id',
@@ -72,7 +71,6 @@ class ClientTypeRepository extends BaseRepository
             $clientType->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $clientType = ClientType::scope($publicId)->withArchived()->firstOrFail();
-            Log::warning('Entity not set in sales_type repo save');
         } else {
             $clientType = ClientType::createNew();
             $clientType->created_by = Auth::user()->username;

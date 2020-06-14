@@ -5,7 +5,7 @@ namespace App\Ninja\Repositories;
 use App\Models\Schedule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 class ScheduleRepository extends BaseRepository
 {

@@ -7,7 +7,7 @@ use App\Events\LocationWasUpdated;
 use App\Models\Location;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 class LocationRepository extends BaseRepository
 {

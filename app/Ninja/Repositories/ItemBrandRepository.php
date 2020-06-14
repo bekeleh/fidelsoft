@@ -6,7 +6,7 @@ use App\Models\ItemBrand;
 use App\Models\ItemCategory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 class ItemBrandRepository extends BaseRepository
 {
@@ -81,7 +81,6 @@ class ItemBrandRepository extends BaseRepository
             $itemBrand->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $itemBrand = ItemBrand::scope($publicId)->withArchived()->firstOrFail();
-            Log::warning('Entity not set in item brand repo save');
         } else {
             $itemBrand = ItemBrand::createNew();
             $itemBrand->created_by = Auth::user()->username;

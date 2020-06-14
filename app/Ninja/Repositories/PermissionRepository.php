@@ -6,7 +6,7 @@ use App\Models\Permission;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 class PermissionRepository extends BaseRepository
 {
@@ -68,7 +68,6 @@ class PermissionRepository extends BaseRepository
             $permission->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $permission = Permission::scope($publicId)->withArchived()->firstOrFail();
-            Log::warning('Entity not set in permission repo save');
         } else {
             $permission = Permission::createNew();
             $permission->created_by = Auth::user()->username;

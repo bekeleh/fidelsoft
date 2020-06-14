@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\Input;
 
 class PaymentTermApiController extends BaseAPIController
 {
-    /**
-     * @var PaymentTermRepository
-     */
     protected $paymentTermRepo;
     protected $entityType = ENTITY_PAYMENT_TERM;
 

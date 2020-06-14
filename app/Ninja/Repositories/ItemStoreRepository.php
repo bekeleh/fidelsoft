@@ -88,6 +88,7 @@ class ItemStoreRepository extends BaseRepository
         if (!$filter) {
             return null;
         }
+
         $query = DB::table('item_stores')
             ->join('accounts', 'accounts.id', '=', 'item_stores.account_id')
             ->join('products', 'products.id', '=', 'item_stores.product_id')

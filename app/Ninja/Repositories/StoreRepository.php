@@ -8,7 +8,7 @@ use App\Models\Location;
 use App\Models\Store;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 class StoreRepository extends BaseRepository
 {
@@ -71,7 +71,7 @@ class StoreRepository extends BaseRepository
     {
         $locationId = Location::getPrivateId($locationPublicId);
 
-        $query = $this->find()->where('locations.location_id', '=', $locationId);
+        $query = $this->find()->where('stores.location_id', '=', $locationId);
 
         return $query;
     }

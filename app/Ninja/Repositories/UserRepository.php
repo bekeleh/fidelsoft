@@ -9,7 +9,7 @@ use App\Models\Store;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 class UserRepository extends BaseRepository
 {
@@ -97,7 +97,7 @@ class UserRepository extends BaseRepository
     {
         $locationId = Location::getPrivateId($locationPublicId);
 
-        $query = $this->find()->where('locations.location_id', '=', $locationId);
+        $query = $this->find()->where('users.location_id', '=', $locationId);
 
         return $query;
     }
@@ -106,7 +106,7 @@ class UserRepository extends BaseRepository
     {
         $branchId = Store::getPrivateId($branchPublicId);
 
-        $query = $this->find()->where('branches.store_id', '=', $branchId);
+        $query = $this->find()->where('users.branch_id', '=', $branchId);
 
         return $query;
     }
@@ -119,7 +119,6 @@ class UserRepository extends BaseRepository
             $user->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $user = User::scope($publicId)->withArchived()->firstOrFail();
-            Log::warning('Entity not set in user repo save');
         } else {
             $user = User::createNew();
             $lastUser = User::withTrashed()

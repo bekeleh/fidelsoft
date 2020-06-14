@@ -69,7 +69,6 @@ class ItemCategoryRepository extends BaseRepository
             $itemCategory->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $itemCategory = ItemCategory::scope($publicId)->withArchived()->firstOrFail();
-            Log::warning('Entity not set in item category repo save');
         } else {
             $itemCategory = ItemCategory::createNew();
             $itemCategory->created_by = Auth::user()->username;

@@ -7,7 +7,6 @@ use App\Events\SaleTypeWasUpdated;
 use App\Models\SaleType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Log;
 
 class SaleTypeRepository extends BaseRepository
 {
@@ -72,7 +71,6 @@ class SaleTypeRepository extends BaseRepository
             $saleType->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $saleType = SaleType::scope($publicId)->withArchived()->firstOrFail();
-            Log::warning('Entity not set in sales_type repo save');
         } else {
             $saleType = SaleType::createNew();
             $saleType->created_by = Auth::user()->username;

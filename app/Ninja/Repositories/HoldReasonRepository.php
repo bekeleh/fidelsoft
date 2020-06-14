@@ -6,7 +6,7 @@ namespace App\Ninja\Repositories;
 use App\Models\HoldReason;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 class HoldReasonRepository extends BaseRepository
 {

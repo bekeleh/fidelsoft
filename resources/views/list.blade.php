@@ -39,7 +39,7 @@
     </select>
     </span>
     </div>
-    <div id="top_right_buttons" class="pull-right">
+    <div id="top_right_buttons" class="row pull-right">
         <input id="tableFilter_{{ $entityType }}" type="text"
                style="width:180px;margin-right:17px;background-color: white !important"
                class="form-control pull-left" placeholder="{{ trans('texts.filter') }}"
@@ -50,8 +50,7 @@
             ->asLinkTo(url(
             (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_TEMPLATE]) ? str_replace('_', 's/', Utils::pluralizeEntityType($entityType)) : Utils::pluralizeEntityType($entityType)) .
             '/create/' . (isset($clientId) ? ($clientId . (isset($projectId) ? '/' . $projectId : '')) : '')
-            ))
-            ->appendIcon(Icon::create('plus-sign')) !!}
+            ))->appendIcon(Icon::create('plus-sign')) !!}
         @endif
 
         @include('menu',['entityType', $entityType])
@@ -99,7 +98,7 @@
     function submitForm_{{ $entityType }}(action, id) {
         // prevent duplicate form submissions
         if (submittedForm) {
-            swal("{{ trans('texts.processing_request') }}")
+            swal("{{ trans('texts.processing_request') }}");
             return;
         }
         submittedForm = true;
@@ -141,7 +140,7 @@
             searchTimeout = setTimeout(function () {
                 filterTable_{{ $entityType }}($('#tableFilter_{{ $entityType }}').val());
             }, 500);
-        })
+        });
 
         if ($('#tableFilter_{{ $entityType }}').val()) {
             filterTable_{{ $entityType }}($('#tableFilter_{{ $entityType }}').val());
@@ -170,7 +169,7 @@
 
             actionListHandler();
             $('[data-toggle="tooltip"]').tooltip();
-        }
+        };
 
         $('.listForm_{{ $entityType }} .archive, .invoice').prop('disabled', true);
         $('.listForm_{{ $entityType }} .archive:not(.dropdown-toggle)').click(function () {

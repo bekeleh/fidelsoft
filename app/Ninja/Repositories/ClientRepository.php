@@ -114,7 +114,7 @@ class ClientRepository extends BaseRepository
     {
         $clientTypeId = ClientType::getPrivateId($clintTypePublicId);
 
-        $query = $this->find()->where('client_types.client_type_id', '=', $clientTypeId);
+        $query = $this->find()->where('clients.client_type_id', '=', $clientTypeId);
 
         return $query;
     }
@@ -123,7 +123,7 @@ class ClientRepository extends BaseRepository
     {
         $saleTypeId = SaleType::getPrivateId($saleTypePublicId);
 
-        $query = $this->find()->where('sale_types.sale_type_id', '=', $saleTypeId);
+        $query = $this->find()->where('clients.sale_type_id', '=', $saleTypeId);
 
         return $query;
     }
@@ -132,7 +132,7 @@ class ClientRepository extends BaseRepository
     {
         $holdReasonId = HoldReason::getPrivateId($holdReasonPublicId);
 
-        $query = $this->find()->where('hold_reasons.hold_reason_id', '=', $holdReasonId);
+        $query = $this->find()->where('clients.hold_reason_id', '=', $holdReasonId);
 
         return $query;
     }

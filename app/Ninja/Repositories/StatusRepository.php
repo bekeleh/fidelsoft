@@ -5,7 +5,6 @@ namespace App\Ninja\Repositories;
 use App\Models\Status;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Log;
 
 class StatusRepository extends BaseRepository
 {
@@ -67,7 +66,6 @@ class StatusRepository extends BaseRepository
             $Status->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $Status = Status::scope($publicId)->withArchived()->firstOrFail();
-            Log::warning('Entity not set in status repo save');
         } else {
             $Status = Status::createNew();
             $Status->created_by = Auth::user()->username;

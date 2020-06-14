@@ -11,7 +11,7 @@ use App\Models\Store;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 class ItemRequestRepository extends BaseRepository
 {
