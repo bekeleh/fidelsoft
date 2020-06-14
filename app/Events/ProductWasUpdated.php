@@ -9,14 +9,7 @@ class ProductWasUpdated extends Event
 {
     use SerializesModels;
 
-    /**
-     * @var Product
-     */
     public $product;
-
-    /**
-     * @var array
-     **/
     public $input;
 
     /**

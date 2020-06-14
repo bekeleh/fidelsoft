@@ -123,9 +123,9 @@ class ProductRepository extends BaseRepository
         }
 
         $product->fill($data);
-        $product->name = isset($data['name']) ? ucwords(trim($data['name'])) : '';
-        $product->item_barcode = isset($data['item_barcode']) ? strtolower(trim($data['item_barcode'])) : '';
-        $product->item_tag = isset($data['item_tag']) ? strtolower(trim($data['item_tag'])) : '';
+        $product->name = isset($data['name']) ? trim($data['name']) : null;
+        $product->item_barcode = isset($data['item_barcode']) ? trim($data['item_barcode']) : null;
+        $product->item_tag = isset($data['item_tag']) ? trim($data['item_tag']) : null;
         $product->cost = isset($data['cost']) ? Utils::parseFloat($data['cost']) : 0;
 
         $product->save();

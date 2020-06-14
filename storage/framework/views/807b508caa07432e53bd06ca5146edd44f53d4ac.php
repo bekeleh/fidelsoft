@@ -47,7 +47,7 @@ echo Former::open(EntityModel::getFormUrl($entityType) . '/bulk')->addClass('lis
     </select>
     </span>
     </div>
-    <div id="top_right_buttons" class="pull-right">
+    <div id="top_right_buttons" class="row pull-right">
         <input id="tableFilter_<?php echo e($entityType); ?>" type="text"
                style="width:180px;margin-right:17px;background-color: white !important"
                class="form-control pull-left" placeholder="<?php echo e(trans('texts.filter')); ?>"
@@ -58,8 +58,7 @@ echo Former::open(EntityModel::getFormUrl($entityType) . '/bulk')->addClass('lis
             ->asLinkTo(url(
             (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_TEMPLATE]) ? str_replace('_', 's/', Utils::pluralizeEntityType($entityType)) : Utils::pluralizeEntityType($entityType)) .
             '/create/' . (isset($clientId) ? ($clientId . (isset($projectId) ? '/' . $projectId : '')) : '')
-            ))
-            ->appendIcon(Icon::create('plus-sign')); ?>
+            ))->appendIcon(Icon::create('plus-sign')); ?>
 
         <?php endif; ?>
 

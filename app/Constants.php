@@ -454,6 +454,9 @@ if (!defined('APP_NAME')) {
     define('EVENT_UPDATE_TASK', 19);
     define('EVENT_DELETE_TASK', 20);
     define('EVENT_APPROVE_QUOTE', 21);
+    define('EVENT_CREATE_PRODUCT', 22);
+    define('EVENT_UPDATE_PRODUCT', 23);
+    define('EVENT_DELETE_PRODUCT', 24);
 
     define('REQUESTED_PRO_PLAN', 'REQUESTED_PRO_PLAN');
     define('NINJA_ACCOUNT_KEY', env('NINJA_ACCOUNT_KEY', 'zg4ylmzDkdkPOT8yoKQw9LTWaoZJx79h'));

@@ -15,17 +15,18 @@ class EntityListener
      * @param $entity
      * @param $transformer
      * @param string $include
+     * @return bool|void
      */
     protected function checkSubscriptions($eventId, $entity, $transformer, $include = '')
     {
         if (!EntityModel::$notifySubscriptions) {
-            return;
+            return false;
         }
 
         $subscriptions = $entity->account->getSubscriptions($eventId);
 
         if (!$subscriptions->count()) {
-            return;
+            return false;
         }
 
         // generate JSON data

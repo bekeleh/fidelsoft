@@ -23,7 +23,7 @@ class UpdateProductRequest extends EntityRequest
 
         $product = $this->entity();
 //            $rules['name'] = 'required|unique:products,name,' . $product->id . ',id,item_brand_id,' . $product->item_brand_id . ',account_id,' . $product->account_id;
-        $rules['name'] = 'required|unique:products,name';
+        $rules['name'] = 'required|unique:products,name,' . $product->id . ',id,account_id,' . $product->account_id;
         $rules['item_brand_id'] = 'required|numeric';
         $rules['barcode'] = 'nullable';
         $rules['item_tag'] = 'nullable';
