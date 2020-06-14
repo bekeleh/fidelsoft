@@ -26,7 +26,7 @@ class StoreRepository extends BaseRepository
 
     public function all()
     {
-        return Store::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return Store::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
     public function find($accountId = false, $filter = null)
@@ -113,7 +113,7 @@ class StoreRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $storeId = 0;
-        $stores = Store::Scope()->get();
+        $stores = Store::scope()->get();
         if (!empty($stores)) {
             foreach ($stores as $store) {
                 if (!$store->name) {

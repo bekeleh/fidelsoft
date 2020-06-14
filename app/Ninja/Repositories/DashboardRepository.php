@@ -396,7 +396,7 @@ class DashboardRepository
 
     public function tasks($accountId, $userId, $viewAll)
     {
-        return Task::Scope()
+        return Task::scope()
             ->withArchived()
             ->whereIsRunning(true)
             ->get();

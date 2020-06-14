@@ -164,7 +164,7 @@ class AccountPresenter extends Presenter
 
     public function taxRateOptions()
     {
-        $rates = TaxRate::Scope()->orderBy('name')->get();
+        $rates = TaxRate::scope()->orderBy('name')->get();
         $options = [];
 
         foreach ($rates as $rate) {

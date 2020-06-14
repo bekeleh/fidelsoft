@@ -52,7 +52,7 @@ class SaleTypeApiController extends BaseAPIController
      */
     public function index()
     {
-        $sales_type = SaleType::Scope()->withTrashed()->orderBy('updated_at', 'desc');
+        $sales_type = SaleType::scope()->withTrashed()->orderBy('updated_at', 'desc');
 
         return $this->listResponse($sales_type);
     }

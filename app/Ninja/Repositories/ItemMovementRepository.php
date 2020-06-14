@@ -23,7 +23,7 @@ class ItemMovementRepository extends BaseRepository
 
     public function all()
     {
-        return ItemMovement::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return ItemMovement::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
 
@@ -102,7 +102,7 @@ class ItemMovementRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $itemMovementId = 0;
-        $itemMovements = ItemMovement::Scope()->get();
+        $itemMovements = ItemMovement::scope()->get();
         if (!empty($itemMovements)) {
             foreach ($itemMovements as $itemMovement) {
                 if (!$itemMovement->name) {

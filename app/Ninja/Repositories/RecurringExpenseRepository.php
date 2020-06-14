@@ -25,7 +25,7 @@ class RecurringExpenseRepository extends BaseRepository
 
     public function all()
     {
-        return RecurringExpense::Scope()
+        return RecurringExpense::scope()
             ->with('user')
             ->withTrashed()
             ->where('is_deleted', '=', false)

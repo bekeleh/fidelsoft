@@ -16,7 +16,7 @@ class ProposalComposer
 
     public function compose(View $view)
     {
-        $snippets = ProposalSnippet::Scope()
+        $snippets = ProposalSnippet::scope()
             ->with('proposal_category')
             ->orderBy('name')
             ->get();
@@ -24,7 +24,7 @@ class ProposalComposer
         $view->with('snippets', $snippets);
 
 
-        $documents = Document::Scope()
+        $documents = Document::scope()
             ->whereNull('invoice_id')
             ->whereNull('expense_id')
             ->get();

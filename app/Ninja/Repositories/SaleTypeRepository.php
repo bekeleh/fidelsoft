@@ -25,7 +25,7 @@ class SaleTypeRepository extends BaseRepository
 
     public function all()
     {
-        return SaleType::Scope()
+        return SaleType::scope()
             ->withTrashed()
             ->where('is_deleted', '=', false)
             ->get();
@@ -101,7 +101,7 @@ class SaleTypeRepository extends BaseRepository
         $max = SIMILAR_MIN_THRESHOLD;
         $saleTypeId = 0;
 
-        $saleTypes = SaleType::Scope()->get();
+        $saleTypes = SaleType::scope()->get();
 
         foreach ($saleTypes as $saleType) {
             if (!$saleType->name) {

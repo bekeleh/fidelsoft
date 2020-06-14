@@ -29,7 +29,7 @@ class ExpenseRepository extends BaseRepository
 
     public function all()
     {
-        return Expense::Scope()->with('user')->withTrashed()->where('is_deleted', '=', false)->get();
+        return Expense::scope()->with('user')->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
     public function findVendor($vendorPublicId)

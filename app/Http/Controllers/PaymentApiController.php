@@ -47,7 +47,7 @@ class PaymentApiController extends BaseAPIController
      */
     public function index()
     {
-        $payments = Payment::Scope()
+        $payments = Payment::scope()
                         ->withTrashed()
                         ->with(['invoice'])
                         ->orderBy('updated_at', 'desc');

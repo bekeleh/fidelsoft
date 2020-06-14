@@ -24,7 +24,7 @@ class PermissionRepository extends BaseRepository
 
     public function all()
     {
-        return Permission::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return Permission::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
     public function find($accountId = false, $filter = null)
@@ -86,7 +86,7 @@ class PermissionRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $permissionId = 0;
-        $permissions = Permission::Scope()->get();
+        $permissions = Permission::scope()->get();
         if (!empty($permissions)) {
             foreach ($permissions as $permission) {
                 if (!$permission->name) {

@@ -26,7 +26,7 @@ class ProposalRepository extends BaseRepository
 
     public function all()
     {
-        return Proposal::Scope()->get();
+        return Proposal::scope()->get();
     }
 
     public function find($account = false, $filter = null, $userId = false)

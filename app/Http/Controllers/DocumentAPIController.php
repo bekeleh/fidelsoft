@@ -57,7 +57,7 @@ class DocumentAPIController extends BaseAPIController
      */
     public function index()
     {
-        $documents = Document::Scope();
+        $documents = Document::scope();
 
         return $this->listResponse($documents);
     }

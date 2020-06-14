@@ -25,7 +25,7 @@ class BranchRepository extends BaseRepository
 
     public function all()
     {
-        return Branch::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return Branch::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
     public function find($accountId = false, $filter = null)
@@ -115,7 +115,7 @@ class BranchRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $branchId = 0;
-        $branches = Branch::Scope()->get();
+        $branches = Branch::scope()->get();
         if (!empty($branches)) {
             foreach ($branches as $branch) {
                 if (!$branch->name) {

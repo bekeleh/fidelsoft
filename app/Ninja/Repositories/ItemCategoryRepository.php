@@ -24,7 +24,7 @@ class ItemCategoryRepository extends BaseRepository
 
     public function all()
     {
-        return ItemCategory::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return ItemCategory::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
 
@@ -87,7 +87,7 @@ class ItemCategoryRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $itemCategoryId = 0;
-        $itemCategories = ItemCategory::Scope()->get();
+        $itemCategories = ItemCategory::scope()->get();
         if (!empty($itemCategories)) {
             foreach ($itemCategories as $itemCategory) {
                 if (!$itemCategory->name) {

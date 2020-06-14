@@ -24,7 +24,7 @@ class ItemBrandRepository extends BaseRepository
 
     public function all()
     {
-        return ItemBrand::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return ItemBrand::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
 
@@ -100,7 +100,7 @@ class ItemBrandRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $itemBrandId = 0;
-        $itemBrands = ItemBrand::Scope()->get();
+        $itemBrands = ItemBrand::scope()->get();
         if (!empty($itemBrands)) {
             foreach ($itemBrands as $itemBrand) {
                 if (!$itemBrand->name) {

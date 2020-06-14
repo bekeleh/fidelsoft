@@ -60,9 +60,9 @@ class RecurringExpenseController extends BaseController
             'method' => 'POST',
             'url' => 'recurring_expenses',
             'title' => trans('texts.new_expense'),
-            'vendors' => Vendor::Scope()->with('vendor_contacts')->orderBy('name')->get(),
+            'vendors' => Vendor::scope()->with('vendor_contacts')->orderBy('name')->get(),
             'vendor' => $vendor,
-            'clients' => Client::Scope()->with('contacts')->orderBy('name')->get(),
+            'clients' => Client::scope()->with('contacts')->orderBy('name')->get(),
             'clientPublicId' => $request->client_id,
             'categoryPublicId' => $request->category_id,
         ];
@@ -92,9 +92,9 @@ class RecurringExpenseController extends BaseController
             'url' => 'recurring_expenses/' . $expense->public_id,
             'title' => 'Edit Expense',
             'actions' => $actions,
-            'vendors' => Vendor::Scope()->with('vendor_contacts')->orderBy('name')->get(),
+            'vendors' => Vendor::scope()->with('vendor_contacts')->orderBy('name')->get(),
             'vendorPublicId' => $expense->vendor ? $expense->vendor->public_id : null,
-            'clients' => Client::Scope()->with('contacts')->orderBy('name')->get(),
+            'clients' => Client::scope()->with('contacts')->orderBy('name')->get(),
             'clientPublicId' => $expense->client ? $expense->client->public_id : null,
             'categoryPublicId' => $expense->expense_category ? $expense->expense_category->public_id : null,
         ];
@@ -110,7 +110,7 @@ class RecurringExpenseController extends BaseController
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
             'categories' => ExpenseCategory::whereAccountId(Auth::user()->account_id)->withArchived()->orderBy('name')->get(),
-            'taxRates' => TaxRate::Scope()->whereIsInclusive(false)->orderBy('name')->get(),
+            'taxRates' => TaxRate::scope()->whereIsInclusive(false)->orderBy('name')->get(),
             'isRecurring' => true,
         ];
     }

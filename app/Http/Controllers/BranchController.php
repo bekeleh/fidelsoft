@@ -192,8 +192,8 @@ class BranchController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
-            'stores' => Store::Scope()->withActiveOrSelected($branch ? $branch->store_id : false)->orderBy('name')->get(),
-            'locations' => Location::Scope()->withActiveOrSelected($branch ? $branch->location_id : false)->orderBy('name')->get(),
+            'stores' => Store::scope()->withActiveOrSelected($branch ? $branch->store_id : false)->orderBy('name')->get(),
+            'locations' => Location::scope()->withActiveOrSelected($branch ? $branch->location_id : false)->orderBy('name')->get(),
         ];
     }
 }

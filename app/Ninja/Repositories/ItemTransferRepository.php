@@ -32,7 +32,7 @@ class ItemTransferRepository extends BaseRepository
 
     public function all()
     {
-        return ItemTransfer::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return ItemTransfer::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
 
@@ -252,7 +252,7 @@ class ItemTransferRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $itemTransferId = 0;
-        $itemTransfers = ItemTransfer::Scope()->get();
+        $itemTransfers = ItemTransfer::scope()->get();
         if (!empty($itemTransfers)) {
             foreach ($itemTransfers as $itemTransfer) {
                 if (!$itemTransfer->bin) {

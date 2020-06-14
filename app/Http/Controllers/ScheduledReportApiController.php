@@ -42,7 +42,7 @@ class ScheduledReportApiController extends BaseAPIController
      */
     public function index()
     {
-        $clients = ScheduledReport::Scope()
+        $clients = ScheduledReport::scope()
             ->orderBy('created_at', 'desc')
             ->withTrashed();
 

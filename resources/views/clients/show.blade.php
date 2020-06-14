@@ -49,7 +49,7 @@
                             ->withContents([
                               ($client->trashed() ? false : ['label' => trans('texts.archive_client'), 'url' => "javascript:onArchiveClick()"]),
                               ['label' => trans('texts.delete_client'), 'url' => "javascript:onDeleteClick()"],
-                              auth()->user()->is_admin ? \DropdownButton::DIVIDER : false,
+                              auth()->user()->is_admin ? DropdownButton::DIVIDER : false,
                             ]
                           )->split() !!}
                     @endcan
@@ -132,9 +132,12 @@
                         <p><i class="fa fa-language" style="width: 20px"></i>{{ $client->language->name }}</p>
                     @endif
                     <p>{{ trans('texts.payment_terms').': '.trans('texts.payment_terms_net')}} {{ $client->present()->paymentTerms }}</p>
+                    <!--- client client type -->
+                    <p>{{ trans('texts.sale_type_name').': '}} {{ $client->present()->clientType}}</p>
                     <!--- client sale type -->
-                    <p>{{ trans('texts.sale_type').': '}} {{ $client->present()->saleType}}</p>
-                    <p>{{ trans('texts.hold_reason').': '}}{{ $client->present()->holdReason}}</p>
+                    <p>{{ trans('texts.sale_type_name').': '}} {{ $client->present()->saleType}}</p>
+                    <!--- client hold reason -->
+                    <p>{{ trans('texts.hold_reason_name').': '}}{{ $client->present()->holdReason}}</p>
                     <div class="text-muted" style="padding-top:8px">
                         @if ($client->show_tasks_in_portal)
                             • {{ trans('texts.can_view_tasks') }}<br/>
@@ -374,7 +377,7 @@
 
             // load datatable data when tab is shown and remember last tab selected
             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                var target = $(e.target).attr("href") // activated tab
+                var target = $(e.target).attr("href"); // activated tab
                 target = target.substring(1);
                 if (isStorageSupported()) {
                     localStorage.setItem('client_tab', target);
@@ -448,7 +451,7 @@
                 zoomControl: true,
             };
 
-            var map = new google.maps.Map(mapCanvas, mapOptions)
+            var map = new google.maps.Map(mapCanvas, mapOptions);
             var address = {!! json_encode(e("{$client->address1} {$client->address2} {$client->city} {$client->state} {$client->postal_code} " . ($client->country ? $client->country->getName() : ''))) !!};
 
             geocoder = new google.maps.Geocoder();

@@ -23,7 +23,7 @@ class InvoiceItemRepository extends BaseRepository
 
     public function all()
     {
-        return InvoiceItem::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return InvoiceItem::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
     public function findProduct($productPublicId = null)
@@ -106,7 +106,7 @@ class InvoiceItemRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $invoiceItemId = 0;
-        $invoiceItems = InvoiceItem::Scope()->get();
+        $invoiceItems = InvoiceItem::scope()->get();
         if (!empty($invoiceItems)) {
             foreach ($invoiceItems as $invoiceItem) {
                 if (!$invoiceItem->name) {

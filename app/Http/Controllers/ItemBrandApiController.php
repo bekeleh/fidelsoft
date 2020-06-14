@@ -52,7 +52,7 @@ class ItemBrandApiController extends BaseAPIController
      */
     public function index()
     {
-        $itemBrands = ItemBrand::Scope()->withTrashed()->orderBy('created_at', 'desc');
+        $itemBrands = ItemBrand::scope()->withTrashed()->orderBy('created_at', 'desc');
 
         return $this->listResponse($itemBrands);
     }

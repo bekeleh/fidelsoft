@@ -41,7 +41,7 @@ class StoreApiController extends BaseAPIController
      */
     public function index()
     {
-        $stores = Store::Scope()->withTrashed()->orderBy('created_at', 'desc');
+        $stores = Store::scope()->withTrashed()->orderBy('created_at', 'desc');
 
         return $this->listResponse($stores);
     }

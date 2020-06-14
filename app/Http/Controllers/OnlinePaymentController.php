@@ -352,7 +352,7 @@ class OnlinePaymentController extends BaseController
         // check for existing client using contact_key
         $client = false;
         if ($contactKey = Input::get('contact_key')) {
-            $client = Client::Scope()->whereHas('contacts', function ($query) use ($contactKey) {
+            $client = Client::scope()->whereHas('contacts', function ($query) use ($contactKey) {
                 $query->where('contact_key', $contactKey);
             })->first();
         }

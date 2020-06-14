@@ -22,7 +22,7 @@ class VendorRepository extends BaseRepository
 
     public function all()
     {
-        return Vendor::Scope()
+        return Vendor::scope()
             ->with('user', 'vendor_contacts', 'country')
             ->withTrashed()
             ->where('is_deleted', '=', false)

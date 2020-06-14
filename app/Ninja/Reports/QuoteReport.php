@@ -21,7 +21,7 @@ class QuoteReport extends AbstractReport
             'user' => ['columnSelector-false'],
         ];
 
-        if (TaxRate::Scope()->count()) {
+        if (TaxRate::scope()->count()) {
             $columns['tax'] = ['columnSelector-false'];
         }
 
@@ -42,10 +42,10 @@ class QuoteReport extends AbstractReport
         $account = Auth::user()->account;
         $statusIds = $this->options['status_ids'];
         $exportFormat = $this->options['export_format'];
-        $hasTaxRates = TaxRate::Scope()->count();
+        $hasTaxRates = TaxRate::scope()->count();
         $subgroup = $this->options['subgroup'];
 
-        $clients = Client::Scope()
+        $clients = Client::scope()
             ->orderBy('name')
             ->withArchived()
             ->with('contacts', 'user')

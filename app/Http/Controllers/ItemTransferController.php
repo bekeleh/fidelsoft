@@ -196,10 +196,10 @@ class ItemTransferController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
-            'statuses' => Status::Scope()->withActiveOrSelected($itemTransfer ? $itemTransfer->status_id : false)->orderBy('name')->get(),
+            'statuses' => Status::scope()->withActiveOrSelected($itemTransfer ? $itemTransfer->status_id : false)->orderBy('name')->get(),
             'products' => Product::withCategory('itemBrand.itemCategory'),
-            'previousStores' => Store::Scope()->withActiveOrSelected($itemTransfer ? $itemTransfer->previous_store_id : false)->orderBy('name')->get(),
-            'currentStores' => Store::Scope()->withActiveOrSelected($itemTransfer ? $itemTransfer->current_store_id : false)->orderBy('name')->get(),
+            'previousStores' => Store::scope()->withActiveOrSelected($itemTransfer ? $itemTransfer->previous_store_id : false)->orderBy('name')->get(),
+            'currentStores' => Store::scope()->withActiveOrSelected($itemTransfer ? $itemTransfer->current_store_id : false)->orderBy('name')->get(),
         ];
     }
 

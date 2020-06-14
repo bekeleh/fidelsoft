@@ -23,7 +23,7 @@ class ScheduleCategoryRepository extends BaseRepository
 
     public function all()
     {
-        return ScheduleCategory::Scope()->get();
+        return ScheduleCategory::scope()->get();
     }
 
     public function find($accountId = false, $filter = null)

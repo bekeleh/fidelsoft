@@ -133,7 +133,7 @@ class ReportController extends BaseController
             $params['report'] = false;
         }
 
-        $params['scheduledReports'] = ScheduledReport::Scope()->whereUserId(auth()->user()->id)->get();
+        $params['scheduledReports'] = ScheduledReport::scope()->whereUserId(auth()->user()->id)->get();
 
         return View::make('reports.report_builder', $params);
     }
@@ -171,7 +171,7 @@ class ReportController extends BaseController
 
     private function cancelSchdule()
     {
-        ScheduledReport::Scope()
+        ScheduledReport::scope()
             ->whereUserId(auth()->user()->id)
             ->wherePublicId(request('scheduled_report_id'))
             ->delete();

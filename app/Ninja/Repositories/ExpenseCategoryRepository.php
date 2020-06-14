@@ -23,7 +23,7 @@ class ExpenseCategoryRepository extends BaseRepository
 
     public function all()
     {
-        return ExpenseCategory::Scope()->get();
+        return ExpenseCategory::scope()->get();
     }
 
     public function find($accountId = false, $filter = null)

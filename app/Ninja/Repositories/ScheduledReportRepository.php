@@ -23,7 +23,7 @@ class ScheduledReportRepository extends BaseRepository
 
     public function all()
     {
-        return ScheduledReport::Scope()->get();
+        return ScheduledReport::scope()->get();
     }
 
     public function find($accountId = false, $filter = null)

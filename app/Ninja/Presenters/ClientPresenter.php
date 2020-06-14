@@ -3,17 +3,18 @@
 namespace App\Ninja\Presenters;
 
 use App\Libraries\Utils;
+use HTML;
 
 class ClientPresenter extends EntityPresenter
 {
     public function country()
     {
-        return $this->entity->country ? $this->entity->country->getName() : '';
+        return $this->entity->country ? $this->entity->country->getName() : false;
     }
 
     public function shipping_country()
     {
-        return $this->entity->shipping_country ? $this->entity->shipping_country->getName() : '';
+        return $this->entity->shipping_country ? $this->entity->shipping_country->getName() : false;
     }
 
     public function balance()
@@ -29,7 +30,7 @@ class ClientPresenter extends EntityPresenter
         $client = $this->entity;
 
         if (!$client->website) {
-            return '';
+            return false;
         }
 
         $link = Utils::addHttp($client->website);
@@ -50,10 +51,21 @@ class ClientPresenter extends EntityPresenter
         $client = $this->entity;
 
         if (!$client->payment_terms) {
-            return '';
+            return false;
         }
 
-        return \HTML::link('payment_terms/' . $client->id, $client->defaultDaysDue());
+        return HTML::link('payment_terms/' . $client->id, $client->defaultDaysDue());
+    }
+
+    public function clientType()
+    {
+        $client = $this->entity;
+
+        if (!$client->clientType) {
+            return false;
+        }
+
+        return HTML::link('client_types/' . $client->clientType->public_id, $client->clientType->name);
     }
 
     public function saleType()
@@ -61,10 +73,10 @@ class ClientPresenter extends EntityPresenter
         $client = $this->entity;
 
         if (!$client->saleType) {
-            return '';
+            return false;
         }
 
-        return \HTML::link('sale_types/' . $client->saleType->public_id, $client->saleType->name);
+        return HTML::link('sale_types/' . $client->saleType->public_id, $client->saleType->name);
     }
 
     public function holdReason()
@@ -72,15 +84,15 @@ class ClientPresenter extends EntityPresenter
         $client = $this->entity;
 
         if (!$client->holdReason) {
-            return '';
+            return false;
         }
 
-        return \HTML::link('hold_reasons/' . $client->holdReason->public_id, $client->holdReason->name);
+        return HTML::link('hold_reasons/' . $client->holdReason->public_id, $client->holdReason->name);
     }
 
     public function address($addressType = ADDRESS_BILLING, $showHeader = false)
     {
-        $str = '';
+        $str = false;
         $prefix = $addressType == ADDRESS_BILLING ? '' : 'shipping_';
         $client = $this->entity;
 
@@ -126,7 +138,7 @@ class ClientPresenter extends EntityPresenter
         if (floatval($this->entity->task_rate)) {
             return Utils::roundSignificant($this->entity->task_rate);
         } else {
-            return '';
+            return false;
         }
     }
 

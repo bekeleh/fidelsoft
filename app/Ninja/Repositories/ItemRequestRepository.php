@@ -29,7 +29,7 @@ class ItemRequestRepository extends BaseRepository
 
     public function all()
     {
-        return ItemRequest::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return ItemRequest::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
     public function find($accountId = false, $filter = null)
@@ -200,7 +200,7 @@ class ItemRequestRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $itemRequestId = 0;
-        $itemRequests = ItemRequest::Scope()->get();
+        $itemRequests = ItemRequest::scope()->get();
         if (!empty($itemRequests)) {
             foreach ($itemRequests as $itemRequest) {
                 if (!$itemRequest->bin) {

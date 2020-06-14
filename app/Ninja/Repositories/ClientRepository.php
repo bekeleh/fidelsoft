@@ -34,7 +34,7 @@ class ClientRepository extends BaseRepository
 
     public function all()
     {
-        return Client::Scope()
+        return Client::scope()
             ->with('user', 'contacts', 'country')
             ->withTrashed()
             ->where('is_deleted', '=', false)
@@ -251,7 +251,7 @@ class ClientRepository extends BaseRepository
         $max = SIMILAR_MIN_THRESHOLD;
         $clientId = 0;
 
-        $clients = Client::Scope()->get(['id', 'name', 'public_id']);
+        $clients = Client::scope()->get(['id', 'name', 'public_id']);
 
         foreach ($clients as $client) {
 
@@ -269,7 +269,7 @@ class ClientRepository extends BaseRepository
             }
         }
 
-        $contacts = Contact::Scope()->get(['client_id', 'first_name', 'last_name', 'public_id']);
+        $contacts = Contact::scope()->get(['client_id', 'first_name', 'last_name', 'public_id']);
 
         foreach ($contacts as $contact) {
             if (!$contact->getFullName() || !isset($map[$contact->client_id])) {

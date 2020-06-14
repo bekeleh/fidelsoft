@@ -77,7 +77,7 @@ class AccountGatewayRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $accountGatewayId = 0;
-        $accountGateways = AccountGateway::Scope()->get();
+        $accountGateways = AccountGateway::scope()->get();
         if (!empty($accountGateways)) {
             foreach ($accountGateways as $accountGateway) {
                 if (!$accountGateway->name) {

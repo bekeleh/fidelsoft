@@ -211,7 +211,7 @@ class PaymentRepository extends BaseRepository
             $amount = min($amount, MAX_INVOICE_AMOUNT);
 
             if ($paymentTypeId == PAYMENT_TYPE_CREDIT) {
-                $credits = Credit::Scope()->where('client_id', '=', $clientId)
+                $credits = Credit::scope()->where('client_id', '=', $clientId)
                     ->where('balance', '>', 0)->orderBy('created_at')->get();
 
                 $remaining = $amount;

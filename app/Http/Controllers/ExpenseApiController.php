@@ -44,7 +44,7 @@ class ExpenseApiController extends BaseAPIController
      */
     public function index()
     {
-        $expenses = Expense::Scope()
+        $expenses = Expense::scope()
             ->withTrashed()
             ->with('client', 'invoice', 'vendor', 'expense_category')
             ->orderBy('updated_at', 'desc');

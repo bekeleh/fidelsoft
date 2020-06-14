@@ -28,7 +28,7 @@ class PointOfSaleRepository extends BaseRepository
 
     public function all()
     {
-        return Product::Scope()
+        return Product::scope()
             ->withTrashed()
             ->where('is_deleted', '=', false)
             ->get();
@@ -143,7 +143,7 @@ class PointOfSaleRepository extends BaseRepository
         $max = SIMILAR_MIN_THRESHOLD;
         $productId = 0;
 
-        $products = Product::Scope()->get();
+        $products = Product::scope()->get();
 
         foreach ($products as $product) {
             if (!$product->name) {

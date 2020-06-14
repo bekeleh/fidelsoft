@@ -51,7 +51,7 @@ class VendorApiController extends BaseAPIController
      */
     public function index()
     {
-        $vendors = Vendor::Scope()
+        $vendors = Vendor::scope()
                     ->withTrashed()
                     ->orderBy('updated_at', 'desc');
 

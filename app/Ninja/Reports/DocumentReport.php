@@ -28,7 +28,7 @@ class DocumentReport extends AbstractReport
         $records = false;
 
         if (!$filter || $filter == ENTITY_INVOICE) {
-            $records = Invoice::Scope()
+            $records = Invoice::scope()
                 ->withArchived()
                 ->with(['documents'])
                 ->where('invoice_date', '>=', $this->startDate)
@@ -37,7 +37,7 @@ class DocumentReport extends AbstractReport
         }
 
         if (!$filter || $filter == ENTITY_EXPENSE) {
-            $expenses = Expense::Scope()
+            $expenses = Expense::scope()
                 ->withArchived()
                 ->with(['documents'])
                 ->where('expense_date', '>=', $this->startDate)

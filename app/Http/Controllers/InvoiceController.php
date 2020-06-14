@@ -108,7 +108,7 @@ class InvoiceController extends BaseController
         $invoice->public_id = 0;
         $invoice->loadFromRequest();
 
-        $clients = Client::HoldReason()->Scope()->with('contacts', 'country')->orderBy('name');
+        $clients = Client::HoldReason()->scope()->with('contacts', 'country')->orderBy('name');
         if (!Utils::hasPermission('view_client')) {
             $clients = $clients->where('clients.user_id', '=', Auth::user()->id);
         }
@@ -167,7 +167,7 @@ class InvoiceController extends BaseController
             ->select('contacts.public_id')->pluck('public_id')
             ->where('invitations.deleted_at', '=', null);
 
-        $clients = Client::Scope()->withTrashed()->with('contacts', 'country');
+        $clients = Client::scope()->withTrashed()->with('contacts', 'country');
 
         if ($clone) {
             $entityType = $clone == INVOICE_TYPE_STANDARD ? ENTITY_INVOICE : ENTITY_QUOTE;
@@ -387,9 +387,9 @@ class InvoiceController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account->load('country'),
-//            'products' => Inventory::Scope()->where('branch_id', '=', $userBranch)->where('qty', '>', 0)->orderBy('name')->get(),
+//            'products' => Inventory::scope()->where('branch_id', '=', $userBranch)->where('qty', '>', 0)->orderBy('name')->get(),
 //            'products' => Product::withCategory('itemBrand.itemCategory'),
-            'products' => Product::Scope()->withActiveOrSelected($invoice ? $invoice->product_id : false)->orderBy('name')->get(),
+            'products' => Product::scope()->withActiveOrSelected($invoice ? $invoice->product_id : false)->orderBy('name')->get(),
             'taxRateOptions' => $taxRateOptions,
             'sizes' => Cache::get('sizes'),
             'invoiceDesigns' => InvoiceDesign::getDesigns(),
@@ -618,7 +618,7 @@ class InvoiceController extends BaseController
     {
         $invoiceNumber = request()->invoice_number;
 
-        $query = Invoice::Scope()
+        $query = Invoice::scope()
             ->whereInvoiceNumber($invoiceNumber)
             ->withTrashed();
 

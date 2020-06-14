@@ -173,7 +173,7 @@ class TaskDatatable extends EntityDatatable
     {
         $actions = [];
 
-        $statuses = TaskStatus::Scope()->orderBy('sort_order')->get();
+        $statuses = TaskStatus::scope()->orderBy('sort_order')->get();
 
         foreach ($statuses as $status) {
             $actions[] = [

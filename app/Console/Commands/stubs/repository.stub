@@ -17,7 +17,7 @@ class $STUDLY_NAME$Repository extends BaseRepository
 
     public function all()
     {
-        return $STUDLY_NAME$::Scope()
+        return $STUDLY_NAME$::scope()
                 ->orderBy('created_at', 'desc')
                 ->withTrashed();
     }

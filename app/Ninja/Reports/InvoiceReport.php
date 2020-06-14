@@ -27,7 +27,7 @@ class InvoiceReport extends AbstractReport
             'user' => ['columnSelector-false'],
         ];
 
-        if (TaxRate::Scope()->count()) {
+        if (TaxRate::scope()->count()) {
             $columns['tax'] = ['columnSelector-false'];
         }
 
@@ -49,9 +49,9 @@ class InvoiceReport extends AbstractReport
         $statusIds = $this->options['status_ids'];
         $exportFormat = $this->options['export_format'];
         $subgroup = $this->options['subgroup'];
-        $hasTaxRates = TaxRate::Scope()->count();
+        $hasTaxRates = TaxRate::scope()->count();
 
-        $clients = Client::Scope()
+        $clients = Client::scope()
             ->orderBy('name')
             ->withArchived()
             ->with('contacts', 'user')

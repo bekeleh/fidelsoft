@@ -41,7 +41,7 @@ class UserApiController extends BaseAPIController
      */
     public function index()
     {
-        $users = User::Scope()->withTrashed()->orderBy('created_at', 'desc');
+        $users = User::scope()->withTrashed()->orderBy('created_at', 'desc');
 
         return $this->listResponse($users);
     }

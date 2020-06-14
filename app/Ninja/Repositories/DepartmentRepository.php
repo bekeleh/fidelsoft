@@ -22,7 +22,7 @@ class DepartmentRepository extends BaseRepository
 
     public function all()
     {
-        return Department::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return Department::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
     public function find($accountId = false, $filter = null)
@@ -84,7 +84,7 @@ class DepartmentRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $departmentId = 0;
-        $departments = Department::Scope()->get();
+        $departments = Department::scope()->get();
         if (!empty($departments)) {
             foreach ($departments as $department) {
                 if (!$department->name) {

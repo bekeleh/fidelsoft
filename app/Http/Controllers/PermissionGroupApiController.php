@@ -52,7 +52,7 @@ class PermissionGroupApiController extends BaseAPIController
      */
     public function index()
     {
-        $permissionGroups = PermissionGroup::Scope()->withTrashed()->orderBy('created_at', 'desc');
+        $permissionGroups = PermissionGroup::scope()->withTrashed()->orderBy('created_at', 'desc');
 
         return $this->listResponse($permissionGroups);
     }

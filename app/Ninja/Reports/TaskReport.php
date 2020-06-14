@@ -40,7 +40,7 @@ class TaskReport extends AbstractReport
         $endDate = date_create($this->endDate);
         $subgroup = $this->options['subgroup'];
 
-        $tasks = Task::Scope()
+        $tasks = Task::scope()
             ->orderBy('created_at', 'desc')
             ->with('client.contacts', 'project', 'account', 'user')
             ->withArchived()

@@ -23,7 +23,7 @@ class ProjectRepository extends BaseRepository
 
     public function all()
     {
-        return Project::Scope()->get();
+        return Project::scope()->get();
     }
 
     public function find($filter = false, $userId = false)

@@ -41,7 +41,7 @@ class PermissionApiController extends BaseAPIController
      */
     public function index()
     {
-        $permissions = Permission::Scope()->withTrashed()->orderBy('created_at', 'desc');
+        $permissions = Permission::scope()->withTrashed()->orderBy('created_at', 'desc');
 
         return $this->listResponse($permissions);
     }

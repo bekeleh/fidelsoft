@@ -22,7 +22,7 @@ class ProposalSnippetRepository extends BaseRepository
 
     public function all()
     {
-        return ProposalSnippet::Scope()->get();
+        return ProposalSnippet::scope()->get();
     }
 
     public function find($account = false, $filter = null, $userId = false)

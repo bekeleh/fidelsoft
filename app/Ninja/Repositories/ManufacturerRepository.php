@@ -18,7 +18,7 @@ class ManufacturerRepository extends BaseRepository
 
     public function all()
     {
-        return Manufacturer::Scope()
+        return Manufacturer::scope()
             ->withTrashed()
             ->where('is_deleted', '=', false)
             ->orderBy('created_at', 'desc')

@@ -19,7 +19,7 @@ class QuoteRequest extends EntityRequest
 
         // support loading an invoice by its invoice number
         if ($this->invoice_number && !$invoice) {
-            $invoice = Invoice::Scope()->whereInvoiceNumber($this->invoice_number)->withTrashed()->first();
+            $invoice = Invoice::scope()->whereInvoiceNumber($this->invoice_number)->withTrashed()->first();
             if (!$invoice) {
                 abort(404);
             }

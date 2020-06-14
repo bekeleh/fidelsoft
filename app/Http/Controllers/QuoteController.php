@@ -103,10 +103,10 @@ class QuoteController extends BaseController
         return [
             'entityType' => ENTITY_QUOTE,
             'account' => Auth::user()->account->load('country'),
-            'products' => Product::Scope()->withActiveOrSelected($invoice ? $invoice->product_id : false)->orderBy('name')->get(),
+            'products' => Product::scope()->withActiveOrSelected($invoice ? $invoice->product_id : false)->orderBy('name')->get(),
             'taxRateOptions' => $account->present()->taxRateOptions,
-            'clients' => Client::Scope()->with('contacts', 'country')->orderBy('name')->get(),
-            'taxRates' => TaxRate::Scope()->orderBy('name')->get(),
+            'clients' => Client::scope()->with('contacts', 'country')->orderBy('name')->get(),
+            'taxRates' => TaxRate::scope()->orderBy('name')->get(),
             'sizes' => Cache::get('sizes'),
             'paymentTerms' => Cache::get('paymentTerms'),
             'invoiceDesigns' => InvoiceDesign::getDesigns(),

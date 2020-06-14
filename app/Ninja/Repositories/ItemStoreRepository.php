@@ -28,7 +28,7 @@ class ItemStoreRepository extends BaseRepository
 
     public function all()
     {
-        return ItemStore::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return ItemStore::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
 
@@ -215,7 +215,7 @@ class ItemStoreRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $itemStoreId = 0;
-        $itemStores = ItemStore::Scope()->get();
+        $itemStores = ItemStore::scope()->get();
         if (!empty($itemStores)) {
             foreach ($itemStores as $itemStore) {
                 if (!$itemStore->bin) {

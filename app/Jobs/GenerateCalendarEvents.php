@@ -21,12 +21,12 @@ class GenerateCalendarEvents extends Job
         $filter = request()->filter ?: [];
 
         $data = [
-            ENTITY_INVOICE => Invoice::Scope()->invoices(),
-            ENTITY_QUOTE => Invoice::Scope()->quotes(),
-            ENTITY_TASK => Task::Scope()->with(['project']),
-            ENTITY_PAYMENT => Payment::Scope()->with(['invoice']),
-            ENTITY_EXPENSE => Expense::Scope()->with(['expense_category']),
-            ENTITY_PROJECT => Project::Scope(),
+            ENTITY_INVOICE => Invoice::scope()->invoices(),
+            ENTITY_QUOTE => Invoice::scope()->quotes(),
+            ENTITY_TASK => Task::scope()->with(['project']),
+            ENTITY_PAYMENT => Payment::scope()->with(['invoice']),
+            ENTITY_EXPENSE => Expense::scope()->with(['expense_category']),
+            ENTITY_PROJECT => Project::scope(),
         ];
 
         foreach ($data as $type => $source) {

@@ -11,6 +11,7 @@ use App\Jobs\ReactivatePostmarkEmail;
 use App\Libraries\Utils;
 use App\Models\Account;
 use App\Models\Client;
+use App\Models\ClientType;
 use App\Models\Expense;
 use App\Models\HoldReason;
 use App\Models\Invoice;
@@ -65,6 +66,11 @@ class ClientController extends BaseController
         return $this->clientService->getDatatable($accountId, $search);
     }
 
+    public function getDatatableClientType($clientTypePublicId = null)
+    {
+        return $this->clientService->getDatatableClientType($clientTypePublicId);
+    }
+
     public function getDatatableSaleType($saleTypePublicId = null)
     {
         return $this->clientService->getDatatableSaleType($saleTypePublicId);
@@ -77,6 +83,11 @@ class ClientController extends BaseController
 
     public function create(ClientRequest $request)
     {
+        if ($request->client_type_id != 0) {
+            $clientType = ClientType::scope($request->client_type_id)->firstOrFail();
+        } else {
+            $clientType = null;
+        }
         if ($request->sale_type_id != 0) {
             $saleType = SaleType::scope($request->sale_type_id)->firstOrFail();
         } else {
@@ -88,17 +99,19 @@ class ClientController extends BaseController
             $holdReason = null;
         }
 
-        if (Client::Scope()->withTrashed()->count() > Auth::user()->getMaxNumClients()) {
+        if (Client::scope()->withTrashed()->count() > Auth::user()->getMaxNumClients()) {
             return View::make('error', ['hideHeader' => true, 'error' => "Sorry, you've exceeded the limit of " . Auth::user()->getMaxNumClients() . ' clients']);
         }
 
         $data = [
+            'clientType' => $clientType,
             'saleType' => $saleType,
             'holdReason' => $holdReason,
             'client' => null,
             'method' => 'POST',
             'url' => 'clients',
             'title' => trans('texts.new_client'),
+            'clientTypePublicId' => Input::old('clientType') ? Input::old('clientType') : $request->client_type_id,
             'saleTypePublicId' => Input::old('saleType') ? Input::old('saleType') : $request->sale_type_id,
             'holdReasonPublicId' => Input::old('holdReason') ? Input::old('holdReason') : $request->hold_reason_id,
         ];
@@ -122,12 +135,14 @@ class ClientController extends BaseController
         $client = $request->entity();
 
         $data = [
+            'clientType' => null,
             'saleType' => null,
             'holdReason' => null,
             'client' => $client,
             'method' => 'PUT',
             'url' => 'clients/' . $client->public_id,
             'title' => trans('texts.edit_client'),
+            'clientTypePublicId' => $client->clientType ? $client->clientType->public_id : null,
             'saleTypePublicId' => $client->saleType ? $client->saleType->public_id : null,
             'holdReasonPublicId' => $client->holdReason ? $client->holdReason->public_id : null,
         ];
@@ -201,10 +216,10 @@ class ClientController extends BaseController
                 'client' => $client,
                 'credit' => $client->getTotalCredit(),
                 'title' => trans('texts.view_client'),
-                'hasRecurringInvoices' => $account->isModuleEnabled(ENTITY_RECURRING_INVOICE) && Invoice::Scope()->recurring()->withArchived()->whereClientId($client->id)->count() > 0,
-                'hasQuotes' => $account->isModuleEnabled(ENTITY_QUOTE) && Invoice::Scope()->quotes()->withArchived()->whereClientId($client->id)->count() > 0,
-                'hasTasks' => $account->isModuleEnabled(ENTITY_TASK) && Task::Scope()->withArchived()->whereClientId($client->id)->count() > 0,
-                'hasExpenses' => $account->isModuleEnabled(ENTITY_EXPENSE) && Expense::Scope()->withArchived()->whereClientId($client->id)->count() > 0,
+                'hasRecurringInvoices' => $account->isModuleEnabled(ENTITY_RECURRING_INVOICE) && Invoice::scope()->recurring()->withArchived()->whereClientId($client->id)->count() > 0,
+                'hasQuotes' => $account->isModuleEnabled(ENTITY_QUOTE) && Invoice::scope()->quotes()->withArchived()->whereClientId($client->id)->count() > 0,
+                'hasTasks' => $account->isModuleEnabled(ENTITY_TASK) && Task::scope()->withArchived()->whereClientId($client->id)->count() > 0,
+                'hasExpenses' => $account->isModuleEnabled(ENTITY_EXPENSE) && Expense::scope()->withArchived()->whereClientId($client->id)->count() > 0,
                 'gatewayLink' => $token ? $token->gatewayLink() : false,
                 'gatewayName' => $token ? $token->gatewayName() : false,
             ];
@@ -222,8 +237,9 @@ class ClientController extends BaseController
             'sizes' => Cache::get('sizes'),
             'customLabel1' => Auth::user()->account->customLabel('client1'),
             'customLabel2' => Auth::user()->account->customLabel('client2'),
-            'saleTypes' => SaleType::Scope()->withActiveOrSelected($client ? $client->sale_type_id : false)->orderBy('name')->get(),
-            'holdReasons' => HoldReason::Scope()->withActiveOrSelected($client ? $client->hold_reason_id : false)->orderBy('name')->get(),
+            'clientTypes' => ClientType::scope()->withActiveOrSelected($client ? $client->client_type_id : false)->orderBy('name')->get(),
+            'saleTypes' => SaleType::scope()->withActiveOrSelected($client ? $client->sale_type_id : false)->orderBy('name')->get(),
+            'holdReasons' => HoldReason::scope()->withActiveOrSelected($client ? $client->hold_reason_id : false)->orderBy('name')->get(),
         ];
     }
 

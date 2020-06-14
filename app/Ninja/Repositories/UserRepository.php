@@ -32,7 +32,7 @@ class UserRepository extends BaseRepository
 
     public function all()
     {
-        return User::Scope()->with('contacts', 'country')
+        return User::scope()->with('contacts', 'country')
             ->withTrashed()
             ->where('is_deleted', '=', false)
             ->get();

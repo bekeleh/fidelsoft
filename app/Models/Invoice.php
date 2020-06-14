@@ -1316,7 +1316,7 @@ class Invoice extends EntityModel implements BalanceAffecting
 
     public function emailHistory()
     {
-        return Activity::Scope()
+        return Activity::scope()
             ->with(['contact'])
             ->whereInvoiceId($this->id)
             ->whereIn('activity_type_id', [ACTIVITY_TYPE_EMAIL_INVOICE, ACTIVITY_TYPE_EMAIL_QUOTE])

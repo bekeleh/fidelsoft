@@ -42,7 +42,7 @@ class ItemCategory extends EntityModel
 
     public static function findItemCategoryByKey($key)
     {
-        return self::Scope()->where('name', '=', $key)->first();
+        return self::scope()->where('name', '=', $key)->first();
     }
 
     public function account()

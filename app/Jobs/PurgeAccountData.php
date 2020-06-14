@@ -26,7 +26,7 @@ class PurgeAccountData extends Job
         }
 
         // delete the documents from cloud storage
-        Document::Scope()->each(function ($item, $key) {
+        Document::scope()->each(function ($item, $key) {
             $item->delete();
         });
 

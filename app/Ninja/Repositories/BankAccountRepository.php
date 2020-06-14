@@ -24,7 +24,7 @@ class BankAccountRepository extends BaseRepository
 
     public function all()
     {
-        return BankAccount::Scope()
+        return BankAccount::scope()
             ->withTrashed()
             ->where('is_deleted', '=', false)
             ->get();

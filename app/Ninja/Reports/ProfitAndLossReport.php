@@ -25,7 +25,7 @@ class ProfitAndLossReport extends AbstractReport
         $account = Auth::user()->account;
         $subgroup = $this->options['subgroup'];
 
-        $payments = Payment::Scope()
+        $payments = Payment::scope()
             ->orderBy('payment_date', 'desc')
             ->with('client.contacts', 'invoice', 'user')
             ->withArchived()
@@ -60,7 +60,7 @@ class ProfitAndLossReport extends AbstractReport
             $this->addChartData($dimension, $payment->payment_date, $payment->getCompletedAmount());
         }
 
-        $expenses = Expense::Scope()
+        $expenses = Expense::scope()
             ->orderBy('expense_date', 'desc')
             ->with('client.contacts', 'vendor')
             ->withArchived()

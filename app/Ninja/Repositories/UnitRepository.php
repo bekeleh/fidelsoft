@@ -22,7 +22,7 @@ class UnitRepository extends BaseRepository
 
     public function all()
     {
-        return Unit::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return Unit::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
     public function find($accountId = false, $filter = null)
@@ -86,7 +86,7 @@ class UnitRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $unitId = 0;
-        $units = Unit::Scope()->get();
+        $units = Unit::scope()->get();
         if (!empty($units)) {
             foreach ($units as $unit) {
                 if (!$unit->name) {

@@ -24,7 +24,7 @@ class HoldReasonRepository extends BaseRepository
 
     public function all()
     {
-        return HoldReason::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return HoldReason::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
 
@@ -89,7 +89,7 @@ class HoldReasonRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $holdReasonId = 0;
-        $holdReasons = HoldReason::Scope()->get();
+        $holdReasons = HoldReason::scope()->get();
         if (!empty($holdReasons)) {
             foreach ($holdReasons as $holdReason) {
                 if (!$holdReason->reason) {

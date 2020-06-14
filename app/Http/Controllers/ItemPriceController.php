@@ -164,7 +164,7 @@ class ItemPriceController extends BaseController
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
             'products' => Product::withCategory('itemBrand.itemCategory'),
-            'saleTypes' => SaleType::Scope()->withActiveOrSelected($itemPrice ? $itemPrice->sale_type_id : false)->orderBy('name')->get(),
+            'saleTypes' => SaleType::scope()->withActiveOrSelected($itemPrice ? $itemPrice->sale_type_id : false)->orderBy('name')->get(),
         ];
     }
 

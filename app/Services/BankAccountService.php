@@ -45,7 +45,7 @@ class BankAccountService extends BaseService
 
     private function getExpenses($bankId = null)
     {
-        $expenses = Expense::Scope()
+        $expenses = Expense::scope()
             ->bankId($bankId)
             ->where('transaction_id', '!=', '')
             ->where('expense_date', '>=', Carbon::now()->subYear()->format('Y-m-d'))
@@ -68,7 +68,7 @@ class BankAccountService extends BaseService
         $bankId = $bankAccount->bank_id;
         $expenses = $this->getExpenses();
         $vendorMap = $this->createVendorMap();
-        $bankAccounts = BankSubaccount::Scope()
+        $bankAccounts = BankSubaccount::scope()
             ->whereHas('bank_account', function ($query) use ($bankId) {
                 $query->where('bank_id', '=', $bankId);
             })
@@ -189,7 +189,7 @@ class BankAccountService extends BaseService
     private function createVendorMap()
     {
         $vendorMap = [];
-        $vendors = Vendor::Scope()
+        $vendors = Vendor::scope()
             ->withTrashed()
             ->get(['id', 'name', 'transaction_name']);
         foreach ($vendors as $vendor) {

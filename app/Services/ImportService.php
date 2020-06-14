@@ -409,7 +409,7 @@ class ImportService
 
     private function checkClientCount($count)
     {
-        $totalClients = $count + Client::Scope()->withTrashed()->count();
+        $totalClients = $count + Client::scope()->withTrashed()->count();
         if ($totalClients > Auth::user()->getMaxNumClients()) {
             throw new Exception(trans('texts.limit_clients', ['count' => Auth::user()->getMaxNumClients()]));
         }
@@ -475,7 +475,7 @@ class ImportService
             $data[$entityType] = $this->mapFile($entityType, $filename, $columns, $map);
 
             if ($entityType === ENTITY_CLIENT) {
-                if (count($data[$entityType]['data']) + Client::Scope()->count() > Auth::user()->getMaxNumClients()) {
+                if (count($data[$entityType]['data']) + Client::scope()->count() > Auth::user()->getMaxNumClients()) {
                     throw new Exception(trans('texts.limit_clients', ['count' => Auth::user()->getMaxNumClients()]));
                 }
             }

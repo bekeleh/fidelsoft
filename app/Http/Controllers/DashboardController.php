@@ -121,7 +121,7 @@ class DashboardController extends BaseController
         $currencyIds = $account->currency_id ? [$account->currency_id] : [DEFAULT_CURRENCY];
 
         // get client/invoice currencies
-        $data = Client::Scope()
+        $data = Client::scope()
             ->withArchived()
             ->distinct()
             ->get(['currency_id'])
@@ -135,7 +135,7 @@ class DashboardController extends BaseController
         }, $data);
 
         // get expense currencies
-        $data = Expense::Scope()
+        $data = Expense::scope()
             ->withArchived()
             ->distinct()
             ->get(['expense_currency_id'])

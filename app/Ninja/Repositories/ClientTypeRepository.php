@@ -25,7 +25,7 @@ class ClientTypeRepository extends BaseRepository
 
     public function all()
     {
-        return ClientType::Scope()
+        return ClientType::scope()
             ->withTrashed()
             ->where('is_deleted', '=', false)
             ->get();
@@ -41,7 +41,7 @@ class ClientTypeRepository extends BaseRepository
             ->select(
                 'client_types.id',
                 'client_types.public_id',
-                'client_types.name as sale_type_name',
+                'client_types.name as client_type_name',
                 'client_types.is_deleted',
                 'client_types.notes',
                 'client_types.created_at',
@@ -54,7 +54,7 @@ class ClientTypeRepository extends BaseRepository
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
-                $query->where('client_types.sale_type_name', 'like', '%' . $filter . '%')
+                $query->where('client_types.name', 'like', '%' . $filter . '%')
                     ->orWhere('client_types.notes', 'like', '%' . $filter . '%');
             });
         }
@@ -101,7 +101,7 @@ class ClientTypeRepository extends BaseRepository
         $max = SIMILAR_MIN_THRESHOLD;
         $clientTypeId = 0;
 
-        $clientTypes = ClientType::Scope()->get();
+        $clientTypes = ClientType::scope()->get();
 
         foreach ($clientTypes as $clientType) {
             if (!$clientType->name) {

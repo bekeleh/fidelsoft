@@ -52,7 +52,7 @@ class HoldReasonApiController extends BaseAPIController
      */
     public function index()
     {
-        $itemCategories = HoldReason::Scope()->withTrashed()->orderBy('created_at', 'desc');
+        $itemCategories = HoldReason::scope()->withTrashed()->orderBy('created_at', 'desc');
 
         return $this->listResponse($itemCategories);
     }

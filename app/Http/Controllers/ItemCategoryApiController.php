@@ -52,7 +52,7 @@ class ItemCategoryApiController extends BaseAPIController
      */
     public function index()
     {
-        $itemCategories = ItemCategory::Scope()->withTrashed()->orderBy('created_at', 'desc');
+        $itemCategories = ItemCategory::scope()->withTrashed()->orderBy('created_at', 'desc');
 
         return $this->listResponse($itemCategories);
     }

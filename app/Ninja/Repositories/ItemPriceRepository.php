@@ -27,7 +27,7 @@ class ItemPriceRepository extends BaseRepository
 
     public function all()
     {
-        return ItemPrice::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return ItemPrice::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
     public function find($accountId = false, $filter = null)
@@ -130,7 +130,7 @@ class ItemPriceRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $itemPriceId = 0;
-        $itemPrices = ItemPrice::Scope()->get();
+        $itemPrices = ItemPrice::scope()->get();
         if (!empty($itemPrices)) {
             foreach ($itemPrices as $itemPrice) {
                 if (!$itemPrice->name) {

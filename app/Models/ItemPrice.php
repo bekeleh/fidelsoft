@@ -58,7 +58,7 @@ class ItemPrice extends EntityModel
 
     public static function findItemPriceByKey($key)
     {
-        return self::Scope()->where('name', '=', $key)->first();
+        return self::scope()->where('name', '=', $key)->first();
     }
 
     public function account()

@@ -12,20 +12,20 @@ class TaskKanbanController extends BaseController
 
     public function index($clientPublicId = false, $projectPublicId = false)
     {
-        $tasks = Task::Scope()
+        $tasks = Task::scope()
             ->with(['project', 'client', 'task_status'])
             ->whereNull('invoice_id')
             ->orderBy('task_status_sort_order')
             ->orderBy('id')
             ->get();
 
-        $statuses = TaskStatus::Scope()
+        $statuses = TaskStatus::scope()
             ->orderBy('sort_order')
             ->orderBy('id')
             ->get();
 
-        $projects = Project::Scope()->with('client')->get();
-        $clients = Client::Scope()->with(['contacts'])->get();
+        $projects = Project::scope()->with('client')->get();
+        $clients = Client::scope()->with(['contacts'])->get();
 
         // check initial statuses exist
         if (!$statuses->count()) {
@@ -117,11 +117,11 @@ class TaskKanbanController extends BaseController
         $newSortOrder = request('sort_order');
 
         if (request()->has('sort_order') && $newSortOrder != $origSortOrder) {
-            TaskStatus::Scope()
+            TaskStatus::scope()
                 ->where('sort_order', '>', $origSortOrder)
                 ->decrement('sort_order');
 
-            TaskStatus::Scope()
+            TaskStatus::scope()
                 ->where('sort_order', '>=', $newSortOrder)
                 ->increment('sort_order');
         }
@@ -137,18 +137,18 @@ class TaskKanbanController extends BaseController
         $status = TaskStatus::scope($publicId)->firstOrFail();
         $status->delete();
 
-        TaskStatus::Scope()
+        TaskStatus::scope()
             ->where('sort_order', '>', $status->sort_order)
             ->decrement('sort_order');
 
-        $firstStatus = TaskStatus::Scope()
+        $firstStatus = TaskStatus::scope()
             ->orderBy('sort_order')
             ->first();
 
         // Move linked tasks to the end of the first status
         if ($firstStatus) {
             $firstCount = $firstStatus->tasks->count();
-            Task::Scope()
+            Task::scope()
                 ->where('task_status_id', '=', $status->id)
                 ->increment('task_status_sort_order', $firstCount, [
                     'task_status_id' => $firstStatus->id
@@ -168,12 +168,12 @@ class TaskKanbanController extends BaseController
         $newStatusId = TaskStatus::getPrivateId(request('task_status_id'));
         $newSortOrder = request('task_status_sort_order');
 
-        Task::Scope()
+        Task::scope()
             ->where('task_status_id', '=', $origStatusId)
             ->where('task_status_sort_order', '>', $origSortOrder)
             ->decrement('task_status_sort_order');
 
-        Task::Scope()
+        Task::scope()
             ->where('task_status_id', '=', $newStatusId)
             ->where('task_status_sort_order', '>=', $newSortOrder)
             ->increment('task_status_sort_order');

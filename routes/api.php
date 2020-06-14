@@ -11,8 +11,8 @@ Route::get('static', 'AccountApiController@getStaticData');
 Route::get('accounts', 'AccountApiController@show');
 Route::put('accounts', 'AccountApiController@update');
 Route::post('refresh', 'AccountApiController@refresh');
-
 Route::resource('clients', 'ClientApiController');
+Route::resource('client_types', 'ClientTypeApiController');
 Route::resource('contacts', 'ContactApiController');
 Route::get('quotes', 'QuoteApiController@index');
 Route::get('download/{invoice_id}', 'InvoiceApiController@download');

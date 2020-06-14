@@ -33,7 +33,7 @@ class ExpenseReport extends AbstractReport
             $columns[$account->present()->customLabel('expense2')] = ['columnSelector-false', 'custom'];
         }
 
-        if (TaxRate::Scope()->count()) {
+        if (TaxRate::scope()->count()) {
             $columns['tax'] = ['columnSelector-false'];
         }
 
@@ -50,13 +50,13 @@ class ExpenseReport extends AbstractReport
         $exportFormat = $this->options['export_format'];
         $subgroup = $this->options['subgroup'];
         $with = ['client.contacts', 'vendor'];
-        $hasTaxRates = TaxRate::Scope()->count();
+        $hasTaxRates = TaxRate::scope()->count();
 
         if ($exportFormat == 'zip') {
             $with[] = ['documents'];
         }
 
-        $expenses = Expense::Scope()
+        $expenses = Expense::scope()
             ->orderBy('expense_date', 'desc')
             ->withArchived()
             ->with('client.contacts', 'vendor', 'expense_category', 'user')

@@ -170,34 +170,34 @@ class ExportController extends BaseController
         ];
 
         if ($request->input('include') === 'all' || $request->input('clients')) {
-            $data['clients'] = Client::Scope()
+            $data['clients'] = Client::scope()
                 ->with('user', 'contacts', 'country', 'currency', 'shipping_country')
                 ->withArchived()
                 ->get();
         }
 
         if ($request->input('include') === 'all' || $request->input('contacts')) {
-            $data['contacts'] = Contact::Scope()
+            $data['contacts'] = Contact::scope()
                 ->with('user', 'client.contacts')
                 ->withTrashed()
                 ->get();
         }
 
         if ($request->input('include') === 'all' || $request->input('credits')) {
-            $data['credits'] = Credit::Scope()
+            $data['credits'] = Credit::scope()
                 ->with('user', 'client.contacts')
                 ->get();
         }
 
         if ($request->input('include') === 'all' || $request->input('tasks')) {
-            $data['tasks'] = Task::Scope()
+            $data['tasks'] = Task::scope()
                 ->with('user', 'client.contacts')
                 ->withArchived()
                 ->get();
         }
 
         if ($request->input('include') === 'all' || $request->input('invoices')) {
-            $data['invoices'] = Invoice::Scope()
+            $data['invoices'] = Invoice::scope()
                 ->invoiceType(INVOICE_TYPE_STANDARD)
                 ->with('user', 'client.contacts', 'invoice_status', 'invoice_items')
                 ->withArchived()
@@ -206,7 +206,7 @@ class ExportController extends BaseController
         }
 
         if ($request->input('include') === 'all' || $request->input('quotes')) {
-            $data['quotes'] = Invoice::Scope()
+            $data['quotes'] = Invoice::scope()
                 ->invoiceType(INVOICE_TYPE_QUOTE)
                 ->with('user', 'client.contacts', 'invoice_status', 'invoice_items')
                 ->withArchived()
@@ -215,7 +215,7 @@ class ExportController extends BaseController
         }
 
         if ($request->input('include') === 'all' || $request->input('recurring')) {
-            $data['recurringInvoices'] = Invoice::Scope()
+            $data['recurringInvoices'] = Invoice::scope()
                 ->invoiceType(INVOICE_TYPE_STANDARD)
                 ->with('user', 'client.contacts', 'invoice_status', 'frequency', 'invoice_items')
                 ->withArchived()
@@ -224,34 +224,34 @@ class ExportController extends BaseController
         }
 
         if ($request->input('include') === 'all' || $request->input('payments')) {
-            $data['payments'] = Payment::Scope()
+            $data['payments'] = Payment::scope()
                 ->withArchived()
                 ->with('user', 'client.contacts', 'payment_type', 'invoice', 'account_gateway.gateway')
                 ->get();
         }
 
         if ($request->input('include') === 'all' || $request->input('expenses')) {
-            $data['expenses'] = Expense::Scope()
+            $data['expenses'] = Expense::scope()
                 ->with('user', 'vendor.vendor_contacts', 'client.contacts', 'expense_category')
                 ->withArchived()
                 ->get();
         }
 
         if ($request->input('include') === 'all' || $request->input('products')) {
-            $data['products'] = Product::Scope()
+            $data['products'] = Product::scope()
                 ->withArchived()
                 ->get();
         }
 
         if ($request->input('include') === 'all' || $request->input('vendors')) {
-            $data['vendors'] = Vendor::Scope()
+            $data['vendors'] = Vendor::scope()
                 ->with('user', 'vendor_contacts', 'country')
                 ->withArchived()
                 ->get();
         }
 
         if ($request->input('include') === 'all' || $request->input('vendor_contacts')) {
-            $data['vendor_contacts'] = VendorContact::Scope()
+            $data['vendor_contacts'] = VendorContact::scope()
                 ->with('user', 'vendor.vendor_contacts')
                 ->withTrashed()
                 ->get();

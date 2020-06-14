@@ -48,9 +48,15 @@
                     {!! Former::text('vat_number') !!}
                     {!! Former::text('website') !!}
                     {!! Former::text('work_phone') !!}
+                    <!-- client type -->
+                    {!! Former::select('client_type_id')->addOption('', '')
+                    ->label(trans('texts.client_type_name'))
+                    ->addGroupClass('client-type-select')
+                    ->help(trans('texts.client_type_help') . ' | ' . link_to('/client_types/', trans('texts.customize_options')))
+                    !!}
                     <!-- sale type -->
                     {!! Former::select('sale_type_id')->addOption('', '')
-                    ->label(trans('texts.sale_type'))
+                    ->label(trans('texts.sale_type_name'))
                     ->addGroupClass('sale-type-select')
                     ->help(trans('texts.sale_type_help') . ' | ' . link_to('/sale_types/', trans('texts.customize_options')))
                     !!}
@@ -272,37 +278,42 @@
                             <h3 class="panel-title in-bold-white">{!! trans('texts.pro_plan_product') !!}</h3>
                         </div>
                         <div class="panel-body">
-                            @if (isset($planDetails))
-                                {!! Former::populateField('plan', $planDetails['plan']) !!}
-                                {!! Former::populateField('plan_term', $planDetails['term']) !!}
-                                {!! Former::populateField('plan_price', $planDetails['plan_price']) !!}
-                                @if (!empty($planDetails['paid']))
-                                    {!! Former::populateField('plan_paid', $planDetails['paid']->format('Y-m-d')) !!}
-                                @endif
-                                @if (!empty($planDetails['expires']))
-                                    {!! Former::populateField('plan_expires', $planDetails['expires']->format('Y-m-d')) !!}
-                                @endif
-                                @if (!empty($planDetails['started']))
-                                    {!! Former::populateField('plan_started', $planDetails['started']->format('Y-m-d')) !!}
-                                @endif
+                        @if (isset($planDetails))
+                            {!! Former::populateField('plan', $planDetails['plan']) !!}
+                            {!! Former::populateField('plan_term', $planDetails['term']) !!}
+                            {!! Former::populateField('plan_price', $planDetails['plan_price']) !!}
+                            @if (!empty($planDetails['paid']))
+                                {!! Former::populateField('plan_paid', $planDetails['paid']->format('Y-m-d')) !!}
                             @endif
-                            {!! Former::select('plan')
-                            ->addOption(trans('texts.plan_free'), PLAN_FREE)
-                            ->addOption(trans('texts.plan_pro'), PLAN_PRO)
-                            ->addOption(trans('texts.plan_enterprise'), PLAN_ENTERPRISE)!!}
-                            {!! Former::select('plan_term')
-                            ->addOption()
-                            ->addOption(trans('texts.plan_term_yearly'), PLAN_TERM_YEARLY)
-                            ->addOption(trans('texts.plan_term_monthly'), PLAN_TERM_MONTHLY)!!}
-                            {!! Former::text('plan_price') !!}
-                            {!! Former::text('plan_started')
-                            ->data_date_format('yyyy-mm-dd')
-                            ->addGroupClass('plan_start_date')
-                            ->append('<i class="glyphicon glyphicon-calendar"></i>') !!}
-                            {!! Former::text('plan_paid')
-                            ->data_date_format('yyyy-mm-dd')
-                            ->addGroupClass('plan_paid_date')
-                            ->append('<i class="glyphicon glyphicon-calendar"></i>') !!}
+                            @if (!empty($planDetails['expires']))
+                                {!! Former::populateField('plan_expires', $planDetails['expires']->format('Y-m-d')) !!}
+                            @endif
+                            @if (!empty($planDetails['started']))
+                                {!! Former::populateField('plan_started', $planDetails['started']->format('Y-m-d')) !!}
+                            @endif
+                        @endif
+                        <!-- plan -->
+                        {!! Former::select('plan')
+                        ->addOption(trans('texts.plan_free'), PLAN_FREE)
+                        ->addOption(trans('texts.plan_pro'), PLAN_PRO)
+                        ->addOption(trans('texts.plan_enterprise'), PLAN_ENTERPRISE)!!}
+                        <!-- plan term -->
+                        {!! Former::select('plan_term')
+                        ->addOption()
+                        ->addOption(trans('texts.plan_term_yearly'), PLAN_TERM_YEARLY)
+                        ->addOption(trans('texts.plan_term_monthly'), PLAN_TERM_MONTHLY)!!}
+                        <!-- plan price -->
+                        {!! Former::text('plan_price') !!}
+                        {!! Former::text('plan_started')
+                        ->data_date_format('yyyy-mm-dd')
+                        ->addGroupClass('plan_start_date')
+                        ->append('<i class="glyphicon glyphicon-calendar"></i>') !!}
+                        <!-- plan paid -->
+                        {!! Former::text('plan_paid')
+                        ->data_date_format('yyyy-mm-dd')
+                        ->addGroupClass('plan_paid_date')
+                        ->append('<i class="glyphicon glyphicon-calendar"></i>') !!}
+                        <!-- plan expire -->
                             {!! Former::text('plan_expires')
                             ->data_date_format('yyyy-mm-dd')
                             ->addGroupClass('plan_expire_date')
@@ -319,15 +330,37 @@
             </div>
         </div>
         {!! Former::hidden('data')->data_bind("value: ko.toJSON(model)") !!}
+
         <script type="text/javascript">
+            var clientTypes = {!! $clientTypes !!};
             var types = {!! $saleTypes !!};
             var reasons = {!! $holdReasons !!};
 
+            var clientTypeMap = {};
             var typeMap = {};
             var reasonMap = {};
 
+            <!-- client type -->
             $(function () {
-                <!-- sale type -->
+                var clientTypeId = {{ $clientTypePublicId ?: 0 }};
+                var $client_typeSelect = $('select#client_type_id');
+                @if (Auth::user()->can('create', ENTITY_CLIENT_TYPE))
+                $client_typeSelect.append(new Option("{{ trans('texts.create_client_type')}}: $name", '-1'));
+                        @endif
+                for (var i = 0; i < clientTypes.length; i++) {
+                    var clientType = clientTypes[i];
+                    clientTypeMap[clientType.public_id] = clientType;
+                    $client_typeSelect.append(new Option(getClientDisplayName(clientType), clientType.public_id));
+                }
+                @include('partials/entity_combobox', ['entityType' => ENTITY_CLIENT_TYPE])
+                if (clientTypeId) {
+                    var clientType = clientTypeMap[clientTypeId];
+                    setComboboxValue($('.client-type-select'), clientType.public_id, clientType.name);
+                }
+            });
+
+            <!-- sale type -->
+            $(function () {
                 var saleId = {{ $saleTypePublicId ?: 0 }};
                 var $sale_typeSelect = $('select#sale_type_id');
                 @if (Auth::user()->can('create', ENTITY_SALE_TYPE))
@@ -343,9 +376,10 @@
                     var type = typeMap[saleId];
                     setComboboxValue($('.sale-type-select'), type.public_id, type.name);
                 }
-            });<!-- /. sale type  -->
+            });
+
+            <!-- hold reason -->
             $(function () {
-                <!-- hold reason -->
                 var reasonId = {{ $holdReasonPublicId ?: 0 }};
                 var $hold_reasonSelect = $('select#hold_reason_id');
                 @if (Auth::user()->can('create', ENTITY_HOLD_REASON))
@@ -362,6 +396,7 @@
                     setComboboxValue($('.hold-reason-select'), reason.public_id, reason.name);
                 }
             });
+
             $(function () {
                 $('#country_id, #shipping_country_id').combobox();
 
@@ -400,7 +435,7 @@
                     'state',
                     'postal_code',
                     'country_id',
-                ]
+                ];
                 for (var i = 0; i < fields.length; i++) {
                     var field1 = fields[i];
                     var field2 = 'shipping_' + field1;
@@ -422,7 +457,7 @@
                     'state',
                     'postal_code',
                     'country_id',
-                ]
+                ];
                 for (var i = 0; i < fields.length; i++) {
                     var field = fields[i];
                     if (shipping) {
@@ -460,7 +495,7 @@
                             return new ContactModel(options.data);
                         }
                     }
-                }
+                };
                 if (data) {
                     ko.mapping.fromJS(data, self.mapping, this);
                 } else {
@@ -486,12 +521,12 @@
 
                 model.showContact = function (elem) {
                 if (elem.nodeType === 1) $(elem).hide().slideDown()
-            }
+            };
             model.hideContact = function (elem) {
                 if (elem.nodeType === 1) $(elem).slideUp(function () {
                     $(elem).remove();
                 })
-            }
+            };
             ko.applyBindings(model);
 
             function addContact() {

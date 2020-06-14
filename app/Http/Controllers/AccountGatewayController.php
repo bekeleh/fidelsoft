@@ -12,12 +12,12 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Redirect;
-use Request;
 use stdClass;
 use WePay;
 use WePayException;
@@ -232,7 +232,7 @@ class AccountGatewayController extends BaseController
             } else {
                 // check they don't already have an active gateway for this provider
                 // TODO complete this
-                $accountGateway = AccountGateway::Scope()
+                $accountGateway = AccountGateway::scope()
                     ->whereGatewayId($gatewayId)
                     ->first();
                 if ($accountGateway) {
@@ -529,7 +529,7 @@ class AccountGatewayController extends BaseController
     public function savePaymentGatewayLimits()
     {
         $gateway_type_id = intval(Input::get('gateway_type_id'));
-        $gateway_settings = AccountGatewaySettings::Scope()->where('gateway_type_id', '=', $gateway_type_id)->first();
+        $gateway_settings = AccountGatewaySettings::scope()->where('gateway_type_id', '=', $gateway_type_id)->first();
 
         if (!$gateway_settings) {
             $gateway_settings = AccountGatewaySettings::createNew();

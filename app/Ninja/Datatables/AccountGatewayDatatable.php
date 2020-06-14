@@ -225,7 +225,7 @@ class AccountGatewayDatatable extends EntityDatatable
             return static::$accountGatewaySettings[$gatewayTypeId];
         }
 
-        static::$accountGatewaySettings[$gatewayTypeId] = AccountGatewaySettings::Scope()
+        static::$accountGatewaySettings[$gatewayTypeId] = AccountGatewaySettings::scope()
             ->where('account_gateway_settings.gateway_type_id', '=', $gatewayTypeId)->first();
 
         return static::$accountGatewaySettings[$gatewayTypeId];

@@ -234,6 +234,11 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
     Route::get('quotes', 'QuoteController@index');
     Route::get('api/quotes/{client_id?}', 'QuoteController@getDatatable');
     Route::post('quotes/bulk', 'QuoteController@bulk');
+//       client type
+    Route::get('client_types/{client_types}/clone', 'ClientTypeController@cloneClientType');
+    Route::get('api/client_types', 'ClientTypeController@getDatatable');
+    Route::resource('client_types', 'ClientTypeController');
+    Route::post('client_types/bulk', 'ClientTypeController@bulk');
 
     Route::post('proposals/categories/bulk', 'ProposalCategoryController@bulk');
     Route::get('proposals/categories/{proposal_categories}/edit', 'ProposalCategoryController@edit');

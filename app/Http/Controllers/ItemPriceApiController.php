@@ -52,7 +52,7 @@ class ItemPriceApiController extends BaseAPIController
      */
     public function index()
     {
-        $itemPrices = ItemPrice::Scope()->withTrashed()->orderBy('created_at', 'desc');
+        $itemPrices = ItemPrice::scope()->withTrashed()->orderBy('created_at', 'desc');
 
         return $this->listResponse($itemPrices);
     }

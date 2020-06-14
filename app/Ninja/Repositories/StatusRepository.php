@@ -23,7 +23,7 @@ class StatusRepository extends BaseRepository
 
     public function all()
     {
-        return Status::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return Status::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
     public function find($accountId = false, $filter = null)
@@ -87,7 +87,7 @@ class StatusRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $StatusId = 0;
-        $Statuses = Status::Scope()->get();
+        $Statuses = Status::scope()->get();
         if (!empty($Statuses)) {
             foreach ($Statuses as $Status) {
                 if (!$Status->name) {

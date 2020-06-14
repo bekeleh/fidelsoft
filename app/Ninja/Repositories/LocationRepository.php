@@ -25,7 +25,7 @@ class LocationRepository extends BaseRepository
 
     public function all()
     {
-        return Location::Scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return Location::scope()->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
     public function find($accountId = false, $filter = null)
@@ -91,7 +91,7 @@ class LocationRepository extends BaseRepository
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $locationId = 0;
-        $locations = Location::Scope()->get();
+        $locations = Location::scope()->get();
         if (!empty($locations)) {
             foreach ($locations as $location) {
                 if (!$location->name) {

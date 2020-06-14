@@ -41,9 +41,21 @@ class ClientDatatable extends EntityDatatable
                 Auth::user()->account->clientNumbersEnabled()
             ],
             [
+                'client_type_name',
+                function ($model) {
+                    if ($model->client_type_public_id)
+                        return link_to("client_types/{$model->client_type_public_id}", $model->client_type_name ?: '')->toHtml();
+                    else
+                        return $model->client_type_name;
+                },
+            ],
+            [
                 'sale_type_name',
                 function ($model) {
-                    return link_to("sale_types/{$model->sale_type_public_id}", $model->sale_type_name ?: '')->toHtml();
+                    if ($model->sale_type_public_id)
+                        return link_to("sale_types/{$model->sale_type_public_id}", $model->sale_type_name ?: '')->toHtml();
+                    else
+                        $model->sale_type_name;
                 },
             ],
             [

@@ -202,12 +202,15 @@ class Client extends EntityModel
         return $this->belongsTo('App\Models\Size');
     }
 
+    public function clientType()
+    {
+        return $this->belongsTo('App\Models\ClientType');
+    }
 
     public function saleType()
     {
         return $this->belongsTo('App\Models\SaleType');
     }
-
 
     public function holdReason()
     {

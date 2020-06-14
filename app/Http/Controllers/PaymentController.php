@@ -61,7 +61,7 @@ class PaymentController extends BaseController
         $user = auth()->user();
         $account = $user->account;
 
-        $invoices = Invoice::Scope()->invoices()
+        $invoices = Invoice::scope()->invoices()
             ->where('invoices.invoice_status_id', '!=', INVOICE_STATUS_PAID)
             ->with('client', 'invoice_status')
             ->orderBy('invoice_number')->get();
@@ -87,7 +87,7 @@ class PaymentController extends BaseController
             'url' => 'payments',
             'title' => trans('texts.new_payment'),
             'paymentTypeId' => Input::get('paymentTypeId'),
-            'clients' => Client::Scope()->with('contacts')->orderBy('name')->get(),
+            'clients' => Client::scope()->with('contacts')->orderBy('name')->get(),
             'totalCredit' => $totalCredit,
         ];
 
@@ -131,7 +131,7 @@ class PaymentController extends BaseController
             'account' => Auth::user()->account,
             'client' => null,
             'invoice' => null,
-            'invoices' => Invoice::Scope()->invoices()
+            'invoices' => Invoice::scope()->invoices()
                 ->whereIsPublic(true)
                 ->with('client', 'invoice_status')
                 ->orderBy('invoice_number')->get(),
@@ -142,7 +142,7 @@ class PaymentController extends BaseController
             'title' => trans('texts.edit_payment'),
             'actions' => $actions,
             'paymentTypes' => Cache::get('paymentTypes'),
-            'clients' => Client::Scope()->with('contacts')->orderBy('name')->get(),
+            'clients' => Client::scope()->with('contacts')->orderBy('name')->get(),
         ];
 
         return View::make('payments.edit', $data);

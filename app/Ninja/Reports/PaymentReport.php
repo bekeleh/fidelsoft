@@ -30,7 +30,7 @@ class PaymentReport extends AbstractReport
         $invoiceMap = [];
         $subgroup = $this->options['subgroup'];
 
-        $payments = Payment::Scope()
+        $payments = Payment::scope()
             ->orderBy('payment_date', 'desc')
             ->withArchived()
             ->excludeFailed()
