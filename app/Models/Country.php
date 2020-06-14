@@ -2,21 +2,16 @@
 
 namespace App\Models;
 
-use Eloquent;
+use Illuminate\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Country.
  */
 class Country extends Eloquent
 {
-    /**
-     * @var bool
-     */
+
     public $timestamps = false;
 
-    /**
-     * @var array
-     */
     protected $visible = [
         'id',
         'name',
@@ -31,19 +26,19 @@ class Country extends Eloquent
         'deleted_by',
     ];
 
-    /**
-     * @var array
-     */
     protected $casts = [
         'swap_postal_code' => 'boolean',
         'swap_currency_symbol' => 'boolean',
     ];
 
-    /**
-     * @return mixed
-     */
+
     public function getName()
     {
         return trans('texts.country_' . $this->name);
+    }
+
+    public function clients()
+    {
+        return $this->hasMany('App\Models\Client', 'country_id', 'id')->withTrashed();
     }
 }

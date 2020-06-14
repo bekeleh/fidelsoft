@@ -204,29 +204,29 @@ class Client extends EntityModel
 
     public function clientType()
     {
-        return $this->belongsTo('App\Models\ClientType');
+        return $this->belongsTo('App\Models\ClientType')->withTrashed();
     }
 
     public function saleType()
     {
-        return $this->belongsTo('App\Models\SaleType');
+        return $this->belongsTo('App\Models\SaleType')->withTrashed();
     }
 
     public function holdReason()
     {
-        return $this->belongsTo('App\Models\HoldReason');
+        return $this->belongsTo('App\Models\HoldReason')->withTrashed();
     }
 
 
     public function industry()
     {
-        return $this->belongsTo('App\Models\Industry');
+        return $this->belongsTo('App\Models\Industry')->withTrashed();
     }
 
 
     public function credits()
     {
-        return $this->hasMany('App\Models\Credit');
+        return $this->hasMany('App\Models\Credit')->withTrashed();
     }
 
 
@@ -238,7 +238,7 @@ class Client extends EntityModel
 
     public function expenses()
     {
-        return $this->hasMany('App\Models\Expense', 'client_id', 'id')->withTrashed();
+        return $this->hasMany('App\Models\Expense')->withTrashed();
     }
 
 
@@ -511,14 +511,9 @@ class Client extends EntityModel
         }
     }
 
-    public function scopeHoldReason($query)
+    public function scopeInvoiceable($query)
     {
-        return $query->where('allow_invoice', '=', 1);
-    }
-
-    public function scopeHoldReasons($query)
-    {
-        return $query->whereHas('hold_reasons', function ($query) {
+        return $query->whereHas('holdReason', function ($query) {
             $query->where('allow_invoice', '=', 1);
         });
     }
