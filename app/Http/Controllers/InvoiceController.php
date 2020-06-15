@@ -108,7 +108,7 @@ class InvoiceController extends BaseController
         $invoice->public_id = 0;
         $invoice->loadFromRequest();
 
-        $clients = Client::Invoiceable()->scope()->with('contacts', 'country')->orderBy('name');
+        $clients = Client::IsInvoiceAllowed()->scope()->with('contacts', 'country')->orderBy('name');
 
         if (!Utils::hasPermission('view_client')) {
             $clients = $clients->where('clients.user_id', '=', Auth::user()->id);

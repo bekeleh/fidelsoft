@@ -19,13 +19,13 @@ class Client extends EntityModel
     use SoftDeletes;
     use HasCustomMessages;
 
-
     protected $presenter = 'App\Ninja\Presenters\ClientPresenter';
 
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
-    protected $casts = [];
-    protected $hidden = [];
     protected $appends = [];
+    protected $casts = [];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+    protected $hidden = [];
+
 
     protected $fillable = [
         'name',
@@ -511,7 +511,7 @@ class Client extends EntityModel
         }
     }
 
-    public function scopeInvoiceable($query)
+    public function scopeIsInvoiceAllowed($query)
     {
         return $query->whereHas('holdReason', function ($query) {
             $query->where('allow_invoice', '=', 1);

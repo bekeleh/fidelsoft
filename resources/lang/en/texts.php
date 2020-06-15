@@ -433,7 +433,7 @@ $LANG = array(
     'required_date' => 'Required Date',
     'store_request' => 'Location from which to request item',
 //   Hold reasons
-    'hold_reason_name' => 'Hold Reason Name',
+    'hold_reason_name' => 'Hold Reason',
     'new_hold_reason' => 'New Hold Reason',
     'list_hold_reasons' => 'List Hold Reasons',
     'hold_reason' => 'Hold reason',

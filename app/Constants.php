@@ -335,6 +335,12 @@ if (!defined('APP_NAME')) {
     define('PAYMENT_STATUS_PARTIALLY_REFUNDED', 5);
     define('PAYMENT_STATUS_REFUNDED', 6);
 
+    define('APPROVE_STATUS_PENDING', 1);
+    define('APPROVE_STATUS_REJECTED', 2);
+    define('APPROVE_STATUS_APPROVED', 3);
+    define('APPROVE_STATUS_COMPLETED', 4);
+    define('APPROVE_STATUS_CLOSED', 5);
+
     define('TASK_STATUS_LOGGED', -1);
     define('TASK_STATUS_RUNNING', -2);
     define('TASK_STATUS_INVOICED', -3);

@@ -27,13 +27,16 @@ class Invoice extends EntityModel implements BalanceAffecting
     use OwnedByClientTrait;
     use ChargesFees;
     use HasRecurrence;
+
     use SoftDeletes {
         SoftDeletes::trashed as parentTrashed;
     }
 
-
     protected $presenter = 'App\Ninja\Presenters\InvoicePresenter';
+
+    protected $appends = [];
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+    protected $hidden = ['deleted_at'];
 
 
     protected $fillable = [
@@ -56,7 +59,6 @@ class Invoice extends EntityModel implements BalanceAffecting
         'has_expenses' => 'boolean',
     ];
 
-
     public static $patternFields = [
         'counter',
         'clientCounter',
@@ -67,7 +69,6 @@ class Invoice extends EntityModel implements BalanceAffecting
         'year',
         'date:',
     ];
-
 
     public static $requestFields = [
         'invoice_number',
