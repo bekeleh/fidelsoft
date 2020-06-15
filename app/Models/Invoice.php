@@ -1356,11 +1356,14 @@ class Invoice extends EntityModel implements BalanceAffecting
 
     public function isLocked()
     {
-        if (!config('ninja.lock_sent_invoices')) {
+        if (!$lockSentInvoice = config('ninja.lock_sent_invoices')) {
+            return false;
+        }
+        
+        if ($this->is_recurring) {
             return false;
         }
 
-        return $this->isSent() && !$this->is_recurring;
     }
 
     public function getInvoiceLinkForQuote($contactId)

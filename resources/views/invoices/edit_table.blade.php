@@ -2,7 +2,7 @@
     <thead {!! $isTasks ? 'style="display:none;" data-bind="visible: $root.hasTasks"' : ($invoice->has_tasks || ! empty($tasks) ? 'data-bind="visible: $root.hasItems"' : '') !!}>
     @if ($isTasks)
         <tr data-bind="visible: $root.hasItems">
-            <td style="20px" colspan="20"></td>
+            <td style="min-width:20px" colspan="20"></td>
         </tr>
     @endif
     <tr>
@@ -33,9 +33,6 @@
                class="fa fa-sort"></i>
         </td>
         <td>
-            {{--            <input type="hidden"--}}
-            {{--                   data-bind="value: public_id, attr: {name: 'invoice_items[{{ $isTasks ? 'T' : '' }}' + $index() + '][public_id]'}"--}}
-            {{--                   style="display: none"/>--}}
             <div id="scrollable-dropdown-menu">
                 <input type="text"
                        data-bind="productTypeahead: name, items: $root.products, key: 'name', valueUpdate: 'afterkeydown', attr: {name: 'invoice_items[{{ $isTasks ? 'T' : '' }}' + $index() + '][name]'}"
@@ -45,7 +42,11 @@
         <td>
             <textarea
                     data-bind="value: notes, valueUpdate: 'afterkeydown', attr: {name: 'invoice_items[{{ $isTasks ? 'T' : '' }}' + $index() + '][notes]'}"
-                    rows="1" cols="60" style="resize: vertical;height:42px" class="form-control word-wrap"></textarea>
+                    rows="1" cols="60" style="resize: vertical;height:42px" class="form-control word-wrap">
+            </textarea>
+            <input type="hidden"
+                   data-bind="value: public_id, valueUpdate: 'afterkeydown', attr: {name: 'invoice_items[{{ $isTasks ? 'T' : '' }}' + $index() + '][public_id]'}"
+                   style="display: none"/>
             <input type="text"
                    data-bind="value: task_public_id, attr: {name: 'invoice_items[{{ $isTasks ? 'T' : '' }}' + $index() + '][task_public_id]'}"
                    style="display: none"/>
@@ -90,6 +91,7 @@
             <input data-bind="value: discount, valueUpdate: 'afterkeydown', attr: {name: 'invoice_items[{{ $isTasks ? 'T' : '' }}' + $index() + '][discount]'}"
                    style="text-align: right" class="form-control invoice-item" name="discount"/>
         </td>
+        <!-- tax rate -->
         <td style="display:none;" data-bind="visible: $root.invoice_item_taxes.show">
             {!! Former::select('')
                     ->addOption('', '')

@@ -1042,15 +1042,15 @@ class Utils
         }
     }
 
-    public static function getItemDetail($field = null, $name = null)
+    public static function getItemDetail($field = null, $search = null, $required_field = null)
     {
-        if (!$field || !$name) {
+        if (!$field || !$required_field || !$search) {
             return null;
         }
 
-        $product = Product::where($field, $name)->first();
+        $product = Product::where($field, $search)->first();
 
-        return $product->$field ?: null;
+        return $product->$required_field ?: null;
     }
 
     public static function defaultInvoiceStatusId($name = null)

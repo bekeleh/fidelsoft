@@ -122,7 +122,16 @@ class InvoiceController extends BaseController
             'url' => 'invoices',
             'title' => trans('texts.new_invoice'),
         ];
+
         $data = array_merge($data, self::getViewModel($invoice));
+
+        if (!Auth::user()->branch) {
+            session()->flash('warning', trans('texts.user_branch_required', ['link' => link_to('/users/' . Auth::user()->public_id . '/edit', trans('texts.click_here'))]));
+        }
+
+        if (count($data['products']) == 0) {
+            session()->flash('warning', trans('texts.product_required', ['branch' => !empty(Auth::user()->branch->name) ?: 'branch', 'store' => !empty(Auth::user()->branch->store->name) ?: '', 'link' => link_to('/item_stores', trans('texts.click_here'))]));
+        }
 
         return View::make('invoices.edit', $data);
     }
@@ -133,10 +142,13 @@ class InvoiceController extends BaseController
         $data['documents'] = $request->file('documents');
 
         $action = Input::get('action');
+
         $entityType = Input::get('entityType');
 
         $invoice = $this->invoiceService->save($data);
+
         $entityType = $invoice->getEntityType();
+
         $message = trans("texts.created_{$entityType}");
 
         $input = $request->input();

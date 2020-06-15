@@ -2,8 +2,8 @@
 
 namespace App\Models\Traits;
 
-use Carbon;
-use Utils;
+use Carbon\Carbon;
+use App\Libraries\Utils;
 
 /**
  * Class SendsEmails.
@@ -14,13 +14,13 @@ trait Inviteable
     // we need to make sure it's served from our site
     /**
      * @param string $type
-     * @param bool   $forceOnsite
+     * @param bool $forceOnsite
      *
      * @return string
      */
     public function getLink($type = 'view', $forceOnsite = false, $forcePlain = false)
     {
-        if (! $this->account) {
+        if (!$this->account) {
             $this->load('account');
         }
 
@@ -37,17 +37,17 @@ trait Inviteable
         }
 
         if ($account->hasFeature(FEATURE_CUSTOM_URL)) {
-            if (Utils::isNinjaProd() && ! Utils::isReseller()) {
+            if (Utils::isNinjaProd() && !Utils::isReseller()) {
                 $url = $account->present()->clientPortalLink();
             }
 
-            if ($iframe_url && ! $forceOnsite) {
+            if ($iframe_url && !$forceOnsite) {
                 if ($account->is_custom_domain) {
                     $url = $iframe_url;
                 } else {
                     return "{$iframe_url}?{$this->invitation_key}/{$type}";
                 }
-            } elseif ($this->account->subdomain && ! $forcePlain) {
+            } elseif ($this->account->subdomain && !$forcePlain) {
                 $url = Utils::replaceSubdomain($url, $account->subdomain);
             }
         }
@@ -55,9 +55,6 @@ trait Inviteable
         return "{$url}/{$type}/{$this->invitation_key}";
     }
 
-    /**
-     * @return bool|string
-     */
     public function getStatus()
     {
         $hasValue = false;
@@ -77,22 +74,17 @@ trait Inviteable
         return $hasValue ? implode($parts, '<br/>') : false;
     }
 
-    /**
-     * @return mixed
-     */
     public function getName()
     {
         return $this->invitation_key;
     }
 
-    /**
-     * @param null $messageId
-     */
     public function markSent($messageId = null)
     {
         $this->message_id = $messageId;
         $this->email_error = null;
         $this->sent_date = Carbon::now()->toDateTimeString();
+
         $this->save();
     }
 
@@ -104,6 +96,7 @@ trait Inviteable
     public function markViewed()
     {
         $this->viewed_date = Carbon::now()->toDateTimeString();
+
         $this->save();
 
         if ($this->invoice) {

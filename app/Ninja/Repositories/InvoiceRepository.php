@@ -439,9 +439,6 @@ class InvoiceRepository extends BaseRepository
             }
         } else {
             $invoice = Invoice::scope($publicId)->firstOrFail();
-            if (Utils::isNinjaDev()) {
-                Log::warning('Entity not set in invoice repo save');
-            }
         }
 
         if ($invoice->is_deleted) {
@@ -575,9 +572,6 @@ class InvoiceRepository extends BaseRepository
             $data['tax_rate1'] = $data['tax_rate'];
         }
 
-        Log::warning($invoice);
-        Log::info($data['invoice_items']);
-
         $total = 0;
         $itemTax = 0;
         foreach ($data['invoice_items'] as $item) {
@@ -587,7 +581,6 @@ class InvoiceRepository extends BaseRepository
             }
 
             $invoiceItemCost = isset($item['cost']) ? Utils::roundSignificant(Utils::parseFloat($item['cost'])) : Utils::getItemDetail('name', $item['name']);
-            Log::info($invoiceItemCost);
             $invoiceItemQty = Utils::roundSignificant(Utils::parseFloat($item['qty']));
             $discount = empty($item['discount']) ? 0 : round(Utils::parseFloat($item['discount']), 2);
 
@@ -748,7 +741,7 @@ class InvoiceRepository extends BaseRepository
 
         foreach ($data['invoice_items'] as $item) {
             $item = (array)$item;
-            if (empty($item['cost']) && empty($item['name']) && empty($item['notes']) && empty($item['custom_value1']) && empty($item['custom_value2'])) {
+            if (empty($item['name']) && empty($item['cost']) && empty($item['notes'])) {
                 continue;
             }
 //          task update
@@ -771,11 +764,14 @@ class InvoiceRepository extends BaseRepository
                     $expense->save();
                 }
             }
+//          skip black line append line items
+            if (!empty($item['name']) && !empty($item['cost'])) {
 //           stock adjustment
 //            $this->stockAdjustment($invoice, $item, $isNew);
 
 //          update invoice line item
-            $this->invoiceLineItemAdjustment($invoice, $item);
+                $this->invoiceLineItemAdjustment($invoice, $item);
+            }
 //
         } // end of for loop
 
@@ -834,13 +830,14 @@ class InvoiceRepository extends BaseRepository
         if (!$invoice || !$item) {
             return false;
         }
+
         $invoiceItem = InvoiceItem::createNew($invoice);
         $invoiceItem->fill($item);
 //        $invoiceItem->product_id = isset($item['name']) ? Utils::get : null;
         $invoiceItem->product_key = isset($item['name']) ? $item['name'] : null;
         $invoiceItem->name = isset($item['name']) ? (trim($invoice->is_recurring ? $item['name'] : Utils::processVariables($item['name']))) : '';
         $invoiceItem->notes = trim($invoice->is_recurring ? $item['notes'] : Utils::processVariables($item['notes']));
-        $invoiceItem->cost = Utils::parseFloat($item['cost']);
+        $invoiceItem->cost = !empty($item['cost']) ? Utils::parseFloat($item['cost']) : Utils::getItemDetail('name', $item['name'], 'cost');
         $invoiceItem->qty = Utils::parseFloat($item['qty']);
         $invoiceItem->created_by = auth::user()->username;
 

@@ -825,6 +825,7 @@
 
     function ItemModel(data) {
         var self = this;
+        self.public_id = ko.observable('');
         self.name = ko.observable('');
         self.notes = ko.observable('');
         self.cost = ko.observable(0);

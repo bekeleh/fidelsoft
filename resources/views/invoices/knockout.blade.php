@@ -17,11 +17,11 @@
                 model.invoice().public_notes(client.public_notes);
             }
             @endif
-        }
+        };
 
         self.showMoreFields = function () {
             self.showMore(!self.showMore());
-        }
+        };
 
         self.setDueDate = function () {
                     @if ($entityType == ENTITY_INVOICE)
@@ -36,7 +36,7 @@
                 $('#due_date').attr('placeholder', "{{ $invoice->id ? ' ' : $account->present()->dueDatePlaceholder() }}");
             }
             @endif
-        }
+        };
 
         self.clearBlankContacts = function () {
             var client = self.invoice().client();
@@ -46,7 +46,7 @@
                     client.contacts.remove(contact);
                 }
             });
-        }
+        };
 
         self.invoice_taxes = ko.observable({{ Auth::user()->account->invoice_taxes ? 'true' : 'false' }});
         self.invoice_item_taxes = ko.observable({{ Auth::user()->account->invoice_item_taxes ? 'true' : 'false' }});
@@ -57,7 +57,7 @@
                     return new InvoiceModel(options.data);
                 }
             },
-        }
+        };
 
         if (data) {
             ko.mapping.fromJS(data, self.mapping, self);
@@ -90,7 +90,7 @@
 
             $('#emailError').css("display", "none");
             $('#clientModal').modal('show');
-        }
+        };
 
         self.clientFormComplete = function () {
             trackEvent('/activity', '/save_client_form');
@@ -143,7 +143,7 @@
             refreshPDF(true);
             model.clientBackup = false;
             $('#clientModal').modal('hide');
-        }
+        };
 
         self.clientLinkText = ko.computed(function () {
             if (self.invoice().client().public_id()) {
@@ -276,7 +276,7 @@
                 }
             },
             owner: this
-        })
+        });
 
         self.mapping = {
             'client': {
@@ -294,7 +294,7 @@
                     return new ExpenseModel(options.data);
                 }
             },
-        }
+        };
 
         self.addItem = function (isTask) {
             if (self.invoice_items().length >= {{ MAX_INVOICE_ITEMS }}) {
@@ -309,13 +309,13 @@
             }
             applyComboboxListeners();
             return itemModel;
-        }
+        };
 
         self.addDocument = function () {
             var documentModel = new DocumentModel();
             self.documents.push(documentModel);
             return documentModel;
-        }
+        };
 
         self.removeDocument = function (doc) {
             var public_id = doc && doc.public_id ? doc.public_id() : doc;
@@ -325,7 +325,7 @@
             self.documents.remove(function (document) {
                 return document.public_id() == public_id;
             });
-        }
+        };
 
         if (data) {
             ko.mapping.fromJS(data, self.mapping, self);
@@ -344,7 +344,7 @@
                 self.tax_rate1(parts.shift());
                 self.tax_name1(parts.join(' '));
             }
-        })
+        });
 
         this.tax2 = ko.computed({
             read: function () {
@@ -357,7 +357,7 @@
                 self.tax_rate2(parts.shift());
                 self.tax_name2(parts.join(' '));
             }
-        })
+        });
 
         self.removeItem = function (item) {
             if (item.isTask()) {
@@ -366,7 +366,7 @@
                 self.invoice_items_without_tasks.remove(item);
             }
             refreshPDF(true);
-        }
+        };
 
         self.formatMoney = function (amount) {
             /*
@@ -378,7 +378,7 @@
             var countryId = (self.client().country_id() || account.country_id) || {{ DEFAULT_COUNTRY }};
             var decorator = parseInt(account.show_currency_code) ? 'code' : 'symbol';
             return formatMoney(amount, currencyId, countryId, decorator);
-        }
+        };
 
         self.totals = ko.observable();
 
@@ -458,7 +458,7 @@
                 }
 
                         @if ($account->inclusive_taxes)
-                var taxAmount = roundToTwo(lineTotal - (lineTotal / (1 + (item.tax_rate1() / 100))))
+                var taxAmount = roundToTwo(lineTotal - (lineTotal / (1 + (item.tax_rate1() / 100))));
                         @else
                 var taxAmount = roundToTwo(lineTotal * item.tax_rate1() / 100);
                 @endif
@@ -472,7 +472,7 @@
                 }
 
                         @if ($account->inclusive_taxes)
-                var taxAmount = roundToTwo(lineTotal - (lineTotal / (1 + (item.tax_rate2() / 100))))
+                var taxAmount = roundToTwo(lineTotal - (lineTotal / (1 + (item.tax_rate2() / 100))));
                         @else
                 var taxAmount = roundToTwo(lineTotal * item.tax_rate2() / 100);
                 @endif
@@ -585,22 +585,22 @@
 
         self.onDragged = function (item) {
             refreshPDF(true);
-        }
+        };
 
         self.showResetTerms = function () {
             return self.default_terms() && self.terms() != self.default_terms();
-        }
+        };
 
         self.showResetFooter = function () {
             return self.default_footer() && self.invoice_footer() != self.default_footer();
-        }
+        };
 
         self.applyInclusiveTax = function (taxRate) {
             for (var i = 0; i < self.invoice_items().length; i++) {
                 var item = self.invoice_items()[i];
                 item.applyInclusiveTax(taxRate);
             }
-        }
+        };
 
         self.onTax1Change = function (obj, event) {
             if (!event.originalEvent) {
@@ -612,7 +612,7 @@
                 return;
             }
             self.applyInclusiveTax(taxRate);
-        }
+        };
 
         self.onTax2Change = function (obj, event) {
             if (!event.originalEvent) {
@@ -624,7 +624,7 @@
                 return;
             }
             self.applyInclusiveTax(taxRate);
-        }
+        };
 
         self.isAmountDiscountChanged = function (obj, event) {
             if (!event.originalEvent) {
@@ -635,7 +635,7 @@
             }
             var isAmountDiscount = $('#is_amount_discount').val();
             localStorage.setItem('last:is_amount_discount', isAmountDiscount);
-        }
+        };
 
         self.isPartialSet = ko.computed(function () {
             return self.partial() && self.partial() <= model.invoice().totals.rawTotal()
@@ -681,27 +681,27 @@
                     return model;
                 }
             }
-        }
+        };
 
         self.showContact = function (elem) {
             if (elem.nodeType === 1) $(elem).hide().slideDown()
-        }
+        };
         self.hideContact = function (elem) {
             if (elem.nodeType === 1) $(elem).slideUp(function () {
                 $(elem).remove();
             })
-        }
+        };
 
         self.addContact = function () {
             var contact = new ContactModel();
             contact.send_invoice(true);
             self.contacts.push(contact);
             return false;
-        }
+        };
 
         self.removeContact = function () {
             self.contacts.remove(this);
-        }
+        };
 
         self.name.display = ko.computed(function () {
             if (self.name()) {
@@ -825,6 +825,7 @@
 
     function ItemModel(data) {
         var self = this;
+        self.public_id = ko.observable('');
         self.name = ko.observable('');
         self.notes = ko.observable('');
         self.cost = ko.observable(0);
@@ -858,7 +859,7 @@
                 self.tax_rate1(parts.shift());
                 self.tax_name1(parts.join(' '));
             }
-        })
+        });
 
         this.tax2 = ko.computed({
             read: function () {
@@ -871,7 +872,7 @@
                 self.tax_rate2(parts.shift());
                 self.tax_name2(parts.join(' '));
             }
-        })
+        });
 
         this.prettyQty = ko.computed({
             read: function () {
@@ -897,7 +898,7 @@
             ko.mapping.fromJS(data, {}, this);
             this.cost(roundSignificant(this.cost(), true));
             this.qty(roundSignificant(this.qty()));
-        }
+        };
 
         if (data) {
             self.loadData(data);
@@ -925,18 +926,18 @@
 
         this.hideActions = function () {
             this.actionsVisible(false);
-        }
+        };
 
         this.showActions = function () {
             this.actionsVisible(true);
-        }
+        };
 
         this.isEmpty = function () {
             return !self.name() && !self.notes() && !self.cost();
-        }
+        };
 
         this.onSelect = function () {
-        }
+        };
 
         self.applyInclusiveTax = function (taxRate) {
             if (!taxRate) {
@@ -944,7 +945,7 @@
             }
             var cost = self.cost() / (100 + taxRate) * 100;
             self.cost(roundToTwo(cost));
-        }
+        };
 
         self.onTax1Change = function (obj, event) {
             if (event.originalEvent) {
@@ -954,7 +955,7 @@
                     self.applyInclusiveTax(taxRate);
                 }
             }
-        }
+        };
 
         self.onTax2Change = function (obj, event) {
             if (event.originalEvent) {
@@ -977,7 +978,7 @@
 
         self.update = function (data) {
             ko.mapping.fromJS(data, {}, this);
-        }
+        };
 
         if (data) {
             self.update(data);
@@ -986,11 +987,11 @@
 
     function CategoryModel(data) {
         var self = this;
-        self.name = ko.observable('')
+        self.name = ko.observable('');
 
         self.update = function (data) {
             ko.mapping.fromJS(data, {}, this);
-        }
+        };
 
         if (data) {
             self.update(data);
@@ -1011,7 +1012,7 @@
                     return new CategoryModel(options.data);
                 }
             }
-        }
+        };
 
         self.description = ko.observable('');
         self.qty = ko.observable(0);

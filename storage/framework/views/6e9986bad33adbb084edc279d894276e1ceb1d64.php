@@ -1,8 +1,4 @@
-<?php use App\Models\Credit;
-use App\Models\PaymentTerm;
-use Illuminate\Contracts\Auth\Access\Gate;
-
-$__env->startSection('head_css'); ?>
+<?php $__env->startSection('head_css'); ?>
     ##parent-placeholder-65e7fa855b4f81a209a50c6e440870f25d0240e1##
 
     <link href="<?php echo e(asset('css/lightbox.css')); ?>" rel="stylesheet" type="text/css"/>
@@ -119,8 +115,8 @@ $__env->startSection('head_css'); ?>
                                             <div class="label label-danger"><?php echo e(trans('texts.deleted')); ?></div>
                                         <?php endif; ?>
                                     </h4>
-                                    <?php if (app(Gate::class)->check('view', $invoice->client)): ?>
-                                        <?php if (app(Gate::class)->check('edit', $invoice->client)): ?>
+                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('view', $invoice->client)): ?>
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('edit', $invoice->client)): ?>
                                             <a id="editClientLink" class="pointer"
                                                data-bind="click: $root.showClientForm"><?php echo e(trans('texts.edit_client')); ?>
 
@@ -144,7 +140,7 @@ $__env->startSection('head_css'); ?>
                             <!-- create new client -->
                                 <div class="form-group" style="margin-bottom: 8px">
                                     <div class="col-lg-8 col-sm-8 col-lg-offset-4 col-sm-offset-4">
-                                        <?php if (app(Gate::class)->check('create', $invoice->client)): ?>
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create', $invoice->client)): ?>
                                             <a id="createClientLink" class="pointer"
                                                data-bind="click: $root.showClientForm, html: $root.clientLinkText">
                                             </a>
@@ -458,9 +454,10 @@ $__env->startSection('head_css'); ?>
 
                     <div role="tabpanel" class="pull-left" style="margin-left:40px; margin-top:30px;">
                         <ul class="nav nav-tabs" role="tablist" style="border: none">
-                            <li role="presentation" class="active"><a href="#public_notes" aria-controls="notes"
-                                                                      role="tab"
-                                                                      data-toggle="tab"><?php echo e(trans('texts.public_notes')); ?></a>
+                            <li role="presentation" class="active">
+                                <a href="#public_notes" aria-controls="notes"
+                                   role="tab"
+                                   data-toggle="tab"><?php echo e(trans('texts.public_notes')); ?></a>
                             </li>
                             <li role="presentation"><a href="#private_notes" aria-controls="terms" role="tab"
                                                        data-toggle="tab"><?php echo e(trans("texts.private_notes")); ?></a></li>
@@ -836,7 +833,7 @@ $__env->startSection('head_css'); ?>
 
                                         <!-- payment term -->
                                         <?php echo Former::select('client[payment_terms]')->addOption('','')->data_bind('value: payment_terms')
-                                        ->fromQuery(PaymentTerm::getSelectOptions(), 'name', 'num_days')
+                                        ->fromQuery(\App\Models\PaymentTerm::getSelectOptions(), 'name', 'num_days')
                                         ->label(trans('texts.payment_terms'))
                                         ->help(trans('texts.payment_terms_help')); ?>
 
@@ -846,10 +843,11 @@ $__env->startSection('head_css'); ?>
                                         ->fromQuery($sizes, 'name', 'id'); ?>
 
                                         <!-- industry -->
-                                            <?php echo Former::select('client[industry_id]')->addOption('','')->data_bind('value: industry_id')
-                                            ->label(trans('texts.industry_id'))
-                                            ->fromQuery($industries, 'name', 'id'); ?>
+                                        <?php echo Former::select('client[industry_id]')->addOption('','')->data_bind('value: industry_id')
+                                        ->label(trans('texts.industry_id'))
+                                        ->fromQuery($industries, 'name', 'id'); ?>
 
+                                        <!-- Private note -->
                                             <?php echo Former::textarea('client_private_notes')
                                             ->label(trans('texts.private_notes'))
                                             ->data_bind("value: private_notes, attr:{ name: 'client[private_notes]'}"); ?>
@@ -1033,6 +1031,7 @@ $__env->startSection('head_css'); ?>
             for (var i = 0; i < tasks.length; i++) {
                 var task = tasks[i];
                 var item = model.invoice().addItem(true);
+                item.public_id(task.public_id);
                 item.notes(task.description);
                 item.qty(task.duration);
                 item.cost(task.cost);
@@ -1052,6 +1051,7 @@ $__env->startSection('head_css'); ?>
             for (var i = 0; i < expenses.length; i++) {
                 var expense = expenses[i];
                 var item = model.invoice().addItem();
+                item.public_id(expense.public_id);
                 item.name(expense.expense_category ? expense.expense_category.name : '');
                 item.notes(expense.public_notes);
                 item.qty(1);
@@ -1079,8 +1079,8 @@ $__env->startSection('head_css'); ?>
                     <?php echo json_encode($selectedProducts); ?>
 
             for (var i = 0; i < selectedProducts.length; i++) {
-                var productKey = selectedProducts[i];
-                product = productMap[productKey];
+                var name = selectedProducts[i];
+                product = productMap[name];
                 if (product) {
                     var item = model.invoice().addItem();
                     item.loadData(product);
@@ -1090,6 +1090,7 @@ $__env->startSection('head_css'); ?>
             model.invoice().invoice_items_without_tasks.push(blank);
             NINJA.formIsChanged = true;
             <?php endif; ?>
+
             <?php endif; ?>
             // display blank instead of '0'
             if (!NINJA.parseFloat(model.invoice().discount())) model.invoice().discount('');
@@ -1140,7 +1141,7 @@ $__env->startSection('head_css'); ?>
             });
 
 // If no clients exists show the client form when clicking on the client select input
-            <?php if (app(Gate::class)->check('create', $invoice->client)): ?>
+            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create', $invoice->client)): ?>
             if (clients.length === 0) {
                 $('.client_select input.form-control').on('click', function () {
                     model.showClientForm();
@@ -1324,7 +1325,7 @@ $__env->startSection('head_css'); ?>
                     <?php if(! $invoice->id && $account->credit_number_counter > 0): ?>
             var total = model.invoice().totals.rawTotal();
             var invoiceNumber = model.invoice().invoice_number();
-            var creditNumber = "<?php echo e($account->getNextNumber(new Credit())); ?>";
+            var creditNumber = "<?php echo e($account->getNextNumber(new \App\Models\Credit())); ?>";
             if (total < 0 && invoiceNumber != creditNumber) {
                 origInvoiceNumber = invoiceNumber;
                 model.invoice().invoice_number(creditNumber);
@@ -1343,7 +1344,7 @@ $__env->startSection('head_css'); ?>
             if (!design) {
                 return;
             }
-
+            <!-- generate PDF -->
             generatePDF(invoice, design, force, cb);
         }
 

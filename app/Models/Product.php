@@ -19,6 +19,7 @@ class Product extends EntityModel
     protected $hidden = [];
 
     protected $fillable = [
+        'public_id',
         'name',
         'UPC',
         'EAN',
@@ -28,7 +29,7 @@ class Product extends EntityModel
         'notes',
         'cost',
         'is_locked',
-        'is_public_id',
+        'is_public',
         'item_brand_id',
         'unit_id',
         'tax_name1',
@@ -125,13 +126,14 @@ class Product extends EntityModel
 
     public function scopeStock($query, $publicId = false, $accountId = false)
     {
-        if (!auth::check() || !auth::user()->account_id || !auth::user()->branch->store_id) {
+        if (!auth::check() || !auth::user()->account || !auth::user()->branch) {
             return false;
         }
 
         $query = $query->whereHas('item_stores', function ($query) {
             $query->where('item_stores.store_id', '=', auth::user()->branch->store_id)
                 ->where('item_stores.qty', '>', 0)
+                ->Where('item_stores.is_locked', '=', false)
                 ->Where('item_stores.is_deleted', '=', false);
         });
 

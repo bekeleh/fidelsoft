@@ -432,9 +432,10 @@
 
                     <div role="tabpanel" class="pull-left" style="margin-left:40px; margin-top:30px;">
                         <ul class="nav nav-tabs" role="tablist" style="border: none">
-                            <li role="presentation" class="active"><a href="#public_notes" aria-controls="notes"
-                                                                      role="tab"
-                                                                      data-toggle="tab">{{ trans('texts.public_notes') }}</a>
+                            <li role="presentation" class="active">
+                                <a href="#public_notes" aria-controls="notes"
+                                   role="tab"
+                                   data-toggle="tab">{{ trans('texts.public_notes') }}</a>
                             </li>
                             <li role="presentation"><a href="#private_notes" aria-controls="terms" role="tab"
                                                        data-toggle="tab">{{ trans("texts.private_notes") }}</a></li>
@@ -762,9 +763,10 @@
                                         ->label(trans('texts.size_id'))
                                         ->fromQuery($sizes, 'name', 'id') !!}
                                         <!-- industry -->
-                                            {!! Former::select('client[industry_id]')->addOption('','')->data_bind('value: industry_id')
-                                            ->label(trans('texts.industry_id'))
-                                            ->fromQuery($industries, 'name', 'id') !!}
+                                        {!! Former::select('client[industry_id]')->addOption('','')->data_bind('value: industry_id')
+                                        ->label(trans('texts.industry_id'))
+                                        ->fromQuery($industries, 'name', 'id') !!}
+                                        <!-- Private note -->
                                             {!! Former::textarea('client_private_notes')
                                             ->label(trans('texts.private_notes'))
                                             ->data_bind("value: private_notes, attr:{ name: 'client[private_notes]'}") !!}
@@ -936,6 +938,7 @@
             for (var i = 0; i < tasks.length; i++) {
                 var task = tasks[i];
                 var item = model.invoice().addItem(true);
+                item.public_id(task.public_id);
                 item.notes(task.description);
                 item.qty(task.duration);
                 item.cost(task.cost);
@@ -955,6 +958,7 @@
             for (var i = 0; i < expenses.length; i++) {
                 var expense = expenses[i];
                 var item = model.invoice().addItem();
+                item.public_id(expense.public_id);
                 item.name(expense.expense_category ? expense.expense_category.name : '');
                 item.notes(expense.public_notes);
                 item.qty(1);
@@ -981,8 +985,8 @@
             var selectedProducts =;
                     {!! json_encode($selectedProducts) !!}
             for (var i = 0; i < selectedProducts.length; i++) {
-                var productKey = selectedProducts[i];
-                product = productMap[productKey];
+                var name = selectedProducts[i];
+                product = productMap[name];
                 if (product) {
                     var item = model.invoice().addItem();
                     item.loadData(product);
@@ -992,6 +996,7 @@
             model.invoice().invoice_items_without_tasks.push(blank);
             NINJA.formIsChanged = true;
             @endif
+
             @endif
             // display blank instead of '0'
             if (!NINJA.parseFloat(model.invoice().discount())) model.invoice().discount('');
@@ -1244,7 +1249,7 @@
             if (!design) {
                 return;
             }
-
+            <!-- generate PDF -->
             generatePDF(invoice, design, force, cb);
         }
 
