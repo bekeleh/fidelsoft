@@ -80,6 +80,8 @@ class ProductRepository extends BaseRepository
                     ->orWhere('products.item_barcode', 'like', '%' . $filter . '%')
                     ->orWhere('products.item_tag', 'like', '%' . $filter . '%')
                     ->orWhere('products.notes', 'like', '%' . $filter . '%')
+                    ->orWhere('products.created_by', 'like', '%' . $filter . '%')
+                    ->orWhere('products.updated_by', 'like', '%' . $filter . '%')
                     ->orWhere('item_brands.name', 'like', '%' . $filter . '%')
                     ->orWhere('item_categories.name', 'like', '%' . $filter . '%')
                     ->orWhere('units.name', 'like', '%' . $filter . '%');

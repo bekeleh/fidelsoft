@@ -74,9 +74,14 @@ class Store extends EntityModel
         return $this->hasMany('App\Models\Branch', 'store_id')->withTrashed();
     }
 
+//    public function products()
+//    {
+//        return $this->hasManyThrough('App\Models\ItemStore', 'App\Models\Item', 'store_id', 'product_id')->withTrashed();
+//    }
+
     public function products()
     {
-        return $this->hasManyThrough('App\Models\ItemStore', 'App\Models\Item', 'store_id', 'product_id')->withTrashed();
+        return $this->belongsToMany('\App\Models\Product', 'item_stores', 'store_id', 'product_id')->withPivot('id', 'qty', 'created_at', 'user_id')->withTrashed();
     }
 
 }

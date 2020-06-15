@@ -3,19 +3,25 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Laracasts\Presenter\PresentableTrait;
 
 class Product extends EntityModel
 {
-    protected $presenter = 'App\Ninja\Presenters\ProductPresenter';
     use PresentableTrait;
     use SoftDeletes;
 
+    protected $presenter = 'App\Ninja\Presenters\ProductPresenter';
+
+    protected $appends = [];
+    protected $casts = [];
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
+    protected $hidden = [];
 
     protected $fillable = [
         'name',
+        'UPC',
+        'EAN',
         'item_serial',
         'item_barcode',
         'item_tag',
@@ -35,14 +41,14 @@ class Product extends EntityModel
         'updated_by',
         'deleted_by',
     ];
-    protected $hidden = [];
-    protected $casts = [];
 
 
     public static function getImportColumns()
     {
         return [
             'name',
+            'UPC',
+            'EAN',
             'notes',
             'cost',
             'custom_value1',
@@ -74,32 +80,37 @@ class Product extends EntityModel
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account', 'account_id')->withTrashed();
+        return $this->belongsTo('App\Models\Account')->withTrashed();
     }
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User', 'user_id')->withTrashed();
+        return $this->belongsTo('App\Models\User')->withTrashed();
     }
 
     public function stores()
     {
-        return $this->hasMany('App\Models\ItemStore', 'store_id')->withTrashed();
+        return $this->belongsToMany('App\Models\Store', 'item_stores', 'product_id', 'store_id')->withPivot('id', 'qty', 'created_at', 'user_id')->withTrashed();
     }
 
-    public function itemPrices()
+    public function item_stores()
     {
-        return $this->hasMany('App\Models\ItemPrice', 'product_id')->withTrashed();
+        return $this->hasMany('App\Models\ItemStore')->withTrashed();
+    }
+
+    public function item_prices()
+    {
+        return $this->hasMany('App\Models\ItemPrice')->withTrashed();
     }
 
     public function itemBrand()
     {
-        return $this->belongsTo('App\Models\ItemBrand', 'item_brand_id')->withTrashed();
+        return $this->belongsTo('App\Models\ItemBrand')->withTrashed();
     }
 
     public function unit()
     {
-        return $this->belongsTo('App\Models\Unit', 'unit_id')->withTrashed();
+        return $this->belongsTo('App\Models\Unit')->withTrashed();
     }
 
     public function itemMovements()
@@ -109,25 +120,23 @@ class Product extends EntityModel
 
     public function manufacturerProductDetails()
     {
-        return $this->hasMany('App\Models\ItemPrice', 'product_id')->withTrashed();
+        return $this->hasMany('App\Models\ItemPrice')->withTrashed();
     }
 
-    public function scopeInventory($query, $publicId = false, $accountId = false)
+    public function scopeStock($query, $publicId = false, $accountId = false)
     {
-        $query = DB::table('products')
-            ->leftJoin('item_brands', 'item_brands.id', 'products.item_brand_id')
-            ->leftJoin('item_categories', 'item_categories.id', 'item_brands.item_category_id')
-            ->leftJoin('item_stores', 'item_stores.product_id', 'products.id')
-            ->leftJoin('item_stores', 'item_stores.store_id', 'stores.id')
-            ->where('products.account_id', '=', $accountId)
-//            ->where('products.is_deleted', '=', null)
-            ->select
-            (
-                'products.id',
-                'products.name'
-            );
+        if (!auth::check() || !auth::user()->account_id || !auth::user()->branch->store_id) {
+            return false;
+        }
 
+        $query = $query->whereHas('item_stores', function ($query) {
+            $query->where('item_stores.store_id', '=', auth::user()->branch->store_id)
+                ->where('item_stores.qty', '>', 0)
+                ->Where('item_stores.is_deleted', '=', false);
+        });
 
         return $query;
     }
+
+
 }

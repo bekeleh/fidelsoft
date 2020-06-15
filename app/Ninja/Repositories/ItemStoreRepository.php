@@ -64,13 +64,14 @@ class ItemStoreRepository extends BaseRepository
                 'item_categories.name as item_category_name',
                 'stores.name as store_name'
             );
+
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->Where('item_brands.name', 'like', '%' . $filter . '%')
                     ->orWhere('item_categories.name', 'like', '%' . $filter . '%')
                     ->orWhere('products.name', 'like', '%' . $filter . '%')
                     ->orWhere('stores.name', 'like', '%' . $filter . '%')
-                    ->Where('item_stores.notes', 'like', '%' . $filter . '%')
+                    ->orWhere('item_stores.notes', 'like', '%' . $filter . '%')
                     ->orWhere('item_stores.bin', 'like', '%' . $filter . '%')
                     ->orWhere('item_stores.qty', 'like', '%' . $filter . '%')
                     ->orWhere('item_stores.created_by', 'like', '%' . $filter . '%')
