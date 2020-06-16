@@ -723,8 +723,14 @@ class Utils
             }
         }
 
-        if ($type === ENTITY_EXPENSE_CATEGORY) {
+        if ($type === ENTITY_ACTIVITY) {
+            return 'activities';
+        } elseif ($type === ENTITY_BRANCH) {
+            return 'branches';
+        } elseif ($type === ENTITY_EXPENSE_CATEGORY) {
             return 'expense_categories';
+        } elseif ($type === ENTITY_ITEM_CATEGORY) {
+            return 'item_categories';
         } elseif ($type === ENTITY_PROPOSAL_CATEGORY) {
             return 'proposal_categories';
         } elseif ($type === ENTITY_SCHEDULE_CATEGORY) {
@@ -733,10 +739,6 @@ class Utils
             return 'statuses';
         } elseif ($type === ENTITY_TASK_STATUS) {
             return 'task_statuses';
-        } elseif ($type === ENTITY_ITEM_CATEGORY) {
-            return 'item_categories';
-        } elseif ($type === ENTITY_BRANCH) {
-            return 'branches';
         } else {
             return $type . 's';
         }

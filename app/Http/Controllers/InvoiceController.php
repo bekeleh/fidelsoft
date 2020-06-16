@@ -435,6 +435,7 @@ class InvoiceController extends BaseController
             } else {
                 $errorMessage = trans('texts.registration_required');
             }
+
             Session::flash('error', $errorMessage);
 
             return Redirect::to('invoices/' . $invoice->public_id . '/edit');

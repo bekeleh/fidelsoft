@@ -140,7 +140,7 @@ class Client extends EntityModel
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User')->withTrashed();
+        return $this->belongsTo('App\Models\User');
     }
 
 
@@ -204,29 +204,29 @@ class Client extends EntityModel
 
     public function clientType()
     {
-        return $this->belongsTo('App\Models\ClientType')->withTrashed();
+        return $this->belongsTo('App\Models\ClientType');
     }
 
     public function saleType()
     {
-        return $this->belongsTo('App\Models\SaleType')->withTrashed();
+        return $this->belongsTo('App\Models\SaleType');
     }
 
     public function holdReason()
     {
-        return $this->belongsTo('App\Models\HoldReason')->withTrashed();
+        return $this->belongsTo('App\Models\HoldReason');
     }
 
 
     public function industry()
     {
-        return $this->belongsTo('App\Models\Industry')->withTrashed();
+        return $this->belongsTo('App\Models\Industry');
     }
 
 
     public function credits()
     {
-        return $this->hasMany('App\Models\Credit')->withTrashed();
+        return $this->hasMany('App\Models\Credit');
     }
 
 
@@ -238,7 +238,7 @@ class Client extends EntityModel
 
     public function expenses()
     {
-        return $this->hasMany('App\Models\Expense')->withTrashed();
+        return $this->hasMany('App\Models\Expense');
     }
 
 

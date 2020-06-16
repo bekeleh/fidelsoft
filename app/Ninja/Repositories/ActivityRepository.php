@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 
-class ActivityRepository
+class ActivityRepository extends BaseRepository
 {
     private $model;
 
@@ -128,7 +128,7 @@ class ActivityRepository
             });
         }
 
-        $this->applyFilters($query, ENTITY_ACTIVITY);
+        $this->applyFilters($query, ENTITY_ACTIVITY, 'activities');
 
         return $query;
     }

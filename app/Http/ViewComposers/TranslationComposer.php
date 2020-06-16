@@ -44,5 +44,12 @@ class TranslationComposer
         })->sortBy(function ($currency) {
             return $currency->name;
         }));
+
+        $view->with('units', Cache::get('units')->each(function ($unit) {
+            $unit->name = trans('texts.unit_' . Str::slug($unit->name, '_'));
+        })->sortBy(function ($unit) {
+            return $unit->name;
+        }));
+
     }
 }
