@@ -72,9 +72,9 @@ class ActivityRepository
         return $activity;
     }
 
-    public function findByClientId($clientId)
+    public function findByClientId($clientId, $filter = null)
     {
-        return DB::table('activities')
+        $query = DB::table('activities')
             ->join('accounts', 'accounts.id', '=', 'activities.account_id')
             ->join('users', 'users.id', '=', 'activities.user_id')
             ->join('clients', 'clients.id', '=', 'activities.client_id')
@@ -120,5 +120,17 @@ class ActivityRepository
                 'expenses.public_notes as expense_public_notes',
                 'expenses.public_id as expense_public_id'
             );
+
+        if ($filter) {
+            $query->where(function ($query) use ($filter) {
+                $query->where('invoices.invoice_number', 'like', '%' . $filter . '%')
+                    ->orWhere('activities.ip', 'like', '%' . $filter . '%');
+            });
+        }
+
+        $this->applyFilters($query, ENTITY_ACTIVITY);
+
+        return $query;
     }
+
 }

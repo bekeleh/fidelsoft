@@ -45,7 +45,8 @@ class ManufacturerRepository extends BaseRepository
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
-                $query->where('manufacturers.name', 'like', '%' . $filter . '%');
+                $query->where('manufacturers.name', 'like', '%' . $filter . '%')
+                    ->orwhere('manufacturers.notes', 'like', '%' . $filter . '%');
             });
         }
 

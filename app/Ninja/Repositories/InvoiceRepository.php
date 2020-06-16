@@ -22,7 +22,6 @@ use App\Services\PaymentService;
 use Datatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class InvoiceRepository extends BaseRepository
 {
@@ -230,7 +229,7 @@ class InvoiceRepository extends BaseRepository
         return $query;
     }
 
-    public function getClientRecurringDatatable($contactId)
+    public function getClientRecurringDatatable($contactId, $filter = null)
     {
         $query = DB::table('invitations')
             ->join('accounts', 'accounts.id', '=', 'invitations.account_id')
@@ -395,8 +394,7 @@ class InvoiceRepository extends BaseRepository
                 }
 
                 return "<h4><div class=\"label label-{$class}\">$label</div></h4>";
-            })
-            ->make();
+            })->make();
     }
 
     public function save(array $data, Invoice $invoice = null)

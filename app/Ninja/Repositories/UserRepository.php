@@ -42,8 +42,6 @@ class UserRepository extends BaseRepository
     {
         $query = DB::table('users')
             ->join('accounts', 'accounts.id', '=', 'users.account_id')
-//            ->leftJoin('users_groups', 'users_groups.user_id', '=', 'users.id')
-//            ->join('permission_groups', 'permission_groups.id', '=', 'users_groups.group_id')
             ->leftJoin('locations', 'locations.id', '=', 'users.location_id')
             ->leftJoin('branches', 'branches.id', '=', 'users.branch_id')
             ->where('users.account_id', '=', $accountId)
@@ -79,10 +77,10 @@ class UserRepository extends BaseRepository
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('users.first_name', 'like', '%' . $filter . '%')
-                    ->where('users.username', 'like', '%' . $filter . '%')
-                    ->where('users.email', 'like', '%' . $filter . '%')
-                    ->where('users.confirmed', 'like', '%' . $filter . '%')
-                    ->where('users.activated', 'like', '%' . $filter . '%')
+                    ->orWhere('users.username', 'like', '%' . $filter . '%')
+                    ->orWhere('users.email', 'like', '%' . $filter . '%')
+                    ->orWhere('users.confirmed', 'like', '%' . $filter . '%')
+                    ->orWhere('users.activated', 'like', '%' . $filter . '%')
                     ->orWhere('branches.name', 'like', '%' . $filter . '%')
                     ->orWhere('locations.name', 'like', '%' . $filter . '%');
             });

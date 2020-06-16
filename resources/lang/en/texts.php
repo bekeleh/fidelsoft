@@ -650,8 +650,7 @@ $LANG = array(
     'item_store_help' => 'Sets the default <b>item store</b>',
     'item_does_not_exist' => 'Item does not exist in this store or somethings went wrong.',
 //   Products
-    'product' => 'Product',
-    'product_name' => 'Product Code',
+    'product_name' => 'Product Key',
     'products' => 'Products',
     'new_product' => 'New Product',
     'new_item' => 'New Product',

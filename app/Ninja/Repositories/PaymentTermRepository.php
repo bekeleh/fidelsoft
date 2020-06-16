@@ -38,7 +38,8 @@ class PaymentTermRepository extends BaseRepository
 
         if (!$filter) {
             $query->where(function ($query) use ($filter) {
-                $query->where('payment_terms.name', 'like', '%' . $filter . '%');
+                $query->where('payment_terms.name', 'like', '%' . $filter . '%')
+                    ->orwhere('payment_terms.created_by', 'like', '%' . $filter . '%');
             });
         }
 

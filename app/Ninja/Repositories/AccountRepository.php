@@ -551,11 +551,9 @@ class AccountRepository
 
     public function findByKey($key)
     {
-        $account = Account::whereAccountKey($key)
+        return Account::whereAccountKey($key)
             ->with('clients.invoices.invoice_items', 'clients.contacts')
             ->firstOrFail();
-
-        return $account;
     }
 
     public function unlinkUserFromOauth($user)

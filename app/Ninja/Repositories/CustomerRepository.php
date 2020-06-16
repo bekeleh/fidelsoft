@@ -42,6 +42,7 @@ class CustomerRepository extends BaseRepository
         $paymentMethod->save();
 
         $customer->default_payment_method_id = $paymentMethod->id;
+
         $customer->save();
 
         return $customer;
