@@ -31,7 +31,7 @@ class RecurringExpenseController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', auth::user(), $this->entityType);
+        $this->authorize('index', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_RECURRING_EXPENSE,
             'datatable' => new RecurringExpenseDatatable(),
@@ -49,6 +49,7 @@ class RecurringExpenseController extends BaseController
 
     public function create(RecurringExpenseRequest $request)
     {
+        $this->authorize('creaet', auth::user(), $this->entityType);
         if ($request->vendor_id != 0) {
             $vendor = Vendor::scope($request->vendor_id)->with('vendor_contacts')->firstOrFail();
         } else {
@@ -73,8 +74,18 @@ class RecurringExpenseController extends BaseController
         return View::make('expenses.edit', $data);
     }
 
+    public function store(CreateRecurringExpenseRequest $request)
+    {
+        $recurringExpense = $this->recurringExpenseService->save($request->input());
+
+        Session::flash('message', trans('texts.created_recurring_expense'));
+
+        return redirect()->to($recurringExpense->getRoute());
+    }
+
     public function edit(RecurringExpenseRequest $request)
     {
+        $this->authorize('edit', auth::user(), $this->entityType);
         $expense = $request->entity();
 
         $actions = [];
@@ -114,15 +125,6 @@ class RecurringExpenseController extends BaseController
             'taxRates' => TaxRate::scope()->whereIsInclusive(false)->orderBy('name')->get(),
             'isRecurring' => true,
         ];
-    }
-
-    public function store(CreateRecurringExpenseRequest $request)
-    {
-        $recurringExpense = $this->recurringExpenseService->save($request->input());
-
-        Session::flash('message', trans('texts.created_recurring_expense'));
-
-        return redirect()->to($recurringExpense->getRoute());
     }
 
     public function update(UpdateRecurringExpenseRequest $request)

@@ -39,7 +39,7 @@ class ItemTransferController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', auth::user(), $this->entityType);
+        $this->authorize('index', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_ITEM_TRANSFER,
             'datatable' => new ItemTransferDatatable(),
@@ -69,6 +69,7 @@ class ItemTransferController extends BaseController
 
     public function create(ItemTransferRequest $request)
     {
+        $this->authorize('create', auth::user(), $this->entityType);
         if ($request->status_id != 0) {
             $status = Status::scope($request->status_id)->firstOrFail();
         } else {
@@ -121,8 +122,7 @@ class ItemTransferController extends BaseController
 
     public function edit(ItemTransferRequest $request, $publicId = false, $clone = false)
     {
-        Auth::user()->can('view', [ENTITY_ITEM_TRANSFER, $request->entity()]);
-
+        $this->authorize('edit', auth::user(), $this->entityType);
         $itemTransfer = ItemTransfer::scope($publicId)->withTrashed()->firstOrFail();
 
         if ($clone) {

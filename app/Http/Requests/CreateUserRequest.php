@@ -12,7 +12,7 @@ class CreateUserRequest extends UserRequest
 
     public function authorize()
     {
-        return $this->user()->can('create', ENTITY_USER);
+        return $this->user()->can('create', $this->entityType);
     }
 
     public function rules()

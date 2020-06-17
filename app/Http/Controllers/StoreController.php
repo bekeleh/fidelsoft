@@ -32,7 +32,7 @@ class StoreController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', auth::user(), $this->entityType);
+        $this->authorize('index', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_STORE,
             'datatable' => new StoreDatatable(),
@@ -61,6 +61,7 @@ class StoreController extends BaseController
 
     public function create(StoreRequest $request)
     {
+        $this->authorize('create', auth::user(), $this->entityType);
         if ($request->location_id != 0) {
             $location = Location::scope($request->location_id)->firstOrFail();
         } else {
@@ -92,6 +93,7 @@ class StoreController extends BaseController
 
     public function edit(StoreRequest $request, $publicId = false, $clone = false)
     {
+        $this->authorize('edit', auth::user(), $this->entityType);
         $store = $request->entity();
         if ($clone) {
             $store->id = null;

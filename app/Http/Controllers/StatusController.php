@@ -41,7 +41,7 @@ class StatusController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', auth::user(), $this->entityType);
+        $this->authorize('index', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_STATUS,
             'datatable' => new StatusDatatable(),
@@ -66,6 +66,7 @@ class StatusController extends BaseController
 
     public function edit(StatusRequest $request, $publicId, $clone = false)
     {
+        $this->authorize('edit', auth::user(), $this->entityType);
         Auth::user()->can('view', [ENTITY_STATUS, $request->entity()]);
 
         $account = Auth::user()->account;
@@ -97,7 +98,7 @@ class StatusController extends BaseController
 
     public function create(StatusRequest $request)
     {
-
+        $this->authorize('create', auth::user(), $this->entityType);
         $account = Auth::user()->account;
 
         $data = [

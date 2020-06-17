@@ -37,7 +37,7 @@ class ItemBrandController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', auth::user(), $this->entityType);
+        $this->authorize('index', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_ITEM_BRAND,
             'datatable' => new ItemBrandDatatable(),
@@ -59,6 +59,7 @@ class ItemBrandController extends BaseController
 
     public function create(ItemBrandRequest $request)
     {
+        $this->authorize('create', auth::user(), $this->entityType);
         if ($request->item_category_id != 0) {
             $itemCategory = ItemCategory::scope($request->item_category_id)->firstOrFail();
         } else {
@@ -91,10 +92,8 @@ class ItemBrandController extends BaseController
 
     public function edit(ItemBrandRequest $request, $publicId = false, $clone = false)
     {
-        Auth::user()->can('view', [ENTITY_ITEM_BRAND, $request->entity()]);
-
+        $this->authorize('edit', auth::user(), $this->entityType);
         $itemBrand = ItemBrand::scope($publicId)->withTrashed()->firstOrFail();
-
         if ($clone) {
             $itemBrand->id = null;
             $itemBrand->public_id = null;

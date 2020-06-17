@@ -28,7 +28,7 @@ class ProposalTemplateController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', auth::user(), $this->entityType);
+        $this->authorize('index', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_PROPOSAL_TEMPLATE,
             'datatable' => new ProposalTemplateDatatable(),
@@ -46,6 +46,7 @@ class ProposalTemplateController extends BaseController
 
     public function create(ProposalTemplateRequest $request)
     {
+        $this->authorize('create', auth::user(), $this->entityType);
         $data = array_merge($this->getViewmodel(), [
             'template' => null,
             'method' => 'POST',
@@ -97,6 +98,7 @@ class ProposalTemplateController extends BaseController
 
     public function edit(ProposalTemplateRequest $request, $publicId = false, $clone = false)
     {
+        $this->authorize('edit', auth::user(), $this->entityType);
         $template = $request->entity();
 
         if ($clone) {

@@ -30,7 +30,7 @@ class ProposalCategoryController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', Auth::user(), $this->entityType);
+        $this->authorize('index', Auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_PROPOSAL_CATEGORY,
             'datatable' => new ProposalCategoryDatatable(),
@@ -48,6 +48,7 @@ class ProposalCategoryController extends BaseController
 
     public function create(ProposalCategoryRequest $request)
     {
+        $this->authorize('create', auth::user(), $this->entityType);
         $data = [
             'account' => auth()->user()->account,
             'category' => null,
@@ -69,8 +70,18 @@ class ProposalCategoryController extends BaseController
         return redirect("proposals/categories/$publicId/edit");
     }
 
+    public function store(CreateProposalCategoryRequest $request)
+    {
+        $proposalCategory = $this->proposalCategoryService->save($request->input());
+
+        Session::flash('message', trans('texts.created_proposal_category'));
+
+        return redirect()->to($proposalCategory->getRoute());
+    }
+
     public function edit(ProposalCategoryRequest $request)
     {
+        $this->authorize('edit', auth::user(), $this->entityType);
         $proposalCategory = $request->entity();
 
         $data = [
@@ -82,15 +93,6 @@ class ProposalCategoryController extends BaseController
         ];
 
         return View::make('proposals/categories.edit', $data);
-    }
-
-    public function store(CreateProposalCategoryRequest $request)
-    {
-        $proposalCategory = $this->proposalCategoryService->save($request->input());
-
-        Session::flash('message', trans('texts.created_proposal_category'));
-
-        return redirect()->to($proposalCategory->getRoute());
     }
 
     public function update(UpdateProposalCategoryRequest $request)

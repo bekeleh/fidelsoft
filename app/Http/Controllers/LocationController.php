@@ -41,7 +41,7 @@ class LocationController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', auth::user(), $this->entityType);
+        $this->authorize('index', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_LOCATION,
             'datatable' => new LocationDatatable(),
@@ -67,7 +67,7 @@ class LocationController extends BaseController
 
     public function create(LocationRequest $request)
     {
-        Auth::user()->can('create', [ENTITY_LOCATION, $request->entity()]);
+        $this->authorize('edit', auth::user(), $this->entityType);
         $data = [
             'location' => null,
             'method' => 'POST',
@@ -91,8 +91,7 @@ class LocationController extends BaseController
 
     public function edit(LocationRequest $request, $publicId, $clone = false)
     {
-        Auth::user()->can('edit', [ENTITY_LOCATION, $request->entity()]);
-
+        $this->authorize('edit', auth::user(), $this->entityType);
         $location = Location::scope($publicId)->withTrashed()->firstOrFail();
 
         if ($clone) {

@@ -41,7 +41,7 @@ class ItemCategoryController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', auth::user(), $this->entityType);
+        $this->authorize('index', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_ITEM_CATEGORY,
             'datatable' => new ItemCategoryDatatable(),
@@ -62,8 +62,30 @@ class ItemCategoryController extends BaseController
         return $this->itemCategoryService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
     }
 
+    public function create(ItemCategoryRequest $request)
+    {
+        $this->authorize('create', auth::user(), $this->entityType);
+        $account = Auth::user()->account;
+
+        $data = [
+            'account' => $account,
+            'itemCategory' => null,
+            'method' => 'POST',
+            'url' => 'item_categories',
+            'title' => trans('texts.create_item_category'),
+        ];
+
+        return View::make('item_categories.edit', $data);
+    }
+
+    public function store(CreateItemCategoryRequest $request)
+    {
+        return $this->save();
+    }
+
     public function edit(ItemCategoryRequest $request, $publicId, $clone = false)
     {
+        $this->authorize('edit', auth::user(), $this->entityType);
         Auth::user()->can('view', [ENTITY_ITEM_CATEGORY, $request->entity()]);
 
         $account = Auth::user()->account;
@@ -91,27 +113,6 @@ class ItemCategoryController extends BaseController
         ];
 
         return View::make('item_categories.edit', $data);
-    }
-
-    public function create(ItemCategoryRequest $request)
-    {
-
-        $account = Auth::user()->account;
-
-        $data = [
-            'account' => $account,
-            'itemCategory' => null,
-            'method' => 'POST',
-            'url' => 'item_categories',
-            'title' => trans('texts.create_item_category'),
-        ];
-
-        return View::make('item_categories.edit', $data);
-    }
-
-    public function store(CreateItemCategoryRequest $request)
-    {
-        return $this->save();
     }
 
     public function update(UpdateItemCategoryRequest $request, $publicId)

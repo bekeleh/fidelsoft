@@ -37,7 +37,7 @@ class InvoiceItemController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', auth::user(), $this->entityType);
+        $this->authorize('index', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_INVOICE_ITEM,
             'datatable' => new InvoiceItemDatatable(),
@@ -59,6 +59,7 @@ class InvoiceItemController extends BaseController
 
     public function create(InvoiceItemRequest $request)
     {
+        $this->authorize('create', auth::user(), $this->entityType);
         if ($request->product_id != 0) {
             $product = Product::scope($request->product_id)->firstOrFail();
         } else {
@@ -134,8 +135,7 @@ class InvoiceItemController extends BaseController
 
     public function edit(InvoiceItemRequest $request, $publicId = false, $clone = false)
     {
-        Auth::user()->can('view', [ENTITY_INVOICE_ITEM, $request->entity()]);
-
+        $this->authorize('edit', auth::user(), $this->entityType);
         $invoiceItem = InvoiceItem::scope($publicId)->withTrashed()->firstOrFail();
 
         if ($clone) {

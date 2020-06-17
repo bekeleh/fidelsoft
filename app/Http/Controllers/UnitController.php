@@ -31,7 +31,7 @@ class UnitController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', auth::user(), $this->entityType);
+        $this->authorize('index', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_UNIT,
             'datatable' => new UnitDatatable(),
@@ -55,6 +55,7 @@ class UnitController extends BaseController
 
     public function create(UnitRequest $request)
     {
+        $this->authorize('create', auth::user(), $this->entityType);
         $data = [
             'unit' => null,
             'method' => 'POST',
@@ -78,6 +79,7 @@ class UnitController extends BaseController
 
     public function edit(UnitRequest $request, $publicId = false, $clone = false)
     {
+        $this->authorize('edit', auth::user(), $this->entityType);
         $unit = $request->entity();
         if ($clone) {
             $unit->id = null;

@@ -12,7 +12,7 @@ class UpdateUserRequest extends UserRequest
 
     public function authorize()
     {
-        return $this->user()->can('edit', ENTITY_USER);
+        return $this->user()->can('edit', $this->entityType);
     }
 
     public function rules()

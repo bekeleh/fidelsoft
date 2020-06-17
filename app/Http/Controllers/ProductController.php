@@ -43,7 +43,7 @@ class ProductController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', auth::user(), $this->entityType);
+        $this->authorize('index', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_PRODUCT,
             'datatable' => new ProductDatatable(),
@@ -71,6 +71,7 @@ class ProductController extends BaseController
 
     public function create(ProductRequest $request)
     {
+        $this->authorize('create', auth::user(), $this->entityType);
         $account = Auth::user()->account;
         if ($request->item_brand_id != 0) {
             $itemBrand = ItemBrand::scope($request->item_brand_id)->firstOrFail();
@@ -110,6 +111,7 @@ class ProductController extends BaseController
 
     public function edit(ProductRequest $request, $publicId, $clone = false)
     {
+        $this->authorize('edit', auth::user(), $this->entityType);
         Auth::user()->can('view', [ENTITY_PRODUCT, $request->entity()]);
         $account = Auth::user()->account;
         $product = Product::scope($publicId)->withTrashed()->firstOrFail();

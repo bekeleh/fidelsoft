@@ -31,7 +31,7 @@ class PaymentTermController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', auth::user(), $this->entityType);
+        $this->authorize('index', auth::user(), $this->entityType);
         return Redirect::to('settings/' . ACCOUNT_PAYMENT_TERMS);
     }
 
@@ -42,20 +42,9 @@ class PaymentTermController extends BaseController
         return $this->paymentTermService->getDatatable($accountId);
     }
 
-    public function edit($publicId)
-    {
-        $data = [
-            'paymentTerm' => PaymentTerm::scope($publicId)->firstOrFail(),
-            'method' => 'PUT',
-            'url' => 'payment_terms/' . $publicId,
-            'title' => trans('texts.edit_payment_term'),
-        ];
-
-        return View::make('accounts.payment_term', $data);
-    }
-
     public function create()
     {
+        $this->authorize('create', auth::user(), $this->entityType);
         $data = [
             'paymentTerm' => null,
             'method' => 'POST',
@@ -69,6 +58,19 @@ class PaymentTermController extends BaseController
     public function store(CreatePaymentTermRequest $request)
     {
         return $this->save();
+    }
+
+    public function edit($publicId)
+    {
+        $this->authorize('edit', auth::user(), $this->entityType);
+        $data = [
+            'paymentTerm' => PaymentTerm::scope($publicId)->firstOrFail(),
+            'method' => 'PUT',
+            'url' => 'payment_terms/' . $publicId,
+            'title' => trans('texts.edit_payment_term'),
+        ];
+
+        return View::make('accounts.payment_term', $data);
     }
 
     public function update(UpdatePaymentTermRequest $request, $publicId)

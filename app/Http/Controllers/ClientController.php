@@ -50,7 +50,7 @@ class ClientController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', auth::user(), $this->entityType);
+        $this->authorize('index', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_CLIENT,
             'datatable' => new ClientDatatable(),
@@ -84,6 +84,7 @@ class ClientController extends BaseController
 
     public function create(ClientRequest $request)
     {
+        $this->authorize('create', auth::user(), $this->entityType);
         if ($request->client_type_id != 0) {
             $clientType = ClientType::scope($request->client_type_id)->firstOrFail();
         } else {
@@ -133,6 +134,7 @@ class ClientController extends BaseController
 
     public function edit(ClientRequest $request)
     {
+        $this->authorize('edit', auth::user(), $this->entityType);
         $client = $request->entity();
 
         $data = [

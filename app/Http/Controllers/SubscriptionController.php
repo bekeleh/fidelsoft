@@ -35,7 +35,7 @@ class SubscriptionController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', auth::user(), $this->entityType);
+        $this->authorize('index', auth::user(), $this->entityType);
         return Redirect::to('settings/' . ACCOUNT_API_TOKENS);
     }
 
@@ -46,6 +46,7 @@ class SubscriptionController extends BaseController
 
     public function edit($publicId)
     {
+        $this->authorize('edit', auth::user(), $this->entityType);
         $subscription = Subscription::scope($publicId)->firstOrFail();
 
         $data = [
@@ -71,6 +72,7 @@ class SubscriptionController extends BaseController
 
     public function create()
     {
+        $this->authorize('create', auth::user(), $this->entityType);
         $data = [
             'subscription' => null,
             'method' => 'POST',

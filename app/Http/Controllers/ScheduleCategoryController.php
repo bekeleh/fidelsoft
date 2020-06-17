@@ -27,7 +27,7 @@ class ScheduleCategoryController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', auth::user(), $this->entityType);
+        $this->authorize('index', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_SCHEDULE_CATEGORY,
             'datatable' => new ScheduleCategoryDatatable(),
@@ -45,25 +45,12 @@ class ScheduleCategoryController extends BaseController
 
     public function create(ScheduleCategoryRequest $request)
     {
+        $this->authorize('create', auth::user(), $this->entityType);
         $data = [
             'scheduleCategory' => null,
             'method' => 'POST',
             'url' => 'schedule_categories',
             'title' => trans('texts.new_schedule_category'),
-        ];
-
-        return View::make('schedule_categories.edit', $data);
-    }
-
-    public function edit(ScheduleCategoryRequest $request)
-    {
-        $scheduleCategory = $request->entity();
-
-        $data = [
-            'scheduleCategory' => $scheduleCategory,
-            'method' => 'PUT',
-            'url' => 'schedule_categories/' . $scheduleCategory->public_id,
-            'title' => trans('texts.edit_category'),
         ];
 
         return View::make('schedule_categories.edit', $data);
@@ -76,6 +63,21 @@ class ScheduleCategoryController extends BaseController
         Session::flash('message', trans('texts.created_schedule_category'));
 
         return redirect()->to($scheduleCategory->getRoute());
+    }
+
+    public function edit(ScheduleCategoryRequest $request)
+    {
+        $this->authorize('edit', auth::user(), $this->entityType);
+        $scheduleCategory = $request->entity();
+
+        $data = [
+            'scheduleCategory' => $scheduleCategory,
+            'method' => 'PUT',
+            'url' => 'schedule_categories/' . $scheduleCategory->public_id,
+            'title' => trans('texts.edit_category'),
+        ];
+
+        return View::make('schedule_categories.edit', $data);
     }
 
     public function update(UpdateScheduleCategoryRequest $request)

@@ -46,7 +46,7 @@ class HoldReasonController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', auth::user(), $this->entityType);
+        $this->authorize('index', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_HOLD_REASON,
             'datatable' => new HoldReasonDatatable(),
@@ -67,9 +67,31 @@ class HoldReasonController extends BaseController
         return $this->holdReasonService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
     }
 
+    public function create(HoldReasonRequest $request)
+    {
+        $this->authorize('create', auth::user(), $this->entityType);
+        $account = Auth::user()->account;
+
+        $data = [
+            'account' => $account,
+            'holdReason' => null,
+            'method' => 'POST',
+            'url' => 'hold_reasons',
+            'title' => trans('texts.create_hold_reason'),
+        ];
+
+        return View::make('hold_reasons.edit', $data);
+    }
+
+    public function store(CreateHoldReasonRequest $request)
+    {
+
+        return $this->save();
+    }
+
     public function edit(HoldReasonRequest $request, $publicId, $clone = false)
     {
-        Auth::user()->can('view', [ENTITY_HOLD_REASON, $request->entity()]);
+        $this->authorize('edit', auth::user(), $this->entityType);
 
         $account = Auth::user()->account;
 
@@ -96,28 +118,6 @@ class HoldReasonController extends BaseController
         ];
 
         return View::make('hold_reasons.edit', $data);
-    }
-
-    public function create(HoldReasonRequest $request)
-    {
-
-        $account = Auth::user()->account;
-
-        $data = [
-            'account' => $account,
-            'holdReason' => null,
-            'method' => 'POST',
-            'url' => 'hold_reasons',
-            'title' => trans('texts.create_hold_reason'),
-        ];
-
-        return View::make('hold_reasons.edit', $data);
-    }
-
-    public function store(CreateHoldReasonRequest $request)
-    {
-
-        return $this->save();
     }
 
     public function update(UpdateHoldReasonRequest $request, $publicId)

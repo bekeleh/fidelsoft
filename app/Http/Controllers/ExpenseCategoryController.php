@@ -27,7 +27,7 @@ class ExpenseCategoryController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', auth::user(), $this->entityType);
+        $this->authorize('index', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_EXPENSE_CATEGORY,
             'datatable' => new ExpenseCategoryDatatable(),
@@ -45,6 +45,7 @@ class ExpenseCategoryController extends BaseController
 
     public function create(ExpenseCategoryRequest $request)
     {
+        $this->authorize('create', auth::user(), $this->entityType);
         $data = [
             'category' => null,
             'method' => 'POST',
@@ -57,6 +58,7 @@ class ExpenseCategoryController extends BaseController
 
     public function edit(ExpenseCategoryRequest $request)
     {
+        $this->authorize('edit', auth::user(), $this->entityType);
         $category = $request->entity();
 
         $data = [

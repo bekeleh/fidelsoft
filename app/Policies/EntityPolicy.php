@@ -14,6 +14,22 @@ class EntityPolicy
 
     /**
      * @param User $user
+     * @param $item
+     * @return bool
+     */
+    public function index(User $user, $item)
+    {
+        if (!static::checkModuleEnabled($user, $item))
+            return false;
+
+
+        $entityType = is_string($item) ? $item : $item->getEntityType();
+
+        return $user->hasPermission('view_' . $entityType);
+    }
+
+    /**
+     * @param User $user
      * @param $item - entity name or object
      *
      * @return bool

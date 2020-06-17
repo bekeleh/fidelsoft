@@ -24,7 +24,7 @@ class RecurringInvoiceController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', auth::user(), $this->entityType);
+        $this->authorize('index', auth::user(), $this->entityType);
         $data = [
             'title' => trans('texts.recurring_invoices'),
             'entityType' => ENTITY_RECURRING_INVOICE,

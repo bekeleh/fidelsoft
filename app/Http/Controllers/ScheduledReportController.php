@@ -27,7 +27,7 @@ class scheduledReportController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', auth::user(), $this->entityType);
+        $this->authorize('index', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_SCHEDULED_REPORT,
             'datatable' => new scheduledReportDatatable(),
@@ -45,25 +45,12 @@ class scheduledReportController extends BaseController
 
     public function create(scheduledReportRequest $request)
     {
+        $this->authorize('create', auth::user(), $this->entityType);
         $data = [
             'scheduledReport' => null,
             'method' => 'POST',
             'url' => 'scheduled_reports',
             'title' => trans('texts.new_scheduled_report'),
-        ];
-
-        return View::make('scheduled_reports.edit', $data);
-    }
-
-    public function edit(scheduledReportRequest $request)
-    {
-        $scheduledReport = $request->entity();
-
-        $data = [
-            'scheduledReport' => $scheduledReport,
-            'method' => 'PUT',
-            'url' => 'scheduled_reports/' . $scheduledReport->public_id,
-            'title' => trans('texts.edit_scheduled_report'),
         ];
 
         return View::make('scheduled_reports.edit', $data);
@@ -76,6 +63,21 @@ class scheduledReportController extends BaseController
         Session::flash('message', trans('texts.created_scheduled_report'));
 
         return redirect()->to($scheduledReport->getRoute());
+    }
+
+    public function edit(scheduledReportRequest $request)
+    {
+        $this->authorize('edit', auth::user(), $this->entityType);
+        $scheduledReport = $request->entity();
+
+        $data = [
+            'scheduledReport' => $scheduledReport,
+            'method' => 'PUT',
+            'url' => 'scheduled_reports/' . $scheduledReport->public_id,
+            'title' => trans('texts.edit_scheduled_report'),
+        ];
+
+        return View::make('scheduled_reports.edit', $data);
     }
 
     public function update(UpdatescheduledReportRequest $request)

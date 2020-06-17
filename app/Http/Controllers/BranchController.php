@@ -43,7 +43,7 @@ class BranchController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', auth::user(), $this->entityType);
+        $this->authorize('index', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_BRANCH,
             'datatable' => new BranchDatatable(),
@@ -79,6 +79,7 @@ class BranchController extends BaseController
 
     public function create(BranchRequest $request)
     {
+        $this->authorize('create', auth::user(), $this->entityType);
         if ($request->location_id != 0) {
             $location = Location::scope($request->location_id)->firstOrFail();
         } else {
@@ -115,6 +116,7 @@ class BranchController extends BaseController
 
     public function edit(BranchRequest $request, $publicId, $clone = false)
     {
+        $this->authorize('edit', auth::user(), $this->entityType);
         $branch = Branch::scope($publicId)->withTrashed()->firstOrFail();
 
         if ($clone) {

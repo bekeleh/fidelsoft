@@ -30,7 +30,7 @@ class ProjectController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', auth::user(), $this->entityType);
+        $this->authorize('index', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_PROJECT,
             'datatable' => new ProjectDatatable(),
@@ -66,6 +66,7 @@ class ProjectController extends BaseController
 
     public function create(ProjectRequest $request)
     {
+        $this->authorize('create', auth::user(), $this->entityType);
         $data = [
             'account' => auth()->user()->account,
             'project' => null,
@@ -81,6 +82,7 @@ class ProjectController extends BaseController
 
     public function edit(ProjectRequest $request)
     {
+        $this->authorize('edit', auth::user(), $this->entityType);
         $project = $request->entity();
 
         $data = [

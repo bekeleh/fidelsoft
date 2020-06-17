@@ -96,6 +96,7 @@ class InvoiceController extends BaseController
 
     public function create(InvoiceRequest $request, $clientPublicId = 0, $isRecurring = false)
     {
+        $this->authorize('create', auth::user(), $this->entityType);
         $account = Auth::user()->account;
 
         $entityType = $isRecurring ? ENTITY_RECURRING_INVOICE : ENTITY_INVOICE;
@@ -169,6 +170,7 @@ class InvoiceController extends BaseController
 
     public function edit(InvoiceRequest $request, $publicId, $clone = false)
     {
+        $this->authorize('edit', auth::user(), $this->entityType);
         $account = Auth::user()->account;
         $invoice = $request->entity()->load('invitations', 'account.country', 'client.contacts', 'client.country', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'payments');
 

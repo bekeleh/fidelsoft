@@ -7,6 +7,7 @@ use App\Libraries\Utils;
 use App\Models\BankAccount;
 use App\Ninja\Repositories\BankAccountRepository;
 use App\Services\BankAccountService;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -32,6 +33,7 @@ class BankAccountController extends BaseController
 
     public function index()
     {
+        $this->authorize('index', auth::user(), $this->entityType);
         return Redirect::to('settings/' . ACCOUNT_BANKS);
     }
 
@@ -45,6 +47,7 @@ class BankAccountController extends BaseController
 
     public function edit($publicId)
     {
+        $this->authorize('edit', auth::user(), $this->entityType);
         $bankAccount = BankAccount::scope($publicId)->firstOrFail();
 
         $data = [
@@ -66,6 +69,7 @@ class BankAccountController extends BaseController
      */
     public function create()
     {
+        $this->authorize('create', auth::user(), $this->entityType);
         $data = [
             'banks' => Cache::get('banks'),
             'bankAccount' => null,
@@ -142,7 +146,7 @@ class BankAccountController extends BaseController
 
         try {
             $data = $this->bankAccountService->parseOFX($file);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Session::now('error', trans('texts.ofx_parse_failed'));
             Utils::logError($e);
 

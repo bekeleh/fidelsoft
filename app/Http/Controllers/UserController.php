@@ -53,7 +53,7 @@ class UserController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', auth::user(), $this->entityType);
+        $this->authorize('index', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_USER,
             'datatable' => new UserDatatable(),
@@ -91,6 +91,7 @@ class UserController extends BaseController
 
     public function create(UserRequest $request)
     {
+        $this->authorize('create', auth::user(), $this->entityType);
         if ($request->location_id != 0) {
             $location = Location::scope($request->location_id)->firstOrFail();
         } else {
@@ -133,6 +134,7 @@ class UserController extends BaseController
 
     public function edit(UserRequest $request, $publicId = false, $clone = false)
     {
+        $this->authorize('edit', auth::user(), $this->entityType);
         $user = $request->entity();
         if ($clone) {
             $user->id = null;

@@ -32,7 +32,7 @@ class SaleTypeController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', auth::user(), $this->entityType);
+        $this->authorize('index', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_SALE_TYPE,
             'datatable' => new SaleTypeDatatable(),
@@ -54,6 +54,7 @@ class SaleTypeController extends BaseController
 
     public function create(SaleTypeRequest $request)
     {
+        $this->authorize('create', auth::user(), $this->entityType);
         $data = [
             'saleType' => null,
             'method' => 'POST',
@@ -70,8 +71,18 @@ class SaleTypeController extends BaseController
         return self::edit($request, $publicId, true);
     }
 
+    public function store(CreateSaleTypeRequest $request)
+    {
+        $data = $request->input();
+
+        $saleType = $this->saleTypeService->save($data);
+
+        return redirect()->to("sale_types/{$saleType->public_id}/edit")->with('success', trans('texts.created_sale_type'));
+    }
+
     public function edit(SaleTypeRequest $request, $publicId = false, $clone = false)
     {
+        $this->authorize('edit', auth::user(), $this->entityType);
         $saleType = $request->entity();
         if ($clone) {
             $saleType->id = null;
@@ -95,15 +106,6 @@ class SaleTypeController extends BaseController
         $data = array_merge($data, self::getViewModel($saleType));
 
         return View::make('sale_types.edit', $data);
-    }
-
-    public function store(CreateSaleTypeRequest $request)
-    {
-        $data = $request->input();
-
-        $saleType = $this->saleTypeService->save($data);
-
-        return redirect()->to("sale_types/{$saleType->public_id}/edit")->with('success', trans('texts.created_sale_type'));
     }
 
     public function update(UpdateSaleTypeRequest $request)

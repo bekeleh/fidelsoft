@@ -58,7 +58,7 @@ class TaskController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', auth::user(), $this->entityType);
+        $this->authorize('index', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_TASK,
             'datatable' => new TaskDatatable(),
@@ -81,8 +81,8 @@ class TaskController extends BaseController
 
     public function create(TaskRequest $request)
     {
+        $this->authorize('create', auth::user(), $this->entityType);
         $this->checkTimezone();
-
         $data = [
             'task' => null,
             'clientPublicId' => Input::old('client') ? Input::old('client') : ($request->client_id ?: 0),
@@ -106,6 +106,7 @@ class TaskController extends BaseController
 
     public function edit(TaskRequest $request)
     {
+        $this->authorize('edit', auth::user(), $this->entityType);
         $this->checkTimezone();
         $task = $request->entity();
 

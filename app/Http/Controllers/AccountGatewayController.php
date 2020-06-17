@@ -35,6 +35,7 @@ class AccountGatewayController extends BaseController
 
     public function index()
     {
+        $this->authorize('index', auth::user(), $this->entityType);
         return Redirect::to('settings/' . ACCOUNT_PAYMENTS);
     }
 
@@ -55,6 +56,7 @@ class AccountGatewayController extends BaseController
 
     public function edit($publicId)
     {
+        $this->authorize('edit', auth::user(), $this->entityType);
         $accountGateway = AccountGateway::scope($publicId)->firstOrFail();
         $config = $accountGateway->getConfig();
 
@@ -90,6 +92,7 @@ class AccountGatewayController extends BaseController
      */
     public function create()
     {
+        $this->authorize('create', auth::user(), $this->entityType);
         if (!Request::secure() && !Utils::isNinjaDev()) {
             Session::now('warning', trans('texts.enable_https'));
         }

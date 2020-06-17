@@ -33,7 +33,7 @@ class ItemPriceController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', auth::user(), $this->entityType);
+        $this->authorize('index', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_ITEM_PRICE,
             'datatable' => new ItemPriceDatatable(),
@@ -58,6 +58,7 @@ class ItemPriceController extends BaseController
 
     public function create(ItemPriceRequest $request)
     {
+        $this->authorize('create', auth::user(), $this->entityType);
         if ($request->product_id != 0) {
             $product = Product::scope($request->product_id)->firstOrFail();
         } else {
@@ -96,6 +97,7 @@ class ItemPriceController extends BaseController
 
     public function edit(ItemPriceRequest $request, $publicId = false, $clone = false)
     {
+        $this->authorize('edit', auth::user(), $this->entityType);
         $itemPrice = $request->entity();
         if ($clone) {
             $itemPrice->id = null;
