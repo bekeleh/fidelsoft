@@ -36,6 +36,9 @@ class BranchService extends BaseService
         $datatable = new BranchDatatable(true);
 
         $query = $this->branchRepo->find($accountId, $search);
+        if (!$query) {
+            return false;
+        }
 
         if (!Utils::hasPermission('view_branch')) {
             $query->where('branches.user_id', '=', Auth::user()->id);

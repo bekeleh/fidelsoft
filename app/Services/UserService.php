@@ -38,14 +38,20 @@ class UserService extends BaseService
 
     public function save($data, $user = null)
     {
+        if (!$data) {
+            return false;
+        }
+
         return $this->userRepo->save($data, $user);
     }
 
     public function getDatatable($accountId, $search)
     {
+        $datatable = new UserDatatable(true);
+
         $query = $this->userRepo->find($accountId, $search);
 
-        return $this->datatableService->createDatatable(new UserDatatable(), $query);
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 
     public function getDatatableLocation($locationPublicId)
@@ -53,7 +59,9 @@ class UserService extends BaseService
         $datatable = new LocationDatatable(true, true);
 
         $query = $this->userRepo->findLocation($locationPublicId);
-
+        if (!$query) {
+            return false;
+        }
         if (!Utils::hasPermission('view_location')) {
             $query->where('locations.user_id', '=', Auth::user()->id);
         }
@@ -66,6 +74,10 @@ class UserService extends BaseService
         $datatable = new BranchDatatable(true, true);
 
         $query = $this->userRepo->findBranch($branchPublicId);
+
+        if (!$query) {
+            return false;
+        }
 
         if (!Utils::hasPermission('view_branch')) {
             $query->where('branches.user_id', '=', Auth::user()->id);

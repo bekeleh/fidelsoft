@@ -18,14 +18,13 @@ use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\ItemStore;
 use App\Models\Product;
-use App\Models\Purchase;
 use App\Models\Task;
 use App\Services\PaymentService;
 use Datatable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 class InvoiceRepository extends BaseRepository
 {
@@ -991,6 +990,54 @@ class InvoiceRepository extends BaseRepository
     }
 
     /**
+     * @param $productKey
+     * @return bool
+     */
+    public function getProduct($productKey)
+    {
+        if (!$productKey) {
+            return false;
+        }
+        $accountId = auth::user()->account_id;
+
+        $query = Product::scope()
+            ->whereName($productKey)
+            ->whereAccountId($accountId)
+            ->whereDeletedAt(null)
+            ->select(['id', 'cost'])
+            ->first();
+
+        return $query;
+    }
+
+    /**
+     * @param $productId
+     * @return bool
+     */
+    public function getItemQty($productId = null)
+    {
+
+        if (!$productId) {
+            return false;
+        }
+
+        $storeId = auth::user()->branch->store_id;
+
+        $accountId = auth::user()->account_id;
+
+        $query = ItemStore::scope()
+            ->whereProductId($productId)
+            ->whereStoreId($storeId)
+            ->whereAccountId($accountId)
+            ->whereDeletedAt(null)
+            ->where('qty', '>', 0)
+            ->select(['id', 'qty'])
+            ->first();
+
+        return $query;
+    }
+
+    /**
      * @param $clientId
      * @return mixed
      */
@@ -1392,6 +1439,7 @@ class InvoiceRepository extends BaseRepository
      */
     private function uploadedInvoiceDocuments(Invoice $invoice, array $document_ids): bool
     {
+        \Log::info('hit document upload');
         if (!$invoice || !$document_ids) {
             return false;
         }
@@ -1419,17 +1467,19 @@ class InvoiceRepository extends BaseRepository
      */
     private function updateInvoiceDocuments(Invoice $invoice, array $document_ids): bool
     {
+        \Log::info('hit update invoice documents');
         if (!$invoice || !$document_ids) {
             return false;
         }
         if (!$invoice->wasRecentlyCreated) {
             foreach ($invoice->documents as $document) {
                 if (!in_array($document->public_id, $document_ids)) {
-                    // Removed
-                    // Not checking permissions; deleting a document is just editing the invoice
-                    if ($document->invoice_id == $invoice->id) {
-                        // Make sure the document isn't on a clone
-                        $document->delete();
+                    if (Auth::user()->can('delete', $document)) {
+                        // Not checking permissions; deleting a document is just editing the invoice
+                        if ($document->invoice_id == $invoice->id) {
+                            // Make sure the document isn't on a clone
+                            $document->delete();
+                        }
                     }
                 }
             }

@@ -15,6 +15,9 @@ class DatatableService
 
     public function createDatatable(EntityDatatable $datatable, $query, $section = null)
     {
+        if (!$query) {
+            return false;
+        }
         $table = Datatable::query($query);
         if ($datatable->isBulkEdit) {
             $table->addColumn('checkbox', function ($model) use ($datatable, $section) {
@@ -45,6 +48,9 @@ class DatatableService
 
     private function createDropdown(EntityDatatable $datatable, $table, $section = null)
     {
+        if (!$datatable) {
+            return false;
+        }
         $table->addColumn('dropdown', function ($model) use ($datatable, $section) {
             $hasAction = false;
             $str = '<center style="min-width:100px">';
