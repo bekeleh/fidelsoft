@@ -19,12 +19,12 @@ use App\Models\User;
 use App\Models\UserAccount;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
-use Mail;
 use stdClass;
 
 class AccountRepository
@@ -171,9 +171,11 @@ class AccountRepository
 
     public function getSearchData($user)
     {
-        if (!Utils::hasPermission('admin') || !Auth::user()->can('view', ENTITY_SEARCH)) {
+        if (!auth::check()) {
             return [];
         }
+
+
         $data = $this->getAccountSearchData($user);
         $data['navigation'] = $this->getNavigationSearchData();
 
@@ -334,9 +336,7 @@ class AccountRepository
                 'list_' . Utils::pluralizeEntityType($entityType), Utils::pluralizeEntityType($entityType),
             ];
         }
-//        ['new_tax_rate', '/tax_rates/create'],
-//        ['new_product', '/products/create'],
-//        ['new_user', '/users/create'],
+
         $features = array_merge($features, [
             ['dashboard', '/dashboard'],
             ['reports', '/reports'],

@@ -402,7 +402,14 @@ class AppController extends BaseController
 
     public function errors()
     {
-        if (Utils::isNinjaProd()) {
+        if (!auth::check() || !Utils::hasPermission('admin')) {
+            return redirect('/');
+        }
+
+//        if (Utils::isNinjaProd()) {
+//            return redirect('/');
+//        }
+        if (!Utils::isSuperUser()) {
             return redirect('/');
         }
 
