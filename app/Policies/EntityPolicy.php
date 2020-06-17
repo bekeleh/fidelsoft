@@ -26,6 +26,7 @@ class EntityPolicy
 
 
         $entityType = is_string($item) ? $item : $item->getEntityType();
+
         return $user->hasPermission('create_' . $entityType);
     }
 
@@ -43,6 +44,8 @@ class EntityPolicy
 
 
         $entityType = is_string($item) ? $item : $item->getEntityType();
+
+
         return $user->hasPermission('edit_' . $entityType) || $user->owns($item);
     }
 
@@ -59,6 +62,7 @@ class EntityPolicy
             return false;
 
         $entityType = is_string($item) ? $item : $item->getEntityType();
+
         return $user->hasPermission('view_' . $entityType) || $user->owns($item);
     }
 
@@ -105,6 +109,7 @@ class EntityPolicy
     private static function checkModuleEnabled(User $user, $item)
     {
         $entityType = is_string($item) ? $item : $item->getEntityType();
+
         return $user->account->isModuleEnabled($entityType);
     }
 }

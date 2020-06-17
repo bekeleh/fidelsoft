@@ -9,9 +9,7 @@ use App\Jobs\GenerateCalendarEvents;
  */
 class CalendarController extends BaseController
 {
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
+
     public function showCalendar()
     {
         $data = [

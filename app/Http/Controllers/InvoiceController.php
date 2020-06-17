@@ -59,6 +59,7 @@ class InvoiceController extends BaseController
 
     public function index()
     {
+        $this->authorize('view', auth::user(), $this->entityType);
         $data = [
             'title' => trans('texts.invoices'),
             'entityType' => ENTITY_INVOICE,

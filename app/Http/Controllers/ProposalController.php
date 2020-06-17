@@ -33,13 +33,9 @@ class ProposalController extends BaseController
         $this->contactMailer = $contactMailer;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
     public function index()
     {
+        $this->authorize('view', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_PROPOSAL,
             'datatable' => new ProposalDatatable(),

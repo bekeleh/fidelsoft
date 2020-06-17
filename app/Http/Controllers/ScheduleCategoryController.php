@@ -27,6 +27,7 @@ class ScheduleCategoryController extends BaseController
 
     public function index()
     {
+        $this->authorize('view', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_SCHEDULE_CATEGORY,
             'datatable' => new ScheduleCategoryDatatable(),

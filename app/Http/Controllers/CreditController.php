@@ -11,6 +11,7 @@ use App\Models\Credit;
 use App\Ninja\Datatables\CreditDatatable;
 use App\Ninja\Repositories\CreditRepository;
 use App\Services\CreditService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
@@ -32,6 +33,7 @@ class CreditController extends BaseController
 
     public function index()
     {
+        $this->authorize('view', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_CREDIT,
             'datatable' => new CreditDatatable(),

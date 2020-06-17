@@ -15,9 +15,10 @@ class DatatableService
 
     public function createDatatable(EntityDatatable $datatable, $query, $section = null)
     {
-        if (!$query) {
+        if (!$datatable) {
             return false;
         }
+
         $table = Datatable::query($query);
         if ($datatable->isBulkEdit) {
             $table->addColumn('checkbox', function ($model) use ($datatable, $section) {
@@ -43,14 +44,17 @@ class DatatableService
         if (count($datatable->actions())) {
             $this->createDropdown($datatable, $table, $section);
         }
+
         return $table->orderColumns($orderColumns)->make();
     }
 
     private function createDropdown(EntityDatatable $datatable, $table, $section = null)
     {
-        if (!$datatable) {
+        $can_edit = Auth::user()->hasPermission('edit_' . $section);
+        if (!$can_edit) {
             return false;
         }
+
         $table->addColumn('dropdown', function ($model) use ($datatable, $section) {
             $hasAction = false;
             $str = '<center style="min-width:100px">';

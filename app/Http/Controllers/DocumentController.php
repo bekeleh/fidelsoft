@@ -6,8 +6,11 @@ use App\Http\Requests\CreateDocumentRequest;
 use App\Http\Requests\DocumentRequest;
 use App\Http\Requests\UpdateDocumentRequest;
 use App\Models\Document;
+use App\Ninja\Datatables\DocumentDatatable;
 use App\Ninja\Repositories\DocumentRepository;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\View;
 
 class DocumentController extends BaseController
 {
@@ -19,6 +22,17 @@ class DocumentController extends BaseController
         // parent::__construct();
 
         $this->documentRepo = $documentRepo;
+    }
+
+    public function index()
+    {
+        $this->authorize('view', auth::user(), $this->entityType);
+        return View::make('list_wrapper', [
+            'entityType' => ENTITY_DOCUMENT,
+            'datatable' => new DocumentDatatable(),
+            'title' => trans('texts.documents'),
+            'statuses' => Document::getStatuses(),
+        ]);
     }
 
     public function get(DocumentRequest $request)

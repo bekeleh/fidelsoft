@@ -36,6 +36,7 @@ class TokenController extends BaseController
 
     public function index()
     {
+        $this->authorize('view', auth::user(), $this->entityType);
         return Redirect::to('settings/' . ACCOUNT_API_TOKENS);
     }
 

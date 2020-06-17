@@ -10,10 +10,10 @@ use App\Models\ProposalCategory;
 use App\Ninja\Datatables\ProposalCategoryDatatable;
 use App\Ninja\Repositories\ProposalCategoryRepository;
 use App\Services\ProposalCategoryService;
-use Auth;
-use Input;
-use Session;
-use View;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\View;
 
 class ProposalCategoryController extends BaseController
 {
@@ -27,13 +27,10 @@ class ProposalCategoryController extends BaseController
         $this->proposalCategoryService = $proposalCategoryService;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
+
     public function index()
     {
+        $this->authorize('view', Auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_PROPOSAL_CATEGORY,
             'datatable' => new ProposalCategoryDatatable(),

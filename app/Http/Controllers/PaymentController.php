@@ -44,6 +44,7 @@ class PaymentController extends BaseController
 
     public function index()
     {
+        $this->authorize('view', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_PAYMENT,
             'datatable' => new PaymentDatatable(),

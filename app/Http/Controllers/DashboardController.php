@@ -25,6 +25,7 @@ class DashboardController extends BaseController
 
     public function index()
     {
+        $this->authorize('view', auth::user(), $this->entityType);
         if (!Auth::check()) {
             return null;
         }

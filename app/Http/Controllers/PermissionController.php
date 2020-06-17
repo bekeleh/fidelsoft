@@ -31,6 +31,7 @@ class PermissionController extends BaseController
 
     public function index()
     {
+        $this->authorize('view', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_PERMISSION,
             'datatable' => new PermissionDatatable(),

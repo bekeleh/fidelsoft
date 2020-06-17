@@ -3,13 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreatePaymentTermRequest;
-use App\Http\Requests\PaymentTermRequest;
 use App\Http\Requests\UpdatePaymentTermRequest;
 use App\Libraries\Utils;
 use App\Models\PaymentTerm;
 use App\Services\PaymentTermService;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
@@ -18,9 +15,6 @@ use Redirect;
 
 class PaymentTermController extends BaseController
 {
-    /**
-     * @var PaymentTermService
-     */
     protected $paymentTermService;
 
     /**
@@ -37,6 +31,7 @@ class PaymentTermController extends BaseController
 
     public function index()
     {
+        $this->authorize('view', auth::user(), $this->entityType);
         return Redirect::to('settings/' . ACCOUNT_PAYMENT_TERMS);
     }
 

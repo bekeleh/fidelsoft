@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Ninja\Datatables\RecurringInvoiceDatatable;
 use App\Ninja\Repositories\InvoiceRepository;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class RecurringInvoiceController.
@@ -23,6 +24,7 @@ class RecurringInvoiceController extends BaseController
 
     public function index()
     {
+        $this->authorize('view', auth::user(), $this->entityType);
         $data = [
             'title' => trans('texts.recurring_invoices'),
             'entityType' => ENTITY_RECURRING_INVOICE,

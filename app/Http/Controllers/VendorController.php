@@ -33,6 +33,7 @@ class VendorController extends BaseController
 
     public function index()
     {
+        $this->authorize('view', auth::user(), $this->entityType);
         return View::make('list_wrapper', [
             'entityType' => 'vendor',
             'datatable' => new VendorDatatable(),
