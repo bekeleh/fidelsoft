@@ -40,7 +40,7 @@ class ItemRequestController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', auth::user(), $this->entityType);
+        $this->authorize('view', ENTITY_ITEM_REQUEST);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_ITEM_REQUEST,
             'datatable' => new ItemRequestDatatable(),
@@ -84,7 +84,7 @@ class ItemRequestController extends BaseController
 
     public function create(ItemRequestRequest $request)
     {
-        $this->authorize('create', auth::user(), $this->entityType);
+        $this->authorize('create', ENTITY_ITEM_REQUEST);
         $this->setDefaultStore();
         if ($request->status_id != 0) {
             $status = Status::scope($request->status_id)->firstOrFail();
@@ -138,7 +138,7 @@ class ItemRequestController extends BaseController
 
     public function edit(ItemRequestRequest $request, $publicId = false, $clone = false)
     {
-        $this->authorize('edit', auth::user(), $this->entityType);
+        $this->authorize('edit', ENTITY_ITEM_REQUEST);
         $this->setDefaultStore();
 
         $itemRequest = ItemRequest::scope($publicId)->withTrashed()->firstOrFail();

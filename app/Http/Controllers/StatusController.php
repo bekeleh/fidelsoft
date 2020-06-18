@@ -41,7 +41,7 @@ class StatusController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', auth::user(), $this->entityType);
+        $this->authorize('view', ENTITY_STATUS);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_STATUS,
             'datatable' => new StatusDatatable(),
@@ -64,9 +64,30 @@ class StatusController extends BaseController
         return $this->StatusService->getDatatable($accountId, $search);
     }
 
+    public function create(StatusRequest $request)
+    {
+        $this->authorize('create', ENTITY_STATUS);
+        $account = Auth::user()->account;
+
+        $data = [
+            'account' => $account,
+            'Status' => null,
+            'method' => 'POST',
+            'url' => 'statuses',
+            'title' => trans('texts.create_status'),
+        ];
+
+        return View::make('statuses.edit', $data);
+    }
+
+    public function store(CreateStatusRequest $request)
+    {
+        return $this->save();
+    }
+
     public function edit(StatusRequest $request, $publicId, $clone = false)
     {
-        $this->authorize('edit', auth::user(), $this->entityType);
+        $this->authorize('edit', ENTITY_STATUS);
         Auth::user()->can('view', [ENTITY_STATUS, $request->entity()]);
 
         $account = Auth::user()->account;
@@ -94,27 +115,6 @@ class StatusController extends BaseController
         ];
 
         return View::make('statuses.edit', $data);
-    }
-
-    public function create(StatusRequest $request)
-    {
-        $this->authorize('create', auth::user(), $this->entityType);
-        $account = Auth::user()->account;
-
-        $data = [
-            'account' => $account,
-            'Status' => null,
-            'method' => 'POST',
-            'url' => 'statuses',
-            'title' => trans('texts.create_status'),
-        ];
-
-        return View::make('statuses.edit', $data);
-    }
-
-    public function store(CreateStatusRequest $request)
-    {
-        return $this->save();
     }
 
     public function update(UpdateStatusRequest $request, $publicId)

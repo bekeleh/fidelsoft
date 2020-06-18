@@ -27,7 +27,7 @@ class scheduleController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', auth::user(), $this->entityType);
+        $this->authorize('view', ENTITY_SCHEDULE);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_SCHEDULE,
             'datatable' => new scheduleDatatable(),
@@ -45,7 +45,7 @@ class scheduleController extends BaseController
 
     public function create(scheduleRequest $request)
     {
-        $this->authorize('create', auth::user(), $this->entityType);
+        $this->authorize('create', ENTITY_SCHEDULE);
         $data = [
             'schedule' => null,
             'method' => 'POST',
@@ -58,7 +58,7 @@ class scheduleController extends BaseController
 
     public function edit(scheduleRequest $request)
     {
-        $this->authorize('edit', auth::user(), $this->entityType);
+        $this->authorize('edit', ENTITY_SCHEDULE);
         $schedule = $request->entity();
 
         $data = [

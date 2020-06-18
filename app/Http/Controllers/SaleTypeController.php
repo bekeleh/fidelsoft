@@ -32,7 +32,7 @@ class SaleTypeController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', auth::user(), $this->entityType);
+        $this->authorize('view', ENTITY_SALE_TYPE);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_SALE_TYPE,
             'datatable' => new SaleTypeDatatable(),
@@ -54,7 +54,7 @@ class SaleTypeController extends BaseController
 
     public function create(SaleTypeRequest $request)
     {
-        $this->authorize('create', auth::user(), $this->entityType);
+        $this->authorize('create', ENTITY_SALE_TYPE);
         $data = [
             'saleType' => null,
             'method' => 'POST',
@@ -82,7 +82,7 @@ class SaleTypeController extends BaseController
 
     public function edit(SaleTypeRequest $request, $publicId = false, $clone = false)
     {
-        $this->authorize('edit', auth::user(), $this->entityType);
+        $this->authorize('edit', ENTITY_SALE_TYPE);
         $saleType = $request->entity();
         if ($clone) {
             $saleType->id = null;

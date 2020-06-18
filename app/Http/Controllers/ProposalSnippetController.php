@@ -28,7 +28,7 @@ class ProposalSnippetController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', auth::user(), $this->entityType);
+        $this->authorize('view', ENTITY_PROPOSAL_SNIPPET);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_PROPOSAL_SNIPPET,
             'datatable' => new ProposalSnippetDatatable(),
@@ -46,7 +46,7 @@ class ProposalSnippetController extends BaseController
 
     public function create(ProposalSnippetRequest $request)
     {
-        $this->authorize('create', auth::user(), $this->entityType);
+        $this->authorize('create', ENTITY_PROPOSAL_SNIPPET);
         $data = [
             'account' => auth()->user()->account,
             'snippet' => null,
@@ -70,7 +70,7 @@ class ProposalSnippetController extends BaseController
 
     public function edit(ProposalSnippetRequest $request)
     {
-        $this->authorize('edit', auth::user(), $this->entityType);
+        $this->authorize('edit', ENTITY_PROPOSAL_SNIPPET);
         $proposalSnippet = $request->entity();
 
         $data = [

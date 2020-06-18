@@ -44,7 +44,7 @@ class ExpenseController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', auth::user(), $this->entityType);
+        $this->authorize('view', ENTITY_EXPENSE);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_EXPENSE,
             'datatable' => new ExpenseDatatable(),
@@ -69,7 +69,7 @@ class ExpenseController extends BaseController
 
     public function create(ExpenseRequest $request)
     {
-        $this->authorize('create', auth::user(), $this->entityType);
+        $this->authorize('create', ENTITY_EXPENSE);
         if ($request->vendor_id != 0) {
             $vendor = Vendor::scope($request->vendor_id)->with('vendor_contacts')->firstOrFail();
         } else {
@@ -105,7 +105,7 @@ class ExpenseController extends BaseController
 
     public function edit(ExpenseRequest $request, $publicId = false, $clone = false)
     {
-        $this->authorize('edit', auth::user(), $this->entityType);
+        $this->authorize('edit', ENTITY_EXPENSE);
         $expense = $request->entity();
 
         $actions = [];

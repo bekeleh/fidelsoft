@@ -30,7 +30,7 @@ class ProposalCategoryController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', Auth::user(), $this->entityType);
+        $this->authorize('view', ENTITY_PROPOSAL_CATEGORY);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_PROPOSAL_CATEGORY,
             'datatable' => new ProposalCategoryDatatable(),
@@ -48,7 +48,7 @@ class ProposalCategoryController extends BaseController
 
     public function create(ProposalCategoryRequest $request)
     {
-        $this->authorize('create', auth::user(), $this->entityType);
+        $this->authorize('create', ENTITY_PROPOSAL_CATEGORY);
         $data = [
             'account' => auth()->user()->account,
             'category' => null,
@@ -81,7 +81,7 @@ class ProposalCategoryController extends BaseController
 
     public function edit(ProposalCategoryRequest $request)
     {
-        $this->authorize('edit', auth::user(), $this->entityType);
+        $this->authorize('edit', ENTITY_PROPOSAL_CATEGORY);
         $proposalCategory = $request->entity();
 
         $data = [

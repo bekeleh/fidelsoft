@@ -259,7 +259,7 @@ class BankAccountService extends BaseService
 
     public function getDatatable($accountId, $search)
     {
-        $datatable = new BankAccountDatatable(false);
+        $datatable = new BankAccountDatatable(true, false);
 
         $query = $this->bankAccountRepo->find($accountId, $search);
 

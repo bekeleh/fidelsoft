@@ -33,7 +33,7 @@ class CreditController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', auth::user(), $this->entityType);
+        $this->authorize('view', ENTITY_CREDIT);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_CREDIT,
             'datatable' => new CreditDatatable(),
@@ -48,7 +48,7 @@ class CreditController extends BaseController
 
     public function create(CreditRequest $request)
     {
-        $this->authorize('create', auth::user(), $this->entityType);
+        $this->authorize('create', ENTITY_CREDIT);
         $data = [
             'clientPublicId' => Input::old('client') ? Input::old('client') : ($request->client_id ?: 0),
             'credit' => null,
@@ -63,7 +63,7 @@ class CreditController extends BaseController
 
     public function edit($publicId)
     {
-        $this->authorize('edit', auth::user(), $this->entityType);
+        $this->authorize('edit', ENTITY_CREDIT);
         $credit = Credit::withTrashed()->scope($publicId)->firstOrFail();
         $credit->credit_date = Utils::fromSqlDate($credit->credit_date);
 

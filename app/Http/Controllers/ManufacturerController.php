@@ -44,7 +44,7 @@ class ManufacturerController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', auth::user(), $this->entityType);
+        $this->authorize('view', ENTITY_MANUFACTURER);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_MANUFACTURER,
             'datatable' => new ManufacturerDatatable(),
@@ -70,7 +70,7 @@ class ManufacturerController extends BaseController
 
     public function create(ManufacturerRequest $request)
     {
-        $this->authorize('create', auth::user(), $this->entityType);
+        $this->authorize('create', ENTITY_MANUFACTURER);
         Auth::user()->can('create', [ENTITY_MANUFACTURER, $request->entity()]);
         $data = [
             'manufacturer' => null,
@@ -95,8 +95,7 @@ class ManufacturerController extends BaseController
 
     public function edit(ManufacturerRequest $request, $publicId, $clone = false)
     {
-        $this->authorize('edit', auth::user(), $this->entityType);
-
+        $this->authorize('edit', ENTITY_MANUFACTURER);
         $manufacturer = Manufacturer::scope($publicId)->withTrashed()->firstOrFail();
 
         if ($clone) {

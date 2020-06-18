@@ -37,7 +37,7 @@ class InvoiceItemController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', auth::user(), $this->entityType);
+        $this->authorize('view', ENTITY_INVOICE_ITEM);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_INVOICE_ITEM,
             'datatable' => new InvoiceItemDatatable(),
@@ -59,7 +59,7 @@ class InvoiceItemController extends BaseController
 
     public function create(InvoiceItemRequest $request)
     {
-        $this->authorize('create', auth::user(), $this->entityType);
+        $this->authorize('create', ENTITY_INVOICE_ITEM);
         if ($request->product_id != 0) {
             $product = Product::scope($request->product_id)->firstOrFail();
         } else {
@@ -98,6 +98,38 @@ class InvoiceItemController extends BaseController
         return redirect()->to("invoice_items/{$invoiceItem->public_id}/edit")->with('success', trans('texts.created_invoice_item'));
     }
 
+    public function edit(InvoiceItemRequest $request, $publicId = false, $clone = false)
+    {
+        $this->authorize('edit', ENTITY_INVOICE_ITEM);
+        $invoiceItem = InvoiceItem::scope($publicId)->withTrashed()->firstOrFail();
+
+        if ($clone) {
+            $invoiceItem->id = null;
+            $invoiceItem->public_id = null;
+            $invoiceItem->deleted_at = null;
+            $method = 'POST';
+            $url = 'invoice_items';
+        } else {
+            $method = 'PUT';
+            $url = 'invoice_items/' . $invoiceItem->public_id;
+        }
+
+        $data = [
+            'product' => null,
+            'store' => null,
+            'invoiceItem' => $invoiceItem,
+            'entity' => $invoiceItem,
+            'method' => $method,
+            'url' => $url,
+            'title' => trans('texts.edit_invoice_item'),
+            'productPublicId' => $invoiceItem->product ? $invoiceItem->product->public_id : null,
+        ];
+
+        $data = array_merge($data, self::getViewModel($invoiceItem));
+
+        return View::make('invoice_items.edit', $data);
+    }
+
     public function update(UpdateInvoiceItemRequest $request)
     {
         $data = $request->input();
@@ -131,38 +163,6 @@ class InvoiceItemController extends BaseController
     public function cloneInvoiceItem(InvoiceItemRequest $request, $publicId)
     {
         return self::edit($request, $publicId, true);
-    }
-
-    public function edit(InvoiceItemRequest $request, $publicId = false, $clone = false)
-    {
-        $this->authorize('edit', auth::user(), $this->entityType);
-        $invoiceItem = InvoiceItem::scope($publicId)->withTrashed()->firstOrFail();
-
-        if ($clone) {
-            $invoiceItem->id = null;
-            $invoiceItem->public_id = null;
-            $invoiceItem->deleted_at = null;
-            $method = 'POST';
-            $url = 'invoice_items';
-        } else {
-            $method = 'PUT';
-            $url = 'invoice_items/' . $invoiceItem->public_id;
-        }
-
-        $data = [
-            'product' => null,
-            'store' => null,
-            'invoiceItem' => $invoiceItem,
-            'entity' => $invoiceItem,
-            'method' => $method,
-            'url' => $url,
-            'title' => trans('texts.edit_invoice_item'),
-            'productPublicId' => $invoiceItem->product ? $invoiceItem->product->public_id : null,
-        ];
-
-        $data = array_merge($data, self::getViewModel($invoiceItem));
-
-        return View::make('invoice_items.edit', $data);
     }
 
     public function show($publicId)

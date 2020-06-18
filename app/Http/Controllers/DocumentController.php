@@ -26,7 +26,7 @@ class DocumentController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', auth::user(), $this->entityType);
+        $this->authorize('view', ENTITY_DOCUMENT);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_DOCUMENT,
             'datatable' => new DocumentDatatable(),

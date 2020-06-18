@@ -33,7 +33,7 @@ class BankAccountController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', auth::user(), $this->entityType);
+        $this->authorize('view', ENTITY_BANK_ACCOUNT);
         return Redirect::to('settings/' . ACCOUNT_BANKS);
     }
 
@@ -47,7 +47,7 @@ class BankAccountController extends BaseController
 
     public function edit($publicId)
     {
-        $this->authorize('edit', auth::user(), $this->entityType);
+        $this->authorize('edit', ENTITY_BANK_ACCOUNT);
         $bankAccount = BankAccount::scope($publicId)->firstOrFail();
 
         $data = [
@@ -69,7 +69,7 @@ class BankAccountController extends BaseController
      */
     public function create()
     {
-        $this->authorize('create', auth::user(), $this->entityType);
+        $this->authorize('create', ENTITY_BANK_ACCOUNT);
         $data = [
             'banks' => Cache::get('banks'),
             'bankAccount' => null,

@@ -27,7 +27,7 @@ class scheduledReportController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', auth::user(), $this->entityType);
+        $this->authorize('view', ENTITY_SCHEDULED_REPORT);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_SCHEDULED_REPORT,
             'datatable' => new scheduledReportDatatable(),
@@ -45,7 +45,7 @@ class scheduledReportController extends BaseController
 
     public function create(scheduledReportRequest $request)
     {
-        $this->authorize('create', auth::user(), $this->entityType);
+        $this->authorize('create', ENTITY_SCHEDULED_REPORT);
         $data = [
             'scheduledReport' => null,
             'method' => 'POST',
@@ -67,7 +67,7 @@ class scheduledReportController extends BaseController
 
     public function edit(scheduledReportRequest $request)
     {
-        $this->authorize('edit', auth::user(), $this->entityType);
+        $this->authorize('edit', ENTITY_SCHEDULED_REPORT);
         $scheduledReport = $request->entity();
 
         $data = [

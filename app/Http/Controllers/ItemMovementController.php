@@ -31,7 +31,7 @@ class ItemMovementController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', auth::user(), $this->entityType);
+        $this->authorize('view', ENTITY_ITEM_MOVEMENT);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_ITEM_MOVEMENT,
             'datatable' => new ItemMovementDatatable(),
@@ -53,7 +53,7 @@ class ItemMovementController extends BaseController
 
     public function create(ItemMovementRequest $request)
     {
-        $this->authorize('create', auth::user(), $this->entityType);
+        $this->authorize('create', ENTITY_ITEM_MOVEMENT);
         $data = [
             'itemMovement' => null,
             'method' => 'POST',
@@ -67,7 +67,7 @@ class ItemMovementController extends BaseController
 
     public function edit(ItemMovementRequest $request, $publicId = false, $clone = false)
     {
-        $this->authorize('edit', auth::user(), $this->entityType);
+        $this->authorize('edit', ENTITY_ITEM_MOVEMENT);
         $itemMovement = $request->entity();
         if ($clone) {
             $itemMovement->id = null;

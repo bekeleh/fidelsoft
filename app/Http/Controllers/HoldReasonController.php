@@ -46,7 +46,7 @@ class HoldReasonController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', auth::user(), $this->entityType);
+        $this->authorize('view', ENTITY_HOLD_REASON);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_HOLD_REASON,
             'datatable' => new HoldReasonDatatable(),
@@ -69,7 +69,7 @@ class HoldReasonController extends BaseController
 
     public function create(HoldReasonRequest $request)
     {
-        $this->authorize('create', auth::user(), $this->entityType);
+        $this->authorize('create', ENTITY_HOLD_REASON);
         $account = Auth::user()->account;
 
         $data = [
@@ -91,8 +91,7 @@ class HoldReasonController extends BaseController
 
     public function edit(HoldReasonRequest $request, $publicId, $clone = false)
     {
-        $this->authorize('edit', auth::user(), $this->entityType);
-
+        $this->authorize('edit', ENTITY_HOLD_REASON);
         $account = Auth::user()->account;
 
         $holdReason = HoldReason::scope($publicId)->withTrashed()->firstOrFail();

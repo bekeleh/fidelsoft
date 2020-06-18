@@ -41,7 +41,7 @@ class ItemCategoryController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', auth::user(), $this->entityType);
+        $this->authorize('view', ENTITY_ITEM_CATEGORY);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_ITEM_CATEGORY,
             'datatable' => new ItemCategoryDatatable(),
@@ -64,7 +64,7 @@ class ItemCategoryController extends BaseController
 
     public function create(ItemCategoryRequest $request)
     {
-        $this->authorize('create', auth::user(), $this->entityType);
+        $this->authorize('create', ENTITY_ITEM_CATEGORY);
         $account = Auth::user()->account;
 
         $data = [
@@ -85,7 +85,7 @@ class ItemCategoryController extends BaseController
 
     public function edit(ItemCategoryRequest $request, $publicId, $clone = false)
     {
-        $this->authorize('edit', auth::user(), $this->entityType);
+        $this->authorize('edit', ENTITY_ITEM_CATEGORY);
         Auth::user()->can('view', [ENTITY_ITEM_CATEGORY, $request->entity()]);
 
         $account = Auth::user()->account;

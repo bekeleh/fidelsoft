@@ -29,6 +29,6 @@ class AccountGatewayService extends BaseService
     {
         $query = $this->accountGatewayRepo->find($accountId, $search);
 
-        return $this->datatableService->createDatatable(new AccountGatewayDatatable(false), $query);
+        return $this->datatableService->createDatatable(new AccountGatewayDatatable(true, false), $query);
     }
 }

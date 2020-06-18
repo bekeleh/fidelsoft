@@ -35,7 +35,7 @@ class ClientTypeController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', auth::user(), $this->entityType);
+        $this->authorize('view', ENTITY_CLIENT_TYPE);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_CLIENT_TYPE,
             'datatable' => new ClientTypeDatatable(),
@@ -57,7 +57,7 @@ class ClientTypeController extends BaseController
 
     public function create(ClientTypeRequest $request)
     {
-        $this->authorize('create', auth::user(), $this->entityType);
+        $this->authorize('create', ENTITY_CLIENT_TYPE);
         $data = [
             'clientType' => null,
             'method' => 'POST',
@@ -77,7 +77,7 @@ class ClientTypeController extends BaseController
 
     public function edit(ClientTypeRequest $request, $publicId = false, $clone = false)
     {
-        $this->authorize('edit', auth::user(), $this->entityType);
+        $this->authorize('edit', ENTITY_CLIENT_TYPE);
         $clientType = $request->entity();
         if ($clone) {
             $clientType->id = null;

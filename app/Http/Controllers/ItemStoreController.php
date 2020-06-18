@@ -37,7 +37,7 @@ class ItemStoreController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', auth::user(), $this->entityType);
+        $this->authorize('view', ENTITY_ITEM_STORE);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_ITEM_STORE,
             'datatable' => new ItemStoreDatatable(),
@@ -73,7 +73,7 @@ class ItemStoreController extends BaseController
 
     public function create(ItemStoreRequest $request)
     {
-        $this->authorize('create', auth::user(), $this->entityType);
+        $this->authorize('create', ENTITY_ITEM_STORE);
         if ($request->product_id != 0) {
             $product = Product::scope($request->product_id)->firstOrFail();
         } else {
@@ -112,7 +112,7 @@ class ItemStoreController extends BaseController
 
     public function edit(ItemStoreRequest $request, $publicId = false, $clone = false)
     {
-        $this->authorize('edit', auth::user(), $this->entityType);
+        $this->authorize('edit', ENTITY_ITEM_STORE);
         $itemStore = ItemStore::scope($publicId)->withTrashed()->firstOrFail();
 
         if ($clone) {

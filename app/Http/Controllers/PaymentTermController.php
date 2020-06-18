@@ -31,7 +31,7 @@ class PaymentTermController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', auth::user(), $this->entityType);
+        $this->authorize('view', ENTITY_PAYMENT_TERM);
         return Redirect::to('settings/' . ACCOUNT_PAYMENT_TERMS);
     }
 
@@ -44,7 +44,7 @@ class PaymentTermController extends BaseController
 
     public function create()
     {
-        $this->authorize('create', auth::user(), $this->entityType);
+        $this->authorize('create', ENTITY_PAYMENT_TERM);
         $data = [
             'paymentTerm' => null,
             'method' => 'POST',
@@ -62,7 +62,7 @@ class PaymentTermController extends BaseController
 
     public function edit($publicId)
     {
-        $this->authorize('edit', auth::user(), $this->entityType);
+        $this->authorize('edit', ENTITY_PAYMENT_TERM);
         $data = [
             'paymentTerm' => PaymentTerm::scope($publicId)->firstOrFail(),
             'method' => 'PUT',

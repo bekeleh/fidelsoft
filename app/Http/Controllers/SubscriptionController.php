@@ -35,7 +35,7 @@ class SubscriptionController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', auth::user(), $this->entityType);
+        $this->authorize('view', ENTITY_SUBSCRIPTION);
         return Redirect::to('settings/' . ACCOUNT_API_TOKENS);
     }
 
@@ -44,9 +44,27 @@ class SubscriptionController extends BaseController
         return $this->subscriptionService->getDatatable(Auth::user()->account_id);
     }
 
+    public function create()
+    {
+        $this->authorize('create', ENTITY_SUBSCRIPTION);
+        $data = [
+            'subscription' => null,
+            'method' => 'POST',
+            'url' => 'subscriptions',
+            'title' => trans('texts.add_subscription'),
+        ];
+
+        return View::make('accounts.subscription', $data);
+    }
+
+    public function store()
+    {
+        return $this->save();
+    }
+
     public function edit($publicId)
     {
-        $this->authorize('edit', auth::user(), $this->entityType);
+        $this->authorize('edit', ENTITY_SUBSCRIPTION);
         $subscription = Subscription::scope($publicId)->firstOrFail();
 
         $data = [
@@ -63,26 +81,6 @@ class SubscriptionController extends BaseController
     {
         return $this->save($publicId);
     }
-
-
-    public function store()
-    {
-        return $this->save();
-    }
-
-    public function create()
-    {
-        $this->authorize('create', auth::user(), $this->entityType);
-        $data = [
-            'subscription' => null,
-            'method' => 'POST',
-            'url' => 'subscriptions',
-            'title' => trans('texts.add_subscription'),
-        ];
-
-        return View::make('accounts.subscription', $data);
-    }
-
 
     public function bulk()
     {

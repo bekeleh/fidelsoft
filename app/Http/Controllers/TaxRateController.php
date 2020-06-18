@@ -29,7 +29,7 @@ class TaxRateController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', auth::user(), $this->entityType);
+        $this->authorize('view', ENTITY_TAX_RATE);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_TAX_RATE,
             'datatable' => new TaxRateDatatable(),
@@ -46,7 +46,7 @@ class TaxRateController extends BaseController
 
     public function create(TaxRateRequest $request)
     {
-        $this->authorize('create', auth::user(), $this->entityType);
+        $this->authorize('create', ENTITY_TAX_RATE);
         $data = [
             'taxRate' => null,
             'method' => 'POST',
@@ -68,7 +68,7 @@ class TaxRateController extends BaseController
 
     public function edit(TaxRateRequest $request, $publicId = false, $clone = false)
     {
-        $this->authorize('edit', auth::user(), $this->entityType);
+        $this->authorize('edit', ENTITY_TAX_RATE);
         $taxRate = $request->entity();
         if ($clone) {
             $taxRate->id = null;

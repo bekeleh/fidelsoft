@@ -33,7 +33,7 @@ class VendorController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', auth::user(), $this->entityType);
+        $this->authorize('view', ENTITY_VENDOR);
         return View::make('list_wrapper', [
             'entityType' => 'vendor',
             'datatable' => new VendorDatatable(),
@@ -58,7 +58,7 @@ class VendorController extends BaseController
 
     public function create(VendorRequest $request)
     {
-        $this->authorize('create', auth::user(), $this->entityType);
+        $this->authorize('create', ENTITY_VENDOR);
         if (Vendor::scope()->count() > Auth::user()->getMaxNumVendors()) {
             return View::make('error', ['hideHeader' => true, 'error' => "Sorry, you've exceeded the limit of " . Auth::user()->getMaxNumVendors() . ' vendors']);
         }
@@ -86,7 +86,7 @@ class VendorController extends BaseController
 
     public function edit(VendorRequest $request, $publicId = false, $clone = false)
     {
-        $this->authorize('edit', auth::user(), $this->entityType);
+        $this->authorize('edit', ENTITY_VENDOR);
         $vendor = $request->entity();
 
         $data = [

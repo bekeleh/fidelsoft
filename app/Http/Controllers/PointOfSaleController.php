@@ -43,6 +43,7 @@ class PointOfSaleController extends BaseController
 
     public function index()
     {
+        $this->authorize('view', ENTITY_POINT_OF_SALE);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_PRODUCT,
             'datatable' => new ProductDatatable(),
@@ -70,6 +71,7 @@ class PointOfSaleController extends BaseController
 
     public function create(ProductRequest $request)
     {
+        $this->authorize('create', ENTITY_POINT_OF_SALE);
         $account = Auth::user()->account;
         if ($request->item_brand_id != 0) {
             $itemBrand = ItemBrand::scope($request->item_brand_id)->firstOrFail();
@@ -109,7 +111,7 @@ class PointOfSaleController extends BaseController
 
     public function edit(ProductRequest $request, $publicId, $clone = false)
     {
-        Auth::user()->can('view', [ENTITY_PRODUCT, $request->entity()]);
+        $this->authorize('edit', ENTITY_POINT_OF_SALE);
         $account = Auth::user()->account;
         $product = Product::scope($publicId)->withTrashed()->firstOrFail();
 

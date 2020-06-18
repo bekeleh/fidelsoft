@@ -41,7 +41,7 @@ class DepartmentController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', auth::user(), $this->entityType);
+        $this->authorize('view', ENTITY_DEPARTMENT);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_DEPARTMENT,
             'datatable' => new DepartmentDatatable(),
@@ -67,7 +67,7 @@ class DepartmentController extends BaseController
 
     public function create(DepartmentRequest $request)
     {
-        $this->authorize('create', auth::user(), $this->entityType);
+        $this->authorize('create', ENTITY_DEPARTMENT);
         $data = [
             'department' => null,
             'method' => 'POST',
@@ -91,7 +91,7 @@ class DepartmentController extends BaseController
 
     public function edit(DepartmentRequest $request, $publicId, $clone = false)
     {
-        $this->authorize('edit', auth::user(), $this->entityType);
+        $this->authorize('edit', ENTITY_DEPARTMENT);
         $department = Department::scope($publicId)->withTrashed()->firstOrFail();
 
         if ($clone) {

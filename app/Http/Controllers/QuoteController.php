@@ -47,7 +47,6 @@ class QuoteController extends BaseController
 
     public function index()
     {
-//        dd(Auth::user()->can('edit', [ENTITY_INVOICE]));
         $this->authorize('view', ENTITY_QUOTE);
         $datatable = new InvoiceDatatable();
         $datatable->entityType = ENTITY_QUOTE;

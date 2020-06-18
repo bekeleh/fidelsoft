@@ -31,7 +31,7 @@ class RecurringExpenseController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', auth::user(), $this->entityType);
+        $this->authorize('view', ENTITY_RECURRING_EXPENSE);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_RECURRING_EXPENSE,
             'datatable' => new RecurringExpenseDatatable(),
@@ -49,7 +49,7 @@ class RecurringExpenseController extends BaseController
 
     public function create(RecurringExpenseRequest $request)
     {
-        $this->authorize('creaet', auth::user(), $this->entityType);
+        $this->authorize('create', ENTITY_RECURRING_EXPENSE);
         if ($request->vendor_id != 0) {
             $vendor = Vendor::scope($request->vendor_id)->with('vendor_contacts')->firstOrFail();
         } else {
@@ -85,7 +85,7 @@ class RecurringExpenseController extends BaseController
 
     public function edit(RecurringExpenseRequest $request)
     {
-        $this->authorize('edit', auth::user(), $this->entityType);
+        $this->authorize('edit', ENTITY_RECURRING_EXPENSE);
         $expense = $request->entity();
 
         $actions = [];
