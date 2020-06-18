@@ -2,8 +2,11 @@
 
 namespace App\Services;
 
+use App\Libraries\Utils;
 use App\Models\Client;
+use App\Ninja\Datatables\ClientContactDatatable;
 use App\Ninja\Repositories\ContactRepository;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class ContactService.
@@ -32,4 +35,15 @@ class ContactService extends BaseService
         return $this->contactRepo->save($data, $contact);
     }
 
+    public function getDatatable($accountId, $search = null)
+    {
+        $datatable = new ClientContactDatatable(true, true);
+        $query = $this->clientContactRepo->find($accountId, $search);
+        if (!Utils::hasPermission('view_contact')) {
+
+            $query->where('contacts.user_id', '=', Auth::user()->id);
+        }
+
+        return $this->datatableService->createDatatable($datatable, $query);
+    }
 }

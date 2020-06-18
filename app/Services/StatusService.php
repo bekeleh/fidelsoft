@@ -25,7 +25,7 @@ class StatusService extends BaseService
 
     public function getDatatable($accountId, $search)
     {
-        $datatable = new StatusDatatable(true);
+        $datatable = new StatusDatatable(true, true);
         $query = $this->StatusRepo->find($accountId, $search);
 
         if (!Utils::hasPermission('view_status')) {

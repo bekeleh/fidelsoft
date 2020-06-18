@@ -3,12 +3,8 @@
 namespace App\Services;
 
 use App\Libraries\Utils;
-use App\Models\Product;
-use App\Models\SaleType;
 use App\Ninja\Datatables\ItemPriceDatatable;
 use App\Ninja\Repositories\ItemPriceRepository;
-use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -38,7 +34,7 @@ class ItemPriceService extends BaseService
 
     public function getDatatable($accountId, $search)
     {
-        $datatable = new ItemPriceDatatable(true);
+        $datatable = new ItemPriceDatatable(true, true);
         $query = $this->itemPriceRepo->find($accountId, $search);
         if (!Utils::hasPermission('view_item_price')) {
             $query->where('item_prices.user_id', '=', Auth::user()->id);

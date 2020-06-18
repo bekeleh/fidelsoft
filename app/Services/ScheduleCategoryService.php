@@ -33,7 +33,7 @@ class ScheduleCategoryService extends BaseService
     public function getDatatable($accountId, $search)
     {
         // we don't support bulk edit and hide the client on the individual client page
-        $datatable = new ScheduleCategoryDatatable();
+        $datatable = new ScheduleCategoryDatatable(true, true);
 
         $query = $this->scheduleCategoryRepo->find($accountId, $search);
 

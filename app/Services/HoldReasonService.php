@@ -30,7 +30,7 @@ class HoldReasonService extends BaseService
 
     public function getDatatable($accountId, $search)
     {
-        $datatable = new HoldReasonDatatable(true);
+        $datatable = new HoldReasonDatatable(true, true);
 
         $query = $this->holdReasonRepo->find($accountId, $search);
 

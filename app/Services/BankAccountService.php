@@ -30,7 +30,11 @@ class BankAccountService extends BaseService
     protected $vendorRepo;
     protected $datatableService;
 
-    public function __construct(BankAccountRepository $bankAccountRepo, ExpenseRepository $expenseRepo, VendorRepository $vendorRepo, DatatableService $datatableService)
+    public function __construct(
+        BankAccountRepository $bankAccountRepo,
+        ExpenseRepository $expenseRepo,
+        VendorRepository $vendorRepo,
+        DatatableService $datatableService)
     {
         $this->bankAccountRepo = $bankAccountRepo;
         $this->vendorRepo = $vendorRepo;
@@ -259,7 +263,7 @@ class BankAccountService extends BaseService
 
     public function getDatatable($accountId, $search)
     {
-        $datatable = new BankAccountDatatable(true, false);
+        $datatable = new BankAccountDatatable(true, true);
 
         $query = $this->bankAccountRepo->find($accountId, $search);
 

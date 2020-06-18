@@ -34,7 +34,7 @@ class ProposalService extends BaseService
     public function getDatatable($search, $userId)
     {
         // we don't support bulk edit and hide the client on the individual client page
-        $datatable = new ProposalDatatable();
+        $datatable = new ProposalDatatable(true, true);
 
         $query = $this->proposalRepo->find($search, $userId);
 

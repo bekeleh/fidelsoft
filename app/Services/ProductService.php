@@ -34,7 +34,7 @@ class ProductService extends BaseService
 
     public function getDatatable($accountId, $search)
     {
-        $datatable = new ProductDatatable(true);
+        $datatable = new ProductDatatable(true, true);
 
         $query = $this->productRepo->find($accountId, $search);
 
@@ -51,7 +51,7 @@ class ProductService extends BaseService
 
         $query = $this->productRepo->findItemBrand($itemBrandPublicId);
 
-        if (!Utils::hasPermission('view_item_brands')) {
+        if (!Utils::hasPermission('view_item_brand')) {
             $query->where('item_brands.user_id', '=', Auth::user()->id);
         }
 
@@ -64,7 +64,7 @@ class ProductService extends BaseService
 
         $query = $this->productRepo->findUnit($unitPublicId);
 
-        if (!Utils::hasPermission('view_units')) {
+        if (!Utils::hasPermission('view_unit')) {
             $query->where('units.user_id', '=', Auth::user()->id);
         }
 

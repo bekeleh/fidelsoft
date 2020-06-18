@@ -1158,8 +1158,8 @@ class AccountController extends BaseController
         $account->timezone_id = Input::get('timezone_id') ? Input::get('timezone_id') : null;
         $account->date_format_id = Input::get('date_format_id') ? Input::get('date_format_id') : null;
         $account->datetime_format_id = Input::get('datetime_format_id') ? Input::get('datetime_format_id') : null;
-        $account->currency_id = Input::get('currency_id') ? Input::get('currency_id') : 1; // US Dollar
-        $account->language_id = Input::get('language_id') ? Input::get('language_id') : 1; // English
+        $account->currency_id = Input::get('currency_id') ? Input::get('currency_id') : 1; // US Dollar default currency
+        $account->language_id = Input::get('language_id') ? Input::get('language_id') : 1; // English default language
         $account->military_time = Input::get('military_time') ? true : false;
         $account->show_currency_code = Input::get('show_currency_code') ? true : false;
         $account->start_of_week = Input::get('start_of_week') ? Input::get('start_of_week') : 0;

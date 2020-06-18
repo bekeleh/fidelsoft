@@ -32,7 +32,7 @@ class ItemBrandService extends BaseService
 
     public function getDatatable($accountId, $search)
     {
-        $datatable = new ItemBrandDatatable(true);
+        $datatable = new ItemBrandDatatable(true, true);
 
         $query = $this->itemBrandRepo->find($accountId, $search);
 

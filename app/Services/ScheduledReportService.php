@@ -33,7 +33,7 @@ class ScheduledReportService extends BaseService
     public function getDatatable($accountId, $search)
     {
         // we don't support bulk edit and hide the client on the individual client page
-        $datatable = new ScheduledReportDatatable();
+        $datatable = new ScheduledReportDatatable(true, true);
 
         $query = $this->ScheduledReportRepo->find($accountId, $search);
 

@@ -35,7 +35,7 @@ class UnitService extends BaseService
 
     public function getDatatable($accountId, $search)
     {
-        $unit = new UnitDatatable(true);
+        $unit = new UnitDatatable(true, true);
 
         $query = $this->unitRepo->find($accountId, $search);
 

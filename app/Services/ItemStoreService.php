@@ -36,7 +36,7 @@ class ItemStoreService extends BaseService
 
     public function getDatatable($accountId, $search)
     {
-        $datatable = new ItemStoreDatatable(true);
+        $datatable = new ItemStoreDatatable(true, true);
         $query = $this->itemStoreRepo->find($accountId, $search);
         if (!Utils::hasPermission('view_item_store')) {
             $query->where('item_stores.user_id', '=', Auth::user()->id);

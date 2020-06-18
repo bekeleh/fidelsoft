@@ -39,7 +39,7 @@ class ProjectService extends BaseService
     public function getDatatable($search, $userId)
     {
         // we don't support bulk edit and hide the client on the individual client page
-        $datatable = new ProjectDatatable();
+        $datatable = new ProjectDatatable(true, true);
 
         $query = $this->projectRepo->find($search, $userId);
 

@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Client;
 use App\Ninja\Datatables\ProposalCategoryDatatable;
 use App\Ninja\Repositories\ProposalCategoryRepository;
 
@@ -34,7 +33,7 @@ class ProposalCategoryService extends BaseService
     public function getDatatable($search, $userId)
     {
         // we don't support bulk edit and hide the client on the individual client page
-        $datatable = new ProposalCategoryDatatable();
+        $datatable = new ProposalCategoryDatatable(true, true);
 
         $query = $this->proposalCategoryRepo->find($search, $userId);
 

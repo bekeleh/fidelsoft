@@ -41,7 +41,7 @@ class VendorService extends BaseService
 
     public function getDatatable($accountId, $search)
     {
-        $datatable = new VendorDatatable();
+        $datatable = new VendorDatatable(true, true);
         $query = $this->vendorRepo->find($accountId, $search);
 
         if (!Utils::hasPermission('view_vendor')) {

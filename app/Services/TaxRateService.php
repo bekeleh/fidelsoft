@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Libraries\Utils;
 use App\Ninja\Datatables\TaxRateDatatable;
 use App\Ninja\Repositories\TaxRateRepository;
-use Illuminate\Http\JsonResponse;
 
 /**
  * Class TaxRateService.
@@ -35,7 +34,7 @@ class TaxRateService extends BaseService
 
     public function getDatatable($accountId, $search)
     {
-        $datatable = new TaxRateDatatable(true);
+        $datatable = new TaxRateDatatable(true, true);
 
         $query = $this->taxRateRepo->find($accountId, $search);
 

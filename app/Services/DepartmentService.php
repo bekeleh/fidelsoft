@@ -33,7 +33,7 @@ class DepartmentService extends BaseService
 
     public function getDatatable($accountId, $search)
     {
-        $datatable = new DepartmentDatatable(true);
+        $datatable = new DepartmentDatatable(true, true);
         $query = $this->departmentRepo->find($accountId, $search);
 
         if (!Utils::hasPermission('view_department')) {

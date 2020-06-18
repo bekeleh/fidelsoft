@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Libraries\Utils;
-use App\Ninja\Datatables\clientTypeDatatable;
+use App\Ninja\Datatables\ClientTypeDatatable;
 use App\Ninja\Repositories\clientTypeRepository;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,11 +31,11 @@ class ClientTypeService extends BaseService
 
     public function getDatatable($accountId, $search = null)
     {
-        $datatable = new clientTypeDatatable(true);
+        $datatable = new ClientTypeDatatable(true, true);
         $query = $this->clientTypeRepo->find($accountId, $search);
         if (!Utils::hasPermission('view_client_type')) {
 
-            $query->where('clients_type.user_id', '=', Auth::user()->id);
+            $query->where('client_types.user_id', '=', Auth::user()->id);
         }
 
         return $this->datatableService->createDatatable($datatable, $query);

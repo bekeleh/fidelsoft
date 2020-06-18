@@ -52,8 +52,8 @@ class StoreService extends BaseService
 
         $query = $this->storeRepo->findLocation($locationPublicId);
 
-        if (!Utils::hasPermission('view_locations')) {
-            $query->where('stores.user_id', '=', Auth::user()->id);
+        if (!Utils::hasPermission('view_location')) {
+            $query->where('locations.user_id', '=', Auth::user()->id);
         }
 
         return $this->datatableService->createDatatable($datatable, $query);

@@ -32,7 +32,7 @@ class ManufacturerService extends BaseService
 
     public function getDatatable($accountId, $search)
     {
-        $datatable = new ManufacturerDatatable(true);
+        $datatable = new ManufacturerDatatable(true, true);
         $query = $this->manufacturerRepo->find($accountId, $search);
 
         if (!Utils::hasPermission('view_manufacturer')) {

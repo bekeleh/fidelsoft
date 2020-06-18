@@ -38,7 +38,7 @@ class ItemRequestService extends BaseService
 
     public function getDatatable($accountId, $search)
     {
-        $datatable = new ItemRequestDatatable(true);
+        $datatable = new ItemRequestDatatable(true, true);
         $query = $this->itemRequestRepo->find($accountId, $search);
         if (!Utils::hasPermission('view_item_request')) {
             $query->where('item_requests.user_id', '=', Auth::user()->id);

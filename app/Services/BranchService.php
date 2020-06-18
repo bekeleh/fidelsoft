@@ -54,7 +54,7 @@ class BranchService extends BaseService
         $query = $this->branchRepo->findLocation($locationPublicId);
 
         if (!Utils::hasPermission('view_location')) {
-            $query->where('branches.user_id', '=', Auth::user()->id);
+            $query->where('locations.user_id', '=', Auth::user()->id);
         }
 
         return $this->datatableService->createDatatable($datatable, $query);

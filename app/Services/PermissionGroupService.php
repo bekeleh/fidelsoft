@@ -33,7 +33,7 @@ class PermissionGroupService extends BaseService
 
     public function getDatatable($accountId, $search)
     {
-        $datatable = new PermissionGroupDatatable(true);
+        $datatable = new PermissionGroupDatatable(true, true);
 
         $query = $this->permissionGroupRepo->find($accountId, $search);
 

@@ -35,7 +35,7 @@ class ProposalSnippetService extends BaseService
     public function getDatatable($search, $userId)
     {
         // we don't support bulk edit and hide the client on the individual client page
-        $datatable = new ProposalSnippetDatatable();
+        $datatable = new ProposalSnippetDatatable(true, true);
 
         $query = $this->proposalSnippetRepo->find($search, $userId);
 

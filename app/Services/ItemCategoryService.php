@@ -25,7 +25,7 @@ class ItemCategoryService extends BaseService
 
     public function getDatatable($accountId, $search)
     {
-        $datatable = new ItemCategoryDatatable(true);
+        $datatable = new ItemCategoryDatatable(true, true);
 
         $query = $this->itemCategoryRepo->find($accountId, $search);
 

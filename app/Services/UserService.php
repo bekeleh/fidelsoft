@@ -47,7 +47,7 @@ class UserService extends BaseService
 
     public function getDatatable($accountId, $search)
     {
-        $datatable = new UserDatatable(true);
+        $datatable = new UserDatatable(true, true);
 
         $query = $this->userRepo->find($accountId, $search);
 

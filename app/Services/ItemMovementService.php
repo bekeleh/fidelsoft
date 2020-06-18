@@ -5,8 +5,6 @@ namespace App\Services;
 use App\Libraries\Utils;
 use App\Ninja\Datatables\ItemMovementDatatable;
 use App\Ninja\Repositories\ItemMovementRepository;
-use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -37,13 +35,14 @@ class ItemMovementService extends BaseService
 
     public function getDatatable($accountId, $search)
     {
+        $datatable = new ItemMovementDatatable(true, true);
         $query = $this->itemMovementRepo->find($accountId, $search);
 
         if (!Utils::hasPermission('view_item_movement')) {
             $query->where('item_movements.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable(new ItemMovementDatatable(), $query);
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 
 }

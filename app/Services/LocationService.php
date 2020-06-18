@@ -33,7 +33,7 @@ class LocationService extends BaseService
 
     public function getDatatable($accountId, $search)
     {
-        $datatable = new LocationDatatable(true);
+        $datatable = new LocationDatatable(true, true);
         $query = $this->locationRepo->find($accountId, $search);
 
         if (!Utils::hasPermission('view_location')) {

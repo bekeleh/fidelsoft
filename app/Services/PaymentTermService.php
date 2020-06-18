@@ -25,11 +25,11 @@ class PaymentTermService extends BaseService
 
     public function getDatatable($accountId = 0)
     {
-        $datatable = new PaymentTermDatatable(false);
+        $datatable = new PaymentTermDatatable(true, true);
 
         $query = $this->paymentTermRepo->find($accountId);
 
-        return $this->datatableService->createDatatable($datatable, $query, 'payment_terms');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 
     public function columns($entityType, $hideClient)

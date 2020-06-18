@@ -37,12 +37,13 @@ class PermissionService extends BaseService
 
     public function getDatatable($accountId, $search)
     {
+        $datatable = new PermissionDatatable(true, true);
         $query = $this->permissionRepo->find($accountId, $search);
 
         if (!Utils::hasPermission('view_permission')) {
             $query->where('permissions.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable(new PermissionDatatable(), $query);
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 }
