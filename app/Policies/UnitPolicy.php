@@ -7,5 +7,8 @@ namespace App\Policies;
  */
 class UnitPolicy extends EntityPolicy
 {
-
+    protected function getEntity()
+    {
+        return ENTITY_UNIT;
+    }
 }

@@ -7,5 +7,8 @@ namespace App\Policies;
  */
 class PermissionGroupPolicy extends EntityPolicy
 {
-
+    protected function getEntity()
+    {
+        return ENTITY_PERMISSION_GROUP;
+    }
 }

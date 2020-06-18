@@ -7,5 +7,8 @@ namespace App\Policies;
  */
 class ItemPrice extends EntityPolicy
 {
-
+    protected function getEntity()
+    {
+        return ENTITY_ITEM_PRICE;
+    }
 }

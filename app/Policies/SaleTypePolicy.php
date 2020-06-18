@@ -7,5 +7,8 @@ namespace App\Policies;
  */
 class SaleTypePolicy extends EntityPolicy
 {
-
+    protected function getEntity()
+    {
+        return ENTITY_SALE_TYPE;
+    }
 }

@@ -4,8 +4,8 @@ namespace App\Policies;
 
 class ExpensePolicy extends EntityPolicy
 {
-    protected function tableName()
+    protected function getEntity()
     {
-        return 'expenses';
+        return ENTITY_EXPENSE;
     }
 }

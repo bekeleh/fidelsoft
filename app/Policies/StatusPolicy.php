@@ -7,5 +7,8 @@ namespace App\Policies;
  */
 class StatusPolicy extends EntityPolicy
 {
-
+    protected function getEntity()
+    {
+        return ENTITY_STATUS;
+    }
 }

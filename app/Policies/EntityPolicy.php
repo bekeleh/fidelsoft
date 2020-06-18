@@ -8,78 +8,64 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 /**
  * Class EntityPolicy.
  */
-class EntityPolicy
+abstract class EntityPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * @param User $user
-     * @param $item
-     * @return bool
-     */
-    public function index(User $user, $item)
-    {
-        if (!static::checkModuleEnabled($user, $item))
-            return false;
-
-
-        $entityType = is_string($item) ? $item : $item->getEntityType();
-
-        return $user->hasPermission('view_' . $entityType);
-    }
+    abstract protected function getEntity();
 
     /**
      * @param User $user
-     * @param $item - entity name or object
-     *
+     * @param $entity
      * @return bool
      */
 
-    public static function create(User $user, $item)
+    public static function create(User $user, $entity)
     {
-        if (!static::checkModuleEnabled($user, $item))
+        if (!static::checkModuleEnabled($user, $entity)) {
             return false;
+        }
 
-
-        $entityType = is_string($item) ? $item : $item->getEntityType();
+        $entityType = is_string($entity) ? $entity : $entity->getEntityType();
 
         return $user->hasPermission('create_' . $entityType);
     }
 
     /**
      * @param User $user
-     * @param $item - entity name or object
+     * @param $entity - entity name or object
      *
      * @return bool
      */
 
-    public static function edit(User $user, $item)
+    public static function edit(User $user, $entity)
     {
-        if (!static::checkModuleEnabled($user, $item))
+        if (!static::checkModuleEnabled($user, $entity)) {
             return false;
+        }
+
+        $entityType = is_string($entity) ? $entity : $entity->getEntityType();
 
 
-        $entityType = is_string($item) ? $item : $item->getEntityType();
-
-
-        return $user->hasPermission('edit_' . $entityType) || $user->owns($item);
+        return $user->hasPermission('edit_' . $entityType) || $user->owns($entity);
     }
 
     /**
      * @param User $user
-     * @param $item - entity name or object
+     * @param $entity - entity name or object
      *
      * @return bool
      */
 
-    public static function view(User $user, $item)
+    public static function view(User $user, $entity)
     {
-        if (!static::checkModuleEnabled($user, $item))
+        if (!static::checkModuleEnabled($user, $entity)) {
             return false;
+        }
 
-        $entityType = is_string($item) ? $item : $item->getEntityType();
+        $entityType = is_string($entity) ? $entity : $entity->getEntityType();
 
-        return $user->hasPermission('view_' . $entityType) || $user->owns($item);
+        return $user->hasPermission('view_' . $entityType) || $user->owns($entity);
     }
 
     /**
@@ -118,13 +104,13 @@ class EntityPolicy
 
     /**
      * @param User $user
-     * @param $item - entity name or object
+     * @param $entity - entity name or object
      * @return bool
      */
 
-    private static function checkModuleEnabled(User $user, $item)
+    private static function checkModuleEnabled(User $user, $entity)
     {
-        $entityType = is_string($item) ? $item : $item->getEntityType();
+        $entityType = is_string($entity) ? $entity : $entity->getEntityType();
 
         return $user->account->isModuleEnabled($entityType);
     }

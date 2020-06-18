@@ -7,5 +7,9 @@ namespace App\Policies;
  */
 class AccountGatewayPolicy extends EntityPolicy
 {
+    protected function getEntity()
+    {
+        return ENTITY_ACCOUNT_GATEWAY;
+    }
 
 }

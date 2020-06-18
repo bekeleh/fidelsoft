@@ -59,7 +59,7 @@ class InvoiceController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', auth::user(), $this->entityType);
+        $this->authorize('view', ENTITY_INVOICE);
         $data = [
             'title' => trans('texts.invoices'),
             'entityType' => ENTITY_INVOICE,
@@ -96,7 +96,7 @@ class InvoiceController extends BaseController
 
     public function create(InvoiceRequest $request, $clientPublicId = 0, $isRecurring = false)
     {
-        $this->authorize('create', auth::user(), $this->entityType);
+        $this->authorize('create', ENTITY_INVOICE);
         $account = Auth::user()->account;
 
         $entityType = $isRecurring ? ENTITY_RECURRING_INVOICE : ENTITY_INVOICE;
@@ -170,7 +170,7 @@ class InvoiceController extends BaseController
 
     public function edit(InvoiceRequest $request, $publicId, $clone = false)
     {
-        $this->authorize('edit', auth::user(), $this->entityType);
+        $this->authorize('edit', ENTITY_INVOICE);
         $account = Auth::user()->account;
         $invoice = $request->entity()->load('invitations', 'account.country', 'client.contacts', 'client.country', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'payments');
 

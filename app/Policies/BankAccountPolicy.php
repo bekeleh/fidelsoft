@@ -7,5 +7,8 @@ namespace App\Policies;
  */
 class BankAccountPolicy extends EntityPolicy
 {
-
+    protected function getEntity()
+    {
+        return ENTITY_BANK_ACCOUNT;
+    }
 }

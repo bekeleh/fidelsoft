@@ -9,5 +9,8 @@ use App\Models\User;
  */
 class PaymentTermPolicy extends EntityPolicy
 {
-
+    protected function getEntity()
+    {
+        return ENTITY_PAYMENT_TERM;
+    }
 }

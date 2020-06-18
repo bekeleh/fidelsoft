@@ -7,5 +7,8 @@ namespace App\Policies;
  */
 class ItemTransferPolicy extends EntityPolicy
 {
-
+    protected function getEntity()
+    {
+        return ENTITY_ITEM_TRANSFER;
+    }
 }

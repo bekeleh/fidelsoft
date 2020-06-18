@@ -7,5 +7,8 @@ namespace App\Policies;
  */
 class DocumentPolicy extends EntityPolicy
 {
-
+    protected function getEntity()
+    {
+        return ENTITY_DOCUMENT;
+    }
 }

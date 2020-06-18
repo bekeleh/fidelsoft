@@ -7,5 +7,8 @@ namespace App\Policies;
  */
 class HoldReason extends EntityPolicy
 {
-
+    protected function getEntity()
+    {
+        return ENTITY_HOLD_REASON;
+    }
 }
