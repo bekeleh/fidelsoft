@@ -456,8 +456,8 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
 
     public function canCreateOrEdit($entityType, $entity = false)
     {
-        return (!$entity && $this->can('create_', $entityType)) ||
-            ($entity && $this->can('edit_', $entity));
+        return (!$entity && $this->can('create', $entityType)) ||
+            ($entity && $this->can('edit', $entity));
     }
 
     public function primaryAccount()

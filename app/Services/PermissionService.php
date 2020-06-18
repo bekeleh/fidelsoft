@@ -43,6 +43,6 @@ class PermissionService extends BaseService
             $query->where('permissions.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable(new PermissionDatatable(), $query, 'permissions');
+        return $this->datatableService->createDatatable(new PermissionDatatable(), $query);
     }
 }

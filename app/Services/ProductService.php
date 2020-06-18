@@ -42,7 +42,7 @@ class ProductService extends BaseService
             $query->where('products.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query, 'products');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 
     public function getDatatableItemBrand($itemBrandPublicId)
@@ -55,7 +55,7 @@ class ProductService extends BaseService
             $query->where('item_brands.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query, 'item_categories');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 
     public function getDatatableUnit($unitPublicId)
@@ -68,6 +68,6 @@ class ProductService extends BaseService
             $query->where('units.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query, 'units');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 }

@@ -150,6 +150,12 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Gate::before(function ($user) {
+            if ($user->isSuperUser()) {
+                return true;
+            }
+        });
+//      policy member functions
         foreach (get_class_methods(new GenericEntityPolicy()) as $method) {
             Gate::define($method, "App\Policies\GenericEntityPolicy@{$method}");
         }

@@ -37,6 +37,6 @@ class ScheduleService extends BaseService
 
         $query = $this->ScheduleRepo->find($accountId, $search);
 
-        return $this->datatableService->createDatatable($datatable, $query, 'schedules');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 }

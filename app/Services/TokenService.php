@@ -30,6 +30,6 @@ class TokenService extends BaseService
         $datatable = new TokenDatatable(false);
         $query = $this->tokenRepo->find($userId);
 
-        return $this->datatableService->createDatatable($datatable, $query, 'tokens');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 }

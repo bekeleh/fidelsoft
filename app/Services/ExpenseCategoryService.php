@@ -39,6 +39,6 @@ class ExpenseCategoryService extends BaseService
 
         $query = $this->categoryRepo->find($accountId, $search);
 
-        return $this->datatableService->createDatatable($datatable, $query, 'expense_categories');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 }

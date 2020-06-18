@@ -37,6 +37,6 @@ class ScheduleCategoryService extends BaseService
 
         $query = $this->scheduleCategoryRepo->find($accountId, $search);
 
-        return $this->datatableService->createDatatable($datatable, $query, 'schedule_categories');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 }

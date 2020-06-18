@@ -38,6 +38,6 @@ class ProposalTemplateService extends BaseService
 
         $query = $this->proposalTemplateRepo->find($search, $userId);
 
-        return $this->datatableService->createDatatable($datatable, $query, 'proposal_templates');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 }

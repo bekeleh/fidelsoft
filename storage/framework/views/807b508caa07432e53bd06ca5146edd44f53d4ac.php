@@ -68,7 +68,7 @@ echo Former::open(EntityModel::getFormUrl($entityType) . '/bulk')->addClass('lis
 </div>
 <!-- data view -->
 <div class="row">
-    <?php if( Auth::check() || Utils::isAdmin() || Auth::user()->can('view', $entityType)): ?>
+    <?php if( Auth::check() && (Utils::isAdmin() || Auth::user()->can('view', $entityType))): ?>
         <?php echo Datatable::table()
         ->addColumn(Utils::trans($datatable->columnFields(), $datatable->entityType))
         ->setUrl(empty($url) ? url('api/' . Utils::pluralizeEntityType($entityType)) : $url)

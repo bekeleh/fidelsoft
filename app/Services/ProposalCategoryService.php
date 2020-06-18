@@ -38,6 +38,6 @@ class ProposalCategoryService extends BaseService
 
         $query = $this->proposalCategoryRepo->find($search, $userId);
 
-        return $this->datatableService->createDatatable($datatable, $query, 'proposal_categories');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 }

@@ -41,6 +41,6 @@ class PermissionGroupService extends BaseService
             $query->where('permission_groups.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query, 'permission_groups');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 }

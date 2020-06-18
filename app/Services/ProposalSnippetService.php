@@ -39,6 +39,6 @@ class ProposalSnippetService extends BaseService
 
         $query = $this->proposalSnippetRepo->find($search, $userId);
 
-        return $this->datatableService->createDatatable($datatable, $query, 'proposal_snippets');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 }

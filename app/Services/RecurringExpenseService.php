@@ -50,6 +50,6 @@ class RecurringExpenseService extends BaseService
             $query->where('recurring_expenses.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable(new RecurringExpenseDatatable(), $query, 'expenses');
+        return $this->datatableService->createDatatable(new RecurringExpenseDatatable(), $query);
     }
 }

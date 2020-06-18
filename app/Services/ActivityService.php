@@ -28,6 +28,6 @@ class ActivityService extends BaseService
 
         $query = $this->activityRepo->findByClientId($clientId);
 
-        return $this->datatableService->createDatatable(new ActivityDatatable(false), $query, 'activities');
+        return $this->datatableService->createDatatable(new ActivityDatatable(false), $query);
     }
 }

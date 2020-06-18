@@ -2,91 +2,53 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Models/Dashboard.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Policies/DashboardPolicy.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Policies/VendorContactPolicy.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/cXiat9Rul9ARD6GtECrzlvb1e5EhNG5ndpY8sApx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/gRk9XWS0d8DT8J97KReK5JZb5PD872Q7vUaqUqGe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/raeT3sdrxaM3pOE6hn5q3Cgn8kdvlN7SY2DLVbfy" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/04bcd8d0c33a06738f3a0cf20be325a8e80abd87.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/3089c2ecd2608b8720ec5fdcdfa242abd79554c9.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/b315fa472dc8fc05ca66a9c541cb437f086383ed.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/DashboardController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/DashboardController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/InvoiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/InvoiceController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Constants.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Constants.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/QuoteController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/QuoteController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/AccountGatewayPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/AccountGatewayPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/BankAccountPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/BankAccountPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/BranchPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/BranchPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/ClientPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ClientPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/ClientTypePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ClientTypePolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/ContactPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ContactPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/CreditPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/CreditPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/CustomerPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/CustomerPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/DepartmentPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/DepartmentPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/DocumentPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/DocumentPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/EntityPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/EntityPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/ExpenseCategoryPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ExpenseCategoryPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/ExpensePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ExpensePolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/HoldReason.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/HoldReason.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/InvoiceItemPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/InvoiceItemPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/InvoicePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/InvoicePolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/ItemBrandPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ItemBrandPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/ItemCategoryPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ItemCategoryPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/ItemMovementPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ItemMovementPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/ItemPrice.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ItemPrice.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/ItemRequestPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ItemRequestPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/ItemStorePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ItemStorePolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/ItemTransferPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ItemTransferPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/LocationPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/LocationPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/ManufacturerPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ManufacturerPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/ManufacturerProductDetailPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ManufacturerProductDetailPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/PaymentPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/PaymentPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/PaymentTermPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/PaymentTermPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/PermissionGroupPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/PermissionGroupPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/PermissionPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/PermissionPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/PointOfSalePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/PointOfSalePolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/ProductPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ProductPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/ProjectPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ProjectPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/ProposalCategoryPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ProposalCategoryPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/ProposalPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ProposalPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/ProposalSnippetPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ProposalSnippetPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/ProposalTemplatePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ProposalTemplatePolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/QuotePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/QuotePolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/RecurringExpensePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/RecurringExpensePolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/RecurringInvoicePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/RecurringInvoicePolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/SaleTypePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/SaleTypePolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/ScheduleCategoryPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ScheduleCategoryPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/SchedulePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/SchedulePolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/ScheduledReportPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/ScheduledReportPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/StatusPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/StatusPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/StorePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/StorePolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/SubscriptionPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/SubscriptionPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/TaskPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/TaskPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/TaxRatePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/TaxRatePolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/TokenPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/TokenPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/UnitPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/UnitPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/UserPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/UserPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/VendorPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/VendorPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/KEax0JG5Fw8kBUv50IJNpAGwo43bPshOFD3O1cgP" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/sYXW6cBjC3b9ofwTW5PsqFMYrfpG6ajSYQqjtoLi" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/sYXW6cBjC3b9ofwTW5PsqFMYrfpG6ajSYQqjtoLi" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/sriULVaHWq0ItDZVFw1G2rQML1bHMbizQbX6jctK" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/sriULVaHWq0ItDZVFw1G2rQML1bHMbizQbX6jctK" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/AccountGatewayService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/AccountGatewayService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/ActivityService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/ActivityService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/DatatableService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/DatatableService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/ExpenseCategoryService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/ExpenseCategoryService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/ExpenseService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/ExpenseService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/ItemBrandService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/ItemBrandService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/ItemCategoryService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/ItemCategoryService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/PermissionGroupService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/PermissionGroupService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/PermissionService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/PermissionService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/ProductService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/ProductService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/ProjectService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/ProjectService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/ProposalCategoryService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/ProposalCategoryService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/ProposalService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/ProposalService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/ProposalSnippetService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/ProposalSnippetService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/ProposalTemplateService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/ProposalTemplateService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/RecurringExpenseService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/RecurringExpenseService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/ScheduleCategoryService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/ScheduleCategoryService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/ScheduleService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/ScheduleService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/ScheduledReportService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/ScheduledReportService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/TokenService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/TokenService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/list.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/list.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/cXiat9Rul9ARD6GtECrzlvb1e5EhNG5ndpY8sApx" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/cXiat9Rul9ARD6GtECrzlvb1e5EhNG5ndpY8sApx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/raeT3sdrxaM3pOE6hn5q3Cgn8kdvlN7SY2DLVbfy" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/raeT3sdrxaM3pOE6hn5q3Cgn8kdvlN7SY2DLVbfy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/04bcd8d0c33a06738f3a0cf20be325a8e80abd87.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/077d61a7d5eb01cf0c044ef5a66ec56609e82815.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/1943e580be8d4605d618ecac32f126f5b97572d1.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/1ea017303d3ad01b890a569e359b2eba4e1bc363.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/1ea017303d3ad01b890a569e359b2eba4e1bc363.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/215576199c605f0164477ad391b2e4510b1ad6e8.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/3066ecac09b46dd9542a921a90306a2ab552428d.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/2835c2f6b441709a84178b9dd48b460db6646857.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/3089c2ecd2608b8720ec5fdcdfa242abd79554c9.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/34e7fbfc10b03f071e7ca8cfd076ae535ef9ed5b.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/34e7fbfc10b03f071e7ca8cfd076ae535ef9ed5b.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/51a20cb8a2a0dfbdac633e30e63a4d8b6e8725e5.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/3c6a0c039fd4b0184dcc39b11c4f3baf49e9c472.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/54c3f8081752043d3550df8c190fd43b36237720.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/6ac3b6c785ced0d671051c64671d9dd2fc9d1ca7.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/6ac3b6c785ced0d671051c64671d9dd2fc9d1ca7.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/7adc1bec1ef66f9755cb02bf300b5082522b00c3.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/6e9986bad33adbb084edc279d894276e1ceb1d64.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/807b508caa07432e53bd06ca5146edd44f53d4ac.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/807b508caa07432e53bd06ca5146edd44f53d4ac.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/9e8e0f21603e0cffe1179b3371521b7a45e34f93.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/9e8e0f21603e0cffe1179b3371521b7a45e34f93.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/c1380e84c92b297f853cce62f627ccf2fb07dcd4.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/ce86b367d9fbfea4a7e2933b19cda586a622934f.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/ce86b367d9fbfea4a7e2933b19cda586a622934f.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/e1eb864893ce896ca168e502eaf9a6dba66f6385.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/e1eb864893ce896ca168e502eaf9a6dba66f6385.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/e95dc09228d48cde82ee7d868e834d00f809695c.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/efc6cadc850776b14faa3ba80e3aeb13c3ec4305.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/f4e5a658e5bb87f386fb9b339c3391f4ff479e57.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/f788decf80bc57029a0783bb898f59651f56124b.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/f788decf80bc57029a0783bb898f59651f56124b.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -558,14 +520,7 @@
       <workItem from="1592314924550" duration="11156000" />
       <workItem from="1592392815602" duration="4397000" />
       <workItem from="1592398751471" duration="19856000" />
-      <workItem from="1592471169670" duration="8570000" />
-    </task>
-    <task id="LOCAL-00335" summary="2020-06-06 9:27">
-      <created>1591443011258</created>
-      <option name="number" value="00335" />
-      <option name="presentableId" value="LOCAL-00335" />
-      <option name="project" value="LOCAL" />
-      <updated>1591443011258</updated>
+      <workItem from="1592471169670" duration="13103000" />
     </task>
     <task id="LOCAL-00336" summary="2020-06-06 9:27">
       <created>1591444172337</created>
@@ -903,7 +858,14 @@
       <option name="project" value="LOCAL" />
       <updated>1592414865752</updated>
     </task>
-    <option name="localTasksCounter" value="384" />
+    <task id="LOCAL-00384" summary="2020-06-18 9:27">
+      <created>1592480365239</created>
+      <option name="number" value="00384" />
+      <option name="presentableId" value="LOCAL-00384" />
+      <option name="project" value="LOCAL" />
+      <updated>1592480365240</updated>
+    </task>
+    <option name="localTasksCounter" value="385" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -930,7 +892,6 @@
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="2020-05-14 9:26" />
     <MESSAGE value="2020-05-15 9:26" />
     <MESSAGE value="2020-05-21 9:26" />
     <MESSAGE value="2020-05-23 9:26" />
@@ -955,7 +916,8 @@
     <MESSAGE value="2020-06-15 9:27" />
     <MESSAGE value="2020-06-16 9:27" />
     <MESSAGE value="2020-06-17 9:27" />
-    <option name="LAST_COMMIT_MESSAGE" value="2020-06-17 9:27" />
+    <MESSAGE value="2020-06-18 9:27" />
+    <option name="LAST_COMMIT_MESSAGE" value="2020-06-18 9:27" />
   </component>
   <component name="WindowStateProjectService">
     <state x="317" y="0" key="#Deployment" timestamp="1592045080985">
@@ -1012,10 +974,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1590585842435" />
-    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1592414864494">
+    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1592480361887">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1592414864494" />
+    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1592480361887" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="418" y="255" key="ComposerInitDialogKey" timestamp="1589789975070">
@@ -1090,10 +1052,10 @@
     </state>
     <state x="334" y="154" width="672" height="677" key="run.anything.popup/0.0.1280.680@0.0.1280.680" timestamp="1591376025555" />
     <state x="376" y="195" key="run.anything.popup/0.0.1440.860@0.0.1440.860" timestamp="1584184043681" />
-    <state x="340" y="142" width="672" height="537" key="search.everywhere.popup" timestamp="1592480016249">
+    <state x="340" y="142" width="672" height="537" key="search.everywhere.popup" timestamp="1592484146396">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="340" y="142" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1592480016249" />
+    <state x="340" y="142" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1592484146396" />
     <state x="383" y="180" width="672" height="678" key="search.everywhere.popup/0.0.1440.860@0.0.1440.860" timestamp="1584690366242" />
   </component>
 </project>

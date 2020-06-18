@@ -69,7 +69,7 @@ class ExpenseService extends BaseService
             $query->where('expenses.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query, 'clients');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 
 }

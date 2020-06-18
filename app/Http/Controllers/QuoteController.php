@@ -47,7 +47,8 @@ class QuoteController extends BaseController
 
     public function index()
     {
-        $this->authorize('index', auth::user(), $this->entityType);
+//        dd(Auth::user()->can('edit', [ENTITY_INVOICE]));
+        $this->authorize('view', ENTITY_QUOTE);
         $datatable = new InvoiceDatatable();
         $datatable->entityType = ENTITY_QUOTE;
 
@@ -70,7 +71,7 @@ class QuoteController extends BaseController
 
     public function create(QuoteRequest $request, $clientPublicId = 0)
     {
-        $this->authorize('create', auth::user(), $this->entityType);
+        $this->authorize('create', ENTITY_QUOTE);
         if (!Utils::hasFeature(FEATURE_QUOTES)) {
             return Redirect::to('/invoices/create');
         }

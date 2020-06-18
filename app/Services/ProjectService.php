@@ -43,6 +43,6 @@ class ProjectService extends BaseService
 
         $query = $this->projectRepo->find($search, $userId);
 
-        return $this->datatableService->createDatatable($datatable, $query, 'projects');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 }

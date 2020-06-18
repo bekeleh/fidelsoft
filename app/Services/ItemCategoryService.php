@@ -33,6 +33,6 @@ class ItemCategoryService extends BaseService
             $query->where('item_categories.user_id', '=', Auth::user()->id);
         }
 
-        return $this->datatableService->createDatatable($datatable, $query, 'item_categories');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 }

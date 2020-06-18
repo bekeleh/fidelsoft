@@ -37,6 +37,6 @@ class ScheduledReportService extends BaseService
 
         $query = $this->ScheduledReportRepo->find($accountId, $search);
 
-        return $this->datatableService->createDatatable($datatable, $query, 'scheduled_reports');
+        return $this->datatableService->createDatatable($datatable, $query);
     }
 }
