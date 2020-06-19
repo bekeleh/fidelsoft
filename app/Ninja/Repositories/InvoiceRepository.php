@@ -620,7 +620,7 @@ class InvoiceRepository extends BaseRepository
             $this->updateInvoiceDocuments($invoice, $document_ids);
 
         }
-
+//      core invoice computation
         $this->calculateInvoiceItem($data, $invoice, $lineItems, $isNew);
 
         $invoice = $this->saveInvitations($invoice);
@@ -661,7 +661,6 @@ class InvoiceRepository extends BaseRepository
 
         foreach ($client->contacts as $contact) {
             $invitation = Invitation::scope()->whereContactId($contact->id)->whereInvoiceId($invoice->id)->first();
-
             if (in_array($contact->id, $sendInvoiceIds) && !$invitation) {
                 $invitation = Invitation::createNew($invoice);
                 $invitation->invoice_id = $invoice->id;
@@ -911,50 +910,42 @@ class InvoiceRepository extends BaseRepository
     }
 
     /**
+     * @param $account
      * @param $productKey
      * @return bool
      */
-    public function getProductDetail($productKey = null)
+    public function getProductDetail($account, $productKey = null)
     {
-        $accountId = isset(auth::user()->account_id) ? auth::user()->account_id : null;
-
-        if (!$accountId || !$productKey) {
+        if (!$account || !$productKey) {
             return false;
         }
 
-        $product = Product::scope()
+        return DB::table('products')
+            ->whereAccountId($account->id)
             ->whereName($productKey)
-            ->whereAccountId($accountId)
             ->whereDeletedAt(null)
-            ->select(['id', 'cost'])
             ->first();
-
-        return $product;
     }
 
     /**
+     * @param $account
      * @param null $product
      * @return bool
      */
-    public function getItemStore($product = null)
+    public function getItemStore($account, $product = null)
     {
-        $accountId = isset(auth::user()->account_id) ? auth::user()->account_id : null;
-        $storeId = isset(auth::user()->branch) ? auth::user()->branch->store_id : null;
 
-        if (!$accountId || !$product || !$storeId) {
+        $storeId = isset(auth::user()->branch) ? auth::user()->branch->store_id : null;
+        if (!$account || !$product || !$storeId) {
             return false;
         }
-
-        $itemStore = ItemStore::scope()
-            ->whereAccountId($accountId)
+        return DB::table('item_stores')
+            ->whereAccountId($account->id)
             ->whereProductId($product->id)
             ->whereStoreId($storeId)
             ->whereDeletedAt(null)
             ->where('qty', '>', 0)
-            ->select(['id', 'qty'])
             ->first();
-
-        return $itemStore;
     }
 
     /**
@@ -1359,7 +1350,6 @@ class InvoiceRepository extends BaseRepository
      */
     private function uploadedInvoiceDocuments(Invoice $invoice, array $document_ids): bool
     {
-        Log::info('func uploadedInvoiceDocuments');
         if (!$invoice || !$document_ids) {
             return false;
         }
@@ -1387,7 +1377,6 @@ class InvoiceRepository extends BaseRepository
      */
     private function updateInvoiceDocuments(Invoice $invoice, array $document_ids): bool
     {
-        Log::info('func updateInvoiceDocuments');
         if (!$invoice || !$document_ids) {
             return false;
         }
@@ -1558,9 +1547,9 @@ class InvoiceRepository extends BaseRepository
                 continue;
             }
 //          TODO: product or service
-            $product = $this->getProductDetail(trim($item['name']));
+            $product = $this->getProductDetail($account, trim($item['name']));
             if ($product) {
-                $itemStore = $this->getItemStore($product);
+                $itemStore = $this->getItemStore($account, $product);
                 if ($itemStore) {
                     $invoiceItemCost = isset($item['cost']) ? Utils::roundSignificant(Utils::parseFloat($item['cost'])) : $product->cost;
                     $invoiceItemQty = isset($item['qty']) ? Utils::roundSignificant(Utils::parseFloat($item['qty'])) : 1;
@@ -1652,7 +1641,6 @@ class InvoiceRepository extends BaseRepository
      */
     private function getLineItemTotal(Invoice $invoice, float $invoiceItemCost, float $invoiceItemQty, $discount, float $total)
     {
-        Log::info('func getLineItemTotal');
         if (!$invoice) {
             return false;
         }
@@ -1724,7 +1712,6 @@ class InvoiceRepository extends BaseRepository
 
     /**
      * update invoice line item
-     * @param $account
      * @param array $data
      * @param Invoice $invoice
      * @param $lineItems
