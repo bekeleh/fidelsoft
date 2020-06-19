@@ -165,6 +165,7 @@ class InvoiceController extends BaseController
             $this->emailInvoice($invoice);
         }
 
+
         return url($invoice->getRoute());
     }
 

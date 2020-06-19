@@ -25,6 +25,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Log;
+use OpenApi\Annotations\Items;
 
 class InvoiceRepository extends BaseRepository
 {
@@ -496,11 +497,12 @@ class InvoiceRepository extends BaseRepository
         if (isset($data['invoice_design_id']) && !$data['invoice_design_id']) {
             $data['invoice_design_id'] = 1;
         }
+
 //      fill invoice
         $invoice->fill($data);
 
 //      update account default template
-        $this->saveAccountDefault($data, $invoice, $account);
+        $this->saveAccountDefault($account, $invoice, $data);
 
         if (!empty($data['invoice_number']) && !$invoice->is_recurring) {
             $invoice->invoice_number = trim($data['invoice_number']);
@@ -593,86 +595,21 @@ class InvoiceRepository extends BaseRepository
             $data['tax_name1'] = $data['tax_name'];
             $data['tax_rate1'] = $data['tax_rate'];
         }
+
 //       line item total
         $total = 0;
-        $total = $this->getLineItemNetTotal($data, $invoice);
+        $total = $this->getLineItemNetTotal($account, $data, $invoice);
+
 //      line item tax
         $itemTax = 0;
-        $itemTax = $this->getLineItemNetTax($data, $invoice, $total);
+        $itemTax = $this->getLineItemNetTax($account, $data, $invoice, $total);
 
-//      if any invoice discount
-        if ($invoice->discount != 0) {
-            if ($invoice->is_amount_discount) {
-                $total -= $invoice->discount;
-            } else {
-                $discount = round($total * ($invoice->discount / 100), 2);
-                $total -= $discount;
-            }
-        }
+//       save invoice
+        $this->calculateInvoice($account, $invoice, $data, $total, $itemTax, $publicId);
 
-        if (isset($data['custom_value1'])) {
-            $invoice->custom_value1 = round($data['custom_value1'], 2);
-        }
-        if (isset($data['custom_value2'])) {
-            $invoice->custom_value2 = round($data['custom_value2'], 2);
-        }
-
-        if (isset($data['custom_text_value1'])) {
-            $invoice->custom_text_value1 = trim($data['custom_text_value1']);
-        }
-        if (isset($data['custom_text_value2'])) {
-            $invoice->custom_text_value2 = trim($data['custom_text_value2']);
-        }
-
-        // custom fields charged taxes
-        if ($invoice->custom_value1 && $invoice->custom_taxes1) {
-            $total += $invoice->custom_value1;
-        }
-        if ($invoice->custom_value2 && $invoice->custom_taxes2) {
-            $total += $invoice->custom_value2;
-        }
-
-        if (!$account->inclusive_taxes) {
-            $taxAmount1 = round($total * ($invoice->tax_rate1 ? $invoice->tax_rate1 : 0) / 100, 2);
-            $taxAmount2 = round($total * ($invoice->tax_rate2 ? $invoice->tax_rate2 : 0) / 100, 2);
-            $total = round($total + $taxAmount1 + $taxAmount2, 2);
-            $total += $itemTax;
-        }
-
-        // custom fields not charged taxes
-        if ($invoice->custom_value1 && !$invoice->custom_taxes1) {
-            $total += $invoice->custom_value1;
-        }
-        if ($invoice->custom_value2 && !$invoice->custom_taxes2) {
-            $total += $invoice->custom_value2;
-        }
-
-        if ($publicId) {
-            $invoice->balance = round($total - ($invoice->amount - $invoice->balance), 2);
-        } else {
-            $invoice->balance = $total;
-        }
-
-        if (isset($data['partial'])) {
-            $invoice->partial = max(0, min(round(Utils::parseFloat($data['partial']), 2), $invoice->balance));
-        }
-
-        if ($invoice->partial) {
-            if (isset($data['partial_due_date'])) {
-                $invoice->partial_due_date = Utils::toSqlDate($data['partial_due_date']);
-            }
-        } else {
-            $invoice->partial_due_date = null;
-        }
-
-        $invoice->amount = $total;
-
-//      save the invoice
-        $invoice->save();
         $lineItems = [];
         if ($publicId) {
-            $lineItems = $invoice->invoice_items();
-            Log::info($lineItems);
+            $lineItems = isset($invoice->invoice_items) ? $invoice->invoice_items : null;
 //            remove old invoice line items
             $invoice->invoice_items()->forceDelete();
         }
@@ -683,36 +620,10 @@ class InvoiceRepository extends BaseRepository
             $this->updateInvoiceDocuments($invoice, $document_ids);
 
         }
-//      update invoice line item
-        foreach ($data['invoice_items'] as $item) {
-            $item = (array)$item;
-            if (empty($item['name']) && empty($item['cost']) && empty($item['notes'])) {
-                continue;
-            }
-//          task update
-            $this->task($invoice, $item);
-//          expense update
-            $this->expense($invoice, $item);
-//          skip black line append line items
-            if (!empty($item['name']) && !empty($item['cost'])) {
-//             TODO: check service order or product sell
-                $product = $this->getProductDetail(trim($item['name']));
-                if ($product) {
-//                  check quantity on hand hand
-                    $itemStore = $this->getItemStore($product);
-                    if ($itemStore) {
-//                      update product
-                        $this->stockAdjustment($product, $itemStore, $invoice, $lineItems, $item, $isNew);
-//                      update invoice line item
-                        $this->invoiceLineItemAdjustment($product, $itemStore, $invoice, $item);
-                    }
-                }
-            }
-        }
 
-        if (Auth::check()) {
-            $invoice = $this->saveInvitations($invoice);
-        }
+        $this->calculateInvoiceItem($data, $invoice, $lineItems, $isNew);
+
+        $invoice = $this->saveInvitations($invoice);
 
 //      finally dispatch events
         $this->dispatchEvents($invoice);
@@ -1005,7 +916,8 @@ class InvoiceRepository extends BaseRepository
      */
     public function getProductDetail($productKey = null)
     {
-        $accountId = auth::user()->account_id;
+        $accountId = isset(auth::user()->account_id) ? auth::user()->account_id : null;
+
         if (!$accountId || !$productKey) {
             return false;
         }
@@ -1026,17 +938,17 @@ class InvoiceRepository extends BaseRepository
      */
     public function getItemStore($product = null)
     {
-        $accountId = auth::check() && auth::user()->account_id;
-        $storeId = auth::check() && auth::user()->branch->store_id;
+        $accountId = isset(auth::user()->account_id) ? auth::user()->account_id : null;
+        $storeId = isset(auth::user()->branch) ? auth::user()->branch->store_id : null;
 
         if (!$accountId || !$product || !$storeId) {
             return false;
         }
 
         $itemStore = ItemStore::scope()
+            ->whereAccountId($accountId)
             ->whereProductId($product->id)
             ->whereStoreId($storeId)
-            ->whereAccountId($accountId)
             ->whereDeletedAt(null)
             ->where('qty', '>', 0)
             ->select(['id', 'qty'])
@@ -1447,6 +1359,7 @@ class InvoiceRepository extends BaseRepository
      */
     private function uploadedInvoiceDocuments(Invoice $invoice, array $document_ids): bool
     {
+        Log::info('func uploadedInvoiceDocuments');
         if (!$invoice || !$document_ids) {
             return false;
         }
@@ -1474,6 +1387,7 @@ class InvoiceRepository extends BaseRepository
      */
     private function updateInvoiceDocuments(Invoice $invoice, array $document_ids): bool
     {
+        Log::info('func updateInvoiceDocuments');
         if (!$invoice || !$document_ids) {
             return false;
         }
@@ -1495,6 +1409,7 @@ class InvoiceRepository extends BaseRepository
     }
 
     /**
+     * @param $account
      * @param $product
      * @param $itemStore
      * @param Invoice $invoice
@@ -1503,10 +1418,9 @@ class InvoiceRepository extends BaseRepository
      * @param bool $isNew
      * @return bool
      */
-    private function stockAdjustment($product, $itemStore, Invoice $invoice, array $oldLineItems, array $newLineItem, $isNew): bool
+    private function stockAdjustment($product, $itemStore, Invoice $invoice, $oldLineItems, array $newLineItem, $isNew): bool
     {
-        $accountId = !empty($invoice->account_id) ? $invoice->account_id : auth::user()->account_id;
-        if (!$accountId || !$product || !$invoice) {
+        if (!$product || !$invoice) {
             return false;
         }
 
@@ -1521,7 +1435,7 @@ class InvoiceRepository extends BaseRepository
         } else {
 //         update this branch store
             $found = 0;
-            if (!is_null($oldLineItems)) {
+            if (is_array($oldLineItems) && !$oldLineItems) {
                 foreach ($oldLineItems as $oldLineItem) {
                     $oldLineItem = (array)$oldLineItem;
                     if ($newLineItem['name'] === $oldLineItem['name']) {
@@ -1560,13 +1474,13 @@ class InvoiceRepository extends BaseRepository
         $demandQty = !empty($item['qty']) ? Utils::parseFloat($item['qty']) : 1;
         $invoiceItem = InvoiceItem::createNew($invoice);
         $invoiceItem->fill($item);
-        $invoiceItem->product_id = isset($item['name']) ? $this->getProductDetail(trim($item['name']))->cost : null;
-        $invoiceItem->product_key = isset($item['name']) ? $item['name'] : null;
+        $invoiceItem->product_id = isset($item['name']) ? $product->id : null;
+        $invoiceItem->product_key = isset($item['name']) ? trim($item['name']) : null;
         $invoiceItem->name = isset($item['name']) ? (trim($invoice->is_recurring ? $item['name'] : Utils::processVariables($item['name']))) : '';
         $invoiceItem->notes = trim($invoice->is_recurring ? $item['notes'] : Utils::processVariables($item['notes']));
-        $invoiceItem->cost = !empty($item['cost']) ? Utils::parseFloat($item['cost']) : $this->getProductDetail(trim($item['name']))->cost;
+        $invoiceItem->cost = !empty($item['cost']) ? Utils::parseFloat($item['cost']) : $product->cost;
         $invoiceItem->qty = $invoicedQty;
-        $invoiceItem->qty_demand = $demandQty;
+        $invoiceItem->demand_qty = $demandQty;
         $invoiceItem->created_by = auth::user()->username;
         $qoh = !empty($itemStore->qty) ? Utils::parseFloat($itemStore->qty) : 0;
         if (!$itemStore || $qoh < 1) {
@@ -1600,39 +1514,12 @@ class InvoiceRepository extends BaseRepository
     }
 
     /**
-     * @param array $items_data
-     * @param null $productKey
-     * @param null $storeId
-     * @return bool
-     */
-    public function quantityAdjustment(array $items_data, $productKey = null, $storeId = null): bool
-    {
-        foreach ($items_data as $item_data) {
-            if (!empty($item_data['qty'])) {
-                if ((int)$item_data['qty'] > 0) {
-                    $product = Product::scope($item_data['name'])->first();
-                    if ($product) {
-                        $qty = (int)$product->qty - (int)$item_data['qty'];
-                        if ($qty > 0) {
-                            $product->qty = (int)$product->qty - (int)$item_data['qty'];
-                            $product->updated_by = auth::user()->username;
-                            $product->save();
-                        }
-                    }
-                }
-            }
-        }
-
-        return true;
-    }
-
-    /**
      * @param array $data
      * @param Invoice $invoice
      * @param $account
      * @return bool
      */
-    private function saveAccountDefault(array $data, Invoice $invoice, $account): bool
+    private function saveAccountDefault($account, Invoice $invoice, array $data): bool
     {
         if (!$account || !$invoice) {
             return false;
@@ -1654,14 +1541,15 @@ class InvoiceRepository extends BaseRepository
     }
 
     /**
+     * @param $account
      * @param array $data
      * @param Invoice $invoice
      * @return float
      */
-    private function getLineItemNetTotal(array $data, Invoice $invoice): float
+    private function getLineItemNetTotal($account, array $data, Invoice $invoice): float
     {
-        if (!$data || !$invoice) {
-            return false;
+        if (!$data || !$invoice && !$data) {
+            return null;
         }
         $total = 0;
         foreach ($data['invoice_items'] as $item) {
@@ -1693,15 +1581,16 @@ class InvoiceRepository extends BaseRepository
     }
 
     /**
+     * @param $account
      * @param array $data
      * @param Invoice $invoice
      * @param float $total
      * @return float|bool
      */
-    private function getLineItemNetTax(array $data, Invoice $invoice, float $total)
+    private function getLineItemNetTax($account, array $data, Invoice $invoice, float $total)
     {
         if (!$data || !$invoice) {
-            return false;
+            return null;
         }
         $itemTax = 0;
         foreach ($data['invoice_items'] as $item) {
@@ -1721,10 +1610,8 @@ class InvoiceRepository extends BaseRepository
                     }
 
                     $itemTax = $this->getLineItemTaxTotal($invoice, $total, $invoiceItemCost, $invoiceItemQty, $discount, $item, $itemTax);
-
                 }
             }
-
         }
 
         return $itemTax;
@@ -1765,6 +1652,7 @@ class InvoiceRepository extends BaseRepository
      */
     private function getLineItemTotal(Invoice $invoice, float $invoiceItemCost, float $invoiceItemQty, $discount, float $total)
     {
+        Log::info('func getLineItemTotal');
         if (!$invoice) {
             return false;
         }
@@ -1818,7 +1706,6 @@ class InvoiceRepository extends BaseRepository
                 $lineTotal -= round($lineTotal * ($invoice->discount / 100), 4);
             }
         }
-
         if (isset($item['tax_rate1'])) {
             $taxRate1 = Utils::parseFloat($item['tax_rate1']);
             if ($taxRate1 != 0) {
@@ -1834,5 +1721,133 @@ class InvoiceRepository extends BaseRepository
 
         return $itemTax;
     }
+
+    /**
+     * update invoice line item
+     * @param $account
+     * @param array $data
+     * @param Invoice $invoice
+     * @param $lineItems
+     * @param bool $isNew
+     * @return bool
+     */
+    private function calculateInvoiceItem(array $data, Invoice $invoice, $lineItems, bool $isNew): bool
+    {
+        if (!$invoice) {
+            return false;
+        }
+        foreach ($data['invoice_items'] as $item) {
+            $item = (array)$item;
+            if (empty($item['name']) && empty($item['cost'])) {
+                continue;
+            }
+//          task update
+            $this->task($invoice, $item);
+//          expense updates
+            $this->expense($invoice, $item);
+//             TODO: check service order or product sell
+            $product = $this->getProductDetail(trim($item['name']));
+            if ($product) {
+//                  check quantity on hand hand
+                $itemStore = $this->getItemStore($product);
+                if ($itemStore) {
+//                      update product
+                    $this->stockAdjustment($product, $itemStore, $invoice, $lineItems, $item, $isNew);
+//                      update invoice line item
+                    $this->invoiceLineItemAdjustment($product, $itemStore, $invoice, $item);
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @param array $data
+     * @param Invoice $invoice
+     * @param float $total
+     * @param $account
+     * @param $itemTax
+     * @param bool $publicId
+     * @return bool
+     */
+    private function calculateInvoice($account, Invoice $invoice, array $data, float $total, $itemTax, bool $publicId)
+    {
+        if (!$invoice) {
+            return false;
+        }
+//      if any invoice discount
+        if ($invoice->discount != 0) {
+            if ($invoice->is_amount_discount) {
+                $total -= $invoice->discount;
+            } else {
+                $discount = round($total * ($invoice->discount / 100), 2);
+                $total -= $discount;
+            }
+        }
+
+        if (isset($data['custom_value1'])) {
+            $invoice->custom_value1 = round($data['custom_value1'], 2);
+        }
+        if (isset($data['custom_value2'])) {
+            $invoice->custom_value2 = round($data['custom_value2'], 2);
+        }
+
+        if (isset($data['custom_text_value1'])) {
+            $invoice->custom_text_value1 = trim($data['custom_text_value1']);
+        }
+        if (isset($data['custom_text_value2'])) {
+            $invoice->custom_text_value2 = trim($data['custom_text_value2']);
+        }
+
+        // custom fields charged taxes
+        if ($invoice->custom_value1 && $invoice->custom_taxes1) {
+            $total += $invoice->custom_value1;
+        }
+        if ($invoice->custom_value2 && $invoice->custom_taxes2) {
+            $total += $invoice->custom_value2;
+        }
+
+        if (!$account->inclusive_taxes) {
+            $taxAmount1 = round($total * ($invoice->tax_rate1 ? $invoice->tax_rate1 : 0) / 100, 2);
+            $taxAmount2 = round($total * ($invoice->tax_rate2 ? $invoice->tax_rate2 : 0) / 100, 2);
+            $total = round($total + $taxAmount1 + $taxAmount2, 2);
+            $total += $itemTax;
+        }
+
+        // custom fields not charged taxes
+        if ($invoice->custom_value1 && !$invoice->custom_taxes1) {
+            $total += $invoice->custom_value1;
+        }
+        if ($invoice->custom_value2 && !$invoice->custom_taxes2) {
+            $total += $invoice->custom_value2;
+        }
+
+        if ($publicId) {
+            $invoice->balance = round($total - ($invoice->amount - $invoice->balance), 2);
+        } else {
+            $invoice->balance = $total;
+        }
+
+        if (isset($data['partial'])) {
+            $invoice->partial = max(0, min(round(Utils::parseFloat($data['partial']), 2), $invoice->balance));
+        }
+
+        if ($invoice->partial) {
+            if (isset($data['partial_due_date'])) {
+                $invoice->partial_due_date = Utils::toSqlDate($data['partial_due_date']);
+            }
+        } else {
+            $invoice->partial_due_date = null;
+        }
+
+        $invoice->amount = $total;
+
+        $invoice = $invoice->save();
+
+        return $invoice;
+
+    }
+
 
 }
