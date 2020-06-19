@@ -5,7 +5,7 @@
     {!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['product_id' => 'required','sale_type_id' => 'required','item_price' => 'required|numeric','start_date' => 'required|date', 'end_date' => 'required|date','notes' => 'required', ])
+    ->rules(['product_id' => 'required','client_type_id' => 'required','item_price' => 'required|numeric','start_date' => 'required|date', 'end_date' => 'required|date','notes' => 'required', ])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     @if ($itemPrice)
         {{ Former::populate($itemPrice) }}
@@ -26,10 +26,10 @@
                     ->addGroupClass('product-select')
                     ->help(trans('texts.item_help') . ' | ' . link_to('/products/', trans('texts.customize_options')))
                     !!}
-                    {!! Former::select('sale_type_id')->addOption('', '')
-                    ->label(trans('texts.sale_type'))
-                    ->addGroupClass('sale-type-select')
-                    ->help(trans('texts.sale_type_help') . ' | ' . link_to('/sale_types/', trans('texts.customize_options')))
+                    {!! Former::select('client_type_id')->addOption('', '')
+                    ->label(trans('texts.client_type_name'))
+                    ->addGroupClass('client-type-select')
+                    ->help(trans('texts.client_type_help') . ' | ' . link_to('/client_types/', trans('texts.customize_options')))
                     !!}
                     {!! Former::text('item_price')->label('texts.item_price') !!}
                     {!! Former::text('start_date')
@@ -65,7 +65,7 @@
         var products = {!! $products !!};
         var productMap = {};
         <!-- types type -->
-        var types = {!! $saleTypes !!};
+        var types = {!! $clientTypes !!};
         var typeMap = {};
 
         $(function () {
@@ -90,20 +90,20 @@
                 setComboboxValue($('.product-select'), product.public_id, product.name);
             }<!-- /. product  -->
 
-            var typeId = {{ $saleTypePublicId ?: 0 }};
-            var $sale_typeSelect = $('select#sale_type_id');
-            @if (Auth::user()->can('create', ENTITY_SALE_TYPE))
-            $sale_typeSelect.append(new Option("{{ trans('texts.create_sale_type')}}: $name", '-1'));
+            var typeId = {{ $clientTypePublicId ?: 0 }};
+            var $client_typeSelect = $('select#client_type_id');
+            @if (Auth::user()->can('create', ENTITY_CLIENT_TYPE))
+            $client_typeSelect.append(new Option("{{ trans('texts.create_client_type')}}: $name", '-1'));
                     @endif
             for (var i = 0; i < types.length; i++) {
                 var type = types[i];
                 typeMap[type.public_id] = type;
-                $sale_typeSelect.append(new Option(type.name, type.public_id));
+                $client_typeSelect.append(new Option(type.name, type.public_id));
             }
-            @include('partials/entity_combobox', ['entityType' => ENTITY_SALE_TYPE])
+            @include('partials/entity_combobox', ['entityType' => ENTITY_CLIENT_TYPE])
             if (typeId) {
                 var type = typeMap[typeId];
-                setComboboxValue($('.sale-type-select'), type.public_id, type.name);
+                setComboboxValue($('.client-type-select'), type.public_id, type.name);
             }
 
         });

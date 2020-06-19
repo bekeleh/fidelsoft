@@ -7,7 +7,7 @@ use App\Http\Requests\ItemPriceRequest;
 use App\Http\Requests\UpdateItemPriceRequest;
 use App\Libraries\Utils;
 use App\Models\Product;
-use App\Models\SaleType;
+use App\Models\ClientType;
 use App\Ninja\Datatables\ItemPriceDatatable;
 use App\Ninja\Repositories\ItemPriceRepository;
 use App\Services\ItemPriceService;
@@ -51,9 +51,9 @@ class ItemPriceController extends BaseController
         return $this->itemPriceService->getDatatableProduct($productPublicId);
     }
 
-    public function getDatatableSaleType($saleTypeTypePublicId = null)
+    public function getDatatableClientType($clientTypeTypePublicId = null)
     {
-        return $this->itemPriceService->getDatatableSaleType($saleTypeTypePublicId);
+        return $this->itemPriceService->getDatatableClientType($clientTypeTypePublicId);
     }
 
     public function create(ItemPriceRequest $request)
@@ -64,21 +64,21 @@ class ItemPriceController extends BaseController
         } else {
             $product = null;
         }
-        if ($request->sale_type_id != 0) {
-            $saleType = SaleType::scope($request->sale_type_id)->firstOrFail();
+        if ($request->client_type_id != 0) {
+            $clientType = ClientType::scope($request->client_type_id)->firstOrFail();
         } else {
-            $saleType = null;
+            $clientType = null;
         }
 
         $data = [
             'product' => $product,
-            'saleType' => $saleType,
+            'clientType' => $clientType,
             'itemPrice' => null,
             'method' => 'POST',
             'url' => 'item_prices',
             'title' => trans('texts.new_item_price'),
             'productPublicId' => Input::old('product') ? Input::old('product') : $request->product_id,
-            'saleTypePublicId' => Input::old('saleType') ? Input::old('saleType') : $request->sale_type_id,
+            'clientTypePublicId' => Input::old('clientType') ? Input::old('clientType') : $request->client_type_id,
         ];
 
         $data = array_merge($data, self::getViewModel());
@@ -111,14 +111,14 @@ class ItemPriceController extends BaseController
         }
         $data = [
             'product' => null,
-            'saleType' => null,
+            'clientType' => null,
             'itemPrice' => $itemPrice,
             'entity' => $itemPrice,
             'method' => $method,
             'url' => $url,
             'title' => trans('texts.edit_item_price'),
             'productPublicId' => $itemPrice->product ? $itemPrice->product->public_id : null,
-            'saleTypePublicId' => $itemPrice->saleType ? $itemPrice->saleType->public_id : null,
+            'clientTypePublicId' => $itemPrice->clientType ? $itemPrice->clientType->public_id : null,
         ];
 
         $data = array_merge($data, self::getViewModel($itemPrice));
@@ -167,7 +167,7 @@ class ItemPriceController extends BaseController
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
             'products' => Product::withCategory('itemBrand.itemCategory'),
-            'saleTypes' => SaleType::scope()->withActiveOrSelected($itemPrice ? $itemPrice->sale_type_id : false)->orderBy('name')->get(),
+            'clientTypes' => ClientType::scope()->withActiveOrSelected($itemPrice ? $itemPrice->client_type_id : false)->orderBy('name')->get(),
         ];
     }
 

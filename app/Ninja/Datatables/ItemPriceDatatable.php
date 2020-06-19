@@ -48,13 +48,13 @@ class ItemPriceDatatable extends EntityDatatable
                 },
             ],
             [
-                'sale_type_name',
+                'client_type_name',
                 function ($model) {
-                    if ($model->sale_type_id) {
+                    if ($model->client_type_id) {
                         if (Auth::user()->can('view', [ENTITY_SALE_TYPE, $model]))
-                            return link_to("sale_types/{$model->sale_type_id}", $model->sale_type_name)->toHtml();
+                            return link_to("client_types/{$model->client_type_id}", $model->client_type_name)->toHtml();
                         else
-                            return $model->sale_type_name;
+                            return $model->client_type_name;
                     } else {
                         return '';
                     }

@@ -403,8 +403,8 @@ class InvoiceController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account->load('country'),
-//            'products' => Inventory::scope()->where('branch_id', '=', $userBranch)->where('qty', '>', 0)->orderBy('name')->get(),
-            'products' => Product::scope()->withActiveOrSelected($invoice ? $invoice->product_id : false)->Stock()->orderBy('name')->get(),
+            'products' => (auth::user()->can('view', ENTITY_PRODUCT)) ? Product::scope()->withActiveOrSelected($invoice ? $invoice->product_id : false)->Stock()->orderBy('name')->get() : collect([]),
+            'clients' => (auth::user()->can('view', ENTITY_CLIENT)) ? Client::scope()->with('contacts', 'country')->orderBy('name')->get() : collect([]),
             'taxRateOptions' => $taxRateOptions,
             'sizes' => Cache::get('sizes'),
             'invoiceDesigns' => InvoiceDesign::getDesigns(),

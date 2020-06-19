@@ -53,6 +53,10 @@ class InvoiceItemRepository extends BaseRepository
                 'invoice_items.id',
                 'invoice_items.public_id',
                 'invoice_items.name as invoice_item_name',
+                'invoice_items.qty',
+                'invoice_items.demand_qty',
+                'invoice_items.cost',
+                'invoice_items.discount',
                 'invoice_items.is_deleted',
                 'invoice_items.notes',
                 'invoice_items.created_at',
@@ -71,7 +75,8 @@ class InvoiceItemRepository extends BaseRepository
             $query->where(function ($query) use ($filter) {
                 $query->where('invoice_items.name', 'like', '%' . $filter . '%')
                     ->orWhere('invoice_items.notes', 'like', '%' . $filter . '%')
-                    ->orWhere('products.name', 'like', '%' . $filter . '%');
+                    ->orWhere('products.name', 'like', '%' . $filter . '%')
+                    ->orWhere('invoices.invoice_number', 'like', '%' . $filter . '%');
             });
         }
 

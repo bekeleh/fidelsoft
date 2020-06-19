@@ -46,4 +46,9 @@ class ClientType extends EntityModel
     {
         return $this->hasMany('App\Models\Client')->withTrashed();
     }
+
+    public function itemPrices()
+    {
+        return $this->hasMany('App\Models\ItemPrice')->withTrashed();
+    }
 }

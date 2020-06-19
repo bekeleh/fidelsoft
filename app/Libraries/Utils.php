@@ -1044,57 +1044,48 @@ class Utils
         }
     }
 
-    public static function getItemDetail($field = null, $search = null, $required_field = null)
-    {
-        if (!$field || !$required_field || !$search) {
-            return null;
-        }
-
-        $product = Product::where($field, $search)->first();
-
-        return $product->$required_field ?: null;
-    }
-
     public static function defaultInvoiceStatusId($name = null)
     {
-        if (!$name) {
+        if (is_null($name)) {
             return null;
         }
 
-        $status = InvoiceStatus::where('name', $name)->first();
+        $status = InvoiceStatus::whereName($name)->first();
 
         return $status->id ?: null;
     }
 
     public static function getStatusId($name = null)
     {
-        if (!$name) {
+        if (is_null($name)) {
             return null;
         }
 
-        $status = Status::where('name', $name)->first();
+        $status = Status::whereName($name)->first();
 
         return $status->id ?: null;
     }
 
     public static function getStatusName($id = null)
     {
-        if (!$id) {
+        if (is_null($id)) {
             return null;
         }
 
-        $status = Status::where('id', $id)->first();
+        $status = Status::whereId($id)->first();
 
         return $status->name ?: null;
     }
 
     public static function getLocationName($id)
     {
-        if ($id) {
-            $location = Location::where('id', $id)->first();
-            if ($location)
-                return $location->name ?: null;
+        if (is_null($id)) {
+            return null;
         }
+
+        $location = Location::whereId($id)->first();
+
+        return $location->name ?: null;
     }
 
     public static function getVendorDisplayName($model)

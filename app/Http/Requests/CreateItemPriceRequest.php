@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Libraries\Utils;
 use App\Models\ItemPrice;
 use App\Models\Product;
-use App\Models\SaleType;
+use App\Models\ClientType;
 
 class CreateItemPriceRequest extends ItemPriceRequest
 {
@@ -22,8 +22,8 @@ class CreateItemPriceRequest extends ItemPriceRequest
         $this->validationData();
 
         $rules = [];
-        $rules['product_id'] = 'required|unique:item_prices,product_id,' . $this->id . ',id,sale_type_id,' . $this->sale_type_id . ',account_id,' . $this->account_id;
-        $rules['sale_type_id'] = 'required|numeric';
+        $rules['product_id'] = 'required|unique:item_prices,product_id,' . $this->id . ',id,client_type_id,' . $this->client_type_id . ',account_id,' . $this->account_id;
+        $rules['client_type_id'] = 'required|numeric|exists:client_types,id';
         $rules['item_price'] = 'required|numeric';
         $rules['qty'] = 'numeric';
         $rules['reorder_level'] = 'numeric';
@@ -53,8 +53,8 @@ class CreateItemPriceRequest extends ItemPriceRequest
             if (!empty($input['product_id'])) {
                 $input['product_id'] = filter_var($input['product_id'], FILTER_SANITIZE_NUMBER_INT);
             }
-            if (!empty($input['sale_type_id'])) {
-                $input['sale_type_id'] = filter_var($input['sale_type_id'], FILTER_SANITIZE_NUMBER_INT);
+            if (!empty($input['client_type_id'])) {
+                $input['client_type_id'] = filter_var($input['client_type_id'], FILTER_SANITIZE_NUMBER_INT);
             }
             if (!empty($input['notes'])) {
                 $input['notes'] = filter_var($input['notes'], FILTER_SANITIZE_STRING);
@@ -70,8 +70,8 @@ class CreateItemPriceRequest extends ItemPriceRequest
         if (!empty($input['product_id'])) {
             $input['product_id'] = Product::getPrivateId($input['product_id']);
         }
-        if (!empty($input['sale_type_id'])) {
-            $input['sale_type_id'] = SaleType::getPrivateId($input['sale_type_id']);
+        if (!empty($input['client_type_id'])) {
+            $input['client_type_id'] = ClientType::getPrivateId($input['client_type_id']);
         }
         if (!empty($input['start_date'])) {
             $input['start_date'] = Utils::toSqlDate($input['start_date']);
@@ -79,10 +79,10 @@ class CreateItemPriceRequest extends ItemPriceRequest
         if (!empty($input['end_date'])) {
             $input['end_date'] = Utils::toSqlDate($input['end_date']);
         }
-        if (!empty($input['product_id']) && !empty($input['sale_type_id'])) {
+        if (!empty($input['product_id']) && !empty($input['client_type_id'])) {
             $this->request->add([
                 'product_id' => $input['product_id'],
-                'sale_type_id' => $input['sale_type_id'],
+                'client_type_id' => $input['client_type_id'],
                 'start_date' => $input['start_date'],
                 'end_date' => $input['end_date'],
                 'account_id' => ItemPrice::getAccountId(),

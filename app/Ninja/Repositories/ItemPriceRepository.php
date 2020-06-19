@@ -6,7 +6,7 @@ use App\Events\ItemPriceWasCreated;
 use App\Events\ItemPriceWasUpdated;
 use App\Models\ItemPrice;
 use App\Models\Product;
-use App\Models\SaleType;
+use App\Models\ClientType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -34,7 +34,7 @@ class ItemPriceRepository extends BaseRepository
     {
         $query = DB::table('item_prices')
             ->join('accounts', 'accounts.id', '=', 'item_prices.account_id')
-            ->join('sale_types', 'sale_types.id', '=', 'item_prices.sale_type_id')
+            ->join('client_types', 'client_types.id', '=', 'item_prices.client_type_id')
             ->join('products', 'products.id', '=', 'item_prices.product_id')
             ->join('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
             ->join('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
@@ -44,7 +44,7 @@ class ItemPriceRepository extends BaseRepository
                 'item_prices.id',
                 'item_prices.public_id',
                 'item_prices.product_id',
-                'item_prices.sale_type_id',
+                'item_prices.client_type_id',
                 'item_prices.item_price',
                 'item_prices.start_date',
                 'item_prices.end_date',
@@ -56,7 +56,7 @@ class ItemPriceRepository extends BaseRepository
                 'item_prices.created_by',
                 'item_prices.updated_by',
                 'item_prices.deleted_by',
-                'sale_types.name as sale_type_name',
+                'client_types.name as client_type_name',
                 'products.name as item_name',
                 'products.cost',
                 'item_brands.name as item_brand_name',
@@ -71,7 +71,7 @@ class ItemPriceRepository extends BaseRepository
                     ->orWhere('products.name', 'like', '%' . $filter . '%')
                     ->orWhere('item_brands.name', 'like', '%' . $filter . '%')
                     ->orWhere('item_categories.name', 'like', '%' . $filter . '%')
-                    ->orWhere('sale_types.name', 'like', '%' . $filter . '%');
+                    ->orWhere('client_types.name', 'like', '%' . $filter . '%');
             });
         }
 
@@ -89,11 +89,11 @@ class ItemPriceRepository extends BaseRepository
         return $query;
     }
 
-    public function findSaleType($saleTypePublicId)
+    public function findClientType($clientTypePublicId)
     {
-        $saleTypeId = SaleType::getPrivateId($saleTypePublicId);
+        $clientTypeId = ClientType::getPrivateId($clientTypePublicId);
 
-        $query = $this->find()->where('item_prices.sale_type_id', '=', $saleTypeId);
+        $query = $this->find()->where('item_prices.client_type_id', '=', $clientTypeId);
 
         return $query;
     }

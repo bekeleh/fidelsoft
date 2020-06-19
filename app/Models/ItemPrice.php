@@ -20,7 +20,7 @@ class ItemPrice extends EntityModel
 
     protected $fillable = [
         'product_id',
-        'sale_type_id',
+        'client_type_id',
         'item_price',
         'start_date',
         'end_date',
@@ -76,8 +76,8 @@ class ItemPrice extends EntityModel
         return $this->belongsTo('App\Models\Product', 'product_id')->withTrashed();
     }
 
-    public function saleType()
+    public function clientType()
     {
-        return $this->belongsTo('App\Models\SaleType', 'sale_type_id')->withTrashed();
+        return $this->belongsTo('App\Models\ClientType', 'client_type_id')->withTrashed();
     }
 }

@@ -88,6 +88,7 @@ if (!defined('APP_NAME')) {
         ENTITY_CONTACT,
         ENTITY_CREDIT,
         ENTITY_DASHBOARD,
+        ENTITY_DOCUMENT,
         ENTITY_EXPENSE,
         ENTITY_EXPENSE_CATEGORY,
         ENTITY_HOLD_REASON,

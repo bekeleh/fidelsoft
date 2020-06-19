@@ -55,14 +55,14 @@ class ItemPriceService extends BaseService
         return $this->datatableService->createDatatable($datatable, $query);
     }
 
-    public function getDatatableSaleType($productPublicId)
+    public function getDatatableClientType($productPublicId)
     {
         $datatable = new ItemPriceDatatable(true, true);
 
-        $query = $this->itemPriceRepo->findSaleType($productPublicId);
+        $query = $this->itemPriceRepo->findClientType($productPublicId);
 
-        if (!Utils::hasPermission('view_sale_type')) {
-            $query->where('sale_types.user_id', '=', Auth::user()->id);
+        if (!Utils::hasPermission('view_client_type')) {
+            $query->where('client_types.user_id', '=', Auth::user()->id);
         }
 
         return $this->datatableService->createDatatable($datatable, $query);

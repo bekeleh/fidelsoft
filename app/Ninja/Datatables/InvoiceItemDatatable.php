@@ -46,6 +46,30 @@ class InvoiceItemDatatable extends EntityDatatable
                 },
             ],
             [
+                trans('invoiced_qty'),
+                function ($model) {
+                    return $this->showWithTooltip($model->qty);
+                },
+            ],
+            [
+                trans('demand_qty'),
+                function ($model) {
+                    return $this->showWithTooltip($model->demand_qty);
+                },
+            ],
+            [
+                trans('unit_cost'),
+                function ($model) {
+                    return $this->showWithTooltip($model->cost);
+                },
+            ],
+            [
+                'discount',
+                function ($model) {
+                    return $this->showWithTooltip($model->discount);
+                },
+            ],
+            [
                 'notes',
                 function ($model) {
                     return $this->showWithTooltip($model->notes);

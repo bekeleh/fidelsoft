@@ -54,6 +54,7 @@ class InvoiceService extends BaseService
 
     public function save(array $data, Invoice $invoice = null)
     {
+
         if (!empty($data['client'])) {
             $canSaveClient = false;
             $canViewClient = false;
