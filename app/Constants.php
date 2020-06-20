@@ -774,6 +774,9 @@ if (!defined('APP_NAME')) {
         'banks' => 'App\Models\Bank',
         'units' => 'App\Models\Unit',
         'statuses' => 'App\Models\Status',
+        'categories' => 'App\Models\Category',
+        'taxCategories' => 'App\Models\TaxCategory',
+        'plans' => 'App\Models\Plan',
     ];
 
     define('CACHED_TABLES', serialize($cachedTables));

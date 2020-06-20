@@ -102,6 +102,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Rule::mixin(new RulesMixin());
+
         Form::mixin(new FormsMixin());
     }
 

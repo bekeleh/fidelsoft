@@ -6,12 +6,14 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Support\Str;
 
 /**
- * Class Industry.
+ * Class Category.
  */
-class Industry extends Eloquent
+class Plan extends Eloquent
 {
 
-    public $timestamps = false;
+    public $timestamps = true;
+
+    protected $softDelete = true;
 
     public function getName()
     {
@@ -20,7 +22,6 @@ class Industry extends Eloquent
 
     public function getTranslatedName()
     {
-        return trans('texts.industry_' . Str::slug($this->name, '_'));
+        return trans('texts.plan_' . Str::slug($this->name, '_'));
     }
-
 }

@@ -89,6 +89,11 @@ class Product extends EntityModel
         return $this->belongsTo('App\Models\User')->withTrashed();
     }
 
+    public function category()
+    {
+        return $this->belongsTo('App\Models\Category')->withTrashed();
+    }
+
     public function stores()
     {
         return $this->belongsToMany('App\Models\Store', 'item_stores', 'product_id', 'store_id')->withPivot('id', 'qty', 'created_at', 'user_id')->withTrashed();

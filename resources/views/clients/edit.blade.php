@@ -270,8 +270,10 @@
                                 </div>
                             @endif
                             <div role="tabpanel" class="tab-pane" id="classify">
-                                {!! Former::select('size_id')->addOption('','')
-                                ->fromQuery($sizes, 'name', 'id') !!}
+                                <!-- industry employee size -->
+                            {!! Former::select('size_id')->addOption('','')
+                            ->fromQuery($sizes, 'name', 'id') !!}
+                            <!-- industry category size -->
                                 {!! Former::select('industry_id')->addOption('','')
                                 ->fromQuery($industries, 'name', 'id') !!}
                             </div>
@@ -339,11 +341,11 @@
 
         <script type="text/javascript">
             var clientTypes = {!! $clientTypes !!};
-            var types = {!! $saleTypes !!};
+            var saleTypes = {!! $saleTypes !!};
             var reasons = {!! $holdReasons !!};
 
             var clientTypeMap = {};
-            var typeMap = {};
+            var saleTypeMap = {};
             var reasonMap = {};
 
             <!-- client type -->
@@ -364,7 +366,6 @@
                     setComboboxValue($('.client-type-select'), clientType.public_id, clientType.name);
                 }
             });
-
             <!-- sale type -->
             $(function () {
                 var saleId = {{ $saleTypePublicId ?: 0 }};
@@ -372,15 +373,15 @@
                 @if (Auth::user()->can('create', ENTITY_SALE_TYPE))
                 $sale_typeSelect.append(new Option("{{ trans('texts.create_sale_type')}}: $name", '-1'));
                         @endif
-                for (var i = 0; i < types.length; i++) {
-                    var type = types[i];
-                    typeMap[type.public_id] = type;
-                    $sale_typeSelect.append(new Option(getClientDisplayName(type), type.public_id));
+                for (var i = 0; i < saleTypes.length; i++) {
+                    var saleType = saleTypes[i];
+                    saleTypeMap[saleType.public_id] = saleType;
+                    $sale_typeSelect.append(new Option(getClientDisplayName(saleType), saleType.public_id));
                 }
                 @include('partials/entity_combobox', ['entityType' => ENTITY_SALE_TYPE])
                 if (saleId) {
-                    var type = typeMap[saleId];
-                    setComboboxValue($('.sale-type-select'), type.public_id, type.name);
+                    var saleType = saleTypeMap[saleId];
+                    setComboboxValue($('.sale-type-select'), saleType.public_id, saleType.name);
                 }
             });
 

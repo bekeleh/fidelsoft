@@ -21,6 +21,7 @@ class TranslationComposer
         })->sortBy(function ($industry) {
             return $industry->name;
         }));
+
         $view->with('countries', Cache::get('countries')->each(function ($country) {
             $country->name = trans('texts.country_' . $country->name);
         })->sortBy(function ($country) {
@@ -49,6 +50,24 @@ class TranslationComposer
             $unit->name = trans('texts.unit_' . Str::slug($unit->name, '_'));
         })->sortBy(function ($unit) {
             return $unit->name;
+        }));
+
+        $view->with('categories', Cache::get('categories')->each(function ($category) {
+            $category->name = trans('texts.category_' . Str::slug($category->name, '_'));
+        })->sortBy(function ($category) {
+            return $category->name;
+        }));
+
+        $view->with('taxCategories', Cache::get('taxCategories')->each(function ($taxCategory) {
+            $taxCategory->name = trans('texts.tax_category_' . Str::slug($taxCategory->name, '_'));
+        })->sortBy(function ($taxCategory) {
+            return $taxCategory->name;
+        }));
+
+        $view->with('plans', Cache::get('plans')->each(function ($plan) {
+            $plan->name = trans('texts.plan_' . Str::slug($plan->name, '_'));
+        })->sortBy(function ($plan) {
+            return $plan->name;
         }));
 
     }
