@@ -349,7 +349,15 @@ $LANG = array(
     'select_sale_type' => 'Select Sale Type',
     'sale_type_help' => 'Sets the default <b>sales type</b>',
 // sale type
-    'sale_type_' => 'Tax Rate Name',
+    'sale_type_analyst' => 'Analyst',
+    'sale_type_challenger' => 'Challenger',
+    'sale_type_enthusiast' => 'Enthusiast',
+    'sale_type_helper' => 'Helper',
+    'sale_type_individualist' => 'Individualist',
+    'sale_type_loyalist' => 'Loyalist',
+    'sale_type_mediator' => 'Mediator',
+    'sale_type_performer' => 'Performer',
+    'sale_type_reformer' => 'Reformer',
 
 //   Tax Rates
     'tax_rate_name' => 'Tax Rate Name',

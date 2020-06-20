@@ -85,37 +85,38 @@ class ClientController extends BaseController
     public function create(ClientRequest $request)
     {
         $this->authorize('create', ENTITY_CLIENT);
-        if ($request->client_type_id != 0) {
-            $clientType = ClientType::scope($request->client_type_id)->firstOrFail();
-        } else {
-            $clientType = null;
-        }
-        if ($request->sale_type_id != 0) {
-            $saleType = SaleType::scope($request->sale_type_id)->firstOrFail();
-        } else {
-            $saleType = null;
-        }
-        if ($request->hold_reason_id != 0) {
-            $holdReason = HoldReason::scope($request->hold_reason_id)->firstOrFail();
-        } else {
-            $holdReason = null;
-        }
+
+//        if ($request->client_type_id != 0) {
+//            $clientType = ClientType::scope($request->client_type_id)->firstOrFail();
+//        } else {
+//            $clientType = null;
+//        }
+//        if ($request->sale_type_id != 0) {
+//            $saleType = SaleType::scope($request->sale_type_id)->firstOrFail();
+//        } else {
+//            $saleType = null;
+//        }
+//        if ($request->hold_reason_id != 0) {
+//            $holdReason = HoldReason::scope($request->hold_reason_id)->firstOrFail();
+//        } else {
+//            $holdReason = null;
+//        }
 
         if (Client::scope()->withTrashed()->count() > Auth::user()->getMaxNumClients()) {
             return View::make('error', ['hideHeader' => true, 'error' => "Sorry, you've exceeded the limit of " . Auth::user()->getMaxNumClients() . ' clients']);
         }
 
         $data = [
-            'clientType' => $clientType,
-            'saleType' => $saleType,
-            'holdReason' => $holdReason,
+//            'clientType' => $clientType,
+//            'saleType' => $saleType,
+//            'holdReason' => $holdReason,
             'client' => null,
             'method' => 'POST',
             'url' => 'clients',
             'title' => trans('texts.new_client'),
-            'clientTypePublicId' => Input::old('clientType') ? Input::old('clientType') : $request->client_type_id,
-            'saleTypePublicId' => Input::old('saleType') ? Input::old('saleType') : $request->sale_type_id,
-            'holdReasonPublicId' => Input::old('holdReason') ? Input::old('holdReason') : $request->hold_reason_id,
+//            'clientTypePublicId' => Input::old('clientType') ? Input::old('clientType') : $request->client_type_id,
+//            'saleTypePublicId' => Input::old('saleType') ? Input::old('saleType') : $request->sale_type_id,
+//            'holdReasonPublicId' => Input::old('holdReason') ? Input::old('holdReason') : $request->hold_reason_id,
         ];
 
         $data = array_merge($data, self::getViewModel());
@@ -138,16 +139,16 @@ class ClientController extends BaseController
         $client = $request->entity();
 
         $data = [
-            'clientType' => null,
-            'saleType' => null,
-            'holdReason' => null,
+//            'clientType' => null,
+//            'saleType' => null,
+//            'holdReason' => null,
             'client' => $client,
             'method' => 'PUT',
             'url' => 'clients/' . $client->public_id,
             'title' => trans('texts.edit_client'),
-            'clientTypePublicId' => $client->clientType ? $client->clientType->public_id : null,
-            'saleTypePublicId' => $client->saleType ? $client->saleType->public_id : null,
-            'holdReasonPublicId' => $client->holdReason ? $client->holdReason->public_id : null,
+//            'clientTypePublicId' => $client->clientType ? $client->clientType->public_id : null,
+//            'saleTypePublicId' => $client->saleType ? $client->saleType->public_id : null,
+//            'holdReasonPublicId' => $client->holdReason ? $client->holdReason->public_id : null,
         ];
 
         $data = array_merge($data, self::getViewModel());
@@ -241,9 +242,9 @@ class ClientController extends BaseController
             'sizes' => Cache::get('sizes'),
             'customLabel1' => Auth::user()->account->customLabel('client1'),
             'customLabel2' => Auth::user()->account->customLabel('client2'),
-            'clientTypes' => ClientType::scope()->withActiveOrSelected($client ? $client->client_type_id : false)->orderBy('name')->get(),
-            'saleTypes' => SaleType::scope()->withActiveOrSelected($client ? $client->sale_type_id : false)->orderBy('name')->get(),
-            'holdReasons' => HoldReason::scope()->withActiveOrSelected($client ? $client->hold_reason_id : false)->orderBy('name')->get(),
+//            'clientTypes' => ClientType::scope()->withActiveOrSelected($client ? $client->client_type_id : false)->orderBy('name')->get(),
+//            'saleTypes' => SaleType::scope()->withActiveOrSelected($client ? $client->sale_type_id : false)->orderBy('name')->get(),
+//            'holdReasons' => HoldReason::scope()->withActiveOrSelected($client ? $client->hold_reason_id : false)->orderBy('name')->get(),
         ];
     }
 

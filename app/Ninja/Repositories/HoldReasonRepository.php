@@ -31,9 +31,9 @@ class HoldReasonRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('hold_reasons')
-            ->join('accounts', 'accounts.id', '=', 'hold_reasons.account_id')
-            ->join('users', 'users.id', '=', 'hold_reasons.user_id')
-            ->where('hold_reasons.account_id', '=', $accountId)
+            ->leftJoin('accounts', 'accounts.id', '=', 'hold_reasons.account_id')
+            ->leftJoin('users', 'users.id', '=', 'hold_reasons.user_id')
+//            ->where('hold_reasons.account_id', '=', $accountId)
             //->where('hold_reasons.deleted_at', '=', null)
             ->select(
                 'hold_reasons.id',

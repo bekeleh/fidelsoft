@@ -14,10 +14,10 @@
 </style>
 
 <div class="container">
-    <h1>403</h1>
-    <p><strong>Access forbidden :(</strong></p>
+    <h1>404</h1>
+    <p><strong>Page not found :(</strong></p>
     <p>
-        You are not authorized to access this page. Contact your IT Admin.
+        We could not find the page you were looking for.
     </p>
     You maybe <a href="<?php echo e(url('/')); ?>">return to the home</a>.
 </div>

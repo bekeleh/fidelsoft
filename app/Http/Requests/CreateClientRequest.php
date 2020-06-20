@@ -76,6 +76,7 @@ class CreateClientRequest extends ClientRequest
             if (!empty($input['notes'])) {
                 $input['notes'] = filter_var($input['notes'], FILTER_SANITIZE_STRING);
             }
+
             $this->replace($input);
         }
     }
@@ -85,16 +86,17 @@ class CreateClientRequest extends ClientRequest
         $input = $this->all();
 
         if (count($input)) {
-            if (!empty($input['sale_type_id'])) {
-                $input['sale_type_id'] = SaLeType::getPrivateId($input['sale_type_id']);
-            }
-            if (!empty($input['hold_reason_id'])) {
-                $input['hold_reason_id'] = HoldReason::getPrivateId($input['hold_reason_id']);
-            }
+//            if (!empty($input['sale_type_id'])) {
+//                $input['sale_type_id'] = SaLeType::getPrivateId($input['sale_type_id']);
+//            }
+//            if (!empty($input['hold_reason_id'])) {
+//                $input['hold_reason_id'] = HoldReason::getPrivateId($input['hold_reason_id']);
+//            }
+
             if (!empty($input['sale_type_id']) && !empty($input['hold_reason_id'])) {
                 $this->request->add([
-                    'sale_type_id' => $input['sale_type_id'],
-                    'hold_reason_id' => $input['hold_reason_id'],
+//                    'sale_type_id' => $input['sale_type_id'],
+//                    'hold_reason_id' => $input['hold_reason_id'],
                     'account_id' => Client::getAccountId()
                 ]);
             }

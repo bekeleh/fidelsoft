@@ -22,6 +22,7 @@
         'client_type_id'=>'required',
         'sale_type_id'=>'required',
         'hold_reason_id'=>'required',
+        'country_id'=>'required',
         'payment_terms'=>'required']
         )->addClass('col-md-12 warn-on-exit')
         ->method($method) !!}
@@ -62,7 +63,7 @@
                     <!-- sale type -->
                     {!! Former::select('sale_type_id')->addOption('', '')
                      ->label(trans('texts.sale_type_name'))
-                     ->fromQuery($salesType, 'name', 'id') !!}
+                     ->fromQuery($saleTypes, 'name', 'id') !!}
 
                     <!-- client hold reason -->
                         {!! Former::select('hold_reason_id')->addOption('', '')

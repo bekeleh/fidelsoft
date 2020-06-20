@@ -80,11 +80,8 @@ class ClientRepository extends BaseRepository
                 'clients.updated_by',
                 'clients.deleted_by',
                 'client_types.name as client_type_name',
-                'client_types.public_id as client_type_public_id',
                 'sale_types.name as sale_type_name',
-                'sale_types.public_id as sale_type_public_id',
                 'hold_reasons.name as hold_reason_name',
-                'hold_reasons.public_id as hold_reason_public_id'
 
             );
 
