@@ -91,9 +91,6 @@
         ['label' => trans('texts.new_quote'), 'url' => url('/quotes')],
         ['label' => trans('texts.new_credit'), 'url' => url('/credits')],
         ['label' => trans('texts.new_expense'), 'url' => url('/expenses')],
-        ['label' => trans('texts.new_client_type'), 'url' => url('/client_types')],
-        ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types')],
-        ['label' => trans('texts.new_hold_reason'), 'url' => url('/hold_reasons')],
         ])->split() !!}
     @endif
 @elseif (in_array($entityType, [ENTITY_CLIENT_TYPE]))
@@ -106,8 +103,6 @@
         ['label' => trans('texts.new_credit'), 'url' => url('/credits')],
         ['label' => trans('texts.new_expense'), 'url' => url('/expenses')],
         ['label' => trans('texts.new_client'), 'url' => url('/clients')],
-        ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types')],
-        ['label' => trans('texts.new_hold_reason'), 'url' => url('/hold_reasons')],
         ])->split() !!}
     @endif
 @elseif (in_array($entityType, [ENTITY_PAYMENT]))
@@ -208,7 +203,6 @@
         ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores')],
         ['label' => trans('texts.new_item_transfer'), 'url' => url('/item_transfers')],
         ['label' => trans('texts.new_item_movement'), 'url' => url('/item_movements')],
-        ['label' => trans('texts.new_sale_type'), 'url' => url('/sale_types')],
         ])->split() !!}
     @endif
 @elseif($entityType == ENTITY_STORE)
@@ -229,7 +223,6 @@
         ->withAttributes(['class'=>'maintenanceDropdown'])
         ->withContents([
         ['label' => trans('texts.new_client'), 'url' => url('/clients')],
-        ['label' => trans('texts.new_client_type'), 'url' => url('/client_types')],
         ['label' => trans('texts.new_product'), 'url' => url('/products')],
         ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices')],
         ['label' => trans('texts.new_branch'), 'url' => url('/branches')],
