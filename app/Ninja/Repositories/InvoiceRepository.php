@@ -17,7 +17,6 @@ use App\Models\Invitation;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\ItemStore;
-use App\Models\Product;
 use App\Models\Task;
 use App\Services\PaymentService;
 use Datatable;
@@ -25,7 +24,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Log;
-use OpenApi\Annotations\Items;
 
 class InvoiceRepository extends BaseRepository
 {
@@ -1459,8 +1457,7 @@ class InvoiceRepository extends BaseRepository
      * @param array $item
      * @return bool
      */
-    private
-    function invoiceLineItemAdjustment($product, $itemStore, Invoice $invoice, array $item): bool
+    private function invoiceLineItemAdjustment($product, $itemStore, Invoice $invoice, array $item): bool
     {
         if (!$product || !$itemStore || !$invoice || !$item) {
             return false;
@@ -1473,7 +1470,7 @@ class InvoiceRepository extends BaseRepository
         $invoiceItem->product_key = isset($item['name']) ? trim($item['name']) : null;
         $invoiceItem->name = isset($item['name']) ? (trim($invoice->is_recurring ? $item['name'] : Utils::processVariables($item['name']))) : '';
         $invoiceItem->notes = trim($invoice->is_recurring ? $item['notes'] : Utils::processVariables($item['notes']));
-        $invoiceItem->cost = !empty($item['cost']) ? Utils::parseFloat($item['cost']) : $product->cost;
+        $invoiceItem->cost = !empty($item['cost']) ? Utils::parseFloat($item['cost']) : $product->unit_cost;
         $invoiceItem->qty = $invoicedQty;
         $invoiceItem->demand_qty = $demandQty;
         $invoiceItem->created_by = auth::user()->username;
@@ -1514,8 +1511,7 @@ class InvoiceRepository extends BaseRepository
      * @param $account
      * @return bool
      */
-    private
-    function saveAccountDefault($account, Invoice $invoice, array $data): bool
+    private function saveAccountDefault($account, Invoice $invoice, array $data): bool
     {
         if (!$account || !$invoice) {
             return false;
@@ -1542,8 +1538,7 @@ class InvoiceRepository extends BaseRepository
      * @param Invoice $invoice
      * @return float
      */
-    private
-    function getLineItemNetTotal($account, array $data, Invoice $invoice): float
+    private function getLineItemNetTotal($account, array $data, Invoice $invoice): float
     {
         if (!$data || !$invoice && !$data) {
             return null;
@@ -1559,7 +1554,7 @@ class InvoiceRepository extends BaseRepository
             if ($product) {
                 $itemStore = $this->getItemStore($account, $product);
                 if ($itemStore) {
-                    $invoiceItemCost = isset($item['cost']) ? Utils::roundSignificant(Utils::parseFloat($item['cost'])) : $product->cost;
+                    $invoiceItemCost = isset($item['cost']) ? Utils::roundSignificant(Utils::parseFloat($item['cost'])) : $product->unit_cost;
                     $invoiceItemQty = isset($item['qty']) ? Utils::roundSignificant(Utils::parseFloat($item['qty'])) : 1;
                     $discount = empty($item['discount']) ? 0 : round(Utils::parseFloat($item['discount']), 2);
 //                 if quantity on hand greater than quantity demand
@@ -1584,8 +1579,7 @@ class InvoiceRepository extends BaseRepository
      * @param float $total
      * @return float|bool
      */
-    private
-    function getLineItemNetTax($account, array $data, Invoice $invoice, float $total)
+    private function getLineItemNetTax($account, array $data, Invoice $invoice, float $total)
     {
         if (!$data || !$invoice) {
             return null;
@@ -1598,7 +1592,7 @@ class InvoiceRepository extends BaseRepository
             if ($product) {
                 $itemStore = $this->getItemStore($account, $product);
                 if ($itemStore) {
-                    $invoiceItemCost = isset($item['cost']) ? Utils::roundSignificant(Utils::parseFloat($item['cost'])) : $product->cost;
+                    $invoiceItemCost = isset($item['cost']) ? Utils::roundSignificant(Utils::parseFloat($item['cost'])) : $product->unit_cost;
                     $invoiceItemQty = isset($item['qty']) ? Utils::roundSignificant(Utils::parseFloat($item['qty'])) : 1;
                     $discount = empty($item['discount']) ? 0 : round(Utils::parseFloat($item['discount']), 2);
 //                    quantity on hand greater than quantity demand
@@ -1620,8 +1614,7 @@ class InvoiceRepository extends BaseRepository
      * @param $itemStore
      * @return bool
      */
-    private
-    function updateItemStore(float $qoh, float $demandQty, $itemStore): bool
+    private function updateItemStore(float $qoh, float $demandQty, $itemStore): bool
     {
         if (!$qoh || !$demandQty || !$itemStore) {
             return false;
@@ -1648,8 +1641,7 @@ class InvoiceRepository extends BaseRepository
      * @param float $total
      * @return false|float
      */
-    private
-    function getLineItemTotal(Invoice $invoice, float $invoiceItemCost, float $invoiceItemQty, $discount, float $total)
+    private function getLineItemTotal(Invoice $invoice, float $invoiceItemCost, float $invoiceItemQty, $discount, float $total)
     {
         if (!$invoice) {
             return false;
@@ -1681,8 +1673,7 @@ class InvoiceRepository extends BaseRepository
      * @param float $itemTax
      * @return false|float
      */
-    private
-    function getLineItemTaxTotal(Invoice $invoice, float $total, float $invoiceItemCost, float $invoiceItemQty, $discount, array $item, float $itemTax)
+    private function getLineItemTaxTotal(Invoice $invoice, float $total, float $invoiceItemCost, float $invoiceItemQty, $discount, array $item, float $itemTax)
     {
         if (!$invoice) {
             return false;
@@ -1730,8 +1721,7 @@ class InvoiceRepository extends BaseRepository
      * @param bool $isNew
      * @return bool
      */
-    private
-    function calculateInvoiceItem($account, array $data, Invoice $invoice, $lineItems, bool $isNew): bool
+    private function calculateInvoiceItem($account, array $data, Invoice $invoice, $lineItems, bool $isNew): bool
     {
         if (!$invoice) {
             return false;
@@ -1771,8 +1761,7 @@ class InvoiceRepository extends BaseRepository
      * @param bool $publicId
      * @return bool
      */
-    private
-    function calculateInvoice($account, Invoice $invoice, array $data, float $total, $itemTax, bool $publicId)
+    private function calculateInvoice($account, Invoice $invoice, array $data, float $total, $itemTax, bool $publicId)
     {
         if (!$invoice) {
             return false;
