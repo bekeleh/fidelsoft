@@ -5,11 +5,11 @@
     {!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['name' => 'required|max:255','cost' => 'required|numeric','item_brand_id' => 'required|numeric','unit_id' => 'required|numeric','notes' => 'required|string'])
+    ->rules(['name' => 'required|max:255','unit_cost' => 'required|numeric','item_brand_id' => 'required|numeric','unit_id' => 'required|numeric','notes' => 'required|string'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     @if ($product)
         {{ Former::populate($product) }}
-        {{ Former::populateField('cost', Utils::roundSignificant($product->cost)) }}
+        {{ Former::populateField('unit_cost', Utils::roundSignificant($product->unit_cost)) }}
         <div style="display:none">
             {!! Former::text('public_id') !!}
         </div>
@@ -22,23 +22,28 @@
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
-                    {!! Former::text('name')->label('texts.item_name') !!}
-                    {!! Former::select('item_brand_id')
-                    ->placeholder(trans('texts.select_item_brand'))
-                    ->label(trans('texts.item_brand'))
-                    ->addGroupClass('item-brand-select')
-                    ->help(trans('texts.item_brand_help') . ' | ' . link_to('/item_brands/', trans('texts.customize_options')))
-                    !!}
+                    <!-- item code-->
+                {!! Former::text('name')->label('texts.item_name') !!}
+                <!-- item brand-->
+                {!! Former::select('item_brand_id')
+                ->placeholder(trans('texts.select_item_brand'))
+                ->label(trans('texts.item_brand'))
+                ->addGroupClass('item-brand-select')
+                ->help(trans('texts.item_brand_help') . ' | ' . link_to('/item_brands/', trans('texts.customize_options')))
+                !!}
+                <!-- category-->
+                {!! Former::select('category_id')->addOption('','')
+                ->fromQuery($categories, 'name', 'id') !!}
+                <!-- unit-->
                     {!! Former::select('unit_id')
                     ->placeholder(trans('texts.select_item_unit'))
                     ->label(trans('texts.unit'))
                     ->addGroupClass('unit-select')
                     ->help(trans('texts.item_unit_help') . ' | ' . link_to('/units/', trans('texts.customize_options')))
                     !!}
-
                     {!! Former::text('item_barcode')->label('texts.item_barcode') !!}
                     {!! Former::text('item_tag')->label('texts.item_tag') !!}
-                    {!! Former::text('cost')->label('cost') !!}
+                    {!! Former::text('unit_cost')->label('unit_cost') !!}
                     {!! Former::textarea('notes')->rows(6) !!}
                     @include('partials/custom_fields', ['entityType' => ENTITY_PRODUCT])
                     @if ($account->invoice_item_taxes)

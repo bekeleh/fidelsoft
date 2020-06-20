@@ -25,13 +25,28 @@ class ProductDatatable extends EntityDatatable
             [
                 'item_brand_name',
                 function ($model) {
-                    return link_to('item_brands/' . $model->item_brand_public_id . '/edit', $model->item_brand_name)->toHtml();
+                    if ($model->item_brand_public_id) {
+                        return link_to('item_brands/' . $model->item_brand_public_id . '/edit', $model->item_brand_name)->toHtml();
+                    } else {
+                        $model->item_brand_name;
+                    }
                 },
             ],
             [
                 'item_category_name',
                 function ($model) {
-                    return link_to('item_categories/' . $model->item_category_public_id . '/edit', $model->item_category_name)->toHtml();
+                    if ($model->item_category_public_id) {
+                        return link_to('item_categories/' . $model->item_category_public_id . '/edit', $model->item_category_name)->toHtml();
+
+                    } else {
+                        $model->item_category_name;
+                    }
+                },
+            ],
+            [
+                'category_name',
+                function ($model) {
+                    $model->category_name;
                 },
             ],
             [
@@ -53,9 +68,9 @@ class ProductDatatable extends EntityDatatable
                 },
             ],
             [
-                'cost',
+                'unit_cost',
                 function ($model) {
-                    return $model->cost;
+                    return $model->unit_cost;
                 },
             ],
             [

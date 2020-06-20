@@ -42,6 +42,7 @@ class ProductRepository extends BaseRepository
             ->leftJoin('item_stores', 'item_stores.product_id', '=', 'products.id')
             ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
             ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
+            ->leftJoin('categories', 'categories.id', '=', 'products.category_id')
             ->leftJoin('units', 'units.id', '=', 'products.unit_id')
             ->where('products.account_id', '=', $accountId)
             //->where('products.deleted_at', '=', null)
@@ -52,7 +53,7 @@ class ProductRepository extends BaseRepository
                 'products.item_serial',
                 'products.item_barcode',
                 'products.item_tag',
-                'products.cost',
+                'products.unit_cost',
                 'products.tax_name1',
                 'products.tax_name2',
                 'products.tax_rate1',
@@ -70,6 +71,7 @@ class ProductRepository extends BaseRepository
                 'item_brands.name as item_brand_name',
                 'item_categories.public_id as item_category_public_id',
                 'item_categories.name as item_category_name',
+                'categories.name as category_name',
                 'units.public_id as unit_public_id',
                 'units.name as unit_name'
             );
@@ -84,6 +86,7 @@ class ProductRepository extends BaseRepository
                     ->orWhere('products.updated_by', 'like', '%' . $filter . '%')
                     ->orWhere('item_brands.name', 'like', '%' . $filter . '%')
                     ->orWhere('item_categories.name', 'like', '%' . $filter . '%')
+                    ->orWhere('categories.name', 'like', '%' . $filter . '%')
                     ->orWhere('units.name', 'like', '%' . $filter . '%');
             });
         }
@@ -128,7 +131,7 @@ class ProductRepository extends BaseRepository
         $product->name = isset($data['name']) ? trim($data['name']) : null;
         $product->item_barcode = isset($data['item_barcode']) ? trim($data['item_barcode']) : null;
         $product->item_tag = isset($data['item_tag']) ? trim($data['item_tag']) : null;
-        $product->cost = isset($data['cost']) ? Utils::parseFloat($data['cost']) : 0;
+        $product->unit_cost = isset($data['unit_cost']) ? Utils::parseFloat($data['unit_cost']) : 0;
 
         $product->save();
 

@@ -28,7 +28,7 @@ class UpdateProductRequest extends EntityRequest
         $rules['barcode'] = 'nullable';
         $rules['item_tag'] = 'nullable';
         $rules['unit_id'] = 'required|numeric';
-        $rules['cost'] = 'required|numeric';
+        $rules['unit_cost'] = 'required|float';
         $rules['is_deleted'] = 'boolean';
         $rules['notes'] = 'nullable';
 
@@ -44,7 +44,9 @@ class UpdateProductRequest extends EntityRequest
         if (!empty($input['notes'])) {
             $input['notes'] = filter_var($input['notes'], FILTER_SANITIZE_STRING);
         }
-
+        if (!empty($input['unit_cost'])) {
+            $input['unit_cost'] = filter_var($input['unit_cost'], FILTER_SANITIZE_NUMBER_FLOAT);
+        }
         $this->replace($input);
     }
 

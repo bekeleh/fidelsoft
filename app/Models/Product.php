@@ -27,7 +27,7 @@ class Product extends EntityModel
         'item_barcode',
         'item_tag',
         'notes',
-        'cost',
+        'unit_cost',
         'is_locked',
         'is_public',
         'item_brand_id',
@@ -51,7 +51,7 @@ class Product extends EntityModel
             'UPC',
             'EAN',
             'notes',
-            'cost',
+            'unit_cost',
             'custom_value1',
             'custom_value2',
         ];
@@ -62,7 +62,7 @@ class Product extends EntityModel
         return [
             'product|item' => 'name',
             'notes|description|details' => 'notes',
-            'cost|amount|price' => 'cost',
+            'unit_cost|amount|price' => 'unit_cost',
             'custom_value1' => 'custom_value1',
             'custom_value2' => 'custom_value2',
         ];
