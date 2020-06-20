@@ -44,21 +44,21 @@ class ProductDatatable extends EntityDatatable
                 },
             ],
             [
-                'category_name',
+                'UPC',
                 function ($model) {
-                    $model->category_name;
-                },
-            ],
-            [
-                'item_serial',
-                function ($model) {
-                    return $model->item_serial;
+                    return $model->UPC;
                 },
             ],
             [
                 'item_barcode',
                 function ($model) {
                     return $model->item_barcode;
+                },
+            ],
+            [
+                'item_serial',
+                function ($model) {
+                    return $model->item_serial;
                 },
             ],
             [
@@ -74,9 +74,21 @@ class ProductDatatable extends EntityDatatable
                 },
             ],
             [
+                'category_name',
+                function ($model) {
+                    return $model->category_name;
+                },
+            ],
+            [
+                'tax_category_name',
+                function ($model) {
+                    return $model->tax_category_name;
+                },
+            ],
+            [
                 'unit_name',
                 function ($model) {
-                    return link_to('units/' . $model->unit_public_id . '/edit', $model->unit_name)->toHtml();
+                    return $model->unit_name;
                 },
             ],
             [

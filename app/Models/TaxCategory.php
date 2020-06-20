@@ -28,4 +28,9 @@ class TaxCategory extends Eloquent
     {
         return trans('texts.tax_category_' . Str::slug($this->name, '_'));
     }
+
+    public function products()
+    {
+        return $this->hasMany('App\Models\Product')->withTrashed();
+    }
 }

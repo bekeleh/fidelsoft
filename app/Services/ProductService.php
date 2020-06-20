@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Libraries\Utils;
 use App\Ninja\Datatables\ItemBrandDatatable;
 use App\Ninja\Datatables\ProductDatatable;
-use App\Ninja\Datatables\UnitDatatable;
 use App\Ninja\Repositories\ProductRepository;
 use Illuminate\Support\Facades\Auth;
 
@@ -52,22 +51,23 @@ class ProductService extends BaseService
         $query = $this->productRepo->findItemBrand($itemBrandPublicId);
 
         if (!Utils::hasPermission('view_item_brand')) {
-            $query->where('item_brands.user_id', '=', Auth::user()->id);
+            $query->where('products.user_id', '=', Auth::user()->id);
         }
 
         return $this->datatableService->createDatatable($datatable, $query);
     }
 
-    public function getDatatableUnit($unitPublicId)
-    {
-        $datatable = new UnitDatatable(true, true);
+//    public function getDatatableUnit($unitPublicId)
+//    {
+//        $datatable = new UnitDatatable(true, true);
+//
+//        $query = $this->productRepo->findUnit($unitPublicId);
+//
+//        if (!Utils::hasPermission('view_unit')) {
+//            $query->where('item_brands.user_id', '=', Auth::user()->id);
+//        }
+//
+//        return $this->datatableService->createDatatable($datatable, $query);
+//    }
 
-        $query = $this->productRepo->findUnit($unitPublicId);
-
-        if (!Utils::hasPermission('view_unit')) {
-            $query->where('units.user_id', '=', Auth::user()->id);
-        }
-
-        return $this->datatableService->createDatatable($datatable, $query);
-    }
 }

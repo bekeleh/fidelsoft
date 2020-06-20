@@ -43,6 +43,7 @@ class ProductRepository extends BaseRepository
             ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
             ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
             ->leftJoin('categories', 'categories.id', '=', 'products.category_id')
+            ->leftJoin('tax_categories', 'tax_categories.id', '=', 'products.tax_category_id')
             ->leftJoin('units', 'units.id', '=', 'products.unit_id')
             ->where('products.account_id', '=', $accountId)
             //->where('products.deleted_at', '=', null)
@@ -50,6 +51,7 @@ class ProductRepository extends BaseRepository
                 'products.id',
                 'products.public_id',
                 'products.name as item_name',
+                'products.UPC',
                 'products.item_serial',
                 'products.item_barcode',
                 'products.item_tag',
@@ -72,13 +74,15 @@ class ProductRepository extends BaseRepository
                 'item_categories.public_id as item_category_public_id',
                 'item_categories.name as item_category_name',
                 'categories.name as category_name',
-                'units.public_id as unit_public_id',
+                'tax_categories.name as tax_category_name',
                 'units.name as unit_name'
             );
+
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('products.name', 'like', '%' . $filter . '%')
                     ->orWhere('products.item_serial', 'like', '%' . $filter . '%')
+                    ->orWhere('products.UPC', 'like', '%' . $filter . '%')
                     ->orWhere('products.item_barcode', 'like', '%' . $filter . '%')
                     ->orWhere('products.item_tag', 'like', '%' . $filter . '%')
                     ->orWhere('products.notes', 'like', '%' . $filter . '%')
@@ -87,6 +91,7 @@ class ProductRepository extends BaseRepository
                     ->orWhere('item_brands.name', 'like', '%' . $filter . '%')
                     ->orWhere('item_categories.name', 'like', '%' . $filter . '%')
                     ->orWhere('categories.name', 'like', '%' . $filter . '%')
+                    ->orWhere('tax_categories.name', 'like', '%' . $filter . '%')
                     ->orWhere('units.name', 'like', '%' . $filter . '%');
             });
         }
@@ -105,14 +110,6 @@ class ProductRepository extends BaseRepository
         return $query;
     }
 
-    public function findUnit($unitPublicId)
-    {
-        $unitId = Unit::getPrivateId($unitPublicId);
-
-        $query = $this->find()->where('products.unit_id', '=', $unitId);
-
-        return $query;
-    }
 
     public function save($data, $product = null)
     {
@@ -129,10 +126,11 @@ class ProductRepository extends BaseRepository
 
         $product->fill($data);
         $product->name = isset($data['name']) ? trim($data['name']) : null;
+        $product->UPC = isset($data['UPC']) ? trim($data['UPC']) : null;
         $product->item_barcode = isset($data['item_barcode']) ? trim($data['item_barcode']) : null;
+        $product->item_serial = isset($data['item_serial']) ? trim($data['item_serial']) : null;
         $product->item_tag = isset($data['item_tag']) ? trim($data['item_tag']) : null;
         $product->unit_cost = isset($data['unit_cost']) ? Utils::parseFloat($data['unit_cost']) : 0;
-
         $product->save();
 
         if ($publicId) {

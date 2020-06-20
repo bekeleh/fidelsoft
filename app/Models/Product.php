@@ -22,7 +22,6 @@ class Product extends EntityModel
         'public_id',
         'name',
         'UPC',
-        'EAN',
         'item_serial',
         'item_barcode',
         'item_tag',
@@ -31,6 +30,8 @@ class Product extends EntityModel
         'is_locked',
         'is_public',
         'item_brand_id',
+        'tax_category_id',
+        'category_id',
         'unit_id',
         'tax_name1',
         'tax_rate1',
@@ -92,6 +93,11 @@ class Product extends EntityModel
     public function category()
     {
         return $this->belongsTo('App\Models\Category')->withTrashed();
+    }
+
+    public function tax_categories()
+    {
+        return $this->belongsTo('App\Models\TaxCategory')->withTrashed();
     }
 
     public function stores()

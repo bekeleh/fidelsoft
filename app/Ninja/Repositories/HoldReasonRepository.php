@@ -70,11 +70,11 @@ class HoldReasonRepository extends BaseRepository
             $holdReason->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $holdReason = HoldReason::scope($publicId)->withArchived()->firstOrFail();
-            Log::warning('Entity not set in hold reason repo save');
         } else {
             $holdReason = HoldReason::createNew();
             $holdReason->created_by = Auth::user()->username;
         }
+
         $holdReason->fill($data);
         $holdReason->name = isset($data['name']) ? trim($data['name']) : '';
 

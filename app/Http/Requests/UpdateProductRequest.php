@@ -25,10 +25,12 @@ class UpdateProductRequest extends EntityRequest
 //            $rules['name'] = 'required|unique:products,name,' . $product->id . ',id,item_brand_id,' . $product->item_brand_id . ',account_id,' . $product->account_id;
         $rules['name'] = 'required|unique:products,name,' . $product->id . ',id,account_id,' . $product->account_id;
         $rules['item_brand_id'] = 'required|numeric';
+        $rules['tax_category_id'] = 'required|numeric';
+        $rules['category_id'] = 'required|numeric';
         $rules['barcode'] = 'nullable';
         $rules['item_tag'] = 'nullable';
         $rules['unit_id'] = 'required|numeric';
-        $rules['unit_cost'] = 'required|float';
+        $rules['unit_cost'] = 'required|numeric';
         $rules['is_deleted'] = 'boolean';
         $rules['notes'] = 'nullable';
 
@@ -47,6 +49,7 @@ class UpdateProductRequest extends EntityRequest
         if (!empty($input['unit_cost'])) {
             $input['unit_cost'] = filter_var($input['unit_cost'], FILTER_SANITIZE_NUMBER_FLOAT);
         }
+
         $this->replace($input);
     }
 
@@ -56,16 +59,14 @@ class UpdateProductRequest extends EntityRequest
         if (isset($input['item_brand_id']) && $input['item_brand_id']) {
             $input['item_brand_id'] = ItemBrand::getPrivateId($input['item_brand_id']);
         }
-        if (isset($input['unit_id']) && $input['unit_id']) {
-            $input['unit_id'] = Unit::getPrivateId($input['unit_id']);
-        }
-        if (!empty($input['item_brand_id']) && !empty($input['unit_id'])) {
+
+        if (!empty($input['item_brand_id'])) {
             $this->request->add([
                 'item_brand_id' => $input['item_brand_id'],
-                'unit_id' => $input['unit_id'],
                 'account_id' => Product::getAccountId()
             ]);
         }
+
         return $this->request->all();
     }
 }
