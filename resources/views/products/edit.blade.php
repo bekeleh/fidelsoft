@@ -31,7 +31,7 @@
                 ->placeholder(trans('texts.select_item_brand'))
                 ->label(trans('texts.item_brand'))
                 ->addGroupClass('item-brand-select')
-                ->help(trans('texts.item_brand_help') . ' | ' . link_to('/item_brands/', trans('texts.customize_options')))
+                ->help(trans('texts.item_brand_help') . ' | ' . link_to('/item_itemBrands/', trans('texts.customize_options')))
                 !!}
                 <!-- category-->
                 {!! Former::select('category_id')->addOption('','')
@@ -71,8 +71,8 @@
 
     {!! Former::close() !!}
     <script type="text/javascript">
-        var brands = {!! $itemBrands !!};
-        var brandMap = {};
+        var itemBrands = {!! $itemBrands !!};
+        var itemBrandMap = {};
 
         $(function () {
             $('#name').focus();
@@ -80,21 +80,21 @@
 
         $(function () {
             <!-- item brand -->
-            var brandId = {{ $itemBrandPublicId ?: 0 }};
+            var itemBrandId = {{ $itemBrandPublicId ?: 0 }};
             var $item_brandSelect = $('select#item_brand_id');
             @if (Auth::user()->can('create', ENTITY_ITEM_BRAND))
             $item_brandSelect.append(new Option("{{ trans('texts.create_item_brand')}}:$name", '-1'));
                     @endif
-            for (var i = 0; i < brands.length; i++) {
-                var brand = brands[i];
-                brandMap[brand.public_id] = brand;
-                $item_brandSelect.append(new Option(getClientDisplayName(brand), brand.public_id));
+            for (var i = 0; i < itemBrands.length; i++) {
+                var itemBrand = itemBrands[i];
+                itemBrandMap[itemBrand.public_id] = itemBrand;
+                $item_brandSelect.append(new Option(getClientDisplayName(itemBrand), itemBrand.public_id));
             }
 
             @include('partials/entity_combobox', ['entityType' => ENTITY_ITEM_BRAND])
-            if (brandId) {
-                var brand = brandMap[brandId];
-                setComboboxValue($('.item-brand-select'), brand.public_id, brand.name);
+            if (itemBrandId) {
+                var itemBrand = itemBrandMap[itemBrandId];
+                setComboboxValue($('.item-brand-select'), itemBrand.public_id, itemBrand.name);
             }
 
             function submitAction(action) {

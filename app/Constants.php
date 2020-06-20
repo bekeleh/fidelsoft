@@ -777,6 +777,9 @@ if (!defined('APP_NAME')) {
         'categories' => 'App\Models\Category',
         'taxCategories' => 'App\Models\TaxCategory',
         'plans' => 'App\Models\Plan',
+        'saleTypes' => 'App\Models\SaleType',
+        'clientTypes' => 'App\Models\ClientType',
+        'holdReasons' => 'App\Models\HoldReason',
     ];
 
     define('CACHED_TABLES', serialize($cachedTables));

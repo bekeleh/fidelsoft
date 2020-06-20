@@ -57,21 +57,17 @@
                     <!-- client type -->
                     {!! Former::select('client_type_id')->addOption('', '')
                     ->label(trans('texts.client_type_name'))
-                    ->addGroupClass('client-type-select')
-                    ->help(trans('texts.client_type_help') . ' | ' . link_to('/client_types/', trans('texts.customize_options')))
-                    !!}
+                    ->fromQuery($clientTypes, 'name', 'id') !!}
+
                     <!-- sale type -->
                     {!! Former::select('sale_type_id')->addOption('', '')
-                    ->label(trans('texts.sale_type_name'))
-                    ->addGroupClass('sale-type-select')
-                    ->help(trans('texts.sale_type_help') . ' | ' . link_to('/sale_types/', trans('texts.customize_options')))
-                    !!}
+                     ->label(trans('texts.sale_type_name'))
+                     ->fromQuery($salesType, 'name', 'id') !!}
+
                     <!-- client hold reason -->
                         {!! Former::select('hold_reason_id')->addOption('', '')
                         ->label(trans('texts.hold_reason'))
-                        ->addGroupClass('hold-reason-select')
-                        ->help(trans('texts.hold_reason_help') . ' | ' . link_to('/hold_reasons/', trans('texts.customize_options')))
-                        !!}
+                        ->fromQuery($holdReasons, 'name', 'id') !!}
 
                         @include('partials/custom_fields', ['entityType' => ENTITY_CLIENT])
                         @if ($account->usesClientInvoiceCounter())
@@ -340,70 +336,6 @@
         {!! Former::hidden('data')->data_bind("value: ko.toJSON(model)") !!}
 
         <script type="text/javascript">
-            var clientTypes = {!! $clientTypes !!};
-            var saleTypes = {!! $saleTypes !!};
-            var reasons = {!! $holdReasons !!};
-
-            var clientTypeMap = {};
-            var saleTypeMap = {};
-            var reasonMap = {};
-
-            <!-- client type -->
-            $(function () {
-                var clientTypeId = {{ $clientTypePublicId ?: 0 }};
-                var $client_typeSelect = $('select#client_type_id');
-                @if (Auth::user()->can('create', ENTITY_CLIENT_TYPE))
-                $client_typeSelect.append(new Option("{{ trans('texts.create_client_type')}}: $name", '-1'));
-                        @endif
-                for (var i = 0; i < clientTypes.length; i++) {
-                    var clientType = clientTypes[i];
-                    clientTypeMap[clientType.public_id] = clientType;
-                    $client_typeSelect.append(new Option(getClientDisplayName(clientType), clientType.public_id));
-                }
-                @include('partials/entity_combobox', ['entityType' => ENTITY_CLIENT_TYPE])
-                if (clientTypeId) {
-                    var clientType = clientTypeMap[clientTypeId];
-                    setComboboxValue($('.client-type-select'), clientType.public_id, clientType.name);
-                }
-            });
-            <!-- sale type -->
-            $(function () {
-                var saleId = {{ $saleTypePublicId ?: 0 }};
-                var $sale_typeSelect = $('select#sale_type_id');
-                @if (Auth::user()->can('create', ENTITY_SALE_TYPE))
-                $sale_typeSelect.append(new Option("{{ trans('texts.create_sale_type')}}: $name", '-1'));
-                        @endif
-                for (var i = 0; i < saleTypes.length; i++) {
-                    var saleType = saleTypes[i];
-                    saleTypeMap[saleType.public_id] = saleType;
-                    $sale_typeSelect.append(new Option(getClientDisplayName(saleType), saleType.public_id));
-                }
-                @include('partials/entity_combobox', ['entityType' => ENTITY_SALE_TYPE])
-                if (saleId) {
-                    var saleType = saleTypeMap[saleId];
-                    setComboboxValue($('.sale-type-select'), saleType.public_id, saleType.name);
-                }
-            });
-
-            <!-- hold reason -->
-            $(function () {
-                var reasonId = {{ $holdReasonPublicId ?: 0 }};
-                var $hold_reasonSelect = $('select#hold_reason_id');
-                @if (Auth::user()->can('create', ENTITY_HOLD_REASON))
-                $hold_reasonSelect.append(new Option("{{ trans('texts.create_hold_reason')}}: $name", '-1'));
-                        @endif
-                for (var i = 0; i < reasons.length; i++) {
-                    var reason = reasons[i];
-                    reasonMap[reason.public_id] = reason;
-                    $hold_reasonSelect.append(new Option(getClientDisplayName(reason), reason.public_id));
-                }
-                @include('partials/entity_combobox', ['entityType' => ENTITY_HOLD_REASON])
-                if (reasonId) {
-                    var reason = reasonMap[reasonId];
-                    setComboboxValue($('.hold-reason-select'), reason.public_id, reason.name);
-                }
-            });
-
             $(function () {
                 $('#country_id, #shipping_country_id').combobox();
 

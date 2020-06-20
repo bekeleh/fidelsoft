@@ -134,7 +134,6 @@
         ['label' => trans('texts.new_item_transfer'), 'url' => url('/item_transfers')],
         ['label' => trans('texts.list_item_movements'), 'url' => url('/item_movements')],
         ['label' => trans('texts.new_store'), 'url' => url('/stores')],
-        ['label' => trans('texts.new_unit'), 'url' => url('/units')],
         ])->split() !!}
     @endif
 @elseif (in_array($entityType, [ENTITY_ITEM_BRAND]))
@@ -149,7 +148,6 @@
         ['label' => trans('texts.new_item_transfer'), 'url' => url('/item_transfers')],
         ['label' => trans('texts.list_item_movements'), 'url' => url('/item_movements')],
         ['label' => trans('texts.new_store'), 'url' => url('/stores')],
-        ['label' => trans('texts.new_unit'), 'url' => url('/units')],
         ])->split() !!}
     @endif
 @elseif (in_array($entityType, [ENTITY_ITEM_CATEGORY]))
@@ -164,7 +162,6 @@
         ['label' => trans('texts.new_item_transfer'), 'url' => url('/item_transfers')],
         ['label' => trans('texts.list_item_movements'), 'url' => url('/item_movements')],
         ['label' => trans('texts.new_store'), 'url' => url('/stores')],
-        ['label' => trans('texts.new_unit'), 'url' => url('/units')],
         ])->split() !!}
     @endif
 @elseif($entityType == ENTITY_ITEM_TRANSFER)

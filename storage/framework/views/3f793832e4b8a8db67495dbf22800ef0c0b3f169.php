@@ -147,7 +147,6 @@
         ['label' => trans('texts.new_item_transfer'), 'url' => url('/item_transfers')],
         ['label' => trans('texts.list_item_movements'), 'url' => url('/item_movements')],
         ['label' => trans('texts.new_store'), 'url' => url('/stores')],
-        ['label' => trans('texts.new_unit'), 'url' => url('/units')],
         ])->split(); ?>
 
     <?php endif; ?>
@@ -163,7 +162,6 @@
         ['label' => trans('texts.new_item_transfer'), 'url' => url('/item_transfers')],
         ['label' => trans('texts.list_item_movements'), 'url' => url('/item_movements')],
         ['label' => trans('texts.new_store'), 'url' => url('/stores')],
-        ['label' => trans('texts.new_unit'), 'url' => url('/units')],
         ])->split(); ?>
 
     <?php endif; ?>
@@ -179,7 +177,6 @@
         ['label' => trans('texts.new_item_transfer'), 'url' => url('/item_transfers')],
         ['label' => trans('texts.list_item_movements'), 'url' => url('/item_movements')],
         ['label' => trans('texts.new_store'), 'url' => url('/stores')],
-        ['label' => trans('texts.new_unit'), 'url' => url('/units')],
         ])->split(); ?>
 
     <?php endif; ?>

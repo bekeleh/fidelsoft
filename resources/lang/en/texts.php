@@ -227,6 +227,17 @@ $LANG = array(
     'deleted_client_types' => 'Successfully Deleted :count Client Types',
     'select_client_type' => 'Select Default Client Type',
     'client_type_help' => 'Sets the default <b>client type</b>',
+// client types
+    'client_type_regular' => 'Regular',
+    'client_type_special' => 'Special',
+    'client_type_other' => 'Other',
+    'client_type_loyal' => 'Loyal',
+    'client_type_impulsive' => 'Impulsive',
+    'client_type_new' => 'New',
+    'client_type_potential' => 'Potential',
+    'client_type_wholesaler' => 'Wholesaler',
+    'client_type_retailer' => 'Retailer',
+
 //   POS
     'point_of_sale' => 'Point of Sales',
     'point_of_sales' => 'Sales',
@@ -337,6 +348,9 @@ $LANG = array(
     'sale_type_settings' => 'Sale Type Settings',
     'select_sale_type' => 'Select Sale Type',
     'sale_type_help' => 'Sets the default <b>sales type</b>',
+// sale type
+    'sale_type_' => 'Tax Rate Name',
+
 //   Tax Rates
     'tax_rate_name' => 'Tax Rate Name',
     'tax_rates' => 'Tax Rate',
@@ -463,6 +477,15 @@ $LANG = array(
     'hold_reason_settings' => 'Hold Reason Settings',
     'select_hold_reason' => 'Select Hold Reason',
     'hold_reason_help' => 'Sets the default <b>hold reason</b>',
+// hold reason
+    'hold_reason_good_history' => 'Good History',
+    'hold_reason_watch' => 'Watch',
+    'hold_reason_in_liquidation' => 'In Liquidation',
+    'hold_reason_bad_debit' => 'Bad Debit',
+    'hold_reason_insolvent_debit' => 'Insolvent Debit',
+    'hold_reason_fraud' => 'Fraud',
+
+
 //  Locations
     'locations' => 'Locations',
     'location_name' => 'Default Location',

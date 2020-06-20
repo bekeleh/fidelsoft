@@ -70,5 +70,23 @@ class TranslationComposer
             return $plan->name;
         }));
 
+        $view->with('clientTypes', Cache::get('clientTypes')->each(function ($clientType) {
+            $clientType->name = trans('texts.client_type_' . Str::slug($clientType->name, '_'));
+        })->sortBy(function ($clientType) {
+            return $clientType->name;
+        }));
+
+        $view->with('saleTypes', Cache::get('saleTypes')->each(function ($saleType) {
+            $saleType->name = trans('texts.sale_type_' . Str::slug($saleType->name, '_'));
+        })->sortBy(function ($saleType) {
+            return $saleType->name;
+        }));
+
+        $view->with('holdReasons', Cache::get('holdReasons')->each(function ($holdReason) {
+            $holdReason->name = trans('texts.hold_reason_' . Str::slug($holdReason->name, '_'));
+        })->sortBy(function ($holdReason) {
+            return $holdReason->name;
+        }));
+
     }
 }

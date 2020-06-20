@@ -39,7 +39,7 @@
                 ->placeholder(trans('texts.select_item_brand'))
                 ->label(trans('texts.item_brand'))
                 ->addGroupClass('item-brand-select')
-                ->help(trans('texts.item_brand_help') . ' | ' . link_to('/item_brands/', trans('texts.customize_options'))); ?>
+                ->help(trans('texts.item_brand_help') . ' | ' . link_to('/item_itemBrands/', trans('texts.customize_options'))); ?>
 
                 <!-- category-->
                 <?php echo Former::select('category_id')->addOption('','')
@@ -87,8 +87,8 @@
     <?php echo Former::close(); ?>
 
     <script type="text/javascript">
-        var brands = <?php echo $itemBrands; ?>;
-        var brandMap = {};
+        var itemBrands = <?php echo $itemBrands; ?>;
+        var itemBrandMap = {};
 
         $(function () {
             $('#name').focus();
@@ -96,21 +96,21 @@
 
         $(function () {
             <!-- item brand -->
-            var brandId = <?php echo e($itemBrandPublicId ?: 0); ?>;
+            var itemBrandId = <?php echo e($itemBrandPublicId ?: 0); ?>;
             var $item_brandSelect = $('select#item_brand_id');
             <?php if(Auth::user()->can('create', ENTITY_ITEM_BRAND)): ?>
             $item_brandSelect.append(new Option("<?php echo e(trans('texts.create_item_brand')); ?>:$name", '-1'));
                     <?php endif; ?>
-            for (var i = 0; i < brands.length; i++) {
-                var brand = brands[i];
-                brandMap[brand.public_id] = brand;
-                $item_brandSelect.append(new Option(getClientDisplayName(brand), brand.public_id));
+            for (var i = 0; i < itemBrands.length; i++) {
+                var itemBrand = itemBrands[i];
+                itemBrandMap[itemBrand.public_id] = itemBrand;
+                $item_brandSelect.append(new Option(getClientDisplayName(itemBrand), itemBrand.public_id));
             }
 
             <?php echo $__env->make('partials/entity_combobox', ['entityType' => ENTITY_ITEM_BRAND], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-            if (brandId) {
-                var brand = brandMap[brandId];
-                setComboboxValue($('.item-brand-select'), brand.public_id, brand.name);
+            if (itemBrandId) {
+                var itemBrand = itemBrandMap[itemBrandId];
+                setComboboxValue($('.item-brand-select'), itemBrand.public_id, itemBrand.name);
             }
 
             function submitAction(action) {
