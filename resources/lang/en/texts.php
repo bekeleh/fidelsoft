@@ -3382,6 +3382,8 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'subscription_event_19' => 'Updated Task',
     'subscription_event_20' => 'Deleted Task',
     'subscription_event_21' => 'Approved Quote',
+    'subscription_event_22' => 'Create Product',
+    'subscription_event_23' => 'Update Product',
     'subscriptions' => 'Subscriptions',
     'updated_subscription' => 'Successfully updated subscription',
     'created_subscription' => 'Successfully created subscription',

@@ -41,6 +41,8 @@ class EntityListener
         if (isset($jsonData['client_id'])) {
             $jsonData['client_name'] = $entity->client->getDisplayName();
         }
+//      not yet defined
+        $ublData = null;
 
         foreach ($subscriptions as $subscription) {
             switch ($subscription->format) {

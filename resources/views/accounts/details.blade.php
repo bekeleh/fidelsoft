@@ -40,7 +40,6 @@
                     {!! Former::text('work_phone') !!}
                     {!! Former::file('logo')->max(2, 'MB')->accept('image')->inlineHelp(trans('texts.logo_help')) !!}
 
-
                     @if ($account->hasLogo())
                         <div class="form-group">
                             <div class="col-lg-4 col-sm-4"></div>
@@ -52,7 +51,6 @@
                             </div>
                         </div>
                     @endif
-
 
                     {!! Former::select('size_id')
                             ->addOption('','')

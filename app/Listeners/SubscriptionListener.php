@@ -72,6 +72,7 @@ class SubscriptionListener extends EntityListener
     public function createdInvoice(InvoiceItemsWereCreated $event)
     {
         $transformer = new InvoiceTransformer($event->invoice->account);
+
         $this->checkSubscriptions(EVENT_CREATE_INVOICE, $event->invoice, $transformer, ENTITY_CLIENT);
     }
 

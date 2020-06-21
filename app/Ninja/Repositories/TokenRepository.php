@@ -29,7 +29,12 @@ class TokenRepository extends BaseRepository
                 'account_tokens.name',
                 'account_tokens.token',
                 'account_tokens.public_id',
-                'account_tokens.deleted_at'
+                'account_tokens.created_at',
+                'account_tokens.updated_at',
+                'account_tokens.deleted_at',
+                'account_tokens.created_by',
+                'account_tokens.updated_by',
+                'account_tokens.deleted_by'
             );
 
         return $query;

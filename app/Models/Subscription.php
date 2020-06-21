@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -10,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Subscription extends EntityModel
 {
+    protected $presenter = 'App\Ninja\Presenters\SubscriptionPresenter';
 
     public $timestamps = true;
 

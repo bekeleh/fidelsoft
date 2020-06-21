@@ -27,7 +27,7 @@ class TokenService extends BaseService
 
     public function getDatatable($userId)
     {
-        $datatable = new TokenDatatable(false);
+        $datatable = new TokenDatatable(true, true);
         $query = $this->tokenRepo->find($userId);
 
         return $this->datatableService->createDatatable($datatable, $query);
