@@ -992,7 +992,7 @@ class ProductSearchGapicClient
      * ```
      *
      * @param Product $product      Required. The Product resource which replaces the one on the server.
-     *                              product.name is immutable.
+     *                              product.product_key is immutable.
      * @param array   $optionalArgs {
      *                              Optional.
      *
@@ -1022,7 +1022,7 @@ class ProductSearchGapicClient
         }
 
         $requestParams = new RequestParamsHeaderDescriptor([
-          'product.name' => $request->getProduct()->getName(),
+          'product.product_key' => $request->getProduct()->getName(),
         ]);
         $optionalArgs['headers'] = isset($optionalArgs['headers'])
             ? array_merge($requestParams->getHeader(), $optionalArgs['headers'])

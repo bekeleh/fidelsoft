@@ -24,7 +24,7 @@ class ProductTransformer extends EntityTransformer
     {
         return array_merge($this->getDefaults($product), [
             'id' => (int)$product->public_id,
-            'name' => $product->name,
+            'product_key' => $product->product_key,
             'notes' => $product->notes,
             'cost' => (float)$product->cost,
             'tax_name1' => $product->tax_name1 ?: '',
@@ -35,7 +35,7 @@ class ProductTransformer extends EntityTransformer
             'archived_at' => $this->getTimestamp($product->deleted_at),
             'custom_value1' => $product->custom_value1 ?: '',
             'custom_value2' => $product->custom_value2 ?: '',
-            'is_deleted' => (bool) $product->is_deleted,
+            'is_deleted' => (bool)$product->is_deleted,
         ]);
     }
 }

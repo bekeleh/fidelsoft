@@ -220,13 +220,13 @@
         </div>
     </div>
 
-
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">{!! trans('texts.custom_fields') !!}</h3>
+        <div class="panel-heading" style="color:white;background-color: #777 !important;">
+            <h3 class="panel-title in-bold-white">
+                {!! trans('texts.custom_fields') !!}
+            </h3>
         </div>
         <div class="panel-body form-padding-right">
-
             <div role="tabpanel">
                 <ul class="nav nav-tabs" role="tablist" style="border: none">
                     <li role="presentation" class="active">
@@ -258,7 +258,6 @@
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="product_fields">
                     <div class="panel-body">
-
                         {!! Former::text('custom_fields[product1]')
                                 ->label('product_field')
                                 ->data_lpignore('true') !!}
@@ -266,7 +265,6 @@
                                 ->label('product_field')
                                 ->data_lpignore('true')
                                 ->help(trans('texts.custom_product_fields_help') . ' ' . trans('texts.custom_fields_tip')) !!}
-
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="client_fields">
@@ -373,11 +371,12 @@
     </div>
 
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">{!! trans('texts.workflow_settings') !!}</h3>
+        <div class="panel-heading" style="color:white;background-color: #777 !important;">
+            <h3 class="panel-title in-bold-white">
+                {!! trans('texts.workflow_settings') !!}
+            </h3>
         </div>
         <div class="panel-body form-padding-right">
-
             <div role="tabpanel">
                 <ul class="nav nav-tabs" role="tablist" style="border: none">
                     <li role="presentation" class="active">
@@ -423,16 +422,18 @@
     </div>
 
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">{!! trans('texts.defaults') !!}</h3>
+        <div class="panel-heading" style="color:white;background-color: #777 !important;">
+            <h3 class="panel-title in-bold-white">
+                {!! trans('texts.defaults') !!}
+            </h3>
         </div>
         <div class="panel-body" style="min-height:350px">
-
             <div role="tabpanel">
                 <ul class="nav nav-tabs" role="tablist" style="border: none">
-                    <li role="presentation" class="active"><a href="#invoice_terms" aria-controls="invoice_terms"
-                                                              role="tab"
-                                                              data-toggle="tab">{{ trans('texts.invoice_terms') }}</a>
+                    <li role="presentation" class="active">
+                        <a href="#invoice_terms" aria-controls="invoice_terms"
+                           role="tab"
+                           data-toggle="tab">{{ trans('texts.invoice_terms') }}</a>
                     </li>
                     <li role="presentation"><a href="#invoice_footer" aria-controls="invoice_footer" role="tab"
                                                data-toggle="tab">{{ trans('texts.invoice_footer') }}</a></li>
@@ -505,8 +506,6 @@
         </div>
     </div>
 
-
-
     @if (Auth::user()->hasFeature(FEATURE_INVOICE_SETTINGS))
         <center>
             {!! Button::success(trans('texts.save'))->large()->submit()->appendIcon(Icon::create('floppy-disk')) !!}
@@ -521,7 +520,6 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title" id="patternHelpModalLabel">{{ trans('texts.pattern_help_title') }}</h4>
                 </div>
-
                 <div class="container" style="width: 100%; padding-bottom: 0px !important">
                     <div class="panel panel-default">
                         <div class="panel-body">
@@ -556,9 +554,7 @@
         </div>
     </div>
 
-
     {!! Former::close() !!}
-
 
     <script type="text/javascript">
 

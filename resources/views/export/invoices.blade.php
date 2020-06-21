@@ -38,7 +38,7 @@
     @if ($account->customLabel('product2'))
         <td>{{ $account->present()->customLabel('product2') }}</td>
     @endif
-    <td>{{ trans('texts.unit_cost') }}</td>
+    <td>{{ trans('texts.cost') }}</td>
     <td>{{ trans('texts.item_quantity') }}</td>
     @if ($account->invoice_item_taxes)
         <td>{{ trans('texts.item_tax_name') }}</td>
@@ -96,7 +96,7 @@
                 @if ($account->customLabel('product2'))
                     <td>{{ $item->custom_value2 }}</td>
                 @endif
-                <td>{{ $item->unit_cost }}</td>
+                <td>{{ $item->cost }}</td>
                 <td>{{ $item->qty }}</td>
                 @if ($account->invoice_item_taxes)
                     <td>{{ $item->tax_name1 }}</td>

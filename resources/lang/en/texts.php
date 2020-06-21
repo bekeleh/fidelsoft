@@ -772,7 +772,7 @@ $LANG = array(
     'item_serial' => 'Item Serial',
     'item_tag' => 'Item Tag',
     'description' => 'Description',
-    'cost' => 'Unit Cost',
+    'cost' => 'Unit Price',
     'unit_cost' => 'Unit Cost',
     'quantity' => 'Quantity',
     'line_total' => 'Line Total',
@@ -934,7 +934,7 @@ $LANG = array(
     'confirmation_required' => 'Please confirm your email address, :link to resend the confirmation email.',
     'default_store_required' => 'Please specify default user store, :link to set default user store.',
     'user_branch_required' => 'Please specify default user branch, :link to set default user branch, otherwise you can\'t proceed to the invoice.',
-    'product_required' => 'Product quantity is zero or not available in your :branch default store :store, :link to set product quantity, otherwise you can\'t proceed to the invoice.',
+    'product_required' => 'Item quantity is (0)zero or not available in your <strong>:branch</strong> default store <strong>:store</strong>, :link to set product quantity, otherwise you can\'t proceed to the invoice.',
     'updated_invoice' => 'Successfully updated invoice',
     'created_invoice' => 'Successfully created invoice',
     'cloned_invoice' => 'Successfully cloned invoice',
@@ -2086,6 +2086,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'payment_file' => 'Payment File',
     'expense_file' => 'Expense File',
     'product_file' => 'Product File',
+    'product_key' => 'Product Key',
     'import_products' => 'Import Products',
     'products_will_create' => 'products will be created',
     'created_products' => 'Successfully created/updated :count product(s)',
@@ -2129,6 +2130,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'added_on' => 'Added :date',
     'failed_remove_payment_method' => 'Failed to remove the payment method',
     'gateway_exists' => 'This gateway already exists',
+    'gateway_fee_discount_description' => 'Gateway fee discount description',
     'manual_entry' => 'Manual entry',
     'start_of_week' => 'First Day of the Week',
 
@@ -2478,6 +2480,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'country_Zambia' => 'Zambia',
 
 // Languages
+    'lang_Amharic' => 'Amharic',
     'lang_Brazilian Portuguese' => 'Brazilian Portuguese',
     'lang_Croatian' => 'Croatian',
     'lang_Czech' => 'Czech',
@@ -2694,7 +2697,6 @@ Once you have the amounts, come back to this payment methods page and click "Com
 
     'currency_symbol' => 'Symbol',
     'currency_code' => 'Code',
-    'currency_ethiopia_birr' => 'Ethiopia Birr',
 
     'id' => 'S.No.',
     'buy_license' => 'Buy License',
@@ -3115,6 +3117,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'currency_israeli_shekel' => 'Israeli Shekel',
     'currency_swedish_krona' => 'Swedish Krona',
     'currency_kenyan_shilling' => 'Kenyan Shilling',
+    'currency_ethiopia_birr' => 'Ethiopia Birr',
     'currency_canadian_dollar' => 'Canadian Dollar',
     'currency_philippine_peso' => 'Philippine Peso',
     'currency_indian_rupee' => 'Indian Rupee',

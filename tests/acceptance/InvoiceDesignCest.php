@@ -41,7 +41,7 @@ class InvoiceDesignCest
         /*
         $I->fillField(['name' => 'labels_item'], $this->faker->text(6));
         $I->fillField(['name' => 'labels_description'], $this->faker->text(12));
-        $I->fillField(['name' => 'labels_unit_cost'], $this->faker->text(12));
+        $I->fillField(['name' => 'labels_cost'], $this->faker->text(12));
         $I->fillField(['name' => 'labels_quantity'], $this->faker->text(8));
 
         $I->uncheckOption('#hide_quantity');

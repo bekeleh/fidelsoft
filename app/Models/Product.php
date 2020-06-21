@@ -19,14 +19,14 @@ class Product extends EntityModel
     protected $hidden = [];
 
     protected $fillable = [
+        'product_key',
         'public_id',
-        'name',
         'UPC',
         'item_serial',
         'item_barcode',
         'item_tag',
         'notes',
-        'unit_cost',
+        'cost',
         'is_locked',
         'is_public',
         'item_brand_id',
@@ -52,7 +52,7 @@ class Product extends EntityModel
             'UPC',
             'EAN',
             'notes',
-            'unit_cost',
+            'cost',
             'custom_value1',
             'custom_value2',
         ];
@@ -63,7 +63,7 @@ class Product extends EntityModel
         return [
             'product|item' => 'name',
             'notes|description|details' => 'notes',
-            'unit_cost|amount|price' => 'unit_cost',
+            'cost|amount|price' => 'cost',
             'custom_value1' => 'custom_value1',
             'custom_value2' => 'custom_value2',
         ];

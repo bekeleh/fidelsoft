@@ -791,9 +791,9 @@ class InvoiceRepository extends BaseRepository
 
             foreach ([
                          'product_id',
-                         'name',
+                         'product_key',
                          'notes',
-                         'unit_cost',
+                         'cost',
                          'qty',
                          'tax_name1',
                          'tax_rate1',
@@ -920,7 +920,7 @@ class InvoiceRepository extends BaseRepository
 
         return DB::table('products')
             ->whereAccountId($account->id)
-            ->whereName($productKey)
+            ->whereProductKey($productKey)
             ->whereDeletedAt(null)
             ->first();
     }
@@ -1025,9 +1025,9 @@ class InvoiceRepository extends BaseRepository
             $item = InvoiceItem::createNew($recurItem);
             $item->product_id = $recurItem->product_id;
             $item->qty = $recurItem->qty;
-            $item->unit_cost = $recurItem->unit_cost;
+            $item->cost = $recurItem->cost;
             $item->notes = Utils::processVariables($recurItem->notes, $client);
-            $item->name = Utils::processVariables($recurItem->name, $client);
+            $item->product_key = Utils::processVariables($recurItem->product_key, $client);
             $item->tax_name1 = $recurItem->tax_name1;
             $item->tax_rate1 = $recurItem->tax_rate1;
             $item->tax_name2 = $recurItem->tax_name2;
@@ -1206,10 +1206,10 @@ class InvoiceRepository extends BaseRepository
         }
 
         $item = [];
-        $item['name'] = trans('texts.fee');
+        $item['product_key'] = trans('texts.fee');
         $item['notes'] = trans('texts.late_fee_added', ['date' => $account->formatDate('now')]);
         $item['qty'] = 1;
-        $item['unit_cost'] = $fee;
+        $item['cost'] = $fee;
         $item['invoice_item_type_id'] = INVOICE_ITEM_TYPE_LATE_FEE;
         $data['invoice_items'][] = $item;
 
@@ -1255,10 +1255,10 @@ class InvoiceRepository extends BaseRepository
         }
 
         $item = [];
-        $item['name'] = $feeItemLabel;
+        $item['product_key'] = $feeItemLabel;
         $item['notes'] = $feeDescriptionLabel;
         $item['qty'] = 1;
-        $item['unit_cost'] = $fee;
+        $item['cost'] = $fee;
         $item['tax_rate1'] = $settings->fee_tax_rate1;
         $item['tax_name1'] = $settings->fee_tax_name1;
         $item['tax_rate2'] = $settings->fee_tax_rate2;
@@ -1422,7 +1422,7 @@ class InvoiceRepository extends BaseRepository
             $found = 0;
             if (count($oldLineItems)) {
                 foreach ($oldLineItems as $oldLineItem) {
-                    if ($newLineItem['name'] === $oldLineItem['name']) {
+                    if ($newLineItem['product_key'] === $oldLineItem['product_key']) {
 //                     if there is only quantity difference
                         if ($newLineItem['qty'] != $oldLineItem['qty']) {
                             $qoh += $oldLineItem['qty'];
@@ -1466,11 +1466,10 @@ class InvoiceRepository extends BaseRepository
         $demandQty = !empty($item['qty']) ? Utils::parseFloat($item['qty']) : 1;
         $invoiceItem = InvoiceItem::createNew($invoice);
         $invoiceItem->fill($item);
-        $invoiceItem->product_id = isset($item['name']) ? $product->id : null;
-        $invoiceItem->product_key = isset($item['name']) ? trim($item['name']) : null;
-        $invoiceItem->name = isset($item['name']) ? (trim($invoice->is_recurring ? $item['name'] : Utils::processVariables($item['name']))) : '';
+        $invoiceItem->product_id = isset($item['product_key']) ? $product->id : null;
+        $invoiceItem->product_key = isset($item['product_key']) ? trim($item['product_key']) : null;
         $invoiceItem->notes = trim($invoice->is_recurring ? $item['notes'] : Utils::processVariables($item['notes']));
-        $invoiceItem->unit_cost = !empty($item['unit_cost']) ? Utils::parseFloat($item['unit_cost']) : $product->unit_cost;
+        $invoiceItem->cost = !empty($item['cost']) ? Utils::parseFloat($item['cost']) : $product->cost;
         $invoiceItem->qty = $invoicedQty;
         $invoiceItem->demand_qty = $demandQty;
         $invoiceItem->created_by = auth::user()->username;
@@ -1546,15 +1545,15 @@ class InvoiceRepository extends BaseRepository
         $total = 0;
         foreach ($data['invoice_items'] as $item) {
             $item = (array)$item;
-            if (!$item['unit_cost'] && !$item['name']) {
+            if (!$item['cost'] && !$item['product_key']) {
                 continue;
             }
 //          TODO: product or service
-            $product = $this->getProductDetail($account, trim($item['name']));
+            $product = $this->getProductDetail($account, trim($item['product_key']));
             if ($product) {
                 $itemStore = $this->getItemStore($account, $product);
                 if ($itemStore) {
-                    $invoiceItemCost = isset($item['unit_cost']) ? Utils::roundSignificant(Utils::parseFloat($item['unit_cost'])) : $product->unit_cost;
+                    $invoiceItemCost = isset($item['cost']) ? Utils::roundSignificant(Utils::parseFloat($item['cost'])) : $product->cost;
                     $invoiceItemQty = isset($item['qty']) ? Utils::roundSignificant(Utils::parseFloat($item['qty'])) : 1;
                     $discount = empty($item['discount']) ? 0 : round(Utils::parseFloat($item['discount']), 2);
 //                 if quantity on hand greater than quantity demand
@@ -1588,11 +1587,11 @@ class InvoiceRepository extends BaseRepository
         foreach ($data['invoice_items'] as $item) {
             $item = (array)$item;
 //            TODO:product or service
-            $product = $this->getProductDetail($account, trim($item['name']));
+            $product = $this->getProductDetail($account, trim($item['product_key']));
             if ($product) {
                 $itemStore = $this->getItemStore($account, $product);
                 if ($itemStore) {
-                    $invoiceItemCost = isset($item['unit_cost']) ? Utils::roundSignificant(Utils::parseFloat($item['unit_cost'])) : $product->unit_cost;
+                    $invoiceItemCost = isset($item['cost']) ? Utils::roundSignificant(Utils::parseFloat($item['cost'])) : $product->cost;
                     $invoiceItemQty = isset($item['qty']) ? Utils::roundSignificant(Utils::parseFloat($item['qty'])) : 1;
                     $discount = empty($item['discount']) ? 0 : round(Utils::parseFloat($item['discount']), 2);
 //                    quantity on hand greater than quantity demand
@@ -1728,7 +1727,7 @@ class InvoiceRepository extends BaseRepository
         }
         foreach ($data['invoice_items'] as $item) {
             $item = (array)$item;
-            if (empty($item['name']) && empty($item['unit_cost'])) {
+            if (empty($item['product_key']) && empty($item['cost'])) {
                 continue;
             }
 //          task update
@@ -1736,7 +1735,7 @@ class InvoiceRepository extends BaseRepository
 //          expense updates
             $this->expense($invoice, $item);
 //             TODO: check service order or product sell
-            $product = $this->getProductDetail($account, trim($item['name']));
+            $product = $this->getProductDetail($account, trim($item['product_key']));
             if ($product) {
 //                  check quantity on hand hand
                 $itemStore = $this->getItemStore($account, $product);

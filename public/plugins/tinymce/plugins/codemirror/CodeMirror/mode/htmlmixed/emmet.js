@@ -1548,7 +1548,7 @@ define(function(require, exports, module) {
 					var menuName, submenu;
 					while ((menuName = parts.shift())) {
 						submenu = utils.find(ctx, function(item) {
-							return item.type == 'submenu' && item.name == menuName;
+							return item.type == 'submenu' && item.product_key == menuName;
 						});
 						
 						if (!submenu) {
@@ -1667,7 +1667,7 @@ define(function(require, exports, module) {
 	var cssGradient = require('../resolver/cssGradient');
 
 	prefs.define('css.reflect.oldIEOpacity', false, 'Support IE6/7/8 opacity notation, e.g. <code>filter:alpha(opacity=...)</code>.\
-		Note that CSS3 and SVG also provides <code>filter</code> property so this option is disabled by default.')
+		Note that CSS3 and SVG also provides <code>filter</code> property so this option is disabled by default.');
 
 	/**
 	 * @type HandlerList List of registered handlers
@@ -5181,7 +5181,7 @@ define(function(require, exports, module) {
 			while (pos < len) {
 				ch = this.string.charAt(pos++);
 				if (ch == '\\') {
-					continue;
+
 				} else if (ch == quote) {
 					this.pos = pos;
 					return true;
@@ -33103,7 +33103,7 @@ define(function(require, exports, module) {
 			var forceNl = profile.tag_nl === true && (profile.tag_nl_leaf || item.children.length);
 			if (!forceNl) {
 				var forceIndentTags = prefs.getArray('format.forceIndentationForTags') || [];
-				forceNl = ~forceIndentTags.indexOf(item.name());
+				forceNl = ~forceIndentTags.indexOf(item.product_key());
 			}
 			
 			// formatting block-level elements
@@ -33271,7 +33271,7 @@ define(function(require, exports, module) {
 		var start= '';
 			
 		// define tag name
-		var tagName = '%' + profile.tagName(item.name());
+		var tagName = '%' + profile.tagName(item.product_key());
 		if (tagName.toLowerCase() == '%div' && attrs && attrs.indexOf('{') == -1)
 			// omit div tag
 			tagName = '';
@@ -33366,7 +33366,7 @@ define(function(require, exports, module) {
 			
 		// define opening and closing tags
 		if (!item.isTextNode()) {
-			var tagName = profile.tagName(item.name());
+			var tagName = profile.tagName(item.product_key());
 			if (isUnary) {
 				start = '<' + tagName + attrs + profile.selfClosing() + '>';
 				item.end = '';
@@ -33524,7 +33524,7 @@ define(function(require, exports, module) {
 		var isUnary = abbrUtils.isUnary(item);
 			
 		// define tag name
-		var tagName = profile.tagName(item.name());
+		var tagName = profile.tagName(item.product_key());
 		if (tagName.toLowerCase() == 'div' && attrs && attrs.charAt(0) != '(')
 			// omit div tag
 			tagName = '';
@@ -33906,7 +33906,7 @@ define(function(require, exports, module) {
 		var selfClosing = profile.self_closing_tag && isUnary ? '/' : '';
 			
 		// define tag name
-		var tagName = profile.tagName(item.name());
+		var tagName = profile.tagName(item.product_key());
 		if (tagName.toLowerCase() == 'div' && attrs && '([{'.indexOf(attrs.charAt(0)) == -1)
 			// omit div tag
 			tagName = '';
@@ -34017,7 +34017,7 @@ define(function(require, exports, module) {
 	return function process(tree) {
 		tree.children.forEach(function(item) {
 			if (!abbrUtils.isSnippet(item)
-					&& (item.name() || '').toLowerCase() in tags 
+					&& (item.product_key() || '').toLowerCase() in tags
 					&& item.children.length)
 				trimAttribute(item);
 			process(item);
@@ -34508,7 +34508,7 @@ define(function(require, exports, module) {
 
 			if (typeof fn !== 'function') {
 				var elemName = fn.toLowerCase();
-				fn = function(item) {return item.name().toLowerCase() == elemName;};
+				fn = function(item) {return item.product_key().toLowerCase() == elemName;};
 			}
 				
 			var result = [];
@@ -34790,7 +34790,7 @@ define(function(require, exports, module) {
 				return true;
 			
 			if (ch == '\\')
-				continue;
+
 		}
 		
 		return false;
@@ -35924,7 +35924,7 @@ define(function(require, exports, module) {
 			var reProto = /^([a-z]+:)?\/\//i;
 
 			tree.findAll(function(item) {
-				if (item.name().toLowerCase() != 'a' || item.attribute('href')) {
+				if (item.product_key().toLowerCase() != 'a' || item.attribute('href')) {
 					return;
 				}
 
@@ -37977,7 +37977,7 @@ define(function(require, exports, module) {
 		if (alignVendor) {
 			var names = [], values = [];
 			propsToInsert.forEach(function(item) {
-				names.push(item.name);
+				names.push(item.product_key);
 				values.push(item.value);
 			});
 			values.push(property.value());
@@ -38209,7 +38209,7 @@ define(function(require, exports, module) {
 				}
 				
 				props = props.map(function(item) {
-					return item.name + sep + item.value + end;
+					return item.product_key + sep + item.value + end;
 				});
 				
 				editor.replaceContent(props.join('\n'), lineRange.start, lineRange.end);
@@ -39915,7 +39915,7 @@ define(function(require, exports, module) {
 				} else {
 					if (braceCount || textCount) 
 						// respect all characters inside attribute sets or text nodes
-						continue;
+
 					else if (!abbreviationParser.isAllowedChar(ch) || (ch == '>' && utils.endsWithTag(str.substring(0, curOffset + 1)))) {
 						// found stop symbol
 						startIndex = curOffset + 1;
@@ -40019,7 +40019,7 @@ define(function(require, exports, module) {
 					if (tagTree) {
 						contextNode.attributes = tagTree.getAll().map(function(item) {
 							return {
-								name: item.name(),
+								name: item.product_key(),
 								value: item.value()
 							};
 						});
@@ -41168,7 +41168,7 @@ define(function(require, exports, module) {
 				if (m) {
 					return m;
 				}
-			};
+			}
 
 			return this.parent ? this : null;
 		},
@@ -41203,7 +41203,7 @@ define(function(require, exports, module) {
 			indent = indent || '';
 			var out = '';
 			this.children.forEach(function(item) {
-				out += indent + item.name().replace(/\n/g, '\\n') + '\n';
+				out += indent + item.product_key().replace(/\n/g, '\\n') + '\n';
 				out += item.stringify(indent + '--');
 			});
 
@@ -41275,7 +41275,7 @@ define(function(require, exports, module) {
 
 					if (matchedRanges.length) {
 						stream.pos = utils.last(matchedRanges).end;
-						continue;
+
 					} 
 				}
 			}
@@ -41463,8 +41463,8 @@ define(function(require, exports, module) {
 			while ((ch = stream.next())) {
 				if (isQuote(ch)) {
 					// skip string
-					stream.skipString(ch)
-					continue;
+					stream.skipString(ch);
+
 				} else if (ch === '#' || ch === '@') {
 					ch2 = stream.peek();
 					if (ch2 === '{') { // string interpolation

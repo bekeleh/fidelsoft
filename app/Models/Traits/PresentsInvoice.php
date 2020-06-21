@@ -14,20 +14,17 @@ trait PresentsInvoice
 
             if (!isset($fields['product_fields'])) {
                 $fields['product_fields'] = [
-                    'product.id',
-                    'product.public_id',
                     'product.item',
+                    'product.product_key',
                     'product.description',
                     'product.custom_value1',
                     'product.custom_value2',
-                    'product.unit_cost',
+                    'product.cost',
                     'product.quantity',
                     'product.tax',
                     'product.line_total',
                 ];
                 $fields['task_fields'] = [
-                    'product.id',
-                    'product.public_id',
                     'product.service',
                     'product.description',
                     'product.custom_value1',
@@ -83,17 +80,16 @@ trait PresentsInvoice
             ],
             'product_fields' => [
                 'product.item',
+                'product.product_key',
                 'product.description',
                 'product.custom_value1',
                 'product.custom_value2',
-                'product.unit_cost',
+                'product.cost',
                 'product.quantity',
                 'product.tax',
                 'product.line_total',
             ],
             'task_fields' => [
-                'product.id',
-                'product.public_id',
                 'product.service',
                 'product.description',
                 'product.custom_value1',
@@ -186,21 +182,18 @@ trait PresentsInvoice
                 '.blank',
             ],
             INVOICE_FIELDS_PRODUCT => [
-                'product.id',
-                'product.public_id',
                 'product.item',
+                'product.product_key',
                 'product.description',
                 'product.custom_value1',
                 'product.custom_value2',
-                'product.unit_cost',
+                'product.cost',
                 'product.quantity',
                 'product.discount',
                 'product.tax',
                 'product.line_total',
             ],
             INVOICE_FIELDS_TASK => [
-                'product.id',
-                'product.public_id',
                 'product.service',
                 'product.description',
                 'product.custom_value1',
@@ -276,11 +269,9 @@ trait PresentsInvoice
             'discount',
             'taxes',
             'tax',
-            'id',
-            'public_id',
             'item',
             'description',
-            'unit_cost',
+            'cost',
             'quantity',
             'line_total',
             'subtotal',
@@ -364,7 +355,7 @@ trait PresentsInvoice
             }
         }
 
-        foreach (['item', 'quantity', 'unit_cost'] as $field) {
+        foreach (['item', 'product_key', 'quantity', 'unit_cost'] as $field) {
             $data["{$field}_orig"] = $data[$field];
         }
 

@@ -4,7 +4,7 @@
     @endif
     <td>{{ trans('texts.product') }}</td>
     <td>{{ trans('texts.notes') }}</td>
-    <td>{{ trans('texts.unit_cost') }}</td>
+    <td>{{ trans('texts.cost') }}</td>
     @if ($account->customLabel('product1'))
         <td>{{ $account->present()->customLabel('product1') }}</td>
     @endif
@@ -20,7 +20,7 @@
         @endif
         <td>{{ $product->product_key }}</td>
         <td>{{ $product->notes }}</td>
-        <td>{{ $product->unit_cost }}</td>
+        <td>{{ $product->cost }}</td>
         @if ($account->customLabel('product1'))
 
         @endif

@@ -55,7 +55,7 @@ class ProductRepository extends BaseRepository
                 'products.item_serial',
                 'products.item_barcode',
                 'products.item_tag',
-                'products.unit_cost',
+                'products.cost',
                 'products.tax_name1',
                 'products.tax_name2',
                 'products.tax_rate1',
@@ -125,12 +125,12 @@ class ProductRepository extends BaseRepository
         }
 
         $product->fill($data);
-        $product->name = isset($data['name']) ? trim($data['name']) : null;
+        $product->product_key = isset($data['name']) ? trim($data['name']) : null;
         $product->UPC = isset($data['UPC']) ? trim($data['UPC']) : null;
         $product->item_barcode = isset($data['item_barcode']) ? trim($data['item_barcode']) : null;
         $product->item_serial = isset($data['item_serial']) ? trim($data['item_serial']) : null;
         $product->item_tag = isset($data['item_tag']) ? trim($data['item_tag']) : null;
-        $product->unit_cost = isset($data['unit_cost']) ? Utils::parseFloat($data['unit_cost']) : 0;
+        $product->cost = isset($data['cost']) ? Utils::parseFloat($data['cost']) : 0;
         $product->save();
 
         if ($publicId) {
@@ -152,12 +152,12 @@ class ProductRepository extends BaseRepository
         $products = Product::scope()->get();
 
         foreach ($products as $product) {
-            if (!$product->name) {
+            if (!$product->product_key) {
                 continue;
             }
 
             $map[$product->id] = $product;
-            $similar = similar_text($productNameMeta, metaphone($product->name), $percent);
+            $similar = similar_text($productNameMeta, metaphone($product->product_key), $percent);
 
             if ($percent > $max) {
                 $productId = $product->id;

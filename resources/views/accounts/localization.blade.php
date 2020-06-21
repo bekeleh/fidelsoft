@@ -20,7 +20,9 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading" style="color:white;background-color: #777 !important;">
-                    <h3 class="panel-title in-bold-white">{!! trans('texts.localization') !!}</h3>
+                    <h3 class="panel-title in-bold-white">
+                        {!! trans('texts.localization') !!}
+                    </h3>
                 </div>
                 <div class="panel-body form-padding-right">
                     {!! Former::select('currency_id')

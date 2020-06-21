@@ -58,7 +58,7 @@ class InvoiceItemDatatable extends EntityDatatable
                 },
             ],
             [
-                trans('unit_cost'),
+                trans('cost'),
                 function ($model) {
                     return $this->showWithTooltip($model->cost);
                 },

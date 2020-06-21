@@ -15,7 +15,6 @@
     @endif
 
     <span style="display:none">
-    {!! Former::text('public_id') !!}
         {!! Former::text('action') !!}
     </span>
 

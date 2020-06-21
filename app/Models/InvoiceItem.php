@@ -62,7 +62,7 @@ class InvoiceItem extends EntityModel
 
     public function getPreTaxAmount()
     {
-        $amount = $this->unit_cost * $this->qty;
+        $amount = $this->cost * $this->qty;
 
         if ($this->discount != 0) {
             if ($this->invoice->is_amount_discount) {
@@ -119,7 +119,7 @@ class InvoiceItem extends EntityModel
 
     public function costWithDiscount()
     {
-        $unitCost = $this->unit_cost;
+        $unitCost = $this->cost;
 
         if ($this->discount != 0) {
             if ($this->invoice->is_amount_discount) {

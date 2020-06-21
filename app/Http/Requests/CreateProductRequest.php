@@ -29,7 +29,7 @@ class CreateProductRequest extends ProductRequest
         $rules['barcode'] = 'nullable';
         $rules['item_tag'] = 'nullable';
         $rules['unit_id'] = 'required|numeric';
-        $rules['unit_cost'] = 'required|numeric';
+        $rules['cost'] = 'required|numeric';
         $rules['is_deleted'] = 'boolean';
         $rules['notes'] = 'nullable';
 
@@ -45,8 +45,8 @@ class CreateProductRequest extends ProductRequest
         if (!empty($input['notes'])) {
             $input['notes'] = filter_var($input['notes'], FILTER_SANITIZE_STRING);
         }
-        if (!empty($input['unit_cost'])) {
-            $input['unit_cost'] = filter_var($input['unit_cost'], FILTER_SANITIZE_NUMBER_FLOAT);
+        if (!empty($input['cost'])) {
+            $input['cost'] = filter_var($input['cost'], FILTER_SANITIZE_NUMBER_FLOAT);
         }
 
         $this->replace($input);

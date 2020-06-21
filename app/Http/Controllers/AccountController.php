@@ -47,7 +47,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Intervention\Image\Facades\Image;
-use Log;
+use Illuminate\Support\Facades\Log;
 use Nwidart\Modules\Facades\Module;
 use Redirect;
 use stdClass;
@@ -541,10 +541,12 @@ class AccountController extends BaseController
             $contact->email = 'contact@gmail.com';
             $client->contacts = [$contact];
 
+
+            $invoiceItem->product_key = 'Item';
             $invoiceItem->cost = 100;
             $invoiceItem->qty = 1;
             $invoiceItem->notes = 'Notes';
-            $invoiceItem->name = 'Item';
+
             $invoiceItem->discount = 10;
             $invoiceItem->tax_name1 = 'Tax';
             $invoiceItem->tax_rate1 = 10;
@@ -628,7 +630,7 @@ class AccountController extends BaseController
             'title' => trans('texts.client_portal'),
             'section' => ACCOUNT_CLIENT_PORTAL,
             'account' => $account,
-            'products' => Product::scope()->orderBy('name')->get(),
+            'products' => Product::scope()->orderBy('product_key')->get(),
             'gateway_types' => $options,
         ];
 

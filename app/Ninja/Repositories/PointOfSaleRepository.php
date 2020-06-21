@@ -120,7 +120,7 @@ class PointOfSaleRepository extends BaseRepository
         }
 
         $product->fill($data);
-        $product->name = isset($data['name']) ? ucwords(trim($data['name'])) : '';
+        $product->product_key = isset($data['name']) ? ucwords(trim($data['name'])) : '';
         $product->item_barcode = isset($data['item_barcode']) ? strtolower(trim($data['item_barcode'])) : '';
         $product->item_tag = isset($data['item_tag']) ? strtolower(trim($data['item_tag'])) : '';
         $product->cost = isset($data['cost']) ? Utils::parseFloat($data['cost']) : 0;
@@ -146,12 +146,12 @@ class PointOfSaleRepository extends BaseRepository
         $products = Product::scope()->get();
 
         foreach ($products as $product) {
-            if (!$product->name) {
+            if (!$product->product_key) {
                 continue;
             }
 
             $map[$product->id] = $product;
-            $similar = similar_text($productNameMeta, metaphone($product->name), $percent);
+            $similar = similar_text($productNameMeta, metaphone($product->product_key), $percent);
 
             if ($percent > $max) {
                 $productId = $product->id;

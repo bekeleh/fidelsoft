@@ -10,7 +10,7 @@ class InvoiceItemTransformer extends EntityTransformer
     {
         return array_merge($this->getDefaults($item), [
             'id' => (int)$item->public_id,
-            'name' => $item->name,
+            'product_key' => $item->product_key,
             'updated_at' => $this->getTimestamp($item->updated_at),
             'archived_at' => $this->getTimestamp($item->deleted_at),
             'notes' => $item->notes,
@@ -23,7 +23,7 @@ class InvoiceItemTransformer extends EntityTransformer
             'invoice_item_type_id' => (int)$item->invoice_item_type_id,
             'custom_value1' => $item->custom_value1 ?: '',
             'custom_value2' => $item->custom_value2 ?: '',
-            'discount' => (float) $item->discount,
+            'discount' => (float)$item->discount,
         ]);
     }
 }

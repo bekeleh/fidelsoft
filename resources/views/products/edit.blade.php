@@ -5,12 +5,12 @@
     {!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['name' => 'required|max:255','unit_cost' => 'required|numeric','item_brand_id' => 'required|numeric','category_id' => 'required|numeric','tax_category_id' => 'required|numeric','unit_id' => 'required|numeric','notes' => 'required|string'])
+    ->rules(['name' => 'required|max:255','cost' => 'required|numeric','item_brand_id' => 'required|numeric','category_id' => 'required|numeric','tax_category_id' => 'required|numeric','unit_id' => 'required|numeric','notes' => 'required|string'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
 
     @if ($product)
         {{ Former::populate($product) }}
-        {{ Former::populateField('unit_cost', Utils::roundSignificant($product->unit_cost)) }}
+        {{ Former::populateField('cost', Utils::roundSignificant($product->cost)) }}
     @endif
     <span style="display:none">
         {!! Former::text('action') !!}
@@ -25,7 +25,7 @@
                 {!! Former::text('item_barcode')->label('texts.item_barcode') !!}
                 {!! Former::text('item_tag')->label('texts.item_tag') !!}
                 {!! Former::text('UPC')->label('texts.UPC') !!}
-                {!! Former::text('unit_cost')->label('unit_cost') !!}
+                {!! Former::text('cost')->label('cost') !!}
                 <!-- item brand-->
                 {!! Former::select('item_brand_id')
                 ->placeholder(trans('texts.select_item_brand'))

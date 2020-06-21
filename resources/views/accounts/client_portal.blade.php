@@ -420,7 +420,7 @@ iframe.src = '{{ rtrim(SITE_URL ,'/') }}/' + parts[1] + '/' + parts[0].substring
             for (var i = 0; i < products.length; i++) {
                 var product = products[i];
 
-                $productSelect.append(new Option(formatMoney(product.unit_cost) + ' - ' + product.product_key, product.public_id));
+                $productSelect.append(new Option(formatMoney(product.cost) + ' - ' + product.product_key, product.public_id));
             }
             $productSelect.combobox({highlighter: comboboxHighlighter});
 

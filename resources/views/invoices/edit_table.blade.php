@@ -2,7 +2,7 @@
     <thead {!! $isTasks ? 'style="display:none;" data-bind="visible: $root.hasTasks"' : ($invoice->has_tasks || ! empty($tasks) ? 'data-bind="visible: $root.hasItems"' : '') !!}>
     @if ($isTasks)
         <tr data-bind="visible: $root.hasItems">
-            <td style="20px" colspan="20"></td>
+            <td style="min-width:20px;" colspan="20"></td>
         </tr>
     @endif
     <tr>
@@ -76,7 +76,7 @@
             </td>
         @endif
         <td>
-            <input data-bind="value: prettyCost, valueUpdate: 'afterkeydown', attr: {name: 'invoice_items[{{ $isTasks ? 'T' : '' }}' + $index() + '][unit_cost]'}"
+            <input data-bind="value: prettyCost, valueUpdate: 'afterkeydown', attr: {name: 'invoice_items[{{ $isTasks ? 'T' : '' }}' + $index() + '][cost]'}"
                    style="text-align: right" class="form-control invoice-item"/>
         </td>
         <td style="display:{{ $account->hasInvoiceField($isTasks ? 'task' : 'product', $isTasks ? 'product.hours' : 'product.quantity') ? 'table-cell' : 'none' }}">

@@ -3672,7 +3672,7 @@ var ChunkedStreamManager = (function ChunkedStreamManagerClosure() {
       return this.loadedStream;
     },
 
-    // Get all the chunks that are not yet loaded and permission_groups them into
+    // Get all the chunks that are not yet loaded and groups them into
     // contiguous ranges to load in as few requests as possible
     requestAllChunks: function ChunkedStreamManager_requestAllChunks() {
       var missingChunks = this.stream.getMissingChunks();
@@ -4003,7 +4003,7 @@ var LocalPdfManager = (function LocalPdfManagerClosure() {
 
   LocalPdfManager.prototype.terminate =
       function LocalPdfManager_terminate() {
-    return;
+
   };
 
   return LocalPdfManager;
@@ -4502,7 +4502,7 @@ var PDFDocument = (function PDFDocumentClosure() {
         }
         // removing "%PDF-"-prefix
         this.pdfFormatVersion = version.substring(5);
-        return;
+
       }
       // May not be a PDF file, continue anyway.
     },
@@ -5041,7 +5041,7 @@ var Catalog = (function CatalogClosure() {
             // will be descended into.
             nodesToVisit = [kids[pageIndex - currentPageIndex]];
             currentPageIndex = pageIndex;
-            continue;
+
           } else {
             for (var last = kids.length - 1; last >= 0; last--) {
               nodesToVisit.push(kids[last]);
@@ -32024,7 +32024,7 @@ var Lexer = (function LexerClosure() {
           break;
         } else if (specialChars[ch] === 1) {
           ch = this.nextChar();
-          continue;
+
         } else {
           if (isFirstHex) {
             firstDigit = toHexDigit(ch);
@@ -38843,14 +38843,14 @@ var JpegImage = (function jpegImage() {
     63
   ]);
 
-  var dctCos1  =  4017   // cos(pi/16)
-  var dctSin1  =   799   // sin(pi/16)
-  var dctCos3  =  3406   // cos(3*pi/16)
-  var dctSin3  =  2276   // sin(3*pi/16)
-  var dctCos6  =  1567   // cos(6*pi/16)
-  var dctSin6  =  3784   // sin(6*pi/16)
-  var dctSqrt2 =  5793   // sqrt(2)
-  var dctSqrt1d2 = 2896  // sqrt(2) / 2
+  var dctCos1  =  4017;   // cos(pi/16)
+  var dctSin1  =   799;   // sin(pi/16)
+  var dctCos3  =  3406;   // cos(3*pi/16)
+  var dctSin3  =  2276;   // sin(3*pi/16)
+  var dctCos6  =  1567;   // cos(6*pi/16)
+  var dctSin6  =  3784;   // sin(6*pi/16)
+  var dctSqrt2 =  5793;   // sqrt(2)
+  var dctSqrt1d2 = 2896;  // sqrt(2) / 2
 
   function constructor() {
   }

@@ -2,7 +2,6 @@
 
 @section('head')
     @parent
-
     @include('money_script')
     @foreach ($account->getFontFolders() as $font)
         <script src="{{ asset('js/vfs_fonts/'.$font.'.js') }}" type="text/javascript"></script>
@@ -147,12 +146,9 @@
 
     </script>
 
-
     <div class="row">
         <div class="col-md-12">
-
             {!! Former::open()->addClass('warn-on-exit')->onchange('if(!window.loadingFonts)refreshPDF()') !!}
-
             {!! Former::populateField('invoice_design_id', $account->invoice_design_id) !!}
             {!! Former::populateField('quote_design_id', $account->quote_design_id) !!}
             {!! Former::populateField('body_font_id', $account->getBodyFontId()) !!}
@@ -176,15 +172,20 @@
             </div>
 
             <div class="panel panel-default">
-                <div class="panel-heading" style="color: white;background-color: #777 !important;">
-                    <h3 class="panel-title in-bold-white">{!! trans('texts.invoice_design') !!}</h3>
+                <div class="panel-heading" style="color:white;background-color: #777 !important;">
+                    <h3 class="panel-title in-bold-white">
+                        {!! trans('texts.invoice_design') !!}
+                    </h3>
                 </div>
+
                 <div class="panel-body">
                     <div role="tabpanel">
                         <ul class="nav nav-tabs" role="tablist" style="border: none">
-                            <li role="presentation" class="active"><a href="#general_settings"
-                                                                      aria-controls="general_settings" role="tab"
-                                                                      data-toggle="tab">{{ trans('texts.general_settings') }}</a>
+                            <li role="presentation" class="active">
+                                <a href="#general_settings" aria-controls="general_settings" role="tab"
+                                   data-toggle="tab">
+                                    {{ trans('texts.general_settings') }}
+                                </a>
                             </li>
                             <li role="presentation"><a href="#invoice_labels" aria-controls="invoice_labels" role="tab"
                                                        data-toggle="tab">{{ trans('texts.invoice_labels') }}</a></li>
@@ -212,13 +213,15 @@
                                                 ->fromQuery($invoiceFonts, 'name', 'id') !!}
                                         {!! Former::select('header_font_id')
                                                 ->fromQuery($invoiceFonts, 'name', 'id') !!}
-
                                     </div>
                                     <div class="col-md-6">
+
                                         {{ Former::setOption('TwitterBootstrap3.labelWidths.large', 6) }}
                                         {{ Former::setOption('TwitterBootstrap3.labelWidths.small', 6) }}
+
                                         {!! Former::select('page_size')
                                                 ->options($pageSizes) !!}
+
                                         {!! Former::text('font_size')
                                               ->type('number')
                                               ->min('0')
@@ -303,6 +306,7 @@
                         </div>
                         <div role="tabpanel" class="tab-pane" id="invoice_options">
                             <div class="panel-body">
+
                                 @if (auth()->user()->isEnterprise())
                                     {!! Former::select('background_image_id')
                                             ->label('background_image')
@@ -339,6 +343,7 @@
                     </div>
                 </div>
             </div>
+
             <center class="buttons">
                 {!! $account->getCustomDesign(CUSTOM_DESIGN1) ?
                         DropdownButton::primary(trans('texts.customize'))

@@ -17,7 +17,7 @@ class UpdateProductRequest extends \Google\Protobuf\Internal\Message
 {
     /**
      * Required. The Product resource which replaces the one on the server.
-     * product.name is immutable.
+     * product.product_key is immutable.
      *
      * Generated from protobuf field <code>.google.cloud.vision.v1.Product product = 1 [(.google.api.field_behavior) = REQUIRED];</code>
      */
@@ -41,7 +41,7 @@ class UpdateProductRequest extends \Google\Protobuf\Internal\Message
      *
      *     @type \Google\Cloud\Vision\V1\Product $product
      *           Required. The Product resource which replaces the one on the server.
-     *           product.name is immutable.
+     *           product.product_key is immutable.
      *     @type \Google\Protobuf\FieldMask $update_mask
      *           The [FieldMask][google.protobuf.FieldMask] that specifies which fields
      *           to update.
@@ -57,7 +57,7 @@ class UpdateProductRequest extends \Google\Protobuf\Internal\Message
 
     /**
      * Required. The Product resource which replaces the one on the server.
-     * product.name is immutable.
+     * product.product_key is immutable.
      *
      * Generated from protobuf field <code>.google.cloud.vision.v1.Product product = 1 [(.google.api.field_behavior) = REQUIRED];</code>
      * @return \Google\Cloud\Vision\V1\Product
@@ -69,7 +69,7 @@ class UpdateProductRequest extends \Google\Protobuf\Internal\Message
 
     /**
      * Required. The Product resource which replaces the one on the server.
-     * product.name is immutable.
+     * product.product_key is immutable.
      *
      * Generated from protobuf field <code>.google.cloud.vision.v1.Product product = 1 [(.google.api.field_behavior) = REQUIRED];</code>
      * @param \Google\Cloud\Vision\V1\Product $var

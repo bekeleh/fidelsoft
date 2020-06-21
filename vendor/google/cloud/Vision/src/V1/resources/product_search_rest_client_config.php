@@ -97,10 +97,10 @@ return [
             ],
             'UpdateProduct' => [
                 'method' => 'patch',
-                'uriTemplate' => '/v1/{product.name=projects/*/locations/*/products/*}',
+                'uriTemplate' => '/v1/{product.product_key=projects/*/locations/*/products/*}',
                 'body' => 'product',
                 'placeholders' => [
-                    'product.name' => [
+                    'product.product_key' => [
                         'getters' => [
                             'getProduct',
                             'getName',

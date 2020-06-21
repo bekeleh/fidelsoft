@@ -10,15 +10,15 @@ use App\Models\Traits\HasCustomMessages;
 use App\Models\Traits\HasLogo;
 use App\Models\Traits\PresentsInvoice;
 use App\Models\Traits\SendsEmails;
-use Carbon\Carbon;
-use DateTime;
-use DateTimeZone;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Session;
 use Laracasts\Presenter\PresentableTrait;
+use Carbon\Carbon;
+use DateTime;
+use DateTimeZone;
 
 /**
  * Class Account Model.
@@ -237,37 +237,91 @@ class Account extends Eloquent
     ];
 
     public static $customLabels = [
+        'address1',
+        'address2',
+        'amount',
+        'amount_paid',
+        'balance',
         'balance_due',
+        'blank',
+        'city_state_postal',
+        'client_name',
+        'company_name',
+        'contact_name',
+        'country',
         'credit_card',
+        'credit_date',
+        'credit_issued_to',
+        'credit_note',
+        'credit_number',
+        'credit_to',
+        'custom_value1',
+        'custom_value2',
+        'date',
         'delivery_note',
         'description',
+        'details',
         'discount',
         'due_date',
-        'gateway_fee_item',
+        'email',
+        'from',
         'gateway_fee_description',
+        'gateway_fee_discount_description',
+        'gateway_fee_item',
         'hours',
         'id_number',
         'invoice',
         'invoice_date',
+        'invoice_due_date',
+        'invoice_issued_to',
+        'invoice_no',
         'invoice_number',
+        'invoice_to',
+        'invoice_total',
         'item',
         'line_total',
+        'method',
         'outstanding',
         'paid_to_date',
         'partial_due',
+        'payment_date',
+        'phone',
         'po_number',
+        'postal_city_state',
+        'product_key',
         'quantity',
         'quote',
         'quote_date',
+        'quote_due_date',
+        'quote_issued_to',
+        'quote_no',
         'quote_number',
+        'quote_to',
         'rate',
+        'reference',
         'service',
+        'statement',
+        'statement_date',
+        'statement_issued_to',
+        'statement_to',
         'subtotal',
+        'surcharge',
         'tax',
+        'tax_invoice',
+        'tax_quote',
+        'taxes',
         'terms',
+        'to',
+        'total',
         'unit_cost',
         'valid_until',
         'vat_number',
+        'website',
+        'work_phone',
+        'your_credit',
+        'your_invoice',
+        'your_quote',
+        'your_statement',
     ];
 
     public static $customMessageTypes = [
@@ -1172,6 +1226,9 @@ class Account extends Eloquent
         return Subscription::where('account_id', '=', $this->id)->where('event_id', '=', $eventId)->get();
     }
 
+    /**
+     * @return $this
+     */
     public function hideFieldsForViz()
     {
         foreach ($this->clients as $client) {
@@ -1203,7 +1260,7 @@ class Account extends Eloquent
 
                 foreach ($invoice->invoice_items as $invoiceItem) {
                     $invoiceItem->setVisible([
-                        'name',
+                        'product_key',
                         'cost',
                         'qty',
                         'discount',
@@ -1434,9 +1491,6 @@ class Account extends Eloquent
             ENTITY_ITEM_PRICE,
             ENTITY_ITEM_CATEGORY,
             ENTITY_ITEM_BRAND,
-            ENTITY_SALE_TYPE,
-            ENTITY_HOLD_REASON,
-            ENTITY_UNIT,
         ])) {
             return true;
         }

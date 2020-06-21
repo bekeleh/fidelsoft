@@ -127,12 +127,15 @@ class InvoiceController extends BaseController
 
         $data = array_merge($data, self::getViewModel($invoice));
 
-        if (!Auth::user()->branch) {
+        $defaultBranch = isset(Auth::user()->branch) ? Auth::user()->branch->name : '';
+        $defaultStore = isset(Auth::user()->branch->store) ? Auth::user()->branch->store->name : '';
+
+        if (!$defaultBranch) {
             session()->flash('warning', trans('texts.user_branch_required', ['link' => link_to('/users/' . Auth::user()->public_id . '/edit', trans('texts.click_here'))]));
         }
 
         if (count($data['products']) == 0) {
-            session()->flash('warning', trans('texts.product_required', ['branch' => !empty(Auth::user()->branch->name) ?: 'branch', 'store' => !empty(Auth::user()->branch->store->name) ?: '', 'link' => link_to('/item_stores', trans('texts.click_here'))]));
+            session()->flash('warning', trans('texts.product_required', ['branch' => $defaultBranch, 'store' => $defaultStore, 'link' => link_to('/item_stores', trans('texts.click_here'))]));
         }
 
         return View::make('invoices.edit', $data);

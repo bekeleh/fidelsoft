@@ -193,7 +193,7 @@ class PointOfSaleController extends BaseController
             $products = Product::scope($ids)->get();
             $data = [];
             foreach ($products as $product) {
-                $data[] = $product->name;
+                $data[] = $product->product_key;
             }
             return redirect("invoices/create")->with('selectedProducts', $data);
         } else {

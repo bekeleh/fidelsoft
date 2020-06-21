@@ -386,7 +386,7 @@ function openUrlOnClick(t, e) {
 function scorePassword(t) {
     var e = 0;
     if (!t) return e;
-    for (var n = new Object, i = 0; i < t.length; i++) n[t[i]] = (n[t[i]] || 0) + 1, e += 5 / n[t[i]];
+    for (var n = {}, i = 0; i < t.length; i++) n[t[i]] = (n[t[i]] || 0) + 1, e += 5 / n[t[i]];
     var o = {digits: /\d/.test(t), lower: /[a-z]/.test(t), upper: /[A-Z]/.test(t), nonWords: /\W/.test(t)};
     variationCount = 0;
     for (var a in o) variationCount += 1 == o[a] ? 1 : 0;
@@ -22104,7 +22104,7 @@ NINJA.TEMPLATES = {
     for (var i = (t.account, []), o = NINJA.productFields(t, n), a = o.indexOf("product.description") >= 0, s = e.indexOf('"pageMargins":[0') == -1 && e.indexOf('"pageMargins": [0') == -1, r = 0; r < o.length; r++) {
         var c = o[r], l = 0;
         if (t.is_delivery_note) {
-            var u = ["product.unit_cost", "product.rate", "product.tax", "product.line_total"];
+            var u = ["product.cost", "product.rate", "product.tax", "product.line_total"];
             if (u.indexOf(c) >= 0) continue
         }
         if ("product.custom_value1" == c) {
@@ -22138,11 +22138,11 @@ NINJA.TEMPLATES = {
         if (e && i.task_fields && i.task_fields.length) return i.task_fields;
         if (!e && i.product_fields && i.product_fields.length) return i.product_fields
     }
-    var o = [e ? "product.service" : "product.item", "product.description", "product.custom_value1", "product.custom_value2", e ? "product.rate" : "product.unit_cost", e ? "product.hours" : "product.quantity", "product.tax", "product.line_total"];
+    var o = [e ? "product.service" : "product.item", "product.description", "product.custom_value1", "product.custom_value2", e ? "product.rate" : "product.cost", e ? "product.hours" : "product.quantity", "product.tax", "product.line_total"];
     return "1" != t.account.hide_quantity || e || o.splice(5, 1), o
 }, NINJA.invoiceLines = function (t, e) {
     var n = t.account, i = !1, o = e || t.hasTasks && !t.hasStandard, a = [[]], s = ["tableHeader"],
-        r = ["product.unit_cost", "product.rate", "product.tax", "product.line_total", "product.discount"];
+        r = ["product.cost", "product.rate", "product.tax", "product.line_total", "product.discount"];
     e && t.hasStandard && s.push("secondTableHeader");
     for (var c = NINJA.productFields(t, o), l = (c.indexOf("product.description") >= 0, 0); l < c.length; l++) {
         var u = c[l].split(".")[1];
@@ -22157,7 +22157,7 @@ NINJA.TEMPLATES = {
             } else {
                 if ("tax" == u && !t.has_item_taxes) continue;
                 if ("discount" == u && !t.has_item_discounts) continue;
-                "unit_cost" != u && "rate" != u && "hours" != u || d.push("cost")
+                "cost" != u && "rate" != u && "hours" != u || d.push("cost")
             }
             0 == l ? d.push("firstColumn") : l == c.length - 1 && d.push("lastColumn"), a[0].push({text: h, style: d})
         }
@@ -22183,7 +22183,7 @@ NINJA.TEMPLATES = {
                 var u = c[N].split(".")[1];
                 if (!(t.is_delivery_note && r.indexOf(c[N]) >= 0)) {
                     var h = f[u], s = [snakeToCamel(u), rowStyle];
-                    ("custom_value1" != u || t.has_custom_item_value1) && ("custom_value2" != u || t.has_custom_item_value2) && ("tax" != u || t.has_item_taxes) && ("discount" != u || t.has_item_discounts) && ("item" == u || "service" == u ? (h = M, s.push("productKey")) : "description" == u ? h = v : "unit_cost" == u || "rate" == u ? (h = m, s.push("cost")) : "quantity" == u || "hours" == u ? (h = g, "hours" == u && s.push("cost")) : "custom_value1" == u ? h = _ : "custom_value2" == u ? h = z : "discount" == u ? NINJA.parseFloat(b) ? parseInt(t.is_amount_discount) ? h = formatMoneyInvoice(b, t) : b && (h = b + "%") : h = "" : "tax" == u ? (h = " ", f.tax_name1 && (h += (y || "0") + "%"), f.tax_name2 && (f.tax_name1 && (h += "  "), h += (A || "0") + "%")) : "line_total" == u && (h = T), 0 == N ? s.push("firstColumn") : N == c.length - 1 && s.push("lastColumn"), p.push({
+                    ("custom_value1" != u || t.has_custom_item_value1) && ("custom_value2" != u || t.has_custom_item_value2) && ("tax" != u || t.has_item_taxes) && ("discount" != u || t.has_item_discounts) && ("item" == u || "service" == u ? (h = M, s.push("productKey")) : "description" == u ? h = v : "cost" == u || "rate" == u ? (h = m, s.push("cost")) : "quantity" == u || "hours" == u ? (h = g, "hours" == u && s.push("cost")) : "custom_value1" == u ? h = _ : "custom_value2" == u ? h = z : "discount" == u ? NINJA.parseFloat(b) ? parseInt(t.is_amount_discount) ? h = formatMoneyInvoice(b, t) : b && (h = b + "%") : h = "" : "tax" == u ? (h = " ", f.tax_name1 && (h += (y || "0") + "%"), f.tax_name2 && (f.tax_name1 && (h += "  "), h += (A || "0") + "%")) : "line_total" == u && (h = T), 0 == N ? s.push("firstColumn") : N == c.length - 1 && s.push("lastColumn"), p.push({
                         text: h || " ",
                         style: s
                     }))

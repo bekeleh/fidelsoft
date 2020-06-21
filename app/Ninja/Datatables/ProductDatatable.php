@@ -68,9 +68,9 @@ class ProductDatatable extends EntityDatatable
                 },
             ],
             [
-                'unit_cost',
+                'cost',
                 function ($model) {
-                    return $model->unit_cost;
+                    return $model->cost;
                 },
             ],
             [

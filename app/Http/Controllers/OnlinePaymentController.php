@@ -398,7 +398,7 @@ class OnlinePaymentController extends BaseController
             'custom_text_value1' => Input::get('custom_invoice1'),
             'custom_text_value2' => Input::get('custom_invoice2'),
             'invoice_items' => [[
-                'name' => $product->name,
+                'name' => $product->product_key,
                 'notes' => $product->notes,
                 'cost' => $product->cost,
                 'qty' => request()->quantity ?: (request()->qty ?: 1),
