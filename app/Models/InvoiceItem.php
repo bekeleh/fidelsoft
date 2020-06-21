@@ -18,9 +18,6 @@ class InvoiceItem extends EntityModel
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $fillable = [
-//        'name',
-//        'cost',
-//        'qty',
         'invoice_item_type_id',
         'tax_name1',
         'tax_rate1',
@@ -65,7 +62,7 @@ class InvoiceItem extends EntityModel
 
     public function getPreTaxAmount()
     {
-        $amount = $this->cost * $this->qty;
+        $amount = $this->unit_cost * $this->qty;
 
         if ($this->discount != 0) {
             if ($this->invoice->is_amount_discount) {
@@ -122,17 +119,17 @@ class InvoiceItem extends EntityModel
 
     public function costWithDiscount()
     {
-        $cost = $this->cost;
+        $unitCost = $this->unit_cost;
 
         if ($this->discount != 0) {
             if ($this->invoice->is_amount_discount) {
-                $cost -= $this->discount / $this->qty;
+                $unitCost -= $this->discount / $this->qty;
             } else {
-                $cost -= $cost * $this->discount / 100;
+                $unitCost -= $unitCost * $this->discount / 100;
             }
         }
 
-        return $cost;
+        return $unitCost;
     }
 
 }

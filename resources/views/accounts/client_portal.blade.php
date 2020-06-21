@@ -74,8 +74,8 @@
                                     {!! Former::inline_radios('domain_id')
                                             ->label(trans('texts.domain'))
                                             ->radios([
-                                                'invoiceninja.com' => ['value' => \Domain::INVOICENINJA_COM, 'name' => 'domain_id'],
-                                                'invoice.services' => ['value' => \Domain::INVOICE_SERVICES, 'name' => 'domain_id'],
+                                                'invoiceninja.com' => ['value' => Domain::INVOICENINJA_COM, 'name' => 'domain_id'],
+                                                'invoice.services' => ['value' => Domain::INVOICE_SERVICES, 'name' => 'domain_id'],
                                             ])->check($account->domain_id)
                                             ->help($account->iframe_url ? 'domain_help_website' : 'domain_help') !!}
                                 @endif
@@ -420,13 +420,13 @@ iframe.src = '{{ rtrim(SITE_URL ,'/') }}/' + parts[1] + '/' + parts[0].substring
             for (var i = 0; i < products.length; i++) {
                 var product = products[i];
 
-                $productSelect.append(new Option(formatMoney(product.cost) + ' - ' + product.name, product.public_id));
+                $productSelect.append(new Option(formatMoney(product.unit_cost) + ' - ' + product.product_key, product.public_id));
             }
             $productSelect.combobox({highlighter: comboboxHighlighter});
 
             updateCheckboxes();
             updateBuyNowButtons();
-        })
+        });
 
         $('#enable_portal_password, #enable_client_portal, #require_invoice_signature, #require_quote_signature').change(updateCheckboxes);
 
@@ -442,7 +442,7 @@ iframe.src = '{{ rtrim(SITE_URL ,'/') }}/' + parts[1] + '/' + parts[0].substring
         }
 
         function showPaymentTypes() {
-            var val = $('input[name=landing_page_type]:checked').val()
+            var val = $('input[name=landing_page_type]:checked').val();
             if (val == '{{ ENTITY_PAYMENT }}') {
                 $('#paymentTypesDiv').fadeIn();
             } else {
@@ -451,7 +451,7 @@ iframe.src = '{{ rtrim(SITE_URL ,'/') }}/' + parts[1] + '/' + parts[0].substring
         }
 
         function showRecurring() {
-            var val = $('input[name=is_recurring]:checked').val()
+            var val = $('input[name=is_recurring]:checked').val();
             if (val) {
                 $('#recurringDiv').fadeIn();
             } else {
@@ -461,10 +461,10 @@ iframe.src = '{{ rtrim(SITE_URL ,'/') }}/' + parts[1] + '/' + parts[0].substring
 
         function updateBuyNowButtons() {
             var productId = $('#product').val();
-            var landingPage = $('input[name=landing_page_type]:checked').val()
+            var landingPage = $('input[name=landing_page_type]:checked').val();
             var paymentType = (landingPage == 'payment') ? '/' + $('#payment_type').val() : '/';
             var redirectUrl = $('#redirect_url').val();
-            var isRecurring = $('input[name=is_recurring]:checked').val()
+            var isRecurring = $('input[name=is_recurring]:checked').val();
             var frequencyId = $('#frequency_id').val();
             var autoBillId = $('#auto_bill').val();
 

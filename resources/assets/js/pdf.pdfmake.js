@@ -487,14 +487,13 @@ NINJA.statementDetails = function (invoice) {
         ]
     };
 
-
     var hasPayments = false;
     var hasAging = false;
     var paymentTotal = 0;
     for (var i = 0; i < invoice.invoice_items.length; i++) {
         var item = invoice.invoice_items[i];
         if (item.invoice_item_type_id == 3) {
-            paymentTotal += item.cost;
+            paymentTotal += item.unit_cost;
             hasPayments = true;
         } else if (item.invoice_item_type_id == 4) {
             hasAging = true;
@@ -566,7 +565,7 @@ NINJA.statementInvoices = function (invoice) {
                 style: ['dueDate', rowStyle]
             },
             {text: formatMoneyInvoice(item.notes, invoice), style: ['subtotals', rowStyle]},
-            {text: formatMoneyInvoice(item.cost, invoice), style: ['lineTotal', rowStyle, 'lastColumn']},
+            {text: formatMoneyInvoice(item.unit_cost, invoice), style: ['lineTotal', rowStyle, 'lastColumn']},
         ]);
     }
 
@@ -597,7 +596,7 @@ NINJA.statementPayments = function (invoice) {
             },
             {text: item.custom_value2 ? item.custom_value2 : ' ', style: ['dueDate', rowStyle]},
             //{text: item.transaction_reference, style:['subtotals', rowStyle]},
-            {text: formatMoneyInvoice(item.cost, invoice), style: ['lineTotal', rowStyle, 'lastColumn']},
+            {text: formatMoneyInvoice(item.unit_cost, invoice), style: ['lineTotal', rowStyle, 'lastColumn']},
         ]);
     }
 
@@ -622,7 +621,7 @@ NINJA.statementAging = function (invoice) {
             {text: formatMoneyInvoice(item.notes, invoice), style: ['subtotals', 'odd']},
             {text: formatMoneyInvoice(item.custom_value1, invoice), style: ['subtotals', 'odd']},
             {text: formatMoneyInvoice(item.custom_value2, invoice), style: ['subtotals', 'odd']},
-            {text: formatMoneyInvoice(item.cost, invoice), style: ['subtotals', 'odd', 'lastColumn']},
+            {text: formatMoneyInvoice(item.unit_cost, invoice), style: ['subtotals', 'odd', 'lastColumn']},
         ]);
     }
 
@@ -917,7 +916,7 @@ NINJA.invoiceLines = function (invoice, isSecondTable) {
         } else if (field == 'discount' && !invoice.has_item_discounts) {
             continue;
         } else if (field == 'unit_cost' || field == 'rate' || field == 'hours') {
-            headerStyles.push('cost');
+            headerStyles.push('unit_cost');
         }
 
         if (i == 0) {
@@ -932,8 +931,7 @@ NINJA.invoiceLines = function (invoice, isSecondTable) {
     for (var i = 0; i < invoice.invoice_items.length; i++) {
         var row = [];
         var item = invoice.invoice_items[i];
-        var public_id = item.public_id;
-        var cost = NINJA.parseFloat(item.cost) ? formatMoneyInvoice(NINJA.parseFloat(item.cost), invoice, null, getPrecision(NINJA.parseFloat(item.cost))) : ' ';
+        var unit_cost = NINJA.parseFloat(item.unit_cost) ? formatMoneyInvoice(NINJA.parseFloat(item.unit_cost), invoice, null, getPrecision(NINJA.parseFloat(item.unit_cost))) : ' ';
         var qty = NINJA.parseFloat(item.qty) ? formatMoneyInvoice(NINJA.parseFloat(item.qty), invoice, 'none', getPrecision(NINJA.parseFloat(item.qty))) + '' : ' ';
         var discount = roundToTwo(NINJA.parseFloat(item.discount));
         var notes = item.notes;
@@ -961,7 +959,7 @@ NINJA.invoiceLines = function (invoice, isSecondTable) {
         }
 
         // show at most one blank line
-        if (shownItem && !notes && !productKey && !item.cost) {
+        if (shownItem && !notes && !productKey && !item.unit_cost) {
             continue;
         }
 
@@ -975,7 +973,7 @@ NINJA.invoiceLines = function (invoice, isSecondTable) {
             customValue2 = processVariables(item.custom_value2);
         }
 
-        var lineTotal = roundSignificant(NINJA.parseFloat(item.cost) * NINJA.parseFloat(item.qty));
+        var lineTotal = roundSignificant(NINJA.parseFloat(item.unit_cost) * NINJA.parseFloat(item.qty));
 
         if (discount != 0) {
             if (parseInt(invoice.is_amount_discount)) {
@@ -1025,17 +1023,15 @@ NINJA.invoiceLines = function (invoice, isSecondTable) {
             if (field == 'item' || field == 'service') {
                 value = productKey;
                 styles.push('productKey');
-            } else if (field == 'public_id') {
-                value = public_id;
             } else if (field == 'description') {
                 value = notes;
             } else if (field == 'unit_cost' || field == 'rate') {
-                value = cost;
-                styles.push('cost');
+                value = unit_cost;
+                styles.push('unit_cost');
             } else if (field == 'quantity' || field == 'hours') {
                 value = qty;
                 if (field == 'hours') {
-                    styles.push('cost');
+                    styles.push('unit_cost');
                 }
             } else if (field == 'custom_value1') {
                 value = customValue1;

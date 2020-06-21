@@ -77,7 +77,7 @@ class Product extends EntityModel
 
     public static function findProductByKey($key)
     {
-        return self::scope()->where('name', '=', $key)->first();
+        return self::scope()->where('product_key', '=', $key)->first();
     }
 
     public function account()

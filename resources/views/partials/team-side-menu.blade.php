@@ -50,10 +50,10 @@
 					</li>
 					<div class="list">
 						@foreach($spaces as $item)
-							<li class="item {{ isset($space) && ($space->slug === $item->slug) ? 'active' : '' }}" id="categories-list-item" data-name="{{ $item->name }}">
+							<li class="item {{ isset($space) && ($space->slug === $item->slug) ? 'active' : '' }}" id="categories-list-item" data-name="{{ $item->product_key }}">
 				                <a href="{{ route('spaces.wikis', [$team->slug, $item->slug, ]) }}">
 				                    <div class="cateogry-icon" style="margin-right: 13px; position: relative; top: 1px;"></div>
-									<span class="item-name">{{ $item->name }}</span>
+									<span class="item-name">{{ $item->product_key }}</span>
 									@if($item->wikis->count())
 										<span style="color: #c1c1c1; margin-left: auto; margin-right: 2px;">{{ $item->wikis->count() }}</span>
 									@endif

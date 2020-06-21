@@ -14,7 +14,7 @@ trait HasCustomMessages
     {
         $fields = [];
 
-        if (! is_array($data)) {
+        if (!is_array($data)) {
             $data = json_decode($data);
         }
 
@@ -36,7 +36,7 @@ trait HasCustomMessages
     {
         $messages = $this->custom_messages;
 
-        if (! empty($messages->$type)) {
+        if (!empty($messages->$type)) {
             return $messages->$type;
         }
 

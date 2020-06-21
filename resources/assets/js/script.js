@@ -130,7 +130,8 @@ function getQuarter(offset) {
 $.fn.selectRange = function (start, end) {
     var e = document.getElementById($(this).attr('id')); // I don't know why... but $(this) don't want to work today :-/
     if (!e)
-    else if (e.setSelectionRange) {
+    else
+    if (e.setSelectionRange) {
         e.focus();
         e.setSelectionRange(start, end);
     } /* WebKit */
@@ -595,7 +596,7 @@ function calculateAmounts(invoice) {
     // sum line item
     for (var i = 0; i < invoice.invoice_items.length; i++) {
         var item = invoice.invoice_items[i];
-        var lineTotal = roundSignificant(NINJA.parseFloat(item.cost) * NINJA.parseFloat(item.qty));
+        var lineTotal = roundSignificant(NINJA.parseFloat(item.unit_cost) * NINJA.parseFloat(item.qty));
         var discount = roundToTwo(NINJA.parseFloat(item.discount));
         if (discount != 0) {
             if (parseInt(invoice.is_amount_discount)) {
@@ -610,7 +611,7 @@ function calculateAmounts(invoice) {
             total += lineTotal;
             total = roundToTwo(total);
         }
-        if (!item.notes && !item.name && !item.cost) {
+        if (!item.notes && !item.product_key && !item.unit_cost) {
             continue;
         }
         if (item.invoice_item_type_id == 2) {
@@ -652,7 +653,7 @@ function calculateAmounts(invoice) {
         }
 
         // calculate line item tax
-        var lineTotal = roundSignificant(NINJA.parseFloat(item.cost) * NINJA.parseFloat(item.qty));
+        var lineTotal = roundSignificant(NINJA.parseFloat(item.unit_cost) * NINJA.parseFloat(item.qty));
         var discount = roundToTwo(NINJA.parseFloat(item.discount));
         if (discount != 0) {
             hasDiscount = true;

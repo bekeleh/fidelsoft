@@ -3,6 +3,7 @@
     function ViewModel(data) {
         var self = this;
         self.showMore = ko.observable(false);
+
         //self.invoice = data ? false : new InvoiceModel();
         self.invoice = ko.observable(data ? false : new InvoiceModel());
         self.expense_currency_id = ko.observable();
@@ -825,10 +826,9 @@
 
     function ItemModel(data) {
         var self = this;
-        self.public_id = ko.observable('');
-        self.name = ko.observable('');
+        self.product_key = ko.observable('');
         self.notes = ko.observable('');
-        self.cost = ko.observable(0);
+        self.unit_cost = ko.observable(0);
         self.qty = ko.observable({{ $account->hasInvoiceField('product', 'product.quantity') ? 0 : 1 }});
         self.discount = ko.observable();
         self.custom_value1 = ko.observable('');
@@ -886,17 +886,17 @@
 
         this.prettyCost = ko.computed({
             read: function () {
-                return this.cost() ? this.cost() : '';
+                return this.unit_cost() ? this.unit_cost() : '';
             },
             write: function (value) {
-                this.cost(value);
+                this.unit_cost(value);
             },
             owner: this
         });
 
         self.loadData = function (data) {
             ko.mapping.fromJS(data, {}, this);
-            this.cost(roundSignificant(this.cost(), true));
+            this.unit_cost(roundSignificant(this.unit_cost(), true));
             this.qty(roundSignificant(this.qty()));
         };
 
@@ -907,7 +907,7 @@
         this.totals = ko.observable();
 
         this.totals.rawTotal = ko.computed(function () {
-            var value = roundSignificant(NINJA.parseFloat(self.cost()) * NINJA.parseFloat(self.qty()));
+            var value = roundSignificant(NINJA.parseFloat(self.unit_cost()) * NINJA.parseFloat(self.qty()));
             if (self.discount()) {
                 var discount = roundToTwo(NINJA.parseFloat(self.discount()));
                 if (parseInt(model.invoice().is_amount_discount())) {
@@ -933,7 +933,7 @@
         };
 
         this.isEmpty = function () {
-            return !self.name() && !self.notes() && !self.cost();
+            return !self.product_key() && !self.notes() && !self.unit_cost();
         };
 
         this.onSelect = function () {
@@ -943,8 +943,8 @@
             if (!taxRate) {
                 return;
             }
-            var cost = self.cost() / (100 + taxRate) * 100;
-            self.cost(roundToTwo(cost));
+            var unit_cost = self.unit_cost() / (100 + taxRate) * 100;
+            self.unit_cost(roundToTwo(unit_cost));
         };
 
         self.onTax1Change = function (obj, event) {
@@ -1043,8 +1043,8 @@
                     templates: {
                         suggestion: function (item) {
                             return '<div title="' + _.escape(item.notes) + '" style="border-bottom: solid 1px #CCC">'
-                                + _.escape(item.name) + "<br/>"
-                                + roundSignificant(item.cost, true) + ' • '
+                                + _.escape(item.product_key) + "<br/>"
+                                + roundSignificant(item.unit_cost, true) + ' • '
                                 + _.escape(item.notes.substring(0, 100)) + '</div>'
                         }
                     },
@@ -1053,7 +1053,7 @@
                     templates: {
                         suggestion: function (item) {
                             return '<div title="' + _.escape(item.notes) + '" style="border-bottom: solid 1px #CCC">'
-                                + _.escape(item.name) + '</div>'
+                                + _.escape(item.product_key) + '</div>'
                         }
                     },
                     source: searchData(allBindings.items, allBindings.key),
@@ -1067,9 +1067,9 @@
                 if (datum.notes && (!model.notes() || !model.isTask())) {
                     model.notes(datum.notes);
                 }
-                if (parseFloat(datum.cost)) {
-                    if (!NINJA.parseFloat(model.cost()) || !model.isTask()) {
-                        var cost = datum.cost;
+                if (parseFloat(datum.unit_cost)) {
+                    if (!NINJA.parseFloat(model.unit_cost()) || !model.isTask()) {
+                        var unit_cost = datum.unit_cost;
 
                         // optionally handle curency conversion
                                 @if ($account->convert_products)
@@ -1080,14 +1080,14 @@
                             rate = window.model.invoice().custom_text_value1();
                         }
                         if (rate) {
-                            cost = cost * rate;
+                            unit_cost = unit_cost * rate;
                         } else {
                             var client = window.model.invoice().client();
                             if (client) {
                                 var clientCurrencyId = client.currency_id();
                                 var accountCurrencyId = {{ $account->getCurrencyId() }};
                                 if (clientCurrencyId && clientCurrencyId != accountCurrencyId) {
-                                    cost = fx.convert(cost, {
+                                    unit_cost = fx.convert(unit_cost, {
                                         from: currencyMap[accountCurrencyId].code,
                                         to: currencyMap[clientCurrencyId].code,
                                     });
@@ -1105,7 +1105,7 @@
                         }
                         @endif
 
-                        model.cost(roundSignificant(cost));
+                        model.unit_cost(roundSignificant(unit_cost));
                     }
                 }
                 if (!model.qty() && !model.isTask()) {

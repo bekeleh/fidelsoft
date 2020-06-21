@@ -97,7 +97,7 @@
             @include('partials/entity_combobox', ['entityType' => ENTITY_PRODUCT])
             if (productId) {
                 var product = productMap[productId];
-                setComboboxValue($('.product-select'), product.public_id, product.name);
+                setComboboxValue($('.product-select'), product.public_id, product.product_key);
             }
 // department
             var departmentId = {{ $departmentPublicId ?: 0 }};

@@ -14,6 +14,7 @@
 
         #scrollable-dropdown-menu .tt-menu {
             max-height: 150px;
+            width: 300px;
             overflow-y: auto;
             overflow-x: hidden;
         }
@@ -48,7 +49,9 @@
 
 @section('head')
     @parent
+
     @include('money_script')
+
     @foreach ($account->getFontFolders() as $font)
         <script src="{{ asset('js/vfs_fonts/'.$font.'.js') }}" type="text/javascript"></script>
     @endforeach
@@ -61,6 +64,7 @@
     @if ($errors->first('invoice_items'))
         <div class="alert alert-danger">{{ trans($errors->first('invoice_items')) }}</div>
     @endif
+
     @if ($invoice->id)
         <ol class="breadcrumb">
             @if ($invoice->is_recurring)
@@ -70,13 +74,15 @@
                 <li class="active">{{ $invoice->invoice_number }}</li>
             @endif
             @if ($invoice->is_recurring && $invoice->isSent())
-                @if (!$invoice->last_sent_date || $invoice->last_sent_date == '0000-00-00')
+                @if (! $invoice->last_sent_date || $invoice->last_sent_date == '0000-00-00')
                     {!! $invoice->present()->statusLabel(trans('texts.pending')) !!}
+                @elseif ($invoice->end_date && Carbon::parse(Utils::toSqlDate($invoice->end_date))->isPast())
+                    {!! $invoice->present()->statusLabel(trans('texts.status_completed')) !!}
                 @else
                     {!! $invoice->present()->statusLabel(trans('texts.active')) !!}
                 @endif
             @else
-                {!! $invoice->present()->status !!}
+                {!! $invoice->present()->statusLabel !!}
             @endif
         </ol>
     @endif
@@ -85,23 +91,27 @@
     ->method($method)
     ->addClass('warn-on-exit main-form search')
     ->autocomplete('off')
-    ->name('lastpass-disable-search')
+    ->name('lastpass-disable-search') // 'search' prevents LastPass auto-fill http://stackoverflow.com/a/30921628/497368
     ->onsubmit('return onFormSubmit(event)')
-    ->rules([
+    ->rules(array(
     'client' => 'required',
     'invoice_number' => 'required',
     'invoice_date' => 'required',
-    'name' => 'required|max:255',
-    ]) !!}
+    'unit_cost' => 'required',
+    'product_key' => 'required|max:255'
+    )) !!}
 
     @include('partials.autocomplete_fix')
 
     <input type="submit" style="display:none" name="submitButton" id="submitButton">
+
     <div data-bind="with: invoice">
         <div class="panel panel-default">
             <div class="panel-body">
+
                 <div class="row" style="min-height:195px" onkeypress="formEnterClick(event)">
                     <div class="col-md-4" id="col_1">
+
                         @if ($invoice->id || $data)
                             <div class="form-group">
                                 <label for="client"
@@ -110,14 +120,15 @@
                                     <h4>
                                         <span data-bind="text: getClientDisplayName(ko.toJS(client()))"></span>
                                         @if ($invoice->client->is_deleted)
+                                            &nbsp;&nbsp;
                                             <div class="label label-danger">{{ trans('texts.deleted') }}</div>
                                         @endif
                                     </h4>
+
                                     @can('view', $invoice->client)
                                         @can('edit', $invoice->client)
                                             <a id="editClientLink" class="pointer"
-                                               data-bind="click: $root.showClientForm">{{ trans('texts.edit_client') }}
-                                            </a>
+                                               data-bind="click: $root.showClientForm">{{ trans('texts.edit_client') }}</a>
                                             |
                                         @endcan
                                         {!! link_to('/clients/'.$invoice->client->public_id, trans('texts.view_client'), ['target' => '_blank']) !!}
@@ -125,32 +136,32 @@
                                 </div>
                             </div>
                             <div style="display:none">
-                            @endif
-                            <!-- select client -->
-                            {!! Former::select('client')
-                            ->addOption('', '')
-                            ->data_bind("dropdown: client, dropdownOptions: {highlighter: comboboxHighlighter}")
-                            ->addClass('client-input')
-                            ->addGroupClass('client_select closer-row')
-                            !!}
-                            <!-- create new client -->
+                                @endif
+
+                                {!! Former::select('client')
+                                ->addOption('', '')
+                                ->data_bind("dropdown: client, dropdownOptions: {highlighter: comboboxHighlighter}")
+                                ->addClass('client-input')
+                                ->addGroupClass('client_select closer-row') !!}
+
                                 <div class="form-group" style="margin-bottom: 8px">
                                     <div class="col-lg-8 col-sm-8 col-lg-offset-4 col-sm-offset-4">
                                         @can('create', $invoice->client)
                                             <a id="createClientLink" class="pointer"
-                                               data-bind="click: $root.showClientForm, html: $root.clientLinkText">
-                                            </a>
+                                               data-bind="click: $root.showClientForm, html: $root.clientLinkText"></a>
                                         @endcan
                                         <span data-bind="visible: $root.invoice().client().public_id() > 0"
                                               style="display:none">|
-                                        <a data-bind="attr: {href: '{{ url('/clients') }}/' + $root.invoice().client().public_id()}"
-                                           target="_blank">{{ trans('texts.view_client') }}</a>
-                                        </span>
+<a data-bind="attr: {href: '{{ url('/clients') }}/' + $root.invoice().client().public_id()}"
+   target="_blank">{{ trans('texts.view_client') }}</a>
+</span>
                                     </div>
                                 </div>
+
                                 @if ($invoice->id || $data)
                             </div>
                         @endif
+
                         <div data-bind="with: client" class="invoice-contact">
                             <div style="display:none" class="form-group"
                                  data-bind="visible: contacts().length > 0, foreach: contacts">
@@ -163,35 +174,36 @@
                                         <input type="checkbox" value="1"
                                                data-bind="visible: email() || first_name() || last_name(), checked: send_invoice, attr: {id: $index() + '_check', name: 'client[contacts][' + $index() + '][send_invoice]'}">
                                         <span data-bind="visible: first_name || last_name">
-                                            <span data-bind="text: (first_name() || '') + ' ' + (last_name() || '')"></span>
-                                            <br/>
-                                            </span>
+<span data-bind="text: (first_name() || '') + ' ' + (last_name() || '')"></span>
+<br/>
+</span>
                                         <span data-bind="visible: email">
-                                        <span data-bind="text: email"></span>
-                                        <br/>
-                                        </span>
+<span data-bind="text: email"></span>
+<br/>
+</span>
                                     </label>
                                     @if ( ! $invoice->is_deleted && ! $invoice->client->is_deleted)
                                         <span data-bind="visible: !$root.invoice().is_recurring()">
-                                                <span data-bind="html: $data.view_as_recipient"></span>&nbsp;&nbsp;
-                                                @if (Utils::isConfirmed())
+<span data-bind="html: $data.view_as_recipient"></span>&nbsp;&nbsp;
+@if (Utils::isConfirmed())
                                                 <span style="vertical-align:text-top;color:red"
                                                       class="fa fa-exclamation-triangle"
                                                       data-bind="visible: $data.email_error, tooltip: {title: $data.email_error}"></span>
                                                 <span style="vertical-align:text-top;padding-top:2px"
                                                       class="fa fa-info-circle"
                                                       data-bind="visible: $data.invitation_status, tooltip: {title: $data.invitation_status, html: true},
-                                                    style: {color: $data.info_color}"></span>
+style: {color: $data.info_color}"></span>
                                                 <span class="signature-wrapper">&nbsp;
-                                                <span style="vertical-align:text-top;color:#888" class="fa fa-user"
-                                                      data-bind="visible: $data.invitation_signature_svg, tooltip: {title: $data.invitation_signature_svg, html: true}"></span>
-                                                </span>
+<span style="vertical-align:text-top;color:#888" class="fa fa-user"
+      data-bind="visible: $data.invitation_signature_svg, tooltip: {title: $data.invitation_signature_svg, html: true}"></span>
+</span>
                                             @endif
-                                            </span>
+</span>
                                     @endif
                                 </div>
                             </div>
                         </div>
+
                     </div>
                     <div class="col-md-4" id="col_2">
                         <div data-bind="visible: !is_recurring()">
@@ -226,9 +238,9 @@
                             <div data-bind="visible: is_recurring" style="display: none">
                                 {!! Former::select('frequency_id')->label('frequency')->options($frequencies)->data_bind("value: frequency_id")
                                 ->appendIcon('question-sign')->addGroupClass('frequency_id')->onchange('onFrequencyChange()') !!}
-                                {!! Former::text('start_date')->data_bind("datePicker: start_date, valueUpdate: 'afterkeydown'")->data_date_start_date($invoice->id ? false : $account->formatDate($account->getDateTime()))
+                                {!! Former::text('start_date')->data_bind("datePicker: start_date, valueUpdate: 'afterkeydown'")
                                 ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))->appendIcon('calendar')->addGroupClass('start_date') !!}
-                                {!! Former::text('end_date')->data_bind("datePicker: end_date, valueUpdate: 'afterkeydown'")->data_date_start_date($invoice->id ? false : $account->formatDate($account->getDateTime()))
+                                {!! Former::text('end_date')->data_bind("datePicker: end_date, valueUpdate: 'afterkeydown'")
                                 ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))->appendIcon('calendar')->addGroupClass('end_date') !!}
                                 {!! Former::select('recurring_due_date')->label(trans('texts.due_date'))->options($recurringDueDates)->data_bind("value: recurring_due_date")->appendIcon('question-sign')->addGroupClass('recurring_due_date') !!}
                             </div>
@@ -242,46 +254,46 @@
                             ])
                         @endif
                     </div>
+
                     <div class="col-md-4" id="col_2">
-                        <span data-bind="visible: !is_recurring()">
-                        {!! Former::text('invoice_number')
-                        ->label(trans("texts.{$entityType}_number_short"))
-                        ->onchange('checkInvoiceNumber()')
-                        ->addGroupClass('invoice-number')
-                        ->data_bind("value: invoice_number, valueUpdate: 'afterkeydown'") !!}
-                        </span>
+<span data-bind="visible: !is_recurring()">
+{!! Former::text('invoice_number')
+->label(trans("texts.{$entityType}_number_short"))
+->onchange('checkInvoiceNumber()')
+->addGroupClass('invoice-number')
+->data_bind("value: invoice_number, valueUpdate: 'afterkeydown'") !!}
+</span>
                         <span data-bind="visible: is_recurring()" style="display: none">
-                        <div data-bind="visible: !(auto_bill() == {{AUTO_BILL_OPT_IN}} &amp;&amp; client_enable_auto_bill()) &amp;&amp; !(auto_bill() == {{AUTO_BILL_OPT_OUT}} &amp;&amp; !client_enable_auto_bill())"
-                             style="display: none">
-                        {!! Former::select('auto_bill')
-                        ->data_bind("value: auto_bill, valueUpdate: 'afterkeydown', event:{change:function(){if(auto_bill()==".AUTO_BILL_OPT_IN.")client_enable_auto_bill(0);if(auto_bill()==".AUTO_BILL_OPT_OUT.")client_enable_auto_bill(1)}}")
-                        ->options([
-                        AUTO_BILL_OFF => trans('texts.off'),
-                        AUTO_BILL_OPT_IN => trans('texts.opt_in'),
-                        AUTO_BILL_OPT_OUT => trans('texts.opt_out'),
-                        AUTO_BILL_ALWAYS => trans('texts.always'),
-                        ]) !!}
-                        </div>
-                            <input type="hidden" name="client_enable_auto_bill"
-                                   data-bind="attr: { value: client_enable_auto_bill() }"/>
-                            <div class="form-group"
-                                 data-bind="visible: auto_bill() == {{AUTO_BILL_OPT_IN}} &amp;&amp; client_enable_auto_bill()">
-                            <div class="col-sm-4 control-label">{{trans('texts.auto_bill')}}</div>
-                            <div class="col-sm-8" style="padding-top:10px;padding-bottom:9px">
-                            {{trans('texts.opted_in')}} -
-                            <a href="#" data-bind="click:function(){client_enable_auto_bill(false)}">({{trans('texts.disable')}})</a>
-                            </div>
-                            </div>
-                            <div class="form-group"
-                                 data-bind="visible: auto_bill() == {{AUTO_BILL_OPT_OUT}} &amp;&amp; !client_enable_auto_bill()">
-                            <div class="col-sm-4 control-label">{{trans('texts.auto_bill')}}</div>
-                            <div class="col-sm-8" style="padding-top:10px;padding-bottom:9px">
-                            {{trans('texts.opted_out')}} -
-                            <a href="#"
-                               data-bind="click:function(){client_enable_auto_bill(true)}">({{trans('texts.enable')}})</a>
-                            </div>
-                            </div>
-                            </span>
+<div data-bind="visible: !(auto_bill() == {{AUTO_BILL_OPT_IN}} &amp;&amp; client_enable_auto_bill()) &amp;&amp; !(auto_bill() == {{AUTO_BILL_OPT_OUT}} &amp;&amp; !client_enable_auto_bill())"
+     style="display: none">
+{!! Former::select('auto_bill')
+->data_bind("value: auto_bill, valueUpdate: 'afterkeydown', event:{change:function(){if(auto_bill()==".AUTO_BILL_OPT_IN.")client_enable_auto_bill(0);if(auto_bill()==".AUTO_BILL_OPT_OUT.")client_enable_auto_bill(1)}}")
+->options([
+AUTO_BILL_OFF => trans('texts.off'),
+AUTO_BILL_OPT_IN => trans('texts.opt_in'),
+AUTO_BILL_OPT_OUT => trans('texts.opt_out'),
+AUTO_BILL_ALWAYS => trans('texts.always'),
+]) !!}
+</div>
+<input type="hidden" name="client_enable_auto_bill"
+       data-bind="attr: { value: client_enable_auto_bill() }"/>
+<div class="form-group"
+     data-bind="visible: auto_bill() == {{AUTO_BILL_OPT_IN}} &amp;&amp; client_enable_auto_bill()">
+<div class="col-sm-4 control-label">{{trans('texts.auto_bill')}}</div>
+<div class="col-sm-8" style="padding-top:10px;padding-bottom:9px">
+{{trans('texts.opted_in')}} - <a href="#"
+                                 data-bind="click:function(){client_enable_auto_bill(false)}">({{trans('texts.disable')}})</a>
+</div>
+</div>
+<div class="form-group"
+     data-bind="visible: auto_bill() == {{AUTO_BILL_OPT_OUT}} &amp;&amp; !client_enable_auto_bill()">
+<div class="col-sm-4 control-label">{{trans('texts.auto_bill')}}</div>
+<div class="col-sm-8" style="padding-top:10px;padding-bottom:9px">
+{{trans('texts.opted_out')}} - <a href="#"
+                                  data-bind="click:function(){client_enable_auto_bill(true)}">({{trans('texts.enable')}})</a>
+</div>
+</div>
+</span>
                         {!! Former::text('po_number')->label($account->getLabel('po_number', 'po_number_short'))->data_bind("value: po_number, valueUpdate: 'afterkeydown'") !!}
                         {!! Former::text('discount')->data_bind("value: discount, valueUpdate: 'afterkeydown'")
                         ->addGroupClass('no-padding-or-border')->type('number')->min('0')->step('any')->append(
@@ -335,15 +347,18 @@
                     @if ($account->isModuleEnabled(ENTITY_TASK) && ($invoice->has_tasks || ! empty($tasks)))
                         @include('invoices.edit_table', ['isTasks' => true])
                     @endif
+
                     <table class="pull-right subtotals-table" style="margin-right:40px; margin-top:0px;">
                         <tr>
                             <td colspan="2">{{ trans('texts.subtotal') }}</td>
                             <td style="text-align: right"><span data-bind="text: totals.subtotal"/></td>
                         </tr>
+
                         <tr style="display:none" data-bind="visible: discount() != 0">
                             <td colspan="2">{{ trans('texts.discount') }}</td>
                             <td style="text-align: right"><span data-bind="text: totals.discounted"/></td>
                         </tr>
+
                         @if ($account->customLabel('invoice1') && $invoice->custom_taxes1)
                             <tr>
                                 <td colspan="2">{{ $account->customLabel('invoice1') ?: trans('texts.surcharge') }}</td>
@@ -430,12 +445,13 @@
                         </tr>
                     </table>
 
+
                     <div role="tabpanel" class="pull-left" style="margin-left:40px; margin-top:30px;">
+
                         <ul class="nav nav-tabs" role="tablist" style="border: none">
-                            <li role="presentation" class="active">
-                                <a href="#public_notes" aria-controls="notes"
-                                   role="tab"
-                                   data-toggle="tab">{{ trans('texts.public_notes') }}</a>
+                            <li role="presentation" class="active"><a href="#public_notes" aria-controls="notes"
+                                                                      role="tab"
+                                                                      data-toggle="tab">{{ trans('texts.public_notes') }}</a>
                             </li>
                             <li role="presentation"><a href="#private_notes" aria-controls="terms" role="tab"
                                                        data-toggle="tab">{{ trans("texts.private_notes") }}</a></li>
@@ -536,8 +552,10 @@
         </div>
 
         <center class="buttons">
+
             <div style="display:none">
                 {!! Former::populateField('entityType', $entityType) !!}
+
                 {!! Former::text('entityType') !!}
                 {!! Former::text('action') !!}
                 {!! Former::text('public_id')->data_bind('value: public_id') !!}
@@ -596,8 +614,9 @@
                     @endif
                 @endif
             @endif
+
         </center>
-        <!-- pdf live preview -->
+
         @include('invoices.pdf', ['account' => Auth::user()->account, 'hide_pdf' => ! Auth::user()->account->live_preview])
 
         @if (!Auth::user()->account->isPro())
@@ -605,6 +624,7 @@
                 {!! trans('texts.pro_plan_remove_logo', ['link'=>'<a href="javascript:showUpgradeModal()">' . trans('texts.pro_plan_remove_logo_link') . '</a>']) !!}
             </div>
         @endif
+
         <div class="modal fade" id="clientModal" tabindex="-1" role="dialog" aria-labelledby="clientModalLabel"
              aria-hidden="true">
             <div class="modal-dialog" data-bind="css: {'large-dialog': $root.showMore}">
@@ -613,39 +633,48 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title" id="clientModalLabel">{{ trans('texts.client') }}</h4>
                     </div>
+
                     <div class="container" style="width: 100%; padding-bottom: 0px !important">
                         <div class="panel panel-default">
                             <div class="panel-body">
+
                                 <div class="row" data-bind="with: client" onkeypress="clientModalEnterClick(event)">
                                     <div style="margin-left:0px;margin-right:0px"
                                          data-bind="css: {'col-md-6': $root.showMore}">
+
                                         {!! Former::hidden('client_public_id')->data_bind("value: public_id, valueUpdate: 'afterkeydown',
                                         attr: {name: 'client[public_id]'}") !!}
                                         {!! Former::text('client[name]')
                                         ->data_bind("value: name, valueUpdate: 'afterkeydown', attr { placeholder: name.placeholder }")
                                         ->label('client_name') !!}
+
                                         @if ( ! $account->client_number_counter)
                                             <span data-bind="visible: $root.showMore">
-                                            @endif
+@endif
+
                                                 {!! Former::text('client[id_number]')
-                                                ->label('id_number')
-                                                ->placeholder($account->clientNumbersEnabled() ? $account->getNextNumber() : ' ')
-                                                ->data_bind("value: id_number, valueUpdate: 'afterkeydown'") !!}
+                                                    ->label('id_number')
+                                                    ->placeholder($account->clientNumbersEnabled() ? $account->getNextNumber() : ' ')
+                                                    ->data_bind("value: id_number, valueUpdate: 'afterkeydown'") !!}
+
                                                 @if ( ! $account->client_number_counter)
-                                                </span>
+</span>
                                         @endif
 
                                         <span data-bind="visible: $root.showMore">
-                                            {!! Former::text('client[vat_number]')
-                                            ->label('vat_number')
-                                            ->data_bind("value: vat_number, valueUpdate: 'afterkeydown'") !!}
+{!! Former::text('client[vat_number]')
+->label('vat_number')
+->data_bind("value: vat_number, valueUpdate: 'afterkeydown'") !!}
+
                                             {!! Former::text('client[website]')
                                             ->label('website')
                                             ->data_bind("value: website, valueUpdate: 'afterkeydown'") !!}
                                             {!! Former::text('client[work_phone]')
                                             ->label('work_phone')
                                             ->data_bind("value: work_phone, valueUpdate: 'afterkeydown'") !!}
-                                            </span>
+
+</span>
+
                                         @if (Auth::user()->hasFeature(FEATURE_INVOICE_SETTINGS))
                                             @if ($account->customLabel('client1'))
                                                 @include('partials.custom_field', [
@@ -662,10 +691,13 @@
                                                 ])
                                             @endif
                                         @endif
+
                                         <span data-bind="visible: $root.showMore">
-                                            {!! Former::text('client[address1]')
-                                            ->label(trans('texts.address1'))
-                                            ->data_bind("value: address1, valueUpdate: 'afterkeydown'") !!}
+&nbsp;
+
+{!! Former::text('client[address1]')
+->label(trans('texts.address1'))
+->data_bind("value: address1, valueUpdate: 'afterkeydown'") !!}
                                             {!! Former::text('client[address2]')
                                             ->label(trans('texts.address2'))
                                             ->data_bind("value: address2, valueUpdate: 'afterkeydown'") !!}
@@ -684,13 +716,16 @@
                                             ->addOption('','')->addGroupClass('country_select')
                                             ->fromQuery($countries, 'name', 'id')
                                             ->data_bind("dropdown: country_id") !!}
-                                            </span>
+</span>
+
                                     </div>
                                     <div style="margin-left:0px;margin-right:0px"
                                          data-bind="css: {'col-md-6': $root.showMore}">
+
                                         <div data-bind='template: { foreach: contacts,
-                                            beforeRemove: hideContact,
-                                            afterAdd: showContact }'>
+beforeRemove: hideContact,
+afterAdd: showContact }'>
+
                                             {!! Former::hidden('public_id')->data_bind("value: public_id, valueUpdate: 'afterkeydown',
                                             attr: {name: 'client[contacts][' + \$index() + '][public_id]'}") !!}
                                             {!! Former::text('first_name')->data_bind("value: first_name, valueUpdate: 'afterkeydown',
@@ -712,7 +747,7 @@
                                                     'field' => 'custom_contact1',
                                                     'label' => $account->customLabel('contact1'),
                                                     'databind' => "value: custom_value1, valueUpdate: 'afterkeydown',
-                                                    attr: {name: 'client[contacts][' + \$index() + '][custom_value1]'}",
+                                                            attr: {name: 'client[contacts][' + \$index() + '][custom_value1]'}",
                                                     ])
                                                 @endif
                                                 @if ($account->customLabel('contact2'))
@@ -720,26 +755,27 @@
                                                     'field' => 'custom_contact2',
                                                     'label' => $account->customLabel('contact2'),
                                                     'databind' => "value: custom_value2, valueUpdate: 'afterkeydown',
-                                                    attr: {name: 'client[contacts][' + \$index() + '][custom_value2]'}",
+                                                            attr: {name: 'client[contacts][' + \$index() + '][custom_value2]'}",
                                                     ])
                                                 @endif
                                             @endif
                                             <div class="form-group">
                                                 <div class="col-lg-8 col-lg-offset-4">
-                                                    <span class="redlink bold"
-                                                          data-bind="visible: $parent.contacts().length > 1">
-                                                    {!! link_to('#', trans('texts.remove_contact').' -', array('data-bind'=>'click: $parent.removeContact')) !!}
-                                                    </span>
+<span class="redlink bold" data-bind="visible: $parent.contacts().length > 1">
+{!! link_to('#', trans('texts.remove_contact').' -', array('data-bind'=>'click: $parent.removeContact')) !!}
+</span>
                                                     <span data-bind="visible: $index() === ($parent.contacts().length - 1)"
                                                           class="pull-right greenlink bold">
-                                                    {!! link_to('#', trans('texts.add_contact').' +', array('data-bind'=>'click: $parent.addContact')) !!}
-                                                    </span>
+{!! link_to('#', trans('texts.add_contact').' +', array('data-bind'=>'click: $parent.addContact')) !!}
+</span>
                                                 </div>
                                             </div>
                                         </div>
+
                                         <span data-bind="visible: $root.showMore">
-                                        </span>
-                                        <!-- client currency -->
+&nbsp;
+</span>
+
                                         {!! Former::select('client[currency_id]')->addOption('','')
                                         ->placeholder($account->currency ? trans('texts.currency_'.Str::slug($account->currency->name, '_')) : '')
                                         ->label(trans('texts.currency_id'))
@@ -747,51 +783,46 @@
                                         ->fromQuery($currencies, 'name', 'id') !!}
 
                                         <span data-bind="visible: $root.showMore">
-                                            <!-- client language -->
-                                        {!! Former::select('client[language_id]')->addOption('','')
-                                        ->placeholder($account->language ? trans('texts.lang_'.$account->language->name) : '')
-                                        ->label(trans('texts.language_id'))
-                                        ->data_bind('value: language_id')
-                                        ->fromQuery($languages, 'name', 'id') !!}
-                                        <!-- payment term -->
-                                        {!! Former::select('client[payment_terms]')->addOption('','')->data_bind('value: payment_terms')
-                                        ->fromQuery(\App\Models\PaymentTerm::getSelectOptions(), 'name', 'num_days')
-                                        ->label(trans('texts.payment_terms'))
-                                        ->help(trans('texts.payment_terms_help')) !!}
-                                        <!-- company size -->
-                                        {!! Former::select('client[size_id]')->addOption('','')->data_bind('value: size_id')
-                                        ->label(trans('texts.size_id'))
-                                        ->fromQuery($sizes, 'name', 'id') !!}
-                                        <!-- industry -->
-                                        {!! Former::select('client[industry_id]')->addOption('','')->data_bind('value: industry_id')
-                                        ->label(trans('texts.industry_id'))
-                                        ->fromQuery($industries, 'name', 'id') !!}
-                                        <!-- Private note -->
+{!! Former::select('client[language_id]')->addOption('','')
+->placeholder($account->language ? trans('texts.lang_'.$account->language->name) : '')
+->label(trans('texts.language_id'))
+->data_bind('value: language_id')
+->fromQuery($languages, 'name', 'id') !!}
+                                            {!! Former::select('client[payment_terms]')->addOption('','')->data_bind('value: payment_terms')
+                                            ->fromQuery(\App\Models\PaymentTerm::getSelectOptions(), 'name', 'num_days')
+                                            ->label(trans('texts.payment_terms'))
+                                            ->help(trans('texts.payment_terms_help')) !!}
+                                            {!! Former::select('client[size_id]')->addOption('','')->data_bind('value: size_id')
+                                            ->label(trans('texts.size_id'))
+                                            ->fromQuery($sizes, 'name', 'id') !!}
+                                            {!! Former::select('client[industry_id]')->addOption('','')->data_bind('value: industry_id')
+                                            ->label(trans('texts.industry_id'))
+                                            ->fromQuery($industries, 'name', 'id') !!}
                                             {!! Former::textarea('client_private_notes')
                                             ->label(trans('texts.private_notes'))
                                             ->data_bind("value: private_notes, attr:{ name: 'client[private_notes]'}") !!}
-                                        </span>
+</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- footer  -->
+
                     <div class="modal-footer">
-                        <span class="error-block" id="emailError"
-                              style="display:none;float:left;font-weight:bold">{{ trans('texts.provide_name_or_email') }}</span>
+<span class="error-block" id="emailError"
+      style="display:none;float:left;font-weight:bold">{{ trans('texts.provide_name_or_email') }}</span><span>&nbsp;</span>
                         <button type="button" class="btn btn-default"
                                 data-dismiss="modal">{{ trans('texts.cancel') }}</button>
                         <button type="button" class="btn btn-default"
                                 data-bind="click: $root.showMoreFields, text: $root.showMore() ? '{{ trans('texts.less_fields') }}' : '{{ trans('texts.more_fields') }}'"></button>
                         <button id="clientDoneButton" type="button" class="btn btn-primary"
-                                data-bind="click: $root.clientFormComplete">{{ trans('texts.done') }}
-                        </button>
+                                data-bind="click: $root.clientFormComplete">{{ trans('texts.done') }}</button>
                     </div>
+
                 </div>
             </div>
         </div>
-        <!-- model -->
+
         <div class="modal fade" id="recurringModal" tabindex="-1" role="dialog" aria-labelledby="recurringModalLabel"
              aria-hidden="true">
             <div class="modal-dialog" style="min-width:150px">
@@ -800,6 +831,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title" id="recurringModalLabel">{{ trans('texts.recurring_invoices') }}</h4>
                     </div>
+
                     <div class="container" style="width: 100%; padding-bottom: 0px !important">
                         <div class="panel panel-default">
                             <div class="panel-body">
@@ -807,13 +839,16 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">{{ trans('texts.close') }}
-                        </button>
+                        <button type="button" class="btn btn-primary"
+                                data-dismiss="modal">{{ trans('texts.close') }}</button>
                     </div>
+
                 </div>
             </div>
         </div>
+
         <div class="modal fade" id="recurringDueDateModal" tabindex="-1" role="dialog"
              aria-labelledby="recurringDueDateModalLabel" aria-hidden="true">
             <div class="modal-dialog" style="min-width:150px">
@@ -823,6 +858,7 @@
                         <h4 class="modal-title"
                             id="recurringDueDateModalLabel">{{ trans('texts.recurring_due_dates') }}</h4>
                     </div>
+
                     <div class="container" style="width: 100%; padding-bottom: 0px !important">
                         <div class="panel panel-default">
                             <div class="panel-body">
@@ -830,25 +866,30 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">{{ trans('texts.close') }}
-                        </button>
+                        <button type="button" class="btn btn-primary"
+                                data-dismiss="modal">{{ trans('texts.close') }}</button>
                     </div>
+
                 </div>
             </div>
         </div>
 
         @include('partials.email_templates')
         @include('invoices.email')
+
         {!! Former::close() !!}
         </form>
+
         {!! Former::open("{$entityType}s/bulk")->addClass('bulkForm') !!}
         {!! Former::populateField('bulk_public_id', $invoice->public_id) !!}
         <span style="display:none">
-          {!! Former::text('bulk_public_id') !!}
+{!! Former::text('bulk_public_id') !!}
             {!! Former::text('bulk_action') !!}
-         </span>
+</span>
         {!! Former::close() !!}
+
     </div>
 
     @include('invoices.knockout')
@@ -932,38 +973,39 @@
                 }
             }
             @endif
+
                     @if (isset($tasks) && count($tasks))
                 NINJA.formIsChanged = true;
             var tasks = {!! json_encode($tasks) !!};
             for (var i = 0; i < tasks.length; i++) {
                 var task = tasks[i];
                 var item = model.invoice().addItem(true);
-                item.public_id(task.public_id);
                 item.notes(task.description);
                 item.qty(task.duration);
-                item.cost(task.cost);
+                item.unit_cost(task.unit_cost);
                 item.task_public_id(task.publicId);
             }
             model.invoice().has_tasks(true);
             NINJA.formIsChanged = true;
             @endif
+
                     @if (isset($expenses) && $expenses->count())
                 NINJA.formIsChanged = true;
             model.expense_currency_id({{ isset($expenseCurrencyId) ? $expenseCurrencyId : 0 }});
 
 // move the blank invoice line item to the end
             var blank = model.invoice().invoice_items_without_tasks.pop();
-            var expenses ={!! $expenses !!};
+            var expenses =;
+                    {!! $expenses !!}
 
             for (var i = 0; i < expenses.length; i++) {
                 var expense = expenses[i];
                 var item = model.invoice().addItem();
-                item.public_id(expense.public_id);
-                item.name(expense.expense_category ? expense.expense_category.name : '');
+                item.product_key(expense.expense_category ? expense.expense_category.name : '');
                 item.notes(expense.public_notes);
                 item.qty(1);
                 item.expense_public_id(expense.public_id);
-                item.cost(expense.converted_amount);
+                item.unit_cost(expense.converted_amount);
                 item.tax_rate1(expense.tax_rate1);
                 item.tax_name1(expense.tax_name1);
                 item.tax_rate2(expense.tax_rate2);
@@ -980,13 +1022,13 @@
             var productMap = {};
             for (var i = 0; i < products.length; i++) {
                 var product = products[i];
-                productMap[product.name] = product;
+                productMap[product.product_key] = product;
             }
             var selectedProducts =;
                     {!! json_encode($selectedProducts) !!}
             for (var i = 0; i < selectedProducts.length; i++) {
-                var name = selectedProducts[i];
-                product = productMap[name];
+                var productKey = selectedProducts[i];
+                product = productMap[productKey];
                 if (product) {
                     var item = model.invoice().addItem();
                     item.loadData(product);
@@ -998,6 +1040,7 @@
             @endif
 
             @endif
+
             // display blank instead of '0'
             if (!NINJA.parseFloat(model.invoice().discount())) model.invoice().discount('');
             if (!NINJA.parseFloat(model.invoice().partial())) model.invoice().partial('');
@@ -1249,7 +1292,7 @@
             if (!design) {
                 return;
             }
-            <!-- generate PDF -->
+
             generatePDF(invoice, design, force, cb);
         }
 
@@ -1465,14 +1508,16 @@
 
         function submitAction(value) {
             if (!isSaveValid()) {
+
                 @if(Auth::user()->can('create', ENTITY_CLIENT))
                 model.showClientForm();
                 return false;
                 @else
                 showPermissionErrorModal();
                 @endif
+
             }
-            // save item invoice
+
             $('#action').val(value);
             $('#submitButton').click();
         }
@@ -1513,10 +1558,8 @@
             if ($('#saveButton').is(':disabled')) {
                 return false;
             }
-
-// save, email and draft action
             $('#saveButton, #emailButton, #draftButton').attr('disabled', true);
-//          if save fails ensure user can try again
+// if save fails ensure user can try again
             $.post('{{ url($url) }}', $('.main-form').serialize(), function (data) {
                 if (data && data.toLowerCase().indexOf('http') === 0) {
                     NINJA.formIsChanged = false;
