@@ -4,7 +4,6 @@ namespace App\Http\Requests;
 
 use App\Models\ItemBrand;
 use App\Models\Product;
-use App\Models\Unit;
 
 class UpdateProductRequest extends EntityRequest
 {
@@ -22,8 +21,8 @@ class UpdateProductRequest extends EntityRequest
         $this->validationData();
 
         $product = $this->entity();
-//            $rules['name'] = 'required|unique:products,name,' . $product->id . ',id,item_brand_id,' . $product->item_brand_id . ',account_id,' . $product->account_id;
-        $rules['name'] = 'required|unique:products,name,' . $product->id . ',id,account_id,' . $product->account_id;
+//            $rules['product_key'] = 'required|unique:products,product_key,' . $product->id . ',id,item_brand_id,' . $product->item_brand_id . ',account_id,' . $product->account_id;
+        $rules['product_key'] = 'required|unique:products,product_key,' . $product->id . ',id,account_id,' . $product->account_id;
         $rules['item_brand_id'] = 'required|numeric';
         $rules['tax_category_id'] = 'required|numeric';
         $rules['category_id'] = 'required|numeric';
@@ -40,8 +39,8 @@ class UpdateProductRequest extends EntityRequest
     public function sanitize()
     {
         $input = $this->all();
-        if (!empty($input['name'])) {
-            $input['name'] = filter_var($input['name'], FILTER_SANITIZE_STRING);
+        if (!empty($input['product_key'])) {
+            $input['product_key'] = filter_var($input['product_key'], FILTER_SANITIZE_STRING);
         }
         if (!empty($input['notes'])) {
             $input['notes'] = filter_var($input['notes'], FILTER_SANITIZE_STRING);

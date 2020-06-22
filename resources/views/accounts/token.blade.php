@@ -36,7 +36,6 @@
         </script>
     @endif
 
-
   {!! Former::close() !!}
 
 @stop

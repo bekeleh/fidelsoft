@@ -26,6 +26,12 @@ class TokenDatatable extends EntityDatatable
                 },
             ],
             [
+                'notes',
+                function ($model) {
+                    return $model->notes;
+                },
+            ],
+            [
                 'created_at',
                 function ($model) {
                     return Utils::timestampToDateString(strtotime($model->created_at));

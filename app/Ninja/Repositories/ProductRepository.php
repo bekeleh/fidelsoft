@@ -50,7 +50,7 @@ class ProductRepository extends BaseRepository
             ->select(
                 'products.id',
                 'products.public_id',
-                'products.name as item_name',
+                'products.product_key',
                 'products.UPC',
                 'products.item_serial',
                 'products.item_barcode',
@@ -80,7 +80,7 @@ class ProductRepository extends BaseRepository
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
-                $query->where('products.name', 'like', '%' . $filter . '%')
+                $query->where('products.product_key', 'like', '%' . $filter . '%')
                     ->orWhere('products.item_serial', 'like', '%' . $filter . '%')
                     ->orWhere('products.UPC', 'like', '%' . $filter . '%')
                     ->orWhere('products.item_barcode', 'like', '%' . $filter . '%')
@@ -125,7 +125,7 @@ class ProductRepository extends BaseRepository
         }
 
         $product->fill($data);
-        $product->product_key = isset($data['name']) ? trim($data['name']) : null;
+        $product->product_key = isset($data['product_key']) ? trim($data['product_key']) : null;
         $product->UPC = isset($data['UPC']) ? trim($data['UPC']) : null;
         $product->item_barcode = isset($data['item_barcode']) ? trim($data['item_barcode']) : null;
         $product->item_serial = isset($data['item_serial']) ? trim($data['item_serial']) : null;

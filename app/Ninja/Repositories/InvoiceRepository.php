@@ -431,6 +431,7 @@ class InvoiceRepository extends BaseRepository
      */
     public function save(array $data, Invoice $invoice = null)
     {
+        Log::info($data);
         $account = $invoice ? $invoice->account : Auth::user()->account;
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
 
@@ -1734,14 +1735,16 @@ class InvoiceRepository extends BaseRepository
             $this->task($invoice, $item);
 //          expense updates
             $this->expense($invoice, $item);
-//             TODO: check service order or product sell
+//             TODO: check service order or product sell, of update product is checked
             $product = $this->getProductDetail($account, trim($item['product_key']));
             if ($product) {
 //                  check quantity on hand hand
                 $itemStore = $this->getItemStore($account, $product);
                 if ($itemStore) {
 //                      update product
-                    $this->stockAdjustment($itemStore, $invoice, $lineItems, $item, $isNew);
+                    if (!$data['has_tasks'] && !$data['is_quote']) {
+                        $this->stockAdjustment($itemStore, $invoice, $lineItems, $item, $isNew);
+                    }
 //                      update invoice line item
                     $this->invoiceLineItemAdjustment($product, $itemStore, $invoice, $item);
                 }

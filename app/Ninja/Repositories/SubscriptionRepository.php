@@ -31,6 +31,8 @@ class SubscriptionRepository extends BaseRepository
                 'subscriptions.event_id as event',
                 'subscriptions.deleted_at',
                 'subscriptions.format',
+                'subscriptions.is_deleted',
+                'subscriptions.notes',
                 'subscriptions.created_at',
                 'subscriptions.updated_at',
                 'subscriptions.deleted_at',
@@ -41,7 +43,11 @@ class SubscriptionRepository extends BaseRepository
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
-                $query->where('subscriptions.target_url', 'like', '%' . $filter . '%')
+                $query->orWhere('subscriptions.event_id', 'like', '%' . $filter . '%')
+                    ->orWhere('subscriptions.target_url', 'like', '%' . $filter . '%')
+                    ->orWhere('subscriptions.format', 'like', '%' . $filter . '%')
+                    ->orWhere('subscriptions.notes', 'like', '%' . $filter . '%')
+                    ->orWhere('subscriptions.created_by', 'like', '%' . $filter . '%')
                     ->orWhere('subscriptions.created_by', 'like', '%' . $filter . '%');
             });
         }

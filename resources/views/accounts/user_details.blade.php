@@ -81,7 +81,7 @@
             </div>
         </div>
     </div>
-    @if ( ! Auth::user()->is_admin)
+    @if (!Auth::user()->is_admin)
         @include('accounts.partials.notifications')
     @endif
     <center class="buttons">

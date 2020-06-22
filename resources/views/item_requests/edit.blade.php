@@ -103,7 +103,7 @@
             for (var i = 0; i < departments.length; i++) {
                 var department = departments[i];
                 departmentMap[department.public_id] = department;
-                $departmentSelect.append(new Option(getClientDisplayName(department), department.public_id));
+                $departmentSelect.append(new Option(department.name, department.public_id));
             }
             @include('partials/entity_combobox', ['entityType' => ENTITY_DEPARTMENT])
             if (departmentId) {
@@ -119,7 +119,7 @@
             for (var i = 0; i < stores.length; i++) {
                 var store = stores[i];
                 storeMap[store.public_id] = store;
-                $storeSelect.append(new Option(getClientDisplayName(store), store.public_id));
+                $storeSelect.append(new Option(store.name, store.public_id));
             }
             @include('partials/entity_combobox', ['entityType' => ENTITY_STORE])
             if (storeId) {
@@ -135,7 +135,7 @@
             for (var i = 0; i < statuses.length; i++) {
                 var status = statuses[i];
                 statusMap[status.public_id] = status;
-                $statusSelect.append(new Option(getClientDisplayName(status), status.public_id));
+                $statusSelect.append(new Option(status.name, status.public_id));
             }
             @include('partials/entity_combobox', ['entityType' => ENTITY_STATUS])
             if (statusId) {

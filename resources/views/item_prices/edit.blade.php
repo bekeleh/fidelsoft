@@ -29,7 +29,7 @@
                     {!! Former::select('client_type_id')->addOption('', '')
                     ->label(trans('texts.client_type_name'))
                     ->addGroupClass('client-type-select')
-                    ->help(trans('texts.client_type_help') . ' | ' . link_to('/client_types/', trans('texts.customize_options')))
+                    ->help(trans('texts.client_type_help') . ' | ' . link_to('/client_clientTypes/', trans('texts.customize_options')))
                     !!}
                     {!! Former::text('item_price')->label('texts.item_price') !!}
                     {!! Former::text('start_date')
@@ -64,9 +64,9 @@
     <script type="text/javascript">
         var products = {!! $products !!};
         var productMap = {};
-        <!-- types type -->
-        var types = {!! $clientTypes !!};
-        var typeMap = {};
+        <!-- clientTypes type -->
+        var clientTypes = {!! $clientTypes !!};
+        var clientTypeMap = {};
 
         $(function () {
             $('#name').focus();
@@ -77,12 +77,12 @@
             var productId = {{ $productPublicId ?: 0 }};
             var $productSelect = $('select#product_id');
             @if (Auth::user()->can('create', ENTITY_PRODUCT))
-            $productSelect.append(new Option("{{ trans('texts.create_product')}}: $name", '-1'));
+            $productSelect.append(new Option("{{ trans('texts.create_product')}}: $product_key", '-1'));
                     @endif
             for (var i = 0; i < products.length; i++) {
                 var product = products[i];
                 productMap[product.public_id] = product;
-                $productSelect.append(new Option(getClientDisplayName(product), product.public_id));
+                $productSelect.append(new Option(product.product_key, product.public_id));
             }
             @include('partials/entity_combobox', ['entityType' => ENTITY_PRODUCT])
             if (productId) {
@@ -95,15 +95,15 @@
             @if (Auth::user()->can('create', ENTITY_CLIENT_TYPE))
             $client_typeSelect.append(new Option("{{ trans('texts.create_client_type')}}: $name", '-1'));
                     @endif
-            for (var i = 0; i < types.length; i++) {
-                var type = types[i];
-                typeMap[type.public_id] = type;
-                $client_typeSelect.append(new Option(type.name, type.public_id));
+            for (var i = 0; i < clientTypes.length; i++) {
+                var clientType = clientTypes[i];
+                clientTypeMap[clientType.public_id] = clientType;
+                $client_typeSelect.append(new Option(clientType.name, clientType.public_id));
             }
             @include('partials/entity_combobox', ['entityType' => ENTITY_CLIENT_TYPE])
-            if (typeId) {
-                var type = typeMap[typeId];
-                setComboboxValue($('.client-type-select'), type.public_id, type.name);
+            if (clientTypeId) {
+                var clientType = clientTypeMap[clientTypeId];
+                setComboboxValue($('.client-type-select'), clientType.public_id, clientType.name);
             }
 
         });

@@ -198,7 +198,7 @@ class ItemTransferController extends BaseController
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
             'statuses' => Status::scope()->withActiveOrSelected($itemTransfer ? $itemTransfer->status_id : false)->orderBy('name')->get(),
-            'products' => Product::withCategory('itemBrand.itemCategory'),
+            'products' => Product::scope()->withActiveOrSelected(false)->products(),
             'previousStores' => Store::scope()->withActiveOrSelected($itemTransfer ? $itemTransfer->previous_store_id : false)->orderBy('name')->get(),
             'currentStores' => Store::scope()->withActiveOrSelected($itemTransfer ? $itemTransfer->current_store_id : false)->orderBy('name')->get(),
         ];

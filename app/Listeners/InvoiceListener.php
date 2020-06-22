@@ -25,9 +25,9 @@ class InvoiceListener
 {
     public function createdInvoice(InvoiceWasCreated $event)
     {
-        if (Utils::hasFeature(FEATURE_DIFFERENT_DESIGNS)) {
-            return;
-        }
+//        if (Utils::hasFeature(FEATURE_DIFFERENT_DESIGNS)) {
+//            return false;
+//        }
 
         // Make sure the account has the same design set as the invoice does
         if (Auth::check()) {

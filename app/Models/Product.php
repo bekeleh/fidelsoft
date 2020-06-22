@@ -48,7 +48,7 @@ class Product extends EntityModel
     public static function getImportColumns()
     {
         return [
-            'name',
+            'product_key',
             'UPC',
             'EAN',
             'notes',
@@ -77,7 +77,7 @@ class Product extends EntityModel
 
     public static function findProductByKey($key)
     {
-        return self::scope()->where('product_key', '=', $key)->first();
+        return self::scope()->where('product_key', $key)->first();
     }
 
     public function account()
@@ -115,7 +115,7 @@ class Product extends EntityModel
         return $this->hasMany('App\Models\ItemPrice')->withTrashed();
     }
 
-    public function itemBrand()
+    public function item_brand()
     {
         return $this->belongsTo('App\Models\ItemBrand')->withTrashed();
     }
@@ -125,31 +125,73 @@ class Product extends EntityModel
         return $this->belongsTo('App\Models\Unit')->withTrashed();
     }
 
-    public function itemMovements()
+    public function item_movements()
     {
         return $this->morphMany('\App\Models\ItemMovement', 'movable', 'movable_type', 'movable_id');
     }
 
-    public function manufacturerProductDetails()
+    public function manufacturer_product_details()
     {
         return $this->hasMany('App\Models\ItemPrice')->withTrashed();
     }
 
     public function scopeStock($query, $publicId = false, $accountId = false)
     {
-        if (!auth::check() || !auth::user()->account || !auth::user()->branch) {
+        $storeId = auth::user()->branch->store_id;
+        if (!$storeId) {
             return false;
         }
-
-        $query = $query->whereHas('item_stores', function ($query) {
-            $query->where('item_stores.store_id', '=', auth::user()->branch->store_id)
+        $query = $query->whereHas('item_stores', function ($query) use ($storeId) {
+            $query->where('item_stores.store_id', $storeId)
                 ->where('item_stores.qty', '>', 0)
-                ->Where('item_stores.is_locked', '=', false)
-                ->Where('item_stores.is_deleted', '=', false);
+                ->Where('item_stores.is_locked', false)
+                ->Where('item_stores.is_deleted', false);
         });
 
         return $query;
     }
 
+    public function scopeProducts($query)
+    {
+        $query = $query->whereHas('item_brand', function ($query) {
+            $query->Where('item_brands.is_deleted', false)
+                ->whereHas('item_category', function ($query) {
+                    $query->Where('item_categories.is_deleted', false);
+                });
+        })->with(['item_brand.item_category'])->orderby('product_key')->get();
+
+        $query = $this->getProductDisplayName($query);
+
+        return $query;
+    }
+
+    public function getProductDisplayName($query)
+    {
+        if (is_null($query)) {
+            return false;
+        }
+
+        foreach ($query as $subQuery) {
+            $name_str = '';
+            if (isset($subQuery->item_brand->item_category)) {
+                $name_str .= e($subQuery->product_key) . ' ';
+                if (isset($subQuery->item_brand->item_category->name)) {
+                    $name_str .= ' (' . e($subQuery->item_brand->name) . ')' . ' (' . e($subQuery->item_brand->item_category->name) . ')' . ' ';
+                } else {
+                    $name_str .= ' (' . e($subQuery->item_brand->name) . ')' . ' ';
+                }
+            } else {
+                if (isset($subQuery->item_brand)) {
+                    $name_str .= ' (' . e($subQuery->item_brand->name) . ')' . ' (' . e($subQuery->item_brand->name) . ')' . ' ';
+                } else {
+                    $name_str .= ' (' . e($subQuery->item_brand->name) . ')' . ' ';
+                }
+            }
+
+            $subQuery->product_key = $name_str;
+        }
+
+        return $query;
+    }
 
 }

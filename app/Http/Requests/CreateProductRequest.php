@@ -4,7 +4,6 @@ namespace App\Http\Requests;
 
 use App\Models\ItemBrand;
 use App\Models\Product;
-use App\Models\Unit;
 
 class CreateProductRequest extends ProductRequest
 {
@@ -21,8 +20,8 @@ class CreateProductRequest extends ProductRequest
         $this->validationData();
 
         $rules = [];
-//        $rules['name'] = 'required|unique:products,name,' . $this->id . ',id,item_brand_id,' . $this->item_brand_id . ',account_id,' . $this->account_id;
-        $rules['name'] = 'required|unique:products,name,' . $this->id . ',id,account_id,' . $this->account_id;
+//        $rules['product_key'] = 'required|unique:products,product_key,' . $this->id . ',id,item_brand_id,' . $this->item_brand_id . ',account_id,' . $this->account_id;
+        $rules['product_key'] = 'required|unique:products,product_key,' . $this->id . ',id,account_id,' . $this->account_id;
         $rules['item_brand_id'] = 'required|numeric';
         $rules['tax_category_id'] = 'required|numeric';
         $rules['category_id'] = 'required|numeric';
@@ -39,8 +38,8 @@ class CreateProductRequest extends ProductRequest
     public function sanitize()
     {
         $input = $this->all();
-        if (!empty($input['name'])) {
-            $input['name'] = filter_var($input['name'], FILTER_SANITIZE_STRING);
+        if (!empty($input['product_key'])) {
+            $input['product_key'] = filter_var($input['product_key'], FILTER_SANITIZE_STRING);
         }
         if (!empty($input['notes'])) {
             $input['notes'] = filter_var($input['notes'], FILTER_SANITIZE_STRING);

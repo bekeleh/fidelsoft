@@ -6,11 +6,10 @@ use App\Models\AccountToken;
 use App\Services\TokenService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
-use Redirect;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+use Redirect;
 
 /**
  * Class TokenController.
@@ -42,7 +41,10 @@ class TokenController extends BaseController
 
     public function getDatatable()
     {
-        return $this->tokenService->getDatatable(Auth::user()->id);
+        $accountId = Auth::user()->id;
+        $search = Input::get('sSearch');
+
+        return $this->tokenService->getDatatable($accountId, $search);
     }
 
     public function create()

@@ -18,11 +18,11 @@ class ItemStoreDatatable extends EntityDatatable
 
         return [
             [
-                'item_name',
+                'product_key',
                 function ($model) {
                     if ($model->public_id) {
                         if (Auth::user()->can('view', [ENTITY_PRODUCT, $model]))
-                            return link_to("products/{$model->public_id}", $model->item_name)->toHtml();
+                            return link_to("products/{$model->public_id}", $model->product_key)->toHtml();
                         else
                             return $model->item_name;
                     }

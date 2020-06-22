@@ -407,7 +407,7 @@ class InvoiceController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account->load('country'),
-            'products' => (auth::user()->can('view', ENTITY_PRODUCT)) ? Product::scope()->withActiveOrSelected($invoice ? $invoice->product_id : false)->Stock()->orderBy('product_key')->get() : collect([]),
+            'products' => (auth::user()->can('view', ENTITY_PRODUCT)) ? Product::scope()->withActiveOrSelected($invoice ? $invoice->product_id : false)->stock()->orderBy('product_key')->get() : collect([]),
             'clients' => (auth::user()->can('view', ENTITY_CLIENT)) ? Client::scope()->with('contacts', 'country')->orderBy('name')->get() : collect([]),
             'taxRateOptions' => $taxRateOptions,
             'sizes' => Cache::get('sizes'),

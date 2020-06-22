@@ -43,7 +43,7 @@ class ItemBrand extends EntityModel
 
     public static function findItemBrandByKey($key)
     {
-        return self::scope()->where('name', '=', $key)->first();
+        return self::scope()->where('name', $key)->first();
     }
 
     public function account()
@@ -56,7 +56,7 @@ class ItemBrand extends EntityModel
         return $this->belongsTo('App\Models\User', 'user_id')->withTrashed();
     }
 
-    public function itemCategory()
+    public function item_category()
     {
         return $this->belongsTo('App\Models\itemCategory', 'item_category_id')->withTrashed();
     }

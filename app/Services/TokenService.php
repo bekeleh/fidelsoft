@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Libraries\Utils;
 use App\Ninja\Datatables\TokenDatatable;
 use App\Ninja\Repositories\TokenRepository;
 
@@ -25,10 +26,15 @@ class TokenService extends BaseService
         return $this->tokenRepo;
     }
 
-    public function getDatatable($userId)
+    public function getDatatable($accountId, $search = null)
     {
+        $query = $this->tokenRepo->find($accountId, $search);
+
+        if (!Utils::hasPermission('view_token')) {
+            $query = $query->where('tokens.user_id', auth::user()->id);
+        }
+
         $datatable = new TokenDatatable(true, true);
-        $query = $this->tokenRepo->find($userId);
 
         return $this->datatableService->createDatatable($datatable, $query);
     }

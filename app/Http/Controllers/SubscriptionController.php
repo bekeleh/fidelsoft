@@ -41,7 +41,10 @@ class SubscriptionController extends BaseController
 
     public function getDatatable()
     {
-        return $this->subscriptionService->getDatatable(Auth::user()->account_id);
+        $accountId = Auth::user()->account_id;
+        $search = Input::get('sSearch');
+
+        return $this->subscriptionService->getDatatable($accountId, $search);
     }
 
     public function create()

@@ -81,66 +81,6 @@ class EntityModel extends Eloquent
         }
     }
 
-    public static function withCategory($related = null)
-    {
-        $query = null;
-        if (!$related) {
-            return null;
-        }
-        $className = get_called_class();
-
-        if ($related != '') {
-            if (is_array($related)) {
-                foreach ($related as $relatedName) {
-                    $query = $className::scope()->withActiveOrSelected(false)->with($relatedName)->orderBy('name')->get();
-                    $query = self::getNameWithCategory($query, $relatedName);
-                }
-            } else {
-                $query = $className::scope()->withActiveOrSelected(false)->with($related)->orderBy('name')->get();
-
-                $query = self::getNameWithCategory($query, $related);
-            }
-        }
-
-        return $query;
-    }
-
-    public static function getNameWithCategory($query, $relatedName = null)
-    {
-        if (!$query) {
-            return null;
-        }
-        $relations = explode('.', $relatedName);
-        foreach ($query as $subQuery) {
-            $name_str = '';
-            if ($subQuery->name != '') {
-                $parent = count($relations) > 0 ? $relations[0] : '';
-                $child = count($relations) > 1 ? $relations[1] : '';
-                if ($parent != null && $child != null) {
-                    if (!empty($subQuery->$parent->name)) {
-                        $name_str .= e($subQuery->name) . ' (' . e($subQuery->$parent->name) . ')' . ' (' . e($subQuery->$parent->$child->name) . ')';
-                    } else {
-                        $name_str .= e($subQuery->name);
-                    }
-                } else if ($parent != '') {
-                    if ($subQuery->$parent->name != '') {
-                        $name_str .= e($subQuery->name) . ' (' . e($subQuery->$parent->name) . ')';
-                    } else {
-                        $name_str .= e($subQuery->name);
-                    }
-                }
-            } else {
-                if ($subQuery->$relatedName->name != '') {
-                    $name_str .= e($subQuery->name) . ' (' . e($subQuery->$relatedName->name) . ')';
-                } else {
-                    $name_str .= e($subQuery->name);
-                }
-            }
-            $subQuery->name = $name_str;
-        }
-        return ($query);
-    }
-
     public static function getPrivateId($publicId)
     {
         if (!$publicId) {

@@ -49,8 +49,9 @@ class StoreController extends BaseController
 
     public function getDatatable($storePublicId = null)
     {
-        $search = Input::get('sSearch');
         $accountId = Auth::user()->account_id;
+        $search = Input::get('sSearch');
+
         return $this->storeService->getDatatable($accountId, $search);
     }
 

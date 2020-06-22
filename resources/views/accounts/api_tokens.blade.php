@@ -15,57 +15,29 @@
             @endif
         </div>
     </div>
-
+    <br>
     <div class="row">
-        <div class="col-md-12">
-            @include('partials.bulk_form', ['entityType' => ENTITY_TOKEN])
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            {!! Datatable::table()
-                ->addColumn(
-                  trans('texts.name'),
-                  trans('texts.token'),
-                  trans('texts.action'))
-                ->setUrl(url('api/tokens/'))
-                ->setOptions('sPaginationType', 'bootstrap')
-                ->setOptions('bFilter', false)
-                ->setOptions('bAutoWidth', false)
-                ->setOptions('aoColumns', [[ "sWidth"=> "40%" ], [ "sWidth"=> "40%" ], ["sWidth"=> "20%"]])
-                ->setOptions('aoColumnDefs', [['bSortable'=>false, 'aTargets'=>[2]]])
-                ->render('datatable') !!}
-        </div>
+        @if (Utils::hasFeature(FEATURE_API))
+            <div class="col-md-12">
+                @include('list',[
+                 'entityType' => ENTITY_TOKEN,
+                'datatable' => new \App\Ninja\Datatables\TokenDatatable(true, true),
+                'url' => url('api/tokens/'),
+                ])
+            </div>
+        @endif
     </div>
     <h3 style="height:20px;"></h3>
+    <br/>
     <div class="row">
         <div class="col-md-12">
-            @if (Utils::hasFeature(FEATURE_API))
-                {!! Button::primary(trans('texts.add_subscription'))->asLinkTo(URL::to('/subscriptions/create'))->appendIcon(Icon::create('plus-sign')) !!}
-            @endif
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            @include('partials.bulk_form', ['entityType' => ENTITY_SUBSCRIPTION])
-        </div>
-    </div>
+            @include('list',
+            [
+            'entityType' => ENTITY_SUBSCRIPTION,
+            'datatable' => new \App\Ninja\Datatables\SubscriptionDatatable(true, true),
+            'url' => url('api/subscriptions/'),
+            ])
 
-    <div class="row">
-        <div class="col-md-12">
-            {!! Datatable::table()
-                ->addColumn(
-                  trans('texts.event'),
-                  trans('texts.target_url'),
-                  trans('texts.action'))
-                ->setUrl(url('api/subscriptions/'))
-                ->setOptions('sPaginationType', 'bootstrap')
-                ->setOptions('bFilter', false)
-                ->setOptions('bAutoWidth', false)
-                ->setOptions('aoColumns', false)
-                ->setOptions('aoColumnDefs', [['bSortable'=>false, 'aTargets'=>[2]]])
-                ->render('datatable') !!}
         </div>
     </div>
     <script>

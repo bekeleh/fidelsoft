@@ -59,7 +59,7 @@ class ItemStoreRepository extends BaseRepository
                 'item_stores.created_by',
                 'item_stores.updated_by',
                 'item_stores.deleted_by',
-                'products.name as item_name',
+                'products.product_key',
                 'item_brands.name as item_brand_name',
                 'item_categories.name as item_category_name',
                 'stores.name as store_name'
@@ -69,7 +69,7 @@ class ItemStoreRepository extends BaseRepository
             $query->where(function ($query) use ($filter) {
                 $query->Where('item_brands.name', 'like', '%' . $filter . '%')
                     ->orWhere('item_categories.name', 'like', '%' . $filter . '%')
-                    ->orWhere('products.name', 'like', '%' . $filter . '%')
+                    ->orWhere('products.product_key', 'like', '%' . $filter . '%')
                     ->orWhere('stores.name', 'like', '%' . $filter . '%')
                     ->orWhere('item_stores.notes', 'like', '%' . $filter . '%')
                     ->orWhere('item_stores.bin', 'like', '%' . $filter . '%')
@@ -161,7 +161,6 @@ class ItemStoreRepository extends BaseRepository
             $itemStore->save();
         } elseif ($publicId) {
             $itemStore = ItemStore::scope($publicId)->withArchived()->firstOrFail();
-            Log::warning('Entity not set in item store repo save');
         } else {
             $itemStore = ItemStore::createNew();
             $itemStore->fill($data);
@@ -174,9 +173,9 @@ class ItemStoreRepository extends BaseRepository
         }
 
         if ($publicId) {
-            event(new ItemStoreWasUpdated($itemStore, $data));
+            event(new ItemStoreWasUpdated($itemStore));
         } else {
-            event(new ItemStoreWasCreated($itemStore, $data));
+            event(new ItemStoreWasCreated($itemStore));
         }
         return $itemStore;
     }

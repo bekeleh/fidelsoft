@@ -50,6 +50,7 @@ class UnitController extends BaseController
     {
         $accountId = Auth::user()->account_id;
         $search = Input::get('sSearch');
+
         return $this->unitService->getDatatable($accountId, $search);
     }
 
