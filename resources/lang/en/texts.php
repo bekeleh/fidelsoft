@@ -703,7 +703,7 @@ $LANG = array(
     'select_to_store' => 'Select Destination Store',
     'select_store' => 'Select Default Store',
     'item_help' => 'Sets the default <b>item</b>',
-    'item_qty_help' => 'If not set <b>item qty</b> all available qty will be transferred.',
+    'item_qty_help' => 'If <b>item quantity</b> is not specified, all available quantity will be transferred.',
     'item_store_help' => 'Sets the default <b>item store</b>',
     'item_does_not_exist' => 'Item does not exist in this store or somethings went wrong.',
 //   Products

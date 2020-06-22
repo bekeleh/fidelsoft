@@ -217,15 +217,17 @@
         ['label' => trans('texts.new_branch'), 'url' => url('/branches')],
         ])->split() !!}
     @endif
-@elseif($entityType == ENTITY_SALE_TYPE)
-    @if (Auth::user()->can('create', [ENTITY_SALE_TYPE]))
+@elseif($entityType == ENTITY_BRANCH)
+    @if (Auth::user()->can('create', [ENTITY_BRANCH]))
         {!! DropdownButton::normal(trans('texts.maintenance'))
         ->withAttributes(['class'=>'maintenanceDropdown'])
         ->withContents([
-        ['label' => trans('texts.new_client'), 'url' => url('/clients')],
+        ['label' => trans('texts.new_user'), 'url' => url('/users')],
         ['label' => trans('texts.new_product'), 'url' => url('/products')],
-        ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices')],
-        ['label' => trans('texts.new_branch'), 'url' => url('/branches')],
+        ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores')],
+        ['label' => trans('texts.new_item_transfer'), 'url' => url('/item_transfers')],
+        ['label' => trans('texts.new_item_request'), 'url' => url('/item_requests')],
+        ['label' => trans('texts.new_item_movement'), 'url' => url('/item_movements')],
         ])->split() !!}
     @endif
 @endif
