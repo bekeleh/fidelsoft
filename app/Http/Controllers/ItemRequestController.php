@@ -220,7 +220,7 @@ class ItemRequestController extends BaseController
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
             'statuses' => Status::scope()->withActiveOrSelected($itemRequest ? $itemRequest->status_id : false)->orderBy('name')->get(),
-            'products' => Product::withCategory('itemBrand.itemCategory'),
+            'products' => Product::scope()->withActiveOrSelected(false)->products(),
             'stores' => Store::scope()->withActiveOrSelected($itemRequest ? $itemRequest->store_id : false)->where('id', '!=', $storeId)->orderBy('name')->get(),
             'departments' => Department::scope()->withActiveOrSelected($itemRequest ? $itemRequest->department_id : false)->orderBy('name')->get(),
         ];

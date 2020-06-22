@@ -102,7 +102,7 @@ class ItemStoreRepository extends BaseRepository
             //->where('item_stores.deleted_at', '=', null)
             ->select(
                 'products.id as id',
-                'products.name as name',
+                'products.product_key as name',
                 'item_brands.name as item_brand_name',
                 'item_categories.name as item_category_name'
             )->get();

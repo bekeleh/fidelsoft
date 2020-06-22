@@ -47,7 +47,7 @@ class PointOfSaleRepository extends BaseRepository
             ->select(
                 'products.id',
                 'products.public_id',
-                'products.name as item_name',
+                'products.product_key as item_name',
                 'products.item_serial',
                 'products.item_barcode',
                 'products.item_tag',
@@ -71,7 +71,7 @@ class PointOfSaleRepository extends BaseRepository
             );
         if ($filter) {
             $query->where(function ($query) use ($filter) {
-                $query->where('products.name', 'like', '%' . $filter . '%')
+                $query->where('products.product_key', 'like', '%' . $filter . '%')
                     ->orWhere('products.item_serial', 'like', '%' . $filter . '%')
                     ->orWhere('products.item_barcode', 'like', '%' . $filter . '%')
                     ->orWhere('products.item_tag', 'like', '%' . $filter . '%')

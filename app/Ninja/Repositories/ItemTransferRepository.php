@@ -68,7 +68,7 @@ class ItemTransferRepository extends BaseRepository
                 'item_transfers.created_by',
                 'item_transfers.updated_by',
                 'item_transfers.deleted_by',
-                'products.name as item_name',
+                'products.product_key',
                 'products.public_id as product_public_id',
                 'item_brands.name as item_brand_name',
                 'item_brands.public_id as item_brand_public_id',
@@ -91,7 +91,7 @@ class ItemTransferRepository extends BaseRepository
                     ->orWhere('item_brands.name', 'like', '%' . $filter . '%')
                     ->orWhere('item_categories.name', 'like', '%' . $filter . '%')
                     ->orWhere('users.username', 'like', '%' . $filter . '%')
-                    ->orWhere('products.name', 'like', '%' . $filter . '%')
+                    ->orWhere('products.product_key', 'like', '%' . $filter . '%')
                     ->orWhere('currentStore.name', 'like', '%' . $filter . '%');
             });
         }

@@ -18,63 +18,53 @@ class ItemTransferDataTable extends EntityDatatable
 
         return [
             [
-                'item_name',
+                'product_key',
                 function ($model) {
                     if ($model->product_public_id) {
-                        if (Auth::user()->can('view', [ENTITY_PRODUCT, $model]))
-                            return link_to("products/{$model->product_public_id}", $model->item_name)->toHtml();
-                        else
-                            return $model->item_name;
+                        return link_to("products/{$model->product_public_id}", $model->product_key)->toHtml();
+                    } else {
+                        return $model->item_name;
                     }
-                    return false;
                 },
             ],
             [
                 'item_brand_name',
                 function ($model) {
                     if ($model->item_brand_public_id) {
-                        if (Auth::user()->can('view', [ENTITY_ITEM_BRAND, $model]))
-                            return link_to("item_brands/{$model->item_brand_public_id}", $model->item_brand_name)->toHtml();
-                        else
-                            return $model->item_brand_name;
+                        return link_to("item_brands/{$model->item_brand_public_id}", $model->item_brand_name)->toHtml();
+                    } else {
+                        return $model->item_brand_name;
                     }
-                    return false;
                 },
             ],
             [
                 'item_category_name',
                 function ($model) {
                     if ($model->item_category_public_id) {
-                        if (Auth::user()->can('view', [ENTITY_ITEM_CATEGORY, $model]))
-                            return link_to("item_categories/{$model->item_category_public_id}", $model->item_category_name)->toHtml();
-                        else
-                            return $model->item_category_name;
+                        return link_to("item_categories/{$model->item_category_public_id}", $model->item_category_name)->toHtml();
+                    } else {
+                        return $model->item_category_name;
                     }
-                    return false;
                 },
             ],
             [
                 'from_store_name',
                 function ($model) {
                     if ($model->from_store_public_id) {
-                        if (Auth::user()->can('view', [ENTITY_STORE, $model]))
-                            return link_to("stores/{$model->from_store_public_id}", $model->from_store_name)->toHtml();
-                        else
-                            return $model->from_store_name;
+                        return link_to("stores/{$model->from_store_public_id}", $model->from_store_name)->toHtml();
+                    } else {
+                        return $model->from_store_name;
                     }
-                    return false;
                 },
             ],
             [
                 'to_store_name',
                 function ($model) {
                     if ($model->to_store_public_id) {
-                        if (Auth::user()->can('view', [ENTITY_STORE, $model]))
-                            return link_to("stores/{$model->to_store_public_id}", $model->to_store_name)->toHtml();
-                        else
-                            return $model->to_store_name;
+                        return link_to("stores/{$model->to_store_public_id}", $model->to_store_name)->toHtml();
+                    } else {
+                        return $model->to_store_name;
                     }
-                    return false;
                 },
             ],
             [
@@ -93,24 +83,20 @@ class ItemTransferDataTable extends EntityDatatable
 //                'status_name',
 //                function ($model) {
 //                    if ($model->status_public_id) {
-//                        if (Auth::user()->can('view', [ENTITY_STATUS, $model]))
 //                            return link_to("statuses/{$model->status_public_id}", $model->status_name)->toHtml();
-//                        else
+//                        }else{
 //                            return $model->status_name;
 //                    }
-//                    return false;
 //                },
 //            ],
 //            [
 //                'approver_name',
 //                function ($model) {
 //                    if ($model->approver_public_id) {
-//                        if (Auth::user()->can('view', [ENTITY_USER, $model]))
 //                            return link_to("users/{$model->approver_public_id}", $model->approver_name)->toHtml();
-//                        else
+//                        }else{
 //                            return $model->approver_name;
 //                    }
-//                    return false;
 //                },
 //            ],
             [

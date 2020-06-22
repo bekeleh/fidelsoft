@@ -28,7 +28,7 @@
                 !!}
                 <!-- product -->
                 {!! Former::select('product_id')->addOption('', '')
-                ->label(trans('texts.product_name'))->addGroupClass('product-select')
+                ->label(trans('texts.product_key'))->addGroupClass('product-select')
                 ->help(trans('texts.product_help') . ' | ' . link_to('/products/', trans('texts.customize_options')))
                 !!}
                 <!-- store -->

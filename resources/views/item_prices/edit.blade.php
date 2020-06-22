@@ -22,7 +22,7 @@
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
                     {!! Former::select('product_id')->addOption('', '')
-                    ->label(trans('texts.product_name'))
+                    ->label(trans('texts.product_key'))
                     ->addGroupClass('product-select')
                     ->help(trans('texts.item_help') . ' | ' . link_to('/products/', trans('texts.customize_options')))
                     !!}

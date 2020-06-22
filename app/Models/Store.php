@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
@@ -74,14 +75,25 @@ class Store extends EntityModel
         return $this->hasMany('App\Models\Branch', 'store_id')->withTrashed();
     }
 
-//    public function products()
-//    {
-//        return $this->hasManyThrough('App\Models\ItemStore', 'App\Models\Item', 'store_id', 'product_id')->withTrashed();
-//    }
+    public function item_stores()
+    {
+        return $this->hasMany('App\Models\ItemStore', 'store_id')->withTrashed();
+    }
 
     public function products()
     {
         return $this->belongsToMany('\App\Models\Product', 'item_stores', 'store_id', 'product_id')->withPivot('id', 'qty', 'created_at', 'user_id')->withTrashed();
+    }
+
+    public function scopeHasQuantity($query)
+    {
+        $query = $query->whereHas('item_stores', function ($query) {
+            $query->where('item_stores.qty', '>', 0)
+                ->Where('item_stores.is_locked', false)
+                ->Where('item_stores.is_deleted', false);
+        });
+
+        return $query;
     }
 
 }

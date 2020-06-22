@@ -57,7 +57,7 @@ class ItemPriceRepository extends BaseRepository
                 'item_prices.updated_by',
                 'item_prices.deleted_by',
                 'client_types.name as client_type_name',
-                'products.name as item_name',
+                'products.product_key as item_name',
                 'products.cost',
                 'item_brands.name as item_brand_name',
                 'item_categories.name as item_category_name'
@@ -68,7 +68,7 @@ class ItemPriceRepository extends BaseRepository
                 $query->where('item_prices.created_by', 'like', '%' . $filter . '%')
                     ->orWhere('item_prices.updated_by', 'like', '%' . $filter . '%')
                     ->orWhere('item_prices.notes', 'like', '%' . $filter . '%')
-                    ->orWhere('products.name', 'like', '%' . $filter . '%')
+                    ->orWhere('products.product_key', 'like', '%' . $filter . '%')
                     ->orWhere('item_brands.name', 'like', '%' . $filter . '%')
                     ->orWhere('item_categories.name', 'like', '%' . $filter . '%')
                     ->orWhere('client_types.name', 'like', '%' . $filter . '%');
