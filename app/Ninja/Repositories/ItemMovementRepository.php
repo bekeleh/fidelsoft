@@ -52,9 +52,13 @@ class ItemMovementRepository extends BaseRepository
                 'item_movements.updated_by',
                 'item_movements.deleted_by',
                 'item_movements.is_deleted',
-                'products.name as item_name',
+                'products.public_id as product_public_id',
+                'products.product_key',
+                'item_brands.public_id as item_brand_public_id',
                 'item_brands.name as item_brand_name',
+                'item_categories.public_id as item_category_public_id',
                 'item_categories.name as item_category_name',
+                'stores.public_id as store_name_public_id',
                 'stores.name as store_name'
             );
 
@@ -63,7 +67,7 @@ class ItemMovementRepository extends BaseRepository
                 $query->Where('item_movements.notes', 'like', '%' . $filter . '%')
                     ->orWhere('item_movements.created_by', 'like', '%' . $filter . '%')
                     ->orWhere('item_movements.updated_by', 'like', '%' . $filter . '%')
-                    ->orWhere('products.name', 'like', '%' . $filter . '%')
+                    ->orWhere('products.product_key', 'like', '%' . $filter . '%')
                     ->orWhere('item_brands.name', 'like', '%' . $filter . '%')
                     ->orWhere('item_categories.name', 'like', '%' . $filter . '%')
                     ->orWhere('stores.name', 'like', '%' . $filter . '%');

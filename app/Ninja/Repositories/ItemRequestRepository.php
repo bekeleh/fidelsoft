@@ -29,7 +29,7 @@ class ItemRequestRepository extends BaseRepository
 
     public function all()
     {
-        return ItemRequest::scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return ItemRequest::scope()->withTrashed()->where('is_deleted', false)->get();
     }
 
     public function find($accountId = false, $filter = null)
@@ -63,7 +63,7 @@ class ItemRequestRepository extends BaseRepository
                 'item_requests.created_by',
                 'item_requests.updated_by',
                 'item_requests.deleted_by',
-                'products.name as product_name',
+                'products.product_key',
                 'products.public_id as product_public_id',
                 'departments.name as department_name',
                 'departments.public_id as department_public_id',
@@ -75,7 +75,7 @@ class ItemRequestRepository extends BaseRepository
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->Where('item_requests.notes', 'like', '%' . $filter . '%')
-                    ->orWhere('products.name', 'like', '%' . $filter . '%')
+                    ->orWhere('products.product_key', 'like', '%' . $filter . '%')
                     ->orWhere('departments.name', 'like', '%' . $filter . '%')
                     ->orWhere('stores.name', 'like', '%' . $filter . '%')
                     ->orWhere('statuses.name', 'like', '%' . $filter . '%')
@@ -97,7 +97,6 @@ class ItemRequestRepository extends BaseRepository
             $itemRequest->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $itemRequest = ItemRequest::scope($publicId)->withArchived()->firstOrFail();
-            Log::warning('Entity not set in item request repo save');
         } else {
             $itemRequest = ItemRequest::createNew();
             $itemRequest->created_by = Auth::user()->username;

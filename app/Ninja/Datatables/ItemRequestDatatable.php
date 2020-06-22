@@ -6,7 +6,6 @@ use App\Libraries\Utils;
 use App\Models\ItemRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
-use phpDocumentor\Reflection\Types\Self_;
 
 class ItemRequestDatatable extends EntityDatatable
 {
@@ -19,53 +18,39 @@ class ItemRequestDatatable extends EntityDatatable
 
         return [
             [
-                'product_name',
+                'product_key',
                 function ($model) {
                     if ($model->product_public_id) {
-                        if (Auth::user()->can('view', [ENTITY_PRODUCT, $model]))
-                            return link_to("products/{$model->product_public_id}", $model->product_name)->toHtml();
-                        else
-                            return $model->product_name;
+                        return link_to("products/{$model->product_public_id}", $model->product_key)->toHtml();
+                    } else {
+                        return $model->product_key;
                     }
-                    return null;
                 },
             ],
             [
                 'department_name',
                 function ($model) {
                     if ($model->department_public_id) {
-                        if (Auth::user()->can('view', [ENTITY_DEPARTMENT, $model]))
-                            return link_to("departments/{$model->department_public_id}", $model->department_name)->toHtml();
-                        else
-                            return $model->department_name;
+                        return link_to("departments/{$model->department_public_id}", $model->department_name)->toHtml();
+                    } else {
+                        return $model->department_name;
                     }
-                    return null;
                 },
             ],
             [
                 'store_name',
                 function ($model) {
                     if ($model->store_public_id) {
-                        if (Auth::user()->can('view', [ENTITY_STORE, $model]))
-                            return link_to("stores/{$model->store_public_id}", $model->store_name)->toHtml();
-                        else
-                            return $model->store_name;
+                        return link_to("stores/{$model->store_public_id}", $model->store_name)->toHtml();
+                    } else {
+                        return $model->store_name;
                     }
-                    return null;
                 },
             ],
             [
                 'status_name',
                 function ($model) {
-                    if ($model->status_public_id) {
-                        if (Auth::user()->can('view', [ENTITY_STATUS, $model]))
-                            //                            return link_to("statuses/{$model->status_public_id}", $model->status_name)->toHtml();
-                            return Self::getStatusLabel($model);
-
-                        else
-                            return Self::getStatusLabel($model);
-                    }
-                    return null;
+                    return Self::getStatusLabel($model);
                 },
             ],
             [

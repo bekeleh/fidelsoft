@@ -23,7 +23,7 @@ class InvoiceItemRepository extends BaseRepository
 
     public function all()
     {
-        return InvoiceItem::scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return InvoiceItem::scope()->withTrashed()->where('is_deleted', false)->get();
     }
 
     public function findProduct($productPublicId = null)
@@ -68,14 +68,14 @@ class InvoiceItemRepository extends BaseRepository
                 'invoices.public_id as invoice_public_id',
                 'invoices.invoice_number',
                 'products.public_id as product_public_id',
-                'products.name as item_name'
+                'products.product_key'
             );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('invoice_items.name', 'like', '%' . $filter . '%')
                     ->orWhere('invoice_items.notes', 'like', '%' . $filter . '%')
-                    ->orWhere('products.name', 'like', '%' . $filter . '%')
+                    ->orWhere('products.product_key', 'like', '%' . $filter . '%')
                     ->orWhere('invoices.invoice_number', 'like', '%' . $filter . '%');
             });
         }

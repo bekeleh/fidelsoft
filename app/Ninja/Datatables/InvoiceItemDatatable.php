@@ -17,31 +17,30 @@ class InvoiceItemDatatable extends EntityDatatable
             [
                 'invoice_number',
                 function ($model) {
-                    if (Auth::user()->can('view', [ENTITY_INVOICE]))
+                    if ($model->public_id) {
                         return link_to("invoices/{$model->public_id}", $model->invoice_number ?: '')->toHtml();
-                    else
+                    } else {
                         return $model->invoice_number;
+                    }
                 },
             ],
             [
                 'invoice_item_name',
                 function ($model) {
-                    if (Auth::user()->can('view', [ENTITY_INVOICE_ITEM]))
+                    if ($model->public_id) {
                         return link_to("invoice_items/{$model->public_id}", $model->invoice_item_name ?: '')->toHtml();
-                    else
+                    } else {
                         return $model->invoice_item_name;
+                    }
                 },
             ],
             [
-                'item_name',
+                'product_key',
                 function ($model) {
                     if ($model->product_public_id) {
-                        if (Auth::user()->can('view', [ENTITY_PRODUCT]))
-                            return link_to("products/{$model->product_public_id}", $model->item_name ?: '')->toHtml();
-                        else
-                            return $model->item_name;
+                        return link_to("products/{$model->product_public_id}", $model->product_key ?: '')->toHtml();
                     } else {
-                        return $model->item_name;
+                        return $model->product_key;
                     }
                 },
             ],

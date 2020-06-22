@@ -17,28 +17,44 @@ class ItemMovementDatatable extends EntityDatatable
 
         return [
             [
-                'item_name',
+                'product_key',
                 function ($model) {
-                    return link_to('item_movements/' . $model->public_id . '/edit', $model->item_name)->toHtml();
+                    if ($model->product_public_id) {
+                        return link_to('products/' . $model->product_public_id . '/edit', $model->product_key)->toHtml();
+                    } else {
+                        $model->product_key;
+                    }
                 },
             ],
             [
                 'item_brand_name',
                 function ($model) {
-                    return link_to('item_brands/' . $model->public_id . '/edit', $model->item_brand_name)->toHtml();
+                    if ($model->item_brand_public_id) {
+                        return link_to('item_brands/' . $model->item_brand_public_id . '/edit', $model->item_brand_name)->toHtml();
+                    } else {
+                        $model->item_brand_name;
+                    }
                 },
             ],
             [
                 'item_category_name',
                 function ($model) {
-                    return link_to('item_categories/' . $model->public_id . '/edit', $model->item_category_name)->toHtml();
+                    if ($model->item_category_public_id) {
+                        return link_to('item_categories/' . $model->item_category_public_id . '/edit', $model->item_category_name)->toHtml();
+                    } else {
+                        $model->item_category_name;
+                    }
                 },
             ],
             [
                 'store_name',
                 function ($model) {
-                    return link_to('item_movements/' . $model->public_id . '/edit', $model->store_name)->toHtml();
-                },
+                    if ($model->store_name_public_id) {
+                        return link_to('item_movements/' . $model->public_id . '/edit', $model->store_name)->toHtml();
+                    } else {
+                        $model->store_name;
+                    }
+                }
             ],
             [
                 'qty',
