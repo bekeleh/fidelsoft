@@ -634,7 +634,7 @@ class Invoice extends EntityModel implements BalanceAffecting
             return 'danger';
         }
 
-        if (isset(static::$statusClasses[$statusId])) {
+        if (!empty(static::$statusClasses[$statusId])) {
             return static::$statusClasses[$statusId];
         }
 
@@ -668,10 +668,11 @@ class Invoice extends EntityModel implements BalanceAffecting
 
     public static function calcLink($invoice)
     {
-        if (isset($invoice->invoice_type_id))
+        if (!empty($invoice->invoice_type_id)) {
             $linkPrefix = ($invoice->invoice_type_id == INVOICE_TYPE_QUOTE) ? 'quotes/' : 'invoices/';
-        else
+        } else {
             $linkPrefix = 'invoices/';
+        }
         return link_to($linkPrefix . $invoice->public_id, $invoice->invoice_number);
     }
 
@@ -1212,7 +1213,7 @@ class Invoice extends EntityModel implements BalanceAffecting
         $paid = round($paid, 2);
         $key = $rate . ' ' . $name;
 
-        if (!isset($taxes[$key])) {
+        if (empty($taxes[$key])) {
             $taxes[$key] = [
                 'name' => $name,
                 'rate' => $rate + 0,

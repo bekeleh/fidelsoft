@@ -36,7 +36,9 @@
     @endforeach
     <div class="panel panel-default">
         <div class="panel-heading" style="color:white;background-color: #777 !important;">
-            <h3 class="panel-title in-bold-white">{!! trans('texts.generated_numbers') !!}</h3>
+            <h3 class="panel-title in-bold-white">
+                {!! trans('texts.generated_numbers') !!}
+            </h3>
         </div>
         <div class="panel-body form-padding-right">
             <div role="tabpanel">

@@ -433,7 +433,7 @@ class InvoiceRepository extends BaseRepository
     {
         Log::info($data);
         $account = $invoice ? $invoice->account : Auth::user()->account;
-        $publicId = isset($data['public_id']) ? $data['public_id'] : false;
+        $publicId = !empty($data['public_id']) ? $data['public_id'] : false;
 
         if (Utils::isNinjaProd() && !Utils::isReseller()) {
             $copy = json_decode(json_encode($data), true);
@@ -451,9 +451,9 @@ class InvoiceRepository extends BaseRepository
 
         } elseif ($isNew) {
             $entityType = ENTITY_INVOICE;
-            if (isset($data['is_recurring']) && filter_var($data['is_recurring'], FILTER_VALIDATE_BOOLEAN)) {
+            if (!empty($data['is_recurring']) && filter_var($data['is_recurring'], FILTER_VALIDATE_BOOLEAN)) {
                 $entityType = ENTITY_RECURRING_INVOICE;
-            } elseif (isset($data['is_quote']) && filter_var($data['is_quote'], FILTER_VALIDATE_BOOLEAN)) {
+            } elseif (!empty($data['is_quote']) && filter_var($data['is_quote'], FILTER_VALIDATE_BOOLEAN)) {
                 $entityType = ENTITY_QUOTE;
             }
 
@@ -478,14 +478,14 @@ class InvoiceRepository extends BaseRepository
             return $invoice;
         }
 
-        if (isset($data['has_tasks']) && filter_var($data['has_tasks'], FILTER_VALIDATE_BOOLEAN)) {
+        if (!empty($data['has_tasks']) && filter_var($data['has_tasks'], FILTER_VALIDATE_BOOLEAN)) {
             $invoice->has_tasks = true;
         }
-        if (isset($data['has_expenses']) && filter_var($data['has_expenses'], FILTER_VALIDATE_BOOLEAN)) {
+        if (!empty($data['has_expenses']) && filter_var($data['has_expenses'], FILTER_VALIDATE_BOOLEAN)) {
             $invoice->has_expenses = true;
         }
 
-        if (isset($data['is_public']) && filter_var($data['is_public'], FILTER_VALIDATE_BOOLEAN)) {
+        if (!empty($data['is_public']) && filter_var($data['is_public'], FILTER_VALIDATE_BOOLEAN)) {
             $invoice->is_public = true;
             if (!$invoice->isSent()) {
                 $invoice->invoice_status_id = INVOICE_STATUS_SENT;
@@ -493,7 +493,7 @@ class InvoiceRepository extends BaseRepository
         }
 
 //     TODO: should be examine this expression
-        if (isset($data['invoice_design_id']) && !$data['invoice_design_id']) {
+        if (!empty($data['invoice_design_id']) && !$data['invoice_design_id']) {
             $data['invoice_design_id'] = 1;
         }
 
@@ -528,39 +528,38 @@ class InvoiceRepository extends BaseRepository
         } else {
             $invoice->invoice_status_id = !empty($data['invoice_status_id']) ? $data['invoice_status_id'] : INVOICE_STATUS_DRAFT;
         }
-
         if ($invoice->is_recurring) {
-            if (!$isNew && isset($data['start_date']) && $invoice->start_date && $invoice->start_date != Utils::toSqlDate($data['start_date'])) {
+            if (!$isNew && !empty($data['start_date']) && $invoice->start_date && $invoice->start_date != Utils::toSqlDate($data['start_date'])) {
                 $invoice->last_sent_date = null;
             }
 
             $invoice->frequency_id = array_get($data, 'frequency_id', FREQUENCY_MONTHLY);
             $invoice->start_date = Utils::toSqlDate(array_get($data, 'start_date'));
             $invoice->end_date = Utils::toSqlDate(array_get($data, 'end_date'));
-            $invoice->client_enable_auto_bill = isset($data['client_enable_auto_bill']) && $data['client_enable_auto_bill'] ? true : false;
+            $invoice->client_enable_auto_bill = !empty($data['client_enable_auto_bill']) && $data['client_enable_auto_bill'] ? true : false;
             $invoice->auto_bill = array_get($data, 'auto_bill_id') ?: array_get($data, 'auto_bill', AUTO_BILL_OFF);
 
             if ($invoice->auto_bill < AUTO_BILL_OFF || $invoice->auto_bill > AUTO_BILL_ALWAYS) {
                 $invoice->auto_bill = AUTO_BILL_OFF;
             }
 
-            if (isset($data['recurring_due_date'])) {
+            if (!empty($data['recurring_due_date'])) {
                 $invoice->due_date = $data['recurring_due_date'];
-            } elseif (isset($data['due_date'])) {
+            } elseif (!empty($data['due_date'])) {
                 $invoice->due_date = $data['due_date'];
             }
         } else {
             if ($isNew && empty($data['due_date']) && empty($data['due_date_sql'])) {
                 // do nothing
-            } elseif (isset($data['due_date']) || isset($data['due_date_sql'])) {
-                $invoice->due_date = isset($data['due_date_sql']) ? $data['due_date_sql'] : Utils::toSqlDate($data['due_date']);
+            } elseif (!empty($data['due_date']) || !empty($data['due_date_sql'])) {
+                $invoice->due_date = !empty($data['due_date_sql']) ? $data['due_date_sql'] : Utils::toSqlDate($data['due_date']);
             }
             $invoice->frequency_id = 0;
             $invoice->start_date = null;
             $invoice->end_date = null;
         }
 
-        if (isset($data['terms']) && trim($data['terms'])) {
+        if (!empty($data['terms']) && trim($data['terms'])) {
             $invoice->terms = trim($data['terms']);
         } elseif ($isNew && !$invoice->is_recurring && $account->{"{$entityType}_terms"}) {
             $invoice->terms = $account->{"{$entityType}_terms"};
@@ -568,7 +567,7 @@ class InvoiceRepository extends BaseRepository
             $invoice->terms = '';
         }
 
-        if (isset($data['invoice_footer']) && trim($data['invoice_footer'])) {
+        if (!empty($data['invoice_footer']) && trim($data['invoice_footer'])) {
             $invoice->invoice_footer = trim($data['invoice_footer']);
         } elseif ($isNew && !$invoice->is_recurring && $account->invoice_footer) {
             $invoice->invoice_footer = $account->invoice_footer;
@@ -576,7 +575,7 @@ class InvoiceRepository extends BaseRepository
             $invoice->invoice_footer = '';
         }
 
-        $invoice->public_notes = isset($data['public_notes']) ? trim($data['public_notes']) : '';
+        $invoice->public_notes = !empty($data['public_notes']) ? trim($data['public_notes']) : '';
 
         // process date variables if not recurring
         if (!$invoice->is_recurring) {
@@ -585,12 +584,12 @@ class InvoiceRepository extends BaseRepository
             $invoice->public_notes = Utils::processVariables($invoice->public_notes);
         }
 
-        if (isset($data['po_number'])) {
+        if (!empty($data['po_number'])) {
             $invoice->po_number = trim($data['po_number']);
         }
 
         // provide backwards compatibility
-        if (isset($data['tax_name']) && isset($data['tax_rate'])) {
+        if (!empty($data['tax_name']) && !empty($data['tax_rate'])) {
             $data['tax_name1'] = $data['tax_name'];
             $data['tax_rate1'] = $data['tax_rate'];
         }
@@ -608,7 +607,7 @@ class InvoiceRepository extends BaseRepository
 
         $lineItems = [];
         if ($publicId) {
-            $lineItems = isset($invoice->invoice_items) ? $invoice->invoice_items()->get() : null;
+            $lineItems = !empty($invoice->invoice_items) ? $invoice->invoice_items()->get() : null;
 //            remove old invoice line items
             $invoice->invoice_items()->forceDelete();
         }
@@ -780,9 +779,11 @@ class InvoiceRepository extends BaseRepository
         $clone->invoice_number = $invoiceNumber ?: $account->getNextNumber($clone);
         $clone->invoice_date = date_create()->format('Y-m-d');
         $clone->due_date = $account->defaultDueDate($invoice->client);
+        $clone->invoice_status_id = !empty($clone->invoice_status_id) ? $clone->invoice_status_id : INVOICE_STATUS_DRAFT;
         $clone->save();
 
         if ($quoteId) {
+            $invoice->invoice_status_id = !empty($clone->invoice_status_id) ? $clone->invoice_status_id : INVOICE_STATUS_DRAFT;
             $invoice->quote_invoice_id = $clone->public_id;
             $invoice->save();
         }
@@ -934,7 +935,7 @@ class InvoiceRepository extends BaseRepository
     public function getItemStore($account, $product = null)
     {
 
-        $storeId = isset(auth::user()->branch) ? auth::user()->branch->store_id : null;
+        $storeId = !empty(auth::user()->branch) ? auth::user()->branch->store_id : null;
         if (!$account || !$product || !$storeId) {
             return false;
         }
@@ -1293,7 +1294,7 @@ class InvoiceRepository extends BaseRepository
             }
         }
 
-        return ($invoiceId && isset($map[$invoiceId])) ? $map[$invoiceId] : null;
+        return ($invoiceId && !empty($map[$invoiceId])) ? $map[$invoiceId] : null;
     }
 
     /**
@@ -1307,7 +1308,7 @@ class InvoiceRepository extends BaseRepository
             return false;
         }
         $expense = false;
-        if (isset($item['expense_public_id']) && $item['expense_public_id']) {
+        if (!empty($item['expense_public_id']) && $item['expense_public_id']) {
             $expense = Expense::scope($item['expense_public_id'])->where('invoice_id', '=', null)->firstOrFail();
             if (Auth::user()->can('edit', $expense)) {
                 $expense->invoice_id = $invoice->id;
@@ -1330,7 +1331,7 @@ class InvoiceRepository extends BaseRepository
             return false;
         }
         $task = false;
-        if (isset($item['task_public_id']) && $item['task_public_id']) {
+        if (!empty($item['task_public_id']) && $item['task_public_id']) {
             $task = Task::scope($item['task_public_id'])->where('invoice_id', '=', null)->firstOrFail();
             if (Auth::user()->can('edit', $task)) {
                 $task->invoice_id = $invoice->id;
@@ -1406,17 +1407,13 @@ class InvoiceRepository extends BaseRepository
      */
     private function stockAdjustment($itemStore, Invoice $invoice, $oldLineItems, array $newLineItem, $isNew): bool
     {
-        if (!$invoice) {
-            return false;
-        }
-
         $qoh = Utils::parseFloat($itemStore->qty);
         $demandQty = Utils::parseFloat($newLineItem['qty']);
 
 //        $purchase = Purchase::whereName($productKey);
 //        $orderQty = Utils::parseFloat(0);
 
-        if ($isNew) {
+        if (isset($isNew)) {
             $this->updateItemStore($qoh, $demandQty, $itemStore);
         } else {
 //         update this branch store
@@ -1425,7 +1422,7 @@ class InvoiceRepository extends BaseRepository
                 foreach ($oldLineItems as $oldLineItem) {
                     if ($newLineItem['product_key'] === $oldLineItem['product_key']) {
 //                     if there is only quantity difference
-                        if ($newLineItem['qty'] != $oldLineItem['qty']) {
+                        if (($newLineItem['qty'] != $oldLineItem['qty'])) {
                             $qoh += $oldLineItem['qty'];
                             $this->updateItemStore($qoh, $demandQty, $itemStore);
                             $found += 1;
@@ -1467,8 +1464,8 @@ class InvoiceRepository extends BaseRepository
         $demandQty = !empty($item['qty']) ? Utils::parseFloat($item['qty']) : 1;
         $invoiceItem = InvoiceItem::createNew($invoice);
         $invoiceItem->fill($item);
-        $invoiceItem->product_id = isset($item['product_key']) ? $product->id : null;
-        $invoiceItem->product_key = isset($item['product_key']) ? trim($item['product_key']) : null;
+        $invoiceItem->product_id = !empty($item['product_key']) ? $product->id : null;
+        $invoiceItem->product_key = !empty($item['product_key']) ? trim($item['product_key']) : null;
         $invoiceItem->notes = trim($invoice->is_recurring ? $item['notes'] : Utils::processVariables($item['notes']));
         $invoiceItem->cost = !empty($item['cost']) ? Utils::parseFloat($item['cost']) : $product->cost;
         $invoiceItem->qty = $invoicedQty;
@@ -1482,20 +1479,20 @@ class InvoiceRepository extends BaseRepository
             $invoiceItem->qty = $qoh;
         }
 
-        if (isset($item['custom_value1'])) {
+        if (!empty($item['custom_value1'])) {
             $invoiceItem->custom_value1 = $item['custom_value1'];
         }
-        if (isset($item['custom_value2'])) {
+        if (!empty($item['custom_value2'])) {
             $invoiceItem->custom_value2 = $item['custom_value2'];
         }
         // provide backwards compatibility
-        if (isset($item['tax_name']) && isset($item['tax_rate'])) {
+        if (!empty($item['tax_name']) && !empty($item['tax_rate'])) {
             $item['tax_name1'] = $item['tax_name'];
             $item['tax_rate1'] = $item['tax_rate'];
         }
 
         // provide backwards compatibility
-        if (!isset($item['invoice_item_type_id']) && in_array($invoiceItem->notes, [trans('texts.online_payment_surcharge'), trans('texts.online_payment_discount')])) {
+        if (!empty($item['invoice_item_type_id']) && in_array($invoiceItem->notes, [trans('texts.online_payment_surcharge'), trans('texts.online_payment_discount')])) {
             $invoiceItem->invoice_item_type_id = $invoice->balance > 0 ? INVOICE_ITEM_TYPE_PENDING_GATEWAY_FEE : INVOICE_ITEM_TYPE_PAID_GATEWAY_FEE;
         }
 
@@ -1517,12 +1514,12 @@ class InvoiceRepository extends BaseRepository
             return false;
         }
 
-        if ((isset($data['set_default_terms']) && $data['set_default_terms'])
-            || (isset($data['set_default_footer']) && $data['set_default_footer'])) {
-            if (isset($data['set_default_terms']) && $data['set_default_terms']) {
+        if ((!empty($data['set_default_terms']) && $data['set_default_terms'])
+            || (!empty($data['set_default_footer']) && $data['set_default_footer'])) {
+            if (!empty($data['set_default_terms']) && $data['set_default_terms']) {
                 $account->{"{$invoice->getEntityType()}_terms"} = trim($data['terms']);
             }
-            if (isset($data['set_default_footer']) && $data['set_default_footer']) {
+            if (!empty($data['set_default_footer']) && $data['set_default_footer']) {
                 $account->invoice_footer = trim($data['invoice_footer']);
             }
 
@@ -1554,8 +1551,8 @@ class InvoiceRepository extends BaseRepository
             if ($product) {
                 $itemStore = $this->getItemStore($account, $product);
                 if ($itemStore) {
-                    $invoiceItemCost = isset($item['cost']) ? Utils::roundSignificant(Utils::parseFloat($item['cost'])) : $product->cost;
-                    $invoiceItemQty = isset($item['qty']) ? Utils::roundSignificant(Utils::parseFloat($item['qty'])) : 1;
+                    $invoiceItemCost = !empty($item['cost']) ? Utils::roundSignificant(Utils::parseFloat($item['cost'])) : $product->cost;
+                    $invoiceItemQty = !empty($item['qty']) ? Utils::roundSignificant(Utils::parseFloat($item['qty'])) : 1;
                     $discount = empty($item['discount']) ? 0 : round(Utils::parseFloat($item['discount']), 2);
 //                 if quantity on hand greater than quantity demand
                     $qoh = Utils::roundSignificant(Utils::parseFloat($itemStore->qty));
@@ -1592,8 +1589,8 @@ class InvoiceRepository extends BaseRepository
             if ($product) {
                 $itemStore = $this->getItemStore($account, $product);
                 if ($itemStore) {
-                    $invoiceItemCost = isset($item['cost']) ? Utils::roundSignificant(Utils::parseFloat($item['cost'])) : $product->cost;
-                    $invoiceItemQty = isset($item['qty']) ? Utils::roundSignificant(Utils::parseFloat($item['qty'])) : 1;
+                    $invoiceItemCost = !empty($item['cost']) ? Utils::roundSignificant(Utils::parseFloat($item['cost'])) : $product->cost;
+                    $invoiceItemQty = !empty($item['qty']) ? Utils::roundSignificant(Utils::parseFloat($item['qty'])) : 1;
                     $discount = empty($item['discount']) ? 0 : round(Utils::parseFloat($item['discount']), 2);
 //                    quantity on hand greater than quantity demand
                     $qoh = Utils::roundSignificant(Utils::parseFloat($itemStore->qty));
@@ -1673,12 +1670,9 @@ class InvoiceRepository extends BaseRepository
      * @param float $itemTax
      * @return false|float
      */
-    private function getLineItemTaxTotal(Invoice $invoice, float $total, float $invoiceItemCost, float $invoiceItemQty, $discount, array $item, float $itemTax)
+    private function getLineItemTaxTotal(Invoice $invoice, float $total, float $invoiceItemCost, float $invoiceItemQty, $discount, array $item, float $itemTax): float
     {
-        if (!$invoice) {
-            return false;
-        }
-        $lineTotal = $invoiceItemCost * $invoiceItemQty;
+        $lineTotal = floatval($invoiceItemCost) * floatval($invoiceItemQty);
         if ($discount) {
             if ($invoice->is_amount_discount) {
                 $lineTotal -= $discount;
@@ -1696,13 +1690,13 @@ class InvoiceRepository extends BaseRepository
                 $lineTotal -= round($lineTotal * ($invoice->discount / 100), 4);
             }
         }
-        if (isset($item['tax_rate1'])) {
+        if (!empty($item['tax_rate1'])) {
             $taxRate1 = Utils::parseFloat($item['tax_rate1']);
             if ($taxRate1 != 0) {
                 $itemTax += round($lineTotal * $taxRate1 / 100, 2);
             }
         }
-        if (isset($item['tax_rate2'])) {
+        if (!empty($item['tax_rate2'])) {
             $taxRate2 = Utils::parseFloat($item['tax_rate2']);
             if ($taxRate2 != 0) {
                 $itemTax += round($lineTotal * $taxRate2 / 100, 2);
@@ -1742,7 +1736,7 @@ class InvoiceRepository extends BaseRepository
                 $itemStore = $this->getItemStore($account, $product);
                 if ($itemStore) {
 //                      update product
-                    if (!$data['has_tasks'] && !$data['is_quote']) {
+                    if (!empty($data['has_tasks']) && !empty($data['is_quote'])) {
                         $this->stockAdjustment($itemStore, $invoice, $lineItems, $item, $isNew);
                     }
 //                      update invoice line item
@@ -1778,17 +1772,17 @@ class InvoiceRepository extends BaseRepository
             }
         }
 
-        if (isset($data['custom_value1'])) {
+        if (!empty($data['custom_value1'])) {
             $invoice->custom_value1 = round($data['custom_value1'], 2);
         }
-        if (isset($data['custom_value2'])) {
+        if (!empty($data['custom_value2'])) {
             $invoice->custom_value2 = round($data['custom_value2'], 2);
         }
 
-        if (isset($data['custom_text_value1'])) {
+        if (!empty($data['custom_text_value1'])) {
             $invoice->custom_text_value1 = trim($data['custom_text_value1']);
         }
-        if (isset($data['custom_text_value2'])) {
+        if (!empty($data['custom_text_value2'])) {
             $invoice->custom_text_value2 = trim($data['custom_text_value2']);
         }
 
@@ -1821,12 +1815,12 @@ class InvoiceRepository extends BaseRepository
             $invoice->balance = $total;
         }
 
-        if (isset($data['partial'])) {
+        if (!empty($data['partial'])) {
             $invoice->partial = max(0, min(round(Utils::parseFloat($data['partial']), 2), $invoice->balance));
         }
 
         if ($invoice->partial) {
-            if (isset($data['partial_due_date'])) {
+            if (!empty($data['partial_due_date'])) {
                 $invoice->partial_due_date = Utils::toSqlDate($data['partial_due_date']);
             }
         } else {

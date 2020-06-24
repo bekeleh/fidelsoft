@@ -2,6 +2,7 @@
 
 @section('head')
     @parent
+
     @include('money_script')
     @foreach ($account->getFontFolders() as $font)
         <script src="{{ asset('js/vfs_fonts/'.$font.'.js') }}" type="text/javascript"></script>
@@ -146,9 +147,12 @@
 
     </script>
 
+
     <div class="row">
         <div class="col-md-12">
+
             {!! Former::open()->addClass('warn-on-exit')->onchange('if(!window.loadingFonts)refreshPDF()') !!}
+
             {!! Former::populateField('invoice_design_id', $account->invoice_design_id) !!}
             {!! Former::populateField('quote_design_id', $account->quote_design_id) !!}
             {!! Former::populateField('body_font_id', $account->getBodyFontId()) !!}
@@ -181,11 +185,9 @@
                 <div class="panel-body">
                     <div role="tabpanel">
                         <ul class="nav nav-tabs" role="tablist" style="border: none">
-                            <li role="presentation" class="active">
-                                <a href="#general_settings" aria-controls="general_settings" role="tab"
-                                   data-toggle="tab">
-                                    {{ trans('texts.general_settings') }}
-                                </a>
+                            <li role="presentation" class="active"><a href="#general_settings"
+                                                                      aria-controls="general_settings" role="tab"
+                                                                      data-toggle="tab">{{ trans('texts.general_settings') }}</a>
                             </li>
                             <li role="presentation"><a href="#invoice_labels" aria-controls="invoice_labels" role="tab"
                                                        data-toggle="tab">{{ trans('texts.invoice_labels') }}</a></li>
@@ -201,8 +203,10 @@
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="general_settings">
                             <div class="panel-body">
+
                                 <div class="row">
                                     <div class="col-md-6">
+
                                         {!! Former::select('invoice_design_id')
                                                   ->label('invoice_design')
                                                 ->fromQuery($invoiceDesigns, 'name', 'id') !!}
@@ -213,6 +217,7 @@
                                                 ->fromQuery($invoiceFonts, 'name', 'id') !!}
                                         {!! Former::select('header_font_id')
                                                 ->fromQuery($invoiceFonts, 'name', 'id') !!}
+
                                     </div>
                                     <div class="col-md-6">
 
@@ -229,6 +234,7 @@
 
                                         {!! Former::text('primary_color') !!}
                                         {!! Former::text('secondary_color') !!}
+
 
                                         {{ Former::setOption('TwitterBootstrap3.labelWidths.large', 4) }}
                                         {{ Former::setOption('TwitterBootstrap3.labelWidths.small', 4) }}
@@ -366,6 +372,8 @@
         </div>
     </div>
 
+
     @include('invoices.pdf', ['account' => Auth::user()->account, 'pdfHeight' => 800])
+
 
 @stop

@@ -4,7 +4,6 @@ namespace App\Ninja\Datatables;
 
 use App\Libraries\Utils;
 use Illuminate\Support\Facades\Auth;
-use function foo\func;
 
 class ActivityDatatable extends EntityDatatable
 {

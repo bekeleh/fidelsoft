@@ -491,8 +491,8 @@ class AccountController extends BaseController
     private function showInvoiceDesign($section)
     {
         $account = Auth::user()->account->load('country');
-
-        if ($invoice = Invoice::scope()->invoices()->orderBy('id')->first()) {
+        $invoice = Invoice::scope()->invoices()->orderBy('id')->first();
+        if ($invoice) {
             $invoice->load('account', 'client.contacts', 'invoice_items');
             $invoice->invoice_date = Utils::fromSqlDate($invoice->invoice_date);
             $invoice->due_date = Utils::fromSqlDate($invoice->due_date);
@@ -583,6 +583,7 @@ class AccountController extends BaseController
             }
         }
 
+        $data['customDesign'] = null;
         if ($section == ACCOUNT_CUSTOMIZE_DESIGN) {
             if ($custom = $account->getCustomDesign(request()->design_id)) {
                 $data['customDesign'] = $custom;

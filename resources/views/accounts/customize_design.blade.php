@@ -70,6 +70,7 @@
                 remove_created_by:{{ Auth::user()->hasFeature(FEATURE_REMOVE_CREATED_BY) ? 'true' : 'false' }},
                 invoice_settings:{{ Auth::user()->hasFeature(FEATURE_INVOICE_SETTINGS) ? 'true' : 'false' }}
             };
+
             invoice.account.hide_paid_to_date = {!! Auth::user()->account->hide_paid_to_date ? 'true' : 'false' !!};
             NINJA.primaryColor = {!! json_encode(Auth::user()->account->primary_color) !!};
             NINJA.secondaryColor = {!! json_encode(Auth::user()->account->secondary_color) !!};
@@ -150,7 +151,7 @@
             $('#pdf-error').html(e.message ? e.message : e).show();
             $('button.save-button').prop('disabled', true);
             NINJA.isPDFValid = false;
-        }
+        };
 
         function clearError() {
             NINJA.isPDFValid = true;
@@ -174,7 +175,7 @@
             loadEditor('content');
 
             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                var target = $(e.target).attr("href") // activated tab
+                var target = $(e.target).attr("href"); // activated tab
                 target = target.substring(1); // strip leading #
                 loadEditor(target);
             });
