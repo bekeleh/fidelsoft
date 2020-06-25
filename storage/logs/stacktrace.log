@@ -1,82 +1,82 @@
-2020-06-24 08:39:25 Undefined property: stdClass::$public_id: #0 /home/vagrant/code/invoiceninja/app/Services/DatatableService.php(27): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
-#1 [internal function]: App\Services\DatatableService->App\Services\{closure}()
-#2 /home/vagrant/code/invoiceninja/vendor/chumper/datatable/src/Chumper/Datatable/Columns/FunctionColumn.php(15): call_user_func()
-#3 /home/vagrant/code/invoiceninja/vendor/chumper/datatable/src/Chumper/Datatable/Engines/QueryEngine.php(271): Chumper\Datatable\Columns\FunctionColumn->run()
-#4 [internal function]: Chumper\Datatable\Engines\QueryEngine->Chumper\Datatable\Engines\{closure}()
-#5 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Support/Collection.php(861): array_map()
-#6 /home/vagrant/code/invoiceninja/vendor/chumper/datatable/src/Chumper/Datatable/Engines/QueryEngine.php(276): Illuminate\Support\Collection->map()
-#7 /home/vagrant/code/invoiceninja/vendor/chumper/datatable/src/Chumper/Datatable/Engines/QueryEngine.php(133): Chumper\Datatable\Engines\QueryEngine->compile()
-#8 /home/vagrant/code/invoiceninja/vendor/chumper/datatable/src/Chumper/Datatable/Engines/BaseEngine.php(239): Chumper\Datatable\Engines\QueryEngine->internalMake()
-#9 /home/vagrant/code/invoiceninja/app/Services/DatatableService.php(48): Chumper\Datatable\Engines\BaseEngine->make()
-#10 /home/vagrant/code/invoiceninja/app/Services/ActivityService.php(31): App\Services\DatatableService->createDatatable()
-#11 /home/vagrant/code/invoiceninja/app/Http/Controllers/ActivityController.php(20): App\Services\ActivityService->getDatatable()
-#12 [internal function]: App\Http\Controllers\ActivityController->getDatatable()
-#13 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Routing/Controller.php(54): call_user_func_array()
-#14 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(45): Illuminate\Routing\Controller->callAction()
-#15 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Routing/Route.php(212): Illuminate\Routing\ControllerDispatcher->dispatch()
-#16 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Routing/Route.php(169): Illuminate\Routing\Route->runController()
-#17 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Routing/Router.php(658): Illuminate\Routing\Route->run()
-#18 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(30): Illuminate\Routing\Router->Illuminate\Routing\{closure}()
-#19 /home/vagrant/code/invoiceninja/app/Http/Middleware/Authenticate.php(116): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}()
-#20 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): App\Http\Middleware\Authenticate->handle()
-#21 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}()
-#22 /home/vagrant/code/invoiceninja/app/Http/Middleware/DatabaseLookup.php(21): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}()
-#23 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): App\Http\Middleware\DatabaseLookup->handle()
-#24 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}()
-#25 /home/vagrant/code/invoiceninja/app/Http/Middleware/CheckBanned.php(25): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}()
-#26 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): App\Http\Middleware\CheckBanned->handle()
-#27 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}()
-#28 /home/vagrant/code/invoiceninja/app/Http/Middleware/StartupCheck.php(232): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}()
-#29 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): App\Http\Middleware\StartupCheck->handle()
-#30 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}()
-#31 /home/vagrant/code/invoiceninja/app/Http/Middleware/QueryLogging.php(24): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}()
-#32 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): App\Http\Middleware\QueryLogging->handle()
-#33 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}()
-#34 /home/vagrant/code/invoiceninja/app/Http/Middleware/DuplicateSubmissionCheck.php(35): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}()
-#35 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): App\Http\Middleware\DuplicateSubmissionCheck->handle()
-#36 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}()
-#37 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(30): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}()
-#38 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle()
-#39 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}()
-#40 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(68): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}()
-#41 /home/vagrant/code/invoiceninja/app/Http/Middleware/VerifyCsrfToken.php(34): Illuminate\Foundation\Http\Middleware\VerifyCsrfToken->handle()
-#42 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): App\Http\Middleware\VerifyCsrfToken->handle()
-#43 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}()
-#44 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}()
-#45 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): Illuminate\View\Middleware\ShareErrorsFromSession->handle()
-#46 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}()
-#47 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(63): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}()
-#48 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): Illuminate\Session\Middleware\StartSession->handle()
-#49 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}()
-#50 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}()
-#51 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse->handle()
-#52 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}()
-#53 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(66): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}()
-#54 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): Illuminate\Cookie\Middleware\EncryptCookies->handle()
-#55 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}()
-#56 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}()
-#57 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Routing/Router.php(660): Illuminate\Pipeline\Pipeline->then()
-#58 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Routing/Router.php(635): Illuminate\Routing\Router->runRouteWithinStack()
-#59 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Routing/Router.php(601): Illuminate\Routing\Router->runRoute()
-#60 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Routing/Router.php(590): Illuminate\Routing\Router->dispatchToRoute()
-#61 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(176): Illuminate\Routing\Router->dispatch()
-#62 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(30): Illuminate\Foundation\Http\Kernel->Illuminate\Foundation\Http\{closure}()
-#63 /home/vagrant/code/invoiceninja/vendor/barryvdh/laravel-debugbar/src/Middleware/InjectDebugbar.php(65): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}()
-#64 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): Barryvdh\Debugbar\Middleware\InjectDebugbar->handle()
-#65 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}()
-#66 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/CheckForMaintenanceMode.php(46): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}()
-#67 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode->handle()
-#68 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}()
-#69 /home/vagrant/code/invoiceninja/vendor/barryvdh/laravel-cors/src/HandlePreflight.php(46): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}()
-#70 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(149): Barryvdh\Cors\HandlePreflight->handle()
-#71 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(53): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}()
-#72 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}()
-#73 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(151): Illuminate\Pipeline\Pipeline->then()
-#74 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(116): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter()
-#75 /home/vagrant/code/invoiceninja/public/index.php(51): Illuminate\Foundation\Http\Kernel->handle()
-#76 {main}
+2020-06-25 09:54:41 Command "queue:make" is not defined.
 
-2020-06-24 08:40:48 Undefined property: stdClass::$public_id: #0 /home/vagrant/code/invoiceninja/app/Services/DatatableService.php(27): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+Did you mean one of these?
+    module:make
+    module:make-command
+    module:make-controller
+    module:make-event
+    module:make-factory
+    module:make-job
+    module:make-listener
+    module:make-mail
+    module:make-middleware
+    module:make-migration
+    module:make-model
+    module:make-notification
+    module:make-policy
+    module:make-provider
+    module:make-request
+    module:make-resource
+    module:make-rule
+    module:make-seed
+    module:make-test
+    ninja:make-class
+    ninja:make-module
+    queue:failed
+    queue:failed-table
+    queue:flush
+    queue:forget
+    queue:listen
+    queue:restart
+    queue:retry
+    queue:table
+    queue:work: #0 /home/vagrant/code/invoiceninja/vendor/symfony/console/Application.php(236): Symfony\Component\Console\Application->find()
+#1 /home/vagrant/code/invoiceninja/vendor/symfony/console/Application.php(148): Symfony\Component\Console\Application->doRun()
+#2 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Console/Application.php(88): Symfony\Component\Console\Application->run()
+#3 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(121): Illuminate\Console\Application->run()
+#4 /home/vagrant/code/invoiceninja/artisan(35): Illuminate\Foundation\Console\Kernel->handle()
+#5 {main}
+
+2020-06-25 09:55:21 Command "queue:make" is not defined.
+
+Did you mean one of these?
+    module:make
+    module:make-command
+    module:make-controller
+    module:make-event
+    module:make-factory
+    module:make-job
+    module:make-listener
+    module:make-mail
+    module:make-middleware
+    module:make-migration
+    module:make-model
+    module:make-notification
+    module:make-policy
+    module:make-provider
+    module:make-request
+    module:make-resource
+    module:make-rule
+    module:make-seed
+    module:make-test
+    ninja:make-class
+    ninja:make-module
+    queue:failed
+    queue:failed-table
+    queue:flush
+    queue:forget
+    queue:listen
+    queue:restart
+    queue:retry
+    queue:table
+    queue:work: #0 /home/vagrant/code/invoiceninja/vendor/symfony/console/Application.php(236): Symfony\Component\Console\Application->find()
+#1 /home/vagrant/code/invoiceninja/vendor/symfony/console/Application.php(148): Symfony\Component\Console\Application->doRun()
+#2 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Console/Application.php(88): Symfony\Component\Console\Application->run()
+#3 /home/vagrant/code/invoiceninja/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(121): Illuminate\Console\Application->run()
+#4 /home/vagrant/code/invoiceninja/artisan(35): Illuminate\Foundation\Console\Kernel->handle()
+#5 {main}
+
+2020-06-25 10:07:41 Undefined property: stdClass::$public_id: #0 /home/vagrant/code/invoiceninja/app/Services/DatatableService.php(27): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
 #1 [internal function]: App\Services\DatatableService->App\Services\{closure}()
 #2 /home/vagrant/code/invoiceninja/vendor/chumper/datatable/src/Chumper/Datatable/Columns/FunctionColumn.php(15): call_user_func()
 #3 /home/vagrant/code/invoiceninja/vendor/chumper/datatable/src/Chumper/Datatable/Engines/QueryEngine.php(271): Chumper\Datatable\Columns\FunctionColumn->run()

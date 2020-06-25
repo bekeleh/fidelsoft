@@ -431,7 +431,6 @@ class InvoiceRepository extends BaseRepository
      */
     public function save(array $data, Invoice $invoice = null)
     {
-        Log::info($data);
         $account = $invoice ? $invoice->account : Auth::user()->account;
         $publicId = !empty($data['public_id']) ? $data['public_id'] : false;
 
@@ -789,8 +788,8 @@ class InvoiceRepository extends BaseRepository
         }
 
         foreach ($invoice->invoice_items as $item) {
+//          invoice item instance
             $cloneItem = InvoiceItem::createNew($invoice);
-
             foreach ([
                          'product_id',
                          'product_key',
@@ -805,7 +804,15 @@ class InvoiceRepository extends BaseRepository
                          'custom_value2',
                          'discount',
                      ] as $field) {
+
                 $cloneItem->$field = $item->$field;
+            }
+
+            $product = $this->getProductDetail($account, $item->product_key);
+            if (!empty($product)) {
+                $itemStore = $this->getItemStore($account, $product);
+                $qoh = $itemStore->qty;
+                $this->updateItemStore($qoh, $cloneItem->qty, $itemStore);
             }
 
             $clone->invoice_items()->save($cloneItem);
@@ -1419,6 +1426,7 @@ class InvoiceRepository extends BaseRepository
 //         update this branch store
             $found = 0;
             if (count($oldLineItems)) {
+                Log::info($newLineItem['product_key']);
                 foreach ($oldLineItems as $oldLineItem) {
                     if ($newLineItem['product_key'] === $oldLineItem['product_key']) {
 //                     if there is only quantity difference
@@ -1735,8 +1743,10 @@ class InvoiceRepository extends BaseRepository
 //                  check quantity on hand hand
                 $itemStore = $this->getItemStore($account, $product);
                 if ($itemStore) {
-//                      update product
-                    if (!empty($data['has_tasks']) && !empty($data['is_quote'])) {
+                    $is_quote = !empty($data['is_quote'] == 0) ? true : false;
+                    $has_tasks = !empty($data['has_tasks']) ? true : false;
+//                      update product, when has task is false and is quote 0
+                    if (($is_quote) && ($has_tasks)) {
                         $this->stockAdjustment($itemStore, $invoice, $lineItems, $item, $isNew);
                     }
 //                      update invoice line item
