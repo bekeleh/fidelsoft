@@ -13,12 +13,12 @@ class Domain
     {
         switch ($id) {
             case static::INVOICENINJA_COM:
-                return 'invoiceninja.com';
+                return 'fidel.com.et';
             case static::INVOICE_SERVICES:
                 return 'invoice.services';
         }
 
-        return 'invoiceninja.com';
+        return 'fidel.com.et';
     }
 
     public static function getLinkFromId($id)

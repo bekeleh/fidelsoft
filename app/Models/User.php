@@ -284,8 +284,8 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
     public static function onUpdatedUser($user)
     {
         if (!$user->getOriginal('email')
-            || $user->getOriginal('email') == TEST_USERNAME
-            || $user->getOriginal('email') == 'tests@bitrock.com') {
+            || $user->getOriginal('email') === TEST_USERNAME
+            || $user->getOriginal('email') === 'tests@bitrock.com') {
             event(new UserSignedUp());
         }
 
@@ -323,7 +323,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
         } elseif (is_array($permission)) {
 
             if ($requireAll)
-                return count(array_intersect($permission, json_decode($this->permissions, 1))) == count($permission);
+                return count(array_intersect($permission, json_decode($this->permissions, 1))) === count($permission);
             else {
                 $count = count(array_intersect($permission, json_decode($this->permissions, 1)));
                 if ($count > 0) {
@@ -341,7 +341,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
     {
         $user_groups = $this->groups;
 
-        if ((count($user_groups) == 0)) {
+        if ((count($user_groups) === 0)) {
             return false;
         }
 
@@ -362,7 +362,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
     public function isSuperUser()
     {
         if ($user_permissions = json_decode($this->permissions, true)) {
-            if ((array_key_exists('superuser', $user_permissions)) && ($user_permissions['superuser'] == '1')) {
+            if ((array_key_exists('superuser', $user_permissions)) && ($user_permissions['superuser'] === '1')) {
                 return true;
             }
         }
@@ -372,7 +372,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
             foreach ($this->groups as $user_group) {
                 $group_permissions = json_decode($user_group->permissions, true);
                 $group_array = (array)$group_permissions;
-                if ((array_key_exists('superuser', $group_array)) && ($group_permissions['superuser'] == '1')) {
+                if ((array_key_exists('superuser', $group_array)) && ($group_permissions['superuser'] === '1')) {
                     return true;
                 }
             }
@@ -396,9 +396,9 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
             } else {
                 return false;
             }
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public function viewModel($model, $entityType)
@@ -406,7 +406,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
         //todo permissions
         if ($this->hasPermission('view_' . $entityType))
             return true;
-        elseif ($model->user_id == $this->id)
+        elseif ($model->user_id === $this->id)
             return true;
         else
             return false;
@@ -419,9 +419,8 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
 
     public function owns($entity)
     {
-        return !empty($entity->user_id) && $entity->user_id == $this->id;
+        return isset($entity->user_id) && $entity->user_id === $this->id;
     }
-
 
     public function filterId()
     {
@@ -482,7 +481,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
             return true;
         }
 
-        return $this->accepted_terms_version == NINJA_TERMS_VERSION;
+        return $this->accepted_terms_version === NINJA_TERMS_VERSION;
     }
 
     public function acceptLatestTerms($ip)
@@ -496,12 +495,15 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
 
     public function ownsEntity($entity)
     {
-        return $entity->user_id == $this->id;
+        return isset($entity) && $entity->user_id === $this->id;
     }
 
     public function shouldNotify($invoice)
     {
-        if (!$this->email || !$this->confirmed) {
+        if (!isset($invoice)) {
+            return false;
+        }
+        if (!isset($this->email) || !isset($this->confirmed)) {
             return false;
         }
 
