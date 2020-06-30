@@ -470,7 +470,7 @@ if (!defined('APP_NAME')) {
     define('NINJA_LICENSE_ACCOUNT_KEY', 'AsFmBAeLXF0IKf7tmi0eiyZfmWW9hxMT');
     define('NINJA_GATEWAY_ID', GATEWAY_STRIPE);
     define('NINJA_GATEWAY_CONFIG', 'NINJA_GATEWAY_CONFIG');
-    define('NINJA_WEB_URL', env('NINJA_WEB_URL', 'https://www.e-ninja.erp'));
+    define('NINJA_WEB_URL', env('NINJA_WEB_URL', 'https://www.fidel.com.et'));
     define('NINJA_APP_URL', env('NINJA_APP_URL', 'https://app.e-ninja.com'));
     define('NINJA_DOCS_URL', env('NINJA_DOCS_URL', 'https://e-ninja.readthedocs.io/en/latest'));
     define('NINJA_DATE', '2000-01-01');

@@ -5,15 +5,15 @@
         <a href="mailto:fidelinvoice@gmail.com" style=";text-decoration: none;">
             <strong>{{trans('texts.team_source')}}</strong> </a>. All rights reserved.
 
-        @user Agreement
+        {{--        @user Agreement--}}
 
-        @Privacy Policy
+        {{--        @Privacy Policy--}}
 
-        @community guidelines
+        {{--        @community guidelines--}}
 
-        @cookie Policy
-        @copyright Policy
-        @send feedback
+        {{--        @cookie Policy--}}
+        {{--        @copyright Policy--}}
+        {{--        @send feedback--}}
 
     </div><!-- .bottom -->
 </footer><!-- #footer -->
