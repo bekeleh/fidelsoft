@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Crypt;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -37,16 +39,23 @@ class BankAccount extends EntityModel
         return ENTITY_BANK_ACCOUNT;
     }
 
+    public function getRoute()
+    {
+        return "/bank_accounts/{$this->public_id}";
+    }
+
     /**
      * @return mixed
      */
     public function getUsername()
     {
-        return Crypt::decrypt($this->username);
+        if (isset($this->username)) {
+            return Crypt::decrypt($this->username);
+        }
     }
 
     /**
-     * @param $config
+     * @param $value
      */
     public function setUsername($value)
     {
@@ -54,7 +63,7 @@ class BankAccount extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function bank()
     {
@@ -62,7 +71,7 @@ class BankAccount extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function bank_subaccounts()
     {

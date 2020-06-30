@@ -2,13 +2,32 @@
 
 namespace App\Policies;
 
+use App\Models\User;
+
 /**
  * Class BankAccountPolicy.
  */
 class BankAccountPolicy extends EntityPolicy
 {
-    protected function getEntity()
+    /**
+     * @param User $user
+     * @param $item
+     *
+     * @return bool
+     */
+    public static function edit(User $user, $item)
     {
-        return ENTITY_BANK_ACCOUNT;
+        return $user->hasPermission('admin');
+    }
+
+    /**
+     * @param User $user
+     * @param mixed $item
+     *
+     * @return bool
+     */
+    public static function create(User $user, $item)
+    {
+        return $user->hasPermission('admin');
     }
 }

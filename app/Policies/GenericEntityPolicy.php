@@ -4,8 +4,9 @@ namespace App\Policies;
 
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Support\Str; 
+use Illuminate\Support\Str;
 use App\Libraries\Utils;
+use Module;
 
 /**
  * Class GenericEntityPolicy.
@@ -13,23 +14,6 @@ use App\Libraries\Utils;
 class GenericEntityPolicy
 {
     use HandlesAuthorization;
-
-    /**
-     * @param User $user
-     * @param $entityType
-     * @param $ownerUserId
-     *
-     * @return bool|mixed
-     */
-    public static function editByOwner(User $user, $entityType, $ownerUserId)
-    {
-        $className = static::className($entityType);
-        if (method_exists($className, 'editByOwner')) {
-            return call_user_func([$className, 'editByOwner'], $user, $ownerUserId);
-        }
-
-        return false;
-    }
 
     /**
      * @param User $user
@@ -51,23 +35,18 @@ class GenericEntityPolicy
     /**
      * @param User $user
      * @param $entityType
+     * @param $ownerUserId
      *
      * @return bool|mixed
      */
-    public static function create(User $user, $entityType)
+    public static function editByOwner(User $user, $entityType, $ownerUserId)
     {
-        /*
         $className = static::className($entityType);
-        if (method_exists($className, 'create')) {
-            return call_user_func([$className, 'create'], $user, $entityType);
+        if (method_exists($className, 'editByOwner')) {
+            return call_user_func([$className, 'editByOwner'], $user, $ownerUserId);
         }
 
         return false;
-        */
-        if ($user->hasPermission('create_' . $entityType))
-            return true;
-        else
-            return false;
     }
 
     /**
@@ -78,6 +57,9 @@ class GenericEntityPolicy
      */
     public static function view(User $user, $entityType)
     {
+        if (!isset($entityType)) {
+            return false;
+        }
         /*
         $className = static::className($entityType);
         if (method_exists($className, 'view')) {
@@ -86,10 +68,37 @@ class GenericEntityPolicy
 
         return false;*/
 
-        if ($user->hasPermission('view_' . $entityType))
+        if ($user->hasPermission('view_' . $entityType)) {
             return true;
-        else
+        }
+
+        return false;
+    }
+
+    /**
+     * @param User $user
+     * @param $entityType
+     *
+     * @return bool|mixed
+     */
+    public static function create(User $user, $entityType)
+    {
+        if (!isset($entityType)) {
             return false;
+        }
+        /*
+        $className = static::className($entityType);
+        if (method_exists($className, 'create')) {
+            return call_user_func([$className, 'create'], $user, $entityType);
+        }
+
+        return false;
+        */
+        if ($user->hasPermission('create_' . $entityType)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -101,11 +110,15 @@ class GenericEntityPolicy
 
     public static function edit(User $user, $item)
     {
-        if (!static::checkModuleEnabled($user, $item))
+        if (!isset($item)) {
             return false;
-
+        }
+        if (!static::checkModuleEnabled($user, $item)) {
+            return false;
+        }
 
         $entityType = is_string($item) ? $item : $item->getEntityType();
+
         return $user->hasPermission('edit_' . $entityType) || $user->owns($item);
     }
 
@@ -125,7 +138,7 @@ class GenericEntityPolicy
     private static function className($entityType)
     {
         if (!Utils::isNinjaProd()) {
-            if ($module = \Module::find($entityType)) {
+            if ($module = Module::find($entityType)) {
                 return "Modules\\{$module->getName()}\\Policies\\{$module->getName()}Policy";
             }
         }

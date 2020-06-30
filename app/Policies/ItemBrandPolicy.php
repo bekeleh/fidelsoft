@@ -7,8 +7,4 @@ namespace App\Policies;
  */
 class ItemBrandPolicy extends EntityPolicy
 {
-    protected function getEntity()
-    {
-        return ENTITY_ITEM_BRAND;
-    }
 }

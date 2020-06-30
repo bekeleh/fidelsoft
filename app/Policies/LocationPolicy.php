@@ -7,8 +7,4 @@ namespace App\Policies;
  */
 class LocationPolicy extends EntityPolicy
 {
-    protected function getEntity()
-    {
-        return ENTITY_LOCATION;
-    }
 }

@@ -7,8 +7,4 @@ namespace App\Policies;
  */
 class ProductPolicy extends EntityPolicy
 {
-    protected function getEntity()
-    {
-        return ENTITY_PRODUCT;
-    }
 }
