@@ -167,7 +167,7 @@ class PointOfSaleController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
-            'itemBrands' => ItemBrand::withCategory('itemCategory'),
+//            'itemBrands' => ItemBrand::withCategory('itemCategory'),
             'units' => Unit::scope()->withActiveOrSelected($product ? $product->unit_id : false)->orderBy('name')->get(),
         ];
     }
