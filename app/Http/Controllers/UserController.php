@@ -86,7 +86,9 @@ class UserController extends BaseController
         $user->force_pdfjs = true;
         $user->save();
 
-        return Redirect::to('/dashboard')->with('success', trans('texts.updated_settings'));
+        Session::flash('success', trans('texts.updated_settings'));
+
+        return Redirect::to('/dashboard');
     }
 
     public function create(UserRequest $request)
@@ -178,9 +180,13 @@ class UserController extends BaseController
         }
 
         if ($action == 'clone') {
-            return redirect()->to(sprintf('users/%s/clone', $user->public_id))->with('success', trans('texts.clone_user'));
+            $message = trans('texts.clone_user');
+            Session::flash('message', $message);
+            return redirect()->to(sprintf('users/%s/clone', $user->public_id));
         } else {
-            return redirect()->to("users/{$user->public_id}/edit")->with('success', trans('texts.updated_user'));
+            $message = trans('texts.updated_user');
+            Session::flash('message', $message);
+            return redirect()->to("users/{$user->public_id}/edit");
         }
     }
 
@@ -383,9 +389,9 @@ class UserController extends BaseController
 
         $users = $this->accountRepo->loadAccounts(Auth::user()->id);
         Session::put(SESSION_USER_ACCOUNTS, $users);
-//        Session::flash('message', trans('texts.unlinked_account'));
+        Session::flash('message', trans('texts.unlinked_account'));
 
-        return Redirect::to('/manage_companies')->with('success', trans('texts.unlinked_account'));
+        return Redirect::to('/manage_companies');
     }
 
     public function manageCompanies()

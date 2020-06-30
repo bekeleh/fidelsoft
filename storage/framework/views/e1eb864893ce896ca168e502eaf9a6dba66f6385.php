@@ -446,29 +446,51 @@ $__env->startSection('head_css'); ?>
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <!-- New message feed area -->
+
                 <?php echo $__env->make('partials.warn_session', ['redirectTo' => '/dashboard'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                <?php if(Session::has('news_feed_message')): ?>
+
+                <?php if(Session::has('warning')): ?>
+                    <div class="alert alert-warning"><?php echo Session::get('warning'); ?></div>
+                <?php elseif(env('WARNING_MESSAGE')): ?>
+                    <div class="alert alert-warning"><?php echo env('WARNING_MESSAGE'); ?></div>
+                <?php endif; ?>
+
+                <?php if(Session::has('success')): ?>
+                    <div class="alert alert-info alert-hide" style="z-index:9999">
+                        <?php echo Session::get('message'); ?>
+
+                    </div>
+                <?php elseif(Session::has('message')): ?>
+                    <div class="alert alert-info alert-hide" style="z-index:9999">
+                        <?php echo Session::get('message'); ?>
+
+                    </div>
+                <?php elseif(Session::has('news_feed_message')): ?>
                     <div class="alert alert-info">
                         <?php echo Session::get('news_feed_message'); ?>
 
                         <a href="#" onclick="hideMessage()" class="pull-right"><?php echo e(trans('texts.hide')); ?></a>
                     </div>
                 <?php endif; ?>
+
+                <?php if(Session::has('error')): ?>
+                    <div class="alert alert-danger"><?php echo Session::get('error'); ?></div>
+                <?php endif; ?>
+
                 <div class="pull-right">
                     <?php echo $__env->yieldContent('top-right'); ?>
                 </div>
-                <?php if(!isset($showBreadcrumbs) || $showBreadcrumbs): ?>
-                    <?php echo Form::breadcrumbs((! empty($entity) && $entity->exists) ? $entity->present()->statusLabel : false); ?>
+            <?php if(!isset($showBreadcrumbs) || $showBreadcrumbs): ?>
+                <?php echo Form::breadcrumbs((!empty($entity) && $entity->exists) ? $entity->present()->statusLabel : false); ?>
 
-                <?php endif; ?>
-                <br/>
-                <!-- Notification area -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <?php echo $__env->make('notifications', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                    </div>
-                </div>
-                <!-- Body Content  -->
+            <?php endif; ?>
+            <!-- Notification area -->
+            
+            
+            
+            
+            
+            <!-- Body Content  -->
                 <div class="row">
                     <div class="col-md-12">
                         <?php echo $__env->yieldContent('content'); ?>
