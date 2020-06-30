@@ -44,9 +44,9 @@ class ProductDatatable extends EntityDatatable
                 },
             ],
             [
-                'UPC',
+                'upc',
                 function ($model) {
-                    return $model->UPC;
+                    return $model->upc;
                 },
             ],
             [

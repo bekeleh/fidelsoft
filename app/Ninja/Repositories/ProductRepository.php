@@ -37,8 +37,8 @@ class ProductRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('products')
-            ->join('accounts', 'accounts.id', '=', 'products.account_id')
-            ->join('users', 'users.id', '=', 'products.user_id')
+            ->leftJoin('accounts', 'accounts.id', '=', 'products.account_id')
+            ->leftJoin('users', 'users.id', '=', 'products.user_id')
             ->leftJoin('item_stores', 'item_stores.product_id', '=', 'products.id')
             ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
             ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
@@ -51,7 +51,7 @@ class ProductRepository extends BaseRepository
                 'products.id',
                 'products.public_id',
                 'products.product_key',
-                'products.UPC',
+                'products.upc',
                 'products.item_serial',
                 'products.item_barcode',
                 'products.item_tag',
@@ -82,7 +82,7 @@ class ProductRepository extends BaseRepository
             $query->where(function ($query) use ($filter) {
                 $query->where('products.product_key', 'like', '%' . $filter . '%')
                     ->orWhere('products.item_serial', 'like', '%' . $filter . '%')
-                    ->orWhere('products.UPC', 'like', '%' . $filter . '%')
+                    ->orWhere('products.upc', 'like', '%' . $filter . '%')
                     ->orWhere('products.item_barcode', 'like', '%' . $filter . '%')
                     ->orWhere('products.item_tag', 'like', '%' . $filter . '%')
                     ->orWhere('products.notes', 'like', '%' . $filter . '%')
@@ -110,7 +110,6 @@ class ProductRepository extends BaseRepository
         return $query;
     }
 
-
     public function save($data, $product = null)
     {
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
@@ -126,7 +125,7 @@ class ProductRepository extends BaseRepository
 
         $product->fill($data);
         $product->product_key = isset($data['product_key']) ? trim($data['product_key']) : null;
-        $product->UPC = isset($data['UPC']) ? trim($data['UPC']) : null;
+        $product->upc = isset($data['upc']) ? trim($data['upc']) : null;
         $product->item_barcode = isset($data['item_barcode']) ? trim($data['item_barcode']) : null;
         $product->item_serial = isset($data['item_serial']) ? trim($data['item_serial']) : null;
         $product->item_tag = isset($data['item_tag']) ? trim($data['item_tag']) : null;

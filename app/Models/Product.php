@@ -21,7 +21,7 @@ class Product extends EntityModel
     protected $fillable = [
         'product_key',
         'public_id',
-        'UPC',
+        'upc',
         'item_serial',
         'item_barcode',
         'item_tag',
@@ -49,8 +49,7 @@ class Product extends EntityModel
     {
         return [
             'product_key',
-            'UPC',
-            'EAN',
+            'upc',
             'notes',
             'cost',
             'custom_value1',
