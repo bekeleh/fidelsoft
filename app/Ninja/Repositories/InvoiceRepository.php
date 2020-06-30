@@ -1309,7 +1309,7 @@ class InvoiceRepository extends BaseRepository
      * @param array $item
      * @return bool
      */
-    private function expense(Invoice $invoice, array $item): bool
+    private function getExpense(Invoice $invoice, array $item): bool
     {
         if (!$invoice) {
             return false;
@@ -1332,9 +1332,9 @@ class InvoiceRepository extends BaseRepository
      * @param array $item
      * @return bool
      */
-    private function task(Invoice $invoice, array $item): bool
+    private function getTask(Invoice $invoice, array $item): bool
     {
-        if (!$invoice) {
+        if (!isset($invoice)) {
             return false;
         }
         $task = false;
@@ -1357,7 +1357,7 @@ class InvoiceRepository extends BaseRepository
      */
     private function uploadedInvoiceDocuments(Invoice $invoice, array $document_ids): bool
     {
-        if (!$invoice || !$document_ids) {
+        if (!isset($invoice) || !isset($document_ids)) {
             return false;
         }
         foreach ($document_ids as $document_id) {
@@ -1384,7 +1384,7 @@ class InvoiceRepository extends BaseRepository
      */
     private function updateInvoiceDocuments(Invoice $invoice, array $document_ids): bool
     {
-        if (!$invoice || !$document_ids) {
+        if (!isset($invoice) || !isset($document_ids)) {
             return false;
         }
         if (!$invoice->wasRecentlyCreated) {
@@ -1414,6 +1414,9 @@ class InvoiceRepository extends BaseRepository
      */
     private function stockAdjustment($itemStore, Invoice $invoice, $oldLineItems, array $newLineItem, $isNew): bool
     {
+        if (!isset($itemStore) || !isset($invoice)) {
+            return false;
+        }
         $qoh = Utils::parseFloat($itemStore->qty);
         $demandQty = Utils::parseFloat($newLineItem['qty']);
 
@@ -1426,7 +1429,6 @@ class InvoiceRepository extends BaseRepository
 //         update this branch store
             $found = 0;
             if (count($oldLineItems)) {
-                Log::info($newLineItem['product_key']);
                 foreach ($oldLineItems as $oldLineItem) {
                     if ($newLineItem['product_key'] === $oldLineItem['product_key']) {
 //                     if there is only quantity difference
@@ -1465,7 +1467,7 @@ class InvoiceRepository extends BaseRepository
      */
     private function invoiceLineItemAdjustment($product, $itemStore, Invoice $invoice, array $item): bool
     {
-        if (!$product || !$itemStore || !$invoice || !$item) {
+        if (!isset($product) || !isset($itemStore) || !isset($invoice) || !isset($item)) {
             return false;
         }
         $invoicedQty = !empty($item['qty']) ? Utils::parseFloat($item['qty']) : 1;
@@ -1518,7 +1520,7 @@ class InvoiceRepository extends BaseRepository
      */
     private function saveAccountDefault($account, Invoice $invoice, array $data): bool
     {
-        if (!$account || !$invoice) {
+        if (!isset($account) || !isset($invoice)) {
             return false;
         }
 
@@ -1545,33 +1547,34 @@ class InvoiceRepository extends BaseRepository
      */
     private function getLineItemNetTotal($account, array $data, Invoice $invoice): float
     {
-        if (!$data || !$invoice && !$data) {
-            return null;
+        if (!isset($account) || !isset($invoice)) {
+            return false;
         }
         $total = 0;
-        foreach ($data['invoice_items'] as $item) {
-            $item = (array)$item;
-            if (!$item['cost'] && !$item['product_key']) {
-                continue;
-            }
+        if (is_array($data)) {
+            foreach ($data['invoice_items'] as $item) {
+                $item = (array)$item;
+                if (!$item['cost'] && !$item['product_key']) {
+                    continue;
+                }
 //          TODO: product or service
-            $product = $this->getProductDetail($account, trim($item['product_key']));
-            if ($product) {
-                $itemStore = $this->getItemStore($account, $product);
-                if ($itemStore) {
-                    $invoiceItemCost = !empty($item['cost']) ? Utils::roundSignificant(Utils::parseFloat($item['cost'])) : $product->cost;
-                    $invoiceItemQty = !empty($item['qty']) ? Utils::roundSignificant(Utils::parseFloat($item['qty'])) : 1;
-                    $discount = empty($item['discount']) ? 0 : round(Utils::parseFloat($item['discount']), 2);
+                $product = $this->getProductDetail($account, trim($item['product_key']));
+                if ($product) {
+                    $itemStore = $this->getItemStore($account, $product);
+                    if ($itemStore) {
+                        $invoiceItemCost = !empty($item['cost']) ? Utils::roundSignificant(Utils::parseFloat($item['cost'])) : $product->cost;
+                        $invoiceItemQty = !empty($item['qty']) ? Utils::roundSignificant(Utils::parseFloat($item['qty'])) : 1;
+                        $discount = empty($item['discount']) ? 0 : round(Utils::parseFloat($item['discount']), 2);
 //                 if quantity on hand greater than quantity demand
-                    $qoh = Utils::roundSignificant(Utils::parseFloat($itemStore->qty));
-                    if ($invoiceItemQty > $qoh) {
-                        $invoiceItemQty = $qoh;
-                    }
+                        $qoh = Utils::roundSignificant(Utils::parseFloat($itemStore->qty));
+                        if ($invoiceItemQty > $qoh) {
+                            $invoiceItemQty = $qoh;
+                        }
 
-                    $total = $this->getLineItemTotal($invoice, $invoiceItemCost, $invoiceItemQty, $discount, $total);
+                        $total = $this->getLineItemTotal($invoice, $invoiceItemCost, $invoiceItemQty, $discount, $total);
+                    }
                 }
             }
-
         }
 
         return $total;
@@ -1586,30 +1589,31 @@ class InvoiceRepository extends BaseRepository
      */
     private function getLineItemNetTax($account, array $data, Invoice $invoice, float $total)
     {
-        if (!$data || !$invoice) {
+        if (!isset($invoice)) {
             return null;
         }
         $itemTax = 0;
-        foreach ($data['invoice_items'] as $item) {
-            $item = (array)$item;
+        if (is_array($data)) {
+            foreach ($data['invoice_items'] as $item) {
+                $item = (array)$item;
 //            TODO:product or service
-            $product = $this->getProductDetail($account, trim($item['product_key']));
-            if ($product) {
-                $itemStore = $this->getItemStore($account, $product);
-                if ($itemStore) {
-                    $invoiceItemCost = !empty($item['cost']) ? Utils::roundSignificant(Utils::parseFloat($item['cost'])) : $product->cost;
-                    $invoiceItemQty = !empty($item['qty']) ? Utils::roundSignificant(Utils::parseFloat($item['qty'])) : 1;
-                    $discount = empty($item['discount']) ? 0 : round(Utils::parseFloat($item['discount']), 2);
+                $product = $this->getProductDetail($account, trim($item['product_key']));
+                if ($product) {
+                    $itemStore = $this->getItemStore($account, $product);
+                    if ($itemStore) {
+                        $invoiceItemCost = !empty($item['cost']) ? Utils::roundSignificant(Utils::parseFloat($item['cost'])) : $product->cost;
+                        $invoiceItemQty = !empty($item['qty']) ? Utils::roundSignificant(Utils::parseFloat($item['qty'])) : 1;
+                        $discount = empty($item['discount']) ? 0 : round(Utils::parseFloat($item['discount']), 2);
 //                    quantity on hand greater than quantity demand
-                    $qoh = Utils::roundSignificant(Utils::parseFloat($itemStore->qty));
-                    if ($invoiceItemQty > $qoh) {
-                        $invoiceItemQty = $qoh;
+                        $qoh = Utils::roundSignificant(Utils::parseFloat($itemStore->qty));
+                        if ($invoiceItemQty > $qoh) {
+                            $invoiceItemQty = $qoh;
+                        }
+                        $itemTax = $this->getLineItemTaxTotal($invoice, $total, $invoiceItemCost, $invoiceItemQty, $discount, $item, $itemTax);
                     }
-                    $itemTax = $this->getLineItemTaxTotal($invoice, $total, $invoiceItemCost, $invoiceItemQty, $discount, $item, $itemTax);
                 }
             }
         }
-
         return $itemTax;
     }
 
@@ -1621,7 +1625,7 @@ class InvoiceRepository extends BaseRepository
      */
     private function updateItemStore(float $qoh, float $demandQty, $itemStore): bool
     {
-        if (!$qoh || !$demandQty || !$itemStore) {
+        if (!isset($qoh) || !isset($demandQty) || !isset($itemStore)) {
             return false;
         }
 
@@ -1648,10 +1652,10 @@ class InvoiceRepository extends BaseRepository
      */
     private function getLineItemTotal(Invoice $invoice, float $invoiceItemCost, float $invoiceItemQty, $discount, float $total)
     {
-        if (!$invoice) {
+        if (!isset($invoice)) {
             return false;
         }
-        $lineTotal = $invoiceItemCost * $invoiceItemQty;
+        $lineTotal = floatval($invoiceItemCost) * floatval($invoiceItemQty);
 //          if any line item discount
         if ($discount) {
 //              if discount is amount
@@ -1680,6 +1684,9 @@ class InvoiceRepository extends BaseRepository
      */
     private function getLineItemTaxTotal(Invoice $invoice, float $total, float $invoiceItemCost, float $invoiceItemQty, $discount, array $item, float $itemTax): float
     {
+        if (!isset($invoice)) {
+            return false;
+        }
         $lineTotal = floatval($invoiceItemCost) * floatval($invoiceItemQty);
         if ($discount) {
             if ($invoice->is_amount_discount) {
@@ -1725,36 +1732,32 @@ class InvoiceRepository extends BaseRepository
      */
     private function calculateInvoiceItem($account, array $data, Invoice $invoice, $lineItems, bool $isNew): bool
     {
-        if (!$invoice) {
+        if (!isset($invoice)) {
             return false;
         }
-        foreach ($data['invoice_items'] as $item) {
-            $item = (array)$item;
-            if (empty($item['product_key']) && empty($item['cost'])) {
-                continue;
-            }
-//          task update
-            $this->task($invoice, $item);
-//          expense updates
-            $this->expense($invoice, $item);
-//             TODO: check service order or product sell, of update product is checked
-            $product = $this->getProductDetail($account, trim($item['product_key']));
-            if ($product) {
-//                  check quantity on hand hand
-                $itemStore = $this->getItemStore($account, $product);
-                if ($itemStore) {
-                    $is_quote = !empty($data['is_quote'] == 0) ? true : false;
-                    $has_tasks = !empty($data['has_tasks']) ? true : false;
-//                      update product, when has task is false and is quote 0
-                    if (($is_quote) && ($has_tasks)) {
-                        $this->stockAdjustment($itemStore, $invoice, $lineItems, $item, $isNew);
-                    }
+        if (is_array($data)) {
+            foreach ($data['invoice_items'] as $item) {
+                $item = (array)$item;
+                if (!isset($item['product_key']) && !isset($item['cost'])) {
+                    continue;
+                }
+//             TODO: task and expense
+                $this->getTask($invoice, $item);
+                $this->getExpense($invoice, $item);
+                $product = $this->getProductDetail($account, trim($item['product_key']));
+                if ($product) {
+                    $itemStore = $this->getItemStore($account, $product);
+                    if ($itemStore) {
+                        $is_quote = !empty($data['is_quote'] == 0) ? true : false;
+                        if (($is_quote) && isset($data['has_tasks'])) {
+                            $this->stockAdjustment($itemStore, $invoice, $lineItems, $item, $isNew);
+                        }
 //                      update invoice line item
-                    $this->invoiceLineItemAdjustment($product, $itemStore, $invoice, $item);
+                        $this->invoiceLineItemAdjustment($product, $itemStore, $invoice, $item);
+                    }
                 }
             }
         }
-
         return true;
     }
 
@@ -1769,7 +1772,7 @@ class InvoiceRepository extends BaseRepository
      */
     private function calculateInvoice($account, Invoice $invoice, array $data, float $total, $itemTax, bool $publicId)
     {
-        if (!$invoice) {
+        if (!isset($invoice)) {
             return false;
         }
 //      if any invoice discount
