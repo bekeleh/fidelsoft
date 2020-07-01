@@ -78,22 +78,14 @@ class ProductController extends BaseController
             $itemBrand = null;
         }
 
-//        if ($request->unit_id != 0) {
-//            $unit = Unit::scope($request->unit_id)->firstOrFail();
-//        } else {
-//            $unit = null;
-//        }
-
         $data = [
             'product' => null,
             'itemBrand' => $itemBrand,
-//            'unit' => $unit,
             'method' => 'POST',
             'url' => 'products',
             'title' => trans('texts.create_product'),
             'taxRates' => $account->invoice_item_taxes ? TaxRate::scope()->whereIsInclusive(false)->get(['id', 'name', 'rate']) : null,
             'itemBrandPublicId' => Input::old('itemBrand') ? Input::old('itemBrand') : $request->item_brand_id,
-//            'unitPublicId' => Input::old('unit') ? Input::old('unit') : $request->unit_id,
         ];
         $data = array_merge($data, self::getViewModel());
 
@@ -114,10 +106,9 @@ class ProductController extends BaseController
     public function edit(ProductRequest $request, $publicId, $clone = false)
     {
         $this->authorize('edit', ENTITY_PRODUCT);
-        Auth::user()->can('view', [ENTITY_PRODUCT, $request->entity()]);
-        $account = Auth::user()->account;
-        $product = Product::scope($publicId)->withTrashed()->firstOrFail();
 
+        $account = Auth::user()->account;
+        $product = $request->entity();
         if ($clone) {
             $product->id = null;
             $product->public_id = null;
@@ -131,17 +122,15 @@ class ProductController extends BaseController
 
         $data = [
             'itemBrand' => null,
-//            'unit' => null,
             'product' => $product,
-            'taxRates' => $account->invoice_item_taxes ? TaxRate::scope()->whereIsInclusive(false)->get() : null,
             'entity' => $product,
             'method' => $method,
             'url' => $url,
             'title' => trans('texts.edit_product'),
-            'itemBrandPublicId' => $product->itemBrand ? $product->itemBrand->public_id : null,
-//            'unitPublicId' => $product->unit ? $product->unit->public_id : null,
-
+            'taxRates' => isset($account->invoice_item_taxes) ? TaxRate::scope()->whereIsInclusive(false)->get() : null,
+            'itemBrandPublicId' => isset($product->item_brand) ? $product->item_brand->public_id : null,
         ];
+
         $data = array_merge($data, self::getViewModel($product));
 
         return View::make('products.edit', $data);

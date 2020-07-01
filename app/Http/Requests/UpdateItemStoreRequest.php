@@ -39,25 +39,25 @@ class UpdateItemStoreRequest extends ItemStoreRequest
     {
         $input = $this->all();
         if (count($input)) {
-            if (!empty($input['product_id'])) {
+            if (isset($input['product_id'])) {
                 $input['product_id'] = filter_var($input['product_id'], FILTER_SANITIZE_NUMBER_INT);
             }
-            if (!empty($input['store_id'])) {
+            if (isset($input['store_id'])) {
                 $input['store_id'] = filter_var($input['store_id'], FILTER_SANITIZE_NUMBER_INT);
             }
-            if (!empty($input['qty'])) {
+            if (isset($input['qty'])) {
                 $input['qty'] = filter_var($input['qty'], FILTER_SANITIZE_NUMBER_FLOAT);
             }
-            if (!empty($input['reorder_level'])) {
+            if (isset($input['reorder_level'])) {
                 $input['reorder_level'] = filter_var($input['reorder_level'], FILTER_SANITIZE_NUMBER_FLOAT);
             }
-            if (!empty($input['EOQ'])) {
+            if (isset($input['EOQ'])) {
                 $input['EOQ'] = filter_var($input['EOQ'], FILTER_SANITIZE_NUMBER_FLOAT);
             }
-            if (!empty($input['bin'])) {
+            if (isset($input['bin'])) {
                 $input['bin'] = filter_var($input['bin'], FILTER_SANITIZE_STRING);
             }
-            if (!empty($input['notes'])) {
+            if (isset($input['notes'])) {
                 $input['notes'] = filter_var($input['notes'], FILTER_SANITIZE_STRING);
             }
 
@@ -68,13 +68,13 @@ class UpdateItemStoreRequest extends ItemStoreRequest
     protected function validationData()
     {
         $input = $this->all();
-        if (!empty($input['product_id'])) {
+        if (isset($input['product_id'])) {
             $input['product_id'] = Product::getPrivateId($input['product_id']);
         }
-        if (!empty($input['store_id'])) {
+        if (isset($input['store_id'])) {
             $input['store_id'] = Store::getPrivateId($input['store_id']);
         }
-        if (!empty($input['product_id']) && !empty($input['store_id'])) {
+        if (isset($input['product_id']) && isset($input['store_id'])) {
             $this->request->add([
                 'product_id' => $input['product_id'],
                 'store_id' => $input['store_id'],

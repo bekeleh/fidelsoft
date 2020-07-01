@@ -19,7 +19,6 @@ class UpdateProductRequest extends EntityRequest
         $rules = [];
         $this->sanitize();
         $this->validationData();
-
         $product = $this->entity();
         $rules['product_key'] = 'required|unique:products,product_key,' . $product->id . ',id,item_brand_id,' . $product->item_brand_id . ',account_id,' . $product->account_id;
         $rules['item_brand_id'] = 'required|numeric';

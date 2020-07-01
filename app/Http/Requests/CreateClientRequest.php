@@ -3,8 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Models\Client;
-use App\Models\HoldReason;
-use App\Models\SaleType;
 
 class CreateClientRequest extends ClientRequest
 {
@@ -84,22 +82,10 @@ class CreateClientRequest extends ClientRequest
     protected function validationData()
     {
         $input = $this->all();
-
-        if (count($input)) {
-//            if (!empty($input['sale_type_id'])) {
-//                $input['sale_type_id'] = SaLeType::getPrivateId($input['sale_type_id']);
-//            }
-//            if (!empty($input['hold_reason_id'])) {
-//                $input['hold_reason_id'] = HoldReason::getPrivateId($input['hold_reason_id']);
-//            }
-
-            if (!empty($input['sale_type_id']) && !empty($input['hold_reason_id'])) {
-                $this->request->add([
-//                    'sale_type_id' => $input['sale_type_id'],
-//                    'hold_reason_id' => $input['hold_reason_id'],
-                    'account_id' => Client::getAccountId()
-                ]);
-            }
+        if (isset($input)) {
+            $this->request->add([
+                'account_id' => Client::getAccountId()
+            ]);
         }
 
         return $this->request->all();
