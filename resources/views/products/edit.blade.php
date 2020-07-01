@@ -5,7 +5,13 @@
     {!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['name' => 'required|max:255','cost' => 'required|numeric','item_brand_id' => 'required|numeric','category_id' => 'required|numeric','tax_category_id' => 'required|numeric','unit_id' => 'required|numeric','notes' => 'required|string'])
+    ->rules(['name' => 'required|max:255',
+    'cost' => 'required|numeric',
+    'item_brand_id' => 'required|numeric',
+    'item_type_id' => 'required|numeric',
+    'tax_category_id' => 'required|numeric',
+    'unit_id' => 'required|numeric',
+    'notes' => 'required|string'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
 
     @if ($product)

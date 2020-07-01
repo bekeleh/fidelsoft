@@ -32,7 +32,7 @@ class Product extends EntityModel
         'is_public',
         'item_brand_id',
         'tax_category_id',
-        'category_id',
+        'item_type_id',
         'unit_id',
         'tax_name1',
         'tax_rate1',
@@ -92,7 +92,7 @@ class Product extends EntityModel
 
     public function category()
     {
-        return $this->belongsTo('App\Models\Category')->withTrashed();
+        return $this->belongsTo('App\Models\ItemType')->withTrashed();
     }
 
     public function tax_categories()

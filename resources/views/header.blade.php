@@ -430,18 +430,16 @@
             <div class="container-fluid">
                 <!-- New message feed area -->
                 @include('partials.warn_session', ['redirectTo' => '/dashboard'])
+
                 @if (Session::has('warning'))
                     <div class="alert alert-warning">{!! Session::get('warning') !!}</div>
                 @elseif (env('WARNING_MESSAGE'))
                     <div class="alert alert-warning">{!! env('WARNING_MESSAGE') !!}</div>
                 @endif
-                @if (Session::has('success'))
+
+                @if (Session::has('message'))
                     <div class="alert alert-info alert-hide" style="z-index:9999">
-                        {!! Session::get('message') !!}
-                    </div>
-                @elseif (Session::has('message'))
-                    <div class="alert alert-info alert-hide" style="z-index:9999">
-                        {!! Session::get('message') !!}
+                        {{ Session::get('message') }}
                     </div>
                 @elseif (Session::has('news_feed_message'))
                     <div class="alert alert-info">
@@ -449,6 +447,7 @@
                         <a href="#" onclick="hideMessage()" class="pull-right">{{ trans('texts.hide') }}</a>
                     </div>
                 @endif
+
                 @if (Session::has('error'))
                     <div class="alert alert-danger">{!! Session::get('error') !!}</div>
                 @endif
@@ -459,11 +458,6 @@
                 {!! Form::breadcrumbs((!empty($entity) && $entity->exists) ? $entity->present()->statusLabel : false) !!}
             @endif
             <!-- Notification area -->
-                <div class="row">
-                    <div class="col-md-12">
-                        @include('notifications')
-                    </div>
-                </div>
                 <!-- Body Content  -->
                 <div class="row">
                     <div class="col-md-12">

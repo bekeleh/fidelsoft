@@ -105,8 +105,10 @@ class ProductController extends BaseController
         $data = $request->input();
 
         $product = $this->productService->save($data);
+        $message = isset($product->public_id) ? trans('texts.created_product') : trans('texts.clone_product');
+        Session::flash('message', $message);
 
-        return redirect()->to("products/{$product->public_id}/edit")->with('success', trans('texts.created_product'));
+        return redirect()->to("products/{$product->public_id}/edit");
     }
 
     public function edit(ProductRequest $request, $publicId, $clone = false)
@@ -151,15 +153,18 @@ class ProductController extends BaseController
 
         $product = $this->productService->save($data, $request->entity());
 
+        $message = isset($product->public_id) ? trans('texts.updated_product') : trans('texts.clone_product');
+        Session::flash('message', $message);
+
         $action = Input::get('action');
         if (in_array($action, ['archive', 'delete', 'restore', 'invoice', 'add_to_invoice'])) {
             return self::bulk();
         }
 
         if ($action == 'clone') {
-            return redirect()->to(sprintf('products/%s/clone', $product->public_id))->with('success', trans('texts.clone_product'));
+            return redirect()->to(sprintf('products/%s/clone', $product->public_id));
         } else {
-            return redirect()->to("products/{$product->public_id}/edit")->with('success', trans('texts.updated_product'));
+            return redirect()->to("products/{$product->public_id}/edit");
         }
     }
 
@@ -201,7 +206,8 @@ class ProductController extends BaseController
         }
 
         $message = Utils::pluralize($action . 'd_product', $count);
+        Session::flash('message', $message);
 
-        return $this->returnBulk(ENTITY_PRODUCT, $action, $ids)->with('message', $message);
+        return $this->returnBulk(ENTITY_PRODUCT, $action, $ids);
     }
 }

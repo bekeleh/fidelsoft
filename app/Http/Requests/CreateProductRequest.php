@@ -20,11 +20,10 @@ class CreateProductRequest extends ProductRequest
         $this->validationData();
 
         $rules = [];
-//        $rules['product_key'] = 'required|unique:products,product_key,' . $this->id . ',id,item_brand_id,' . $this->item_brand_id . ',account_id,' . $this->account_id;
-        $rules['product_key'] = 'required|unique:products,product_key,' . $this->id . ',id,account_id,' . $this->account_id;
+        $rules['product_key'] = 'required|unique:products,product_key,' . $this->id . ',id,item_brand_id,' . $this->item_brand_id . ',account_id,' . $this->account_id;
         $rules['item_brand_id'] = 'required|numeric';
         $rules['tax_category_id'] = 'required|numeric';
-        $rules['category_id'] = 'required|numeric';
+        $rules['item_type_id'] = 'required|numeric';
         $rules['barcode'] = 'nullable';
         $rules['item_tag'] = 'nullable';
         $rules['unit_id'] = 'required|numeric';
@@ -54,11 +53,11 @@ class CreateProductRequest extends ProductRequest
     protected function validationData()
     {
         $input = $this->all();
-        if (isset($input['item_brand_id']) && $input['item_brand_id']) {
+        if (isset($input['item_brand_id'])) {
             $input['item_brand_id'] = ItemBrand::getPrivateId($input['item_brand_id']);
         }
 
-        if (!empty($input['item_brand_id'])) {
+        if (isset($input['item_brand_id'])) {
             $this->request->add([
                 'item_brand_id' => $input['item_brand_id'],
                 'account_id' => Product::getAccountId()
