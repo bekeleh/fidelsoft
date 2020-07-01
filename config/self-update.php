@@ -50,7 +50,7 @@ return [
     | Exclude folders from update
     |--------------------------------------------------------------------------
     |
-    | Specifiy folders which should not be updated and will be skipped during the
+    | Specify folders which should not be updated and will be skipped during the
     | update process.
     |
     | Here's already a list of good examples to skip. You may want to keep those.

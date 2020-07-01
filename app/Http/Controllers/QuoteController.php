@@ -31,11 +31,7 @@ class QuoteController extends BaseController
     protected $invoiceService;
     protected $entityType = ENTITY_INVOICE;
 
-    public function __construct(
-        Mailer $mailer,
-        InvoiceRepository $invoiceRepo,
-        ClientRepository $clientRepo,
-        InvoiceService $invoiceService)
+    public function __construct(Mailer $mailer, InvoiceRepository $invoiceRepo, ClientRepository $clientRepo, InvoiceService $invoiceService)
     {
         // parent::__construct();
 
@@ -105,8 +101,8 @@ class QuoteController extends BaseController
         return [
             'entityType' => ENTITY_QUOTE,
             'account' => Auth::user()->account->load('country'),
-            'products' => (auth::user()->can('view', ENTITY_PRODUCT)) ? Product::scope()->withActiveOrSelected($invoice ? $invoice->product_id : false)->orderBy('product_key')->get() : collect([]),
-            'clients' => (auth::user()->can('view', ENTITY_CLIENT)) ? Client::scope()->with('contacts', 'country')->orderBy('name')->get() : collect([]),
+            'products' => Product::scope()->withActiveOrSelected(isset($invoice) ? $invoice->product_id : false)->stock()->productWithBrand()->orderBy('product_key')->get(),
+            'clients' => Client::scope()->with('contacts', 'country')->orderBy('name')->get(),
             'taxRateOptions' => $account->present()->taxRateOptions,
             'taxRates' => TaxRate::scope()->orderBy('name')->get(),
             'sizes' => Cache::get('sizes'),

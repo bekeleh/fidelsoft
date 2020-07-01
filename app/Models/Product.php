@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Laracasts\Presenter\PresentableTrait;
 
 class Product extends EntityModel
@@ -136,8 +137,8 @@ class Product extends EntityModel
 
     public function scopeStock($query, $publicId = false, $accountId = false)
     {
-        $storeId = auth::user()->branch->store_id;
-        if (!$storeId) {
+        $storeId = isset(auth::user()->branch) ? auth::user()->branch->store_id : null;
+        if (!isset($storeId)) {
             return false;
         }
         $query = $query->whereHas('item_stores', function ($query) use ($storeId) {
@@ -146,6 +147,21 @@ class Product extends EntityModel
                 ->Where('item_stores.is_locked', false)
                 ->Where('item_stores.is_deleted', false);
         });
+
+        return $query;
+    }
+
+    public function scopeProductWithBrand($query)
+    {
+        $query = DB::table('products')
+            ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
+//            ->where('products.account_id', '=', $accountId)
+            //->where('products.deleted_at', '=', null)
+            ->select(
+                'products.id',
+                'products.public_id',
+                DB::raw("CONCAT(NULLIF(products.product_key,''), ' ', NULLIF(item_brands.name,'')) product_key")
+            );
 
         return $query;
     }

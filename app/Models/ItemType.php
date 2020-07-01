@@ -6,12 +6,10 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Support\Str;
 
 /**
- * Class Category.
+ * Class ItemType.
  */
 class ItemType extends Eloquent
 {
-    protected $timestamps = true;
-    protected $softDelete = true;
 
     public function getName()
     {

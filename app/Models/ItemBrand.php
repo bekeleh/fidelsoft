@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
@@ -64,6 +65,21 @@ class ItemBrand extends EntityModel
     public function products()
     {
         return $this->hasMany('App\Models\Product', 'item_brand_id')->withTrashed();
+    }
+
+    public function scopeBrandWithCategory($query)
+    {
+        $query = DB::table('item_brands')
+            ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
+//            ->where('item_brands.account_id', '=', $accountId)
+            //->where('item_brands.deleted_at', '=', null)
+            ->select(
+                'item_brands.id',
+                'item_brands.public_id',
+                DB::raw("CONCAT(NULLIF(item_brands.name,''), ' ', NULLIF(item_categories.name,'')) name")
+            );
+
+        return $query;
     }
 
 }

@@ -20,12 +20,12 @@
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
                     <!-- item code-->
-                {!! Former::text('name')->label('texts.item_name') !!}
-                {!! Former::text('item_serial')->label('texts.item_serial') !!}
-                {!! Former::text('item_barcode')->label('texts.item_barcode') !!}
-                {!! Former::text('item_tag')->label('texts.item_tag') !!}
-                {!! Former::text('UPC')->label('texts.UPC') !!}
-                {!! Former::text('cost')->label('cost') !!}
+                {!! Former::text('product_key')->label(trans('texts.product_key')) !!}
+                {!! Former::text('item_serial')->label(trans('texts.item_serial')) !!}
+                {!! Former::text('item_barcode')->label(trans('texts.item_barcode')) !!}
+                {!! Former::text('item_tag')->label(trans('texts.item_tag')) !!}
+                {!! Former::text('upc')->label(trans('texts.upc')) !!}
+                {!! Former::text('cost')->label(trans('texts.cost')) !!}
                 <!-- item brand-->
                 {!! Former::select('item_brand_id')
                 ->placeholder(trans('texts.select_item_brand'))
@@ -33,18 +33,24 @@
                 ->addGroupClass('item-brand-select')
                 ->help(trans('texts.item_brand_help') . ' | ' . link_to('/item_itemBrands/', trans('texts.customize_options')))
                 !!}
-                <!-- category-->
-                {!! Former::select('category_id')->addOption('','')
-                ->label(trans('texts.category'))
-                ->fromQuery($categories, 'name', 'id') !!}
+                <!-- item type product/service-->
+                {!! Former::select('item_type_id')
+                ->fromQuery($itemTypes, 'name', 'id')
+                ->addOption('','')
+                ->label(trans('texts.item_type_name'))
+                !!}
                 <!-- tax category-->
-                {!! Former::select('tax_category_id')->addOption('','')
+                {!! Former::select('tax_category_id')
+                ->fromQuery($taxCategories, 'name', 'id')
+                ->addOption('','')
                 ->label(trans('texts.tax_category_name'))
-                ->fromQuery($taxCategories, 'name', 'id') !!}
+                !!}
                 <!-- unit of measure-->
-                {!! Former::select('unit_id')->addOption('','')
+                {!! Former::select('unit_id')
+                ->fromQuery($units, 'name', 'id')
+                ->addOption('','')
                 ->label(trans('texts.unit_name'))
-                ->fromQuery($units, 'name', 'id') !!}
+                !!}
                 <!-- product notes -->
                     {!! Former::textarea('notes')->rows(6) !!}
                     @include('partials/custom_fields', ['entityType' => ENTITY_PRODUCT])

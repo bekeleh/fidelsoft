@@ -772,8 +772,8 @@ $LANG = array(
     'item_serial' => 'Item Serial',
     'item_tag' => 'Item Tag',
     'description' => 'Description',
-    'cost' => 'Unit Price',
-    'unit_cost' => 'Unit Cost',
+    'cost' => 'Unit Cost',
+    'unit_price' => 'Unit Price',
     'quantity' => 'Quantity',
     'line_total' => 'Line Total',
     'subtotal' => 'Subtotal',
@@ -2181,6 +2181,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'payment_type_GoCardless' => 'GoCardless',
     'select_payment_type' => 'Select Payment Type',
 // Categories
+    'item_type_name' => 'Item Type',
     'item_type_assembly' => 'Assembly',
     'item_type_kit' => 'Kit',
     'item_type_manufactured' => 'Manufactured',

@@ -23,26 +23,20 @@ use Datatable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Log;
 
 class InvoiceRepository extends BaseRepository
 {
     protected $documentRepo;
-    private $model;
-    private $paymentService;
-    private $paymentRepo;
+    protected $model;
+    protected $paymentService;
+    protected $paymentRepo;
 
-    public function __construct(
-        Invoice $model,
-        PaymentService $paymentService,
-        DocumentRepository $documentRepo,
-        PaymentRepository $paymentRepo
-    )
+    public function __construct(Invoice $model, PaymentService $paymentService, PaymentRepository $paymentRepo, DocumentRepository $documentRepo)
     {
         $this->model = $model;
-        $this->documentRepo = $documentRepo;
         $this->paymentService = $paymentService;
         $this->paymentRepo = $paymentRepo;
+        $this->documentRepo = $documentRepo;
     }
 
     public function getClassName()

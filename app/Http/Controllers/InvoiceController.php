@@ -41,13 +41,7 @@ class InvoiceController extends BaseController
     protected $recurringInvoiceService;
     protected $entityType = ENTITY_INVOICE;
 
-    public function __construct(
-        InvoiceRepository $invoiceRepo,
-        ClientRepository $clientRepo,
-        InvoiceService $invoiceService,
-        DocumentRepository $documentRepo,
-        RecurringInvoiceService $recurringInvoiceService,
-        PaymentService $paymentService)
+    public function __construct(InvoiceRepository $invoiceRepo, ClientRepository $clientRepo, InvoiceService $invoiceService, DocumentRepository $documentRepo, RecurringInvoiceService $recurringInvoiceService, PaymentService $paymentService)
     {
         // parent::__construct();
         $this->invoiceRepo = $invoiceRepo;
@@ -407,8 +401,8 @@ class InvoiceController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account->load('country'),
-            'products' => (auth::user()->can('view', ENTITY_PRODUCT)) ? Product::scope()->withActiveOrSelected($invoice ? $invoice->product_id : false)->stock()->orderBy('product_key')->get() : collect([]),
-            'clients' => (auth::user()->can('view', ENTITY_CLIENT)) ? Client::scope()->with('contacts', 'country')->orderBy('name')->get() : collect([]),
+            'products' => Product::scope()->withActiveOrSelected(isset($invoice) ? $invoice->product_id : false)->stock()->productWithBrand()->orderBy('product_key')->get(),
+            'clients' => Client::scope()->with('contacts', 'country')->orderBy('name')->get(),
             'taxRateOptions' => $taxRateOptions,
             'sizes' => Cache::get('sizes'),
             'invoiceDesigns' => InvoiceDesign::getDesigns(),
