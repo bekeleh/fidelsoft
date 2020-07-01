@@ -2,10 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/1ea017303d3ad01b890a569e359b2eba4e1bc363.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/31a54e8c37744f2823fb0a9a955d67ffa75e575d.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/3f793832e4b8a8db67495dbf22800ef0c0b3f169.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/807b508caa07432e53bd06ca5146edd44f53d4ac.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/b315fa472dc8fc05ca66a9c541cb437f086383ed.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Product.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/ProductRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/ProductRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/products/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/products/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/1ea017303d3ad01b890a569e359b2eba4e1bc363.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/1ea017303d3ad01b890a569e359b2eba4e1bc363.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/34e7fbfc10b03f071e7ca8cfd076ae535ef9ed5b.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/34e7fbfc10b03f071e7ca8cfd076ae535ef9ed5b.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/6ac3b6c785ced0d671051c64671d9dd2fc9d1ca7.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/6ac3b6c785ced0d671051c64671d9dd2fc9d1ca7.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/807b508caa07432e53bd06ca5146edd44f53d4ac.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/807b508caa07432e53bd06ca5146edd44f53d4ac.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/ce86b367d9fbfea4a7e2933b19cda586a622934f.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/ce86b367d9fbfea4a7e2933b19cda586a622934f.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/e1eb864893ce896ca168e502eaf9a6dba66f6385.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/e1eb864893ce896ca168e502eaf9a6dba66f6385.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/f788decf80bc57029a0783bb898f59651f56124b.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/f788decf80bc57029a0783bb898f59651f56124b.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -491,14 +500,7 @@
       <workItem from="1593157044352" duration="234000" />
       <workItem from="1593161440557" duration="610000" />
       <workItem from="1593162072486" duration="160000" />
-      <workItem from="1593510365546" duration="31596000" />
-    </task>
-    <task id="LOCAL-00372" summary="2020-06-14 9:27">
-      <created>1592173020737</created>
-      <option name="number" value="00372" />
-      <option name="presentableId" value="LOCAL-00372" />
-      <option name="project" value="LOCAL" />
-      <updated>1592173020737</updated>
+      <workItem from="1593510365546" duration="32823000" />
     </task>
     <task id="LOCAL-00373" summary="2020-06-14 9:27">
       <created>1592173245712</created>
@@ -836,7 +838,14 @@
       <option name="project" value="LOCAL" />
       <updated>1593607881616</updated>
     </task>
-    <option name="localTasksCounter" value="421" />
+    <task id="LOCAL-00421" summary="2020-07-01 9:27">
+      <created>1593607920951</created>
+      <option name="number" value="00421" />
+      <option name="presentableId" value="LOCAL-00421" />
+      <option name="project" value="LOCAL" />
+      <updated>1593607920951</updated>
+    </task>
+    <option name="localTasksCounter" value="422" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -943,10 +952,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1590585842435" />
-    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1593607880502">
+    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1593607920279">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1593607880502" />
+    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1593607920279" />
     <state x="331" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1586200872470" />
     <state x="349" y="13" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586182405599" />
     <state x="418" y="255" key="ComposerInitDialogKey" timestamp="1589789975070">
@@ -1009,19 +1018,19 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="93" y="93" width="1095" height="495" key="dock-window-1/0.0.1280.680@0.0.1280.680" timestamp="1592129193822" />
-    <state x="305" y="42" width="906" height="638" key="find.popup" timestamp="1593543543149">
+    <state x="305" y="42" width="906" height="638" key="find.popup" timestamp="1593608367289">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="305" y="42" width="906" height="638" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1593543543149" />
+    <state x="305" y="42" width="906" height="638" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1593608367289" />
     <state x="316" y="37" width="983" height="691" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1586115855044" />
     <state x="215" y="69" width="849" height="606" key="find.popup/0.0.1440.860@0.0.1440.860" timestamp="1586178664001" />
     <state x="334" y="154" width="672" height="677" key="run.anything.popup" timestamp="1592778206154">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="334" y="154" width="672" height="677" key="run.anything.popup/0.0.1280.680@0.0.1280.680" timestamp="1592778206154" />
-    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup" timestamp="1593607553948">
+    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup" timestamp="1593608837116">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1593607553948" />
+    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1593608837116" />
   </component>
 </project>

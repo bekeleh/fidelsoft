@@ -37,7 +37,7 @@
                 ->placeholder(trans('texts.select_item_brand'))
                 ->label(trans('texts.item_brand'))
                 ->addGroupClass('item-brand-select')
-                ->help(trans('texts.item_brand_help') . ' | ' . link_to('/item_itemBrands/', trans('texts.customize_options')))
+                ->help(trans('texts.item_brand_help') . ' | ' . link_to('/item_brands/', trans('texts.customize_options')))
                 !!}
                 <!-- item type product/service-->
                 {!! Former::select('item_type_id')
