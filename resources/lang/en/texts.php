@@ -708,7 +708,7 @@ $LANG = array(
     'item_does_not_exist' => 'Item does not exist in this store or somethings went wrong.',
 //   Products
     'product_name' => 'Product Key',
-    'products' => 'Products',
+    'products' => 'Products and Services',
     'new_product' => 'New Product',
     'new_item' => 'New Product',
     'list_products' => 'List Products',
@@ -2181,12 +2181,12 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'payment_type_GoCardless' => 'GoCardless',
     'select_payment_type' => 'Select Payment Type',
 // Categories
-    'category_assembly' => 'Assembly',
-    'category_kit' => 'Kit',
-    'category_manufactured' => 'Manufactured',
-    'category_phantom' => 'Phantom',
-    'category_purchased' => 'Purchased',
-    'category_service_labour' => 'Service/Labour',
+    'item_type_assembly' => 'Assembly',
+    'item_type_kit' => 'Kit',
+    'item_type_manufactured' => 'Manufactured',
+    'item_type_phantom' => 'Phantom',
+    'item_type_purchased' => 'Purchased',
+    'item_type_service_labour' => 'Service/Labour',
 // Tax Categories
     'tax_category_name' => 'Tax Category',
     'tax_category_exempt' => 'Exempt',

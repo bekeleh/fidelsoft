@@ -774,7 +774,7 @@ if (!defined('APP_NAME')) {
         'banks' => 'App\Models\Bank',
         'units' => 'App\Models\Unit',
         'statuses' => 'App\Models\Status',
-        'categories' => 'App\Models\Category',
+        'itemTypes' => 'App\Models\ItemType',
         'taxCategories' => 'App\Models\TaxCategory',
         'plans' => 'App\Models\Plan',
         'saleTypes' => 'App\Models\SaleType',

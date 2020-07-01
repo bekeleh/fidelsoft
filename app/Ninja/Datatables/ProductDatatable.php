@@ -74,9 +74,9 @@ class ProductDatatable extends EntityDatatable
                 },
             ],
             [
-                'category_name',
+                'item_type_name',
                 function ($model) {
-                    return $model->category_name;
+                    return $model->item_type_name;
                 },
             ],
             [

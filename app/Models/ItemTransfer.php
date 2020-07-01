@@ -12,13 +12,12 @@ use App\Events\ItemTransferWasUpdated;
  */
 class ItemTransfer extends EntityModel
 {
-    protected $presenter = 'App\Ninja\Presenters\ItemTransferPresenter';
     use PresentableTrait;
     use SoftDeletes;
 
+    protected $presenter = 'App\Ninja\Presenters\ItemTransferPresenter';
 
-    protected $table = 'item_transfers';
-    protected $dates = ['approved_date', 'created_at', 'deleted_at', 'deleted_at'];
+    protected $dates = ['approved_date', 'created_at', 'deleted_at'];
 
     protected $casts = [];
     protected $hidden = [];

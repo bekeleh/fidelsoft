@@ -42,7 +42,7 @@ class ProductRepository extends BaseRepository
             ->leftJoin('item_stores', 'item_stores.product_id', '=', 'products.id')
             ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
             ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
-            ->leftJoin('categories', 'categories.id', '=', 'products.category_id')
+            ->leftJoin('item_types', 'item_types.id', '=', 'products.item_type_id')
             ->leftJoin('tax_categories', 'tax_categories.id', '=', 'products.tax_category_id')
             ->leftJoin('units', 'units.id', '=', 'products.unit_id')
             ->where('products.account_id', '=', $accountId)
@@ -73,7 +73,7 @@ class ProductRepository extends BaseRepository
                 'item_brands.name as item_brand_name',
                 'item_categories.public_id as item_category_public_id',
                 'item_categories.name as item_category_name',
-                'categories.name as category_name',
+                'item_types.name as item_type_name',
                 'tax_categories.name as tax_category_name',
                 'units.name as unit_name'
             );

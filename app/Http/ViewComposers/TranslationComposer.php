@@ -52,8 +52,8 @@ class TranslationComposer
             return $unit->name;
         }));
 
-        $view->with('categories', Cache::get('categories')->each(function ($category) {
-            $category->name = trans('texts.category_' . Str::slug($category->name, '_'));
+        $view->with('itemTypes', Cache::get('itemTypes')->each(function ($category) {
+            $category->name = trans('texts.item_type_' . Str::slug($category->name, '_'));
         })->sortBy(function ($category) {
             return $category->name;
         }));
