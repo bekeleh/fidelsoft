@@ -156,12 +156,13 @@ class Product extends EntityModel
     {
         $query = $query
             ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
+            ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
             ->whereNull('products.deleted_at')
             ->select(
                 'products.id',
                 'products.public_id',
                 'products.product_key',
-                DB::raw("COALESCE(CONCAT(NULLIF(products.product_key,''), ' ', NULLIF(item_brands.name,'')), NULLIF(products.product_key,'')) product_key")
+                DB::raw("COALESCE(CONCAT(NULLIF(products.product_key,''), ' ', NULLIF(item_brands.name,''), ' ', NULLIF(item_categories.name,'')), NULLIF(products.product_key,'')) product_key")
             );
 
         return $query->whereNotNull('products.product_key');

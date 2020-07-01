@@ -131,9 +131,9 @@ class ProductRepository extends BaseRepository
         $product->save();
 
         if ($publicId) {
-            event(new ProductWasUpdated($product, $data));
+            event(new ProductWasUpdated($product));
         } else {
-            event(new ProductWasCreated($product, $data));
+            event(new ProductWasCreated($product));
         }
         return $product;
     }

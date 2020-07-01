@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Libraries\Utils;
 use App\Models\ItemBrand;
 use App\Models\Product;
 
@@ -37,13 +38,13 @@ class UpdateProductRequest extends EntityRequest
     public function sanitize()
     {
         $input = $this->all();
-        if (!empty($input['product_key'])) {
+        if (isset($input['product_key'])) {
             $input['product_key'] = filter_var($input['product_key'], FILTER_SANITIZE_STRING);
         }
-        if (!empty($input['notes'])) {
+        if (isset($input['notes'])) {
             $input['notes'] = filter_var($input['notes'], FILTER_SANITIZE_STRING);
         }
-        if (!empty($input['cost'])) {
+        if (isset($input['cost'])) {
             $input['cost'] = filter_var($input['cost'], FILTER_SANITIZE_NUMBER_FLOAT);
         }
 
@@ -56,10 +57,13 @@ class UpdateProductRequest extends EntityRequest
         if (isset($input['item_brand_id'])) {
             $input['item_brand_id'] = ItemBrand::getPrivateId($input['item_brand_id']);
         }
-
+        if (isset($input['cost'])) {
+            $input['cost'] = Utils::parseFloat($input['cost']);
+        }
         if (isset($input['item_brand_id'])) {
             $this->request->add([
                 'item_brand_id' => $input['item_brand_id'],
+                'cost' => $input['cost'],
                 'account_id' => Product::getAccountId()
             ]);
         }

@@ -35,11 +35,11 @@ class ItemStoreRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('item_stores')
-            ->join('accounts', 'accounts.id', '=', 'item_stores.account_id')
-            ->join('products', 'products.id', '=', 'item_stores.product_id')
-            ->join('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
-            ->join('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
-            ->join('stores', 'stores.id', '=', 'item_stores.store_id')
+            ->leftJoin('accounts', 'accounts.id', '=', 'item_stores.account_id')
+            ->leftJoin('products', 'products.id', '=', 'item_stores.product_id')
+            ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
+            ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
+            ->leftJoin('stores', 'stores.id', '=', 'item_stores.store_id')
             ->where('item_stores.account_id', '=', $accountId)
             //->where('item_stores.deleted_at', '=', null)
             ->select(
@@ -91,11 +91,12 @@ class ItemStoreRepository extends BaseRepository
         }
 
         $query = DB::table('item_stores')
-            ->join('accounts', 'accounts.id', '=', 'item_stores.account_id')
-            ->join('products', 'products.id', '=', 'item_stores.product_id')
-            ->join('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
-            ->join('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
-            ->join('stores', 'stores.id', '=', 'item_stores.store_id')
+            ->leftJoin('accounts', 'accounts.id', '=', 'item_stores.account_id')
+            ->leftJoin('users', 'users.id', '=', 'item_stores.user_id')
+            ->leftJoin('products', 'products.id', '=', 'item_stores.product_id')
+            ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
+            ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
+            ->leftJoin('stores', 'stores.id', '=', 'item_stores.store_id')
             ->Where('item_stores.store_id', '=', $filter)
             ->where('item_stores.account_id', '=', $accountId)
             ->where('item_stores.qty', '>', 0)
@@ -111,22 +112,6 @@ class ItemStoreRepository extends BaseRepository
             return null;
         }
 
-        return self::getWithItemCategory($query);
-    }
-
-    public static function getWithItemCategory($query = null)
-    {
-        if (!$query) {
-            return null;
-        }
-        foreach ($query as $subQuery) {
-            $name_str = '';
-            if ($subQuery->name != '') {
-                $name_str .= e($subQuery->name) . ' (' . e($subQuery->item_brand_name) . ')' . ' (' . e($subQuery->item_category_name) . ')';
-            }
-            $subQuery->name = $name_str;
-        }
-//        return $query->pluck('name', 'id');
         return $query;
     }
 
@@ -153,7 +138,6 @@ class ItemStoreRepository extends BaseRepository
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
 
         if ($itemStore) {
-//          quantity adjustment
             $this->quantityAdjustment($data, $itemStore, $update = true);
             $itemStore->fill(collect($data)->except('qty')->toArray());
             $itemStore->qty = isset($data['qty']) ? $data['qty'] + $itemStore->qty : '';
@@ -183,7 +167,6 @@ class ItemStoreRepository extends BaseRepository
     public function quantityAdjustment($data, $itemStore = null, $update = false)
     {
         if ($update) {
-//         update quantity
             $this->qoh = (int)$itemStore->qty;
             if (isset($data['qty'])) {
                 if ((int)$data['qty'] > 0) {
@@ -196,7 +179,6 @@ class ItemStoreRepository extends BaseRepository
                 }
             }
         } else {
-//           create new quantity
             if (isset($data['qty'])) {
                 if ((int)$data['qty'] > 0) {
                     $movable = ItemMovement::createNew();

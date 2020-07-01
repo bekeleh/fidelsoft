@@ -70,8 +70,8 @@ class CreateItemPriceRequest extends ItemPriceRequest
         if (isset($input['product_id'])) {
             $input['product_id'] = Product::getPrivateId($input['product_id']);
         }
-        if (isset($input['client_type_id'])) {
-            $input['client_type_id'] = ClientType::getPrivateId($input['client_type_id']);
+        if (isset($input['unit_price'])) {
+            $input['unit_price'] = Utils::parseFloat($input['unit_price']);
         }
         if (isset($input['start_date'])) {
             $input['start_date'] = Utils::toSqlDate($input['start_date']);
@@ -79,10 +79,10 @@ class CreateItemPriceRequest extends ItemPriceRequest
         if (isset($input['end_date'])) {
             $input['end_date'] = Utils::toSqlDate($input['end_date']);
         }
-        if (isset($input['product_id']) && isset($input['client_type_id'])) {
+        if (isset($input['product_id'])) {
             $this->request->add([
                 'product_id' => $input['product_id'],
-                'client_type_id' => $input['client_type_id'],
+                'unit_price' => $input['unit_price'],
                 'start_date' => $input['start_date'],
                 'end_date' => $input['end_date'],
                 'account_id' => ItemPrice::getAccountId(),

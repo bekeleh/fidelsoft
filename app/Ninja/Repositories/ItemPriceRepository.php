@@ -33,6 +33,7 @@ class ItemPriceRepository extends BaseRepository
     {
         $query = DB::table('item_prices')
             ->leftJoin('accounts', 'accounts.id', '=', 'item_prices.account_id')
+            ->leftJoin('users', 'users.id', '=', 'item_prices.user_id')
             ->leftJoin('client_types', 'client_types.id', '=', 'item_prices.client_type_id')
             ->leftJoin('products', 'products.id', '=', 'item_prices.product_id')
             ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
@@ -115,7 +116,7 @@ class ItemPriceRepository extends BaseRepository
         }
 
         $itemPrice->fill($data);
-        dd($itemPrice);
+
         $itemPrice->save();
 
         if ($publicId) {
