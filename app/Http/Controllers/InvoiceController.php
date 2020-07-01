@@ -121,14 +121,14 @@ class InvoiceController extends BaseController
 
         $data = array_merge($data, self::getViewModel($invoice));
 
-        $defaultBranch = isset(Auth::user()->branch) ? Auth::user()->branch->name : '';
-        $defaultStore = isset(Auth::user()->branch->store) ? Auth::user()->branch->store->name : '';
+        $defaultBranch = isset(Auth::user()->branch->name) ? Auth::user()->branch->name : '';
+        $defaultStore = isset(Auth::user()->branch->store->name) ? Auth::user()->branch->store->name : '';
 
-        if (!$defaultBranch) {
+        if (!isset($defaultBranch)) {
             session()->flash('warning', trans('texts.user_branch_required', ['link' => link_to('/users/' . Auth::user()->public_id . '/edit', trans('texts.click_here'))]));
         }
 
-        if (count($data['products']) == 0) {
+        if (count($data['products']) === 0) {
             session()->flash('warning', trans('texts.product_required', ['branch' => $defaultBranch, 'store' => $defaultStore, 'link' => link_to('/item_stores', trans('texts.click_here'))]));
         }
 
@@ -401,7 +401,7 @@ class InvoiceController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account->load('country'),
-            'products' => Product::scope()->withActiveOrSelected(isset($invoice) ? $invoice->product_id : false)->stock()->productWithBrand()->orderBy('product_key')->get(),
+            'products' => Product::scope()->withActiveOrSelected(isset($invoice) ? $invoice->product_id : false)->stock()->orderBy('product_key')->get(),
             'clients' => Client::scope()->with('contacts', 'country')->orderBy('name')->get(),
             'taxRateOptions' => $taxRateOptions,
             'sizes' => Cache::get('sizes'),

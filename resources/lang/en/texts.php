@@ -3022,6 +3022,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'mark_expense_paid' => 'Mark paid',
     'white_label_license_error' => 'Failed to validate the license, check storage/logs/laravel-error.log for more details.',
     'plan_price' => 'Plan Price',
+    'error' => 'Something went wrong, please try again later',
     'wrong_confirmation' => 'Incorrect confirmation code',
     'oauth_taken' => 'The account is already registered',
     'emailed_payment' => 'Successfully emailed payment',

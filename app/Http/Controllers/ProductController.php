@@ -97,7 +97,7 @@ class ProductController extends BaseController
         $data = $request->input();
 
         $product = $this->productService->save($data);
-        $message = isset($product->public_id) ? trans('texts.created_product') : trans('texts.clone_product');
+        $message = isset($product->public_id) ? trans('texts.created_product') : trans('texts.error');
         Session::flash('message', $message);
 
         return redirect()->to("products/{$product->public_id}/edit");

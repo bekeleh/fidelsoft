@@ -455,8 +455,13 @@ $__env->startSection('head_css'); ?>
                 <?php endif; ?>
 
                 <?php if(Session::has('message')): ?>
-                    <div class="alert alert-info alert-hide" style="z-index:9999">
-                        <?php echo e(Session::get('message')); ?>
+                    <div class="alert alert-success alert-hide" style="z-index:9999">
+                        <?php echo Session::get('message'); ?>
+
+                    </div>
+                <?php elseif(Session::has('success')): ?>
+                    <div class="alert alert-success alert-hide" style="z-index:9999">
+                        <?php echo Session::get('success'); ?>
 
                     </div>
                 <?php elseif(Session::has('news_feed_message')): ?>

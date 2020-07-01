@@ -86,14 +86,16 @@ class ItemBrandController extends BaseController
         $data = $request->input();
 
         $itemBrand = $this->itemBrandService->save($data);
+        $message = isset($itemBrand->public_id) ? trans('texts.created_item_brand') : trans('texts.error');
+        Session::flash('message', $message);
 
-        return redirect()->to("item_brands/{$itemBrand->public_id}/edit")->with('success', trans('texts.created_item_brand'));
+        return redirect()->to("item_brands/{$itemBrand->public_id}/edit");
     }
 
     public function edit(ItemBrandRequest $request, $publicId = false, $clone = false)
     {
         $this->authorize('edit', ENTITY_ITEM_BRAND);
-        $itemBrand = ItemBrand::scope($publicId)->withTrashed()->firstOrFail();
+        $itemBrand = $request->entity();
         if ($clone) {
             $itemBrand->id = null;
             $itemBrand->public_id = null;
@@ -113,7 +115,7 @@ class ItemBrandController extends BaseController
             'method' => $method,
             'url' => $url,
             'title' => trans('texts.edit_item_brand'),
-            'itemCategoryPublicId' => $itemBrand->itemCategory ? $itemBrand->itemCategory->public_id : null,
+            'itemCategoryPublicId' => $itemBrand->item_category ? $itemBrand->item_category->public_id : null,
         ];
 
         $data = array_merge($data, self::getViewModel($itemBrand));
@@ -131,11 +133,13 @@ class ItemBrandController extends BaseController
         if (in_array($action, ['archive', 'delete', 'restore'])) {
             return self::bulk();
         }
+        $message = isset($itemBrand->public_id) ? trans('texts.updated_item_brand') : trans('texts.clone_item_brand');
+        Session::flash('message', $message);
 
         if ($action == 'clone') {
-            return redirect()->to(sprintf('item_brands/%s/clone', $itemBrand->public_id))->with('success', trans('texts.clone_item_brand'));
+            return redirect()->to(sprintf('item_brands/%s/clone', $itemBrand->public_id));
         } else {
-            return redirect()->to("item_brands/{$itemBrand->public_id}/edit")->with('success', trans('texts.updated_item_brand'));
+            return redirect()->to("item_brands/{$itemBrand->public_id}/edit");
         }
     }
 
@@ -152,8 +156,9 @@ class ItemBrandController extends BaseController
         $count = $this->itemBrandService->bulk($ids, $action);
 
         $message = Utils::pluralize($action . 'd_item_brand', $count);
+        Session::flash('message', $message);
 
-        return $this->returnBulk(ENTITY_ITEM_BRAND, $action, $ids)->with('message', $message);
+        return $this->returnBulk(ENTITY_ITEM_BRAND, $action, $ids);
     }
 
     private static function getViewModel($itemBrand = false)
