@@ -137,10 +137,7 @@ class Product extends EntityModel
 
     public function scopeStock($query, $publicId = false, $accountId = false)
     {
-        $storeId = isset(auth::user()->branch) ? auth::user()->branch->store_id : null;
-        if (!isset($storeId)) {
-            return false;
-        }
+        $storeId = isset(auth::user()->branch) ? auth::user()->branch->store_id : 0;
         $query = $query->whereHas('item_stores', function ($query) use ($storeId) {
             $query->where('item_stores.store_id', $storeId)
                 ->where('item_stores.qty', '>', 0)
