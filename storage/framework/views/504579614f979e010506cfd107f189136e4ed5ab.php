@@ -11,6 +11,7 @@
      'notes' => 'required', ])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit'); ?>
 
+
     <?php if($itemPrice): ?>
         <?php echo e(Former::populate($itemPrice)); ?>
 
@@ -19,6 +20,7 @@
 
         </div>
     <?php endif; ?>
+
     <span style="display:none">
         <?php echo Former::text('action'); ?>
 

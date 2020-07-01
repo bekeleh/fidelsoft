@@ -12,12 +12,14 @@
      'end_date' => 'required|date',
      'notes' => 'required', ])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
+
     @if ($itemPrice)
         {{ Former::populate($itemPrice) }}
         <div style="display:none">
             {!! Former::text('public_id') !!}
         </div>
     @endif
+
     <span style="display:none">
         {!! Former::text('action') !!}
     </span>

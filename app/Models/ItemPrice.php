@@ -15,7 +15,7 @@ class ItemPrice extends EntityModel
 
     protected $presenter = 'App\Ninja\Presenters\ItemPricePresenter';
 
-    protected $dates = ['start_date', 'end_date', 'created_at', 'updated_at', 'deleted_at'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $fillable = [
         'product_id',
@@ -24,6 +24,7 @@ class ItemPrice extends EntityModel
         'start_date',
         'end_date',
         'notes',
+        'is_deleted',
         'created_by',
         'updated_by',
         'deleted_by',

@@ -115,7 +115,7 @@ class ItemPriceRepository extends BaseRepository
         }
 
         $itemPrice->fill($data);
-
+        dd($itemPrice);
         $itemPrice->save();
 
         if ($publicId) {

@@ -7,10 +7,8 @@ use App\Events\ProductWasUpdated;
 use App\Libraries\Utils;
 use App\Models\ItemBrand;
 use App\Models\Product;
-use App\Models\Unit;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class ProductRepository extends BaseRepository
 {
