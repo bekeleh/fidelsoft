@@ -69,17 +69,17 @@ class ItemBrand extends EntityModel
 
     public function scopeBrandWithCategory($query)
     {
-        $query = DB::table('item_brands')
+        $query = $query
             ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
-//            ->where('item_brands.account_id', '=', $accountId)
-            //->where('item_brands.deleted_at', '=', null)
+            ->whereNull('item_brands.deleted_at')
             ->select(
                 'item_brands.id',
                 'item_brands.public_id',
+                'item_brands.name',
                 DB::raw("CONCAT(NULLIF(item_brands.name,''), ' ', NULLIF(item_categories.name,'')) name")
             );
 
-        return $query;
+        return $query->whereNotNull('item_brands.name');
     }
 
 }

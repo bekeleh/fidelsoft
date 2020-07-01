@@ -146,7 +146,7 @@ class Product extends EntityModel
                 ->where('item_stores.qty', '>', 0)
                 ->Where('item_stores.is_locked', false)
                 ->Where('item_stores.is_deleted', false)
-                ->Where('item_stores.deleted_at', null);
+                ->WhereNull('item_stores.deleted_at');
         });
 
         return $query;
@@ -156,44 +156,32 @@ class Product extends EntityModel
     {
         $query = $query
             ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
-            ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
-//            ->where('products.account_id', '=', $accountId)
-            //->where('products.deleted_at', '=', null)
-            ->Where('item_brands.deleted_at', null)
+            ->whereNull('products.deleted_at')
             ->select(
                 'products.id',
                 'products.public_id',
-                'products.deleted_at',
-                DB::raw("CONCAT(NULLIF(products.product_key,''), ' ', NULLIF(item_brands.name,''), ' ', NULLIF(item_categories.name,'')) product_key")
+                'products.product_key',
+                DB::raw("COALESCE(CONCAT(NULLIF(products.product_key,''), ' ', NULLIF(item_brands.name,'')), NULLIF(products.product_key,'')) product_key")
             );
 
-        return $query;
+        return $query->whereNotNull('products.product_key');
     }
 
-    public function scopeProductWithBrand()
-    {
-        $query = DB::table('products')
-            ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
-            ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
-//            ->where('products.account_id', '=', $accountId)
-            //->where('products.deleted_at', '=', null)
-            ->Where('products.deleted_at', null)
-            ->select(
-                'products.id',
-                'products.public_id',
-                DB::raw("CONCAT(NULLIF(products.product_key,''), ' ', NULLIF(item_brands.name,''), ' ', NULLIF(item_categories.name,'')) product_key")
-            );
-
-        return $query;
-    }
-
-    public function getProductDisplayName($query)
-    {
-        if (is_null($query)) {
-            return false;
-        }
-
-        return $query;
-    }
+//    public function scopeProductWithBrand()
+//    {
+//        $query = DB::table('products')
+//            ->leftJoin('products', 'products.id', '=', 'products.item_brand_id')
+//            ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_category_id')
+////            ->where('products.account_id', $accountId)
+////            ->whereNotNull('products.product_key')
+//            ->whereNull('products.deleted_at')
+//            ->select(
+//                'products.id',
+//                'products.public_id',
+//                DB::raw("CONCAT(NULLIF(products.product_key,''), ' ', NULLIF(products.name,''), ' ', NULLIF(item_brands.name,'')) product_key")
+//            );
+//
+//        return $query->whereNotNull('name');
+//    }
 
 }

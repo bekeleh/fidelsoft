@@ -142,24 +142,11 @@ class EntityModel extends Eloquent
         return $this->getEntityType() === $type;
     }
 
-    /*
-    public function getEntityType()
-    {
-        return '';
-    }
-
-    public function getNmae()
-    {
-        return '';
-    }
-    */
-
-
     public function scopeScope($query, $publicId = false, $accountId = false)
     {
         // If 'false' is passed as the publicId return nothing rather than everything
         if (func_num_args() > 1 && !$publicId && !$accountId) {
-            $query->where($this->getTable() . 'id', '=', 0);
+            $query->where($this->getTable() . '.id', '=', 0);
 
             return $query;
         }
@@ -172,7 +159,7 @@ class EntityModel extends Eloquent
 
         if ($publicId) {
             if (is_array($publicId)) {
-                $query->whereIn($this->getTable() . 'public_id', $publicId);
+                $query->whereIn($this->getTable() . '.public_id', $publicId);
             } else {
                 $query->wherePublicId($publicId);
             }
@@ -184,7 +171,7 @@ class EntityModel extends Eloquent
     public function scopeWithActiveOrSelected($query, $id = false)
     {
         return $query->withTrashed()->where(function ($query) use ($id) {
-            $query->whereNull($this->getTable() . 'deleted_at')->orWhere($this->getTable() . 'id', $id);
+            $query->whereNull($this->getTable() . '.deleted_at')->orWhere($this->getTable() . '.id', $id);
         });
     }
 

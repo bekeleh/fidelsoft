@@ -123,7 +123,7 @@ class InvoiceController extends BaseController
 
         $defaultBranch = isset(Auth::user()->branch->name) ? Auth::user()->branch->name : '';
         $defaultStore = isset(Auth::user()->branch->store->name) ? Auth::user()->branch->store->name : '';
-        dd($data['products']);
+
         if (!isset($defaultBranch)) {
             session()->flash('warning', trans('texts.user_branch_required', ['link' => link_to('/users/' . Auth::user()->public_id . '/edit', trans('texts.click_here'))]));
         }
