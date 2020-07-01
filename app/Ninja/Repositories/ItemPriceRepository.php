@@ -4,12 +4,11 @@ namespace App\Ninja\Repositories;
 
 use App\Events\ItemPriceWasCreated;
 use App\Events\ItemPriceWasUpdated;
+use App\Models\ClientType;
 use App\Models\ItemPrice;
 use App\Models\Product;
-use App\Models\ClientType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class ItemPriceRepository extends BaseRepository
 {
@@ -33,11 +32,11 @@ class ItemPriceRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('item_prices')
-            ->join('accounts', 'accounts.id', '=', 'item_prices.account_id')
-            ->join('client_types', 'client_types.id', '=', 'item_prices.client_type_id')
-            ->join('products', 'products.id', '=', 'item_prices.product_id')
-            ->join('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
-            ->join('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
+            ->leftJoin('accounts', 'accounts.id', '=', 'item_prices.account_id')
+            ->leftJoin('client_types', 'client_types.id', '=', 'item_prices.client_type_id')
+            ->leftJoin('products', 'products.id', '=', 'item_prices.product_id')
+            ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
+            ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
             ->where('item_prices.account_id', '=', $accountId)
             //->where('item_prices.deleted_at', '=', null)
             ->select(
@@ -45,7 +44,7 @@ class ItemPriceRepository extends BaseRepository
                 'item_prices.public_id',
                 'item_prices.product_id',
                 'item_prices.client_type_id',
-                'item_prices.item_price',
+                'item_prices.unit_price',
                 'item_prices.start_date',
                 'item_prices.end_date',
                 'item_prices.is_deleted',
@@ -56,10 +55,14 @@ class ItemPriceRepository extends BaseRepository
                 'item_prices.created_by',
                 'item_prices.updated_by',
                 'item_prices.deleted_by',
+                'client_types.public_id as client_type_public_id',
                 'client_types.name as client_type_name',
-                'products.product_key as item_name',
+                'products.public_id as product_public_id',
+                'products.product_key as product_name',
                 'products.cost',
+                'item_brands.public_id as item_brand_public_id',
                 'item_brands.name as item_brand_name',
+                'item_categories.public_id as item_category_public_id',
                 'item_categories.name as item_category_name'
             );
 
@@ -106,7 +109,6 @@ class ItemPriceRepository extends BaseRepository
             $itemPrice->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $itemPrice = ItemPrice::scope($publicId)->withArchived()->firstOrFail();
-            Log::warning('Entity not set in price repo save');
         } else {
             $itemPrice = ItemPrice::createNew();
             $itemPrice->created_by = Auth::user()->username;
@@ -117,10 +119,11 @@ class ItemPriceRepository extends BaseRepository
         $itemPrice->save();
 
         if ($publicId) {
-            event(new ItemPriceWasUpdated($itemPrice, $data));
+            event(new ItemPriceWasUpdated($itemPrice));
         } else {
-            event(new ItemPriceWasCreated($itemPrice, $data));
+            event(new ItemPriceWasCreated($itemPrice));
         }
+
         return $itemPrice;
     }
 

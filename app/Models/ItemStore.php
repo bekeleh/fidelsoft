@@ -10,11 +10,11 @@ use Laracasts\Presenter\PresentableTrait;
  */
 class ItemStore extends EntityModel
 {
-    protected $presenter = 'App\Ninja\Presenters\ItemStorePresenter';
     use PresentableTrait;
     use SoftDeletes;
 
-    protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
+    protected $presenter = 'App\Ninja\Presenters\ItemStorePresenter';
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
     protected $appends = [];
     protected $hidden = [];
     protected $casts = [];
@@ -44,7 +44,7 @@ class ItemStore extends EntityModel
 
     public static function findProductByKey($key)
     {
-        return self::scope()->where('bin', '=', $key)->first();
+        return self::scope()->where('bin', $key)->first();
     }
 
     public function account()

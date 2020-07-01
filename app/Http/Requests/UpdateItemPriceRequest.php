@@ -27,7 +27,7 @@ class UpdateItemPriceRequest extends ItemPriceRequest
             $rules['product_id'] = 'required|unique:item_prices,product_id,' . $itemPrice->id . ',id,client_type_id,' . $itemPrice->client_type_id . ',account_id,' . $itemPrice->account_id;
         }
         $rules['client_type_id'] = 'required|numeric|exists:client_types,id';
-        $rules['item_price'] = 'required|numeric';
+        $rules['unit_price'] = 'required|numeric';
         $rules['qty'] = 'numeric';
         $rules['reorder_level'] = 'numeric';
         $rules['EOQ'] = 'numeric';
@@ -49,8 +49,8 @@ class UpdateItemPriceRequest extends ItemPriceRequest
             if (!empty($input['end_date'])) {
                 $input['end_date'] = filter_var($input['end_date'], FILTER_SANITIZE_STRING);
             }
-            if (!empty($input['item_price'])) {
-                $input['item_price'] = filter_var($input['item_price'], FILTER_SANITIZE_NUMBER_FLOAT);
+            if (!empty($input['unit_price'])) {
+                $input['unit_price'] = filter_var($input['unit_price'], FILTER_SANITIZE_NUMBER_FLOAT);
             }
             if (!empty($input['product_id'])) {
                 $input['product_id'] = filter_var($input['product_id'], FILTER_SANITIZE_NUMBER_INT);

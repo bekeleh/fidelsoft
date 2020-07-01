@@ -24,7 +24,7 @@ class CreateItemPriceRequest extends ItemPriceRequest
         $rules = [];
         $rules['product_id'] = 'required|unique:item_prices,product_id,' . $this->id . ',id,client_type_id,' . $this->client_type_id . ',account_id,' . $this->account_id;
         $rules['client_type_id'] = 'required|numeric|exists:client_types,id';
-        $rules['item_price'] = 'required|numeric';
+        $rules['unit_price'] = 'required|numeric';
         $rules['qty'] = 'numeric';
         $rules['reorder_level'] = 'numeric';
         $rules['EOQ'] = 'numeric';
@@ -40,23 +40,23 @@ class CreateItemPriceRequest extends ItemPriceRequest
     public function sanitize()
     {
         $input = $this->all();
-        if (count($input)) {
-            if (!empty($input['start_date'])) {
+        if (isset($input)) {
+            if (isset($input['start_date'])) {
                 $input['start_date'] = filter_var($input['start_date'], FILTER_SANITIZE_STRING);
             }
-            if (!empty($input['end_date'])) {
+            if (isset($input['end_date'])) {
                 $input['end_date'] = filter_var($input['end_date'], FILTER_SANITIZE_STRING);
             }
-            if (!empty($input['item_price'])) {
-                $input['item_price'] = filter_var($input['item_price'], FILTER_SANITIZE_NUMBER_FLOAT);
+            if (isset($input['unit_price'])) {
+                $input['unit_price'] = filter_var($input['unit_price'], FILTER_SANITIZE_NUMBER_FLOAT);
             }
-            if (!empty($input['product_id'])) {
+            if (isset($input['product_id'])) {
                 $input['product_id'] = filter_var($input['product_id'], FILTER_SANITIZE_NUMBER_INT);
             }
-            if (!empty($input['client_type_id'])) {
+            if (isset($input['client_type_id'])) {
                 $input['client_type_id'] = filter_var($input['client_type_id'], FILTER_SANITIZE_NUMBER_INT);
             }
-            if (!empty($input['notes'])) {
+            if (isset($input['notes'])) {
                 $input['notes'] = filter_var($input['notes'], FILTER_SANITIZE_STRING);
             }
 
@@ -67,19 +67,19 @@ class CreateItemPriceRequest extends ItemPriceRequest
     protected function validationData()
     {
         $input = $this->all();
-        if (!empty($input['product_id'])) {
+        if (isset($input['product_id'])) {
             $input['product_id'] = Product::getPrivateId($input['product_id']);
         }
-        if (!empty($input['client_type_id'])) {
+        if (isset($input['client_type_id'])) {
             $input['client_type_id'] = ClientType::getPrivateId($input['client_type_id']);
         }
-        if (!empty($input['start_date'])) {
+        if (isset($input['start_date'])) {
             $input['start_date'] = Utils::toSqlDate($input['start_date']);
         }
-        if (!empty($input['end_date'])) {
+        if (isset($input['end_date'])) {
             $input['end_date'] = Utils::toSqlDate($input['end_date']);
         }
-        if (!empty($input['product_id']) && !empty($input['client_type_id'])) {
+        if (isset($input['product_id']) && isset($input['client_type_id'])) {
             $this->request->add([
                 'product_id' => $input['product_id'],
                 'client_type_id' => $input['client_type_id'],

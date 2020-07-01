@@ -185,7 +185,7 @@ class ItemStoreRepository extends BaseRepository
         if ($update) {
 //         update quantity
             $this->qoh = (int)$itemStore->qty;
-            if (!empty($data['qty'])) {
+            if (isset($data['qty'])) {
                 if ((int)$data['qty'] > 0) {
                     $movable = ItemMovement::createNew();
                     $movable->qty = (int)$data['qty'];
@@ -197,7 +197,7 @@ class ItemStoreRepository extends BaseRepository
             }
         } else {
 //           create new quantity
-            if (!empty($data['qty'])) {
+            if (isset($data['qty'])) {
                 if ((int)$data['qty'] > 0) {
                     $movable = ItemMovement::createNew();
                     $movable->qty = (int)$data['qty'];
@@ -217,7 +217,7 @@ class ItemStoreRepository extends BaseRepository
         $max = SIMILAR_MIN_THRESHOLD;
         $itemStoreId = 0;
         $itemStores = ItemStore::scope()->get();
-        if (!empty($itemStores)) {
+        if (isset($itemStores)) {
             foreach ($itemStores as $itemStore) {
                 if (!$itemStore->bin) {
                     continue;

@@ -7,7 +7,6 @@ use App\Http\Requests\ItemPriceRequest;
 use App\Http\Requests\UpdateItemPriceRequest;
 use App\Libraries\Utils;
 use App\Models\Product;
-use App\Models\ClientType;
 use App\Ninja\Datatables\ItemPriceDatatable;
 use App\Ninja\Repositories\ItemPriceRepository;
 use App\Services\ItemPriceService;
@@ -51,10 +50,10 @@ class ItemPriceController extends BaseController
         return $this->itemPriceService->getDatatableProduct($productPublicId);
     }
 
-    public function getDatatableClientType($clientTypeTypePublicId = null)
-    {
-        return $this->itemPriceService->getDatatableClientType($clientTypeTypePublicId);
-    }
+//    public function getDatatableClientType($clientTypeTypePublicId = null)
+//    {
+//        return $this->itemPriceService->getDatatableClientType($clientTypeTypePublicId);
+//    }
 
     public function create(ItemPriceRequest $request)
     {
@@ -64,21 +63,14 @@ class ItemPriceController extends BaseController
         } else {
             $product = null;
         }
-        if ($request->client_type_id != 0) {
-            $clientType = ClientType::scope($request->client_type_id)->firstOrFail();
-        } else {
-            $clientType = null;
-        }
 
         $data = [
             'product' => $product,
-            'clientType' => $clientType,
             'itemPrice' => null,
             'method' => 'POST',
             'url' => 'item_prices',
             'title' => trans('texts.new_item_price'),
             'productPublicId' => Input::old('product') ? Input::old('product') : $request->product_id,
-            'clientTypePublicId' => Input::old('clientType') ? Input::old('clientType') : $request->client_type_id,
         ];
 
         $data = array_merge($data, self::getViewModel());
@@ -89,10 +81,11 @@ class ItemPriceController extends BaseController
     public function store(CreateItemPriceRequest $request)
     {
         $data = $request->input();
-
         $itemPrice = $this->itemPriceService->save($data);
+        $message = trans('texts.created_item_price');
+        Session::flash('message', $message);
 
-        return redirect()->to("item_prices/{$itemPrice->public_id}/edit")->with('success', trans('texts.created_item_price'));
+        return redirect()->to("item_prices/{$itemPrice->public_id}/edit");
     }
 
     public function edit(ItemPriceRequest $request, $publicId = false, $clone = false)
@@ -111,14 +104,12 @@ class ItemPriceController extends BaseController
         }
         $data = [
             'product' => null,
-            'clientType' => null,
             'itemPrice' => $itemPrice,
             'entity' => $itemPrice,
             'method' => $method,
             'url' => $url,
             'title' => trans('texts.edit_item_price'),
             'productPublicId' => $itemPrice->product ? $itemPrice->product->public_id : null,
-            'clientTypePublicId' => $itemPrice->clientType ? $itemPrice->clientType->public_id : null,
         ];
 
         $data = array_merge($data, self::getViewModel($itemPrice));
@@ -136,11 +127,13 @@ class ItemPriceController extends BaseController
         if (in_array($action, ['archive', 'delete', 'restore', 'invoice', 'add_to_invoice'])) {
             return self::bulk();
         }
+        $message = isset($itemPrice->public_id) ? trans('texts.updated_item_price') : trans('texts.clone_item_price');
+        Session::flash('message', $message);
 
         if ($action == 'clone') {
-            return redirect()->to(sprintf('item_prices/%s/clone', $itemPrice->public_id))->with('success', trans('texts.clone_item_price'));
+            return redirect()->to(sprintf('item_prices/%s/clone', $itemPrice->public_id));
         } else {
-            return redirect()->to("item_prices/{$itemPrice->public_id}/edit")->with('success', trans('texts.updated_item_price'));
+            return redirect()->to("item_prices/{$itemPrice->public_id}/edit");
         }
     }
 
@@ -157,8 +150,9 @@ class ItemPriceController extends BaseController
         $count = $this->itemPriceService->bulk($ids, $action);
 
         $message = Utils::pluralize($action . 'd_item_price', $count);
+        Session::flash('message', $message);
 
-        return $this->returnBulk(ENTITY_ITEM_PRICE, $action, $ids)->with('success', $message);
+        return $this->returnBulk(ENTITY_ITEM_PRICE, $action, $ids);
     }
 
     private static function getViewModel($itemPrice = false)
@@ -166,8 +160,7 @@ class ItemPriceController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
-            'products' => Product::scope()->withActiveOrSelected(false)->products(),
-            'clientTypes' => ClientType::scope()->withActiveOrSelected($itemPrice ? $itemPrice->client_type_id : false)->orderBy('name')->get(),
+            'products' => Product::scope()->withActiveOrSelected(false)->products()->orderBy('product_key')->get(),
         ];
     }
 

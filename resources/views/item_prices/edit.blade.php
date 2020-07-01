@@ -5,7 +5,12 @@
     {!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['product_id' => 'required','client_type_id' => 'required','item_price' => 'required|numeric','start_date' => 'required|date', 'end_date' => 'required|date','notes' => 'required', ])
+    ->rules(['product_id' => 'required',
+    'client_type_id' => 'required',
+    'unit_price' => 'required|numeric',
+    'start_date' => 'required|date',
+     'end_date' => 'required|date',
+     'notes' => 'required', ])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     @if ($itemPrice)
         {{ Former::populate($itemPrice) }}
@@ -14,24 +19,25 @@
         </div>
     @endif
     <span style="display:none">
-    {!! Former::text('public_id') !!}
         {!! Former::text('action') !!}
     </span>
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
-                    {!! Former::select('product_id')->addOption('', '')
-                    ->label(trans('texts.product_key'))
-                    ->addGroupClass('product-select')
-                    ->help(trans('texts.item_help') . ' | ' . link_to('/products/', trans('texts.customize_options')))
-                    !!}
-                    {!! Former::select('client_type_id')->addOption('', '')
-                    ->label(trans('texts.client_type_name'))
-                    ->addGroupClass('client-type-select')
-                    ->help(trans('texts.client_type_help') . ' | ' . link_to('/client_clientTypes/', trans('texts.customize_options')))
-                    !!}
-                    {!! Former::text('item_price')->label('texts.item_price') !!}
+                    <!-- product key -->
+                {!! Former::select('product_id')->addOption('', '')
+                ->label(trans('texts.product_key'))
+                ->addGroupClass('product-select')
+                ->help(trans('texts.item_help') . ' | ' . link_to('/products/', trans('texts.customize_options')))
+                !!}
+                <!-- client type -->
+                {!! Former::select('client_type_id')
+                ->addOption('', '')
+                ->fromQuery($clientTypes, 'name', 'id')
+                ->label(trans('texts.client_type_name')) !!}
+                <!-- item price -->
+                    {!! Former::text('unit_price')->label('texts.unit_price') !!}
                     {!! Former::text('start_date')
                     ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
                     ->appendIcon('calendar')
@@ -64,9 +70,6 @@
     <script type="text/javascript">
         var products = {!! $products !!};
         var productMap = {};
-        <!-- clientTypes type -->
-        var clientTypes = {!! $clientTypes !!};
-        var clientTypeMap = {};
 
         $(function () {
             $('#name').focus();
@@ -89,22 +92,6 @@
                 var product = productMap[productId];
                 setComboboxValue($('.product-select'), product.public_id, product.product_key);
             }<!-- /. product  -->
-
-            var typeId = {{ $clientTypePublicId ?: 0 }};
-            var $client_typeSelect = $('select#client_type_id');
-            @if (Auth::user()->can('create', ENTITY_CLIENT_TYPE))
-            $client_typeSelect.append(new Option("{{ trans('texts.create_client_type')}}: $name", '-1'));
-                    @endif
-            for (var i = 0; i < clientTypes.length; i++) {
-                var clientType = clientTypes[i];
-                clientTypeMap[clientType.public_id] = clientType;
-                $client_typeSelect.append(new Option(clientType.name, clientType.public_id));
-            }
-            @include('partials/entity_combobox', ['entityType' => ENTITY_CLIENT_TYPE])
-            if (clientTypeId) {
-                var clientType = clientTypeMap[clientTypeId];
-                setComboboxValue($('.client-type-select'), clientType.public_id, clientType.name);
-            }
 
         });
 

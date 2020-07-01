@@ -5,7 +5,12 @@
     {!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['bin' => 'required|max:90','product_id' => 'required' ,'store_id' => 'required','qty' => 'required|numeric','reorder_level' => 'required|numeric','notes' => 'required' ])
+    ->rules(['bin' => 'required|max:90',
+    'product_id' => 'required' ,
+    'store_id' => 'required',
+    'qty' => 'required|numeric',
+    'reorder_level' => 'required|numeric',
+    'notes' => 'required' ])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     @if ($itemStore)
         {{ Former::populate($itemStore) }}
@@ -17,7 +22,7 @@
 
     <span style="display:none">
         {!! Former::text('action') !!}
-        </span>
+    </span>
 
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">

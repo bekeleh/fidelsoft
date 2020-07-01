@@ -37,7 +37,7 @@ class CreateItemStoreRequest extends ItemStoreRequest
     public function sanitize()
     {
         $input = $this->all();
-        if (count($input)) {
+        if (isset($input)) {
             if (isset($input['product_id'])) {
                 $input['product_id'] = filter_var($input['product_id'], FILTER_SANITIZE_NUMBER_INT);
             }

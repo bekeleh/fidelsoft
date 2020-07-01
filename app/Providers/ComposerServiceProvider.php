@@ -25,6 +25,7 @@ class ComposerServiceProvider extends ServiceProvider
                 'payments.credit_card',
                 'invited.details',
                 'products.edit',
+                'item_prices.edit',
             ],
             'App\Http\ViewComposers\TranslationComposer'
         );

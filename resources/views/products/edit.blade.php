@@ -17,6 +17,9 @@
     @if ($product)
         {{ Former::populate($product) }}
         {{ Former::populateField('cost', Utils::roundSignificant($product->cost)) }}
+        <div style="display:none">
+            {!! Former::text('public_id') !!}
+        </div>
     @endif
     <span style="display:none">
         {!! Former::text('action') !!}
@@ -40,21 +43,18 @@
                 ->help(trans('texts.item_brand_help') . ' | ' . link_to('/item_brands/', trans('texts.customize_options')))
                 !!}
                 <!-- item type product/service-->
-                {!! Former::select('item_type_id')
+                {!! Former::select('item_type_id')->addOption('','')
                 ->fromQuery($itemTypes, 'name', 'id')
-                ->addOption('','')
                 ->label(trans('texts.item_type_name'))
                 !!}
                 <!-- tax category-->
-                {!! Former::select('tax_category_id')
+                {!! Former::select('tax_category_id')->addOption('','')
                 ->fromQuery($taxCategories, 'name', 'id')
-                ->addOption('','')
                 ->label(trans('texts.tax_category_name'))
                 !!}
                 <!-- unit of measure-->
-                {!! Former::select('unit_id')
+                {!! Former::select('unit_id')->addOption('','')
                 ->fromQuery($units, 'name', 'id')
-                ->addOption('','')
                 ->label(trans('texts.unit_name'))
                 !!}
                 <!-- product notes -->

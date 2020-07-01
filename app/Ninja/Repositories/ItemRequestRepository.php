@@ -11,7 +11,6 @@ use App\Models\Store;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class ItemRequestRepository extends BaseRepository
 {
@@ -102,7 +101,7 @@ class ItemRequestRepository extends BaseRepository
             $itemRequest->created_by = Auth::user()->username;
         }
 
-        if (empty($data['status_id'])) {
+        if (!isset($data['status_id'])) {
             $itemRequest->status_id = Utils::getStatusId('pending');
         }
 

@@ -18,6 +18,10 @@
 
         <?php echo e(Former::populateField('cost', Utils::roundSignificant($product->cost))); ?>
 
+        <div style="display:none">
+            <?php echo Former::text('public_id'); ?>
+
+        </div>
     <?php endif; ?>
     <span style="display:none">
         <?php echo Former::text('action'); ?>
@@ -48,21 +52,18 @@
                 ->help(trans('texts.item_brand_help') . ' | ' . link_to('/item_brands/', trans('texts.customize_options'))); ?>
 
                 <!-- item type product/service-->
-                <?php echo Former::select('item_type_id')
+                <?php echo Former::select('item_type_id')->addOption('','')
                 ->fromQuery($itemTypes, 'name', 'id')
-                ->addOption('','')
                 ->label(trans('texts.item_type_name')); ?>
 
                 <!-- tax category-->
-                <?php echo Former::select('tax_category_id')
+                <?php echo Former::select('tax_category_id')->addOption('','')
                 ->fromQuery($taxCategories, 'name', 'id')
-                ->addOption('','')
                 ->label(trans('texts.tax_category_name')); ?>
 
                 <!-- unit of measure-->
-                <?php echo Former::select('unit_id')
+                <?php echo Former::select('unit_id')->addOption('','')
                 ->fromQuery($units, 'name', 'id')
-                ->addOption('','')
                 ->label(trans('texts.unit_name')); ?>
 
                 <!-- product notes -->

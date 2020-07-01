@@ -18,20 +18,20 @@ class ItemPriceDatatable extends EntityDatatable
 
         return [
             [
-                'item_name',
+                'product_name',
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_PRODUCT, $model])) {
-                        return link_to('products/' . $model->public_id . '/edit', $model->item_name)->toHtml();
+                    if ($model->product_public_id) {
+                        return link_to('products/' . $model->product_public_id . '/edit', $model->product_name)->toHtml();
                     } else {
-                        $model->item_name;
+                        $model->product_name;
                     }
                 },
             ],
             [
                 'item_brand_name',
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_ITEM_BRAND, $model])) {
-                        return link_to('item_brands/' . $model->public_id . '/edit', $model->item_brand_name)->toHtml();
+                    if ($model->item_brand_public_id) {
+                        return link_to('item_brands/' . $model->item_brand_public_id . '/edit', $model->item_brand_name)->toHtml();
                     } else {
                         $model->item_brand_name;
                     }
@@ -40,8 +40,8 @@ class ItemPriceDatatable extends EntityDatatable
             [
                 'item_category_name',
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_ITEM_CATEGORY, $model])) {
-                        return link_to('item_categories/' . $model->public_id . '/edit', $model->item_category_name)->toHtml();
+                    if ($model->item_category_public_id) {
+                        return link_to('item_categories/' . $model->item_category_public_id . '/edit', $model->item_category_name)->toHtml();
                     } else {
                         $model->item_category_name;
                     }
@@ -50,18 +50,15 @@ class ItemPriceDatatable extends EntityDatatable
             [
                 'client_type_name',
                 function ($model) {
-                    if ($model->client_type_id) {
-                        if (Auth::user()->can('view', [ENTITY_SALE_TYPE, $model]))
-                            return link_to("client_types/{$model->client_type_id}", $model->client_type_name)->toHtml();
-                        else
-                            return $model->client_type_name;
+                    if ($model->client_type_public_id) {
+                        return link_to("client_types/{$model->client_type_public_id}", $model->client_type_name)->toHtml();
                     } else {
-                        return '';
+                        return $model->client_type_name;
                     }
                 }
             ],
             [
-                'item_price',
+                'unit_price',
                 function ($model) {
                     return self::getStatusLabel($model);
                 },
@@ -159,8 +156,8 @@ class ItemPriceDatatable extends EntityDatatable
     private function getStatusLabel($model)
     {
 
-        $class = ItemPrice::getStatusClass($model->item_price, $model->cost);
+        $class = ItemPrice::getStatusClass($model->unit_price, $model->cost);
 
-        return "<h4><div class=\"label label-{$class}\">$model->item_price</div></h4>";
+        return "<h4><div class=\"label label-{$class}\">$model->unit_price</div></h4>";
     }
 }

@@ -13,7 +13,6 @@ class ItemPrice extends EntityModel
     use PresentableTrait;
     use SoftDeletes;
 
-
     protected $presenter = 'App\Ninja\Presenters\ItemPricePresenter';
 
     protected $dates = ['start_date', 'end_date', 'created_at', 'updated_at', 'deleted_at'];
@@ -21,7 +20,7 @@ class ItemPrice extends EntityModel
     protected $fillable = [
         'product_id',
         'client_type_id',
-        'item_price',
+        'unit_price',
         'start_date',
         'end_date',
         'notes',
