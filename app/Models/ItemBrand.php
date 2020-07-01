@@ -76,7 +76,7 @@ class ItemBrand extends EntityModel
                 'item_brands.id',
                 'item_brands.public_id',
                 'item_brands.name',
-                DB::raw("CONCAT(NULLIF(item_brands.name,''), ' ', NULLIF(item_categories.name,'')) name")
+                DB::raw("COALESCE(CONCAT(NULLIF(item_brands.name,''), ' ', NULLIF(item_categories.name,'')), NULLIF(item_brands.name,'')) name")
             );
 
         return $query->whereNotNull('item_brands.name');

@@ -167,21 +167,4 @@ class Product extends EntityModel
         return $query->whereNotNull('products.product_key');
     }
 
-//    public function scopeProductWithBrand()
-//    {
-//        $query = DB::table('products')
-//            ->leftJoin('products', 'products.id', '=', 'products.item_brand_id')
-//            ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_category_id')
-////            ->where('products.account_id', $accountId)
-////            ->whereNotNull('products.product_key')
-//            ->whereNull('products.deleted_at')
-//            ->select(
-//                'products.id',
-//                'products.public_id',
-//                DB::raw("CONCAT(NULLIF(products.product_key,''), ' ', NULLIF(products.name,''), ' ', NULLIF(item_brands.name,'')) product_key")
-//            );
-//
-//        return $query->whereNotNull('name');
-//    }
-
 }
