@@ -20,50 +20,46 @@ class ItemStoreDatatable extends EntityDatatable
             [
                 'product_key',
                 function ($model) {
-                    if ($model->public_id) {
-                        if (Auth::user()->can('view', [ENTITY_PRODUCT, $model]))
-                            return link_to("products/{$model->public_id}", $model->product_key)->toHtml();
-                        else
-                            return $model->item_name;
+                    if ($model->product_public_id) {
+                        return link_to("products/{$model->product_public_id}", 
+                            $model->product_key)->toHtml();
+                    }else{
+                        return $model->product_key;
                     }
-                    return null;
-                }
+                },
             ],
             [
                 'item_brand_name',
                 function ($model) {
-                    if ($model->public_id) {
-                        if (Auth::user()->can('view', [ENTITY_ITEM_BRAND, $model]))
-                            return link_to("item_brands/{$model->public_id}", $model->item_brand_name)->toHtml();
-                        else
-                            return $model->item_brand_name;
+                    if ($model->item_brand_public_id) {
+                        return link_to("item_brands/{$model->item_brand_public_id}", 
+                            $model->item_brand_name)->toHtml();
+                    }else{
+                        return $model->item_brand_name;
                     }
-                    return null;
-                }
+                },
             ],
             [
                 'item_category_name',
                 function ($model) {
-                    if ($model->public_id) {
-                        if (Auth::user()->can('view', [ENTITY_ITEM_CATEGORY, $model]))
-                            return link_to("item_categories/{$model->public_id}", $model->item_category_name)->toHtml();
-                        else
-                            return $model->item_category_name;
+                    if ($model->item_category_public_id) {
+                        return link_to("item_categories/{$model->item_category_public_id}", 
+                            $model->item_category_name)->toHtml();
+                    }else{
+                        return $model->item_category_name;
                     }
-                    return null;
-                }
+                },
             ],
             [
                 'store_name',
                 function ($model) {
-                    if ($model->store_id) {
-                        if (Auth::user()->can('view', [ENTITY_STORE, $model]))
-                            return link_to("stores/{$model->public_id}", $model->store_name)->toHtml();
-                        else
-                            return $model->store_name;
+                    if ($model->store_public_id) {
+                        return link_to("stores/{$model->store_public_id}", 
+                            $model->store_name)->toHtml();
+                    }else{
+                        return $model->store_name;
                     }
-                    return null;
-                }
+                },
             ],
             [
                 'bin',

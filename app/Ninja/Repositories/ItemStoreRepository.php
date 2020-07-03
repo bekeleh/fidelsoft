@@ -35,48 +35,52 @@ class ItemStoreRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('item_stores')
-            ->leftJoin('accounts', 'accounts.id', '=', 'item_stores.account_id')
-            ->leftJoin('users', 'users.id', '=', 'item_stores.user_id')
-            ->leftJoin('products', 'products.id', '=', 'item_stores.product_id')
-            ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
-            ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
-            ->leftJoin('stores', 'stores.id', '=', 'item_stores.store_id')
-            ->where('item_stores.account_id', '=', $accountId)
+        ->leftJoin('accounts', 'accounts.id', '=', 'item_stores.account_id')
+        ->leftJoin('users', 'users.id', '=', 'item_stores.user_id')
+        ->leftJoin('products', 'products.id', '=', 'item_stores.product_id')
+        ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
+        ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
+        ->leftJoin('stores', 'stores.id', '=', 'item_stores.store_id')
+        ->where('item_stores.account_id', '=', $accountId)
             //->where('item_stores.deleted_at', '=', null)
-            ->select(
-                'item_stores.id',
-                'item_stores.public_id',
-                'item_stores.product_id',
-                'item_stores.store_id',
-                'item_stores.bin',
-                'item_stores.qty',
-                'item_stores.reorder_level',
-                'item_stores.EOQ',
-                'item_stores.is_deleted',
-                'item_stores.notes',
-                'item_stores.created_at',
-                'item_stores.updated_at',
-                'item_stores.deleted_at',
-                'item_stores.created_by',
-                'item_stores.updated_by',
-                'item_stores.deleted_by',
-                'products.product_key',
-                'item_brands.name as item_brand_name',
-                'item_categories.name as item_category_name',
-                'stores.name as store_name'
-            );
+        ->select(
+            'item_stores.id',
+            'item_stores.public_id',
+            'item_stores.product_id',
+            'item_stores.store_id',
+            'item_stores.bin',
+            'item_stores.qty',
+            'item_stores.reorder_level',
+            'item_stores.EOQ',
+            'item_stores.is_deleted',
+            'item_stores.notes',
+            'item_stores.created_at',
+            'item_stores.updated_at',
+            'item_stores.deleted_at',
+            'item_stores.created_by',
+            'item_stores.updated_by',
+            'item_stores.deleted_by',
+            'products.public_id as product_public_id',
+            'products.product_key',
+            'item_brands.public_id as item_brand_public_id',
+            'item_brands.name as item_brand_name',
+            'item_categories.public_id as item_category_public_id',
+            'item_categories.name as item_category_name',
+            'stores.public_id as store_public_id',
+            'stores.name as store_name'
+        );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->Where('item_brands.name', 'like', '%' . $filter . '%')
-                    ->orWhere('item_categories.name', 'like', '%' . $filter . '%')
-                    ->orWhere('products.product_key', 'like', '%' . $filter . '%')
-                    ->orWhere('stores.name', 'like', '%' . $filter . '%')
-                    ->orWhere('item_stores.notes', 'like', '%' . $filter . '%')
-                    ->orWhere('item_stores.bin', 'like', '%' . $filter . '%')
-                    ->orWhere('item_stores.qty', 'like', '%' . $filter . '%')
-                    ->orWhere('item_stores.created_by', 'like', '%' . $filter . '%')
-                    ->orWhere('item_stores.updated_by', 'like', '%' . $filter . '%');
+                ->orWhere('item_categories.name', 'like', '%' . $filter . '%')
+                ->orWhere('products.product_key', 'like', '%' . $filter . '%')
+                ->orWhere('stores.name', 'like', '%' . $filter . '%')
+                ->orWhere('item_stores.notes', 'like', '%' . $filter . '%')
+                ->orWhere('item_stores.bin', 'like', '%' . $filter . '%')
+                ->orWhere('item_stores.qty', 'like', '%' . $filter . '%')
+                ->orWhere('item_stores.created_by', 'like', '%' . $filter . '%')
+                ->orWhere('item_stores.updated_by', 'like', '%' . $filter . '%');
             });
         }
 
@@ -92,22 +96,22 @@ class ItemStoreRepository extends BaseRepository
         }
 
         $query = DB::table('item_stores')
-            ->leftJoin('accounts', 'accounts.id', '=', 'item_stores.account_id')
-            ->leftJoin('users', 'users.id', '=', 'item_stores.user_id')
-            ->leftJoin('products', 'products.id', '=', 'item_stores.product_id')
-            ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
-            ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
-            ->leftJoin('stores', 'stores.id', '=', 'item_stores.store_id')
-            ->Where('item_stores.store_id', '=', $filter)
-            ->where('item_stores.account_id', '=', $accountId)
-            ->where('item_stores.qty', '>', 0)
+        ->leftJoin('accounts', 'accounts.id', '=', 'item_stores.account_id')
+        ->leftJoin('users', 'users.id', '=', 'item_stores.user_id')
+        ->leftJoin('products', 'products.id', '=', 'item_stores.product_id')
+        ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
+        ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
+        ->leftJoin('stores', 'stores.id', '=', 'item_stores.store_id')
+        ->Where('item_stores.store_id', '=', $filter)
+        ->where('item_stores.account_id', '=', $accountId)
+        ->where('item_stores.qty', '>', 0)
             //->where('item_stores.deleted_at', '=', null)
-            ->select(
-                'products.id as id',
-                'products.product_key as name',
-                'item_brands.name as item_brand_name',
-                'item_categories.name as item_category_name'
-            )->get();
+        ->select(
+            'products.id as id',
+            'products.product_key as name',
+            'item_brands.name as item_brand_name',
+            'item_categories.name as item_category_name'
+        )->get();
 
         if (!$query) {
             return null;
