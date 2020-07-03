@@ -28,28 +28,29 @@ class PermissionGroupRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('permission_groups')
-            ->join('accounts', 'accounts.id', '=', 'permission_groups.account_id')
-            ->where('permission_groups.account_id', '=', $accountId)
+        ->leftJoin('accounts', 'accounts.id', '=', 'permission_groups.account_id')
+        ->leftJoin('users', 'users.id', '=', 'permission_groups.user_id')
+        ->where('permission_groups.account_id', '=', $accountId)
             //->where('permission_groups.deleted_at', '=', null)
-            ->select(
-                'permission_groups.id',
-                'permission_groups.public_id',
-                'permission_groups.name as permission_group_name',
-                'permission_groups.is_deleted',
-                'permission_groups.notes',
-                'permission_groups.created_at',
-                'permission_groups.updated_at',
-                'permission_groups.deleted_at',
-                'permission_groups.created_by',
-                'permission_groups.updated_by',
-                'permission_groups.deleted_by'
-            );
+        ->select(
+            'permission_groups.id',
+            'permission_groups.public_id',
+            'permission_groups.name as permission_group_name',
+            'permission_groups.is_deleted',
+            'permission_groups.notes',
+            'permission_groups.created_at',
+            'permission_groups.updated_at',
+            'permission_groups.deleted_at',
+            'permission_groups.created_by',
+            'permission_groups.updated_by',
+            'permission_groups.deleted_by'
+        );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('permission_groups.name', 'like', '%' . $filter . '%')
-                    ->orWhere('permission_groups.created_by', 'like', '%' . $filter . '%')
-                    ->orWhere('permission_groups.notes', 'like', '%' . $filter . '%');
+                ->orWhere('permission_groups.created_by', 'like', '%' . $filter . '%')
+                ->orWhere('permission_groups.notes', 'like', '%' . $filter . '%');
             });
         }
 

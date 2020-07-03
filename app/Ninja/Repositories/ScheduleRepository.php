@@ -29,32 +29,34 @@ class ScheduleRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('schedules')
-            ->where('schedules.account_id', '=', $accountId)
+        ->leftJoin('accounts', 'accounts.id', '=', 'schedules.account_id')
+        ->leftJoin('users', 'users.id', '=', 'schedules.user_id')
+        ->where('schedules.account_id', '=', $accountId)
 //            ->where('schedules.deleted_at', '=', null)
-            ->select(
-                'schedules.public_id',
-                'schedules.user_id',
-                'schedules.title',
-                'schedules.description',
-                'schedules.notes',
-                'schedules.rrule',
-                'schedules.url',
-                'schedules.will_call',
-                'schedules.isRecurring',
-                'schedules.is_deleted',
-                'schedules.created_by',
-                'schedules.updated_by',
-                'schedules.deleted_by',
-                'schedules.created_at',
-                'schedules.updated_at',
-                'schedules.deleted_at',
-                'schedules.is_deleted'
-            );
+        ->select(
+            'schedules.public_id',
+            'schedules.user_id',
+            'schedules.title',
+            'schedules.description',
+            'schedules.notes',
+            'schedules.rrule',
+            'schedules.url',
+            'schedules.will_call',
+            'schedules.isRecurring',
+            'schedules.is_deleted',
+            'schedules.created_by',
+            'schedules.updated_by',
+            'schedules.deleted_by',
+            'schedules.created_at',
+            'schedules.updated_at',
+            'schedules.deleted_at',
+            'schedules.is_deleted'
+        );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('schedules.title', 'like', '%' . $filter . '%')
-                    ->orwhere('schedules.description', 'like', '%' . $filter . '%');
+                ->orwhere('schedules.description', 'like', '%' . $filter . '%');
             });
         }
 

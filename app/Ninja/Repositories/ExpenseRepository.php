@@ -53,14 +53,14 @@ class ExpenseRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('expenses')
-            ->join('accounts', 'accounts.id', '=', 'expenses.account_id')
+            ->leftjoin('accounts', 'accounts.id', '=', 'expenses.account_id')
             ->leftjoin('clients', 'clients.id', '=', 'expenses.client_id')
             ->leftJoin('contacts', 'contacts.client_id', '=', 'clients.id')
             ->leftjoin('vendors', 'vendors.id', '=', 'expenses.vendor_id')
             ->leftJoin('invoices', 'invoices.id', '=', 'expenses.invoice_id')
             ->leftJoin('expense_categories', 'expenses.expense_category_id', '=', 'expense_categories.id')
             ->where('expenses.account_id', '=', $accountId)
-            ->where('contacts.deleted_at', '=', null)
+            // ->where('contacts.deleted_at', '=', null)
             //->where('vendors.deleted_at', '=', null)
             //->where('clients.deleted_at', '=', null)
             ->where(function ($query) { // handle when client isn't set

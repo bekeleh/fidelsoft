@@ -146,8 +146,7 @@ class EntityModel extends Eloquent
     {
         // If 'false' is passed as the publicId return nothing rather than everything
         if (func_num_args() > 1 && !$publicId && !$accountId) {
-            $query->where($this->getTable() . '.id', '=', 0);
-
+            $query->where($this->getTable() . '.id', 0);
             return $query;
         }
 

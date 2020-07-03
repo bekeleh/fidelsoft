@@ -32,49 +32,51 @@ class ProposalRepository extends BaseRepository
     public function find($account = false, $filter = null, $userId = false)
     {
         $query = DB::table('proposals')
-            ->where('proposals.account_id', '=', Auth::user()->account_id)
-            ->leftjoin('invoices', 'invoices.id', '=', 'proposals.invoice_id')
-            ->leftjoin('clients', 'clients.id', '=', 'invoices.client_id')
-            ->leftJoin('contacts', 'contacts.client_id', '=', 'clients.id')
-            ->leftJoin('proposal_templates', 'proposal_templates.id', '=', 'proposals.proposal_template_id')
-            ->where('clients.deleted_at', '=', null)
-            ->where('contacts.deleted_at', '=', null)
-            ->where('contacts.is_primary', '=', true)
-            ->select(
-                'proposals.public_id',
-                'proposals.user_id',
-                'proposals.deleted_at',
-                'proposals.created_at',
-                'proposals.is_deleted',
-                'proposals.private_notes',
-                'proposals.html as content',
-                'proposals.created_at',
-                'proposals.updated_at',
-                'proposals.deleted_at',
-                'proposals.created_by',
-                'proposals.updated_by',
-                'proposals.deleted_by',
-                DB::raw("COALESCE(NULLIF(clients.name,''), NULLIF(CONCAT(contacts.first_name, ' ', contacts.last_name),''), NULLIF(contacts.email,'')) client"),
-                'clients.user_id as client_user_id',
-                'clients.public_id as client_public_id',
-                'invoices.invoice_number as quote',
-                'invoices.invoice_number as invoice_number',
-                'invoices.public_id as invoice_public_id',
-                'invoices.user_id as invoice_user_id',
-                'proposal_templates.name as template',
-                'proposal_templates.public_id as template_public_id',
-                'proposal_templates.user_id as template_user_id'
-            );
+        ->leftJoin('accounts', 'accounts.id', '=', 'proposals.account_id')
+        ->leftJoin('users', 'users.id', '=', 'proposals.user_id')
+        ->leftjoin('invoices', 'invoices.id', '=', 'proposals.invoice_id')
+        ->leftjoin('clients', 'clients.id', '=', 'invoices.client_id')
+        ->leftJoin('contacts', 'contacts.client_id', '=', 'clients.id')
+        ->leftJoin('proposal_templates', 'proposal_templates.id', '=', 'proposals.proposal_template_id')
+        ->where('proposals.account_id', '=', Auth::user()->account_id)
+        ->where('clients.deleted_at', '=', null)
+        ->where('contacts.deleted_at', '=', null)
+        ->where('contacts.is_primary', '=', true)
+        ->select(
+            'proposals.public_id',
+            'proposals.user_id',
+            'proposals.deleted_at',
+            'proposals.created_at',
+            'proposals.is_deleted',
+            'proposals.private_notes',
+            'proposals.html as content',
+            'proposals.created_at',
+            'proposals.updated_at',
+            'proposals.deleted_at',
+            'proposals.created_by',
+            'proposals.updated_by',
+            'proposals.deleted_by',
+            DB::raw("COALESCE(NULLIF(clients.name,''), NULLIF(CONCAT(contacts.first_name, ' ', contacts.last_name),''), NULLIF(contacts.email,'')) client"),
+            'clients.user_id as client_user_id',
+            'clients.public_id as client_public_id',
+            'invoices.invoice_number as quote',
+            'invoices.invoice_number as invoice_number',
+            'invoices.public_id as invoice_public_id',
+            'invoices.user_id as invoice_user_id',
+            'proposal_templates.name as template',
+            'proposal_templates.public_id as template_public_id',
+            'proposal_templates.user_id as template_user_id'
+        );
 
         $this->applyFilters($query, ENTITY_PROPOSAL);
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('clients.name', 'like', '%' . $filter . '%')
-                    ->orWhere('contacts.first_name', 'like', '%' . $filter . '%')
-                    ->orWhere('contacts.last_name', 'like', '%' . $filter . '%')
-                    ->orWhere('contacts.email', 'like', '%' . $filter . '%')
-                    ->orWhere('invoices.invoice_number', 'like', '%' . $filter . '%');
+                ->orWhere('contacts.first_name', 'like', '%' . $filter . '%')
+                ->orWhere('contacts.last_name', 'like', '%' . $filter . '%')
+                ->orWhere('contacts.email', 'like', '%' . $filter . '%')
+                ->orWhere('invoices.invoice_number', 'like', '%' . $filter . '%');
             });
         }
 

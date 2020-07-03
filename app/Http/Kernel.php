@@ -16,6 +16,7 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
 
     /**
@@ -30,13 +31,13 @@ class Kernel extends HttpKernel
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
-            //\Illuminate\Routing\Middleware\SubstituteBindings::class,
             \Illuminate\Foundation\Http\Middleware\TrimStrings::class,
             \App\Http\Middleware\DuplicateSubmissionCheck::class,
             \App\Http\Middleware\QueryLogging::class,
             \App\Http\Middleware\StartupCheck::class,
             \App\Http\Middleware\CheckBanned::class,
         ],
+
         'api' => [
             \App\Http\Middleware\QueryLogging::class,
             \App\Http\Middleware\ApiCheck::class,
@@ -66,5 +67,25 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'lookup' => \App\Http\Middleware\DatabaseLookup::class,
         'permissions.required' => \App\Http\Middleware\PermissionsRequired::class,
+        'migration' => \App\Http\Middleware\EligibleForMigration::class,
     ];
+
+    /**
+     *
+     * The priority-sorted list of middleware.
+     *
+     * this forces non-global middleware to always be in the given order.
+     *
+     * @var array
+     */
+    protected $middlewarePriority = [
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        \App\Http\Middleware\Authenticate::class,
+        \Illuminate\Session\Middleware\AuthenticateSession::class,
+        \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        \Illuminate\Auth\Middleware\Authorize::class,
+
+    ];
+    
 }

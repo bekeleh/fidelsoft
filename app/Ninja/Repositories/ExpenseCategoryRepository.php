@@ -30,7 +30,7 @@ class ExpenseCategoryRepository extends BaseRepository
     {
         $query = DB::table('expense_categories')
             ->where('expense_categories.account_id', '=', $accountId)
-//            ->where('expense_categories.deleted_at', '=', null)
+           // ->whereNull('expense_categories.deleted_at')
             ->select(
                 'expense_categories.name as expense_category_name',
                 'expense_categories.public_id',

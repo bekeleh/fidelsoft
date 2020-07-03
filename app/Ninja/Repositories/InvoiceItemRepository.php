@@ -42,10 +42,10 @@ class InvoiceItemRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('invoice_items')
-            ->join('accounts', 'accounts.id', '=', 'invoice_items.account_id')
+            ->leftJoin('accounts', 'accounts.id', '=', 'invoice_items.account_id')
             ->leftJoin('products', 'products.id', '=', 'invoice_items.product_id')
             ->leftJoin('invoices', 'invoices.id', '=', 'invoice_items.invoice_id')
-            ->join('users', 'users.id', '=', 'invoice_items.user_id')
+            ->leftJoin('users', 'users.id', '=', 'invoice_items.user_id')
             ->where('invoice_items.invoice_item_type_id', '=', true)
             ->where('invoice_items.account_id', '=', $accountId)
 //            ->where('invoice_items.deleted_at', '=', null)

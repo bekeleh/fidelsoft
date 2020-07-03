@@ -28,26 +28,26 @@ class DepartmentRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('departments')
-            ->where('departments.account_id', '=', $accountId)
-//            ->where('departments.deleted_at', '=', null)
-            ->select(
-                'departments.id',
-                'departments.public_id',
-                'departments.name as department_name',
-                'departments.is_deleted',
-                'departments.notes',
-                'departments.created_at',
-                'departments.updated_at',
-                'departments.deleted_at',
-                'departments.created_by',
-                'departments.updated_by',
-                'departments.deleted_by'
-            );
+        ->where('departments.account_id', '=', $accountId)
+        // ->whereNull('departments.deleted_at')
+        ->select(
+            'departments.id',
+            'departments.public_id',
+            'departments.name as department_name',
+            'departments.is_deleted',
+            'departments.notes',
+            'departments.created_at',
+            'departments.updated_at',
+            'departments.deleted_at',
+            'departments.created_by',
+            'departments.updated_by',
+            'departments.deleted_by'
+        );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('departments.name', 'like', '%' . $filter . '%')
-                    ->orWhere('departments.notes', 'like', '%' . $filter . '%');
+                ->orWhere('departments.notes', 'like', '%' . $filter . '%');
             });
         }
 
@@ -69,8 +69,8 @@ class DepartmentRepository extends BaseRepository
             $department->created_by = auth::user()->username;
         }
         $department->fill($data);
-        $department->name = isset($data['name']) ? trim($data['name']) : '';
-        $department->notes = isset($data['notes']) ? trim($data['notes']) : '';
+        $department->name = isset($data['name']) ? trim($data['name']) : null;
+        $department->notes = isset($data['notes']) ? trim($data['notes']) : null;
 
         $department->save();
 

@@ -3,6 +3,7 @@
 namespace App\Ninja\Repositories;
 
 use App\Models\ProposalCategory;
+use App\Models\Proposal;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -28,19 +29,21 @@ class ProposalCategoryRepository extends BaseRepository
     public function find($account = false, $filter = null, $userId = false)
     {
         $query = DB::table('proposal_categories')
-            ->where('proposal_categories.account_id', '=', Auth::user()->account_id)
-            ->select(
-                'proposal_categories.name',
-                'proposal_categories.public_id',
-                'proposal_categories.user_id',
-                'proposal_categories.is_deleted',
-                'proposal_categories.created_at',
-                'proposal_categories.updated_at',
-                'proposal_categories.deleted_at',
-                'proposal_categories.created_by',
-                'proposal_categories.updated_by',
-                'proposal_categories.deleted_by'
-            );
+        ->leftJoin('accounts', 'accounts.id', '=', 'proposal_categories.account_id')
+        ->leftJoin('users', 'users.id', '=', 'proposal_categories.user_id')
+        ->where('proposal_categories.account_id', '=', Auth::user()->account_id)
+        ->select(
+            'proposal_categories.name',
+            'proposal_categories.public_id',
+            'proposal_categories.user_id',
+            'proposal_categories.is_deleted',
+            'proposal_categories.created_at',
+            'proposal_categories.updated_at',
+            'proposal_categories.deleted_at',
+            'proposal_categories.created_by',
+            'proposal_categories.updated_by',
+            'proposal_categories.deleted_by'
+        );
 
         $this->applyFilters($query, ENTITY_PROPOSAL_CATEGORY);
 
@@ -57,8 +60,13 @@ class ProposalCategoryRepository extends BaseRepository
     {
         $publicId = isset($input['public_id']) ? $input['public_id'] : false;
 
-        if (!$proposal) {
+        if($proposal){
+            $proposal->updated_by = auth::user()->username;
+        }elseif($publicId){
+            $proposal = ProposalCategory::scope($publicId)->withArchived()->findOrFail();
+        }else {
             $proposal = ProposalCategory::createNew();
+            $proposal->created_by = auth::user()->username;
         }
 
         $proposal->fill($input);

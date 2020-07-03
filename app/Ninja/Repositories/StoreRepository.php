@@ -32,33 +32,34 @@ class StoreRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('stores')
-            ->join('accounts', 'accounts.id', '=', 'stores.account_id')
-            ->join('locations', 'locations.id', '=', 'stores.location_id')
-            ->where('stores.account_id', '=', $accountId)
+        ->leftJoin('accounts', 'accounts.id', '=', 'stores.account_id')
+        ->leftJoin('users', 'users.id', '=', 'stores.user_id')
+        ->leftJoin('locations', 'locations.id', '=', 'stores.location_id')
+        ->where('stores.account_id', '=', $accountId)
             //->where('stores.deleted_at', '=', null)
-            ->select(
-                'stores.id',
-                'stores.public_id',
-                'stores.location_id',
-                'stores.name as store_name',
-                'stores.store_code',
-                'stores.is_deleted',
-                'stores.notes',
-                'stores.created_at',
-                'stores.updated_at',
-                'stores.deleted_at',
-                'stores.created_by',
-                'stores.updated_by',
-                'stores.deleted_by',
-                'locations.name as location_name'
-            );
+        ->select(
+            'stores.id',
+            'stores.public_id',
+            'stores.location_id',
+            'stores.name as store_name',
+            'stores.store_code',
+            'stores.is_deleted',
+            'stores.notes',
+            'stores.created_at',
+            'stores.updated_at',
+            'stores.deleted_at',
+            'stores.created_by',
+            'stores.updated_by',
+            'stores.deleted_by',
+            'locations.name as location_name'
+        );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('stores.name', 'like', '%' . $filter . '%')
-                    ->orWhere('stores.store_code', 'like', '%' . $filter . '%')
-                    ->orWhere('stores.notes', 'like', '%' . $filter . '%')
-                    ->orWhere('locations.name', 'like', '%' . $filter . '%');
+                ->orWhere('stores.store_code', 'like', '%' . $filter . '%')
+                ->orWhere('stores.notes', 'like', '%' . $filter . '%')
+                ->orWhere('locations.name', 'like', '%' . $filter . '%');
             });
         }
 

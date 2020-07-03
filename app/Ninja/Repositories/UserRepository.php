@@ -26,62 +26,67 @@ class UserRepository extends BaseRepository
 
     public function getById($publicId, $accountId)
     {
-        return $this->model->withTrashed()->where('public_id', $publicId)->where('account_id', $accountId)->first();
+        return $this->model->withTrashed()
+        ->where('public_id', $publicId)
+        ->where('account_id', $accountId)
+        ->first();
     }
 
     public function all()
     {
         return User::scope()->with('contacts', 'country')
-            ->withTrashed()
-            ->where('is_deleted', '=', false)
-            ->get();
+        ->withTrashed()
+        ->where('is_deleted', '=', false)
+        ->get();
     }
 
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('users')
-            ->join('accounts', 'accounts.id', '=', 'users.account_id')
-            ->leftJoin('locations', 'locations.id', '=', 'users.location_id')
-            ->leftJoin('branches', 'branches.id', '=', 'users.branch_id')
-            ->where('users.account_id', '=', $accountId)
+        ->leftJoin('accounts', 'accounts.id', '=', 'users.account_id')
+        ->leftJoin('users as admin', 'admin.id', '=', 'users.user_id')
+        ->leftJoin('locations', 'locations.id', '=', 'users.location_id')
+        ->leftJoin('branches', 'branches.id', '=', 'users.branch_id')
+        ->where('users.account_id', '=', $accountId)
 //            ->where('users.deleted_at', '=', null)
-            ->select(
-                'users.id',
-                'users.public_id',
-                'users.location_id',
-                'users.first_name',
-                'users.last_name',
-                'users.username',
-                'users.email',
-                'users.phone',
-                'users.confirmed',
-                'users.activated',
-                'users.is_admin',
-                'users.is_deleted',
-                'users.notes',
-                'users.permissions',
-                'users.created_at',
-                'users.updated_at',
-                'users.deleted_at',
-                'users.created_by',
-                'users.updated_by',
-                'users.deleted_by',
-                'users.last_login',
-                'branches.public_id as branch_public_id',
-                'branches.name as branch_name',
-                'locations.public_id as location_public_id',
-                'locations.name as location_name'
-            );
+        ->select(
+            'users.id',
+            'users.public_id',
+            'users.location_id',
+            'users.first_name',
+            'users.last_name',
+            'users.username',
+            'users.email',
+            'users.phone',
+            'users.confirmed',
+            'users.activated',
+            'users.is_admin',
+            'users.is_deleted',
+            'users.notes',
+            'users.permissions',
+            'users.created_at',
+            'users.updated_at',
+            'users.deleted_at',
+            'users.created_by',
+            'users.updated_by',
+            'users.deleted_by',
+            'users.last_login',
+            'branches.public_id as branch_public_id',
+            'branches.name as branch_name',
+            'locations.public_id as location_public_id',
+            'locations.name as location_name'
+        );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('users.first_name', 'like', '%' . $filter . '%')
-                    ->orWhere('users.username', 'like', '%' . $filter . '%')
-                    ->orWhere('users.email', 'like', '%' . $filter . '%')
-                    ->orWhere('users.confirmed', 'like', '%' . $filter . '%')
-                    ->orWhere('users.activated', 'like', '%' . $filter . '%')
-                    ->orWhere('branches.name', 'like', '%' . $filter . '%')
-                    ->orWhere('locations.name', 'like', '%' . $filter . '%');
+                ->orWhere('users.username', 'like', '%' . $filter . '%')
+                ->orWhere('users.email', 'like', '%' . $filter . '%')
+                ->orWhere('users.phone', 'like', '%' . $filter . '%')
+                ->orWhere('users.confirmed', 'like', '%' . $filter . '%')
+                ->orWhere('users.activated', 'like', '%' . $filter . '%')
+                ->orWhere('branches.name', 'like', '%' . $filter . '%')
+                ->orWhere('locations.name', 'like', '%' . $filter . '%');
             });
         }
 
@@ -119,8 +124,8 @@ class UserRepository extends BaseRepository
         } else {
             $user = User::createNew();
             $lastUser = User::withTrashed()
-                ->where('account_id', '=', Auth::user()->account_id)
-                ->orderBy('public_id', 'DESC')->first();
+            ->where('account_id', '=', Auth::user()->account_id)
+            ->orderBy('public_id', 'DESC')->first();
 
             $user->public_id = $lastUser->public_id + 1;
             $user->confirmation_code = strtolower(str_random(RANDOM_KEY_LENGTH));

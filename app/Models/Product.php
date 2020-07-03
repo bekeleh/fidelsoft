@@ -137,13 +137,14 @@ class Product extends EntityModel
 
     public function scopeStock($query, $publicId = false, $accountId = false)
     {
-        $storeId = isset(auth::user()->branch) ? auth::user()->branch->store_id : 0;
+        $storeId = auth::user()->branch->store_id ?:0;
+        
         $query = $query->whereHas('item_stores', function ($query) use ($storeId) {
             $query->where('item_stores.store_id', $storeId)
-                ->where('item_stores.qty', '>', 0)
-                ->Where('item_stores.is_locked', false)
-                ->Where('item_stores.is_deleted', false)
-                ->WhereNull('item_stores.deleted_at');
+            ->where('item_stores.qty', '>', 0)
+            ->Where('item_stores.is_locked', false)
+            ->Where('item_stores.is_deleted', false)
+            ->WhereNull('item_stores.deleted_at');
         });
 
         return $query;
@@ -152,15 +153,15 @@ class Product extends EntityModel
     public function scopeProducts($query)
     {
         $query = $query
-            ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
-            ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
-            ->whereNull('products.deleted_at')
-            ->select(
-                'products.id',
-                'products.public_id',
-                'products.product_key',
-                DB::raw("COALESCE(CONCAT(NULLIF(products.product_key,''), ' ', NULLIF(item_brands.name,''), ' ', NULLIF(item_categories.name,'')), NULLIF(products.product_key,'')) product_key")
-            );
+        ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
+        ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
+        ->whereNull('products.deleted_at')
+        ->select(
+            'products.id',
+            'products.public_id',
+            'products.product_key',
+            DB::raw("COALESCE(CONCAT(NULLIF(products.product_key,''), ' ', NULLIF(item_brands.name,''), ' ', NULLIF(item_categories.name,'')), NULLIF(products.product_key,'')) product_key")
+        );
 
         return $query->whereNotNull('products.product_key');
     }

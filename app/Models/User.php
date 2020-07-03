@@ -287,16 +287,16 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
             || $user->getOriginal('email') === TEST_USERNAME
             || $user->getOriginal('email') === 'tests@bitrock.com') {
             event(new UserSignedUp());
-        }
-
-        event(new UserSettingsChanged($user));
     }
 
+    event(new UserSettingsChanged($user));
+}
 
-    public function isEmailBeingChanged()
-    {
-        return Utils::isNinjaProd() && $this->email != $this->getOriginal('email');
-    }
+
+public function isEmailBeingChanged()
+{
+    return Utils::isNinjaProd() && $this->email != $this->getOriginal('email');
+}
 
 
     /**
@@ -456,7 +456,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
     public function canCreateOrEdit($entityType, $entity = false)
     {
         return (!$entity && $this->can('create', $entityType)) ||
-            ($entity && $this->can('edit', $entity));
+        ($entity && $this->can('edit', $entity));
     }
 
     public function primaryAccount()
@@ -532,6 +532,16 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
 
         return array_combine($keys, $values);
     }
+    
+    public function eligibleForMigration()
+    {
+        // Not ready to show to hosted users
+        if (Utils::isNinjaProd()) {
+            return false;
+        }
+
+        return is_null($this->public_id) || $this->public_id == 0;
+    }
 }
 
 User::created(function ($user) {
@@ -552,7 +562,7 @@ User::updating(function ($user) {
         || array_key_exists('oauth_provider_id', $dirty)
         || array_key_exists('referral_code', $dirty)) {
         LookupUser::updateUser($user->account->account_key, $user);
-    }
+}
 });
 
 User::updated(function ($user) {

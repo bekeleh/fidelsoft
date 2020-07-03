@@ -35,66 +35,67 @@ class ClientRepository extends BaseRepository
     public function all()
     {
         return Client::scope()
-            ->with('user', 'contacts', 'country')
-            ->withTrashed()
-            ->where('is_deleted', '=', false)
-            ->get();
+        ->with('user', 'contacts', 'country')
+        ->withTrashed()
+        ->where('is_deleted', '=', false)
+        ->get();
     }
 
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('clients')
-            ->join('accounts', 'accounts.id', '=', 'clients.account_id')
-            ->leftJoin('contacts', 'contacts.client_id', '=', 'clients.id')
-            ->leftJoin('client_types', 'client_types.id', '=', 'clients.client_type_id')
-            ->leftJoin('sale_types', 'sale_types.id', '=', 'clients.sale_type_id')
-            ->leftJoin('hold_reasons', 'hold_reasons.id', '=', 'clients.hold_reason_id')
-            ->where('clients.account_id', '=', $accountId)
-            ->where('contacts.is_primary', '=', true)
+        ->leftJoin('accounts', 'accounts.id', '=', 'clients.account_id')
+        ->leftJoin('contacts', 'contacts.client_id', '=', 'clients.id')
+        ->leftJoin('client_types', 'client_types.id', '=', 'clients.client_type_id')
+        ->leftJoin('sale_types', 'sale_types.id', '=', 'clients.sale_type_id')
+        ->leftJoin('hold_reasons', 'hold_reasons.id', '=', 'clients.hold_reason_id')
+        ->where('clients.account_id', '=', $accountId)
+        ->where('contacts.is_primary', '=', true)
 //            ->where('hold_reasons.allow_invoice', '=', true)
-//            ->where('contacts.deleted_at', '=', null)
 //            ->whereRaw('(clients.name != "" or contacts.first_name != "" or contacts.last_name != "" or contacts.email != "")') // filter out buy now invoices
-            ->select(
-                DB::raw('COALESCE(clients.currency_id, accounts.currency_id) currency_id'),
-                DB::raw('COALESCE(clients.country_id, accounts.country_id) country_id'),
-                DB::raw("CONCAT(COALESCE(contacts.first_name, ''), ' ', COALESCE(contacts.last_name, '')) contact"),
-                'clients.public_id',
-                'clients.name as client_name',
-                'clients.private_notes',
-                'contacts.first_name',
-                'contacts.last_name',
-                'clients.balance',
-                'clients.last_login',
-                'clients.created_at',
-                'clients.created_at as client_created_at',
-                'clients.work_phone',
-                'contacts.email',
-                'clients.deleted_at',
-                'clients.is_deleted',
-                'clients.user_id',
-                'clients.id_number',
-                'clients.created_at',
-                'clients.updated_at',
-                'clients.deleted_at',
-                'clients.created_by',
-                'clients.updated_by',
-                'clients.deleted_by',
-                'client_types.name as client_type_name',
-                'sale_types.name as sale_type_name',
-                'hold_reasons.name as hold_reason_name',
+        // ->whereNull('contacts.deleted_at')
+        ->select(
+            DB::raw('COALESCE(clients.currency_id, accounts.currency_id) currency_id'),
+            DB::raw('COALESCE(clients.country_id, accounts.country_id) country_id'),
+            DB::raw("CONCAT(COALESCE(contacts.first_name, ''), ' ', 
+                COALESCE(contacts.last_name, '')) contact"),
+            'clients.public_id',
+            'clients.name as client_name',
+            'clients.private_notes',
+            'contacts.first_name',
+            'contacts.last_name',
+            'clients.balance',
+            'clients.last_login',
+            'clients.created_at',
+            'clients.created_at as client_created_at',
+            'clients.work_phone',
+            'contacts.email',
+            'clients.deleted_at',
+            'clients.is_deleted',
+            'clients.user_id',
+            'clients.id_number',
+            'clients.created_at',
+            'clients.updated_at',
+            'clients.deleted_at',
+            'clients.created_by',
+            'clients.updated_by',
+            'clients.deleted_by',
+            'client_types.name as client_type_name',
+            'sale_types.name as sale_type_name',
+            'hold_reasons.name as hold_reason_name',
 
-            );
+        );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('clients.name', 'like', '%' . $filter . '%')
-                    ->orWhere('clients.id_number', 'like', '%' . $filter . '%')
-                    ->orWhere('contacts.first_name', 'like', '%' . $filter . '%')
-                    ->orWhere('contacts.last_name', 'like', '%' . $filter . '%')
-                    ->orWhere('contacts.email', 'like', '%' . $filter . '%')
-                    ->orWhere('client_types.name', 'like', '%' . $filter . '%')
-                    ->orWhere('sale_types.name', 'like', '%' . $filter . '%')
-                    ->orWhere('hold_reasons.name', 'like', '%' . $filter . '%');
+                ->orWhere('clients.id_number', 'like', '%' . $filter . '%')
+                ->orWhere('contacts.first_name', 'like', '%' . $filter . '%')
+                ->orWhere('contacts.last_name', 'like', '%' . $filter . '%')
+                ->orWhere('contacts.email', 'like', '%' . $filter . '%')
+                ->orWhere('client_types.name', 'like', '%' . $filter . '%')
+                ->orWhere('sale_types.name', 'like', '%' . $filter . '%')
+                ->orWhere('hold_reasons.name', 'like', '%' . $filter . '%');
             });
         }
 

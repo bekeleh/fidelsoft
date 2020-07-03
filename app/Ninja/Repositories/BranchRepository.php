@@ -31,34 +31,34 @@ class BranchRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('branches')
-            ->leftJoin('stores', 'stores.id', '=', 'branches.store_id')
-            ->leftJoin('locations', 'locations.id', '=', 'branches.location_id')
-            ->where('branches.account_id', '=', $accountId)
-//            ->where('branches.deleted_at', '=', null)
-            ->select(
-                'branches.id',
-                'branches.public_id',
-                'branches.name as branch_name',
-                'branches.is_deleted',
-                'branches.notes',
-                'branches.created_at',
-                'branches.updated_at',
-                'branches.deleted_at',
-                'branches.created_by',
-                'branches.updated_by',
-                'branches.deleted_by',
-                'locations.public_id as location_public_id',
-                'locations.name as location_name',
-                'stores.public_id as store_public_id',
-                'stores.name as store_name'
-            );
+        ->leftJoin('stores', 'stores.id', '=', 'branches.store_id')
+        ->leftJoin('locations', 'locations.id', '=', 'branches.location_id')
+        ->where('branches.account_id', '=', $accountId)
+        // ->whereNull('branches.deleted_at')
+        ->select(
+            'branches.id',
+            'branches.public_id',
+            'branches.name as branch_name',
+            'branches.is_deleted',
+            'branches.notes',
+            'branches.created_at',
+            'branches.updated_at',
+            'branches.deleted_at',
+            'branches.created_by',
+            'branches.updated_by',
+            'branches.deleted_by',
+            'locations.public_id as location_public_id',
+            'locations.name as location_name',
+            'stores.public_id as store_public_id',
+            'stores.name as store_name'
+        );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('branches.name', 'like', '%' . $filter . '%')
-                    ->orWhere('branches.notes', 'like', '%' . $filter . '%')
-                    ->orWhere('stores.name', 'like', '%' . $filter . '%')
-                    ->orWhere('locations.name', 'like', '%' . $filter . '%');
+                ->orWhere('branches.notes', 'like', '%' . $filter . '%')
+                ->orWhere('stores.name', 'like', '%' . $filter . '%')
+                ->orWhere('locations.name', 'like', '%' . $filter . '%');
             });
         }
 

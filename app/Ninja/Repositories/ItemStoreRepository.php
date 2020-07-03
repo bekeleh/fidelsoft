@@ -36,6 +36,7 @@ class ItemStoreRepository extends BaseRepository
     {
         $query = DB::table('item_stores')
             ->leftJoin('accounts', 'accounts.id', '=', 'item_stores.account_id')
+            ->leftJoin('users', 'users.id', '=', 'item_stores.user_id')
             ->leftJoin('products', 'products.id', '=', 'item_stores.product_id')
             ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
             ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')

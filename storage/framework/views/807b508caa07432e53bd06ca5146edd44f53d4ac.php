@@ -1,7 +1,5 @@
 <!-- landing page -->
-<?php use App\Models\EntityModel;
-
-echo Former::open(EntityModel::getFormUrl($entityType) . '/bulk')->addClass('listForm_' . $entityType); ?>
+<?php echo Former::open(\App\Models\EntityModel::getFormUrl($entityType) . '/bulk')->addClass('listForm_' . $entityType); ?>
 
 
 <div style="display:none">
@@ -27,19 +25,19 @@ echo Former::open(EntityModel::getFormUrl($entityType) . '/bulk')->addClass('lis
 
             <span id="statusWrapper_<?php echo e($entityType); ?>" style="display:none">
             <select class="form-control" style="width: 220px" id="statuses_<?php echo e($entityType); ?>" multiple="true">
-            <?php if(count(EntityModel::getStatusesFor($entityType))): ?>
+            <?php if(count(\App\Models\EntityModel::getStatusesFor($entityType))): ?>
                     <optgroup label="<?php echo e(trans('texts.entity_state')); ?>">
-            <?php $__currentLoopData = EntityModel::getStatesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <?php $__currentLoopData = \App\Models\EntityModel::getStatesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </optgroup>
                     <optgroup label="<?php echo e(trans('texts.status')); ?>">
-            <?php $__currentLoopData = EntityModel::getStatusesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <?php $__currentLoopData = \App\Models\EntityModel::getStatusesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </optgroup>
                 <?php else: ?>
-                    <?php $__currentLoopData = EntityModel::getStatesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php $__currentLoopData = \App\Models\EntityModel::getStatesFor($entityType); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 <?php endif; ?>

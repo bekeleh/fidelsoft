@@ -270,7 +270,7 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
     Route::get('payments/create/{client_id?}/{invoice_id?}', 'PaymentController@create');
     Route::get('api/payments/{client_id?}', 'PaymentController@getDatatable');
     Route::post('payments/bulk', 'PaymentController@bulk');
-
+//  credit
     Route::resource('credits', 'CreditController');
     Route::get('credits/create/{client_id?}/{invoice_id?}', 'CreditController@create');
     Route::get('api/credits/{client_id?}', 'CreditController@getDatatable');
@@ -424,7 +424,7 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
 
 Route::group([
     'middleware' => ['lookup:user', 'auth:user', 'permissions.required'],
-//    'permissions' => 'admin',
+    // 'permissions' => 'admin',
 ], function () {
 //    user
     Route::get('api/users', 'UserController@getDatatable');
@@ -452,10 +452,10 @@ Route::group([
     Route::post('permission_groups/bulk', 'PermissionGroupController@bulk');
     Route::post('permission_groups/change_permission', 'PermissionGroupController@changePermission');
 //    permissions
-//    Route::get('permissions/{permissions}/clone', 'permissionController@clonePermission');
-//    Route::get('api/permissions', 'permissionController@getDatatable');
-//    Route::resource('permissions', 'permissionController');
-//    Route::post('permissions/bulk', 'permissionController@bulk');
+    Route::get('permissions/{permissions}/clone', 'permissionController@clonePermission');
+    Route::get('api/permissions', 'permissionController@getDatatable');
+    Route::resource('permissions', 'permissionController');
+    Route::post('permissions/bulk', 'permissionController@bulk');
 //  tax
     Route::get('tax_rates/{tax_rates}/clone', 'TaxRateController@cloneTaxRate');
     Route::get('api/tax_rates', 'TaxRateController@getDatatable');

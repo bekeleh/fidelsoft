@@ -23,32 +23,34 @@ class SubscriptionRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('subscriptions')
-            ->where('subscriptions.account_id', '=', $accountId)
+        ->leftJoin('accounts', 'accounts.id', '=', 'subscriptions.account_id')
+        ->leftJoin('users', 'users.id', '=', 'subscriptions.user_id')
+        ->where('subscriptions.account_id', '=', $accountId)
 //            ->whereNull('subscriptions.deleted_at')
-            ->select(
-                'subscriptions.public_id',
-                'subscriptions.target_url as target',
-                'subscriptions.event_id as event',
-                'subscriptions.deleted_at',
-                'subscriptions.format',
-                'subscriptions.is_deleted',
-                'subscriptions.notes',
-                'subscriptions.created_at',
-                'subscriptions.updated_at',
-                'subscriptions.deleted_at',
-                'subscriptions.created_by',
-                'subscriptions.updated_by',
-                'subscriptions.deleted_by'
-            );
+        ->select(
+            'subscriptions.public_id',
+            'subscriptions.target_url as target',
+            'subscriptions.event_id as event',
+            'subscriptions.deleted_at',
+            'subscriptions.format',
+            'subscriptions.is_deleted',
+            'subscriptions.notes',
+            'subscriptions.created_at',
+            'subscriptions.updated_at',
+            'subscriptions.deleted_at',
+            'subscriptions.created_by',
+            'subscriptions.updated_by',
+            'subscriptions.deleted_by'
+        );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->orWhere('subscriptions.event_id', 'like', '%' . $filter . '%')
-                    ->orWhere('subscriptions.target_url', 'like', '%' . $filter . '%')
-                    ->orWhere('subscriptions.format', 'like', '%' . $filter . '%')
-                    ->orWhere('subscriptions.notes', 'like', '%' . $filter . '%')
-                    ->orWhere('subscriptions.created_by', 'like', '%' . $filter . '%')
-                    ->orWhere('subscriptions.created_by', 'like', '%' . $filter . '%');
+                ->orWhere('subscriptions.target_url', 'like', '%' . $filter . '%')
+                ->orWhere('subscriptions.format', 'like', '%' . $filter . '%')
+                ->orWhere('subscriptions.notes', 'like', '%' . $filter . '%')
+                ->orWhere('subscriptions.created_by', 'like', '%' . $filter . '%')
+                ->orWhere('subscriptions.created_by', 'like', '%' . $filter . '%');
             });
         }
 

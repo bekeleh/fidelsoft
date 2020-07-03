@@ -28,28 +28,28 @@ class UnitRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('units')
-            ->join('accounts', 'accounts.id', '=', 'units.account_id')
-            ->join('users', 'users.id', '=', 'units.user_id')
-            ->where('units.account_id', '=', $accountId)
+        ->leftJoin('accounts', 'accounts.id', '=', 'units.account_id')
+        ->leftJoin('users', 'users.id', '=', 'units.user_id')
+        ->where('units.account_id', '=', $accountId)
             //->where('units.deleted_at', '=', null)
-            ->select(
-                'units.id',
-                'units.public_id',
-                'units.name as unit_name',
-                'units.is_deleted',
-                'units.notes',
-                'units.created_at',
-                'units.updated_at',
-                'units.deleted_at',
-                'units.created_by',
-                'units.updated_by',
-                'units.deleted_by'
-            );
+        ->select(
+            'units.id',
+            'units.public_id',
+            'units.name as unit_name',
+            'units.is_deleted',
+            'units.notes',
+            'units.created_at',
+            'units.updated_at',
+            'units.deleted_at',
+            'units.created_by',
+            'units.updated_by',
+            'units.deleted_by'
+        );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('units.name', 'like', '%' . $filter . '%')
-                    ->orWhere('units.notes', 'like', '%' . $filter . '%');
+                ->orWhere('units.notes', 'like', '%' . $filter . '%');
             });
         }
 

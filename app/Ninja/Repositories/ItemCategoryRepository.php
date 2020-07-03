@@ -31,8 +31,8 @@ class ItemCategoryRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('item_categories')
-            ->join('accounts', 'accounts.id', '=', 'item_categories.account_id')
-            ->join('users', 'users.id', '=', 'item_categories.user_id')
+            ->LeftJoin('accounts', 'accounts.id', '=', 'item_categories.account_id')
+            ->LeftJoin('users', 'users.id', '=', 'item_categories.user_id')
             ->where('item_categories.account_id', '=', $accountId)
 //            ->where('item_categories.deleted_at', '=', null)
             ->select(

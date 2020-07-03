@@ -29,31 +29,33 @@ class TaxRateRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('tax_rates')
-            ->where('tax_rates.account_id', '=', $accountId)
+        ->leftJoin('accounts', 'accounts.id', '=', 'tax_rates.account_id')
+        ->leftJoin('users', 'users.id', '=', 'tax_rates.user_id')
+        ->where('tax_rates.account_id', '=', $accountId)
 //            ->where('tax_rates.deleted_at', '=', null)
-            ->select(
-                'tax_rates.id',
-                'tax_rates.public_id',
-                'tax_rates.name as tax_rate_name',
-                'tax_rates.rate',
-                'tax_rates.notes',
-                'tax_rates.deleted_at',
-                'tax_rates.is_inclusive',
-                'tax_rates.is_deleted',
-                'tax_rates.created_at',
-                'tax_rates.updated_at',
-                'tax_rates.deleted_at',
-                'tax_rates.created_by',
-                'tax_rates.updated_by',
-                'tax_rates.deleted_by'
-            );
+        ->select(
+            'tax_rates.id',
+            'tax_rates.public_id',
+            'tax_rates.name as tax_rate_name',
+            'tax_rates.rate',
+            'tax_rates.notes',
+            'tax_rates.deleted_at',
+            'tax_rates.is_inclusive',
+            'tax_rates.is_deleted',
+            'tax_rates.created_at',
+            'tax_rates.updated_at',
+            'tax_rates.deleted_at',
+            'tax_rates.created_by',
+            'tax_rates.updated_by',
+            'tax_rates.deleted_by'
+        );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('tax_rates.name', 'like', '%' . $filter . '%')
-                    ->orWhere('tax_rates.rate', 'like', '%' . $filter . '%')
-                    ->orWhere('tax_rates.is_inclusive', 'like', '%' . $filter . '%')
-                    ->orWhere('tax_rates.created_by', 'like', '%' . $filter . '%');
+                ->orWhere('tax_rates.rate', 'like', '%' . $filter . '%')
+                ->orWhere('tax_rates.is_inclusive', 'like', '%' . $filter . '%')
+                ->orWhere('tax_rates.created_by', 'like', '%' . $filter . '%');
             });
         }
 

@@ -44,18 +44,18 @@ class Kernel extends ConsoleKernel
         $logFile = storage_path() . '/logs/cron.log';
 
         $schedule
-            ->command('ninja:send-invoices --force')
-            ->sendOutputTo($logFile)
-            ->withoutOverlapping()
-            ->hourly();
+        ->command('ninja:send-invoices --force')
+        ->sendOutputTo($logFile)
+        ->withoutOverlapping()
+        ->hourly();
 
         $schedule
-            ->command('ninja:send-reminders --force')
-            ->sendOutputTo($logFile)
-            ->daily();
+        ->command('ninja:send-reminders --force')
+        ->sendOutputTo($logFile)
+        ->daily();
 
         $schedule
-            ->command('fidel:backup')
-            ->weekly();
+        ->command('fidel:backup')
+        ->weekly();
     }
 }

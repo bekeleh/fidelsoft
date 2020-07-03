@@ -27,8 +27,8 @@ class DocumentRepository extends BaseRepository
     public function all()
     {
         return Document::scope()
-            ->with('user')
-            ->get();
+        ->with('user')
+        ->get();
     }
 
     public function find($accountId = false, $filter = null)
@@ -36,27 +36,28 @@ class DocumentRepository extends BaseRepository
         $accountid = Auth::user()->account_id;
 
         $query = DB::table('clients')
-            ->join('accounts', 'accounts.id', '=', 'clients.account_id')
-            ->leftjoin('clients', 'clients.id', '=', 'clients.client_id')
-            ->where('documents.account_id', '=', $accountid)
-            ->select(
-                'documents.account_id',
-                'documents.path',
-                'documents.deleted_at',
-                'documents.size',
-                'documents.width',
-                'documents.height',
-                'documents.id',
-                'documents.is_deleted',
-                'documents.public_id',
-                'documents.invoice_id',
-                'documents.expense_id',
-                'documents.user_id',
-                'invoices.public_id as invoice_public_id',
-                'invoices.user_id as invoice_user_id',
-                'expenses.public_id as expense_public_id',
-                'expenses.user_id as expense_user_id'
-            );
+        ->leftJoin('accounts', 'accounts.id', '=', 'clients.account_id')
+        ->leftJoin('clients', 'clients.id', '=', 'clients.client_id')
+        ->where('documents.account_id', '=', $accountid)
+        // ->whereNull('documents.deleted_at')
+        ->select(
+            'documents.account_id',
+            'documents.path',
+            'documents.deleted_at',
+            'documents.size',
+            'documents.width',
+            'documents.height',
+            'documents.id',
+            'documents.is_deleted',
+            'documents.public_id',
+            'documents.invoice_id',
+            'documents.expense_id',
+            'documents.user_id',
+            'invoices.public_id as invoice_public_id',
+            'invoices.user_id as invoice_user_id',
+            'expenses.public_id as expense_public_id',
+            'expenses.user_id as expense_user_id'
+        );
 
         return $query;
     }
@@ -201,47 +202,47 @@ class DocumentRepository extends BaseRepository
     public function getClientDatatable($contactId, $entityType, $search)
     {
         $query = DB::table('invitations')
-            ->join('accounts', 'accounts.id', '=', 'invitations.account_id')
-            ->join('invoices', 'invoices.id', '=', 'invitations.invoice_id')
-            ->join('documents', 'documents.invoice_id', '=', 'invitations.invoice_id')
-            ->join('clients', 'clients.id', '=', 'invoices.client_id')
-            ->where('invitations.contact_id', '=', $contactId)
-            ->where('invitations.deleted_at', '=', null)
-            ->where('invoices.is_deleted', '=', false)
-            ->where('clients.deleted_at', '=', null)
-            ->where('invoices.is_recurring', '=', false)
-            ->where('invoices.is_public', '=', true)
+        ->join('accounts', 'accounts.id', '=', 'invitations.account_id')
+        ->join('invoices', 'invoices.id', '=', 'invitations.invoice_id')
+        ->join('documents', 'documents.invoice_id', '=', 'invitations.invoice_id')
+        ->join('clients', 'clients.id', '=', 'invoices.client_id')
+        ->where('invitations.contact_id', '=', $contactId)
+        ->where('invitations.deleted_at', '=', null)
+        ->where('invoices.is_deleted', '=', false)
+        ->where('clients.deleted_at', '=', null)
+        ->where('invoices.is_recurring', '=', false)
+        ->where('invoices.is_public', '=', true)
             // TODO: This needs to be a setting to also hide the activity on the dashboard page
             //->where('invoices.invoice_status_id', '>=', INVOICE_STATUS_SENT)
-            ->select(
-                'invitations.invitation_key',
-                'invoices.invoice_number',
-                'documents.name',
-                'documents.public_id',
-                'documents.created_at',
-                'documents.size'
-            );
+        ->select(
+            'invitations.invitation_key',
+            'invoices.invoice_number',
+            'documents.name',
+            'documents.public_id',
+            'documents.created_at',
+            'documents.size'
+        );
 
         $table = Datatable::query($query)
-            ->addColumn('invoice_number', function ($model) {
-                return link_to(
-                    '/view/' . $model->invitation_key,
-                    $model->invoice_number
-                )->toHtml();
-            })
-            ->addColumn('name', function ($model) {
-                return link_to(
-                    '/client/documents/' . $model->invitation_key . '/' . $model->public_id . '/' . $model->name,
-                    $model->name,
-                    ['target' => '_blank']
-                )->toHtml();
-            })
-            ->addColumn('created_at', function ($model) {
-                return Utils::dateToString($model->created_at);
-            })
-            ->addColumn('size', function ($model) {
-                return Form::human_filesize($model->size);
-            });
+        ->addColumn('invoice_number', function ($model) {
+            return link_to(
+                '/view/' . $model->invitation_key,
+                $model->invoice_number
+            )->toHtml();
+        })
+        ->addColumn('name', function ($model) {
+            return link_to(
+                '/client/documents/' . $model->invitation_key . '/' . $model->public_id . '/' . $model->name,
+                $model->name,
+                ['target' => '_blank']
+            )->toHtml();
+        })
+        ->addColumn('created_at', function ($model) {
+            return Utils::dateToString($model->created_at);
+        })
+        ->addColumn('size', function ($model) {
+            return Form::human_filesize($model->size);
+        });
 
         return $table->make();
     }

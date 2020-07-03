@@ -64,8 +64,8 @@ class InvoiceRepository extends BaseRepository
     public function getInvoices($accountId = false, $clientPublicId = false, $entityType = ENTITY_INVOICE, $filter = false)
     {
         $query = DB::table('invoices')
-            ->join('accounts', 'accounts.id', '=', 'invoices.account_id')
-            ->join('clients', 'clients.id', '=', 'invoices.client_id')
+            ->LeftJoin('accounts', 'accounts.id', '=', 'invoices.account_id')
+            ->LeftJoin('clients', 'clients.id', '=', 'invoices.client_id')
             ->leftJoin('invoice_statuses', 'invoice_statuses.id', '=', 'invoices.invoice_status_id')
             ->LeftJoin('contacts', 'contacts.client_id', '=', 'clients.id')
             ->where('invoices.account_id', '=', $accountId)

@@ -160,8 +160,8 @@ class AccountRepository
         if ($count > 10 && $errorEmail = env('ERROR_EMAIL')) {
             Mail::raw($ip, function ($message) use ($ip, $errorEmail) {
                 $message->to($errorEmail)
-                    ->from(CONTACT_EMAIL)
-                    ->subject('Duplicate company for IP: ' . $ip);
+                ->from(CONTACT_EMAIL)
+                ->subject('Duplicate company for IP: ' . $ip);
             });
             if ($count >= 15) {
                 abort();
@@ -209,19 +209,19 @@ class AccountRepository
 
         if ($user->hasPermission('view_clients', true)) {
             $clients = Client::scope()
-                ->with('contacts', 'invoices')
-                ->withTrashed()
-                ->with(['contacts', 'invoices' => function ($query) use ($user) {
-                    $query->withTrashed();
-                }])->get();
+            ->with('contacts', 'invoices')
+            ->withTrashed()
+            ->with(['contacts', 'invoices' => function ($query) use ($user) {
+                $query->withTrashed();
+            }])->get();
         } else {
             $clients = Client::scope()
-                ->where('user_id', '=', $user->id)
-                ->withTrashed()
-                ->with(['contacts', 'invoices' => function ($query) use ($user) {
-                    $query->withTrashed()
-                        ->where('user_id', '=', $user->id);
-                }])->get();
+            ->where('user_id', '=', $user->id)
+            ->withTrashed()
+            ->with(['contacts', 'invoices' => function ($query) use ($user) {
+                $query->withTrashed()
+                ->where('user_id', '=', $user->id);
+            }])->get();
         }
 
         foreach ($clients as $client) {
@@ -517,8 +517,8 @@ class AccountRepository
         $ninjaAccount = $this->getNinjaAccount();
         $ninjaUser = $ninjaAccount->getPrimaryUser();
         $client = Client::whereAccountId($ninjaAccount->id)
-            ->wherePublicId($account->id)
-            ->first();
+        ->wherePublicId($account->id)
+        ->first();
 
         if (!$client) {
             $client = new Client();
@@ -548,8 +548,8 @@ class AccountRepository
     public function findByKey($key)
     {
         return Account::whereAccountKey($key)
-            ->with('clients.invoices.invoice_items', 'clients.contacts')
-            ->firstOrFail();
+        ->with('clients.invoices.invoice_items', 'clients.contacts')
+        ->firstOrFail();
     }
 
     public function unlinkUserFromOauth($user)
@@ -629,8 +629,8 @@ class AccountRepository
     public function findUserByOauth($providerId, $oauthUserId)
     {
         return User::where('oauth_user_id', $oauthUserId)
-            ->where('oauth_provider_id', $providerId)
-            ->first();
+        ->where('oauth_provider_id', $providerId)
+        ->first();
     }
 
     public function findUsers($user, $with = null)
@@ -664,17 +664,17 @@ class AccountRepository
         }
 
         $query = UserAccount::where('user_id1', '=', $userId1)
-            ->orWhere('user_id2', '=', $userId1)
-            ->orWhere('user_id3', '=', $userId1)
-            ->orWhere('user_id4', '=', $userId1)
-            ->orWhere('user_id5', '=', $userId1);
+        ->orWhere('user_id2', '=', $userId1)
+        ->orWhere('user_id3', '=', $userId1)
+        ->orWhere('user_id4', '=', $userId1)
+        ->orWhere('user_id5', '=', $userId1);
 
         if ($userId2) {
             $query->orWhere('user_id1', '=', $userId2)
-                ->orWhere('user_id2', '=', $userId2)
-                ->orWhere('user_id3', '=', $userId2)
-                ->orWhere('user_id4', '=', $userId2)
-                ->orWhere('user_id5', '=', $userId2);
+            ->orWhere('user_id2', '=', $userId2)
+            ->orWhere('user_id3', '=', $userId2)
+            ->orWhere('user_id4', '=', $userId2)
+            ->orWhere('user_id5', '=', $userId2);
         }
 
         return $query->first(['id', 'user_id1', 'user_id2', 'user_id3', 'user_id4', 'user_id5']);
@@ -695,7 +695,7 @@ class AccountRepository
         }
 
         $users = User::with('account')
-            ->whereIn('id', $userIds);
+        ->whereIn('id', $userIds);
 
         if ($with) {
             $users->with($with);
@@ -793,11 +793,11 @@ class AccountRepository
     {
         return Account::whereHas('account_email_settings', function ($query) {
             $query->where('late_fee1_amount', '>', 0)
-                ->orWhere('late_fee1_percent', '>', 0)
-                ->orWhere('late_fee2_amount', '>', 0)
-                ->orWhere('late_fee2_percent', '>', 0)
-                ->orWhere('late_fee3_amount', '>', 0)
-                ->orWhere('late_fee3_percent', '>', 0);
+            ->orWhere('late_fee1_percent', '>', 0)
+            ->orWhere('late_fee2_amount', '>', 0)
+            ->orWhere('late_fee2_percent', '>', 0)
+            ->orWhere('late_fee3_amount', '>', 0)
+            ->orWhere('late_fee3_percent', '>', 0);
         })->get();
     }
 

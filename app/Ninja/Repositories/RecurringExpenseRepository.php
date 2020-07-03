@@ -26,29 +26,30 @@ class RecurringExpenseRepository extends BaseRepository
     public function all()
     {
         return RecurringExpense::scope()
-            ->with('user')
-            ->withTrashed()
-            ->where('is_deleted', '=', false)
-            ->get();
+        ->with('user')
+        ->withTrashed()
+        ->where('is_deleted', '=', false)
+        ->get();
     }
 
     public function find($accountId = false, $filter = null)
     {
-        $accountId = Auth::user()->account_id;
+        $accountId = isset($accountId) ? $accountId: (Auth::user()->account_id);
         $query = DB::table('recurring_expenses')
-            ->join('accounts', 'accounts.id', '=', 'recurring_expenses.account_id')
-            ->leftjoin('clients', 'clients.id', '=', 'recurring_expenses.client_id')
-            ->leftJoin('contacts', 'contacts.client_id', '=', 'clients.id')
-            ->leftjoin('vendors', 'vendors.id', '=', 'recurring_expenses.vendor_id')
-            ->join('frequencies', 'frequencies.id', '=', 'recurring_expenses.frequency_id')
-            ->leftJoin('expense_categories', 'recurring_expenses.expense_category_id', '=', 'expense_categories.id')
-            ->where('recurring_expenses.account_id', '=', $accountId)
-            ->where('contacts.deleted_at', '=', null)
-            ->where('vendors.deleted_at', '=', null)
-            ->where('clients.deleted_at', '=', null)
+        ->leftJoin('accounts', 'accounts.id', '=', 'recurring_expenses.account_id')
+        ->leftJoin('users', 'users.id', '=', 'recurring_expenses.user_id')
+        ->leftJoin('clients', 'clients.id', '=', 'recurring_expenses.client_id')
+        ->leftJoin('contacts', 'contacts.client_id', '=', 'clients.id')
+        ->leftJoin('vendors', 'vendors.id', '=', 'recurring_expenses.vendor_id')
+        ->leftJoin('frequencies', 'frequencies.id', '=', 'recurring_expenses.frequency_id')
+        ->leftJoin('expense_categories', 'recurring_expenses.expense_category_id', '=', 'expense_categories.id')
+        ->where('recurring_expenses.account_id', '=', $accountId)
+        ->where('contacts.deleted_at', '=', null)
+        ->where('vendors.deleted_at', '=', null)
+        ->where('clients.deleted_at', '=', null)
             ->where(function ($query) { // handle when client isn't set
                 $query->where('contacts.is_primary', '=', true)
-                    ->orWhere('contacts.is_primary', '=', null);
+                ->orWhere('contacts.is_primary', '=', null);
             })
             ->select(
                 'recurring_expenses.account_id',
@@ -89,55 +90,55 @@ class RecurringExpenseRepository extends BaseRepository
                 'clients.country_id as client_country_id'
             );
 
-        $this->applyFilters($query, ENTITY_RECURRING_EXPENSE);
+            $this->applyFilters($query, ENTITY_RECURRING_EXPENSE);
 
-        if ($filter) {
-            $query->where(function ($query) use ($filter) {
-                $query->where('recurring_expenses.public_notes', 'like', '%' . $filter . '%')
+            if ($filter) {
+                $query->where(function ($query) use ($filter) {
+                    $query->where('recurring_expenses.public_notes', 'like', '%' . $filter . '%')
                     ->orWhere('clients.name', 'like', '%' . $filter . '%')
                     ->orWhere('vendors.name', 'like', '%' . $filter . '%')
                     ->orWhere('expense_categories.name', 'like', '%' . $filter . '%');
-            });
-        }
-
-        return $query;
-    }
-
-    public function save($input, $expense = null)
-    {
-        $publicId = isset($input['public_id']) ? $input['public_id'] : false;
-
-        if ($expense) {
-            // do nothing
-        } elseif ($publicId) {
-            $expense = RecurringExpense::scope($publicId)->firstOrFail();
-            if (Utils::isNinjaDev()) {
-                Log::warning('Entity not set in expense repo save');
+                });
             }
-        } else {
-            $expense = RecurringExpense::createNew();
+
+            return $query;
         }
 
-        if ($expense->is_deleted) {
-            return $expense;
-        }
+        public function save($input, $expense = null)
+        {
+            $publicId = isset($input['public_id']) ? $input['public_id'] : false;
+
+            if ($expense) {
+            // do nothing
+            } elseif ($publicId) {
+                $expense = RecurringExpense::scope($publicId)->firstOrFail();
+                if (Utils::isNinjaDev()) {
+                    Log::warning('Entity not set in expense repo save');
+                }
+            } else {
+                $expense = RecurringExpense::createNew();
+            }
+
+            if ($expense->is_deleted) {
+                return $expense;
+            }
 
         // First auto fill
-        $expense->fill($input);
+            $expense->fill($input);
 
-        if (isset($input['start_date'])) {
-            if ($expense->exists && $expense->start_date && $expense->start_date != Utils::toSqlDate($input['start_date'])) {
-                $expense->last_sent_date = null;
+            if (isset($input['start_date'])) {
+                if ($expense->exists && $expense->start_date && $expense->start_date != Utils::toSqlDate($input['start_date'])) {
+                    $expense->last_sent_date = null;
+                }
+                $expense->start_date = Utils::toSqlDate($input['start_date']);
             }
-            $expense->start_date = Utils::toSqlDate($input['start_date']);
-        }
-        if (isset($input['end_date'])) {
-            $expense->end_date = Utils::toSqlDate($input['end_date']);
-        }
+            if (isset($input['end_date'])) {
+                $expense->end_date = Utils::toSqlDate($input['end_date']);
+            }
 
-        if (!$expense->expense_currency_id) {
-            $expense->expense_currency_id = \Auth::user()->account->getCurrencyId();
-        }
+            if (!$expense->expense_currency_id) {
+                $expense->expense_currency_id = \Auth::user()->account->getCurrencyId();
+            }
 
         /*
         if (! $expense->invoice_currency_id) {

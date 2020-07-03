@@ -35,8 +35,8 @@ class ClientTypeRepository extends BaseRepository
         $query = DB::table('client_types')
             ->leftJoin('accounts', 'accounts.id', '=', 'client_types.account_id')
             ->leftJoin('users', 'users.id', '=', 'client_types.user_id')
-//            ->where('client_types.account_id', '=', $accountId)
-            //->where('client_types.deleted_at', '=', null)
+           // ->where('client_types.account_id', '=', $accountId)
+           //  ->whereNull('client_types.deleted_at')
             ->select(
                 'client_types.id',
                 'client_types.public_id',

@@ -31,9 +31,9 @@ class ItemBrandRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('item_brands')
-            ->join('accounts', 'accounts.id', '=', 'item_brands.account_id')
-            ->join('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
-            ->join('users', 'users.id', '=', 'item_brands.user_id')
+            ->LeftJoin('accounts', 'accounts.id', '=', 'item_brands.account_id')
+            ->LeftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
+            ->LeftJoin('users', 'users.id', '=', 'item_brands.user_id')
             ->where('item_brands.account_id', '=', $accountId)
 //            ->where('item_brands.deleted_at', '=', null)
             ->select(

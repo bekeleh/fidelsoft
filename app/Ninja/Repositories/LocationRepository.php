@@ -31,26 +31,29 @@ class LocationRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('locations')
-            ->where('locations.account_id', '=', $accountId)
+        ->LeftJoin('accounts', 'accounts.id', '=', 'locations.account_id')
+        ->LeftJoin('users', 'users.id', '=', 'locations.user_id')
+        ->where('locations.account_id', '=', $accountId)
 //            ->where('locations.deleted_at', '=', null)
-            ->select(
-                'locations.id',
-                'locations.public_id',
-                'locations.name as location_name',
-                'locations.is_deleted',
-                'locations.notes',
-                'locations.created_at',
-                'locations.updated_at',
-                'locations.deleted_at',
-                'locations.created_by',
-                'locations.updated_by',
-                'locations.deleted_by'
-            );
+        ->select(
+            'locations.id',
+            'locations.public_id',
+            'locations.name as location_name',
+            'locations.is_deleted',
+            'locations.notes',
+            'locations.created_at',
+            'locations.updated_at',
+            'locations.deleted_at',
+            'locations.created_by',
+            'locations.updated_by',
+            'locations.deleted_by'
+        );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('locations.name', 'like', '%' . $filter . '%')
-                    ->orWhere('locations.notes', 'like', '%' . $filter . '%');
+                ->orWhere('locations.created_by', 'like', '%' . $filter . '%')
+                ->orWhere('locations.notes', 'like', '%' . $filter . '%');
             });
         }
 

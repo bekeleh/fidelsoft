@@ -34,9 +34,9 @@ class ItemRequestRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('item_requests')
-            ->join('accounts', 'accounts.id', '=', 'item_requests.account_id')
-            ->join('users', 'users.id', '=', 'item_requests.user_id')
-            ->join('products', 'products.id', '=', 'item_requests.product_id')
+            ->LeftJoin('accounts', 'accounts.id', '=', 'item_requests.account_id')
+            ->LeftJoin('users', 'users.id', '=', 'item_requests.user_id')
+            ->LeftJoin('products', 'products.id', '=', 'item_requests.product_id')
             ->leftjoin('departments', 'departments.id', '=', 'item_requests.department_id')
             ->leftjoin('stores', 'stores.id', '=', 'item_requests.store_id')
             ->leftjoin('statuses', 'statuses.id', '=', 'item_requests.status_id')

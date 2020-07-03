@@ -19,34 +19,37 @@ class ManufacturerRepository extends BaseRepository
     public function all()
     {
         return Manufacturer::scope()
-            ->withTrashed()
-            ->where('is_deleted', '=', false)
-            ->orderBy('created_at', 'desc')
-            ->get();
+        ->withTrashed()
+        ->where('is_deleted', '=', false)
+        ->orderBy('created_at', 'desc')
+        ->get();
     }
 
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('manufacturers')
-            ->where('manufacturers.account_id', '=', $accountId)
+        ->LeftJoin('accounts', 'accounts.id', '=', 'manufacturers.account_id')
+        ->LeftJoin('users', 'users.id', '=', 'manufacturers.user_id')
+        ->where('manufacturers.account_id', '=', $accountId)
 //            ->where('manufacturers.deleted_at', '=', null)
-            ->select(
-                'manufacturers.name as manufacturer_name',
-                'manufacturers.notes',
-                'manufacturers.public_id',
-                'manufacturers.deleted_at',
-                'manufacturers.created_at',
-                'manufacturers.updated_at',
-                'manufacturers.is_deleted',
-                'manufacturers.user_id',
-                'manufacturers.created_by',
-                'manufacturers.updated_by'
-            );
+        ->select(
+            'manufacturers.name as manufacturer_name',
+            'manufacturers.notes',
+            'manufacturers.public_id',
+            'manufacturers.deleted_at',
+            'manufacturers.created_at',
+            'manufacturers.updated_at',
+            'manufacturers.is_deleted',
+            'manufacturers.user_id',
+            'manufacturers.created_by',
+            'manufacturers.updated_by'
+        );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('manufacturers.name', 'like', '%' . $filter . '%')
-                    ->orwhere('manufacturers.notes', 'like', '%' . $filter . '%');
+                ->orwhere('manufacturers.created_by', 'like', '%' . $filter . '%')
+                ->orwhere('manufacturers.notes', 'like', '%' . $filter . '%');
             });
         }
 

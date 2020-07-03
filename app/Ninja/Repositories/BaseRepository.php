@@ -136,7 +136,7 @@ class BaseRepository
                 if (in_array(STATUS_DELETED, $filters)) {
                     $query->orWhere(function ($query) use ($table) {
                         $query->whereNotNull($table . '.deleted_at')
-                            ->where($table . '.is_deleted', '=', 1);
+                        ->where($table . '.is_deleted', '=', 1);
                     });
                 }
             });

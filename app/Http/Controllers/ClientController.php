@@ -260,6 +260,8 @@ class ClientController extends BaseController
             'endDate' => $endDate,
         ];
 
+        print_r($data);
+
         return view('clients.statement', $data);
     }
 

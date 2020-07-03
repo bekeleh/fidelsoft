@@ -30,12 +30,12 @@ class ItemMovementRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('item_movements')
-            ->join('accounts', 'accounts.id', '=', 'item_movements.account_id')
-            ->join('item_stores', 'item_stores.id', '=', 'item_movements.movable_id')
-            ->join('products', 'products.id', '=', 'item_stores.product_id')
-            ->join('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
-            ->join('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
-            ->join('stores', 'stores.id', '=', 'item_stores.store_id')
+            ->LeftJoin('accounts', 'accounts.id', '=', 'item_movements.account_id')
+            ->LeftJoin('item_stores', 'item_stores.id', '=', 'item_movements.movable_id')
+            ->LeftJoin('products', 'products.id', '=', 'item_stores.product_id')
+            ->LeftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
+            ->LeftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
+            ->LeftJoin('stores', 'stores.id', '=', 'item_stores.store_id')
             ->where('item_movements.account_id', '=', $accountId)
             //->where('item_movements.deleted_at', '=', null)
             ->select(

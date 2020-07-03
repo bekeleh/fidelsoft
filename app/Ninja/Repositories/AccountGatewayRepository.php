@@ -23,25 +23,25 @@ class AccountGatewayRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('account_gateways')
-            ->leftJoin('gateways', 'gateways.id', '=', 'account_gateways.gateway_id')
-            ->join('accounts', 'accounts.id', '=', 'account_gateways.account_id')
-            ->where('account_gateways.account_id', '=', $accountId)
-//            ->whereNull('account_gateways.deleted_at')
-            ->select(
-                'account_gateways.id',
-                'account_gateways.public_id',
-                'gateways.name as gateway_name',
-                'gateways.public_id as gateway_public_id',
-                'account_gateways.deleted_at',
-                'account_gateways.gateway_id',
-                'accounts.gateway_fee_enabled'
-            );
+        ->leftJoin('gateways', 'gateways.id', '=', 'account_gateways.gateway_id')
+        ->leftJoin('accounts', 'accounts.id', '=', 'account_gateways.account_id')
+        ->where('account_gateways.account_id', '=', $accountId)
+        // ->whereNull('account_gateways.deleted_at')
+        ->select(
+            'account_gateways.id',
+            'account_gateways.public_id',
+            'gateways.name as gateway_name',
+            'gateways.public_id as gateway_public_id',
+            'account_gateways.deleted_at',
+            'account_gateways.gateway_id',
+            'accounts.gateway_fee_enabled'
+        );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('account_gateways.name', 'like', '%' . $filter . '%')
-                    ->orWhere('account_gateways.gateway_fee_enabled', 'like', '%' . $filter . '%')
-                    ->orWhere('account_gateways.notes', 'like', '%' . $filter . '%');
+                ->orWhere('account_gateways.gateway_fee_enabled', 'like', '%' . $filter . '%')
+                ->orWhere('account_gateways.notes', 'like', '%' . $filter . '%');
             });
         }
 

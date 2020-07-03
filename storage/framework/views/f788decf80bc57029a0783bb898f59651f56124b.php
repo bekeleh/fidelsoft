@@ -44,7 +44,7 @@
     <script type="text/javascript">
         var NINJA = NINJA || {};
         NINJA.fontSize = 9;
-        NINJA.isRegistered = <?php echo e(Utils::isRegistered() ? 'true' : 'false'); ?>;
+        NINJA.isRegistered = <?php echo e(\Utils::isRegistered() ? 'true' : 'false'); ?>;
         NINJA.loggedErrorCount = 0;
 
         window.onerror = function (errorMsg, url, lineNumber, column, error) {
@@ -92,7 +92,7 @@
             }
 
             return false;
-        };
+        }
 
         function logError(message) {
             $.ajax({
@@ -200,7 +200,7 @@
         function fbq() {
             // do nothing
         }
-
+        ;
         <?php endif; ?>
             window._fbq = window._fbq || [];
     </script>
@@ -305,7 +305,7 @@
         str = str.replace(/[^0-9\.\-]/g, '');
 
         return window.parseFloat(str);
-    };
+    }
 
     $(function () {
         $('form.warn-on-exit input, form.warn-on-exit textarea, form.warn-on-exit select').change(function () {

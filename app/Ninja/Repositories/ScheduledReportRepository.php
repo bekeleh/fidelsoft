@@ -28,27 +28,29 @@ class ScheduledReportRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('scheduled_reports')
-            ->where('scheduled_reports.account_id', '=', $accountId)
+        ->leftJoin('accounts', 'accounts.id', '=', 'scheduled_reports.account_id')
+        ->leftJoin('users', 'users.id', '=', 'scheduled_reports.user_id')
+        ->where('scheduled_reports.account_id', '=', $accountId)
 //            ->where('scheduled_reports.deleted_at', '=', null)
-            ->select(
-                'scheduled_reports.public_id',
-                'scheduled_reports.user_id',
-                'scheduled_reports.ip',
-                'scheduled_reports.frequency',
-                'scheduled_reports.send_date',
-                'scheduled_reports.created_by',
-                'scheduled_reports.updated_by',
-                'scheduled_reports.deleted_by',
-                'scheduled_reports.created_at',
-                'scheduled_reports.updated_at',
-                'scheduled_reports.deleted_at',
-                'scheduled_reports.is_deleted'
-            );
+        ->select(
+            'scheduled_reports.public_id',
+            'scheduled_reports.user_id',
+            'scheduled_reports.ip',
+            'scheduled_reports.frequency',
+            'scheduled_reports.send_date',
+            'scheduled_reports.created_by',
+            'scheduled_reports.updated_by',
+            'scheduled_reports.deleted_by',
+            'scheduled_reports.created_at',
+            'scheduled_reports.updated_at',
+            'scheduled_reports.deleted_at',
+            'scheduled_reports.is_deleted'
+        );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('scheduled_reports.ip', 'like', '%' . $filter . '%')
-                    ->orwhere('scheduled_reports.frequency', 'like', '%' . $filter . '%');
+                ->orwhere('scheduled_reports.frequency', 'like', '%' . $filter . '%');
             });
         }
 

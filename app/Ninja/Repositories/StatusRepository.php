@@ -28,28 +28,28 @@ class StatusRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('statuses')
-            ->join('accounts', 'accounts.id', '=', 'statuses.account_id')
-            ->join('users', 'users.id', '=', 'statuses.user_id')
-            ->where('statuses.account_id', '=', $accountId)
+        ->leftJoin('accounts', 'accounts.id', '=', 'statuses.account_id')
+        ->leftJoin('users', 'users.id', '=', 'statuses.user_id')
+        ->where('statuses.account_id', '=', $accountId)
 //            ->where('statuses.deleted_at', '=', null)
-            ->select(
-                'statuses.id',
-                'statuses.public_id',
-                'statuses.name as status_name',
-                'statuses.is_deleted',
-                'statuses.notes',
-                'statuses.created_at',
-                'statuses.updated_at',
-                'statuses.deleted_at',
-                'statuses.created_by',
-                'statuses.updated_by',
-                'statuses.deleted_by'
-            );
+        ->select(
+            'statuses.id',
+            'statuses.public_id',
+            'statuses.name as status_name',
+            'statuses.is_deleted',
+            'statuses.notes',
+            'statuses.created_at',
+            'statuses.updated_at',
+            'statuses.deleted_at',
+            'statuses.created_by',
+            'statuses.updated_by',
+            'statuses.deleted_by'
+        );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('statuses.name', 'like', '%' . $filter . '%')
-                    ->orWhere('statuses.notes', 'like', '%' . $filter . '%');
+                ->orWhere('statuses.notes', 'like', '%' . $filter . '%');
             });
         }
 

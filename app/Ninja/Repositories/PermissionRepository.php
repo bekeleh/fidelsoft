@@ -30,8 +30,8 @@ class PermissionRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('permissions')
-            ->join('accounts', 'accounts.id', '=', 'permissions.account_id')
-            ->join('users', 'users.id', '=', 'permissions.user_id')
+            ->leftJoin('accounts', 'accounts.id', '=', 'permissions.account_id')
+            ->leftJoin('users', 'users.id', '=', 'permissions.user_id')
             ->where('permissions.account_id', '=', $accountId)
             //->where('permissions.deleted_at', '=', null)
             ->select(
