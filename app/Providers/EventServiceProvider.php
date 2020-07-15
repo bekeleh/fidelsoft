@@ -268,6 +268,16 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ProductWasDeleted' => [
             'App\Listeners\ProductListener@deletedProduct',
         ],
+//             User events
+        'App\Events\UserWasCreated' => [
+            'App\Listeners\UserListener@createdUser',
+        ],
+        'App\Events\UserWasUpdated' => [
+            'App\Listeners\UserListener@updatedUser',
+        ],
+        'App\Events\UserWasDeleted' => [
+            'App\Listeners\UserListener@deletedUser',
+        ],
     ];
 
     /**

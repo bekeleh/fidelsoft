@@ -38,20 +38,20 @@ class EntityListener
         $jsonData = $manager->createData($resource)->toArray();
 
         // For legacy Zapier support
-        if (isset($jsonData['client_id'])) {
+        if (isset($jsonData['client_id']) && $jsonData['client_id'] != 0) {
             $jsonData['client_name'] = $entity->client->getDisplayName();
         }
 //      not yet defined
         $ublData = null;
-
+        $data = null;
         foreach ($subscriptions as $subscription) {
             switch ($subscription->format) {
                 case SUBSCRIPTION_FORMAT_JSON:
-                $data = $jsonData;
-                break;
+                    $data = $jsonData;
+                    break;
                 case SUBSCRIPTION_FORMAT_UBL:
-                $data = $ublData;
-                break;
+                    $data = $ublData;
+                    break;
             }
 
             self::notifySubscription($subscription, $data);
@@ -80,12 +80,13 @@ class EntityListener
         curl_setopt_array($curl, $opts);
 
         $result = curl_exec($curl);
+
         $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
         curl_close($curl);
 
-        if ($status == 410) {
-            $subscription->delete();
-        }
+//        if ($status === 410) {
+//            $subscription->delete();
+//        }
     }
 }

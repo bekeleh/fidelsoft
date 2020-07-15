@@ -7,22 +7,21 @@
         <title><?php echo e(trans('texts.client_portal')); ?></title>
         <link href="<?php echo e(asset('logo.png')); ?>" rel="shortcut icon" type="image/png">
     <?php else: ?>
-        
-        <title><?php echo e(isset($title) ? ($title) : (trans('texts.team_source'))); ?></title>
+        <title><?php echo e(isset($title) ? ($title . ' | '. trans('texts.team_source')) : ('Fidelsoft' )); ?></title>
         <meta name="description" content="<?php echo e(isset($description) ? $description : trans('texts.app_description')); ?>"/>
         <link href="<?php echo e(asset('logo.gif')); ?>" rel="shortcut icon" type="image/gif">
-        <meta property="og:site_name" content="Fidel ERP"/>
+        <meta property="og:site_name" content="Fidelsoft"/>
         <meta property="og:url" content="<?php echo e(SITE_URL); ?>"/>
-        <meta property="og:title" content="Fidel ERP"/>
+        <meta property="og:title" content="Fidelsoft"/>
         <meta property="og:image" content="<?php echo e(SITE_URL); ?>/images/round_logo.png"/>
-        <meta property="og:description" content="Fidel ERP"/>
+        <meta property="og:description" content="Fidelsoft"/>
 
         <!-- http://realfavicongenerator.net -->
         <link rel="manifest" href="<?php echo e(url('manifest.json')); ?>">
         <link rel="mask-icon" href="<?php echo e(url('safari-pinned-tab.svg')); ?>" color="#3bc65c">
         <link rel="shortcut icon" href="<?php echo e(url('favicon.ico')); ?>">
-        <meta name="apple-mobile-web-app-title" content="Fidel ERP">
-        <meta name="application-name" content="Fidel ERP">
+        <meta name="apple-mobile-web-app-title" content="Fidelsoft">
+        <meta name="application-name" content="Fidelsoft">
         <meta name="theme-color" content="#ffffff">
     <?php endif; ?>
     <meta http-equiv="cache-control" content="max-age=0"/>
@@ -36,15 +35,17 @@
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="canonical" href="<?php echo e(NINJA_APP_URL); ?>/<?php echo e(Request::path()); ?>"/>
-
+    
     <?php echo $__env->yieldContent('head_css'); ?>
 
-    <script src="<?php echo e(asset('built.js')); ?>?no_cache=<?php echo e(NINJA_VERSION); ?>" type="text/javascript"></script>
+    <script src="<?php echo e(asset('built.js')); ?>?no_cache=<?php echo e(NINJA_VERSION); ?>" type="text/javascript">
+    </script>
+
 
     <script type="text/javascript">
         var NINJA = NINJA || {};
         NINJA.fontSize = 9;
-        NINJA.isRegistered = <?php echo e(\Utils::isRegistered() ? 'true' : 'false'); ?>;
+        NINJA.isRegistered = <?php echo e(Utils::isRegistered() ? 'true' : 'false'); ?>;
         NINJA.loggedErrorCount = 0;
 
         window.onerror = function (errorMsg, url, lineNumber, column, error) {
@@ -53,11 +54,11 @@
             }
             NINJA.loggedErrorCount++;
 
-            // Error in hosted third party library
+// Error in hosted third party library
             if (errorMsg.indexOf('Script error.') > -1) {
                 return;
             }
-            // Error due to incognito mode
+// Error due to incognito mode
             if (errorMsg.indexOf('DOM Exception 22') > -1) {
                 return;
             }
@@ -71,7 +72,7 @@
                 return;
             }
             try {
-                // Use StackTraceJS to parse the error context
+// Use StackTraceJS to parse the error context
                 if (error) {
                     StackTrace.fromError(error).then(function (result) {
                         var gps = new StackTraceGPS();
@@ -92,7 +93,7 @@
             }
 
             return false;
-        }
+        };
 
         function logError(message) {
             $.ajax({
@@ -157,8 +158,8 @@
         });
 
         /* This causes problems with some languages. ie, fr_CA
-         var appLocale = '<?php echo e(App::getLocale()); ?>';
-         */
+        var appLocale = '<?php echo e(App::getLocale()); ?>';
+*/
 
         <?php if(env('FACEBOOK_PIXEL')): ?>
         <!-- Facebook Pixel Code -->
@@ -198,14 +199,14 @@
 
         <?php else: ?>
         function fbq() {
-            // do nothing
+// do nothing
         }
-        ;
+
         <?php endif; ?>
             window._fbq = window._fbq || [];
     </script>
 
-    <?php if(! request()->borderless): ?>
+    <?php if(!request()->borderless): ?>
         <link rel="stylesheet" type="text/css" href="<?php echo e(asset('css/cookieconsent.min.css')); ?>"/>
         <script src="<?php echo e(asset('js/cookieconsent.min.js')); ?>"></script>
         <script>
@@ -286,9 +287,9 @@
 
 <?php echo $__env->yieldContent('body'); ?>
 
+
 <script type="text/javascript">
     NINJA.formIsChanged = <?php echo e(isset($formIsChanged) && $formIsChanged ? 'true' : 'false'); ?>;
-
     NINJA.parseFloat = function (str) {
         if (!str) {
             return '';
@@ -296,7 +297,7 @@
             str = str + '';
         }
 
-        // check for comma as decimal separator
+// check for comma as decimal separator
         if (str.match(/,[\d]{1,2}$/)) {
             str = str.replace(',', '.');
             str = str.replace('.', ',');
@@ -305,7 +306,7 @@
         str = str.replace(/[^0-9\.\-]/g, '');
 
         return window.parseFloat(str);
-    }
+    };
 
     $(function () {
         $('form.warn-on-exit input, form.warn-on-exit textarea, form.warn-on-exit select').change(function () {

@@ -1,5 +1,7 @@
 
-<?php $__env->startSection('head_css'); ?>
+<?php use App\Libraries\HistoryUtils;
+
+$__env->startSection('head_css'); ?>
     <link href="<?php echo e(asset('css/built.css')); ?>?no_cache=<?php echo e(NINJA_VERSION); ?>" rel="stylesheet" type="text/css"/>
 <?php $__env->stopSection(); ?>
 
@@ -255,20 +257,17 @@
         </a>
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
             <div class="navbar-form navbar-right">
+                <a href="javascript:showKeyboardShortcuts()" title="<?php echo e(trans('texts.help')); ?>"
+                   style="color: white;">
+                    <i class="fa fa-question-circle"></i>
+                </a>
                 
-                
-                
-                
-                <?php echo Button::success(trans('texts.help'))->withAttributes(array('id' => 'showKeyboardShortcuts', 'onclick' => 'showKeyboardShortcuts()', 'style' => 'max-width:100px;;overflow:hidden'))->small(); ?>
-
-
                 <?php if(Auth::check()): ?>
+                    <a href="javascript:showContactUs()" title="<?php echo e(trans('texts.contact_us')); ?>"
+                       style="color: white;">
+                        <?php echo e(trans('texts.contact_us')); ?> <i class="fa fa-envelope"></i>
+                    </a>
                     
-                    
-                    
-                    
-                    <?php echo Button::success(trans('texts.contact_us'))->withAttributes(array('id' => 'showContactUs', 'onclick' => 'showContactUs()', 'style' => 'max-width:100px;;overflow:hidden'))->small(); ?>
-
                 <?php endif; ?>
                 <?php if(Auth::check() && !Auth::user()->registered): ?>
                     <?php echo Button::success(trans('texts.sign_up'))->withAttributes(array('id' => 'signUpButton', 'onclick' => 'showSignUp()', 'style' => 'max-width:100px;;overflow:hidden'))->small(); ?>
@@ -335,9 +334,9 @@
                         <?php endif; ?>
                         <li class="divider"></li>
                         <?php if(Utils::isSuperUser() && Auth::user()->confirmed && Utils::getResllerType() != RESELLER_ACCOUNT_COUNT): ?>
-                            
-                            <li><?php echo link_to('#', trans('texts.add_company'), ['onclick' => 'showSignUp()']); ?></li>
-                            
+                            <?php if(!session(SESSION_USER_ACCOUNTS) || count(session(SESSION_USER_ACCOUNTS)) < 5): ?>
+                                <li><?php echo link_to('#', trans('texts.add_company'), ['onclick' => 'showSignUp()']); ?></li>
+                            <?php endif; ?>
                         <?php endif; ?>
                         <li>
                             <?php echo link_to('#', trans('texts.logout'), array('onclick'=>'logout()')); ?>
@@ -436,7 +435,7 @@
         <!-- /#left-sidebar-wrapper -->
         <div id="right-sidebar-wrapper" class="hide-phone" style="overflow-y:hidden">
             <ul class="sidebar-nav <?php echo e(Auth::user()->dark_mode ? 'sidebar-nav-dark' : 'sidebar-nav-light'); ?>">
-                <?php echo \App\Libraries\HistoryUtils::renderHtml(Auth::user()->account_id); ?>
+                <?php echo HistoryUtils::renderHtml(Auth::user()->account_id); ?>
 
             </ul>
         </div>
@@ -476,8 +475,9 @@
                 <div class="pull-right">
                     <?php echo $__env->yieldContent('top-right'); ?>
                 </div>
+
             <?php if(!isset($showBreadcrumbs) || $showBreadcrumbs): ?>
-                <?php echo Form::breadcrumbs((!empty($entity) && $entity->exists) ? $entity->present()->statusLabel : false); ?>
+                <?php echo Form::breadcrumbs((! empty($entity) && $entity->exists && !$entity->deleted_at) ? $entity->present()->statusLabel : false); ?>
 
             <?php endif; ?>
             <!-- Notification area -->

@@ -860,8 +860,8 @@ class Account extends Eloquent
     public function getPrimaryUser()
     {
         return $this->users()
-        ->orderBy('id')
-        ->first();
+            ->orderBy('id')
+            ->first();
     }
 
     public function getToken($userId, $name)
@@ -983,7 +983,7 @@ class Account extends Eloquent
 
         $planDetails = $this->getPlanDetails();
         $selfHost = !Utils::isNinjaProd();
-        if (! $selfHost && function_exists('ninja_account_features')) {
+        if (!$selfHost && function_exists('ninja_account_features')) {
             $result = ninja_account_features($this, $feature);
 
             if ($result != null) {
@@ -996,7 +996,7 @@ class Account extends Eloquent
             case FEATURE_TASKS:
             case FEATURE_EXPENSES:
             case FEATURE_QUOTES:
-            return true;
+                return true;
 
             case FEATURE_CUSTOMIZE_INVOICE_DESIGN:
             case FEATURE_DIFFERENT_DESIGNS:
@@ -1010,37 +1010,37 @@ class Account extends Eloquent
             case FEATURE_API:
             case FEATURE_CLIENT_PORTAL_PASSWORD:
             case FEATURE_CUSTOM_URL:
-            return $selfHost || ! empty($planDetails);
+                return $selfHost || !empty($planDetails);
 
             // Pro; No trial allowed, unless they're trialing enterprise with an active pro plan
             case FEATURE_MORE_CLIENTS:
-            return $selfHost || ! empty($planDetails) && (! $planDetails['trial'] || ! empty($this->getPlanDetails(false, false)));
+                return $selfHost || !empty($planDetails) && (!$planDetails['trial'] || !empty($this->getPlanDetails(false, false)));
 
             // White Label
             case FEATURE_WHITE_LABEL:
-            if ($this->isNinjaAccount() || (! $selfHost && $planDetails && ! $planDetails['expires'])) {
-                return false;
-            }
-                // Fallthrough
+                if ($this->isNinjaAccount() || (!$selfHost && $planDetails && !$planDetails['expires'])) {
+                    return false;
+                }
+            // Fallthrough
             case FEATURE_REMOVE_CREATED_BY:
-                return ! empty($planDetails); // A plan is required even for self-hosted users
+                return !empty($planDetails); // A plan is required even for self-hosted users
 
             // Enterprise; No Trial allowed; grandfathered for old pro users
             case FEATURE_USERS:// Grandfathered for old Pro users
-            if ($planDetails && $planDetails['trial']) {
+                if ($planDetails && $planDetails['trial']) {
                     // Do they have a non-trial plan?
-                $planDetails = $this->getPlanDetails(false, false);
-            }
+                    $planDetails = $this->getPlanDetails(false, false);
+                }
 
-            return $selfHost || ! empty($planDetails) && ($planDetails['plan'] == PLAN_ENTERPRISE || $planDetails['started'] <= date_create(PRO_USERS_GRANDFATHER_DEADLINE));
+                return $selfHost || !empty($planDetails) && ($planDetails['plan'] == PLAN_ENTERPRISE || $planDetails['started'] <= date_create(PRO_USERS_GRANDFATHER_DEADLINE));
 
             // Enterprise; No Trial allowed
             case FEATURE_DOCUMENTS:
             case FEATURE_USER_PERMISSIONS:
-            return $selfHost || ! empty($planDetails) && $planDetails['plan'] == PLAN_ENTERPRISE && ! $planDetails['trial'];
+                return $selfHost || !empty($planDetails) && $planDetails['plan'] == PLAN_ENTERPRISE && !$planDetails['trial'];
 
             default:
-            return false;
+                return false;
         }
     }
 
@@ -1220,7 +1220,7 @@ class Account extends Eloquent
 
     public function getSubscriptions($eventId)
     {
-        return Subscription::where('account_id', '=', $this->id)->where('event_id', '=', $eventId)->get();
+        return Subscription::where('account_id', $this->id)->where('event_id', $eventId)->get();
     }
 
     /**
@@ -1284,7 +1284,7 @@ class Account extends Eloquent
         }
 
         return $this->token_billing_type_id == TOKEN_BILLING_OPT_IN
-        || $this->token_billing_type_id == TOKEN_BILLING_OPT_OUT;
+            || $this->token_billing_type_id == TOKEN_BILLING_OPT_OUT;
     }
 
     public function getTokenGatewayId()

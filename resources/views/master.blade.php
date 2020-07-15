@@ -35,7 +35,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="canonical" href="{{ NINJA_APP_URL }}/{{ Request::path() }}"/>
-    <link href="{{ asset('css/toastr.min.css') }}" rel="stylesheet" type="text/css"/>
+    {{--    <link href="{{ asset('css/toastr.min.css') }}" rel="stylesheet" type="text/css"/>--}}
     @yield('head_css')
 
     <script src="{{ asset('built.js') }}?no_cache={{ NINJA_VERSION }}" type="text/javascript">
@@ -54,11 +54,11 @@
             }
             NINJA.loggedErrorCount++;
 
-            // Error in hosted third party library
+// Error in hosted third party library
             if (errorMsg.indexOf('Script error.') > -1) {
                 return;
             }
-            // Error due to incognito mode
+// Error due to incognito mode
             if (errorMsg.indexOf('DOM Exception 22') > -1) {
                 return;
             }
@@ -72,7 +72,7 @@
                 return;
             }
             try {
-                // Use StackTraceJS to parse the error context
+// Use StackTraceJS to parse the error context
                 if (error) {
                     StackTrace.fromError(error).then(function (result) {
                         var gps = new StackTraceGPS();
@@ -158,8 +158,8 @@
         });
 
         /* This causes problems with some languages. ie, fr_CA
-         var appLocale = '{{App::getLocale()}}';
-         */
+        var appLocale = '{{App::getLocale()}}';
+*/
 
         @if (env('FACEBOOK_PIXEL'))
         <!-- Facebook Pixel Code -->
@@ -199,7 +199,7 @@
 
         @else
         function fbq() {
-            // do nothing
+// do nothing
         }
 
         @endif
@@ -286,11 +286,9 @@
 @endif
 
 @yield('body')
-<script src="{{ asset('js/toastr.min.js') }}" type="text/javascript"></script>
-<script type="text/javascript">
-    <!-- toastr notification -->
-    toastr.success('{!! Session::get('message') !!}');
+{{--<script src="{{ asset('js/toastr.min.js') }}" type="text/javascript"></script>--}}
 
+<script type="text/javascript">
     NINJA.formIsChanged = {{ isset($formIsChanged) && $formIsChanged ? 'true' : 'false' }};
     NINJA.parseFloat = function (str) {
         if (!str) {
@@ -299,7 +297,7 @@
             str = str + '';
         }
 
-        // check for comma as decimal separator
+// check for comma as decimal separator
         if (str.match(/,[\d]{1,2}$/)) {
             str = str.replace(',', '.');
             str = str.replace('.', ',');

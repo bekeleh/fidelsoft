@@ -253,18 +253,17 @@
         </a>
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
             <div class="navbar-form navbar-right">
-                {{--                <a href="javascript:showKeyboardShortcuts()" title="{{ trans('texts.help') }}"--}}
-                {{--                   style="color: white;">--}}
-                {{--                    <i class="fa fa-question-circle"></i>--}}
-                {{--                </a>--}}
-                {!! Button::success(trans('texts.help'))->withAttributes(array('id' => 'showKeyboardShortcuts', 'onclick' => 'showKeyboardShortcuts()', 'style' => 'max-width:100px;;overflow:hidden'))->small() !!}
-
+                <a href="javascript:showKeyboardShortcuts()" title="{{ trans('texts.help') }}"
+                   style="color: white;">
+                    <i class="fa fa-question-circle"></i>
+                </a>
+                {{--                {!! Button::success(trans('texts.help'))->withAttributes(array('id' => 'showKeyboardShortcuts', 'onclick' => 'showKeyboardShortcuts()', 'style' => 'max-width:100px;;overflow:hidden'))->small() !!}--}}
                 @if (Auth::check())
-                    {{--                    <a href="javascript:showContactUs()" title="{{ trans('texts.contact_us') }}"--}}
-                    {{--                       style="color: white;">--}}
-                    {{--                        {{ trans('texts.contact_us') }} <i class="fa fa-envelope"></i>--}}
-                    {{--                    </a>--}}
-                    {!! Button::success(trans('texts.contact_us'))->withAttributes(array('id' => 'showContactUs', 'onclick' => 'showContactUs()', 'style' => 'max-width:100px;;overflow:hidden'))->small() !!}
+                    <a href="javascript:showContactUs()" title="{{ trans('texts.contact_us') }}"
+                       style="color: white;">
+                        {{ trans('texts.contact_us') }} <i class="fa fa-envelope"></i>
+                    </a>
+                    {{--                    {!! Button::success(trans('texts.contact_us'))->withAttributes(array('id' => 'showContactUs', 'onclick' => 'showContactUs()', 'style' => 'max-width:100px;;overflow:hidden'))->small() !!}--}}
                 @endif
                 @if (Auth::check() && !Auth::user()->registered)
                     {!! Button::success(trans('texts.sign_up'))->withAttributes(array('id' => 'signUpButton', 'onclick' => 'showSignUp()', 'style' => 'max-width:100px;;overflow:hidden'))->small() !!}
@@ -326,9 +325,9 @@
                         @endif
                         <li class="divider"></li>
                         @if (Utils::isSuperUser() && Auth::user()->confirmed && Utils::getResllerType() != RESELLER_ACCOUNT_COUNT)
-                            {{--                            @if (!session(SESSION_USER_ACCOUNTS) || count(session(SESSION_USER_ACCOUNTS)) < 5)--}}
-                            <li>{!! link_to('#', trans('texts.add_company'), ['onclick' => 'showSignUp()']) !!}</li>
-                            {{--                            @endif--}}
+                            @if (!session(SESSION_USER_ACCOUNTS) || count(session(SESSION_USER_ACCOUNTS)) < 5)
+                                <li>{!! link_to('#', trans('texts.add_company'), ['onclick' => 'showSignUp()']) !!}</li>
+                            @endif
                         @endif
                         <li>
                             {!! link_to('#', trans('texts.logout'), array('onclick'=>'logout()')) !!}
@@ -438,9 +437,9 @@
                 @endif
 
                 @if (Session::has('message'))
-                    {{--                    <div class="alert alert-success alert-hide" style="z-index:9999">--}}
-                    {{--                        {!! Session::get('message') !!}--}}
-                    {{--                    </div>--}}
+                    <div class="alert alert-success alert-hide" style="z-index:9999">
+                        {!! Session::get('message') !!}
+                    </div>
                 @elseif (Session::has('success'))
                     <div class="alert alert-success alert-hide" style="z-index:9999">
                         {!! Session::get('success') !!}
@@ -458,8 +457,9 @@
                 <div class="pull-right">
                     @yield('top-right')
                 </div>
+
             @if (!isset($showBreadcrumbs) || $showBreadcrumbs)
-                {!! Form::breadcrumbs((!empty($entity) && $entity->exists) ? $entity->present()->statusLabel : false) !!}
+                {!! Form::breadcrumbs((! empty($entity) && $entity->exists && !$entity->deleted_at) ? $entity->present()->statusLabel : false) !!}
             @endif
             <!-- Notification area -->
                 <!-- Body Content  -->

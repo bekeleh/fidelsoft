@@ -335,9 +335,9 @@ if (!defined('APP_NAME')) {
     define('PAYMENT_STATUS_FAILED', 3);
     define('PAYMENT_STATUS_COMPLETED', 4);
     define('PAYMENT_STATUS_PARTIALLY_REFUNDED', 5);
-    define('PAYMENT_STATUS_REFUNDED',6);
-    define('PAYMENT_STATUS_PARTIALLY_PAID',7);
-    define('PAYMENT_STATUS_ADVANCE_PAID',8);
+    define('PAYMENT_STATUS_REFUNDED', 6);
+    define('PAYMENT_STATUS_PARTIALLY_PAID', 7);
+    define('PAYMENT_STATUS_ADVANCE_PAID', 8);
 
     define('APPROVE_STATUS_PENDING', 1);
     define('APPROVE_STATUS_REJECTED', 2);
@@ -439,34 +439,45 @@ if (!defined('APP_NAME')) {
     define('GATEWAY_CUSTOM2', 67);
     define('GATEWAY_CUSTOM3', 68);
 
-// The customer exists, but only as a local concept
-// The remote gateway doesn't understand the concept of customers
+    // The customer exists, but only as a local concept
+    // The remote gateway doesn't understand the concept of customers
     define('CUSTOMER_REFERENCE_LOCAL', 'local');
-
-    define('EVENT_CREATE_CLIENT', 1);
-    define('EVENT_CREATE_INVOICE', 2);
-    define('EVENT_CREATE_QUOTE', 3);
+    //    payment
     define('EVENT_CREATE_PAYMENT', 4);
-    define('EVENT_CREATE_VENDOR', 5);
-    define('EVENT_UPDATE_QUOTE', 6);
-    define('EVENT_DELETE_QUOTE', 7);
+    define('EVENT_DELETE_PAYMENT', 12);
+    //     invoice
+    define('EVENT_CREATE_INVOICE', 2);
     define('EVENT_UPDATE_INVOICE', 8);
     define('EVENT_DELETE_INVOICE', 9);
+    //  quote
+    define('EVENT_CREATE_QUOTE', 3);
+    define('EVENT_UPDATE_QUOTE', 6);
+    define('EVENT_DELETE_QUOTE', 7);
+    define('EVENT_APPROVE_QUOTE', 21);
+    //   client
+    define('EVENT_CREATE_CLIENT', 1);
     define('EVENT_UPDATE_CLIENT', 10);
     define('EVENT_DELETE_CLIENT', 11);
-    define('EVENT_DELETE_PAYMENT', 12);
+    //    client
+    define('EVENT_CREATE_VENDOR', 5);
     define('EVENT_UPDATE_VENDOR', 13);
     define('EVENT_DELETE_VENDOR', 14);
+    //    expense
     define('EVENT_CREATE_EXPENSE', 15);
     define('EVENT_UPDATE_EXPENSE', 16);
     define('EVENT_DELETE_EXPENSE', 17);
+    //    task
     define('EVENT_CREATE_TASK', 18);
     define('EVENT_UPDATE_TASK', 19);
     define('EVENT_DELETE_TASK', 20);
-    define('EVENT_APPROVE_QUOTE', 21);
+    //    product
     define('EVENT_CREATE_PRODUCT', 22);
     define('EVENT_UPDATE_PRODUCT', 23);
     define('EVENT_DELETE_PRODUCT', 24);
+    //    user
+    define('EVENT_CREATE_USER', 25);
+    define('EVENT_UPDATE_USER', 26);
+    define('EVENT_DELETE_USER', 27);
 
     define('REQUESTED_PRO_PLAN', 'REQUESTED_PRO_PLAN');
     define('NINJA_ACCOUNT_KEY', env('NINJA_ACCOUNT_KEY', 'zg4ylmzDkdkPOT8yoKQw9LTWaoZJx79h'));
@@ -475,32 +486,32 @@ if (!defined('APP_NAME')) {
     define('NINJA_GATEWAY_ID', GATEWAY_STRIPE);
     define('NINJA_GATEWAY_CONFIG', 'NINJA_GATEWAY_CONFIG');
     define('NINJA_WEB_URL', env('NINJA_WEB_URL', 'https://www.fidel.com.et'));
-    define('NINJA_APP_URL', env('NINJA_APP_URL', 'https://app.e-ninja.com'));
-    define('NINJA_DOCS_URL', env('NINJA_DOCS_URL', 'https://e-ninja.readthedocs.io/en/latest'));
+    define('NINJA_APP_URL', env('NINJA_APP_URL', 'https://app.fidel.com'));
+    define('NINJA_DOCS_URL', env('NINJA_DOCS_URL', 'https://fidel.readthedocs.io/en/latest'));
     define('NINJA_DATE', '2000-01-01');
     define('NINJA_VERSION', '4.5.7' . env('NINJA_VERSION_SUFFIX'));
     define('NINJA_TERMS_VERSION', '1.0.1');
 
-    define('SOCIAL_LINK_FACEBOOK', env('SOCIAL_LINK_FACEBOOK', 'https://www.facebook.com/e-ninja'));
-    define('SOCIAL_LINK_TWITTER', env('SOCIAL_LINK_TWITTER', 'https://twitter.com/e-ninja'));
-    define('SOCIAL_LINK_GITHUB', env('SOCIAL_LINK_GITHUB', 'https://github.com/e-ninja/e-ninja/'));
+    define('SOCIAL_LINK_FACEBOOK', env('SOCIAL_LINK_FACEBOOK', 'https://www.facebook.com/fidel'));
+    define('SOCIAL_LINK_TWITTER', env('SOCIAL_LINK_TWITTER', 'https://twitter.com/fidel'));
+    define('SOCIAL_LINK_GITHUB', env('SOCIAL_LINK_GITHUB', 'https://github.com/fidel/fidel/'));
 
-    define('NINJA_FORUM_URL', env('NINJA_FORUM_URL', 'https://www.e-ninja.erp/forums/forum/support/'));
-    define('NINJA_CONTACT_URL', env('NINJA_CONTACT_URL', 'https://www.e-ninja.erp/contact/'));
+    define('NINJA_FORUM_URL', env('NINJA_FORUM_URL', 'https://www.fidel.erp/forums/forum/support/'));
+    define('NINJA_CONTACT_URL', env('NINJA_CONTACT_URL', 'https://www.fidel.erp/contact/'));
     define('NINJA_FROM_EMAIL', env('NINJA_FROM_EMAIL', 'contact.nassa@gmail.com'));
-    define('NINJA_IOS_APP_URL', 'https://itunes.apple.com/us/app/e-ninja/id1435514417?ls=1&mt=8');
-    define('NINJA_ANDROID_APP_URL', 'https://play.google.com/store/apps/details?id=com.e-ninja.flutter');
-    define('RELEASES_URL', env('RELEASES_URL', 'https://github.com/e-ninja/e-ninja/releases'));
-    define('ZAPIER_URL', env('ZAPIER_URL', 'https://zapier.com/zapbook/e-ninja'));
+    define('NINJA_IOS_APP_URL', 'https://itunes.apple.com/us/app/fidel/id1435514417?ls=1&mt=8');
+    define('NINJA_ANDROID_APP_URL', 'https://play.google.com/store/apps/details?id=com.fidel.flutter');
+    define('RELEASES_URL', env('RELEASES_URL', 'https://github.com/fidel/fidel/releases'));
+    define('ZAPIER_URL', env('ZAPIER_URL', 'https://zapier.com/zapbook/fidel'));
     define('OUTDATE_BROWSER_URL', env('OUTDATE_BROWSER_URL', 'http://browsehappy.com/'));
     define('PDFMAKE_DOCS', env('PDFMAKE_DOCS', 'http://pdfmake.org/playground.html'));
     define('PHANTOMJS_CLOUD', env('PHANTOMJS_CLOUD', 'http://api.phantomjscloud.com/api/browser/v2/'));
     define('PHP_DATE_FORMATS', env('PHP_DATE_FORMATS', 'http://php.net/manual/en/function.date.php'));
-    define('REFERRAL_PROGRAM_URL', env('REFERRAL_PROGRAM_URL', 'https://www.e-ninja.erp/referral-program/'));
+    define('REFERRAL_PROGRAM_URL', env('REFERRAL_PROGRAM_URL', 'https://www.fidel.erp/referral-program/'));
     define('EMAIL_MARKUP_URL', env('EMAIL_MARKUP_URL', 'https://developers.google.com/gmail/markup'));
     define('OFX_HOME_URL', env('OFX_HOME_URL', 'http://www.ofxhome.com/index.php/home/directory/all'));
     define('GOOGLE_ANALYITCS_URL', env('GOOGLE_ANALYITCS_URL', 'https://www.google-analytics.com/collect'));
-    define('TRANSIFEX_URL', env('TRANSIFEX_URL', 'https://www.transifex.com/e-ninja/e-ninja'));
+    define('TRANSIFEX_URL', env('TRANSIFEX_URL', 'https://www.transifex.com/fidel/fidel'));
     define('IP_LOOKUP_URL', env('IP_LOOKUP_URL', 'http://whatismyipaddress.com/ip/'));
     define('CHROME_PDF_HELP_URL', 'https://support.google.com/chrome/answer/6213030?hl=en');
     define('FIREFOX_PDF_HELP_URL', 'https://support.mozilla.org/en-US/kb/view-pdf-files-firefox');
@@ -672,7 +683,7 @@ if (!defined('APP_NAME')) {
     define('AUTO_BILL_ALWAYS', 4);
     define('SERVICE_OR_LABOUR', 6);
 
-// These must be lowercase
+    // These must be lowercase
     define('PLAN_FREE', 'free');
     define('PLAN_PRO', 'pro');
     define('PLAN_ENTERPRISE', 'enterprise');
@@ -683,7 +694,7 @@ if (!defined('APP_NAME')) {
     define('SUBSCRIPTION_FORMAT_JSON', 'JSON');
     define('SUBSCRIPTION_FORMAT_UBL', 'UBL');
 
-// Pro
+    // Pro
     define('FEATURE_CUSTOMIZE_INVOICE_DESIGN', 'customize_invoice_design');
     define('FEATURE_REMOVE_CREATED_BY', 'remove_created_by');
     define('FEATURE_DIFFERENT_DESIGNS', 'different_designs');
@@ -702,21 +713,21 @@ if (!defined('APP_NAME')) {
     define('FEATURE_CUSTOM_URL', 'custom_url');
     define('FEATURE_MORE_CLIENTS', 'more_clients'); // No trial allowed
 
-// Whitelabel
+    // Whitelabel
     define('FEATURE_WHITE_LABEL', 'feature_white_label');
 
-// Enterprise
+    // Enterprise
     define('FEATURE_DOCUMENTS', 'documents');
 
-// No Trial allowed
+    // No Trial allowed
     define('FEATURE_USERS', 'users'); // Grandfathered for old Pro users
     define('FEATURE_USER_PERMISSIONS', 'user_permissions');
 
-// Pro users who started paying on or before this date will be able to manage users
+    // Pro users who started paying on or before this date will be able to manage users
     define('PRO_USERS_GRANDFATHER_DEADLINE', '2016-06-04');
     define('EXTRAS_GRANDFATHER_COMPANY_ID', 35089);
 
-// WePay
+    // WePay
     define('WEPAY_PRODUCTION', 'production');
     define('WEPAY_STAGE', 'stage');
     define('WEPAY_CLIENT_ID', env('WEPAY_CLIENT_ID'));
@@ -734,7 +745,7 @@ if (!defined('APP_NAME')) {
     define('BOT_STATE_READY', 'ready');
     define('SIMILAR_MIN_THRESHOLD', 50);
 
-// https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html
+    // https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html
     define('SKYPE_BUTTON_OPEN_URL', 'openUrl');
     define('SKYPE_BUTTON_IM_BACK', 'imBack');
     define('SKYPE_BUTTON_POST_BACK', 'postBack');
@@ -787,12 +798,11 @@ if (!defined('APP_NAME')) {
         'clientTypes' => 'App\Models\ClientType',
         'holdReasons' => 'App\Models\HoldReason',
         'paymentStatuses' => 'App\Models\PaymentStatus',
-        'statuses' => 'App\Models\Status',
     ];
 
     define('CACHED_TABLES', serialize($cachedTables));
 
-// Fix for mPDF: https://github.com/kartik-v/yii2-mpdf/issues/9
+    // Fix for mPDF: https://github.com/kartik-v/yii2-mpdf/issues/9
     define('_MPDF_TTFONTDATAPATH', storage_path('framework/cache/'));
 
     function uctrans($text, $data = [])
@@ -811,7 +821,7 @@ if (!defined('APP_NAME')) {
         return $locale == 'en' ? strtoupper($text) : $text;
     }
 
-// optional trans: only return the string if it's translated
+    // optional trans: only return the string if it's translated
     function otrans($text)
     {
         $locale = Session::get(SESSION_LOCALE);
@@ -826,14 +836,14 @@ if (!defined('APP_NAME')) {
         }
     }
 
-// include modules in translations
+    // include modules in translations
     function mtrans($entityType, $text = false)
     {
         if (!$text) {
             $text = $entityType;
         }
 
-// check if this has been translated in a module language file
+        // check if this has been translated in a module language file
         if (!Utils::isNinjaProd() && $module = Module::find($entityType)) {
             $key = "{$module->getLowerName()}::texts.{$text}";
             $value = trans($key);
