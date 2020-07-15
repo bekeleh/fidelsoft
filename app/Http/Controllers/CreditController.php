@@ -43,7 +43,9 @@ class CreditController extends BaseController
 
     public function getDatatable($clientPublicId = null)
     {
-        return $this->creditService->getDatatable($clientPublicId, Input::get('sSearch'));
+        $search = Input::get('sSearch');
+        
+        return $this->creditService->getDatatable($clientPublicId, $search);
     }
 
     public function create(CreditRequest $request)

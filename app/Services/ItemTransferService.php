@@ -38,7 +38,9 @@ class ItemTransferService extends BaseService
     public function getDatatable($accountId, $search)
     {
         $datatable = new ItemTransferDatatable(true, true);
+
         $query = $this->itemTransferRepo->find($accountId, $search);
+        
         if (!Utils::hasPermission('view_item_transfer')) {
             $query->where('item_transfers.user_id', '=', Auth::user()->id);
         }

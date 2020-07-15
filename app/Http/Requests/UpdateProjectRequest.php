@@ -17,6 +17,9 @@ class UpdateProjectRequest extends ProjectRequest
 
         return [
             'name' => 'required',
+            'task_rate' => 'required',
+            'due_date' => 'required',
+            'budgeted_hours' => 'required',
         ];
     }
 }

@@ -21,23 +21,22 @@ class InvoiceDatatable extends EntityDatatable
             [
                 $entityType == ENTITY_INVOICE ? 'invoice_number' : 'quote_number',
                 function ($model) use ($entityType) {
-                    if (Auth::user()->viewModel($model, $entityType)) {
+                    if (Auth::user()->can('edit', $entityType)) {
                         $str = link_to("{$entityType}s/{$model->public_id}/edit", $model->invoice_number, ['class' => Utils::getEntityRowClass($model)])->toHtml();
                         return $this->addNote($str, $model->private_notes);
                     } else
-                        return $model->invoice_number;
+                    return $model->invoice_number;
                 },
             ],
             [
                 'client_name',
                 function ($model) {
-                    if (Auth::user()->can('view', [ENTITY_CLIENT, $model]))
+                    if (Auth::user()->can('edit', [ENTITY_CLIENT]))
                         return link_to("clients/{$model->client_public_id}", Utils::getClientDisplayName($model))->toHtml();
                     else
                         return Utils::getClientDisplayName($model);
 
                 },
-                !$this->hideClient,
             ],
             [
                 'date',
@@ -55,13 +54,20 @@ class InvoiceDatatable extends EntityDatatable
                 'balance',
                 function ($model) {
                     return $model->partial > 0 ?
-                        trans('texts.partial_remaining', [
-                                'partial' => Utils::formatMoney($model->partial, $model->currency_id, $model->country_id),
-                                'balance' => Utils::formatMoney($model->balance, $model->currency_id, $model->country_id),]
-                        ) :
-                        Utils::formatMoney($model->balance, $model->currency_id, $model->country_id);
+                    trans('texts.partial_remaining', [
+                        'partial' => Utils::formatMoney($model->partial, $model->currency_id, $model->country_id),
+                        'balance' => Utils::formatMoney($model->balance, $model->currency_id, $model->country_id),]
+                    ) :
+                    Utils::formatMoney($model->balance, $model->currency_id, $model->country_id);
                 },
+                
                 $entityType == ENTITY_INVOICE,
+            ],
+            [
+                'discount',
+                function ($model) {
+                    return $model->discount;
+                },
             ],
             [
                 $entityType == ENTITY_INVOICE ? 'due_date' : 'valid_until',
@@ -80,6 +86,12 @@ class InvoiceDatatable extends EntityDatatable
                 'status',
                 function ($model) use ($entityType) {
                     return $model->quote_invoice_id ? link_to("invoices/{$model->quote_invoice_id}/edit", trans('texts.converted'))->toHtml() : self::getStatusLabel($model);
+                },
+            ],          
+            [
+                'public_notes',
+                function ($model) {
+                    return $model->public_notes;
                 },
             ],
             [
@@ -136,15 +148,6 @@ class InvoiceDatatable extends EntityDatatable
                 },
             ],
             [
-                trans('texts.convert_to_invoice'),
-                function ($model) {
-                    return "javascript:submitForm_quote('convert', {$model->public_id})";
-                },
-                function ($model) use ($entityType) {
-                    return $entityType == ENTITY_QUOTE && !$model->quote_invoice_id && Auth::user()->can('edit', [ENTITY_INVOICE, $model]);
-                },
-            ],
-            [
                 trans("texts.clone_invoice"),
                 function ($model) {
                     return URL::to("invoices/{$model->public_id}/clone");
@@ -179,8 +182,25 @@ class InvoiceDatatable extends EntityDatatable
             ],
             [
                 '--divider--', function () {
-                return false;
-            },
+                    return false;
+                },
+                function ($model) {
+                    return Auth::user()->canCreateOrEdit(ENTITY_INVOICE);
+                },
+            ],
+            [
+                trans('texts.convert_to_invoice'),
+                function ($model) {
+                    return "javascript:submitForm_quote('convert', {$model->public_id})";
+                },
+                function ($model) use ($entityType) {
+                    return $entityType == ENTITY_QUOTE && !$model->quote_invoice_id && Auth::user()->can('edit', [ENTITY_INVOICE, $model]);
+                },
+            ],
+            [
+                '--divider--', function () {
+                    return false;
+                },
                 function ($model) {
                     return Auth::user()->canCreateOrEdit(ENTITY_INVOICE);
                 },

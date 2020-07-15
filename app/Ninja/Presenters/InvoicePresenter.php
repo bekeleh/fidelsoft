@@ -352,7 +352,8 @@ class InvoicePresenter extends EntityPresenter
         $account = $invoice->account;
 
         if ($account->hasMultipleAccounts()) {
-            $link = url(sprintf('/account/%s?redirect_to=%s', $account->account_key, $invoice->present()->path));
+            $link = url(sprintf('/account/%s?redirect_to=%s', $account->account_key, 
+                $invoice->present()->path));
         } else {
             $link = $invoice->present()->url;
         }

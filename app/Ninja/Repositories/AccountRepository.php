@@ -303,6 +303,7 @@ class AccountRepository
             ENTITY_RECURRING_INVOICE,
             ENTITY_PAYMENT,
             ENTITY_CREDIT,
+            ENTITY_COMPANY,
             ENTITY_PRODUCT,
             ENTITY_PROJECT,
             ENTITY_PROPOSAL,
@@ -321,6 +322,7 @@ class AccountRepository
             ENTITY_SCHEDULE_CATEGORY,
             ENTITY_SCHEDULE,
             ENTITY_SCHEDULED_REPORT,
+            ENTITY_SUBSCRIPTION,
 
         ];
 

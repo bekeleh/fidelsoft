@@ -1,7 +1,7 @@
 <?php
 
 if (!defined('APP_NAME')) {
-    define('APP_NAME', env('APP_NAME', 'Fidel ERP'));
+    define('APP_NAME', env('APP_NAME', 'FidelERP'));
     define('APP_DOMAIN', env('APP_DOMAIN', ''));
     define('CONTACT_EMAIL', env('MAIL_FROM_ADDRESS'));
     define('CONTACT_NAME', env('MAIL_FROM_NAME'));
@@ -13,6 +13,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_CLIENT', 'client');
     define('ENTITY_CLIENT_CONTACT', 'client_contact');
     define('ENTITY_CONTACT', 'contact');
+    define('ENTITY_COMPANY', 'company');
     define('ENTITY_INVOICE', 'invoice');
     define('ENTITY_DOCUMENT', 'document');
     define('ENTITY_INVOICE_ITEM', 'invoice_item');
@@ -161,6 +162,7 @@ if (!defined('APP_NAME')) {
     define('ADVANCED_SETTINGS', 'advanced_settings');
     define('ACCOUNT_STATUS', 'statuses');
     define('ACCOUNT_COMPANY_DETAILS', 'company_details');
+    define('ACCOUNT_COMPANY', 'companies');
     define('ACCOUNT_USER_DETAILS', 'user_details');
     define('ACCOUNT_LOCALIZATION', 'localization');
     define('ACCOUNT_NOTIFICATIONS', 'notifications');
@@ -333,7 +335,9 @@ if (!defined('APP_NAME')) {
     define('PAYMENT_STATUS_FAILED', 3);
     define('PAYMENT_STATUS_COMPLETED', 4);
     define('PAYMENT_STATUS_PARTIALLY_REFUNDED', 5);
-    define('PAYMENT_STATUS_REFUNDED', 6);
+    define('PAYMENT_STATUS_REFUNDED',6);
+    define('PAYMENT_STATUS_PARTIALLY_PAID',7);
+    define('PAYMENT_STATUS_ADVANCE_PAID',8);
 
     define('APPROVE_STATUS_PENDING', 1);
     define('APPROVE_STATUS_REJECTED', 2);
@@ -666,6 +670,7 @@ if (!defined('APP_NAME')) {
     define('AUTO_BILL_OPT_IN', 2);
     define('AUTO_BILL_OPT_OUT', 3);
     define('AUTO_BILL_ALWAYS', 4);
+    define('SERVICE_OR_LABOUR', 6);
 
 // These must be lowercase
     define('PLAN_FREE', 'free');
@@ -776,10 +781,13 @@ if (!defined('APP_NAME')) {
         'statuses' => 'App\Models\Status',
         'itemTypes' => 'App\Models\ItemType',
         'taxCategories' => 'App\Models\TaxCategory',
+        'taxRates' => 'App\Models\TaxRate',
         'plans' => 'App\Models\Plan',
         'saleTypes' => 'App\Models\SaleType',
         'clientTypes' => 'App\Models\ClientType',
         'holdReasons' => 'App\Models\HoldReason',
+        'paymentStatuses' => 'App\Models\PaymentStatus',
+        'statuses' => 'App\Models\Status',
     ];
 
     define('CACHED_TABLES', serialize($cachedTables));

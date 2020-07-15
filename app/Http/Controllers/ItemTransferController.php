@@ -49,7 +49,9 @@ class ItemTransferController extends BaseController
 
     public function getDatatable($itemTransferPublicId = null)
     {
-        return $this->itemTransferService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
+        $accountId = Auth::user()->account_id;
+        $search = Input::get('sSearch');
+        return $this->itemTransferService->getDatatable($accountId, $search);
     }
 
     public function getDatatableProduct($productPublicId = null)

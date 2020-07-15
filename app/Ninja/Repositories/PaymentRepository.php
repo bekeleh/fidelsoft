@@ -4,6 +4,7 @@ namespace App\Ninja\Repositories;
 
 use App\Libraries\Utils;
 use App\Models\Credit;
+use App\Models\Client;
 use App\Models\Payment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -72,6 +73,7 @@ class PaymentRepository extends BaseRepository
             'payments.routing_number',
             'payments.bank_name',
             'payments.private_notes',
+            'payments.public_notes',
             'payments.exchange_rate',
             'payments.exchange_currency_id',
             'invoices.is_deleted as invoice_is_deleted',
@@ -175,9 +177,6 @@ class PaymentRepository extends BaseRepository
             $payment->updated_by = auth::user()->username;
         } elseif ($publicId) {
             $payment = Payment::scope($publicId)->firstOrFail();
-            if (Utils::isNinjaDev()) {
-                Log::warning('Entity not set in payment repo save');
-            }
         } else {
             $payment = Payment::createNew();
             if (Auth::check() && Auth::user()->account->payment_type_id) {
@@ -194,8 +193,16 @@ class PaymentRepository extends BaseRepository
         if (isset($input['payment_type_id'])) {
             $paymentTypeId = $input['payment_type_id'] ? $input['payment_type_id'] : null;
             $payment->payment_type_id = $paymentTypeId;
-        }
+        }     
 
+        if (isset($input['payment_status_id'])) {
+            $paymentStatusId = $input['payment_status_id'] ? $input['payment_status_id'] : null;
+            $payment->payment_status_id = $paymentStatusId;
+        }
+        if (!isset($input['exchange_currency_id'])) {
+                // $client = Client::scope()->whereId($clientId)->first();
+        // $payment->exchange_currency_id = ($client->currency_id)? $client->currency_id: null;
+        }
         if (isset($input['payment_date_sql'])) {
             $payment->payment_date = $input['payment_date_sql'];
         } elseif (isset($input['payment_date'])) {
@@ -214,12 +221,13 @@ class PaymentRepository extends BaseRepository
             if ($paymentTypeId == PAYMENT_TYPE_CREDIT) {
                 $credits = Credit::scope()->where('client_id', '=', $clientId)
                 ->where('balance', '>', 0)->orderBy('created_at')->get();
-
-                $remaining = $amount;
-                foreach ($credits as $credit) {
-                    $remaining -= $credit->apply($remaining);
-                    if (!$remaining) {
-                        break;
+                if($credits->count()){
+                    $remaining = $amount;
+                    foreach ($credits as $credit) {
+                        $remaining -= $credit->apply($remaining);
+                        if (!$remaining) {
+                            break;
+                        }
                     }
                 }
             }

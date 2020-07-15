@@ -1,22 +1,22 @@
 @extends('header')
 
 @section('content')
-    @parent
-    {!! Former::open($url)
+@parent
+{!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
     ->rules(['name' => 'required|max:90','item_category_id' => 'required','notes' => 'required'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     @if ($itemBrand)
-        {{ Former::populate($itemBrand) }}
-        {{ Former::populateField('qty','0.00') }}
-        <div style="display:none">
-            {!! Former::text('public_id') !!}
-        </div>
+    {{ Former::populate($itemBrand) }}
+    {{ Former::populateField('qty','0.00') }}
+    <div style="display:none">
+        {!! Former::text('public_id') !!}
+    </div>
     @endif
 
     <span style="display:none">
-    {!! Former::text('public_id') !!}
+        {!! Former::text('public_id') !!}
         {!! Former::text('action') !!}
     </span>
 
@@ -37,16 +37,16 @@
     </div>
 
     @if (Auth::user()->canCreateOrEdit(ENTITY_ITEM_CATEGORY, $itemBrand))
-        <center class="buttons">
-            {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/item_brands'))->appendIcon(Icon::create('remove-circle')) !!}
-            {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
-            @if ($itemBrand)
-                {!! DropdownButton::normal(trans('texts.more_actions'))
-                ->withContents($itemBrand->present()->moreActions())
-                ->large()
-                ->dropup() !!}
-            @endif
-        </center>
+    <center class="buttons">
+        {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/item_brands'))->appendIcon(Icon::create('remove-circle')) !!}
+        {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
+        @if ($itemBrand)
+        {!! DropdownButton::normal(trans('texts.more_actions'))
+        ->withContents($itemBrand->present()->moreActions())
+        ->large()
+        ->dropup() !!}
+        @endif
+    </center>
     @endif
     {!! Former::close() !!}
     <script type="text/javascript">
@@ -74,11 +74,11 @@
             var $item_categorySelect = $('select#item_category_id');
             @if (Auth::user()->can('create', ENTITY_ITEM_CATEGORY))
             $item_categorySelect.append(new Option("{{ trans('texts.create_item_category')}}: $name", '-1'));
-                    @endif
+            @endif
             for (var i = 0; i < categories.length; i++) {
                 var category = categories[i];
                 categoryMap[category.public_id] = category;
-                $item_categorySelect.append(new Option(getClientDisplayName(category), category.public_id));
+                $item_categorySelect.append(new Option(category.name, category.public_id));
             }
             @include('partials/entity_combobox', ['entityType' => ENTITY_ITEM_CATEGORY])
             if (categoryId) {
@@ -88,4 +88,4 @@
         });
 
     </script>
-@stop
+    @stop

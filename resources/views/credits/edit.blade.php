@@ -1,18 +1,21 @@
 @extends('header')
 
 @section('content')
-    {!! Former::open($url)
+{!! Former::open($url)
     ->addClass('col-lg-10 col-lg-offset-1 warn-on-exit')
     ->method($method)
     ->rules([
     'client_id' => 'required',
     'amount' => 'required',
+    'public_notes' => 'required',
+    'private_notes' => 'required',
+    'credit_date' => 'required',
     ]) !!}
     @if ($credit)
-        {!! Former::populate($credit) !!}
-        <div style="display:none">
-            {!! Former::text('public_id') !!}
-        </div>
+    {!! Former::populate($credit) !!}
+    <div style="display:none">
+        {!! Former::text('public_id') !!}
+    </div>
     @endif
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
@@ -21,16 +24,16 @@
                 <div class="panel-body">
 
                     @if ($credit)
-                        {!! Former::plaintext()->label('client')->value($client->present()->link) !!}
+                    {!! Former::plaintext()->label('client')->value($client->present()->link) !!}
                     @else
-                        {!! Former::select('client_id')
-                        ->label('client')
-                        ->addOption('', '')
-                        ->addGroupClass('client-select') !!}
+                    {!! Former::select('client_id')
+                    ->label('client')
+                    ->addOption('', '')
+                    ->addGroupClass('client-select') !!}
                     @endif
                     {!! Former::text('amount') !!}
                     @if ($credit)
-                        {!! Former::text('balance') !!}
+                    {!! Former::text('balance') !!}
                     @endif
                     {!! Former::text('credit_date')
                     ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
@@ -45,10 +48,10 @@
     </div>
 
     @if(Auth::user()->canCreateOrEdit(ENTITY_CREDIT, $credit))
-        <center class="buttons">
-            {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/credits'))->appendIcon(Icon::create('remove-circle')) !!}
-            {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
-        </center>
+    <center class="buttons">
+        {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/credits'))->appendIcon(Icon::create('remove-circle')) !!}
+        {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
+    </center>
     @endif
     {!! Former::close() !!}
 
@@ -59,7 +62,7 @@
 
         $(function () {
 
-                    @if ( ! $credit)
+            @if ( ! $credit)
             var $clientSelect = $('select#client_id');
             for (var i = 0; i < clients.length; i++) {
                 var client = clients[i];
@@ -93,4 +96,4 @@
 
     </script>
 
-@stop
+    @stop

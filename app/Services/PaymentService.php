@@ -10,6 +10,7 @@ use App\Models\Invoice;
 use App\Ninja\Datatables\PaymentDatatable;
 use App\Ninja\Repositories\AccountRepository;
 use App\Ninja\Repositories\PaymentRepository;
+use DateTime;
 use Illuminate\Support\Facades\Auth;
 
 class PaymentService extends BaseService
@@ -84,7 +85,7 @@ class PaymentService extends BaseService
         }
 
         if ($paymentMethod->requiresDelayedAutoBill()) {
-            $invoiceDate = \DateTime::createFromFormat('Y-m-d', $invoice->invoice_date);
+            $invoiceDate = DateTime::createFromFormat('Y-m-d', $invoice->invoice_date);
             $minDueDate = clone $invoiceDate;
             $minDueDate->modify('+10 days');
 
@@ -99,8 +100,8 @@ class PaymentService extends BaseService
             }
 
             $firstUpdate = Activity::where('invoice_id', '=', $invoice->id)
-                ->where('activity_type_id', '=', ACTIVITY_TYPE_UPDATE_INVOICE)
-                ->first();
+            ->where('activity_type_id', '=', ACTIVITY_TYPE_UPDATE_INVOICE)
+            ->first();
 
             if ($firstUpdate) {
                 $backup = json_decode($firstUpdate->json_backup);
@@ -147,6 +148,7 @@ class PaymentService extends BaseService
             $credit->save();
             $input['amount'] = $invoice->balance;
         }
+        
         return $this->paymentRepo->save($input, $payment);
     }
 

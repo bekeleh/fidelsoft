@@ -96,6 +96,7 @@ class ActivityRepository extends BaseRepository
             'activities.activity_type_id',
             'activities.balance',
             'activities.adjustment',
+            'activities.token_id',
             'activities.notes',
             'activities.ip',
             'activities.is_system',
@@ -128,7 +129,7 @@ class ActivityRepository extends BaseRepository
             });
         }
 
-        $this->applyFilters($query, ENTITY_ACTIVITY, 'activities');
+        $this->applyFilters($query, ENTITY_ACTIVITY);
 
         return $query;
     }

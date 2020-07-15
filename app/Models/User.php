@@ -30,108 +30,108 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
     private $slack_webhook_url;
 
     public static $all_permissions = [
-//        'create_all' => 0b0001,
-//        'view_all' => 0b0010,
-//        'edit_all' => 0b0100,
+     'create_all' => 0b0001,
+     'view_all' => 0b0010,
+     'edit_all' => 0b0100,
+ ];
+
+ protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+
+ protected $fillable = [
+    'manager_id',
+    'user_id',
+    'branch_id',
+    'location_id',
+    'first_name',
+    'last_name',
+    'phone',
+    'username',
+    'email',
+    'password',
+    'notes',
+    'created_by',
+    'updated_by',
+    'deleted_by',
+];
+
+
+protected $hidden = [
+    'password',
+    'reset_password_code',
+    'permissions',
+    'remember_token',
+    'confirmation_code',
+    'persist_code',
+    'oauth_user_id',
+    'oauth_provider_id',
+    'google_2fa_secret',
+    'google_2fa_phone',
+    'remember_2fa_token',
+    'slack_webhook_url',
+];
+
+protected $casts = [
+    'is_admin' => 'boolean',
+];
+
+public function getEntityType()
+{
+    return ENTITY_USER;
+}
+
+public function getRoute()
+{
+    return "/users/{$this->public_id}";
+}
+
+public function decodePermissions()
+{
+    return json_decode($this->permissions, true);
+}
+
+public function showMap()
+{
+    return $this->hasAddress() && env('GOOGLE_MAPS_ENABLED') !== false;
+}
+
+public function hasAddress($location = false)
+{
+    $fields = [
+        'address1',
+        'address2',
+        'city',
+        'state',
+        'postal_code',
+        'country_id',
     ];
 
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+    return false;
+}
 
-    protected $fillable = [
-        'manager_id',
-        'user_id',
-        'branch_id',
-        'location_id',
-        'first_name',
-        'last_name',
-        'phone',
-        'username',
-        'email',
-        'password',
-        'notes',
-        'created_by',
-        'updated_by',
-        'deleted_by',
-    ];
+public function account()
+{
+    return $this->belongsTo('App\Models\Account');
+}
 
+public function location()
+{
+    return $this->belongsTo('App\Models\Location');
+}
 
-    protected $hidden = [
-        'password',
-        'reset_password_code',
-        'permissions',
-        'remember_token',
-        'confirmation_code',
-        'persist_code',
-        'oauth_user_id',
-        'oauth_provider_id',
-        'google_2fa_secret',
-        'google_2fa_phone',
-        'remember_2fa_token',
-        'slack_webhook_url',
-    ];
+public function store()
+{
+    return $this->belongsTo('App\Models\Store');
+}
 
-    protected $casts = [
-        'is_admin' => 'boolean',
-    ];
+public function branch()
+{
+    return $this->belongsTo('App\Models\Branch');
+}
 
-    public function getEntityType()
-    {
-        return ENTITY_USER;
-    }
-
-    public function getRoute()
-    {
-        return "/users/{$this->public_id}";
-    }
-
-    public function decodePermissions()
-    {
-        return json_decode($this->permissions, true);
-    }
-
-    public function showMap()
-    {
-        return $this->hasAddress() && env('GOOGLE_MAPS_ENABLED') !== false;
-    }
-
-    public function hasAddress($location = false)
-    {
-        $fields = [
-            'address1',
-            'address2',
-            'city',
-            'state',
-            'postal_code',
-            'country_id',
-        ];
-
-        return false;
-    }
-
-    public function account()
-    {
-        return $this->belongsTo('App\Models\Account');
-    }
-
-    public function location()
-    {
-        return $this->belongsTo('App\Models\Location');
-    }
-
-    public function store()
-    {
-        return $this->belongsTo('App\Models\Store');
-    }
-
-    public function branch()
-    {
-        return $this->belongsTo('App\Models\Branch');
-    }
-
-    public function theme()
-    {
-        return $this->belongsTo('App\Models\Theme');
-    }
+public function theme()
+{
+    return $this->belongsTo('App\Models\Theme');
+}
 
 //    public function getName()
 //    {
@@ -143,153 +143,155 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
 //        return PERSON_USER;
 //    }
 
-    public function getReminderEmail()
-    {
+public function getReminderEmail()
+{
+    return $this->email;
+}
+
+public function isPro()
+{
+    return $this->account->isPro();
+}
+
+public function isEnterprise()
+{
+    return $this->account->isEnterprise();
+}
+
+public function isTrusted()
+{
+    if (Utils::isSelfHost()) {
+        return true;
+    }
+
+    return $this->account->isPro() && !$this->account->isTrial();
+}
+
+public function hasActivePromo()
+{
+    return $this->account->hasActivePromo();
+}
+
+public function hasFeature($feature)
+{
+    return $this->account->hasFeature($feature);
+}
+
+public function isTrial()
+{
+    return $this->account->isTrial();
+}
+
+public function maxInvoiceDesignId()
+{
+    return $this->hasFeature(FEATURE_MORE_INVOICE_DESIGNS) 
+    ? 13 : COUNT_FREE_DESIGNS;
+}
+
+
+public function getDisplayName()
+{
+    if ($this->getFullName()) {
+        return $this->getFullName();
+    } elseif ($this->email) {
         return $this->email;
+    } else {
+        return trans('texts.guest');
+    }
+}
+
+public function getFullName()
+{
+    if ($this->first_name || $this->last_name) {
+        return $this->first_name . ' ' . $this->last_name;
+    } else {
+        return false;
+    }
+}
+
+public function showGreyBackground()
+{
+    return !$this->theme_id || 
+    in_array($this->theme_id, [2, 3, 5, 6, 7, 8, 10, 11, 12]);
+}
+
+
+public function getRequestsCount()
+{
+    return Session::get(SESSION_COUNTER, 0);
+}
+
+public function afterSave($success = true, $forced = false)
+{
+    if ($this->email) {
+        return parent::afterSave($success = true, $forced = false);
+    } else {
+        return true;
+    }
+}
+
+
+public function getMaxNumClients()
+{
+    if ($this->hasFeature(FEATURE_MORE_CLIENTS)) {
+        return MAX_NUM_CLIENTS_PRO;
     }
 
-    public function isPro()
-    {
-        return $this->account->isPro();
+    if ($this->id < LEGACY_CUTOFF) {
+        return MAX_NUM_CLIENTS_LEGACY;
     }
 
-    public function isEnterprise()
-    {
-        return $this->account->isEnterprise();
+    return MAX_NUM_CLIENTS;
+}
+
+public function getMaxNumVendors()
+{
+    if ($this->hasFeature(FEATURE_MORE_CLIENTS)) {
+        return MAX_NUM_VENDORS_PRO;
     }
 
-    public function isTrusted()
-    {
-        if (Utils::isSelfHost()) {
-            true;
-        }
+    return MAX_NUM_VENDORS;
+}
 
-        return $this->account->isPro() && !$this->account->isTrial();
+public function clearSession()
+{
+    $keys = [
+        SESSION_USER_ACCOUNTS,
+        SESSION_TIMEZONE,
+        SESSION_DATE_FORMAT,
+        SESSION_DATE_PICKER_FORMAT,
+        SESSION_DATETIME_FORMAT,
+        SESSION_CURRENCY,
+        SESSION_LOCALE,
+    ];
+
+    foreach ($keys as $key) {
+        Session::forget($key);
     }
+}
 
-    public function hasActivePromo()
-    {
-        return $this->account->hasActivePromo();
+public static function onUpdatingUser($user)
+{
+    if ($user->password != $user->getOriginal('password')) {
+        $user->failed_logins = 0;
     }
-
-    public function hasFeature($feature)
-    {
-        return $this->account->hasFeature($feature);
-    }
-
-    public function isTrial()
-    {
-        return $this->account->isTrial();
-    }
-
-    public function maxInvoiceDesignId()
-    {
-        return $this->hasFeature(FEATURE_MORE_INVOICE_DESIGNS) ? 13 : COUNT_FREE_DESIGNS;
-    }
-
-
-    public function getDisplayName()
-    {
-        if ($this->getFullName()) {
-            return $this->getFullName();
-        } elseif ($this->email) {
-            return $this->email;
-        } else {
-            return trans('texts.guest');
-        }
-    }
-
-    public function getFullName()
-    {
-        if ($this->first_name || $this->last_name) {
-            return $this->first_name . ' ' . $this->last_name;
-        } else {
-            return '';
-        }
-    }
-
-    public function showGreyBackground()
-    {
-        return !$this->theme_id || in_array($this->theme_id, [2, 3, 5, 6, 7, 8, 10, 11, 12]);
-    }
-
-
-    public function getRequestsCount()
-    {
-        return Session::get(SESSION_COUNTER, 0);
-    }
-
-    public function afterSave($success = true, $forced = false)
-    {
-        if ($this->email) {
-            return parent::afterSave($success = true, $forced = false);
-        } else {
-            return true;
-        }
-    }
-
-
-    public function getMaxNumClients()
-    {
-        if ($this->hasFeature(FEATURE_MORE_CLIENTS)) {
-            return MAX_NUM_CLIENTS_PRO;
-        }
-
-        if ($this->id < LEGACY_CUTOFF) {
-            return MAX_NUM_CLIENTS_LEGACY;
-        }
-
-        return MAX_NUM_CLIENTS;
-    }
-
-    public function getMaxNumVendors()
-    {
-        if ($this->hasFeature(FEATURE_MORE_CLIENTS)) {
-            return MAX_NUM_VENDORS_PRO;
-        }
-
-        return MAX_NUM_VENDORS;
-    }
-
-    public function clearSession()
-    {
-        $keys = [
-            SESSION_USER_ACCOUNTS,
-            SESSION_TIMEZONE,
-            SESSION_DATE_FORMAT,
-            SESSION_DATE_PICKER_FORMAT,
-            SESSION_DATETIME_FORMAT,
-            SESSION_CURRENCY,
-            SESSION_LOCALE,
-        ];
-
-        foreach ($keys as $key) {
-            Session::forget($key);
-        }
-    }
-
-    public static function onUpdatingUser($user)
-    {
-        if ($user->password != $user->getOriginal('password')) {
-            $user->failed_logins = 0;
-        }
 
         // if the user changes their email then they need to reconfirm it
-        if ($user->isEmailBeingChanged()) {
-            $user->confirmed = 0;
-            $user->confirmation_code = strtolower(str_random(RANDOM_KEY_LENGTH));
-        }
+    if ($user->isEmailBeingChanged()) {
+        $user->confirmed = 0;
+        $user->confirmation_code = strtolower(str_random(RANDOM_KEY_LENGTH));
     }
+}
 
-    public static function onUpdatedUser($user)
-    {
-        if (!$user->getOriginal('email')
-            || $user->getOriginal('email') === TEST_USERNAME
-            || $user->getOriginal('email') === 'tests@bitrock.com') {
-            event(new UserSignedUp());
-    }
+public static function onUpdatedUser($user)
+{
+    if (!$user->getOriginal('email')
+        || $user->getOriginal('email') === TEST_USERNAME
+        || $user->getOriginal('email') === 'tests@bitrock.com') {
+        event(new UserSignedUp());
+}
 
-    event(new UserSettingsChanged($user));
+event(new UserSettingsChanged($user));
 }
 
 
@@ -362,186 +364,193 @@ public function isEmailBeingChanged()
     public function isSuperUser()
     {
         if ($user_permissions = json_decode($this->permissions, true)) {
-            if ((array_key_exists('superuser', $user_permissions)) && ($user_permissions['superuser'] === '1')) {
+            if ((array_key_exists('superuser', $user_permissions)) && 
+                ($user_permissions['superuser'] === '1')) {
+                return true;
+        }
+    }
+
+    $user_groups = $this->groups;
+    if ((count($user_groups) > 0)) {
+        foreach ($this->groups as $user_group) {
+            $group_permissions = json_decode($user_group->permissions, true);
+            $group_array = (array)$group_permissions;
+            if ((array_key_exists('superuser', $group_array)) && ($group_permissions['superuser'] === '1')) {
                 return true;
             }
         }
+    }
 
-        $user_groups = $this->groups;
-        if ((count($user_groups) > 0)) {
-            foreach ($this->groups as $user_group) {
-                $group_permissions = json_decode($user_group->permissions, true);
-                $group_array = (array)$group_permissions;
-                if ((array_key_exists('superuser', $group_array)) && ($group_permissions['superuser'] === '1')) {
-                    return true;
-                }
-            }
+    return false;
+}
+
+public function groups()
+{
+    return $this->belongsToMany('\App\Models\PermissionGroup', 'users_groups', 'user_id', 'group_id');
+}
+
+public function accountStatus()
+{
+    if ($this->throttle) {
+        if ($this->throttle->suspended === 1) {
+            return 'suspended';
+        } elseif ($this->throttle->banned === 1) {
+            return 'banned';
+        } else {
+            return false;
         }
+    }
 
+    return true;
+}
+
+public function viewModel($model, $entityType)
+{
+        //todo permissions
+    if ($this->hasPermission('view_' . $entityType))
+        return true;
+    elseif ($model->user_id === $this->id)
+        return true;
+    else
+        return false;
+}
+
+public function throttle()
+{
+    return $this->hasOne('\App\Models\Throttle');
+}
+
+public function owns($entity)
+{
+    return isset($entity->user_id) && $entity->user_id === $this->id;
+}
+
+public function filterId()
+{
+        //todo permissions
+    return $this->hasPermission('view_all') ? false : $this->id;
+}
+
+public function filterIdByEntity($entity)
+{
+        //todo permissions
+    return $this->hasPermission('view_' . $entity) ? false : $this->id;
+}
+
+public function canAddUsers()
+{
+    if (!Utils::isNinjaProd()) {
+        return true;
+    } elseif (!$this->hasFeature(FEATURE_USERS)) {
         return false;
     }
 
-    public function groups()
-    {
-        return $this->belongsToMany('\App\Models\PermissionGroup', 'users_groups', 'user_id', 'group_id');
+    $account = $this->account;
+    $company = $account->company;
+
+    $numUsers = 1;
+    foreach ($company->accounts as $account) {
+        $numUsers += $account->users->count() - 1;
     }
 
-    public function accountStatus()
-    {
-        if ($this->throttle) {
-            if ($this->throttle->suspended === 1) {
-                return 'suspended';
-            } elseif ($this->throttle->banned === 1) {
-                return 'banned';
-            } else {
-                return false;
-            }
-        }
+    return $numUsers < $company->num_users;
+}
 
-        return false;
+public function canCreateOrEdit($entityType, $entity = false)
+{
+    return (!$entity && $this->can('create', $entityType)) ||
+    ($entity && $this->can('edit', $entity));
+}
+
+public function primaryAccount()
+{
+    $account = $this->account->company;
+    if(isset($account)){
+        return $account->accounts->sortBy('id')->first();
     }
 
-    public function viewModel($model, $entityType)
-    {
-        //todo permissions
-        if ($this->hasPermission('view_' . $entityType))
-            return true;
-        elseif ($model->user_id === $this->id)
-            return true;
-        else
-            return false;
-    }
+    return false ;
+}
 
-    public function throttle()
-    {
-        return $this->hasOne('\App\Models\Throttle');
-    }
-
-    public function owns($entity)
-    {
-        return isset($entity->user_id) && $entity->user_id === $this->id;
-    }
-
-    public function filterId()
-    {
-        //todo permissions
-        return $this->hasPermission('view_all') ? false : $this->id;
-    }
-
-    public function filterIdByEntity($entity)
-    {
-        //todo permissions
-        return $this->hasPermission('view_' . $entity) ? false : $this->id;
-    }
-
-    public function canAddUsers()
-    {
-        if (!Utils::isNinjaProd()) {
-            return true;
-        } elseif (!$this->hasFeature(FEATURE_USERS)) {
-            return false;
-        }
-
-        $account = $this->account;
-        $company = $account->company;
-
-        $numUsers = 1;
-        foreach ($company->accounts as $account) {
-            $numUsers += $account->users->count() - 1;
-        }
-
-        return $numUsers < $company->num_users;
-    }
-
-    public function canCreateOrEdit($entityType, $entity = false)
-    {
-        return (!$entity && $this->can('create', $entityType)) ||
-        ($entity && $this->can('edit', $entity));
-    }
-
-    public function primaryAccount()
-    {
-        return $this->account->company->accounts->sortBy('id')->first();
-    }
-
-    public function sendPasswordResetNotification($token)
-    {
+public function sendPasswordResetNotification($token)
+{
         //$this->notify(new ResetPasswordNotification($token));
-        app('App\Ninja\Mailers\UserMailer')->sendPasswordReset($this, $token);
-    }
+    app('App\Ninja\Mailers\UserMailer')->sendPasswordReset($this, $token);
+}
 
-    public function routeNotificationForSlack()
-    {
-        return $this->slack_webhook_url;
-    }
+public function routeNotificationForSlack()
+{
+    return $this->slack_webhook_url;
+}
 
-    public function hasAcceptedLatestTerms()
-    {
-        if (!NINJA_TERMS_VERSION) {
-            return true;
-        }
-
-        return $this->accepted_terms_version === NINJA_TERMS_VERSION;
-    }
-
-    public function acceptLatestTerms($ip)
-    {
-        $this->accepted_terms_version = NINJA_TERMS_VERSION;
-        $this->accepted_terms_timestamp = date('Y-m-d H:i:s');
-        $this->accepted_terms_ip = $ip;
-
-        return $this;
-    }
-
-    public function ownsEntity($entity)
-    {
-        return isset($entity) && $entity->user_id === $this->id;
-    }
-
-    public function shouldNotify($invoice)
-    {
-        if (!isset($invoice)) {
-            return false;
-        }
-        if (!isset($this->email) || !isset($this->confirmed)) {
-            return false;
-        }
-
-        if ($this->cannot('view', $invoice)) {
-            return false;
-        }
-
-        if ($this->only_notify_owned && !$this->ownsEntity($invoice)) {
-            return false;
-        }
-
+public function hasAcceptedLatestTerms()
+{
+    if (!NINJA_TERMS_VERSION) {
         return true;
     }
 
-    public function permissionsMap()
-    {
-        $data = [];
-        $permissions = json_decode($this->permissions);
+    return $this->accepted_terms_version === NINJA_TERMS_VERSION;
+}
 
-        if (!$permissions) {
-            return $data;
-        }
+public function acceptLatestTerms($ip)
+{
+    $this->accepted_terms_version = NINJA_TERMS_VERSION;
+    $this->accepted_terms_timestamp = date('Y-m-d H:i:s');
+    $this->accepted_terms_ip = $ip;
 
-        $keys = array_values((array)$permissions);
-        $values = array_fill(0, count($keys), true);
+    return $this;
+}
 
-        return array_combine($keys, $values);
+public function ownsEntity($entity)
+{
+    return isset($entity) && $entity->user_id === $this->id;
+}
+
+public function shouldNotify($invoice)
+{
+    if (!isset($invoice)) {
+        return false;
     }
-    
-    public function eligibleForMigration()
-    {
+    if (!isset($this->email) || !isset($this->confirmed)) {
+        return false;
+    }
+
+    if ($this->cannot('view', $invoice)) {
+        return false;
+    }
+
+    if ($this->only_notify_owned && !$this->ownsEntity($invoice)) {
+        return false;
+    }
+
+    return true;
+}
+
+public function permissionsMap()
+{
+    $data = [];
+    $permissions = json_decode($this->permissions);
+
+    if (!$permissions) {
+        return $data;
+    }
+
+    $keys = array_values((array)$permissions);
+    $values = array_fill(0, count($keys), true);
+
+    return array_combine($keys, $values);
+}
+
+public function eligibleForMigration()
+{
         // Not ready to show to hosted users
-        if (Utils::isNinjaProd()) {
-            return false;
-        }
-
-        return is_null($this->public_id) || $this->public_id == 0;
+    if (Utils::isNinjaProd()) {
+        return false;
     }
+
+    return is_null($this->public_id) || $this->public_id == 0;
+}
+
 }
 
 User::created(function ($user) {
@@ -554,7 +563,6 @@ User::created(function ($user) {
 
 User::updating(function ($user) {
     User::onUpdatingUser($user);
-
     $dirty = $user->getDirty();
     if (array_key_exists('email', $dirty)
         || array_key_exists('confirmation_code', $dirty)
@@ -573,7 +581,6 @@ User::deleted(function ($user) {
     if (!$user->email) {
         return;
     }
-
     if ($user->forceDeleting) {
         LookupUser::deleteWhere([
             'email' => $user->email

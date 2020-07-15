@@ -17,17 +17,18 @@ class ProjectDatatable extends EntityDatatable
             [
                 'project',
                 function ($model) {
-                    if (Auth::user()->can('view', [ENTITY_PROJECT, $model]))
-                        return $this->addNote(link_to("projects/{$model->public_id}", $model->project)->toHtml(), $model->private_notes);
-                    else
+                    if (Auth::user()->can('edit', [ENTITY_PROJECT, $model])){
+                        return link_to("projects/{$model->public_id}", $model->project)->toHtml();
+                    }else{
                         return $model->project;
+                    }
                 },
             ],
             [
                 'client_name',
                 function ($model) {
                     if ($model->client_public_id) {
-                        if (Auth::user()->can('view', [ENTITY_CLIENT, $model]))
+                        if (Auth::user()->can('edit', [ENTITY_CLIENT, $model]))
                             return link_to("clients/{$model->client_public_id}", $model->client_name)->toHtml();
                         else
                             return Utils::getClientDisplayName($model);
@@ -35,6 +36,12 @@ class ProjectDatatable extends EntityDatatable
                     } else {
                         return '';
                     }
+                },
+            ],
+            [
+                'private_notes',
+                function ($model) {
+                    return Utils::fromSqlDate($model->private_notes);
                 },
             ],
             [
@@ -120,8 +127,8 @@ class ProjectDatatable extends EntityDatatable
             ],
             [
                 '--divider--', function () {
-                return false;
-            },
+                    return false;
+                },
                 function ($model) {
                     return Auth::user()->can('edit', [ENTITY_PROJECT]);
                 },

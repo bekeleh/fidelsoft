@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 use App\Libraries\Utils;
+use Log;
 
 /**
  * Class Company.
  */
-class Company extends Eloquent
+class Company extends EntityModel
 {
     use SoftDeletes;
     use PresentableTrait;
@@ -43,7 +44,16 @@ class Company extends Eloquent
     {
         return $this->hasMany('App\Models\Account');
     }
+    
+    public function getEntityType()
+    {
+        return ENTITY_COMPANY;
+    }
 
+    public function getRoute()
+    {
+        return "/companies/{$this->public_id}";
+    }
 
     public function payment()
     {
@@ -179,7 +189,7 @@ class Company extends Eloquent
                 $paymentDriver = $ninjaAccount->paymentDriver();
                 $paymentDriver->refundPayment($this->payment);
 
-                \Log::info("Refunded Plan Payment: {$account->name} - {$user->email} - Deadline: {$deadline->format('Y-m-d')}");
+                Log::info("Refunded Plan Payment: {$account->name} - {$user->email} - Deadline: {$deadline->format('Y-m-d')}");
 
                 return true;
             }
@@ -214,7 +224,7 @@ Company::deleted(function ($company) {
         return;
     }
 
-    $server = \App\Models\DbServer::whereName(config('database.default'))->firstOrFail();
+    $server = DbServer::whereName(config('database.default'))->firstOrFail();
 
     LookupCompany::deleteWhere([
         'company_id' => $company->id,

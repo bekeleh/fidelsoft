@@ -8,6 +8,7 @@ use App\Models\ItemMovement;
 use App\Models\ItemStore;
 use App\Models\Product;
 use App\Models\Store;
+use App\Libraries\Utils;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Log;
@@ -91,10 +92,6 @@ class ItemStoreRepository extends BaseRepository
 
     public function getItems($accountId, $filter = null)
     {
-        if (!$filter) {
-            return null;
-        }
-
         $query = DB::table('item_stores')
         ->leftJoin('accounts', 'accounts.id', '=', 'item_stores.account_id')
         ->leftJoin('users', 'users.id', '=', 'item_stores.user_id')
@@ -112,10 +109,6 @@ class ItemStoreRepository extends BaseRepository
             'item_brands.name as item_brand_name',
             'item_categories.name as item_category_name'
         )->get();
-
-        if (!$query) {
-            return null;
-        }
 
         return $query;
     }
@@ -141,23 +134,25 @@ class ItemStoreRepository extends BaseRepository
     public function save($data, $itemStore = null)
     {
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
-
+        $newQty = isset($data['new_qty']) ? Utils::parseFloat($data['new_qty']):0;
         if ($itemStore) {
-            $this->quantityAdjustment($data, $itemStore, $update = true);
-            $itemStore->fill(collect($data)->except('qty')->toArray());
-            $itemStore->qty = isset($data['qty']) ? $data['qty'] + $itemStore->qty : '';
+            $qoh = Utils::parseFloat($itemStore->qty);
+            $itemStore->fill($data);
+            $itemStore->qty = ($qoh +$newQty);
             $itemStore->updated_by = Auth::user()->username;
-            $itemStore->save();
+            if ($itemStore->save()) {
+                $this->stockAdjustment($data, $itemStore, $update = true);
+            }
         } elseif ($publicId) {
             $itemStore = ItemStore::scope($publicId)->withArchived()->firstOrFail();
         } else {
             $itemStore = ItemStore::createNew();
             $itemStore->fill($data);
-            $itemStore->qty = isset($data['qty']) ? trim($data['qty']) : '';
+            $itemStore->qty = $newQty;
             $itemStore->created_by = Auth::user()->username;
 
             if ($itemStore->save()) {
-                $this->quantityAdjustment($data, $itemStore, $update = false);
+                $this->stockAdjustment($data, $itemStore, $update = false);
             }
         }
 
@@ -166,34 +161,32 @@ class ItemStoreRepository extends BaseRepository
         } else {
             event(new ItemStoreWasCreated($itemStore));
         }
+
         return $itemStore;
     }
 
-    public function quantityAdjustment($data, $itemStore = null, $update = false)
+    public function stockAdjustment($data, $itemStore = null, $update = false)
     {
+        if(empty($data['new_qty']) || empty($itemStore)){
+            return;
+        }
+        
+        $qoh = Utils::parseFloat($itemStore->qty);
+        $newQty = Utils::parseFloat($data['new_qty']);
         if ($update) {
-            $this->qoh = (int)$itemStore->qty;
-            if (isset($data['qty'])) {
-                if ((int)$data['qty'] > 0) {
-                    $movable = ItemMovement::createNew();
-                    $movable->qty = (int)$data['qty'];
-                    $movable->qoh = ((int)$this->qoh) + ((int)$data['qty']);
-                    $movable->notes = 'quantity adjustment';
-                    $movable->updated_by = auth::user()->username;
-                    $itemStore->itemMovements()->save($movable);
-                }
-            }
+            $movable = ItemMovement::createNew();
+            $movable->qty = $newQty;
+            $movable->qoh = $qoh+ $newQty;
+            $movable->notes = 'stock adjustment';
+            $movable->updated_by = auth::user()->username;
+            $itemStore->stockMovements()->save($movable);
         } else {
-            if (isset($data['qty'])) {
-                if ((int)$data['qty'] > 0) {
-                    $movable = ItemMovement::createNew();
-                    $movable->qty = (int)$data['qty'];
-                    $movable->qoh = (int)$data['qty'];
-                    $movable->notes = 'quantity adjustment';
-                    $movable->updated_by = auth::user()->username;
-                    $itemStore->itemMovements()->save($movable);
-                }
-            }
+            $movable = ItemMovement::createNew();
+            $movable->qty =  $qoh;
+            $movable->qoh = $newQty ;
+            $movable->notes = 'stock adjustment';
+            $movable->updated_by = auth::user()->username;
+            $itemStore->stockMovements()->save($movable);
         }
     }
 

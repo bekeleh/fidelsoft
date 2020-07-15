@@ -4,11 +4,11 @@ namespace App\Models;
 
 use App\Libraries\Utils;
 use App\Models\Traits\HasCustomMessages;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Laracasts\Presenter\PresentableTrait;
+use Carbon\Carbon;
 
 /**
  * Model Class Client.
@@ -21,10 +21,8 @@ class Client extends EntityModel
 
     protected $presenter = 'App\Ninja\Presenters\ClientPresenter';
 
-    protected $appends = [];
-    protected $casts = [];
+
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
-    protected $hidden = [];
 
 
     protected $fillable = [
@@ -152,13 +150,16 @@ class Client extends EntityModel
 
     public function quotes()
     {
-        return $this->hasMany('App\Models\Invoice')->where('invoice_type_id', '=', INVOICE_TYPE_QUOTE);
+        return $this->hasMany('App\Models\Invoice')
+        ->where('invoice_type_id',INVOICE_TYPE_QUOTE);
     }
 
 
     public function publicQuotes()
     {
-        return $this->hasMany('App\Models\Invoice')->where('invoice_type_id', '=', INVOICE_TYPE_QUOTE)->whereIsPublic(true);
+        return $this->hasMany('App\Models\Invoice')
+        ->where('invoice_type_id', INVOICE_TYPE_QUOTE)
+        ->whereIsPublic(true);
     }
 
     public function payments()
@@ -232,7 +233,8 @@ class Client extends EntityModel
 
     public function creditsWithBalance()
     {
-        return $this->hasMany('App\Models\Credit')->where('balance', '>', 0);
+        return $this->hasMany('App\Models\Credit')
+        ->where('balance', '>', 0);
     }
 
 
@@ -244,13 +246,15 @@ class Client extends EntityModel
 
     public function activities()
     {
-        return $this->hasMany('App\Models\Activity', 'client_id', 'id')->orderBy('id', 'desc');
+        return $this->hasMany('App\Models\Activity', 'client_id', 'id')
+        ->orderBy('id', 'desc');
     }
 
 
     public function addContact($data, $isPrimary = false)
     {
-        $publicId = isset($data['public_id']) ? $data['public_id'] : (isset($data['id']) ? $data['id'] : false);
+        $publicId = isset($data['public_id'])
+        ? $data['public_id'] : (isset($data['id']) ? $data['id'] : false);
 
         // check if this client wasRecentlyCreated to ensure a new contact is
         // always created even if the request includes a contact id
@@ -288,7 +292,7 @@ class Client extends EntityModel
 
     public function updateBalances($balanceAdjustment, $paidToDateAdjustment)
     {
-        if ($balanceAdjustment == 0 && $paidToDateAdjustment == 0) {
+        if ($balanceAdjustment === 0 && $paidToDateAdjustment === 0) {
             return;
         }
 
@@ -300,9 +304,10 @@ class Client extends EntityModel
 
     public function getTotalCredit()
     {
-        return DB::table('credits')->where('client_id', '=', $this->id)
-            ->whereNull('deleted_at')
-            ->sum('balance');
+        return DB::table('credits')
+        ->where('client_id', $this->id)
+        ->whereNull('deleted_at')
+        ->sum('balance');
     }
 
     public function getName()
@@ -391,7 +396,7 @@ class Client extends EntityModel
 
     public function getDateCreated()
     {
-        if ($this->created_at == '0000-00-00 00:00:00') {
+        if ($this->created_at === '0000-00-00 00:00:00') {
             return '---';
         } else {
             return $this->created_at->format('m/d/y h:i a');
@@ -499,7 +504,7 @@ class Client extends EntityModel
 
     public function defaultDaysDue()
     {
-        return $this->payment_terms == -1 ? 0 : $this->payment_terms;
+        return $this->payment_terms === -1 ? 0 : $this->payment_terms;
     }
 
     public function firstInvitationKey()
@@ -514,7 +519,7 @@ class Client extends EntityModel
     public function scopeIsInvoiceAllowed($query)
     {
         return $query->whereHas('holdReason', function ($query) {
-            $query->where('allow_invoice', '=', 1);
+            $query->where('allow_invoice', 1);
         });
     }
 }

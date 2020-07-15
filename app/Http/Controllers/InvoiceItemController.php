@@ -85,17 +85,21 @@ class InvoiceItemController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
-            'products' => Product::scope()->withActiveOrSelected($invoiceItem ? $invoiceItem->product_id : false)->orderBy('name')->get(),
+            'products' => Product::scope()->withActiveOrSelected($invoiceItem ? $invoiceItem->product_id : false)->orderBy('product_key')->get(),
         ];
     }
 
     public function store(CreateInvoiceItemRequest $request)
     {
         $data = $request->input();
+        $invoiceItem = $request->entity();
+        $invoiceItem = $this->invoiceItemService->save($data,$invoiceItem);
 
-        $invoiceItem = $this->invoiceItemService->save($data);
+        if ($invoiceItem) {
+            return redirect()->to("invoice_items/{$invoiceItem->public_id}/edit")->with('success', trans('texts.created_invoice_item'));
+        }
 
-        return redirect()->to("invoice_items/{$invoiceItem->public_id}/edit")->with('success', trans('texts.created_invoice_item'));
+        return redirect()->to("invoice_items");
     }
 
     public function edit(InvoiceItemRequest $request, $publicId = false, $clone = false)

@@ -55,6 +55,7 @@ class ProductController extends BaseController
     {
         $account = Auth::user()->account_id;
         $search = Input::get('sSearch');
+        
         return $this->productService->getDatatable($account, $search);
     }
 
@@ -62,11 +63,6 @@ class ProductController extends BaseController
     {
         return $this->productService->getDatatableItemBrand($itemBrandPublicId);
     }
-
-//    public function getDatatableUnit($unitPublicId = null)
-//    {
-//        return $this->productService->getDatatableUnit($unitPublicId);
-//    }
 
     public function create(ProductRequest $request)
     {

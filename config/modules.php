@@ -144,7 +144,7 @@ return [
     */
 
     'composer' => [
-        'vendor' => 'FidelERP',
+        'vendor' => 'Fidelsoft',
         'author' => [
             'name' => 'Fidel Team',
             'email' => 'fidelinvoice@gmail.com',

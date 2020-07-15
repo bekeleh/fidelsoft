@@ -35,7 +35,8 @@ class CreditService extends BaseService
     public function getDatatable($clientPublicId, $search)
     {
         // we don't support bulk edit and hide the client on the individual client page
-        $datatable = new CreditDatatable(true, $clientPublicId);
+        $datatable = new CreditDatatable(true, true);
+        
         $query = $this->creditRepo->find($clientPublicId, $search);
 
         if (!Utils::hasPermission('view_credit')) {

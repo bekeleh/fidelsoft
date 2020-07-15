@@ -1,14 +1,14 @@
 @extends('header')
 
 @section('content')
-    @parent
-    <style type="text/css">
-        #logo {
-            padding-top: 6px;
-        }
-    </style>
+@parent
+<style type="text/css">
+    #logo {
+        padding-top: 6px;
+    }
+</style>
 
-    {!! Former::open_for_files()
+{!! Former::open_for_files()
     ->addClass('warn-on-exit')
     ->autocomplete('on')
     ->rules([
@@ -32,30 +32,32 @@
                     {!! Former::text('vat_number') !!}
                     {!! Former::text('website') !!}
                     @if (auth()->user()->registered)
-                        {!! Former::text('work_email') !!}
+                    {!! Former::text('work_email') !!}
                     @endif
                     {!! Former::text('work_phone') !!}
                     {!! Former::file('logo')->max(2, 'MB')->accept('image')->inlineHelp(trans('texts.logo_help')) !!}
 
                     @if ($account->hasLogo())
-                        <div class="form-group">
-                            <div class="col-lg-4 col-sm-4"></div>
-                            <div class="col-lg-8 col-sm-8">
-                                <a href="{{ $account->getLogoUrl(true) }}" target="_blank">
-                                    {!! HTML::image($account->getLogoUrl(true), 'Logo', ['style' => 'max-width:300px']) !!}
-                                </a> &nbsp;
-                                <a href="#" onclick="deleteLogo()">{{ trans('texts.remove_logo') }}</a>
-                            </div>
+                    <div class="form-group">
+                        <div class="col-lg-4 col-sm-4"></div>
+                        <div class="col-lg-8 col-sm-8">
+                            <a href="{{ $account->getLogoUrl(true) }}" target="_blank">
+                                {!! HTML::image($account->getLogoUrl(true), 'Logo', ['style' => 'max-width:300px']) !!}
+                            </a> &nbsp;
+                            <a href="#" onclick="deleteLogo()">{{ trans('texts.remove_logo') }}</a>
                         </div>
+                    </div>
                     @endif
 
                     {!! Former::select('size_id')
                     ->addOption('','')
+                    ->placeholder(trans('texts.select_company_size'))
                     ->fromQuery($sizes, 'name', 'id') !!}
 
                     {!! Former::select('industry_id')
                     ->addOption('','')
                     ->fromQuery($industries, 'name', 'id')
+                    ->placeholder(trans('texts.select_industry'))
                     ->help('texts.industry_help') !!}
 
                 </div>
@@ -64,7 +66,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading" style="color:white;background-color: #777 !important;">
                     <h3 class="panel-title in-bold-white">
-                        {!! trans('texts.address') !!}</h3>
+                    {!! trans('texts.address') !!}</h3>
                 </div>
                 <div class="panel-body form-padding-right">
                     {!! Former::text('address1')->autocomplete('address-line1') !!}
@@ -82,22 +84,24 @@
             <div class="panel panel-default">
                 <div class="panel-heading" style="color:white;background-color: #777 !important;">
                     <h3 class="panel-title in-bold-white">
-                        {!! trans('texts.defaults') !!}</h3>
+                    {!! trans('texts.defaults') !!}</h3>
                 </div>
                 <div class="panel-body form-padding-right">
                     {!! Former::select('payment_type_id')
                     ->addOption('','')
                     ->fromQuery($paymentTypes, 'name', 'id')
+                    ->placeholder(trans('texts.select_payment_type'))
                     ->help(trans('texts.payment_type_help')) !!}
 
                     {!! Former::select('payment_terms')
                     ->addOption('','')
                     ->fromQuery(\App\Models\PaymentTerm::getSelectOptions(), 'name', 'num_days')
+                    ->placeholder(trans('texts.select_payment_term'))
                     ->help(trans('texts.payment_terms_help') . ' | ' . link_to('/settings/payment_terms', trans('texts.customize_options'))) !!}
 
                     @if ($account->isModuleEnabled(ENTITY_TASK))
-                        {!! Former::text('task_rate')
-                        ->help('task_rate_help')!!}
+                    {!! Former::text('task_rate')
+                    ->help('task_rate_help')!!}
                     @endif
 
                 </div>
@@ -131,4 +135,4 @@
 
     </script>
 
-@stop
+    @stop

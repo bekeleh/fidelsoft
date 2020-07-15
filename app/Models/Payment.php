@@ -19,6 +19,7 @@ class Payment extends EntityModel
 
     protected $fillable = [
         'transaction_reference',
+        'public_notes',
         'private_notes',
         'exchange_rate',
         'exchange_currency_id',
@@ -30,14 +31,16 @@ class Payment extends EntityModel
     public static $statusClasses = [
         PAYMENT_STATUS_PENDING => 'info',
         PAYMENT_STATUS_COMPLETED => 'success',
+        PAYMENT_STATUS_PARTIALLY_PAID => 'primary',
         PAYMENT_STATUS_FAILED => 'danger',
         PAYMENT_STATUS_PARTIALLY_REFUNDED => 'primary',
         PAYMENT_STATUS_VOIDED => 'default',
         PAYMENT_STATUS_REFUNDED => 'default',
+        PAYMENT_STATUS_ADVANCE_PAID => 'success',
     ];
 
 
-    protected $dates = ['deleted_at'];
+    protected $dates = ['created_at','updated_at','deleted_at'];
 
     protected $presenter = 'App\Ninja\Presenters\PaymentPresenter';
 
@@ -145,6 +148,11 @@ class Payment extends EntityModel
     public function isPartiallyRefunded()
     {
         return $this->payment_status_id == PAYMENT_STATUS_PARTIALLY_REFUNDED;
+    }   
+
+    public function isPartiallyPaid()
+    {
+        return $this->payment_status_id == PAYMENT_STATUS_PARTIALLY_PAID;
     }
 
 
@@ -156,6 +164,11 @@ class Payment extends EntityModel
     public function isVoided()
     {
         return $this->payment_status_id == PAYMENT_STATUS_VOIDED;
+    }   
+
+    public function isAdvancePaid()
+    {
+        return $this->payment_status_id == PAYMENT_STATUS_ADVANCE_PAID;
     }
 
     public function isFailedOrVoided()
@@ -262,6 +275,10 @@ class Payment extends EntityModel
             return trans('texts.status_partially_refunded_amount', [
                 'amount' => $amount,
             ]);
+        }elseif ($statusId == PAYMENT_STATUS_PARTIALLY_PAID) {
+            return trans('texts.status_partially_paid');
+        }elseif ($statusId == PAYMENT_STATUS_ADVANCE_PAID) {
+            return trans('texts.status_advance_paid');
         } else {
             return trans('texts.status_' . strtolower($statusName));
         }
@@ -287,9 +304,9 @@ class Payment extends EntityModel
     public function invoiceJsonBackup()
     {
         $activity = Activity::wherePaymentId($this->id)
-            ->whereActivityTypeId(ACTIVITY_TYPE_CREATE_PAYMENT)
-            ->get(['json_backup'])
-            ->first();
+        ->whereActivityTypeId(ACTIVITY_TYPE_CREATE_PAYMENT)
+        ->get(['json_backup'])
+        ->first();
 
         return $activity->json_backup;
     }

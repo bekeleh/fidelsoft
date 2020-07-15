@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Session;
 
 class ClientController extends BaseController
 {
@@ -64,27 +65,31 @@ class ClientController extends BaseController
         return $this->clientService->getDatatable($accountId, $search);
     }
 
-    public function getDatatableClientType($clientTypePublicId = null)
-    {
-        return $this->clientService->getDatatableClientType($clientTypePublicId);
-    }
+    // public function getDatatableClientType($clientTypePublicId = null)
+    // {
+    //     return $this->clientService->getDatatableClientType($clientTypePublicId);
+    // }
 
-    public function getDatatableSaleType($saleTypePublicId = null)
-    {
-        return $this->clientService->getDatatableSaleType($saleTypePublicId);
-    }
+    // public function getDatatableSaleType($saleTypePublicId = null)
+    // {
+    //     return $this->clientService->getDatatableSaleType($saleTypePublicId);
+    // }
 
-    public function getDatatableHoldReason($holdReasonPublicId = null)
-    {
-        return $this->clientService->getDatatableHoldReason($holdReasonPublicId);
-    }
+    // public function getDatatableHoldReason($holdReasonPublicId = null)
+    // {
+    //     return $this->clientService->getDatatableHoldReason($holdReasonPublicId);
+    // }
 
     public function create(ClientRequest $request)
     {
         $this->authorize('create', ENTITY_CLIENT);
 
         if (Client::scope()->withTrashed()->count() > Auth::user()->getMaxNumClients()) {
-            return View::make('error', ['hideHeader' => true, 'error' => "Sorry, you've exceeded the limit of " . Auth::user()->getMaxNumClients() . ' clients']);
+            return View::make('error',[
+                'hideHeader' => true, 
+                'error' => "Sorry, you've exceeded the limit of " . 
+                Auth::user()->getMaxNumClients() . ' clients'
+            ]);
         }
 
         $data = [
@@ -105,7 +110,8 @@ class ClientController extends BaseController
 
         $client = $this->clientService->save($data);
 
-        return redirect()->to($client->getRoute())->with('success', trans('texts.created_client'));
+        Session::flash('message', trans('texts.created_client'));
+        return redirect()->to($client->getRoute());
     }
 
     public function edit(ClientRequest $request)
@@ -123,7 +129,7 @@ class ClientController extends BaseController
         $data = array_merge($data, self::getViewModel());
 
         if (Auth::user()->account->isNinjaAccount()) {
-            if ($account = Account::whereId($client->public_id)->first()) {
+            if ($account = Account::whereId($client->account_id)->first()) {
                 $data['planDetails'] = $account->getPlanDetails(false, false);
             }
         }
@@ -135,9 +141,12 @@ class ClientController extends BaseController
     {
         $data = $request->input();
 
-        $client = $this->clientService->save($data, $request->entity());
+        $client = $request->entity();
+        $client = $this->clientService->save($data, $client);
+        
+        Session::flash('message', trans('texts.updated_client'));
 
-        return redirect()->to($client->getRoute())->with('success', trans('texts.updated_client'));
+        return redirect()->to($client->getRoute());
     }
 
     public function show(ClientRequest $request, $publicId)
@@ -191,6 +200,7 @@ class ClientController extends BaseController
                 'credit' => $client->getTotalCredit(),
                 'title' => trans('texts.view_client'),
                 'hasRecurringInvoices' => $account->isModuleEnabled(ENTITY_RECURRING_INVOICE) && Invoice::scope()->recurring()->withArchived()->whereClientId($client->id)->count() > 0,
+                // 'hasActivities' => $account->isModuleEnabled(ENTITY_ACTIVITY) && Activity::scope()->withArchived()->whereClientId($client->id)->count() > 0,
                 'hasQuotes' => $account->isModuleEnabled(ENTITY_QUOTE) && Invoice::scope()->quotes()->withArchived()->whereClientId($client->id)->count() > 0,
                 'hasTasks' => $account->isModuleEnabled(ENTITY_TASK) && Task::scope()->withArchived()->whereClientId($client->id)->count() > 0,
                 'hasExpenses' => $account->isModuleEnabled(ENTITY_EXPENSE) && Expense::scope()->withArchived()->whereClientId($client->id)->count() > 0,
@@ -224,11 +234,11 @@ class ClientController extends BaseController
         }
 
         $count = $this->clientService->bulk($ids, $action);
-
-        $message = Utils::pluralize($action . 'd_client', $count);
+        $message = Utils::pluralize($action.'d_client', $count);
+        Session::flash('message', $message);
 
         if ($action == 'purge') {
-            return redirect('dashboard')->withMessage($message)->with('message', $message);
+            return redirect('dashboard')->withMessage($message);
         } else {
             return $this->returnBulk(ENTITY_CLIENT, $action, $ids);
         }

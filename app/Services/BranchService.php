@@ -33,10 +33,10 @@ class BranchService extends BaseService
 
     public function getDatatable($accountId, $search)
     {
-        $datatable = new BranchDatatable(true);
+        $datatable = new BranchDatatable(true, true);
 
         $query = $this->branchRepo->find($accountId, $search);
-        if (!$query) {
+        if (!isset($query)) {
             return false;
         }
 

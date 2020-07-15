@@ -136,8 +136,8 @@ class PermissionGroupController extends BaseController
     public function update(UpdatePermissionGroupRequest $request)
     {
         $data = $request->input();
-
-        $userGroup = $this->permissionGroupService->save($data, $request->entity());
+        $permissionGroup = $request->entity();
+        $userGroup = $this->permissionGroupService->save($data, $permissionGroup);
 
         $action = Input::get('action');
         if (in_array($action, ['archive', 'delete', 'restore', 'invoice', 'add_to_invoice'])) {
@@ -185,7 +185,7 @@ class PermissionGroupController extends BaseController
         $userGroupAccountId = Input::get('account_id');
         $userGroupPublicId = Input::get('public_id');
         $userGroup = PermissionGroup::where('account_id', '=', $userGroupAccountId)
-            ->where('public_id', '=', $userGroupPublicId)->firstOrFail();
+        ->where('public_id', '=', $userGroupPublicId)->firstOrFail();
         if ($userGroup) {
             $userGroup->permissions = $permissionArray;
             $userGroup->save();

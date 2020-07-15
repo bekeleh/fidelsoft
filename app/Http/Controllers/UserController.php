@@ -172,6 +172,7 @@ class UserController extends BaseController
     {
         $data = $request->input();
         $user = $request->entity();
+        
         $user = $this->userService->save($data, $user);
 
         $action = Input::get('action');
@@ -241,7 +242,7 @@ class UserController extends BaseController
     public function sendConfirmation($userPublicId)
     {
         $user = User::where('account_id', '=', Auth::user()->account_id)
-            ->where('public_id', '=', $userPublicId)->firstOrFail();
+        ->where('public_id', '=', $userPublicId)->firstOrFail();
 
         $this->userMailer->sendConfirmation($user, Auth::user());
 

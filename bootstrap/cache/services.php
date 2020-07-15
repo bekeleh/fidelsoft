@@ -61,7 +61,8 @@
     57 => 'App\\Providers\\ConfigServiceProvider',
     58 => 'App\\Providers\\EventServiceProvider',
     59 => 'App\\Providers\\RouteServiceProvider',
-    60 => 'Davibennun\\LaravelPushNotification\\LaravelPushNotificationServiceProvider',
+    60 => 'App\\Providers\\ValidationServiceProvider',
+    61 => 'Davibennun\\LaravelPushNotification\\LaravelPushNotificationServiceProvider',
   ),
   'eager' => 
   array (
@@ -101,7 +102,8 @@
     33 => 'App\\Providers\\ConfigServiceProvider',
     34 => 'App\\Providers\\EventServiceProvider',
     35 => 'App\\Providers\\RouteServiceProvider',
-    36 => 'Davibennun\\LaravelPushNotification\\LaravelPushNotificationServiceProvider',
+    36 => 'App\\Providers\\ValidationServiceProvider',
+    37 => 'Davibennun\\LaravelPushNotification\\LaravelPushNotificationServiceProvider',
   ),
   'deferred' => 
   array (

@@ -1,38 +1,41 @@
 @extends('header')
 
 @section('content')
-    {!! Former::open($url)
+{!! Former::open($url)
     ->addClass('col-lg-10 col-lg-offset-1 warn-on-exit main-form')
     ->autocomplete('off')
     ->method($method)
     ->rules([
     'name' => 'required',
     'client_id' => 'required',
+    'task_rate' => 'required',
+    'due_date' => 'required',
+    'budgeted_hours' => 'required',
     ]) !!}
     <!-- notification -->
     @include('notifications')
     @if ($project)
-        {!! Former::populate($project) !!}
-        {!! Former::populateField('task_rate', floatval($project->task_rate) ? Utils::roundSignificant($project->task_rate) : '') !!}
-        {!! Former::populateField('budgeted_hours', floatval($project->budgeted_hours) ? $project->budgeted_hours : '') !!}
+    {!! Former::populate($project) !!}
+    {!! Former::populateField('task_rate', floatval($project->task_rate) ? Utils::roundSignificant($project->task_rate) : '') !!}
+    {!! Former::populateField('budgeted_hours', floatval($project->budgeted_hours) ? $project->budgeted_hours : '') !!}
     @endif
 
     <span style="display:none">
-{!! Former::text('public_id') !!}
+        {!! Former::text('public_id') !!}
         {!! Former::text('action') !!}
-</span>
+    </span>
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body">
                     @if ($project)
-                        {!! Former::plaintext('client_name')
-                        ->value($project->client ? $project->client->present()->link : '') !!}
+                    {!! Former::plaintext('client_name')
+                    ->value($project->client ? $project->client->present()->link : '') !!}
                     @else
-                        {!! Former::select('client_id')
-                        ->addOption('', '')
-                        ->label(trans('texts.client_name'))
-                        ->addGroupClass('client-select') !!}
+                    {!! Former::select('client_id')
+                    ->addOption('', '')
+                    ->label(trans('texts.client_name'))
+                    ->addGroupClass('client-select') !!}
                     @endif
                     {!! Former::text('name') !!}
                     {!! Former::text('due_date')
@@ -55,10 +58,10 @@
         </div>
     </div>
     @if(Auth::user()->canCreateOrEdit(ENTITY_PROJECT))
-        <center class="buttons">
-            {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/projects'))->appendIcon(Icon::create('remove-circle')) !!}
-            {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
-        </center>
+    <center class="buttons">
+        {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/projects'))->appendIcon(Icon::create('remove-circle')) !!}
+        {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
+    </center>
     @endif
     {!! Former::close() !!}
     <script>
@@ -112,4 +115,4 @@
 
     </script>
 
-@stop
+    @stop

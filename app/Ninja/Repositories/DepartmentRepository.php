@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class DepartmentRepository extends BaseRepository
 {
-    private $model;
+    protected $model;
 
     public function __construct(Department $model)
     {

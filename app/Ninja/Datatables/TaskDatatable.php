@@ -20,7 +20,7 @@ class TaskDatatable extends EntityDatatable
             [
                 'client_name',
                 function ($model) {
-                    if (Auth::user()->can('view', [ENTITY_CLIENT, $model]))
+                    if (Auth::user()->can('edit', [ENTITY_CLIENT, $model]))
                         return $model->client_public_id ? link_to("clients/{$model->client_public_id}", Utils::getClientDisplayName($model))->toHtml() : '';
                     else
                         return Utils::getClientDisplayName($model);
@@ -31,29 +31,30 @@ class TaskDatatable extends EntityDatatable
             [
                 'project',
                 function ($model) {
-                    if (Auth::user()->can('view', [ENTITY_PROJECT, $model]))
+                    if (Auth::user()->can('edit', [ENTITY_PROJECT, $model]))
                         return $model->project_public_id ? link_to("projects/{$model->project_public_id}", $model->project)->toHtml() : '';
                     else
                         return $model->project;
                 },
             ],
             [
+                'invoice_number',
+                function ($model) {
+                    return $model->invoice_number;
+
+                },
+            ],     
+            [
                 'date',
                 function ($model) {
-                    if (Auth::user()->can('view', [ENTITY_EXPENSE, $model]))
-                        return link_to("tasks/{$model->public_id}/edit", Task::calcStartTime($model))->toHtml();
-                    else
-                        return Task::calcStartTime($model);
+                    return Task::calcStartTime($model);
 
                 },
             ],
             [
                 'duration',
                 function ($model) {
-                    if (Auth::user()->can('view', [ENTITY_EXPENSE, $model]))
-                        return link_to("tasks/{$model->public_id}/edit", Utils::formatTime(Task::calcDuration($model)))->toHtml();
-                    else
-                        return Utils::formatTime(Task::calcDuration($model));
+                    return Utils::formatTime(Task::calcDuration($model));
 
                 },
             ],
@@ -152,8 +153,8 @@ class TaskDatatable extends EntityDatatable
             ],
             [
                 '--divider--', function () {
-                return false;
-            },
+                    return false;
+                },
                 function ($model) {
                     return Auth::user()->can('edit', [ENTITY_TASK, $model]);
                 },
@@ -173,7 +174,7 @@ class TaskDatatable extends EntityDatatable
     {
         $actions = [];
 
-        $statuses = TaskStatus::scope()->orderBy('sort_order')->get();
+        $statuses = TaskStatus::orderBy('sort_order')->get();
 
         foreach ($statuses as $status) {
             $actions[] = [

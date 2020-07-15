@@ -51,7 +51,8 @@ class AuthService
         if (Auth::check()) {
             $user = Auth::user();
             $isRegistered = $user->registered;
-            $result = $this->accountRepo->updateUserFromOauth($user, $name[0], $name[1], $email, $providerId, $oauthUserId);
+            $result = $this->accountRepo
+            ->updateUserFromOauth($user, $name[0], $name[1], $email, $providerId, $oauthUserId);
 
             if ($result === true) {
                 if (!$isRegistered) {
@@ -94,7 +95,8 @@ class AuthService
 
     public static function getProviderId($provider)
     {
-        return array_search(strtolower($provider), array_map('strtolower', self::$providers));
+        return array_search(strtolower($provider),
+            array_map('strtolower', self::$providers));
     }
 
     public static function getProviderName($providerId)

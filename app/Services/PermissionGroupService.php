@@ -26,9 +26,9 @@ class PermissionGroupService extends BaseService
         return $this->permissionGroupRepo;
     }
 
-    public function save($data)
+    public function save($data, $permissionGroup)
     {
-        return $this->permissionGroupRepo->save($data);
+        return $this->permissionGroupRepo->save($data, $permissionGroup);
     }
 
     public function getDatatable($accountId, $search)

@@ -86,6 +86,19 @@ class TranslationComposer
             $holdReason->name = trans('texts.hold_reason_' . Str::slug($holdReason->name, '_'));
         })->sortBy(function ($holdReason) {
             return $holdReason->name;
+        }));  
+
+         //  payment status
+        $view->with('paymentStatuses', Cache::get('paymentStatuses')->each(function ($paymentStatus) {
+            $paymentStatus->name = trans('texts.payment_status_' . Str::slug($paymentStatus->name, '_'));
+        })->sortBy(function ($paymentStatus) {
+            return $paymentStatus->name;
+        }));
+
+        $view->with('statuses', Cache::get('statuses')->each(function ($status) {
+            $status->name = trans('texts.status_' . Str::slug($status->name, '_'));
+        })->sortBy(function ($status) {
+            return $status->name;
         }));
 
     }

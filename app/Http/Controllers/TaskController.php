@@ -69,7 +69,8 @@ class TaskController extends BaseController
 
     public function getDatatable($clientPublicId = null, $projectPublicId = null)
     {
-        return $this->taskService->getDatatable($clientPublicId, $projectPublicId, Input::get('sSearch'));
+        $search =  Input::get('sSearch');
+        return $this->taskService->getDatatable($clientPublicId, $projectPublicId, $search);
     }
 
     public function show($publicId)

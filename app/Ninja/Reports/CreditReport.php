@@ -25,13 +25,13 @@ class CreditReport extends AbstractReport
         $subgroup = $this->options['subgroup'];
 
         $clients = Client::scope()
-            ->orderBy('name')
-            ->withArchived()
-            ->with(['contacts', 'user', 'credits' => function ($query) {
-                $query->where('credit_date', '>=', $this->startDate)
-                    ->where('credit_date', '<=', $this->endDate)
-                    ->withArchived();
-            }]);
+        ->orderBy('name')
+        ->withArchived()
+        ->with(['contacts', 'user', 'credits' => function ($query) {
+            $query->where('credit_date', '>=', $this->startDate)
+            ->where('credit_date', '<=', $this->endDate)
+            ->withArchived();
+        }]);
 
         foreach ($clients->get() as $client) {
             $amount = 0;

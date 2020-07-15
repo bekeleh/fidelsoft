@@ -39,7 +39,9 @@ class ItemRequestService extends BaseService
     public function getDatatable($accountId, $search)
     {
         $datatable = new ItemRequestDatatable(true, true);
+        
         $query = $this->itemRequestRepo->find($accountId, $search);
+
         if (!Utils::hasPermission('view_item_request')) {
             $query->where('item_requests.user_id', '=', Auth::user()->id);
         }
@@ -85,16 +87,16 @@ class ItemRequestService extends BaseService
         return $this->datatableService->createDatatable($datatable, $query);
     }
 
-    public function getDatatableStatus($statusPublicId)
-    {
-        $datatable = new StatusDatatable(true, true);
+    // public function getDatatableStatus($statusPublicId)
+    // {
+    //     $datatable = new StatusDatatable(true, true);
 
-        $query = $this->itemRequestRepo->findStore($statusPublicId);
+    //     $query = $this->itemRequestRepo->findStore($statusPublicId);
 
-        if (!Utils::hasPermission('view_status')) {
-            $query->where('statuses.user_id', '=', Auth::user()->id);
-        }
+    //     if (!Utils::hasPermission('view_status')) {
+    //         $query->where('statuses.user_id', '=', Auth::user()->id);
+    //     }
 
-        return $this->datatableService->createDatatable($datatable, $query);
-    }
+    //     return $this->datatableService->createDatatable($datatable, $query);
+    // }
 }

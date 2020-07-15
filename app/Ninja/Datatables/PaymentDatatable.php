@@ -49,12 +49,13 @@ class PaymentDatatable extends EntityDatatable
                 function ($model) {
                     $str = $model->transaction_reference ? e($model->transaction_reference) : '<i>' . trans('texts.manual_entry') . '</i>';
                     return $this->addNote($str, $model->private_notes);
+                    // return $str;
                 },
             ],
             [
-                'private_notes',
+                'public_notes',
                 function ($model) {
-                    return $model->private_notes;
+                    return $model->public_notes;
                 },
             ],
             [
@@ -198,14 +199,14 @@ class PaymentDatatable extends EntityDatatable
                 },
                 function ($model) {
                     return Auth::user()->can('edit', [ENTITY_PAYMENT, $model])
-                        && $model->payment_status_id >= PAYMENT_STATUS_COMPLETED
-                        && $model->refunded < $model->amount;
+                    && $model->payment_status_id >= PAYMENT_STATUS_COMPLETED
+                    && $model->refunded < $model->amount;
                 },
             ],
             [
                 '--divider--', function () {
-                return false;
-            },
+                    return false;
+                },
                 function ($model) {
                     return Auth::user()->can('edit', [ENTITY_PAYMENT]);
                 },

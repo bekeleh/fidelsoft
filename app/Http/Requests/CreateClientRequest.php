@@ -19,16 +19,19 @@ class CreateClientRequest extends ClientRequest
         $this->validationData();
 
         $rules = [];
+        $rules['id_number'] = 'required|unique:clients,id_number,' . $this->id . 
+        ',id,account_id,' . $this->account_id;
         $rules['name'] = 'required';
-        $rules['id_number'] = 'required|unique:clients,id_number,' . $this->id . ',id,account_id,' . $this->account_id;
         $rules['currency_id'] = 'required|numeric';
+        $rules['task_rate'] = 'required|numeric';
         $rules['sale_type_id'] = 'required|numeric';
-        $rules['hold_reason_id'] = 'numeric';
-        $rules['country_id'] = 'numeric';
-        $rules['industry_id'] = 'numeric';
-        $rules['size_id'] = 'numeric';
-        $rules['language_id'] = 'numeric';
-        $rules['shipping_country_id'] = 'numeric';
+        $rules['hold_reason_id'] = 'required|numeric';
+        $rules['country_id'] = 'required|numeric';
+        // $rules['shipping_country_id'] = 'required|numeric';
+        // $rules['industry_id'] = 'required|numeric';
+        // $rules['size_id'] = 'required|numeric';
+        $rules['language_id'] = 'required|numeric';
+        $rules['shipping_country_id'] = 'required|numeric';
         $rules['notes'] = 'nullable';
         $rules['is_deleted'] = 'boolean';
         $rules['notes'] = 'nullable';
@@ -39,39 +42,39 @@ class CreateClientRequest extends ClientRequest
     public function sanitize()
     {
         $input = $this->all();
-        if (count($input)) {
-            if (!empty($input['name'])) {
+        if (isset($input)) {
+            if (isset($input['name'])) {
                 $input['name'] = filter_var($input['name'], FILTER_SANITIZE_STRING);
             }
-            if (!empty($input['id_number'])) {
+            if (isset($input['id_number'])) {
                 $input['id_number'] = filter_var($input['id_number'], FILTER_SANITIZE_STRING);
             }
-            if (!empty($input['country_id'])) {
+            if (isset($input['country_id'])) {
                 $input['country_id'] = filter_var($input['country_id'], FILTER_SANITIZE_NUMBER_INT);
             }
-            if (!empty($input['currency_id'])) {
+            if (isset($input['currency_id'])) {
                 $input['currency_id'] = filter_var($input['currency_id'], FILTER_SANITIZE_NUMBER_INT);
             }
-            if (!empty($input['sale_type_id'])) {
+            if (isset($input['sale_type_id'])) {
                 $input['sale_type_id'] = filter_var($input['sale_type_id'], FILTER_SANITIZE_NUMBER_INT);
             }
-            if (!empty($input['hold_reason_id'])) {
+            if (isset($input['hold_reason_id'])) {
                 $input['hold_reason_id'] = filter_var($input['hold_reason_id'], FILTER_SANITIZE_NUMBER_INT);
             }
 
-            if (!empty($input['industry_id'])) {
+            if (isset($input['industry_id'])) {
                 $input['industry_id'] = filter_var($input['industry_id'], FILTER_SANITIZE_NUMBER_INT);
             }
-            if (!empty($input['size_id'])) {
+            if (isset($input['size_id'])) {
                 $input['size_id'] = filter_var($input['size_id'], FILTER_SANITIZE_STRING);
             }
-            if (!empty($input['language_id'])) {
+            if (isset($input['language_id'])) {
                 $input['language_id'] = filter_var($input['language_id'], FILTER_SANITIZE_STRING);
             }
-            if (!empty($input['shipping_country_id'])) {
+            if (isset($input['shipping_country_id'])) {
                 $input['shipping_country_id'] = filter_var($input['shipping_country_id'], FILTER_SANITIZE_STRING);
             }
-            if (!empty($input['notes'])) {
+            if (isset($input['notes'])) {
                 $input['notes'] = filter_var($input['notes'], FILTER_SANITIZE_STRING);
             }
 

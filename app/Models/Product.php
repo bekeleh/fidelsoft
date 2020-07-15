@@ -150,6 +150,15 @@ class Product extends EntityModel
         return $query;
     }
 
+    public function scopeService($query, $publicId = false, $accountId = false)
+    {
+
+        $query = $query->where('item_type_id', SERVICE_OR_LABOUR)
+        ->WhereIsDeleted(false)
+        ->WhereNull('deleted_at');
+
+        return $query;
+    }
     public function scopeProducts($query)
     {
         $query = $query

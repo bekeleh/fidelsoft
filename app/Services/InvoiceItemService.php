@@ -6,7 +6,7 @@ use App\Events\QuoteInvitationWasApproved;
 use App\Jobs\DownloadInvoices;
 use App\Libraries\Utils;
 use App\Models\Invitation;
-use App\Models\Invoice;
+use App\Models\InvoiceItem;
 use App\Ninja\Datatables\InvoiceItemDatatable;
 use App\Ninja\Repositories\InvoiceItemRepository;
 use Illuminate\Support\Facades\Auth;
@@ -14,29 +14,29 @@ use Illuminate\Support\Facades\Auth;
 class InvoiceItemService extends BaseService
 {
 
-    protected $invoiceItemRepo;
+    protected $invoiceItemItemRepo;
     protected $datatableService;
 
     /**
      *
      * InvoiceService constructor.
      *
-     * @param InvoiceItemRepository $invoiceItemRepo
+     * @param InvoiceItemRepository $invoiceItemItemRepo
      * @param DatatableService $datatableService
      */
-    public function __construct(InvoiceItemRepository $invoiceItemRepo, DatatableService $datatableService)
+    public function __construct(InvoiceItemRepository $invoiceItemItemRepo, DatatableService $datatableService)
     {
-        $this->invoiceItemRepo = $invoiceItemRepo;
+        $this->invoiceItemRepo = $invoiceItemItemRepo;
         $this->datatableService = $datatableService;
     }
 
     public function bulk($ids, $action)
     {
         if ($action == 'download') {
-            $invoice_items = $this->getRepo()->findByPublicIdsWithTrashed($ids);
-            dispatch(new DownloadInvoices(Auth::user(), $invoice_items));
+            $invoiceItem_items = $this->getRepo()->findByPublicIdsWithTrashed($ids);
+            dispatch(new DownloadInvoices(Auth::user(), $invoiceItem_items));
 
-            return count($invoice_items);
+            return count($invoiceItem_items);
         } else {
             return parent::bulk($ids, $action);
         }
@@ -47,9 +47,9 @@ class InvoiceItemService extends BaseService
         return $this->invoiceItemRepo;
     }
 
-    public function save(array $data, Invoice $invoice = null)
+    public function save(array $data, InvoiceItem $invoiceItem = null)
     {
-        return $this->invoiceItemRepo->save($data, $invoice);
+        return $this->invoiceItemRepo->save($data, $invoiceItem);
     }
 
     public function approveQuote($quote, Invitation $invitation = null)
@@ -63,11 +63,11 @@ class InvoiceItemService extends BaseService
         event(new QuoteInvitationWasApproved($quote, $invitation));
 
         if ($account->auto_convert_quote) {
-            $invoice = $this->convertQuote($quote);
+            $invoiceItem = $this->convertQuote($quote);
 
-            foreach ($invoice->invitations as $invoiceInvitation) {
-                if ($invitation->contact_id == $invoiceInvitation->contact_id) {
-                    $invitation = $invoiceInvitation;
+            foreach ($invoiceItem->invitations as $invoiceItemInvitation) {
+                if ($invitation->contact_id == $invoiceItemInvitation->contact_id) {
+                    $invitation = $invoiceItemInvitation;
                 }
             }
         } else {
@@ -84,13 +84,13 @@ class InvoiceItemService extends BaseService
     public function convertQuote($quote)
     {
         $account = $quote->account;
-        $invoice = $this->invoiceItemRepo->cloneInvoice($quote, $quote->id);
+        $invoiceItem = $this->invoiceItemRepo->cloneInvoice($quote, $quote->id);
 
         if ($account->auto_archive_quote) {
             $this->invoiceItemRepo->archive($quote);
         }
 
-        return $invoice;
+        return $invoiceItem;
     }
 
     public function getDatatable($accountId, $search)

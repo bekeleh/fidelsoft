@@ -13,6 +13,7 @@ class ComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // view composer with dedicated class
         view()->composer(
             [
                 'accounts.details',
@@ -26,6 +27,7 @@ class ComposerServiceProvider extends ServiceProvider
                 'invited.details',
                 'products.edit',
                 'item_prices.edit',
+                'item_requests.show',
             ],
             'App\Http\ViewComposers\TranslationComposer'
         );
@@ -53,8 +55,6 @@ class ComposerServiceProvider extends ServiceProvider
             ],
             'App\Http\ViewComposers\ProposalComposer'
         );
-
-        view()->composer([''], 'App\Http\ViewComposers\InventoryComposer');
 
     }
 

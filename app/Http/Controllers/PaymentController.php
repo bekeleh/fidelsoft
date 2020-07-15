@@ -64,9 +64,9 @@ class PaymentController extends BaseController
         $account = $user->account;
 
         $invoices = Invoice::scope()->invoices()
-            ->where('invoices.invoice_status_id', '!=', INVOICE_STATUS_PAID)
-            ->with('client', 'invoice_status')
-            ->orderBy('invoice_number')->get();
+        ->where('invoices.invoice_status_id', '!=', INVOICE_STATUS_PAID)
+        ->with('client', 'invoice_status')
+        ->orderBy('invoice_number')->get();
 
         $clientPublicId = Input::old('client') ? Input::old('client') : ($request->client_id ?: 0);
         $invoicePublicId = Input::old('invoice') ? Input::old('invoice') : ($request->invoice_id ?: 0);
@@ -135,9 +135,9 @@ class PaymentController extends BaseController
             'client' => null,
             'invoice' => null,
             'invoices' => Invoice::scope()->invoices()
-                ->whereIsPublic(true)
-                ->with('client', 'invoice_status')
-                ->orderBy('invoice_number')->get(),
+            ->whereIsPublic(true)
+            ->with('client', 'invoice_status')
+            ->orderBy('invoice_number')->get(),
             'payment' => $payment,
             'entity' => $payment,
             'method' => 'PUT',
@@ -164,7 +164,7 @@ class PaymentController extends BaseController
         }
 
         $payment = $this->paymentService->save($input, null, $request->invoice);
-
+//       if client requires receipt via email
         if (Input::get('email_receipt')) {
             $this->contactMailer->sendPaymentConfirmation($payment);
             $message = trans($credit ? 'texts.created_payment_and_credit_emailed_client' : 'texts.created_payment_emailed_client');
@@ -173,6 +173,7 @@ class PaymentController extends BaseController
         }
 
         $url = url($payment->client->getRoute());
+
         return redirect()->to($url)->with('success', $message);
     }
 

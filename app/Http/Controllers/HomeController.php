@@ -49,7 +49,8 @@ class HomeController extends BaseController
 
     public function home()
     {
-        return view('home');
+        // return view('home');
+        return view('index');
     }
 
     public function viewLogo()
@@ -134,9 +135,9 @@ class HomeController extends BaseController
             }
             $subject .= date('M jS, g:ia');
             $message->to(env('CONTACT_EMAIL', 'fidelinvoice@gmail.com'))
-                ->from(CONTACT_EMAIL, Auth::user()->present()->fullName)
-                ->replyTo(Auth::user()->email, Auth::user()->present()->fullName)
-                ->subject($subject);
+            ->from(CONTACT_EMAIL, Auth::user()->present()->fullName)
+            ->replyTo(Auth::user()->email, Auth::user()->present()->fullName)
+            ->subject($subject);
         });
 
         return RESULT_SUCCESS;

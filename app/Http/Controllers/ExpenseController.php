@@ -14,14 +14,14 @@ use App\Models\Vendor;
 use App\Ninja\Datatables\ExpenseDatatable;
 use App\Ninja\Repositories\ExpenseRepository;
 use App\Ninja\Repositories\InvoiceRepository;
-use App\Services\ExpenseService;
-use DropdownButton;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
+use App\Services\ExpenseService;
+use DropdownButton;
 use Redirect;
 
 class ExpenseController extends BaseController
@@ -54,7 +54,10 @@ class ExpenseController extends BaseController
 
     public function getDatatable($expensePublicId = null)
     {
-        return $this->expenseService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
+        $accountId = Auth::user()->account_id;
+        $search = Input::get('sSearch');
+
+        return $this->expenseService->getDatatable($accountId, $search);
     }
 
     public function getDatatableVendor($vendorPublicId = null)
@@ -208,50 +211,50 @@ class ExpenseController extends BaseController
         switch ($action) {
             case 'invoice':
             case 'add_to_invoice':
-                $expenses = Expense::scope($ids)->with('client')->get();
-                $clientPublicId = null;
-                $currencyId = null;
+            $expenses = Expense::scope($ids)->with('client')->get();
+            $clientPublicId = null;
+            $currencyId = null;
 
                 // Validate that either all expenses do not have a client or if there is a client, it is the same client
-                foreach ($expenses as $expense) {
-                    if ($expense->client) {
-                        if ($expense->client->trashed()) {
-                            return redirect($referer)->withError(trans('texts.client_must_be_active'));
-                        }
-
-                        if (!$clientPublicId) {
-                            $clientPublicId = $expense->client->public_id;
-                        } elseif ($clientPublicId != $expense->client->public_id) {
-                            return redirect($referer)->withError(trans('texts.expense_error_multiple_clients'));
-                        }
+            foreach ($expenses as $expense) {
+                if ($expense->client) {
+                    if ($expense->client->trashed()) {
+                        return redirect($referer)->withError(trans('texts.client_must_be_active'));
                     }
 
-                    if (!$currencyId) {
-                        $currencyId = $expense->invoice_currency_id;
-                    } elseif ($currencyId != $expense->invoice_currency_id && $expense->invoice_currency_id) {
-                        return redirect($referer)->withError(trans('texts.expense_error_multiple_currencies'));
-                    }
-
-                    if ($expense->invoice_id) {
-                        return redirect($referer)->withError(trans('texts.expense_error_invoiced'));
+                    if (!$clientPublicId) {
+                        $clientPublicId = $expense->client->public_id;
+                    } elseif ($clientPublicId != $expense->client->public_id) {
+                        return redirect($referer)->withError(trans('texts.expense_error_multiple_clients'));
                     }
                 }
 
-                if ($action == 'invoice') {
-                    return Redirect::to("invoices/create/{$clientPublicId}")
-                        ->with('expenseCurrencyId', $currencyId)
-                        ->with('expenses', $ids);
-                } else {
-                    $invoiceId = Input::get('invoice_id');
-
-                    return Redirect::to("invoices/{$invoiceId}/edit")
-                        ->with('expenseCurrencyId', $currencyId)
-                        ->with('expenses', $ids);
+                if (!$currencyId) {
+                    $currencyId = $expense->invoice_currency_id;
+                } elseif ($currencyId != $expense->invoice_currency_id && $expense->invoice_currency_id) {
+                    return redirect($referer)->withError(trans('texts.expense_error_multiple_currencies'));
                 }
-                break;
+
+                if ($expense->invoice_id) {
+                    return redirect($referer)->withError(trans('texts.expense_error_invoiced'));
+                }
+            }
+
+            if ($action == 'invoice') {
+                return Redirect::to("invoices/create/{$clientPublicId}")
+                ->with('expenseCurrencyId', $currencyId)
+                ->with('expenses', $ids);
+            } else {
+                $invoiceId = Input::get('invoice_id');
+
+                return Redirect::to("invoices/{$invoiceId}/edit")
+                ->with('expenseCurrencyId', $currencyId)
+                ->with('expenses', $ids);
+            }
+            break;
 
             default:
-                $count = $this->expenseService->bulk($ids, $action);
+            $count = $this->expenseService->bulk($ids, $action);
         }
 
         if ($count > 0) {

@@ -28,7 +28,7 @@ Route::group(['middleware' => ['lookup:contact']], function () {
 });
 
 // Client visible pages
-Route::group(['middleware' => ['lookup:contact', 'auth:client']], function () {
+Route::group(['middleware' => ['lookup:contact', 'auth:client','banned:client']], function () {
     Route::get('view/{invitation_key}', 'ClientPortalController@viewInvoice');
     Route::get('proposal/{proposal_invitation_key}/download', 'ClientPortalProposalController@downloadProposal');
     Route::get('proposal/{proposal_invitation_key}', 'ClientPortalProposalController@viewProposal');
@@ -108,6 +108,7 @@ Route::group(['middleware' => 'guest'], function () {
 //    Route::post('password/email', 'UserController@sendResetLinkEmail')->name('password.email');
 //    Route::get('password/reset/{token}', 'UserController@showResetForm')->name('password.reset');
 //    Route::post('password/reset/{token}', 'UserController@reset')->name('password.reset');
+    
     Route::get('/login', ['as' => 'login', 'uses' => 'Auth\LoginController@getLoginWrapper'])->name('login');
     Route::get('/recover_password', ['as' => 'forgot', 'uses' => 'Auth\ForgotPasswordController@showLinkRequestForm'])->name('password.email');
     Route::get('/password/reset/{token}', ['as' => 'forgot', 'uses' => 'Auth\ResetPasswordController@showResetForm'])->name('password.reset');
@@ -133,7 +134,7 @@ if (Utils::isTravis()) {
     Route::get('/check_data', 'AppController@checkData');
 }
 
-Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
+Route::group(['middleware' => ['lookup:user', 'auth:user','banned:user']], function () {
     Route::get('force_reset_password/{public_key}', 'Auth\ForceResetPasswordController@showUserForPasswordReset');
     Route::post('force_reset_password/force_reset_password', 'Auth\ForceResetPasswordController@changePassword');
     Route::get('logged_in', 'HomeController@loggedIn');
@@ -292,6 +293,14 @@ Route::group(['middleware' => ['lookup:user', 'auth:user']], function () {
     Route::get('api/products', 'ProductController@getDatatable');
     Route::resource('products', 'ProductController');
     Route::post('products/bulk', 'ProductController@bulk');
+    //company we can setup a common properties like prefix, namespace and middleware
+    Route::group(['middleware'=> ['setup']], function(){
+        Route::get('companies/{companies}/clone', 'CompanyController@cloneCompany');
+        Route::get('api/companies', 'CompanyController@getDatatable');
+        Route::resource('companies', 'CompanyController');
+        Route::post('companies/bulk', 'CompanyController@bulk');
+    });
+
 //  item movement
     Route::get('item_movements/{item_movements}/clone', 'ItemMovementController@cloneItemMovement');
     Route::get('api/item_movements', 'ItemMovementController@getDatatable');
@@ -438,7 +447,7 @@ Route::group([
     Route::get('/manage_companies', 'UserController@manageCompanies');
     Route::get('/errors', 'AppController@errors');
     Route::get('/test_headless', 'AppController@testHeadless');
-
+//   event subscription 
     Route::get('api/tokens', 'TokenController@getDatatable');
     Route::resource('tokens', 'TokenController');
     Route::post('tokens/bulk', 'TokenController@bulk');

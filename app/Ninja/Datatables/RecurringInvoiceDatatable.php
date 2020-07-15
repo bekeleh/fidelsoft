@@ -32,9 +32,12 @@ class RecurringInvoiceDatatable extends EntityDatatable
             [
                 'client_name',
                 function ($model) {
-                    return link_to("clients/{$model->client_public_id}", Utils::getClientDisplayName($model))->toHtml();
+                    if(auth::user()->can('edit',[ENTITY_CLIENT])){
+                        return link_to("clients/{$model->client_public_id}", Utils::getClientDisplayName($model))->toHtml();
+                    }else{
+                        return Utils::getClientDisplayName($model);
+                    }
                 },
-                !$this->hideClient,
             ],
             [
                 'start_date',
@@ -62,6 +65,12 @@ class RecurringInvoiceDatatable extends EntityDatatable
                     return Utils::formatMoney($model->amount, $model->currency_id, $model->country_id);
                 },
             ],
+            [
+                'public_notes',
+                function ($model) {
+                    return $this->showWithTooltip($model->public_notes);
+                },
+            ],      
             [
                 'private_notes',
                 function ($model) {
@@ -155,8 +164,8 @@ class RecurringInvoiceDatatable extends EntityDatatable
             ],
             [
                 '--divider--', function () {
-                return false;
-            },
+                    return false;
+                },
                 function ($model) {
                     return Auth::user()->can('edit', [ENTITY_INVOICE]);
                 },

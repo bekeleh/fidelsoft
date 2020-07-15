@@ -40,58 +40,65 @@ class ClientService extends BaseService
 
     public function save($data, $client = null)
     {
-        if (Auth::user()->account->isNinjaAccount() && isset($data['plan']) && isset($data['public_id'])) {
-            $this->ninjaRepo->updatePlanDetails($data['public_id'], $data);
+        if (Auth::user()->account->isNinjaAccount() &&  isset($data['plan']) && 
+            isset($data['account_id'])) 
+        {
+            $this->ninjaRepo->updatePlanDetails($data['account_id'], $data);
         }
 
         return $this->clientRepo->save($data, $client);
     }
 
-    public function getDatatable($search, $accountId)
+
+    public function getDatatable($accountId, $search)
     {
-        $datatable = new ClientDatatable();
+        $datatable = new ClientDatatable(true, true);
+        $query = $this->clientRepo->find($accountId, $search);
 
-        $query = $this->clientRepo->find($search, $accountId);
-
-        return $this->datatableService->createDatatable($datatable, $query);
-    }
-
-    public function getDatatableClientType($clientTypePublicId)
-    {
-        $datatable = new ClientTypeDatatable(true, true);
-
-        $query = $this->clientRepo->findClientType($clientTypePublicId);
-
-        if (!Utils::hasPermission('view_client_type')) {
-            $query->where('client_types.user_id', '=', Auth::user()->id);
+        if (!Utils::hasPermission('view_client')) {
+            $query->where('clients.user_id', '=', Auth::user()->id);
         }
 
         return $this->datatableService->createDatatable($datatable, $query);
     }
 
-    public function getDatatableSaleType($saleTypePublicId)
-    {
-        $datatable = new SaleTypeDatatable(true, true);
+    // public function getDatatableClientType($clientTypePublicId)
+    // {
+    //     $datatable = new ClientTypeDatatable(true, true);
 
-        $query = $this->clientRepo->findSaleType($saleTypePublicId);
+    //     $query = $this->clientRepo->findClientType($clientTypePublicId);
 
-        if (!Utils::hasPermission('view_sale_type')) {
-            $query->where('sale_types.user_id', '=', Auth::user()->id);
-        }
+    //     if (!Utils::hasPermission('view_client_type')) {
+    //         $query->where('client_types.user_id', '=', Auth::user()->id);
+    //     }
 
-        return $this->datatableService->createDatatable($datatable, $query);
-    }
+    //     return $this->datatableService->createDatatable($datatable, $query);
+    // }
 
-    public function getDatatableHoldReason($holdReasonPublicId)
-    {
-        $datatable = new HoldReasonDatatable(true, true);
+    // public function getDatatableSaleType($saleTypePublicId)
+    // {
+    //     $datatable = new SaleTypeDatatable(true, true);
 
-        $query = $this->clientRepo->findHoldReason($holdReasonPublicId);
+    //     $query = $this->clientRepo->findSaleType($saleTypePublicId);
 
-        if (!Utils::hasPermission('view_hold_reason')) {
-            $query->where('hold_reasons.user_id', '=', Auth::user()->id);
-        }
+    //     if (!Utils::hasPermission('view_sale_type')) {
+    //         $query->where('sale_types.user_id', '=', Auth::user()->id);
+    //     }
 
-        return $this->datatableService->createDatatable($datatable, $query);
-    }
+    //     return $this->datatableService->createDatatable($datatable, $query);
+    // }
+
+    // public function getDatatableHoldReason($holdReasonPublicId)
+    // {
+    //     $datatable = new HoldReasonDatatable(true, true);
+
+    //     $query = $this->clientRepo->findHoldReason($holdReasonPublicId);
+
+    //     if (!Utils::hasPermission('view_hold_reason')) {
+    //         $query->where('hold_reasons.user_id', '=', Auth::user()->id);
+    //     }
+
+    //     return $this->datatableService->createDatatable($datatable, $query);
+    // }
+
 }

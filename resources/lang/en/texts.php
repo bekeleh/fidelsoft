@@ -94,12 +94,55 @@ $LANG = array(
     'deleted_branches' => 'Successfully Deleted :count Branches',
     'select_branch' => 'Select Default Branch',
     'branch_help' => 'Sets the default <b>branch</b>',
-
+//   Company
+    'company_name' => 'Company Name',
+    'companies' => 'Companies',
+    'company_list' => 'Company List',
+    'list_companies' => 'List Companies',
+    'archive_company' => 'Archive Company',
+    'create_company' => 'Create Company',
+    'edit_company' => 'Edit Company',
+    'delete_company' => 'Delete Company',
+    'clone_company' => 'Clone Company',
+    'restore_company' => 'Restore Company',
+    'new_company' => 'New Company',
+    'created_company' => 'Successfully Created Company',
+    'updated_company' => 'Successfully Updated Company',
+    'archived_company' => 'Successfully Archived Company',
+    'archived_companies' => 'Successfully Archived :count Companies',
+    'restored_company' => 'Successfully Restored Company',
+    'restored_companies' => 'Successfully Restored :count Companies',
+    'deleted_company' => 'Successfully Deleted Company',
+    'deleted_companies' => 'Successfully Deleted :count Companies',
+    'company_help' => 'Sets the default <b>company</b>',
+    'plan' => 'Plan',
+    'plan_term' => 'Plan Term',
+    'plan_started' => 'Plan Started',
+    'plan_paid' => 'Plan Paid',
+    'plan_expires' => 'Plan Expires',
+    'trial_started' => 'Trial Started',
+    'trial_plan' => 'Trial Plan',
+    'pending_plan' => 'Pending Plan',
+    'pending_term' => 'Plan Term',
+    'plan_price' => 'Plan Price',
+    'pending_plan_price' => 'Pending Plan Price',
+    'num_users' => 'Num Users',
+    'pending_num_users' => 'Pending Num Users',
+    'utm_source' => 'UTM Source',
+    'utm_medium' => 'UTM Medium',
+    'utm_campaign' => 'UTM Campaing',
+    'utm_term' => 'UTM Term',
+    'utm_content' => 'UTM Content',
+    'discount' => 'Discount',
+    'discount_expires' => 'Discount Expires',
+    'promo_expires' => 'Promo Expires',
+    'bluevine_status' => 'BlueVine Status',
+    'referral_code' => 'Referral Code',
 //   Departments
     'department_name' => 'Department Name',
     'departments' => 'Departments',
     'department_list' => 'Department List',
-    'list_departments' => 'List Department',
+    'list_departments' => 'List Departments',
     'archive_department' => 'Archive Department',
     'create_department' => 'Create Department',
     'edit_department' => 'Edit Department',
@@ -183,10 +226,18 @@ $LANG = array(
     'status_settings' => 'Status Settings',
     'select_status' => 'Select Status',
     'status_help' => 'Sets the default <b>status</b>',
+//  static cache data
+    'status_pending' => 'Pending',
+    'status_rejected' => 'Rejected',
+    'status_rejected' => 'Rejected',
+    'status_approved' => 'Approved',
+    'status_completed' => 'Completed',
+    'status_closed' => 'Closed',
+
 //   Clients
     'client_name' => 'Client Name',
     'client' => 'Client',
-    'clients' => 'Customers',
+    'clients' => 'Clients',
     'new_client' => 'New Client',
     'list_client' => 'List Client',
     'create_client' => 'Create Client',
@@ -237,6 +288,8 @@ $LANG = array(
     'client_type_potential' => 'Potential',
     'client_type_wholesaler' => 'Wholesaler',
     'client_type_retailer' => 'Retailer',
+    'client_type_default' => 'Default',
+    'select_client_type' => 'Select Client Type',
 
 //   POS
     'point_of_sale' => 'Point of Sales',
@@ -252,7 +305,7 @@ $LANG = array(
     'upc' => 'Scan UPC',
 //   Users
     'full_name' => 'Full Name',
-    'first_name' => 'Full Name',
+    'first_name' => 'First Name',
     'last_name' => 'Last Name',
     'username' => 'Username',
     'user' => 'User',
@@ -346,7 +399,7 @@ $LANG = array(
     'deleted_sale_type' => 'Successfully Deleted Sale Type',
     'deleted_sale_types' => 'Successfully Deleted :count Sales Type',
     'sale_type_settings' => 'Sale Type Settings',
-    'select_sale_type' => 'Select Sale Type',
+    'select_sale_type' => 'Select Default Sale Type',
     'sale_type_help' => 'Sets the default <b>sales type</b>',
 // sale type
     'sale_type_analyst' => 'Analyst',
@@ -358,6 +411,8 @@ $LANG = array(
     'sale_type_mediator' => 'Mediator',
     'sale_type_performer' => 'Performer',
     'sale_type_reformer' => 'Reformer',
+    'sale_type_default' => 'Default',
+    'select_sale_type' => 'Select Sale Type',
 
 //   Tax Rates
     'tax_rate_name' => 'Tax Rate Name',
@@ -428,8 +483,8 @@ $LANG = array(
     'item_transfer_settings' => 'Item Transfer Settings',
     'approver_name' => 'Approver Name',
     'approved_date' => 'Approved Date',
-    'from_store_name' => 'From Store',
-    'to_store_name' => 'To Store',
+    'from_store_name' => 'From Warehouse',
+    'to_store_name' => 'To Warehouse',
 
 //   Item requests
     'new_item_request' => 'New Item Request',
@@ -483,7 +538,7 @@ $LANG = array(
     'deleted_hold_reason' => 'Successfully Deleted Hold Reason',
     'deleted_hold_reasons' => 'Successfully Deleted :count Hold Reasons',
     'hold_reason_settings' => 'Hold Reason Settings',
-    'select_hold_reason' => 'Select Hold Reason',
+    'select_hold_reason' => 'Select Default Hold Reason',
     'hold_reason_help' => 'Sets the default <b>hold reason</b>',
 // hold reason
     'hold_reason_good_history' => 'Good History',
@@ -492,7 +547,8 @@ $LANG = array(
     'hold_reason_bad_debit' => 'Bad Debit',
     'hold_reason_insolvent_debit' => 'Insolvent Debit',
     'hold_reason_fraud' => 'Fraud',
-
+    'hold_reason_default' => 'Default',
+    'select_hold_reason' => 'Select Hold Reason',
 
 //  Locations
     'locations' => 'Locations',
@@ -516,7 +572,7 @@ $LANG = array(
     'deleted_locations' => 'Successfully Deleted :count Locations',
     'location_settings' => 'Location Settings',
     'location_help' => 'Sets the default <b>location</b>',
-    'select_location' => 'Select Location',
+    'select_location' => 'Select Default Location',
 
 //   Item Brands
     'brand' => 'Brand',
@@ -566,6 +622,29 @@ $LANG = array(
     'item_category_settings' => 'Item Category Settings',
     'select_item_category' => 'Select Item Category',
     'item_category_help' => 'Sets the default <b>item category</b>',
+    //   SUBSCRIPTION
+    'subscription' => 'Subscription',
+    'subscription_name' => 'Subscription of measure',
+    'subscriptions' => 'Subscription of measure',
+    'new_subscription' => 'New Subscription',
+    'list_subscriptions' => 'List Subscriptions',
+    'create_subscription' => 'Create Subscription',
+    'edit_subscription' => 'Edit Subscription',
+    'clone_subscription' => 'Clone Subscription',
+    'archive_subscription' => 'Archive Subscription',
+    'delete_subscription' => 'Delete Subscription',
+    'restore_subscription' => 'Restore Subscription',
+    'created_subscription' => 'Successfully Created Subscription',
+    'updated_subscription' => 'Successfully Updated Subscription',
+    'archived_subscription' => 'Successfully Archived Subscription',
+    'archived_subscriptions' => 'Successfully Archived :count Subscriptions',
+    'restored_subscription' => 'Successfully Restored Subscription',
+    'restored_subscriptions' => 'Successfully Restored :count Subscriptions',
+    'deleted_subscription' => 'Successfully Deleted Subscription',
+    'deleted_subscriptions' => 'Successfully Deleted :count Subscriptions',
+    'subscription_settings' => 'Subscription Settings',
+    'item_subscription_help' => 'Sets the default <b>item unit</b>',
+    'select_subscription' => 'Select Subscription',
 //   Unit of Measures
     'unit' => 'Unit',
     'unit_name' => 'Unit of measure',
@@ -587,8 +666,8 @@ $LANG = array(
     'deleted_unit' => 'Successfully Deleted Unit',
     'deleted_units' => 'Successfully Deleted :count Units',
     'unit_settings' => 'Unit Settings',
-    'select_item_unit' => 'Select Item Unit',
     'item_unit_help' => 'Sets the default <b>item unit</b>',
+    'select_item_unit' => 'Select Item Unit',
 //   static unit data
     'unit_bag' => 'Bag',
     'unit_bucket' => 'Bucket',
@@ -698,9 +777,9 @@ $LANG = array(
     'deleted_item_store' => 'Successfully Deleted Item Store',
     'deleted_item_stores' => 'Successfully Deleted :count Item Stores',
     'item_store_settings' => 'Item Store Settings',
-    'select_item_store' => 'Select Item Store',
-    'select_from_store' => 'Select Source Store',
-    'select_to_store' => 'Select Destination Store',
+    'select_item_store' => 'Select Default Item Store',
+    'select_from_store' => 'Select From Store',
+    'select_to_store' => 'Select To Store',
     'select_store' => 'Select Default Store',
     'item_help' => 'Sets the default <b>item</b>',
     'item_qty_help' => 'If <b>item quantity</b> is not specified, all available quantity will be transferred.',
@@ -736,7 +815,8 @@ $LANG = array(
     'code' => 'Code',
     'website' => 'Website',
     'maintenance' => 'Maintenance',
-    'work_phone' => 'Phone',
+    'work_phone' => 'Work Phone',
+    'mobile_phone' => 'Mobile Phone',
     'address' => 'Address',
     'address1' => 'Street',
     'address2' => 'Apt/Suite',
@@ -749,6 +829,7 @@ $LANG = array(
     'email' => 'Email',
     'additional_info' => 'Additional Info',
     'payment_terms' => 'Payment Terms',
+    'select_payment_term' => 'Select Payment Term',
     'currency_id' => 'Currency',
     'size_id' => 'Company Size',
     'industry_id' => 'Industry',
@@ -776,6 +857,8 @@ $LANG = array(
     'unit_cost' => 'Unit Cost',
     'unit_price' => 'Unit Price',
     'quantity' => 'Quantity',
+    'current_qty' => 'Quantity On Hand',
+    'new_qty' => 'New Quantity',
     'line_total' => 'Line Total',
     'subtotal' => 'Subtotal',
     'paid_to_date' => 'Paid to Date',
@@ -809,13 +892,14 @@ $LANG = array(
     'dashboard_totals_in_all_currencies_help' => 'Note: add a :link named ":name" to show the totals using a single base currency.',
     'invoices' => 'Sales Invoice',
     'sales_return' => 'Sales Return',
-    'payments' => 'Payments',
-    'credits' => 'Credits',
+    'payments' => 'Receive Payments',
+    'credits' => 'Client Credits',
     'history' => 'History',
     'search' => 'Search... ',
     'sign_up' => 'Sign Up',
     'guest' => 'Guest',
     'company_details' => 'Company Details',
+    'select_company_size' => 'Select Company Size',
     'online_payments' => 'Online Payments',
     'notifications' => 'Notifications',
     'import_export' => 'Import | Export',
@@ -828,18 +912,19 @@ $LANG = array(
     'close' => 'Close',
     'provide_email' => 'Please provide a valid email address',
     'powered_by' => 'Powered by',
-    'team_source' => 'FidelERP Business Management Suit',
+    'team_source' => 'Fidelsoft Business Management Suit',
     'no_items' => 'No items',
+    //  Recurrring invoice
     'recurring_invoices' => 'Recurring Invoices',
     'isRecurring' => 'Is Recurring',
     'recurring_help' => '<p>Automatically send clients the same invoices weekly, bi-monthly, monthly, quarterly or annually. </p>
-<p>Use :MONTH, :QUARTER or :YEAR for dynamic dates. Basic math works as well, for example :MONTH-1.</p>
-<p>Examples of dynamic invoice variables:</p>
-<ul>
-<li>"Gym membership for the month of :MONTH" >> "Gym membership for the month of July"</li>
-<li>":YEAR+1 yearly subscription" >> "2015 Yearly Subscription"</li>
-<li>"Retainer payment for :QUARTER+1" >> "Retainer payment for Q2"</li>
-</ul>',
+    <p>Use :MONTH, :QUARTER or :YEAR for dynamic dates. Basic math works as well, for example :MONTH-1.</p>
+    <p>Examples of dynamic invoice variables:</p>
+    <ul>
+    <li>"Gym membership for the month of :MONTH" >> "Gym membership for the month of July"</li>
+    <li>":YEAR+1 yearly subscription" >> "2015 Yearly Subscription"</li>
+    <li>"Retainer payment for :QUARTER+1" >> "Retainer payment for Q2"</li>
+    </ul>',
     'recurring_quotes' => 'Recurring Quotes',
     'in_total_revenue' => 'in total revenue',
     'billed_client' => 'billed client',
@@ -887,14 +972,18 @@ $LANG = array(
     'standing' => 'Standing',
     'credit' => 'Credit',
     'activity' => 'Activity',
+    'activity_type_id' => 'Activity Type',
+    'activities_id' => 'Activity Id',
     'date' => 'Date',
     'message' => 'Message',
     'adjustment' => 'Adjustment',
     'are_you_sure' => 'Are you sure?',
     'payment_type_id' => 'Payment Type',
+    'select_payment_type' => 'Select Payment Type',
     'amount' => 'Amount',
     'work_email' => 'Email',
     'language_id' => 'Language',
+    'select_language' => 'Select Language',
     'timezone_id' => 'Timezone',
     'date_format_id' => 'Date Format',
     'datetime_format_id' => 'Date/Time Format',
@@ -933,7 +1022,10 @@ $LANG = array(
     'registration_required' => 'Please sign up to email an invoice',
     'confirmation_required' => 'Please confirm your email address, :link to resend the confirmation email.',
     'default_store_required' => 'Please specify default user store, :link to set default user store.',
-    'user_branch_required' => 'Please specify default user branch, :link to set default user branch, otherwise you can\'t proceed to the invoice.',
+    'user_branch_required' => 'Please specify default user branch, :link to set default user branch, otherwise you can\'t proceed to the invoice.',   
+
+    'user_store_required' => 'Please specify default user store, :link to set default user store, otherwise you can\'t proceed to the next action.',
+
     'product_required' => 'Item quantity is (0) or not available in your <strong>:branch</strong> default store <strong>:store</strong>, :link to set product quantity, otherwise you can\'t proceed to the invoice.',
     'updated_invoice' => 'Successfully updated invoice',
     'created_invoice' => 'Successfully created invoice',
@@ -1004,12 +1096,12 @@ $LANG = array(
     'password' => 'Password',
     'pro_plan_product' => 'Pro Plan',
     'pro_plan_success' => 'Thanks for choosing Fidel\'s Pro plan!<p/>&nbsp;<br/>
-<b>Next Steps</b><p/>A payable invoice has been sent to the email
-address associated with your account. To unlock all of the awesome
-Pro features, please follow the instructions on the invoice to pay
-for a year of Pro-level invoicing.<p/>
-Can\'t find the invoice? Need further assistance? We\'re happy to help
--- email us at fidelinvoice@gmail.com',
+    <b>Next Steps</b><p/>A payable invoice has been sent to the email
+    address associated with your account. To unlock all of the awesome
+    Pro features, please follow the instructions on the invoice to pay
+    for a year of Pro-level invoicing.<p/>
+    Can\'t find the invoice? Need further assistance? We\'re happy to help
+    -- email us at fidelinvoice@gmail.com',
     'unsaved_changes' => 'You have unsaved changes',
     'custom_fields' => 'Custom Fields',
     'company_fields' => 'Company Fields',
@@ -1180,7 +1272,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'payment_email' => 'Payment Email',
     'quote_email' => 'Quote Email',
     'reset_all' => 'Reset All',
-    'approve' => 'Approve',
+    'approve_stock_request' => 'Approve Stock Request',
     'token_billing_type_id' => 'Token Billing',
     'token_billing_help' => 'Store payment details with WePay, Stripe, Braintree or GoCardless.',
     'token_billing_1' => 'Disabled',
@@ -1280,7 +1372,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'export' => 'Export',
     'documentation' => 'Documentation',
     'zapier' => 'Zapier',
-    'recurring' => 'Recurring',
+    'recurring' => 'Recurring Invoices',
     'last_invoice_sent' => 'Last invoice sent :date',
     'processed_updates' => 'Successfully completed update',
     'tasks' => 'Tasks',
@@ -1403,7 +1495,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'primary_user' => 'Primary User',
     'help' => 'Help',
     'customize_help' => '<p>We use :pdfmake_link to define the invoice designs declaratively. The pdfmake :playground_link provides a great way to see the library in action.</p>
-<p>If you need help figuring something out post a question to our :forum_link with the design you\'re using.</p>',
+    <p>If you need help figuring something out post a question to our :forum_link with the design you\'re using.</p>',
     'playground' => 'playground',
     'support_forum' => 'support forum',
     'invoice_due_date' => 'Due Date',
@@ -1678,18 +1770,18 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'archive_payment_term' => 'Archive Payment Term',
     'recurring_due_dates' => 'Recurring Invoice Due Dates',
     'recurring_due_date_help' => '<p>Automatically sets a due date for the invoice.</p>
-<p>Invoices on a monthly or yearly cycle set to be due on or before the day they are created will be due the next month. Invoices set to be due on the 29th or 30th in months that don\'t have that day will be due the last day of the month.</p>
-<p>Invoices on a weekly cycle set to be due on the day of the week they are created will be due the next week.</p>
-<p>For example:</p>
-<ul>
-<li>Today is the 15th, due date is 1st of the month. The due date should likely be the 1st of the next month.</li>
-<li>Today is the 15th, due date is the last day of the month. The due date will be the last day of the this month.
-</li>
-<li>Today is the 15th, due date is the 15th day of the month. The due date will be the 15th day of <strong>next</strong> month.
-</li>
-<li>Today is the Friday, due date is the 1st Friday after. The due date will be next Friday, not today.
-</li>
-</ul>',
+    <p>Invoices on a monthly or yearly cycle set to be due on or before the day they are created will be due the next month. Invoices set to be due on the 29th or 30th in months that don\'t have that day will be due the last day of the month.</p>
+    <p>Invoices on a weekly cycle set to be due on the day of the week they are created will be due the next week.</p>
+    <p>For example:</p>
+    <ul>
+    <li>Today is the 15th, due date is 1st of the month. The due date should likely be the 1st of the next month.</li>
+    <li>Today is the 15th, due date is the last day of the month. The due date will be the last day of the this month.
+    </li>
+    <li>Today is the 15th, due date is the 15th day of the month. The due date will be the 15th day of <strong>next</strong> month.
+    </li>
+    <li>Today is the Friday, due date is the 1st Friday after. The due date will be next Friday, not today.
+    </li>
+    </ul>',
     'due' => 'Due',
     'next_due_on' => 'Due Next: :date',
     'use_client_terms' => 'Use client terms',
@@ -1901,6 +1993,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'plan_free_self_hosted' => 'Self Hosted (Free)',
     'plan_trial' => 'Trial',
     'plan_term' => 'Term',
+    'select_plan_term' => 'Select Term',
     'plan_term_monthly' => 'Monthly',
     'plan_term_yearly' => 'Yearly',
     'plan_term_month' => 'Month',
@@ -1941,11 +2034,14 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'are_you_sure_refund' => 'Refund selected payments?',
     'status_pending' => 'Pending',
     'status_completed' => 'Completed',
+    'status_partially_paid' => 'Partially Paid',
     'status_failed' => 'Failed',
+    'status_partially_paid' => 'Partially Paid',
     'status_partially_refunded' => 'Partially Refunded',
     'status_partially_refunded_amount' => ':amount Refunded',
     'status_refunded' => 'Refunded',
     'status_voided' => 'Cancelled',
+    'status_advance_paid' => 'Advance Paid',
     'refunded_payment' => 'Refunded Payment',
     'activity_39' => ':user cancelled a :payment_amount payment :payment',
     'activity_40' => ':user refunded :adjustment of a :payment_amount payment :payment',
@@ -2004,7 +2100,7 @@ Can\'t find the invoice? Need further assistance? We\'re happy to help
     'payment_method_removed' => 'Removed payment method.',
     'bank_account_verification_help' => 'We have made two deposits into your account with the description "VERIFICATION". These deposits will take 1-2 business days to appear on your statement. Please enter the amounts below.',
     'bank_account_verification_next_steps' => 'We have made two deposits into your account with the description "VERIFICATION". These deposits will take 1-2 business days to appear on your statement.
-Once you have the amounts, come back to this payment methods page and click "Complete Verification" next to the account.',
+    Once you have the amounts, come back to this payment methods page and click "Complete Verification" next to the account.',
     'unknown_bank' => 'Unknown Bank',
     'ach_verification_delay_help' => 'You will be able to use the account after completing verification. Verification usually takes 1-2 business days.',
     'add_credit_card' => 'Add Credit Card',
@@ -2148,6 +2244,16 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'freq_six_months' => 'Six months',
     'freq_annually' => 'Annually',
     'freq_two_years' => 'Two years',
+    // Payment statuses
+    'payment_status_pending' => 'Pending',
+    'payment_status_voided' => 'Voided',
+    'payment_status_failed' => 'Failed',
+    'payment_status_completed' => 'Completed',
+    'payment_status_partially_paid' => 'Partially Paid',
+    'payment_status_refunded' => 'Refunded',
+    'payment_status_partially_refunded' => 'Partially Refunded',
+    'payment_status_advance_paid' => 'Advance Paid',
+    'select_payment_status' => 'Select Payment Status',
 
 // Payment types
     'payment_type_Apply Credit' => 'Apply Credit',
@@ -2229,6 +2335,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'industry_Travel & Luxury' => 'Travel & Luxury',
     'industry_Others' => 'Other',
     'industry_Photography' => 'Photography',
+    'select_industry' => 'Select Industry',
 
 // Countries
     'country_Afghanistan' => 'Afghanistan',
@@ -2699,6 +2806,7 @@ Once you have the amounts, come back to this payment methods page and click "Com
 
     'currency_symbol' => 'Symbol',
     'currency_code' => 'Code',
+    'select_currency' => 'Select Currency',
 
     'id' => 'S.No.',
     'buy_license' => 'Buy License',
@@ -2727,11 +2835,13 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'authorization' => 'Authorization',
     'signed' => 'Signed',
 
+    'validation.has_digit' => 'Unit cost cannot be zero',
+
 // BlueVine
     'bluevine_promo' => 'Get flexible business lines of credit and invoice factoring using BlueVine.',
     'bluevine_modal_label' => 'Sign up with BlueVine',
     'bluevine_modal_text' => '<h3>Fast funding for your business. No paperwork.</h3>
-<ul><li>Flexible business lines of credit and invoice factoring.</li></ul>',
+    <ul><li>Flexible business lines of credit and invoice factoring.</li></ul>',
     'bluevine_create_account' => 'Create an account',
     'quote_types' => 'Get a quote for',
     'invoice_factoring' => 'Invoice factoring',
@@ -3589,7 +3699,8 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'purge_client' => 'Purge Client',
     'purged_client' => 'Successfully purged client',
     'purge_client_warning' => 'All related records (invoices, tasks, expenses, documents, etc) will also be deleted.',
-    'item_details' => 'Item Details',
+    'item_detail' => 'Item More...',
+    'item_info' => 'Item Info',
     'send_item_details_help' => 'Send line item details to the payment gateway.',
     'view_proposal' => 'View Proposal',
     'view_in_portal' => 'View in Portal',
@@ -3712,6 +3823,8 @@ Once you have the amounts, come back to this payment methods page and click "Com
     'payment_status_4' => 'Completed',
     'payment_status_5' => 'Partially Refunded',
     'payment_status_6' => 'Refunded',
+    'payment_status_7' => 'Partially Paid',
+
     'send_receipt_to_client' => 'Send receipt to the client',
     'refunded' => 'Refunded',
     'marked_quote_as_sent' => 'Successfully marked quote as sent',

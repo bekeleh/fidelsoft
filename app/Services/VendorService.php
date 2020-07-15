@@ -50,4 +50,5 @@ class VendorService extends BaseService
 
         return $this->datatableService->createDatatable($datatable, $query);
     }
+    
 }

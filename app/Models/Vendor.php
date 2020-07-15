@@ -34,7 +34,8 @@ class Vendor extends EntityModel
         'state',
         'postal_code',
         'country_id',
-        'private_notes',
+        'privates_notes',
+        'public_notes',
         'currency_id',
         'website',
         'transaction_name',
@@ -239,11 +240,11 @@ class Vendor extends EntityModel
     public function getTotalExpenses()
     {
         return DB::table('expenses')
-            ->select('expense_currency_id', DB::raw('sum(expenses.amount + (expenses.amount * expenses.tax_rate1 / 100) + (expenses.amount * expenses.tax_rate2 / 100)) as amount'))
-            ->whereVendorId($this->id)
-            ->whereIsDeleted(false)
-            ->groupBy('expense_currency_id')
-            ->get();
+        ->select('expense_currency_id', DB::raw('sum(expenses.amount + (expenses.amount * expenses.tax_rate1 / 100) + (expenses.amount * expenses.tax_rate2 / 100)) as amount'))
+        ->whereVendorId($this->id)
+        ->whereIsDeleted(false)
+        ->groupBy('expense_currency_id')
+        ->get();
     }
 }
 

@@ -29,7 +29,8 @@ class ExpenseRepository extends BaseRepository
 
     public function all()
     {
-        return Expense::scope()->with('user')->withTrashed()->where('is_deleted', '=', false)->get();
+        return Expense::scope()->with('user')
+        ->withTrashed()->where('is_deleted', '=', false)->get();
     }
 
     public function findVendor($vendorPublicId)
@@ -53,19 +54,19 @@ class ExpenseRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('expenses')
-            ->leftjoin('accounts', 'accounts.id', '=', 'expenses.account_id')
-            ->leftjoin('clients', 'clients.id', '=', 'expenses.client_id')
-            ->leftJoin('contacts', 'contacts.client_id', '=', 'clients.id')
-            ->leftjoin('vendors', 'vendors.id', '=', 'expenses.vendor_id')
-            ->leftJoin('invoices', 'invoices.id', '=', 'expenses.invoice_id')
-            ->leftJoin('expense_categories', 'expenses.expense_category_id', '=', 'expense_categories.id')
-            ->where('expenses.account_id', '=', $accountId)
+        ->leftjoin('accounts', 'accounts.id', '=', 'expenses.account_id')
+        ->leftjoin('clients', 'clients.id', '=', 'expenses.client_id')
+        ->leftJoin('contacts', 'contacts.client_id', '=', 'clients.id')
+        ->leftjoin('vendors', 'vendors.id', '=', 'expenses.vendor_id')
+        ->leftJoin('invoices', 'invoices.id', '=', 'expenses.invoice_id')
+        ->leftJoin('expense_categories', 'expenses.expense_category_id', '=', 'expense_categories.id')
+        ->where('expenses.account_id', '=', $accountId)
             // ->where('contacts.deleted_at', '=', null)
             //->where('vendors.deleted_at', '=', null)
             //->where('clients.deleted_at', '=', null)
             ->where(function ($query) { // handle when client isn't set
                 $query->where('contacts.is_primary', '=', true)
-                    ->orWhere('contacts.is_primary', '=', null);
+                ->orWhere('contacts.is_primary', '=', null);
             })
             ->select(
                 DB::raw('COALESCE(expenses.invoice_id, expenses.should_be_invoiced) status'),
@@ -102,6 +103,7 @@ class ExpenseRepository extends BaseRepository
                 'invoices.public_id as invoice_public_id',
                 'invoices.user_id as invoice_user_id',
                 'invoices.balance',
+                'invoices.invoice_number',
                 'vendors.name as vendor_name',
                 'vendors.public_id as vendor_public_id',
                 'vendors.user_id as vendor_user_id',
@@ -114,122 +116,119 @@ class ExpenseRepository extends BaseRepository
                 'clients.country_id as client_country_id'
             );
 
-        if ($statuses = session('entity_status_filter:' . ENTITY_EXPENSE)) {
-            $statuses = explode(',', $statuses);
-            $query->where(function ($query) use ($statuses) {
-                $query->whereNull('expenses.id');
+            if ($statuses = session('entity_status_filter:' . ENTITY_EXPENSE)) {
+                $statuses = explode(',', $statuses);
+                $query->where(function ($query) use ($statuses) {
+                    $query->whereNull('expenses.id');
 
-                if (in_array(EXPENSE_STATUS_LOGGED, $statuses)) {
-                    $query->orWhere('expenses.invoice_id', '=', 0)
+                    if (in_array(EXPENSE_STATUS_LOGGED, $statuses)) {
+                        $query->orWhere('expenses.invoice_id', '=', 0)
                         ->orWhereNull('expenses.invoice_id');
-                }
-                if (in_array(EXPENSE_STATUS_INVOICED, $statuses)) {
-                    $query->orWhere('expenses.invoice_id', '>', 0);
-                    if (!in_array(EXPENSE_STATUS_BILLED, $statuses)) {
-                        $query->where('invoices.balance', '>', 0);
                     }
-                }
-                if (in_array(EXPENSE_STATUS_BILLED, $statuses)) {
-                    $query->orWhere('invoices.balance', '=', 0)
+                    if (in_array(EXPENSE_STATUS_INVOICED, $statuses)) {
+                        $query->orWhere('expenses.invoice_id', '>', 0);
+                        if (!in_array(EXPENSE_STATUS_BILLED, $statuses)) {
+                            $query->where('invoices.balance', '>', 0);
+                        }
+                    }
+                    if (in_array(EXPENSE_STATUS_BILLED, $statuses)) {
+                        $query->orWhere('invoices.balance', '=', 0)
                         ->where('expenses.invoice_id', '>', 0);
-                }
-                if (in_array(EXPENSE_STATUS_PAID, $statuses)) {
-                    $query->orWhereNotNull('expenses.payment_date');
-                }
-                if (in_array(EXPENSE_STATUS_UNPAID, $statuses)) {
-                    $query->orWhereNull('expenses.payment_date');
-                }
-                if (in_array(EXPENSE_STATUS_PENDING, $statuses)) {
-                    $query->orWhere('expenses.should_be_invoiced', '=', 1)
+                    }
+                    if (in_array(EXPENSE_STATUS_PAID, $statuses)) {
+                        $query->orWhereNotNull('expenses.payment_date');
+                    }
+                    if (in_array(EXPENSE_STATUS_UNPAID, $statuses)) {
+                        $query->orWhereNull('expenses.payment_date');
+                    }
+                    if (in_array(EXPENSE_STATUS_PENDING, $statuses)) {
+                        $query->orWhere('expenses.should_be_invoiced', '=', 1)
                         ->whereNull('expenses.invoice_id');
-                }
-            });
-        }
+                    }
+                });
+            }
 
-        if ($filter) {
-            $query->where(function ($query) use ($filter) {
-                $query->where('expenses.public_notes', 'like', '%' . $filter . '%')
+            if ($filter) {
+                $query->where(function ($query) use ($filter) {
+                    $query->where('expenses.public_notes', 'like', '%' . $filter . '%')
                     ->orWhere('clients.name', 'like', '%' . $filter . '%')
                     ->orWhere('vendors.name', 'like', '%' . $filter . '%')
                     ->orWhere('expense_categories.name', 'like', '%' . $filter . '%');
-            });
-        }
-
-        $this->applyFilters($query, ENTITY_EXPENSE);
-
-        return $query;
-    }
-
-    public function save($input, $expense = null)
-    {
-        $publicId = isset($input['public_id']) ? $input['public_id'] : false;
-
-        if ($expense) {
-            $expense->updated_by = Auth::user()->username;
-        } elseif ($publicId) {
-            $expense = Expense::scope($publicId)->firstOrFail();
-            if (Utils::isNinjaDev()) {
-                Log::warning('Entity not set in expense repo save');
+                });
             }
-        } else {
-            $expense = Expense::createNew();
-            $expense->created_by = Auth::user()->username;
+
+            $this->applyFilters($query, ENTITY_EXPENSE);
+
+            return $query;
         }
 
-        if ($expense->is_deleted) {
-            return $expense;
-        }
+        public function save($input, $expense = null)
+        {
+            $publicId = isset($input['public_id']) ? $input['public_id'] : false;
+
+            if ($expense) {
+                $expense->updated_by = Auth::user()->username;
+            } elseif ($publicId) {
+                $expense = Expense::scope($publicId)->firstOrFail();
+            } else {
+                $expense = Expense::createNew();
+                $expense->created_by = Auth::user()->username;
+            }
+
+            if ($expense->is_deleted) {
+                return $expense;
+            }
 
         // First auto fill
-        $expense->fill($input);
+            $expense->fill($input);
 
-        if (isset($input['expense_date'])) {
-            $expense->expense_date = Utils::toSqlDate($input['expense_date']);
-        }
-        if (isset($input['payment_date'])) {
-            $expense->payment_date = Utils::toSqlDate($input['payment_date']);
-        }
+            if (isset($input['expense_date'])) {
+                $expense->expense_date = Utils::toSqlDate($input['expense_date']);
+            }
+            if (isset($input['payment_date'])) {
+                $expense->payment_date = Utils::toSqlDate($input['payment_date']);
+            }
 
-        if (!$expense->expense_currency_id) {
-            $expense->expense_currency_id = Auth::user()->account->getCurrencyId();
-        }
-        if (!$expense->invoice_currency_id) {
-            $expense->invoice_currency_id = Auth::user()->account->getCurrencyId();
-        }
+            if (!$expense->expense_currency_id) {
+                $expense->expense_currency_id = Auth::user()->account->getCurrencyId();
+            }
+            if (!$expense->invoice_currency_id) {
+                $expense->invoice_currency_id = Auth::user()->account->getCurrencyId();
+            }
 
-        $rate = isset($input['exchange_rate']) ? Utils::parseFloat($input['exchange_rate']) : 1;
-        $expense->exchange_rate = round($rate, 4);
-        if (isset($input['amount'])) {
-            $expense->amount = round(Utils::parseFloat($input['amount']), 2);
-        }
+            $rate = isset($input['exchange_rate']) ? Utils::parseFloat($input['exchange_rate']) : 1;
+            $expense->exchange_rate = round($rate, 4);
+            if (isset($input['amount'])) {
+                $expense->amount = round(Utils::parseFloat($input['amount']), 2);
+            }
 
-        $expense->save();
+            $expense->save();
 
         // Documents
-        $document_ids = !empty($input['document_ids']) ? array_map('intval', $input['document_ids']) : [];
+            $document_ids = !empty($input['document_ids']) ? array_map('intval', $input['document_ids']) : [];
 
-        foreach ($document_ids as $document_id) {
+            foreach ($document_ids as $document_id) {
             // check document completed upload before user submitted form
-            if ($document_id) {
-                $document = Document::scope($document_id)->first();
-                if ($document && Auth::user()->can('edit', $document)) {
-                    $document->invoice_id = null;
-                    $document->expense_id = $expense->id;
-                    $document->save();
+                if ($document_id) {
+                    $document = Document::scope($document_id)->first();
+                    if ($document && Auth::user()->can('edit', $document)) {
+                        $document->invoice_id = null;
+                        $document->expense_id = $expense->id;
+                        $document->save();
+                    }
                 }
             }
-        }
 
         // prevent loading all of the documents if we don't have to
-        if (!$expense->wasRecentlyCreated) {
-            foreach ($expense->documents as $document) {
-                if (!in_array($document->public_id, $document_ids)) {
+            if (!$expense->wasRecentlyCreated) {
+                foreach ($expense->documents as $document) {
+                    if (!in_array($document->public_id, $document_ids)) {
                     // Not checking permissions; deleting a document is just editing the invoice
-                    $document->delete();
+                        $document->delete();
+                    }
                 }
             }
-        }
 
-        return $expense;
+            return $expense;
+        }
     }
-}

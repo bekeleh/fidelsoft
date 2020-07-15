@@ -39,11 +39,11 @@ class HistoryUtils
         ];
 
         $activities = Activity::with(['client.contacts', 'invoice', 'task.project', 'expense'])
-            ->whereIn('user_id', $userIds)
-            ->whereIn('activity_type_id', $activityTypes)
-            ->orderBy('id', 'desc')
-            ->limit(100)
-            ->get();
+        ->whereIn('user_id', $userIds)
+        ->whereIn('activity_type_id', $activityTypes)
+        ->orderBy('id', 'desc')
+        ->limit(100)
+        ->get();
 
         foreach ($activities->reverse() as $activity) {
             if ($activity->client && $activity->client->is_deleted) {
@@ -211,8 +211,8 @@ class HistoryUtils
 
                     $buttonLink = url('/invoices/create/' . $item->client_id);
                     $button = '<a type="button" class="btn btn-primary btn-sm pull-right" href="' . $buttonLink . '">
-                                    <i class="fa fa-plus-circle" style="width:20px" title="' . trans('texts.create_invoice') . '"></i>
-                                </a>';
+                    <i class="fa fa-plus-circle" style="width:20px" title="' . trans('texts.create_invoice') . '"></i>
+                    </a>';
                 } else {
                     $link = '#';
                     $name = trans('texts.unassigned');

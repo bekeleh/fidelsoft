@@ -29,7 +29,10 @@ class ClientRepository extends BaseRepository
 
     public function getById($publicId, $accountId)
     {
-        return $this->model->withTrashed()->where('public_id', $publicId)->where('account_id', $accountId)->first();
+        return $this->model->withTrashed()
+        ->where('public_id', $publicId)
+        ->where('account_id', $accountId)
+        ->first();
     }
 
     public function all()
@@ -49,6 +52,9 @@ class ClientRepository extends BaseRepository
         ->leftJoin('client_types', 'client_types.id', '=', 'clients.client_type_id')
         ->leftJoin('sale_types', 'sale_types.id', '=', 'clients.sale_type_id')
         ->leftJoin('hold_reasons', 'hold_reasons.id', '=', 'clients.hold_reason_id')
+        // ->leftJoin('currencies', 'currencies.id', '=', 'clients.currency_id')
+        // ->leftJoin('industries', 'industries.id', '=', 'clients.industry_id')
+        // ->leftJoin('sizes', 'sizes.id', '=', 'clients.size_id')
         ->where('clients.account_id', '=', $accountId)
         ->where('contacts.is_primary', '=', true)
 //            ->where('hold_reasons.allow_invoice', '=', true)
@@ -62,37 +68,43 @@ class ClientRepository extends BaseRepository
             'clients.public_id',
             'clients.name as client_name',
             'clients.private_notes',
-            'contacts.first_name',
-            'contacts.last_name',
+            'clients.public_notes',
             'clients.balance',
             'clients.last_login',
             'clients.created_at',
             'clients.created_at as client_created_at',
             'clients.work_phone',
-            'contacts.email',
             'clients.deleted_at',
             'clients.is_deleted',
             'clients.user_id',
             'clients.id_number',
+            'clients.vat_number',
             'clients.created_at',
             'clients.updated_at',
             'clients.deleted_at',
             'clients.created_by',
             'clients.updated_by',
             'clients.deleted_by',
+            'contacts.public_id as contact_public_id',
+            'contacts.first_name',
+            'contacts.last_name',
+            'contacts.email',
             'client_types.name as client_type_name',
             'sale_types.name as sale_type_name',
-            'hold_reasons.name as hold_reason_name',
-
+            'hold_reasons.name as hold_reason_name'
         );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('clients.name', 'like', '%' . $filter . '%')
                 ->orWhere('clients.id_number', 'like', '%' . $filter . '%')
+                ->orWhere('clients.vat_number', 'like', '%' . $filter . '%')
+                ->orWhere('clients.work_phone', 'like', '%' . $filter . '%')
+                ->orWhere('clients.city', 'like', '%' . $filter . '%')
                 ->orWhere('contacts.first_name', 'like', '%' . $filter . '%')
                 ->orWhere('contacts.last_name', 'like', '%' . $filter . '%')
                 ->orWhere('contacts.email', 'like', '%' . $filter . '%')
+                ->orWhere('contacts.phone', 'like', '%' . $filter . '%')
                 ->orWhere('client_types.name', 'like', '%' . $filter . '%')
                 ->orWhere('sale_types.name', 'like', '%' . $filter . '%')
                 ->orWhere('hold_reasons.name', 'like', '%' . $filter . '%');
@@ -106,100 +118,100 @@ class ClientRepository extends BaseRepository
 
     public function purge($client)
     {
-//        dispatch(new PurgeClientData($client));
+     dispatch(new PurgeClientData($client));
+ }
+
+ public function findClientType($clintTypePublicId)
+ {
+    $clientTypeId = ClientType::getPrivateId($clintTypePublicId);
+
+    $query = $this->find()->where('clients.client_type_id', '=', $clientTypeId);
+
+    return $query;
+}
+
+public function findSaleType($saleTypePublicId)
+{
+    $saleTypeId = SaleType::getPrivateId($saleTypePublicId);
+
+    $query = $this->find()->where('clients.sale_type_id', '=', $saleTypeId);
+
+    return $query;
+}
+
+public function findHoldReason($holdReasonPublicId)
+{
+    $holdReasonId = HoldReason::getPrivateId($holdReasonPublicId);
+
+    $query = $this->find()->where('clients.hold_reason_id', '=', $holdReasonId);
+
+    return $query;
+}
+
+public function save($data, $client = null)
+{
+    $publicId = isset($data['public_id']) ? $data['public_id'] : false;
+
+    if ($client) {
+        $client->updated_by = Auth::user()->username;
+
+    } elseif (!$publicId || intval($publicId) < 0) {
+        $client = Client::createNew();
+        $client->created_by = Auth::user()->username;
+
+    } else {
+        $client = Client::scope($publicId)->with('contacts')->firstOrFail();
     }
-
-    public function findClientType($clintTypePublicId)
-    {
-        $clientTypeId = ClientType::getPrivateId($clintTypePublicId);
-
-        $query = $this->find()->where('clients.client_type_id', '=', $clientTypeId);
-
-        return $query;
-    }
-
-    public function findSaleType($saleTypePublicId)
-    {
-        $saleTypeId = SaleType::getPrivateId($saleTypePublicId);
-
-        $query = $this->find()->where('clients.sale_type_id', '=', $saleTypeId);
-
-        return $query;
-    }
-
-    public function findHoldReason($holdReasonPublicId)
-    {
-        $holdReasonId = HoldReason::getPrivateId($holdReasonPublicId);
-
-        $query = $this->find()->where('clients.hold_reason_id', '=', $holdReasonId);
-
-        return $query;
-    }
-
-    public function save($data, $client = null)
-    {
-        $publicId = isset($data['public_id']) ? $data['public_id'] : false;
-
-        if ($client) {
-            $client->updated_by = Auth::user()->username;
-
-        } elseif (!$publicId || intval($publicId) < 0) {
-            $client = Client::createNew();
-            $client->created_by = Auth::user()->username;
-
-        } else {
-            $client = Client::scope($publicId)->with('contacts')->firstOrFail();
-        }
 
         // auto-set the client id number
-        if (Auth::check() && Auth::user()->account->client_number_counter && !$client->id_number && empty($data['id_number'])) {
-            $data['id_number'] = Auth::user()->account->getNextNumber();
-        }
+    if (Auth::check() && Auth::user()->account->client_number_counter && !$client->id_number && empty($data['id_number'])) {
+        $data['id_number'] = Auth::user()->account->getNextNumber();
+    }
 
-        if ($client->is_deleted) {
-            return $client;
-        }
+    if ($client->is_deleted) {
+        return $client;
+    }
 
         // convert currency code to id
-        if (isset($data['currency_code'])) {
-            $currencyCode = strtolower($data['currency_code']);
-            $currency = Cache::get('currencies')->filter(function ($item) use ($currencyCode) {
-                return strtolower($item->code) == $currencyCode;
-            })->first();
-            if ($currency) {
-                $data['currency_id'] = $currency->id;
-            }
+    if (isset($data['currency_code'])) {
+        $currencyCode = strtolower($data['currency_code']);
+        $currency = Cache::get('currencies')->filter(function ($item) use ($currencyCode) {
+            return strtolower($item->code) == $currencyCode;
+        })->first();
+        if ($currency) {
+            $data['currency_id'] = $currency->id;
         }
+    }
 
         // convert country code to id
-        if (isset($data['country_code'])) {
-            $countryCode = strtolower($data['country_code']);
-            $country = Cache::get('countries')->filter(function ($item) use ($countryCode) {
-                return strtolower($item->iso_3166_2) == $countryCode || strtolower($item->iso_3166_3) == $countryCode;
-            })->first();
-            if ($country) {
-                $data['country_id'] = $country->id;
-            }
+    if (isset($data['country_code'])) {
+        $countryCode = strtolower($data['country_code']);
+        $country = Cache::get('countries')->filter(function ($item) use ($countryCode) {
+            return strtolower($item->iso_3166_2) == $countryCode || strtolower($item->iso_3166_3) == $countryCode;
+        })->first();
+        if ($country) {
+            $data['country_id'] = $country->id;
         }
+    }
 
         // convert shipping country code to id
-        if (isset($data['shipping_country_code'])) {
-            $countryCode = strtolower($data['shipping_country_code']);
-            $country = Cache::get('countries')->filter(function ($item) use ($countryCode) {
-                return strtolower($item->iso_3166_2) == $countryCode || strtolower($item->iso_3166_3) == $countryCode;
-            })->first();
-            if ($country) {
-                $data['shipping_country_id'] = $country->id;
-            }
+    if (isset($data['shipping_country_code'])) {
+        $countryCode = strtolower($data['shipping_country_code']);
+        $country = Cache::get('countries')->filter(function ($item) use ($countryCode) {
+            return strtolower($item->iso_3166_2) == $countryCode || strtolower($item->iso_3166_3) == $countryCode;
+        })->first();
+        if ($country) {
+            $data['shipping_country_id'] = $country->id;
         }
+    }
 
         // set default payment terms
-        if (auth()->check() && !isset($data['payment_terms'])) {
-            $data['payment_terms'] = auth()->user()->account->payment_terms;
-        }
-        $client->fill($data);
-        $client->name = isset($data['name']) ? trim($data['name']) : '';
-        $client->save();
+    if (auth()->check() && !isset($data['payment_terms'])) {
+        $data['payment_terms'] = auth()->user()->account->payment_terms;
+    }
+    $client->fill($data);
+    $client->name = isset($data['name']) ? trim($data['name']) : '';
+    $client->save();
         /*
         if ( ! isset($data['contact']) && ! isset($data['contacts'])) {
             return $client;

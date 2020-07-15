@@ -17,13 +17,15 @@ class CreditDatatable extends EntityDatatable
             [
                 'client_name',
                 function ($model) {
-                    if (Auth::user()->can('view', [ENTITY_CLIENT, $model]))
-                        return $model->client_public_id ? link_to("clients/{$model->client_public_id}", Utils::getClientDisplayName($model))->toHtml() : '';
-                    else
+                    if (Auth::user()->can('view', [ENTITY_CLIENT, $model])){
+
+                        $str = $model->client_public_id ? link_to("clients/{$model->client_public_id}", Utils::getClientDisplayName($model))->toHtml() : '';
+                        return $this->addNote($str, $model->private_notes);
+                    }else{
                         return Utils::getClientDisplayName($model);
+                    }
 
                 },
-                !$this->hideClient,
             ],
             [
                 'amount',
@@ -56,13 +58,13 @@ class CreditDatatable extends EntityDatatable
                         return e($model->public_notes);
                 },
             ],
-            [
-                'private_notes',
-                function ($model) {
-                    if (Auth::user()->can('view', [ENTITY_CREDIT, $model]))
-                        return e($model->private_notes);
-                },
-            ],
+            // [
+            //     'private_notes',
+            //     function ($model) {
+            //         if (Auth::user()->can('view', [ENTITY_CREDIT, $model]))
+            //             return e($model->private_notes);
+            //     },
+            // ],
             [
                 'created_at',
                 function ($model) {
@@ -128,8 +130,8 @@ class CreditDatatable extends EntityDatatable
             ],
             [
                 '--divider--', function () {
-                return false;
-            },
+                    return false;
+                },
                 function ($model) {
                     return Auth::user()->can('edit', [ENTITY_PAYMENT]);
                 },

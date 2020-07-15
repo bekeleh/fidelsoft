@@ -16,7 +16,7 @@ class ClientRequest extends EntityRequest
         $client = parent::entity();
         // eager load the contacts
         if ($client && !$client->relationLoaded('contacts')) {
-            $client->load(['contacts', 'saleType', 'holdReason']);
+            $client->load(['contacts']);
         }
 
         return $client;

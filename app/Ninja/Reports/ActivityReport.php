@@ -25,10 +25,17 @@ class ActivityReport extends AbstractReport
         $endDate = $this->endDate;
         $subgroup = $this->options['subgroup'];
 
-        $activities = Activity::scope()
-            ->with('client.contacts', 'user', 'invoice', 'payment', 'credit', 'task', 'expense', 'account')
-            ->whereRaw("DATE(created_at) >= \"{$startDate}\" and DATE(created_at) <= \"$endDate\"")
-            ->orderBy('id', 'desc');
+        $activities = Activity::scope()->with([
+            'client.contacts', 
+            'user', 
+            'invoice', 
+            'payment', 
+            'credit', 
+            'task', 
+            'expense',
+            'account'
+        ])->whereRaw("DATE(created_at) >= \"{$startDate}\" and DATE(created_at) <= \"$endDate\"")
+        ->orderBy('id', 'desc');
 
         foreach ($activities->get() as $activity) {
             $client = $activity->client;

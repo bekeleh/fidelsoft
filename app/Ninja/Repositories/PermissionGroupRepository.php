@@ -54,7 +54,6 @@ class PermissionGroupRepository extends BaseRepository
             });
         }
 
-//    if the entity type can be direct capitalized or if not a problem, skip the third parameters.
         $this->applyFilters($query, ENTITY_PERMISSION_GROUP);
 
         return $query;

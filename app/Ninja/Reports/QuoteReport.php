@@ -46,17 +46,17 @@ class QuoteReport extends AbstractReport
         $subgroup = $this->options['subgroup'];
 
         $clients = Client::scope()
-            ->orderBy('name')
+        ->orderBy('name')
+        ->withArchived()
+        ->with('contacts', 'user')
+        ->with(['invoices' => function ($query) use ($statusIds) {
+            $query->quotes()
             ->withArchived()
-            ->with('contacts', 'user')
-            ->with(['invoices' => function ($query) use ($statusIds) {
-                $query->quotes()
-                    ->withArchived()
-                    ->statusIds($statusIds)
-                    ->where('invoice_date', '>=', $this->startDate)
-                    ->where('invoice_date', '<=', $this->endDate)
-                    ->with(['invoice_items', 'invoice_status']);
-            }]);
+            ->statusIds($statusIds)
+            ->where('invoice_date', '>=', $this->startDate)
+            ->where('invoice_date', '<=', $this->endDate)
+            ->with(['invoice_items', 'invoice_status']);
+        }]);
 
         if ($this->isExport && $exportFormat == 'zip') {
             if (!extension_loaded('GMP')) {

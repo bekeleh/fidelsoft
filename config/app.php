@@ -4,7 +4,7 @@ use App\Libraries\Utils;
 
 return [
 
-    'name' => env('APP_NAME', 'FIDEL ERP'),
+    'name' => env('APP_NAME', 'Fidelsoft Business Management Suit'),
 
     /*
     |--------------------------------------------------------------------------
@@ -172,6 +172,7 @@ return [
         App\Providers\ConfigServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\ValidationServiceProvider::class,
 
         Davibennun\LaravelPushNotification\LaravelPushNotificationServiceProvider::class,
 

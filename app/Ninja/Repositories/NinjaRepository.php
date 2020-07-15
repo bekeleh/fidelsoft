@@ -3,6 +3,8 @@
 namespace App\Ninja\Repositories;
 
 use App\Models\Account;
+use App\Models\Company;
+use Exception;
 
 class NinjaRepository
 {
@@ -13,18 +15,25 @@ class NinjaRepository
         $this->model = $model;
     }
 
-    public function updatePlanDetails($clientPublicId, $data)
+    public function updatePlanDetails($AccountId, $data)
     {
-        $account = Account::whereId($clientPublicId)->first();
+        try{
+            $account = Account::whereId($AccountId)->first();
+            $company = $account->company;
 
-        if (!$account) {
-            return;
+            if (!isset($account)) {
+                return false;
+            }
+            $company->fill($data);
+            $company->plan_expires = $company->plan_expires ?: null;
+
+            if($company->save()){
+                return true;
+            }
+
+            return false;
+        } catch (Exception $e) {
+            // show_error($e->getMessage() . ' --- ' . $e->getTraceAsString());
         }
-
-        $company = $account->company;
-        $company->fill($data);
-        $company->plan_expires = $company->plan_expires ?: null;
-
-        $company->save();
     }
 }

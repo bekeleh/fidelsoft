@@ -138,7 +138,7 @@ class ItemRequestDatatable extends EntityDatatable
                 },
             ],
             [
-                trans('texts.approve'),
+                trans('texts.approve_stock_request'),
                 function ($model) {
                     return URL::to("item_requests/{$model->public_id}");
                 },
@@ -148,8 +148,8 @@ class ItemRequestDatatable extends EntityDatatable
             ],
             [
                 '--divider--', function () {
-                return false;
-            },
+                    return false;
+                },
                 function ($model) {
                     return Auth::user()->can('edit', [ENTITY_ITEM_REQUEST, $model]);
                 },

@@ -42,41 +42,41 @@ class InvoiceItemRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('invoice_items')
-            ->leftJoin('accounts', 'accounts.id', '=', 'invoice_items.account_id')
-            ->leftJoin('products', 'products.id', '=', 'invoice_items.product_id')
-            ->leftJoin('invoices', 'invoices.id', '=', 'invoice_items.invoice_id')
-            ->leftJoin('users', 'users.id', '=', 'invoice_items.user_id')
-            ->where('invoice_items.invoice_item_type_id', '=', true)
-            ->where('invoice_items.account_id', '=', $accountId)
+        ->leftJoin('accounts', 'accounts.id', '=', 'invoice_items.account_id')
+        ->leftJoin('products', 'products.id', '=', 'invoice_items.product_id')
+        ->leftJoin('invoices', 'invoices.id', '=', 'invoice_items.invoice_id')
+        ->leftJoin('users', 'users.id', '=', 'invoice_items.user_id')
+        ->where('invoice_items.invoice_item_type_id', '=', true)
+        ->where('invoice_items.account_id', '=', $accountId)
 //            ->where('invoice_items.deleted_at', '=', null)
-            ->select(
-                'invoice_items.id',
-                'invoice_items.public_id',
-                'invoice_items.name as invoice_item_name',
-                'invoice_items.qty',
-                'invoice_items.demand_qty',
-                'invoice_items.cost',
-                'invoice_items.discount',
-                'invoice_items.is_deleted',
-                'invoice_items.notes',
-                'invoice_items.created_at',
-                'invoice_items.updated_at',
-                'invoice_items.deleted_at',
-                'invoice_items.created_by',
-                'invoice_items.updated_by',
-                'invoice_items.deleted_by',
-                'invoices.public_id as invoice_public_id',
-                'invoices.invoice_number',
-                'products.public_id as product_public_id',
-                'products.product_key'
-            );
+        ->select(
+            'invoice_items.id',
+            'invoice_items.public_id',
+            'invoice_items.product_key as invoice_item_name',
+            'invoice_items.qty',
+            'invoice_items.demand_qty',
+            'invoice_items.cost',
+            'invoice_items.discount',
+            'invoice_items.is_deleted',
+            'invoice_items.notes',
+            'invoice_items.created_at',
+            'invoice_items.updated_at',
+            'invoice_items.deleted_at',
+            'invoice_items.created_by',
+            'invoice_items.updated_by',
+            'invoice_items.deleted_by',
+            'invoices.public_id as invoice_public_id',
+            'invoices.invoice_number',
+            'products.public_id as product_public_id',
+            'products.product_key'
+        );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
-                $query->where('invoice_items.name', 'like', '%' . $filter . '%')
-                    ->orWhere('invoice_items.notes', 'like', '%' . $filter . '%')
-                    ->orWhere('products.product_key', 'like', '%' . $filter . '%')
-                    ->orWhere('invoices.invoice_number', 'like', '%' . $filter . '%');
+                $query->where('invoice_items.product_key', 'like', '%' . $filter . '%')
+                ->orWhere('invoice_items.notes', 'like', '%' . $filter . '%')
+                ->orWhere('products.product_key', 'like', '%' . $filter . '%')
+                ->orWhere('invoices.invoice_number', 'like', '%' . $filter . '%');
             });
         }
 
@@ -85,22 +85,22 @@ class InvoiceItemRepository extends BaseRepository
         return $query;
     }
 
-    public function save($publicId, $data, $invoiceItem = null)
+    public function save($data, $invoiceItem = null)
     {
-        $publicId = isset($data['public_id']) ? $data['public_id'] : false;
+        $publicId = !empty($data['public_id']) ? $data['public_id'] : false;
 
         if ($invoiceItem) {
             $invoiceItem->updated_by = Auth::user()->username;
         } elseif ($publicId) {
             $invoiceItem = InvoiceItem::scope($publicId)->withArchived()->firstOrFail();
         } else {
-            $invoiceItem = InvoiceItem::createNew();
-            $invoiceItem->created_by = Auth::user()->username;
+            //  can't be create new instance of invoice item
         }
-        $invoiceItem->fill($data);
-        $invoiceItem->name = isset($data['name']) ? trim($data['name']) : '';
-        $invoiceItem->notes = isset($data['notes']) ? trim($data['notes']) : '';
-        $invoiceItem->save();
+
+        if ($invoiceItem) {
+            $invoiceItem->notes = isset($data['notes']) ? trim($data['notes']) : null;
+            $invoiceItem->save();
+        }
 
         return $invoiceItem;
     }

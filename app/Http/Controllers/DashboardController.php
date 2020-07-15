@@ -51,13 +51,14 @@ class DashboardController extends BaseController
         $showBlueVinePromo = false;
         if ($user->is_admin && env('BLUEVINE_PARTNER_UNIQUE_ID')) {
             $showBlueVinePromo = !$account->company->bluevine_status
-                && $account->created_at <= date('Y-m-d', strtotime('-1 month'));
+            && $account->created_at <= date('Y-m-d', strtotime('-1 month'));
             if (request()->bluevine) {
                 $showBlueVinePromo = true;
             }
         }
 
-        $showWhiteLabelExpired = Utils::isSelfHost() && $account->company->hasExpiredPlan(PLAN_WHITE_LABEL);
+        $showWhiteLabelExpired = Utils::isSelfHost() && 
+        isset($account->company) ? $account->company->hasExpiredPlan(PLAN_WHITE_LABEL): false;
 
         // check if the account has quotes
         $hasQuotes = false;
@@ -124,10 +125,10 @@ class DashboardController extends BaseController
 
         // get client/invoice currencies
         $data = Client::scope()
-            ->withArchived()
-            ->distinct()
-            ->get(['currency_id'])
-            ->toArray();
+        ->withArchived()
+        ->distinct()
+        ->get(['currency_id'])
+        ->toArray();
 
         array_map(function ($item) use (&$currencyIds) {
             $currencyId = intval($item['currency_id']);
@@ -138,10 +139,10 @@ class DashboardController extends BaseController
 
         // get expense currencies
         $data = Expense::scope()
-            ->withArchived()
-            ->distinct()
-            ->get(['expense_currency_id'])
-            ->toArray();
+        ->withArchived()
+        ->distinct()
+        ->get(['expense_currency_id'])
+        ->toArray();
 
         array_map(function ($item) use (&$currencyIds) {
             $currencyId = intval($item['expense_currency_id']);

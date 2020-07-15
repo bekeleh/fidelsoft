@@ -1,50 +1,56 @@
 @extends('header')
 
 @section('content')
-    @parent
-    {!! Former::open($url)
+@parent
+{!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
-    ->rules(['product_id' => 'required','status_id' => 'required', 'previous_store_id' => 'required' ,'current_store_id' => 'required','notes' => 'required' ])
+    ->rules([
+    'product_id' => 'required',
+    'status_id' => 'required', 
+    'previous_store_id' => 'required' ,
+    'current_store_id' => 'required',
+    'notes' => 'required' 
+    ])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     @if ($itemTransfer)
-        {{ Former::populate($itemTransfer) }}
-        <div style="display:none">
-            {!! Former::text('public_id') !!}
-        </div>
+    {{ Former::populate($itemTransfer) }}
+    <div style="display:none">
+        {!! Former::text('public_id') !!}
+    </div>
     @endif
     <span style="display:none">
-{!! Former::text('public_id') !!}
         {!! Former::text('action') !!}
-</span>
+    </span>
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
                     <!-- status -->
-                {{--                {!! Former::select('status_id')->addOption('', '')--}}
-                {{--                ->label(trans('texts.status_name'))->addGroupClass('status-select')--}}
-                {{--                ->help(trans('texts.status_help') . ' | ' . link_to('/statuses/', trans('texts.customize_options')))--}}
-                {{--                !!}--}}
+                    {{--                {!! Former::select('status_id')->addOption('', '')--}}
+                    {{--                ->label(trans('texts.status_name'))->addGroupClass('status-select')--}}
+                    {{--                ->help(trans('texts.status_help') . ' | ' . link_to('/statuses/', trans('texts.customize_options')))--}}
+                    {{--                !!}--}}
 
-                <!-- from store -->
-                {!! Former::select('previous_store_id')->addOption('', '')
-                ->onchange('selectProductAction()')
-                ->label(trans('texts.from_store_name'))->addGroupClass('store-select')
-                ->help(trans('texts.store_help') . ' | ' . link_to('/stores/', trans('texts.customize_options')))
-                !!}
-                <!-- to store -->
-                {!! Former::select('current_store_id')->addOption('', '')
-                ->label(trans('texts.to_store_name'))->addGroupClass('store-to-select')
-                !!}
-                <!-- list item -->
-                @include ('partials.select_product', ['label'=>'product_id','field_name'=>'product_id','check_item_name'=>'transfer_all_item'])
-                <!-- transfer all qty -->
-                {!! Former::checkbox('transfer_all_item')->label(trans('texts.allQty'))
+                    <!-- from store -->
+                    {!! Former::select('previous_store_id')->addOption('', '')
+                    ->onchange('selectProductAction()')
+                    ->label(trans('texts.from_store_name'))->addGroupClass('store-select')
+                    ->help(trans('texts.store_help') . ' | ' . link_to('/stores/', trans('texts.customize_options')))
+                    !!}
+                    <!-- to store -->
+                    {!! Former::select('current_store_id')->addOption('', '')
+                    ->label(trans('texts.to_store_name'))->addGroupClass('store-to-select')
+                    !!}
+                    <!-- list item -->
+                    @include ('partials.select_product', ['label'=>'product_id','field_name'=>'product_id','check_item_name'=>'transfer_all_item'])
+                    <!-- transfer all qty -->
+                    {!! Former::checkbox('transfer_all_item')->label(trans('texts.allQty'))
                     ->value(1)->onchange('transferAllQtyChecked()') !!}
-                <!-- qty -->
-                {!! Former::text('qty')->label('texts.qty')->help('texts.item_qty_help') !!}
-                <!-- NOTES -->
+                    <!-- qty -->
+                    {!! Former::text('qty')->label('texts.qty')->help('texts.item_qty_help') !!}
+
+                    <!-- NOTES -->
                     {!! Former::textarea('notes')->rows(4) !!}
                 </div>
             </div>
@@ -52,18 +58,18 @@
     </div>
 
     @if (Auth::user()->canCreateOrEdit(ENTITY_ITEM_TRANSFER, $itemTransfer))
-        <center class="buttons">
-            {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/item_transfers'))->appendIcon(Icon::create('remove-circle')) !!}
-            @if (!$itemTransfer)
-                {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
-            @endif
-            @if ($itemTransfer)
-                {!! DropdownButton::normal(trans('texts.more_actions'))
-                ->withContents($itemTransfer->present()->moreActions())
-                ->large()
-                ->dropup() !!}
-            @endif
-        </center>
+    <center class="buttons">
+        {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/item_transfers'))->appendIcon(Icon::create('remove-circle')) !!}
+        @if (!$itemTransfer)
+        {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
+        @endif
+        @if ($itemTransfer)
+        {!! DropdownButton::normal(trans('texts.more_actions'))
+        ->withContents($itemTransfer->present()->moreActions())
+        ->large()
+        ->dropup() !!}
+        @endif
+    </center>
     @endif
 
     {!! Former::close() !!}
@@ -86,11 +92,11 @@
             var $statusSelect = $('select#status_id');
             @if (Auth::user()->can('create', ENTITY_STATUS))
             $statusSelect.append(new Option("{{ trans('texts.create_status')}}: $name", '-1'));
-                    @endif
+            @endif
             for (var i = 0; i < statuses.length; i++) {
                 var status = statuses[i];
                 statusMap[status.public_id] = status;
-                $statusSelect.append(new Option(getClientDisplayName(status), status.public_id));
+                $statusSelect.append(new Option(status.name, status.public_id));
             }
             @include('partials/entity_combobox', ['entityType' => ENTITY_STATUS])
             if (statusId) {
@@ -103,11 +109,11 @@
             var $storeSelect = $('select#previous_store_id');
             @if (Auth::user()->can('create', ENTITY_STORE))
             $storeSelect.append(new Option("{{ trans('texts.create_store')}}: $name", '-1'));
-                    @endif
+            @endif
             for (var i = 0; i < previousStores.length; i++) {
                 var storeFrom = previousStores[i];
                 previousMap[storeFrom.public_id] = storeFrom;
-                $storeSelect.append(new Option(getClientDisplayName(storeFrom), storeFrom.public_id));
+                $storeSelect.append(new Option(storeFrom.name, storeFrom.public_id));
             }
             @include('partials/entity_combobox', ['entityType' => ENTITY_STORE])
             if (storeFromId) {
@@ -120,11 +126,11 @@
             var $store_toSelect = $('select#current_store_id');
             @if (Auth::user()->can('create', ENTITY_STORE))
             $store_toSelect.append(new Option("{{ trans('texts.create_store_to')}}: $name", '-1'));
-                    @endif
+            @endif
             for (var i = 0; i < currentStores.length; i++) {
                 var storeTo = currentStores[i];
                 currentMap[storeTo.public_id] = storeTo;
-                $store_toSelect.append(new Option(getClientDisplayName(storeTo), storeTo.public_id));
+                $store_toSelect.append(new Option(storeTo.name, storeTo.public_id));
             }
             @include('partials/entity_combobox', ['entityType' => ENTITY_STORE_TO])
             if (storeToId) {
@@ -205,4 +211,4 @@
             });
         }
     </script>
-@stop
+    @stop

@@ -23,19 +23,20 @@ class LogFailedLogin
     public function handle(Failed $event)
     {
         $now = new Carbon();
+
         try {
             DB::table('login_attempts')
-                ->insert(
-                    [
-                        'username' => $event->credentials['username'],
-                        'user_agent' => request()->header('UserModel-Agent'),
-                        'remote_ip' => request()->ip(),
-                        'successful' => 0,
-                        'created_at' => $now,
-                    ]
-                );
+            ->insert(
+                [
+                    'username' => $event->credentials['username'],
+                    'user_agent' => request()->header('UserModel-Agent'),
+                    'remote_ip' => request()->ip(),
+                    'successful' => 0,
+                    'created_at' => $now,
+                ]
+            );
         } catch (Exception $e) {
-            Log::debug($e);
+            throw new Exception();
         }
     }
 }

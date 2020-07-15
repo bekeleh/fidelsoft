@@ -38,6 +38,7 @@ class ExpenseService extends BaseService
     public function getDatatable($accountId, $search)
     {
         $datatable = new ExpenseDatatable(true, true);
+        
         $query = $this->expenseRepo->find($accountId, $search);
 
         if (!Utils::hasPermission('view_expense')) {

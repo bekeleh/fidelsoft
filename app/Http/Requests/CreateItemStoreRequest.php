@@ -24,9 +24,9 @@ class CreateItemStoreRequest extends ItemStoreRequest
         $rules['product_id'] = 'required|unique:item_stores,product_id,' . $this->id . ',id,store_id,' . $this->store_id . ',account_id,' . $this->account_id;
         $rules['store_id'] = 'required|numeric';
         $rules['bin'] = 'required';
-        $rules['qty'] = 'numeric';
+        $rules['new_qty'] = 'numeric|required';
         $rules['reorder_level'] = 'numeric';
-        $rules['EOQ'] = 'numeric';
+        $rules['EOQ'] = 'nullable';
         $rules['notes'] = 'nullable';
         $rules['is_deleted'] = 'boolean';
         $rules['notes'] = 'nullable';

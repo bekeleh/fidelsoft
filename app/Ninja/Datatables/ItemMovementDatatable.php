@@ -110,28 +110,28 @@ class ItemMovementDatatable extends EntityDatatable
     public function actions()
     {
         return [
-            [
-                uctrans('texts.edit_item_movement'),
-                function ($model) {
-                    return URL::to("item_movements/{$model->public_id}/edit");
-                },
-                function ($model) {
-                    return Auth::user()->can('edit', ENTITY_ITEM_MOVEMENT);
-                },
-            ],
-            [
-                trans('texts.clone_item_movement'),
-                function ($model) {
-                    return URL::to("item_movements/{$model->public_id}/clone");
-                },
-                function ($model) {
-                    return Auth::user()->can('create', ENTITY_ITEM_MOVEMENT);
-                },
-            ],
+            // [
+            //     uctrans('texts.edit_item_movement'),
+            //     function ($model) {
+            //         return URL::to("item_movements/{$model->public_id}/edit");
+            //     },
+            //     function ($model) {
+            //         return Auth::user()->can('edit', ENTITY_ITEM_MOVEMENT);
+            //     },
+            // ],
+            // [
+            //     trans('texts.clone_item_movement'),
+            //     function ($model) {
+            //         return URL::to("item_movements/{$model->public_id}/clone");
+            //     },
+            //     function ($model) {
+            //         return Auth::user()->can('create', ENTITY_ITEM_MOVEMENT);
+            //     },
+            // ],
             [
                 '--divider--', function () {
-                return false;
-            },
+                    return false;
+                },
                 function ($model) {
                     return Auth::user()->can('edit', [ENTITY_ITEM_MOVEMENT]);
                 },

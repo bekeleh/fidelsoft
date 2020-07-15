@@ -27,8 +27,9 @@ class UpdateItemStoreRequest extends ItemStoreRequest
         }
         $rules['store_id'] = 'required|numeric';
         $rules['bin'] = 'required';
-        $rules['qty'] = 'numeric';
+        $rules['new_qty'] = 'numeric|required';
         $rules['reorder_level'] = 'numeric';
+        $rules['EOQ'] = 'nullable';
         $rules['is_deleted'] = 'boolean';
         $rules['notes'] = 'nullable';
 

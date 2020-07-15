@@ -14,6 +14,9 @@ class CreateProjectRequest extends ProjectRequest
         return [
             'name' => 'required',
             'client_id' => 'required',
+            'task_rate' => 'required',
+            'due_date' => 'required',
+            'budgeted_hours' => 'required',
         ];
     }
 }

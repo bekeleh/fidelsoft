@@ -18,6 +18,9 @@ class InvoiceItem extends EntityModel
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $fillable = [
+        'cost',
+        'qty',
+        'notes',
         'invoice_item_type_id',
         'tax_name1',
         'tax_rate1',

@@ -52,21 +52,21 @@ class InvoiceReport extends AbstractReport
         $hasTaxRates = TaxRate::scope()->count();
 
         $clients = Client::scope()
-            ->orderBy('name')
+        ->orderBy('name')
+        ->withArchived()
+        ->with('contacts', 'user')
+        ->with(['invoices' => function ($query) use ($statusIds) {
+            $query->invoices()
             ->withArchived()
-            ->with('contacts', 'user')
-            ->with(['invoices' => function ($query) use ($statusIds) {
-                $query->invoices()
-                    ->withArchived()
-                    ->statusIds($statusIds)
-                    ->where('invoice_date', '>=', $this->startDate)
-                    ->where('invoice_date', '<=', $this->endDate)
-                    ->with(['payments' => function ($query) {
-                        $query->withArchived()
-                            ->excludeFailed()
-                            ->with('payment_type', 'account_gateway.gateway');
-                    }, 'invoice_items', 'invoice_status']);
-            }]);
+            ->statusIds($statusIds)
+            ->where('invoice_date', '>=', $this->startDate)
+            ->where('invoice_date', '<=', $this->endDate)
+            ->with(['payments' => function ($query) {
+                $query->withArchived()
+                ->excludeFailed()
+                ->with('payment_type', 'account_gateway.gateway');
+            }, 'invoice_items', 'invoice_status']);
+        }]);
 
 
         if ($this->isExport && $exportFormat == 'zip') {

@@ -10,11 +10,10 @@ use Laracasts\Presenter\PresentableTrait;
  */
 class PermissionGroup extends EntityModel
 {
-    protected $presenter = 'App\Ninja\Presenters\PermissionGroupPresenter';
     use PresentableTrait;
     use SoftDeletes;
 
-    protected $appends = [];
+    protected $presenter = 'App\Ninja\Presenters\PermissionGroupPresenter';
 
     protected $table = 'permission_groups';
 

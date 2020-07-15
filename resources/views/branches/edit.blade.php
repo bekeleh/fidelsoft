@@ -1,37 +1,37 @@
 @extends('header')
 
 @section('content')
-    @parent
-    {!! Former::open($url)
+@parent
+{!! Former::open($url)
     ->method($method)
     ->autocomplete('off')
     ->rules(['name' => 'required|max:255','store_id' => 'required','location_id' => 'required','notes' => 'required|max:255'])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
     @if ($branch)
-        {{ Former::populate($branch) }}
-        <div style="display:none">
-            {!! Former::text('public_id') !!}
-        </div>
+    {{ Former::populate($branch) }}
+    <div style="display:none">
+        {!! Former::text('public_id') !!}
+    </div>
     @endif
 
     <span style="display:none">
-{!! Former::text('public_id') !!}
+        {!! Former::text('public_id') !!}
         {!! Former::text('action') !!}
-</span>
+    </span>
 
     <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body form-padding-right">
                     <!-- branch name -->
-                {!! Former::text('name')->label('texts.branch_name') !!}
-                <!-- branch default store dropdown -->
-                {!! Former::select('store_id')->addOption('', '')
+                    {!! Former::text('name')->label('texts.branch_name') !!}
+                    <!-- branch default store dropdown -->
+                    {!! Former::select('store_id')->addOption('', '')
                     ->label(trans('texts.store_name'))
                     ->addGroupClass('store-select')
                     ->help(trans('texts.store_help') . ' | ' . link_to('/stores/', trans('texts.customize_options')))
                     !!}
-                <!-- location dropdown -->
+                    <!-- location dropdown -->
                     {!! Former::select('location_id')->addOption('', '')
                     ->label(trans('texts.location_name'))
                     ->addGroupClass('location-select')
@@ -44,16 +44,16 @@
     </div>
 
     @if (Auth::user()->canCreateOrEdit(ENTITY_BRANCH, $branch))
-        <center class="buttons">
-            {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/branches'))->appendIcon(Icon::create('remove-circle')) !!}
-            {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
-            @if ($branch)
-                {!! DropdownButton::normal(trans('texts.more_actions'))
-                ->withContents($branch->present()->moreActions())
-                ->large()
-                ->dropup() !!}
-            @endif
-        </center>
+    <center class="buttons">
+        {!! Button::normal(trans('texts.cancel'))->large()->asLinkTo(HTMLUtils::previousUrl('/branches'))->appendIcon(Icon::create('remove-circle')) !!}
+        {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
+        @if ($branch)
+        {!! DropdownButton::normal(trans('texts.more_actions'))
+        ->withContents($branch->present()->moreActions())
+        ->large()
+        ->dropup() !!}
+        @endif
+    </center>
     @endif
 
     {!! Former::close() !!}
@@ -86,11 +86,11 @@
             var $locationSelect = $('select#location_id');
             @if (Auth::user()->can('create', ENTITY_LOCATION))
             $locationSelect.append(new Option("{{ trans('texts.create_location')}}: $name", '-1'));
-                    @endif
+            @endif
             for (var i = 0; i < locations.length; i++) {
                 var location = locations[i];
                 locationMap[location.public_id] = location;
-                $locationSelect.append(new Option(getClientDisplayName(location), location.public_id));
+                $locationSelect.append(new Option(location.name, location.public_id));
             }
             @include('partials/entity_combobox', ['entityType' => ENTITY_LOCATION])
             if (locationId) {
@@ -102,11 +102,11 @@
             var $storeSelect = $('select#store_id');
             @if (Auth::user()->can('create', ENTITY_STORE))
             $storeSelect.append(new Option("{{ trans('texts.create_store')}}: $name", '-1'));
-                    @endif
+            @endif
             for (var i = 0; i < stores.length; i++) {
                 var store = stores[i];
                 storeMap[store.public_id] = store;
-                $storeSelect.append(new Option(getClientDisplayName(store), store.public_id));
+                $storeSelect.append(new Option(store.name, store.public_id));
             }
             @include('partials/entity_combobox', ['entityType' => ENTITY_STORE])
             if (storeId) {
@@ -116,4 +116,4 @@
         });
 
     </script>
-@stop
+    @stop

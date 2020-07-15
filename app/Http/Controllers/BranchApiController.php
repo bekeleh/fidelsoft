@@ -41,8 +41,8 @@ class BranchApiController extends BaseAPIController
     public function index()
     {
         $branchs = Branch::scope()
-            ->withTrashed()
-            ->orderBy('updated_at', 'desc');
+        ->withTrashed()
+        ->orderBy('updated_at', 'desc');
 
         return $this->listResponse($branchs);
     }

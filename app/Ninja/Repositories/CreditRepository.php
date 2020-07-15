@@ -5,6 +5,7 @@ namespace App\Ninja\Repositories;
 use App\Libraries\Utils;
 use App\Models\Client;
 use App\Models\Credit;
+use Datatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -31,6 +32,7 @@ class CreditRepository extends BaseRepository
         ->where('clients.account_id', '=', Auth::user()->account_id)
         ->where('contacts.is_primary', '=', true)
         // ->whereNull('contacts.deleted_at')
+        // ->whereNull('clients.deleted_at')
         ->select(
             DB::raw('COALESCE(clients.currency_id, accounts.currency_id) currency_id'),
             DB::raw('COALESCE(clients.country_id, accounts.country_id) country_id'),
@@ -60,17 +62,16 @@ class CreditRepository extends BaseRepository
 
         if ($clientPublicId) {
             $query->where('clients.public_id', '=', $clientPublicId);
-        } else {
-            $query->whereNull('clients.deleted_at');
-        }
-
-        $this->applyFilters($query, ENTITY_CREDIT);
+        } 
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
-                $query->where('clients.name', 'like', '%' . $filter . '%');
+                $query->where('clients.name', 'like', '%' . $filter . '%')
+                ->orWhere('contacts.email', 'like', '%' . $filter . '%');
             });
         }
+
+        $this->applyFilters($query, ENTITY_CREDIT);
 
         return $query;
     }
@@ -92,7 +93,7 @@ class CreditRepository extends BaseRepository
             'credits.public_notes'
         );
 
-        $table = \Datatable::query($query)
+        $table = Datatable::query($query)
         ->addColumn('credit_date', function ($model) {
             return Utils::fromSqlDate($model->credit_date);
         })
@@ -115,15 +116,15 @@ class CreditRepository extends BaseRepository
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
 
         if ($credit) {
-            // do nothing
+            $credit->updated_by = auth::user()->username;
         } elseif ($publicId) {
             $credit = Credit::scope($publicId)->firstOrFail();
-            \Log::warning('Entity not set in credit repo save');
         } else {
             $credit = Credit::createNew();
             $credit->balance = Utils::parseFloat($input['amount']);
             $credit->client_id = Client::getPrivateId($input['client_id']);
             $credit->credit_date = date('Y-m-d');
+            $credit->created_by = auth::user()->username;
         }
 
         $credit->fill($input);

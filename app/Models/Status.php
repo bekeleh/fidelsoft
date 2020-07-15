@@ -10,9 +10,9 @@ use Laracasts\Presenter\PresentableTrait;
  */
 class Status extends EntityModel
 {
-    protected $presenter = 'App\Ninja\Presenters\StatusPresenter';
     use PresentableTrait;
     use SoftDeletes;
+    protected $presenter = 'App\Ninja\Presenters\StatusPresenter';
 
     protected $appends = [];
     protected $table = 'statuses';

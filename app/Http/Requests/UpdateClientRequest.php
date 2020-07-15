@@ -25,13 +25,15 @@ class UpdateClientRequest extends ClientRequest
         }
         $rules['name'] = 'required';
         $rules['currency_id'] = 'required|numeric';
+        $rules['task_rate'] = 'required|numeric';
         $rules['sale_type_id'] = 'required|numeric';
-        $rules['hold_reason_id'] = 'numeric';
-        $rules['country_id'] = 'numeric';
-        $rules['industry_id'] = 'numeric';
-        $rules['size_id'] = 'numeric';
-        $rules['language_id'] = 'numeric';
-        $rules['shipping_country_id'] = 'numeric';
+        $rules['hold_reason_id'] = 'required|numeric';
+        $rules['country_id'] = 'required|numeric';
+        // $rules['shipping_country_id'] = 'required|numeric';
+        // $rules['industry_id'] = 'required|numeric';
+        // $rules['size_id'] = 'required|numeric';
+        $rules['language_id'] = 'required|numeric';
+        $rules['shipping_country_id'] = 'required|numeric';
         $rules['notes'] = 'nullable';
         $rules['is_deleted'] = 'boolean';
         $rules['notes'] = 'nullable';

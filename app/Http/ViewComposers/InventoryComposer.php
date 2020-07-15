@@ -14,13 +14,14 @@ use Illuminate\View\View;
 class InventoryComposer
 {
 
-    public function compose(View $view)
-    {
-        $view->with('units', Cache::get('units')->each(function ($units) {
-            $units->name = trans('texts.unit_' . $units->name);
-        })->sortBy(function ($units) {
-            return $units->name;
-        }));
+	public function compose(View $view)
+	{
+		$view->with('units', Cache::get('units')->each(function ($units) {
+			$units->name = trans('texts.unit_' . $units->name);
+		})->sortBy(function ($units) {
+			return $units->name;
+		})->values();
+	)
 
     }
 }

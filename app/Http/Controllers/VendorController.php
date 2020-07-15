@@ -110,6 +110,7 @@ class VendorController extends BaseController
     public function update(UpdateVendorRequest $request)
     {
         $data = $request->input();
+        
         $vendor = $request->entity();
         $vendor = $this->vendorService->save($data, $vendor);
 

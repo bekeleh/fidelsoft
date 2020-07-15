@@ -45,13 +45,14 @@ class VendorRepository extends BaseRepository
             'vendors.name as vendor_name',
             'vendor_contacts.first_name',
             'vendor_contacts.last_name',
+            'vendors.private_notes',
+            'vendors.public_notes',
             'vendors.work_phone',
             'vendors.city',
             'vendor_contacts.email',
             'vendors.deleted_at',
             'vendors.is_deleted',
             'vendors.user_id',
-            'vendors.private_notes',
             'vendors.created_at',
             'vendors.updated_at',
             'vendors.deleted_at',
@@ -60,16 +61,19 @@ class VendorRepository extends BaseRepository
             'vendors.deleted_by'
         );
 
-        $this->applyFilters($query, ENTITY_VENDOR);
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('vendors.name', 'like', '%' . $filter . '%')
                 ->orWhere('vendor_contacts.first_name', 'like', '%' . $filter . '%')
                 ->orWhere('vendor_contacts.last_name', 'like', '%' . $filter . '%')
-                ->orWhere('vendor_contacts.email', 'like', '%' . $filter . '%');
+                ->orWhere('vendor_contacts.work_phone', 'like', '%' . $filter . '%')
+                ->orWhere('vendor_contacts.email', 'like', '%' . $filter . '%')
+                ->orWhere('vendor_contacts.city', 'like', '%' . $filter . '%');
             });
         }
+
+        $this->applyFilters($query, ENTITY_VENDOR);
 
         return $query;
     }
@@ -130,5 +134,10 @@ class VendorRepository extends BaseRepository
         }
 
         return $vendor;
+    }
+
+    public function purge($vendor)
+    {
+        dispatch(new PurgeVendorData($vendor));
     }
 }

@@ -135,15 +135,15 @@ class ItemTransferDataTable extends EntityDatatable
     public function actions()
     {
         return [
-            [
-                uctrans('texts.edit_item_transfer'),
-                function ($model) {
-                    return URL::to("item_transfers/{$model->public_id}/edit");
-                },
-                function ($model) {
-                    return Auth::user()->can('edit', ENTITY_ITEM_TRANSFER);
-                },
-            ],
+            // [
+            //     uctrans('texts.edit_item_transfer'),
+            //     function ($model) {
+            //         return URL::to("item_transfers/{$model->public_id}/edit");
+            //     },
+            //     function ($model) {
+            //         return Auth::user()->can('edit', ENTITY_ITEM_TRANSFER);
+            //     },
+            // ],
 //            [
 //                trans('texts.clone_item_transfer'),
 //                function ($model) {

@@ -29,20 +29,20 @@ class DocumentReport extends AbstractReport
 
         if (!$filter || $filter == ENTITY_INVOICE) {
             $records = Invoice::scope()
-                ->withArchived()
-                ->with(['documents'])
-                ->where('invoice_date', '>=', $this->startDate)
-                ->where('invoice_date', '<=', $this->endDate)
-                ->get();
+            ->withArchived()
+            ->with(['documents'])
+            ->where('invoice_date', '>=', $this->startDate)
+            ->where('invoice_date', '<=', $this->endDate)
+            ->get();
         }
 
         if (!$filter || $filter == ENTITY_EXPENSE) {
             $expenses = Expense::scope()
-                ->withArchived()
-                ->with(['documents'])
-                ->where('expense_date', '>=', $this->startDate)
-                ->where('expense_date', '<=', $this->endDate)
-                ->get();
+            ->withArchived()
+            ->with(['documents'])
+            ->where('expense_date', '>=', $this->startDate)
+            ->where('expense_date', '<=', $this->endDate)
+            ->get();
 
             if ($records) {
                 $records = $records->merge($expenses);

@@ -17,7 +17,7 @@ class VendorDatatable extends EntityDatatable
             [
                 'vendor_name',
                 function ($model) {
-                    if (Auth::user()->can('view', [ENTITY_VENDOR])) {
+                    if (Auth::user()->can('edit', [ENTITY_VENDOR])) {
                         $str = link_to("vendors/{$model->public_id}", $model->vendor_name ?: '')->toHtml();
                         return $this->addNote($str, $model->private_notes);
                     } else {
@@ -41,6 +41,12 @@ class VendorDatatable extends EntityDatatable
                 'email',
                 function ($model) {
                     return link_to("vendors/{$model->public_id}", $model->email ?: '')->toHtml();
+                },
+            ],
+            [
+                'public_notes',
+                function ($model) {
+                    return $model->public_notes;
                 },
             ],
             [
@@ -108,8 +114,8 @@ class VendorDatatable extends EntityDatatable
             ],
             [
                 '--divider--', function () {
-                return false;
-            },
+                    return false;
+                },
                 function ($model) {
                     return Auth::user()->can('edit', [ENTITY_EXPENSE]);
                 },

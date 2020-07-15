@@ -47,11 +47,11 @@ class EntityListener
         foreach ($subscriptions as $subscription) {
             switch ($subscription->format) {
                 case SUBSCRIPTION_FORMAT_JSON:
-                    $data = $jsonData;
-                    break;
+                $data = $jsonData;
+                break;
                 case SUBSCRIPTION_FORMAT_UBL:
-                    $data = $ublData;
-                    break;
+                $data = $ublData;
+                break;
             }
 
             self::notifySubscription($subscription, $data);
