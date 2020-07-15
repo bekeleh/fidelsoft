@@ -2,9 +2,10 @@
     <thead {!! $isTasks ? 'style="display:none;" data-bind="visible: $root.hasTasks"' : ($invoice->has_tasks || ! empty($tasks) ? 'data-bind="visible: $root.hasItems"' : '') !!}>
     @if ($isTasks)
         <tr data-bind="visible: $root.hasItems">
-            <td style="min-width:20px;" colspan="20"></td>
+            <td style="width:20px" colspan="20"></td>
         </tr>
     @endif
+    <!-- heading -->
     <tr>
         <th style="min-width:32px;" class="hide-border"></th>
         <th style="min-width:120px;width:25%">{{ $invoiceLabels[$isTasks ? 'service' : 'item'] }}</th>
@@ -24,6 +25,7 @@
         <th style="min-width:32px;" class="hide-border"></th>
     </tr>
     </thead>
+    <!-- body -->
     <tbody data-bind="sortable: { data: invoice_items_{{ $isTasks ? 'with_tasks' : 'without_tasks' }}, allowDrop: false, afterMove: onDragged} {{ $isTasks ? ', visible: $root.hasTasks' : ($invoice->has_tasks || ! empty($tasks) ? ', visible: $root.hasItems' : '') }}"
             {!! $isTasks ? 'style="display:none;border-spacing: 100px"' : '' !!}>
     <tr data-bind="event: { mouseover: showActions, mouseout: hideActions }" class="sortable-row">

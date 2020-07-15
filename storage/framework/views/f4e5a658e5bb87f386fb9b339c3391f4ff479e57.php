@@ -1,114 +1,114 @@
-@if (empty($hide_pdf))
-  <object id="pdfObject" type="application/pdf" style="display:block;background-color:#525659;border:solid 2px #9a9a9a;" frameborder="1" width="100%" height="{{ isset($pdfHeight) ? $pdfHeight : 1180 }}px"></object>
+<?php if(empty($hide_pdf)): ?>
+  <object id="pdfObject" type="application/pdf" style="display:block;background-color:#525659;border:solid 2px #9a9a9a;" frameborder="1" width="100%" height="<?php echo e(isset($pdfHeight) ? $pdfHeight : 1180); ?>px"></object>
   <div id="pdfCanvas" style="display:none;width:100%;background-color:#525659;border:solid 2px #9a9a9a;padding-top:40px;text-align:center">
     <canvas id="theCanvas" style="max-width:100%;border:solid 1px #CCCCCC;"></canvas>
   </div>
   <canvas id="signatureCanvas" style="display:none;"></canvas>
-@endif
+<?php endif; ?>
 
-@if (!Utils::isPro() && !request()->borderless)
+<?php if(!Utils::isPro() && !request()->borderless): ?>
   <br/>
   <div class="modal fade" id="moreDesignsModal" tabindex="-1" role="dialog" aria-labelledby="moreDesignsModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">{{ trans('texts.more_designs_title') }}</h4>
+          <h4 class="modal-title"><?php echo e(trans('texts.more_designs_title')); ?></h4>
         </div>
 
         <div class="container">
-          @if (Utils::isNinja())
-            <h3>{{ trans('texts.more_designs_cloud_header') }}</h3>
-            <p>{{ trans('texts.more_designs_cloud_text') }}</p>
-          @else
-            <h3>{{ trans('texts.more_designs_self_host_header', ['price' => INVOICE_DESIGNS_PRICE]) }}</h3>
-            <p>{{ trans('texts.more_designs_self_host_text') }}</p>
-          @endif
+          <?php if(Utils::isNinja()): ?>
+            <h3><?php echo e(trans('texts.more_designs_cloud_header')); ?></h3>
+            <p><?php echo e(trans('texts.more_designs_cloud_text')); ?></p>
+          <?php else: ?>
+            <h3><?php echo e(trans('texts.more_designs_self_host_header', ['price' => INVOICE_DESIGNS_PRICE])); ?></h3>
+            <p><?php echo e(trans('texts.more_designs_self_host_text')); ?></p>
+          <?php endif; ?>
         </div>
 
         <center id="designThumbs">
           <p>&nbsp;</p>
-          <a href="{{ asset('/images/designs/business.png') }}" data-lightbox="more-designs" data-title="Business">
-            <img src="{{ BLANK_IMAGE }}" data-src="{{ asset('/images/designs/business_thumb.png') }}"/>
+          <a href="<?php echo e(asset('/images/designs/business.png')); ?>" data-lightbox="more-designs" data-title="Business">
+            <img src="<?php echo e(BLANK_IMAGE); ?>" data-src="<?php echo e(asset('/images/designs/business_thumb.png')); ?>"/>
           </a>&nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="{{ asset('/images/designs/creative.png') }}" data-lightbox="more-designs" data-title="Creative">
-            <img src="{{ BLANK_IMAGE }}" data-src="{{ asset('/images/designs/creative_thumb.png') }}"/>
+          <a href="<?php echo e(asset('/images/designs/creative.png')); ?>" data-lightbox="more-designs" data-title="Creative">
+            <img src="<?php echo e(BLANK_IMAGE); ?>" data-src="<?php echo e(asset('/images/designs/creative_thumb.png')); ?>"/>
           </a>&nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="{{ asset('/images/designs/elegant.png') }}" data-lightbox="more-designs" data-title="Elegant">
-            <img src="{{ BLANK_IMAGE }}" data-src="{{ asset('/images/designs/elegant_thumb.png') }}"/>
+          <a href="<?php echo e(asset('/images/designs/elegant.png')); ?>" data-lightbox="more-designs" data-title="Elegant">
+            <img src="<?php echo e(BLANK_IMAGE); ?>" data-src="<?php echo e(asset('/images/designs/elegant_thumb.png')); ?>"/>
           </a>
           <p>&nbsp;</p>
-          <a href="{{ asset('/images/designs/hipster.png') }}" data-lightbox="more-designs" data-title="Hipster">
-            <img src="{{ BLANK_IMAGE }}" data-src="{{ asset('/images/designs/hipster_thumb.png') }}"/>
+          <a href="<?php echo e(asset('/images/designs/hipster.png')); ?>" data-lightbox="more-designs" data-title="Hipster">
+            <img src="<?php echo e(BLANK_IMAGE); ?>" data-src="<?php echo e(asset('/images/designs/hipster_thumb.png')); ?>"/>
           </a>&nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="{{ asset('/images/designs/playful.png') }}" data-lightbox="more-designs" data-title="Playful">
-            <img src="{{ BLANK_IMAGE }}" data-src="{{ asset('/images/designs/playful_thumb.png') }}"/>
+          <a href="<?php echo e(asset('/images/designs/playful.png')); ?>" data-lightbox="more-designs" data-title="Playful">
+            <img src="<?php echo e(BLANK_IMAGE); ?>" data-src="<?php echo e(asset('/images/designs/playful_thumb.png')); ?>"/>
           </a>&nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="{{ asset('/images/designs/photo.png') }}" data-lightbox="more-designs" data-title="Photo">
-            <img src="{{ BLANK_IMAGE }}" data-src="{{ asset('/images/designs/photo_thumb.png') }}"/>
+          <a href="<?php echo e(asset('/images/designs/photo.png')); ?>" data-lightbox="more-designs" data-title="Photo">
+            <img src="<?php echo e(BLANK_IMAGE); ?>" data-src="<?php echo e(asset('/images/designs/photo_thumb.png')); ?>"/>
           </a>
           <p>&nbsp;</p>
         </center>
 
         <div class="modal-footer" id="signUpFooter">
-          <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('texts.cancel') }}</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo e(trans('texts.cancel')); ?></button>
 
-          @if (Utils::isNinjaProd())
-            <a class="btn btn-primary" href="javascript:showUpgradeModal()">{{ trans('texts.go_pro') }}</a>
-          @else
-            <button type="button" class="btn btn-primary" onclick="buyProduct('{{ INVOICE_DESIGNS_AFFILIATE_KEY }}', '{{ PRODUCT_INVOICE_DESIGNS }}')">{{ trans('texts.buy') }}</button>
-          @endif
+          <?php if(Utils::isNinjaProd()): ?>
+            <a class="btn btn-primary" href="javascript:showUpgradeModal()"><?php echo e(trans('texts.go_pro')); ?></a>
+          <?php else: ?>
+            <button type="button" class="btn btn-primary" onclick="buyProduct('<?php echo e(INVOICE_DESIGNS_AFFILIATE_KEY); ?>', '<?php echo e(PRODUCT_INVOICE_DESIGNS); ?>')"><?php echo e(trans('texts.buy')); ?></button>
+          <?php endif; ?>
         </div>
       </div>
     </div>
   </div>
-@endif
+<?php endif; ?>
 
 
 <script type="text/javascript">
   window.logoImages = {};
 
-  logoImages.imageLogo1 = "{{ Form::image_data('images/report_logo1.jpg') }}";
+  logoImages.imageLogo1 = "<?php echo e(Form::image_data('images/report_logo1.jpg')); ?>";
   logoImages.imageLogoWidth1 =120;
   logoImages.imageLogoHeight1 = 40;
 
-  logoImages.imageLogo2 = "{{ Form::image_data('images/report_logo2.jpg') }}";
+  logoImages.imageLogo2 = "<?php echo e(Form::image_data('images/report_logo2.jpg')); ?>";
   logoImages.imageLogoWidth2 =325/2;
   logoImages.imageLogoHeight2 = 81/2;
 
-  logoImages.imageLogo3 = "{{ Form::image_data('images/report_logo3.png') }}";
+  logoImages.imageLogo3 = "<?php echo e(Form::image_data('images/report_logo3.png')); ?>";
   logoImages.imageLogoWidth3 =325/2;
   logoImages.imageLogoHeight3 = 81/2;
 
-  @if ($account->hasLogo())
-          window.accountLogo = "{{ Form::image_data($account->getLogoRaw(), true) }}";
+  <?php if($account->hasLogo()): ?>
+          window.accountLogo = "<?php echo e(Form::image_data($account->getLogoRaw(), true)); ?>";
   if (window.invoice) {
     invoice.image = window.accountLogo;
-    invoice.imageWidth = {{ $account->getLogoWidth() }};
-    invoice.imageHeight = {{ $account->getLogoHeight() }};
+    invoice.imageWidth = <?php echo e($account->getLogoWidth()); ?>;
+    invoice.imageHeight = <?php echo e($account->getLogoHeight()); ?>;
   }
-  @endif
+  <?php endif; ?>
 
-          @if ($account->isEnterprise() && $account->background_image_id && $account->background_image)
-          window.accountBackground = "{{ Form::image_data($account->background_image->getRawCached(), true) }}";
-          @endif
+          <?php if($account->isEnterprise() && $account->background_image_id && $account->background_image): ?>
+          window.accountBackground = "<?php echo e(Form::image_data($account->background_image->getRawCached(), true)); ?>";
+          <?php endif; ?>
 
   var NINJA = NINJA || {};
-  @if ($account->hasFeature(FEATURE_CUSTOMIZE_INVOICE_DESIGN))
-          NINJA.primaryColor = "{{ $account->primary_color }}";
-  NINJA.secondaryColor = "{{ $account->secondary_color }}";
-  NINJA.fontSize = {{ $account->font_size }};
-  NINJA.headerFont = {!! json_encode($account->getHeaderFontName()) !!};
-  NINJA.bodyFont = {!! json_encode($account->getBodyFontName()) !!};
-  @else
+  <?php if($account->hasFeature(FEATURE_CUSTOMIZE_INVOICE_DESIGN)): ?>
+          NINJA.primaryColor = "<?php echo e($account->primary_color); ?>";
+  NINJA.secondaryColor = "<?php echo e($account->secondary_color); ?>";
+  NINJA.fontSize = <?php echo e($account->font_size); ?>;
+  NINJA.headerFont = <?php echo json_encode($account->getHeaderFontName()); ?>;
+  NINJA.bodyFont = <?php echo json_encode($account->getBodyFontName()); ?>;
+  <?php else: ?>
           NINJA.primaryColor = "";
   NINJA.secondaryColor = "";
   NINJA.fontSize = 9;
   NINJA.headerFont = "Roboto";
   NINJA.bodyFont = "Roboto";
-          @endif
+          <?php endif; ?>
 
-  var invoiceLabels = {!! json_encode($account->getInvoiceLabels()) !!};
+  var invoiceLabels = <?php echo json_encode($account->getInvoiceLabels()); ?>;
   var isRefreshing = false;
   var needsRefresh = false;
 
@@ -116,14 +116,14 @@
     try {
       return getPDFString(refreshPDFCB, force);
     } catch (exception) {
-              @if (Utils::isTravis())
+              <?php if(Utils::isTravis()): ?>
       var message = exception.message || '';
       if (message.indexOf('Attempting to change value of a readonly property') >= 0) {
         // do nothing
       } else {
         throw exception;
       }
-      @else
+      <?php else: ?>
       console.log(exception);
       console.warn('Failed to generate PDF: %s', exception.message);
       var href = location.href;
@@ -135,17 +135,17 @@
           }
         })
       }
-      @endif
+      <?php endif; ?>
     }
   }
 
   function refreshPDFCB(string) {
     if (!string) return;
-    @if ( !empty($hide_pdf))
+    <?php if( !empty($hide_pdf)): ?>
             return;
-    @endif
-            PDFJS.workerSrc = '{{ asset('js/pdf_viewer.worker.js') }}';
-    var forceJS = {{ Auth::check() && Auth::user()->force_pdfjs ? 'true' : 'false' }};
+    <?php endif; ?>
+            PDFJS.workerSrc = '<?php echo e(asset('js/pdf_viewer.worker.js')); ?>';
+    var forceJS = <?php echo e(Auth::check() && Auth::user()->force_pdfjs ? 'true' : 'false'); ?>;
     // Use the browser's built in PDF viewer
     if ((isChrome || isFirefox) && ! forceJS && ! isMobile) {
       document.getElementById('pdfObject').data = string;
