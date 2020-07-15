@@ -438,9 +438,9 @@
                 @endif
 
                 @if (Session::has('message'))
-                    <div class="alert alert-success alert-hide" style="z-index:9999">
-                        {!! Session::get('message') !!}
-                    </div>
+                    {{--                    <div class="alert alert-success alert-hide" style="z-index:9999">--}}
+                    {{--                        {!! Session::get('message') !!}--}}
+                    {{--                    </div>--}}
                 @elseif (Session::has('success'))
                     <div class="alert alert-success alert-hide" style="z-index:9999">
                         {!! Session::get('success') !!}

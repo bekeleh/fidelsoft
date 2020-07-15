@@ -7,22 +7,21 @@
         <title>{{ trans('texts.client_portal') }}</title>
         <link href="{{ asset('logo.png') }}" rel="shortcut icon" type="image/png">
     @else
-        {{--        <title>{{ isset($title) ? ($title . ' | '. trans('texts.team_source')) : ('Fidel ERP' ) }}</title>--}}
-        <title>{{ isset($title) ? ($title) : (trans('texts.team_source')) }}</title>
+        <title>{{ isset($title) ? ($title . ' | '. trans('texts.team_source')) : ('Fidelsoft' ) }}</title>
         <meta name="description" content="{{ isset($description) ? $description : trans('texts.app_description') }}"/>
         <link href="{{ asset('logo.gif') }}" rel="shortcut icon" type="image/gif">
-        <meta property="og:site_name" content="Fidel ERP"/>
+        <meta property="og:site_name" content="Fidelsoft"/>
         <meta property="og:url" content="{{ SITE_URL }}"/>
-        <meta property="og:title" content="Fidel ERP"/>
+        <meta property="og:title" content="Fidelsoft"/>
         <meta property="og:image" content="{{ SITE_URL }}/images/round_logo.png"/>
-        <meta property="og:description" content="Fidel ERP"/>
+        <meta property="og:description" content="Fidelsoft"/>
 
         <!-- http://realfavicongenerator.net -->
         <link rel="manifest" href="{{ url('manifest.json') }}">
         <link rel="mask-icon" href="{{ url('safari-pinned-tab.svg') }}" color="#3bc65c">
         <link rel="shortcut icon" href="{{ url('favicon.ico') }}">
-        <meta name="apple-mobile-web-app-title" content="Fidel ERP">
-        <meta name="application-name" content="Fidel ERP">
+        <meta name="apple-mobile-web-app-title" content="Fidelsoft">
+        <meta name="application-name" content="Fidelsoft">
         <meta name="theme-color" content="#ffffff">
     @endif
     <meta http-equiv="cache-control" content="max-age=0"/>
@@ -36,15 +35,17 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="canonical" href="{{ NINJA_APP_URL }}/{{ Request::path() }}"/>
-
+    <link href="{{ asset('css/toastr.min.css') }}" rel="stylesheet" type="text/css"/>
     @yield('head_css')
 
-    <script src="{{ asset('built.js') }}?no_cache={{ NINJA_VERSION }}" type="text/javascript"></script>
+    <script src="{{ asset('built.js') }}?no_cache={{ NINJA_VERSION }}" type="text/javascript">
+    </script>
+
 
     <script type="text/javascript">
         var NINJA = NINJA || {};
         NINJA.fontSize = 9;
-        NINJA.isRegistered = {{ \Utils::isRegistered() ? 'true' : 'false' }};
+        NINJA.isRegistered = {{ Utils::isRegistered() ? 'true' : 'false' }};
         NINJA.loggedErrorCount = 0;
 
         window.onerror = function (errorMsg, url, lineNumber, column, error) {
@@ -92,7 +93,7 @@
             }
 
             return false;
-        }
+        };
 
         function logError(message) {
             $.ajax({
@@ -200,12 +201,12 @@
         function fbq() {
             // do nothing
         }
-        ;
+
         @endif
             window._fbq = window._fbq || [];
     </script>
 
-    @if (! request()->borderless)
+    @if (!request()->borderless)
         <link rel="stylesheet" type="text/css" href="{{ asset('css/cookieconsent.min.css') }}"/>
         <script src="{{ asset('js/cookieconsent.min.js') }}"></script>
         <script>
@@ -285,10 +286,12 @@
 @endif
 
 @yield('body')
-
+<script src="{{ asset('js/toastr.min.js') }}" type="text/javascript"></script>
 <script type="text/javascript">
-    NINJA.formIsChanged = {{ isset($formIsChanged) && $formIsChanged ? 'true' : 'false' }};
+    <!-- toastr notification -->
+    toastr.success('{!! Session::get('message') !!}');
 
+    NINJA.formIsChanged = {{ isset($formIsChanged) && $formIsChanged ? 'true' : 'false' }};
     NINJA.parseFloat = function (str) {
         if (!str) {
             return '';
@@ -305,7 +308,7 @@
         str = str.replace(/[^0-9\.\-]/g, '');
 
         return window.parseFloat(str);
-    }
+    };
 
     $(function () {
         $('form.warn-on-exit input, form.warn-on-exit textarea, form.warn-on-exit select').change(function () {

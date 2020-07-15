@@ -27,7 +27,7 @@
                 <div class="col-md-12">
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <p> FidelERP Bussiness Management Suit </p>
+                            <p> FidelERP Business Management Suit </p>
                         </div>
                     </div>
                 </div>
