@@ -39,26 +39,19 @@
                 $('#invoice_design_id').val(1);
                 return invoiceDesigns[0].javascript;
             } else {
-                var design = _.find(invoiceDesigns, function (design) {
-                    return design.id == id
-                });
+                var design = _.find(invoiceDesigns, function(design){ return design.id == id});
                 return design ? design.javascript : '';
             }
         }
 
-        function loadFont(fontId) {
+        function loadFont(fontId){
             var fontFolder = '';
-            $.each(window.invoiceFonts, function (i, font) {
-                if (font.id == fontId) fontFolder = font.folder;
+            $.each(window.invoiceFonts, function(i, font){
+                if(font.id==fontId)fontFolder=font.folder;
             });
-            if (!window.ninjaFontVfs[fontFolder]) {
+            if(!window.ninjaFontVfs[fontFolder]){
                 window.loadingFonts = true;
-                jQuery.getScript({!! json_encode(asset('js/vfs_fonts/%s.js')) !!}.replace('%s', fontFolder), function () {
-                    window.loadingFonts = false;
-                    ninjaLoadFontVfs();
-                    refreshPDF()
-                };
-            )
+                jQuery.getScript({!! json_encode(asset('js/vfs_fonts/%s.js')) !!}.replace('%s', fontFolder), function(){window.loadingFonts=false;ninjaLoadFontVfs();refreshPDF()};)
             }
         }
 
@@ -81,10 +74,10 @@
             NINJA.bodyFont = $('#body_font_id option:selected').text();
 
             var fields = {!! json_encode(App\Models\Account::$customLabels) !!};
-            for (var i = 0; i < fields.length; i++) {
+            for (var i=0; i<fields.length; i++) {
                 var field = fields[i];
                 var val = $('#labels_' + field).val();
-                if (!invoiceLabels[field + '_orig']) {
+                if ( ! invoiceLabels[field + '_orig']) {
                     invoiceLabels[field + '_orig'] = invoiceLabels[field];
                 }
                 invoiceLabels[field] = val || invoiceLabels[field + '_orig'];
@@ -112,13 +105,13 @@
         }
 
         function showUsedFields() {
-            $('#label_field > option').each(function (key, option) {
+            $('#label_field > option').each(function(key, option) {
                 var isUsed = $('#labels_' + option.value).is(':visible');
                 $(this).css('color', isUsed ? '#888' : 'black');
             });
         }
 
-        $(function () {
+        $(function() {
             var options = {
                 preferredFormat: 'hex',
                 disabled: {!! Auth::user()->hasFeature(FEATURE_CUSTOMIZE_INVOICE_DESIGN) ? 'false' : 'true' !!},
@@ -130,16 +123,12 @@
 
             $('#primary_color').spectrum(options);
             $('#secondary_color').spectrum(options);
-            $('#header_font_id').change(function () {
-                loadFont($('#header_font_id').val())
-            });
-            $('#body_font_id').change(function () {
-                loadFont($('#body_font_id').val())
-            });
+            $('#header_font_id').change(function(){loadFont($('#header_font_id').val())});
+            $('#body_font_id').change(function(){loadFont($('#body_font_id').val())});
 
             updateFieldLabels();
             refreshPDF();
-            setTimeout(function () {
+            setTimeout(function() {
                 showUsedFields();
             }, 1);
 
@@ -177,36 +166,23 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading" style="color:white;background-color: #777 !important;">
-                    <h3 class="panel-title in-bold-white">
-                        {!! trans('texts.invoice_design') !!}
-                    </h3>
+                    <h3 class="panel-title in-bold-white">{!! trans('texts.invoice_design') !!}</h3>
                 </div>
-
                 <div class="panel-body">
                     <div role="tabpanel">
                         <ul class="nav nav-tabs" role="tablist" style="border: none">
-                            <li role="presentation" class="active"><a href="#general_settings"
-                                                                      aria-controls="general_settings" role="tab"
-                                                                      data-toggle="tab">{{ trans('texts.general_settings') }}</a>
-                            </li>
-                            <li role="presentation"><a href="#invoice_labels" aria-controls="invoice_labels" role="tab"
-                                                       data-toggle="tab">{{ trans('texts.invoice_labels') }}</a></li>
-                            <li role="presentation"><a href="#invoice_fields" aria-controls="invoice_fields" role="tab"
-                                                       data-toggle="tab">{{ trans('texts.invoice_fields') }}</a></li>
-                            <li role="presentation"><a href="#product_fields" aria-controls="product_fields" role="tab"
-                                                       data-toggle="tab">{{ trans('texts.product_fields') }}</a></li>
-                            <li role="presentation"><a href="#invoice_options" aria-controls="invoice_options"
-                                                       role="tab"
-                                                       data-toggle="tab">{{ trans('texts.invoice_options') }}</a></li>
+                            <li role="presentation" class="active"><a href="#general_settings" aria-controls="general_settings" role="tab" data-toggle="tab">{{ trans('texts.general_settings') }}</a></li>
+                            <li role="presentation"><a href="#invoice_labels" aria-controls="invoice_labels" role="tab" data-toggle="tab">{{ trans('texts.invoice_labels') }}</a></li>
+                            <li role="presentation"><a href="#invoice_fields" aria-controls="invoice_fields" role="tab" data-toggle="tab">{{ trans('texts.invoice_fields') }}</a></li>
+                            <li role="presentation"><a href="#product_fields" aria-controls="product_fields" role="tab" data-toggle="tab">{{ trans('texts.product_fields') }}</a></li>
+                            <li role="presentation"><a href="#invoice_options" aria-controls="invoice_options" role="tab" data-toggle="tab">{{ trans('texts.invoice_options') }}</a></li>
                         </ul>
                     </div>
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="general_settings">
                             <div class="panel-body">
-
                                 <div class="row">
                                     <div class="col-md-6">
-
                                         {!! Former::select('invoice_design_id')
                                                   ->label('invoice_design')
                                                 ->fromQuery($invoiceDesigns, 'name', 'id') !!}
@@ -250,7 +226,6 @@
                         </div>
                         <div role="tabpanel" class="tab-pane" id="invoice_labels">
                             <div class="panel-body">
-
                                 <div class="row">
                                     <div class="col-md-6">
                                         {!! Former::select('label_field')
