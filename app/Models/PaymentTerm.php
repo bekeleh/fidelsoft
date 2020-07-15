@@ -29,8 +29,9 @@ class PaymentTerm extends EntityModel
 
     public static function getSelectOptions()
     {
-        $terms = PaymentTerm::whereAccountId(0)->get();
+        $terms = PaymentTerm::whereAccountId(null)->get();
 
+//      if any client payment terms
         foreach (PaymentTerm::scope()->get() as $term) {
             $terms->push($term);
         }
@@ -41,4 +42,5 @@ class PaymentTerm extends EntityModel
 
         return $terms->sortBy('num_days');
     }
+
 }

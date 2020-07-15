@@ -164,10 +164,12 @@
                 {!! Former::text('invoice_fields_json')->data_bind('value: ko.mapping.toJSON(model)') !!}
             </div>
 
+
             <div class="panel panel-default">
                 <div class="panel-heading" style="color:white;background-color: #777 !important;">
                     <h3 class="panel-title in-bold-white">{!! trans('texts.invoice_design') !!}</h3>
                 </div>
+
                 <div class="panel-body">
                     <div role="tabpanel">
                         <ul class="nav nav-tabs" role="tablist" style="border: none">
@@ -181,8 +183,10 @@
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="general_settings">
                             <div class="panel-body">
+
                                 <div class="row">
                                     <div class="col-md-6">
+
                                         {!! Former::select('invoice_design_id')
                                                   ->label('invoice_design')
                                                 ->fromQuery($invoiceDesigns, 'name', 'id') !!}
@@ -226,6 +230,7 @@
                         </div>
                         <div role="tabpanel" class="tab-pane" id="invoice_labels">
                             <div class="panel-body">
+
                                 <div class="row">
                                     <div class="col-md-6">
                                         {!! Former::select('label_field')
