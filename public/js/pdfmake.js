@@ -23453,7 +23453,6 @@ module.exports = function inflate_fast(strm, start) {
 
     here = lcode[hold & lmask];
 
-    dolen:
     for (;;) { // Goto emulation
       op = here >>> 24/*here.bits*/;
       hold >>>= op;
@@ -23486,7 +23485,6 @@ module.exports = function inflate_fast(strm, start) {
         }
         here = dcode[hold & dmask];
 
-        dodist:
         for (;;) { // goto emulation
           op = here >>> 24/*here.bits*/;
           hold >>>= op;
@@ -28514,7 +28512,7 @@ var DeviceRecord = new r.Struct({
   })
 });
 
-// The Horizontal Device Metrics table stores integer advance widths scaled to particular pixel sizes
+// The Horizontal Device Metrics table warehouses integer advance widths scaled to particular pixel sizes
 var hdmx = new r.Struct({
   version: r.uint16,
   numRecords: r.int16,

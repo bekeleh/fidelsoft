@@ -21,7 +21,7 @@
 	if($.jstree.plugins.dnd) { return; }
 
 	/**
-	 * stores all defaults for the drag'n'drop plugin
+	 * warehouses all defaults for the drag'n'drop plugin
 	 * @name $.jstree.defaults.dnd
 	 * @plugin dnd
 	 */

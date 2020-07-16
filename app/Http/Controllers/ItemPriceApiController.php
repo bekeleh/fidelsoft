@@ -7,7 +7,7 @@ use App\Models\ItemPrice;
 use App\Ninja\Repositories\ItemPriceRepository;
 
 /**
- * Class StoreApiController.
+ * Class WarehouseApiController.
  */
 class ItemPriceApiController extends BaseAPIController
 {
@@ -22,7 +22,7 @@ class ItemPriceApiController extends BaseAPIController
     protected $itemPriceRepo;
 
     /**
-     * StoreApiController constructor.
+     * WarehouseApiController constructor.
      *
      * @param ItemPriceRepository $itemPriceRepo
      */
@@ -35,13 +35,13 @@ class ItemPriceApiController extends BaseAPIController
 
     /**
      * @SWG\Get(
-     *   path="/stores",
-     *   summary="List stores",
+     *   path="/warehouses",
+     *   summary="List warehouses",
      *   operationId="listStores",
      *   tags={"store"},
      *   @SWG\Response(
      *     response=200,
-     *     description="A list of stores",
+     *     description="A list of warehouses",
      *      @SWG\Schema(type="array", @SWG\Items(ref="#/definitions/Store"))
      *   ),
      *   @SWG\Response(
@@ -59,7 +59,7 @@ class ItemPriceApiController extends BaseAPIController
 
     /**
      * @SWG\Get(
-     *   path="/stores/{store_id}",
+     *   path="/warehouses/{store_id}",
      *   summary="Retrieve a store",
      *   operationId="getStore",
      *   tags={"store"},
@@ -89,7 +89,7 @@ class ItemPriceApiController extends BaseAPIController
 
     /**
      * @SWG\Post(
-     *   path="/stores",
+     *   path="/warehouses",
      *   summary="Create a store",
      *   operationId="createStore",
      *   tags={"store"},
@@ -120,7 +120,7 @@ class ItemPriceApiController extends BaseAPIController
 
     /**
      * @SWG\Put(
-     *   path="/stores/{store_id}",
+     *   path="/warehouses/{store_id}",
      *   summary="Update a store",
      *   operationId="updateStore",
      *   tags={"store"},
@@ -165,7 +165,7 @@ class ItemPriceApiController extends BaseAPIController
 
     /**
      * @SWG\Delete(
-     *   path="/stores/{store_id}",
+     *   path="/warehouses/{store_id}",
      *   summary="Delete a store",
      *   operationId="deleteStore",
      *   tags={"store"},

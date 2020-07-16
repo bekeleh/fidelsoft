@@ -51,7 +51,7 @@ class ItemTransferDataTable extends EntityDatatable
                 'from_store_name',
                 function ($model) {
                     if ($model->from_store_public_id) {
-                        return link_to("stores/{$model->from_store_public_id}", $model->from_store_name)->toHtml();
+                        return link_to("warehouses/{$model->from_store_public_id}", $model->from_store_name)->toHtml();
                     } else {
                         return $model->from_store_name;
                     }
@@ -61,7 +61,7 @@ class ItemTransferDataTable extends EntityDatatable
                 'to_store_name',
                 function ($model) {
                     if ($model->to_store_public_id) {
-                        return link_to("stores/{$model->to_store_public_id}", $model->to_store_name)->toHtml();
+                        return link_to("warehouses/{$model->to_store_public_id}", $model->to_store_name)->toHtml();
                     } else {
                         return $model->to_store_name;
                     }

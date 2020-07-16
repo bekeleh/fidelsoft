@@ -312,7 +312,7 @@ class EntityModel extends Eloquent
             'products' => 'cube',
             'item_stores' => 'cubes',
             'item_movements' => 'exchange',
-            'stores' => 'building',
+            'warehouses' => 'building',
             'departments' => 'building',
             'sale_types' => 'files-o',
             'item_prices' => 'money',

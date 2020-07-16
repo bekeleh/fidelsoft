@@ -21,7 +21,7 @@
 	if($.jstree.plugins.contextmenu) { return; }
 
 	/**
-	 * stores all defaults for the contextmenu plugin
+	 * warehouses all defaults for the contextmenu plugin
 	 * @name $.jstree.defaults.contextmenu
 	 * @plugin contextmenu
 	 */

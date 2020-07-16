@@ -4,7 +4,7 @@ namespace App\Ninja\Repositories;
 
 use App\Models\Branch;
 use App\Models\Location;
-use App\Models\Store;
+use App\Models\Warehouse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Log;
@@ -31,34 +31,34 @@ class BranchRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('branches')
-        ->leftJoin('stores', 'stores.id', '=', 'branches.store_id')
-        ->leftJoin('locations', 'locations.id', '=', 'branches.location_id')
-        ->where('branches.account_id', '=', $accountId)
-        // ->whereNull('branches.deleted_at')
-        ->select(
-            'branches.id',
-            'branches.public_id',
-            'branches.name as branch_name',
-            'branches.is_deleted',
-            'branches.notes',
-            'branches.created_at',
-            'branches.updated_at',
-            'branches.deleted_at',
-            'branches.created_by',
-            'branches.updated_by',
-            'branches.deleted_by',
-            'locations.public_id as location_public_id',
-            'locations.name as location_name',
-            'stores.public_id as store_public_id',
-            'stores.name as store_name'
-        );
+            ->leftJoin('warehouses', 'warehouses.id', '=', 'branches.warehouse_id')
+            ->leftJoin('locations', 'locations.id', '=', 'branches.location_id')
+            ->where('branches.account_id', '=', $accountId)
+            // ->whereNull('branches.deleted_at')
+            ->select(
+                'branches.id',
+                'branches.public_id',
+                'branches.name as branch_name',
+                'branches.is_deleted',
+                'branches.notes',
+                'branches.created_at',
+                'branches.updated_at',
+                'branches.deleted_at',
+                'branches.created_by',
+                'branches.updated_by',
+                'branches.deleted_by',
+                'locations.public_id as location_public_id',
+                'locations.name as location_name',
+                'warehouses.public_id as warehouse_public_id',
+                'warehouses.name as warehouse_name'
+            );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('branches.name', 'like', '%' . $filter . '%')
-                ->orWhere('branches.notes', 'like', '%' . $filter . '%')
-                ->orWhere('stores.name', 'like', '%' . $filter . '%')
-                ->orWhere('locations.name', 'like', '%' . $filter . '%');
+                    ->orWhere('branches.notes', 'like', '%' . $filter . '%')
+                    ->orWhere('warehouses.name', 'like', '%' . $filter . '%')
+                    ->orWhere('locations.name', 'like', '%' . $filter . '%');
             });
         }
 
@@ -76,11 +76,11 @@ class BranchRepository extends BaseRepository
         return $query;
     }
 
-    public function findStore($storePublicId)
+    public function findWarehouse($storePublicId)
     {
-        $storeId = Store::getPrivateId($storePublicId);
+        $storeId = Warehouse::getPrivateId($storePublicId);
 
-        $query = $this->find()->where('branches.store_id', '=', $storeId);
+        $query = $this->find()->where('branches.warehouse_id', '=', $storeId);
 
         return $query;
     }
@@ -93,7 +93,6 @@ class BranchRepository extends BaseRepository
             $branch->updated_by = auth::user()->username;
         } elseif ($publicId) {
             $branch = Branch::scope($publicId)->withArchived()->firstOrFail();
-            Log::warning('Entity not set in branch repo save');
         } else {
             $branch = Branch::createNew();
             $branch->created_by = auth::user()->username;

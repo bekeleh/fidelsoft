@@ -67,7 +67,7 @@
 			plugins : []
 		},
 		/**
-		 * stores all loaded jstree plugins (used internally)
+		 * warehouses all loaded jstree plugins (used internally)
 		 * @name $.jstree.plugins
 		 */
 		plugins : {},
@@ -253,7 +253,7 @@
 	});
 
 	/**
-	 * stores all defaults for the core
+	 * warehouses all defaults for the core
 	 * @name $.jstree.defaults.core
 	 */
 	$.jstree.defaults.core = {
@@ -805,7 +805,7 @@
 									return false;
 								}
 							}, this));
-							if(end) { return; }
+							if(end) {  }
 						}
 					}, this))
 				// THEME RELATED

@@ -17,34 +17,28 @@ class BranchDatatable extends EntityDatatable
             [
                 'branch_name',
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_BRANCH])){
+                    if (Auth::user()->can('edit', [ENTITY_BRANCH])) {
                         return link_to("branches/{$model->public_id}", $model->branch_name ?: '')->toHtml();
-                    }else{
+                    } else {
                         return $model->branch_name;
-                    }  
+                    }
                 },
             ],
             [
-                'store_name',
+                'warehouse_name',
                 function ($model) {
-                    if ($model->store_public_id) {
-                        if (Auth::user()->can('edit', [ENTITY_STORE]))
-                            return link_to("stores/{$model->store_public_id}", $model->store_name ?: '')->toHtml();
-                        else
-                            return $model->store_name;
+                    if (Auth::user()->can('edit', [ENTITY_WAREHOUSE])) {
+                        return link_to("warehouses/{$model->warehouse_public_id}", $model->warehouse_name ?: '')->toHtml();
                     } else {
-                        return $model->store_name;
+                        return $model->warehouse_name;
                     }
                 },
             ],
             [
                 'location_name',
                 function ($model) {
-                    if ($model->location_public_id) {
-                        if (Auth::user()->can('edit', [ENTITY_LOCATION]))
-                            return link_to("locations/{$model->location_public_id}", $model->location_name ?: '')->toHtml();
-                        else
-                            return $model->location_name;
+                    if (Auth::user()->can('edit', [ENTITY_LOCATION])) {
+                        return link_to("locations/{$model->location_public_id}", $model->location_name ?: '')->toHtml();
                     } else {
                         return $model->location_name;
                     }
@@ -112,8 +106,8 @@ class BranchDatatable extends EntityDatatable
             ],
             [
                 '--divider--', function () {
-                    return false;
-                },
+                return false;
+            },
                 function ($model) {
                     return Auth::user()->can('edit', [ENTITY_BRANCH]);
                 },

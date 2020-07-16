@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Location;
-use App\Models\Store;
+use App\Models\Warehouse;
 use App\Models\User;
 
 class CreateBranchRequest extends BranchRequest
@@ -22,7 +22,7 @@ class CreateBranchRequest extends BranchRequest
         $rules = [];
         $rules['name'] = 'required|max:90|unique:branches,name,' . $this->id . ',id,account_id,' . $this->account_id;
         $rules['location_id'] = 'required|numeric|exists:locations,id';
-        $rules['store_id'] = 'required|numeric|exists:stores,id';
+        $rules['warehouse_id'] = 'required|numeric|exists:warehouses,id';
         $rules['notes'] = 'nullable';
         $rules['is_deleted'] = 'boolean';
         $rules['notes'] = 'nullable';
@@ -33,8 +33,8 @@ class CreateBranchRequest extends BranchRequest
     public function sanitize()
     {
         $input = $this->all();
-        if (!empty($input['store_id'])) {
-            $input['store_id'] = filter_var($input['store_id'], FILTER_SANITIZE_NUMBER_INT);
+        if (!empty($input['warehouse_id'])) {
+            $input['warehouse_id'] = filter_var($input['warehouse_id'], FILTER_SANITIZE_NUMBER_INT);
         }
         if (!empty($input['location_id'])) {
             $input['location_id'] = filter_var($input['location_id'], FILTER_SANITIZE_NUMBER_INT);
@@ -56,12 +56,12 @@ class CreateBranchRequest extends BranchRequest
         if (!empty($input['location_id'])) {
             $input['location_id'] = Location::getPrivateId($input['location_id']);
         }
-        if (!empty($input['store_id'])) {
-            $input['store_id'] = Store::getPrivateId($input['store_id']);
+        if (!empty($input['warehouse_id'])) {
+            $input['warehouse_id'] = Warehouse::getPrivateId($input['warehouse_id']);
         }
         if (!empty($input['location_id'])) {
             $this->request->add([
-                'store_id' => $input['store_id'],
+                'warehouse_id' => $input['warehouse_id'],
                 'location_id' => $input['location_id'],
                 'account_id' => User::getAccountId(),
             ]);

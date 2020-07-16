@@ -22,7 +22,7 @@
 
 	var to = false;
 	/**
-	 * stores all defaults for the state plugin
+	 * warehouses all defaults for the state plugin
 	 * @name $.jstree.defaults.state
 	 * @plugin state
 	 */

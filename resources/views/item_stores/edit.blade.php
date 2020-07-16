@@ -34,7 +34,7 @@
                     !!}
                     {!! Former::select('store_id')->addOption('', '')
                     ->label(trans('texts.store_name'))->addGroupClass('store-select')
-                    ->help(trans('texts.store_help') . ' | ' . link_to('/stores/', trans('texts.customize_options')))
+                    ->help(trans('texts.store_help') . ' | ' . link_to('/warehouses/', trans('texts.customize_options')))
                     !!}
 
                     {!! Former::text('bin')->label('texts.bin') !!}
@@ -92,7 +92,7 @@ if (productId) {
 //        default store
 var storeId = {{ $storePublicId ?: 0 }};
 var $storeSelect = $('select#store_id');
-@if (Auth::user()->can('create', ENTITY_STORE))
+@if (Auth::user()->can('create', ENTITY_WAREHOUSE))
 $storeSelect.append(new Option("{{ trans('texts.create_store')}}: $name", '-1'));
 @endif
 for (var i = 0; i < stores.length; i++) {
@@ -100,7 +100,7 @@ for (var i = 0; i < stores.length; i++) {
     storeMap[store.public_id] = store;
     $storeSelect.append(new Option(store.name, store.public_id));
 }
-@include('partials/entity_combobox', ['entityType' => ENTITY_STORE])
+@include('partials/entity_combobox', ['entityType' => ENTITY_WAREHOUSE])
 if (storeId) {
     var store = storeMap[storeId];
     setComboboxValue($('.store-select'), store.public_id, store.name);

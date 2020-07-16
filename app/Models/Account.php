@@ -205,7 +205,7 @@ class Account extends Eloquent
         ENTITY_PRODUCT => 18,
         ENTITY_PERMISSION_GROUP => 22,
         ENTITY_USER => 26,
-        ENTITY_STORE => 28,
+        ENTITY_WAREHOUSE => 28,
         ENTITY_ITEM_STORE => 28,
     ];
 
@@ -1482,7 +1482,7 @@ class Account extends Eloquent
             ENTITY_USER,
             ENTITY_PERMISSION,
             ENTITY_PERMISSION_GROUP,
-            ENTITY_STORE,
+            ENTITY_WAREHOUSE,
             ENTITY_BRANCH,
             ENTITY_ITEM_STORE,
             ENTITY_ITEM_TRANSFER,

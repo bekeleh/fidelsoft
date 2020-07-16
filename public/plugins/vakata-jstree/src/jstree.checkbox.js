@@ -25,7 +25,7 @@
 	_i.className = 'jstree-icon jstree-checkbox';
 	_i.setAttribute('role', 'presentation');
 	/**
-	 * stores all defaults for the checkbox plugin
+	 * warehouses all defaults for the checkbox plugin
 	 * @name $.jstree.defaults.checkbox
 	 * @plugin checkbox
 	 */

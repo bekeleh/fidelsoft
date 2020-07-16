@@ -84,7 +84,7 @@
             plugins : []
         },
         /**
-         * stores all loaded jstree plugins (used internally)
+         * warehouses all loaded jstree plugins (used internally)
          * @name $.jstree.plugins
          */
         plugins : {},
@@ -268,7 +268,7 @@
     });
 
     /**
-     * stores all defaults for the core
+     * warehouses all defaults for the core
      * @name $.jstree.defaults.core
      */
     $.jstree.defaults.core = {
@@ -794,7 +794,7 @@
                                 return false;
                             }
                         }, this));
-                        if(end) { return; }
+                        if(end) {  }
                     }
                 }, this))
                 // THEME RELATED
@@ -4684,7 +4684,7 @@
     _i.className = 'jstree-icon jstree-checkbox';
     _i.setAttribute('role', 'presentation');
     /**
-     * stores all defaults for the checkbox plugin
+     * warehouses all defaults for the checkbox plugin
      * @name $.jstree.defaults.checkbox
      * @plugin checkbox
      */
@@ -5533,7 +5533,7 @@
      */
 
     /**
-     * stores all defaults for the contextmenu plugin
+     * warehouses all defaults for the contextmenu plugin
      * @name $.jstree.defaults.contextmenu
      * @plugin contextmenu
      */
@@ -6148,7 +6148,7 @@
      */
 
     /**
-     * stores all defaults for the drag'n'drop plugin
+     * warehouses all defaults for the drag'n'drop plugin
      * @name $.jstree.defaults.dnd
      * @plugin dnd
      */
@@ -6773,7 +6773,7 @@
      */
 
     /**
-     * stores all defaults for the search plugin
+     * warehouses all defaults for the search plugin
      * @name $.jstree.defaults.search
      * @plugin search
      */
@@ -7228,7 +7228,7 @@
 
     var to = false;
     /**
-     * stores all defaults for the state plugin
+     * warehouses all defaults for the state plugin
      * @name $.jstree.defaults.state
      * @plugin state
      */
@@ -7556,7 +7556,7 @@
      */
 
     /**
-     * stores all defaults for the unique plugin
+     * warehouses all defaults for the unique plugin
      * @name $.jstree.defaults.unique
      * @plugin unique
      */

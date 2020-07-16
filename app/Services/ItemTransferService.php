@@ -6,7 +6,7 @@ use App\Libraries\Utils;
 use App\Ninja\Datatables\ItemTransferDatatable;
 use App\Ninja\Datatables\ProductDatatable;
 use App\Ninja\Datatables\StatusDatatable;
-use App\Ninja\Datatables\StoreDatatable;
+use App\Ninja\Datatables\WarehouseDatatable;
 use App\Ninja\Repositories\ItemTransferRepository;
 use Illuminate\Support\Facades\Auth;
 
@@ -62,12 +62,12 @@ class ItemTransferService extends BaseService
 
     public function getDatatableStore($storePublicId)
     {
-        $datatable = new StoreDatatable(true, true);
+        $datatable = new WarehouseDatatable(true, true);
 
         $query = $this->itemTransferRepo->findStore($storePublicId);
 
         if (!Utils::hasPermission('view_store')) {
-            $query->where('stores.user_id', '=', Auth::user()->id);
+            $query->where('warehouses.user_id', '=', Auth::user()->id);
         }
 
         return $this->datatableService->createDatatable($datatable, $query);

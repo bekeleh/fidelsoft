@@ -38,7 +38,7 @@ class ItemRequestRepository extends BaseRepository
         ->LeftJoin('users', 'users.id', '=', 'item_requests.user_id')
         ->LeftJoin('products', 'products.id', '=', 'item_requests.product_id')
         ->leftjoin('departments', 'departments.id', '=', 'item_requests.department_id')
-        ->leftjoin('stores', 'stores.id', '=', 'item_requests.store_id')
+        ->leftjoin('warehouses', 'warehouses.id', '=', 'item_requests.store_id')
         ->leftjoin('statuses', 'statuses.id', '=', 'item_requests.status_id')
         ->where('item_requests.account_id', '=', $accountId)
             //->where('item_requests.deleted_at', '=', null)
@@ -66,8 +66,8 @@ class ItemRequestRepository extends BaseRepository
             'products.public_id as product_public_id',
             'departments.name as department_name',
             'departments.public_id as department_public_id',
-            'stores.name as store_name',
-            'stores.public_id as store_public_id',
+            'warehouses.name as store_name',
+            'warehouses.public_id as store_public_id',
             'statuses.name as status_name',
             'statuses.public_id as status_public_id'
         );
@@ -76,7 +76,7 @@ class ItemRequestRepository extends BaseRepository
                 $query->Where('item_requests.notes', 'like', '%' . $filter . '%')
                 ->orWhere('products.product_key', 'like', '%' . $filter . '%')
                 ->orWhere('departments.name', 'like', '%' . $filter . '%')
-                ->orWhere('stores.name', 'like', '%' . $filter . '%')
+                ->orWhere('warehouses.name', 'like', '%' . $filter . '%')
                 ->orWhere('statuses.name', 'like', '%' . $filter . '%')
                 ->orWhere('item_requests.created_by', 'like', '%' . $filter . '%')
                 ->orWhere('item_requests.updated_by', 'like', '%' . $filter . '%');

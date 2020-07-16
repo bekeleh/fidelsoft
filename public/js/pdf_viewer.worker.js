@@ -4721,7 +4721,7 @@ var Ref = (function RefClosure() {
 })();
 
 // The reference is identified by number and generation,
-// this structure stores only one instance of the reference.
+// this structure warehouses only one instance of the reference.
 var RefSet = (function RefSetClosure() {
   function RefSet() {
     this.dict = {};

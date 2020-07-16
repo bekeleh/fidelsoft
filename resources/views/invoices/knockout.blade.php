@@ -315,6 +315,7 @@ function InvoiceModel(data) {
             self.invoice_items_without_tasks.push(itemModel);
         }
         applyComboboxListeners();
+
         return itemModel;
     };
 

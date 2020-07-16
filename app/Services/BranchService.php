@@ -67,7 +67,7 @@ class BranchService extends BaseService
         $query = $this->branchRepo->findStore($storePublicId);
 
         if (!Utils::hasPermission('view_store')) {
-            $query->where('stores.user_id', '=', Auth::user()->id);
+            $query->where('warehouses.user_id', '=', Auth::user()->id);
         }
 
         return $this->datatableService->createDatatable($datatable, $query);

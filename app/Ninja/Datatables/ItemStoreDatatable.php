@@ -54,7 +54,7 @@ class ItemStoreDatatable extends EntityDatatable
                 'store_name',
                 function ($model) {
                     if ($model->store_public_id) {
-                        return link_to("stores/{$model->store_public_id}", 
+                        return link_to("warehouses/{$model->store_public_id}",
                             $model->store_name)->toHtml();
                     }else{
                         return $model->store_name;

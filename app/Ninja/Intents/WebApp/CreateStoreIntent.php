@@ -8,7 +8,7 @@ class CreateStoreIntent extends StoreIntent
 {
     public function process()
     {
-        $url = '/stores/create';
+        $url = '/warehouses/create';
 
 
         return redirect($url);

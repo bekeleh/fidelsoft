@@ -21,7 +21,7 @@
 	if($.jstree.plugins.unique) { return; }
 
 	/**
-	 * stores all defaults for the unique plugin
+	 * warehouses all defaults for the unique plugin
 	 * @name $.jstree.defaults.unique
 	 * @plugin unique
 	 */

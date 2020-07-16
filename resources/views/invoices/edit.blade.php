@@ -97,6 +97,7 @@
                 'client' => 'required',
                 'invoice_number' => 'required',
                 'invoice_date' => 'required',
+                'public_notes' => 'required',
                 'product_key' => 'max:255'
             )) !!}
 
@@ -963,6 +964,7 @@
             model.invoice().tax_name2({!! json_encode($account->tax_name2) !!});
             @endif
             @endif
+
             // load previous isAmountDiscount setting
             if (isStorageSupported()) {
                 var lastIsAmountDiscount = parseInt(localStorage.getItem('last:is_amount_discount'));
@@ -971,13 +973,14 @@
                 }
             }
             @endif
-                    @if (isset($tasks) && count($tasks))
+            <!-- Task fields -->
+            @if (isset($tasks) && count($tasks))
                 NINJA.formIsChanged = true;
             var tasks = {!! json_encode($tasks) !!};
             for (var i = 0; i < tasks.length; i++) {
                 var task = tasks[i];
                 var item = model.invoice().addItem(true);
-                item.product_key(task.task_statuses ? task.task_statuses.name : '');
+                item.product_key(task.public_id ? task.public_id : '');
                 item.notes(task.description);
                 item.qty(task.duration);
                 item.cost(task.cost);
@@ -986,8 +989,8 @@
             model.invoice().has_tasks(true);
             NINJA.formIsChanged = true;
             @endif
-
-                    @if (isset($expenses) && $expenses->count())
+            <!-- Expense fields -->
+            @if (isset($expenses) && $expenses->count())
                 NINJA.formIsChanged = true;
             model.expense_currency_id({{ isset($expenseCurrencyId) ? $expenseCurrencyId : 0 }});
 

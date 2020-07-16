@@ -15,6 +15,15 @@
     ->addClass('warn-on-exit main-form')
     ->onsubmit('return onFormSubmit(event)')
     ->autocomplete('off')
+    ->rules([
+        'vendor_id' => 'required',
+        'expense_category_id' => 'required',
+        'amount' => 'required',
+        'public_notes' => 'required',
+        'expense_currency_id' => 'required',
+        'expense_date' => 'required',
+        'client_id' => 'required',
+        ])
     ->method($method) !!}
     <div style="display:none">
         {!! Former::text('action') !!}
@@ -106,7 +115,6 @@
                     @endif
 
                     @if ($isRecurring)
-
                         {!! Former::select('frequency_id')
                         ->label('frequency')
                         ->options(\App\Models\Frequency::selectOptions())
@@ -281,7 +289,7 @@
             @if (Auth::user()->canCreateOrEdit(ENTITY_EXPENSE, $expense))
                 return true;
             @else
-                return false
+                return false;
             @endif
         }
 
@@ -362,7 +370,7 @@
                 setTimeout(function () {
                     model.updateExchangeRate();
                 }, 1);
-            })
+            });
 
             @if ($data)
             // this means we failed so we'll reload the previous state
@@ -412,7 +420,7 @@
                     $('#payment_date').datepicker('update', false);
                     setComboboxValue($('.payment-type-select'), '', '');
                 }
-            })
+            });
 
             @if ($expense && $expense->payment_date)
             $('#payment_date').datepicker('update', '{{ Utils::fromSqlDate($expense->payment_date) }}');
@@ -424,9 +432,9 @@
 
             @if (Auth::user()->account->hasFeature(FEATURE_DOCUMENTS))
             $('.main-form').submit(function () {
-                if ($('#document-upload .fallback input').val()) $(this).attr('enctype', 'multipart/form-data')
+                if ($('#document-upload .fallback input').val()) $(this).attr('enctype', 'multipart/form-data');
                 else $(this).removeAttr('enctype')
-            })
+            });
 
             @include('partials.dropzone', ['documentSource' => 'model.documents()'])
             @endif
@@ -465,7 +473,7 @@
                         return new DocumentModel(options.data);
                     }
                 }
-            }
+            };
 
             if (data) {
                 ko.mapping.fromJS(data, self.mapping, this);
@@ -500,7 +508,7 @@
                 } else {
                     self.exchange_rate(1);
                 }
-            }
+            };
 
             self.getCurrency = function (currencyId) {
                 return currencyMap[currencyId || self.account_currency_id()];
@@ -527,13 +535,13 @@
                 return expenseCurrencyId != invoiceCurrencyId
                     || invoiceCurrencyId != self.account_currency_id()
                     || expenseCurrencyId != self.account_currency_id();
-            })
+            });
 
             self.addDocument = function () {
                 var documentModel = new DocumentModel();
                 self.documents.push(documentModel);
                 return documentModel;
-            }
+            };
 
             self.removeDocument = function (doc) {
                 var public_id = doc.public_id ? doc.public_id() : doc;
@@ -553,7 +561,7 @@
 
             self.update = function (data) {
                 ko.mapping.fromJS(data, {}, this);
-            }
+            };
 
             if (data) {
                 self.update(data);

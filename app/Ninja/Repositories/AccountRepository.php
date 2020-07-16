@@ -308,7 +308,7 @@ class AccountRepository
             ENTITY_PROJECT,
             ENTITY_PROPOSAL,
             ENTITY_TAX_RATE,
-            ENTITY_STORE,
+            ENTITY_WAREHOUSE,
             ENTITY_LOCATION,
             ENTITY_BRANCH,
             ENTITY_DEPARTMENT,

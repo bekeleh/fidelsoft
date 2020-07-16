@@ -79,14 +79,14 @@
     if (options.autofocus && !mobile) focusInput(this);
 
     this.state = {
-      keyMaps: [],  // stores maps added by addKeyMap
+      keyMaps: [],  // warehouses maps added by addKeyMap
       overlays: [], // highlighting overlays, as added by addOverlay
       modeGen: 0,   // bumped when mode/overlay changes, used to invalidate highlighting info
       overwrite: false, focused: false,
       suppressEdits: false, // used to disable editing during key handlers when in readOnly mode
       pasteIncoming: false, cutIncoming: false, // help recognize paste/cut edits in readInput
       draggingText: false,
-      highlight: new Delayed(), // stores highlight worker timeout
+      highlight: new Delayed(), // warehouses highlight worker timeout
       keySeq: null  // Unfinished key sequence
     };
 
@@ -5382,7 +5382,7 @@
 
   function detachSharedMarkers(markers) {
     for (var i = 0; i < markers.length; i++) {
-      var marker = markers[i], linked = [marker.primary.doc];;
+      var marker = markers[i], linked = [marker.primary.doc];
       linkedDocs(marker.primary.doc, function(d) { linked.push(d); });
       for (var j = 0; j < marker.markers.length; j++) {
         var subMarker = marker.markers[j];
@@ -7234,7 +7234,7 @@
       list = orphanDelayedCallbacks = [];
       setTimeout(fireOrphanDelayed, 0);
     }
-    function bnd(f) {return function(){f.apply(null, args);};};
+    function bnd(f) {return function(){f.apply(null, args);};}
     for (var i = 0; i < arr.length; ++i)
       list.push(bnd(arr[i]));
   }
@@ -7365,7 +7365,7 @@
     }
     if (props) copyObj(props, inst);
     return inst;
-  };
+  }
 
   function copyObj(obj, target, overwrite) {
     if (!target) target = {};

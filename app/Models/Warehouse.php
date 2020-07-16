@@ -3,25 +3,25 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Auth;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
- * Model Class Store.
+ * Model Class Warehouse.
  */
-class Store extends EntityModel
+class Warehouse extends EntityModel
 {
     use PresentableTrait;
     use SoftDeletes;
 
-    protected $presenter = 'App\Ninja\Presenters\StorePresenter';
+    protected $presenter = 'App\Ninja\Presenters\WarehousePresenter';
+
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
 
     protected $fillable = [
         'name',
-        'store_code',
         'location_id',
         'notes',
+        'is_deleted',
         'created_by',
         'updated_by',
         'deleted_by',
@@ -32,12 +32,12 @@ class Store extends EntityModel
 
     public function getEntityType()
     {
-        return ENTITY_STORE;
+        return ENTITY_WAREHOUSE;
     }
 
     public function getRoute()
     {
-        return "/stores/{$this->public_id}/edit";
+        return "/warehouses/{$this->public_id}/edit";
     }
 
     public function getUpperAttributes()

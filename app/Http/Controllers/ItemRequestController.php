@@ -220,7 +220,7 @@ private static function getViewModel($itemRequest = false)
         'account' => Auth::user()->account,
         'products' => Product::scope()->withActiveOrSelected($itemRequest
             ? $itemRequest->product_id : false)->orderBy('product_key')->get(),
-        'stores' => Store::scope()->withActiveOrSelected($itemRequest 
+        'warehouses' => Store::scope()->withActiveOrSelected($itemRequest
             ? $itemRequest->store_id : false)->orderBy('name')->get(),
         'departments' => Department::scope()->withActiveOrSelected($itemRequest 
             ? $itemRequest->department_id : false)->orderBy('name')->get(),

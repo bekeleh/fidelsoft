@@ -34,8 +34,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_LOCATION', 'location');
     define('ENTITY_DEPARTMENT', 'department');
     define('ENTITY_BRANCH', 'branch');
-    define('ENTITY_STORE', 'store');
-    define('ENTITY_STORE_TO', 'store_to');
+    define('ENTITY_WAREHOUSE', 'warehouse');
     define('ENTITY_UNIT', 'unit');
     define('ENTITY_REPORT', 'report');
     define('ENTITY_ITEM_STORE', 'item_store');
@@ -124,7 +123,7 @@ if (!defined('APP_NAME')) {
         ENTITY_SALE_TYPE,
         ENTITY_SEARCH,
         ENTITY_STATUS,
-        ENTITY_STORE,
+        ENTITY_WAREHOUSE,
         ENTITY_TASK,
         ENTITY_TAX_RATE,
         ENTITY_USER,
@@ -187,7 +186,7 @@ if (!defined('APP_NAME')) {
     define('ACCOUNT_LOCATIONS', 'locations');
     define('ACCOUNT_BRANCHES', 'branches');
     define('ACCOUNT_DEPARTMENTS', 'departments');
-    define('ACCOUNT_STORES', 'stores');
+    define('ACCOUNT_STORES', 'warehouses');
     define('ACCOUNT_PRICES', 'item_prices');
     define('ACCOUNT_UNIT', 'units');
     define('ACCOUNT_USER', 'users');

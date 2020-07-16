@@ -6,9 +6,9 @@ use App\Libraries\Utils;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 
-class StoreDatatable extends EntityDatatable
+class WarehouseDatatable extends EntityDatatable
 {
-    public $entityType = ENTITY_STORE;
+    public $entityType = ENTITY_WAREHOUSE;
     public $sortCol = 1;
 
     public function columns()
@@ -17,23 +17,17 @@ class StoreDatatable extends EntityDatatable
 
         return [
             [
-                'store_name',
+                'warehouse_name',
                 function ($model) {
-                    return link_to('stores/' . $model->public_id . '/edit', $model->store_name)->toHtml();
-                },
-            ],
-            [
-                'store_code',
-                function ($model) {
-                    return $model->store_code;
+                    return link_to('warehouses/' . $model->public_id . '/edit', $model->warehouse_name)->toHtml();
                 },
             ],
             [
                 'location_name',
                 function ($model) {
-                    if ($model->location_id) {
-                        if (Auth::user()->can('view', [ENTITY_LOCATION, $model]))
-                            return link_to("locations/{$model->location_id}", $model->location_name)->toHtml();
+                    if ($model->location_public_id) {
+                        if (Auth::user()->can('edit', [ENTITY_LOCATION, $model]))
+                            return link_to("locations/{$model->location_public_id}", $model->location_name)->toHtml();
                         else
                             return $model->location_name;
                     } else {
@@ -84,21 +78,21 @@ class StoreDatatable extends EntityDatatable
     {
         return [
             [
-                uctrans('texts.edit_store'),
+                uctrans('texts.edit_warehouse'),
                 function ($model) {
-                    return URL::to("stores/{$model->public_id}/edit");
+                    return URL::to("warehouses/{$model->public_id}/edit");
                 },
                 function ($model) {
-                    return Auth::user()->can('edit', ENTITY_STORE);
+                    return Auth::user()->can('edit', ENTITY_WAREHOUSE);
                 },
             ],
             [
-                trans('texts.clone_store'),
+                trans('texts.clone_warehouse'),
                 function ($model) {
-                    return URL::to("stores/{$model->public_id}/clone");
+                    return URL::to("warehouses/{$model->public_id}/clone");
                 },
                 function ($model) {
-                    return Auth::user()->can('create', ENTITY_STORE);
+                    return Auth::user()->can('create', ENTITY_WAREHOUSE);
                 },
             ],
             [
@@ -106,7 +100,7 @@ class StoreDatatable extends EntityDatatable
                 return false;
             },
                 function ($model) {
-                    return Auth::user()->can('edit', [ENTITY_STORE]);
+                    return Auth::user()->can('edit', [ENTITY_WAREHOUSE]);
                 },
             ],
         ];

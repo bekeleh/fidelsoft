@@ -3,15 +3,15 @@
 namespace App\Http\Requests;
 
 use App\Models\Location;
-use App\Models\Store;
+use App\Models\Warehouse;
 
-class UpdateStoreRequest extends StoreRequest
+class CreateWarehouseRequest extends WarehouseRequest
 {
-    protected $entityType = ENTITY_STORE;
+    protected $entityType = ENTITY_WAREHOUSE;
 
     public function authorize()
     {
-        return $this->user()->can('create', ENTITY_STORE);
+        return $this->user()->can('create', $this->entityType);
     }
 
     public function rules()
@@ -20,12 +20,9 @@ class UpdateStoreRequest extends StoreRequest
         $this->validationData();
 
         $rules = [];
-        $store = $this->entity();
-        if ($store) {
-            $rules['name'] = 'required|max:90|unique:stores,name,' . $store->id . ',id,account_id,' . $store->account_id;
-            $rules['store_code'] = 'required|max:90|unique:stores,store_code,' . $store->id . ',id';
-        }
+        $rules['name'] = 'required|max:90|unique:warehouses,name,' . $this->id . ',id,account_id,' . $this->account_id;
         $rules['location_id'] = 'numeric';
+        $rules['notes'] = 'nullable';
         $rules['is_deleted'] = 'boolean';
         $rules['notes'] = 'nullable';
 
@@ -58,7 +55,7 @@ class UpdateStoreRequest extends StoreRequest
             if (!empty($input['location_id'])) {
                 $this->request->add([
                     'location_id' => $input['location_id'],
-                    'account_id' => Store::getAccountId()
+                    'account_id' => Warehouse::getAccountId()
                 ]);
             }
         }

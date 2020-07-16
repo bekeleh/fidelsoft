@@ -2101,7 +2101,7 @@ Common interface:
 	------------------------------------------------------------------------------------------------------------------*/
 
 
-        // Computes and stores the bounding rectangle of scrollEl
+        // Computes and warehouses the bounding rectangle of scrollEl
         computeScrollBounds: function () {
             var el = this.scrollEl;
             var offset;
@@ -5435,7 +5435,7 @@ Common interface:
         },
 
 
-        // Queries each `slatEl` for its position relative to the grid's container and stores it in `slatTops`.
+        // Queries each `slatEl` for its position relative to the grid's container and warehouses it in `slatTops`.
         // Includes the the bottom of the last slat as the last item in the array.
         computeSlatTops: function () {
             var tops = [];

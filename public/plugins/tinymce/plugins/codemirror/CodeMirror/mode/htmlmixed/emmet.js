@@ -35762,7 +35762,7 @@ define(function(require, exports, module) {
 		
 		/**
 		 * Tokenizes CSS source. It's like `lex()` method,
-		 * but also stores proper token indexes in source, 
+		 * but also warehouses proper token indexes in source,
 		 * so it's a bit slower
 		 * @param {String} source
 		 * @returns {Array}

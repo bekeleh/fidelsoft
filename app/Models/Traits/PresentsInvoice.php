@@ -26,6 +26,7 @@ trait PresentsInvoice
                 ];
                 $fields['task_fields'] = [
                     'product.service',
+                    'product.product_key',
                     'product.description',
                     'product.custom_value1',
                     'product.custom_value2',
@@ -91,6 +92,7 @@ trait PresentsInvoice
             ],
             'task_fields' => [
                 'product.service',
+                'product.product_key',
                 'product.description',
                 'product.custom_value1',
                 'product.custom_value2',
@@ -195,6 +197,7 @@ trait PresentsInvoice
             ],
             INVOICE_FIELDS_TASK => [
                 'product.service',
+                'product.product_key',
                 'product.description',
                 'product.custom_value1',
                 'product.custom_value2',

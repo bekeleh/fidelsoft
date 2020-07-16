@@ -2,17 +2,17 @@
 
 namespace App\Events;
 
-use App\Models\Store;
+use App\Models\Warehouse;
 use Illuminate\Queue\SerializesModels;
 
-class StoreWasDeleted extends Event
+class WarehouseWasDeleted extends Event
 {
     use SerializesModels;
 
     /**
-     * @var Store
+     * @var Warehouse
      */
-    public $store;
+    public $warehouse;
 
     /**
      * @var array
@@ -22,12 +22,12 @@ class StoreWasDeleted extends Event
     /**
      * Create a new event instance.
      *
-     * @param Store $store
+     * @param Warehouse $warehouse
      * @param null $input
      */
-    public function __construct(Store $store, $input = null)
+    public function __construct(Warehouse $warehouse, $input = null)
     {
-        $this->store = $store;
+        $this->warehouse = $warehouse;
         $this->input = $input;
     }
 }

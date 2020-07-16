@@ -408,7 +408,7 @@
 		 * Relations express elements in DOM that match user-defined {@link #lookups}.
 		 * Every relation has its own `type` that determines whether
 		 * it refers to the space before, after or inside the `element`.
-		 * This object stores relations found by {@link #traverseSearch} or {@link #greedySearch}, structured
+		 * This object warehouses relations found by {@link #traverseSearch} or {@link #greedySearch}, structured
 		 * in the following way:
 		 *
 		 *		relations: {
@@ -466,7 +466,7 @@
 
 	Locator.prototype = {
 		/**
-		 * Locates the Y coordinate for all types of every single relation and stores
+		 * Locates the Y coordinate for all types of every single relation and warehouses
 		 * them in an object.
 		 *
 		 * @param {Object} relations {@link CKEDITOR.plugins.lineutils.finder#relations}.

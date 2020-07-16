@@ -36,7 +36,7 @@
                     {!! Former::select('previous_store_id')->addOption('', '')
                     ->onchange('selectProductAction()')
                     ->label(trans('texts.from_store_name'))->addGroupClass('store-select')
-                    ->help(trans('texts.store_help') . ' | ' . link_to('/stores/', trans('texts.customize_options')))
+                    ->help(trans('texts.store_help') . ' | ' . link_to('/warehouses/', trans('texts.customize_options')))
                     !!}
                     <!-- to store -->
                     {!! Former::select('current_store_id')->addOption('', '')
@@ -107,7 +107,7 @@
             // from store
             var storeFromId = {{ $previousStorePublicId ?: 0 }};
             var $storeSelect = $('select#previous_store_id');
-            @if (Auth::user()->can('create', ENTITY_STORE))
+            @if (Auth::user()->can('create', ENTITY_WAREHOUSE))
             $storeSelect.append(new Option("{{ trans('texts.create_store')}}: $name", '-1'));
             @endif
             for (var i = 0; i < previousStores.length; i++) {
@@ -115,7 +115,7 @@
                 previousMap[storeFrom.public_id] = storeFrom;
                 $storeSelect.append(new Option(storeFrom.name, storeFrom.public_id));
             }
-            @include('partials/entity_combobox', ['entityType' => ENTITY_STORE])
+            @include('partials/entity_combobox', ['entityType' => ENTITY_WAREHOUSE])
             if (storeFromId) {
                 var storeFrom = previousMap[storeFromId];
                 setComboboxValue($('.store-select'), storeFrom.public_id, storeFrom.name);
@@ -124,7 +124,7 @@
             //  current store (to)
             var storeToId = {{ $currentStorePublicId ?: 0 }};
             var $store_toSelect = $('select#current_store_id');
-            @if (Auth::user()->can('create', ENTITY_STORE))
+            @if (Auth::user()->can('create', ENTITY_WAREHOUSE))
             $store_toSelect.append(new Option("{{ trans('texts.create_store_to')}}: $name", '-1'));
             @endif
             for (var i = 0; i < currentStores.length; i++) {
@@ -132,7 +132,7 @@
                 currentMap[storeTo.public_id] = storeTo;
                 $store_toSelect.append(new Option(storeTo.name, storeTo.public_id));
             }
-            @include('partials/entity_combobox', ['entityType' => ENTITY_STORE_TO])
+            @include('partials/entity_combobox', ['entityType' => ENTITY_WAREHOUSE_TO])
             if (storeToId) {
                 var storeTo = currentMap[storeToId];
                 setComboboxValue($('.store-to-select'), storeTo.public_id, storeTo.name);

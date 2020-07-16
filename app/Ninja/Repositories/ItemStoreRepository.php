@@ -41,7 +41,7 @@ class ItemStoreRepository extends BaseRepository
         ->leftJoin('products', 'products.id', '=', 'item_stores.product_id')
         ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
         ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
-        ->leftJoin('stores', 'stores.id', '=', 'item_stores.store_id')
+        ->leftJoin('warehouses', 'warehouses.id', '=', 'item_stores.store_id')
         ->where('item_stores.account_id', '=', $accountId)
             //->where('item_stores.deleted_at', '=', null)
         ->select(
@@ -67,8 +67,8 @@ class ItemStoreRepository extends BaseRepository
             'item_brands.name as item_brand_name',
             'item_categories.public_id as item_category_public_id',
             'item_categories.name as item_category_name',
-            'stores.public_id as store_public_id',
-            'stores.name as store_name'
+            'warehouses.public_id as store_public_id',
+            'warehouses.name as store_name'
         );
 
         if ($filter) {
@@ -76,7 +76,7 @@ class ItemStoreRepository extends BaseRepository
                 $query->Where('item_brands.name', 'like', '%' . $filter . '%')
                 ->orWhere('item_categories.name', 'like', '%' . $filter . '%')
                 ->orWhere('products.product_key', 'like', '%' . $filter . '%')
-                ->orWhere('stores.name', 'like', '%' . $filter . '%')
+                ->orWhere('warehouses.name', 'like', '%' . $filter . '%')
                 ->orWhere('item_stores.notes', 'like', '%' . $filter . '%')
                 ->orWhere('item_stores.bin', 'like', '%' . $filter . '%')
                 ->orWhere('item_stores.qty', 'like', '%' . $filter . '%')
@@ -98,7 +98,7 @@ class ItemStoreRepository extends BaseRepository
         ->leftJoin('products', 'products.id', '=', 'item_stores.product_id')
         ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
         ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
-        ->leftJoin('stores', 'stores.id', '=', 'item_stores.store_id')
+        ->leftJoin('warehouses', 'warehouses.id', '=', 'item_stores.store_id')
         ->Where('item_stores.store_id', '=', $filter)
         ->where('item_stores.account_id', '=', $accountId)
         ->where('item_stores.qty', '>', 0)

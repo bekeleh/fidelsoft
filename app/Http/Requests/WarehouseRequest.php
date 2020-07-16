@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-class StoreRequest extends EntityRequest
+class WarehouseRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_STORE;
+    protected $entityType = ENTITY_WAREHOUSE;
 
     public function authorize()
     {

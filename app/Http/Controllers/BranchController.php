@@ -8,7 +8,7 @@ use App\Http\Requests\UpdateBranchRequest;
 use App\Libraries\Utils;
 use App\Models\Branch;
 use App\Models\Location;
-use App\Models\Store;
+use App\Models\Warehouse;
 use App\Ninja\Datatables\BranchDatatable;
 use App\Ninja\Repositories\BranchRepository;
 use App\Services\BranchService;
@@ -72,9 +72,9 @@ class BranchController extends BaseController
         return $this->branchService->getDatatableLocation($locationPublicId);
     }
 
-    public function getDatatableStore($storePublicId = null)
+    public function getDatatableWarehouse($warehousePublicId = null)
     {
-        return $this->branchService->getDatatableLocation($storePublicId);
+        return $this->branchService->getDatatableLocation($warehousePublicId);
     }
 
     public function create(BranchRequest $request)
@@ -85,10 +85,10 @@ class BranchController extends BaseController
         } else {
             $location = null;
         }
-        if ($request->store_id != 0) {
-            $store = Store::scope($request->store_id)->firstOrFail();
+        if ($request->warehouse_id != 0) {
+            $warehouse = Warehouse::scope($request->warehouse_id)->firstOrFail();
         } else {
-            $store = null;
+            $warehouse = null;
         }
 
         $data = [
@@ -96,7 +96,7 @@ class BranchController extends BaseController
             'method' => 'POST',
             'url' => 'branches',
             'title' => trans('texts.create_branch'),
-            'storePublicId' => Input::old('store') ? Input::old('store') : $request->store_id,
+            'warehousePublicId' => Input::old('warehouse') ? Input::old('warehouse') : $request->warehouse_id,
             'locationPublicId' => Input::old('location') ? Input::old('location') : $request->location_id,
         ];
 
@@ -136,7 +136,7 @@ class BranchController extends BaseController
             'method' => $method,
             'url' => $url,
             'title' => trans('texts.edit_branch'),
-            'storePublicId' => $branch->store ? $branch->store->public_id : null,
+            'warehousePublicId' => $branch->warehouse ? $branch->warehouse->public_id : null,
             'locationPublicId' => $branch->location ? $branch->location->public_id : null
         ];
 
@@ -195,7 +195,7 @@ class BranchController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
-            'stores' => Store::scope()->withActiveOrSelected($branch ? $branch->store_id : false)->orderBy('name')->get(),
+            'warehouses' => Warehouse::scope()->withActiveOrSelected($branch ? $branch->warehouse_id : false)->orderBy('name')->get(),
             'locations' => Location::scope()->withActiveOrSelected($branch ? $branch->location_id : false)->orderBy('name')->get(),
         ];
     }

@@ -18,7 +18,7 @@ class Branch extends EntityModel
 
     protected $fillable = [
         'name',
-        'store_id',
+        'warehouse_id',
         'location_id',
         'company_id',
         'is_deleted',
@@ -82,9 +82,9 @@ class Branch extends EntityModel
         return $this->belongsTo('App\Models\User')->withTrashed();
     }
 
-    public function store()
+    public function warehouse()
     {
-        return $this->belongsTo('App\Models\Store')->withTrashed();
+        return $this->belongsTo('App\Models\Warehouse')->withTrashed();
     }
 
     public function location()
@@ -92,10 +92,10 @@ class Branch extends EntityModel
         return $this->belongsTo('App\Models\Location')->withTrashed();
     }
 
-    public function stores()
-    {
-        return $this->hasMany('App\Models\Store')->withTrashed();
-    }
+//    public function warehouses()
+//    {
+//        return $this->hasMany('App\Models\Warehouse')->withTrashed();
+//    }
 
     public function itemRequest()
     {

@@ -21,7 +21,7 @@
 	if($.jstree.plugins.search) { return; }
 
 	/**
-	 * stores all defaults for the search plugin
+	 * warehouses all defaults for the search plugin
 	 * @name $.jstree.defaults.search
 	 * @plugin search
 	 */

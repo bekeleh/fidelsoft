@@ -27,7 +27,7 @@ Route::post('email_invoice', 'InvoiceApiController@emailInvoice');
 Route::get('user_accounts', 'AccountApiController@getUserAccounts');
 Route::resource('statuses', 'StatusApiController');
 Route::resource('products', 'ProductApiController');
-Route::resource('stores', 'StoreApiController');
+Route::resource('warehouses', 'WarehouseApiController');
 Route::resource('item_stores', 'ItemStoreApiController');
 Route::resource('item_requests', 'ItemRequestApiController');
 Route::resource('item_transfers', 'ItemTransferApiController');
