@@ -67,11 +67,13 @@ class LoginController extends Controller
         if (!Utils::isNinja() && !User::count()) {
             return redirect()->to('/setup');
         }
+        
         if (Utils::isNinja() && !Utils::isTravis()) {
             // make sure the user is on SITE_URL/login to ensure OAuth works
             $requestURL = request()->url();
             $loginURL = SITE_URL . '/login';
             $subDomain = Utils::getSubdomain(request()->url());
+            // env file app_url while in production shouldn't be http://localhost
             if ($requestURL != $loginURL && !strstr($subDomain, 'webapp-')) {
                 return redirect()->to($loginURL);
             }
@@ -107,8 +109,8 @@ class LoginController extends Controller
         $message = Lang::get('auth/message.throttle', ['minutes' => $minutes]);
 
         return redirect()->back()
-            ->withInput($request->only($this->username(), 'remember'))
-            ->withErrors([$this->username() => $message]);
+        ->withInput($request->only($this->username(), 'remember'))
+        ->withErrors([$this->username() => $message]);
     }
 
     public function postLoginWrapper(Request $request)
@@ -155,8 +157,8 @@ class LoginController extends Controller
     protected function credentials(Request $request)
     {
         $field = filter_var($request->get('email'), FILTER_VALIDATE_EMAIL)
-            ? 'email'
-            : $this->username();
+        ? 'email'
+        : $this->username();
 
         return [
             $field => $request->email,
@@ -175,10 +177,10 @@ class LoginController extends Controller
     protected function sendFailedLoginResponse(Request $request)
     {
         return redirect()->back()
-            ->withInput($request->only($this->username(), 'remember'))
-            ->withErrors([
-                $this->username() => trans('texts.invalid_credentials'),
-            ]);
+        ->withInput($request->only($this->username(), 'remember'))
+        ->withErrors([
+            $this->username() => trans('texts.invalid_credentials'),
+        ]);
     }
 
     private function authenticated(Request $request, Authenticatable $user)

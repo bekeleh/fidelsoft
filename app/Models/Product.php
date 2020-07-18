@@ -102,7 +102,7 @@ class Product extends EntityModel
 
     public function stores()
     {
-        return $this->belongsToMany('App\Models\Store', 'item_stores', 'product_id', 'store_id')->withPivot('id', 'qty', 'created_at', 'user_id')->withTrashed();
+        return $this->belongsToMany('App\Models\Store', 'item_stores', 'product_id', 'warehouse_id')->withPivot('id', 'qty', 'created_at', 'user_id')->withTrashed();
     }
 
     public function item_stores()
@@ -137,10 +137,10 @@ class Product extends EntityModel
 
     public function scopeStock($query, $publicId = false, $accountId = false)
     {
-        $storeId = auth::user()->branch->store_id ?:0;
+        $storeId = auth::user()->branch->warehouse_id ?:0;
         
         $query = $query->whereHas('item_stores', function ($query) use ($storeId) {
-            $query->where('item_stores.store_id', $storeId)
+            $query->where('item_stores.warehouse_id', $storeId)
             ->where('item_stores.qty', '>', 0)
             ->Where('item_stores.is_locked', false)
             ->Where('item_stores.is_deleted', false)

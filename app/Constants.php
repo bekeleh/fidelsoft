@@ -78,6 +78,8 @@ if (!defined('APP_NAME')) {
     define('ENTITY_SCHEDULE_RESOURCE', 'schedule_resource');
     define('ENTITY_SCHEDULE_SETTING', 'schedule_setting');
     define('ENTITY_SCHEDULED_REPORT', 'scheduled_report');
+    define('ENTITY_PURCHASE_ITEM', 'purchase_item');
+    define('ENTITY_PURCHASE_INVOICE', 'purchase_invoice');
 
 
     $permissionEntities = [
@@ -106,6 +108,8 @@ if (!defined('APP_NAME')) {
         ENTITY_DEPARTMENT,
         ENTITY_MANUFACTURER,
         ENTITY_MANUFACTURER_PRODUCT_DETAIL,
+        ENTITY_PURCHASE_INVOICE,
+        ENTITY_PURCHASE_ITEM,
         ENTITY_PAYMENT,
         ENTITY_PERMISSION,
         ENTITY_PERMISSION_GROUP,
@@ -220,20 +224,25 @@ if (!defined('APP_NAME')) {
     define('ACCOUNT_SCHEDULE_RESOURCE', 'schedule_resources');
     define('ACCOUNT_SCHEDULED_REPORT', 'scheduled_reports');
     define('ACCOUNT_SCHEDULE_SETTING', 'schedule_settings');
-
+    define('ACCOUNT_PURCHASE_ITEM', 'purchase_items');
+    define('ACCOUNT_PURCHASE_INVOICE', 'purchase_invoice');
+//     activity type client
     define('ACTIVITY_TYPE_CREATE_CLIENT', 1);
     define('ACTIVITY_TYPE_ARCHIVE_CLIENT', 2);
     define('ACTIVITY_TYPE_DELETE_CLIENT', 3);
+//    activity type sales invoice
     define('ACTIVITY_TYPE_CREATE_INVOICE', 4);
     define('ACTIVITY_TYPE_UPDATE_INVOICE', 5);
     define('ACTIVITY_TYPE_EMAIL_INVOICE', 6);
     define('ACTIVITY_TYPE_VIEW_INVOICE', 7);
     define('ACTIVITY_TYPE_ARCHIVE_INVOICE', 8);
     define('ACTIVITY_TYPE_DELETE_INVOICE', 9);
+//    activity type payment
     define('ACTIVITY_TYPE_CREATE_PAYMENT', 10);
     define('ACTIVITY_TYPE_UPDATE_PAYMENT', 11);
     define('ACTIVITY_TYPE_ARCHIVE_PAYMENT', 12);
     define('ACTIVITY_TYPE_DELETE_PAYMENT', 13);
+//   activity type credit & quote
     define('ACTIVITY_TYPE_CREATE_CREDIT', 14);
     define('ACTIVITY_TYPE_UPDATE_CREDIT', 15);
     define('ACTIVITY_TYPE_ARCHIVE_CREDIT', 16);
@@ -261,12 +270,26 @@ if (!defined('APP_NAME')) {
     define('ACTIVITY_TYPE_VOIDED_PAYMENT', 39);
     define('ACTIVITY_TYPE_REFUNDED_PAYMENT', 40);
     define('ACTIVITY_TYPE_FAILED_PAYMENT', 41);
+//   activity type products
+    define('ACTIVITY_TYPE_CREATE_PRODUCT', 60);
+    define('ACTIVITY_TYPE_UPDATE_PRODUCT', 61);
+    define('ACTIVITY_TYPE_ARCHIVE_PRODUCT', 62);
+//    activity type puchase invoices
+    define('ACTIVITY_TYPE_CREATE_PURCHASE_INVOICE', 65);
+    define('ACTIVITY_TYPE_UPDATE_PURCHASE_INVOICE', 66);
+    define('ACTIVITY_TYPE_ARCHIVE_PURCHASE_INVOICE', 67);
+//    activity type puchase items
+    define('ACTIVITY_TYPE_CREATE_PURCHASE_ITEM', 70);
+    define('ACTIVITY_TYPE_UPDATE_PURCHASE_ITEM', 71);
+    define('ACTIVITY_TYPE_ARCHIVE_PURCHASE_ITEM', 71);
+//   activity type task
     define('ACTIVITY_TYPE_CREATE_TASK', 42);
     define('ACTIVITY_TYPE_UPDATE_TASK', 43);
     define('ACTIVITY_TYPE_ARCHIVE_TASK', 44);
     define('ACTIVITY_TYPE_DELETE_TASK', 45);
     define('ACTIVITY_TYPE_RESTORE_TASK', 46);
     define('ACTIVITY_TYPE_UPDATE_EXPENSE', 47);
+//  end of  activity type
     define('DEFAULT_INVOICE_NUMBER', '0001');
     define('RECENTLY_VIEWED_LIMIT', 20);
     define('LOGGED_ERROR_LIMIT', 100);

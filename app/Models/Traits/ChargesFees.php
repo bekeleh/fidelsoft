@@ -2,10 +2,6 @@
 
 namespace App\Models\Traits;
 
-use App\Models\GatewayType;
-use App\Models\InvoiceItem;
-use App\Models\AccountGatewaySettings;
-
 /**
  * Class ChargesFees
  */
