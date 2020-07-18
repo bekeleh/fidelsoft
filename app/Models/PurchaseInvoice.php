@@ -2,17 +2,21 @@
 
 namespace App\Models;
 
-use App\Events\PurchaseItemWasCreated;
-use App\Events\PurchaseItemWasUpdated;
+use App\Events\PurchaseInvoiceInvitationWasEmailed;
+use App\Events\PurchaseInvoiceWasCreated;
+use App\Events\PurchaseInvoiceWasUpdated;
 use App\Events\QuoteInvitationWasEmailed;
+use App\Events\QuoteWasCreated;
+use App\Events\QuoteWasUpdated;
 use App\Libraries\CurlUtils;
 use App\Libraries\Utils;
 use App\Models\Traits\ChargesFees;
 use App\Models\Traits\HasRecurrence;
+use DateTime;
+use Exception;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 use Laracasts\Presenter\PresentableTrait;
-use DateTime;
 
 /**
  * Model Class PurchaseInvoice.
@@ -28,7 +32,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
         SoftDeletes::trashed as parentTrashed;
     }
 
-    protected $presenter = 'App\Ninja\Presenters\PurchaseItemPresenter';
+    protected $presenter = 'App\Ninja\Presenters\PurchaseInvoicePresenter';
 
     protected $appends = [];
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
@@ -36,12 +40,6 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
 
     protected $fillable = [
-        'invoice_number',
-        'invoice_date',
-        'due_date',
-        'po_number',
-        'discount',
-        'partial',
         'tax_name1',
         'tax_rate1',
         'tax_name2',
@@ -134,13 +132,13 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     public function getEntityType()
     {
-        return ENTITY_PURCHASE_ITEM;
+        return $this->isType(PURCHASE_INVOICE_TYPE_QUOTE) ? ENTITY_PURCHASE_QUOTE : ENTITY_PURCHASE_INVOICE;
     }
 
     public function subEntityType()
     {
         if ($this->is_recurring) {
-            return ENTITY_RECURRING_INVOICE;
+            return ENTITY_PURCHASE_RECURRING_INVOICE;
         } else {
             return $this->getEntityType();
         }
@@ -149,7 +147,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
     public function getRoute()
     {
         if ($this->is_recurring) {
-            $entityType = 'recurring_invoice';
+            $entityType = 'purchase_recurring_invoice';
         } else {
             $entityType = $this->getEntityType();
         }
@@ -224,7 +222,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     public function getAmountPaid($calculate = false)
     {
-        if ($this->isType(INVOICE_TYPE_QUOTE) || $this->is_recurring) {
+        if ($this->isType(PURCHASE_INVOICE_TYPE_QUOTE) || $this->is_recurring) {
             return 0;
         }
 
@@ -269,7 +267,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     public function invoice_items()
     {
-        return $this->hasMany('App\Models\PurchaseItemItem')->orderBy('id');
+        return $this->hasMany('App\Models\PurchaseInvoiceItem')->orderBy('id');
     }
 
     public function documents()
@@ -295,13 +293,13 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     public function invoice_status()
     {
-        return $this->belongsTo('App\Models\PurchaseItemStatus');
+        return $this->belongsTo('App\Models\PurchaseInvoiceStatus');
     }
 
 
     public function invoice_design()
     {
-        return $this->belongsTo('App\Models\PurchaseItemDesign');
+        return $this->belongsTo('App\Models\PurchaseInvoiceDesign');
     }
 
     public function payments()
@@ -311,17 +309,17 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     public function recurring_invoice()
     {
-        return $this->belongsTo('App\Models\PurchaseItem');
+        return $this->belongsTo('App\Models\PurchaseInvoice');
     }
 
     public function quote()
     {
-        return $this->belongsTo('App\Models\PurchaseItem')->withTrashed();
+        return $this->belongsTo('App\Models\PurchaseInvoice')->withTrashed();
     }
 
     public function recurring_invoices()
     {
-        return $this->hasMany('App\Models\PurchaseItem', 'recurring_invoice_id');
+        return $this->hasMany('App\Models\PurchaseInvoice', 'recurring_invoice_id');
     }
 
     public function frequency()
@@ -339,7 +337,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
         return $this->hasMany('App\Models\Expense', 'invoice_id', 'id')->withTrashed();
     }
 
-    public function scopePurchaseItems($query)
+    public function scopePurchaseInvoices($query)
     {
         return $query->where('invoice_type_id', '=', INVOICE_TYPE_STANDARD)
             ->where('is_recurring', '=', false);
@@ -362,15 +360,15 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     public function scopeQuotes($query)
     {
-        return $query->where('invoice_type_id', '=', INVOICE_TYPE_QUOTE)
+        return $query->where('invoice_type_id', '=', PURCHASE_INVOICE_TYPE_QUOTE)
             ->where('is_recurring', '=', false);
     }
 
-    public function scopeUnapprovedQuotes($query, $includePurchaseItemId = false)
+    public function scopeUnapprovedQuotes($query, $includePurchaseInvoiceId = false)
     {
         return $query->quotes()
-            ->where(function ($query) use ($includePurchaseItemId) {
-                $query->whereId($includePurchaseItemId)
+            ->where(function ($query) use ($includePurchaseInvoiceId) {
+                $query->whereId($includePurchaseInvoiceId)
                     ->orWhere(function ($query) {
                         $query->where('invoice_status_id', '<', INVOICE_STATUS_APPROVED)
                             ->whereNull('quote_invoice_id');
@@ -378,7 +376,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
             });
     }
 
-    public function scopePurchaseItemType($query, $typeId)
+    public function scopePurchaseInvoiceType($query, $typeId)
     {
         return $query->where('invoice_type_id', '=', $typeId);
     }
@@ -416,7 +414,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     public function isQuote()
     {
-        return $this->isType(INVOICE_TYPE_QUOTE);
+        return $this->isType(PURCHASE_INVOICE_TYPE_QUOTE);
     }
 
     public function getCustomMessageType()
@@ -506,10 +504,10 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
             return;
         }
 
-        if ($this->isType(INVOICE_TYPE_QUOTE)) {
+        if ($this->isType(PURCHASE_INVOICE_TYPE_QUOTE)) {
             event(new QuoteInvitationWasEmailed($invitation, $notes));
         } else {
-            event(new PurchaseItemInvitationWasEmailed($invitation, $notes));
+            event(new PurchaseInvoiceInvitationWasEmailed($invitation, $notes));
         }
     }
 
@@ -542,7 +540,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     public function markApproved()
     {
-        if ($this->isType(INVOICE_TYPE_QUOTE)) {
+        if ($this->isType(PURCHASE_INVOICE_TYPE_QUOTE)) {
             $this->invoice_status_id = INVOICE_STATUS_APPROVED;
             $this->save();
         }
@@ -580,8 +578,8 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
         // mark fees as paid
         if ($balanceAdjustment != 0 && $this->account->gateway_fee_enabled) {
-            if ($invoiceItem = $this->getGatewayFeeItem()) {
-                $invoiceItem->markFeePaid();
+            if ($purchase_invoiceItem = $this->getGatewayFeeItem()) {
+                $purchase_invoiceItem->markFeePaid();
             }
         }
     }
@@ -617,12 +615,12 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
         return !$this->isPaid() && !$this->is_deleted && $this->isStandard();
     }
 
-    public static function calcStatusLabel($status, $class, $entityType, $quotePurchaseItemId)
+    public static function calcStatusLabel($status, $class, $entityType, $quotePurchaseInvoiceId)
     {
-        if ($quotePurchaseItemId) {
+        if ($quotePurchaseInvoiceId) {
             $label = 'converted';
         } elseif ($class == 'danger') {
-            $label = $entityType == ENTITY_INVOICE ? 'past_due' : 'expired';
+            $label = $entityType == ENTITY_PURCHASE_INVOICE ? 'past_due' : 'expired';
         } else {
             $label = 'status_' . strtolower($status);
         }
@@ -668,14 +666,14 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
         return static::calcStatusLabel($this->invoice_status->name, $this->statusClass(), $this->getEntityType(), $this->quote_invoice_id);
     }
 
-    public static function calcLink($invoice)
+    public static function calcLink($purchase_invoice)
     {
-        if (!empty($invoice->invoice_type_id)) {
-            $linkPrefix = ($invoice->invoice_type_id == INVOICE_TYPE_QUOTE) ? 'quotes/' : 'invoices/';
+        if (!empty($purchase_invoice->invoice_type_id)) {
+            $linkPrefix = ($purchase_invoice->invoice_type_id == PURCHASE_INVOICE_TYPE_QUOTE) ? 'quotes/' : 'invoices/';
         } else {
             $linkPrefix = 'invoices/';
         }
-        return link_to($linkPrefix . $invoice->public_id, $invoice->invoice_number);
+        return link_to($linkPrefix . $purchase_invoice->public_id, $purchase_invoice->invoice_number);
     }
 
     public function getLink()
@@ -854,8 +852,8 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
             ]);
         }
 
-        foreach ($this->invoice_items as $invoiceItem) {
-            $invoiceItem->setVisible([
+        foreach ($this->invoice_items as $purchase_invoiceItem) {
+            $purchase_invoiceItem->setVisible([
                 'name',
                 'notes',
                 'custom_value1',
@@ -905,20 +903,20 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
         return $this;
     }
 
-    public function getDueDate($invoice_date = null)
+    public function getDueDate($purchase_invoice_date = null)
     {
         if (!$this->is_recurring) {
             return $this->due_date ? $this->due_date : null;
         } else {
             $now = time();
-            if ($invoice_date) {
-                // If $invoice_date is specified, all calculations are based on that date
-                if (is_numeric($invoice_date)) {
-                    $now = $invoice_date;
-                } elseif (is_string($invoice_date)) {
-                    $now = strtotime($invoice_date);
-                } elseif ($invoice_date instanceof DateTime) {
-                    $now = $invoice_date->getTimestamp();
+            if ($purchase_invoice_date) {
+                // If $purchase_invoice_date is specified, all calculations are based on that date
+                if (is_numeric($purchase_invoice_date)) {
+                    $now = $purchase_invoice_date;
+                } elseif (is_string($purchase_invoice_date)) {
+                    $now = strtotime($purchase_invoice_date);
+                } elseif ($purchase_invoice_date instanceof DateTime) {
+                    $now = $purchase_invoice_date->getTimestamp();
                 }
             }
 
@@ -1083,23 +1081,23 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
         }
     }
 
-    public function getItemTaxable($invoiceItem, $invoiceTotal)
+    public function getItemTaxable($purchase_invoiceItem, $purchase_invoiceTotal)
     {
-        $total = $invoiceItem->qty * $invoiceItem->cost;
+        $total = $purchase_invoiceItem->qty * $purchase_invoiceItem->cost;
 
         if ($this->discount != 0) {
             if ($this->is_amount_discount) {
-                $total -= $invoiceTotal ? ($total / ($invoiceTotal + $this->discount) * $this->discount) : 0;
+                $total -= $purchase_invoiceTotal ? ($total / ($purchase_invoiceTotal + $this->discount) * $this->discount) : 0;
             } else {
                 $total *= (100 - $this->discount) / 100;
             }
         }
 
-        if ($invoiceItem->discount != 0) {
+        if ($purchase_invoiceItem->discount != 0) {
             if ($this->is_amount_discount) {
-                $total -= $invoiceItem->discount;
+                $total -= $purchase_invoiceItem->discount;
             } else {
-                $total -= $total * $invoiceItem->discount / 100;
+                $total -= $total * $purchase_invoiceItem->discount / 100;
             }
         }
 
@@ -1110,14 +1108,14 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
     {
         $total = 0;
 
-        foreach ($this->invoice_items as $invoiceItem) {
-            $lineTotal = $invoiceItem->qty * $invoiceItem->cost;
+        foreach ($this->invoice_items as $purchase_invoiceItem) {
+            $lineTotal = $purchase_invoiceItem->qty * $purchase_invoiceItem->cost;
 
-            if ($invoiceItem->discount != 0) {
+            if ($purchase_invoiceItem->discount != 0) {
                 if ($this->is_amount_discount) {
-                    $lineTotal -= $invoiceItem->discount;
+                    $lineTotal -= $purchase_invoiceItem->discount;
                 } else {
-                    $lineTotal -= $lineTotal * $invoiceItem->discount / 100;
+                    $lineTotal -= $lineTotal * $purchase_invoiceItem->discount / 100;
                 }
             }
 
@@ -1155,28 +1153,28 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
         $paidAmount = $this->getAmountPaid($calculatePaid);
 
         if ($this->tax_name1) {
-            $invoiceTaxAmount = $this->taxAmount($taxable, $this->tax_rate1);
-            $invoicePaidAmount = floatval($this->amount) && $invoiceTaxAmount ? ($paidAmount / $this->amount * $invoiceTaxAmount) : 0;
-            $this->calculateTax($taxes, $this->tax_name1, $this->tax_rate1, $invoiceTaxAmount, $invoicePaidAmount);
+            $purchase_invoiceTaxAmount = $this->taxAmount($taxable, $this->tax_rate1);
+            $purchase_invoicePaidAmount = floatval($this->amount) && $purchase_invoiceTaxAmount ? ($paidAmount / $this->amount * $purchase_invoiceTaxAmount) : 0;
+            $this->calculateTax($taxes, $this->tax_name1, $this->tax_rate1, $purchase_invoiceTaxAmount, $purchase_invoicePaidAmount);
         }
         if ($this->tax_name2) {
-            $invoiceTaxAmount = $this->taxAmount($taxable, $this->tax_rate2);
-            $invoicePaidAmount = floatval($this->amount) && $invoiceTaxAmount ? ($paidAmount / $this->amount * $invoiceTaxAmount) : 0;
-            $this->calculateTax($taxes, $this->tax_name2, $this->tax_rate2, $invoiceTaxAmount, $invoicePaidAmount);
+            $purchase_invoiceTaxAmount = $this->taxAmount($taxable, $this->tax_rate2);
+            $purchase_invoicePaidAmount = floatval($this->amount) && $purchase_invoiceTaxAmount ? ($paidAmount / $this->amount * $purchase_invoiceTaxAmount) : 0;
+            $this->calculateTax($taxes, $this->tax_name2, $this->tax_rate2, $purchase_invoiceTaxAmount, $purchase_invoicePaidAmount);
         }
 
-        foreach ($this->invoice_items as $invoiceItem) {
-            $itemTaxable = $this->getItemTaxable($invoiceItem, $taxable);
+        foreach ($this->invoice_items as $purchase_invoiceItem) {
+            $itemTaxable = $this->getItemTaxable($purchase_invoiceItem, $taxable);
 
-            if ($invoiceItem->tax_name1) {
-                $itemTaxAmount = $this->taxAmount($itemTaxable, $invoiceItem->tax_rate1);
+            if ($purchase_invoiceItem->tax_name1) {
+                $itemTaxAmount = $this->taxAmount($itemTaxable, $purchase_invoiceItem->tax_rate1);
                 $itemPaidAmount = floatval($this->amount) && $itemTaxAmount ? ($paidAmount / $this->amount * $itemTaxAmount) : 0;
-                $this->calculateTax($taxes, $invoiceItem->tax_name1, $invoiceItem->tax_rate1, $itemTaxAmount, $itemPaidAmount);
+                $this->calculateTax($taxes, $purchase_invoiceItem->tax_name1, $purchase_invoiceItem->tax_rate1, $itemTaxAmount, $itemPaidAmount);
             }
-            if ($invoiceItem->tax_name2) {
-                $itemTaxAmount = $this->taxAmount($itemTaxable, $invoiceItem->tax_rate2);
+            if ($purchase_invoiceItem->tax_name2) {
+                $itemTaxAmount = $this->taxAmount($itemTaxable, $purchase_invoiceItem->tax_rate2);
                 $itemPaidAmount = floatval($this->amount) && $itemTaxAmount ? ($paidAmount / $this->amount * $itemTaxAmount) : 0;
-                $this->calculateTax($taxes, $invoiceItem->tax_name2, $invoiceItem->tax_rate2, $itemTaxAmount, $itemPaidAmount);
+                $this->calculateTax($taxes, $purchase_invoiceItem->tax_name2, $purchase_invoiceItem->tax_rate2, $itemTaxAmount, $itemPaidAmount);
             }
         }
 
@@ -1276,16 +1274,16 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
     public function getAutoBillEnabled()
     {
         if (!$this->is_recurring) {
-            $recurPurchaseItem = $this->recurring_invoice;
+            $recurPurchaseInvoice = $this->recurring_invoice;
         } else {
-            $recurPurchaseItem = $this;
+            $recurPurchaseInvoice = $this;
         }
 
-        if (!$recurPurchaseItem) {
+        if (!$recurPurchaseInvoice) {
             return false;
         }
 
-        return $recurPurchaseItem->auto_bill == AUTO_BILL_ALWAYS || ($recurPurchaseItem->auto_bill != AUTO_BILL_OFF && $recurPurchaseItem->client_enable_auto_bill);
+        return $recurPurchaseInvoice->auto_bill == AUTO_BILL_ALWAYS || ($recurPurchaseInvoice->auto_bill != AUTO_BILL_OFF && $recurPurchaseInvoice->client_enable_auto_bill);
     }
 
     public static function getStatuses($entityType = false)
@@ -1297,11 +1295,11 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
         }
 
         foreach (Cache::get('invoiceStatus') as $status) {
-            if ($entityType == ENTITY_QUOTE) {
+            if ($entityType == ENTITY_PURCHASE_QUOTE) {
                 if (in_array($status->id, [INVOICE_STATUS_PAID, INVOICE_STATUS_PARTIAL])) {
                     continue;
                 }
-            } elseif ($entityType == ENTITY_INVOICE) {
+            } elseif ($entityType == ENTITY_PURCHASE_INVOICE) {
                 if (in_array($status->id, [INVOICE_STATUS_APPROVED])) {
                     continue;
                 }
@@ -1310,7 +1308,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
             $statuses[$status->id] = trans('texts.status_' . strtolower($status->name));
         }
 
-        if ($entityType == ENTITY_INVOICE) {
+        if ($entityType == ENTITY_PURCHASE_INVOICE) {
             $statuses[INVOICE_STATUS_UNPAID] = trans('texts.unpaid');
             $statuses[INVOICE_STATUS_OVERDUE] = trans('texts.past_due');
         }
@@ -1322,7 +1320,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
     {
         return Activity::scope()
             ->with(['contact'])
-            ->wherePurchaseItemId($this->id)
+            ->wherePurchaseInvoiceId($this->id)
             ->whereIn('activity_type_id', [ACTIVITY_TYPE_EMAIL_INVOICE, ACTIVITY_TYPE_EMAIL_QUOTE])
             ->orderBy('id', 'desc')
             ->get();
@@ -1359,7 +1357,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     public function isLocked()
     {
-        if (!$lockSentPurchaseItem = config('ninja.lock_sent_invoices')) {
+        if (!$lockSentPurchaseInvoice = config('ninja.lock_sent_invoices')) {
             return false;
         }
 
@@ -1369,19 +1367,19 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     }
 
-    public function getPurchaseItemLinkForQuote($contactId)
+    public function getPurchaseInvoiceLinkForQuote($contactId)
     {
         if (!$this->quote_invoice_id) {
             return false;
         }
 
-        $invoice = static::scope($this->quote_invoice_id, $this->account_id)->with('invitations')->first();
+        $purchase_invoice = static::scope($this->quote_invoice_id, $this->account_id)->with('invitations')->first();
 
-        if (!$invoice) {
+        if (!$purchase_invoice) {
             return false;
         }
 
-        foreach ($invoice->invitations as $invitation) {
+        foreach ($purchase_invoice->invitations as $invitation) {
             if ($invitation->contact_id == $contactId) {
                 return $invitation->getLink();
             }
@@ -1391,10 +1389,29 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
     }
 }
 
-PurchaseItem::created(function ($invoice) {
-    event(new PurchaseItemWasCreated($invoice));
+//PurchaseInvoice::creating(function ($purchase_invoice) {
+//    if (!$purchase_invoice->is_recurring) {
+//        $account = $purchase_invoice->account;
+//        if ($purchase_invoice->amount >= 0) {
+//            $account->incrementCounter($purchase_invoice);
+//        } elseif ($account->credit_number_counter > 0) {
+//            $account->incrementCounter(new Credit());
+//        }
+//    }
+//});
+
+PurchaseInvoice::created(function ($purchase_invoice) {
+    if ($purchase_invoice->isType(PURCHASE_INVOICE_TYPE_QUOTE)) {
+        event(new QuoteWasCreated($purchase_invoice));
+    } else {
+        event(new PurchaseInvoiceWasCreated($purchase_invoice));
+    }
 });
 
-PurchaseItem::updating(function ($invoice) {
-    event(new PurchaseItemWasUpdated($invoice));
+PurchaseInvoice::updating(function ($purchase_invoice) {
+    if ($purchase_invoice->isType(PURCHASE_INVOICE_TYPE_QUOTE)) {
+        event(new QuoteWasUpdated($purchase_invoice));
+    } else {
+        event(new PurchaseInvoiceWasUpdated($purchase_invoice));
+    }
 });

@@ -18,10 +18,13 @@ if (!defined('APP_NAME')) {
     define('ENTITY_DOCUMENT', 'document');
     define('ENTITY_INVOICE_ITEM', 'invoice_item');
     define('ENTITY_INVITATION', 'invitation');
+    define('ENTITY_PURCHASE_INVITATION', 'invitation');
     define('ENTITY_RECURRING_INVOICE', 'recurring_invoice');
+    define('ENTITY_PURCHASE_RECURRING_INVOICE', 'purchase_recurring_invoice');
     define('ENTITY_PAYMENT', 'payment');
     define('ENTITY_CREDIT', 'credit');
     define('ENTITY_QUOTE', 'quote');
+    define('ENTITY_PURCHASE_QUOTE', 'purchase_quote');
     define('ENTITY_TASK', 'task');
     define('ENTITY_TASK_STATUS', 'task_status');
     define('ENTITY_ACCOUNT_GATEWAY', 'account_gateway');
@@ -121,8 +124,10 @@ if (!defined('APP_NAME')) {
         ENTITY_PROPOSAL_SNIPPET,
         ENTITY_PROPOSAL_TEMPLATE,
         ENTITY_QUOTE,
+        ENTITY_PURCHASE_QUOTE,
         ENTITY_RECURRING_EXPENSE,
         ENTITY_RECURRING_INVOICE,
+        ENTITY_PURCHASE_RECURRING_INVOICE,
         ENTITY_REPORT,
         ENTITY_SALE_TYPE,
         ENTITY_SEARCH,
@@ -147,6 +152,9 @@ if (!defined('APP_NAME')) {
 
     define('INVOICE_TYPE_STANDARD', 1);
     define('INVOICE_TYPE_QUOTE', 2);
+
+    define('PURCHASE_INVOICE_TYPE_STANDARD', 1);
+    define('PURCHASE_INVOICE_TYPE_QUOTE', 2);
 
     define('INVOICE_ITEM_TYPE_STANDARD', 1);
     define('INVOICE_ITEM_TYPE_TASK', 2);
