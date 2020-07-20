@@ -60,11 +60,11 @@ class ItemTransferService extends BaseService
         return $this->datatableService->createDatatable($datatable, $query);
     }
 
-    public function getDatatableStore($storePublicId)
+    public function getDatatableStore($warehousePublicId)
     {
         $datatable = new WarehouseDatatable(true, true);
 
-        $query = $this->itemTransferRepo->findStore($storePublicId);
+        $query = $this->itemTransferRepo->findStore($warehousePublicId);
 
         if (!Utils::hasPermission('view_store')) {
             $query->where('warehouses.user_id', '=', Auth::user()->id);

@@ -34,6 +34,15 @@ class VendorContact extends EntityModel
     public static $fieldEmail = 'email';
     public static $fieldPhone = 'phone';
 
+    public function getEntityType()
+    {
+        return ENTITY_VENDOR_CONTACT;
+    }
+
+    public function getRoute()
+    {
+        return "/vendor_contacts/{$this->public_id}/edit";
+    }
 
     public function account()
     {

@@ -137,10 +137,10 @@ class Product extends EntityModel
 
     public function scopeStock($query, $publicId = false, $accountId = false)
     {
-        $storeId = auth::user()->branch->warehouse_id ?:0;
+        $warehouseId = auth::user()->branch->warehouse_id ?:0;
         
-        $query = $query->whereHas('item_stores', function ($query) use ($storeId) {
-            $query->where('item_stores.warehouse_id', $storeId)
+        $query = $query->whereHas('item_stores', function ($query) use ($warehouseId) {
+            $query->where('item_stores.warehouse_id', $warehouseId)
             ->where('item_stores.qty', '>', 0)
             ->Where('item_stores.is_locked', false)
             ->Where('item_stores.is_deleted', false)

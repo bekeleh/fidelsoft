@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\ItemStore;
 use App\Models\Product;
-use App\Models\Store;
+use App\Models\Warehouse;
 
 class UpdateItemStoreRequest extends ItemStoreRequest
 {
@@ -23,9 +23,9 @@ class UpdateItemStoreRequest extends ItemStoreRequest
         $rules = [];
         $itemStore = $this->entity();
         if ($itemStore) {
-            $rules['product_id'] = 'required|unique:item_stores,product_id,' . $itemStore->id . ',id,store_id,' . $itemStore->store_id . ',account_id,' . $itemStore->account_id;
+            $rules['product_id'] = 'required|unique:item_stores,product_id,' . $itemStore->id . ',id,warehouse_id,' . $itemStore->warehouse_id . ',account_id,' . $itemStore->account_id;
         }
-        $rules['store_id'] = 'required|numeric';
+        $rules['warehouse_id'] = 'required|numeric:exists,warehouses';
         $rules['bin'] = 'required';
         $rules['new_qty'] = 'numeric|required';
         $rules['reorder_level'] = 'numeric';
@@ -43,8 +43,8 @@ class UpdateItemStoreRequest extends ItemStoreRequest
             if (isset($input['product_id'])) {
                 $input['product_id'] = filter_var($input['product_id'], FILTER_SANITIZE_NUMBER_INT);
             }
-            if (isset($input['store_id'])) {
-                $input['store_id'] = filter_var($input['store_id'], FILTER_SANITIZE_NUMBER_INT);
+            if (isset($input['warehouse_id'])) {
+                $input['warehouse_id'] = filter_var($input['warehouse_id'], FILTER_SANITIZE_NUMBER_INT);
             }
             if (isset($input['qty'])) {
                 $input['qty'] = filter_var($input['qty'], FILTER_SANITIZE_NUMBER_FLOAT);
@@ -72,13 +72,13 @@ class UpdateItemStoreRequest extends ItemStoreRequest
         if (isset($input['product_id'])) {
             $input['product_id'] = Product::getPrivateId($input['product_id']);
         }
-        if (isset($input['store_id'])) {
-            $input['store_id'] = Store::getPrivateId($input['store_id']);
+        if (isset($input['warehouse_id'])) {
+            $input['warehouse_id'] = Warehouse::getPrivateId($input['warehouse_id']);
         }
-        if (isset($input['product_id']) && isset($input['store_id'])) {
+        if (isset($input['product_id']) && isset($input['warehouse_id'])) {
             $this->request->add([
                 'product_id' => $input['product_id'],
-                'store_id' => $input['store_id'],
+                'warehouse_id' => $input['warehouse_id'],
                 'account_id' => ItemStore::getAccountId()
             ]);
         }

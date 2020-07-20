@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-//use App\Events\ExpenseWasCreated;
-//use App\Events\ExpenseWasUpdated;
+use App\Events\ExpenseWasCreated;
+use App\Events\ExpenseWasUpdated;
 use App\Models\Traits\HasRecurrence;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
@@ -19,10 +19,9 @@ class RecurringExpense extends EntityModel
     use PresentableTrait;
     use HasRecurrence;
 
-    protected $dates = ['deleted_at'];
-
     protected $presenter = 'App\Ninja\Presenters\ExpensePresenter';
 
+    protected $dates = ['created_at','updated_at','deleted_at'];
 
     protected $fillable = [
         'client_id',

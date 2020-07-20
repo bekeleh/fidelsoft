@@ -37,12 +37,12 @@ class ItemMovementApiController extends BaseAPIController
      * @SWG\Get(
      *   path="/warehouses",
      *   summary="List warehouses",
-     *   operationId="listStores",
-     *   tags={"store"},
+     *   operationId="listWarehouses",
+     *   tags={"warehouse"},
      *   @SWG\Response(
      *     response=200,
      *     description="A list of warehouses",
-     *      @SWG\Schema(type="array", @SWG\Items(ref="#/definitions/Store"))
+     *      @SWG\Schema(type="array", @SWG\Items(ref="#/definitions/Warehouse"))
      *   ),
      *   @SWG\Response(
      *     response="default",
@@ -59,20 +59,20 @@ class ItemMovementApiController extends BaseAPIController
 
     /**
      * @SWG\Get(
-     *   path="/warehouses/{store_id}",
-     *   summary="Retrieve a store",
-     *   operationId="getStore",
-     *   tags={"store"},
+     *   path="/warehouses/{warehouse_id}",
+     *   summary="Retrieve a warehouse",
+     *   operationId="getWarehouse",
+     *   tags={"warehouse"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="store_id",
+     *     name="warehouse_id",
      *     type="integer",
      *     required=true
      *   ),
      *   @SWG\Response(
      *     response=200,
-     *     description="A single store",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Store"))
+     *     description="A single warehouse",
+     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Warehouse"))
      *   ),
      *   @SWG\Response(
      *     response="default",
@@ -90,18 +90,18 @@ class ItemMovementApiController extends BaseAPIController
     /**
      * @SWG\Post(
      *   path="/warehouses",
-     *   summary="Create a store",
-     *   operationId="createStore",
-     *   tags={"store"},
+     *   summary="Create a warehouse",
+     *   operationId="createWarehouse",
+     *   tags={"warehouse"},
      *   @SWG\Parameter(
      *     in="body",
      *     name="body",
-     *     @SWG\Schema(ref="#/definitions/Store")
+     *     @SWG\Schema(ref="#/definitions/Warehouse")
      *   ),
      *   @SWG\Response(
      *     response=200,
-     *     description="New store",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Store"))
+     *     description="New warehouse",
+     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Warehouse"))
      *   ),
      *   @SWG\Response(
      *     response="default",
@@ -120,25 +120,25 @@ class ItemMovementApiController extends BaseAPIController
 
     /**
      * @SWG\Put(
-     *   path="/warehouses/{store_id}",
-     *   summary="Update a store",
-     *   operationId="updateStore",
-     *   tags={"store"},
+     *   path="/warehouses/{warehouse_id}",
+     *   summary="Update a warehouse",
+     *   operationId="updateWarehouse",
+     *   tags={"warehouse"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="store_id",
+     *     name="warehouse_id",
      *     type="integer",
      *     required=true
      *   ),
      *   @SWG\Parameter(
      *     in="body",
-     *     name="store",
-     *     @SWG\Schema(ref="#/definitions/Store")
+     *     name="warehouse",
+     *     @SWG\Schema(ref="#/definitions/Warehouse")
      *   ),
      *   @SWG\Response(
      *     response=200,
-     *     description="Updated item store",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Store"))
+     *     description="Updated item warehouse",
+     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Warehouse"))
      *   ),
      *   @SWG\Response(
      *     response="default",
@@ -165,20 +165,20 @@ class ItemMovementApiController extends BaseAPIController
 
     /**
      * @SWG\Delete(
-     *   path="/warehouses/{store_id}",
-     *   summary="Delete a store",
-     *   operationId="deleteStore",
-     *   tags={"store"},
+     *   path="/warehouses/{warehouse_id}",
+     *   summary="Delete a warehouse",
+     *   operationId="deleteWarehouse",
+     *   tags={"warehouse"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="store_id",
+     *     name="warehouse_id",
      *     type="integer",
      *     required=true
      *   ),
      *   @SWG\Response(
      *     response=200,
-     *     description="Deleted store",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Store"))
+     *     description="Deleted warehouse",
+     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Warehouse"))
      *   ),
      *   @SWG\Response(
      *     response="default",
@@ -186,7 +186,7 @@ class ItemMovementApiController extends BaseAPIController
      *   )
      * )
      * @param ItemMovementRequest $request
-     * @return
+     * @return mixed
      */
     public function destroy(ItemMovementRequest $request)
     {

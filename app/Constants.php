@@ -20,6 +20,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_INVITATION', 'invitation');
     define('ENTITY_PURCHASE_INVITATION', 'invitation');
     define('ENTITY_RECURRING_INVOICE', 'recurring_invoice');
+    define('ENTITY_RECURRING_PURCHASE_INVOICE', 'recurring_purchase_invoice');
     define('ENTITY_PURCHASE_RECURRING_INVOICE', 'purchase_recurring_invoice');
     define('ENTITY_PAYMENT', 'payment');
     define('ENTITY_CREDIT', 'credit');
@@ -83,6 +84,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_SCHEDULED_REPORT', 'scheduled_report');
     define('ENTITY_PURCHASE_ITEM', 'purchase_item');
     define('ENTITY_PURCHASE_INVOICE', 'purchase_invoice');
+    define('ENTITY_PURCHASE_ORDER_STATUS', 'purchase_order_status');
 
 
     $permissionEntities = [

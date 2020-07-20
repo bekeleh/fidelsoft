@@ -35,7 +35,7 @@ class ItemMovementRepository extends BaseRepository
             ->LeftJoin('products', 'products.id', '=', 'item_stores.product_id')
             ->LeftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
             ->LeftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
-            ->LeftJoin('warehouses', 'warehouses.id', '=', 'item_stores.store_id')
+            ->LeftJoin('warehouses', 'warehouses.id', '=', 'item_stores.warehouse_id')
             ->where('item_movements.account_id', '=', $accountId)
             //->where('item_movements.deleted_at', '=', null)
             ->select(

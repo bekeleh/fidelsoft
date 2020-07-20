@@ -36,7 +36,7 @@ class Status extends EntityModel
 
     public function getRoute()
     {
-        return "/item_categories/{$this->public_id}/edit";
+        return "/statuses/{$this->public_id}/edit";
     }
 
     public static function findStatusByKey($key)

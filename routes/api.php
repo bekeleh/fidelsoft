@@ -11,6 +11,7 @@ Route::get('static', 'AccountApiController@getStaticData');
 Route::get('accounts', 'AccountApiController@show');
 Route::put('accounts', 'AccountApiController@update');
 Route::post('refresh', 'AccountApiController@refresh');
+// sales
 Route::resource('clients', 'ClientApiController');
 Route::resource('client_types', 'ClientTypeApiController');
 Route::resource('contacts', 'ContactApiController');
@@ -18,6 +19,12 @@ Route::get('quotes', 'QuoteApiController@index');
 Route::get('download/{invoice_id}', 'InvoiceApiController@download');
 Route::resource('invoices', 'InvoiceApiController');
 Route::resource('invoice_items', 'InvoiceItemApiController');
+// purchase
+Route::get('purchase_quotes', 'PurchaseQuoteApiController@index');
+Route::get('download/purchase/{purchase_invoice_id}', 'PurcahseInvoiceApiController@download');
+Route::resource('purchase_invoices', 'PurchaseInvoiceApiController');
+Route::resource('purchase_invoice_items', 'PurchaseInvoiceItemApiController');
+
 Route::resource('payments', 'PaymentApiController');
 Route::resource('tasks', 'TaskApiController');
 Route::resource('credits', 'CreditApiController');
@@ -53,6 +60,7 @@ Route::post('update_notifications', 'AccountApiController@updatePushNotification
 Route::get('dashboard', 'DashboardApiController@index');
 Route::resource('documents', 'DocumentAPIController');
 Route::resource('vendors', 'VendorApiController');
+Route::resource('vendor_contacts', 'VendorContactApiController');
 Route::resource('expense_categories', 'ExpenseCategoryApiController');
 Route::post('ios_subscription_status', 'AccountApiController@iosSubscriptionStatus');
 Route::resource('payment_terms', 'PaymentTermApiController');

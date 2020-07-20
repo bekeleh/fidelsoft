@@ -51,7 +51,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsFhirStore
    *
    * @param string $sourceStore Source FHIR store resource name. For example, `pro
    * jects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{
-   * fhir_store_id}`.
+   * fhir_warehouse_id}`.
    * @param Google_Service_CloudHealthcare_DeidentifyFhirStoreRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Google_Service_CloudHealthcare_Operation
@@ -90,7 +90,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsFhirStore
    *
    * @param string $name The name of the FHIR store to export resource from. The
    * name should be in the format of `projects/{project_id}/locations/{location_id
-   * }/datasets/{dataset_id}/fhirStores/{fhir_store_id}`.
+   * }/datasets/{dataset_id}/fhirStores/{fhir_warehouse_id}`.
    * @param Google_Service_CloudHealthcare_ExportResourcesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Google_Service_CloudHealthcare_Operation
@@ -209,7 +209,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsFhirStore
    *
    * @param string $name The name of the FHIR store to import FHIR resources to.
    * The name should be in the format of `projects/{project_id}/locations/{locatio
-   * n_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`.
+   * n_id}/datasets/{dataset_id}/fhirStores/{fhir_warehouse_id}`.
    * @param Google_Service_CloudHealthcare_ImportResourcesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Google_Service_CloudHealthcare_Operation
@@ -247,7 +247,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsFhirStore
    * Updates the configuration of the specified FHIR store. (fhirStores.patch)
    *
    * @param string $name Output only. Resource name of the FHIR store, of the form
-   * `projects/{project_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`.
+   * `projects/{project_id}/datasets/{dataset_id}/fhirStores/{fhir_warehouse_id}`.
    * @param Google_Service_CloudHealthcare_FhirStore $postBody
    * @param array $optParams Optional parameters.
    *

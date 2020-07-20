@@ -6,7 +6,6 @@ use App\Http\Requests\CreateItemBrandRequest;
 use App\Http\Requests\ItemBrandRequest;
 use App\Http\Requests\UpdateItemBrandRequest;
 use App\Libraries\Utils;
-use App\Models\ItemBrand;
 use App\Models\ItemCategory;
 use App\Ninja\Datatables\ItemBrandDatatable;
 use App\Ninja\Repositories\ItemBrandRepository;
@@ -73,7 +72,6 @@ class ItemBrandController extends BaseController
             'url' => 'item_brands',
             'title' => trans('texts.new_item_brand'),
             'itemCategoryPublicId' => Input::old('itemCategory') ? Input::old('itemCategory') : $request->item_category_id,
-            'storePublicId' => Input::old('store') ? Input::old('store') : $request->store_id,
         ];
 
         $data = array_merge($data, self::getViewModel());
@@ -109,7 +107,6 @@ class ItemBrandController extends BaseController
 
         $data = [
             'itemCategory' => null,
-            'store' => null,
             'itemBrand' => $itemBrand,
             'entity' => $itemBrand,
             'method' => $method,

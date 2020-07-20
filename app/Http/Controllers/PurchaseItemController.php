@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use Redirect;
 
-class QuoteController extends BaseController
+class PurchaseItemController extends BaseController
 {
     protected $mailer;
     protected $invoiceRepo;

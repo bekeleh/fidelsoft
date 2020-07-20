@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Eloquent;
 
 /**
  * Class ExpenseCategory.
@@ -20,11 +19,11 @@ class LookupInvitation extends LookupModel
 
     public static function updateInvitation($accountKey, $invitation)
     {
-        if (! env('MULTI_DB_ENABLED')) {
+        if (!env('MULTI_DB_ENABLED')) {
             return;
         }
 
-        if (! $invitation->message_id) {
+        if (!$invitation->message_id) {
             return;
         }
 
@@ -32,11 +31,11 @@ class LookupInvitation extends LookupModel
         config(['database.default' => DB_NINJA_LOOKUP]);
 
         $lookupAccount = LookupAccount::whereAccountKey($accountKey)
-                            ->firstOrFail();
+            ->firstOrFail();
 
         $lookupInvitation = LookupInvitation::whereLookupAccountId($lookupAccount->id)
-                                ->whereInvitationKey($invitation->invitation_key)
-                                ->firstOrFail();
+            ->whereInvitationKey($invitation->invitation_key)
+            ->firstOrFail();
 
         $lookupInvitation->message_id = $invitation->message_id;
         $lookupInvitation->save();

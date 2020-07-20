@@ -25,7 +25,7 @@ class ItemRequest extends EntityModel
     protected $fillable = [
         'product_id',
         'department_id',
-        'store_id',
+        'warehouse_id',
         'status_id',
         'qty',
         'delivered_qty',
@@ -77,7 +77,7 @@ class ItemRequest extends EntityModel
 
     public function store()
     {
-        return $this->belongsTo('\App\Models\Store', 'store_id');
+        return $this->belongsTo('\App\Models\Store', 'warehouse_id');
     }
 
     public static function calcStatusLabel($qoh, $reorderLevel)

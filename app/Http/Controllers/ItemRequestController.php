@@ -66,9 +66,9 @@ class ItemRequestController extends BaseController
         return $this->itemRequestService->getDatatableProduct($productPublicId);
     }
 
-    public function getDatatableStore($storePublicId = null)
+    public function getDatatableStore($warehousePublicId = null)
     {
-        return $this->itemRequestService->getDatatableStore($storePublicId);
+        return $this->itemRequestService->getDatatableStore($warehousePublicId);
     }
 
     public function checkDefaultBranch()
@@ -100,8 +100,8 @@ public function create(ItemRequestRequest $request)
     } else {
         $product = null;
     }
-    if ($request->store_id != 0) {
-        $store = Store::scope($request->store_id)->firstOrFail();
+    if ($request->warehouse_id != 0) {
+        $store = Store::scope($request->warehouse_id)->firstOrFail();
     } else {
         $store = null;
     }
@@ -120,7 +120,7 @@ public function create(ItemRequestRequest $request)
         'url' => 'item_requests',
         'title' => trans('texts.new_item_request'),
         'productPublicId' => Input::old('product') ? Input::old('product') : $request->product_id,
-        'storePublicId' => Input::old('store') ? Input::old('store') : $request->store_id,
+        'storePublicId' => Input::old('store') ? Input::old('store') : $request->warehouse_id,
         'departmentPublicId' => Input::old('department') ? Input::old('department') : $request->department_id,
     ];
 
@@ -221,7 +221,7 @@ private static function getViewModel($itemRequest = false)
         'products' => Product::scope()->withActiveOrSelected($itemRequest
             ? $itemRequest->product_id : false)->orderBy('product_key')->get(),
         'warehouses' => Store::scope()->withActiveOrSelected($itemRequest
-            ? $itemRequest->store_id : false)->orderBy('name')->get(),
+            ? $itemRequest->warehouse_id : false)->orderBy('name')->get(),
         'departments' => Department::scope()->withActiveOrSelected($itemRequest 
             ? $itemRequest->department_id : false)->orderBy('name')->get(),
     ];
@@ -261,7 +261,7 @@ public function approve(ItemRequest $request)
     $PublicId = Input::get('public_id');
     $statusId = Input::get('status_id');
     $productId = Input::get('product_id');
-    $requestedStoreId = Input::get('store_id');
+    $requestedStoreId = Input::get('warehouse_id');
     $deliveredQty = Input::get('delivered_qty');
     $dispatchDate = Input::get('dispatch_date');
 

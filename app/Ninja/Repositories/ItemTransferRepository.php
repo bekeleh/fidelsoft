@@ -44,8 +44,8 @@ class ItemTransferRepository extends BaseRepository
         ->LeftJoin('products', 'products.id', '=', 'item_transfers.product_id')
         ->LeftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
         ->LeftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
-        ->LeftJoin('warehouses as previousStore', 'previousStore.id', '=', 'item_transfers.previous_store_id')
-        ->LeftJoin('warehouses as currentStore', 'currentStore.id', '=', 'item_transfers.current_store_id')
+        ->LeftJoin('warehouses as previousWarehouse', 'previousWarehouse.id', '=', 'item_transfers.previous_warehouse_id')
+        ->LeftJoin('warehouses as currentWarehouse', 'currentWarehouse.id', '=', 'item_transfers.current_warehouse_id')
         ->LeftJoin('statuses', 'statuses.id', '=', 'item_transfers.status_id')
         ->where('item_transfers.account_id', '=', $accountId)
 //->where('item_transfers.deleted_at', '=', null)
@@ -54,8 +54,8 @@ class ItemTransferRepository extends BaseRepository
             'item_transfers.public_id',
             'item_transfers.user_id',
             'item_transfers.product_id',
-            'item_transfers.previous_store_id',
-            'item_transfers.current_store_id',
+            'item_transfers.previous_warehouse_id',
+            'item_transfers.current_warehouse_id',
             'item_transfers.status_id',
             'item_transfers.approver_id',
             'item_transfers.qty',
@@ -74,10 +74,10 @@ class ItemTransferRepository extends BaseRepository
             'item_brands.public_id as item_brand_public_id',
             'item_categories.name as item_category_name',
             'item_categories.public_id as item_category_public_id',
-            'previousStore.name as from_store_name',
-            'previousStore.public_id as from_store_public_id',
-            'currentStore.name as to_store_name',
-            'currentStore.public_id as to_store_public_id',
+            'previousWarehouse.name as from_store_name',
+            'previousWarehouse.public_id as from_store_public_id',
+            'currentWarehouse.name as to_store_name',
+            'currentWarehouse.public_id as to_store_public_id',
             'users.username as approver_name',
             'users.public_id as approver_public_id',
             'statuses.name as status_name',
@@ -93,7 +93,7 @@ class ItemTransferRepository extends BaseRepository
                 ->orWhere('item_categories.name', 'like', '%' . $filter . '%')
                 ->orWhere('users.username', 'like', '%' . $filter . '%')
                 ->orWhere('products.product_key', 'like', '%' . $filter . '%')
-                ->orWhere('currentStore.name', 'like', '%' . $filter . '%');
+                ->orWhere('currentWarehouse.name', 'like', '%' . $filter . '%');
             });
         }
 
@@ -114,14 +114,14 @@ class ItemTransferRepository extends BaseRepository
         return $query;
     }
 
-    public function findStore($storePublicId)
+    public function findStore($warehousePublicId)
     {
-        if (empty($storePublicId)) {
+        if (empty($warehousePublicId)) {
             return;
         }
-        $storeId = Store::getPrivateId($storePublicId);
+        $warehouseId = Store::getPrivateId($warehousePublicId);
 
-        $query = $this->find()->where('item_transfers.store_id', '=', $storeId);
+        $query = $this->find()->where('item_transfers.warehouse_id', '=', $warehouseId);
 
         return $query;
     }
@@ -133,7 +133,7 @@ class ItemTransferRepository extends BaseRepository
         }
         $statusId = Status::getPrivateId($statusPublicId);
 
-        $query = $this->find()->where('item_transfers.store_id', '=', $statusId);
+        $query = $this->find()->where('item_transfers.warehouse_id', '=', $statusId);
 
         return $query;
     }
@@ -161,7 +161,7 @@ class ItemTransferRepository extends BaseRepository
 
         $newQty = isset($data['qty']) ? Utils::parseFloat($data['qty']):0;
 
-        $itemTransfers = ItemStore::where('store_id', $data['previous_store_id'])
+        $itemTransfers = ItemStore::where('warehouse_id', $data['previous_warehouse_id'])
         ->whereIn('product_id', $data['product_id'])->get();
         if(count($itemTransfers)){
             $itemTransferDate = [];
@@ -229,7 +229,7 @@ class ItemTransferRepository extends BaseRepository
             $qoh = Utils::parseFloat($itemTransfer->qty);
             $movable = ItemMovement::createNew();
             $itemTransfer = $this->itemTransfer
-            ->where('store_id', $itemTransfer->current_store_id)
+            ->where('warehouse_id', $itemTransfer->current_warehouse_id)
             ->where('product_id', $itemTransfer->product_id)->first();
             $movable->qty = $newQty;
             $movable->qoh = $qoh + $newQty;

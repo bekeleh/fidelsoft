@@ -59,9 +59,9 @@ class ItemTransferController extends BaseController
         return $this->itemTransferService->getDatatableProduct($productPublicId);
     }
 
-    public function getDatatableStore($storePublicId = null)
+    public function getDatatableStore($warehousePublicId = null)
     {
-        return $this->itemTransferService->getDatatableStore($storePublicId);
+        return $this->itemTransferService->getDatatableStore($warehousePublicId);
     }
 
     public function getDatatableStatus($statusPublicId = null)
@@ -82,30 +82,30 @@ class ItemTransferController extends BaseController
         } else {
             $product = null;
         }
-        if ($request->previous_store_id != 0) {
-            $previousStore = Store::scope($request->previous_store_id)->firstOrFail();
+        if ($request->previous_warehouse_id != 0) {
+            $previousWarehouse = Store::scope($request->previous_warehouse_id)->firstOrFail();
         } else {
-            $previousStore = null;
+            $previousWarehouse = null;
         }
-        if ($request->current_store_id != 0) {
-            $currentStore = Store::scope($request->current_store_id)->firstOrFail();
+        if ($request->current_warehouse_id != 0) {
+            $currentWarehouse = Store::scope($request->current_warehouse_id)->firstOrFail();
         } else {
-            $currentStore = null;
+            $currentWarehouse = null;
         }
 
         $data = [
             'status' => $status,
             'product' => $product,
-            'previousStore' => $previousStore,
-            'currentStore' => $currentStore,
+            'previousWarehouse' => $previousWarehouse,
+            'currentWarehouse' => $currentWarehouse,
             'itemTransfer' => null,
             'method' => 'POST',
             'url' => 'item_transfers',
             'title' => trans('texts.new_item_transfer'),
             'statusPublicId' => Input::old('status') ? Input::old('status') : $request->status_id,
             'productPublicId' => Input::old('product') ? Input::old('product') : $request->product_id,
-            'previousStorePublicId' => Input::old('previousStore') ? Input::old('previousStore') : $request->previous_store_id,
-            'currentStorePublicId' => Input::old('currentStore') ? Input::old('currentStore') : $request->current_store_id,
+            'previousWarehousePublicId' => Input::old('previousWarehouse') ? Input::old('previousWarehouse') : $request->previous_warehouse_id,
+            'currentWarehousePublicId' => Input::old('currentWarehouse') ? Input::old('currentWarehouse') : $request->current_warehouse_id,
         ];
 
         $data = array_merge($data, self::getViewModel());
@@ -141,8 +141,8 @@ class ItemTransferController extends BaseController
         $data = [
             'status' => null,
             'product' => null,
-            'previousStore' => null,
-            'currentStore' => null,
+            'previousWarehouse' => null,
+            'currentWarehouse' => null,
             'itemTransfer' => $itemTransfer,
             'entity' => $itemTransfer,
             'method' => $method,
@@ -150,8 +150,8 @@ class ItemTransferController extends BaseController
             'title' => trans('texts.edit_item_transfer'),
             'statusPublicId' => $itemTransfer->status ? $itemTransfer->status->public_id : null,
             'productPublicId' => $itemTransfer->product ? $itemTransfer->product->public_id : null,
-            'previousStorePublicId' => $itemTransfer->previousStore ? $itemTransfer->previousStore->public_id : null,
-            'currentStorePublicId' => $itemTransfer->currentStore ? $itemTransfer->currentStore->public_id : null,
+            'previousWarehousePublicId' => $itemTransfer->previousWarehouse ? $itemTransfer->previousWarehouse->public_id : null,
+            'currentWarehousePublicId' => $itemTransfer->currentWarehouse ? $itemTransfer->currentWarehouse->public_id : null,
         ];
 
         $data = array_merge($data, self::getViewModel($itemTransfer));
@@ -201,8 +201,8 @@ class ItemTransferController extends BaseController
             'account' => Auth::user()->account,
             'statuses' => Status::scope()->withActiveOrSelected($itemTransfer ? $itemTransfer->status_id : false)->orderBy('name')->get(),
             'products' => Product::scope()->withActiveOrSelected(false)->products(),
-            'previousStores' => Store::scope()->withActiveOrSelected($itemTransfer ? $itemTransfer->previous_store_id : false)->hasQuantity()->orderBy('name')->get(),
-            'currentStores' => Store::scope()->withActiveOrSelected($itemTransfer ? $itemTransfer->current_store_id : false)->orderBy('name')->get(),
+            'previousWarehouses' => Store::scope()->withActiveOrSelected($itemTransfer ? $itemTransfer->previous_warehouse_id : false)->hasQuantity()->orderBy('name')->get(),
+            'currentWarehouses' => Store::scope()->withActiveOrSelected($itemTransfer ? $itemTransfer->current_warehouse_id : false)->orderBy('name')->get(),
         ];
     }
 

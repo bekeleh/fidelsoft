@@ -24,6 +24,11 @@ class Invitation extends EntityModel
         return ENTITY_INVITATION;
     }
 
+    public function getRoute()
+    {
+        return "/invitations/{$this->public_id}/edit";
+    }
+
     public function invoice()
     {
         return $this->belongsTo('App\Models\Invoice')->withTrashed();

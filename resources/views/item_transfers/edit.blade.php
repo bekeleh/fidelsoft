@@ -8,8 +8,8 @@
     ->rules([
     'product_id' => 'required',
     'status_id' => 'required', 
-    'previous_store_id' => 'required' ,
-    'current_store_id' => 'required',
+    'previous_warehouse_id' => 'required' ,
+    'current_warehouse_id' => 'required',
     'notes' => 'required' 
     ])
     ->addClass('col-lg-10 col-lg-offset-1 main-form warn-on-exit') !!}
@@ -33,13 +33,13 @@
                     {{--                !!}--}}
 
                     <!-- from store -->
-                    {!! Former::select('previous_store_id')->addOption('', '')
+                    {!! Former::select('previous_warehouse_id')->addOption('', '')
                     ->onchange('selectProductAction()')
                     ->label(trans('texts.from_store_name'))->addGroupClass('store-select')
                     ->help(trans('texts.store_help') . ' | ' . link_to('/warehouses/', trans('texts.customize_options')))
                     !!}
                     <!-- to store -->
-                    {!! Former::select('current_store_id')->addOption('', '')
+                    {!! Former::select('current_warehouse_id')->addOption('', '')
                     ->label(trans('texts.to_store_name'))->addGroupClass('store-to-select')
                     !!}
                     <!-- list item -->
@@ -77,8 +77,8 @@
     <script type="text/javascript">
         var $productModel = $('#product_id');
         var statuses = {!! isset($statuses) ? $statuses:null !!};
-        var previousStores = {!! isset($previousStores) ? $previousStores:null !!};
-        var currentStores = {!! isset($currentStores) ? $currentStores:null !!};
+        var previousWarehouses = {!! isset($previousWarehouses) ? $previousWarehouses:null !!};
+        var currentWarehouses = {!! isset($currentWarehouses) ? $currentWarehouses:null !!};
 
         var statusMap = {};
         var previousMap = {};
@@ -105,13 +105,13 @@
             }
 
             // from store
-            var storeFromId = {{ $previousStorePublicId ?: 0 }};
-            var $storeSelect = $('select#previous_store_id');
+            var storeFromId = {{ $previousWarehousePublicId ?: 0 }};
+            var $storeSelect = $('select#previous_warehouse_id');
             @if (Auth::user()->can('create', ENTITY_WAREHOUSE))
             $storeSelect.append(new Option("{{ trans('texts.create_store')}}: $name", '-1'));
             @endif
-            for (var i = 0; i < previousStores.length; i++) {
-                var storeFrom = previousStores[i];
+            for (var i = 0; i < previousWarehouses.length; i++) {
+                var storeFrom = previousWarehouses[i];
                 previousMap[storeFrom.public_id] = storeFrom;
                 $storeSelect.append(new Option(storeFrom.name, storeFrom.public_id));
             }
@@ -122,13 +122,13 @@
             }
 
             //  current store (to)
-            var storeToId = {{ $currentStorePublicId ?: 0 }};
-            var $store_toSelect = $('select#current_store_id');
+            var storeToId = {{ $currentWarehousePublicId ?: 0 }};
+            var $store_toSelect = $('select#current_warehouse_id');
             @if (Auth::user()->can('create', ENTITY_WAREHOUSE))
             $store_toSelect.append(new Option("{{ trans('texts.create_store_to')}}: $name", '-1'));
             @endif
-            for (var i = 0; i < currentStores.length; i++) {
-                var storeTo = currentStores[i];
+            for (var i = 0; i < currentWarehouses.length; i++) {
+                var storeTo = currentWarehouses[i];
                 currentMap[storeTo.public_id] = storeTo;
                 $store_toSelect.append(new Option(storeTo.name, storeTo.public_id));
             }
@@ -140,7 +140,7 @@
         });
 
         function selectProductAction() {
-            var $sourceStoreId = $('select#previous_store_id').val();
+            var $sourceStoreId = $('select#previous_warehouse_id').val();
             if ($sourceStoreId != '' && $productModel != null) {
                 $productModel.empty();
                 onSourceStoreChanges($productModel, $sourceStoreId);
@@ -148,7 +148,7 @@
         }
 
         function onSourceStoreValueChanges() {
-            // var $sourceStoreId = $('select#previous_store_id').val();
+            // var $sourceStoreId = $('select#previous_warehouse_id').val();
             // if ($sourceStoreId != '' && $productModel != null) {
             //     $productModel.empty();
             //     onSourceStoreChanges($productModel, $sourceStoreId);
@@ -162,7 +162,7 @@
                     url: '{{ URL::to('item_stores/item_list') }}',
                     type: 'POST',
                     dataType: "json",
-                    data: 'store_id=' + $sourceStoreId,
+                    data: 'warehouse_id=' + $sourceStoreId,
                     success: function (result) {
                         if (result.success) {
                             appendItems($productModel, result.data);

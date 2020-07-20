@@ -55,13 +55,13 @@ class ItemStoreApiController extends BaseAPIController
 
     /**
      * @SWG\Get(
-     *   path="/warehouses/{store_id}",
+     *   path="/warehouses/{warehouse_id}",
      *   summary="Retrieve a store",
      *   operationId="getStore",
      *   tags={"store"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="store_id",
+     *     name="warehouse_id",
      *     type="integer",
      *     required=true
      *   ),
@@ -116,13 +116,13 @@ class ItemStoreApiController extends BaseAPIController
 
     /**
      * @SWG\Put(
-     *   path="/warehouses/{store_id}",
+     *   path="/warehouses/{warehouse_id}",
      *   summary="Update a store",
      *   operationId="updateStore",
      *   tags={"store"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="store_id",
+     *     name="warehouse_id",
      *     type="integer",
      *     required=true
      *   ),
@@ -161,13 +161,13 @@ class ItemStoreApiController extends BaseAPIController
 
     /**
      * @SWG\Delete(
-     *   path="/warehouses/{store_id}",
+     *   path="/warehouses/{warehouse_id}",
      *   summary="Delete a store",
      *   operationId="deleteStore",
      *   tags={"store"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="store_id",
+     *     name="warehouse_id",
      *     type="integer",
      *     required=true
      *   ),

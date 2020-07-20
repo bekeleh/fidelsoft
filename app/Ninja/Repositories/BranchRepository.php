@@ -76,11 +76,11 @@ class BranchRepository extends BaseRepository
         return $query;
     }
 
-    public function findWarehouse($storePublicId)
+    public function findWarehouse($warehousePublicId)
     {
-        $storeId = Warehouse::getPrivateId($storePublicId);
+        $warehouseId = Warehouse::getPrivateId($warehousePublicId);
 
-        $query = $this->find()->where('branches.warehouse_id', '=', $storeId);
+        $query = $this->find()->where('branches.warehouse_id', '=', $warehouseId);
 
         return $query;
     }

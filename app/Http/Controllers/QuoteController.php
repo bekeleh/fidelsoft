@@ -149,7 +149,7 @@ class QuoteController extends BaseController
     public function approve($invitationKey)
     {
         $invitation = Invitation::with('invoice.invoice_items', 'invoice.invitations')->where('invitation_key', '=', $invitationKey)
-        ->firstOrFail();
+            ->firstOrFail();
         $invoice = $invitation->invoice;
         $account = $invoice->account;
 

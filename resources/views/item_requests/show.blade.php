@@ -37,7 +37,7 @@
                     ->help(trans('texts.department_help') . ' | ' . link_to('/departments/', trans('texts.customize_options')))
                     !!}
                     <!-- store -->
-                    {!! Former::select('store_id')->addOption('', '')
+                    {!! Former::select('warehouse_id')->addOption('', '')
                     ->label(trans('texts.store_name'))->addGroupClass('store-select')
                     ->help(trans('texts.store_help') . ' | ' . link_to('/warehouses/', trans('texts.customize_options')))
                     !!}
@@ -115,8 +115,8 @@ if (departmentId) {
 }
 
 // store
-var storeId = {{ $storePublicId ?: 0 }};
-var $storeSelect = $('select#store_id');
+var storeId = {{ $warehousePublicId ?: 0 }};
+var $storeSelect = $('select#warehouse_id');
 @if (Auth::user()->can('create', ENTITY_WAREHOUSE))
 $storeSelect.append(new Option("{{ trans('texts.create_store')}}: $name", '-1'));
 @endif

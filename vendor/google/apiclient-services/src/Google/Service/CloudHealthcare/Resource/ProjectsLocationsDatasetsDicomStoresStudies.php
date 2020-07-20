@@ -51,7 +51,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsDicomStor
    *
    * @param string $parent The name of the DICOM store that is being accessed. For
    * example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}
-   * /dicomStores/{dicom_store_id}`.
+   * /dicomStores/{dicom_warehouse_id}`.
    * @param string $dicomWebPath The path of the RetrieveStudyMetadata DICOMweb
    * request. For example, `studies/{study_uid}/metadata`.
    * @param array $optParams Optional parameters.
@@ -70,7 +70,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsDicomStor
    *
    * @param string $parent The name of the DICOM store that is being accessed. For
    * example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}
-   * /dicomStores/{dicom_store_id}`.
+   * /dicomStores/{dicom_warehouse_id}`.
    * @param string $dicomWebPath The path of the RetrieveStudy DICOMweb request.
    * For example, `studies/{study_uid}`.
    * @param array $optParams Optional parameters.
@@ -89,7 +89,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsDicomStor
    *
    * @param string $parent The name of the DICOM store that is being accessed. For
    * example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}
-   * /dicomStores/{dicom_store_id}`.
+   * /dicomStores/{dicom_warehouse_id}`.
    * @param string $dicomWebPath The path of the SearchForInstancesRequest
    * DICOMweb request. For example, `instances`, `series/{series_uid}/instances`,
    * or `studies/{study_uid}/instances`.
@@ -109,7 +109,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsDicomStor
    *
    * @param string $parent The name of the DICOM store that is being accessed. For
    * example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}
-   * /dicomStores/{dicom_store_id}`.
+   * /dicomStores/{dicom_warehouse_id}`.
    * @param string $dicomWebPath The path of the SearchForSeries DICOMweb request.
    * For example, `series` or `studies/{study_uid}/series`.
    * @param array $optParams Optional parameters.
@@ -128,7 +128,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsDicomStor
    *
    * @param string $parent The name of the DICOM store that is being accessed. For
    * example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}
-   * /dicomStores/{dicom_store_id}`.
+   * /dicomStores/{dicom_warehouse_id}`.
    * @param string $dicomWebPath The path of the StoreInstances DICOMweb request.
    * For example, `studies/[{study_uid}]`. Note that the `study_uid` is optional.
    * @param Google_Service_CloudHealthcare_HttpBody $postBody

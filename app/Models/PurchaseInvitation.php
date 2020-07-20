@@ -16,7 +16,7 @@ class PurchaseInvitation extends EntityModel
 
     protected $appends = [];
     protected $casts = [];
-    protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at', 'updated_at', 'deleted_at'];
     protected $hidden = [];
 
     public function getEntityType()
@@ -24,14 +24,19 @@ class PurchaseInvitation extends EntityModel
         return ENTITY_PURCHASE_INVITATION;
     }
 
-    public function invoice()
+    public function getRoute()
     {
-        return $this->belongsTo('App\Models\Invoice')->withTrashed();
+        return "/purchase_invitations/{$this->public_id}/edit";
     }
 
-    public function contact()
+    public function purchase_invoice()
     {
-        return $this->belongsTo('App\Models\Contact')->withTrashed();
+        return $this->belongsTo('App\Models\PurchaseInvoice')->withTrashed();
+    }
+
+    public function vendor_contact()
+    {
+        return $this->belongsTo('App\Models\VendorContact')->withTrashed();
     }
 
 

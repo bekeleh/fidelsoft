@@ -26,8 +26,8 @@ class ItemTransfer extends EntityModel
 
     protected $fillable = [
         'product_id',
-        'previous_store_id',
-        'current_store_id',
+        'previous_warehouse_id',
+        'current_warehouse_id',
         'status_id',
         'approver_id',
         'dispatch_date',
@@ -51,12 +51,12 @@ class ItemTransfer extends EntityModel
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account', 'account_id')->withTrashed();
+        return $this->belongsTo('App\Models\Account')->withTrashed();
     }
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User', 'user_id')->withTrashed();
+        return $this->belongsTo('App\Models\User')->withTrashed();
     }
 
     public function stockMovements()
@@ -66,12 +66,12 @@ class ItemTransfer extends EntityModel
 
     public function product()
     {
-        return $this->belongsTo('\App\Models\Product', 'product_id');
+        return $this->belongsTo('\App\Models\Product');
     }
 
     public function status()
     {
-        return $this->belongsTo('\App\Models\Status', 'status_id');
+        return $this->belongsTo('\App\Models\Status');
     }
 
     public function approver()
@@ -79,14 +79,14 @@ class ItemTransfer extends EntityModel
         return $this->belongsTo('\App\Models\User', 'approver_id');
     }
 
-    public function previousStore()
+    public function previousWarehouse()
     {
-        return $this->belongsTo('\App\Models\Store', 'previous_store_id');
+        return $this->belongsTo('\App\Models\Warehouse', 'previous_warehouse_id');
     }
 
-    public function currentStore()
+    public function currentWarehouse()
     {
-        return $this->belongsTo('\App\Models\Store', 'current_store_id');
+        return $this->belongsTo('\App\Models\Warehouse', 'current_warehouse_id');
     }
 
 

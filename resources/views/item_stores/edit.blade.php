@@ -7,7 +7,7 @@
     ->autocomplete('off')
     ->rules(['bin' => 'required|max:90',
     'product_id' => 'required' ,
-    'store_id' => 'required',
+    'warehouse_id' => 'required',
     'new_qty' => 'required|numeric',
     'reorder_level' => 'required|numeric',
     'notes' => 'required' ])
@@ -32,7 +32,7 @@
                     ->addGroupClass('product-select')
                     ->help(trans('texts.item_help') . ' | ' . link_to('/products/', trans('texts.customize_options')))
                     !!}
-                    {!! Former::select('store_id')->addOption('', '')
+                    {!! Former::select('warehouse_id')->addOption('', '')
                     ->label(trans('texts.store_name'))->addGroupClass('store-select')
                     ->help(trans('texts.store_help') . ' | ' . link_to('/warehouses/', trans('texts.customize_options')))
                     !!}
@@ -90,8 +90,8 @@ if (productId) {
     setComboboxValue($('.product-select'), product.public_id, product.product_key);
 }
 //        default store
-var storeId = {{ $storePublicId ?: 0 }};
-var $storeSelect = $('select#store_id');
+var storeId = {{ $warehousePublicId ?: 0 }};
+var $storeSelect = $('select#warehouse_id');
 @if (Auth::user()->can('create', ENTITY_WAREHOUSE))
 $storeSelect.append(new Option("{{ trans('texts.create_store')}}: $name", '-1'));
 @endif

@@ -14,6 +14,7 @@ class ItemStore extends EntityModel
     use SoftDeletes;
 
     protected $presenter = 'App\Ninja\Presenters\ItemStorePresenter';
+
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
     protected $appends = [];
     protected $hidden = [];
@@ -21,7 +22,7 @@ class ItemStore extends EntityModel
 
     protected $fillable = [
         'product_id',
-        'store_id',
+        'warehouse_id',
         'bin',
         'qty',
         'reorder_level',
@@ -49,22 +50,22 @@ class ItemStore extends EntityModel
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account', 'account_id')->withTrashed();
+        return $this->belongsTo('App\Models\Account')->withTrashed();
     }
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User', 'user_id')->withTrashed();
+        return $this->belongsTo('App\Models\User')->withTrashed();
     }
 
-    public function store()
+    public function warehouse()
     {
-        return $this->belongsTo('App\Models\Store', 'store_id')->withTrashed();
+        return $this->belongsTo('App\Models\Warehouse')->withTrashed();
     }
 
     public function product()
     {
-        return $this->belongsTo('App\Models\Product', 'product_id')->withTrashed();
+        return $this->belongsTo('App\Models\Product')->withTrashed();
     }
 
     public function stockMovements()

@@ -54,7 +54,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsDicomStor
    *
    * @param string $sourceStore Source DICOM store resource name. For example, `pr
    * ojects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores
-   * /{dicom_store_id}`.
+   * /{dicom_warehouse_id}`.
    * @param Google_Service_CloudHealthcare_DeidentifyDicomStoreRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Google_Service_CloudHealthcare_Operation
@@ -87,7 +87,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsDicomStor
    *
    * @param string $name The DICOM store resource name from which to export the
    * data. For example, `projects/{project_id}/locations/{location_id}/datasets/{d
-   * ataset_id}/dicomStores/{dicom_store_id}`.
+   * ataset_id}/dicomStores/{dicom_warehouse_id}`.
    * @param Google_Service_CloudHealthcare_ExportDicomDataRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Google_Service_CloudHealthcare_Operation
@@ -149,7 +149,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsDicomStor
    *
    * @param string $name The name of the DICOM store resource into which the data
    * is imported. For example, `projects/{project_id}/locations/{location_id}/data
-   * sets/{dataset_id}/dicomStores/{dicom_store_id}`.
+   * sets/{dataset_id}/dicomStores/{dicom_warehouse_id}`.
    * @param Google_Service_CloudHealthcare_ImportDicomDataRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Google_Service_CloudHealthcare_Operation
@@ -188,7 +188,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsDicomStor
    *
    * @param string $name Output only. Resource name of the DICOM store, of the
    * form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dic
-   * omStores/{dicom_store_id}`.
+   * omStores/{dicom_warehouse_id}`.
    * @param Google_Service_CloudHealthcare_DicomStore $postBody
    * @param array $optParams Optional parameters.
    *
@@ -210,7 +210,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsDicomStor
    *
    * @param string $parent The name of the DICOM store that is being accessed. For
    * example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}
-   * /dicomStores/{dicom_store_id}`.
+   * /dicomStores/{dicom_warehouse_id}`.
    * @param string $dicomWebPath The path of the SearchForInstancesRequest
    * DICOMweb request. For example, `instances`, `series/{series_uid}/instances`,
    * or `studies/{study_uid}/instances`.
@@ -230,7 +230,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsDicomStor
    *
    * @param string $parent The name of the DICOM store that is being accessed. For
    * example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}
-   * /dicomStores/{dicom_store_id}`.
+   * /dicomStores/{dicom_warehouse_id}`.
    * @param string $dicomWebPath The path of the SearchForSeries DICOMweb request.
    * For example, `series` or `studies/{study_uid}/series`.
    * @param array $optParams Optional parameters.
@@ -249,7 +249,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsDicomStor
    *
    * @param string $parent The name of the DICOM store that is being accessed. For
    * example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}
-   * /dicomStores/{dicom_store_id}`.
+   * /dicomStores/{dicom_warehouse_id}`.
    * @param string $dicomWebPath The path of the SearchForStudies DICOMweb
    * request. For example, `studies`.
    * @param array $optParams Optional parameters.
@@ -288,7 +288,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsDicomStor
    *
    * @param string $parent The name of the DICOM store that is being accessed. For
    * example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}
-   * /dicomStores/{dicom_store_id}`.
+   * /dicomStores/{dicom_warehouse_id}`.
    * @param string $dicomWebPath The path of the StoreInstances DICOMweb request.
    * For example, `studies/[{study_uid}]`. Note that the `study_uid` is optional.
    * @param Google_Service_CloudHealthcare_HttpBody $postBody

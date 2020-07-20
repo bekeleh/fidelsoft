@@ -128,7 +128,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsHl7V2Stor
    *
    * @param string $name Output only. Resource name of the HL7v2 store, of the
    * form
-   * `projects/{project_id}/datasets/{dataset_id}/hl7V2Stores/{hl7v2_store_id}`.
+   * `projects/{project_id}/datasets/{dataset_id}/hl7V2Stores/{hl7v2_warehouse_id}`.
    * @param Google_Service_CloudHealthcare_Hl7V2Store $postBody
    * @param array $optParams Optional parameters.
    *

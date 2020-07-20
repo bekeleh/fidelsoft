@@ -32,7 +32,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsDicomStor
    *
    * @param string $parent The name of the DICOM store that is being accessed. For
    * example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}
-   * /dicomStores/{dicom_store_id}`.
+   * /dicomStores/{dicom_warehouse_id}`.
    * @param string $dicomWebPath The path of the RetrieveFrames DICOMweb request.
    * For example, `studies/{study_uid}/series/{series_uid}/instances/{instance_uid
    * }/frames/{frame_list}`.
@@ -53,7 +53,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsDicomStor
    *
    * @param string $parent The name of the DICOM store that is being accessed. For
    * example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}
-   * /dicomStores/{dicom_store_id}`.
+   * /dicomStores/{dicom_warehouse_id}`.
    * @param string $dicomWebPath The path of the RetrieveRenderedFrames DICOMweb
    * request. For example, `studies/{study_uid}/series/{series_uid}/instances/{ins
    * tance_uid}/frames/{frame_list}/rendered`.

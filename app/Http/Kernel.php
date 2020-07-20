@@ -16,13 +16,13 @@ use App\Http\Middleware\QueryLogging;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\StartupCheck;
 use App\Http\Middleware\VerifyCsrfToken;
+use App\Http\Middleware\TrimStrings;
 use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
 use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
-use Illuminate\Foundation\Http\Middleware\TrimStrings;
 use Illuminate\Foundation\Http\Middleware\ValidatePostSize;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Routing\Middleware\ThrottleRequests;
@@ -43,7 +43,7 @@ class Kernel extends HttpKernel
         CheckForMaintenanceMode::class,
         ConvertEmptyStringsToNull::class,
         ValidatePostSize::class,
-        // \App\Http\Middleware\TrimStrings::class,
+        TrimStrings::class,
     ];
 
     /**
@@ -115,5 +115,5 @@ class Kernel extends HttpKernel
         Authorize::class,
 
     ];
-    
+
 }

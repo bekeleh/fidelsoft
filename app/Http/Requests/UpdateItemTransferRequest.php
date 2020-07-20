@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\ItemTransfer;
-use App\Models\Store;
+use App\Models\Warehouse;
 
 class UpdateItemTransferRequest extends ItemTransferRequest
 {
@@ -21,8 +21,8 @@ class UpdateItemTransferRequest extends ItemTransferRequest
         $rules = [];
         $itemTransfer = $this->entity();
         $rules['product_id'] = 'required|array';
-        $rules['previous_store_id'] = 'required|numeric';
-        $rules['current_store_id'] = 'required|numeric|different:previous_store_id';
+        $rules['previous_warehouse_id'] = 'required|numeric';
+        $rules['current_warehouse_id'] = 'required|numeric|different:previous_warehouse_id';
 //                    $rules['approver_id'] = 'required|numeric|exists:statuses';
         $rules['is_deleted'] = 'boolean';
         $rules['notes'] = 'nullable';
@@ -34,11 +34,11 @@ class UpdateItemTransferRequest extends ItemTransferRequest
     {
         $input = $this->all();
         if (count($input)) {
-            if (!empty($input['current_store_id'])) {
-                $input['current_store_id'] = filter_var($input['current_store_id'], FILTER_SANITIZE_NUMBER_INT);
+            if (!empty($input['current_warehouse_id'])) {
+                $input['current_warehouse_id'] = filter_var($input['current_warehouse_id'], FILTER_SANITIZE_NUMBER_INT);
             }
-            if (!empty($input['previous_store_id'])) {
-                $input['previous_store_id'] = filter_var($input['previous_store_id'], FILTER_SANITIZE_NUMBER_INT);
+            if (!empty($input['previous_warehouse_id'])) {
+                $input['previous_warehouse_id'] = filter_var($input['previous_warehouse_id'], FILTER_SANITIZE_NUMBER_INT);
             }
             if (!empty($input['approver_id'])) {
                 $input['approver_id'] = filter_var($input['approver_id'], FILTER_SANITIZE_NUMBER_INT);
@@ -58,16 +58,16 @@ class UpdateItemTransferRequest extends ItemTransferRequest
     {
         $input = $this->all();
 
-        if (!empty($input['previous_store_id'])) {
-            $input['previous_store_id'] = Store::getPrivateId($input['previous_store_id']);
+        if (!empty($input['previous_warehouse_id'])) {
+            $input['previous_warehouse_id'] = Warehouse::getPrivateId($input['previous_warehouse_id']);
         }
-        if (!empty($input['current_store_id'])) {
-            $input['current_store_id'] = Store::getPrivateId($input['current_store_id']);
+        if (!empty($input['current_warehouse_id'])) {
+            $input['current_warehouse_id'] = Warehouse::getPrivateId($input['current_warehouse_id']);
         }
-        if (!empty($input['previous_store_id']) && !empty($input['current_store_id'])) {
+        if (!empty($input['previous_warehouse_id']) && !empty($input['current_warehouse_id'])) {
             $this->request->add([
-                'previous_store_id' => $input['previous_store_id'],
-                'current_store_id' => $input['current_store_id'],
+                'previous_warehouse_id' => $input['previous_warehouse_id'],
+                'current_warehouse_id' => $input['current_warehouse_id'],
                 'account_id' => ItemTransfer::getAccountId()
             ]);
         }

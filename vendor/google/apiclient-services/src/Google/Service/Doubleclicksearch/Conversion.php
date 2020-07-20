@@ -51,7 +51,7 @@ class Google_Service_Doubleclicksearch_Conversion extends Google_Collection
   public $segmentationName;
   public $segmentationType;
   public $state;
-  public $storeId;
+  public $warehouseId;
   public $type;
 
   public function setAdGroupId($adGroupId)
@@ -314,9 +314,9 @@ class Google_Service_Doubleclicksearch_Conversion extends Google_Collection
   {
     return $this->state;
   }
-  public function setStoreId($storeId)
+  public function setStoreId($warehouseId)
   {
-    $this->storeId = $storeId;
+    $this->storeId = $warehouseId;
   }
   public function getStoreId()
   {

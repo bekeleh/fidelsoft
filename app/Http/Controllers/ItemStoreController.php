@@ -45,13 +45,13 @@ class ItemStoreController extends BaseController
         ]);
     }
 
-    public function getItemList($storePublicId = null)
+    public function getItemList($warehousePublicId = null)
     {
-        $storePublicId = Input::get('store_id');
+        $warehousePublicId = Input::get('warehouse_id');
         $accountId = Auth::user()->account_id;
-        $storeId = Store::getPrivateId($storePublicId);
+        $warehouseId = Store::getPrivateId($warehousePublicId);
 
-        $data = $this->itemStoreRepo->getItems($accountId, $storeId);
+        $data = $this->itemStoreRepo->getItems($accountId, $warehouseId);
 
         return response()->json(['success' => true, 'data' => $data], 200);
     }
@@ -66,9 +66,9 @@ class ItemStoreController extends BaseController
         return $this->itemStoreService->getDatatableProduct($productPublicId);
     }
 
-    public function getDatatableStore($storePublicId = null)
+    public function getDatatableStore($warehousePublicId = null)
     {
-        return $this->itemStoreService->getDatatableStore($storePublicId);
+        return $this->itemStoreService->getDatatableStore($warehousePublicId);
     }
 
     public function create(ItemStoreRequest $request)
@@ -79,8 +79,8 @@ class ItemStoreController extends BaseController
         } else {
             $product = null;
         }
-        if ($request->store_id != 0) {
-            $store = Store::scope($request->store_id)->firstOrFail();
+        if ($request->warehouse_id != 0) {
+            $store = Store::scope($request->warehouse_id)->firstOrFail();
         } else {
             $store = null;
         }
@@ -93,7 +93,7 @@ class ItemStoreController extends BaseController
             'url' => 'item_stores',
             'title' => trans('texts.new_item_store'),
             'productPublicId' => Input::old('product') ? Input::old('product') : $request->product_id,
-            'storePublicId' => Input::old('store') ? Input::old('store') : $request->store_id,
+            'storePublicId' => Input::old('store') ? Input::old('store') : $request->warehouse_id,
         ];
 
         $data = array_merge($data, self::getViewModel());
@@ -184,7 +184,7 @@ class ItemStoreController extends BaseController
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
             'products' => Product::scope()->withActiveOrSelected(false)->products()->orderBy('product_key')->get(),
-            'warehouses' => Store::scope()->withActiveOrSelected($itemStore ? $itemStore->store_id : false)->orderBy('name')->get(),
+            'warehouses' => Store::scope()->withActiveOrSelected($itemStore ? $itemStore->warehouse_id : false)->orderBy('name')->get(),
         ];
     }
 

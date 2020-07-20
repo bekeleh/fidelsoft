@@ -57,11 +57,11 @@ class ItemStoreService extends BaseService
         return $this->datatableService->createDatatable($datatable, $query);
     }
 
-    public function getDatatableStore($storePublicId)
+    public function getDatatableStore($warehousePublicId)
     {
         $datatable = new WarehouseDatatable(true, true);
 
-        $query = $this->itemStoreRepo->findStore($storePublicId);
+        $query = $this->itemStoreRepo->findStore($warehousePublicId);
 
         if (!Utils::hasPermission('view_store')) {
             $query->where('warehouses.user_id', '=', Auth::user()->id);

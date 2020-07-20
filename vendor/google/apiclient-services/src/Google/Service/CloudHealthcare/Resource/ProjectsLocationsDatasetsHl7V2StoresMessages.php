@@ -152,7 +152,7 @@ class Google_Service_CloudHealthcare_Resource_ProjectsLocationsDatasetsHl7V2Stor
    * are updated. (messages.patch)
    *
    * @param string $name Resource name of the Message, of the form `projects/{proj
-   * ect_id}/datasets/{dataset_id}/hl7V2Stores/{hl7_v2_store_id}/messages/{message
+   * ect_id}/datasets/{dataset_id}/hl7V2Stores/{hl7_v2_warehouse_id}/messages/{message
    * _id}`. Assigned by the server.
    * @param Google_Service_CloudHealthcare_Message $postBody
    * @param array $optParams Optional parameters.

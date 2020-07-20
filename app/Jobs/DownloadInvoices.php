@@ -30,8 +30,8 @@ class DownloadInvoices extends Job
     /**
      * Create a new job instance.
      *
-     * @param mixed   $files
-     * @param mixed   $settings
+     * @param User $user
+     * @param $invoices
      */
     public function __construct(User $user, $invoices)
     {
@@ -42,11 +42,11 @@ class DownloadInvoices extends Job
     /**
      * Execute the job.
      *
-     * @param ContactMailer $mailer
+     * @param UserMailer $userMailer
      */
     public function handle(UserMailer $userMailer)
     {
-        if (! extension_loaded('GMP')) {
+        if (!extension_loaded('GMP')) {
             die(trans('texts.gmp_required'));
         }
 

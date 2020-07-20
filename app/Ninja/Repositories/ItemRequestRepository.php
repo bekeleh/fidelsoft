@@ -38,7 +38,7 @@ class ItemRequestRepository extends BaseRepository
         ->LeftJoin('users', 'users.id', '=', 'item_requests.user_id')
         ->LeftJoin('products', 'products.id', '=', 'item_requests.product_id')
         ->leftjoin('departments', 'departments.id', '=', 'item_requests.department_id')
-        ->leftjoin('warehouses', 'warehouses.id', '=', 'item_requests.store_id')
+        ->leftjoin('warehouses', 'warehouses.id', '=', 'item_requests.warehouse_id')
         ->leftjoin('statuses', 'statuses.id', '=', 'item_requests.status_id')
         ->where('item_requests.account_id', '=', $accountId)
             //->where('item_requests.deleted_at', '=', null)
@@ -48,7 +48,7 @@ class ItemRequestRepository extends BaseRepository
             'item_requests.user_id',
             'item_requests.product_id',
             'item_requests.department_id',
-            'item_requests.store_id',
+            'item_requests.warehouse_id',
             'item_requests.status_id',
             'item_requests.qty',
             'item_requests.delivered_qty',
@@ -138,14 +138,14 @@ class ItemRequestRepository extends BaseRepository
         return $query;
     }
 
-    public function findStore($storePublicId)
+    public function findStore($warehousePublicId)
     {
-        if (empty($storePublicId)) {
+        if (empty($warehousePublicId)) {
             return;
         }
-        $storeId = Store::getPrivateId($storePublicId);
+        $warehouseId = Store::getPrivateId($warehousePublicId);
 
-        $query = $this->find()->where('item_requests.store_id', '=', $storeId);
+        $query = $this->find()->where('item_requests.warehouse_id', '=', $warehouseId);
 
         return $query;
     }
@@ -157,7 +157,7 @@ class ItemRequestRepository extends BaseRepository
     //     }
     //     $statusId = Status::getPrivateId($statusPublicId);
 
-    //     $query = $this->find()->where('item_requests.store_id', '=', $statusId);
+    //     $query = $this->find()->where('item_requests.warehouse_id', '=', $statusId);
 
     //     return $query;
     // }
@@ -175,7 +175,7 @@ class ItemRequestRepository extends BaseRepository
             if ($newQty > 0) {
                 $movable = ItemMovement::createNew();
                 $itemRequest = $this->itemTransfer
-                ->where('store_id', $itemRequest->current_store_id)
+                ->where('warehouse_id', $itemRequest->current_warehouse_id)
                 ->where('product_id', $itemRequest->product_id)->first();
                 $movable->qty = $newQty;
                 $movable->qoh = ($qoh + $newQty);

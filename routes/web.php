@@ -188,9 +188,8 @@ Route::group(['middleware' => ['lookup:user', 'auth:user', 'banned:user']], func
     Route::get('projects/{projects}/edit', 'ProjectController@edit');
     Route::get('projects/{projects}', 'ProjectController@show');
     Route::post('projects/bulk', 'ProjectController@bulk');
-//     invoice
+//    sales invoice
     Route::get('api/recurring_invoices/{client_id?}', 'InvoiceController@getRecurringDatatable');
-
     Route::get('invoices/delivery_note/{invoice_id}', 'InvoiceController@deliveryNote');
     Route::get('invoices/invoice_history/{invoice_id}', 'InvoiceController@invoiceHistory');
     Route::get('quotes/quote_history/{invoice_id}', 'InvoiceController@invoiceHistory');
@@ -206,10 +205,31 @@ Route::group(['middleware' => ['lookup:user', 'auth:user', 'banned:user']], func
     Route::post('invoices/bulk', 'InvoiceController@bulk');
     Route::post('recurring_invoices/bulk', 'InvoiceController@bulk');
 //   invoice item
-    Route::get('invoice_items/{invoice_items}/clone', 'invoiceItemController@cloneinvoiceItem');
-    Route::get('api/invoice_items', 'invoiceItemController@getDatatable');
-    Route::resource('invoice_items', 'invoiceItemController');
-    Route::post('invoice_items/bulk', 'invoiceItemController@bulk');
+    Route::get('invoice_items/{invoice_items}/clone', 'InvoiceItemController@cloneInvoiceItem');
+    Route::get('api/invoice_items', 'InvoiceItemController@getDatatable');
+    Route::resource('invoice_items', 'InvoiceItemController');
+    Route::post('invoice_items/bulk', 'InvoiceItemController@bulk');
+//    purchase invoice
+    Route::get('api/recurring_invoices/{vendor_id?}', 'PurchaseInvoiceController@getRecurringDatatable');
+    Route::get('purchase_invoices/receive_note/{purchase_invoice_id}', 'PurchaseInvoiceController@receiveNote');
+    Route::get('purchase_invoices/purchase_invoice_history/{purchase_invoice_id}', 'PurchaseInvoiceController@purchaseInvoiceHistory');
+    Route::get('quotes/quote_history/{purchase_invoice_id}', 'PurchaseInvoiceController@purchaseInvoiceHistory');
+
+    Route::resource('purchase_invoices', 'PurchaseInvoiceController');
+    Route::get('api/purchase_invoices/{vendor_id?}', 'PurchaseInvoiceController@getDatatable');
+    Route::get('purchase_invoices/create/{vendor_id?}', 'PurchaseInvoiceController@create');
+    Route::get('purchase_invoices/{purchase_invoices}/clone', 'PurchaseInvoiceController@clonePurchaseInvoice');
+    Route::post('purchase_invoices/bulk', 'PurchaseInvoiceController@bulk');
+    Route::get('recurring_purchase_invoices/create/{vendor_id?}', 'PurchaseInvoiceController@createPurchaseRecurring');
+    Route::get('recurring_purchase_invoices', 'RecurringPurchaseInvoiceController@index');
+    Route::get('recurring_purchase_invoices/{invoices}/edit', 'PurchaseInvoiceController@edit');
+    Route::get('recurring_purchase_invoices/{invoices}', 'PurchaseInvoiceController@edit');
+    Route::post('recurring_purchase_invoices/bulk', 'PurchaseInvoiceController@bulk');
+//   purchase invoice item
+    Route::get('purchase_invoice_items/{purchase_invoice_items}/clone', 'PurchaseInvoiceItemController@clonepurchaseInvoiceItem');
+    Route::get('api/purchase_invoice_items', 'PurchaseInvoiceItemController@getDatatable');
+    Route::resource('purchase_invoice_items', 'PurchaseInvoiceItemController');
+    Route::post('purchase_invoice_items/bulk', 'PurchaseInvoiceItemController@bulk');
 //     expense
     Route::get('recurring_expenses', 'RecurringExpenseController@index');
     Route::get('api/recurring_expenses', 'RecurringExpenseController@getDatatable');
