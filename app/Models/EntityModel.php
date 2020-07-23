@@ -154,7 +154,7 @@ class EntityModel extends Eloquent
             $accountId = Auth::user()->account_id;
         }
 
-        $query->where($this->getTable() . '.account_id', '=', $accountId);
+        $query->where($this->getTable() . '.account_id', $accountId);
 
         if ($publicId) {
             if (is_array($publicId)) {
@@ -176,7 +176,7 @@ class EntityModel extends Eloquent
 
     public function scopeWithArchived($query)
     {
-        return $query->withTrashed()->where('is_deleted', '=', false);
+        return $query->withTrashed()->where('is_deleted', false);
     }
 
 

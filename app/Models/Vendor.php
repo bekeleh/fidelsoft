@@ -39,6 +39,10 @@ class Vendor extends EntityModel
         'currency_id',
         'website',
         'transaction_name',
+        'purchase_invoice_number_counter',
+        'purchase_quote_number_counter',
+        'purchase_credit_number_counter',
+        'task_rate',
         'custom_value1',
         'custom_value2',
         'created_by',
@@ -240,11 +244,11 @@ class Vendor extends EntityModel
     public function getTotalExpenses()
     {
         return DB::table('expenses')
-        ->select('expense_currency_id', DB::raw('sum(expenses.amount + (expenses.amount * expenses.tax_rate1 / 100) + (expenses.amount * expenses.tax_rate2 / 100)) as amount'))
-        ->whereVendorId($this->id)
-        ->whereIsDeleted(false)
-        ->groupBy('expense_currency_id')
-        ->get();
+            ->select('expense_currency_id', DB::raw('sum(expenses.amount + (expenses.amount * expenses.tax_rate1 / 100) + (expenses.amount * expenses.tax_rate2 / 100)) as amount'))
+            ->whereVendorId($this->id)
+            ->whereIsDeleted(false)
+            ->groupBy('expense_currency_id')
+            ->get();
     }
 }
 

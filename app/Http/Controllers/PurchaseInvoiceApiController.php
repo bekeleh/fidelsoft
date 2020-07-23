@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateInvoiceAPIRequest;
-use App\Http\Requests\InvoiceRequest;
-use App\Http\Requests\UpdateInvoiceAPIRequest;
-use App\Jobs\SendInvoiceEmail;
+use App\Http\Requests\CreatePurchaseInvoiceAPIRequest;
+use App\Http\Requests\PurchaseInvoiceRequest;
+use App\Http\Requests\UpdatePurchaseInvoiceAPIRequest;
+use App\Jobs\SendPurchaseInvoiceEmail;
 use App\Jobs\SendPaymentEmail;
 use App\Libraries\Utils;
-use App\Models\Client;
-use App\Models\Invoice;
+use App\Models\Vendor;
+use App\Models\PurchaseInvoice;
 use App\Models\Product;
-use App\Ninja\Repositories\ClientRepository;
-use App\Ninja\Repositories\InvoiceRepository;
+use App\Ninja\Repositories\VendorRepository;
+use App\Ninja\Repositories\PurchaseInvoiceRepository;
 use App\Ninja\Repositories\PaymentRepository;
-use App\Services\InvoiceService;
+use App\Services\PurchaseInvoiceService;
 use App\Services\PaymentService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -24,25 +24,26 @@ use Illuminate\Support\Facades\Validator;
 class PurchaseInvoiceApiController extends BaseAPIController
 {
     protected $entityType = ENTITY_INVOICE;
-    protected $clientRepo;
-    protected $invoiceRepo;
+    protected $vendorRepo;
+    protected $purchaseInvoiceRepo;
     protected $paymentRepo;
-    protected $invoiceService;
+    protected $purchaseInvoiceService;
     protected $paymentService;
 
     public function __construct(
-        InvoiceService $invoiceService,
-        InvoiceRepository $invoiceRepo,
-        ClientRepository $clientRepo,
+        PurchaseInvoiceService $purchaseInvoiceService,
+        PurchaseInvoiceRepository $purchaseInvoiceRepo,
+        VendorRepository $vendorRepo,
         PaymentRepository $paymentRepo,
-        PaymentService $paymentService)
+        PaymentService $paymentService
+    )
     {
         parent::__construct();
 
-        $this->invoiceRepo = $invoiceRepo;
-        $this->clientRepo = $clientRepo;
+        $this->purchaseInvoiceRepo = $purchaseInvoiceRepo;
+        $this->vendorRepo = $vendorRepo;
         $this->paymentRepo = $paymentRepo;
-        $this->invoiceService = $invoiceService;
+        $this->purchaseInvoiceService = $purchaseInvoiceService;
         $this->paymentService = $paymentService;
     }
 
@@ -50,12 +51,12 @@ class PurchaseInvoiceApiController extends BaseAPIController
      * @SWG\Get(
      *   path="/invoices",
      *   summary="List invoices",
-     *   operationId="listInvoices",
+     *   operationId="listPurchaseInvoices",
      *   tags={"invoice"},
      *   @SWG\Response(
      *     response=200,
      *     description="A list of invoices",
-     *      @SWG\Schema(type="array", @SWG\Items(ref="#/definitions/Invoice"))
+     *      @SWG\Schema(type="array", @SWG\Items(ref="#/definitions/PurchaseInvoice"))
      *   ),
      *   @SWG\Response(
      *     response="default",
@@ -65,57 +66,57 @@ class PurchaseInvoiceApiController extends BaseAPIController
      */
     public function index()
     {
-        $invoices = Invoice::scope()
+        $purchaseInvoices = PurchaseInvoice::scope()
             ->withTrashed()
-            ->with('invoice_items', 'client')
+            ->with('purchase_invoice_items', 'vendor')
             ->orderBy('updated_at', 'desc');
 
         // Filter by invoice number
-        if ($invoiceNumber = Input::get('invoice_number')) {
-            $invoices->whereInvoiceNumber($invoiceNumber);
+        if ($purchaseInvoiceNumber = Input::get('invoice_number')) {
+            $purchaseInvoices->where('invoice_number', $purchaseInvoiceNumber);
         }
 
         // Fllter by status
         if ($statusId = Input::get('status_id')) {
-            $invoices->where('invoice_status_id', '>=', $statusId);
+            $purchaseInvoices->where('invoice_status_id', '>=', $statusId);
         }
 
         if (request()->has('is_recurring')) {
-            $invoices->where('is_recurring', '=', request()->is_recurring);
+            $purchaseInvoices->where('is_recurring', request()->is_recurring);
         }
 
         if (request()->has('invoice_type_id')) {
-            $invoices->where('invoice_type_id', '=', request()->invoice_type_id);
+            $purchaseInvoices->where('invoice_type_id', request()->invoice_type_id);
         }
 
-        return $this->listResponse($invoices);
+        return $this->listResponse($purchaseInvoices);
     }
 
     /**
      * @SWG\Get(
-     *   path="/invoices/{invoice_id}",
-     *   summary="Retrieve an Invoice",
+     *   path="/invoices/{purchase_invoice_id}",
+     *   summary="Retrieve an PurchaseInvoice",
      *   tags={"invoice"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="invoice_id",
+     *     name="purchase_invoice_id",
      *     type="integer",
      *     required=true
      *   ),
      *   @SWG\Response(
      *     response=200,
      *     description="A single invoice",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Invoice"))
+     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/PurchaseInvoice"))
      *   ),
      *   @SWG\Response(
      *     response="default",
      *     description="an ""unexpected"" error"
      *   )
      * )
-     * @param InvoiceRequest $request
+     * @param PurchaseInvoiceRequest $request
      * @return
      */
-    public function show(InvoiceRequest $request)
+    public function show(PurchaseInvoiceRequest $request)
     {
         return $this->itemResponse($request->entity());
     }
@@ -128,33 +129,33 @@ class PurchaseInvoiceApiController extends BaseAPIController
      *   @SWG\Parameter(
      *     in="body",
      *     name="invoice",
-     *     @SWG\Schema(ref="#/definitions/Invoice")
+     *     @SWG\Schema(ref="#/definitions/PurchaseInvoice")
      *   ),
      *   @SWG\Response(
      *     response=200,
      *     description="New invoice",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Invoice"))
+     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/PurchaseInvoice"))
      *   ),
      *   @SWG\Response(
      *     response="default",
      *     description="an ""unexpected"" error"
      *   )
      * )
-     * @param CreateInvoiceAPIRequest $request
+     * @param CreatePurchaseInvoiceAPIRequest $request
      * @return
      */
-    public function store(CreateInvoiceAPIRequest $request)
+    public function store(CreatePurchaseInvoiceAPIRequest $request)
     {
         $data = Input::all();
         $error = null;
 
         if (isset($data['email'])) {
             $email = $data['email'];
-            $client = Client::scope()->whereHas('contacts', function ($query) use ($email) {
+            $vendor = Vendor::scope()->whereHas('contacts', function ($query) use ($email) {
                 $query->where('email', '=', $email);
             })->first();
 
-            if (!$client) {
+            if (!$vendor) {
                 $validator = Validator::make(['email' => $email], ['email' => 'email']);
                 if ($validator->fails()) {
                     $messages = $validator->messages();
@@ -162,7 +163,7 @@ class PurchaseInvoiceApiController extends BaseAPIController
                     return $messages->first();
                 }
 
-                $clientData = ['contact' => ['email' => $email]];
+                $vendorData = ['contact' => ['email' => $email]];
                 foreach ([
                              'name',
                              'address1',
@@ -176,7 +177,7 @@ class PurchaseInvoiceApiController extends BaseAPIController
                              'country_code',
                          ] as $field) {
                     if (isset($data[$field])) {
-                        $clientData[$field] = $data[$field];
+                        $vendorData[$field] = $data[$field];
                     }
                 }
                 foreach ([
@@ -185,74 +186,74 @@ class PurchaseInvoiceApiController extends BaseAPIController
                              'phone',
                          ] as $field) {
                     if (isset($data[$field])) {
-                        $clientData['contact'][$field] = $data[$field];
+                        $vendorData['contact'][$field] = $data[$field];
                     }
                 }
 
-                $client = $this->clientRepo->save($clientData);
+                $vendor = $this->vendorRepo->save($vendorData);
             }
-        } elseif (isset($data['client_id'])) {
-            $client = Client::scope($data['client_id'])->first();
+        } elseif (isset($data['vendor_id'])) {
+            $vendor = Vendor::scope($data['vendor_id'])->first();
 
-            if (!$client) {
-                return $this->errorResponse('Client not found', 404);
+            if (!$vendor) {
+                return $this->errorResponse('Vendor not found', 404);
             }
         }
 
-        $data = self::prepareData($data, $client);
-        $data['client_id'] = $client->id;
+        $data = self::prepareData($data, $vendor);
+        $data['vendor_id'] = $vendor->id;
 
         // in these cases the invoice needs to be set as public
         $isAutoBill = isset($data['auto_bill']) && filter_var($data['auto_bill'], FILTER_VALIDATE_BOOLEAN);
-        $isEmailInvoice = isset($data['email_invoice']) && filter_var($data['email_invoice'], FILTER_VALIDATE_BOOLEAN);
+        $isEmailPurchaseInvoice = isset($data['email_invoice']) && filter_var($data['email_invoice'], FILTER_VALIDATE_BOOLEAN);
         $isPaid = isset($data['paid']) && floatval($data['paid']);
 
-        if ($isAutoBill || $isPaid || $isEmailInvoice) {
+        if ($isAutoBill || $isPaid || $isEmailPurchaseInvoice) {
             $data['is_public'] = true;
         }
 
-        $invoice = $this->invoiceService->save($data);
+        $purchaseInvoice = $this->purchaseInvoiceService->save($data);
         $payment = false;
 
-        if ($invoice->isStandard()) {
+        if ($purchaseInvoice->isStandard()) {
             if ($isAutoBill) {
-                $payment = $this->paymentService->autoBillInvoice($invoice);
+                $payment = $this->paymentService->autoBillPurchaseInvoice($purchaseInvoice);
             } elseif ($isPaid) {
                 $payment = $this->paymentRepo->save([
-                    'invoice_id' => $invoice->id,
-                    'client_id' => $client->id,
+                    'purchase_invoice_id' => $purchaseInvoice->id,
+                    'vendor_id' => $vendor->id,
                     'amount' => round($data['paid'], 2),
                 ]);
             }
         }
 
-        if ($isEmailInvoice) {
+        if ($isEmailPurchaseInvoice) {
             if ($payment) {
                 $this->dispatch(new SendPaymentEmail($payment));
             } else {
-                if ($invoice->is_recurring && $recurringInvoice = $this->invoiceRepo->createRecurringInvoice($invoice)) {
-                    $invoice = $recurringInvoice;
+                if ($purchaseInvoice->is_recurring && $recurringPurchaseInvoice = $this->purchaseInvoiceRepo->createRecurringPurchaseInvoice($purchaseInvoice)) {
+                    $purchaseInvoice = $recurringPurchaseInvoice;
                 }
                 $reminder = isset($data['email_type']) ? $data['email_type'] : false;
-                $this->dispatch(new SendInvoiceEmail($invoice, auth()->user()->id, $reminder));
+                $this->dispatch(new SendPurchaseInvoiceEmail($purchaseInvoice, auth()->user()->id, $reminder));
             }
         }
 
-        $invoice = Invoice::scope($invoice->public_id)
-            ->with('client', 'invoice_items', 'invitations')
+        $purchaseInvoice = PurchaseInvoice::scope($purchaseInvoice->public_id)
+            ->with('vendor', 'purchase_invoice_items', 'purchase_invitations')
             ->first();
 
         if (isset($data['download_invoice']) && boolval($data['download_invoice'])) {
-            return $this->fileReponse($invoice->getFileName(), $invoice->getPDFString());
+            return $this->fileReponse($purchaseInvoice->getFileName(), $purchaseInvoice->getPDFString());
         }
 
-        return $this->itemResponse($invoice);
+        return $this->itemResponse($purchaseInvoice);
     }
 
-    private function prepareData($data, $client)
+    private function prepareData($data, $vendor)
     {
         $account = Auth::user()->account;
-        $account->loadLocalizationSettings($client);
+        $account->loadLocalizationSettings($vendor);
 
         // set defaults for optional fields
         $fields = [
@@ -263,7 +264,7 @@ class PurchaseInvoiceApiController extends BaseAPIController
             'public_notes' => '',
             'po_number' => '',
             'invoice_design_id' => $account->invoice_design_id,
-            'invoice_items' => [],
+            'purchase_invoice_items' => [],
             'custom_taxes1' => false,
             'custom_taxes2' => false,
             'tax_name1' => '',
@@ -295,26 +296,26 @@ class PurchaseInvoiceApiController extends BaseAPIController
         }
 
         // initialize the line items
-        if (!isset($data['invoice_items']) && (isset($data['name']) || isset($data['cost']) || isset($data['notes']) || isset($data['qty']))) {
-            $data['invoice_items'] = [self::prepareItem($data)];
+        if (!isset($data['purchase_invoice_items']) && (isset($data['name']) || isset($data['cost']) || isset($data['notes']) || isset($data['qty']))) {
+            $data['purchase_invoice_items'] = [self::prepareItem($data)];
             // make sure the tax isn't applied twice (for the invoice and the line item)
-            unset($data['invoice_items'][0]['tax_name1']);
-            unset($data['invoice_items'][0]['tax_rate1']);
-            unset($data['invoice_items'][0]['tax_name2']);
-            unset($data['invoice_items'][0]['tax_rate2']);
+            unset($data['purchase_invoice_items'][0]['tax_name1']);
+            unset($data['purchase_invoice_items'][0]['tax_rate1']);
+            unset($data['purchase_invoice_items'][0]['tax_name2']);
+            unset($data['purchase_invoice_items'][0]['tax_rate2']);
         } else {
-            foreach ($data['invoice_items'] as $index => $item) {
+            foreach ($data['purchase_invoice_items'] as $index => $item) {
                 // check for multiple products
                 if ($productKey = array_get($item, 'name')) {
                     $parts = explode(',', $productKey);
                     if (count($parts) > 1 && Product::findProductByKey($parts[0])) {
                         foreach ($parts as $index => $productKey) {
-                            $data['invoice_items'][$index] = self::prepareItem(['name' => $productKey]);
+                            $data['purchase_invoice_items'][$index] = self::prepareItem(['name' => $productKey]);
                         }
                         break;
                     }
                 }
-                $data['invoice_items'][$index] = self::prepareItem($item);
+                $data['purchase_invoice_items'][$index] = self::prepareItem($item);
             }
         }
 
@@ -368,21 +369,21 @@ class PurchaseInvoiceApiController extends BaseAPIController
         return $item;
     }
 
-    public function emailInvoice(InvoiceRequest $request)
+    public function emailPurchaseInvoice(PurchaseInvoiceRequest $request)
     {
-        $invoice = $request->entity();
+        $purchaseInvoice = $request->entity();
 
-        if ($invoice->is_recurring && $recurringInvoice = $this->invoiceRepo->createRecurringInvoice($invoice)) {
-            $invoice = $recurringInvoice;
+        if ($purchaseInvoice->is_recurring && $recurringPurchaseInvoice = $this->purchaseInvoiceRepo->createRecurringPurchaseInvoice($purchaseInvoice)) {
+            $purchaseInvoice = $recurringPurchaseInvoice;
         }
 
         $reminder = request()->reminder;
         $template = request()->template;
 
         if (config('queue.default') !== 'sync') {
-            $this->dispatch(new SendInvoiceEmail($invoice, auth()->user()->id, $reminder, $template));
+            $this->dispatch(new SendPurchaseInvoiceEmail($purchaseInvoice, auth()->user()->id, $reminder, $template));
         } else {
-            $result = app('App\Ninja\Mailers\ContactMailer')->sendInvoice($invoice, $reminder, $template);
+            $result = app('App\Ninja\Mailers\ContactMailer')->sendPurchaseInvoice($purchaseInvoice, $reminder, $template);
             if ($result !== true) {
                 return $this->errorResponse($result, 500);
             }
@@ -396,24 +397,24 @@ class PurchaseInvoiceApiController extends BaseAPIController
 
     /**
      * @SWG\Put(
-     *   path="/invoices/{invoice_id}",
+     *   path="/invoices/{purchase_invoice_id}",
      *   summary="Update an invoice",
      *   tags={"invoice"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="invoice_id",
+     *     name="purchase_invoice_id",
      *     type="integer",
      *     required=true
      *   ),
      *   @SWG\Parameter(
      *     in="body",
      *     name="invoice",
-     *     @SWG\Schema(ref="#/definitions/Invoice")
+     *     @SWG\Schema(ref="#/definitions/PurchaseInvoice")
      *   ),
      *   @SWG\Response(
      *     response=200,
      *     description="Updated invoice",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Invoice"))
+     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/PurchaseInvoice"))
      *   ),
      *   @SWG\Response(
      *     response="default",
@@ -421,78 +422,78 @@ class PurchaseInvoiceApiController extends BaseAPIController
      *   )
      * )
      *
-     * @param UpdateInvoiceAPIRequest $request
+     * @param UpdatePurchaseInvoiceAPIRequest $request
      * @param mixed $publicId
      * @return
      */
-    public function update(UpdateInvoiceAPIRequest $request, $publicId)
+    public function update(UpdatePurchaseInvoiceAPIRequest $request, $publicId)
     {
         if ($request->action == ACTION_CONVERT) {
             $quote = $request->entity();
-            $invoice = $this->invoiceRepo->cloneInvoice($quote, $quote->id);
+            $purchaseInvoice = $this->purchaseInvoiceRepo->clonePurchaseInvoice($quote, $quote->id);
 
-            return $this->itemResponse($invoice);
+            return $this->itemResponse($purchaseInvoice);
         } elseif ($request->action) {
             return $this->handleAction($request);
         }
 
         $data = $request->input();
         $data['public_id'] = $publicId;
-        $this->invoiceService->save($data, $request->entity());
+        $this->purchaseInvoiceService->save($data, $request->entity());
 
-        $invoice = Invoice::scope($publicId)
+        $purchaseInvoice = PurchaseInvoice::scope($publicId)
             ->withTrashed()
-            ->with('client', 'invoice_items', 'invitations')
+            ->with('vendor', 'purchase_invoice_items', 'purchase_invitations')
             ->firstOrFail();
 
-        return $this->itemResponse($invoice);
+        return $this->itemResponse($purchaseInvoice);
     }
 
     /**
      * @SWG\Delete(
-     *   path="/invoices/{invoice_id}",
+     *   path="/invoices/{purchase_invoice_id}",
      *   summary="Delete an invoice",
      *   tags={"invoice"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="invoice_id",
+     *     name="purchase_invoice_id",
      *     type="integer",
      *     required=true
      *   ),
      *   @SWG\Response(
      *     response=200,
-     *     description="Deleted invoice",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Invoice"))
+     *     description="Deleted purchase invoice",
+     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/PurchaseInvoice"))
      *   ),
      *   @SWG\Response(
      *     response="default",
      *     description="an ""unexpected"" error"
      *   )
      * )
-     * @param UpdateInvoiceAPIRequest $request
+     * @param UpdatePurchaseInvoiceAPIRequest $request
      * @return
      */
-    public function destroy(UpdateInvoiceAPIRequest $request)
+    public function destroy(UpdatePurchaseInvoiceAPIRequest $request)
     {
-        $invoice = $request->entity();
+        $purchaseInvoice = $request->entity();
 
-        $this->invoiceRepo->delete($invoice);
+        $this->purchaseInvoiceRepo->delete($purchaseInvoice);
 
-        return $this->itemResponse($invoice);
+        return $this->itemResponse($purchaseInvoice);
     }
 
-    public function download(InvoiceRequest $request)
+    public function download(PurchaseInvoiceRequest $request)
     {
-        $invoice = $request->entity();
+        $purchaseInvoice = $request->entity();
 
-        if ($invoice->is_deleted) {
+        if ($purchaseInvoice->is_deleted) {
             abort(404);
         }
 
-        $pdfString = $invoice->getPDFString();
+        $pdfString = $purchaseInvoice->getPDFString();
 
         if ($pdfString) {
-            return $this->fileReponse($invoice->getFileName(), $pdfString);
+            return $this->fileReponse($purchaseInvoice->getFileName(), $pdfString);
         } else {
             abort(404);
         }

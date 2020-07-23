@@ -11,11 +11,11 @@ use App\Models\Activity;
 use App\Models\Vendor;
 use App\Models\Expense;
 use App\Models\Frequency;
-use App\Models\Invoice;
+use App\Models\PurchaseInvoice;
 use App\Models\InvoiceDesign;
 use App\Models\Payment;
 use App\Models\Product;
-use App\Ninja\Datatables\InvoiceDatatable;
+use App\Ninja\Datatables\PurchaseInvoiceDatatable;
 use App\Ninja\Repositories\DocumentRepository;
 use App\Ninja\Repositories\PurchaseInvoiceRepository;
 use App\Ninja\Repositories\VendorRepository;
@@ -33,20 +33,26 @@ use Request;
 
 class PurchaseInvoiceController extends BaseController
 {
-    protected $purchaseInvoiceRepo;
+    protected $invoiceRepo;
     protected $vendorRepo;
     protected $documentRepo;
-    protected $purchaseService;
+    protected $purchaseInvoiceService;
     protected $paymentService;
     protected $recurringPurchaseInvoiceService;
     protected $entityType = ENTITY_PURCHASE_INVOICE;
 
-    public function __construct(PurchaseInvoiceRepository $purchaseInvoiceRepo, VendorRepository $vendorRepo, PurchaseInvoiceService $purchaseService, DocumentRepository $documentRepo, RecurringInvoiceService $recurringPurchaseInvoiceService, PaymentService $paymentService)
+    public function __construct(
+        PurchaseInvoiceRepository $invoiceRepo,
+        VendorRepository $vendorRepo,
+        PurchaseInvoiceService $purchaseInvoiceService,
+        DocumentRepository $documentRepo,
+        RecurringInvoiceService $recurringPurchaseInvoiceService,
+        PaymentService $paymentService)
     {
         // parent::__construct();
-        $this->purchaseInvoiceRepo = $purchaseInvoiceRepo;
+        $this->invoiceRepo = $invoiceRepo;
         $this->vendorRepo = $vendorRepo;
-        $this->purchaseService = $purchaseService;
+        $this->purchaseInvoiceService = $purchaseInvoiceService;
         $this->recurringPurchaseInvoiceService = $recurringPurchaseInvoiceService;
         $this->paymentService = $paymentService;
     }
@@ -55,10 +61,10 @@ class PurchaseInvoiceController extends BaseController
     {
         $this->authorize('view', ENTITY_PURCHASE_INVOICE);
         $data = [
-            'title' => trans('texts.invoices'),
+            'title' => trans('texts.purchase_invoices'),
             'entityType' => ENTITY_PURCHASE_INVOICE,
-            'statuses' => Invoice::getStatuses(),
-            'datatable' => new InvoiceDatatable(),
+            'statuses' => PurchaseInvoice::getStatuses(),
+            'datatable' => new PurchaseInvoiceDatatable(),
         ];
 
         return response()->view('list_wrapper', $data);
@@ -69,7 +75,7 @@ class PurchaseInvoiceController extends BaseController
     {
         Session::reflash();
 
-        return Redirect::to("invoices/{$publicId}/edit");
+        return Redirect::to("purchase_invoices/{$publicId}/edit");
     }
 
     public function getDatatable($vendorPublicId = null)
@@ -77,7 +83,7 @@ class PurchaseInvoiceController extends BaseController
         $accountId = Auth::user()->account_id;
         $search = Input::get('sSearch');
 
-        return $this->purchaseService
+        return $this->purchaseInvoiceService
             ->getDatatable($accountId, $vendorPublicId, ENTITY_PURCHASE_INVOICE, $search);
     }
 
@@ -86,7 +92,8 @@ class PurchaseInvoiceController extends BaseController
         $accountId = Auth::user()->account_id;
         $search = Input::get('sSearch');
 
-        return $this->recurringPurchaseInvoiceService->getDatatable($accountId, $vendorPublicId, ENTITY_RECURRING_INVOICE, $search);
+        return $this->recurringPurchaseInvoiceService
+            ->getDatatable($accountId, $vendorPublicId, ENTITY_RECURRING_INVOICE, $search);
     }
 
     public function create(PurchaseInvoiceRequest $request, $vendorPublicId = 0, $isRecurring = false)
@@ -94,18 +101,18 @@ class PurchaseInvoiceController extends BaseController
         $this->authorize('create', ENTITY_PURCHASE_INVOICE);
         $account = Auth::user()->account;
 
-        $entityType = $isRecurring ? ENTITY_RECURRING_INVOICE : ENTITY_PURCHASE_INVOICE;
+        $entityType = $isRecurring ? ENTITY_RECURRING_PURCHASE_INVOICE : ENTITY_PURCHASE_INVOICE;
         $vendorId = null;
 
         if ($request->vendor_id) {
             $vendorId = Vendor::getPrivateId($request->vendor_id);
         }
 
-        $invoice = $account->createInvoice($entityType, $vendorId);
+        $invoice = $account->createPurchaseInvoice($entityType, $vendorId);
         $invoice->public_id = 0;
         $invoice->loadFromRequest();
 
-        $vendors = Vendor::IsInvoiceAllowed()->scope()
+        $vendors = Vendor::scope()
             ->with('vendor_contacts', 'country')->orderBy('name');
 
         if (!Utils::hasPermission('view_vendor')) {
@@ -117,47 +124,13 @@ class PurchaseInvoiceController extends BaseController
             'entityType' => $invoice->getEntityType(),
             'invoice' => $invoice,
             'method' => 'POST',
-            'url' => 'invoices',
-            'title' => trans('texts.new_invoice'),
+            'url' => 'purchase_invoices',
+            'title' => trans('texts.new_purchase_invoice'),
         ];
 
         $data = array_merge($data, self::getViewModel($invoice));
 
-        $this->checkDefaultBranch();
-        $this->checkDefaultWarehouse();
-        $this->checkProduct($data);
-
-        return View::make('invoices.edit', $data);
-    }
-
-    public function checkProduct(array $data)
-    {
-        $defaultBranch = $this->checkDefaultBranch();
-        $defaultWarehouse = $this->checkDefaultWarehouse();
-
-        if (!count($data['products'])) {
-            session()->flash('warning', trans('texts.product_required', ['branch' => $defaultBranch, 'warehouse' => $defaultWarehouse, 'link' => link_to('/item_stores', trans('texts.click_here'))]));
-        }
-    }
-
-    public function checkDefaultBranch()
-    {
-        $branch = isset(Auth::user()->branch->name) ? Auth::user()->branch->name : null;
-        if (empty($branch)) {
-            session()->flash('warning', trans('texts.user_branch_required', ['link' => link_to('/users/' . Auth::user()->public_id . '/edit', trans('texts.click_here'))]));
-        }
-
-        return $branch;
-    }
-
-    public function checkDefaultWarehouse()
-    {
-        $warehouse = isset(Auth::user()->branch->warehouse->name) ? Auth::user()->branch->warehouse->name : null;
-        if (empty($warehouse)) {
-            session()->flash('warning', trans('texts.user_store_required', ['link' => link_to('/users/' . Auth::user()->public_id . '/edit', trans('texts.click_here'))]));
-        }
-
-        return $warehouse;
+        return View::make('purchase_invoices.edit', $data);
     }
 
     public function store(CreatePurchaseInvoiceRequest $request)
@@ -169,7 +142,7 @@ class PurchaseInvoiceController extends BaseController
 
         $entityType = Input::get('entityType');
 
-        $invoice = $this->purchaseService->save($data);
+        $invoice = $this->purchaseInvoiceService->save($data);
 
         $entityType = $invoice->getEntityType();
 
@@ -249,7 +222,7 @@ class PurchaseInvoiceController extends BaseController
             'invoice_settings' => Auth::user()->hasFeature(FEATURE_INVOICE_SETTINGS),
         ];
 
-        $lastSent = ($invoice->is_recurring && $invoice->last_sent_date) ? $invoice->recurring_invoices->last() : null;
+        $lastSent = ($invoice->is_recurring && $invoice->last_sent_date) ? $invoice->recurring_purchase_invoices->last() : null;
 
         if (!Auth::user()->hasPermission('view_vendor')) {
             $vendors = $vendors->where('vendors.user_id', '=', Auth::user()->id);
@@ -309,7 +282,7 @@ class PurchaseInvoiceController extends BaseController
                 ]));
         }
 
-        return View::make('invoices.edit', $data);
+        return View::make('purchase_invoices.edit', $data);
     }
 
     public function update(UpdatePurchaseInvoiceRequest $request)
@@ -320,14 +293,14 @@ class PurchaseInvoiceController extends BaseController
         $action = Input::get('action');
         $entityType = Input::get('entityType');
 
-        $invoice = $this->purchaseService->save($data, $request->entity());
+        $invoice = $this->purchaseInvoiceService->save($data, $request->entity());
 
         $entityType = $invoice->getEntityType();
         $message = trans("texts.updated_{$entityType}");
         Session::flash('message', $message);
 
         if ($action == 'clone_invoice') {
-            return url(sprintf('invoices/%s/clone', $invoice->public_id));
+            return url(sprintf('purchase_invoices/%s/clone', $invoice->public_id));
         } else if ($action == 'clone_quote') {
             return url(sprintf('quotes/%s/clone', $invoice->public_id));
         } elseif ($action == 'convert') {
@@ -423,12 +396,10 @@ class PurchaseInvoiceController extends BaseController
             }
         }
 
-        $userBranch = isset(Auth::user()->branch->id) ? intval(Auth::user()->branch->id) : null;
-
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account->load('country'),
-            'products' => Product::scope()->withActiveOrSelected(isset($invoice) ? $invoice->product_id : false)->stock()->orderBy('product_key')->get(),
+            'products' => Product::scope()->withActiveOrSelected(isset($invoice) ? $invoice->product_id : false)->orderBy('product_key')->get(),
             'vendors' => Vendor::scope()->with('vendor_contacts', 'country')->orderBy('name')->get(),
             'taxRateOptions' => $taxRateOptions,
             'sizes' => Cache::get('sizes'),
@@ -467,7 +438,7 @@ class PurchaseInvoiceController extends BaseController
 
             Session::flash('error', $errorMessage);
 
-            return Redirect::to('invoices/' . $invoice->public_id . '/edit');
+            return Redirect::to('purchase_invoices/' . $invoice->public_id . '/edit');
         }
 
         if ($invoice->is_recurring) {
@@ -500,7 +471,7 @@ class PurchaseInvoiceController extends BaseController
         }
 
         // switch from the recurring invoice to the generated invoice
-        $invoice = $this->purchaseInvoiceRepo->createRecurringInvoice($invoice);
+        $invoice = $this->invoiceRepo->createRecurringInvoice($invoice);
 
         // in case auto-bill is enabled then a receipt has been sent
         if ($invoice->isPaid()) {
@@ -516,7 +487,7 @@ class PurchaseInvoiceController extends BaseController
     {
         $action = Input::get('bulk_action') ?: Input::get('action');
         $ids = Input::get('bulk_public_id') ?: (Input::get('public_id') ?: Input::get('ids'));
-        $count = $this->purchaseService->bulk($ids, $action);
+        $count = $this->purchaseInvoiceService->bulk($ids, $action);
 
         if ($count > 0) {
             if ($action == 'markSent') {
@@ -534,7 +505,7 @@ class PurchaseInvoiceController extends BaseController
             Session::flash('message', $message);
         }
 
-        if (strpos(Request::server('HTTP_REFERER'), 'recurring_invoices')) {
+        if (strpos(Request::server('HTTP_REFERER'), 'recurring_purchase_invoices')) {
             $entityType = ENTITY_RECURRING_INVOICE;
         }
 
@@ -543,11 +514,11 @@ class PurchaseInvoiceController extends BaseController
 
     public function convertQuote(PurchaseInvoiceRequest $request)
     {
-        $clone = $this->purchaseService->convertQuote($request->entity());
+        $clone = $this->purchaseInvoiceService->convertQuote($request->entity());
 
         Session::flash('message', trans('texts.converted_to_invoice'));
 
-        return url('invoices/' . $clone->public_id);
+        return url('purchase_invoices/' . $clone->public_id);
     }
 
     public function cloneInvoice(PurchaseInvoiceRequest $request, $publicId)
@@ -625,7 +596,7 @@ class PurchaseInvoiceController extends BaseController
             'paymentId' => $paymentId,
         ];
 
-        return View::make('invoices.history', $data);
+        return View::make('purchase_invoices.history', $data);
     }
 
     public function receiveNote(PurchaseInvoiceRequest $request)
@@ -653,19 +624,19 @@ class PurchaseInvoiceController extends BaseController
             'invoiceFonts' => Cache::get('fonts'),
         ];
 
-        return View::make('invoices.delivery_note', $data);
+        return View::make('purchase_invoices.delivery_note', $data);
     }
 
     public function checkInvoiceNumber($invoicePublicId = false)
     {
         $invoiceNumber = request()->invoice_number;
 
-        $query = Invoice::scope()
-            ->whereInvoiceNumber($invoiceNumber)
+        $query = PurchaseInvoice::scope()
+            ->where('invoice_number', $invoiceNumber)
             ->withTrashed();
 
         if ($invoicePublicId) {
-            $query->where('public_id', '!=', $invoicePublicId);
+            $query->where('public_id', $invoicePublicId);
         }
 
         $count = $query->count();

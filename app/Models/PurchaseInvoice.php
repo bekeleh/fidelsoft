@@ -24,7 +24,7 @@ use DateTime;
 class PurchaseInvoice extends EntityModel implements BalanceAffecting
 {
     use PresentableTrait;
-    use OwnedByClientTrait;
+    use OwnedByVendorTrait;
     use ChargesFees;
     use HasRecurrence;
 
@@ -58,16 +58,16 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
     protected $casts = [
         'is_recurring' => 'boolean',
         'has_tasks' => 'boolean',
-        'client_enable_auto_bill' => 'boolean',
+        'vendor_enable_auto_bill' => 'boolean',
         'has_expenses' => 'boolean',
     ];
-
+//  vendor counter should be replace by vendor counter and the reset too.
     public static $patternFields = [
         'counter',
-        'clientCounter',
-        'clientIdNumber',
-        'clientCustom1',
-        'clientCustom2',
+        'vendorCounter',
+        'vendorIdNumber',
+        'vendorCustom1',
+        'vendorCustom2',
         'userId',
         'year',
         'date:',
@@ -116,7 +116,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
     {
         return [
             'number^po' => 'invoice_number',
-            'client|organization' => 'name',
+            'vendor|organization' => 'name',
             'email' => 'email',
             'paid^date' => 'paid',
             'invoice date|create date' => 'invoice_date',
@@ -217,7 +217,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
             $dirty = $this->getDirty();
 
             unset($dirty['invoice_status_id']);
-            unset($dirty['client_enable_auto_bill']);
+            unset($dirty['vendor_enable_auto_bill']);
             unset($dirty['quote_invoice_id']);
 
             return count($dirty) > 0;
@@ -247,7 +247,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     public function trashed()
     {
-        if ($this->client && $this->client->trashed()) {
+        if ($this->vendor && $this->vendor->trashed()) {
             return true;
         }
 
@@ -269,7 +269,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
         return $this->belongsTo('App\Models\Vendor')->withTrashed();
     }
 
-    public function purchase_items()
+    public function invoice_items()
     {
         return $this->hasMany('App\Models\PurchaseItem')->orderBy('id');
     }
@@ -380,7 +380,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
             });
     }
 
-    public function scopePurchaseInvoiceType($query, $typeId)
+    public function scopeInvoiceType($query, $typeId)
     {
         return $query->where('invoice_type_id', $typeId);
     }
@@ -502,7 +502,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
         $purchase_invitation->markSent($messageId);
 
-        // if the user marks it as sent rather than acually sending it
+        // if the user marks it as sent rather than actually sending it
         // then we won't track it in the activity log
         if (!$notify) {
             return;
@@ -573,7 +573,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
             if (!$this->partial && $this->partial_due_date) {
                 $this->partial_due_date = null;
                 if (!$this->due_date) {
-                    $this->due_date = $this->account->defaultDueDate($this->client);
+                    $this->due_date = $this->account->defaultDueDate($this->vendor);
                 }
             }
         }
@@ -740,8 +740,8 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     public function getCurrencyCode()
     {
-        if ($this->client->currency) {
-            return $this->client->currency->code;
+        if ($this->vendor->currency) {
+            return $this->vendor->currency->code;
         } elseif ($this->account->currency) {
             return $this->account->currency->code;
         } else {
@@ -766,7 +766,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
             'invoice_items',
             'documents',
             'expenses',
-            'client',
+            'vendor',
             'purchase_invitations',
             'tax_name1',
             'tax_rate1',
@@ -790,7 +790,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
             'has_expenses',
         ]);
 
-        $this->client->setVisible([
+        $this->vendor->setVisible([
             'name',
             'balance',
             'id_number',
@@ -873,7 +873,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
             ]);
         }
 
-        foreach ($this->client->contacts as $contact) {
+        foreach ($this->vendor->contacts as $contact) {
             $contact->setVisible([
                 'first_name',
                 'last_name',
@@ -977,9 +977,9 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
                 if ($dueDate) {
                     return date('Y-m-d', $dueDate); // SQL format
                 }
-            } elseif ($this->client->payment_terms != 0) {
-                // No custom due date set for this invoice; use the client's payment terms
-                $days = $this->client->defaultDaysDue();
+            } elseif ($this->vendor->payment_terms != 0) {
+                // No custom due date set for this invoice; use the vendor's payment terms
+                $days = $this->vendor->defaultDaysDue();
 
                 return date('Y-m-d', strtotime('+' . $days . ' day', $now));
             } elseif ($this->account->payment_terms != 0) {
@@ -987,7 +987,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
                 return date('Y-m-d', strtotime('+' . $days . ' day', $now));
             } elseif ($this->account->payment_terms != 0) {
-                // No custom due date set for this invoice; use the client's payment terms
+                // No custom due date set for this invoice; use the vendor's payment terms
                 $days = $this->account->payment_terms;
                 if ($days == -1) {
                     $days = 0;
@@ -1287,7 +1287,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
             return false;
         }
 
-        return $recurPurchaseInvoice->auto_bill == AUTO_BILL_ALWAYS || ($recurPurchaseInvoice->auto_bill != AUTO_BILL_OFF && $recurPurchaseInvoice->client_enable_auto_bill);
+        return $recurPurchaseInvoice->auto_bill == AUTO_BILL_ALWAYS || ($recurPurchaseInvoice->auto_bill != AUTO_BILL_OFF && $recurPurchaseInvoice->vendor_enable_auto_bill);
     }
 
     public static function getStatuses($entityType = false)
@@ -1328,6 +1328,11 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
             ->whereIn('activity_type_id', [ACTIVITY_TYPE_EMAIL_INVOICE, ACTIVITY_TYPE_EMAIL_QUOTE])
             ->orderBy('id', 'desc')
             ->get();
+    }
+
+    public function getDateLabel()
+    {
+        return $this->getEntityType() === ENTITY_PURCHASE_INVOICE ? 'invoice_date' : 'quote_date';
     }
 
     public function getDueDateLabel()
@@ -1393,16 +1398,17 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
     }
 }
 
-//PurchaseInvoice::creating(function ($purchaseInvoice) {
-//    if (!$purchaseInvoice->is_recurring) {
-//        $account = $purchaseInvoice->account;
-//        if ($purchaseInvoice->amount >= 0) {
-//            $account->incrementCounter($purchaseInvoice);
-//        } elseif ($account->credit_number_counter > 0) {
-//            $account->incrementCounter(new Credit());
-//        }
-//    }
-//});
+// invoice counter maybe not required for purchase invoice case
+PurchaseInvoice::creating(function ($purchaseInvoice) {
+    if (!$purchaseInvoice->is_recurring) {
+        $account = $purchaseInvoice->account;
+        if ($purchaseInvoice->amount >= 0) {
+            $account->purchaseIncrementCounter($purchaseInvoice);
+        } elseif ($account->credit_number_counter > 0) {
+            $account->purchaseIncrementCounter(new PurchaseCredit());
+        }
+    }
+});
 
 PurchaseInvoice::created(function ($purchaseInvoice) {
     if ($purchaseInvoice->isType(PURCHASE_INVOICE_TYPE_QUOTE)) {

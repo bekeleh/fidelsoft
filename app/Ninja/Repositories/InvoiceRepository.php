@@ -237,7 +237,7 @@ class InvoiceRepository extends BaseRepository
             });
         }
 
-        $this->applyFilters($query, ENTITY_RECURRING_INVOICE, 'invoices');
+        $this->applyFilters($query, ENTITY_RECURRING_INVOICE);
 
         return $query;
     }
@@ -629,7 +629,6 @@ class InvoiceRepository extends BaseRepository
         if (empty($invoice)) {
             return null;
         }
-
         $client = $invoice->client;
 
         $client->load('contacts');
@@ -1111,7 +1110,7 @@ class InvoiceRepository extends BaseRepository
         $invoices = Invoice::invoiceType(INVOICE_TYPE_STANDARD)
             ->with('client', 'invoice_items')
             ->whereHas('client', function ($query) {
-                $query->whereSendReminders(true);
+                $query->where('send_reminders', true);
             })
             ->where('account_id', $account->id)
             ->where('balance', '>', 0)
@@ -1147,7 +1146,7 @@ class InvoiceRepository extends BaseRepository
         $invoices = Invoice::invoiceType(INVOICE_TYPE_STANDARD)
             ->with('client', 'invoice_items')
             ->whereHas('client', function ($query) {
-                $query->whereSendReminders(true);
+                $query->where('send_reminders', true);
             })
             ->where('account_id', $account->id)
             ->where('balance', '>', 0)
@@ -1353,7 +1352,7 @@ class InvoiceRepository extends BaseRepository
         }
 
         $task = Task::scope(trim($item['task_public_id']))
-            ->whereNull('invoice_id')->firstOrFail();
+            ->where('invoice_id', null)->firstOrFail();
         if (Auth::user()->can('edit', $task)) {
             $task->invoice_id = $invoice->id;
             $task->client_id = $invoice->client_id;

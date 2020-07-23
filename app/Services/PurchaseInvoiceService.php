@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Events\QuotePurchaseInvitationWasApproved;
-use App\Jobs\DownloadPurchaseInvoices;
+use App\Jobs\DownloadPurchaseInvoice;
 use App\Libraries\Utils;
 use App\Models\Vendor;
 use App\Models\PurchaseInvitation;
@@ -28,7 +28,10 @@ class PurchaseInvoiceService extends BaseService
      * @param PurchaseInvoiceRepository $purchaseInvoiceRepo
      * @param DatatableService $datatableService
      */
-    public function __construct(VendorRepository $vendorRepo, PurchaseInvoiceRepository $purchaseInvoiceRepo, DatatableService $datatableService)
+    public function __construct(
+        VendorRepository $vendorRepo,
+        PurchaseInvoiceRepository $purchaseInvoiceRepo,
+        DatatableService $datatableService)
     {
         $this->vendorRepo = $vendorRepo;
         $this->purchaseInvoiceRepo = $purchaseInvoiceRepo;
@@ -45,7 +48,7 @@ class PurchaseInvoiceService extends BaseService
     {
         if ($action == 'download') {
             $purchaseInvoices = $this->getRepo()->findByPublicIdsWithTrashed($ids);
-            dispatch(new DownloadPurchaseInvoices(Auth::user(), $purchaseInvoices));
+            dispatch(new DownloadPurchaseInvoice(Auth::user(), $purchaseInvoices));
             return count($purchaseInvoices);
         } else {
             return parent::bulk($ids, $action);

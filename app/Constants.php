@@ -24,6 +24,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_PURCHASE_RECURRING_INVOICE', 'purchase_recurring_invoice');
     define('ENTITY_PAYMENT', 'payment');
     define('ENTITY_CREDIT', 'credit');
+    define('ENTITY_PURCHASE_CREDIT', 'purchase_credit');
     define('ENTITY_QUOTE', 'quote');
     define('ENTITY_PURCHASE_QUOTE', 'purchase_quote');
     define('ENTITY_TASK', 'task');
@@ -732,6 +733,7 @@ if (!defined('APP_NAME')) {
     define('FEATURE_DIFFERENT_DESIGNS', 'different_designs');
     define('FEATURE_EMAIL_TEMPLATES_REMINDERS', 'email_templates_reminders');
     define('FEATURE_INVOICE_SETTINGS', 'invoice_settings');
+    define('FEATURE_PURCHASE_INVOICE_SETTINGS', 'purchase_invoice_settings');
     define('FEATURE_CUSTOM_EMAILS', 'custom_emails');
     define('FEATURE_PDF_ATTACHMENT', 'pdf_attachment');
     define('FEATURE_MORE_INVOICE_DESIGNS', 'more_invoice_designs');

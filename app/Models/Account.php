@@ -6,6 +6,7 @@ use App;
 use App\Events\UserSettingsChanged;
 use App\Libraries\Utils;
 use App\Models\Traits\GeneratesNumbers;
+use App\Models\Traits\GenerateVendorNumbers;
 use App\Models\Traits\HasCustomMessages;
 use App\Models\Traits\HasLogo;
 use App\Models\Traits\PresentsInvoice;
@@ -29,6 +30,7 @@ class Account extends Eloquent
     use SoftDeletes;
     use PresentsInvoice;
     use GeneratesNumbers;
+    use GenerateVendorNumbers;
     use SendsEmails;
     use HasLogo;
     use HasCustomMessages;
@@ -72,11 +74,18 @@ class Account extends Eloquent
         'hide_quantity',
         'hide_paid_to_date',
         'vat_number',
+//      client counter
         'invoice_number_prefix',
         'invoice_number_counter',
         'quote_number_prefix',
         'quote_number_counter',
         'share_counter',
+//      purchase counter
+        'purchase_invoice_number_prefix',
+        'purchase_invoice_number_counter',
+        'purchase_quote_number_prefix',
+        'purchase_quote_number_counter',
+        'share_purchase_counter',
         'id_number',
         'token_billing_type_id',
         'invoice_footer',
@@ -145,20 +154,32 @@ class Account extends Eloquent
         'show_accept_quote_terms',
         'require_invoice_signature',
         'require_quote_signature',
+//      client info
         'client_number_prefix',
         'client_number_counter',
         'client_number_pattern',
+//       vendor info
+        'vendor_number_prefix',
+        'vendor_number_counter',
+        'vendor_number_pattern',
         'payment_terms',
         'reset_counter_frequency_id',
+        'reset_purchase_counter_frequency_id',
+        'reset_counter_date',
+        'reset_purchase_counter_date',
         'payment_type_id',
         'gateway_fee_enabled',
         'send_item_details',
-        'reset_counter_date',
         'domain_id',
         'analytics_key',
+//       sales credit info
         'credit_number_counter',
         'credit_number_prefix',
         'credit_number_pattern',
+//       purchase credit info
+        'vendor_credit_number_counter',
+        'vendor_credit_number_prefix',
+        'vendor_credit_number_pattern',
         'task_rate',
         'inclusive_taxes',
         'convert_products',
@@ -354,9 +375,16 @@ class Account extends Eloquent
         return $this->hasMany('App\Models\Contact');
     }
 
+//  sales invoices
     public function invoices()
     {
         return $this->hasMany('App\Models\Invoice');
+    }
+
+// purchase invoices
+    public function purchase_invoices()
+    {
+        return $this->hasMany('App\Models\PurchaseInvoice');
     }
 
     public function account_gateways()
@@ -391,17 +419,17 @@ class Account extends Eloquent
 
     public function itemBrands()
     {
-        return $this->hasMany('App\Models\ItemBrand', 'account_id', 'id')->withTrashed();
+        return $this->hasMany('App\Models\ItemBrand')->withTrashed();
     }
 
     public function itemCategories()
     {
-        return $this->hasMany('App\Models\ItemCategory', 'account_id', 'id')->withTrashed();
+        return $this->hasMany('App\Models\ItemCategory')->withTrashed();
     }
 
     public function defaultDocuments()
     {
-        return $this->hasMany('App\Models\Document')->whereIsDefault(true);
+        return $this->hasMany('App\Models\Document')->where('is_default', true);
     }
 
     public function background_image()
@@ -457,12 +485,12 @@ class Account extends Eloquent
 
     public function expenses()
     {
-        return $this->hasMany('App\Models\Expense', 'account_id', 'id')->withTrashed();
+        return $this->hasMany('App\Models\Expense')->withTrashed();
     }
 
     public function payments()
     {
-        return $this->hasMany('App\Models\Payment', 'account_id', 'id')->withTrashed();
+        return $this->hasMany('App\Models\Payment')->withTrashed();
     }
 
 
@@ -473,18 +501,18 @@ class Account extends Eloquent
 
     public function expense_categories()
     {
-        return $this->hasMany('App\Models\ExpenseCategory', 'account_id', 'id')->withTrashed();
+        return $this->hasMany('App\Models\ExpenseCategory')->withTrashed();
     }
 
     public function projects()
     {
-        return $this->hasMany('App\Models\Project', 'account_id', 'id')->withTrashed();
+        return $this->hasMany('App\Models\Project')->withTrashed();
     }
 
 
     public function custom_payment_terms()
     {
-        return $this->hasMany('App\Models\PaymentTerm', 'account_id', 'id')->withTrashed();
+        return $this->hasMany('App\Models\PaymentTerm')->withTrashed();
     }
 
 
@@ -913,6 +941,43 @@ class Account extends Eloquent
         return $invoice;
     }
 
+    public function createPurchaseInvoice($entityType = ENTITY_PURCHASE_INVOICE, $vendorId = null)
+    {
+        $purchaseInvoice = PurchaseInvoice::createNew();
+
+        $purchaseInvoice->is_recurring = false;
+        $purchaseInvoice->invoice_type_id = INVOICE_TYPE_STANDARD;
+        $purchaseInvoice->invoice_date = Utils::today();
+        $purchaseInvoice->start_date = Utils::today();
+        $purchaseInvoice->invoice_design_id = $this->invoice_design_id;
+        $purchaseInvoice->vendor_id = $vendorId;
+        $purchaseInvoice->custom_taxes1 = $this->custom_invoice_taxes1;
+        $purchaseInvoice->custom_taxes2 = $this->custom_invoice_taxes2;
+
+        if ($entityType === ENTITY_RECURRING_PURCHASE_INVOICE) {
+            $purchaseInvoice->invoice_number = microtime(true);
+            $purchaseInvoice->is_recurring = true;
+        } else {
+            if ($entityType == ENTITY_PURCHASE_QUOTE) {
+                $purchaseInvoice->invoice_type_id = PURCHASE_INVOICE_TYPE_QUOTE;
+                $purchaseInvoice->invoice_design_id = $this->quote_design_id;
+            }
+
+            if ($this->hasVendorNumberPattern($purchaseInvoice) && !$vendorId) {
+                // do nothing, we don't yet know the value
+            } elseif (!$purchaseInvoice->invoice_number) {
+                $purchaseInvoice->invoice_number = $this->getVendorNextNumber($purchaseInvoice);
+            }
+        }
+
+        if (!$vendorId) {
+            $purchaseInvoice->vendor = Vendor::createNew();
+            $purchaseInvoice->vendor->public_id = 0;
+        }
+
+        return $purchaseInvoice;
+    }
+
     public function loadLocalizationSettings($client = false)
     {
         $this->load('timezone', 'date_format', 'datetime_format', 'language');
@@ -977,10 +1042,6 @@ class Account extends Eloquent
 
     public function hasFeature($feature)
     {
-        // if (Utils::isNinjaDev()) {
-        //     return true;
-        // }
-
         $planDetails = $this->getPlanDetails();
         $selfHost = !Utils::isNinjaProd();
         if (!$selfHost && function_exists('ninja_account_features')) {

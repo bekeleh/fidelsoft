@@ -182,7 +182,8 @@ $LANG = array(
     'manufacturer_help' => 'Sets the default <b>manufacturer</b>',
 //   Purchases
     'purchase_name' => 'Purchase Name',
-    'purchases' => 'Purchases Invoice',
+    'purchase_invoice' => 'Purchase Invoice',
+    'purchase_invoices' => 'Purchases Invoice',
     'purchase_quote' => 'Purchases Quotation',
     'purchase_return' => 'Purchases Return',
     'purchase_list' => 'Purchase List',
@@ -890,6 +891,7 @@ $LANG = array(
     'sales_return' => 'Sales Return',
     'payments' => 'Receive Payments',
     'credits' => 'Client Credits',
+    'purchase_credits' => 'Vendor Credits',
     'history' => 'History',
     'search' => 'Search... ',
     'sign_up' => 'Sign Up',

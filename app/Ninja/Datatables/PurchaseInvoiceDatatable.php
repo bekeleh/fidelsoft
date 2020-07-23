@@ -3,7 +3,7 @@
 namespace App\Ninja\Datatables;
 
 use App\Libraries\Utils;
-use App\Models\Invoice;
+use App\Models\PurchaseInvoice;
 use DropdownButton;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
@@ -29,12 +29,12 @@ class PurchaseInvoiceDatatable extends EntityDatatable
                 },
             ],
             [
-                'client_name',
+                'vendor_name',
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_CLIENT]))
-                        return link_to("clients/{$model->client_public_id}", Utils::getClientDisplayName($model))->toHtml();
+                    if (Auth::user()->can('edit', [ENTITY_VENDOR]))
+                        return link_to("vendors/{$model->vendor_public_id}", Utils::getVendorDisplayName($model))->toHtml();
                     else
-                        return Utils::getClientDisplayName($model);
+                        return Utils::getVendorDisplayName($model);
 
                 },
             ],
@@ -85,7 +85,7 @@ class PurchaseInvoiceDatatable extends EntityDatatable
             [
                 'status',
                 function ($model) use ($entityType) {
-                    return $model->quote_invoice_id ? link_to("invoices/{$model->quote_invoice_id}/edit", trans('texts.converted'))->toHtml() : self::getStatusLabel($model);
+                    return $model->quote_invoice_id ? link_to("purchase_invoices/{$model->quote_invoice_id}/edit", trans('texts.converted'))->toHtml() : self::getStatusLabel($model);
                 },
             ],
             [
@@ -141,7 +141,7 @@ class PurchaseInvoiceDatatable extends EntityDatatable
             [
                 trans('texts.edit_invoice'),
                 function ($model) {
-                    return URL::to("invoices/{$model->public_id}/edit");
+                    return URL::to("purchase_invoices/{$model->public_id}/edit");
                 },
                 function ($model) {
                     return !$model->is_public && Auth::user()->can('edit', [ENTITY_PURCHASE_INVOICE, $model]);
@@ -150,7 +150,7 @@ class PurchaseInvoiceDatatable extends EntityDatatable
             [
                 trans("texts.clone_invoice"),
                 function ($model) {
-                    return URL::to("invoices/{$model->public_id}/clone");
+                    return URL::to("purchase_invoices/{$model->public_id}/clone");
                 },
                 function ($model) {
                     return Auth::user()->can('create', ENTITY_PURCHASE_INVOICE);
@@ -174,7 +174,7 @@ class PurchaseInvoiceDatatable extends EntityDatatable
             [
                 trans('texts.delivery_note'),
                 function ($model) use ($entityType) {
-                    return url("invoices/delivery_note/{$model->public_id}");
+                    return url("purchase_invoices/delivery_note/{$model->public_id}");
                 },
                 function ($model) use ($entityType) {
                     return $entityType == ENTITY_PURCHASE_INVOICE;
@@ -226,7 +226,7 @@ class PurchaseInvoiceDatatable extends EntityDatatable
             [
                 trans('texts.enter_payment'),
                 function ($model) {
-                    return URL::to("payments/create/{$model->client_public_id}/{$model->public_id}");
+                    return URL::to("payments/create/{$model->vendor_public_id}/{$model->public_id}");
                 },
                 function ($model) use ($entityType) {
                     return $entityType == ENTITY_PURCHASE_INVOICE && $model->invoice_status_id != INVOICE_STATUS_PAID && Auth::user()->can('create', ENTITY_PAYMENT);
@@ -235,7 +235,7 @@ class PurchaseInvoiceDatatable extends EntityDatatable
             [
                 trans('texts.view_invoice'),
                 function ($model) {
-                    return URL::to("invoices/{$model->quote_invoice_id}/edit");
+                    return URL::to("purchase_invoices/{$model->quote_invoice_id}/edit");
                 },
                 function ($model) use ($entityType) {
                     return $entityType == ENTITY_QUOTE && $model->quote_invoice_id && Auth::user()->can('view', [ENTITY_PURCHASE_INVOICE, $model]);
@@ -255,8 +255,8 @@ class PurchaseInvoiceDatatable extends EntityDatatable
 
     private function getStatusLabel($model)
     {
-        $class = Invoice::calcStatusClass($model->invoice_status_id, $model->balance, $model->partial_due_date ?: $model->due_date_sql, $model->is_recurring);
-        $label = Invoice::calcStatusLabel($model->invoice_status_name, $class, $this->entityType, $model->quote_invoice_id);
+        $class = PurchaseInvoice::calcStatusClass($model->invoice_status_id, $model->balance, $model->partial_due_date ?: $model->due_date_sql, $model->is_recurring);
+        $label = PurchaseInvoice::calcStatusLabel($model->invoice_status_name, $class, $this->entityType, $model->quote_invoice_id);
 
         return "<h4><div class=\"label label-{$class}\">$label</div></h4>";
     }

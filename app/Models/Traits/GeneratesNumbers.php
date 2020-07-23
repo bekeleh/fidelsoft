@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 trait GeneratesNumbers
 {
 
+// get client next number
     public function getNextNumber($entity = false)
     {
         $entity = $entity ?: new Client();
@@ -41,9 +42,9 @@ trait GeneratesNumbers
             }
 
             if ($entity->isEntityType(ENTITY_CLIENT)) {
-                $check = Client::scope(false, $this->id)->whereIdNumber($number)->withTrashed()->first();
+                $check = Client::scope(false, $this->id)->where('id_number', $number)->withTrashed()->first();
             } else {
-                $check = Invoice::scope(false, $this->id)->whereInvoiceNumber($number)->withTrashed()->first();
+                $check = Invoice::scope(false, $this->id)->where('invoice_number', $number)->withTrashed()->first();
             }
             $counter++;
             $counterOffset++;
@@ -116,7 +117,7 @@ trait GeneratesNumbers
         return $this->getNumberPattern($entityType) ? true : false;
     }
 
-
+//    client number pattern
     public function hasClientNumberPattern($invoice)
     {
         if (!$this->isPro()) {
