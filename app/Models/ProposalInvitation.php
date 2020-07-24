@@ -6,7 +6,7 @@ use App\Models\Traits\Inviteable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class Invitation.
+ * Class ProposalInvitation.
  */
 class ProposalInvitation extends EntityModel
 {

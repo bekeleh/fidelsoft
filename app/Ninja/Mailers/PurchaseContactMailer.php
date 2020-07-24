@@ -7,7 +7,7 @@ use App\Events\PurchaseQuoteWasEmailed;
 use App\Jobs\ConvertInvoiceToUbl;
 use App\Libraries\Utils;
 use App\Models\PurchaseInvoice;
-use App\Models\Payment;
+use App\Models\PurchasePayment;
 use App\Services\TemplateService;
 use HTMLUtils;
 use Illuminate\Support\Facades\Cache;
@@ -30,7 +30,7 @@ class PurchaseContactMailer extends Mailer
             return false;
         }
 
-        $purchaseInvoice->load('invitations', 'vendor.language', 'account');
+        $purchaseInvoice->load('purchase_invitations', 'vendor.language', 'account');
 
         if ($proposal) {
             $entityType = ENTITY_PROPOSAL;
@@ -81,10 +81,10 @@ class PurchaseContactMailer extends Mailer
         }
 
         $isFirst = true;
-        $invitations = $proposal ? $proposal->invitations : $purchaseInvoice->invitations;
-        foreach ($invitations as $invitation) {
+        $purchase_invitations = $proposal ? $proposal->purchase_invitations : $purchaseInvoice->purchase_invitations;
+        foreach ($purchase_invitations as $purchaseInvitation) {
             if ($account->attachPDF() && !$proposal) {
-                $pdfString = $purchaseInvoice->getPDFString($invitation);
+                $pdfString = $purchaseInvoice->getPDFString($purchaseInvitation);
             }
             $data = [
                 'pdfString' => $pdfString,
@@ -92,7 +92,7 @@ class PurchaseContactMailer extends Mailer
                 'ublString' => $ublString,
                 'proposal' => $proposal,
             ];
-            $response = $this->sendInvitation($invitation, $purchaseInvoice, $emailTemplate, $emailSubject, $reminder, $isFirst, $data);
+            $response = $this->sendPurchaseInvitation($purchaseInvitation, $purchaseInvoice, $emailTemplate, $emailSubject, $reminder, $isFirst, $data);
             $isFirst = false;
             if ($response === true) {
                 $sent = true;
@@ -112,8 +112,8 @@ class PurchaseContactMailer extends Mailer
         return $response;
     }
 
-    private function sendInvitation(
-        $invitation,
+    private function sendPurchaseInvitation(
+        $purchaseInvitation,
         PurchaseInvoice $purchaseInvoice,
         $body,
         $subject,
@@ -124,7 +124,7 @@ class PurchaseContactMailer extends Mailer
     {
         $vendor = $purchaseInvoice->vendor;
         $account = $purchaseInvoice->account;
-        $user = $invitation->user;
+        $user = $purchaseInvitation->user;
         $proposal = $extra['proposal'];
 
         if ($user->trashed()) {
@@ -135,16 +135,16 @@ class PurchaseContactMailer extends Mailer
             return trans('texts.email_error_user_unregistered');
         } elseif (!$user->confirmed || $this->isThrottled($account)) {
             return trans('texts.email_error_user_unconfirmed');
-        } elseif (!$invitation->contact->email) {
+        } elseif (!$purchaseInvitation->contact->email) {
             return trans('texts.email_error_invalid_contact_email');
-        } elseif ($invitation->contact->trashed()) {
+        } elseif ($purchaseInvitation->contact->trashed()) {
             return trans('texts.email_error_inactive_contact');
         }
 
         $variables = [
             'account' => $account,
             'vendor' => $vendor,
-            'invitation' => $invitation,
+            'invitation' => $purchaseInvitation,
             'amount' => $purchaseInvoice->getRequestedAmount(),
         ];
 
@@ -154,11 +154,11 @@ class PurchaseContactMailer extends Mailer
                 $variables['autobill'] = $purchaseInvoice->present()->autoBillEmailMessage();
             }
 
-            if (empty($invitation->contact->password) && $account->isClientPortalPasswordEnabled() && $account->send_portal_password) {
+            if (empty($purchaseInvitation->contact->password) && $account->isClientPortalPasswordEnabled() && $account->send_portal_password) {
                 // The contact needs a password
                 $variables['password'] = $password = $this->generatePassword();
-                $invitation->contact->password = bcrypt($password);
-                $invitation->contact->save();
+                $purchaseInvitation->contact->password = bcrypt($password);
+                $purchaseInvitation->contact->save();
             }
         }
 
@@ -170,10 +170,10 @@ class PurchaseContactMailer extends Mailer
 
         $data = [
             'body' => $body,
-            'link' => $invitation->getLink(),
+            'link' => $purchaseInvitation->getLink(),
             'entityType' => $proposal ? ENTITY_PROPOSAL : $purchaseInvoice->getEntityType(),
             'purchaseInvoiceId' => $purchaseInvoice->id,
-            'invitation' => $invitation,
+            'invitation' => $purchaseInvitation,
             'account' => $account,
             'vendor' => $vendor,
             'purchaseInvoice' => $purchaseInvoice,
@@ -200,7 +200,7 @@ class PurchaseContactMailer extends Mailer
         $fromEmail = $account->getReplyToEmail() ?: $user->email;
         $view = $account->getTemplateView(ENTITY_INVOICE);
 
-        $response = $this->sendTo($invitation->contact->email, $fromEmail, $account->getDisplayName(), $subject, $view, $data);
+        $response = $this->sendTo($purchaseInvitation->contact->email, $fromEmail, $account->getDisplayName(), $subject, $view, $data);
 
         if ($response === true) {
             return true;
@@ -232,14 +232,14 @@ class PurchaseContactMailer extends Mailer
     }
 
 
-    public function sendPaymentConfirmation(Payment $payment, $refunded = 0)
+    public function sendPaymentConfirmation(PurchasePayment $purchasePayment, $refunded = 0)
     {
-        $account = $payment->account;
-        $vendor = $payment->vendor;
+        $account = $purchasePayment->account;
+        $vendor = $purchasePayment->vendor;
 
         $account->loadLocalizationSettings($vendor);
-        $purchaseInvoice = $payment->invoice;
-        $invitation = $payment->invitation ?: $payment->invoice->invitations[0];
+        $purchaseInvoice = $purchasePayment->purchase_invoice;
+        $purchaseInvitation = $purchasePayment->invitation ?: $purchasePayment->purchase_invoice->purchase_invitations[0];
         $accountName = $account->getDisplayName();
 
         if ($refunded > 0) {
@@ -253,28 +253,28 @@ class PurchaseContactMailer extends Mailer
             $emailTemplate = $account->getEmailTemplate(ENTITY_PAYMENT);
         }
 
-        if ($payment->invitation) {
-            $user = $payment->invitation->user;
-            $contact = $payment->contact;
+        if ($purchasePayment->invitation) {
+            $user = $purchasePayment->invitation->user;
+            $contact = $purchasePayment->contact;
         } else {
-            $user = $payment->user;
+            $user = $purchasePayment->user;
             $contact = $vendor->contacts->count() ? $vendor->contacts[0] : '';
         }
 
         $variables = [
             'account' => $account,
             'vendor' => $vendor,
-            'invitation' => $invitation,
-            'amount' => $payment->amount,
+            'invitation' => $purchaseInvitation,
+            'amount' => $purchasePayment->amount,
         ];
 
         $data = [
             'body' => $this->templateService->processVariables($emailTemplate, $variables),
-            'link' => $invitation->getLink(),
+            'link' => $purchaseInvitation->getLink(),
             'invoice' => $purchaseInvoice,
             'vendor' => $vendor,
             'account' => $account,
-            'payment' => $payment,
+            'payment' => $purchasePayment,
             'entityType' => ENTITY_INVOICE,
             'bccEmail' => $account->getBccEmail(),
             'fromEmail' => $account->getFromEmail(),
@@ -288,7 +288,7 @@ class PurchaseContactMailer extends Mailer
         }
 
         $subject = $this->templateService->processVariables($emailSubject, $variables);
-        $data['invoice_id'] = $payment->invoice->id;
+        $data['invoice_id'] = $purchasePayment->purchase_invoice->id;
 
         $view = $account->getTemplateView('payment_confirmation');
         $fromEmail = $account->getReplyToEmail() ?: $user->email;

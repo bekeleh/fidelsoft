@@ -19,11 +19,13 @@ if (!defined('APP_NAME')) {
     define('ENTITY_INVOICE_ITEM', 'invoice_item');
     define('ENTITY_PURCHASE_INVOICE_ITEM', 'purchase_invoice_item');
     define('ENTITY_INVITATION', 'invitation');
+    define('ENTITY_PURCHASE_PROPOSAL_INVITATION', 'purchase_proposal_invitation');
     define('ENTITY_PURCHASE_INVITATION', 'invitation');
     define('ENTITY_RECURRING_INVOICE', 'recurring_invoice');
     define('ENTITY_RECURRING_PURCHASE_INVOICE', 'recurring_purchase_invoice');
     define('ENTITY_PURCHASE_RECURRING_INVOICE', 'purchase_recurring_invoice');
     define('ENTITY_PAYMENT', 'payment');
+    define('ENTITY_PURCHASE_PAYMENT', 'purchase_payment');
     define('ENTITY_CREDIT', 'credit');
     define('ENTITY_PURCHASE_CREDIT', 'purchase_credit');
     define('ENTITY_QUOTE', 'quote');
@@ -249,12 +251,12 @@ if (!defined('APP_NAME')) {
     define('ACTIVITY_TYPE_VIEW_INVOICE', 7);
     define('ACTIVITY_TYPE_ARCHIVE_INVOICE', 8);
     define('ACTIVITY_TYPE_DELETE_INVOICE', 9);
-//    activity type payment
+//    activity sales payment
     define('ACTIVITY_TYPE_CREATE_PAYMENT', 10);
     define('ACTIVITY_TYPE_UPDATE_PAYMENT', 11);
     define('ACTIVITY_TYPE_ARCHIVE_PAYMENT', 12);
     define('ACTIVITY_TYPE_DELETE_PAYMENT', 13);
-//   activity type credit & quote
+//   activity type sales credit & quote
     define('ACTIVITY_TYPE_CREATE_CREDIT', 14);
     define('ACTIVITY_TYPE_UPDATE_CREDIT', 15);
     define('ACTIVITY_TYPE_ARCHIVE_CREDIT', 16);
@@ -271,29 +273,20 @@ if (!defined('APP_NAME')) {
     define('ACTIVITY_TYPE_RESTORE_PAYMENT', 27);
     define('ACTIVITY_TYPE_RESTORE_CREDIT', 28);
     define('ACTIVITY_TYPE_APPROVE_QUOTE', 29);
+//   vendor
     define('ACTIVITY_TYPE_CREATE_VENDOR', 30);
     define('ACTIVITY_TYPE_ARCHIVE_VENDOR', 31);
     define('ACTIVITY_TYPE_DELETE_VENDOR', 32);
     define('ACTIVITY_TYPE_RESTORE_VENDOR', 33);
+//   expense
     define('ACTIVITY_TYPE_CREATE_EXPENSE', 34);
     define('ACTIVITY_TYPE_ARCHIVE_EXPENSE', 35);
     define('ACTIVITY_TYPE_DELETE_EXPENSE', 36);
     define('ACTIVITY_TYPE_RESTORE_EXPENSE', 37);
+//    payment
     define('ACTIVITY_TYPE_VOIDED_PAYMENT', 39);
     define('ACTIVITY_TYPE_REFUNDED_PAYMENT', 40);
     define('ACTIVITY_TYPE_FAILED_PAYMENT', 41);
-//   activity type products
-    define('ACTIVITY_TYPE_CREATE_PRODUCT', 60);
-    define('ACTIVITY_TYPE_UPDATE_PRODUCT', 61);
-    define('ACTIVITY_TYPE_ARCHIVE_PRODUCT', 62);
-//    activity type puchase invoices
-    define('ACTIVITY_TYPE_CREATE_PURCHASE_INVOICE', 65);
-    define('ACTIVITY_TYPE_UPDATE_PURCHASE_INVOICE', 66);
-    define('ACTIVITY_TYPE_ARCHIVE_PURCHASE_INVOICE', 67);
-//    activity type puchase items
-    define('ACTIVITY_TYPE_CREATE_PURCHASE_ITEM', 70);
-    define('ACTIVITY_TYPE_UPDATE_PURCHASE_ITEM', 71);
-    define('ACTIVITY_TYPE_ARCHIVE_PURCHASE_ITEM', 71);
 //   activity type task
     define('ACTIVITY_TYPE_CREATE_TASK', 42);
     define('ACTIVITY_TYPE_UPDATE_TASK', 43);
@@ -301,6 +294,43 @@ if (!defined('APP_NAME')) {
     define('ACTIVITY_TYPE_DELETE_TASK', 45);
     define('ACTIVITY_TYPE_RESTORE_TASK', 46);
     define('ACTIVITY_TYPE_UPDATE_EXPENSE', 47);
+//    activity type purchase invoice
+    define('ACTIVITY_TYPE_CREATE_PURCHASE_INVOICE', 48);
+    define('ACTIVITY_TYPE_UPDATE_PURCHASE_INVOICE', 49);
+    define('ACTIVITY_TYPE_EMAIL_PURCHASE_INVOICE', 50);
+    define('ACTIVITY_TYPE_VIEW_PURCHASE_INVOICE', 51);
+    define('ACTIVITY_TYPE_ARCHIVE_PURCHASE_INVOICE', 52);
+    define('ACTIVITY_TYPE_DELETE_PURCHASE_INVOICE', 53);
+//   activity type products
+    define('ACTIVITY_TYPE_CREATE_PRODUCT', 60);
+    define('ACTIVITY_TYPE_UPDATE_PRODUCT', 61);
+    define('ACTIVITY_TYPE_ARCHIVE_PRODUCT', 62);
+//    purchase  payment
+    define('ACTIVITY_TYPE_CREATE_PURCHASE_PAYMENT', 66);
+    define('ACTIVITY_TYPE_UPDATE_PURCHASE_PAYMENT', 67);
+    define('ACTIVITY_TYPE_ARCHIVE_PURCHASE_PAYMENT', 68);
+//    activity type purchase items
+    define('ACTIVITY_TYPE_CREATE_PURCHASE_ITEM', 70);
+    define('ACTIVITY_TYPE_UPDATE_PURCHASE_ITEM', 71);
+    define('ACTIVITY_TYPE_ARCHIVE_PURCHASE_ITEM', 71);
+    //   activity type sales credit & quote
+    define('ACTIVITY_TYPE_CREATE_PURCHASE_CREDIT', 81);
+    define('ACTIVITY_TYPE_UPDATE_PURCHASE_CREDIT', 82);
+    define('ACTIVITY_TYPE_ARCHIVE_PURCHASE_CREDIT', 83);
+    define('ACTIVITY_TYPE_DELETE_PURCHASE_CREDIT', 84);
+    define('ACTIVITY_TYPE_CREATE_PURCHASE_QUOTE', 85);
+    define('ACTIVITY_TYPE_UPDATE_PURCHASE_QUOTE', 86);
+    define('ACTIVITY_TYPE_EMAIL_PURCHASE_QUOTE', 87);
+    define('ACTIVITY_TYPE_VIEW_PURCHASE_QUOTE', 88);
+    define('ACTIVITY_TYPE_ARCHIVE_PURCHASE_QUOTE', 89);
+    define('ACTIVITY_TYPE_DELETE_PURCHASE_QUOTE', 90);
+    define('ACTIVITY_TYPE_RESTORE_PURCHASE_QUOTE', 91);
+    define('ACTIVITY_TYPE_RESTORE_PURCHASE_INVOICE', 92);
+    define('ACTIVITY_TYPE_RESTORE_PURCHASE_VENDOR', 93);
+    define('ACTIVITY_TYPE_RESTORE_PURCHASE_PAYMENT', 94);
+    define('ACTIVITY_TYPE_RESTORE_PURCHASE_CREDIT', 95);
+    define('ACTIVITY_TYPE_APPROVE_PURCHASE_QUOTE', 96);
+
 //  end of  activity type
     define('DEFAULT_INVOICE_NUMBER', '0001');
     define('RECENTLY_VIEWED_LIMIT', 20);
@@ -473,42 +503,42 @@ if (!defined('APP_NAME')) {
     define('GATEWAY_CUSTOM2', 67);
     define('GATEWAY_CUSTOM3', 68);
 
-    // The customer exists, but only as a local concept
-    // The remote gateway doesn't understand the concept of customers
+// The customer exists, but only as a local concept
+// The remote gateway doesn't understand the concept of customers
     define('CUSTOMER_REFERENCE_LOCAL', 'local');
-    //    payment
+//    payment
     define('EVENT_CREATE_PAYMENT', 4);
     define('EVENT_DELETE_PAYMENT', 12);
-    //     invoice
+//     invoice
     define('EVENT_CREATE_INVOICE', 2);
     define('EVENT_UPDATE_INVOICE', 8);
     define('EVENT_DELETE_INVOICE', 9);
-    //  quote
+//  quote
     define('EVENT_CREATE_QUOTE', 3);
     define('EVENT_UPDATE_QUOTE', 6);
     define('EVENT_DELETE_QUOTE', 7);
     define('EVENT_APPROVE_QUOTE', 21);
-    //   client
+//   client
     define('EVENT_CREATE_CLIENT', 1);
     define('EVENT_UPDATE_CLIENT', 10);
     define('EVENT_DELETE_CLIENT', 11);
-    //    client
+//    client
     define('EVENT_CREATE_VENDOR', 5);
     define('EVENT_UPDATE_VENDOR', 13);
     define('EVENT_DELETE_VENDOR', 14);
-    //    expense
+//    expense
     define('EVENT_CREATE_EXPENSE', 15);
     define('EVENT_UPDATE_EXPENSE', 16);
     define('EVENT_DELETE_EXPENSE', 17);
-    //    task
+//    task
     define('EVENT_CREATE_TASK', 18);
     define('EVENT_UPDATE_TASK', 19);
     define('EVENT_DELETE_TASK', 20);
-    //    product
+//    product
     define('EVENT_CREATE_PRODUCT', 22);
     define('EVENT_UPDATE_PRODUCT', 23);
     define('EVENT_DELETE_PRODUCT', 24);
-    //    user
+//    user
     define('EVENT_CREATE_USER', 25);
     define('EVENT_UPDATE_USER', 26);
     define('EVENT_DELETE_USER', 27);
@@ -717,7 +747,7 @@ if (!defined('APP_NAME')) {
     define('AUTO_BILL_ALWAYS', 4);
     define('SERVICE_OR_LABOUR', 6);
 
-    // These must be lowercase
+// These must be lowercase
     define('PLAN_FREE', 'free');
     define('PLAN_PRO', 'pro');
     define('PLAN_ENTERPRISE', 'enterprise');
@@ -728,7 +758,7 @@ if (!defined('APP_NAME')) {
     define('SUBSCRIPTION_FORMAT_JSON', 'JSON');
     define('SUBSCRIPTION_FORMAT_UBL', 'UBL');
 
-    // Pro
+// Pro
     define('FEATURE_CUSTOMIZE_INVOICE_DESIGN', 'customize_invoice_design');
     define('FEATURE_REMOVE_CREATED_BY', 'remove_created_by');
     define('FEATURE_DIFFERENT_DESIGNS', 'different_designs');
@@ -748,21 +778,21 @@ if (!defined('APP_NAME')) {
     define('FEATURE_CUSTOM_URL', 'custom_url');
     define('FEATURE_MORE_CLIENTS', 'more_clients'); // No trial allowed
 
-    // Whitelabel
+// Whitelabel
     define('FEATURE_WHITE_LABEL', 'feature_white_label');
 
-    // Enterprise
+// Enterprise
     define('FEATURE_DOCUMENTS', 'documents');
 
-    // No Trial allowed
+// No Trial allowed
     define('FEATURE_USERS', 'users'); // Grandfathered for old Pro users
     define('FEATURE_USER_PERMISSIONS', 'user_permissions');
 
-    // Pro users who started paying on or before this date will be able to manage users
+// Pro users who started paying on or before this date will be able to manage users
     define('PRO_USERS_GRANDFATHER_DEADLINE', '2016-06-04');
     define('EXTRAS_GRANDFATHER_COMPANY_ID', 35089);
 
-    // WePay
+// WePay
     define('WEPAY_PRODUCTION', 'production');
     define('WEPAY_STAGE', 'stage');
     define('WEPAY_CLIENT_ID', env('WEPAY_CLIENT_ID'));
@@ -780,7 +810,7 @@ if (!defined('APP_NAME')) {
     define('BOT_STATE_READY', 'ready');
     define('SIMILAR_MIN_THRESHOLD', 50);
 
-    // https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html
+// https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html
     define('SKYPE_BUTTON_OPEN_URL', 'openUrl');
     define('SKYPE_BUTTON_IM_BACK', 'imBack');
     define('SKYPE_BUTTON_POST_BACK', 'postBack');
@@ -837,7 +867,7 @@ if (!defined('APP_NAME')) {
 
     define('CACHED_TABLES', serialize($cachedTables));
 
-    // Fix for mPDF: https://github.com/kartik-v/yii2-mpdf/issues/9
+// Fix for mPDF: https://github.com/kartik-v/yii2-mpdf/issues/9
     define('_MPDF_TTFONTDATAPATH', storage_path('framework/cache/'));
 
     function uctrans($text, $data = [])
@@ -856,7 +886,7 @@ if (!defined('APP_NAME')) {
         return $locale == 'en' ? strtoupper($text) : $text;
     }
 
-    // optional trans: only return the string if it's translated
+// optional trans: only return the string if it's translated
     function otrans($text)
     {
         $locale = Session::get(SESSION_LOCALE);
@@ -871,14 +901,14 @@ if (!defined('APP_NAME')) {
         }
     }
 
-    // include modules in translations
+// include modules in translations
     function mtrans($entityType, $text = false)
     {
         if (!$text) {
             $text = $entityType;
         }
 
-        // check if this has been translated in a module language file
+// check if this has been translated in a module language file
         if (!Utils::isNinjaProd() && $module = Module::find($entityType)) {
             $key = "{$module->getLowerName()}::texts.{$text}";
             $value = trans($key);

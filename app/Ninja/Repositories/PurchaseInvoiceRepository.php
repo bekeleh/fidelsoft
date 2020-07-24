@@ -53,9 +53,7 @@ class PurchaseInvoiceRepository extends BaseRepository
         return PurchaseInvoice::scope()
             ->invoiceType(INVOICE_TYPE_STANDARD)
             ->with('user', 'vendor.vendor_contacts', 'invoice_status')
-            ->withTrashed()
-            ->where('is_recurring', false)
-            ->get();
+            ->withTrashed()->where('is_recurring', false)->get();
     }
 
     /**
@@ -72,10 +70,10 @@ class PurchaseInvoiceRepository extends BaseRepository
             ->LeftJoin('vendors', 'vendors.id', '=', 'purchase_invoices.vendor_id')
             ->leftJoin('invoice_statuses', 'invoice_statuses.id', '=', 'purchase_invoices.invoice_status_id')
             ->LeftJoin('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
-            ->where('purchase_invoices.account_id', '=', $accountId)
-            ->where('vendor_contacts.deleted_at', '=', null)
-            ->where('purchase_invoices.is_recurring', '=', false)
-            ->where('vendor_contacts.is_primary', '=', true)
+            ->where('purchase_invoices.account_id', $accountId)
+            ->where('vendor_contacts.deleted_at', null)
+            ->where('purchase_invoices.is_recurring', false)
+            ->where('vendor_contacts.is_primary', true)
 //->whereRaw('(vendors.name != "" or vendor_contacts.first_name != "" or vendor_contacts.last_name != "" or vendor_contacts.email != "")') // filter out buy now purchase_invoices
             ->select(
                 DB::raw('COALESCE(vendors.currency_id, accounts.currency_id) currency_id'),
@@ -130,8 +128,7 @@ class PurchaseInvoiceRepository extends BaseRepository
             });
         }
 
-//      explicitly passing table name recommend
-        $this->applyFilters($query, $entityType, 'purchase_invoices');
+        $this->applyFilters($query, $entityType);
 
         if ($statuses = session('entity_status_filter:' . $entityType)) {
             $statuses = explode(',', $statuses);
@@ -140,28 +137,28 @@ class PurchaseInvoiceRepository extends BaseRepository
                     if (in_array($status, EntityModel::$statuses)) {
                         continue;
                     }
-                    $query->orWhere('invoice_status_id', '=', $status);
+                    $query->orWhere('invoice_status_id', $status);
                 }
                 if (in_array(INVOICE_STATUS_UNPAID, $statuses)) {
                     $query->orWhere(function ($query) use ($statuses) {
                         $query->where('purchase_invoices.balance', '>', 0)
-                            ->where('purchase_invoices.is_public', '=', true);
+                            ->where('purchase_invoices.is_public', true);
                     });
                 }
                 if (in_array(INVOICE_STATUS_OVERDUE, $statuses)) {
                     $query->orWhere(function ($query) use ($statuses) {
                         $query->where('purchase_invoices.balance', '>', 0)
                             ->where('purchase_invoices.due_date', '<', date('Y-m-d'))
-                            ->where('purchase_invoices.is_public', '=', true);
+                            ->where('purchase_invoices.is_public', true);
                     });
                 }
             });
         }
 
         if ($vendorPublicId) {
-            $query->where('vendors.public_id', '=', $vendorPublicId);
+            $query->where('vendors.public_id', $vendorPublicId);
         } else {
-            $query->whereNull('vendors.deleted_at');
+            $query->where('vendors.deleted_at', null);
         }
 
         return $query;
@@ -176,16 +173,16 @@ class PurchaseInvoiceRepository extends BaseRepository
     public function getRecurringPurchaseInvoices($accountId = false, $vendorPublicId = false, $filter = false)
     {
         $query = DB::table('purchase_invoices')
-            ->join('accounts', 'accounts.id', '=', 'purchase_invoices.account_id')
-            ->join('vendors', 'vendors.id', '=', 'purchase_invoices.vendor_id')
-            ->join('invoice_statuses', 'invoice_statuses.id', '=', 'purchase_invoices.invoice_status_id')
+            ->LeftJoin('accounts', 'accounts.id', '=', 'purchase_invoices.account_id')
+            ->LeftJoin('vendors', 'vendors.id', '=', 'purchase_invoices.vendor_id')
+            ->LeftJoin('invoice_statuses', 'invoice_statuses.id', '=', 'purchase_invoices.invoice_status_id')
             ->leftJoin('frequencies', 'frequencies.id', '=', 'purchase_invoices.frequency_id')
-            ->join('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
-            ->where('purchase_invoices.account_id', '=', $accountId)
-            ->where('purchase_invoices.invoice_type_id', '=', INVOICE_TYPE_STANDARD)
-            ->where('vendor_contacts.deleted_at', '=', null)
-            ->where('purchase_invoices.is_recurring', '=', true)
-            ->where('vendor_contacts.is_primary', '=', true)
+            ->LeftJoin('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
+            ->where('purchase_invoices.account_id', $accountId)
+            ->where('purchase_invoices.invoice_type_id', INVOICE_TYPE_STANDARD)
+            ->where('vendor_contacts.deleted_at', null)
+            ->where('purchase_invoices.is_recurring', true)
+            ->where('vendor_contacts.is_primary', true)
             ->select(
                 DB::raw('COALESCE(vendors.currency_id, accounts.currency_id) currency_id'),
                 DB::raw('COALESCE(vendors.country_id, accounts.country_id) country_id'),
@@ -225,9 +222,9 @@ class PurchaseInvoiceRepository extends BaseRepository
             );
 
         if ($vendorPublicId) {
-            $query->where('vendors.public_id', '=', $vendorPublicId);
+            $query->where('vendors.public_id', $vendorPublicId);
         } else {
-            $query->whereNull('vendors.deleted_at');
+            $query->where('vendors.deleted_at', null);
         }
 
         if ($filter) {
@@ -241,7 +238,8 @@ class PurchaseInvoiceRepository extends BaseRepository
             });
         }
 
-        $this->applyFilters($query, ENTITY_RECURRING_PURCHASE_INVOICE);
+//       don't remove the third parameter unless invoice and recurring invoice are separated
+        $this->applyFilters($query, ENTITY_RECURRING_PURCHASE_INVOICE, 'purchase_invoices');
 
         return $query;
     }
@@ -254,18 +252,18 @@ class PurchaseInvoiceRepository extends BaseRepository
     public function getVendorRecurringDatatable($contactId, $filter = null)
     {
         $query = DB::table('purchase_invitations')
-            ->join('accounts', 'accounts.id', '=', 'purchase_invitations.account_id')
-            ->join('purchase_invoices', 'purchase_invoices.id', '=', 'purchase_invitations.invoice_id')
-            ->join('vendors', 'vendors.id', '=', 'purchase_invoices.vendor_id')
-            ->join('frequencies', 'frequencies.id', '=', 'purchase_invoices.frequency_id')
-            ->where('purchase_invitations.contact_id', '=', $contactId)
-            ->where('purchase_invitations.deleted_at', '=', null)
-            ->where('purchase_invoices.invoice_type_id', '=', INVOICE_TYPE_STANDARD)
-            ->where('purchase_invoices.is_deleted', '=', false)
-            ->where('vendors.deleted_at', '=', null)
-            ->where('purchase_invoices.is_recurring', '=', true)
-            ->where('purchase_invoices.is_public', '=', true)
-            ->where('purchase_invoices.deleted_at', '=', null)
+            ->LeftJoin('accounts', 'accounts.id', '=', 'purchase_invitations.account_id')
+            ->LeftJoin('purchase_invoices', 'purchase_invoices.id', '=', 'purchase_invitations.invoice_id')
+            ->LeftJoin('vendors', 'vendors.id', '=', 'purchase_invoices.vendor_id')
+            ->LeftJoin('frequencies', 'frequencies.id', '=', 'purchase_invoices.frequency_id')
+            ->where('purchase_invitations.contact_id', $contactId)
+            ->where('purchase_invitations.deleted_at', null)
+            ->where('purchase_invoices.invoice_type_id', INVOICE_TYPE_STANDARD)
+            ->where('purchase_invoices.is_deleted', false)
+            ->where('vendors.deleted_at', null)
+            ->where('purchase_invoices.is_recurring', true)
+            ->where('purchase_invoices.is_public', true)
+            ->where('purchase_invoices.deleted_at', null)
 //->where('purchase_invoices.start_date', '>=', date('Y-m-d H:i:s'))
             ->select(
                 DB::raw('COALESCE(vendors.currency_id, accounts.currency_id) currency_id'),
@@ -329,19 +327,19 @@ class PurchaseInvoiceRepository extends BaseRepository
     public function getVendorDatatable($contactId, $entityType, $search)
     {
         $query = DB::table('purchase_invitations')
-            ->join('accounts', 'accounts.id', '=', 'purchase_invitations.account_id')
-            ->join('purchase_invoices', 'purchase_invoices.id', '=', 'purchase_invitations.invoice_id')
-            ->join('vendors', 'vendors.id', '=', 'purchase_invoices.vendor_id')
-            ->join('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
-            ->where('purchase_invitations.contact_id', '=', $contactId)
-            ->where('purchase_invitations.deleted_at', '=', null)
-            ->where('purchase_invoices.invoice_type_id', '=', $entityType == ENTITY_QUOTE ? INVOICE_TYPE_QUOTE : INVOICE_TYPE_STANDARD)
-            ->where('purchase_invoices.is_deleted', '=', false)
-            ->where('vendors.deleted_at', '=', null)
-            ->where('vendor_contacts.deleted_at', '=', null)
-            ->where('vendor_contacts.is_primary', '=', true)
-            ->where('purchase_invoices.is_recurring', '=', false)
-            ->where('purchase_invoices.is_public', '=', true)
+            ->LeftJoin('accounts', 'accounts.id', '=', 'purchase_invitations.account_id')
+            ->LeftJoin('purchase_invoices', 'purchase_invoices.id', '=', 'purchase_invitations.invoice_id')
+            ->LeftJoin('vendors', 'vendors.id', '=', 'purchase_invoices.vendor_id')
+            ->LeftJoin('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
+            ->where('purchase_invitations.contact_id', $contactId)
+            ->where('purchase_invitations.deleted_at', null)
+            ->where('purchase_invoices.invoice_type_id', $entityType == ENTITY_QUOTE ? INVOICE_TYPE_QUOTE : INVOICE_TYPE_STANDARD)
+            ->where('purchase_invoices.is_deleted', false)
+            ->where('vendors.deleted_at', null)
+            ->where('vendor_contacts.deleted_at', null)
+            ->where('vendor_contacts.is_primary', true)
+            ->where('purchase_invoices.is_recurring', false)
+            ->where('purchase_invoices.is_public', true)
 // Only show paid purchase_invoices for ninja accounts
 //            ->whereRaw(sprintf("((accounts.account_key != '%s' and accounts.account_key not like '%s%%') or purchase_invoices.invoice_status_id = %d)", env('NINJA_LICENSE_ACCOUNT_KEY'), substr(NINJA_ACCOUNT_KEY, 0, 30), INVOICE_STATUS_PAID))
             ->select(

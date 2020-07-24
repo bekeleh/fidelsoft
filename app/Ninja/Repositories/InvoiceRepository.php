@@ -31,7 +31,11 @@ class InvoiceRepository extends BaseRepository
     protected $paymentService;
     protected $paymentRepo;
 
-    public function __construct(Invoice $model, PaymentService $paymentService, PaymentRepository $paymentRepo, DocumentRepository $documentRepo)
+    public function __construct(
+        Invoice $model,
+        PaymentService $paymentService,
+        PaymentRepository $paymentRepo,
+        DocumentRepository $documentRepo)
     {
         $this->model = $model;
         $this->paymentService = $paymentService;
@@ -49,9 +53,7 @@ class InvoiceRepository extends BaseRepository
         return Invoice::scope()
             ->invoiceType(INVOICE_TYPE_STANDARD)
             ->with('user', 'client.contacts', 'invoice_status')
-            ->withTrashed()
-            ->where('is_recurring', false)
-            ->get();
+            ->withTrashed()->where('is_recurring', false)->get();
     }
 
     /**
@@ -68,10 +70,10 @@ class InvoiceRepository extends BaseRepository
             ->LeftJoin('clients', 'clients.id', '=', 'invoices.client_id')
             ->leftJoin('invoice_statuses', 'invoice_statuses.id', '=', 'invoices.invoice_status_id')
             ->LeftJoin('contacts', 'contacts.client_id', '=', 'clients.id')
-            ->where('invoices.account_id', '=', $accountId)
-            ->where('contacts.deleted_at', '=', null)
-            ->where('invoices.is_recurring', '=', false)
-            ->where('contacts.is_primary', '=', true)
+            ->where('invoices.account_id', $accountId)
+            ->where('contacts.deleted_at', null)
+            ->where('invoices.is_recurring', false)
+            ->where('contacts.is_primary', true)
 //->whereRaw('(clients.name != "" or contacts.first_name != "" or contacts.last_name != "" or contacts.email != "")') // filter out buy now invoices
             ->select(
                 DB::raw('COALESCE(clients.currency_id, accounts.currency_id) currency_id'),
@@ -127,7 +129,7 @@ class InvoiceRepository extends BaseRepository
         }
 
 //      explicitly passing table name recommend
-        $this->applyFilters($query, $entityType, 'invoices');
+        $this->applyFilters($query, $entityType);
 
         if ($statuses = session('entity_status_filter:' . $entityType)) {
             $statuses = explode(',', $statuses);
@@ -136,28 +138,28 @@ class InvoiceRepository extends BaseRepository
                     if (in_array($status, EntityModel::$statuses)) {
                         continue;
                     }
-                    $query->orWhere('invoice_status_id', '=', $status);
+                    $query->orWhere('invoice_status_id', $status);
                 }
                 if (in_array(INVOICE_STATUS_UNPAID, $statuses)) {
                     $query->orWhere(function ($query) use ($statuses) {
                         $query->where('invoices.balance', '>', 0)
-                            ->where('invoices.is_public', '=', true);
+                            ->where('invoices.is_public', true);
                     });
                 }
                 if (in_array(INVOICE_STATUS_OVERDUE, $statuses)) {
                     $query->orWhere(function ($query) use ($statuses) {
                         $query->where('invoices.balance', '>', 0)
                             ->where('invoices.due_date', '<', date('Y-m-d'))
-                            ->where('invoices.is_public', '=', true);
+                            ->where('invoices.is_public', true);
                     });
                 }
             });
         }
 
         if ($clientPublicId) {
-            $query->where('clients.public_id', '=', $clientPublicId);
+            $query->where('clients.public_id', $clientPublicId);
         } else {
-            $query->whereNull('clients.deleted_at');
+            $query->where('clients.deleted_at', null);
         }
 
         return $query;
@@ -172,16 +174,16 @@ class InvoiceRepository extends BaseRepository
     public function getRecurringInvoices($accountId = false, $clientPublicId = false, $filter = false)
     {
         $query = DB::table('invoices')
-            ->join('accounts', 'accounts.id', '=', 'invoices.account_id')
-            ->join('clients', 'clients.id', '=', 'invoices.client_id')
-            ->join('invoice_statuses', 'invoice_statuses.id', '=', 'invoices.invoice_status_id')
+            ->leftJoin('accounts', 'accounts.id', '=', 'invoices.account_id')
+            ->leftJoin('clients', 'clients.id', '=', 'invoices.client_id')
+            ->leftJoin('invoice_statuses', 'invoice_statuses.id', '=', 'invoices.invoice_status_id')
             ->leftJoin('frequencies', 'frequencies.id', '=', 'invoices.frequency_id')
-            ->join('contacts', 'contacts.client_id', '=', 'clients.id')
-            ->where('invoices.account_id', '=', $accountId)
-            ->where('invoices.invoice_type_id', '=', INVOICE_TYPE_STANDARD)
-            ->where('contacts.deleted_at', '=', null)
-            ->where('invoices.is_recurring', '=', true)
-            ->where('contacts.is_primary', '=', true)
+            ->leftJoin('contacts', 'contacts.client_id', '=', 'clients.id')
+            ->where('invoices.account_id', $accountId)
+            ->where('invoices.invoice_type_id', INVOICE_TYPE_STANDARD)
+            ->where('contacts.deleted_at', null)
+            ->where('invoices.is_recurring', true)
+            ->where('contacts.is_primary', true)
             ->select(
                 DB::raw('COALESCE(clients.currency_id, accounts.currency_id) currency_id'),
                 DB::raw('COALESCE(clients.country_id, accounts.country_id) country_id'),
@@ -221,9 +223,9 @@ class InvoiceRepository extends BaseRepository
             );
 
         if ($clientPublicId) {
-            $query->where('clients.public_id', '=', $clientPublicId);
+            $query->where('clients.public_id', $clientPublicId);
         } else {
-            $query->whereNull('clients.deleted_at');
+            $query->where('clients.deleted_at', null);
         }
 
         if ($filter) {
@@ -236,8 +238,8 @@ class InvoiceRepository extends BaseRepository
                     ->orWhere('contacts.email', 'like', '%' . $filter . '%');
             });
         }
-
-        $this->applyFilters($query, ENTITY_RECURRING_INVOICE);
+//     don't remove third parameter/table unless we separate normal invoice and recurring invoice
+        $this->applyFilters($query, ENTITY_RECURRING_INVOICE, 'invoices');
 
         return $query;
     }
@@ -250,18 +252,18 @@ class InvoiceRepository extends BaseRepository
     public function getClientRecurringDatatable($contactId, $filter = null)
     {
         $query = DB::table('invitations')
-            ->join('accounts', 'accounts.id', '=', 'invitations.account_id')
-            ->join('invoices', 'invoices.id', '=', 'invitations.invoice_id')
-            ->join('clients', 'clients.id', '=', 'invoices.client_id')
-            ->join('frequencies', 'frequencies.id', '=', 'invoices.frequency_id')
-            ->where('invitations.contact_id', '=', $contactId)
-            ->where('invitations.deleted_at', '=', null)
-            ->where('invoices.invoice_type_id', '=', INVOICE_TYPE_STANDARD)
-            ->where('invoices.is_deleted', '=', false)
-            ->where('clients.deleted_at', '=', null)
-            ->where('invoices.is_recurring', '=', true)
-            ->where('invoices.is_public', '=', true)
-            ->where('invoices.deleted_at', '=', null)
+            ->leftJoin('accounts', 'accounts.id', '=', 'invitations.account_id')
+            ->leftJoin('invoices', 'invoices.id', '=', 'invitations.invoice_id')
+            ->leftJoin('clients', 'clients.id', '=', 'invoices.client_id')
+            ->leftJoin('frequencies', 'frequencies.id', '=', 'invoices.frequency_id')
+            ->where('invitations.contact_id', $contactId)
+            ->where('invitations.deleted_at', null)
+            ->where('invoices.invoice_type_id', INVOICE_TYPE_STANDARD)
+            ->where('invoices.is_deleted', false)
+            ->where('clients.deleted_at', null)
+            ->where('invoices.is_recurring', true)
+            ->where('invoices.is_public', true)
+            ->where('invoices.deleted_at', null)
 //->where('invoices.start_date', '>=', date('Y-m-d H:i:s'))
             ->select(
                 DB::raw('COALESCE(clients.currency_id, accounts.currency_id) currency_id'),
@@ -325,19 +327,19 @@ class InvoiceRepository extends BaseRepository
     public function getClientDatatable($contactId, $entityType, $search)
     {
         $query = DB::table('invitations')
-            ->join('accounts', 'accounts.id', '=', 'invitations.account_id')
-            ->join('invoices', 'invoices.id', '=', 'invitations.invoice_id')
-            ->join('clients', 'clients.id', '=', 'invoices.client_id')
-            ->join('contacts', 'contacts.client_id', '=', 'clients.id')
-            ->where('invitations.contact_id', '=', $contactId)
-            ->where('invitations.deleted_at', '=', null)
-            ->where('invoices.invoice_type_id', '=', $entityType == ENTITY_QUOTE ? INVOICE_TYPE_QUOTE : INVOICE_TYPE_STANDARD)
-            ->where('invoices.is_deleted', '=', false)
-            ->where('clients.deleted_at', '=', null)
-            ->where('contacts.deleted_at', '=', null)
-            ->where('contacts.is_primary', '=', true)
-            ->where('invoices.is_recurring', '=', false)
-            ->where('invoices.is_public', '=', true)
+            ->leftJoin('accounts', 'accounts.id', '=', 'invitations.account_id')
+            ->leftJoin('invoices', 'invoices.id', '=', 'invitations.invoice_id')
+            ->leftJoin('clients', 'clients.id', '=', 'invoices.client_id')
+            ->leftJoin('contacts', 'contacts.client_id', '=', 'clients.id')
+            ->where('invitations.contact_id', $contactId)
+            ->where('invitations.deleted_at', null)
+            ->where('invoices.invoice_type_id', $entityType == ENTITY_QUOTE ? INVOICE_TYPE_QUOTE : INVOICE_TYPE_STANDARD)
+            ->where('invoices.is_deleted', false)
+            ->where('clients.deleted_at', null)
+            ->where('contacts.deleted_at', null)
+            ->where('contacts.is_primary', true)
+            ->where('invoices.is_recurring', false)
+            ->where('invoices.is_public', true)
 // Only show paid invoices for ninja accounts
 //            ->whereRaw(sprintf("((accounts.account_key != '%s' and accounts.account_key not like '%s%%') or invoices.invoice_status_id = %d)", env('NINJA_LICENSE_ACCOUNT_KEY'), substr(NINJA_ACCOUNT_KEY, 0, 30), INVOICE_STATUS_PAID))
             ->select(

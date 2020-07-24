@@ -10,21 +10,17 @@ use App\Ninja\Mailers\UserMailer;
 use Barracuda\ArchiveStream\Archive;
 
 /**
- * Class SendInvoiceEmail.
+ *
+ * Class DownloadPurchaseInvoice.
  */
 //class DownloadInvoices extends Job implements ShouldQueue
 class DownloadPurchaseInvoice extends Job
 {
-    //use InteractsWithQueue, SerializesModels;
+    //use InteractsWithQueue,
+    use SerializesModels;
 
-    /**
-     * @var User
-     */
     protected $user;
 
-    /**
-     * @var array
-     */
     protected $purchaseInvoices;
 
     /**
@@ -57,6 +53,7 @@ class DownloadPurchaseInvoice extends Job
         }
 
         $zip->finish();
+
         exit;
     }
 }

@@ -40,23 +40,23 @@ class PurchasePayment extends EntityModel
     ];
 
 
-    protected $dates = ['created_at','updated_at','deleted_at'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $presenter = 'App\Ninja\Presenters\PurchasePaymentPresenter';
 
     public function getEntityType()
     {
-        return ENTITY_PAYMENT;
+        return ENTITY_PURCHASE_PAYMENT;
     }
 
     public function getRoute()
     {
-        return "/payments/{$this->public_id}/edit";
+        return "/purchase_payments/{$this->public_id}/edit";
     }
 
-    public function invoice()
+    public function purchase_invoice()
     {
-        return $this->belongsTo('App\Models\Invoice')->withTrashed();
+        return $this->belongsTo('App\Models\PurchaseInvoice')->withTrashed();
     }
 
 
@@ -66,9 +66,9 @@ class PurchasePayment extends EntityModel
     }
 
 
-    public function client()
+    public function vendor()
     {
-        return $this->belongsTo('App\Models\Client')->withTrashed();
+        return $this->belongsTo('App\Models\Vendor')->withTrashed();
     }
 
 
@@ -84,9 +84,9 @@ class PurchasePayment extends EntityModel
     }
 
 
-    public function contact()
+    public function vendor_contact()
     {
-        return $this->belongsTo('App\Models\Contact')->withTrashed();
+        return $this->belongsTo('App\Models\VendorContact')->withTrashed();
     }
 
 
@@ -103,7 +103,7 @@ class PurchasePayment extends EntityModel
 
     public function payment_method()
     {
-        return $this->belongsTo('App\Models\PurchasePaymentMethod');
+        return $this->belongsTo('App\Models\PaymentMethod');
     }
 
     public function payment_status()
@@ -251,7 +251,7 @@ class PurchasePayment extends EntityModel
             return null;
         }
 
-        return PurchasePaymentMethod::lookupBankData($this->routing_number);
+        return PaymentMethod::lookupBankData($this->routing_number);
     }
 
     public function getBankNameAttribute($bank_name)
@@ -275,9 +275,9 @@ class PurchasePayment extends EntityModel
             return trans('texts.status_partially_refunded_amount', [
                 'amount' => $amount,
             ]);
-        }elseif ($statusId == PAYMENT_STATUS_PARTIALLY_PAID) {
+        } elseif ($statusId == PAYMENT_STATUS_PARTIALLY_PAID) {
             return trans('texts.status_partially_paid');
-        }elseif ($statusId == PAYMENT_STATUS_ADVANCE_PAID) {
+        } elseif ($statusId == PAYMENT_STATUS_ADVANCE_PAID) {
             return trans('texts.status_advance_paid');
         } else {
             return trans('texts.status_' . strtolower($statusName));
@@ -296,15 +296,15 @@ class PurchasePayment extends EntityModel
 
     public function statusLabel()
     {
-        $amount = $this->account->formatMoney($this->refunded, $this->client);
+        $amount = $this->account->formatMoney($this->refunded, $this->vendor);
 
         return static::calcStatusLabel($this->payment_status_id, $this->payment_status->name, $amount);
     }
 
     public function invoiceJsonBackup()
     {
-        $activity = Activity::wherePurchasePaymentId($this->id)
-            ->whereActivityTypeId(ACTIVITY_TYPE_CREATE_PAYMENT)
+        $activity = Activity::where('purchase_payment_id', $this->id)
+            ->where('activity_type_id', ACTIVITY_TYPE_CREATE_PAYMENT)
             ->get(['json_backup'])
             ->first();
 

@@ -41,7 +41,13 @@ class InvoiceController extends BaseController
     protected $recurringInvoiceService;
     protected $entityType = ENTITY_INVOICE;
 
-    public function __construct(InvoiceRepository $invoiceRepo, ClientRepository $clientRepo, InvoiceService $invoiceService, DocumentRepository $documentRepo, RecurringInvoiceService $recurringInvoiceService, PaymentService $paymentService)
+    public function __construct(
+        InvoiceRepository $invoiceRepo,
+        ClientRepository $clientRepo,
+        InvoiceService $invoiceService,
+        DocumentRepository $documentRepo,
+        RecurringInvoiceService $recurringInvoiceService,
+        PaymentService $paymentService)
     {
         // parent::__construct();
         $this->invoiceRepo = $invoiceRepo;
@@ -86,7 +92,8 @@ class InvoiceController extends BaseController
         $accountId = Auth::user()->account_id;
         $search = Input::get('sSearch');
 
-        return $this->recurringInvoiceService->getDatatable($accountId, $clientPublicId, ENTITY_RECURRING_INVOICE, $search);
+        return $this->recurringInvoiceService
+            ->getDatatable($accountId, $clientPublicId, ENTITY_RECURRING_INVOICE, $search);
     }
 
     public function create(InvoiceRequest $request, $clientPublicId = 0, $isRecurring = false)

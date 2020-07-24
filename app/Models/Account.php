@@ -978,7 +978,7 @@ class Account extends Eloquent
         return $purchaseInvoice;
     }
 
-    public function loadLocalizationSettings($client = false)
+    public function loadLocalizationSettings($entity = false)
     {
         $this->load('timezone', 'date_format', 'datetime_format', 'language');
 
@@ -988,8 +988,8 @@ class Account extends Eloquent
         Session::put(SESSION_DATE_FORMAT, $this->date_format ? $this->date_format->format : DEFAULT_DATE_FORMAT);
         Session::put(SESSION_DATE_PICKER_FORMAT, $this->date_format ? $this->date_format->picker_format : DEFAULT_DATE_PICKER_FORMAT);
 
-        $currencyId = (($client && $client->currency_id) ? $client->currency_id : $this->currency_id) ?: DEFAULT_CURRENCY;
-        $locale = (($client && $client->language_id) ? $client->language->locale : ($this->language_id)) ? $this->Language->locale : DEFAULT_LOCALE;
+        $currencyId = (($entity && $entity->currency_id) ? $entity->currency_id : $this->currency_id) ?: DEFAULT_CURRENCY;
+        $locale = (($entity && $entity->language_id) ? $entity->language->locale : ($this->language_id)) ? $this->Language->locale : DEFAULT_LOCALE;
         Session::put(SESSION_CURRENCY, $currencyId);
         Session::put(SESSION_CURRENCY_DECORATOR, $this->show_currency_code ? CURRENCY_DECORATOR_CODE : CURRENCY_DECORATOR_SYMBOL);
         Session::put(SESSION_LOCALE, $locale);

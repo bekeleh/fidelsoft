@@ -387,7 +387,6 @@
              'vendors',
              'users',
              'purchase_invoices',
-            'point_of_sales',
             'invoices',
              'quotes',
             'payments',

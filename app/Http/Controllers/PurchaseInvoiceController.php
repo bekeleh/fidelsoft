@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreatePurchaseInvoiceRequest;
 use App\Http\Requests\PurchaseInvoiceRequest;
 use App\Http\Requests\UpdatePurchaseInvoiceRequest;
-use App\Jobs\SendInvoiceEmail;
+use App\Jobs\SendPurchaseInvoiceEmail;
 use App\Libraries\Utils;
 use App\Models\Activity;
 use App\Models\Vendor;
@@ -112,11 +112,10 @@ class PurchaseInvoiceController extends BaseController
         $invoice->public_id = 0;
         $invoice->loadFromRequest();
 
-        $vendors = Vendor::scope()
-            ->with('vendor_contacts', 'country')->orderBy('name');
+        $vendors = Vendor::scope()->with('vendor_contacts', 'country')->orderBy('name');
 
         if (!Utils::hasPermission('view_vendor')) {
-            $vendors = $vendors->where('vendors.user_id', '=', Auth::user()->id);
+            $vendors = $vendors->where('vendors.user_id', Auth::user()->id);
         }
 
         $data = [
@@ -168,24 +167,24 @@ class PurchaseInvoiceController extends BaseController
     {
         $this->authorize('edit', ENTITY_PURCHASE_INVOICE);
         $account = Auth::user()->account;
-        $invoice = $request->entity()->load('invitations', 'account.country', 'vendor.vendor_contacts', 'vendor.country', 'purchase_items', 'documents', 'expenses', 'expenses.documents', 'payments');
+        $invoice = $request->entity()->load('invitations', 'account.country', 'vendor.vendor_contacts', 'vendor.country', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'payments');
 
         $entityType = $invoice->getEntityType();
 
         $contactIds = DB::table('invitations')
-            ->join('vendor_contacts', 'vendor_contacts.id', '=', 'invitations.contact_id')
-            ->where('invitations.invoice_id', '=', $invoice->id)
-            ->where('invitations.account_id', '=', Auth::user()->account_id)
+            ->join('vendor_contacts', 'vendor_contacts.id', 'invitations.contact_id')
+            ->where('invitations.invoice_id', $invoice->id)
+            ->where('invitations.account_id', Auth::user()->account_id)
             ->select('vendor_contacts.public_id')->pluck('public_id')
-            ->where('invitations.deleted_at', '=', null);
+            ->where('invitations.deleted_at', null);
 
         $vendors = Vendor::scope()->withTrashed()->with('vendor_contacts', 'country');
 
         if ($clone) {
-            $entityType = $clone == INVOICE_TYPE_STANDARD ? ENTITY_PURCHASE_INVOICE : ENTITY_QUOTE;
+            $entityType = $clone == PURCHASE_INVOICE_TYPE_STANDARD ? ENTITY_PURCHASE_INVOICE : ENTITY_QUOTE;
             $invoice->id = $invoice->public_id = null;
             $invoice->is_public = false;
-            $invoice->is_recurring = $invoice->is_recurring && $clone == INVOICE_TYPE_STANDARD;
+            $invoice->is_recurring = $invoice->is_recurring && $clone == PURCHASE_INVOICE_TYPE_STANDARD;
             $invoice->invoice_type_id = $clone;
             $invoice->invoice_number = $account->getNextNumber($invoice);
             $invoice->due_date = null;
@@ -225,7 +224,7 @@ class PurchaseInvoiceController extends BaseController
         $lastSent = ($invoice->is_recurring && $invoice->last_sent_date) ? $invoice->recurring_purchase_invoices->last() : null;
 
         if (!Auth::user()->hasPermission('view_vendor')) {
-            $vendors = $vendors->where('vendors.user_id', '=', Auth::user()->id);
+            $vendors = $vendors->where('vendors.user_id', Auth::user()->id);
         }
 
         $data = [
@@ -445,7 +444,7 @@ class PurchaseInvoiceController extends BaseController
             $response = $this->emailRecurringInvoice($invoice);
         } else {
             $userId = Auth::user()->id;
-            $this->dispatch(new SendInvoiceEmail($invoice, $userId, $reminder, $template));
+            $this->dispatch(new SendPurchaseInvoiceEmail($invoice, $userId, $reminder, $template));
             $response = true;
         }
 
@@ -471,14 +470,14 @@ class PurchaseInvoiceController extends BaseController
         }
 
         // switch from the recurring invoice to the generated invoice
-        $invoice = $this->invoiceRepo->createRecurringInvoice($invoice);
+        $invoice = $this->invoiceRepo->createRecurringPurchaseInvoice($invoice);
 
         // in case auto-bill is enabled then a receipt has been sent
         if ($invoice->isPaid()) {
             return true;
         } else {
             $userId = Auth::user()->id;
-            $this->dispatch(new SendInvoiceEmail($invoice, $userId));
+            $this->dispatch(new SendPurchaseInvoiceEmail($invoice, $userId));
             return true;
         }
     }
@@ -523,12 +522,12 @@ class PurchaseInvoiceController extends BaseController
 
     public function cloneInvoice(PurchaseInvoiceRequest $request, $publicId)
     {
-        return self::edit($request, $publicId, INVOICE_TYPE_STANDARD);
+        return self::edit($request, $publicId, PURCHASE_INVOICE_TYPE_STANDARD);
     }
 
     public function cloneQuote(PurchaseInvoiceRequest $request, $publicId)
     {
-        return self::edit($request, $publicId, INVOICE_TYPE_QUOTE);
+        return self::edit($request, $publicId, PURCHASE_INVOICE_TYPE_QUOTE);
     }
 
     public function invoiceHistory(PurchaseInvoiceRequest $request)
@@ -536,7 +535,7 @@ class PurchaseInvoiceController extends BaseController
         $invoice = $request->entity();
         $paymentId = $request->payment_id ? Payment::getPrivateId($request->payment_id) : false;
 
-        $invoice->load('user', 'purchase_items', 'documents', 'expenses', 'expenses.documents', 'account.country', 'vendor.vendor_contacts', 'vendor.country');
+        $invoice->load('user', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'account.country', 'vendor.vendor_contacts', 'vendor.country');
         $invoice->invoice_date = Utils::fromSqlDate($invoice->invoice_date);
         $invoice->due_date = Utils::fromSqlDate($invoice->due_date);
         $invoice->features = [
@@ -548,11 +547,11 @@ class PurchaseInvoiceController extends BaseController
 
         $activities = Activity::scope(false, $invoice->account_id);
         if ($paymentId) {
-            $activities->whereIn('activity_type_id', [ACTIVITY_TYPE_CREATE_PAYMENT])
-                ->where('payment_id', '=', $paymentId);
+            $activities->whereIn('activity_type_id', [ACTIVITY_TYPE_CREATE_PURCHASE_PAYMENT])
+                ->where('payment_id', $paymentId);
         } else {
-            $activities->whereIn('activity_type_id', [ACTIVITY_TYPE_UPDATE_INVOICE, ACTIVITY_TYPE_UPDATE_QUOTE])
-                ->where('invoice_id', '=', $invoice->id);
+            $activities->whereIn('activity_type_id', [ACTIVITY_TYPE_UPDATE_PURCHASE_INVOICE, ACTIVITY_TYPE_UPDATE_PURCHASE_QUOTE])
+                ->where('invoice_id', $invoice->id);
         }
         $activities = $activities->orderBy('id', 'desc')
             ->get(['id', 'created_at', 'user_id', 'json_backup', 'activity_type_id', 'payment_id']);
@@ -602,7 +601,7 @@ class PurchaseInvoiceController extends BaseController
     public function receiveNote(PurchaseInvoiceRequest $request)
     {
         $invoice = $request->entity();
-        $invoice->load('user', 'purchase_items', 'documents', 'expenses', 'expenses.documents', 'account.country', 'vendor.vendor_contacts', 'vendor.country', 'vendor.shipping_country');
+        $invoice->load('user', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'account.country', 'vendor.vendor_contacts', 'vendor.country', 'vendor.shipping_country');
         $invoice->invoice_date = Utils::fromSqlDate($invoice->invoice_date);
         $invoice->due_date = Utils::fromSqlDate($invoice->due_date);
         $invoice->features = [

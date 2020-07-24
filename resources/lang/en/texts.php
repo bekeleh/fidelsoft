@@ -183,7 +183,7 @@ $LANG = array(
 //   Purchases
     'purchase_name' => 'Purchase Name',
     'purchase_invoice' => 'Purchase Invoice',
-    'purchase_invoices' => 'Purchases Invoice',
+    'purchase_invoices' => 'Purchases Invoices',
     'purchase_quote' => 'Purchases Quotation',
     'purchase_return' => 'Purchases Return',
     'purchase_list' => 'Purchase List',

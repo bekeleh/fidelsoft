@@ -46,9 +46,10 @@ class PurchaseInvoiceService extends BaseService
 
     public function bulk($ids, $action)
     {
+        $user = Auth::user();
         if ($action == 'download') {
             $purchaseInvoices = $this->getRepo()->findByPublicIdsWithTrashed($ids);
-            dispatch(new DownloadPurchaseInvoice(Auth::user(), $purchaseInvoices));
+            dispatch(new DownloadPurchaseInvoice($user, $purchaseInvoices));
             return count($purchaseInvoices);
         } else {
             return parent::bulk($ids, $action);
@@ -63,7 +64,7 @@ class PurchaseInvoiceService extends BaseService
             $canViewVendor = false;
             $vendorPublicId = array_get($data, 'vendor.public_id') ?: array_get($data, 'vendor.id');
             if (empty($vendorPublicId) || intval($vendorPublicId) < 0) {
-                $canSaveVendor = Auth::user()->can('create', ENTITY_CLIENT);
+                $canSaveVendor = Auth::user()->can('create', ENTITY_VENDOR);
             } else {
                 $vendor = Vendor::scope($vendorPublicId)->first();
                 $canSaveVendor = Auth::user()->can('edit', $vendor);
@@ -128,7 +129,7 @@ class PurchaseInvoiceService extends BaseService
 
         $query = $this->purchaseInvoiceRepo
             ->getPurchaseInvoices($accountId, $vendorPublicId, $entityType, $search)
-            ->where('purchase_invoices.invoice_type_id', '=', $entityType == ENTITY_PURCHASE_QUOTE ? PURCHASE_INVOICE_TYPE_QUOTE : PURCHASE_INVOICE_TYPE_STANDARD);
+            ->where('purchase_invoices.invoice_type_id', $entityType == ENTITY_PURCHASE_QUOTE ? PURCHASE_INVOICE_TYPE_QUOTE : PURCHASE_INVOICE_TYPE_STANDARD);
 
         if (!Utils::hasPermission('view_purchase_invoice')) {
             $query->where('purchase_invoices.user_id', Auth::user()->id);

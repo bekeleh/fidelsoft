@@ -40,7 +40,7 @@ class Payment extends EntityModel
     ];
 
 
-    protected $dates = ['created_at','updated_at','deleted_at'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $presenter = 'App\Ninja\Presenters\PaymentPresenter';
 
@@ -148,7 +148,7 @@ class Payment extends EntityModel
     public function isPartiallyRefunded()
     {
         return $this->payment_status_id == PAYMENT_STATUS_PARTIALLY_REFUNDED;
-    }   
+    }
 
     public function isPartiallyPaid()
     {
@@ -164,7 +164,7 @@ class Payment extends EntityModel
     public function isVoided()
     {
         return $this->payment_status_id == PAYMENT_STATUS_VOIDED;
-    }   
+    }
 
     public function isAdvancePaid()
     {
@@ -275,9 +275,9 @@ class Payment extends EntityModel
             return trans('texts.status_partially_refunded_amount', [
                 'amount' => $amount,
             ]);
-        }elseif ($statusId == PAYMENT_STATUS_PARTIALLY_PAID) {
+        } elseif ($statusId == PAYMENT_STATUS_PARTIALLY_PAID) {
             return trans('texts.status_partially_paid');
-        }elseif ($statusId == PAYMENT_STATUS_ADVANCE_PAID) {
+        } elseif ($statusId == PAYMENT_STATUS_ADVANCE_PAID) {
             return trans('texts.status_advance_paid');
         } else {
             return trans('texts.status_' . strtolower($statusName));
@@ -303,16 +303,17 @@ class Payment extends EntityModel
 
     public function invoiceJsonBackup()
     {
-        $activity = Activity::wherePaymentId($this->id)
-        ->whereActivityTypeId(ACTIVITY_TYPE_CREATE_PAYMENT)
-        ->get(['json_backup'])
-        ->first();
+        $activity = Activity::where('payment_id', $this->id)
+            ->where('activity_type_id', ACTIVITY_TYPE_CREATE_PAYMENT)
+            ->get(['json_backup'])
+            ->first();
 
         return $activity->json_backup;
     }
 }
 
 Payment::creating(function ($payment) {
+//    do some stuff
 });
 
 Payment::created(function ($payment) {

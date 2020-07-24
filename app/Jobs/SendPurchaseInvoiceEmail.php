@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App;
 use App\Models\PurchaseInvoice;
 use App\Ninja\Mailers\PurchaseContactMailer;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -34,7 +33,12 @@ class SendPurchaseInvoiceEmail extends Job implements ShouldQueue
      * @param bool $template
      * @param bool $proposal
      */
-    public function __construct(PurchaseInvoice $invoice, $userId = false, $reminder = false, $template = false, $proposal = false)
+    public function __construct(
+        PurchaseInvoice $invoice,
+        $userId = false,
+        $reminder = false,
+        $template = false,
+        $proposal = false)
     {
         $this->invoice = $invoice;
         $this->userId = $userId;
@@ -56,7 +60,7 @@ class SendPurchaseInvoiceEmail extends Job implements ShouldQueue
             Auth::onceUsingId($this->userId);
         }
 
-        $mailer->sendPurchaseInvoice($this->invoice, $this->reminder, $this->template, $this->proposal);
+        $mailer->sendInvoice($this->invoice, $this->reminder, $this->template, $this->proposal);
 
         if (App::runningInConsole() && $this->userId) {
             Auth::logout();

@@ -189,7 +189,7 @@ Route::group(['middleware' => ['lookup:user', 'auth:user', 'banned:user']], func
     Route::get('projects/{projects}/edit', 'ProjectController@edit');
     Route::get('projects/{projects}', 'ProjectController@show');
     Route::post('projects/bulk', 'ProjectController@bulk');
-//    sales invoice
+//    sales recurring invoice
     Route::get('api/recurring_invoices/{client_id?}', 'InvoiceController@getRecurringDatatable');
     Route::get('invoices/delivery_note/{invoice_id}', 'InvoiceController@deliveryNote');
     Route::get('invoices/invoice_history/{invoice_id}', 'InvoiceController@invoiceHistory');

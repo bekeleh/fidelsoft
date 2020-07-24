@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use League\Flysystem\AwsS3v3\AwsS3Adapter;
+use League\Flysystem\Rackspace\RackspaceAdapter;
 
 /**
  * Class Document.
@@ -123,6 +125,11 @@ class Document extends EntityModel
         return $this->belongsTo('App\Models\Invoice')->withTrashed();
     }
 
+    public function purchase_invoice()
+    {
+        return $this->belongsTo('App\Models\PurchaseInvoice')->withTrashed();
+    }
+
     public function getDisk()
     {
         return Storage::disk(!empty($this->disk) ? $this->disk : env('DOCUMENT_FILESYSTEM', 'documents'));
@@ -148,7 +155,7 @@ class Document extends EntityModel
         $adapter = $disk->getAdapter();
         $fullPath = $adapter->applyPathPrefix($path);
 
-        if ($adapter instanceof \League\Flysystem\AwsS3v3\AwsS3Adapter) {
+        if ($adapter instanceof AwsS3Adapter) {
             $client = $adapter->getClient();
             $command = $client->getCommand('GetObject', [
                 'Bucket' => $adapter->getBucket(),
@@ -157,7 +164,7 @@ class Document extends EntityModel
 
             return (string)$client->createPresignedRequest($command, '+10 minutes')->getUri();
         } elseif (!$prioritizeSpeed // Rackspace temp URLs are slow, so we don't use them for previews
-            && $adapter instanceof \League\Flysystem\Rackspace\RackspaceAdapter) {
+            && $adapter instanceof RackspaceAdapter) {
             $secret = env('RACKSPACE_TEMP_URL_SECRET');
             if ($secret) {
                 $object = $adapter->getContainer()->getObject($fullPath);
@@ -294,15 +301,15 @@ class Document extends EntityModel
 
     public function scopeProposalImages($query)
     {
-        return $query->whereIsProposal(1);
+        return $query->where('is_proposal', 1);
     }
 }
 
 Document::deleted(function ($document) {
     $same_path_count = DB::table('documents')
-        ->where('documents.account_id', '=', $document->account_id)
-        ->where('documents.path', '=', $document->path)
-        ->where('documents.disk', '=', $document->disk)
+        ->where('documents.account_id', $document->account_id)
+        ->where('documents.path', $document->path)
+        ->where('documents.disk', $document->disk)
         ->count();
 
     if (!$same_path_count) {
@@ -311,9 +318,9 @@ Document::deleted(function ($document) {
 
     if ($document->preview) {
         $same_preview_count = DB::table('documents')
-            ->where('documents.account_id', '=', $document->account_id)
-            ->where('documents.preview', '=', $document->preview)
-            ->where('documents.disk', '=', $document->disk)
+            ->where('documents.account_id', $document->account_id)
+            ->where('documents.preview', $document->preview)
+            ->where('documents.disk', $document->disk)
             ->count();
         if (!$same_preview_count) {
             $document->getDisk()->delete($document->preview);
