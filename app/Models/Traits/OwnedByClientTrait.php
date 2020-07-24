@@ -5,17 +5,17 @@ namespace App\Models\Traits;
 /**
  * Class OwnedByClientTrait.
  */
-trait OwnedByVendorTrait
+trait OwnedByClientTrait
 {
     /**
      * @return bool
      */
-    public function isVendorTrashed()
+    public function isClientTrashed()
     {
-        if (!$this->vendor) {
+        if (!$this->client) {
             return false;
         }
 
-        return $this->vendor->trashed();
+        return $this->client->trashed();
     }
 }

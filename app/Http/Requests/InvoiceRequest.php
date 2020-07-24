@@ -20,9 +20,8 @@ class InvoiceRequest extends EntityRequest
         // support loading an invoice by its invoice number
         if ($this->invoice_number && !$invoice) {
             $invoice = Invoice::scope()
-                ->whereInvoiceNumber($this->invoice_number)
-                ->withTrashed()
-                ->first();
+                ->where('invoice_number', $this->invoice_number)
+                ->withTrashed()->first();
 
             if (!$invoice) {
                 return response()->view('errors/403');

@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use App\Libraries\Utils;
 
 /**
- * Class SendsEmails.
+ * Class Inviteable.
  */
 trait Inviteable
 {
@@ -16,6 +16,7 @@ trait Inviteable
      * @param string $type
      * @param bool $forceOnsite
      *
+     * @param bool $forcePlain
      * @return string
      */
     public function getLink($type = 'view', $forceOnsite = false, $forcePlain = false)

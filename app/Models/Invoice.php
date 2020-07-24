@@ -12,6 +12,7 @@ use App\Libraries\CurlUtils;
 use App\Libraries\Utils;
 use App\Models\Traits\ChargesFees;
 use App\Models\Traits\HasRecurrence;
+use App\Models\Traits\OwnedByClientTrait;
 use DateTime;
 use Exception;
 use Illuminate\Database\Eloquent\SoftDeletes;

@@ -4,13 +4,13 @@ namespace App\Http\Requests;
 
 use App\Models\User;
 
-class UpdateVendorRequest extends VendorRequest
+class CreateVendorContactRequest extends VendorContactRequest
 {
-    protected $entityType = ENTITY_VENDOR;
+    protected $entityType = ENTITY_VENDOR_CONTACT;
 
     public function authorize()
     {
-        return $this->user()->can('edit', $this->entityType);
+        return $this->user()->can('create', $this->entityType);
     }
 
     public function rules()
@@ -19,10 +19,8 @@ class UpdateVendorRequest extends VendorRequest
         $this->validationData();
 
         $rules = [];
-        $vendor = $this->entity();
-        if ($vendor)
-            $rules['name'] = 'required|max:191|unique:vendors,name,' . $vendor->id . ',id,account_id,' . $vendor->account_id;
 
+        $rules['name'] = 'required|max:191|unique:vendor_contacts,name,' . $this->id . ',id,account_id,' . $this->account_id;
         $rules['is_deleted'] = 'boolean';
         $rules['private_notes'] = 'nullable';
 

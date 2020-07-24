@@ -2,26 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateVendorRequest;
-use App\Http\Requests\DeleteVendorRequest;
-use App\Http\Requests\UpdateVendorRequest;
-use App\Http\Requests\VendorRequest;
+use App\Http\Requests\CreateVendorContactRequest;
+use App\Http\Requests\DeleteVendorContactRequest;
+use App\Http\Requests\UpdateVendorContactRequest;
+use App\Http\Requests\VendorContactRequest;
 use App\Libraries\Utils;
-use App\Models\Vendor;
-use App\Ninja\Repositories\VendorRepository;
+use App\Models\VendorContact;
+use App\Ninja\Repositories\VendorContactRepository;
 use Illuminate\Support\Facades\Response;
 
-class VendorApiController extends BaseAPIController
+class VendorContactApiController extends BaseAPIController
 {
-    protected $vendorRepo;
+    protected $vendorContactRepo;
 
-    protected $entityType = ENTITY_VENDOR;
+    protected $entityType = ENTITY_VENDOR_CONTACT;
 
-    public function __construct(VendorRepository $vendorRepo)
+    public function __construct(VendorContactRepository $vendorContactRepo)
     {
         parent::__construct();
 
-        $this->vendorRepo = $vendorRepo;
+        $this->vendorContactRepo = $vendorContactRepo;
     }
 
     public function ping()
@@ -50,11 +50,11 @@ class VendorApiController extends BaseAPIController
      */
     public function index()
     {
-        $vendors = Vendor::scope()
+        $vendorContacts = VendorContact::scope()
             ->withTrashed()
             ->orderBy('updated_at', 'desc');
 
-        return $this->listResponse($vendors);
+        return $this->listResponse($vendorContacts);
     }
 
     /**
@@ -79,8 +79,10 @@ class VendorApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
+     * @param VendorContactRequest $request
+     * @return
      */
-    public function show(VendorRequest $request)
+    public function show(VendorContactRequest $request)
     {
         return $this->itemResponse($request->entity());
     }
@@ -106,16 +108,18 @@ class VendorApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
+     * @param CreateVendorContactRequest $request
+     * @return
      */
-    public function store(CreateVendorRequest $request)
+    public function store(CreateVendorContactRequest $request)
     {
-        $vendor = $this->vendorRepo->save($request->input());
+        $vendorContact = $this->vendorContactRepo->save($request->input());
 
-        $vendor = Vendor::scope($vendor->public_id)
+        $vendorContact = VendorContact::scope($vendorContact->public_id)
             ->with('country', 'vendor_contacts', 'industry', 'size', 'currency')
             ->first();
 
-        return $this->itemResponse($vendor);
+        return $this->itemResponse($vendorContact);
     }
 
     /**
@@ -146,9 +150,11 @@ class VendorApiController extends BaseAPIController
      *   )
      * )
      *
+     * @param UpdateVendorContactRequest $request
      * @param mixed $publicId
+     * @return
      */
-    public function update(UpdateVendorRequest $request, $publicId)
+    public function update(UpdateVendorContactRequest $request, $publicId)
     {
         if ($request->action) {
             return $this->handleAction($request);
@@ -156,11 +162,11 @@ class VendorApiController extends BaseAPIController
 
         $data = $request->input();
         $data['public_id'] = $publicId;
-        $vendor = $this->vendorRepo->save($data, $request->entity());
+        $vendorContact = $this->vendorContactRepo->save($data, $request->entity());
 
-        $vendor->load(['vendor_contacts']);
+        $vendorContact->load(['vendor_contacts']);
 
-        return $this->itemResponse($vendor);
+        return $this->itemResponse($vendorContact);
     }
 
     /**
@@ -185,13 +191,15 @@ class VendorApiController extends BaseAPIController
      *     description="an ""unexpected"" error"
      *   )
      * )
+     * @param DeleteVendorContactRequest $request
+     * @return
      */
-    public function destroy(DeleteVendorRequest $request)
+    public function destroy(DeleteVendorContactRequest $request)
     {
-        $vendor = $request->entity();
+        $vendorContact = $request->entity();
 
-        $this->vendorRepo->delete($vendor);
+        $this->vendorContactRepo->delete($vendorContact);
 
-        return $this->itemResponse($vendor);
+        return $this->itemResponse($vendorContact);
     }
 }

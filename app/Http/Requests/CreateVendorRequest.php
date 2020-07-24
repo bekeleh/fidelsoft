@@ -10,7 +10,7 @@ class CreateVendorRequest extends VendorRequest
 
     public function authorize()
     {
-        return $this->user()->can('create', ENTITY_VENDOR);
+        return $this->user()->can('create', $this->entityType);
     }
 
     public function rules()

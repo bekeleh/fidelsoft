@@ -9,6 +9,7 @@ use App\Libraries\CurlUtils;
 use App\Libraries\Utils;
 use App\Models\Traits\ChargesFees;
 use App\Models\Traits\HasRecurrence;
+use App\Models\Traits\OwnedByClientTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 use Laracasts\Presenter\PresentableTrait;
@@ -195,16 +196,16 @@ class PurchaseItem extends EntityModel implements BalanceAffecting
             }
 
             foreach ([
-             'invoice_number',
-             'po_number',
-             'invoice_date',
-             'due_date',
-             'terms',
-             'public_notes',
-             'invoice_footer',
-             'partial',
-             'partial_due_date',
-         ] as $field) {
+                         'invoice_number',
+                         'po_number',
+                         'invoice_date',
+                         'due_date',
+                         'terms',
+                         'public_notes',
+                         'invoice_footer',
+                         'partial',
+                         'partial_due_date',
+                     ] as $field) {
                 if ($this->$field != $this->getOriginal($field)) {
                     return true;
                 }
@@ -342,13 +343,13 @@ class PurchaseItem extends EntityModel implements BalanceAffecting
     public function scopePurchaseItems($query)
     {
         return $query->where('invoice_type_id', '=', INVOICE_TYPE_STANDARD)
-        ->where('is_recurring', '=', false);
+            ->where('is_recurring', '=', false);
     }
 
     public function scopeRecurring($query)
     {
         return $query->where('invoice_type_id', '=', INVOICE_TYPE_STANDARD)
-        ->where('is_recurring', '=', true);
+            ->where('is_recurring', '=', true);
     }
 
     public function scopeDateRange($query, $startDate, $endDate)
@@ -363,19 +364,19 @@ class PurchaseItem extends EntityModel implements BalanceAffecting
     public function scopeQuotes($query)
     {
         return $query->where('invoice_type_id', '=', INVOICE_TYPE_QUOTE)
-        ->where('is_recurring', '=', false);
+            ->where('is_recurring', '=', false);
     }
 
     public function scopeUnapprovedQuotes($query, $includePurchaseItemId = false)
     {
         return $query->quotes()
-        ->where(function ($query) use ($includePurchaseItemId) {
-            $query->whereId($includePurchaseItemId)
-            ->orWhere(function ($query) {
-                $query->where('invoice_status_id', '<', INVOICE_STATUS_APPROVED)
-                ->whereNull('quote_invoice_id');
+            ->where(function ($query) use ($includePurchaseItemId) {
+                $query->whereId($includePurchaseItemId)
+                    ->orWhere(function ($query) {
+                        $query->where('invoice_status_id', '<', INVOICE_STATUS_APPROVED)
+                            ->whereNull('quote_invoice_id');
+                    });
             });
-        });
     }
 
     public function scopePurchaseItemType($query, $typeId)
@@ -396,14 +397,14 @@ class PurchaseItem extends EntityModel implements BalanceAffecting
             if (in_array(INVOICE_STATUS_UNPAID, $statusIds)) {
                 $query->orWhere(function ($query) {
                     $query->where('balance', '>', 0)
-                    ->where('is_public', '=', true);
+                        ->where('is_public', '=', true);
                 });
             }
             if (in_array(INVOICE_STATUS_OVERDUE, $statusIds)) {
                 $query->orWhere(function ($query) {
                     $query->where('balance', '>', 0)
-                    ->where('due_date', '<', date('Y-m-d'))
-                    ->where('is_public', '=', true);
+                        ->where('due_date', '<', date('Y-m-d'))
+                        ->where('is_public', '=', true);
                 });
             }
         });
@@ -1321,11 +1322,11 @@ class PurchaseItem extends EntityModel implements BalanceAffecting
     public function emailHistory()
     {
         return Activity::scope()
-        ->with(['contact'])
-        ->wherePurchaseItemId($this->id)
-        ->whereIn('activity_type_id', [ACTIVITY_TYPE_EMAIL_INVOICE, ACTIVITY_TYPE_EMAIL_QUOTE])
-        ->orderBy('id', 'desc')
-        ->get();
+            ->with(['contact'])
+            ->wherePurchaseItemId($this->id)
+            ->whereIn('activity_type_id', [ACTIVITY_TYPE_EMAIL_INVOICE, ACTIVITY_TYPE_EMAIL_QUOTE])
+            ->orderBy('id', 'desc')
+            ->get();
     }
 
     public function getDueDateLabel()

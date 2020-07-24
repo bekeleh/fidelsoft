@@ -17,6 +17,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_INVOICE', 'invoice');
     define('ENTITY_DOCUMENT', 'document');
     define('ENTITY_INVOICE_ITEM', 'invoice_item');
+    define('ENTITY_PURCHASE_INVOICE_ITEM', 'purchase_invoice_item');
     define('ENTITY_INVITATION', 'invitation');
     define('ENTITY_PURCHASE_INVITATION', 'invitation');
     define('ENTITY_RECURRING_INVOICE', 'recurring_invoice');
