@@ -120,11 +120,9 @@
                                     <h4>
                                         <span data-bind="text: getClientDisplayName(ko.toJS(client()))"></span>
                                         @if ($invoice->client->is_deleted)
-                                            &nbsp;&nbsp;
                                             <div class="label label-danger">{{ trans('texts.deleted') }}</div>
                                         @endif
                                     </h4>
-
                                     @can('view', $invoice->client)
                                         @can('edit', $invoice->client)
                                             <a id="editClientLink" class="pointer"
@@ -174,35 +172,36 @@
                                         <input type="checkbox" value="1"
                                                data-bind="visible: email() || first_name() || last_name(), checked: send_invoice, attr: {id: $index() + '_check', name: 'client[contacts][' + $index() + '][send_invoice]'}">
                                         <span data-bind="visible: first_name || last_name">
-								<span data-bind="text: (first_name() || '') + ' ' + (last_name() || '')"></span>
-								<br/>
-							</span>
-                                        <span data-bind="visible: email">
-								<span data-bind="text: email"></span>
-								<br/>
-							</span>
+                    								<span data-bind="text: (first_name() || '') + ' ' + (last_name() || '')"></span>
+                    								<br/>
+                    							</span>
+                                                 <span data-bind="visible: email">
+                    								<span data-bind="text: email"></span>
+                    								<br/>
+                    							</span>
                                     </label>
                                     @if ( ! $invoice->is_deleted && ! $invoice->client->is_deleted)
                                         <span data-bind="visible: !$root.invoice().is_recurring()">
-                            <span data-bind="html: $data.view_as_recipient"></span>&nbsp;&nbsp;
-                            @if (Utils::isConfirmed())
+                                                <span data-bind="html: $data.view_as_recipient"></span>&nbsp;&nbsp;
+                                                @if (Utils::isConfirmed())
                                                 <span style="vertical-align:text-top;color:red"
                                                       class="fa fa-exclamation-triangle"
                                                       data-bind="visible: $data.email_error, tooltip: {title: $data.email_error}"></span>
                                                 <span style="vertical-align:text-top;padding-top:2px"
                                                       class="fa fa-info-circle"
                                                       data-bind="visible: $data.invitation_status, tooltip: {title: $data.invitation_status, html: true},
-	                                    style: {color: $data.info_color}"></span>
+                    	                                    style: {color: $data.info_color}"></span>
                                                 <span class="signature-wrapper">&nbsp;
-								<span style="vertical-align:text-top;color:#888" class="fa fa-user"
-                                      data-bind="visible: $data.invitation_signature_svg, tooltip: {title: $data.invitation_signature_svg, html: true}"></span>
-								</span>
+                    								<span style="vertical-align:text-top;color:#888" class="fa fa-user"
+                                                          data-bind="visible: $data.invitation_signature_svg, tooltip: {title: $data.invitation_signature_svg, html: true}"></span>
+                    								</span>
                                             @endif
-                        </span>
+                                                  </span>
                                     @endif
                                 </div>
                             </div>
                         </div>
+                        <!--end of with client -->
 
                     </div>
                     <div class="col-md-4" id="col_2">

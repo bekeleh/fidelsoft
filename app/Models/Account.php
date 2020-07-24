@@ -953,7 +953,7 @@ class Account extends Eloquent
         $purchaseInvoice->vendor_id = $vendorId;
         $purchaseInvoice->custom_taxes1 = $this->custom_invoice_taxes1;
         $purchaseInvoice->custom_taxes2 = $this->custom_invoice_taxes2;
-
+//      to generate invoice number using microtime() carbon instance
         if ($entityType === ENTITY_RECURRING_PURCHASE_INVOICE) {
             $purchaseInvoice->invoice_number = microtime(true);
             $purchaseInvoice->is_recurring = true;
@@ -962,7 +962,6 @@ class Account extends Eloquent
                 $purchaseInvoice->invoice_type_id = PURCHASE_INVOICE_TYPE_QUOTE;
                 $purchaseInvoice->invoice_design_id = $this->quote_design_id;
             }
-
             if ($this->hasVendorNumberPattern($purchaseInvoice) && !$vendorId) {
                 // do nothing, we don't yet know the value
             } elseif (!$purchaseInvoice->invoice_number) {

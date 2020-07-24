@@ -34,7 +34,7 @@ class Vendor extends EntityModel
         'state',
         'postal_code',
         'country_id',
-        'privates_notes',
+        'private_notes',
         'public_notes',
         'currency_id',
         'website',

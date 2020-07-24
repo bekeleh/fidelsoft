@@ -1066,6 +1066,15 @@ ul.user-accounts a:hover div.remove {
     width: 350px;
 }
 
+.invoice-vendor-contact {
+    word-break: break-all;
+}
+
+.invoice-vendor-contact .tooltip-inner {
+    text-align:left;
+    width: 350px;
+}
+
 .smaller {
     font-size: .9em;
 }

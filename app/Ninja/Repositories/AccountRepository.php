@@ -175,7 +175,6 @@ class AccountRepository
             return [];
         }
 
-
         $data = $this->getAccountSearchData($user);
         $data['navigation'] = $this->getNavigationSearchData();
 
@@ -216,11 +215,11 @@ class AccountRepository
                 }])->get();
         } else {
             $clients = Client::scope()
-                ->where('user_id', '=', $user->id)
+                ->where('user_id', $user->id)
                 ->withTrashed()
                 ->with(['contacts', 'invoices' => function ($query) use ($user) {
                     $query->withTrashed()
-                        ->where('user_id', '=', $user->id);
+                        ->where('user_id', $user->id);
                 }])->get();
         }
 
@@ -666,18 +665,18 @@ class AccountRepository
             return null;
         }
 
-        $query = UserAccount::where('user_id1', '=', $userId1)
-            ->orWhere('user_id2', '=', $userId1)
-            ->orWhere('user_id3', '=', $userId1)
-            ->orWhere('user_id4', '=', $userId1)
-            ->orWhere('user_id5', '=', $userId1);
+        $query = UserAccount::where('user_id1', $userId1)
+            ->orWhere('user_id2', $userId1)
+            ->orWhere('user_id3', $userId1)
+            ->orWhere('user_id4', $userId1)
+            ->orWhere('user_id5', $userId1);
 
         if ($userId2) {
-            $query->orWhere('user_id1', '=', $userId2)
-                ->orWhere('user_id2', '=', $userId2)
-                ->orWhere('user_id3', '=', $userId2)
-                ->orWhere('user_id4', '=', $userId2)
-                ->orWhere('user_id5', '=', $userId2);
+            $query->orWhere('user_id1', $userId2)
+                ->orWhere('user_id2', $userId2)
+                ->orWhere('user_id3', $userId2)
+                ->orWhere('user_id4', $userId2)
+                ->orWhere('user_id5', $userId2);
         }
 
         return $query->first(['id', 'user_id1', 'user_id2', 'user_id3', 'user_id4', 'user_id5']);

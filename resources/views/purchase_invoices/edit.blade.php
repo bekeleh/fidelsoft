@@ -128,7 +128,9 @@
                                     @can('view', $invoice->vendor)
                                         @can('edit', $invoice->vendor)
                                             <a id="editVendorLink" class="pointer"
-                                               data-bind="click: $root.showVendorForm">{{ trans('texts.edit_vendor') }}</a>
+                                               data-bind="click: $root.showVendorForm">
+                                                {{ trans('texts.edit_vendor') }}
+                                            </a>
                                             |
                                         @endcan
                                         {!! link_to('/vendors/'.$invoice->vendor->public_id, trans('texts.view_vendor'), ['target' => '_blank']) !!}
@@ -152,9 +154,10 @@
                                         @endcan
                                         <span data-bind="visible: $root.invoice().vendor().public_id() > 0"
                                               style="display:none">|
-                        <a data-bind="attr: {href: '{{ url('/vendors') }}/' + $root.invoice().vendor().public_id()}"
-                           target="_blank">{{ trans('texts.view_vendor') }}</a>
-                    </span>
+                                            <a data-bind="attr: {href: '{{ url('/vendors') }}/' + $root.invoice().vendor().public_id()}"
+                                               target="_blank">{{ trans('texts.view_vendor') }}
+                                            </a>
+                                        </span>
                                     </div>
                                 </div>
 
@@ -164,15 +167,15 @@
 
                         <div data-bind="with: vendor" class="invoice-contact">
                             <div style="display:none" class="form-group"
-                                 data-bind="visible: contacts().length > 0, foreach: contacts">
+                                 data-bind="visible: vendor_contacts().length > 0, foreach: vendor_contacts">
                                 <div class="col-lg-8 col-lg-offset-4 col-sm-offset-4">
                                     <label class="checkbox"
                                            data-bind="attr: {for: $index() + '_check'}, visible: email.display"
                                            onclick="refreshPDF(true)">
                                         <input type="hidden" value="0"
-                                               data-bind="attr: {name: 'vendor[contacts][' + $index() + '][send_invoice]'}">
+                                               data-bind="attr: {name: 'vendor[vendor_contacts][' + $index() + '][send_invoice]'}">
                                         <input type="checkbox" value="1"
-                                               data-bind="visible: email() || first_name() || last_name(), checked: send_invoice, attr: {id: $index() + '_check', name: 'vendor[contacts][' + $index() + '][send_invoice]'}">
+                                               data-bind="visible: email() || first_name() || last_name(), checked: send_invoice, attr: {id: $index() + '_check', name: 'vendor[vendor_contacts][' + $index() + '][send_invoice]'}">
                                         <span data-bind="visible: first_name || last_name">
 								<span data-bind="text: (first_name() || '') + ' ' + (last_name() || '')"></span>
 								<br/>
@@ -445,13 +448,13 @@
                         </tr>
                     </table>
 
-
                     <div role="tabpanel" class="pull-left" style="margin-left:40px; margin-top:30px;">
-
                         <ul class="nav nav-tabs" role="tablist" style="border: none">
-                            <li role="presentation" class="active"><a href="#public_notes" aria-controls="notes"
-                                                                      role="tab"
-                                                                      data-toggle="tab">{{ trans('texts.public_notes') }}</a>
+                            <li role="presentation" class="active">
+                                <a href="#public_notes" aria-controls="notes"
+                                   role="tab" data-toggle="tab">
+                                    {{ trans('texts.public_notes') }}
+                                </a>
                             </li>
                             <li role="presentation"><a href="#private_notes" aria-controls="terms" role="tab"
                                                        data-toggle="tab">{{ trans("texts.private_notes") }}</a></li>
@@ -469,7 +472,6 @@
                                     </a></li>
                             @endif
                         </ul>
-
                         {{ Former::setOption('TwitterBootstrap3.labelWidths.large', 0) }}
                         {{ Former::setOption('TwitterBootstrap3.labelWidths.small', 0) }}
 
@@ -693,8 +695,6 @@
                                         @endif
 
                                         <span data-bind="visible: $root.showMore">
-                    &nbsp;
-
                     {!! Former::text('vendor[address1]')
                             ->label(trans('texts.address1'))
                             ->data_bind("value: address1, valueUpdate: 'afterkeydown'") !!}
@@ -722,24 +722,24 @@
                                     <div style="margin-left:0px;margin-right:0px"
                                          data-bind="css: {'col-md-6': $root.showMore}">
 
-                                        <div data-bind='template: { foreach: contacts,
+                                        <div data-bind='template: { foreach: vendor_contacts,
                                         beforeRemove: hideContact,
                                         afterAdd: showContact }'>
 
                                             {!! Former::hidden('public_id')->data_bind("value: public_id, valueUpdate: 'afterkeydown',
-                                                    attr: {name: 'vendor[contacts][' + \$index() + '][public_id]'}") !!}
+                                                    attr: {name: 'vendor[vendor_contacts][' + \$index() + '][public_id]'}") !!}
                                             {!! Former::text('first_name')->data_bind("value: first_name, valueUpdate: 'afterkeydown',
-                                                    attr: {name: 'vendor[contacts][' + \$index() + '][first_name]'}") !!}
+                                                    attr: {name: 'vendor[vendor_contacts][' + \$index() + '][first_name]'}") !!}
                                             {!! Former::text('last_name')->data_bind("value: last_name, valueUpdate: 'afterkeydown',
-                                                    attr: {name: 'vendor[contacts][' + \$index() + '][last_name]'}") !!}
+                                                    attr: {name: 'vendor[vendor_contacts][' + \$index() + '][last_name]'}") !!}
                                             {!! Former::text('email')->data_bind("value: email, valueUpdate: 'afterkeydown',
-                                                    attr: {name: 'vendor[contacts][' + \$index() + '][email]', id:'email'+\$index()}")
+                                                    attr: {name: 'vendor[vendor_contacts][' + \$index() + '][email]', id:'email'+\$index()}")
                                                     ->addClass('vendor-email') !!}
                                             {!! Former::text('phone')->data_bind("value: phone, valueUpdate: 'afterkeydown',
-                                                    attr: {name: 'vendor[contacts][' + \$index() + '][phone]'}") !!}
+                                                    attr: {name: 'vendor[vendor_contacts][' + \$index() + '][phone]'}") !!}
                                             @if ($account->hasFeature(FEATURE_CLIENT_PORTAL_PASSWORD) && $account->enable_portal_password)
                                                 {!! Former::password('password')->data_bind("value: (typeof password=='function'?password():null)?'-%unchanged%-':'', valueUpdate: 'afterkeydown',
-                                                    attr: {name: 'vendor[contacts][' + \$index() + '][password]'}")->autocomplete('new-password')->data_lpignore('true') !!}
+                                                    attr: {name: 'vendor[vendor_contacts][' + \$index() + '][password]'}")->autocomplete('new-password')->data_lpignore('true') !!}
                                             @endif
                                             @if (Auth::user()->hasFeature(FEATURE_INVOICE_SETTINGS))
                                                 @if ($account->customLabel('contact1'))
@@ -747,7 +747,7 @@
                                                         'field' => 'custom_contact1',
                                                         'label' => $account->customLabel('contact1'),
                                                         'databind' => "value: custom_value1, valueUpdate: 'afterkeydown',
-                                                                attr: {name: 'vendor[contacts][' + \$index() + '][custom_value1]'}",
+                                                                attr: {name: 'vendor[vendor_contacts][' + \$index() + '][custom_value1]'}",
                                                     ])
                                                 @endif
                                                 @if ($account->customLabel('contact2'))
@@ -755,16 +755,16 @@
                                                         'field' => 'custom_contact2',
                                                         'label' => $account->customLabel('contact2'),
                                                         'databind' => "value: custom_value2, valueUpdate: 'afterkeydown',
-                                                                attr: {name: 'vendor[contacts][' + \$index() + '][custom_value2]'}",
+                                                                attr: {name: 'vendor[vendor_contacts][' + \$index() + '][custom_value2]'}",
                                                     ])
                                                 @endif
                                             @endif
                                             <div class="form-group">
                                                 <div class="col-lg-8 col-lg-offset-4">
-                            <span class="redlink bold" data-bind="visible: $parent.contacts().length > 1">
+                            <span class="redlink bold" data-bind="visible: $parent.vendor_contacts().length > 1">
                                 {!! link_to('#', trans('texts.remove_contact').' -', array('data-bind'=>'click: $parent.removeContact')) !!}
                             </span>
-                                                    <span data-bind="visible: $index() === ($parent.contacts().length - 1)"
+                                                    <span data-bind="visible: $index() === ($parent.vendor_contacts().length - 1)"
                                                           class="pull-right greenlink bold">
                                 {!! link_to('#', trans('texts.add_contact').' +', array('data-bind'=>'click: $parent.addContact')) !!}
                             </span>
@@ -919,8 +919,8 @@
                 }
                         @endif
                 var vendorName = vendor.name || '';
-                for (var j = 0; j < vendor.contacts.length; j++) {
-                    var contact = vendor.contacts[j];
+                for (var j = 0; j < vendor.vendor_contacts.length; j++) {
+                    var contact = vendor.vendor_contacts[j];
                     var contactName = getContactDisplayNameWithEmail(contact);
                     if (vendorName && contactName) {
                         vendorName += '<br/>  • ';
@@ -947,8 +947,8 @@
             var invitationContactIds = {!! json_encode($invitationContactIds) !!};
             var vendor = vendorMap[invoice.vendor.public_id];
             if (vendor) { // in case it's deleted
-                for (var i = 0; i < vendor.contacts.length; i++) {
-                    var contact = vendor.contacts[i];
+                for (var i = 0; i < vendor.vendor_contacts.length; i++) {
+                    var contact = vendor.vendor_contacts[i];
                     contact.send_invoice = invitationContactIds.indexOf(contact.public_id) >= 0;
                 }
             }
@@ -1235,7 +1235,7 @@
                 invoice_settings:{{ Auth::user()->hasFeature(FEATURE_INVOICE_SETTINGS) ? 'true' : 'false' }}
             };
             invoice.is_quote = {{ $entityType == ENTITY_PURCHASE_QUOTE ? 'true' : 'false' }};
-            invoice.contact = _.findWhere(invoice.vendor.contacts, {send_invoice: true});
+            invoice.contact = _.findWhere(invoice.vendor.vendor_contacts, {send_invoice: true});
 
             if (invoice.is_recurring) {
                 invoice.invoice_number = {!! json_encode(trans('texts.assigned_when_sent')) !!};
@@ -1486,8 +1486,8 @@
             var vendor = model.invoice().vendor();
             var parts = [];
 
-            for (var i = 0; i < vendor.contacts().length; i++) {
-                var contact = vendor.contacts()[i];
+            for (var i = 0; i < vendor.vendor_contacts().length; i++) {
+                var contact = vendor.vendor_contacts()[i];
                 if (contact.send_invoice()) {
                     parts.push(contact.displayName());
                 }
@@ -1595,8 +1595,8 @@
 
         function isSaveValid() {
             var isValid = model.invoice().vendor().name() ? true : false;
-            for (var i = 0; i < model.invoice().vendor().contacts().length; i++) {
-                var contact = model.invoice().vendor().contacts()[i];
+            for (var i = 0; i < model.invoice().vendor().vendor_contacts().length; i++) {
+                var contact = model.invoice().vendor().vendor_contacts()[i];
                 var email = contact.email() ? contact.email().trim() : '';
                 if (isValidEmailAddress(email) || contact.first_name() || contact.last_name()) {
                     isValid = true;
@@ -1609,8 +1609,8 @@
         function isContactSelected() {
             var sendTo = false;
             var vendor = model.invoice().vendor();
-            for (var i = 0; i < vendor.contacts().length; i++) {
-                var contact = vendor.contacts()[i];
+            for (var i = 0; i < vendor.vendor_contacts().length; i++) {
+                var contact = vendor.vendor_contacts()[i];
                 if (contact.send_invoice()) {
                     return true;
                 }
@@ -1621,8 +1621,8 @@
         function isEmailValid() {
             var isValid = true;
             var vendor = model.invoice().vendor();
-            for (var i = 0; i < vendor.contacts().length; i++) {
-                var contact = vendor.contacts()[i];
+            for (var i = 0; i < vendor.vendor_contacts().length; i++) {
+                var contact = vendor.vendor_contacts()[i];
                 if (!contact.send_invoice()) {
                     continue;
                 }

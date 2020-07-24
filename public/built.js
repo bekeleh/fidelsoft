@@ -104,6 +104,11 @@ function getClientDisplayName(t) {
     return t.name ? t.name : e ? getContactDisplayName(e) : ""
 }
 
+function getVendorDisplayName(t) {
+    var e = !!t.vendor_contacts && t.vendor_contacts[0];
+    return t.name ? t.name : e ? getContactDisplayName(e) : ""
+}
+
 function formatAddress(t, e, n, i) {
     var o = "";
     return i ? (o += n ? n + " " : "", o += t ? t : "", o += t && e ? ", " : t ? " " : "", o += e) : (o += t ? t : "", o += t && e ? ", " : e ? " " : "", o += e + " " + n), o

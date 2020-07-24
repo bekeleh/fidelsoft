@@ -7,17 +7,17 @@
         //self.invoice = data ? false : new InvoiceModel();
         self.invoice = ko.observable(data ? false : new InvoiceModel());
         self.expense_currency_id = ko.observable();
-        self.products = {!! $products !!};
+        self.products = <?php echo $products; ?>;
 
         self.loadVendor = function (vendor) {
             ko.mapping.fromJS(vendor, model.invoice().vendor().mapping, model.invoice().vendor);
-            @if (!$invoice->id)
+            <?php if(!$invoice->id): ?>
             self.setDueDate();
             // copy default note from the vendor to the invoice
             if (vendor.public_notes) {
                 model.invoice().public_notes(vendor.public_notes);
             }
-            @endif
+            <?php endif; ?>
         };
 
         self.showMoreFields = function () {
@@ -25,18 +25,18 @@
         };
 
         self.setDueDate = function () {
-                    @if ($entityType == ENTITY_PURCHASE_INVOICE)
+                    <?php if($entityType == ENTITY_PURCHASE_INVOICE): ?>
             var paymentTerms = parseInt(self.invoice().vendor().payment_terms());
             if (paymentTerms && paymentTerms != 0 && !self.invoice().due_date()) {
                 if (paymentTerms == -1) paymentTerms = 0;
                 var dueDate = $('#invoice_date').datepicker('getDate');
                 dueDate.setDate(dueDate.getDate() + paymentTerms);
-                dueDate = moment(dueDate).format("{{ $account->getMomentDateFormat() }}");
+                dueDate = moment(dueDate).format("<?php echo e($account->getMomentDateFormat()); ?>");
                 $('#due_date').attr('placeholder', dueDate);
             } else {
-                $('#due_date').attr('placeholder', "{{ $invoice->id ? ' ' : $account->present()->dueDatePlaceholder() }}");
+                $('#due_date').attr('placeholder', "<?php echo e($invoice->id ? ' ' : $account->present()->dueDatePlaceholder()); ?>");
             }
-            @endif
+            <?php endif; ?>
         };
 
         self.clearBlankContacts = function () {
@@ -49,8 +49,8 @@
             });
         };
 
-        self.invoice_taxes = ko.observable({{ Auth::user()->account->invoice_taxes ? 'true' : 'false' }});
-        self.invoice_item_taxes = ko.observable({{ Auth::user()->account->invoice_item_taxes ? 'true' : 'false' }});
+        self.invoice_taxes = ko.observable(<?php echo e(Auth::user()->account->invoice_taxes ? 'true' : 'false'); ?>);
+        self.invoice_item_taxes = ko.observable(<?php echo e(Auth::user()->account->invoice_item_taxes ? 'true' : 'false'); ?>);
 
         self.mapping = {
             'invoice': {
@@ -69,11 +69,11 @@
                 return true;
             }
 
-            return self.invoice_taxes() && {{ count($taxRateOptions) ? 'true' : 'false' }};
+            return self.invoice_taxes() && <?php echo e(count($taxRateOptions) ? 'true' : 'false'); ?>;
         });
 
         self.invoice_item_taxes.show = ko.computed(function () {
-            if (self.invoice_item_taxes() && {{ count($taxRateOptions) ? 'true' : 'false' }}) {
+            if (self.invoice_item_taxes() && <?php echo e(count($taxRateOptions) ? 'true' : 'false'); ?>) {
                 return true;
             }
             for (var i = 0; i < self.invoice().invoice_items().length; i++) {
@@ -148,12 +148,12 @@
 
         self.vendorLinkText = ko.computed(function () {
             if (self.invoice().vendor().public_id()) {
-                return "{{ trans('texts.edit_vendor') }}";
+                return "<?php echo e(trans('texts.edit_vendor')); ?>";
             } else {
-                if (vendors.length > {{ Auth::user()->getMaxNumVendors() }}) {
+                if (vendors.length > <?php echo e(Auth::user()->getMaxNumVendors()); ?>) {
                     return '';
                 } else {
-                    return "{{ trans('texts.create_new_vendor') }}";
+                    return "<?php echo e(trans('texts.create_new_vendor')); ?>";
                 }
             }
         });
@@ -200,24 +200,24 @@
             var vendorModel = false;
         } else {
             var vendorModel = new VendorModel();
-            vendorModel.id_number("{{ $account->getVendorNextNumber() }}");
+            vendorModel.id_number("<?php echo e($account->getVendorNextNumber()); ?>");
         }
 
         var self = this;
         this.vendor = ko.observable(vendorModel);
         this.is_public = ko.observable(0);
-        self.account = {!! $account !!};
+        self.account = <?php echo $account; ?>;
         self.id = ko.observable('');
         self.discount = ko.observable('');
         self.is_amount_discount = ko.observable(0);
-        self.frequency_id = ko.observable({{ FREQUENCY_MONTHLY }});
+        self.frequency_id = ko.observable(<?php echo e(FREQUENCY_MONTHLY); ?>);
         self.terms = ko.observable('');
-        self.default_terms = ko.observable(account.{{ $entityType }}_terms);
-        self.terms_placeholder = ko.observable({{ (!$invoice->id || $invoice->is_recurring) && $account->{"{$entityType}_terms"} ? "account.{$entityType}_terms" : false}});
+        self.default_terms = ko.observable(account.<?php echo e($entityType); ?>_terms);
+        self.terms_placeholder = ko.observable(<?php echo e((!$invoice->id || $invoice->is_recurring) && $account->{"{$entityType}_terms"} ? "account.{$entityType}_terms" : false); ?>);
         self.set_default_terms = ko.observable(false);
         self.invoice_footer = ko.observable('');
         self.default_footer = ko.observable(account.invoice_footer);
-        self.footer_placeholder = ko.observable({{ (!$invoice->id || $invoice->is_recurring) && $account->invoice_footer ? 'account.invoice_footer' : false}});
+        self.footer_placeholder = ko.observable(<?php echo e((!$invoice->id || $invoice->is_recurring) && $account->invoice_footer ? 'account.invoice_footer' : false); ?>);
         self.set_default_footer = ko.observable(false);
         self.public_notes = ko.observable('');
         self.private_notes = ko.observable('');
@@ -237,7 +237,7 @@
         self.tax_rate2 = ko.observable();
         self.tax_rate2IsInclusive = ko.observable(0);
         self.is_recurring = ko.observable(0);
-        self.is_quote = ko.observable({{ $entityType == ENTITY_QUOTE ? '1' : '0' }});
+        self.is_quote = ko.observable(<?php echo e($entityType == ENTITY_QUOTE ? '1' : '0'); ?>);
         self.auto_bill = ko.observable(0);
         self.vendor_enable_auto_bill = ko.observable(false);
         self.invoice_status_id = ko.observable(0);
@@ -298,12 +298,12 @@
         };
 
         self.addItem = function (isTask) {
-            if (self.invoice_items().length >= {{ MAX_INVOICE_ITEMS }}) {
+            if (self.invoice_items().length >= <?php echo e(MAX_INVOICE_ITEMS); ?>) {
                 return false;
             }
             var itemModel = new ItemModel();
             if (isTask) {
-                itemModel.invoice_item_type_id({{ INVOICE_ITEM_TYPE_TASK }});
+                itemModel.invoice_item_type_id(<?php echo e(INVOICE_ITEM_TYPE_TASK); ?>);
                 self.invoice_items_with_tasks.push(itemModel);
             } else {
                 self.invoice_items_without_tasks.push(itemModel);
@@ -376,8 +376,8 @@
             return formatMoneyAccount(amount, self.account, vendor);
             */
 
-            var currencyId = (self.vendor().currency_id() || account.currency_id) || {{ DEFAULT_CURRENCY }};
-            var countryId = (self.vendor().country_id() || account.country_id) || {{ DEFAULT_COUNTRY }};
+            var currencyId = (self.vendor().currency_id() || account.currency_id) || <?php echo e(DEFAULT_CURRENCY); ?>;
+            var countryId = (self.vendor().country_id() || account.country_id) || <?php echo e(DEFAULT_COUNTRY); ?>;
             var decorator = parseInt(account.show_currency_code) ? 'code' : 'symbol';
             return formatMoney(amount, currencyId, countryId, decorator);
         };
@@ -429,18 +429,18 @@
             }
 
             var taxRate1 = parseFloat(self.tax_rate1());
-                    @if ($account->inclusive_taxes)
+                    <?php if($account->inclusive_taxes): ?>
             var tax1 = roundToTwo(total - (total / (1 + (taxRate1 / 100))));
-                    @else
+                    <?php else: ?>
             var tax1 = roundToTwo(total * (taxRate1 / 100));
-                    @endif
+                    <?php endif; ?>
 
             var taxRate2 = parseFloat(self.tax_rate2());
-                    @if ($account->inclusive_taxes)
+                    <?php if($account->inclusive_taxes): ?>
             var tax2 = roundToTwo(total - (total / (1 + (taxRate2 / 100))));
-                    @else
+                    <?php else: ?>
             var tax2 = roundToTwo(total * (taxRate2 / 100));
-            @endif
+            <?php endif; ?>
 
                 return self.formatMoney(tax1 + tax2);
         });
@@ -459,11 +459,11 @@
                     }
                 }
 
-                        @if ($account->inclusive_taxes)
+                        <?php if($account->inclusive_taxes): ?>
                 var taxAmount = roundToTwo(lineTotal - (lineTotal / (1 + (item.tax_rate1() / 100))));
-                        @else
+                        <?php else: ?>
                 var taxAmount = roundToTwo(lineTotal * item.tax_rate1() / 100);
-                @endif
+                <?php endif; ?>
                 if (taxAmount) {
                     var key = item.tax_name1() + item.tax_rate1();
                     if (taxes.hasOwnProperty(key)) {
@@ -473,11 +473,11 @@
                     }
                 }
 
-                        @if ($account->inclusive_taxes)
+                        <?php if($account->inclusive_taxes): ?>
                 var taxAmount = roundToTwo(lineTotal - (lineTotal / (1 + (item.tax_rate2() / 100))));
-                        @else
+                        <?php else: ?>
                 var taxAmount = roundToTwo(lineTotal * item.tax_rate2() / 100);
-                @endif
+                <?php endif; ?>
                 if (taxAmount) {
                     var key = item.tax_name2() + item.tax_rate2();
                     if (taxes.hasOwnProperty(key)) {
@@ -549,7 +549,7 @@
                 total = NINJA.parseFloat(total) + customValue2;
             }
 
-                    @if (! $account->inclusive_taxes)
+                    <?php if(! $account->inclusive_taxes): ?>
             var taxAmount1 = roundToTwo(total * parseFloat(self.tax_rate1()) / 100);
             var taxAmount2 = roundToTwo(total * parseFloat(self.tax_rate2()) / 100);
 
@@ -563,7 +563,7 @@
                     total = roundToTwo(total);
                 }
             }
-            @endif
+            <?php endif; ?>
 
             if (customValue1 && !customTaxes1) {
                 total = NINJA.parseFloat(total) + customValue1;
@@ -791,13 +791,13 @@
 
         self.view_as_recipient = ko.computed(function () {
             var str = '';
-            @if (Utils::isConfirmed())
+            <?php if(Utils::isConfirmed()): ?>
             if (self.invitation_link()) {
                 // clicking adds 'silent=true' however it's removed when copying the link
                 str += '<a href="' + self.invitation_link() + '" onclick="window.open(\'' + self.invitation_link()
-                    + '?silent=true\', \'_blank\');return false;">{{ trans('texts.view_in_portal') }}</a>';
+                    + '?silent=true\', \'_blank\');return false;"><?php echo e(trans('texts.view_in_portal')); ?></a>';
             }
-            @endif
+            <?php endif; ?>
 
                 return str;
         });
@@ -830,7 +830,7 @@
         self.product_key = ko.observable('');
         self.notes = ko.observable('');
         self.cost = ko.observable(0);
-        self.qty = ko.observable({{ $account->hasInvoiceField('product', 'product.quantity') ? 0 : 1 }});
+        self.qty = ko.observable(<?php echo e($account->hasInvoiceField('product', 'product.quantity') ? 0 : 1); ?>);
         self.discount = ko.observable();
         self.custom_value1 = ko.observable('');
         self.custom_value2 = ko.observable('');
@@ -842,11 +842,11 @@
         self.tax_rate2IsInclusive = ko.observable(0);
         self.task_public_id = ko.observable('');
         self.expense_public_id = ko.observable('');
-        self.invoice_item_type_id = ko.observable({{ INVOICE_ITEM_TYPE_STANDARD }});
+        self.invoice_item_type_id = ko.observable(<?php echo e(INVOICE_ITEM_TYPE_STANDARD); ?>);
         self.actionsVisible = ko.observable(false);
 
         self.isTask = ko.computed(function () {
-            return self.invoice_item_type_id() == {{ INVOICE_ITEM_TYPE_TASK }};
+            return self.invoice_item_type_id() == <?php echo e(INVOICE_ITEM_TYPE_TASK); ?>;
         });
 
         this.tax1 = ko.computed({
@@ -1040,7 +1040,7 @@
                     name: 'data',
                     display: allBindings.key,
                     limit: 50,
-                    @if (Auth::user()->account->show_product_notes)
+                    <?php if(Auth::user()->account->show_product_notes): ?>
                     templates: {
                         suggestion: function (item) {
                             return '<div title="' + _.escape(item.notes) + '" style="border-bottom: solid 1px #CCC">'
@@ -1050,7 +1050,7 @@
                         }
                     },
                     source: searchData(allBindings.items, allBindings.key, false, 'notes'),
-                    @else
+                    <?php else: ?>
                     templates: {
                         suggestion: function (item) {
                             return '<div title="' + _.escape(item.notes) + '" style="border-bottom: solid 1px #CCC">'
@@ -1058,9 +1058,9 @@
                         }
                     },
                     source: searchData(allBindings.items, allBindings.key),
-                    @endif
+                    <?php endif; ?>
                 }).on('typeahead:select', function (element, datum, name) {
-                        @if (Auth::user()->account->fill_products)
+                        <?php if(Auth::user()->account->fill_products): ?>
                 var model = ko.dataFor(this);
                 if (model.expense_public_id()) {
                     return;
@@ -1073,11 +1073,11 @@
                         var cost = datum.cost;
 
                         // optionally handle curency conversion
-                                @if ($account->convert_products)
+                                <?php if($account->convert_products): ?>
                         var rate = false;
-                        if ((account.custom_fields.invoice_text1 || '').toLowerCase() == "{{ strtolower(trans('texts.exchange_rate')) }}") {
+                        if ((account.custom_fields.invoice_text1 || '').toLowerCase() == "<?php echo e(strtolower(trans('texts.exchange_rate'))); ?>") {
                             rate = window.model.invoice().custom_text_value1();
-                        } else if ((account.custom_fields.invoice_text1 || '').toLowerCase() == "{{ strtolower(trans('texts.exchange_rate')) }}") {
+                        } else if ((account.custom_fields.invoice_text1 || '').toLowerCase() == "<?php echo e(strtolower(trans('texts.exchange_rate'))); ?>") {
                             rate = window.model.invoice().custom_text_value1();
                         }
                         if (rate) {
@@ -1086,7 +1086,7 @@
                             var vendor = window.model.invoice().vendor();
                             if (vendor) {
                                 var vendorCurrencyId = vendor.currency_id();
-                                var accountCurrencyId = {{ $account->getCurrencyId() }};
+                                var accountCurrencyId = <?php echo e($account->getCurrencyId()); ?>;
                                 if (vendorCurrencyId && vendorCurrencyId != accountCurrencyId) {
                                     cost = fx.convert(cost, {
                                         from: currencyMap[accountCurrencyId].code,
@@ -1096,15 +1096,15 @@
                                         from: currencyMap[accountCurrencyId].code,
                                         to: currencyMap[vendorCurrencyId].code,
                                     });
-                                    if ((account.custom_fields.invoice_text1 || '').toLowerCase() == "{{ strtolower(trans('texts.exchange_rate')) }}") {
+                                    if ((account.custom_fields.invoice_text1 || '').toLowerCase() == "<?php echo e(strtolower(trans('texts.exchange_rate'))); ?>") {
                                         window.model.invoice().custom_text_value1(roundToFour(rate, true));
-                                    } else if ((account.custom_fields.invoice_text1 || '').toLowerCase() == "{{ strtolower(trans('texts.exchange_rate')) }}") {
+                                    } else if ((account.custom_fields.invoice_text1 || '').toLowerCase() == "<?php echo e(strtolower(trans('texts.exchange_rate'))); ?>") {
                                         window.model.invoice().custom_text_value2(roundToFour(rate, true));
                                     }
                                 }
                             }
                         }
-                        @endif
+                        <?php endif; ?>
 
                         model.cost(roundSignificant(cost));
                     }
@@ -1112,7 +1112,7 @@
                 if (!model.qty() && !model.isTask()) {
                     model.qty(1);
                 }
-                @if ($account->invoice_item_taxes)
+                <?php if($account->invoice_item_taxes): ?>
                 if (datum.tax_name1) {
                     var $select = $(this).parentsUntil('tbody').find('select').first();
                     $select.val('0 ' + datum.tax_rate1 + ' ' + datum.tax_name1).trigger('change');
@@ -1121,18 +1121,18 @@
                     var $select = $(this).parentsUntil('tbody').find('select').last();
                     $select.val('0 ' + datum.tax_rate2 + ' ' + datum.tax_name2).trigger('change');
                 }
-                @endif
-                        @if (Auth::user()->isPro() && $account->customLabel('product1'))
+                <?php endif; ?>
+                        <?php if(Auth::user()->isPro() && $account->customLabel('product1')): ?>
                 if (datum.custom_value1) {
                     model.custom_value1(datum.custom_value1);
                 }
-                @endif
-                        @if (Auth::user()->isPro() && $account->customLabel('product2'))
+                <?php endif; ?>
+                        <?php if(Auth::user()->isPro() && $account->customLabel('product2')): ?>
                 if (datum.custom_value2) {
                     model.custom_value2(datum.custom_value2);
                 }
-                @endif
-                @endif
+                <?php endif; ?>
+                <?php endif; ?>
                 onItemChange();
             }).on('typeahead:change', function (element, datum, name) {
                 var value = valueAccessor();
@@ -1151,9 +1151,9 @@
     };
 
     function checkInvoiceNumber() {
-        var url = '{{ url('check_purchase_invoice_number') }}{{ $invoice->id ? '/' . $invoice->public_id : '' }}?invoice_number=' + encodeURIComponent($('#invoice_number').val());
+        var url = '<?php echo e(url('check_purchase_invoice_number')); ?><?php echo e($invoice->id ? '/' . $invoice->public_id : ''); ?>?invoice_number=' + encodeURIComponent($('#invoice_number').val());
         $.get(url, function (data) {
-            var isValid = data == '{{ RESULT_SUCCESS }}' ? true : false;
+            var isValid = data == '<?php echo e(RESULT_SUCCESS); ?>' ? true : false;
             if (isValid) {
                 $('.invoice-number')
                     .removeClass('has-error')
@@ -1166,7 +1166,7 @@
                 $('.invoice-number')
                     .addClass('has-error')
                     .find('div')
-                    .append('<span class="help-block">{{ trans('validation.unique', ['attribute' => trans('texts.invoice_number')]) }}</span>');
+                    .append('<span class="help-block"><?php echo e(trans('validation.unique', ['attribute' => trans('texts.invoice_number')])); ?></span>');
             }
         });
     }

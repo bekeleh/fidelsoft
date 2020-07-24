@@ -238,7 +238,7 @@ if (!defined('APP_NAME')) {
     define('ACCOUNT_SCHEDULE_RESOURCE', 'schedule_resources');
     define('ACCOUNT_SCHEDULED_REPORT', 'scheduled_reports');
     define('ACCOUNT_SCHEDULE_SETTING', 'schedule_settings');
-    define('ACCOUNT_PURCHASE_ITEM', 'purchase_items');
+    define('ACCOUNT_PURCHASE_ITEM', 'invoice_items');
     define('ACCOUNT_PURCHASE_INVOICE', 'purchase_invoice');
 //     activity type client
     define('ACTIVITY_TYPE_CREATE_CLIENT', 1);

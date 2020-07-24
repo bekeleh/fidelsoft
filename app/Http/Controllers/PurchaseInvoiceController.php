@@ -98,6 +98,7 @@ class PurchaseInvoiceController extends BaseController
 
     public function create(PurchaseInvoiceRequest $request, $vendorPublicId = 0, $isRecurring = false)
     {
+
         $this->authorize('create', ENTITY_PURCHASE_INVOICE);
         $account = Auth::user()->account;
 
@@ -109,6 +110,7 @@ class PurchaseInvoiceController extends BaseController
         }
 
         $invoice = $account->createPurchaseInvoice($entityType, $vendorId);
+
         $invoice->public_id = 0;
         $invoice->loadFromRequest();
 
@@ -128,7 +130,7 @@ class PurchaseInvoiceController extends BaseController
         ];
 
         $data = array_merge($data, self::getViewModel($invoice));
-
+//        dd($data);
         return View::make('purchase_invoices.edit', $data);
     }
 

@@ -26,7 +26,7 @@ trait GeneratesNumbers
         $lastNumber = false;
 
         if ($entityType == ENTITY_CLIENT && !$this->clientNumbersEnabled()) {
-            return '';
+            return false;
         }
 
         // confirm the invoice number isn't already taken

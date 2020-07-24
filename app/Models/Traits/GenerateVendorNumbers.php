@@ -26,11 +26,11 @@ trait GenerateVendorNumbers
         $lastNumber = false;
 
         if ($entityType == ENTITY_VENDOR && !$this->vendorNumbersEnabled()) {
-            return '';
+            return false;
         }
         // confirm the purchase invoice number isn't already taken
         do {
-            if ($this->hasIdPattern($entityType)) {
+            if ($this->hasIdPattern($entity)) {
                 $number = $this->applyVendorNumberPattern($entity, $counter);
             } else {
                 $number = $prefix . str_pad($counter, $this->invoice_number_padding, '0', STR_PAD_LEFT);
@@ -123,7 +123,7 @@ trait GenerateVendorNumbers
             return false;
         }
 
-        $pattern = $purchaseInvoice->invoice_type_id == INVOICE_TYPE_QUOTE ? $this->quote_number_pattern : $this->invoice_number_pattern;
+        $pattern = $purchaseInvoice->invoice_type_id == PURCHASE_INVOICE_TYPE_QUOTE ? $this->purchase_quote_number_pattern : $this->purchase_invoice_number_pattern;
 
         return strstr($pattern, '$vendor') !== false || strstr($pattern, '$idNumber') !== false;
     }

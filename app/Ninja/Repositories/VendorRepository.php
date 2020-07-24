@@ -25,8 +25,7 @@ class VendorRepository extends BaseRepository
     {
         return Vendor::scope()
             ->with('user', 'vendor_contacts', 'country')
-            ->withTrashed()
-            ->where('is_deleted', false)->get();
+            ->withTrashed()->where('is_deleted', false)->get();
     }
 
     public function find($accountId = false, $filter = null)

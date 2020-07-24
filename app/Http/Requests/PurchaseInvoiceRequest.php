@@ -21,16 +21,15 @@ class PurchaseInvoiceRequest extends EntityRequest
         if ($this->invoice_number && !$purchaseInvoice) {
             $purchaseInvoice = PurchaseInvoice::scope()
                 ->where('invoice_number', $this->invoice_number)
-                ->withTrashed()
-                ->first();
+                ->withTrashed()->first();
 
             if (!$purchaseInvoice) {
                 return response()->view('errors/403');
             }
         }
         // eager load the invoice items
-        if ($purchaseInvoice && !$purchaseInvoice->relationLoaded('purchase_items')) {
-            $purchaseInvoice->load('purchase_items');
+        if ($purchaseInvoice && !$purchaseInvoice->relationLoaded('invoice_items')) {
+            $purchaseInvoice->load('invoice_items');
         }
 
         return $purchaseInvoice;

@@ -340,14 +340,14 @@ class Invoice extends EntityModel implements BalanceAffecting
 
     public function scopeInvoices($query)
     {
-        return $query->where('invoice_type_id', '=', INVOICE_TYPE_STANDARD)
-            ->where('is_recurring', '=', false);
+        return $query->where('invoice_type_id', INVOICE_TYPE_STANDARD)
+            ->where('is_recurring', false);
     }
 
     public function scopeRecurring($query)
     {
-        return $query->where('invoice_type_id', '=', INVOICE_TYPE_STANDARD)
-            ->where('is_recurring', '=', true);
+        return $query->where('invoice_type_id', INVOICE_TYPE_STANDARD)
+            ->where('is_recurring', true);
     }
 
     public function scopeDateRange($query, $startDate, $endDate)
@@ -361,8 +361,8 @@ class Invoice extends EntityModel implements BalanceAffecting
 
     public function scopeQuotes($query)
     {
-        return $query->where('invoice_type_id', '=', INVOICE_TYPE_QUOTE)
-            ->where('is_recurring', '=', false);
+        return $query->where('invoice_type_id', INVOICE_TYPE_QUOTE)
+            ->where('is_recurring', false);
     }
 
     public function scopeUnapprovedQuotes($query, $includeInvoiceId = false)
@@ -379,7 +379,7 @@ class Invoice extends EntityModel implements BalanceAffecting
 
     public function scopeInvoiceType($query, $typeId)
     {
-        return $query->where('invoice_type_id', '=', $typeId);
+        return $query->where('invoice_type_id', $typeId);
     }
 
     public function scopeStatusIds($query, $statusIds)
@@ -390,19 +390,19 @@ class Invoice extends EntityModel implements BalanceAffecting
 
         return $query->where(function ($query) use ($statusIds) {
             foreach ($statusIds as $statusId) {
-                $query->orWhere('invoice_status_id', '=', $statusId);
+                $query->orWhere('invoice_status_id', $statusId);
             }
             if (in_array(INVOICE_STATUS_UNPAID, $statusIds)) {
                 $query->orWhere(function ($query) {
                     $query->where('balance', '>', 0)
-                        ->where('is_public', '=', true);
+                        ->where('is_public', true);
                 });
             }
             if (in_array(INVOICE_STATUS_OVERDUE, $statusIds)) {
                 $query->orWhere(function ($query) {
                     $query->where('balance', '>', 0)
                         ->where('due_date', '<', date('Y-m-d'))
-                        ->where('is_public', '=', true);
+                        ->where('is_public', true);
                 });
             }
         });
