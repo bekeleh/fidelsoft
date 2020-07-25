@@ -307,7 +307,7 @@ class PurchaseItem extends EntityModel implements BalanceAffecting
 
     public function payments()
     {
-        return $this->hasMany('App\Models\Payment', 'invoice_id', 'id');
+        return $this->hasMany('App\Models\Payment');
     }
 
     public function recurring_invoice()
@@ -337,7 +337,7 @@ class PurchaseItem extends EntityModel implements BalanceAffecting
 
     public function expenses()
     {
-        return $this->hasMany('App\Models\Expense', 'invoice_id', 'id')->withTrashed();
+        return $this->hasMany('App\Models\Expense')->withTrashed();
     }
 
     public function scopePurchaseItems($query)

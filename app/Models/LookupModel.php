@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Eloquent;
-use Cache;
+use Illuminate\Database\Eloquent\Model as Eloquent;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Class ExpenseCategory.
@@ -22,7 +22,7 @@ class LookupModel extends Eloquent
 
     public static function createNew($accountKey, $data)
     {
-        if (! env('MULTI_DB_ENABLED')) {
+        if (!env('MULTI_DB_ENABLED')) {
             return;
         }
 
@@ -44,7 +44,7 @@ class LookupModel extends Eloquent
 
     public static function deleteWhere($where)
     {
-        if (! env('MULTI_DB_ENABLED')) {
+        if (!env('MULTI_DB_ENABLED')) {
             return;
         }
 
@@ -59,7 +59,7 @@ class LookupModel extends Eloquent
 
     public static function setServerByField($field, $value)
     {
-        if (! env('MULTI_DB_ENABLED')) {
+        if (!env('MULTI_DB_ENABLED')) {
             return;
         }
 
@@ -87,15 +87,15 @@ class LookupModel extends Eloquent
                 $providerId = substr($value, 0, 1);
                 $oauthId = substr($value, 2);
                 $isFound = $entity::where('oauth_provider_id', '=', $providerId)
-                                ->where('oauth_user_id', '=', $oauthId)
-                                ->withTrashed()
-                                ->first();
+                    ->where('oauth_user_id', '=', $oauthId)
+                    ->withTrashed()
+                    ->first();
             } else {
                 $isFound = $entity::where($field, '=', $value)
-                                ->withTrashed()
-                                ->first();
+                    ->withTrashed()
+                    ->first();
             }
-            if (! $isFound) {
+            if (!$isFound) {
                 abort(404, "Looked up {$className} not found: {$field} => {$value}");
             }
 
@@ -107,7 +107,7 @@ class LookupModel extends Eloquent
 
     protected static function setDbServer($server)
     {
-        if (! env('MULTI_DB_ENABLED')) {
+        if (!env('MULTI_DB_ENABLED')) {
             return;
         }
 

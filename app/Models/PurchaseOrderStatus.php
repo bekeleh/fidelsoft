@@ -38,11 +38,6 @@ class PurchaseOrderStatus extends EntityModel
         return "/purchase_order_statuses/{$this->public_id}/edit";
     }
 
-    public static function findPurchaseOrderStatusByKey($key)
-    {
-        return self::scope()->whereName($key)->first();
-    }
-
     public function account()
     {
         return $this->belongsTo('App\Models\Account')->withTrashed();

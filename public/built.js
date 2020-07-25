@@ -13471,7 +13471,7 @@ if (function (t, e) {
                 }
             })
         } else switch (e.getType(o)) {
-            case"function":
+            case "function":
                 C() ? t.isWriteableObservable(o) ? (o(N(o)), n = o) : n = N(o) : n = o;
                 break;
             default:
@@ -22141,6 +22141,7 @@ NINJA.TEMPLATES = {
     var n = t.account, i = JSON.parse(n.invoice_fields);
     if (i) {
         if (e && i.task_fields && i.task_fields.length) return i.task_fields;
+        if (e && i.expense_fields && i.expense_fields.length) return i.expense_fields;
         if (!e && i.product_fields && i.product_fields.length) return i.product_fields
     }
     var o = [e ? "product.service" : "product.item", "product.description", "product.custom_value1", "product.custom_value2", e ? "product.rate" : "product.cost", e ? "product.hours" : "product.quantity", "product.tax", "product.line_total"];
@@ -22299,7 +22300,10 @@ NINJA.TEMPLATES = {
     }, {text: formatMoneyInvoice(t.balance_amount, t), style: ["subtotals", "subtotalsBalanceDue"]}]]
 }, NINJA.accountDetails = function (t) {
     var e = t.account;
-    if (t.features.invoice_settings && e.invoice_fields) var n = JSON.parse(e.invoice_fields).account_fields1; else var n = ["account.company_name", "account.id_number", "account.vat_number", "account.website", "account.email", "account.phone"];
+    if (t.features.invoice_settings && e.invoice_fields)
+        var n = JSON.parse(e.invoice_fields).account_fields1;
+    else
+        var n = ["account.company_name", "account.id_number", "account.vat_number", "account.website", "account.email", "account.phone"];
     for (var i = [], o = 0; o < n.length; o++) {
         var a = n[o], s = NINJA.renderField(t, a);
         s && i.push(s)
@@ -22315,7 +22319,9 @@ NINJA.TEMPLATES = {
     return NINJA.prepareDataList(i, "accountAddress")
 }, NINJA.invoiceDetails = function (t) {
     var e = t.account;
-    if (t.features.invoice_settings && e.invoice_fields) var n = JSON.parse(e.invoice_fields).invoice_fields; else var n = ["invoice.invoice_number", "invoice.po_number", "invoice.invoice_date", "invoice.due_date", "invoice.balance_due", "invoice.partial_due", "invoice.custom_text_value1", "invoice.custom_text_value2"];
+    if (t.features.invoice_settings && e.invoice_fields)
+        var n = JSON.parse(e.invoice_fields).invoice_fields;
+    else var n = ["invoice.invoice_number", "invoice.po_number", "invoice.invoice_date", "invoice.due_date", "invoice.balance_due", "invoice.partial_due", "invoice.custom_text_value1", "invoice.custom_text_value2"];
     for (var i = [], o = 0; o < n.length; o++) {
         var a = n[o], s = NINJA.renderField(t, a, !0);
         s && i.push(s)
@@ -22369,7 +22375,13 @@ NINJA.TEMPLATES = {
     return !1
 }, NINJA.clientDetails = function (t) {
     var e = t.account;
-    if (t.features.invoice_settings && e.invoice_fields) var n = JSON.parse(e.invoice_fields).client_fields; else var n = ["client.client_name", "client.id_number", "client.vat_number", "client.address1", "client.address2", "client.city_state_postal", "client.country", "client.email", "client.custom_value1", "client.custom_value2", "contact.custom_value1", "contact.custom_value2"];
+    // var n = JSON.parse(e.invoice_fields).client_fields;
+    // alert(n);
+    if (t.features.invoice_settings && e.invoice_fields) {
+        var n = JSON.parse(e.invoice_fields).client_fields;
+    } else {
+        var n = ["client.client_name", "client.id_number", "client.vat_number", "client.address1", "client.address2", "client.city_state_postal", "client.country", "client.email", "client.custom_value1", "client.custom_value2", "contact.custom_value1", "contact.custom_value2"];
+    }
     for (var i = [], o = 0; o < n.length; o++) {
         var a = n[o], s = NINJA.renderField(t, a);
         s && i.push(s)

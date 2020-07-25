@@ -64,22 +64,22 @@ class Schedule extends EntityModel
 
     public function category()
     {
-        return $this->hasOne('Modules\Scheduler\Models\ScheduleCategory', 'id', 'category_id');
+        return $this->hasOne('App\Models\ScheduleCategory');
     }
 
     public function occurrences()
     {
-        return $this->hasMany('Modules\Scheduler\Models\ScheduleOccurrence', 'schedule_id', 'id');
+        return $this->hasMany('App\Models\ScheduleOccurrence');
     }
 
     public function reminders()
     {
-        return $this->hasMany('Modules\Scheduler\Models\ScheduleReminder', 'schedule_id', 'id');
+        return $this->hasMany('App\Models\ScheduleReminder');
     }
 
     public function resources()
     {
-        return $this->hasMany('Modules\Scheduler\Models\ScheduleResource', 'schedule_id', 'id');
+        return $this->hasMany('App\Models\ScheduleResource');
     }
 
 }

@@ -129,7 +129,6 @@ class InvoiceController extends BaseController
         ];
 
         $data = array_merge($data, self::getViewModel($invoice));
-
         $this->checkDefaultBranch();
         $this->checkDefaultWarehouse();
         $this->checkProduct($data);

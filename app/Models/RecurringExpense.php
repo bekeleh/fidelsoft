@@ -21,7 +21,7 @@ class RecurringExpense extends EntityModel
 
     protected $presenter = 'App\Ninja\Presenters\ExpensePresenter';
 
-    protected $dates = ['created_at','updated_at','deleted_at'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $fillable = [
         'client_id',
@@ -106,7 +106,7 @@ RecurringExpense::creating(function ($expense) {
 });
 
 RecurringExpense::created(function ($expense) {
-    //event(new ExpenseWasCreated($expense));
+    event(new ExpenseWasCreated($expense));
 });
 
 RecurringExpense::updating(function ($expense) {
@@ -114,7 +114,7 @@ RecurringExpense::updating(function ($expense) {
 });
 
 RecurringExpense::updated(function ($expense) {
-    //event(new ExpenseWasUpdated($expense));
+    event(new ExpenseWasUpdated($expense));
 });
 
 RecurringExpense::deleting(function ($expense) {

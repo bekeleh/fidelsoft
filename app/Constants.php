@@ -306,9 +306,13 @@ if (!defined('APP_NAME')) {
     define('ACTIVITY_TYPE_UPDATE_PRODUCT', 61);
     define('ACTIVITY_TYPE_ARCHIVE_PRODUCT', 62);
 //    purchase  payment
-    define('ACTIVITY_TYPE_CREATE_PURCHASE_PAYMENT', 66);
-    define('ACTIVITY_TYPE_UPDATE_PURCHASE_PAYMENT', 67);
-    define('ACTIVITY_TYPE_ARCHIVE_PURCHASE_PAYMENT', 68);
+    define('ACTIVITY_TYPE_CREATE_PURCHASE_PAYMENT', 63);
+    define('ACTIVITY_TYPE_UPDATE_PURCHASE_PAYMENT', 64);
+    define('ACTIVITY_TYPE_ARCHIVE_PURCHASE_PAYMENT', 65);
+    define('ACTIVITY_TYPE_FAILED_PURCHASE_PAYMENT', 66);
+    define('ACTIVITY_TYPE_DELETE_PURCHASE_PAYMENT', 67);
+    define('ACTIVITY_TYPE_VOIDED_PURCHASE_PAYMENT', 68);
+    define('ACTIVITY_TYPE_REFUNDED_PURCHASE_PAYMENT', 69);
 //    activity type purchase items
     define('ACTIVITY_TYPE_CREATE_PURCHASE_ITEM', 70);
     define('ACTIVITY_TYPE_UPDATE_PURCHASE_ITEM', 71);
@@ -821,10 +825,13 @@ if (!defined('APP_NAME')) {
     define('SKYPE_BUTTON_DOWNLOAD_FILE', 'downloadFile');
 
     define('INVOICE_FIELDS_CLIENT', 'client_fields');
+    define('INVOICE_FIELDS_VENDOR', 'vendor_fields');
     define('INVOICE_FIELDS_INVOICE', 'invoice_fields');
+    define('PURCHASE_INVOICE_FIELDS_INVOICE', 'purchase_invoice_fields');
     define('INVOICE_FIELDS_ACCOUNT', 'account_fields');
     define('INVOICE_FIELDS_PRODUCT', 'product_fields');
     define('INVOICE_FIELDS_TASK', 'task_fields');
+    define('INVOICE_FIELDS_EXPENSE', 'expense_fields');
 
     $creditCards = [
         1 => ['card' => 'images/credit_cards/Test-Visa-Icon.png', 'text' => 'Visa'],

@@ -44,17 +44,17 @@ class HoldReason extends EntityModel
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account', 'account_id')->withTrashed();
+        return $this->belongsTo('App\Models\Account')->withTrashed();
     }
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User', 'user_id')->withTrashed();
+        return $this->belongsTo('App\Models\User')->withTrashed();
     }
 
     public function clients()
     {
-        return $this->hasMany('App\Models\Client', 'hold_reason_id')->withTrashed();
+        return $this->hasMany('App\Models\Client')->withTrashed();
     }
 
     public function getRoute()

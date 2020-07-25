@@ -34,7 +34,7 @@ class ClientType extends EntityModel
 
     public static function findClientTypeByKey($key)
     {
-        return self::scope()->where('name', '=', $key)->first();
+        return self::scope()->where('name', $key)->first();
     }
 
     public function getEntityType()

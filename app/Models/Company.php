@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
+use App\Libraries\Utils;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
-use App\Libraries\Utils;
 use Log;
 
 /**
@@ -44,7 +43,7 @@ class Company extends EntityModel
     {
         return $this->hasMany('App\Models\Account');
     }
-    
+
     public function getEntityType()
     {
         return ENTITY_COMPANY;

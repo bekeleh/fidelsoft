@@ -21,7 +21,7 @@ class Activity extends EntityModel
 
     // public function scopeScope($query)
     // {
-    //     return $query->whereAccountId(Auth::user()->account_id);
+    //     return $query->where('account_id',Auth::user()->account_id);
     // }
 
     public function account()
@@ -49,6 +49,11 @@ class Activity extends EntityModel
         return $this->belongsTo('App\Models\Invoice')->withTrashed();
     }
 
+    public function purchase_invoice()
+    {
+        return $this->belongsTo('App\Models\PurchaseInvoice')->withTrashed();
+    }
+
     public function credit()
     {
         return $this->belongsTo('App\Models\Credit')->withTrashed();
@@ -57,6 +62,11 @@ class Activity extends EntityModel
     public function payment()
     {
         return $this->belongsTo('App\Models\Payment')->withTrashed();
+    }
+
+    public function purchase_payment()
+    {
+        return $this->belongsTo('App\Models\PurchasePayment')->withTrashed();
     }
 
     public function task()
@@ -116,9 +126,18 @@ class Activity extends EntityModel
             case ACTIVITY_TYPE_ARCHIVE_CREDIT:
             case ACTIVITY_TYPE_DELETE_CREDIT:
             case ACTIVITY_TYPE_RESTORE_CREDIT:
-            return ENTITY_CLIENT;
-            break;
-
+                return ENTITY_CLIENT;
+                break;
+            case ACTIVITY_TYPE_CREATE_VENDOR:
+            case ACTIVITY_TYPE_ARCHIVE_VENDOR:
+            case ACTIVITY_TYPE_DELETE_VENDOR:
+            case ACTIVITY_TYPE_RESTORE_VENDOR:
+            case ACTIVITY_TYPE_CREATE_PURCHASE_CREDIT:
+            case ACTIVITY_TYPE_ARCHIVE_PURCHASE_CREDIT:
+            case ACTIVITY_TYPE_DELETE_PURCHASE_CREDIT:
+            case ACTIVITY_TYPE_RESTORE_PURCHASE_CREDIT:
+                return ENTITY_VENDOR;
+                break;
             case ACTIVITY_TYPE_CREATE_INVOICE:
             case ACTIVITY_TYPE_UPDATE_INVOICE:
             case ACTIVITY_TYPE_EMAIL_INVOICE:
@@ -126,9 +145,17 @@ class Activity extends EntityModel
             case ACTIVITY_TYPE_ARCHIVE_INVOICE:
             case ACTIVITY_TYPE_DELETE_INVOICE:
             case ACTIVITY_TYPE_RESTORE_INVOICE:
-            return ENTITY_INVOICE;
-            break;
-
+                return ENTITY_INVOICE;
+                break;
+            case ACTIVITY_TYPE_CREATE_PURCHASE_INVOICE:
+            case ACTIVITY_TYPE_UPDATE_PURCHASE_INVOICE:
+            case ACTIVITY_TYPE_EMAIL_PURCHASE_INVOICE:
+            case ACTIVITY_TYPE_VIEW_PURCHASE_INVOICE:
+            case ACTIVITY_TYPE_ARCHIVE_PURCHASE_INVOICE:
+            case ACTIVITY_TYPE_DELETE_PURCHASE_INVOICE:
+            case ACTIVITY_TYPE_RESTORE_PURCHASE_INVOICE:
+                return ENTITY_PURCHASE_INVOICE;
+                break;
             case ACTIVITY_TYPE_CREATE_PAYMENT:
             case ACTIVITY_TYPE_ARCHIVE_PAYMENT:
             case ACTIVITY_TYPE_DELETE_PAYMENT:
@@ -136,9 +163,17 @@ class Activity extends EntityModel
             case ACTIVITY_TYPE_VOIDED_PAYMENT:
             case ACTIVITY_TYPE_REFUNDED_PAYMENT:
             case ACTIVITY_TYPE_FAILED_PAYMENT:
-            return ENTITY_PAYMENT;
-            break;
-
+                return ENTITY_PAYMENT;
+                break;
+            case ACTIVITY_TYPE_CREATE_PURCHASE_PAYMENT:
+            case ACTIVITY_TYPE_ARCHIVE_PURCHASE_PAYMENT:
+            case ACTIVITY_TYPE_DELETE_PURCHASE_PAYMENT:
+            case ACTIVITY_TYPE_RESTORE_PURCHASE_PAYMENT:
+            case ACTIVITY_TYPE_VOIDED_PURCHASE_PAYMENT:
+            case ACTIVITY_TYPE_REFUNDED_PURCHASE_PAYMENT:
+            case ACTIVITY_TYPE_FAILED_PURCHASE_PAYMENT:
+                return ENTITY_PURCHASE_PAYMENT;
+                break;
             case ACTIVITY_TYPE_CREATE_QUOTE:
             case ACTIVITY_TYPE_UPDATE_QUOTE:
             case ACTIVITY_TYPE_EMAIL_QUOTE:
@@ -147,28 +182,37 @@ class Activity extends EntityModel
             case ACTIVITY_TYPE_DELETE_QUOTE:
             case ACTIVITY_TYPE_RESTORE_QUOTE:
             case ACTIVITY_TYPE_APPROVE_QUOTE:
-            return ENTITY_QUOTE;
-            break;
-
-            case ACTIVITY_TYPE_CREATE_VENDOR:
-            case ACTIVITY_TYPE_ARCHIVE_VENDOR:
-            case ACTIVITY_TYPE_DELETE_VENDOR:
-            case ACTIVITY_TYPE_RESTORE_VENDOR:
+                return ENTITY_QUOTE;
+                break;
+            case ACTIVITY_TYPE_CREATE_PURCHASE_QUOTE:
+            case ACTIVITY_TYPE_UPDATE_PURCHASE_QUOTE:
+            case ACTIVITY_TYPE_EMAIL_PURCHASE_QUOTE:
+            case ACTIVITY_TYPE_VIEW_PURCHASE_QUOTE:
+            case ACTIVITY_TYPE_ARCHIVE_PURCHASE_QUOTE:
+            case ACTIVITY_TYPE_DELETE_PURCHASE_QUOTE:
+            case ACTIVITY_TYPE_RESTORE_PURCHASE_QUOTE:
+            case ACTIVITY_TYPE_APPROVE_PURCHASE_QUOTE:
+                return ENTITY_PURCHASE_QUOTE;
+                break;
+//            case ACTIVITY_TYPE_CREATE_VENDOR:
+//            case ACTIVITY_TYPE_ARCHIVE_VENDOR:
+//            case ACTIVITY_TYPE_DELETE_VENDOR:
+//            case ACTIVITY_TYPE_RESTORE_VENDOR:
             case ACTIVITY_TYPE_CREATE_EXPENSE:
             case ACTIVITY_TYPE_ARCHIVE_EXPENSE:
             case ACTIVITY_TYPE_DELETE_EXPENSE:
             case ACTIVITY_TYPE_RESTORE_EXPENSE:
             case ACTIVITY_TYPE_UPDATE_EXPENSE:
-            return ENTITY_EXPENSE;
-            break;
+                return ENTITY_EXPENSE;
+                break;
 
             case ACTIVITY_TYPE_CREATE_TASK:
             case ACTIVITY_TYPE_UPDATE_TASK:
             case ACTIVITY_TYPE_ARCHIVE_TASK:
             case ACTIVITY_TYPE_DELETE_TASK:
             case ACTIVITY_TYPE_RESTORE_TASK:
-            return ENTITY_TASK;
-            break;
+                return ENTITY_TASK;
+                break;
         }
     }
 

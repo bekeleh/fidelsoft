@@ -100,9 +100,9 @@ class Product extends EntityModel
         return $this->belongsTo('App\Models\TaxCategory')->withTrashed();
     }
 
-    public function stores()
+    public function warehouses()
     {
-        return $this->belongsToMany('App\Models\Store', 'item_stores', 'product_id', 'warehouse_id')->withPivot('id', 'qty', 'created_at', 'user_id')->withTrashed();
+        return $this->belongsToMany('App\Models\Warehouse', 'item_stores', 'product_id', 'warehouse_id')->withTrashed();
     }
 
     public function item_stores()
@@ -137,14 +137,17 @@ class Product extends EntityModel
 
     public function scopeStock($query, $publicId = false, $accountId = false)
     {
-        $warehouseId = auth::user()->branch->warehouse_id ?:0;
-        
+        $warehouseId = isset(auth::user()->branch->warehouse_id) ? auth::user()->branch->warehouse_id : 0;
+        if (!$warehouseId) {
+            return $query;
+        }
+
         $query = $query->whereHas('item_stores', function ($query) use ($warehouseId) {
             $query->where('item_stores.warehouse_id', $warehouseId)
-            ->where('item_stores.qty', '>', 0)
-            ->Where('item_stores.is_locked', false)
-            ->Where('item_stores.is_deleted', false)
-            ->WhereNull('item_stores.deleted_at');
+                ->where('item_stores.qty', '>', 0)
+                ->Where('item_stores.is_locked', false)
+                ->Where('item_stores.is_deleted', false)
+                ->Where('item_stores.deleted_at', null);
         });
 
         return $query;
@@ -154,23 +157,24 @@ class Product extends EntityModel
     {
 
         $query = $query->where('item_type_id', SERVICE_OR_LABOUR)
-        ->WhereIsDeleted(false)
-        ->WhereNull('deleted_at');
+            ->Where('is_deleted', false)
+            ->Where('deleted_at', null);
 
         return $query;
     }
+
     public function scopeProducts($query)
     {
         $query = $query
-        ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
-        ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
-        ->whereNull('products.deleted_at')
-        ->select(
-            'products.id',
-            'products.public_id',
-            'products.product_key',
-            DB::raw("COALESCE(CONCAT(NULLIF(products.product_key,''), ' ', NULLIF(item_brands.name,''), ' ', NULLIF(item_categories.name,'')), NULLIF(products.product_key,'')) product_key")
-        );
+            ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
+            ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
+            ->whereNull('products.deleted_at')
+            ->select(
+                'products.id',
+                'products.public_id',
+                'products.product_key',
+                DB::raw("COALESCE(CONCAT(NULLIF(products.product_key,''), ' ', NULLIF(item_brands.name,''), ' ', NULLIF(item_categories.name,'')), NULLIF(products.product_key,'')) product_key")
+            );
 
         return $query->whereNotNull('products.product_key');
     }

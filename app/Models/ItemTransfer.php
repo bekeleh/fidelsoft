@@ -76,7 +76,7 @@ class ItemTransfer extends EntityModel
 
     public function approver()
     {
-        return $this->belongsTo('\App\Models\User', 'approver_id');
+        return $this->belongsTo('\App\Models\User');
     }
 
     public function previousWarehouse()

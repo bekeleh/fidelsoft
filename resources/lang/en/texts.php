@@ -896,6 +896,7 @@ $LANG = array(
     'archive_invoice' => 'Archive Invoice',
     'delete_invoice' => 'Delete Invoice',
     'email_invoice' => 'Email Invoice',
+    'email_purchase_invoice' => 'Email Invoice',
     'enter_payment' => 'Enter Payment',
     'rate' => 'Rate',
     'settings' => 'Settings',
@@ -1034,10 +1035,10 @@ $LANG = array(
     'payment_error' => 'There was an error processing your payment. Please try again later.',
     'registration_required' => 'Please sign up to email an invoice',
     'confirmation_required' => 'Please confirm your email address, :link to resend the confirmation email.',
-    'default_store_required' => 'Please specify default user store, :link to set default user store.',
+    'default_store_required' => 'Please specify default user warehouse, :link to set default user warehouse.',
     'user_branch_required' => 'Please specify default user branch, :link to set default user branch, otherwise you can\'t proceed to the invoice.',
 
-    'user_store_required' => 'Please specify default user store, :link to set default user store, otherwise you can\'t proceed to the next action.',
+    'user_store_required' => 'Please specify default user warehouse, :link to set default user warehouse, otherwise you can\'t proceed to the next action.',
 
     'product_required' => 'Item quantity is (0) or not available in your <strong>:branch</strong> default warehouse <strong>:warehouse</strong>, :link to set product quantity, otherwise you can\'t proceed to the invoice.',
     'updated_invoice' => 'Successfully updated invoice',

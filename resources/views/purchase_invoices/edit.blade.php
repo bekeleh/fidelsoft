@@ -552,12 +552,9 @@
                 </div>
             </div>
         </div>
-
         <center class="buttons">
-
             <div style="display:none">
                 {!! Former::populateField('entityType', $entityType) !!}
-
                 {!! Former::text('entityType') !!}
                 {!! Former::text('action') !!}
                 {!! Former::text('public_id')->data_bind('value: public_id') !!}
@@ -619,7 +616,7 @@
 
         </center>
 
-        @include('purchase_invoices.pdf', ['account' => Auth::user()->account, 'hide_pdf' => ! Auth::user()->account->live_preview])
+        @include('purchase_invoices.pdf', ['account' => $account, 'hide_pdf' => ! Auth::user()->account->live_preview])
 
         @if (!Auth::user()->account->isPro())
             <div style="font-size:larger">
@@ -900,7 +897,7 @@
 
         var products = {!! $products !!};
         var vendors = {!! $vendors !!};
-        var account = {!! Auth::user()->account !!};
+        var account = {!! $account !!};
         var dropzone;
 
         var vendorMap = {};
@@ -1275,7 +1272,7 @@
                     @if (! $invoice->id && $account->credit_number_counter > 0)
             var total = model.invoice().totals.rawTotal();
             var invoiceNumber = model.invoice().invoice_number();
-            var creditNumber = "{{ $account->getNextNumber(new \App\Models\Credit()) }}";
+            var creditNumber = "{{ $account->getNextNumber(new \App\Models\PurchaseCredit()) }}";
             if (total < 0 && invoiceNumber != creditNumber) {
                 origInvoiceNumber = invoiceNumber;
                 model.invoice().invoice_number(creditNumber);
@@ -1556,13 +1553,14 @@
                 return false;
             }
 
-            @if (Auth::user()->canCreateOrEdit(ENTITY_PURCHASE_INVOICE, $invoice))
+            @if (Auth::user()->canCreateOrEdit([ENTITY_PURCHASE_INVOICE, $invoice]))
             if ($('#saveButton').is(':disabled')) {
                 return false;
             }
             $('#saveButton, #emailButton, #draftButton').attr('disabled', true);
             // if save fails ensure user can try again
             $.post('{{ url($url) }}', $('.main-form').serialize(), function (data) {
+                // http index of is not clear test in production
                 if (data && data.toLowerCase().indexOf('http') === 0) {
                     NINJA.formIsChanged = false;
                     location.href = data;
@@ -1653,15 +1651,15 @@
         function onPaymentClick() {
             @if (!empty($autoBillChangeWarning))
             sweetConfirm(function () {
-                window.location = '{{ URL::to('payments/create/' . $invoice->vendor->public_id . '/' . $invoice->public_id ) }}';
+                window.location = '{{ URL::to('purchase_payments/create/' . $invoice->vendor->public_id . '/' . $invoice->public_id ) }}';
             }, {!! json_encode(trans('texts.warn_change_auto_bill')) !!});
             @else
-                window.location = '{{ URL::to('payments/create/' . $invoice->vendor->public_id . '/' . $invoice->public_id ) }}';
+                window.location = '{{ URL::to('purchase_payments/create/' . $invoice->vendor->public_id . '/' . $invoice->public_id ) }}';
             @endif
         }
 
-        function onCreditClick() {
-            window.location = '{{ URL::to('credits/create/' . $invoice->vendor->public_id . '/' . $invoice->public_id ) }}';
+        function onPurchaseCreditClick() {
+            window.location = '{{ URL::to('purchase_credits/create/' . $invoice->vendor->public_id . '/' . $invoice->public_id ) }}';
         }
 
         @endif
@@ -1776,9 +1774,9 @@
             number = number.replace('{$vendorCustom2}', vendor.custom_value2 ? vendor.custom_value1 : '');
             number = number.replace('{$vendorIdNumber}', vendor.id_number ? vendor.id_number : '');
             @if ($invoice->isQuote() && ! $account->share_purchase_counter)
-                number = number.replace('{$vendorCounter}', pad(vendor.purchase_quote_number_counter, {{ $account->invoice_number_padding }}));
+                number = number.replace('{$vendorCounter}', pad(vendor.quote_number_counter, {{ $account->invoice_number_padding }}));
             @else
-                number = number.replace('{$vendorCounter}', pad(vendor.purchase_invoice_number_counter, {{ $account->invoice_number_padding }}));
+                number = number.replace('{$vendorCounter}', pad(vendor.invoice_number_counter, {{ $account->invoice_number_padding }}));
             @endif
             // backwards compatibility
             number = number.replace('{$custom1}', vendor.custom_value1 ? vendor.custom_value1 : '');

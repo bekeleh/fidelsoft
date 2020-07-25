@@ -63,8 +63,9 @@ class InvoiceRepository extends BaseRepository
      * @param bool $filter
      * @return mixed|null
      */
-    public function getInvoices($accountId = false, $clientPublicId = false, $entityType = ENTITY_INVOICE, $filter = false)
+    public function getInvoices($accountId = false, $clientPublicId = false, $entityType = null, $filter = false)
     {
+
         $query = DB::table('invoices')
             ->LeftJoin('accounts', 'accounts.id', '=', 'invoices.account_id')
             ->LeftJoin('clients', 'clients.id', '=', 'invoices.client_id')
@@ -128,8 +129,7 @@ class InvoiceRepository extends BaseRepository
             });
         }
 
-//      explicitly passing table name recommend
-        $this->applyFilters($query, $entityType);
+        $this->applyFilters($query, $entityType, ENTITY_INVOICE);
 
         if ($statuses = session('entity_status_filter:' . $entityType)) {
             $statuses = explode(',', $statuses);
@@ -168,10 +168,11 @@ class InvoiceRepository extends BaseRepository
     /**
      * @param bool $accountId
      * @param bool $clientPublicId
+     * @param null $entityType
      * @param bool $filter
      * @return mixed
      */
-    public function getRecurringInvoices($accountId = false, $clientPublicId = false, $filter = false)
+    public function getRecurringInvoices($accountId = false, $clientPublicId = false, $entityType = null, $filter = false)
     {
         $query = DB::table('invoices')
             ->leftJoin('accounts', 'accounts.id', '=', 'invoices.account_id')
@@ -238,8 +239,8 @@ class InvoiceRepository extends BaseRepository
                     ->orWhere('contacts.email', 'like', '%' . $filter . '%');
             });
         }
-//     don't remove third parameter/table unless we separate normal invoice and recurring invoice
-        $this->applyFilters($query, ENTITY_RECURRING_INVOICE, 'invoices');
+
+        $this->applyFilters($query, $entityType, ENTITY_INVOICE);
 
         return $query;
     }

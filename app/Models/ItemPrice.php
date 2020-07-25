@@ -58,26 +58,26 @@ class ItemPrice extends EntityModel
 
     public static function findItemPriceByKey($key)
     {
-        return self::scope()->where('name', '=', $key)->first();
+        return self::scope()->where('name', $key)->first();
     }
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account', 'account_id')->withTrashed();
+        return $this->belongsTo('App\Models\Account')->withTrashed();
     }
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User', 'user_id')->withTrashed();
+        return $this->belongsTo('App\Models\User')->withTrashed();
     }
 
     public function product()
     {
-        return $this->belongsTo('App\Models\Product', 'product_id')->withTrashed();
+        return $this->belongsTo('App\Models\Product')->withTrashed();
     }
 
     public function clientType()
     {
-        return $this->belongsTo('App\Models\ClientType', 'client_type_id')->withTrashed();
+        return $this->belongsTo('App\Models\ClientType')->withTrashed();
     }
 }

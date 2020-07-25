@@ -49,22 +49,22 @@ class ItemBrand extends EntityModel
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account', 'account_id')->withTrashed();
+        return $this->belongsTo('App\Models\Account')->withTrashed();
     }
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User', 'user_id')->withTrashed();
+        return $this->belongsTo('App\Models\User')->withTrashed();
     }
 
     public function item_category()
     {
-        return $this->belongsTo('App\Models\itemCategory', 'item_category_id')->withTrashed();
+        return $this->belongsTo('App\Models\itemCategory')->withTrashed();
     }
 
     public function products()
     {
-        return $this->hasMany('App\Models\Product', 'item_brand_id')->withTrashed();
+        return $this->hasMany('App\Models\Product')->withTrashed();
     }
 
     public function scopeBrandWithCategory($query)

@@ -51,7 +51,7 @@ class Location extends EntityModel
 
     public function getRoute()
     {
-        return "/locations/{$this->public_id}";
+        return "/locations/{$this->public_id}/edit";
     }
 
     public function getName()
@@ -69,14 +69,14 @@ class Location extends EntityModel
         return strtoupper($this->name);
     }
 
-    public static function findProductByKey($key)
+    public static function findLocationByName($key)
     {
-        return self::scope()->where('name', '=', $key)->first();
+        return self::scope()->where('name', $key)->first();
     }
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account', 'account_id')->withTrashed();
+        return $this->belongsTo('App\Models\Account')->withTrashed();
     }
 
     public function user()

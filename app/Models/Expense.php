@@ -188,7 +188,7 @@ class Expense extends EntityModel
     public function scopeBankId($query, $bankdId = null)
     {
         if ($bankdId) {
-            $query->whereBankId($bankdId);
+            $query->where('bank_id', $bankdId);
         }
 
         return $query;

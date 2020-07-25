@@ -52,14 +52,9 @@ class SaleType extends EntityModel
         return ENTITY_SALE_TYPE;
     }
 
-    public static function findSaleTypeByKey($key)
-    {
-        return self::scope()->where('name', '=', $key)->first();
-    }
-
     public function itemPrices()
     {
-        return $this->hasMany('App\Models\ItemPrice', 'sale_type_id');
+        return $this->hasMany('App\Models\ItemPrice');
     }
 
     public function clients()

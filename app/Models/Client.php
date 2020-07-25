@@ -151,15 +151,15 @@ class Client extends EntityModel
     public function quotes()
     {
         return $this->hasMany('App\Models\Invoice')
-        ->where('invoice_type_id',INVOICE_TYPE_QUOTE);
+            ->where('invoice_type_id', INVOICE_TYPE_QUOTE);
     }
 
 
     public function publicQuotes()
     {
         return $this->hasMany('App\Models\Invoice')
-        ->where('invoice_type_id', INVOICE_TYPE_QUOTE)
-        ->whereIsPublic(true);
+            ->where('invoice_type_id', INVOICE_TYPE_QUOTE)
+            ->whereIsPublic(true);
     }
 
     public function payments()
@@ -234,7 +234,7 @@ class Client extends EntityModel
     public function creditsWithBalance()
     {
         return $this->hasMany('App\Models\Credit')
-        ->where('balance', '>', 0);
+            ->where('balance', '>', 0);
     }
 
 
@@ -246,15 +246,14 @@ class Client extends EntityModel
 
     public function activities()
     {
-        return $this->hasMany('App\Models\Activity', 'client_id', 'id')
-        ->orderBy('id', 'desc');
+        return $this->hasMany('App\Models\Activity')->orderBy('id', 'desc');
     }
 
 
     public function addContact($data, $isPrimary = false)
     {
         $publicId = isset($data['public_id'])
-        ? $data['public_id'] : (isset($data['id']) ? $data['id'] : false);
+            ? $data['public_id'] : (isset($data['id']) ? $data['id'] : false);
 
         // check if this client wasRecentlyCreated to ensure a new contact is
         // always created even if the request includes a contact id
@@ -305,9 +304,9 @@ class Client extends EntityModel
     public function getTotalCredit()
     {
         return DB::table('credits')
-        ->where('client_id', $this->id)
-        ->whereNull('deleted_at')
-        ->sum('balance');
+            ->where('client_id', $this->id)
+            ->whereNull('deleted_at')
+            ->sum('balance');
     }
 
     public function getName()

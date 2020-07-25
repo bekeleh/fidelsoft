@@ -110,11 +110,9 @@ class BaseRepository
         return $this->getInstance()->scope($ids)->withTrashed()->get();
     }
 
-    protected function applyFilters($query, $entityType, $table = false)
+    protected function applyFilters($query, $entityType, $table = null)
     {
-        if (!$table) {
-            $table = Utils::pluralizeEntityType($entityType);
-        }
+        $table = Utils::pluralizeEntityType($table ?: $entityType);
         if ($filter = session('entity_state_filter:' . $entityType, STATUS_ACTIVE)) {
 
             $filters = explode(',', $filter);
@@ -129,14 +127,14 @@ class BaseRepository
                         $query->whereNotNull($table . '.deleted_at');
 
                         if (!in_array($table, ['users'])) {
-                            $query->where($table . '.is_deleted', '=', 0);
+                            $query->where($table . '.is_deleted', 0);
                         }
                     });
                 }
                 if (in_array(STATUS_DELETED, $filters)) {
                     $query->orWhere(function ($query) use ($table) {
                         $query->whereNotNull($table . '.deleted_at')
-                        ->where($table . '.is_deleted', '=', 1);
+                            ->where($table . '.is_deleted', 1);
                     });
                 }
             });

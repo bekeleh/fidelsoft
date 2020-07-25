@@ -39,9 +39,9 @@ class Vendor extends EntityModel
         'currency_id',
         'website',
         'transaction_name',
-        'purchase_invoice_number_counter',
-        'purchase_quote_number_counter',
-        'purchase_credit_number_counter',
+        'invoice_number_counter',
+        'quote_number_counter',
+        'credit_number_counter',
         'task_rate',
         'custom_value1',
         'custom_value2',
@@ -158,7 +158,12 @@ class Vendor extends EntityModel
 
     public function expenses()
     {
-        return $this->hasMany('App\Models\Expense', 'vendor_id', 'id');
+        return $this->hasMany('App\Models\Expense');
+    }
+
+    public function activities()
+    {
+        return $this->hasMany('App\Models\Activity')->orderBy('id', 'desc');
     }
 
     public function addVendorContact($data, $isPrimary = false)
@@ -245,8 +250,8 @@ class Vendor extends EntityModel
     {
         return DB::table('expenses')
             ->select('expense_currency_id', DB::raw('sum(expenses.amount + (expenses.amount * expenses.tax_rate1 / 100) + (expenses.amount * expenses.tax_rate2 / 100)) as amount'))
-            ->whereVendorId($this->id)
-            ->whereIsDeleted(false)
+            ->where('vendor_id', $this->id)
+            ->where('is_deleted', false)
             ->groupBy('expense_currency_id')
             ->get();
     }

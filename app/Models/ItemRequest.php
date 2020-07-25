@@ -52,32 +52,32 @@ class ItemRequest extends EntityModel
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account', 'account_id')->withTrashed();
+        return $this->belongsTo('App\Models\Account')->withTrashed();
     }
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User', 'user_id')->withTrashed();
+        return $this->belongsTo('App\Models\User')->withTrashed();
     }
 
     public function department()
     {
-        return $this->belongsTo('\App\Models\Department', 'department_id');
+        return $this->belongsTo('\App\Models\Department');
     }
 
     public function product()
     {
-        return $this->belongsTo('\App\Models\Product', 'product_id');
+        return $this->belongsTo('\App\Models\Product');
     }
 
     public function status()
     {
-        return $this->belongsTo('\App\Models\Status', 'status_id');
+        return $this->belongsTo('\App\Models\Status');
     }
 
-    public function store()
+    public function warehouse()
     {
-        return $this->belongsTo('\App\Models\Store', 'warehouse_id');
+        return $this->belongsTo('\App\Models\WareHouse');
     }
 
     public static function calcStatusLabel($qoh, $reorderLevel)

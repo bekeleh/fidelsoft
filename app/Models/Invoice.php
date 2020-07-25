@@ -305,7 +305,7 @@ class Invoice extends EntityModel implements BalanceAffecting
 
     public function payments()
     {
-        return $this->hasMany('App\Models\Payment', 'invoice_id', 'id');
+        return $this->hasMany('App\Models\Payment');
     }
 
     public function recurring_invoice()
@@ -335,7 +335,7 @@ class Invoice extends EntityModel implements BalanceAffecting
 
     public function expenses()
     {
-        return $this->hasMany('App\Models\Expense', 'invoice_id', 'id')->withTrashed();
+        return $this->hasMany('App\Models\Expense')->withTrashed();
     }
 
     public function scopeInvoices($query)
@@ -1321,7 +1321,7 @@ class Invoice extends EntityModel implements BalanceAffecting
     {
         return Activity::scope()
             ->with(['contact'])
-            ->whereInvoiceId($this->id)
+            ->where('invoice_id', $this->id)
             ->whereIn('activity_type_id', [ACTIVITY_TYPE_EMAIL_INVOICE, ACTIVITY_TYPE_EMAIL_QUOTE])
             ->orderBy('id', 'desc')
             ->get();

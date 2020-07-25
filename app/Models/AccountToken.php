@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\LookupAccountToken;
 
@@ -25,7 +26,7 @@ class AccountToken extends EntityModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function account()
     {
@@ -41,15 +42,13 @@ class AccountToken extends EntityModel
     }
 }
 
-AccountToken::creating(function ($token)
-{
+AccountToken::creating(function ($token) {
     LookupAccountToken::createNew($token->account->account_key, [
         'token' => $token->token,
     ]);
 });
 
-AccountToken::deleted(function ($token)
-{
+AccountToken::deleted(function ($token) {
     if ($token->forceDeleting) {
         LookupAccountToken::deleteWhere([
             'token' => $token->token

@@ -1,5 +1,5 @@
-<?php use App\Models\Credit;
-use App\Models\PaymentTerm;
+<?php use App\Models\PaymentTerm;
+use App\Models\PurchaseCredit;
 use Illuminate\Contracts\Auth\Access\Gate;
 
 $__env->startSection('head_css'); ?>
@@ -591,12 +591,9 @@ $__env->startSection('head_css'); ?>
                 </div>
             </div>
         </div>
-
         <center class="buttons">
-
             <div style="display:none">
                 <?php echo Former::populateField('entityType', $entityType); ?>
-
 
                 <?php echo Former::text('entityType'); ?>
 
@@ -1376,7 +1373,7 @@ $__env->startSection('head_css'); ?>
                     <?php if(! $invoice->id && $account->credit_number_counter > 0): ?>
             var total = model.invoice().totals.rawTotal();
             var invoiceNumber = model.invoice().invoice_number();
-            var creditNumber = "<?php echo e($account->getNextNumber(new Credit())); ?>";
+            var creditNumber = "<?php echo e($account->getNextNumber(new PurchaseCredit())); ?>";
             if (total < 0 && invoiceNumber != creditNumber) {
                 origInvoiceNumber = invoiceNumber;
                 model.invoice().invoice_number(creditNumber);
@@ -1657,13 +1654,14 @@ $__env->startSection('head_css'); ?>
                 return false;
             }
 
-            <?php if(Auth::user()->canCreateOrEdit(ENTITY_PURCHASE_INVOICE, $invoice)): ?>
+            <?php if(Auth::user()->canCreateOrEdit([ENTITY_PURCHASE_INVOICE, $invoice])): ?>
             if ($('#saveButton').is(':disabled')) {
                 return false;
             }
             $('#saveButton, #emailButton, #draftButton').attr('disabled', true);
             // if save fails ensure user can try again
             $.post('<?php echo e(url($url)); ?>', $('.main-form').serialize(), function (data) {
+                // http index of is not clear test in production
                 if (data && data.toLowerCase().indexOf('http') === 0) {
                     NINJA.formIsChanged = false;
                     location.href = data;
@@ -1754,15 +1752,15 @@ $__env->startSection('head_css'); ?>
         function onPaymentClick() {
             <?php if(!empty($autoBillChangeWarning)): ?>
             sweetConfirm(function () {
-                window.location = '<?php echo e(URL::to('payments/create/' . $invoice->vendor->public_id . '/' . $invoice->public_id )); ?>';
+                window.location = '<?php echo e(URL::to('purchase_payments/create/' . $invoice->vendor->public_id . '/' . $invoice->public_id )); ?>';
             }, <?php echo json_encode(trans('texts.warn_change_auto_bill')); ?>);
             <?php else: ?>
-                window.location = '<?php echo e(URL::to('payments/create/' . $invoice->vendor->public_id . '/' . $invoice->public_id )); ?>';
+                window.location = '<?php echo e(URL::to('purchase_payments/create/' . $invoice->vendor->public_id . '/' . $invoice->public_id )); ?>';
             <?php endif; ?>
         }
 
-        function onCreditClick() {
-            window.location = '<?php echo e(URL::to('credits/create/' . $invoice->vendor->public_id . '/' . $invoice->public_id )); ?>';
+        function onPurchaseCreditClick() {
+            window.location = '<?php echo e(URL::to('purchase_credits/create/' . $invoice->vendor->public_id . '/' . $invoice->public_id )); ?>';
         }
 
         <?php endif; ?>
@@ -1877,9 +1875,9 @@ $__env->startSection('head_css'); ?>
             number = number.replace('{$vendorCustom2}', vendor.custom_value2 ? vendor.custom_value1 : '');
             number = number.replace('{$vendorIdNumber}', vendor.id_number ? vendor.id_number : '');
             <?php if($invoice->isQuote() && ! $account->share_purchase_counter): ?>
-                number = number.replace('{$vendorCounter}', pad(vendor.purchase_quote_number_counter, <?php echo e($account->invoice_number_padding); ?>));
+                number = number.replace('{$vendorCounter}', pad(vendor.quote_number_counter, <?php echo e($account->invoice_number_padding); ?>));
             <?php else: ?>
-                number = number.replace('{$vendorCounter}', pad(vendor.purchase_invoice_number_counter, <?php echo e($account->invoice_number_padding); ?>));
+                number = number.replace('{$vendorCounter}', pad(vendor.invoice_number_counter, <?php echo e($account->invoice_number_padding); ?>));
             <?php endif; ?>
             // backwards compatibility
             number = number.replace('{$custom1}', vendor.custom_value1 ? vendor.custom_value1 : '');

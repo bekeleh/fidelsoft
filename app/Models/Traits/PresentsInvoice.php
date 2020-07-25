@@ -35,6 +35,17 @@ trait PresentsInvoice
                     'product.tax',
                     'product.line_total',
                 ];
+                $fields['expense_fields'] = [
+                    'product.service',
+                    'product.product_key',
+                    'product.description',
+                    'product.custom_value1',
+                    'product.custom_value2',
+                    'product.rate',
+                    'product.hours',
+                    'product.tax',
+                    'product.line_total',
+                ];
             }
 
             return $this->applyLabels($fields);
@@ -54,6 +65,14 @@ trait PresentsInvoice
                 'invoice.balance_due',
                 'invoice.partial_due',
             ],
+            PURCHASE_INVOICE_FIELDS_INVOICE => [
+                'purchase_invoice.invoice_number',
+                'purchase_invoice.po_number',
+                'purchase_invoice.invoice_date',
+                'purchase_invoice.due_date',
+                'purchase_invoice.balance_due',
+                'purchase_invoice.partial_due',
+            ],
             INVOICE_FIELDS_CLIENT => [
                 'client.client_name',
                 'client.id_number',
@@ -63,6 +82,17 @@ trait PresentsInvoice
                 'client.city_state_postal',
                 'client.country',
                 'client.email',
+            ],
+
+            INVOICE_FIELDS_VENDOR => [
+                'vendor.vendor_name',
+                'vendor.id_number',
+                'vendor.vat_number',
+                'vendor.address1',
+                'vendor.address2',
+                'vendor.city_state_postal',
+                'vendor.country',
+                'vendor.email',
             ],
             'account_fields1' => [
                 'account.company_name',
@@ -91,6 +121,17 @@ trait PresentsInvoice
                 'product.line_total',
             ],
             'task_fields' => [
+                'product.service',
+                'product.product_key',
+                'product.description',
+                'product.custom_value1',
+                'product.custom_value2',
+                'product.rate',
+                'product.hours',
+                'product.tax',
+                'product.line_total',
+            ],
+            'expense_fields' => [
                 'product.service',
                 'product.product_key',
                 'product.description',
@@ -147,6 +188,19 @@ trait PresentsInvoice
                 'invoice.custom_text_value2',
                 '.blank',
             ],
+            PURCHASE_INVOICE_FIELDS_INVOICE => [
+                'purchase_invoice.invoice_number',
+                'purchase_invoice.po_number',
+                'purchase_invoice.invoice_date',
+                'purchase_invoice.due_date',
+                'purchase_invoice.invoice_total',
+                'purchase_invoice.balance_due',
+                'purchase_invoice.partial_due',
+                'purchase_invoice.outstanding',
+                'purchase_invoice.custom_text_value1',
+                'purchase_invoice.custom_text_value2',
+                '.blank',
+            ],
             INVOICE_FIELDS_CLIENT => [
                 'client.client_name',
                 'client.id_number',
@@ -163,6 +217,26 @@ trait PresentsInvoice
                 'client.phone',
                 'client.custom_value1',
                 'client.custom_value2',
+                'contact.custom_value1',
+                'contact.custom_value2',
+                '.blank',
+            ],
+            INVOICE_FIELDS_VENDOR => [
+                'vendor.vendor_name',
+                'vendor.id_number',
+                'vendor.vat_number',
+                'vendor.website',
+                'vendor.work_phone',
+                'vendor.address1',
+                'vendor.address2',
+                'vendor.city_state_postal',
+                'vendor.postal_city_state',
+                'vendor.country',
+                'vendor.contact_name',
+                'vendor.email',
+                'vendor.phone',
+                'vendor.custom_value1',
+                'vendor.custom_value2',
                 'contact.custom_value1',
                 'contact.custom_value2',
                 '.blank',
@@ -207,6 +281,18 @@ trait PresentsInvoice
                 'product.tax',
                 'product.line_total',
             ],
+            INVOICE_FIELDS_EXPENSE => [
+                'product.service',
+                'product.product_key',
+                'product.description',
+                'product.custom_value1',
+                'product.custom_value2',
+                'product.rate',
+                'product.hours',
+                'product.discount',
+                'product.tax',
+                'product.line_total',
+            ],
         ];
 
         return $this->applyLabels($fields);
@@ -223,6 +309,8 @@ trait PresentsInvoice
                     $fields[$section][$field] = $labels[$field];
                 } elseif (in_array($field, ['client.phone', 'client.email'])) {
                     $fields[$section][$field] = trans('texts.contact_' . $fieldName);
+                } elseif (in_array($field, ['vendor.phone', 'vendor.email'])) {
+                    $fields[$section][$field] = trans('texts.vendor_contact_' . $fieldName);
                 } else {
                     $fields[$section][$field] = $labels[$fieldName];
                 }
@@ -302,6 +390,7 @@ trait PresentsInvoice
             'quote_no',
             'valid_until',
             'client_name',
+            'vendor_name',
             'address1',
             'address2',
             'id_number',
@@ -311,6 +400,7 @@ trait PresentsInvoice
             'country',
             'email',
             'contact_name',
+            'vendor_contact_name',
             'company_name',
             'website',
             'phone',
@@ -367,10 +457,16 @@ trait PresentsInvoice
                      'account.custom_value2' => 'account2',
                      'invoice.custom_text_value1' => 'invoice_text1',
                      'invoice.custom_text_value2' => 'invoice_text2',
+                     'purchase_invoice.custom_text_value1' => 'invoice_text1',
+                     'purchase_invoice.custom_text_value2' => 'invoice_text2',
                      'client.custom_value1' => 'client1',
                      'client.custom_value2' => 'client2',
+                     'vendor.custom_value1' => 'vendor1',
+                     'vendor.custom_value2' => 'vendor2',
                      'contact.custom_value1' => 'contact1',
                      'contact.custom_value2' => 'contact2',
+                     'vendor_contact.custom_value1' => 'vendor_contact1',
+                     'vendor_contact.custom_value2' => 'vendor_contact2',
                      'product.custom_value1' => 'product1',
                      'product.custom_value2' => 'product2',
                  ] as $field => $property) {

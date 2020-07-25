@@ -39,6 +39,6 @@ class Country extends Eloquent
 
     public function clients()
     {
-        return $this->hasMany('App\Models\Client', 'country_id', 'id')->withTrashed();
+        return $this->hasMany('App\Models\Client')->withTrashed();
     }
 }

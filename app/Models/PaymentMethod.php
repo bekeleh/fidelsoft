@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
+use stdClass;
 
 /**
  * Class PaymentMethod.
@@ -97,7 +98,7 @@ class PaymentMethod extends EntityModel
     public function scopeIsBankAccount($query, $isBank)
     {
         if ($isBank) {
-            $query->where('payment_type_id', '=', PAYMENT_TYPE_ACH);
+            $query->where('payment_type_id', PAYMENT_TYPE_ACH);
         } else {
             $query->where('payment_type_id', '!=', PAYMENT_TYPE_ACH);
         }
@@ -147,7 +148,7 @@ class PaymentMethod extends EntityModel
             } elseif ($thisNumber < $routingNumber) {
                 $low = $mid + 1;
             } else {
-                $data = new \stdClass();
+                $data = new stdClass();
                 $data->routing_number = $thisNumber;
 
                 fseek($file, 26, SEEK_CUR);
