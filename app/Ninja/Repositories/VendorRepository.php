@@ -33,22 +33,22 @@ class VendorRepository extends BaseRepository
         $query = DB::table('vendors')
             ->LeftJoin('accounts', 'accounts.id', '=', 'vendors.account_id')
             ->LeftJoin('users', 'users.id', '=', 'vendors.user_id')
-            ->LeftJoin('contacts', 'contacts.vendor_id', '=', 'vendors.id')
+            ->LeftJoin('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
             ->where('vendors.account_id', $accountId)
-            ->where('contacts.is_primary', true)
-//            ->where('contacts.deleted_at', null)
+            ->where('vendor_contacts.is_primary', true)
+//            ->where('vendor_contacts.deleted_at', null)
             ->select(
                 DB::raw('COALESCE(vendors.currency_id, accounts.currency_id) currency_id'),
                 DB::raw('COALESCE(vendors.country_id, accounts.country_id) country_id'),
                 'vendors.public_id',
                 'vendors.name as vendor_name',
-                'contacts.first_name',
-                'contacts.last_name',
+                'vendor_contacts.first_name',
+                'vendor_contacts.last_name',
                 'vendors.private_notes',
                 'vendors.public_notes',
                 'vendors.work_phone',
                 'vendors.city',
-                'contacts.email',
+                'vendor_contacts.email',
                 'vendors.deleted_at',
                 'vendors.is_deleted',
                 'vendors.user_id',
@@ -60,15 +60,18 @@ class VendorRepository extends BaseRepository
                 'vendors.deleted_by'
             );
 
-
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('vendors.name', 'like', '%' . $filter . '%')
-                    ->orWhere('contacts.first_name', 'like', '%' . $filter . '%')
-                    ->orWhere('contacts.last_name', 'like', '%' . $filter . '%')
-                    ->orWhere('contacts.work_phone', 'like', '%' . $filter . '%')
-                    ->orWhere('contacts.email', 'like', '%' . $filter . '%')
-                    ->orWhere('contacts.city', 'like', '%' . $filter . '%');
+                    ->orWhere('vendors.id_number', 'like', '%' . $filter . '%')
+                    ->orWhere('vendors.work_phone', 'like', '%' . $filter . '%')
+                    ->orWhere('vendors.vat_number', 'like', '%' . $filter . '%')
+                    ->orWhere('vendors.vat_number', 'like', '%' . $filter . '%')
+                    ->orWhere('vendors.city', 'like', '%' . $filter . '%')
+                    ->orWhere('vendor_contacts.first_name', 'like', '%' . $filter . '%')
+                    ->orWhere('vendor_contacts.last_name', 'like', '%' . $filter . '%')
+                    ->orWhere('vendor_contacts.phone', 'like', '%' . $filter . '%')
+                    ->orWhere('vendor_contacts.email', 'like', '%' . $filter . '%');
             });
         }
 

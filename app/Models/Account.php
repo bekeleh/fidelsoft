@@ -960,7 +960,7 @@ class Account extends Eloquent
         $purchaseInvoice->vendor_id = $vendorId;
         $purchaseInvoice->custom_taxes1 = $this->custom_invoice_taxes1;
         $purchaseInvoice->custom_taxes2 = $this->custom_invoice_taxes2;
-//      to generate invoice number using microtime() carbon instance
+//      to generate invoice number using micro time() carbon instance
         if ($entityType === ENTITY_RECURRING_PURCHASE_INVOICE) {
             $purchaseInvoice->invoice_number = microtime(true);
             $purchaseInvoice->is_recurring = true;

@@ -322,7 +322,6 @@ $__env->startSection('head_css'); ?>
             'credits',
             'expenses',
             'products',
-            'purchases',
             'proposals',
             'projects',
             'tasks',

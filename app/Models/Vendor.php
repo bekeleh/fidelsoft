@@ -171,12 +171,13 @@ class Vendor extends EntityModel
         $publicId = isset($data['public_id']) ? $data['public_id'] : (isset($data['id']) ? $data['id'] : false);
 
         if (!$this->wasRecentlyCreated && $publicId && intval($publicId) > 0) {
-            $contact = VendorContact::scope($publicId)->whereVendorId($this->id)->firstOrFail();
+            $contact = VendorContact::scope($publicId)->where('vendor_id', $this->id)->firstOrFail();
         } else {
             $contact = VendorContact::createNew();
         }
 
         $contact->fill($data);
+        $contact->send_invoice = true;
         $contact->is_primary = $isPrimary;
 
         return $this->contacts()->save($contact);

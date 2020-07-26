@@ -1,10 +1,11 @@
 <div class="btn-group user-dropdown">
     <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
-        <div id="myAccountButton" class="ellipsis" style="width:60px;;max-width:80px;">
+        <div id="myAccountButton" class="ellipsis" style="width:60px;max-width:80px;">
             {{ trans('texts.utility') }}<span class="caret"></span>
         </div>
     </button>
     <ul class="dropdown-menu user-accounts">
+        placeholder
         <li class="divider"></li>
         <li>
             <a href="javascript:showKeyboardShortcuts()" title="{{ trans('texts.help') }}">

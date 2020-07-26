@@ -316,7 +316,6 @@
             'credits',
             'expenses',
             'products',
-            'purchases',
             'proposals',
             'projects',
             'tasks',
