@@ -104,7 +104,7 @@
                         @include('partials/checkbox', ['field' => 'products'])
                         @include('partials/checkbox', ['field' => 'expenses'])
                         @include('partials/checkbox', ['field' => 'vendors'])
-                        @include('partials/checkbox', ['field' => 'vendor_contacts'])
+                        @include('partials/checkbox', ['field' => 'contacts'])
                     </div>
                 </div>
             </div>
@@ -129,7 +129,7 @@
 
         function setCheckboxesEnabled() {
             var $checkboxes = $('.entity-types input[type=checkbox]');
-            var include = $('input[name=include]:checked').val()
+            var include = $('input[name=include]:checked').val();
             var format = $('#format').val();
             if (include === 'all') {
                 $checkboxes.attr('disabled', true);

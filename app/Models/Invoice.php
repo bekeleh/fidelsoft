@@ -1287,6 +1287,10 @@ class Invoice extends EntityModel implements BalanceAffecting
         return $recurInvoice->auto_bill == AUTO_BILL_ALWAYS || ($recurInvoice->auto_bill != AUTO_BILL_OFF && $recurInvoice->client_enable_auto_bill);
     }
 
+    /**
+     * @param bool $entityType
+     * @return array
+     */
     public static function getStatuses($entityType = false)
     {
         $statuses = [];

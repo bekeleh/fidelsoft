@@ -112,7 +112,7 @@ class VendorApiController extends BaseAPIController
         $vendor = $this->vendorRepo->save($request->input());
 
         $vendor = Vendor::scope($vendor->public_id)
-            ->with('country', 'vendor_contacts', 'industry', 'size', 'currency')
+            ->with('country', 'contacts', 'industry', 'size', 'currency')
             ->first();
 
         return $this->itemResponse($vendor);
@@ -158,7 +158,7 @@ class VendorApiController extends BaseAPIController
         $data['public_id'] = $publicId;
         $vendor = $this->vendorRepo->save($data, $request->entity());
 
-        $vendor->load(['vendor_contacts']);
+        $vendor->load(['contacts']);
 
         return $this->itemResponse($vendor);
     }

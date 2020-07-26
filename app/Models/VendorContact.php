@@ -41,7 +41,7 @@ class VendorContact extends EntityModel
 
     public function getRoute()
     {
-        return "/vendor_contacts/{$this->public_id}/edit";
+        return "/contacts/{$this->public_id}/edit";
     }
 
     public function account()

@@ -24,7 +24,7 @@ class VendorRepository extends BaseRepository
     public function all()
     {
         return Vendor::scope()
-            ->with('user', 'vendor_contacts', 'country')
+            ->with('user', 'contacts', 'country')
             ->withTrashed()->where('is_deleted', false)->get();
     }
 
@@ -33,22 +33,22 @@ class VendorRepository extends BaseRepository
         $query = DB::table('vendors')
             ->LeftJoin('accounts', 'accounts.id', '=', 'vendors.account_id')
             ->LeftJoin('users', 'users.id', '=', 'vendors.user_id')
-            ->LeftJoin('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
+            ->LeftJoin('contacts', 'contacts.vendor_id', '=', 'vendors.id')
             ->where('vendors.account_id', $accountId)
-            ->where('vendor_contacts.is_primary', true)
-//            ->where('vendor_contacts.deleted_at', null)
+            ->where('contacts.is_primary', true)
+//            ->where('contacts.deleted_at', null)
             ->select(
                 DB::raw('COALESCE(vendors.currency_id, accounts.currency_id) currency_id'),
                 DB::raw('COALESCE(vendors.country_id, accounts.country_id) country_id'),
                 'vendors.public_id',
                 'vendors.name as vendor_name',
-                'vendor_contacts.first_name',
-                'vendor_contacts.last_name',
+                'contacts.first_name',
+                'contacts.last_name',
                 'vendors.private_notes',
                 'vendors.public_notes',
                 'vendors.work_phone',
                 'vendors.city',
-                'vendor_contacts.email',
+                'contacts.email',
                 'vendors.deleted_at',
                 'vendors.is_deleted',
                 'vendors.user_id',
@@ -64,11 +64,11 @@ class VendorRepository extends BaseRepository
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('vendors.name', 'like', '%' . $filter . '%')
-                    ->orWhere('vendor_contacts.first_name', 'like', '%' . $filter . '%')
-                    ->orWhere('vendor_contacts.last_name', 'like', '%' . $filter . '%')
-                    ->orWhere('vendor_contacts.work_phone', 'like', '%' . $filter . '%')
-                    ->orWhere('vendor_contacts.email', 'like', '%' . $filter . '%')
-                    ->orWhere('vendor_contacts.city', 'like', '%' . $filter . '%');
+                    ->orWhere('contacts.first_name', 'like', '%' . $filter . '%')
+                    ->orWhere('contacts.last_name', 'like', '%' . $filter . '%')
+                    ->orWhere('contacts.work_phone', 'like', '%' . $filter . '%')
+                    ->orWhere('contacts.email', 'like', '%' . $filter . '%')
+                    ->orWhere('contacts.city', 'like', '%' . $filter . '%');
             });
         }
 
@@ -86,7 +86,7 @@ class VendorRepository extends BaseRepository
         } elseif (!$publicId || intval($publicId) < 0) {
             $vendor = Vendor::createNew();
         } else {
-            $vendor = Vendor::scope($publicId)->with('vendor_contacts')->firstOrFail();
+            $vendor = Vendor::scope($publicId)->with('contacts')->firstOrFail();
             $vendor->created_by = auth::user()->username;
         }
 
@@ -101,8 +101,8 @@ class VendorRepository extends BaseRepository
         $first = true;
         if (isset($data['vendor_contact'])) {
             $vendorcontacts = [$data['vendor_contact']];
-        } elseif (isset($data['vendor_contacts'])) {
-            $vendorcontacts = $data['vendor_contacts'];
+        } elseif (isset($data['contacts'])) {
+            $vendorcontacts = $data['contacts'];
         } else {
             $vendorcontacts = [[]];
         }
@@ -125,7 +125,7 @@ class VendorRepository extends BaseRepository
         }
 
         if (!$vendor->wasRecentlyCreated) {
-            foreach ($vendor->vendor_contacts as $contact) {
+            foreach ($vendor->contacts as $contact) {
                 if (!in_array($contact->public_id, $vendorcontactIds)) {
                     $contact->delete();
                 }

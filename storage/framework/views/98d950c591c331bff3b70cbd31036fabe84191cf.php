@@ -256,104 +256,20 @@ $__env->startSection('head_css'); ?>
         </a>
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
             <div class="navbar-form navbar-right">
-                <a href="javascript:showKeyboardShortcuts()" title="<?php echo e(trans('texts.help')); ?>"
-                   style="color: white;">
-                    <i class="fa fa-question-circle"></i>
-                </a>
-                
-                <?php if(Auth::check()): ?>
-                    <a href="javascript:showContactUs()" title="<?php echo e(trans('texts.contact_us')); ?>"
-                       style="color: white;">
-                        <?php echo e(trans('texts.contact_us')); ?> <i class="fa fa-envelope"></i>
-                    </a>
-                    
-                <?php endif; ?>
-                <?php if(Auth::check() && !Auth::user()->registered): ?>
-                    <?php echo Button::success(trans('texts.sign_up'))->withAttributes(array('id' => 'signUpButton', 'onclick' => 'showSignUp()', 'style' => 'max-width:100px;;overflow:hidden'))->small(); ?>
 
-                <?php endif; ?>
-                <?php if(Auth::check() && Utils::isNinjaProd() && (!Auth::user()->isPro() || Auth::user()->isTrial())): ?>
-                    <?php if(Auth::user()->account->company->hasActivePromo()): ?>
-                        <?php echo Button::warning(trans('texts.plan_upgrade'))->withAttributes(array('onclick' => 'showUpgradeModal()', 'style' => 'max-width:100px;overflow:hidden'))->small(); ?>
-
-                    <?php else: ?>
-                        <?php echo Button::success(trans('texts.plan_upgrade'))->withAttributes(array('onclick' => 'showUpgradeModal()', 'style' => 'max-width:100px;overflow:hidden'))->small(); ?>
-
-                    <?php endif; ?>
-                <?php endif; ?>
-                <div class="btn-group user-dropdown">
-                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
-                        <div id="myAccountButton" class="ellipsis"
-                             style="max-width:<?php echo e(Utils::hasFeature(FEATURE_USERS) ? '130' : '100'); ?>px;">
-                            <?php if(session(SESSION_USER_ACCOUNTS) && count(session(SESSION_USER_ACCOUNTS))): ?>
-                                <?php echo e(Auth::user()->account->getDisplayName()); ?>
-
-                            <?php else: ?>
-                                <?php echo e(Auth::user()->getDisplayName()); ?>
-
-                            <?php endif; ?>
-                            <span class="caret"></span>
-                        </div>
-                    </button>
-                    <ul class="dropdown-menu user-accounts">
-                        <?php if(session(SESSION_USER_ACCOUNTS)): ?>
-                            <?php $__currentLoopData = session(SESSION_USER_ACCOUNTS); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <?php if($item->user_id == Auth::user()->id): ?>
-                                    <?php echo $__env->make('user_account', [
-                                    'user_account_id' => $item->id,
-                                    'user_id' => $item->user_id,
-                                    'account_name' => $item->account_name,
-                                    'user_name' => $item->user_name,
-                                    'logo_url' => isset($item->logo_url) ? $item->logo_url : "",
-                                    'selected' => true,
-                                    ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                                <?php endif; ?>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            <?php if(Utils::isSuperUser()): ?>
-                                <?php $__currentLoopData = session(SESSION_USER_ACCOUNTS); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <?php if($item->user_id != Auth::user()->id): ?>
-                                        <?php echo $__env->make('user_account', [
-                                        'user_account_id' => $item->id,
-                                        'user_id' => $item->user_id,
-                                        'account_name' => $item->account_name,
-                                        'user_name' => $item->user_name,
-                                        'logo_url' => isset($item->logo_url) ? $item->logo_url : "",
-                                        'selected' => false,
-                                        ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                                    <?php endif; ?>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            <?php endif; ?>
-                        <?php else: ?>
-                            <?php echo $__env->make('user_account', [
-                            'account_name' => Auth::user()->account->name ?: trans('texts.untitled'),
-                            'user_name' => Auth::user()->getDisplayName(),
-                            'logo_url' => Auth::user()->account->getLogoURL(),
-                            'selected' => true,
-                            ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                        <?php endif; ?>
-                        <li class="divider"></li>
-                        <?php if(Utils::isSuperUser() && Auth::user()->confirmed && Utils::getResllerType() != RESELLER_ACCOUNT_COUNT): ?>
-                            <?php if(!session(SESSION_USER_ACCOUNTS) || count(session(SESSION_USER_ACCOUNTS)) < 5): ?>
-                                <li><?php echo link_to('#', trans('texts.add_company'), ['onclick' => 'showSignUp()']); ?></li>
-                            <?php endif; ?>
-                        <?php endif; ?>
-                        <li>
-                            <?php echo link_to('#', trans('texts.logout'), array('onclick'=>'logout()')); ?>
-
-                        </li>
-                    </ul>
-                </div>
+                <?php echo $__env->make('partials.setting', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                <?php echo $__env->make('partials.dropdown', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             </div>
             <?php echo Former::open('/handle_command')->id('search-form')->addClass('navbar-form navbar-right')->role('search'); ?>
 
             <div class="form-group has-feedback">
                 <input type="text" name="command" id="search"
-                       style="width: 380px;padding-top:0px;padding-bottom:0px;margin-right:20px;"
+                       style="width: 320px;padding-top:0px;padding-bottom:0px;margin-right:20px;"
                        class="form-control"
-                       placeholder="<?php echo e(trans('texts.search') . trans('texts.search_hotkey')); ?>"/>
-                
-                
-                
+                       placeholder="<?php echo e(trans('texts.search')); ?>"/>
+                <?php if(env('SPEECH_ENABLED')): ?>
+                    <?php echo $__env->make('partials/speech_recognition', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                <?php endif; ?>
             </div>
             <?php echo Former::close(); ?>
 
@@ -368,7 +284,7 @@ $__env->startSection('head_css'); ?>
                 'locations' => false,
                 'invoices' => false,
                 'purchase_invoices' => false,
-                 'quotes' => false,
+                'quotes' => false,
                 'payments' => false,
                 'recurring_invoices' => false,
                 'credits' => false,
@@ -395,18 +311,18 @@ $__env->startSection('head_css'); ?>
             <ul class="sidebar-nav <?php echo e(Auth::user()->dark_mode ? 'sidebar-nav-dark' : 'sidebar-nav-light'); ?>">
             <?php $__currentLoopData = [
             'dashboard',
-             'clients',
-             'vendors',
-             'users',
-             'purchase_invoices',
+            'clients',
+            'vendors',
+            'users',
+            'purchase_invoices',
             'invoices',
-             'quotes',
+            'quotes',
             'payments',
             'recurring_invoices' => 'recurring',
             'credits',
-             'expenses',
-             'products',
-             'purchases',
+            'expenses',
+            'products',
+            'purchases',
             'proposals',
             'projects',
             'tasks',

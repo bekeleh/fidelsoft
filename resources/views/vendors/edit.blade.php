@@ -9,8 +9,8 @@
     @endif
 @stop
 @section('content')
-    @if ($errors->first('vendor_contacts'))
-        <div class="alert alert-danger">{{ trans($errors->first('vendor_contacts')) }}</div>
+    @if ($errors->first('contacts'))
+        <div class="alert alert-danger">{{ trans($errors->first('contacts')) }}</div>
     @endif
     <div class="row">
         {!! Former::open($url)
@@ -63,30 +63,30 @@
             <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading" style="color:white;background-color: #777 !important;">
-                        <h3 class="panel-title in-bold-white">{!! trans('texts.vendor_contacts') !!}</h3>
+                        <h3 class="panel-title in-bold-white">{!! trans('texts.contacts') !!}</h3>
                     </div>
                     <div class="panel-body">
                         <div data-bind='template: {
-                            foreach: vendor_contacts,
+                            foreach: contacts,
                             beforeRemove: hideContact,
                             afterAdd: showContact }'>
                             {!! Former::hidden('public_id')->data_bind("value: public_id, valueUpdate: 'afterkeydown',
-                            attr: {name: 'vendor_contacts[' + \$index() + '][public_id]'}") !!}
+                            attr: {name: 'contacts[' + \$index() + '][public_id]'}") !!}
                             {!! Former::text('first_name')->data_bind("value: first_name, valueUpdate: 'afterkeydown',
-                            attr: {name: 'vendor_contacts[' + \$index() + '][first_name]'}") !!}
+                            attr: {name: 'contacts[' + \$index() + '][first_name]'}") !!}
                             {!! Former::text('last_name')->data_bind("value: last_name, valueUpdate: 'afterkeydown',
-                            attr: {name: 'vendor_contacts[' + \$index() + '][last_name]'}") !!}
+                            attr: {name: 'contacts[' + \$index() + '][last_name]'}") !!}
                             {!! Former::text('email')->data_bind("value: email, valueUpdate: 'afterkeydown',
-                            attr: {name: 'vendor_contacts[' + \$index() + '][email]', id:'email'+\$index()}") !!}
+                            attr: {name: 'contacts[' + \$index() + '][email]', id:'email'+\$index()}") !!}
                             {!! Former::text('phone')->data_bind("value: phone, valueUpdate: 'afterkeydown',
-                            attr: {name: 'vendor_contacts[' + \$index() + '][phone]'}") !!}
+                            attr: {name: 'contacts[' + \$index() + '][phone]'}") !!}
                             <div class="form-group">
                                 <div class="col-lg-8 col-lg-offset-4 bold">
                                     <span class="redlink bold"
-                                          data-bind="visible: $parent.vendor_contacts().length > 1">
+                                          data-bind="visible: $parent.contacts().length > 1">
                                     {!! link_to('#', trans('texts.remove_contact').' -', array('data-bind'=>'click: $parent.removeContact')) !!}
                                     </span>
-                                    <span data-bind="visible: $index() === ($parent.vendor_contacts().length - 1)"
+                                    <span data-bind="visible: $index() === ($parent.contacts().length - 1)"
                                           class="pull-right greenlink bold">
                                     {!! link_to('#', trans('texts.add_contact').' +', array('onclick'=>'return addContact()')) !!}
                                     </span>
@@ -132,10 +132,10 @@
 
             function VendorModel(data) {
                 var self = this;
-                self.vendor_contacts = ko.observableArray();
+                self.contacts = ko.observableArray();
 
                 self.mapping = {
-                    'vendor_contacts': {
+                    'contacts': {
                         create: function (options) {
                             return new VendorContactModel(options.data);
                         }
@@ -144,12 +144,12 @@
                 if (data) {
                     ko.mapping.fromJS(data, self.mapping, this);
                 } else {
-                    self.vendor_contacts.push(new VendorContactModel());
+                    self.contacts.push(new VendorContactModel());
                 }
 
                 self.placeholderName = ko.computed(function () {
-                    if (self.vendor_contacts().length == 0) return '';
-                    var contact = self.vendor_contacts()[0];
+                    if (self.contacts().length == 0) return '';
+                    var contact = self.contacts()[0];
                     if (contact.first_name() || contact.last_name()) {
                         return (contact.first_name() || '') + ' ' + (contact.last_name() || '');
                     } else {
@@ -175,12 +175,12 @@
             ko.applyBindings(model);
 
             function addContact() {
-                model.vendor_contacts.push(new VendorContactModel());
+                model.contacts.push(new VendorContactModel());
                 return false;
             }
 
             model.removeContact = function () {
-                model.vendor_contacts.remove(this);
+                model.contacts.remove(this);
             }
 
         </script>

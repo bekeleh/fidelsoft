@@ -132,7 +132,7 @@
 
                 <div class="col-md-3">
                     <h3>{{ trans('texts.contacts') }}</h3>
-                    @foreach ($vendor->vendor_contacts as $contact)
+                    @foreach ($vendor->contacts as $contact)
                         @if ($contact->first_name || $contact->last_name)
                             <b>{{ $contact->first_name.' '.$contact->last_name }}</b><br/>
                         @endif
@@ -214,7 +214,7 @@
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
                 zoomControl: true,
             };
-            var map = new google.maps.Map(mapCanvas, mapOptions)
+            var map = new google.maps.Map(mapCanvas, mapOptions);
             var address = {!! json_encode(e("{$vendor->address1} {$vendor->address2} {$vendor->city} {$vendor->state} {$vendor->postal_code} " . ($vendor->country ? $vendor->country->getName() : ''))) !!};
 
             geocoder = new google.maps.Geocoder();

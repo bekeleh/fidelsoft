@@ -977,8 +977,8 @@ class Account extends Eloquent
         }
 
         if (!$vendorId) {
-            $purchaseInvoice->vendor = Vendor::createNew();
-            $purchaseInvoice->vendor->public_id = 0;
+            $purchaseInvoice->client = Vendor::createNew();
+            $purchaseInvoice->client->public_id = 0;
         }
 
         return $purchaseInvoice;

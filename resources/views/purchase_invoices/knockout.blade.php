@@ -25,7 +25,7 @@
         };
 
         self.setDueDate = function () {
-                    @if ($entityType == ENTITY_PURCHASE_INVOICE)
+                    @if ($entityType == ENTITY_INVOICE)
             var paymentTerms = parseInt(self.invoice().vendor().payment_terms());
             if (paymentTerms && paymentTerms != 0 && !self.invoice().due_date()) {
                 if (paymentTerms == -1) paymentTerms = 0;
@@ -41,10 +41,10 @@
 
         self.clearBlankContacts = function () {
             var vendor = self.invoice().vendor();
-            var vendor_contacts = vendor.vendor_contacts();
-            $(vendor_contacts).each(function (index, contact) {
+            var contacts = vendor.contacts();
+            $(contacts).each(function (index, contact) {
                 if (index > 0 && contact.isBlank()) {
-                    vendor.vendor_contacts.remove(contact);
+                    vendor.contacts.remove(contact);
                 }
             });
         };
@@ -96,9 +96,9 @@
         self.vendorFormComplete = function () {
             trackEvent('/activity', '/save_vendor_form');
 
-            var email = $("[name='vendor[vendor_contacts][0][email]']").val();
-            var firstName = $("[name='vendor[vendor_contacts][0][first_name]']").val();
-            var lastName = $("[name='vendor[vendor_contacts][0][last_name]']").val();
+            var email = $("[name='vendor[contacts][0][email]']").val();
+            var firstName = $("[name='vendor[contacts][0][first_name]']").val();
+            var lastName = $("[name='vendor[contacts][0][last_name]']").val();
             var name = $("[name='vendor[name]']").val();
 
             if (name) {
@@ -110,8 +110,8 @@
             }
 
             var isValid = name ? true : false;
-            var vendor_contacts = self.invoice().vendor().vendor_contacts();
-            $(vendor_contacts).each(function (item, value) {
+            var contacts = self.invoice().vendor().contacts();
+            $(contacts).each(function (item, value) {
                 if (value.isValid()) {
                     isValid = true;
                 }
@@ -200,7 +200,7 @@
             var vendorModel = false;
         } else {
             var vendorModel = new VendorModel();
-            vendorModel.id_number("{{ $account->getVendorNextNumber() }}");
+            vendorModel.id_number("{{ $account->getNextNumber() }}");
         }
 
         var self = this;
@@ -673,12 +673,12 @@
         self.language_id = ko.observable('');
         self.website = ko.observable('');
         self.payment_terms = ko.observable(0);
-        self.vendor_contacts = ko.observableArray();
+        self.contacts = ko.observableArray();
 
         self.mapping = {
-            'vendor_contacts': {
+            'contacts': {
                 create: function (options) {
-                    var model = new VendorContactModel(options.data);
+                    var model = new ContactModel(options.data);
                     model.send_invoice(options.data.send_invoice == '1');
                     return model;
                 }
@@ -695,22 +695,22 @@
         };
 
         self.addContact = function () {
-            var contact = new VendorContactModel();
+            var contact = new ContactModel();
             contact.send_invoice(true);
-            self.vendor_contacts.push(contact);
+            self.contacts.push(contact);
             return false;
         };
 
         self.removeContact = function () {
-            self.vendor_contacts.remove(this);
+            self.contacts.remove(this);
         };
 
         self.name.display = ko.computed(function () {
             if (self.name()) {
                 return self.name();
             }
-            if (self.vendor_contacts().length == 0) return;
-            var contact = self.vendor_contacts()[0];
+            if (self.contacts().length == 0) return;
+            var contact = self.contacts()[0];
             if (contact.first_name() || contact.last_name()) {
                 return (contact.first_name() || '') + ' ' + (contact.last_name() || '');
             } else {
@@ -719,8 +719,8 @@
         });
 
         self.name.placeholder = ko.computed(function () {
-            if (self.vendor_contacts().length == 0) return '';
-            var contact = self.vendor_contacts()[0];
+            if (self.contacts().length == 0) return '';
+            var contact = self.contacts()[0];
             if (contact.first_name() || contact.last_name()) {
                 return (contact.first_name() || '') + ' ' + (contact.last_name() || '');
             } else {
@@ -735,7 +735,7 @@
         }
     }
 
-    function VendorContactModel(data) {
+    function ContactModel(data) {
         var self = this;
         self.public_id = ko.observable('');
         self.first_name = ko.observable('');

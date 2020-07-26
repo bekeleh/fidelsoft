@@ -21,7 +21,7 @@ class UpdateVendorContactRequest extends VendorContactRequest
         $rules = [];
         $vendorContact = $this->entity();
         if ($vendorContact)
-            $rules['name'] = 'required|max:191|unique:vendor_contacts,name,' . $vendorContact->id . ',id,account_id,' . $vendorContact->account_id;
+            $rules['name'] = 'required|max:191|unique:contacts,name,' . $vendorContact->id . ',id,account_id,' . $vendorContact->account_id;
 
         $rules['is_deleted'] = 'boolean';
         $rules['private_notes'] = 'nullable';

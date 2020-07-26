@@ -253,97 +253,19 @@
         </a>
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
             <div class="navbar-form navbar-right">
-                <a href="javascript:showKeyboardShortcuts()" title="{{ trans('texts.help') }}"
-                   style="color: white;">
-                    <i class="fa fa-question-circle"></i>
-                </a>
-                {{--                {!! Button::success(trans('texts.help'))->withAttributes(array('id' => 'showKeyboardShortcuts', 'onclick' => 'showKeyboardShortcuts()', 'style' => 'max-width:100px;;overflow:hidden'))->small() !!}--}}
-                @if (Auth::check())
-                    <a href="javascript:showContactUs()" title="{{ trans('texts.contact_us') }}"
-                       style="color: white;">
-                        {{ trans('texts.contact_us') }} <i class="fa fa-envelope"></i>
-                    </a>
-                    {{--                    {!! Button::success(trans('texts.contact_us'))->withAttributes(array('id' => 'showContactUs', 'onclick' => 'showContactUs()', 'style' => 'max-width:100px;;overflow:hidden'))->small() !!}--}}
-                @endif
-                @if (Auth::check() && !Auth::user()->registered)
-                    {!! Button::success(trans('texts.sign_up'))->withAttributes(array('id' => 'signUpButton', 'onclick' => 'showSignUp()', 'style' => 'max-width:100px;;overflow:hidden'))->small() !!}
-                @endif
-                @if (Auth::check() && Utils::isNinjaProd() && (!Auth::user()->isPro() || Auth::user()->isTrial()))
-                    @if (Auth::user()->account->company->hasActivePromo())
-                        {!! Button::warning(trans('texts.plan_upgrade'))->withAttributes(array('onclick' => 'showUpgradeModal()', 'style' => 'max-width:100px;overflow:hidden'))->small() !!}
-                    @else
-                        {!! Button::success(trans('texts.plan_upgrade'))->withAttributes(array('onclick' => 'showUpgradeModal()', 'style' => 'max-width:100px;overflow:hidden'))->small() !!}
-                    @endif
-                @endif
-                <div class="btn-group user-dropdown">
-                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
-                        <div id="myAccountButton" class="ellipsis"
-                             style="max-width:{{ Utils::hasFeature(FEATURE_USERS) ? '130' : '100' }}px;">
-                            @if (session(SESSION_USER_ACCOUNTS) && count(session(SESSION_USER_ACCOUNTS)))
-                                {{ Auth::user()->account->getDisplayName() }}
-                            @else
-                                {{ Auth::user()->getDisplayName() }}
-                            @endif
-                            <span class="caret"></span>
-                        </div>
-                    </button>
-                    <ul class="dropdown-menu user-accounts">
-                        @if (session(SESSION_USER_ACCOUNTS))
-                            @foreach (session(SESSION_USER_ACCOUNTS) as $item)
-                                @if ($item->user_id == Auth::user()->id)
-                                    @include('user_account', [
-                                    'user_account_id' => $item->id,
-                                    'user_id' => $item->user_id,
-                                    'account_name' => $item->account_name,
-                                    'user_name' => $item->user_name,
-                                    'logo_url' => isset($item->logo_url) ? $item->logo_url : "",
-                                    'selected' => true,
-                                    ])
-                                @endif
-                            @endforeach
-                            @if (Utils::isSuperUser())
-                                @foreach (session(SESSION_USER_ACCOUNTS) as $item)
-                                    @if ($item->user_id != Auth::user()->id)
-                                        @include('user_account', [
-                                        'user_account_id' => $item->id,
-                                        'user_id' => $item->user_id,
-                                        'account_name' => $item->account_name,
-                                        'user_name' => $item->user_name,
-                                        'logo_url' => isset($item->logo_url) ? $item->logo_url : "",
-                                        'selected' => false,
-                                        ])
-                                    @endif
-                                @endforeach
-                            @endif
-                        @else
-                            @include('user_account', [
-                            'account_name' => Auth::user()->account->name ?: trans('texts.untitled'),
-                            'user_name' => Auth::user()->getDisplayName(),
-                            'logo_url' => Auth::user()->account->getLogoURL(),
-                            'selected' => true,
-                            ])
-                        @endif
-                        <li class="divider"></li>
-                        @if (Utils::isSuperUser() && Auth::user()->confirmed && Utils::getResllerType() != RESELLER_ACCOUNT_COUNT)
-                            @if (!session(SESSION_USER_ACCOUNTS) || count(session(SESSION_USER_ACCOUNTS)) < 5)
-                                <li>{!! link_to('#', trans('texts.add_company'), ['onclick' => 'showSignUp()']) !!}</li>
-                            @endif
-                        @endif
-                        <li>
-                            {!! link_to('#', trans('texts.logout'), array('onclick'=>'logout()')) !!}
-                        </li>
-                    </ul>
-                </div>
+
+                @include('partials.setting')
+                @include('partials.dropdown')
             </div>
             {!! Former::open('/handle_command')->id('search-form')->addClass('navbar-form navbar-right')->role('search') !!}
             <div class="form-group has-feedback">
                 <input type="text" name="command" id="search"
-                       style="width: 380px;padding-top:0px;padding-bottom:0px;margin-right:20px;"
+                       style="width: 320px;padding-top:0px;padding-bottom:0px;margin-right:20px;"
                        class="form-control"
-                       placeholder="{{ trans('texts.search') . trans('texts.search_hotkey')}}"/>
-                {{--                @if (env('SPEECH_ENABLED'))--}}
-                {{--                @include('partials/speech_recognition')--}}
-                {{--                @endif--}}
+                       placeholder="{{ trans('texts.search')}}"/>
+                @if (env('SPEECH_ENABLED'))
+                    @include('partials/speech_recognition')
+                @endif
             </div>
             {!! Former::close() !!}
             <ul class="nav navbar-nav hide-non-phone" style="font-weight: bold">
@@ -357,7 +279,7 @@
                 'locations' => false,
                 'invoices' => false,
                 'purchase_invoices' => false,
-                 'quotes' => false,
+                'quotes' => false,
                 'payments' => false,
                 'recurring_invoices' => false,
                 'credits' => false,
@@ -383,18 +305,18 @@
             <ul class="sidebar-nav {{ Auth::user()->dark_mode ? 'sidebar-nav-dark' : 'sidebar-nav-light' }}">
             @foreach([
             'dashboard',
-             'clients',
-             'vendors',
-             'users',
-             'purchase_invoices',
+            'clients',
+            'vendors',
+            'users',
+            'purchase_invoices',
             'invoices',
-             'quotes',
+            'quotes',
             'payments',
             'recurring_invoices' => 'recurring',
             'credits',
-             'expenses',
-             'products',
-             'purchases',
+            'expenses',
+            'products',
+            'purchases',
             'proposals',
             'projects',
             'tasks',

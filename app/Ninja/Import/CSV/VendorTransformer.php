@@ -31,7 +31,7 @@ class VendorTransformer extends BaseTransformer
                 'state' => $this->getString($data, 'state'),
                 'postal_code' => $this->getString($data, 'postal_code'),
                 'private_notes' => $this->getString($data, 'notes'),
-                'vendor_contacts' => [
+                'contacts' => [
                     [
                         'first_name' => $this->getString($data, 'contact_first_name'),
                         'last_name' => $this->getString($data, 'contact_last_name'),

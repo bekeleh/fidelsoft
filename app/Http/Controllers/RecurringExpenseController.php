@@ -51,7 +51,7 @@ class RecurringExpenseController extends BaseController
     {
         $this->authorize('create', ENTITY_RECURRING_EXPENSE);
         if ($request->vendor_id != 0) {
-            $vendor = Vendor::scope($request->vendor_id)->with('vendor_contacts')->firstOrFail();
+            $vendor = Vendor::scope($request->vendor_id)->with('contacts')->firstOrFail();
         } else {
             $vendor = null;
         }
@@ -62,7 +62,7 @@ class RecurringExpenseController extends BaseController
             'method' => 'POST',
             'url' => 'recurring_expenses',
             'title' => trans('texts.new_expense'),
-            'vendors' => Vendor::scope()->with('vendor_contacts')->orderBy('name')->get(),
+            'vendors' => Vendor::scope()->with('contacts')->orderBy('name')->get(),
             'vendor' => $vendor,
             'clients' => Client::scope()->with('contacts')->orderBy('name')->get(),
             'clientPublicId' => $request->client_id,
@@ -104,7 +104,7 @@ class RecurringExpenseController extends BaseController
             'url' => 'recurring_expenses/' . $expense->public_id,
             'title' => 'Edit Expense',
             'actions' => $actions,
-            'vendors' => Vendor::scope()->with('vendor_contacts')->orderBy('name')->get(),
+            'vendors' => Vendor::scope()->with('contacts')->orderBy('name')->get(),
             'vendorPublicId' => $expense->vendor ? $expense->vendor->public_id : null,
             'clients' => Client::scope()->with('contacts')->orderBy('name')->get(),
             'clientPublicId' => $expense->client ? $expense->client->public_id : null,

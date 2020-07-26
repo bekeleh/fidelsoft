@@ -116,7 +116,7 @@ class VendorContactApiController extends BaseAPIController
         $vendorContact = $this->vendorContactRepo->save($request->input());
 
         $vendorContact = VendorContact::scope($vendorContact->public_id)
-            ->with('country', 'vendor_contacts', 'industry', 'size', 'currency')
+            ->with('country', 'contacts', 'industry', 'size', 'currency')
             ->first();
 
         return $this->itemResponse($vendorContact);
@@ -164,7 +164,7 @@ class VendorContactApiController extends BaseAPIController
         $data['public_id'] = $publicId;
         $vendorContact = $this->vendorContactRepo->save($data, $request->entity());
 
-        $vendorContact->load(['vendor_contacts']);
+        $vendorContact->load(['contacts']);
 
         return $this->itemResponse($vendorContact);
     }

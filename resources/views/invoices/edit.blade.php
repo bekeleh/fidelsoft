@@ -175,7 +175,7 @@
                     								<span data-bind="text: (first_name() || '') + ' ' + (last_name() || '')"></span>
                     								<br/>
                     							</span>
-                                                 <span data-bind="visible: email">
+                                        <span data-bind="visible: email">
                     								<span data-bind="text: email"></span>
                     								<br/>
                     							</span>

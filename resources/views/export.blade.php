@@ -114,14 +114,14 @@
     @include('export.vendors')
 @endif
 
-@if (isset($vendor_contacts) && $vendor_contacts && count($vendor_contacts))
+@if (isset($contacts) && $contacts && count($contacts))
     <tr>
         <td></td>
     </tr>
     <tr>
-        <td>{{ strtoupper(trans('texts.vendor_contacts')) }}</td>
+        <td>{{ strtoupper(trans('texts.contacts')) }}</td>
     </tr>
-    @include('export.vendor_contacts')
+    @include('export.contacts')
 @endif
 
 </html>

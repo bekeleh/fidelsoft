@@ -41,6 +41,15 @@ class InvoiceController extends BaseController
     protected $recurringInvoiceService;
     protected $entityType = ENTITY_INVOICE;
 
+    /**
+     * InvoiceController constructor.
+     * @param InvoiceRepository $invoiceRepo
+     * @param ClientRepository $clientRepo
+     * @param InvoiceService $invoiceService
+     * @param DocumentRepository $documentRepo
+     * @param RecurringInvoiceService $recurringInvoiceService
+     * @param PaymentService $paymentService
+     */
     public function __construct(
         InvoiceRepository $invoiceRepo,
         ClientRepository $clientRepo,
@@ -107,12 +116,12 @@ class InvoiceController extends BaseController
         if ($request->client_id) {
             $clientId = Client::getPrivateId($request->client_id);
         }
-
+//      creating invoice instance
         $invoice = $account->createInvoice($entityType, $clientId);
         $invoice->public_id = 0;
         $invoice->loadFromRequest();
 
-        $clients = Client::IsInvoiceAllowed()->scope()
+        $clients = Client::isInvoiceAllowed()->scope()
             ->with('contacts', 'country')->orderBy('name');
 
         if (!Utils::hasPermission('view_client')) {

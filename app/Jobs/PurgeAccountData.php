@@ -45,7 +45,7 @@ class PurgeAccountData extends Job
             'tasks',
             'projects',
             'products',
-            'vendor_contacts',
+            'contacts',
             'vendors',
             'contacts',
             'clients',

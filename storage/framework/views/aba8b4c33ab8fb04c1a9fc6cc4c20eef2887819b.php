@@ -1,5 +1,5 @@
-<?php use App\Models\PaymentTerm;
-use App\Models\PurchaseCredit;
+<?php use App\Models\Credit;
+use App\Models\PaymentTerm;
 use Illuminate\Contracts\Auth\Access\Gate;
 
 $__env->startSection('head_css'); ?>
@@ -70,13 +70,13 @@ $__env->startSection('head_css'); ?>
     <?php if($invoice->id): ?>
         <ol class="breadcrumb">
             <?php if($invoice->is_recurring): ?>
-                <li><?php echo link_to('recurring_purchase_invoices', trans('texts.recurring_purchase_invoices')); ?></li>
+                <li><?php echo link_to('recurring_invoices', trans('texts.recurring_invoices')); ?></li>
             <?php else: ?>
-                <li><?php echo link_to(($entityType == ENTITY_PURCHASE_QUOTE ? 'quotes' : 'purchase_invoices'), trans('texts.' . ($entityType == ENTITY_PURCHASE_QUOTE ? 'quotes' : 'purchase_invoices'))); ?></li>
+                <li><?php echo link_to(($entityType == ENTITY_PURCHASE_QUOTE ? 'quotes' : 'invoices'), trans('texts.' . ($entityType == ENTITY_PURCHASE_QUOTE ? 'quotes' : 'invoices'))); ?></li>
                 <li class="active"><?php echo e($invoice->invoice_number); ?></li>
             <?php endif; ?>
             <?php if($invoice->is_recurring && $invoice->isSent()): ?>
-                <?php if(!$invoice->last_sent_date || $invoice->last_sent_date === '0000-00-00'): ?>
+                <?php if(! $invoice->last_sent_date || $invoice->last_sent_date == '0000-00-00'): ?>
                     <?php echo $invoice->present()->statusLabel(trans('texts.pending')); ?>
 
                 <?php elseif($invoice->end_date && Carbon::parse(Utils::toSqlDate($invoice->end_date))->isPast()): ?>
@@ -100,7 +100,7 @@ $__env->startSection('head_css'); ?>
             ->name('lastpass-disable-search') // 'search' prevents LastPass auto-fill http://stackoverflow.com/a/30921628/497368
             ->onsubmit('return onFormSubmit(event)')
             ->rules(array(
-                'vendor' => 'required',
+                'client' => 'required',
                 'invoice_number' => 'required',
                 'invoice_date' => 'required',
                 'public_notes' => 'required',
@@ -121,54 +121,48 @@ $__env->startSection('head_css'); ?>
 
                         <?php if($invoice->id || $data): ?>
                             <div class="form-group">
-                                <label for="vendor"
+                                <label for="client"
                                        class="control-label col-lg-4 col-sm-4"><b><?php echo e(trans('texts.vendor')); ?></b></label>
                                 <div class="col-lg-8 col-sm-8">
                                     <h4>
-                                        <span data-bind="text: getVendorDisplayName(ko.toJS(vendor()))"></span>
-                                        <?php if($invoice->vendor->is_deleted): ?>
-                                            &nbsp;&nbsp;
+                                        <span data-bind="text: getClientDisplayName(ko.toJS(client()))"></span>
+                                        <?php if($invoice->client->is_deleted): ?>
                                             <div class="label label-danger"><?php echo e(trans('texts.deleted')); ?></div>
                                         <?php endif; ?>
                                     </h4>
-
-                                    <?php if (app(Gate::class)->check('view', $invoice->vendor)): ?>
-                                        <?php if (app(Gate::class)->check('edit', $invoice->vendor)): ?>
-                                            <a id="editVendorLink" class="pointer"
-                                               data-bind="click: $root.showVendorForm">
-                                                <?php echo e(trans('texts.edit_vendor')); ?>
-
-                                            </a>
+                                    <?php if (app(Gate::class)->check('view', $invoice->client)): ?>
+                                        <?php if (app(Gate::class)->check('edit', $invoice->client)): ?>
+                                            <a id="editClientLink" class="pointer"
+                                               data-bind="click: $root.showClientForm"><?php echo e(trans('texts.edit_vendor')); ?></a>
                                             |
                                         <?php endif; ?>
-                                        <?php echo link_to('/vendors/'.$invoice->vendor->public_id, trans('texts.view_vendor'), ['target' => '_blank']); ?>
+                                        <?php echo link_to('/vendors/'.$invoice->client->public_id, trans('texts.view_vendor'), ['target' => '_blank']); ?>
 
                                     <?php endif; ?>
                                 </div>
                             </div>
                             <div style="display:none">
-                                <?php endif; ?>
-
-                                <?php echo Former::select('vendor')
+                            <?php endif; ?>
+                            <!-- select vendor from dropdown list  -->
+                                <?php echo Former::select('client')
                                         ->addOption('', '')
-                                        ->data_bind("dropdown: vendor, dropdownOptions: {highlighter: comboboxHighlighter}")
-                                        ->addClass('vendor-input')
-                                        ->addGroupClass('vendor_select closer-row'); ?>
+                                        ->data_bind("dropdown: client, dropdownOptions: {highlighter: comboboxHighlighter}")
+                                        ->addClass('client-input')
+                                        ->label(trans('texts.vendor'))
+                                        ->addGroupClass('client_select closer-row'); ?>
 
 
                                 <div class="form-group" style="margin-bottom: 8px">
                                     <div class="col-lg-8 col-sm-8 col-lg-offset-4 col-sm-offset-4">
-                                        <?php if (app(Gate::class)->check('create', $invoice->vendor)): ?>
-                                            <a id="createVendorLink" class="pointer"
-                                               data-bind="click: $root.showVendorForm, html: $root.vendorLinkText"></a>
+                                        <?php if (app(Gate::class)->check('create', $invoice->client)): ?>
+                                            <a id="createClientLink" class="pointer"
+                                               data-bind="click: $root.showClientForm, html: $root.clientLinkText"></a>
                                         <?php endif; ?>
-                                        <span data-bind="visible: $root.invoice().vendor().public_id() > 0"
+                                        <span data-bind="visible: $root.invoice().client().public_id() > 0"
                                               style="display:none">|
-                                            <a data-bind="attr: {href: '<?php echo e(url('/vendors')); ?>/' + $root.invoice().vendor().public_id()}"
-                                               target="_blank"><?php echo e(trans('texts.view_vendor')); ?>
-
-                                            </a>
-                                        </span>
+                        <a data-bind="attr: {href: '<?php echo e(url('/vendors')); ?>/' + $root.invoice().client().public_id()}"
+                           target="_blank"><?php echo e(trans('texts.view_vendor')); ?></a>
+                    </span>
                                     </div>
                                 </div>
 
@@ -176,52 +170,53 @@ $__env->startSection('head_css'); ?>
                             </div>
                         <?php endif; ?>
 
-                        <div data-bind="with: vendor" class="invoice-contact">
+                        <div data-bind="with: client" class="invoice-contact">
                             <div style="display:none" class="form-group"
-                                 data-bind="visible: vendor_contacts().length > 0, foreach: vendor_contacts">
+                                 data-bind="visible: contacts().length > 0, foreach: contacts">
                                 <div class="col-lg-8 col-lg-offset-4 col-sm-offset-4">
                                     <label class="checkbox"
                                            data-bind="attr: {for: $index() + '_check'}, visible: email.display"
                                            onclick="refreshPDF(true)">
                                         <input type="hidden" value="0"
-                                               data-bind="attr: {name: 'vendor[vendor_contacts][' + $index() + '][send_invoice]'}">
+                                               data-bind="attr: {name: 'client[contacts][' + $index() + '][send_invoice]'}">
                                         <input type="checkbox" value="1"
-                                               data-bind="visible: email() || first_name() || last_name(), checked: send_invoice, attr: {id: $index() + '_check', name: 'vendor[vendor_contacts][' + $index() + '][send_invoice]'}">
+                                               data-bind="visible: email() || first_name() || last_name(), checked: send_invoice, attr: {id: $index() + '_check', name: 'client[contacts][' + $index() + '][send_invoice]'}">
                                         <span data-bind="visible: first_name || last_name">
-								<span data-bind="text: (first_name() || '') + ' ' + (last_name() || '')"></span>
-								<br/>
-							</span>
+                    								<span data-bind="text: (first_name() || '') + ' ' + (last_name() || '')"></span>
+                    								<br/>
+                    							</span>
                                         <span data-bind="visible: email">
-								<span data-bind="text: email"></span>
-								<br/>
-							</span>
+                    								<span data-bind="text: email"></span>
+                    								<br/>
+                    							</span>
                                     </label>
-                                    <?php if( ! $invoice->is_deleted && ! $invoice->vendor->is_deleted): ?>
+                                    <?php if( ! $invoice->is_deleted && ! $invoice->client->is_deleted): ?>
                                         <span data-bind="visible: !$root.invoice().is_recurring()">
-                            <span data-bind="html: $data.view_as_recipient"></span>&nbsp;&nbsp;
-                            <?php if(Utils::isConfirmed()): ?>
+                                                <span data-bind="html: $data.view_as_recipient"></span>&nbsp;&nbsp;
+                                                <?php if(Utils::isConfirmed()): ?>
                                                 <span style="vertical-align:text-top;color:red"
                                                       class="fa fa-exclamation-triangle"
                                                       data-bind="visible: $data.email_error, tooltip: {title: $data.email_error}"></span>
                                                 <span style="vertical-align:text-top;padding-top:2px"
                                                       class="fa fa-info-circle"
                                                       data-bind="visible: $data.invitation_status, tooltip: {title: $data.invitation_status, html: true},
-	                                    style: {color: $data.info_color}"></span>
+                    	                                    style: {color: $data.info_color}"></span>
                                                 <span class="signature-wrapper">&nbsp;
-								<span style="vertical-align:text-top;color:#888" class="fa fa-user"
-                                      data-bind="visible: $data.invitation_signature_svg, tooltip: {title: $data.invitation_signature_svg, html: true}"></span>
-								</span>
+                    								<span style="vertical-align:text-top;color:#888" class="fa fa-user"
+                                                          data-bind="visible: $data.invitation_signature_svg, tooltip: {title: $data.invitation_signature_svg, html: true}"></span>
+                    								</span>
                                             <?php endif; ?>
-                        </span>
+                                                  </span>
                                     <?php endif; ?>
                                 </div>
                             </div>
                         </div>
+                        <!--end of with client -->
 
                     </div>
                     <div class="col-md-4" id="col_2">
                         <div data-bind="visible: !is_recurring()">
-                            <?php echo Former::text('invoice_date')->data_bind("datePicker: invoice_date, valueUpdate: 'afterkeydown'")->label($account->getLabel($invoice->getDateLabel()))
+                            <?php echo Former::text('invoice_date')->data_bind("datePicker: invoice_date, valueUpdate: 'afterkeydown'")->label($account->getLabel("{$entityType}_date"))
                                         ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))->appendIcon('calendar')->addGroupClass('invoice_date'); ?>
 
                             <?php echo Former::text('due_date')->data_bind("datePicker: due_date, valueUpdate: 'afterkeydown'")->label($account->getLabel($invoice->getDueDateLabel()))
@@ -287,10 +282,10 @@ $__env->startSection('head_css'); ?>
 
             </span>
                         <span data-bind="visible: is_recurring()" style="display: none">
-                <div data-bind="visible: !(auto_bill() == <?php echo e(AUTO_BILL_OPT_IN); ?> &amp;&amp; vendor_enable_auto_bill()) &amp;&amp; !(auto_bill() == <?php echo e(AUTO_BILL_OPT_OUT); ?> &amp;&amp; !vendor_enable_auto_bill())"
+                <div data-bind="visible: !(auto_bill() == <?php echo e(AUTO_BILL_OPT_IN); ?> &amp;&amp; client_enable_auto_bill()) &amp;&amp; !(auto_bill() == <?php echo e(AUTO_BILL_OPT_OUT); ?> &amp;&amp; !client_enable_auto_bill())"
                      style="display: none">
                 <?php echo Former::select('auto_bill')
-                        ->data_bind("value: auto_bill, valueUpdate: 'afterkeydown', event:{change:function(){if(auto_bill()==".AUTO_BILL_OPT_IN.")vendor_enable_auto_bill(0);if(auto_bill()==".AUTO_BILL_OPT_OUT.")vendor_enable_auto_bill(1)}}")
+                        ->data_bind("value: auto_bill, valueUpdate: 'afterkeydown', event:{change:function(){if(auto_bill()==".AUTO_BILL_OPT_IN.")client_enable_auto_bill(0);if(auto_bill()==".AUTO_BILL_OPT_OUT.")client_enable_auto_bill(1)}}")
                         ->options([
                             AUTO_BILL_OFF => trans('texts.off'),
                             AUTO_BILL_OPT_IN => trans('texts.opt_in'),
@@ -299,22 +294,22 @@ $__env->startSection('head_css'); ?>
                         ]); ?>
 
                 </div>
-                <input type="hidden" name="vendor_enable_auto_bill"
-                       data-bind="attr: { value: vendor_enable_auto_bill() }"/>
+                <input type="hidden" name="client_enable_auto_bill"
+                       data-bind="attr: { value: client_enable_auto_bill() }"/>
                 <div class="form-group"
-                     data-bind="visible: auto_bill() == <?php echo e(AUTO_BILL_OPT_IN); ?> &amp;&amp; vendor_enable_auto_bill()">
+                     data-bind="visible: auto_bill() == <?php echo e(AUTO_BILL_OPT_IN); ?> &amp;&amp; client_enable_auto_bill()">
                     <div class="col-sm-4 control-label"><?php echo e(trans('texts.auto_bill')); ?></div>
                     <div class="col-sm-8" style="padding-top:10px;padding-bottom:9px">
                         <?php echo e(trans('texts.opted_in')); ?> - <a href="#"
-                                                         data-bind="click:function(){vendor_enable_auto_bill(false)}">(<?php echo e(trans('texts.disable')); ?>)</a>
+                                                         data-bind="click:function(){client_enable_auto_bill(false)}">(<?php echo e(trans('texts.disable')); ?>)</a>
                     </div>
                 </div>
                 <div class="form-group"
-                     data-bind="visible: auto_bill() == <?php echo e(AUTO_BILL_OPT_OUT); ?> &amp;&amp; !vendor_enable_auto_bill()">
+                     data-bind="visible: auto_bill() == <?php echo e(AUTO_BILL_OPT_OUT); ?> &amp;&amp; !client_enable_auto_bill()">
                     <div class="col-sm-4 control-label"><?php echo e(trans('texts.auto_bill')); ?></div>
                     <div class="col-sm-8" style="padding-top:10px;padding-bottom:9px">
                         <?php echo e(trans('texts.opted_out')); ?> - <a href="#"
-                                                          data-bind="click:function(){vendor_enable_auto_bill(true)}">(<?php echo e(trans('texts.enable')); ?>)</a>
+                                                          data-bind="click:function(){client_enable_auto_bill(true)}">(<?php echo e(trans('texts.enable')); ?>)</a>
                     </div>
                 </div>
             </span>
@@ -342,12 +337,12 @@ $__env->startSection('head_css'); ?>
                             <div class="form-group" style="margin-bottom: 8px">
                                 <div class="col-lg-8 col-sm-8 col-sm-offset-4 smaller" style="padding-top: 10px;">
                                     <?php if($invoice->recurring_invoice_id && $invoice->recurring_invoice): ?>
-                                        <?php echo trans('texts.created_by_invoice', ['invoice' => link_to('/purchase_invoices/'.$invoice->recurring_invoice->public_id, trans('texts.recurring_invoice'))]); ?>
+                                        <?php echo trans('texts.created_by_invoice', ['invoice' => link_to('/invoices/'.$invoice->recurring_invoice->public_id, trans('texts.recurring_invoice'))]); ?>
 
                                         <p/>
                                     <?php elseif($invoice->id): ?>
                                         <?php if(isset($lastSent) && $lastSent): ?>
-                                            <?php echo trans('texts.last_sent_on', ['date' => link_to('/purchase_invoices/'.$lastSent->public_id, $invoice->last_sent_date, ['id' => 'lastSent'])]); ?>
+                                            <?php echo trans('texts.last_sent_on', ['date' => link_to('/invoices/'.$lastSent->public_id, $invoice->last_sent_date, ['id' => 'lastSent'])]); ?>
 
                                             <p/>
                                         <?php endif; ?>
@@ -373,9 +368,9 @@ $__env->startSection('head_css'); ?>
 
                 <div class="table-responsive" style="padding-top:4px;">
 
-                    <?php echo $__env->make('purchase_invoices.edit_table', ['isTasks' => false], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    <?php echo $__env->make('invoices.edit_table', ['isTasks' => false], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                     <?php if($account->isModuleEnabled(ENTITY_TASK) && ($invoice->has_tasks || ! empty($tasks))): ?>
-                        <?php echo $__env->make('purchase_invoices.edit_table', ['isTasks' => true], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        <?php echo $__env->make('invoices.edit_table', ['isTasks' => true], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                     <?php endif; ?>
 
                     <table class="pull-right subtotals-table" style="margin-right:40px; margin-top:0px;">
@@ -477,14 +472,13 @@ $__env->startSection('head_css'); ?>
                         </tr>
                     </table>
 
-                    <div role="tabpanel" class="pull-left" style="margin-left:40px; margin-top:30px;">
-                        <ul class="nav nav-tabs" role="tablist" style="border: none">
-                            <li role="presentation" class="active">
-                                <a href="#public_notes" aria-controls="notes"
-                                   role="tab" data-toggle="tab">
-                                    <?php echo e(trans('texts.public_notes')); ?>
 
-                                </a>
+                    <div role="tabpanel" class="pull-left" style="margin-left:40px; margin-top:30px;">
+
+                        <ul class="nav nav-tabs" role="tablist" style="border: none">
+                            <li role="presentation" class="active"><a href="#public_notes" aria-controls="notes"
+                                                                      role="tab"
+                                                                      data-toggle="tab"><?php echo e(trans('texts.public_notes')); ?></a>
                             </li>
                             <li role="presentation"><a href="#private_notes" aria-controls="terms" role="tab"
                                                        data-toggle="tab"><?php echo e(trans("texts.private_notes")); ?></a></li>
@@ -503,6 +497,7 @@ $__env->startSection('head_css'); ?>
                                     </a></li>
                             <?php endif; ?>
                         </ul>
+
                         <?php echo e(Former::setOption('TwitterBootstrap3.labelWidths.large', 0)); ?>
 
                         <?php echo e(Former::setOption('TwitterBootstrap3.labelWidths.small', 0)); ?>
@@ -591,9 +586,12 @@ $__env->startSection('head_css'); ?>
                 </div>
             </div>
         </div>
+
         <center class="buttons">
+
             <div style="display:none">
                 <?php echo Former::populateField('entityType', $entityType); ?>
+
 
                 <?php echo Former::text('entityType'); ?>
 
@@ -679,7 +677,7 @@ $__env->startSection('head_css'); ?>
 
         </center>
 
-        <?php echo $__env->make('purchase_invoices.pdf', ['account' => Auth::user()->account, 'hide_pdf' => ! Auth::user()->account->live_preview], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        <?php echo $__env->make('invoices.pdf', ['account' => Auth::user()->account, 'hide_pdf' => ! Auth::user()->account->live_preview], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
         <?php if(!Auth::user()->account->isPro()): ?>
             <div style="font-size:larger">
@@ -688,56 +686,56 @@ $__env->startSection('head_css'); ?>
             </div>
         <?php endif; ?>
 
-        <div class="modal fade" id="vendorModal" tabindex="-1" role="dialog" aria-labelledby="vendorModalLabel"
+        <div class="modal fade" id="clientModal" tabindex="-1" role="dialog" aria-labelledby="clientModalLabel"
              aria-hidden="true">
             <div class="modal-dialog" data-bind="css: {'large-dialog': $root.showMore}">
                 <div class="modal-content" style="background-color: #f8f8f8">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="vendorModalLabel"><?php echo e(trans('texts.vendor')); ?></h4>
+                        <h4 class="modal-title" id="clientModalLabel"><?php echo e(trans('texts.client')); ?></h4>
                     </div>
 
                     <div class="container" style="width: 100%; padding-bottom: 0px !important">
                         <div class="panel panel-default">
                             <div class="panel-body">
 
-                                <div class="row" data-bind="with: vendor" onkeypress="vendorModalEnterClick(event)">
+                                <div class="row" data-bind="with: client" onkeypress="clientModalEnterClick(event)">
                                     <div style="margin-left:0px;margin-right:0px"
                                          data-bind="css: {'col-md-6': $root.showMore}">
 
-                                        <?php echo Former::hidden('vendor_public_id')->data_bind("value: public_id, valueUpdate: 'afterkeydown',
-                                                    attr: {name: 'vendor[public_id]'}"); ?>
+                                        <?php echo Former::hidden('client_public_id')->data_bind("value: public_id, valueUpdate: 'afterkeydown',
+                                                    attr: {name: 'client[public_id]'}"); ?>
 
-                                        <?php echo Former::text('vendor[name]')
+                                        <?php echo Former::text('client[name]')
                                             ->data_bind("value: name, valueUpdate: 'afterkeydown', attr { placeholder: name.placeholder }")
-                                            ->label('vendor_name'); ?>
+                                            ->label('client_name'); ?>
 
 
-                                        <?php if( ! $account->vendor_number_counter): ?>
+                                        <?php if( ! $account->client_number_counter): ?>
                                             <span data-bind="visible: $root.showMore">
 				<?php endif; ?>
 
-                                                <?php echo Former::text('vendor[id_number]')
+                                                <?php echo Former::text('client[id_number]')
                                                             ->label('id_number')
-                                                            ->placeholder($account->vendorNumbersEnabled() ? $account->getVendorNextNumber() : ' ')
+                                                            ->placeholder($account->clientNumbersEnabled() ? $account->getNextNumber() : ' ')
                                                             ->data_bind("value: id_number, valueUpdate: 'afterkeydown'"); ?>
 
 
-                                                <?php if( ! $account->vendor_number_counter): ?>
+                                                <?php if( ! $account->client_number_counter): ?>
 				</span>
                                         <?php endif; ?>
 
                                         <span data-bind="visible: $root.showMore">
-                    <?php echo Former::text('vendor[vat_number]')
+                    <?php echo Former::text('client[vat_number]')
                             ->label('vat_number')
                             ->data_bind("value: vat_number, valueUpdate: 'afterkeydown'"); ?>
 
 
-                                            <?php echo Former::text('vendor[website]')
+                                            <?php echo Former::text('client[website]')
                                                     ->label('website')
                                                     ->data_bind("value: website, valueUpdate: 'afterkeydown'"); ?>
 
-                                            <?php echo Former::text('vendor[work_phone]')
+                                            <?php echo Former::text('client[work_phone]')
                                                     ->label('work_phone')
                                                     ->data_bind("value: work_phone, valueUpdate: 'afterkeydown'"); ?>
 
@@ -745,44 +743,46 @@ $__env->startSection('head_css'); ?>
                 </span>
 
                                         <?php if(Auth::user()->hasFeature(FEATURE_INVOICE_SETTINGS)): ?>
-                                            <?php if($account->customLabel('vendor1')): ?>
+                                            <?php if($account->customLabel('client1')): ?>
                                                 <?php echo $__env->make('partials.custom_field', [
-                                                    'field' => 'vendor[custom_value1]',
-                                                    'label' => $account->customLabel('vendor1'),
+                                                    'field' => 'client[custom_value1]',
+                                                    'label' => $account->customLabel('client1'),
                                                     'databind' => "value: custom_value1, valueUpdate: 'afterkeydown'",
                                                 ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                                             <?php endif; ?>
-                                            <?php if($account->customLabel('vendor2')): ?>
+                                            <?php if($account->customLabel('client2')): ?>
                                                 <?php echo $__env->make('partials.custom_field', [
-                                                    'field' => 'vendor[custom_value2]',
-                                                    'label' => $account->customLabel('vendor2'),
+                                                    'field' => 'client[custom_value2]',
+                                                    'label' => $account->customLabel('client2'),
                                                     'databind' => "value: custom_value2, valueUpdate: 'afterkeydown'",
                                                 ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                                             <?php endif; ?>
                                         <?php endif; ?>
 
                                         <span data-bind="visible: $root.showMore">
-                    <?php echo Former::text('vendor[address1]')
+                    &nbsp;
+
+                    <?php echo Former::text('client[address1]')
                             ->label(trans('texts.address1'))
                             ->data_bind("value: address1, valueUpdate: 'afterkeydown'"); ?>
 
-                                            <?php echo Former::text('vendor[address2]')
+                                            <?php echo Former::text('client[address2]')
                                                     ->label(trans('texts.address2'))
                                                     ->data_bind("value: address2, valueUpdate: 'afterkeydown'"); ?>
 
-                                            <?php echo Former::text('vendor[city]')
+                                            <?php echo Former::text('client[city]')
                                                     ->label(trans('texts.city'))
                                                     ->data_bind("value: city, valueUpdate: 'afterkeydown'"); ?>
 
-                                            <?php echo Former::text('vendor[state]')
+                                            <?php echo Former::text('client[state]')
                                                     ->label(trans('texts.state'))
                                                     ->data_bind("value: state, valueUpdate: 'afterkeydown'"); ?>
 
-                                            <?php echo Former::text('vendor[postal_code]')
+                                            <?php echo Former::text('client[postal_code]')
                                                     ->label(trans('texts.postal_code'))
                                                     ->data_bind("value: postal_code, valueUpdate: 'afterkeydown'"); ?>
 
-                                            <?php echo Former::select('vendor[country_id]')
+                                            <?php echo Former::select('client[country_id]')
                                                     ->label(trans('texts.country_id'))
                                                     ->autocomplete('off')
                                                     ->addOption('','')->addGroupClass('country_select')
@@ -795,29 +795,29 @@ $__env->startSection('head_css'); ?>
                                     <div style="margin-left:0px;margin-right:0px"
                                          data-bind="css: {'col-md-6': $root.showMore}">
 
-                                        <div data-bind='template: { foreach: vendor_contacts,
+                                        <div data-bind='template: { foreach: contacts,
                                         beforeRemove: hideContact,
                                         afterAdd: showContact }'>
 
                                             <?php echo Former::hidden('public_id')->data_bind("value: public_id, valueUpdate: 'afterkeydown',
-                                                    attr: {name: 'vendor[vendor_contacts][' + \$index() + '][public_id]'}"); ?>
+                                                    attr: {name: 'client[contacts][' + \$index() + '][public_id]'}"); ?>
 
                                             <?php echo Former::text('first_name')->data_bind("value: first_name, valueUpdate: 'afterkeydown',
-                                                    attr: {name: 'vendor[vendor_contacts][' + \$index() + '][first_name]'}"); ?>
+                                                    attr: {name: 'client[contacts][' + \$index() + '][first_name]'}"); ?>
 
                                             <?php echo Former::text('last_name')->data_bind("value: last_name, valueUpdate: 'afterkeydown',
-                                                    attr: {name: 'vendor[vendor_contacts][' + \$index() + '][last_name]'}"); ?>
+                                                    attr: {name: 'client[contacts][' + \$index() + '][last_name]'}"); ?>
 
                                             <?php echo Former::text('email')->data_bind("value: email, valueUpdate: 'afterkeydown',
-                                                    attr: {name: 'vendor[vendor_contacts][' + \$index() + '][email]', id:'email'+\$index()}")
-                                                    ->addClass('vendor-email'); ?>
+                                                    attr: {name: 'client[contacts][' + \$index() + '][email]', id:'email'+\$index()}")
+                                                    ->addClass('client-email'); ?>
 
                                             <?php echo Former::text('phone')->data_bind("value: phone, valueUpdate: 'afterkeydown',
-                                                    attr: {name: 'vendor[vendor_contacts][' + \$index() + '][phone]'}"); ?>
+                                                    attr: {name: 'client[contacts][' + \$index() + '][phone]'}"); ?>
 
                                             <?php if($account->hasFeature(FEATURE_CLIENT_PORTAL_PASSWORD) && $account->enable_portal_password): ?>
                                                 <?php echo Former::password('password')->data_bind("value: (typeof password=='function'?password():null)?'-%unchanged%-':'', valueUpdate: 'afterkeydown',
-                                                    attr: {name: 'vendor[vendor_contacts][' + \$index() + '][password]'}")->autocomplete('new-password')->data_lpignore('true'); ?>
+                                                    attr: {name: 'client[contacts][' + \$index() + '][password]'}")->autocomplete('new-password')->data_lpignore('true'); ?>
 
                                             <?php endif; ?>
                                             <?php if(Auth::user()->hasFeature(FEATURE_INVOICE_SETTINGS)): ?>
@@ -826,7 +826,7 @@ $__env->startSection('head_css'); ?>
                                                         'field' => 'custom_contact1',
                                                         'label' => $account->customLabel('contact1'),
                                                         'databind' => "value: custom_value1, valueUpdate: 'afterkeydown',
-                                                                attr: {name: 'vendor[vendor_contacts][' + \$index() + '][custom_value1]'}",
+                                                                attr: {name: 'client[contacts][' + \$index() + '][custom_value1]'}",
                                                     ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                                                 <?php endif; ?>
                                                 <?php if($account->customLabel('contact2')): ?>
@@ -834,17 +834,17 @@ $__env->startSection('head_css'); ?>
                                                         'field' => 'custom_contact2',
                                                         'label' => $account->customLabel('contact2'),
                                                         'databind' => "value: custom_value2, valueUpdate: 'afterkeydown',
-                                                                attr: {name: 'vendor[vendor_contacts][' + \$index() + '][custom_value2]'}",
+                                                                attr: {name: 'client[contacts][' + \$index() + '][custom_value2]'}",
                                                     ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                                                 <?php endif; ?>
                                             <?php endif; ?>
                                             <div class="form-group">
                                                 <div class="col-lg-8 col-lg-offset-4">
-                            <span class="redlink bold" data-bind="visible: $parent.vendor_contacts().length > 1">
+                            <span class="redlink bold" data-bind="visible: $parent.contacts().length > 1">
                                 <?php echo link_to('#', trans('texts.remove_contact').' -', array('data-bind'=>'click: $parent.removeContact')); ?>
 
                             </span>
-                                                    <span data-bind="visible: $index() === ($parent.vendor_contacts().length - 1)"
+                                                    <span data-bind="visible: $index() === ($parent.contacts().length - 1)"
                                                           class="pull-right greenlink bold">
                                 <?php echo link_to('#', trans('texts.add_contact').' +', array('data-bind'=>'click: $parent.addContact')); ?>
 
@@ -857,7 +857,7 @@ $__env->startSection('head_css'); ?>
                     &nbsp;
                 </span>
 
-                                        <?php echo Former::select('vendor[currency_id]')->addOption('','')
+                                        <?php echo Former::select('client[currency_id]')->addOption('','')
                                                 ->placeholder($account->currency ? trans('texts.currency_'.Str::slug($account->currency->name, '_')) : '')
                                                 ->label(trans('texts.currency_id'))
                                                 ->data_bind('value: currency_id')
@@ -865,28 +865,28 @@ $__env->startSection('head_css'); ?>
 
 
                                         <span data-bind="visible: $root.showMore">
-                <?php echo Former::select('vendor[language_id]')->addOption('','')
+                <?php echo Former::select('client[language_id]')->addOption('','')
 						->placeholder($account->language ? trans('texts.lang_'.$account->language->name) : '')
                         ->label(trans('texts.language_id'))
                         ->data_bind('value: language_id')
                         ->fromQuery($languages, 'name', 'id'); ?>
 
-                                            <?php echo Former::select('vendor[payment_terms]')->addOption('','')->data_bind('value: payment_terms')
+                                            <?php echo Former::select('client[payment_terms]')->addOption('','')->data_bind('value: payment_terms')
                                                     ->fromQuery(PaymentTerm::getSelectOptions(), 'name', 'num_days')
                                                     ->label(trans('texts.payment_terms'))
                                                     ->help(trans('texts.payment_terms_help')); ?>
 
-                                            <?php echo Former::select('vendor[size_id]')->addOption('','')->data_bind('value: size_id')
+                                            <?php echo Former::select('client[size_id]')->addOption('','')->data_bind('value: size_id')
                                                     ->label(trans('texts.size_id'))
                                                     ->fromQuery($sizes, 'name', 'id'); ?>
 
-                                            <?php echo Former::select('vendor[industry_id]')->addOption('','')->data_bind('value: industry_id')
+                                            <?php echo Former::select('client[industry_id]')->addOption('','')->data_bind('value: industry_id')
                                                     ->label(trans('texts.industry_id'))
                                                     ->fromQuery($industries, 'name', 'id'); ?>
 
-                                            <?php echo Former::textarea('vendor_private_notes')
+                                            <?php echo Former::textarea('client_private_notes')
                                                     ->label(trans('texts.private_notes'))
-                                                    ->data_bind("value: private_notes, attr:{ name: 'vendor[private_notes]'}"); ?>
+                                                    ->data_bind("value: private_notes, attr:{ name: 'client[private_notes]'}"); ?>
 
                 </span>
                                     </div>
@@ -902,8 +902,8 @@ $__env->startSection('head_css'); ?>
                                 data-dismiss="modal"><?php echo e(trans('texts.cancel')); ?></button>
                         <button type="button" class="btn btn-default"
                                 data-bind="click: $root.showMoreFields, text: $root.showMore() ? '<?php echo e(trans('texts.less_fields')); ?>' : '<?php echo e(trans('texts.more_fields')); ?>'"></button>
-                        <button id="vendorDoneButton" type="button" class="btn btn-primary"
-                                data-bind="click: $root.vendorFormComplete"><?php echo e(trans('texts.done')); ?></button>
+                        <button id="clientDoneButton" type="button" class="btn btn-primary"
+                                data-bind="click: $root.clientFormComplete"><?php echo e(trans('texts.done')); ?></button>
                     </div>
 
                 </div>
@@ -916,8 +916,7 @@ $__env->startSection('head_css'); ?>
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title"
-                            id="recurringModalLabel"><?php echo e(trans('texts.recurring_purchase_invoices')); ?></h4>
+                        <h4 class="modal-title" id="recurringModalLabel"><?php echo e(trans('texts.recurring_invoices')); ?></h4>
                     </div>
 
                     <div class="container" style="width: 100%; padding-bottom: 0px !important">
@@ -967,7 +966,7 @@ $__env->startSection('head_css'); ?>
         </div>
 
         <?php echo $__env->make('partials.email_templates', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-        <?php echo $__env->make('purchase_invoices.email', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        <?php echo $__env->make('invoices.email', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
         <?php echo Former::close(); ?>
 
@@ -988,43 +987,43 @@ $__env->startSection('head_css'); ?>
 
     </div>
 
-    <?php echo $__env->make('purchase_invoices.knockout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('invoices.knockout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
     <script type="text/javascript">
         Dropzone.autoDiscover = false;
 
         var products = <?php echo $products; ?>;
-        var vendors = <?php echo $vendors; ?>;
+        var clients = <?php echo $clients; ?>;
         var account = <?php echo Auth::user()->account; ?>;
         var dropzone;
 
-        var vendorMap = {};
-        var $vendorSelect = $('select#vendor');
+        var clientMap = {};
+        var $clientSelect = $('select#client');
         var invoiceDesigns = <?php echo $invoiceDesigns; ?>;
         var invoiceFonts = <?php echo $invoiceFonts; ?>;
 
         $(function () {
-            // create vendor dictionary
-            for (var i = 0; i < vendors.length; i++) {
-                var vendor = vendors[i];
-                vendorMap[vendor.public_id] = vendor;
+            // create client dictionary
+            for (var i = 0; i < clients.length; i++) {
+                var client = clients[i];
+                clientMap[client.public_id] = client;
                 <?php if(! $invoice->id): ?>
-                if (!getVendorDisplayName(vendor)) {
+                if (!getClientDisplayName(client)) {
                     continue;
                 }
                         <?php endif; ?>
-                var vendorName = vendor.name || '';
-                for (var j = 0; j < vendor.vendor_contacts.length; j++) {
-                    var contact = vendor.vendor_contacts[j];
+                var clientName = client.name || '';
+                for (var j = 0; j < client.contacts.length; j++) {
+                    var contact = client.contacts[j];
                     var contactName = getContactDisplayNameWithEmail(contact);
-                    if (vendorName && contactName) {
-                        vendorName += '<br/>  • ';
+                    if (clientName && contactName) {
+                        clientName += '<br/>  • ';
                     }
                     if (contactName) {
-                        vendorName += contactName;
+                        clientName += contactName;
                     }
                 }
-                $vendorSelect.append(new Option(vendorName, vendor.public_id));
+                $clientSelect.append(new Option(clientName, client.public_id));
             }
 
             <?php if($data): ?>
@@ -1040,10 +1039,10 @@ $__env->startSection('head_css'); ?>
             model.invoice().start_date_orig(model.invoice().start_date());
                     <?php if($invoice->id): ?>
             var invitationContactIds = <?php echo json_encode($invitationContactIds); ?>;
-            var vendor = vendorMap[invoice.vendor.public_id];
-            if (vendor) { // in case it's deleted
-                for (var i = 0; i < vendor.vendor_contacts.length; i++) {
-                    var contact = vendor.vendor_contacts[i];
+            var client = clientMap[invoice.client.public_id];
+            if (client) { // in case it's deleted
+                for (var i = 0; i < client.contacts.length; i++) {
+                    var contact = client.contacts[i];
                     contact.send_invoice = invitationContactIds.indexOf(contact.public_id) >= 0;
                 }
             }
@@ -1149,15 +1148,15 @@ $__env->startSection('head_css'); ?>
             ko.applyBindings(model);
             onItemChange(true);
 
-            $('#vendor\\[country_id\\]').on('change', function (e) {
+            $('#client\\[country_id\\]').on('change', function (e) {
                 var countryId = $(e.currentTarget).val();
                 var country = _.findWhere(countries, {id: parseInt(countryId)});
                 if (country) {
-                    model.invoice().vendor().country = country;
-                    model.invoice().vendor().country_id(countryId);
+                    model.invoice().client().country = country;
+                    model.invoice().client().country_id(countryId);
                 } else {
-                    model.invoice().vendor().country = false;
-                    model.invoice().vendor().country_id(0);
+                    model.invoice().client().country = false;
+                    model.invoice().client().country_id(0);
                 }
             });
 
@@ -1165,34 +1164,34 @@ $__env->startSection('head_css'); ?>
 
             $('#invoice_date, #due_date, #start_date, #end_date, #last_sent_date, #partial_due_date').datepicker();
 
-            <?php if($invoice->vendor && !$invoice->id): ?>
-            $('input[name=vendor]').val(<?php echo e($invoice->vendor->public_id); ?>);
+            <?php if($invoice->client && !$invoice->id): ?>
+            $('input[name=client]').val(<?php echo e($invoice->client->public_id); ?>);
                     <?php endif; ?>
 
-            var $input = $('select#vendor');
+            var $input = $('select#client');
             $input.combobox().on('change', function (e) {
-                var oldId = model.invoice().vendor().public_id();
-                var vendorId = parseInt($('input[name=vendor]').val(), 10) || 0;
-                if (vendorId > 0) {
-                    var selected = vendorMap[vendorId];
-                    model.loadVendor(selected);
-                    // we enable searching by contact but the selection must be the vendor
-                    $('.vendor-input').val(getVendorDisplayName(selected));
+                var oldId = model.invoice().client().public_id();
+                var clientId = parseInt($('input[name=client]').val(), 10) || 0;
+                if (clientId > 0) {
+                    var selected = clientMap[clientId];
+                    model.loadClient(selected);
+                    // we enable searching by contact but the selection must be the client
+                    $('.client-input').val(getClientDisplayName(selected));
                     // if there's an invoice number pattern we'll apply it now
                     setInvoiceNumber(selected);
                     refreshPDF(true);
                 } else if (oldId) {
-                    model.loadVendor($.parseJSON(ko.toJSON(new VendorModel())));
-                    model.invoice().vendor().country = false;
+                    model.loadClient($.parseJSON(ko.toJSON(new ClientModel())));
+                    model.invoice().client().country = false;
                     refreshPDF(true);
                 }
             });
 
-            // If no vendors exists show the vendor form when clicking on the vendor select input
-            <?php if (app(Gate::class)->check('create', $invoice->vendor)): ?>
-            if (vendors.length === 0) {
-                $('.vendor_select input.form-control').on('click', function () {
-                    model.showVendorForm();
+            // If no clients exists show the client form when clicking on the client select input
+            <?php if (app(Gate::class)->check('create', $invoice->client)): ?>
+            if (clients.length === 0) {
+                $('.client_select input.form-control').on('click', function () {
+                    model.showClientForm();
                 });
             }
             <?php endif; ?>
@@ -1222,17 +1221,17 @@ $__env->startSection('head_css'); ?>
                 })(field);
             }
 
-            if (model.invoice().vendor().public_id() || <?php echo e($invoice->id || count($vendors) == 0 ? '1' : '0'); ?>) {
+            if (model.invoice().client().public_id() || <?php echo e($invoice->id || count($clients) == 0 ? '1' : '0'); ?>) {
                 // do nothing
             } else {
-                $('.vendor_select input.form-control').focus();
+                $('.client_select input.form-control').focus();
             }
 
-            $('#vendorModal').on('shown.bs.modal', function () {
-                $('#vendor\\[name\\]').focus();
+            $('#clientModal').on('shown.bs.modal', function () {
+                $('#client\\[name\\]').focus();
             }).on('hidden.bs.modal', function () {
-                if (model.vendorBackup) {
-                    model.loadVendor(model.vendorBackup);
+                if (model.clientBackup) {
+                    model.loadClient(model.clientBackup);
                     refreshPDF(true);
                 }
             });
@@ -1243,16 +1242,16 @@ $__env->startSection('head_css'); ?>
 
             $('label.radio').addClass('radio-inline');
 
-            <?php if($invoice->vendor->id): ?>
+            <?php if($invoice->client->id): ?>
             $input.trigger('change');
             <?php else: ?>
             refreshPDF(true);
                     <?php endif; ?>
 
-            var vendor = model.invoice().vendor();
-            setComboboxValue($('.vendor_select'),
-                vendor.public_id(),
-                vendor.name.display());
+            var client = model.invoice().client();
+            setComboboxValue($('.client_select'),
+                client.public_id(),
+                client.name.display());
 
             applyComboboxListeners();
 
@@ -1333,7 +1332,7 @@ $__env->startSection('head_css'); ?>
 
             };
             invoice.is_quote = <?php echo e($entityType == ENTITY_PURCHASE_QUOTE ? 'true' : 'false'); ?>;
-            invoice.contact = _.findWhere(invoice.vendor.vendor_contacts, {send_invoice: true});
+            invoice.contact = _.findWhere(invoice.client.contacts, {send_invoice: true});
 
             if (invoice.is_recurring) {
                 invoice.invoice_number = <?php echo json_encode(trans('texts.assigned_when_sent')); ?>;
@@ -1373,7 +1372,7 @@ $__env->startSection('head_css'); ?>
                     <?php if(! $invoice->id && $account->credit_number_counter > 0): ?>
             var total = model.invoice().totals.rawTotal();
             var invoiceNumber = model.invoice().invoice_number();
-            var creditNumber = "<?php echo e($account->getNextNumber(new PurchaseCredit())); ?>";
+            var creditNumber = "<?php echo e($account->getNextNumber(new Credit())); ?>";
             if (total < 0 && invoiceNumber != creditNumber) {
                 origInvoiceNumber = invoiceNumber;
                 model.invoice().invoice_number(creditNumber);
@@ -1465,9 +1464,9 @@ $__env->startSection('head_css'); ?>
                 return;
             }
 
-            var vendorId = parseInt($('input[name=vendor]').val(), 10) || 0;
-            if (vendorId == 0) {
-                swal(<?php echo json_encode(trans('texts.no_vendor_selected')); ?>);
+            var clientId = parseInt($('input[name=client]').val(), 10) || 0;
+            if (clientId == 0) {
+                swal(<?php echo json_encode(trans('texts.no_client_selected')); ?>);
                 return;
             }
 
@@ -1509,8 +1508,8 @@ $__env->startSection('head_css'); ?>
                 }
                 if (!isSaveValid()) {
 
-                    <?php if(Auth::user()->can('create', ENTITY_VENDOR)): ?>
-                    model.showVendorForm();
+                    <?php if(Auth::user()->can('create', ENTITY_CLIENT)): ?>
+                    model.showClientForm();
                     return false;
                     <?php else: ?>
                     showPermissionErrorModal();
@@ -1581,11 +1580,11 @@ $__env->startSection('head_css'); ?>
         }
 
         function getSendToEmails() {
-            var vendor = model.invoice().vendor();
+            var client = model.invoice().client();
             var parts = [];
 
-            for (var i = 0; i < vendor.vendor_contacts().length; i++) {
-                var contact = vendor.vendor_contacts()[i];
+            for (var i = 0; i < client.contacts().length; i++) {
+                var contact = client.contacts()[i];
                 if (contact.send_invoice()) {
                     parts.push(contact.displayName());
                 }
@@ -1609,8 +1608,8 @@ $__env->startSection('head_css'); ?>
         function submitAction(value) {
             if (!isSaveValid()) {
 
-                <?php if(Auth::user()->can('create', ENTITY_VENDOR)): ?>
-                model.showVendorForm();
+                <?php if(Auth::user()->can('create', ENTITY_CLIENT)): ?>
+                model.showClientForm();
                 return false;
                 <?php else: ?>
                 showPermissionErrorModal();
@@ -1642,26 +1641,25 @@ $__env->startSection('head_css'); ?>
             }
 
             if (!isSaveValid()) {
-                model.showVendorForm();
+                model.showClientForm();
                 return false;
             }
 
             // check currency matches for expenses
             var expenseCurrencyId = model.expense_currency_id();
-            var vendorCurrencyId = model.invoice().vendor().currency_id() || <?php echo e($account->getCurrencyId()); ?>;
-            if (expenseCurrencyId && expenseCurrencyId != vendorCurrencyId) {
+            var clientCurrencyId = model.invoice().client().currency_id() || <?php echo e($account->getCurrencyId()); ?>;
+            if (expenseCurrencyId && expenseCurrencyId != clientCurrencyId) {
                 swal(<?php echo json_encode(trans('texts.expense_error_mismatch_currencies')); ?>);
                 return false;
             }
 
-            <?php if(Auth::user()->canCreateOrEdit([ENTITY_PURCHASE_INVOICE, $invoice])): ?>
+            <?php if(Auth::user()->canCreateOrEdit(ENTITY_PURCHASE_INVOICE, $invoice)): ?>
             if ($('#saveButton').is(':disabled')) {
                 return false;
             }
             $('#saveButton, #emailButton, #draftButton').attr('disabled', true);
             // if save fails ensure user can try again
             $.post('<?php echo e(url($url)); ?>', $('.main-form').serialize(), function (data) {
-                // http index of is not clear test in production
                 if (data && data.toLowerCase().indexOf('http') === 0) {
                     NINJA.formIsChanged = false;
                     location.href = data;
@@ -1693,9 +1691,9 @@ $__env->startSection('head_css'); ?>
         }
 
         function isSaveValid() {
-            var isValid = model.invoice().vendor().name() ? true : false;
-            for (var i = 0; i < model.invoice().vendor().vendor_contacts().length; i++) {
-                var contact = model.invoice().vendor().vendor_contacts()[i];
+            var isValid = model.invoice().client().name() ? true : false;
+            for (var i = 0; i < model.invoice().client().contacts().length; i++) {
+                var contact = model.invoice().client().contacts()[i];
                 var email = contact.email() ? contact.email().trim() : '';
                 if (isValidEmailAddress(email) || contact.first_name() || contact.last_name()) {
                     isValid = true;
@@ -1707,9 +1705,9 @@ $__env->startSection('head_css'); ?>
 
         function isContactSelected() {
             var sendTo = false;
-            var vendor = model.invoice().vendor();
-            for (var i = 0; i < vendor.vendor_contacts().length; i++) {
-                var contact = vendor.vendor_contacts()[i];
+            var client = model.invoice().client();
+            for (var i = 0; i < client.contacts().length; i++) {
+                var contact = client.contacts()[i];
                 if (contact.send_invoice()) {
                     return true;
                 }
@@ -1719,9 +1717,9 @@ $__env->startSection('head_css'); ?>
 
         function isEmailValid() {
             var isValid = true;
-            var vendor = model.invoice().vendor();
-            for (var i = 0; i < vendor.vendor_contacts().length; i++) {
-                var contact = vendor.vendor_contacts()[i];
+            var client = model.invoice().client();
+            for (var i = 0; i < client.contacts().length; i++) {
+                var contact = client.contacts()[i];
                 if (!contact.send_invoice()) {
                     continue;
                 }
@@ -1752,15 +1750,15 @@ $__env->startSection('head_css'); ?>
         function onPaymentClick() {
             <?php if(!empty($autoBillChangeWarning)): ?>
             sweetConfirm(function () {
-                window.location = '<?php echo e(URL::to('purchase_payments/create/' . $invoice->vendor->public_id . '/' . $invoice->public_id )); ?>';
+                window.location = '<?php echo e(URL::to('payments/create/' . $invoice->client->public_id . '/' . $invoice->public_id )); ?>';
             }, <?php echo json_encode(trans('texts.warn_change_auto_bill')); ?>);
             <?php else: ?>
-                window.location = '<?php echo e(URL::to('purchase_payments/create/' . $invoice->vendor->public_id . '/' . $invoice->public_id )); ?>';
+                window.location = '<?php echo e(URL::to('payments/create/' . $invoice->client->public_id . '/' . $invoice->public_id )); ?>';
             <?php endif; ?>
         }
 
-        function onPurchaseCreditClick() {
-            window.location = '<?php echo e(URL::to('purchase_credits/create/' . $invoice->vendor->public_id . '/' . $invoice->public_id )); ?>';
+        function onCreditClick() {
+            window.location = '<?php echo e(URL::to('credits/create/' . $invoice->client->public_id . '/' . $invoice->public_id )); ?>';
         }
 
         <?php endif; ?>
@@ -1790,10 +1788,10 @@ $__env->startSection('head_css'); ?>
             }
         }
 
-        function vendorModalEnterClick(event) {
+        function clientModalEnterClick(event) {
             if (event.keyCode === 13) {
                 event.preventDefault();
-                model.vendorFormComplete();
+                model.clientFormComplete();
                 return false;
             }
         }
@@ -1866,23 +1864,23 @@ $__env->startSection('head_css'); ?>
             $('#recurringDueDateModal').modal('show');
         }
 
-        function setInvoiceNumber(vendor) {
-            <?php if($invoice->id || !$account->hasVendorNumberPattern($invoice)): ?>
+        function setInvoiceNumber(client) {
+            <?php if($invoice->id || !$account->hasClientNumberPattern($invoice)): ?>
                 return;
                     <?php endif; ?>
-            var number = '<?php echo e($account->hasIdPattern($invoice)); ?>';
-            number = number.replace('{$vendorCustom1}', vendor.custom_value1 ? vendor.custom_value1 : '');
-            number = number.replace('{$vendorCustom2}', vendor.custom_value2 ? vendor.custom_value1 : '');
-            number = number.replace('{$vendorIdNumber}', vendor.id_number ? vendor.id_number : '');
-            <?php if($invoice->isQuote() && ! $account->share_purchase_counter): ?>
-                number = number.replace('{$vendorCounter}', pad(vendor.quote_number_counter, <?php echo e($account->invoice_number_padding); ?>));
+            var number = '<?php echo e($account->applyNumberPattern($invoice)); ?>';
+            number = number.replace('{$clientCustom1}', client.custom_value1 ? client.custom_value1 : '');
+            number = number.replace('{$clientCustom2}', client.custom_value2 ? client.custom_value1 : '');
+            number = number.replace('{$clientIdNumber}', client.id_number ? client.id_number : '');
+            <?php if($invoice->isQuote() && ! $account->share_counter): ?>
+                number = number.replace('{$clientCounter}', pad(client.quote_number_counter, <?php echo e($account->invoice_number_padding); ?>));
             <?php else: ?>
-                number = number.replace('{$vendorCounter}', pad(vendor.invoice_number_counter, <?php echo e($account->invoice_number_padding); ?>));
+                number = number.replace('{$clientCounter}', pad(client.invoice_number_counter, <?php echo e($account->invoice_number_padding); ?>));
             <?php endif; ?>
             // backwards compatibility
-            number = number.replace('{$custom1}', vendor.custom_value1 ? vendor.custom_value1 : '');
-            number = number.replace('{$custom2}', vendor.custom_value2 ? vendor.custom_value1 : '');
-            number = number.replace('{$idNumber}', vendor.id_number ? vendor.id_number : '');
+            number = number.replace('{$custom1}', client.custom_value1 ? client.custom_value1 : '');
+            number = number.replace('{$custom2}', client.custom_value2 ? client.custom_value1 : '');
+            number = number.replace('{$idNumber}', client.id_number ? client.id_number : '');
             model.invoice().invoice_number(number);
         }
 
@@ -1904,7 +1902,7 @@ $__env->startSection('head_css'); ?>
         }
 
         function showPermissionErrorModal() {
-            swal(<?php echo json_encode(trans('texts.create_vendor')); ?>);
+            swal(<?php echo json_encode(trans('texts.create_client')); ?>);
         }
 
     </script>

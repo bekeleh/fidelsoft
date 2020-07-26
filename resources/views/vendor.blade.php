@@ -19,7 +19,7 @@
     <div class="col-md-6">
 
         {!! Former::legend('VendorContacts') !!}
-        <div data-bind='template: { foreach: vendor_contacts,
+        <div data-bind='template: { foreach: contacts,
 	                            beforeRemove: hideContact,
 	                            afterAdd: showContact }'>
             {!! Former::hidden('public_id')->data_bind("value: public_id, valueUpdate: 'afterkeydown'") !!}
@@ -29,10 +29,10 @@
             {!! Former::text('phone')->data_bind("value: phone, valueUpdate: 'afterkeydown'") !!}
             <div class="form-group">
                 <div class="col-lg-8 col-lg-offset-4">
-					<span data-bind="visible: $parent.vendor_contacts().length > 1">
+					<span data-bind="visible: $parent.contacts().length > 1">
 						{!! link_to('#', 'Remove contact', array('data-bind'=>'click: $parent.removeContact')) !!}
 					</span>
-                    <span data-bind="visible: $index() === ($parent.vendor_contacts().length - 1)" class="pull-right">
+                    <span data-bind="visible: $index() === ($parent.contacts().length - 1)" class="pull-right">
 						{!! link_to('#', 'Add contact', array('onclick'=>'return addContact()')) !!}
 					</span>
                 </div>
@@ -57,7 +57,7 @@
     }
     function VendorContactsModel() {
         var self = this;
-        self.vendor_contacts = ko.observableArray();
+        self.contacts = ko.observableArray();
     }
     @if ($vendor)
         window.model = ko.mapping.fromJS({!! $vendor !!});
@@ -67,19 +67,19 @@
     @endif
         model.showContact = function (elem) {
         if (elem.nodeType === 1) $(elem).hide().slideDown()
-    }
+    };
     model.hideContact = function (elem) {
         if (elem.nodeType === 1) $(elem).slideUp(function () {
             $(elem).remove();
         })
-    }
+    };
     ko.applyBindings(model);
     function addContact() {
-        model.vendor_contacts.push(new VendorContactModel());
+        model.contacts.push(new VendorContactModel());
         return false;
     }
     model.removeContact = function () {
-        model.vendor_contacts.remove(this);
+        model.contacts.remove(this);
     }
 </script>
 

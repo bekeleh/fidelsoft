@@ -232,7 +232,7 @@ class ExportController extends BaseController
 
         if ($request->input('include') === 'all' || $request->input('expenses')) {
             $data['expenses'] = Expense::scope()
-                ->with('user', 'vendor.vendor_contacts', 'client.contacts', 'expense_category')
+                ->with('user', 'vendor.contacts', 'client.contacts', 'expense_category')
                 ->withArchived()
                 ->get();
         }
@@ -245,14 +245,14 @@ class ExportController extends BaseController
 
         if ($request->input('include') === 'all' || $request->input('vendors')) {
             $data['vendors'] = Vendor::scope()
-                ->with('user', 'vendor_contacts', 'country')
+                ->with('user', 'contacts', 'country')
                 ->withArchived()
                 ->get();
         }
 
-        if ($request->input('include') === 'all' || $request->input('vendor_contacts')) {
-            $data['vendor_contacts'] = VendorContact::scope()
-                ->with('user', 'vendor.vendor_contacts')
+        if ($request->input('include') === 'all' || $request->input('contacts')) {
+            $data['contacts'] = VendorContact::scope()
+                ->with('user', 'vendor.contacts')
                 ->withTrashed()
                 ->get();
         }

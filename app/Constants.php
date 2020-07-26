@@ -174,7 +174,7 @@ if (!defined('APP_NAME')) {
     define('PERSON_VENDOR_CONTACT', 'vendor_contact');
     define('ACCOUNT_CLIENT', 'clients');
     define('ACCOUNT_CLIENT_CONTACT', 'client_contacts');
-    define('ACCOUNT_VENDOR_CONTACT', 'vendor_contacts');
+    define('ACCOUNT_VENDOR_CONTACT', 'contacts');
     define('BASIC_SETTINGS', 'basic_settings');
     define('ADVANCED_SETTINGS', 'advanced_settings');
     define('ACCOUNT_STATUS', 'statuses');

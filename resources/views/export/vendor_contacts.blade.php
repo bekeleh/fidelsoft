@@ -9,7 +9,7 @@
     <td>{{ trans('texts.phone') }}</td>
 </tr>
 
-@foreach ($vendor_contacts as $contact)
+@foreach ($contacts as $contact)
     @if (!$contact->vendor->is_deleted)
         <tr>
             <td>{{ $contact->vendor->getDisplayName() }}</td>

@@ -205,6 +205,7 @@ $LANG = array(
     'deleted_purchase_invoices' => 'Successfully Deleted :count Purchase Invoices',
     'recurring_purchase_invoices' => 'Recurring Purchase Invoices',
     'purchase_invoice_number_short' => 'Invoice #',
+    'purchase_invoice_date' => 'Invoice Date',
 
 //  Statuses
     'status_name' => 'Status',
@@ -1539,7 +1540,8 @@ $LANG = array(
     'reset' => 'Reset',
     'invoice_not_found' => 'The requested invoice is not available',
     'referral_program' => 'Referral Program',
-    'referral_code' => 'Referral URL',
+    'utility' => 'Utility',
+    'help' => 'Help',
     'last_sent_on' => 'Sent Last: :date',
     'page_expire' => 'This page will expire soon, :click_here to keep working',
     'upcoming_quotes' => 'Upcoming Quotes',
@@ -2655,7 +2657,7 @@ $LANG = array(
 
     'view_client_portal' => 'View client portal',
     'view_portal' => 'View Portal',
-    'vendor_contacts' => 'Vendor Contacts',
+    'contacts' => 'Vendor Contacts',
     'all' => 'All',
     'selected' => 'Selected',
     'categories' => 'Categories',
@@ -2743,6 +2745,7 @@ $LANG = array(
     'task' => 'Task',
     'task_details' => 'Task Details',
     'contact_name' => 'Contact Name',
+    'vendor_contact_name' => 'Vendor Contact Name',
     'city_state_postal' => 'City/State/Postal',
     'custom_field' => 'Custom Field',
     'account_fields' => 'Company Fields',

@@ -34,7 +34,7 @@ class VendorTransformer extends EntityTransformer
      * @SWG\Property(property="id_number", type="string", example="123456")
      */
     protected $defaultIncludes = [
-        'vendor_contacts',
+        'contacts',
     ];
 
     protected $availableIncludes = [
@@ -46,7 +46,7 @@ class VendorTransformer extends EntityTransformer
     {
         $transformer = new VendorContactTransformer($this->account, $this->serializer);
 
-        return $this->includeCollection($vendor->vendor_contacts, $transformer, ENTITY_CONTACT);
+        return $this->includeCollection($vendor->contacts, $transformer, ENTITY_CONTACT);
     }
 
     public function includeInvoices(Vendor $vendor)

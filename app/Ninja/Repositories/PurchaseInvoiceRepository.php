@@ -52,7 +52,7 @@ class PurchaseInvoiceRepository extends BaseRepository
     {
         return PurchaseInvoice::scope()
             ->invoiceType(INVOICE_TYPE_STANDARD)
-            ->with('user', 'vendor.vendor_contacts', 'invoice_status')
+            ->with('user', 'vendor.contacts', 'invoice_status')
             ->withTrashed()->where('is_recurring', false)->get();
     }
 
@@ -634,25 +634,25 @@ class PurchaseInvoiceRepository extends BaseRepository
 
         $vendor = $purchaseInvoice->vendor;
 
-        $vendor->load('vendor_contacts');
+        $vendor->load('contacts');
         $sendPurchaseInvoiceIds = [];
 
-        if (!$vendor->vendor_contacts->count()) {
+        if (!$vendor->contacts->count()) {
             return $purchaseInvoice;
         }
 
-        foreach ($vendor->vendor_contacts as $contact) {
+        foreach ($vendor->contacts as $contact) {
             if ($contact->send_invoice) {
                 $sendPurchaseInvoiceIds[] = $contact->id;
             }
         }
 
-        // if no vendor_contacts are selected auto-select the first to ensure there's an invitation
+        // if no contacts are selected auto-select the first to ensure there's an invitation
         if (!count($sendPurchaseInvoiceIds)) {
-            $sendPurchaseInvoiceIds[] = $vendor->vendor_contacts[0]->id;
+            $sendPurchaseInvoiceIds[] = $vendor->contacts[0]->id;
         }
 
-        foreach ($vendor->vendor_contacts as $contact) {
+        foreach ($vendor->contacts as $contact) {
             $invitation = PurchaseInvitation::scope()->where('contact_id', $contact->id)
                 ->wherePurchaseInvoiceId($purchaseInvoice->id)->first();
             if (in_array($contact->id, $sendPurchaseInvoiceIds) && empty($invitation)) {
@@ -907,7 +907,7 @@ class PurchaseInvoiceRepository extends BaseRepository
             return false;
         }
 
-        $purchaseInvoice->load('user', 'invoice_items', 'documents', 'invoice_design', 'account.country', 'vendor.vendor_contacts', 'vendor.country');
+        $purchaseInvoice->load('user', 'invoice_items', 'documents', 'invoice_design', 'account.country', 'vendor.contacts', 'vendor.country');
         $vendor = $purchaseInvoice->vendor;
 
         if (empty($vendor) || isset($vendor->is_deleted)) {

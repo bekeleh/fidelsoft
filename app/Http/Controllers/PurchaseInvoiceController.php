@@ -114,14 +114,14 @@ class PurchaseInvoiceController extends BaseController
         $invoice->public_id = 0;
         $invoice->loadFromRequest();
 
-        $vendors = Vendor::scope()->with('vendor_contacts', 'country')->orderBy('name');
+        $clients = Vendor::scope()->with('contacts', 'country')->orderBy('name');
 
         if (!Utils::hasPermission('view_vendor')) {
-            $vendors = $vendors->where('vendors.user_id', Auth::user()->id);
+            $clients = $clients->where('vendors.user_id', Auth::user()->id);
         }
 
         $data = [
-            'vendors' => $vendors->get(),
+            'clients' => $clients->get(),
             'entityType' => $invoice->getEntityType(),
             'invoice' => $invoice,
             'method' => 'POST',
@@ -130,7 +130,7 @@ class PurchaseInvoiceController extends BaseController
         ];
 
         $data = array_merge($data, self::getViewModel($invoice));
-//        dd($data);
+
         return View::make('purchase_invoices.edit', $data);
     }
 
@@ -169,18 +169,18 @@ class PurchaseInvoiceController extends BaseController
     {
         $this->authorize('edit', ENTITY_PURCHASE_INVOICE);
         $account = Auth::user()->account;
-        $invoice = $request->entity()->load('invitations', 'account.country', 'vendor.vendor_contacts', 'vendor.country', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'payments');
+        $invoice = $request->entity()->load('invitations', 'account.country', 'vendor.contacts', 'vendor.country', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'payments');
 
         $entityType = $invoice->getEntityType();
 
         $contactIds = DB::table('invitations')
-            ->join('vendor_contacts', 'vendor_contacts.id', 'invitations.contact_id')
+            ->join('contacts', 'contacts.id', 'invitations.contact_id')
             ->where('invitations.invoice_id', $invoice->id)
             ->where('invitations.account_id', Auth::user()->account_id)
-            ->select('vendor_contacts.public_id')->pluck('public_id')
+            ->select('contacts.public_id')->pluck('public_id')
             ->where('invitations.deleted_at', null);
 
-        $vendors = Vendor::scope()->withTrashed()->with('vendor_contacts', 'country');
+        $clients = Vendor::scope()->withTrashed()->with('contacts', 'country');
 
         if ($clone) {
             $entityType = $clone == PURCHASE_INVOICE_TYPE_STANDARD ? ENTITY_PURCHASE_INVOICE : ENTITY_QUOTE;
@@ -206,7 +206,7 @@ class PurchaseInvoiceController extends BaseController
         } else {
             $method = 'PUT';
             $url = "{$entityType}s/{$invoice->public_id}";
-            $vendors->whereId($invoice->vendor_id);
+            $clients->whereId($invoice->vendor_id);
         }
 
         $invoice->invoice_date = Utils::fromSqlDate($invoice->invoice_date);
@@ -226,11 +226,11 @@ class PurchaseInvoiceController extends BaseController
         $lastSent = ($invoice->is_recurring && $invoice->last_sent_date) ? $invoice->recurring_purchase_invoices->last() : null;
 
         if (!Auth::user()->hasPermission('view_vendor')) {
-            $vendors = $vendors->where('vendors.user_id', Auth::user()->id);
+            $clients = $clients->where('clients.user_id', Auth::user()->id);
         }
 
         $data = [
-            'vendors' => $vendors->get(),
+            'clients' => $clients->get(),
             'entityType' => $entityType,
             'showBreadcrumbs' => $clone,
             'invoice' => $invoice,
@@ -252,15 +252,15 @@ class PurchaseInvoiceController extends BaseController
             $data['formIsChanged'] = true;
         }
 
-        // Set the invitation data on the vendor's vendor_contacts
+        // Set the invitation data on the vendor's contacts
         if (!$clone) {
-            $vendors = $data['vendors'];
-            foreach ($vendors as $vendor) {
+            $clients = $data['clients'];
+            foreach ($clients as $vendor) {
                 if ($vendor->id != $invoice->vendor->id) {
                     continue;
                 }
                 foreach ($invoice->invitations as $invitation) {
-                    foreach ($vendor->vendor_contacts as $contact) {
+                    foreach ($vendor->contacts as $contact) {
                         if ($invitation->contact_id == $contact->id) {
                             $hasPassword = $account->isVendorPortalPasswordEnabled() && $contact->password;
                             $contact->email_error = $invitation->email_error;
@@ -401,7 +401,7 @@ class PurchaseInvoiceController extends BaseController
             'data' => Input::old('data'),
             'account' => Auth::user()->account->load('country'),
             'products' => Product::scope()->withActiveOrSelected(isset($invoice) ? $invoice->product_id : false)->orderBy('product_key')->get(),
-            'vendors' => Vendor::scope()->with('vendor_contacts', 'country')->orderBy('name')->get(),
+            'clients' => Vendor::scope()->with('contacts', 'country')->orderBy('name')->get(),
             'taxRateOptions' => $taxRateOptions,
             'sizes' => Cache::get('sizes'),
             'invoiceDesigns' => InvoiceDesign::getDesigns(),
@@ -537,7 +537,7 @@ class PurchaseInvoiceController extends BaseController
         $invoice = $request->entity();
         $paymentId = $request->payment_id ? Payment::getPrivateId($request->payment_id) : false;
 
-        $invoice->load('user', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'account.country', 'vendor.vendor_contacts', 'vendor.country');
+        $invoice->load('user', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'account.country', 'vendor.contacts', 'vendor.country');
         $invoice->invoice_date = Utils::fromSqlDate($invoice->invoice_date);
         $invoice->due_date = Utils::fromSqlDate($invoice->due_date);
         $invoice->features = [
@@ -603,7 +603,7 @@ class PurchaseInvoiceController extends BaseController
     public function receiveNote(PurchaseInvoiceRequest $request)
     {
         $invoice = $request->entity();
-        $invoice->load('user', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'account.country', 'vendor.vendor_contacts', 'vendor.country', 'vendor.shipping_country');
+        $invoice->load('user', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'account.country', 'vendor.contacts', 'vendor.country', 'vendor.shipping_country');
         $invoice->invoice_date = Utils::fromSqlDate($invoice->invoice_date);
         $invoice->due_date = Utils::fromSqlDate($invoice->due_date);
         $invoice->features = [

@@ -74,7 +74,7 @@ class ExpenseController extends BaseController
     {
         $this->authorize('create', ENTITY_EXPENSE);
         if ($request->vendor_id != 0) {
-            $vendor = Vendor::scope($request->vendor_id)->with('vendor_contacts')->firstOrFail();
+            $vendor = Vendor::scope($request->vendor_id)->with('contacts')->firstOrFail();
         } else {
             $vendor = null;
         }
@@ -270,7 +270,7 @@ class ExpenseController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
-            'vendors' => Vendor::scope()->withActiveOrSelected($expense ? $expense->vendor_id : false)->with('vendor_contacts')->orderBy('name')->get(),
+            'vendors' => Vendor::scope()->withActiveOrSelected($expense ? $expense->vendor_id : false)->with('contacts')->orderBy('name')->get(),
             'clients' => Client::scope()->withActiveOrSelected($expense ? $expense->client_id : false)->with('contacts')->orderBy('name')->get(),
             'categories' => ExpenseCategory::whereAccountId(Auth::user()->account_id)->withActiveOrSelected($expense ? $expense->expense_category_id : false)->orderBy('name')->get(),
             'taxRates' => TaxRate::scope()->whereIsInclusive(false)->orderBy('name')->get(),

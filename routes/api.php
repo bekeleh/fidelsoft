@@ -60,7 +60,7 @@ Route::post('update_notifications', 'AccountApiController@updatePushNotification
 Route::get('dashboard', 'DashboardApiController@index');
 Route::resource('documents', 'DocumentAPIController');
 Route::resource('vendors', 'VendorApiController');
-Route::resource('vendor_contacts', 'VendorContactApiController');
+Route::resource('contacts', 'VendorContactApiController');
 Route::resource('expense_categories', 'ExpenseCategoryApiController');
 Route::post('ios_subscription_status', 'AccountApiController@iosSubscriptionStatus');
 Route::resource('payment_terms', 'PaymentTermApiController');
