@@ -290,7 +290,7 @@ class EventServiceProvider extends ServiceProvider
         ],
 //      Purchase Invoices
         'App\Events\PurchaseInvoiceWasCreated' => [
-            'App\Listeners\ActivityListener@createdInvoice',
+            'App\Listeners\ActivityListener@createdPurchaseInvoice',
             'App\Listeners\PurchaseInvoiceListener@createdInvoice',
         ],
         'App\Events\PurchaseInvoiceWasUpdated' => [
@@ -307,27 +307,68 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\ActivityListener@archivedPurchaseInvoice',
         ],
         'App\Events\PurchaseInvoiceWasDeleted' => [
-            'App\Listeners\ActivityListener@deletedInvoice',
-            'App\Listeners\TaskListener@deletedInvoice',
-            'App\Listeners\ExpenseListener@deletedInvoice',
-            'App\Listeners\HistoryListener@deletedInvoice',
-            'App\Listeners\InvoiceItemListener@deletedInvoice',
+            'App\Listeners\ActivityListener@deletedPurchaseInvoice',
+//            'App\Listeners\HistoryListener@deletedInvoice',
+            'App\Listeners\PurchaseInvoiceItemListener@deletedInvoice',
         ],
         'App\Events\PurchaseInvoiceWasRestored' => [
-            'App\Listeners\ActivityListener@restoredInvoice',
+            'App\Listeners\ActivityListener@restoredPurchaseInvoice',
         ],
         'App\Events\PurchaseInvoiceWasEmailed' => [
-            'App\Listeners\InvoiceListener@emailedInvoice',
-            'App\Listeners\NotificationListener@emailedInvoice',
+            'App\Listeners\PurchaseInvoiceListener@emailedInvoice',
+            'App\Listeners\PurchaseNotificationListener@emailedPurchaseInvoice',
         ],
         'App\Events\PurchaseInvoiceInvitationWasEmailed' => [
-            'App\Listeners\ActivityListener@emailedInvoice',
+            'App\Listeners\ActivityListener@emailedPurchaseInvoice',
         ],
         'App\Events\PurchaseInvoiceInvitationWasViewed' => [
-            'App\Listeners\ActivityListener@viewedInvoice',
-            'App\Listeners\NotificationListener@viewedInvoice',
-            'App\Listeners\InvoiceListener@viewedInvoice',
+            'App\Listeners\ActivityListener@viewedPurchaseInvoice',
+            'App\Listeners\PurchaseNotificationListener@viewedInvoice',
+            'App\Listeners\PurchaseInvoiceListener@viewedInvoice',
         ],
+//     purchase quote
+        'App\Events\PurchaseQuoteWasCreated' => [
+            'App\Listeners\ActivityListener@createdPurchaseQuote',
+        ],
+        'App\Events\PurchaseQuoteWasUpdated' => [
+            'App\Listeners\ActivityListener@updatedPurchaseQuote',
+        ],
+        'App\Events\PurchaseQuoteItemsWereCreated' => [
+            'App\Listeners\PurchaseInvoiceItemListener@createdQuote',
+        ],
+        'App\Events\PurchaseQuoteItemsWereUpdated' => [
+            'App\Listeners\PurchaseInvoiceItemListener@updatedQuote',
+        ],
+        'App\Events\PurchaseQuoteWasArchived' => [
+            'App\Listeners\ActivityListener@archivedPurchaseQuote',
+        ],
+        'App\Events\PurchaseQuoteWasDeleted' => [
+            'App\Listeners\ActivityListener@deletedPurchaseQuote',
+//            'App\Listeners\HistoryListener@deletedQuote',
+            'App\Listeners\PurchaseInvoiceItemListener@deletedQuote',
+        ],
+        'App\Events\PurchaseQuoteWasRestored' => [
+            'App\Listeners\ActivityListener@restoredPurchaseQuote',
+        ],
+        'App\Events\PurchaseQuoteWasEmailed' => [
+            'App\Listeners\PurchaseQuoteListener@emailedQuote',
+            'App\Listeners\PurchaseNotificationListener@emailedQuote',
+        ],
+        'App\Events\PurchaseQuoteInvitationWasEmailed' => [
+            'App\Listeners\ActivityListener@emailedPurchaseQuote',
+        ],
+        'App\Events\PurchaseQuoteInvitationWasViewed' => [
+            'App\Listeners\ActivityListener@viewedPurchaseQuote',
+            'App\Listeners\PurchaseNotificationListener@viewedQuote',
+            'App\Listeners\PurchaseQuoteListener@viewedQuote',
+        ],
+        'App\Events\PurchaseQuoteInvitationWasApproved' => [
+            'App\Listeners\ActivityListener@approvedPurchaseQuote',
+            'App\Listeners\PurchaseNotificationListener@approvedQuote',
+            'App\Listeners\PurchaseQuoteListener@approvedQuote',
+        ],
+//     Purchase invoice payment and credit and others
+
     ];
 
     /**
