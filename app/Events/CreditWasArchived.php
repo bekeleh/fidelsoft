@@ -20,7 +20,7 @@ class CreditWasArchived extends Event
     /**
      * Create a new event instance.
      *
-     * @param Client $credit
+     * @param Credit $credit
      */
     public function __construct(Credit $credit)
     {

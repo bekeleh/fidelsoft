@@ -2,13 +2,10 @@
 
 namespace App\Events;
 
-use App\Models\Invoice;
+use App\Models\PurchaseInvoice;
 use Illuminate\Queue\SerializesModels;
 
-/**
- * Class QuoteItemsWereUpdated.
- */
-class QuoteItemsWereUpdated extends Event
+class PurchaseQuoteWasArchived extends Event
 {
     use SerializesModels;
     public $quote;
@@ -18,7 +15,7 @@ class QuoteItemsWereUpdated extends Event
      *
      * @param $quote
      */
-    public function __construct(Invoice $quote)
+    public function __construct(PurchaseInvoice $quote)
     {
         $this->quote = $quote;
     }

@@ -30,4 +30,5 @@ class PaymentListener extends EntityListener
         $transformer = new PaymentTransformer($event->payment->account);
         $this->checkSubscriptions(EVENT_DELETE_PAYMENT, $event->payment, $transformer, [ENTITY_CLIENT, ENTITY_INVOICE]);
     }
+
 }

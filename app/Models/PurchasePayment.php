@@ -60,9 +60,9 @@ class PurchasePayment extends EntityModel
     }
 
 
-    public function invitation()
+    public function purchase_invitation()
     {
-        return $this->belongsTo('App\Models\Invitation');
+        return $this->belongsTo('App\Models\PurchaseInvitation');
     }
 
 

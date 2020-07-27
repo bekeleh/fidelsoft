@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Events\QuotePurchaseInvitationWasApproved;
+use App\Events\purchaseQuoteInvitationWasApproved;
 use App\Jobs\DownloadPurchaseInvoice;
 use App\Libraries\Utils;
 use App\Models\Vendor;
@@ -101,7 +101,7 @@ class PurchaseInvoiceService extends BaseService
             return null;
         }
 
-        event(new QuotePurchaseInvitationWasApproved($quote, $purchaseInvitation));
+        event(new purchaseQuoteInvitationWasApproved($quote, $purchaseInvitation));
 
         if ($account->auto_convert_quote) {
             $purchaseInvoice = $this->convertQuote($quote);

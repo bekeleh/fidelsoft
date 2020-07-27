@@ -2,18 +2,18 @@
 
 namespace App\Ninja\Transformers;
 
-use App\Models\Invoice;
+use App\Models\PurchaseInvoice;
 
 /**
- * @SWG\Definition(definition="Invoice", required={"invoice_number"}, @SWG\Xml(name="Invoice"))
+ * @SWG\Definition(definition="PurchaseInvoice", required={"invoice_number"}, @SWG\Xml(name="PurchaseInvoice"))
  */
-class InvoiceTransformer extends EntityTransformer
+class PurchaseInvoiceTransformer extends EntityTransformer
 {
     /**
      * @SWG\Property(property="id", type="integer", example=1, readOnly=true)
      * @SWG\Property(property="amount", type="number", format="float", example=10, readOnly=true)
      * @SWG\Property(property="balance", type="number", format="float", example=10, readOnly=true)
-     * @SWG\Property(property="client_id", type="integer", example=1)
+     * @SWG\Property(property="vendor_id", type="integer", example=1)
      * @SWG\Property(property="invoice_number", type="string", example="0001")
      * @SWG\Property(property="private_notes", type="string", example="Notes...")
      * @SWG\Property(property="public_notes", type="string", example="Notes...")
@@ -25,53 +25,53 @@ class InvoiceTransformer extends EntityTransformer
     protected $availableIncludes = [
         'invitations',
         'payments',
-        'client',
+        'vendor',
         'documents',
     ];
 
-    public function __construct($account = null, $serializer = null, $client = null)
+    public function __construct($account = null, $serializer = null, $vendor = null)
     {
         parent::__construct($account, $serializer);
 
-        $this->client = $client;
+        $this->vendor = $vendor;
     }
 
-    public function includeInvoiceItems(Invoice $invoice)
+    public function includePurchaseInvoiceItems(PurchaseInvoice $invoice)
     {
-        $transformer = new InvoiceItemTransformer($this->account, $this->serializer);
+        $transformer = new PurchaseInvoiceItemTransformer($this->account, $this->serializer);
 
         return $this->includeCollection($invoice->invoice_items, $transformer, ENTITY_INVOICE_ITEM);
     }
 
-    public function includeInvitations(Invoice $invoice)
+    public function includeInvitations(PurchaseInvoice $invoice)
     {
         $transformer = new InvitationTransformer($this->account, $this->serializer);
 
         return $this->includeCollection($invoice->invitations, $transformer, ENTITY_INVITATION);
     }
 
-    public function includePayments(Invoice $invoice)
+    public function includePayments(PurchaseInvoice $invoice)
     {
         $transformer = new PaymentTransformer($this->account, $this->serializer, $invoice);
 
         return $this->includeCollection($invoice->payments, $transformer, ENTITY_PAYMENT);
     }
 
-    public function includeClient(Invoice $invoice)
+    public function includeClient(PurchaseInvoice $invoice)
     {
         $transformer = new ClientTransformer($this->account, $this->serializer);
 
-        return $this->includeItem($invoice->client, $transformer, ENTITY_CLIENT);
+        return $this->includeItem($invoice->vendor, $transformer, ENTITY_CLIENT);
     }
 
-    public function includeExpenses(Invoice $invoice)
+    public function includeExpenses(PurchaseInvoice $invoice)
     {
         $transformer = new ExpenseTransformer($this->account, $this->serializer);
 
         return $this->includeCollection($invoice->expenses, $transformer, ENTITY_EXPENSE);
     }
 
-    public function includeDocuments(Invoice $invoice)
+    public function includeDocuments(PurchaseInvoice $invoice)
     {
         $transformer = new DocumentTransformer($this->account, $this->serializer);
 
@@ -82,11 +82,11 @@ class InvoiceTransformer extends EntityTransformer
         return $this->includeCollection($invoice->documents, $transformer, ENTITY_DOCUMENT);
     }
 
-    public function transform(Invoice $invoice)
+    public function transform(PurchaseInvoice $invoice)
     {
         return array_merge($this->getDefaults($invoice), [
             'id' => (int)$invoice->public_id,
-            'client_id' => (int)($this->client ? $this->client->public_id : $invoice->client->public_id),
+            'vendor_id' => (int)($this->vendor ? $this->vendor->public_id : $invoice->vendor->public_id),
             'invoice_status_id' => (int)($invoice->invoice_status_id ?: 1),
             'updated_at' => $this->getTimestamp($invoice->updated_at),
             'archived_at' => $this->getTimestamp($invoice->deleted_at),

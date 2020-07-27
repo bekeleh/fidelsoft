@@ -9,9 +9,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class SendInvoiceEmail.
+ * Class SendPurchasePaymentEmail.
  */
-class SendPaymentEmail extends Job implements ShouldQueue
+class SendPurchasePaymentEmail extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
@@ -21,7 +21,6 @@ class SendPaymentEmail extends Job implements ShouldQueue
 
     /**
      * Create a new job instance.
-
      * @param Payment $payment
      */
     public function __construct($payment)

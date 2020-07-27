@@ -24,26 +24,34 @@ class HistoryUtils
 
         $activityTypes = [
             ACTIVITY_TYPE_CREATE_CLIENT,
+            ACTIVITY_TYPE_CREATE_VENDOR,
             ACTIVITY_TYPE_CREATE_TASK,
             ACTIVITY_TYPE_UPDATE_TASK,
             ACTIVITY_TYPE_CREATE_EXPENSE,
             ACTIVITY_TYPE_UPDATE_EXPENSE,
             ACTIVITY_TYPE_CREATE_INVOICE,
             ACTIVITY_TYPE_UPDATE_INVOICE,
+            ACTIVITY_TYPE_CREATE_PURCHASE_INVOICE,
+            ACTIVITY_TYPE_UPDATE_PURCHASE_INVOICE,
             ACTIVITY_TYPE_EMAIL_INVOICE,
             ACTIVITY_TYPE_CREATE_QUOTE,
             ACTIVITY_TYPE_UPDATE_QUOTE,
             ACTIVITY_TYPE_EMAIL_QUOTE,
             ACTIVITY_TYPE_VIEW_INVOICE,
             ACTIVITY_TYPE_VIEW_QUOTE,
+            ACTIVITY_TYPE_EMAIL_PURCHASE_INVOICE,
+            ACTIVITY_TYPE_EMAIL_PURCHASE_QUOTE,
+            ACTIVITY_TYPE_VIEW_PURCHASE_INVOICE,
+            ACTIVITY_TYPE_UPDATE_PURCHASE_QUOTE,
+            ACTIVITY_TYPE_VIEW_PURCHASE_QUOTE,
         ];
 
-        $activities = Activity::with(['client.contacts', 'invoice', 'task.project', 'expense'])
-        ->whereIn('user_id', $userIds)
-        ->whereIn('activity_type_id', $activityTypes)
-        ->orderBy('id', 'desc')
-        ->limit(100)
-        ->get();
+        $activities = Activity::with(['client.contacts', 'payment', 'invoice', 'purchase_invoice', 'vendor.contacts', 'task.project', 'expense'])
+            ->whereIn('user_id', $userIds)
+            ->whereIn('activity_type_id', $activityTypes)
+            ->orderBy('id', 'desc')
+            ->limit(100)
+            ->get();
 
         foreach ($activities->reverse() as $activity) {
             if ($activity->client && $activity->client->is_deleted) {
@@ -109,7 +117,9 @@ class HistoryUtils
         $entityType = $entity->getEntityType();
         $trackedTypes = [
             ENTITY_CLIENT,
+            ENTITY_VENDOR,
             ENTITY_INVOICE,
+            ENTITY_PURCHASE_INVOICE,
             ENTITY_QUOTE,
             ENTITY_TASK,
             ENTITY_EXPENSE,

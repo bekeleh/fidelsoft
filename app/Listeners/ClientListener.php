@@ -31,5 +31,6 @@ class ClientListener extends EntityListener
         $transformer = new ClientTransformer($event->client->account);
         $this->checkSubscriptions(EVENT_DELETE_CLIENT, $event->client, $transformer);
     }
+    
 
 }

@@ -3,10 +3,12 @@
 namespace App\Events;
 
 use App\Models\PurchaseInvitation;
-use App\Models\PurchaseInvoice;
 use Illuminate\Queue\SerializesModels;
 
-class QuotePurchaseInvitationWasApproved extends Event
+/**
+ * Class PurchaseQuoteInvitationWasViewed.
+ */
+class PurchaseQuoteInvitationWasViewed extends Event
 {
     use SerializesModels;
 
@@ -20,10 +22,10 @@ class QuotePurchaseInvitationWasApproved extends Event
     /**
      * Create a new event instance.
      *
-     * @param PurchaseInvoice $quote
+     * @param $quote
      * @param PurchaseInvitation $invitation
      */
-    public function __construct(PurchaseInvoice $quote, PurchaseInvitation $invitation)
+    public function __construct($quote, PurchaseInvitation $invitation)
     {
         $this->quote = $quote;
         $this->invitation = $invitation;

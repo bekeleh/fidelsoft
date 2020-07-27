@@ -15,19 +15,19 @@ class VendorListener extends EntityListener
 
     public function createdVendor(VendorWasCreated $event)
     {
-        $transformer = new VendorTransformer($event->Vendor->account);
-        $this->checkSubscriptions(EVENT_CREATE_Vendor, $event->Vendor, $transformer, [ENTITY_CLIENT, ENTITY_INVOICE]);
+        $transformer = new VendorTransformer($event->vendor->account);
+        $this->checkSubscriptions(EVENT_CREATE_VENDOR, $event->vendor, $transformer, [ENTITY_CLIENT, ENTITY_INVOICE]);
     }
 
     public function updatedVendor(VendorWasUpdated $event)
     {
-        $transformer = new VendorTransformer($event->Vendor->account);
-        $this->checkSubscriptions(EVENT_CREATE_Vendor, $event->Vendor, $transformer, [ENTITY_CLIENT, ENTITY_INVOICE]);
+        $transformer = new VendorTransformer($event->vendor->account);
+        $this->checkSubscriptions(EVENT_CREATE_VENDOR, $event->vendor, $transformer, [ENTITY_CLIENT, ENTITY_INVOICE]);
     }
 
     public function deletedVendor(VendorWasDeleted $event)
     {
-        $transformer = new VendorTransformer($event->Vendor->account);
-        $this->checkSubscriptions(EVENT_DELETE_Vendor, $event->Vendor, $transformer, [ENTITY_CLIENT, ENTITY_INVOICE]);
+        $transformer = new VendorTransformer($event->vendor->account);
+        $this->checkSubscriptions(EVENT_DELETE_VENDOR, $event->vendor, $transformer, [ENTITY_CLIENT, ENTITY_INVOICE]);
     }
 }

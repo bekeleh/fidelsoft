@@ -1,7 +1,7 @@
 <?php
 
 if (!defined('APP_NAME')) {
-    define('APP_NAME', env('APP_NAME', 'FidelERP'));
+    define('APP_NAME', env('APP_NAME', 'Fidelsoft'));
     define('APP_DOMAIN', env('APP_DOMAIN', ''));
     define('CONTACT_EMAIL', env('MAIL_FROM_ADDRESS'));
     define('CONTACT_NAME', env('MAIL_FROM_NAME'));
@@ -526,7 +526,7 @@ if (!defined('APP_NAME')) {
     define('EVENT_CREATE_CLIENT', 1);
     define('EVENT_UPDATE_CLIENT', 10);
     define('EVENT_DELETE_CLIENT', 11);
-//    client
+//    vendor
     define('EVENT_CREATE_VENDOR', 5);
     define('EVENT_UPDATE_VENDOR', 13);
     define('EVENT_DELETE_VENDOR', 14);
@@ -546,7 +546,17 @@ if (!defined('APP_NAME')) {
     define('EVENT_CREATE_USER', 25);
     define('EVENT_UPDATE_USER', 26);
     define('EVENT_DELETE_USER', 27);
+//  purchase invoice
+    define('EVENT_CREATE_PURCHASE_INVOICE', 28);
+    define('EVENT_UPDATE_PURCHASE_INVOICE', 29);
+    define('EVENT_DELETE_PURCHASE_INVOICE', 30);
+//  purchase quote
+    define('EVENT_CREATE_PURCHASE_QUOTE', 31);
+    define('EVENT_UPDATE_PURCHASE_QUOTE', 32);
+    define('EVENT_DELETE_PURCHASE_QUOTE', 33);
+    define('EVENT_APPROVE_PURCHASE_QUOTE', 34);
 
+//    others
     define('REQUESTED_PRO_PLAN', 'REQUESTED_PRO_PLAN');
     define('NINJA_ACCOUNT_KEY', env('NINJA_ACCOUNT_KEY', 'zg4ylmzDkdkPOT8yoKQw9LTWaoZJx79h'));
     define('NINJA_ACCOUNT_EMAIL', env('NINJA_ACCOUNT_EMAIL', 'contact@fidel.com.et'));
