@@ -206,6 +206,7 @@ $LANG = array(
     'recurring_purchase_invoices' => 'Recurring Purchase Invoices',
     'purchase_invoice_number_short' => 'Invoice #',
     'purchase_invoice_date' => 'Invoice Date',
+    'receive_invoices' => 'Receive Invoices',
 
 //  Statuses
     'status_name' => 'Status',

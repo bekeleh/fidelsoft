@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
-use Illuminate\Support\Facades\Auth;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
@@ -89,10 +87,13 @@ class Activity extends EntityModel
         $activityTypeId = $this->activity_type_id;
         $account = $this->account;
         $client = $this->client;
+        $vendor = $this->vendor;
         $user = $this->user;
         $invoice = $this->invoice;
+        $purchase_invoice = $this->purchase_invoice;
         $contactId = $this->contact_id;
         $payment = $this->payment;
+        $purchase_payment = $this->purchase_payment;
         $credit = $this->credit;
         $expense = $this->expense;
         $isSystem = $this->is_system;
@@ -100,8 +101,10 @@ class Activity extends EntityModel
 
         $data = [
             'client' => $client ? link_to($client->getRoute(), $client->getDisplayName()) : null,
+            'vendor' => $vendor ? link_to($vendor->getRoute(), $vendor->getDisplayName()) : null,
             'user' => $isSystem ? '<i>' . trans('texts.system') . '</i>' : e($user->getDisplayName()),
             'invoice' => $invoice ? link_to($invoice->getRoute(), $invoice->getDisplayName()) : null,
+            'purchase_invoice' => $purchase_invoice ? link_to($purchase_invoice->getRoute(), $purchase_invoice->getDisplayName()) : null,
             'quote' => $invoice ? link_to($invoice->getRoute(), $invoice->getDisplayName()) : null,
             'contact' => $contactId ? link_to($client->getRoute(), $client->getDisplayName()) : e($user->getDisplayName()),
             'payment' => $payment ? e($payment->transaction_reference) : null,

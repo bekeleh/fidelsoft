@@ -6,9 +6,9 @@ use App\Models\PurchaseInvoice;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class PurchaseInvoiceWasCreated.
+ * Class PurchaseInvoiceWasArchived.
  */
-class PurchaseInvoiceWasCreated extends Event
+class PurchaseInvoiceWasArchived extends Event
 {
     use SerializesModels;
 

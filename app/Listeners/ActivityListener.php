@@ -30,6 +30,13 @@ use App\Events\PaymentWasDeleted;
 use App\Events\PaymentWasRefunded;
 use App\Events\PaymentWasRestored;
 use App\Events\PaymentWasVoided;
+use App\Events\PurchaseInvoiceInvitationWasEmailed;
+use App\Events\PurchaseInvoiceInvitationWasViewed;
+use App\Events\PurchaseInvoiceWasArchived;
+use App\Events\PurchaseInvoiceWasCreated;
+use App\Events\PurchaseInvoiceWasDeleted;
+use App\Events\PurchaseInvoiceWasRestored;
+use App\Events\PurchaseInvoiceWasUpdated;
 use App\Events\QuoteInvitationWasApproved;
 use App\Events\QuoteInvitationWasEmailed;
 use App\Events\QuoteInvitationWasViewed;
@@ -44,6 +51,7 @@ use App\Events\TaskWasDeleted;
 use App\Events\TaskWasRestored;
 use App\Events\TaskWasUpdated;
 use App\Models\Invoice;
+use App\Models\PurchaseInvoice;
 use App\Ninja\Repositories\ActivityRepository;
 
 /**
@@ -59,7 +67,7 @@ class ActivityListener
         $this->activityRepo = $activityRepo;
     }
 
-
+//    client activities
     public function createdClient(ClientWasCreated $event)
     {
         $this->activityRepo->create(
@@ -96,6 +104,7 @@ class ActivityListener
         );
     }
 
+//  invoice activities
     public function createdInvoice(InvoiceWasCreated $event)
     {
         $this->activityRepo->create(
@@ -183,6 +192,7 @@ class ActivityListener
         );
     }
 
+//  invoice quote activities
     public function createdQuote(QuoteWasCreated $event)
     {
         $this->activityRepo->create(
@@ -272,6 +282,7 @@ class ActivityListener
         );
     }
 
+//  invoice credit activities
     public function createdCredit(CreditWasCreated $event)
     {
         $this->activityRepo->create(
@@ -308,6 +319,7 @@ class ActivityListener
         );
     }
 
+//   invoice payment activities
     public function createdPayment(PaymentWasCreated $event)
     {
         $this->activityRepo->create(
@@ -392,6 +404,98 @@ class ActivityListener
         );
     }
 
+//  purchase invoice activities
+    public function createdPurchaseInvoice(PurchaseInvoiceWasCreated $event)
+    {
+        $this->activityRepo->create(
+            $event->purchaseInvoice, ACTIVITY_TYPE_CREATE_PURCHASE_INVOICE,
+            $event->purchaseInvoice->getAdjustment()
+        );
+    }
+
+    public function updatedPurchaseInvoice(PurchaseInvoiceWasUpdated $event)
+    {
+        if (!$event->purchaseInvoice->isChanged()) {
+            return;
+        }
+
+        $backupInvoice = PurchaseInvoice::with('invoice_items', 'vendor.account', 'vendor.contacts')
+            ->withTrashed()
+            ->find($event->purchaseInvoice->id);
+
+        $activity = $this->activityRepo->create(
+            $event->purchaseInvoice,
+            ACTIVITY_TYPE_UPDATE_PURCHASE_INVOICE,
+            $event->purchaseInvoice->getAdjustment()
+        );
+
+        $activity->json_backup = $backupInvoice->hidePrivateFields()->toJSON();
+
+        $activity->save();
+    }
+
+    public function deletedPurchaseInvoice(PurchaseInvoiceWasDeleted $event)
+    {
+        $purchaseInvoice = $event->purchaseInvoice;
+
+        $this->activityRepo->create(
+            $purchaseInvoice,
+            ACTIVITY_TYPE_DELETE_PURCHASE_INVOICE,
+            $purchaseInvoice->affectsBalance() ? $purchaseInvoice->balance * -1 : 0,
+            $purchaseInvoice->affectsBalance() ? $purchaseInvoice->getAmountPaid() * -1 : 0
+        );
+    }
+
+    public function archivedPurchaseInvoice(PurchaseInvoiceWasArchived $event)
+    {
+        if ($event->purchaseInvoice->is_deleted) {
+            return;
+        }
+
+        $this->activityRepo->create(
+            $event->purchaseInvoice,
+            ACTIVITY_TYPE_ARCHIVE_PURCHASE_INVOICE
+        );
+    }
+
+    public function restoredPurchaseInvoice(PurchaseInvoiceWasRestored $event)
+    {
+        $purchaseInvoice = $event->purchaseInvoice;
+
+        $this->activityRepo->create(
+            $purchaseInvoice,
+            ACTIVITY_TYPE_RESTORE_INVOICE,
+            $purchaseInvoice->affectsBalance() && $event->fromDeleted ? $purchaseInvoice->balance : 0,
+            $purchaseInvoice->affectsBalance() && $event->fromDeleted ? $purchaseInvoice->getAmountPaid() : 0
+        );
+    }
+
+    public function emailedPurchaseInvoice(PurchaseInvoiceInvitationWasEmailed $event)
+    {
+        $this->activityRepo->create(
+            $event->purchaseInvitation->purchase_invoice,
+            ACTIVITY_TYPE_EMAIL_PURCHASE_INVOICE,
+            false,
+            false,
+            $event->purchaseInvitation,
+            $event->notes
+        );
+    }
+
+    public function viewedPurchaseInvoice(PurchaseInvoiceInvitationWasViewed $event)
+    {
+        $this->activityRepo->create(
+            $event->purchaseInvoice,
+            ACTIVITY_TYPE_VIEW_PURCHASE_INVOICE,
+            false,
+            false,
+            $event->purchaseInvitation
+        );
+    }
+//    purchase invoice quotation
+
+
+//  task activities
     public function createdTask(TaskWasCreated $event)
     {
         $this->activityRepo->create(
@@ -440,6 +544,7 @@ class ActivityListener
         );
     }
 
+//  expense activities
     public function createdExpense(ExpenseWasCreated $event)
     {
         $this->activityRepo->create(

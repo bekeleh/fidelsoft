@@ -75,8 +75,8 @@ class InvoiceListener
         $invoice->updatePaidStatus(true);
 
         // store a backup of the invoice
-        $activity = Activity::wherePaymentId($payment->id)
-            ->whereActivityTypeId(ACTIVITY_TYPE_CREATE_PAYMENT)
+        $activity = Activity::where('payment_id', $payment->id)
+            ->where('activity_type_id', ACTIVITY_TYPE_CREATE_PAYMENT)
             ->first();
         $activity->json_backup = $invoice->hidePrivateFields()->toJSON();
         $activity->save();

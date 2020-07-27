@@ -15,15 +15,15 @@ class PurchaseInvoiceWasDeleted extends Event
     /**
      * @var PurchaseInvoice
      */
-    public $PurchaseInvoice;
+    public $purchaseInvoice;
 
     /**
      * Create a new event instance.
      *
-     * @param PurchaseInvoice $PurchaseInvoice
+     * @param PurchaseInvoice $purchaseInvoice
      */
-    public function __construct(PurchaseInvoice $PurchaseInvoice)
+    public function __construct(PurchaseInvoice $purchaseInvoice)
     {
-        $this->PurchaseInvoice = $PurchaseInvoice;
+        $this->purchaseInvoice = $purchaseInvoice;
     }
 }

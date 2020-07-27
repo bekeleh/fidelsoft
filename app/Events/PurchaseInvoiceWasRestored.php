@@ -6,9 +6,9 @@ use App\Models\PurchaseInvoice;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class PurchaseInvoiceWasCreated.
+ * Class PurchaseInvoiceWasRestored.
  */
-class PurchaseInvoiceWasCreated extends Event
+class PurchaseInvoiceWasRestored extends Event
 {
     use SerializesModels;
 
@@ -17,13 +17,17 @@ class PurchaseInvoiceWasCreated extends Event
      */
     public $purchaseInvoice;
 
+    public $fromDeleted;
+
     /**
      * Create a new event instance.
      *
      * @param PurchaseInvoice $purchaseInvoice
+     * @param $fromDeleted
      */
-    public function __construct(PurchaseInvoice $purchaseInvoice)
+    public function __construct(PurchaseInvoice $purchaseInvoice, $fromDeleted)
     {
         $this->purchaseInvoice = $purchaseInvoice;
+        $this->fromDeleted = $fromDeleted;
     }
 }

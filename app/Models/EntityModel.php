@@ -67,9 +67,9 @@ class EntityModel extends Eloquent
         $className = get_called_class();
 
         if (method_exists($className, 'trashed')) {
-            $lastEntity = $className::whereAccountId($accountId)->withTrashed();
+            $lastEntity = $className::where('account_id', $accountId)->withTrashed();
         } else {
-            $lastEntity = $className::whereAccountId($accountId);
+            $lastEntity = $className::where('account_id', $accountId);
         }
 
         $lastEntity = $lastEntity->orderBy('public_id', 'DESC')->first();
@@ -160,7 +160,7 @@ class EntityModel extends Eloquent
             if (is_array($publicId)) {
                 $query->whereIn($this->getTable() . '.public_id', $publicId);
             } else {
-                $query->wherePublicId($publicId);
+                $query->where('public_id', $publicId);
             }
         }
 

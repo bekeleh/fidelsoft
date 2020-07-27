@@ -28,7 +28,10 @@ class InvoiceService extends BaseService
      * @param InvoiceRepository $invoiceRepo
      * @param DatatableService $datatableService
      */
-    public function __construct(ClientRepository $clientRepo, InvoiceRepository $invoiceRepo, DatatableService $datatableService)
+    public function __construct(
+        ClientRepository $clientRepo,
+        InvoiceRepository $invoiceRepo,
+        DatatableService $datatableService)
     {
         $this->clientRepo = $clientRepo;
         $this->invoiceRepo = $invoiceRepo;

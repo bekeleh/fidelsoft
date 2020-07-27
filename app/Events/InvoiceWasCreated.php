@@ -12,9 +12,6 @@ class InvoiceWasCreated extends Event
 {
     use SerializesModels;
 
-    /**
-     * @var Invoice
-     */
     public $invoice;
 
     /**

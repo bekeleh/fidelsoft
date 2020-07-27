@@ -431,7 +431,6 @@ class InvoiceRepository extends BaseRepository
      */
     public function save(array $data, Invoice $invoice = null)
     {
-        /** @var Account $account */
         $account = $invoice ? $invoice->account : Auth::user()->account;
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
         $isNew = !$publicId || intval($publicId) < 0;
@@ -453,9 +452,10 @@ class InvoiceRepository extends BaseRepository
             $invoice->custom_taxes1 = $account->custom_invoice_taxes1 ?: false;
             $invoice->custom_taxes2 = $account->custom_invoice_taxes2 ?: false;
             $invoice->created_by = Auth::user()->username;
+            $invoice->branch_id = Auth::user()->branch()->id;
 //           set the default due date
             if ($entityType === ENTITY_INVOICE && !empty($data['partial_due_date'])) {
-                $client = Client::scope()->whereId($data['client_id'])->first();
+                $client = Client::scope()->where('id', $data['client_id'])->first();
                 $invoice->due_date = $account->defaultDueDate($client);
             }
         } else {
@@ -600,7 +600,7 @@ class InvoiceRepository extends BaseRepository
         $origLineItems = [];
         if (!empty($publicId)) {
             $origLineItems = !empty($invoice->invoice_items) ?
-                $invoice->invoice_items()->get()->toArray() : null;
+                $invoice->invoice_items()->get()->toArray() : '';
 //            remove old invoice line items
             $invoice->invoice_items()->forceDelete();
         }
@@ -641,6 +641,7 @@ class InvoiceRepository extends BaseRepository
             return $invoice;
         }
 
+//      those who have send invoice flagj client contact
         foreach ($client->contacts as $contact) {
             if ($contact->send_invoice) {
                 $sendInvoiceIds[] = $contact->id;
@@ -653,8 +654,8 @@ class InvoiceRepository extends BaseRepository
         }
 
         foreach ($client->contacts as $contact) {
-            $invitation = Invitation::scope()->whereContactId($contact->id)
-                ->whereInvoiceId($invoice->id)->first();
+            $invitation = Invitation::scope()->where('contact_id', $contact->id)
+                ->where('invoice_id', $invoice->id)->first();
             if (in_array($contact->id, $sendInvoiceIds) && empty($invitation)) {
                 $invitation = Invitation::createNew($invoice);
                 $invitation->invoice_id = $invoice->id;
@@ -724,7 +725,7 @@ class InvoiceRepository extends BaseRepository
             $invoiceNumber = $account->invoice_number_prefix . $invoiceNumber;
             $invoice = Invoice::scope(false, $account->id)
                 ->withTrashed()
-                ->whereInvoiceNumber($invoiceNumber)
+                ->where('invoice_number', $invoiceNumber)
                 ->first();
             if ($invoice) {
                 $invoiceNumber = false;
@@ -1438,7 +1439,7 @@ class InvoiceRepository extends BaseRepository
         $qoh = !empty($itemStore) ? Utils::parseFloat($itemStore->qty) : 0;
         $demandQty = Utils::parseFloat(trim($newLineItem['qty']));
 
-//        $purchase = Purchase::whereName($productKey);
+//        $purchase = Purchase::where('product_key',$productKey);
 //        $orderQty = Utils::parseFloat(0);
         if ($isNew) {
             $this->updateItemStore($qoh, $demandQty, $itemStore);
@@ -1494,6 +1495,7 @@ class InvoiceRepository extends BaseRepository
         $invoiceItem->qty = $invoicedQty;
         $invoiceItem->demand_qty = $demandQty;
         $invoiceItem->discount = $invoice->discount;
+        $invoiceItem->warehouse_id = $itemStore->warehouse_id;
         $invoiceItem->created_by = auth::user()->username;
         $qoh = !empty($itemStore->qty) ? Utils::parseFloat($itemStore->qty) : 0;
         if (!empty($itemStore) && $qoh < 1) {

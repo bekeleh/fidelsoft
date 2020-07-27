@@ -1,19 +1,21 @@
-<div class="btn-group user-dropdown">
+<div class="btn-group">
     <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
         <div id="myAccountButton" class="ellipsis" style="width:60px;max-width:80px;">
             {{ trans('texts.utility') }}<span class="caret"></span>
         </div>
     </button>
-    <ul class="dropdown-menu user-accounts">
-        placeholder
+    <ul class="dropdown-menu">
+        <li><a href="#"><span class="fa fa-home"></span> Home</a></li>
+        <li><a href="#"><span class="fa fa-caret-square-o-up"></span> Activities</a></li>
+        <li><a href="#"><span class="fa fa-inbox"></span> Notifications</a></li>
         <li class="divider"></li>
         <li>
             <a href="javascript:showKeyboardShortcuts()" title="{{ trans('texts.help') }}">
-                {{ trans('texts.help') }} <i class="fa fa-question-circle"></i>
+                <i class="fa fa-question-circle"> {{ trans('texts.help') }}</i>
             </a>
             @if (Auth::check())
                 <a href="javascript:showContactUs()" title="{{ trans('texts.contact_us') }}">
-                    {{ trans('texts.contact_us') }} <i class="fa fa-envelope"></i>
+                    <i class="fa fa-envelope"> {{ trans('texts.contact_us') }}</i>
                 </a>
             @endif
             @if (Auth::check() && !Auth::user()->registered)
