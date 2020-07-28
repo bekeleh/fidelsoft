@@ -71,6 +71,7 @@ class InvoiceRepository extends BaseRepository
             ->LeftJoin('clients', 'clients.id', '=', 'invoices.client_id')
             ->leftJoin('invoice_statuses', 'invoice_statuses.id', '=', 'invoices.invoice_status_id')
             ->LeftJoin('contacts', 'contacts.client_id', '=', 'clients.id')
+            ->LeftJoin('branches', 'branches.id', '=', 'invoices.branch_id')
             ->where('invoices.account_id', $accountId)
             ->where('contacts.deleted_at', null)
             ->where('invoices.is_recurring', false)
@@ -115,7 +116,9 @@ class InvoiceRepository extends BaseRepository
                 'invoices.deleted_at',
                 'invoices.created_by',
                 'invoices.updated_by',
-                'invoices.deleted_by'
+                'invoices.deleted_by',
+                'branches.public_id as branch_public_id',
+                'branches.name as branch_name'
             );
 
         if ($filter) {
@@ -125,7 +128,8 @@ class InvoiceRepository extends BaseRepository
                     ->orWhere('invoice_statuses.name', 'like', '%' . $filter . '%')
                     ->orWhere('contacts.email', 'like', '%' . $filter . '%')
                     ->orWhere('contacts.first_name', 'like', '%' . $filter . '%')
-                    ->orWhere('contacts.last_name', 'like', '%' . $filter . '%');
+                    ->orWhere('contacts.last_name', 'like', '%' . $filter . '%')
+                    ->orWhere('branches.name', 'like', '%' . $filter . '%');
             });
         }
 
@@ -452,7 +456,7 @@ class InvoiceRepository extends BaseRepository
             $invoice->custom_taxes1 = $account->custom_invoice_taxes1 ?: false;
             $invoice->custom_taxes2 = $account->custom_invoice_taxes2 ?: false;
             $invoice->created_by = Auth::user()->username;
-            $invoice->branch_id = Auth::user()->branch()->id;
+            $invoice->branch_id = Auth::user()->branch->id;
 //           set the default due date
             if ($entityType === ENTITY_INVOICE && !empty($data['partial_due_date'])) {
                 $client = Client::scope()->where('id', $data['client_id'])->first();

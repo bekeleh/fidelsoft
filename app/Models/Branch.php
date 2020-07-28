@@ -82,6 +82,16 @@ class Branch extends EntityModel
         return $this->belongsTo('App\Models\User')->withTrashed();
     }
 
+    public function invoices()
+    {
+        return $this->hasMany('App\Models\Invoice')->withTrashed();
+    }
+
+    public function purchase_invoices()
+    {
+        return $this->hasMany('App\Models\PurchaseInvoice')->withTrashed();
+    }
+
     public function warehouse()
     {
         return $this->belongsTo('App\Models\Warehouse')->withTrashed();

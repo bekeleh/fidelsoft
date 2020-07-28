@@ -42,6 +42,11 @@ class Activity extends EntityModel
         return $this->belongsTo('App\Models\Client')->withTrashed();
     }
 
+    public function vendor()
+    {
+        return $this->belongsTo('App\Models\Vendor')->withTrashed();
+    }
+
     public function invoice()
     {
         return $this->belongsTo('App\Models\Invoice')->withTrashed();
@@ -55,6 +60,11 @@ class Activity extends EntityModel
     public function credit()
     {
         return $this->belongsTo('App\Models\Credit')->withTrashed();
+    }
+
+    public function purchase_credit()
+    {
+        return $this->belongsTo('App\Models\PurchaseCredit')->withTrashed();
     }
 
     public function payment()

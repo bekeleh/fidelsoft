@@ -30,6 +30,8 @@ class CreatePaymentRequest extends PaymentRequest
             'invoice' => 'required', // TODO: change to invoice_id once views are updated
             'amount' => 'required|numeric',
             'payment_date' => 'required',
+            'payment_status_id' => 'required',
+            'payment_type_id' => 'required',
         ];
 
         if (!empty($input['payment_type_id']) && $input['payment_type_id'] == PAYMENT_TYPE_CREDIT) {

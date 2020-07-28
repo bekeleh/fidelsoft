@@ -25,7 +25,7 @@ class InvoiceDatatable extends EntityDatatable
                         $str = link_to("{$entityType}s/{$model->public_id}/edit", $model->invoice_number, ['class' => Utils::getEntityRowClass($model)])->toHtml();
                         return $this->addNote($str, $model->private_notes);
                     } else
-                    return $model->invoice_number;
+                        return $model->invoice_number;
                 },
             ],
             [
@@ -35,6 +35,16 @@ class InvoiceDatatable extends EntityDatatable
                         return link_to("clients/{$model->client_public_id}", Utils::getClientDisplayName($model))->toHtml();
                     else
                         return Utils::getClientDisplayName($model);
+
+                },
+            ],
+            [
+                'branch_name',
+                function ($model) {
+                    if (Auth::user()->can('edit', [ENTITY_BRANCH]))
+                        return link_to("branches/{$model->branch_public_id}", $model->branch_name)->toHtml();
+                    else
+                        return $model->branch_name;
 
                 },
             ],
@@ -54,13 +64,13 @@ class InvoiceDatatable extends EntityDatatable
                 'balance',
                 function ($model) {
                     return $model->partial > 0 ?
-                    trans('texts.partial_remaining', [
-                        'partial' => Utils::formatMoney($model->partial, $model->currency_id, $model->country_id),
-                        'balance' => Utils::formatMoney($model->balance, $model->currency_id, $model->country_id),]
-                    ) :
-                    Utils::formatMoney($model->balance, $model->currency_id, $model->country_id);
+                        trans('texts.partial_remaining', [
+                                'partial' => Utils::formatMoney($model->partial, $model->currency_id, $model->country_id),
+                                'balance' => Utils::formatMoney($model->balance, $model->currency_id, $model->country_id),]
+                        ) :
+                        Utils::formatMoney($model->balance, $model->currency_id, $model->country_id);
                 },
-                
+
                 $entityType == ENTITY_INVOICE,
             ],
             [
@@ -87,7 +97,7 @@ class InvoiceDatatable extends EntityDatatable
                 function ($model) use ($entityType) {
                     return $model->quote_invoice_id ? link_to("invoices/{$model->quote_invoice_id}/edit", trans('texts.converted'))->toHtml() : self::getStatusLabel($model);
                 },
-            ],          
+            ],
             [
                 'public_notes',
                 function ($model) {
@@ -182,8 +192,8 @@ class InvoiceDatatable extends EntityDatatable
             ],
             [
                 '--divider--', function () {
-                    return false;
-                },
+                return false;
+            },
                 function ($model) {
                     return Auth::user()->canCreateOrEdit(ENTITY_INVOICE);
                 },
@@ -199,8 +209,8 @@ class InvoiceDatatable extends EntityDatatable
             ],
             [
                 '--divider--', function () {
-                    return false;
-                },
+                return false;
+            },
                 function ($model) {
                     return Auth::user()->canCreateOrEdit(ENTITY_INVOICE);
                 },

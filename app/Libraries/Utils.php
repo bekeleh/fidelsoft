@@ -1474,10 +1474,12 @@ class Utils
         $entityTypes = [
             'clients',
             'invoices',
+            'purchase_invoices',
             'payments',
             'recurring_invoices',
             'credits',
             'quotes',
+            'purchase_quotes',
             'tasks',
             'expenses',
             'vendors',

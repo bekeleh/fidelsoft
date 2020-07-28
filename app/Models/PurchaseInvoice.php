@@ -51,6 +51,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
         'delivery_date',
         'due_date',
         'invoice_design_id',
+        'branch_id',
         'created_by',
         'updated_by',
         'deleted_by',
@@ -334,12 +335,17 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     public function purchase_invitations()
     {
-        return $this->hasMany('App\Models\PurchaseInvitation')->orderBy('purchase_purchase_invitations.vendor_vendor_contact_id');
+        return $this->hasMany('App\Models\PurchaseInvitation')->orderBy('purchase_invitations.vendor_contact_id');
     }
 
     public function expenses()
     {
         return $this->hasMany('App\Models\Expense')->withTrashed();
+    }
+
+    public function branch()
+    {
+        return $this->belongsTo('App\Models\Branch')->withTrashed();
     }
 
     public function scopePurchaseInvoices($query)

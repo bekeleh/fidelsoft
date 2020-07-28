@@ -48,6 +48,7 @@ class Invoice extends EntityModel implements BalanceAffecting
         'private_notes',
         'last_sent_date',
         'invoice_design_id',
+        'branch_id',
         'created_by',
         'updated_by',
         'deleted_by',
@@ -336,6 +337,11 @@ class Invoice extends EntityModel implements BalanceAffecting
     public function expenses()
     {
         return $this->hasMany('App\Models\Expense')->withTrashed();
+    }
+
+    public function branch()
+    {
+        return $this->belongsTo('App\Models\Branch')->withTrashed();
     }
 
     public function scopeInvoices($query)
