@@ -406,6 +406,7 @@ $__env->startSection('head'); ?>
                         </div>
                     </div>
                 </div>
+                <!-- chart canvas -->
                 <?php if(Auth::user()->hasPermission('admin')): ?>
                     <div class="row">
                         <div class="col-md-12">
@@ -426,7 +427,7 @@ $__env->startSection('head'); ?>
                     <div class="panel panel-default dashboard" style="height:320px">
                         <div class="panel-heading" style="background-color:#777 !important">
                             <h3 class="panel-title in-bold-white">
-                                <i class="glyphicon glyphicon-exclamation-sign"></i> <?php echo e(trans('texts.activity')); ?>
+                                <i class="glyphicon glyphicon-exclamation-sign"></i><?php echo e(trans('texts.activity')); ?>
 
                                 <?php if(Auth::user()->hasPermission('admin') && $invoicesSent): ?>
                                     <div class="pull-right" style="font-size:14px;padding-top:4px">
@@ -462,10 +463,10 @@ $__env->startSection('head'); ?>
                                             <?php $__currentLoopData = $averageInvoice; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <span class="currency currency_<?php echo e($item->currency_id ?: $account->getCurrencyId()); ?>"
                                                       style="display:none">
-                          <?php echo e(trans('texts.average_invoice')); ?>
+                                                    <?php echo e(trans('texts.average_invoice')); ?>
 
                                                     <?php echo e(Utils::formatMoney($item->invoice_avg, $item->currency_id)); ?> |
-                      </span>
+                                               </span>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             <span class="average-div" style="color:#25a186"/>
                                         </div>

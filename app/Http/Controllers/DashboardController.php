@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App;
 use App\Libraries\Utils;
 use App\Models\Client;
-use App\Models\Dashboard;
 use App\Models\Expense;
 use App\Ninja\Repositories\DashboardRepository;
 use Illuminate\Support\Facades\Auth;
@@ -26,10 +25,10 @@ class DashboardController extends BaseController
 
     public function index()
     {
+        $this->authorize('view', ENTITY_DASHBOARD);
         if (!Auth::check()) {
             return;
         }
-        $this->authorize('view', ENTITY_DASHBOARD);
 
         $user = Auth::user();
         $viewAll = Utils::hasPermission('admin') ?: $user->can('view', ENTITY_DASHBOARD) ?: false;

@@ -6,6 +6,7 @@ use App\Events\InvoiceItemsWereCreated;
 use App\Events\InvoiceItemsWereUpdated;
 use App\Events\InvoiceWasDeleted;
 use App\Events\QuoteItemsWereCreated;
+use App\Events\QuoteItemsWereDeleted;
 use App\Events\QuoteItemsWereUpdated;
 use App\Ninja\Transformers\InvoiceTransformer;
 
@@ -36,19 +37,19 @@ class InvoiceItemListener extends EntityListener
 
     public function createdQuote(QuoteItemsWereCreated $event)
     {
-        $transformer = new InvoiceTransformer($event->invoice->account);
-        $this->checkSubscriptions(EVENT_CREATE_QUOTE, $event->invoice, $transformer, ENTITY_CLIENT);
+        $transformer = new InvoiceTransformer($event->quote->account);
+        $this->checkSubscriptions(EVENT_CREATE_QUOTE, $event->quote, $transformer, ENTITY_CLIENT);
     }
 
     public function updatedQuote(QuoteItemsWereUpdated $event)
     {
-        $transformer = new InvoiceTransformer($event->invoice->account);
-        $this->checkSubscriptions(EVENT_UPDATE_QUOTE, $event->invoice, $transformer, ENTITY_CLIENT);
+        $transformer = new InvoiceTransformer($event->quote->account);
+        $this->checkSubscriptions(EVENT_UPDATE_QUOTE, $event->quote, $transformer, ENTITY_CLIENT);
     }
 
     public function deletedQuote(QuoteItemsWereDeleted $event)
     {
-        $transformer = new InvoiceTransformer($event->invoice->account);
-        $this->checkSubscriptions(EVENT_DELETE_QUOTE, $event->invoice, $transformer, ENTITY_CLIENT);
+        $transformer = new InvoiceTransformer($event->quote->account);
+        $this->checkSubscriptions(EVENT_DELETE_QUOTE, $event->quote, $transformer, ENTITY_CLIENT);
     }
 }

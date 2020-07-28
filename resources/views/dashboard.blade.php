@@ -392,6 +392,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- chart canvas -->
                 @if (Auth::user()->hasPermission('admin'))
                     <div class="row">
                         <div class="col-md-12">
@@ -412,7 +413,7 @@
                     <div class="panel panel-default dashboard" style="height:320px">
                         <div class="panel-heading" style="background-color:#777 !important">
                             <h3 class="panel-title in-bold-white">
-                                <i class="glyphicon glyphicon-exclamation-sign"></i> {{ trans('texts.activity') }}
+                                <i class="glyphicon glyphicon-exclamation-sign"></i>{{ trans('texts.activity') }}
                                 @if (Auth::user()->hasPermission('admin') && $invoicesSent)
                                     <div class="pull-right" style="font-size:14px;padding-top:4px">
                                         @if ($invoicesSent == 1)
@@ -444,9 +445,9 @@
                                             @foreach ($averageInvoice as $item)
                                                 <span class="currency currency_{{ $item->currency_id ?: $account->getCurrencyId() }}"
                                                       style="display:none">
-                          {{ trans('texts.average_invoice') }}
+                                                    {{ trans('texts.average_invoice') }}
                                                     {{ Utils::formatMoney($item->invoice_avg, $item->currency_id) }} |
-                      </span>
+                                               </span>
                                             @endforeach
                                             <span class="average-div" style="color:#25a186"/>
                                         </div>

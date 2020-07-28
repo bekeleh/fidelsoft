@@ -840,6 +840,7 @@ $LANG = array(
     'state' => 'State/Province',
     'postal_code' => 'Postal Code',
     'country_id' => 'Country',
+    'contacts' => 'Contacts',
     'client_contacts' => 'Client Contacts',
     'vendor_contacts' => 'Vendor Contacts',
     'phone' => 'Phone',

@@ -11,15 +11,15 @@ use Illuminate\Queue\SerializesModels;
 class PurchaseQuoteItemsWereCreated extends Event
 {
     use SerializesModels;
-    public $quote;
+    public $purchaseQuote;
 
     /**
      * Create a new event instance.
      *
-     * @param $quote
+     * @param $purchaseQuote
      */
-    public function __construct(PurchaseInvoice $quote)
+    public function __construct(PurchaseInvoice $purchaseQuote)
     {
-        $this->quote = $quote;
+        $this->purchaseQuote = $purchaseQuote;
     }
 }
