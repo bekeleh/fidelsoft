@@ -19,10 +19,10 @@ class PurchaseInvoiceDatatable extends EntityDatatable
 
         return [
             [
-                $entityType == ENTITY_PURCHASE_INVOICE ? 'invoice_number' : 'quote_number',
-                function ($model) use ($entityType) {
-                    if (Auth::user()->can('edit', $entityType)) {
-                        $str = link_to("{$entityType}s/{$model->public_id}/edit", $model->invoice_number, ['class' => Utils::getEntityRowClass($model)])->toHtml();
+                ENTITY_PURCHASE_INVOICE ? 'invoice_number' : 'quote_number',
+                function ($model) {
+                    if (Auth::user()->can('edit', $this->entityType)) {
+                        $str = link_to("{$this->entityType}s/{$model->public_id}/edit", $model->invoice_number, ['class' => Utils::getEntityRowClass($model)])->toHtml();
                         return $this->addNote($str, $model->private_notes);
                     } else
                         return $model->invoice_number;
@@ -267,7 +267,7 @@ class PurchaseInvoiceDatatable extends EntityDatatable
 
         $actions = [];
 
-        if ($this->entityType == ENTITY_PURCHASE_INVOICE || $this->entityType == ENTITY_QUOTE) {
+        if ($this->entityType == ENTITY_PURCHASE_INVOICE || $this->entityType == ENTITY_PURCHASE_QUOTE) {
             $actions[] = [
                 'label' => mtrans($this->entityType, 'download_' . $this->entityType),
                 'url' => 'javascript:submitForm_' . $this->entityType . '("download")',

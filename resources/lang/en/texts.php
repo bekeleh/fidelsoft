@@ -183,9 +183,10 @@ $LANG = array(
     'manufacturer_help' => 'Sets the default <b>manufacturer</b>',
 //   Purchase invoice
     'purchase_name' => 'Purchase Name',
+    'purchase_invoice_number' => 'Invoice Number',
     'purchase_invoice' => 'Purchase Invoice',
     'purchase_invoices' => 'Purchase Invoices',
-    'purchase_quote' => 'Purchase Quotation',
+    'purchase_invoice_history' => 'Invoice History',
     'purchase_return' => 'Purchase Invoice Return',
     'purchase_invoice_list' => 'Purchase Invoice Lists',
     'list_purchase_invoices' => 'List Purchase Invoice',
@@ -211,8 +212,7 @@ $LANG = array(
 //   Purchase quote
     'purchase_quote' => 'Purchase Quote',
     'purchase_quotes' => 'Purchase Quotes',
-    'purchase_quote' => 'Purchase Quotation',
-    'purchase_return' => 'Purchase Quote Return',
+    'purchase_quote_return' => 'Purchase Quote Return',
     'purchase_quote_list' => 'Purchase Quote Lists',
     'list_purchase_quotes' => 'List Purchase Quote',
     'create_purchase_quote' => 'Create Purchase Quote',

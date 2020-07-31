@@ -79,9 +79,9 @@ class PurchaseInvoiceRepository extends BaseRepository
                 DB::raw('COALESCE(vendors.country_id, accounts.country_id) country_id'),
                 'vendors.public_id as vendor_public_id',
                 'vendors.user_id as vendor_user_id',
-                'invoice_number',
-                'invoice_number as quote_number',
-                'invoice_status_id',
+                'purchase_invoices.invoice_number',
+                'purchase_invoices.invoice_number as quote_number',
+                'purchase_invoices.invoice_status_id',
                 DB::raw("COALESCE(NULLIF(vendors.name,''), NULLIF(CONCAT(vendor_contacts.first_name, ' ', vendor_contacts.last_name),''), NULLIF(vendor_contacts.email,'')) vendor_name"),
                 'purchase_invoices.public_id',
                 'purchase_invoices.amount',
@@ -127,7 +127,7 @@ class PurchaseInvoiceRepository extends BaseRepository
             });
         }
 
-        $this->applyFilters($query, $entityType);
+        $this->applyFilters($query, $entityType, ENTITY_PURCHASE_INVOICE);
 
         if ($statuses = session('entity_status_filter:' . $entityType)) {
             $statuses = explode(',', $statuses);
@@ -136,7 +136,7 @@ class PurchaseInvoiceRepository extends BaseRepository
                     if (in_array($status, EntityModel::$statuses)) {
                         continue;
                     }
-                    $query->orWhere('invoice_status_id', $status);
+                    $query->orWhere('purchase_invoices.invoice_status_id', $status);
                 }
                 if (in_array(INVOICE_STATUS_UNPAID, $statuses)) {
                     $query->orWhere(function ($query) use ($statuses) {
