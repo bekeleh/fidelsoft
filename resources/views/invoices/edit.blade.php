@@ -877,7 +877,7 @@
 
         @include('partials.email_templates')
         @include('invoices.email')
-
+        {{$url}}
         {!! Former::close() !!}
         </form>
 

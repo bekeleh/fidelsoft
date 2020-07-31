@@ -15,8 +15,12 @@ class Document extends EntityModel
 
     protected $fillable = [
         'invoice_id',
+        'purchase_invoice_id',
         'expense_id',
         'is_default',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
 

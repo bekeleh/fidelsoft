@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App;
 use App\Models\Invoice;
 use App\Ninja\Mailers\ContactMailer;
 use Illuminate\Contracts\Queue\ShouldQueue;

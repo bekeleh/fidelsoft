@@ -467,7 +467,7 @@ class ActivityListener
 //  purchase invoice activities
     public function createdPurchaseInvoice(PurchaseInvoiceWasCreated $event)
     {
-        $this->activityRepo->create(
+        $this->activityRepo->createPurchaseInvoice(
             $event->purchaseInvoice, ACTIVITY_TYPE_CREATE_PURCHASE_INVOICE,
             $event->purchaseInvoice->getAdjustment()
         );
@@ -483,7 +483,7 @@ class ActivityListener
             ->withTrashed()
             ->find($event->purchaseInvoice->id);
 
-        $activity = $this->activityRepo->create(
+        $activity = $this->activityRepo->createPurchaseInvoice(
             $event->purchaseInvoice,
             ACTIVITY_TYPE_UPDATE_PURCHASE_INVOICE,
             $event->purchaseInvoice->getAdjustment()
@@ -498,7 +498,7 @@ class ActivityListener
     {
         $purchaseInvoice = $event->purchaseInvoice;
 
-        $this->activityRepo->create(
+        $this->activityRepo->createPurchaseInvoice(
             $purchaseInvoice,
             ACTIVITY_TYPE_DELETE_PURCHASE_INVOICE,
             $purchaseInvoice->affectsBalance() ? $purchaseInvoice->balance * -1 : 0,
@@ -512,7 +512,7 @@ class ActivityListener
             return;
         }
 
-        $this->activityRepo->create(
+        $this->activityRepo->createPurchaseInvoice(
             $event->purchaseInvoice,
             ACTIVITY_TYPE_ARCHIVE_PURCHASE_INVOICE
         );
@@ -522,7 +522,7 @@ class ActivityListener
     {
         $purchaseInvoice = $event->purchaseInvoice;
 
-        $this->activityRepo->create(
+        $this->activityRepo->createPurchaseInvoice(
             $purchaseInvoice,
             ACTIVITY_TYPE_RESTORE_INVOICE,
             $purchaseInvoice->affectsBalance() && $event->fromDeleted ? $purchaseInvoice->balance : 0,
@@ -532,7 +532,7 @@ class ActivityListener
 
     public function emailedPurchaseInvoice(PurchaseInvoiceInvitationWasEmailed $event)
     {
-        $this->activityRepo->create(
+        $this->activityRepo->createPurchaseInvoice(
             $event->purchaseInvitation->purchase_invoice,
             ACTIVITY_TYPE_EMAIL_PURCHASE_INVOICE,
             false,
@@ -544,7 +544,7 @@ class ActivityListener
 
     public function viewedPurchaseInvoice(PurchaseInvoiceInvitationWasViewed $event)
     {
-        $this->activityRepo->create(
+        $this->activityRepo->createPurchaseInvoice(
             $event->purchaseInvoice,
             ACTIVITY_TYPE_VIEW_PURCHASE_INVOICE,
             false,
@@ -556,7 +556,7 @@ class ActivityListener
 //  invoice quote activities
     public function createdPurchaseQuote(PurchaseQuoteWasCreated $event)
     {
-        $this->activityRepo->create(
+        $this->activityRepo->createPurchaseInvoice(
             $event->quote,
             ACTIVITY_TYPE_CREATE_PURCHASE_QUOTE
         );
@@ -572,7 +572,7 @@ class ActivityListener
             ->withTrashed()
             ->find($event->quote->id);
 
-        $activity = $this->activityRepo->create(
+        $activity = $this->activityRepo->createPurchaseInvoice(
             $event->quote,
             ACTIVITY_TYPE_UPDATE_PURCHASE_QUOTE
         );
@@ -583,7 +583,7 @@ class ActivityListener
 
     public function deletedPurchaseQuote(PurchaseQuoteWasDeleted $event)
     {
-        $this->activityRepo->create(
+        $this->activityRepo->createPurchaseInvoice(
             $event->quote,
             ACTIVITY_TYPE_DELETE_PURCHASE_QUOTE
         );
@@ -595,7 +595,7 @@ class ActivityListener
             return;
         }
 
-        $this->activityRepo->create(
+        $this->activityRepo->createPurchaseInvoice(
             $event->quote,
             ACTIVITY_TYPE_ARCHIVE_PURCHASE_QUOTE
         );
@@ -603,7 +603,7 @@ class ActivityListener
 
     public function restoredPurchaseQuote(PurchaseQuoteWasRestored $event)
     {
-        $this->activityRepo->create(
+        $this->activityRepo->createPurchaseInvoice(
             $event->quote,
             ACTIVITY_TYPE_RESTORE_PURCHASE_QUOTE
         );
@@ -611,7 +611,7 @@ class ActivityListener
 
     public function emailedPurchaseQuote(PurchaseQuoteInvitationWasEmailed $event)
     {
-        $this->activityRepo->create(
+        $this->activityRepo->createPurchaseInvoice(
             $event->purchaseInvitation->purchase_invoice,
             ACTIVITY_TYPE_EMAIL_PURCHASE_QUOTE,
             false,
@@ -623,7 +623,7 @@ class ActivityListener
 
     public function viewedPurchaseQuote(PurchaseQuoteInvitationWasViewed $event)
     {
-        $this->activityRepo->create(
+        $this->activityRepo->createPurchaseInvoice(
             $event->quote,
             ACTIVITY_TYPE_VIEW_PURCHASE_QUOTE,
             false,
@@ -634,7 +634,7 @@ class ActivityListener
 
     public function approvedPurchaseQuote(purchaseQuoteInvitationWasApproved $event)
     {
-        $this->activityRepo->create(
+        $this->activityRepo->createPurchaseInvoice(
             $event->quote,
             ACTIVITY_TYPE_APPROVE_PURCHASE_QUOTE,
             false,
@@ -646,7 +646,7 @@ class ActivityListener
 //  invoice credit activities
     public function createdPurchaseCredit(PurchaseCreditWasCreated $event)
     {
-        $this->activityRepo->create(
+        $this->activityRepo->createPurchaseInvoice(
             $event->purchaseCredit,
             ACTIVITY_TYPE_CREATE_PURCHASE_CREDIT
         );
@@ -654,7 +654,7 @@ class ActivityListener
 
     public function deletedPurchaseCredit(PurchaseCreditWasDeleted $event)
     {
-        $this->activityRepo->create(
+        $this->activityRepo->createPurchaseInvoice(
             $event->purchaseCredit,
             ACTIVITY_TYPE_DELETE_PURCHASE_CREDIT
         );
@@ -666,7 +666,7 @@ class ActivityListener
             return;
         }
 
-        $this->activityRepo->create(
+        $this->activityRepo->createPurchaseInvoice(
             $event->purchaseCredit,
             ACTIVITY_TYPE_ARCHIVE_PURCHASE_CREDIT
         );
@@ -674,7 +674,7 @@ class ActivityListener
 
     public function restoredPurchaseCredit(PurchaseCreditWasRestored $event)
     {
-        $this->activityRepo->create(
+        $this->activityRepo->createPurchaseInvoice(
             $event->purchaseCredit,
             ACTIVITY_TYPE_RESTORE_PURCHASE_CREDIT
         );
@@ -683,7 +683,7 @@ class ActivityListener
 //   invoice payment activities
     public function createdPurchasePayment(PurchasePaymentWasCreated $event)
     {
-        $this->activityRepo->create(
+        $this->activityRepo->createPurchaseInvoice(
             $event->purchasePayment,
             ACTIVITY_TYPE_CREATE_PURCHASE_PAYMENT,
             $event->purchasePayment->amount * -1,
@@ -697,7 +697,7 @@ class ActivityListener
     {
         $payment = $event->purchasePayment;
 
-        $this->activityRepo->create(
+        $this->activityRepo->createPurchaseInvoice(
             $payment,
             ACTIVITY_TYPE_DELETE_PURCHASE_PAYMENT,
             $payment->isFailedOrVoided() ? 0 : $payment->getCompletedAmount(),
@@ -709,7 +709,7 @@ class ActivityListener
     {
         $payment = $event->purchasePayment;
 
-        $this->activityRepo->create(
+        $this->activityRepo->createPurchaseInvoice(
             $payment,
             ACTIVITY_TYPE_REFUNDED_PURCHASE_PAYMENT,
             $event->refundAmount,
@@ -721,7 +721,7 @@ class ActivityListener
     {
         $payment = $event->purchasePayment;
 
-        $this->activityRepo->create(
+        $this->activityRepo->createPurchaseInvoice(
             $payment,
             ACTIVITY_TYPE_VOIDED_PURCHASE_PAYMENT,
             $payment->is_deleted ? 0 : $payment->getCompletedAmount(),
@@ -733,7 +733,7 @@ class ActivityListener
     {
         $payment = $event->purchasePayment;
 
-        $this->activityRepo->create(
+        $this->activityRepo->createPurchaseInvoice(
             $payment,
             ACTIVITY_TYPE_FAILED_PURCHASE_PAYMENT,
             $payment->is_deleted ? 0 : $payment->getCompletedAmount(),
@@ -747,7 +747,7 @@ class ActivityListener
             return;
         }
 
-        $this->activityRepo->create(
+        $this->activityRepo->createPurchaseInvoice(
             $event->purchasePayment,
             ACTIVITY_TYPE_ARCHIVE_PURCHASE_PAYMENT
         );
@@ -757,7 +757,7 @@ class ActivityListener
     {
         $payment = $event->purchasePayment;
 
-        $this->activityRepo->create(
+        $this->activityRepo->createPurchaseInvoice(
             $payment,
             ACTIVITY_TYPE_RESTORE_PURCHASE_INVOICE,
             $event->fromDeleted && !$payment->isFailedOrVoided() ? $payment->getCompletedAmount() * -1 : 0,

@@ -2,6 +2,7 @@
 
 namespace App\Ninja\Mailers;
 
+use App;
 use App\Events\PurchaseInvoiceWasEmailed;
 use App\Events\PurchaseQuoteWasEmailed;
 use App\Jobs\ConvertInvoiceToUbl;

@@ -13,13 +13,13 @@ use App\Models\Expense;
 use App\Models\Frequency;
 use App\Models\PurchaseInvoice;
 use App\Models\InvoiceDesign;
-use App\Models\Payment;
+use App\Models\PurchasePayment;
 use App\Models\Product;
 use App\Ninja\Datatables\PurchaseInvoiceDatatable;
 use App\Ninja\Repositories\DocumentRepository;
 use App\Ninja\Repositories\PurchaseInvoiceRepository;
 use App\Ninja\Repositories\VendorRepository;
-use App\Services\PaymentService;
+use App\Services\PurchasePaymentService;
 use App\Services\PurchaseInvoiceService;
 use App\Services\RecurringInvoiceService;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use Redirect;
-use Request;
+use Illuminate\Support\Facades\Request;
 
 class PurchaseInvoiceController extends BaseController
 {
@@ -47,7 +47,7 @@ class PurchaseInvoiceController extends BaseController
         PurchaseInvoiceService $purchaseInvoiceService,
         DocumentRepository $documentRepo,
         RecurringInvoiceService $recurringPurchaseInvoiceService,
-        PaymentService $paymentService)
+        PurchasePaymentService $paymentService)
     {
         // parent::__construct();
         $this->invoiceRepo = $invoiceRepo;
@@ -129,7 +129,7 @@ class PurchaseInvoiceController extends BaseController
         ];
 
         $data = array_merge($data, self::getViewModel($invoice));
-//        dd($data);
+
         return View::make('purchase_invoices.edit', $data);
     }
 
@@ -142,6 +142,7 @@ class PurchaseInvoiceController extends BaseController
 
         $entityType = Input::get('entityType');
 
+
         $invoice = $this->purchaseInvoiceService->save($data);
 
         $entityType = $invoice->getEntityType();
@@ -149,7 +150,7 @@ class PurchaseInvoiceController extends BaseController
         $message = trans("texts.created_{$entityType}");
 
         $input = $request->input();
-        $vendorPublicId = isset($input['vendor']['public_id']) ? $input['vendor']['public_id'] : false;
+        $vendorPublicId = isset($input['client']['public_id']) ? $input['client']['public_id'] : false;
         if ($vendorPublicId == '-1') {
             $message = $message . ' ' . trans('texts.and_created_vendor');
         }
@@ -160,7 +161,6 @@ class PurchaseInvoiceController extends BaseController
             $this->emailInvoice($invoice);
         }
 
-
         return url($invoice->getRoute());
     }
 
@@ -168,16 +168,16 @@ class PurchaseInvoiceController extends BaseController
     {
         $this->authorize('edit', ENTITY_PURCHASE_INVOICE);
         $account = Auth::user()->account;
-        $invoice = $request->entity()->load('invitations', 'account.country', 'vendor.contacts', 'vendor.country', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'payments');
+        $invoice = $request->entity()->load('invitations', 'account.country', 'client.contacts', 'vendor.country', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'payments');
 
         $entityType = $invoice->getEntityType();
 
-        $contactIds = DB::table('invitations')
-            ->join('contacts', 'contacts.id', 'invitations.contact_id')
-            ->where('invitations.invoice_id', $invoice->id)
-            ->where('invitations.account_id', Auth::user()->account_id)
-            ->select('contacts.public_id')->pluck('public_id')
-            ->where('invitations.deleted_at', null);
+        $contactIds = DB::table('purchase_invitations')
+            ->leftJoin('vendor_contacts', 'vendor_contacts.id', 'purchase_invitations.contact_id')
+            ->where('purchase_invitations.purchase_invoice_id', $invoice->id)
+            ->where('purchase_invitations.account_id', Auth::user()->account_id)
+            ->select('vendor_contacts.public_id')->pluck('public_id')
+            ->where('purchase_invitations.deleted_at', null);
 
         $clients = Vendor::scope()->withTrashed()->with('contacts', 'country');
 
@@ -205,7 +205,7 @@ class PurchaseInvoiceController extends BaseController
         } else {
             $method = 'PUT';
             $url = "{$entityType}s/{$invoice->public_id}";
-            $clients->whereId($invoice->vendor_id);
+            $clients->where('id', $invoice->vendor_id);
         }
 
         $invoice->invoice_date = Utils::fromSqlDate($invoice->invoice_date);
@@ -225,7 +225,7 @@ class PurchaseInvoiceController extends BaseController
         $lastSent = ($invoice->is_recurring && $invoice->last_sent_date) ? $invoice->recurring_purchase_invoices->last() : null;
 
         if (!Auth::user()->hasPermission('view_vendor')) {
-            $clients = $clients->where('clients.user_id', Auth::user()->id);
+            $clients = $clients->where('vendors.user_id', Auth::user()->id);
         }
 
         $data = [
@@ -261,7 +261,7 @@ class PurchaseInvoiceController extends BaseController
                 foreach ($invoice->invitations as $invitation) {
                     foreach ($vendor->contacts as $contact) {
                         if ($invitation->contact_id == $contact->id) {
-                            $hasPassword = $account->isVendorPortalPasswordEnabled() && $contact->password;
+                            $hasPassword = $account->isClientPortalPasswordEnabled() && $contact->password;
                             $contact->email_error = $invitation->email_error;
                             $contact->invitation_link = $invitation->getLink('view', $hasPassword, $hasPassword);
                             $contact->invitation_viewed = $invitation->viewed_date && $invitation->viewed_date != '0000-00-00 00:00:00' ? $invitation->viewed_date : false;
@@ -302,7 +302,7 @@ class PurchaseInvoiceController extends BaseController
         if ($action == 'clone_invoice') {
             return url(sprintf('purchase_invoices/%s/clone', $invoice->public_id));
         } else if ($action == 'clone_quote') {
-            return url(sprintf('quotes/%s/clone', $invoice->public_id));
+            return url(sprintf('purchase_quotes/%s/clone', $invoice->public_id));
         } elseif ($action == 'convert') {
             return $this->convertQuote($request, $invoice->public_id);
         } elseif ($action == 'email') {
@@ -534,7 +534,7 @@ class PurchaseInvoiceController extends BaseController
     public function invoiceHistory(PurchaseInvoiceRequest $request)
     {
         $invoice = $request->entity();
-        $paymentId = $request->payment_id ? Payment::getPrivateId($request->payment_id) : false;
+        $paymentId = $request->payment_id ? PurchasePayment::getPrivateId($request->payment_id) : false;
 
         $invoice->load('user', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'account.country', 'vendor.contacts', 'vendor.country');
         $invoice->invoice_date = Utils::fromSqlDate($invoice->invoice_date);

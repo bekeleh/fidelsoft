@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use Redirect;
-use Request;
+use Illuminate\Support\Facades\Request;
 
 class InvoiceController extends BaseController
 {
@@ -202,7 +202,6 @@ class InvoiceController extends BaseController
             $this->emailInvoice($invoice);
         }
 
-
         return url($invoice->getRoute());
     }
 
@@ -215,7 +214,7 @@ class InvoiceController extends BaseController
         $entityType = $invoice->getEntityType();
 
         $contactIds = DB::table('invitations')
-            ->join('contacts', 'contacts.id', 'invitations.contact_id')
+            ->leftJoin('contacts', 'contacts.id', 'invitations.contact_id')
             ->where('invitations.invoice_id', $invoice->id)
             ->where('invitations.account_id', Auth::user()->account_id)
             ->select('contacts.public_id')->pluck('public_id')
@@ -247,7 +246,7 @@ class InvoiceController extends BaseController
         } else {
             $method = 'PUT';
             $url = "{$entityType}s/{$invoice->public_id}";
-            $clients->whereId($invoice->client_id);
+            $clients->where('id', $invoice->client_id);
         }
 
         $invoice->invoice_date = Utils::fromSqlDate($invoice->invoice_date);

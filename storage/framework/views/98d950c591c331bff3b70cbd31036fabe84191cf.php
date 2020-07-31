@@ -275,30 +275,30 @@ $__env->startSection('head_css'); ?>
 
             <ul class="nav navbar-nav hide-non-phone" style="font-weight: bold">
                 <?php $__currentLoopData = [
-                'dashboard' => false,
-                'users' => false,
-                'permission_groups' => false,
-                'clients' => false,
-                'point_of_sales' => false,
-                'products' => false,
-                'locations' => false,
-                'invoices' => false,
-                'purchase_invoices' => false,
-                'receive_invoices' => false,
-                'quotes' => false,
-                'payments' => false,
-                'recurring_invoices' => false,
-                'credits' => false,
-                'proposals' => false,
-                'projects' => false,
-                'tasks' => false,
-                'expenses' => false,
-                'vendors' => false,
-                'manufacturers' => false,
-                'schedules' => false,
-                'reports' => false,
-                'settings' => false,
-                ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    'dashboard' => false,
+                    'users' => false,
+                    'permission_groups' => false,
+                    'clients' => false,
+                    'point_of_sales' => false,
+                    'products' => false,
+                    'locations' => false,
+                    'purchase_invoices' => false,
+                    'purchase_quotes' => false,
+                    'invoices' => false,
+                    'quotes' => false,
+                    'payments' => false,
+                    'recurring_invoices' => false,
+                    'credits' => false,
+                    'proposals' => false,
+                    'projects' => false,
+                    'tasks' => false,
+                    'expenses' => false,
+                    'vendors' => false,
+                    'manufacturers' => false,
+                    'schedules' => false,
+                    'reports' => false,
+                    'settings' => false,
+                    ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <?php echo Form::nav_link($key, $value ?: $key); ?>
 
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -311,25 +311,25 @@ $__env->startSection('head_css'); ?>
         <div id="left-sidebar-wrapper" class="hide-phone">
             <ul class="sidebar-nav <?php echo e(Auth::user()->dark_mode ? 'sidebar-nav-dark' : 'sidebar-nav-light'); ?>">
             <?php $__currentLoopData = [
-            'dashboard',
-            'clients',
-            'vendors',
-            'users',
-            'purchase_invoices',
-            'receive_invoices',
-            'invoices',
-            'quotes',
-            'payments',
-            'recurring_invoices' => 'recurring',
-            'credits',
-            'expenses',
-            'products',
-            'proposals',
-            'projects',
-            'tasks',
-            'schedules',
-            'manufacturers',
-            ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                'dashboard',
+                'clients',
+                'vendors',
+                'users',
+                'purchase_invoices',
+                'purchase_quotes',
+                'invoices',
+                'quotes',
+                'payments',
+                'recurring_invoices' => 'recurring',
+                'credits',
+                'expenses',
+                'products',
+                'proposals',
+                'projects',
+                'tasks',
+                'schedules',
+                'manufacturers',
+                ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <?php if(!Auth::user()->account->isModuleEnabled(substr($option, 0, -1))): ?>
                     <?php echo e(''); ?>
 
@@ -413,8 +413,8 @@ $__env->startSection('head_css'); ?>
                         <?php if(Auth::check() && Auth::user()->hasActivePromo()): ?>
                         <?php elseif(Auth::check() && Auth::user()->isTrial()): ?>
                             <?php echo trans(Auth::user()->account->getCountTrialDaysLeft() == 0 ? 'texts.trial_footer_last_day' : 'texts.trial_footer', [
-                            'count' => Auth::user()->account->getCountTrialDaysLeft(),
-                            ]); ?>
+                                'count' => Auth::user()->account->getCountTrialDaysLeft(),
+                                ]); ?>
 
                         <?php endif; ?>
                     <?php else: ?>

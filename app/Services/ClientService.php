@@ -56,7 +56,7 @@ class ClientService extends BaseService
         $query = $this->clientRepo->find($accountId, $search);
 
         if (!Utils::hasPermission('view_client')) {
-            $query->where('clients.user_id', '=', Auth::user()->id);
+            $query->where('clients.user_id', Auth::user()->id);
         }
 
         return $this->datatableService->createDatatable($datatable, $query);
@@ -69,7 +69,7 @@ class ClientService extends BaseService
     //     $query = $this->clientRepo->findClientType($clientTypePublicId);
 
     //     if (!Utils::hasPermission('view_client_type')) {
-    //         $query->where('client_types.user_id', '=', Auth::user()->id);
+    //         $query->where('client_types.user_id', Auth::user()->id);
     //     }
 
     //     return $this->datatableService->createDatatable($datatable, $query);
@@ -82,7 +82,7 @@ class ClientService extends BaseService
     //     $query = $this->clientRepo->findSaleType($saleTypePublicId);
 
     //     if (!Utils::hasPermission('view_sale_type')) {
-    //         $query->where('sale_types.user_id', '=', Auth::user()->id);
+    //         $query->where('sale_types.user_id', Auth::user()->id);
     //     }
 
     //     return $this->datatableService->createDatatable($datatable, $query);
@@ -95,7 +95,7 @@ class ClientService extends BaseService
     //     $query = $this->clientRepo->findHoldReason($holdReasonPublicId);
 
     //     if (!Utils::hasPermission('view_hold_reason')) {
-    //         $query->where('hold_reasons.user_id', '=', Auth::user()->id);
+    //         $query->where('hold_reasons.user_id', Auth::user()->id);
     //     }
 
     //     return $this->datatableService->createDatatable($datatable, $query);

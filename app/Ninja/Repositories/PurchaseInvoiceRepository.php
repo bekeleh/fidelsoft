@@ -9,17 +9,16 @@ use App\Events\QuoteItemsWereUpdated;
 use App\Jobs\SendPurchaseInvoiceEmail;
 use App\Libraries\Utils;
 use App\Models\Account;
-use App\Models\Vendor;
 use App\Models\Document;
 use App\Models\EntityModel;
 use App\Models\Expense;
+use App\Models\ItemStore;
 use App\Models\PurchaseInvitation;
 use App\Models\PurchaseInvoice;
 use App\Models\PurchaseInvoiceItem;
-use App\Models\ItemStore;
-use App\Models\Task;
-use Datatable;
+use App\Models\Vendor;
 use App\Services\PaymentService;
+use Datatable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -278,7 +277,7 @@ class PurchaseInvoiceRepository extends BaseRepository
                 'purchase_invoices.start_date',
                 'purchase_invoices.end_date',
                 'purchase_invoices.auto_bill',
-                'purchase_invoices.vendor_enable_auto_bill',
+                'purchase_invoices.client_enable_auto_bill',
                 'frequencies.name as frequency',
                 'purchase_invoices.created_at',
                 'purchase_invoices.updated_at',
@@ -303,12 +302,12 @@ class PurchaseInvoiceRepository extends BaseRepository
             ->addColumn('amount', function ($model) {
                 return Utils::formatMoney($model->amount, $model->currency_id, $model->country_id);
             })
-            ->addColumn('vendor_enable_auto_bill', function ($model) {
+            ->addColumn('client_enable_auto_bill', function ($model) {
                 if ($model->auto_bill == AUTO_BILL_OFF) {
                     return trans('texts.disabled');
                 } elseif ($model->auto_bill == AUTO_BILL_ALWAYS) {
                     return trans('texts.enabled');
-                } elseif ($model->vendor_enable_auto_bill) {
+                } elseif ($model->client_enable_auto_bill) {
                     return trans('texts.enabled') . ' - <a href="javascript:setAutoBill(' . $model->public_id . ',false)">' . trans('texts.disable') . '</a>';
                 } else {
                     return trans('texts.disabled') . ' - <a href="javascript:setAutoBill(' . $model->public_id . ',true)">' . trans('texts.enable') . '</a>';
@@ -430,7 +429,6 @@ class PurchaseInvoiceRepository extends BaseRepository
      */
     public function save(array $data, PurchaseInvoice $purchaseInvoice = null)
     {
-        /** @var Account $account */
         $account = $purchaseInvoice ? $purchaseInvoice->account : Auth::user()->account;
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
         $isNew = !$publicId || intval($publicId) < 0;
@@ -447,14 +445,14 @@ class PurchaseInvoiceRepository extends BaseRepository
                 $entityType = ENTITY_QUOTE;
             }
 
-            $purchaseInvoice = $account->createPurchaseInvoice($entityType, $data['vendor_id']);
+            $purchaseInvoice = $account->createPurchaseInvoice($entityType, $data['client_id']);
             $purchaseInvoice->invoice_date = date_create()->format('Y-m-d');
             $purchaseInvoice->custom_taxes1 = $account->custom_invoice_taxes1 ?: false;
             $purchaseInvoice->custom_taxes2 = $account->custom_invoice_taxes2 ?: false;
             $purchaseInvoice->created_by = Auth::user()->username;
 //           set the default due date
             if ($entityType === ENTITY_PURCHASE_INVOICE && !empty($data['partial_due_date'])) {
-                $vendor = Vendor::scope()->where('id', $data['vendor_id'])->first();
+                $vendor = Vendor::scope()->where('id', $data['client_id'])->first();
                 $purchaseInvoice->due_date = $account->defaultDueDate($vendor);
             }
         } else {
@@ -466,9 +464,9 @@ class PurchaseInvoiceRepository extends BaseRepository
             return $purchaseInvoice;
         }
 
-        if (isset($data['has_tasks']) && filter_var($data['has_tasks'], FILTER_VALIDATE_BOOLEAN)) {
-            $purchaseInvoice->has_tasks = true;
-        }
+//        if (isset($data['has_tasks']) && filter_var($data['has_tasks'], FILTER_VALIDATE_BOOLEAN)) {
+//            $purchaseInvoice->has_tasks = true;
+//        }
         if (isset($data['has_expenses']) && filter_var($data['has_expenses'], FILTER_VALIDATE_BOOLEAN)) {
             $purchaseInvoice->has_expenses = true;
         }
@@ -489,7 +487,7 @@ class PurchaseInvoiceRepository extends BaseRepository
         $purchaseInvoice->fill($data);
 
 //      update account default template
-        $this->saveAccountDefault($account, $purchaseInvoice, $data);
+//        $this->saveAccountDefault($account, $purchaseInvoice, $data);
 
         if (!empty($data['invoice_number']) && !empty($purchaseInvoice->is_recurring)) {
             $purchaseInvoice->invoice_number = trim($data['invoice_number']);
@@ -525,7 +523,7 @@ class PurchaseInvoiceRepository extends BaseRepository
             $purchaseInvoice->frequency_id = array_get($data, 'frequency_id', FREQUENCY_MONTHLY);
             $purchaseInvoice->start_date = Utils::toSqlDate(array_get($data, 'start_date'));
             $purchaseInvoice->end_date = Utils::toSqlDate(array_get($data, 'end_date'));
-            $purchaseInvoice->vendor_enable_auto_bill = !empty($data['vendor_enable_auto_bill']) && $data['vendor_enable_auto_bill'] ? true : false;
+            $purchaseInvoice->vendor_enable_auto_bill = !empty($data['client_enable_auto_bill']) && $data['client_enable_auto_bill'] ? true : false;
             $purchaseInvoice->auto_bill = array_get($data, 'auto_bill_id') ?: array_get($data, 'auto_bill', AUTO_BILL_OFF);
 
             if ($purchaseInvoice->auto_bill < AUTO_BILL_OFF || $purchaseInvoice->auto_bill > AUTO_BILL_ALWAYS) {
@@ -539,12 +537,12 @@ class PurchaseInvoiceRepository extends BaseRepository
             }
         } else {
             if ($isNew && empty($data['due_date']) && empty($data['due_date_sql'])) {
-// do nothing
+//           do nothing
             } elseif (!empty($data['due_date']) || !empty($data['due_date_sql'])) {
                 $purchaseInvoice->due_date = !empty($data['due_date_sql']) ? $data['due_date_sql'] :
                     Utils::toSqlDate($data['due_date']);
             }
-// invoice is not recurring
+//          invoice is not recurring
             $purchaseInvoice->frequency_id = 0;
             $purchaseInvoice->start_date = null;
             $purchaseInvoice->end_date = null;
@@ -578,7 +576,6 @@ class PurchaseInvoiceRepository extends BaseRepository
         if (!empty($data['po_number'])) {
             $purchaseInvoice->po_number = trim($data['po_number']);
         }
-
 //    provide backwards compatibility
         if (!empty($data['tax_name']) && !empty($data['tax_rate'])) {
             $data['tax_name1'] = $data['tax_name'];
@@ -594,25 +591,24 @@ class PurchaseInvoiceRepository extends BaseRepository
         $itemTax = $this->getLineItemNetTax($account, $purchaseInvoice, $data, $total);
 
 //       save invoice
-        $this->getCalculatePurchaseInvoice($account, $purchaseInvoice, $data, $total, $itemTax, $publicId);
+        $this->savePurchaseInvoiceDetail($account, $purchaseInvoice, $data, $total, $itemTax, $publicId);
 
         $origLineItems = [];
         if (!empty($publicId)) {
-            $origLineItems = !empty($purchaseInvoice->invoice_items) ?
-                $purchaseInvoice->invoice_items()->get()->toArray() : null;
+            $origLineItems = !empty($purchaseInvoice->invoice_items) ? $purchaseInvoice->invoice_items()->get()->toArray() : '';
 //            remove old invoice line items
             $purchaseInvoice->invoice_items()->forceDelete();
         }
 //      update if any invoice documents
         if (!empty($data['document_ids'])) {
             $document_ids = array_map('intval', $data['document_ids']);
-            $this->uploadedPurchaseInvoiceDocuments($purchaseInvoice, $document_ids);
+            $this->savePurchaseInvoiceDocuments($purchaseInvoice, $document_ids);
             $this->updatePurchaseInvoiceDocuments($purchaseInvoice, $document_ids);
 
         }
 
-//      core invoice computation
-        $this->getCalculatePurchaseInvoiceItem($account, $purchaseInvoice, $data, $origLineItems, $isNew);
+//      purchase invoice line item detail
+        $this->saveLineItemDetail($account, $purchaseInvoice, $data);
 
         $this->saveInvitations($purchaseInvoice);
 
@@ -654,12 +650,13 @@ class PurchaseInvoiceRepository extends BaseRepository
 
         foreach ($vendor->contacts as $contact) {
             $invitation = PurchaseInvitation::scope()->where('contact_id', $contact->id)
-                ->wherePurchaseInvoiceId($purchaseInvoice->id)->first();
+                ->where('purchase_invoice_id', $purchaseInvoice->id)->first();
             if (in_array($contact->id, $sendPurchaseInvoiceIds) && empty($invitation)) {
                 $invitation = PurchaseInvitation::createNew($purchaseInvoice);
-                $invitation->invoice_id = $purchaseInvoice->id;
+                $invitation->purchase_invoice_id = $purchaseInvoice->id;
                 $invitation->contact_id = $contact->id;
                 $invitation->invitation_key = strtolower(str_random(RANDOM_KEY_LENGTH));
+                $invitation->created_by = auth::user()->username;
                 $invitation->save();
             } elseif (!in_array($contact->id, $sendPurchaseInvoiceIds) && !empty($invitation)) {
                 $invitation->delete();
@@ -934,7 +931,7 @@ class PurchaseInvoiceRepository extends BaseRepository
             ->where('deleted_at', null)
             ->first();
 
-        return !empty($product) ? $product : null;
+        return !empty($product) ? $product : false;
     }
 
     /**
@@ -945,11 +942,10 @@ class PurchaseInvoiceRepository extends BaseRepository
     public function getItemStore($account, $product = null)
     {
         if (empty($account) || empty($product)) {
-            return;
+            return false;
         }
 
-        $warehouseId = !empty(auth::user()->branch->warehouse_id) ?
-            auth::user()->branch->warehouse_id : null;
+        $warehouseId = !empty(auth::user()->branch->warehouse_id) ? auth::user()->branch->warehouse_id : null;
 
         $itemStore = ItemStore::scope()
             ->where('account_id', $account->id)
@@ -958,7 +954,7 @@ class PurchaseInvoiceRepository extends BaseRepository
             ->where('deleted_at', null)
             ->first();
 
-        return !empty($itemStore) ? $itemStore : null;
+        return !empty($itemStore) ? $itemStore : false;
     }
 
     /**
@@ -968,7 +964,7 @@ class PurchaseInvoiceRepository extends BaseRepository
     public function findOpenPurchaseInvoices($vendorId)
     {
         if (empty($vendorId)) {
-            return null;
+            return false;
         }
         $query = PurchaseInvoice::scope()
             ->invoiceType(INVOICE_TYPE_STANDARD)
@@ -1116,7 +1112,7 @@ class PurchaseInvoiceRepository extends BaseRepository
             })
             ->where('account_id', $account->id)
             ->where('balance', '>', 0)
-            ->where('is_recurring', '=', false)
+            ->where('is_recurring', false)
             ->where('is_public', true)
             ->whereRaw('(' . $sql . ')')
             ->get();
@@ -1323,16 +1319,16 @@ class PurchaseInvoiceRepository extends BaseRepository
      * @param array $item
      * @return mixed|null
      */
-    private function getExpense(PurchaseInvoice $purchaseInvoice, array $item)
+    private function saveExpense(PurchaseInvoice $purchaseInvoice, array $item)
     {
         if (empty($item['expense_public_id'])) {
             return false;
         }
 
         $expense = Expense::scope($item['expense_public_id'])
-            ->where('invoice_id', null)->firstOrFail();
+            ->where('purchase_invoice_id', null)->firstOrFail();
         if (Auth::user()->can('edit', $expense)) {
-            $expense->invoice_id = $purchaseInvoice->id;
+            $expense->purchase_invoice_id = $purchaseInvoice->id;
             $expense->vendor_id = $purchaseInvoice->vendor_id;
             if ($expense->save()) {
                 return true;
@@ -1347,31 +1343,31 @@ class PurchaseInvoiceRepository extends BaseRepository
      * @param array $item
      * @return mixed|null
      */
-    private function getTask(PurchaseInvoice $purchaseInvoice, array $item)
-    {
-        if (empty($item['task_public_id'])) {
-            return false;
-        }
-
-        $task = Task::scope(trim($item['task_public_id']))
-            ->whereNull('invoice_id')->firstOrFail();
-        if (Auth::user()->can('edit', $task)) {
-            $task->invoice_id = $purchaseInvoice->id;
-            $task->vendor_id = $purchaseInvoice->vendor_id;
-            if ($task->save()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
+//    private function getTask(PurchaseInvoice $purchaseInvoice, array $item)
+//    {
+//        if (empty($item['task_public_id'])) {
+//            return false;
+//        }
+//
+//        $task = Task::scope(trim($item['task_public_id']))
+//            ->whereNull('invoice_id')->firstOrFail();
+//        if (Auth::user()->can('edit', $task)) {
+//            $task->invoice_id = $purchaseInvoice->id;
+//            $task->vendor_id = $purchaseInvoice->vendor_id;
+//            if ($task->save()) {
+//                return true;
+//            }
+//        }
+//
+//        return false;
+//    }
 
     /**
      * @param PurchaseInvoice $purchaseInvoice
      * @param array $document_ids
      * @return mixed|null
      */
-    private function uploadedPurchaseInvoiceDocuments(PurchaseInvoice $purchaseInvoice, array $document_ids)
+    private function savePurchaseInvoiceDocuments(PurchaseInvoice $purchaseInvoice, array $document_ids)
     {
         if (empty($purchaseInvoice) || empty($document_ids)) {
             return false;
@@ -1380,12 +1376,12 @@ class PurchaseInvoiceRepository extends BaseRepository
         foreach ($document_ids as $document_id) {
             $document = Document::scope($document_id)->first();
             if ($document && Auth::user()->can('edit', $document)) {
-                if ($document->invoice_id && $document->invoice_id != $purchaseInvoice->id) {
-// From a clone
+                if ($document->purchase_invoice_id && $document->purchase_invoice_id != $purchaseInvoice->id) {
+//                From a clone
                     $document = $document->cloneDocument();
                     $document_ids[] = $document->public_id; // Don't remove this document
                 }
-                $document->invoice_id = $purchaseInvoice->id;
+                $document->purchase_invoice_id = $purchaseInvoice->id;
                 $document->expense_id = null;
                 $document->save();
             }
@@ -1409,7 +1405,7 @@ class PurchaseInvoiceRepository extends BaseRepository
                 if (!in_array($document->public_id, $document_ids)) {
                     if (Auth::user()->can('delete', $document)) {
 // Not checking permissions; deleting a document is just editing the invoice
-                        if ($document->invoice_id === $purchaseInvoice->id) {
+                        if ($document->purchase_invoice_id === $purchaseInvoice->id) {
 // Make sure the document isn't on a clone
                             $document->delete();
                         }
@@ -1431,9 +1427,6 @@ class PurchaseInvoiceRepository extends BaseRepository
      */
     private function stockAdjustment($itemStore, PurchaseInvoice $purchaseInvoice, $origLineItems, array $newLineItem, $isNew)
     {
-        if (empty($purchaseInvoice)) {
-            return false;
-        }
         $qoh = !empty($itemStore) ? Utils::parseFloat($itemStore->qty) : 0;
         $demandQty = Utils::parseFloat(trim($newLineItem['qty']));
 
@@ -1476,17 +1469,14 @@ class PurchaseInvoiceRepository extends BaseRepository
      * @param array $item
      * @return mixed|null
      */
-    private function invoiceLineItemAdjustment($product, $itemStore, PurchaseInvoice $purchaseInvoice, array $item)
+    private function saveInvoiceLineItemAdjustment($product, $itemStore, PurchaseInvoice $purchaseInvoice, array $item)
     {
-        if (empty($purchaseInvoice)) {
-            return false;
-        }
         $purchaseInvoicedQty = !empty($item['qty']) ? Utils::parseFloat(trim($item['qty'])) : 1;
         $demandQty = !empty($item['qty']) ? Utils::parseFloat(trim($item['qty'])) : 1;
-        $itemCost = !empty($item['cost']) ? Utils::parseFloat(trim($item['cost'])) : 0;
+        $itemCost = !empty($item['cost']) ? Utils::parseFloat(trim($item['cost'])) : (isset($product->cost) ? $product->cost : 0);
         $purchaseInvoiceItem = PurchaseInvoiceItem::createNew($purchaseInvoice);
         $purchaseInvoiceItem->fill($item);
-        $purchaseInvoiceItem->product_id = !empty($product) ? $product->id : null;
+        $purchaseInvoiceItem->product_id = !empty($product->id) ? $product->id : null;
         $purchaseInvoiceItem->product_key = !empty($item['product_key']) ? trim($item['product_key']) : null;
         $purchaseInvoiceItem->notes = !empty($item['notes']) ? trim($item['notes']) : null;
         $purchaseInvoiceItem->cost = $itemCost;
@@ -1494,13 +1484,6 @@ class PurchaseInvoiceRepository extends BaseRepository
         $purchaseInvoiceItem->demand_qty = $demandQty;
         $purchaseInvoiceItem->discount = $purchaseInvoice->discount;
         $purchaseInvoiceItem->created_by = auth::user()->username;
-        $qoh = !empty($itemStore->qty) ? Utils::parseFloat($itemStore->qty) : 0;
-        if (!empty($itemStore) && $qoh < 1) {
-            return false;
-        }
-        if ($purchaseInvoicedQty > $qoh) {
-            $purchaseInvoiceItem->qty = $qoh;
-        }
 
         if (!empty($item['custom_value1'])) {
             $purchaseInvoiceItem->custom_value1 = $item['custom_value1'];
@@ -1532,26 +1515,26 @@ class PurchaseInvoiceRepository extends BaseRepository
      * @param $account
      * @return mixed|null
      */
-    private function saveAccountDefault($account, PurchaseInvoice $purchaseInvoice, array $data)
-    {
-        if (empty($purchaseInvoice)) {
-            return false;
-        }
-
-        if ((!empty($data['set_default_terms']) && $data['set_default_terms'])
-            || (!empty($data['set_default_footer']) && $data['set_default_footer'])) {
-            if (!empty($data['set_default_terms']) && $data['set_default_terms']) {
-                $account->{"{$purchaseInvoice->getEntityType()}_terms"} = trim($data['terms']);
-            }
-            if (!empty($data['set_default_footer']) && $data['set_default_footer']) {
-                $account->invoice_footer = trim($data['invoice_footer']);
-            }
-
-            $account->save();
-        }
-
-        return true;
-    }
+//    private function saveAccountDefault($account, PurchaseInvoice $purchaseInvoice, array $data)
+//    {
+//        if (empty($purchaseInvoice)) {
+//            return false;
+//        }
+//
+//        if ((!empty($data['set_default_terms']) && $data['set_default_terms'])
+//            || (!empty($data['set_default_footer']) && $data['set_default_footer'])) {
+//            if (!empty($data['set_default_terms']) && $data['set_default_terms']) {
+//                $account->{"{$purchaseInvoice->getEntityType()}_terms"} = trim($data['terms']);
+//            }
+//            if (!empty($data['set_default_footer']) && $data['set_default_footer']) {
+//                $account->invoice_footer = trim($data['invoice_footer']);
+//            }
+//
+//            $account->save();
+//        }
+//
+//        return true;
+//    }
 
     /**
      * @param $account
@@ -1561,10 +1544,6 @@ class PurchaseInvoiceRepository extends BaseRepository
      */
     private function getLineItemNetTotal($account, PurchaseInvoice $purchaseInvoice, array $data)
     {
-        if (empty($purchaseInvoice)) {
-            return false;
-        }
-
         $total = 0;
         $data = (array)$data;
         if (is_array($data)) {
@@ -1575,18 +1554,10 @@ class PurchaseInvoiceRepository extends BaseRepository
                 }
                 $product = $this->getProductDetail($account, $item['product_key']);
                 if (!empty($product)) {
-                    $itemStore = $this->getItemStore($account, $product);
-                    if (!empty($itemStore)) {
-                        $purchaseInvoiceItemCost = !empty($item['cost']) ? Utils::roundSignificant(Utils::parseFloat(trim($item['cost']))) : $product->cost;
-                        $purchaseInvoiceItemQty = !empty($item['qty']) ? Utils::roundSignificant(Utils::parseFloat(trim($item['qty']))) : 1;
-                        $discount = !empty($item['discount']) ? trim($item['discount']) : 0;
-//                 if quantity on hand greater than quantity demand
-                        $qoh = Utils::roundSignificant(Utils::parseFloat($itemStore->qty));
-                        if ($purchaseInvoiceItemQty > $qoh) {
-                            $purchaseInvoiceItemQty = $qoh;
-                        }
-                        $total = $this->getLineItemTotal($purchaseInvoice, $purchaseInvoiceItemCost, $purchaseInvoiceItemQty, $discount, $total);
-                    }
+                    $purchaseInvoiceItemCost = !empty($item['cost']) ? Utils::roundSignificant(Utils::parseFloat(trim($item['cost']))) : $product->cost;
+                    $purchaseInvoiceItemQty = !empty($item['qty']) ? Utils::roundSignificant(Utils::parseFloat(trim($item['qty']))) : 1;
+                    $discount = !empty($item['discount']) ? trim($item['discount']) : 0;
+                    $total = $this->getLineItemTotal($purchaseInvoice, $purchaseInvoiceItemCost, $purchaseInvoiceItemQty, $discount, $total);
                 } else {
                     $total = $this->getLineItemTotal($purchaseInvoice, trim($item['cost']), trim($item['qty']), trim($item['discount']), $total);
                 }
@@ -1605,28 +1576,16 @@ class PurchaseInvoiceRepository extends BaseRepository
      */
     private function getLineItemNetTax($account, PurchaseInvoice $purchaseInvoice, array $data, $total)
     {
-        if (empty($purchaseInvoice)) {
-            return false;
-        }
-
         $itemTax = 0;
         if (is_array($data)) {
             foreach ($data['invoice_items'] as $item) {
                 $item = (array)$item;
                 $product = $this->getProductDetail($account, $item['product_key']);
                 if (!empty($product)) {
-                    $itemStore = $this->getItemStore($account, $product);
-                    if (!empty($itemStore)) {
-                        $purchaseInvoiceItemCost = !empty($item['cost']) ? Utils::roundSignificant(Utils::parseFloat(trim($item['cost']))) : $product->cost;
-                        $purchaseInvoiceItemQty = !empty($item['qty']) ? Utils::roundSignificant(Utils::parseFloat(trim($item['qty']))) : 1;
-                        $discount = !empty($item['discount']) ? trim($item['discount']) : 0;
-                        $qoh = Utils::roundSignificant(Utils::parseFloat($itemStore->qty));
-                        if ($purchaseInvoiceItemQty > $qoh) {
-                            $purchaseInvoiceItemQty = $qoh;
-                        }
-
-                        $itemTax = $this->getLineItemTaxTotal($purchaseInvoice, $total, $purchaseInvoiceItemCost, $purchaseInvoiceItemQty, $item, $itemTax);
-                    }
+                    $purchaseInvoiceItemCost = !empty($item['cost']) ? Utils::roundSignificant(Utils::parseFloat(trim($item['cost']))) : (isset($product->cost) ? $product->cost : 0);
+                    $purchaseInvoiceItemQty = !empty($item['qty']) ? Utils::roundSignificant(Utils::parseFloat(trim($item['qty']))) : 1;
+                    $discount = !empty($item['discount']) ? trim($item['discount']) : 0;
+                    $itemTax = $this->getLineItemTaxTotal($purchaseInvoice, $total, $purchaseInvoiceItemCost, $purchaseInvoiceItemQty, $item, $itemTax);
                 } else {
                     $itemTax = $this->getLineItemTaxTotal($purchaseInvoice, $total, trim($item['cost']), trim($item['qty']), $item, $itemTax);
                 }
@@ -1644,10 +1603,6 @@ class PurchaseInvoiceRepository extends BaseRepository
      */
     private function updateItemStore($qoh, $demandQty, $itemStore)
     {
-        if (empty($itemStore)) {
-            return false;
-        }
-
         $qoh = Utils::parseFloat($qoh);
         $demandQty = Utils::parseFloat($demandQty);
         if ($qoh >= $demandQty) {
@@ -1673,10 +1628,6 @@ class PurchaseInvoiceRepository extends BaseRepository
      */
     private function getLineItemTotal(PurchaseInvoice $purchaseInvoice, $purchaseInvoiceItemCost, $purchaseInvoiceItemQty, $discount, $total)
     {
-        if (empty($purchaseInvoice)) {
-            return false;
-        }
-
         $total = !empty($total) ? Utils::parseFloat($total) : 0;
         $discount = !empty($discount) ? Utils::parseFloat($discount) : 0;
         $lineTotal = floatval($purchaseInvoiceItemCost) * floatval($purchaseInvoiceItemQty);
@@ -1704,10 +1655,6 @@ class PurchaseInvoiceRepository extends BaseRepository
      */
     private function getLineItemTaxTotal(PurchaseInvoice $purchaseInvoice, $total, $purchaseInvoiceItemCost, $purchaseInvoiceItemQty, array $item, $itemTax)
     {
-        if (empty($purchaseInvoice)) {
-            return false;
-        }
-
         $total = Utils::parseFloat($total);
         $itemTax = Utils::parseFloat($itemTax);
         $discount = !empty($item['discount']) ? round(Utils::parseFloat($item['discount']), 2) : 0;
@@ -1750,18 +1697,15 @@ class PurchaseInvoiceRepository extends BaseRepository
     /**
      * update invoice line item
      * @param $account
-     * @param array $data
      * @param PurchaseInvoice $purchaseInvoice
-     * @param $origLineItems
-     * @param bool $isNew
+     * @param array $data
      * @return mixed|null
      */
-    private function getCalculatePurchaseInvoiceItem($account, PurchaseInvoice $purchaseInvoice, array $data, $origLineItems, $isNew)
+    private function saveLineItemDetail($account, PurchaseInvoice $purchaseInvoice, array $data)
     {
         if (empty($purchaseInvoice)) {
             return false;
         }
-
         $product = null;
         $itemStore = null;
         if (is_array($data)) {
@@ -1770,34 +1714,17 @@ class PurchaseInvoiceRepository extends BaseRepository
                 if (empty($item['product_key']) && empty($item['cost'])) {
                     continue;
                 }
-                if (!empty($data['has_tasks'])) {
-                    $this->getTask($purchaseInvoice, $item);
-                }
                 if (!empty($data['has_expenses'])) {
-                    $this->getExpense($purchaseInvoice, $item);
+                    $this->saveExpense($purchaseInvoice, $item);
                 }
                 $product = $this->getProductDetail($account, $item['product_key']);
-//              item if not service and labor
-                if (!empty($product) && $product->item_type_id !== SERVICE_OR_LABOUR) {
+                if (!empty($product)) {
                     $itemStore = $this->getItemStore($account, $product);
-                    if (!empty($itemStore)) {
-                        // i couldn't find efficient evaluation for false expression, $data['has_tasks']== false and empty value
-                        $is_quote = empty($data['is_quote']) ? $data['is_quote'] : null;
-                        //  has taks empty value cannot be evaluated
-                        $has_tasks = $data['has_tasks'] ? $data['has_tasks'] : null;
-//                  what if purchase_invoices, quotes, expenses and tasks
-                        if (empty($data['is_quote'])) {
-                            $this->stockAdjustment($itemStore, $purchaseInvoice, $origLineItems, $item, $isNew);
-                        }
-                        $this->invoiceLineItemAdjustment($product, $itemStore, $purchaseInvoice, $item);
-                    }
-                } else {
-                    $this->invoiceLineItemAdjustment($product, $itemStore, $purchaseInvoice, $item);
+                    $this->saveInvoiceLineItemAdjustment($product, $itemStore, $purchaseInvoice, $item);
                 }
             }
+            return true;
         }
-
-        return true;
     }
 
     /**
@@ -1809,12 +1736,8 @@ class PurchaseInvoiceRepository extends BaseRepository
      * @param bool $publicId
      * @return mixed|null
      */
-    private function getCalculatePurchaseInvoice($account, PurchaseInvoice $purchaseInvoice, array $data, $total, $itemTax, $publicId)
+    private function savePurchaseInvoiceDetail($account, PurchaseInvoice $purchaseInvoice, array $data, $total, $itemTax, $publicId)
     {
-        if (empty($purchaseInvoice)) {
-            return false;
-        }
-
         $total = !empty($total) ? Utils::parseFloat($total) : 0;
         $purchaseInvoiceDiscount = !empty($purchaseInvoice->discount) ? Utils::parseFloat($purchaseInvoice->discount) : 0;
 //      if any invoice discount
@@ -1888,8 +1811,6 @@ class PurchaseInvoiceRepository extends BaseRepository
         $purchaseInvoice = $purchaseInvoice->save();
 
         return $purchaseInvoice;
-
     }
-
 
 }

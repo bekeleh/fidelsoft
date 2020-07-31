@@ -66,7 +66,7 @@ class PurchaseInvoiceItemService extends BaseService
             $invoiceItem = $this->convertQuote($quote);
 
             foreach ($invoiceItem->invitations as $invoiceItemPurchaseInvitation) {
-                if ($invitation->vendor_contact_id == $invoiceItemPurchaseInvitation->vendor_contact_id) {
+                if ($invitation->contact_id == $invoiceItemPurchaseInvitation->contact_id) {
                     $invitation = $invoiceItemPurchaseInvitation;
                 }
             }

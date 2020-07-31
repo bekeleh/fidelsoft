@@ -2,6 +2,7 @@
 
 namespace App\Ninja\Mailers;
 
+use App;
 use App\Events\InvoiceWasEmailed;
 use App\Events\QuoteWasEmailed;
 use App\Jobs\ConvertInvoiceToUbl;
@@ -9,6 +10,7 @@ use App\Libraries\Utils;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Services\TemplateService;
+use HTMLUtils;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 
@@ -164,7 +166,7 @@ class ContactMailer extends Mailer
         $body = $this->templateService->processVariables($body, $variables);
 
         if (Utils::isNinja()) {
-            $body = \HTMLUtils::sanitizeHTML($body);
+            $body = HTMLUtils::sanitizeHTML($body);
         }
 
         $data = [

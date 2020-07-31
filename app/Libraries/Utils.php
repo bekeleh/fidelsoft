@@ -1380,10 +1380,15 @@ class Utils
 
         $fields = [
             'contact_id',
+            'contact_id',
             'payment_id',
+            'purchase_payment_id',
             'invoice_id',
+            'purchase_invoice_id',
             'credit_id',
+            'purchase_credit_id',
             'invitation_id',
+            'purchase_invitation_id',
         ];
 
         $fields1 = $entity1->getAttributes();

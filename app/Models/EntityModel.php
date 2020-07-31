@@ -252,12 +252,23 @@ class EntityModel extends Eloquent
         }
     }
 
+    function split_string($string)
+    {
+        $pieces = preg_split('/(?=[A-Z])/', $string);
+        $splitString = implode(" ", $pieces);
+
+        return $splitString;
+    }
 
     public function getKeyField()
     {
         $class = get_class($this);
         $parts = explode('\\', $class);
+
         $name = $parts[count($parts) - 1];
+
+        $name = $this->split_string($name);
+        $name = snake_case($name);
 
         return strtolower($name) . '_id';
     }

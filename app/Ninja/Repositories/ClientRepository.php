@@ -31,84 +31,84 @@ class ClientRepository extends BaseRepository
     public function getById($publicId, $accountId)
     {
         return $this->model->withTrashed()
-            ->where('public_id', $publicId)
-            ->where('account_id', $accountId)
-            ->first();
+        ->where('public_id', $publicId)
+        ->where('account_id', $accountId)
+        ->first();
     }
 
     public function all()
     {
         return Client::scope()
-            ->with('user', 'contacts', 'country')
-            ->withTrashed()
-            ->where('is_deleted', false)
-            ->get();
+        ->with('user', 'contacts', 'country')
+        ->withTrashed()
+        ->where('is_deleted', false)
+        ->get();
     }
 
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('clients')
-            ->leftJoin('accounts', 'accounts.id', '=', 'clients.account_id')
-            ->leftJoin('contacts', 'contacts.client_id', '=', 'clients.id')
-            ->leftJoin('client_types', 'client_types.id', '=', 'clients.client_type_id')
-            ->leftJoin('sale_types', 'sale_types.id', '=', 'clients.sale_type_id')
-            ->leftJoin('hold_reasons', 'hold_reasons.id', '=', 'clients.hold_reason_id')
+        ->leftJoin('accounts', 'accounts.id', '=', 'clients.account_id')
+        ->leftJoin('contacts', 'contacts.client_id', '=', 'clients.id')
+        ->leftJoin('client_types', 'client_types.id', '=', 'clients.client_type_id')
+        ->leftJoin('sale_types', 'sale_types.id', '=', 'clients.sale_type_id')
+        ->leftJoin('hold_reasons', 'hold_reasons.id', '=', 'clients.hold_reason_id')
             // ->leftJoin('currencies', 'currencies.id', '=', 'clients.currency_id')
             // ->leftJoin('industries', 'industries.id', '=', 'clients.industry_id')
             // ->leftJoin('sizes', 'sizes.id', '=', 'clients.size_id')
-            ->where('clients.account_id', '=', $accountId)
-            ->where('contacts.is_primary', '=', true)
-//            ->where('hold_reasons.allow_invoice', '=', true)
+        ->where('clients.account_id', $accountId)
+        ->where('contacts.is_primary', true)
+//            ->where('hold_reasons.allow_invoice', true)
 //            ->whereRaw('(clients.name != "" or contacts.first_name != "" or contacts.last_name != "" or contacts.email != "")') // filter out buy now invoices
             // ->whereNull('contacts.deleted_at')
-            ->select(
-                DB::raw('COALESCE(clients.currency_id, accounts.currency_id) currency_id'),
-                DB::raw('COALESCE(clients.country_id, accounts.country_id) country_id'),
-                DB::raw("CONCAT(COALESCE(contacts.first_name, ''), ' ', 
+        ->select(
+            DB::raw('COALESCE(clients.currency_id, accounts.currency_id) currency_id'),
+            DB::raw('COALESCE(clients.country_id, accounts.country_id) country_id'),
+            DB::raw("CONCAT(COALESCE(contacts.first_name, ''), ' ', 
                 COALESCE(contacts.last_name, '')) contact"),
-                'clients.public_id',
-                'clients.name as client_name',
-                'clients.private_notes',
-                'clients.public_notes',
-                'clients.balance',
-                'clients.last_login',
-                'clients.created_at',
-                'clients.created_at as client_created_at',
-                'clients.work_phone',
-                'clients.deleted_at',
-                'clients.is_deleted',
-                'clients.user_id',
-                'clients.id_number',
-                'clients.vat_number',
-                'clients.created_at',
-                'clients.updated_at',
-                'clients.deleted_at',
-                'clients.created_by',
-                'clients.updated_by',
-                'clients.deleted_by',
-                'contacts.public_id as contact_public_id',
-                'contacts.first_name',
-                'contacts.last_name',
-                'contacts.email',
-                'client_types.name as client_type_name',
-                'sale_types.name as sale_type_name',
-                'hold_reasons.name as hold_reason_name'
-            );
+            'clients.public_id',
+            'clients.name as client_name',
+            'clients.private_notes',
+            'clients.public_notes',
+            'clients.balance',
+            'clients.last_login',
+            'clients.created_at',
+            'clients.created_at as client_created_at',
+            'clients.work_phone',
+            'clients.deleted_at',
+            'clients.is_deleted',
+            'clients.user_id',
+            'clients.id_number',
+            'clients.vat_number',
+            'clients.created_at',
+            'clients.updated_at',
+            'clients.deleted_at',
+            'clients.created_by',
+            'clients.updated_by',
+            'clients.deleted_by',
+            'contacts.public_id as contact_public_id',
+            'contacts.first_name',
+            'contacts.last_name',
+            'contacts.email',
+            'client_types.name as client_type_name',
+            'sale_types.name as sale_type_name',
+            'hold_reasons.name as hold_reason_name'
+        );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('clients.name', 'like', '%' . $filter . '%')
-                    ->orWhere('clients.id_number', 'like', '%' . $filter . '%')
-                    ->orWhere('clients.vat_number', 'like', '%' . $filter . '%')
-                    ->orWhere('clients.work_phone', 'like', '%' . $filter . '%')
-                    ->orWhere('clients.city', 'like', '%' . $filter . '%')
-                    ->orWhere('contacts.first_name', 'like', '%' . $filter . '%')
-                    ->orWhere('contacts.last_name', 'like', '%' . $filter . '%')
-                    ->orWhere('contacts.email', 'like', '%' . $filter . '%')
-                    ->orWhere('contacts.phone', 'like', '%' . $filter . '%')
-                    ->orWhere('client_types.name', 'like', '%' . $filter . '%')
-                    ->orWhere('sale_types.name', 'like', '%' . $filter . '%')
-                    ->orWhere('hold_reasons.name', 'like', '%' . $filter . '%');
+                ->orWhere('clients.id_number', 'like', '%' . $filter . '%')
+                ->orWhere('clients.vat_number', 'like', '%' . $filter . '%')
+                ->orWhere('clients.work_phone', 'like', '%' . $filter . '%')
+                ->orWhere('clients.city', 'like', '%' . $filter . '%')
+                ->orWhere('contacts.first_name', 'like', '%' . $filter . '%')
+                ->orWhere('contacts.last_name', 'like', '%' . $filter . '%')
+                ->orWhere('contacts.email', 'like', '%' . $filter . '%')
+                ->orWhere('contacts.phone', 'like', '%' . $filter . '%')
+                ->orWhere('client_types.name', 'like', '%' . $filter . '%')
+                ->orWhere('sale_types.name', 'like', '%' . $filter . '%')
+                ->orWhere('hold_reasons.name', 'like', '%' . $filter . '%');
             });
         }
 
@@ -126,7 +126,7 @@ class ClientRepository extends BaseRepository
     {
         $clientTypeId = ClientType::getPrivateId($clintTypePublicId);
 
-        $query = $this->find()->where('clients.client_type_id', '=', $clientTypeId);
+        $query = $this->find()->where('clients.client_type_id', $clientTypeId);
 
         return $query;
     }
@@ -135,7 +135,7 @@ class ClientRepository extends BaseRepository
     {
         $saleTypeId = SaleType::getPrivateId($saleTypePublicId);
 
-        $query = $this->find()->where('clients.sale_type_id', '=', $saleTypeId);
+        $query = $this->find()->where('clients.sale_type_id', $saleTypeId);
 
         return $query;
     }
@@ -144,7 +144,7 @@ class ClientRepository extends BaseRepository
     {
         $holdReasonId = HoldReason::getPrivateId($holdReasonPublicId);
 
-        $query = $this->find()->where('clients.hold_reason_id', '=', $holdReasonId);
+        $query = $this->find()->where('clients.hold_reason_id', $holdReasonId);
 
         return $query;
     }

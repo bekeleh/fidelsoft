@@ -59,10 +59,10 @@ class PurchaseInvoiceService extends BaseService
     public function save(array $data, PurchaseInvoice $purchaseInvoice = null)
     {
 
-        if (!empty($data['vendor'])) {
+        if (!empty($data['client'])) {
             $canSaveVendor = false;
             $canViewVendor = false;
-            $vendorPublicId = array_get($data, 'vendor.public_id') ?: array_get($data, 'vendor.id');
+            $vendorPublicId = array_get($data, 'client.public_id') ?: array_get($data, 'client.id');
             if (empty($vendorPublicId) || intval($vendorPublicId) < 0) {
                 $canSaveVendor = Auth::user()->can('create', ENTITY_VENDOR);
             } else {
@@ -70,11 +70,12 @@ class PurchaseInvoiceService extends BaseService
                 $canSaveVendor = Auth::user()->can('edit', $vendor);
                 $canViewVendor = Auth::user()->can('view', $vendor);
             }
+//          if new vendor is created
             if ($canSaveVendor) {
-                $vendor = $this->vendorRepo->save($data['vendor']);
+                $vendor = $this->vendorRepo->save($data['client']);
             }
             if ($canSaveVendor || $canViewVendor) {
-                $data['vendor_id'] = $vendor->id;
+                $data['client_id'] = $vendor->id;
             }
         }
 
@@ -107,7 +108,7 @@ class PurchaseInvoiceService extends BaseService
             $purchaseInvoice = $this->convertQuote($quote);
 
             foreach ($purchaseInvoice->purchase_invitations as $purchaseInvoiceInvitation) {
-                if ($purchaseInvitation->vendor_contact_id == $purchaseInvoiceInvitation->vendor_contact_id) {
+                if ($purchaseInvitation->contact_id == $purchaseInvoiceInvitation->contact_id) {
                     $purchaseInvitation = $purchaseInvoiceInvitation;
                 }
             }

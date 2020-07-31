@@ -122,7 +122,7 @@ class VendorRepository extends BaseRepository
         });
 
         foreach ($vendorcontacts as $vendorcontact) {
-            $vendorcontact = $vendor->addVendorContact($vendorcontact, $first);
+            $vendorcontact = $vendor->addContact($vendorcontact, $first);
             $vendorcontactIds[] = $vendorcontact->public_id;
             $first = false;
         }

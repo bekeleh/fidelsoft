@@ -2,32 +2,36 @@
 
 namespace App\Models;
 
-use App\Events\VendorWasCreated;
-use App\Events\VendorWasDeleted;
-use App\Events\VendorWasUpdated;
 use App\Libraries\Utils;
+use App\Models\Traits\HasCustomMessages;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Laracasts\Presenter\PresentableTrait;
+use Carbon\Carbon;
 
 /**
- * Class Model Vendor.
+ * Model Class Vendor.
  */
 class Vendor extends EntityModel
 {
     use PresentableTrait;
     use SoftDeletes;
-
+    use HasCustomMessages;
 
     protected $presenter = 'App\Ninja\Presenters\VendorPresenter';
 
+
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+
 
     protected $fillable = [
         'name',
         'id_number',
         'vat_number',
         'work_phone',
+        'custom_value1',
+        'custom_value2',
         'address1',
         'address2',
         'city',
@@ -35,49 +39,53 @@ class Vendor extends EntityModel
         'postal_code',
         'country_id',
         'private_notes',
-        'public_notes',
+        'size_id',
+        'industry_id',
         'currency_id',
+        'language_id',
+        'vendor_type_id',
+        'vendor_type_id',
+        'hold_reason_id',
+        'payment_terms',
         'website',
-        'transaction_name',
         'invoice_number_counter',
         'quote_number_counter',
-        'credit_number_counter',
+        'public_notes',
         'task_rate',
-        'custom_value1',
-        'custom_value2',
+        'show_tasks_in_portal',
+        'send_reminders',
+        'custom_messages',
         'created_by',
         'updated_by',
         'deleted_by',
     ];
 
 
-    public static $fieldName = 'name';
-    public static $fieldPhone = 'work_phone';
-    public static $fieldAddress1 = 'address1';
-    public static $fieldAddress2 = 'address2';
-    public static $fieldCity = 'city';
-    public static $fieldState = 'state';
-    public static $fieldPostalCode = 'postal_code';
-    public static $fieldNotes = 'notes';
-    public static $fieldCountry = 'country';
-
-
     public static function getImportColumns()
     {
         return [
-            self::$fieldName,
-            self::$fieldPhone,
-            self::$fieldAddress1,
-            self::$fieldAddress2,
-            self::$fieldCity,
-            self::$fieldState,
-            self::$fieldPostalCode,
-            self::$fieldCountry,
-            self::$fieldNotes,
+            'name',
+            'work_phone',
+            'address1',
+            'address2',
+            'city',
+            'state',
+            'postal_code',
+            'public_notes',
+            'private_notes',
+            'country',
+            'website',
+            'currency',
+            'vat_number',
+            'id_number',
+            'custom1',
+            'custom2',
             'contact_first_name',
             'contact_last_name',
-            'contact_email',
             'contact_phone',
+            'contact_email',
+            'contact_custom1',
+            'contact_custom2',
         ];
     }
 
@@ -86,18 +94,23 @@ class Vendor extends EntityModel
     {
         return [
             'first' => 'contact_first_name',
-            'last' => 'contact_last_name',
+            'last^last4' => 'contact_last_name',
             'email' => 'contact_email',
-            'mobile|phone' => 'contact_phone',
             'work|office' => 'work_phone',
-            'name|organization|vendor' => 'name',
-            'street2|address2' => 'address2',
-            'street|address|address1' => 'address1',
+            'mobile|phone' => 'contact_phone',
+            'name|organization|description^card' => 'name',
+            'apt|street2|address2|line2' => 'address2',
+            'street|address1|line1^avs' => 'address1',
             'city' => 'city',
             'state|province' => 'state',
-            'zip|postal|code' => 'postal_code',
+            'zip|postal|code^avs' => 'postal_code',
             'country' => 'country',
-            'note' => 'notes',
+            'public' => 'public_notes',
+            'private|note' => 'private_notes',
+            'site|website' => 'website',
+            'currency' => 'currency',
+            'vat' => 'vat_number',
+            'number' => 'id_number',
         ];
     }
 
@@ -108,7 +121,7 @@ class Vendor extends EntityModel
 
     public function getRoute()
     {
-        return "/vendors/{$this->public_id}";
+        return "/vendors/{$this->public_id}/edit";
     }
 
     public function account()
@@ -116,71 +129,173 @@ class Vendor extends EntityModel
         return $this->belongsTo('App\Models\Account');
     }
 
+
     public function user()
     {
-        return $this->belongsTo('App\Models\User')->withTrashed();
+        return $this->belongsTo('App\Models\User');
+    }
+
+
+    public function invoices()
+    {
+        return $this->hasMany('App\Models\PurchaseInvoice');
+    }
+
+
+    public function quotes()
+    {
+        return $this->hasMany('App\Models\PurchaseInvoice')
+            ->where('invoice_type_id', PURCHASE_INVOICE_TYPE_QUOTE);
+    }
+
+
+    public function publicQuotes()
+    {
+        return $this->hasMany('App\Models\PurchaseInvoice')
+            ->where('invoice_type_id', PURCHASE_INVOICE_TYPE_QUOTE)
+            ->where('is_public', true);
     }
 
     public function payments()
     {
-        return $this->hasMany('App\Models\Payment');
+        return $this->hasMany('App\Models\PurchasePayment');
     }
+
 
     public function contacts()
     {
         return $this->hasMany('App\Models\VendorContact');
     }
 
+
     public function country()
     {
         return $this->belongsTo('App\Models\Country');
     }
+
+
+    public function shipping_country()
+    {
+        return $this->belongsTo('App\Models\Country');
+    }
+
 
     public function currency()
     {
         return $this->belongsTo('App\Models\Currency');
     }
 
+
     public function language()
     {
         return $this->belongsTo('App\Models\Language');
     }
+
 
     public function size()
     {
         return $this->belongsTo('App\Models\Size');
     }
 
+    public function vendorType()
+    {
+        return $this->belongsTo('App\Models\VendorType');
+    }
+
+    public function holdReason()
+    {
+        return $this->belongsTo('App\Models\HoldReason');
+    }
+
+
     public function industry()
     {
         return $this->belongsTo('App\Models\Industry');
     }
+
+
+    public function credits()
+    {
+        return $this->hasMany('App\Models\PurchaseCredit');
+    }
+
+
+    public function creditsWithBalance()
+    {
+        return $this->hasMany('App\Models\PurchaseCredit')
+            ->where('balance', '>', 0);
+    }
+
 
     public function expenses()
     {
         return $this->hasMany('App\Models\Expense');
     }
 
+
     public function activities()
     {
         return $this->hasMany('App\Models\Activity')->orderBy('id', 'desc');
     }
 
-    public function addVendorContact($data, $isPrimary = false)
-    {
-        $publicId = isset($data['public_id']) ? $data['public_id'] : (isset($data['id']) ? $data['id'] : false);
 
+    public function addContact($data, $isPrimary = false)
+    {
+        $publicId = isset($data['public_id'])
+            ? $data['public_id'] : (isset($data['id']) ? $data['id'] : false);
+
+        // check if this vendor wasRecentlyCreated to ensure a new contact is
+        // always created even if the request includes a contact id
         if (!$this->wasRecentlyCreated && $publicId && intval($publicId) > 0) {
             $contact = VendorContact::scope($publicId)->where('vendor_id', $this->id)->firstOrFail();
+            $contact->updated_by = Auth::user()->username;
         } else {
             $contact = VendorContact::createNew();
+            $contact->send_invoice = true;
+            $contact->created_by = Auth::user()->username;
+            if (isset($data['contact_key']) && $this->account->account_key == env('NINJA_LICENSE_ACCOUNT_KEY')) {
+                $contact->contact_key = $data['contact_key'];
+            } else {
+                $contact->contact_key = strtolower(str_random(RANDOM_KEY_LENGTH));
+            }
+        }
+
+        if ($this->account->isVendorPortalPasswordEnabled()) {
+            if (!empty($data['password']) && $data['password'] != '-%unchanged%-') {
+                $contact->password = bcrypt($data['password']);
+            } elseif (empty($data['password'])) {
+                $contact->password = null;
+            }
         }
 
         $contact->fill($data);
-        $contact->send_invoice = true;
+        $contact->first_name = isset($data['first_name']) ? trim($data['first_name']) : '';
+        $contact->last_name = isset($data['last_name']) ? trim($data['last_name']) : '';
         $contact->is_primary = $isPrimary;
+        $contact->email = trim($contact->email);
 
         return $this->contacts()->save($contact);
+    }
+
+
+    public function updateBalances($balanceAdjustment, $paidToDateAdjustment)
+    {
+        if ($balanceAdjustment === 0 && $paidToDateAdjustment === 0) {
+            return;
+        }
+
+        $this->balance = $this->balance + $balanceAdjustment;
+        $this->paid_to_date = $this->paid_to_date + $paidToDateAdjustment;
+
+        $this->save();
+    }
+
+    public function getTotalCredit()
+    {
+        return DB::table('purchase_credits')
+            ->where('vendor_id', $this->id)
+            ->whereNull('deleted_at')
+            ->sum('balance');
     }
 
     public function getName()
@@ -188,9 +303,28 @@ class Vendor extends EntityModel
         return $this->name;
     }
 
+    public function getPrimaryContact()
+    {
+        if (!$this->relationLoaded('contacts')) {
+            $this->load('contacts');
+        }
+
+        foreach ($this->contacts as $contact) {
+            if ($contact->is_primary) {
+                return $contact;
+            }
+        }
+
+        return false;
+    }
+
     public function getDisplayName()
     {
-        return $this->getName();
+        if ($this->name) {
+            return $this->name;
+        } else if ($contact = $this->getPrimaryContact()) {
+            return $contact->getDisplayName();
+        }
     }
 
     public function getCityState()
@@ -205,7 +339,7 @@ class Vendor extends EntityModel
         return $this->hasAddress() && env('GOOGLE_MAPS_ENABLED') !== false;
     }
 
-    public function hasAddress()
+    public function addressesMatch()
     {
         $fields = [
             'address1',
@@ -217,6 +351,29 @@ class Vendor extends EntityModel
         ];
 
         foreach ($fields as $field) {
+            if ($this->$field != $this->{'shipping_' . $field}) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function hasAddress($shipping = false)
+    {
+        $fields = [
+            'address1',
+            'address2',
+            'city',
+            'state',
+            'postal_code',
+            'country_id',
+        ];
+
+        foreach ($fields as $field) {
+            if ($shipping) {
+                $field = 'shipping_' . $field;
+            }
             if ($this->$field) {
                 return true;
             }
@@ -227,11 +384,50 @@ class Vendor extends EntityModel
 
     public function getDateCreated()
     {
-        if ($this->created_at == '0000-00-00 00:00:00') {
+        if ($this->created_at === '0000-00-00 00:00:00') {
             return '---';
         } else {
             return $this->created_at->format('m/d/y h:i a');
         }
+    }
+
+    public function getGatewayToken()
+    {
+        $accountGateway = $this->account->getGatewayByType(GATEWAY_TYPE_TOKEN);
+
+        if (!$accountGateway) {
+            return false;
+        }
+
+        return AccountGatewayToken::vendorAndGateway($this->id, $accountGateway->id)->first();
+    }
+
+    public function defaultPaymentMethod()
+    {
+        if ($token = $this->getGatewayToken()) {
+            return $token->default_payment_method;
+        }
+
+        return false;
+    }
+
+
+    public function autoBillLater()
+    {
+        if ($token = $this->getGatewayToken()) {
+            if ($this->account->auto_bill_on_due_date) {
+                return true;
+            }
+
+            return $token->autoBillLater();
+        }
+
+        return false;
+    }
+
+    public function getAmount()
+    {
+        return $this->balance + $this->paid_to_date;
     }
 
     public function getCurrencyId()
@@ -247,37 +443,80 @@ class Vendor extends EntityModel
         return $this->account->currency_id ?: DEFAULT_CURRENCY;
     }
 
-    public function getTotalExpenses()
+    public function getCurrencyCode()
     {
-        return DB::table('expenses')
-            ->select('expense_currency_id', DB::raw('sum(expenses.amount + (expenses.amount * expenses.tax_rate1 / 100) + (expenses.amount * expenses.tax_rate2 / 100)) as amount'))
-            ->where('vendor_id', $this->id)
-            ->where('is_deleted', false)
-            ->groupBy('expense_currency_id')
-            ->get();
+        if ($this->currency) {
+            return $this->currency->code;
+        }
+
+        if (!$this->account) {
+            $this->load('account');
+        }
+
+        return $this->account->currency ? $this->account->currency->code : 'USD';
+    }
+
+    public function getCountryCode()
+    {
+        if ($country = $this->country) {
+            return $country->iso_3166_2;
+        }
+
+        if (!$this->account) {
+            $this->load('account');
+        }
+
+        return $this->account->country ? $this->account->country->iso_3166_2 : 'US';
+    }
+
+    public function getCounter($isQuote)
+    {
+        return $isQuote ? $this->quote_number_counter : $this->invoice_number_counter;
+    }
+
+    public function markLoggedIn()
+    {
+        $this->last_login = Carbon::now()->toDateTimeString();
+        $this->save();
+    }
+
+    public function hasAutoBillConfigurableInvoices()
+    {
+        return $this->invoices()->where('is_public', true)->whereIn('auto_bill', [AUTO_BILL_OPT_IN, AUTO_BILL_OPT_OUT])->count() > 0;
+    }
+
+    public function hasRecurringInvoices()
+    {
+        return $this->invoices()->where('is_public', true)->where('is_recurring', true)->count() > 0;
+    }
+
+    public function defaultDaysDue()
+    {
+        return $this->payment_terms === -1 ? 0 : $this->payment_terms;
+    }
+
+    public function firstInvitationKey()
+    {
+        if ($invoice = $this->invoices->first()) {
+            if ($invitation = $invoice->invitations->first()) {
+                return $invitation->invitation_key;
+            }
+        }
+    }
+
+    public function scopeIsInvoiceAllowed($query)
+    {
+        return $query->whereHas('holdReason', function ($query) {
+            $query->where('allow_invoice', 1);
+        });
     }
 }
 
 Vendor::creating(function ($vendor) {
     $vendor->setNullValues();
-});
-
-Vendor::created(function ($vendor) {
-    event(new VendorWasCreated($vendor));
+    $vendor->account->incrementCounter($vendor);
 });
 
 Vendor::updating(function ($vendor) {
     $vendor->setNullValues();
-});
-
-Vendor::updated(function ($vendor) {
-    event(new VendorWasUpdated($vendor));
-});
-
-Vendor::deleting(function ($vendor) {
-    $vendor->setNullValues();
-});
-
-Vendor::deleted(function ($vendor) {
-    event(new VendorWasDeleted($vendor));
 });

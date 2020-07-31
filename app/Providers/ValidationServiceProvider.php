@@ -2,15 +2,12 @@
 
 namespace App\Providers;
 
-use Exception;
-use Validator;
-use DB;
-use Log;
 use App\Libraries\Utils;
 use App\Models\Client;
-use App\Models\Credit;
+use Exception;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Schema;
 
 
 class ValidationServiceProvider extends ServiceProvider
@@ -21,8 +18,8 @@ class ValidationServiceProvider extends ServiceProvider
 
         Validator::extend('has_digit', function ($attribute, $value, $parameters, $validator) {
 
-           return Utils::parseFloat($value) > 0;
-       });
+            return Utils::parseFloat($value) > 0;
+        });
 
         Validator::extend('positive', function ($attribute, $value, $parameters) {
             return Utils::parseFloat($value) >= 0;
@@ -72,7 +69,9 @@ class ValidationServiceProvider extends ServiceProvider
             return ((strstr($value, '{$idNumber}') !== false || strstr($value, '{$clientIdNumber}') != false) && (strstr($value, '{$clientCounter}')));
         });
 
-        Validator::extendImplicit('valid_invoice_items', 
+// For a rule to run even when an attribute is empty, the rule must imply that the attribute is required.
+// To create such an "implicit" extension, use the Validator::extendImplicit() method
+        Validator::extendImplicit('valid_invoice_items',
             function ($attribute, $value, $parameters) {
                 $total = 0;
                 foreach ($value as $item) {
@@ -96,12 +95,12 @@ class ValidationServiceProvider extends ServiceProvider
             $array = explode(',', $value);
 
             foreach ($array as $email) { //loop over values
-                $email_to_validate['alert_email'][]=$email;
+                $email_to_validate['alert_email'][] = $email;
             }
 
             $rules = ['alert_email.*' => 'email'];
             $messages = [
-                'alert_email.*'=>trans('validation.email_array')
+                'alert_email.*' => trans('validation.email_array')
             ];
 
             $validator = Validator::make($email_to_validate, $rules, $messages);
@@ -115,10 +114,10 @@ class ValidationServiceProvider extends ServiceProvider
 
             if (count($parameters)) {
                 $count = DB::table($parameters[0])->select('id')
-                ->where($attribute, '=', $value)
-                ->whereNull('deleted_at')
-                ->where('id', '!=', $parameters[1])
-                ->count();
+                    ->where($attribute, '=', $value)
+                    ->whereNull('deleted_at')
+                    ->where('id', '!=', $parameters[1])
+                    ->count();
 
                 return $count < 1;
             }
@@ -137,7 +136,7 @@ class ValidationServiceProvider extends ServiceProvider
                 $test_string = 'My hovercraft is full of eels';
 
                 // We have to stip out the regex: part here to check with preg_match
-                $test_pattern = str_replace('regex:','', $value);
+                $test_pattern = str_replace('regex:', '', $value);
 
                 try {
 

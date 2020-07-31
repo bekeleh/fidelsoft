@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\PurchaseItem;
+use App\Models\PurchaseInvoiceItem;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -13,16 +13,16 @@ class PurchaseItemWasDeleted extends Event
     use SerializesModels;
 
     /**
-     * @var PurchaseItem
+     * @var PurchaseInvoiceItem
      */
     public $PurchaseItem;
 
     /**
      * Create a new event instance.
      *
-     * @param PurchaseItem $PurchaseItem
+     * @param PurchaseInvoiceItem $PurchaseItem
      */
-    public function __construct(PurchaseItem $PurchaseItem)
+    public function __construct(PurchaseInvoiceItem $PurchaseItem)
     {
         $this->PurchaseItem = $PurchaseItem;
     }

@@ -23,6 +23,7 @@ use App\Services\PaymentService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use mysql_xdevapi\Exception;
 
 class InvoiceRepository extends BaseRepository
 {
@@ -598,8 +599,8 @@ class InvoiceRepository extends BaseRepository
         $itemTax = 0;
         $itemTax = $this->getLineItemNetTax($account, $invoice, $data, $total);
 
-//       save invoice
-        $this->getCalculateInvoice($account, $invoice, $data, $total, $itemTax, $publicId);
+//       save sale invoice detail
+        $this->saveSaleInvoiceDetail($account, $invoice, $data, $total, $itemTax, $publicId);
 
         $origLineItems = [];
         if (!empty($publicId)) {
@@ -611,13 +612,13 @@ class InvoiceRepository extends BaseRepository
 //      update if any invoice documents
         if (!empty($data['document_ids'])) {
             $document_ids = array_map('intval', $data['document_ids']);
-            $this->uploadedInvoiceDocuments($invoice, $document_ids);
+            $this->saveInvoiceDocuments($invoice, $document_ids);
             $this->updateInvoiceDocuments($invoice, $document_ids);
 
         }
 
-//      core invoice computation
-        $this->getCalculateInvoiceItem($account, $invoice, $data, $origLineItems, $isNew);
+//      sales invoice line item detail
+        $this->saveLineItemDetail($account, $invoice, $data, $origLineItems, $isNew);
 
         $this->saveInvitations($invoice);
 
@@ -1377,8 +1378,9 @@ class InvoiceRepository extends BaseRepository
      * @param array $document_ids
      * @return mixed|null
      */
-    private function uploadedInvoiceDocuments(Invoice $invoice, array $document_ids)
+    private function saveInvoiceDocuments(Invoice $invoice, array $document_ids)
     {
+        // invoice docs
         if (empty($invoice) || empty($document_ids)) {
             return false;
         }
@@ -1437,9 +1439,6 @@ class InvoiceRepository extends BaseRepository
      */
     private function stockAdjustment($itemStore, Invoice $invoice, $origLineItems, array $newLineItem, $isNew)
     {
-        if (empty($invoice)) {
-            return false;
-        }
         $qoh = !empty($itemStore) ? Utils::parseFloat($itemStore->qty) : 0;
         $demandQty = Utils::parseFloat(trim($newLineItem['qty']));
 
@@ -1482,14 +1481,11 @@ class InvoiceRepository extends BaseRepository
      * @param array $item
      * @return mixed|null
      */
-    private function invoiceLineItemAdjustment($product, $itemStore, Invoice $invoice, array $item)
+    private function saveInvoiceLineItemAdjustment($product, $itemStore, Invoice $invoice, array $item)
     {
-        if (empty($invoice)) {
-            return false;
-        }
         $invoicedQty = !empty($item['qty']) ? Utils::parseFloat(trim($item['qty'])) : 1;
         $demandQty = !empty($item['qty']) ? Utils::parseFloat(trim($item['qty'])) : 1;
-        $itemCost = !empty($item['cost']) ? Utils::parseFloat(trim($item['cost'])) : 0;
+        $itemCost = !empty($item['cost']) ? Utils::parseFloat(trim($item['cost'])) : (isset($product->cost) ? $product->cost : 0);
         $invoiceItem = InvoiceItem::createNew($invoice);
         $invoiceItem->fill($item);
         $invoiceItem->product_id = !empty($product) ? $product->id : null;
@@ -1531,6 +1527,7 @@ class InvoiceRepository extends BaseRepository
         $invoice->invoice_items()->save($invoiceItem);
 
         return true;
+
     }
 
     /**
@@ -1568,10 +1565,6 @@ class InvoiceRepository extends BaseRepository
      */
     private function getLineItemNetTotal($account, Invoice $invoice, array $data)
     {
-        if (empty($invoice)) {
-            return false;
-        }
-
         $total = 0;
         $data = (array)$data;
         if (is_array($data)) {
@@ -1612,10 +1605,6 @@ class InvoiceRepository extends BaseRepository
      */
     private function getLineItemNetTax($account, Invoice $invoice, array $data, $total)
     {
-        if (empty($invoice)) {
-            return false;
-        }
-
         $itemTax = 0;
         if (is_array($data)) {
             foreach ($data['invoice_items'] as $item) {
@@ -1651,10 +1640,6 @@ class InvoiceRepository extends BaseRepository
      */
     private function updateItemStore($qoh, $demandQty, $itemStore)
     {
-        if (empty($itemStore)) {
-            return false;
-        }
-
         $qoh = Utils::parseFloat($qoh);
         $demandQty = Utils::parseFloat($demandQty);
         if ($qoh >= $demandQty) {
@@ -1680,10 +1665,6 @@ class InvoiceRepository extends BaseRepository
      */
     private function getLineItemTotal(Invoice $invoice, $invoiceItemCost, $invoiceItemQty, $discount, $total)
     {
-        if (empty($invoice)) {
-            return false;
-        }
-
         $total = !empty($total) ? Utils::parseFloat($total) : 0;
         $discount = !empty($discount) ? Utils::parseFloat($discount) : 0;
         $lineTotal = floatval($invoiceItemCost) * floatval($invoiceItemQty);
@@ -1711,10 +1692,6 @@ class InvoiceRepository extends BaseRepository
      */
     private function getLineItemTaxTotal(Invoice $invoice, $total, $invoiceItemCost, $invoiceItemQty, array $item, $itemTax)
     {
-        if (empty($invoice)) {
-            return false;
-        }
-
         $total = Utils::parseFloat($total);
         $itemTax = Utils::parseFloat($itemTax);
         $discount = !empty($item['discount']) ? round(Utils::parseFloat($item['discount']), 2) : 0;
@@ -1763,12 +1740,11 @@ class InvoiceRepository extends BaseRepository
      * @param bool $isNew
      * @return mixed|null
      */
-    private function getCalculateInvoiceItem($account, Invoice $invoice, array $data, $origLineItems, $isNew)
+    private function saveLineItemDetail($account, Invoice $invoice, array $data, $origLineItems, $isNew)
     {
         if (empty($invoice)) {
             return false;
         }
-
         $product = null;
         $itemStore = null;
         if (is_array($data)) {
@@ -1796,10 +1772,10 @@ class InvoiceRepository extends BaseRepository
                         if (empty($data['is_quote'])) {
                             $this->stockAdjustment($itemStore, $invoice, $origLineItems, $item, $isNew);
                         }
-                        $this->invoiceLineItemAdjustment($product, $itemStore, $invoice, $item);
+                        $this->saveInvoiceLineItemAdjustment($product, $itemStore, $invoice, $item);
                     }
                 } else {
-                    $this->invoiceLineItemAdjustment($product, $itemStore, $invoice, $item);
+                    $this->saveInvoiceLineItemAdjustment($product, $itemStore, $invoice, $item);
                 }
             }
         }
@@ -1816,12 +1792,8 @@ class InvoiceRepository extends BaseRepository
      * @param bool $publicId
      * @return mixed|null
      */
-    private function getCalculateInvoice($account, Invoice $invoice, array $data, $total, $itemTax, $publicId)
+    private function saveSaleInvoiceDetail($account, Invoice $invoice, array $data, $total, $itemTax, $publicId)
     {
-        if (empty($invoice)) {
-            return false;
-        }
-
         $total = !empty($total) ? Utils::parseFloat($total) : 0;
         $invoiceDiscount = !empty($invoice->discount) ? Utils::parseFloat($invoice->discount) : 0;
 //      if any invoice discount

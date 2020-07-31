@@ -34,7 +34,7 @@ class PurchaseInvoiceItem extends EntityModel
 
     public function getEntityType()
     {
-        return ENTITY_INVOICE_ITEM;
+        return ENTITY_PURCHASE_INVOICE_ITEM;
     }
 
     public function getRoute()

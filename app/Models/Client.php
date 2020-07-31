@@ -127,7 +127,7 @@ class Client extends EntityModel
 
     public function getRoute()
     {
-        return "/clients/{$this->public_id}";
+        return "/clients/{$this->public_id}/edit";
     }
 
     public function account()
@@ -159,7 +159,7 @@ class Client extends EntityModel
     {
         return $this->hasMany('App\Models\Invoice')
             ->where('invoice_type_id', INVOICE_TYPE_QUOTE)
-            ->whereIsPublic(true);
+            ->where('is_public', true);
     }
 
     public function payments()
@@ -258,7 +258,7 @@ class Client extends EntityModel
         // check if this client wasRecentlyCreated to ensure a new contact is
         // always created even if the request includes a contact id
         if (!$this->wasRecentlyCreated && $publicId && intval($publicId) > 0) {
-            $contact = Contact::scope($publicId)->whereClientId($this->id)->firstOrFail();
+            $contact = Contact::scope($publicId)->where('client_id', $this->id)->firstOrFail();
             $contact->updated_by = Auth::user()->username;
         } else {
             $contact = Contact::createNew();
@@ -493,12 +493,12 @@ class Client extends EntityModel
 
     public function hasAutoBillConfigurableInvoices()
     {
-        return $this->invoices()->whereIsPublic(true)->whereIn('auto_bill', [AUTO_BILL_OPT_IN, AUTO_BILL_OPT_OUT])->count() > 0;
+        return $this->invoices()->where('is_public', true)->whereIn('auto_bill', [AUTO_BILL_OPT_IN, AUTO_BILL_OPT_OUT])->count() > 0;
     }
 
     public function hasRecurringInvoices()
     {
-        return $this->invoices()->whereIsPublic(true)->whereIsRecurring(true)->count() > 0;
+        return $this->invoices()->where('is_public', true)->where('is_recurring', true)->count() > 0;
     }
 
     public function defaultDaysDue()

@@ -2,15 +2,12 @@
 
 namespace App\Providers;
 
-use Form;
 use App\Http\Macros\FormMixins;
 use App\Http\Macros\RuleMixins;
-use App\Libraries\Utils;
-use App\Models\Client;
+use Form;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rule;
 
@@ -53,6 +50,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Illuminate\Contracts\Auth\Registrar','App\Services\Registrar');
+        $this->app->bind('Illuminate\Contracts\Auth\Registrar', 'App\Services\Registrar');
     }
 }

@@ -35,6 +35,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     protected $presenter = 'App\Ninja\Presenters\PurchaseInvoicePresenter';
 
+    protected $table = 'purchase_invoices';
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
     protected $hidden = ['deleted_at'];
 
@@ -63,7 +64,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
         'vendor_enable_auto_bill' => 'boolean',
         'has_expenses' => 'boolean',
     ];
-//  vendor counter should be replace by vendor counter and the reset too.
+
     public static $patternFields = [
         'counter',
         'vendorCounter',
@@ -271,9 +272,15 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
         return $this->belongsTo('App\Models\Vendor')->withTrashed();
     }
 
+//  to cheat the vendor model
+    public function client()
+    {
+        return $this->belongsTo('App\Models\Vendor', 'vendor_id')->withTrashed();
+    }
+
     public function invoice_items()
     {
-        return $this->hasMany('App\Models\PurchaseItem')->orderBy('id');
+        return $this->hasMany('App\Models\PurchaseInvoiceItem', 'purchase_invoice_id')->orderBy('id');
     }
 
     public function documents()
@@ -299,7 +306,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     public function invoice_status()
     {
-        return $this->belongsTo('App\Models\PurchaseOrderStatus');
+        return $this->belongsTo('App\Models\InvoiceStatus');
     }
 
 
@@ -310,7 +317,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     public function payments()
     {
-        return $this->hasMany('App\Models\Payment');
+        return $this->hasMany('App\Models\PurchasePayment');
     }
 
     public function recurring_invoice()
@@ -333,9 +340,9 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
         return $this->belongsTo('App\Models\Frequency');
     }
 
-    public function purchase_invitations()
+    public function invitations()
     {
-        return $this->hasMany('App\Models\PurchaseInvitation')->orderBy('purchase_invitations.vendor_contact_id');
+        return $this->hasMany('App\Models\PurchaseInvitation')->orderBy('purchase_invitations.contact_id');
     }
 
     public function expenses()
@@ -346,6 +353,11 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
     public function branch()
     {
         return $this->belongsTo('App\Models\Branch')->withTrashed();
+    }
+
+    public function activities()
+    {
+        return $this->hasMany('App\Models\Activity')->withTrashed();
     }
 
     public function scopePurchaseInvoices($query)
@@ -452,7 +464,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
     public function markSent()
     {
         if ($this->is_deleted) {
-            return;
+            return false;
         }
 
         if (!$this->isSent()) {
@@ -468,15 +480,15 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
     public function markInvitationsSent($notify = false, $reminder = false)
     {
         if ($this->is_deleted) {
-            return;
+            return false;
         }
 
         if (!$this->relationLoaded('purchase_invitations')) {
             $this->load('purchase_invitations');
         }
 
-        foreach ($this->purchase_invitations as $purchase_invitation) {
-            $this->markInvitationSent($purchase_invitation, false, $notify, $reminder);
+        foreach ($this->purchase_invitations as $invitation) {
+            $this->markInvitationSent($invitation, false, $notify, $reminder);
         }
     }
 
@@ -486,8 +498,8 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
             $this->load('purchase_invitations');
         }
 
-        foreach ($this->purchase_invitations as $purchase_invitation) {
-            if (!$purchase_invitation->isSent()) {
+        foreach ($this->purchase_invitations as $invitation) {
+            if (!$invitation->isSent()) {
                 return false;
             }
         }
@@ -495,10 +507,10 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
         return true;
     }
 
-    public function markInvitationSent($purchase_invitation, $messageId = false, $notify = true, $notes = false)
+    public function markInvitationSent($invitation, $messageId = false, $notify = true, $notes = false)
     {
         if ($this->is_deleted) {
-            return;
+            return false;
         }
 
         if (!$this->isSent()) {
@@ -507,18 +519,18 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
             $this->save();
         }
 
-        $purchase_invitation->markSent($messageId);
+        $invitation->markSent($messageId);
 
         // if the user marks it as sent rather than actually sending it
         // then we won't track it in the activity log
         if (!$notify) {
-            return;
+            return false;
         }
 
         if ($this->isType(PURCHASE_INVOICE_TYPE_QUOTE)) {
-            event(new PurchaseQuoteInvitationWasEmailed($purchase_invitation, $notes));
+            event(new PurchaseQuoteInvitationWasEmailed($invitation, $notes));
         } else {
-            event(new PurchaseInvitationWasEmailed($purchase_invitation, $notes));
+            event(new PurchaseInvitationWasEmailed($invitation, $notes));
         }
     }
 
@@ -560,14 +572,14 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
     public function updateBalances($balanceAdjustment, $partial = 0)
     {
         if ($this->is_deleted) {
-            return;
+            return false;
         }
 
         $balanceAdjustment = floatval($balanceAdjustment);
         $partial = floatval($partial);
 
         if (!$balanceAdjustment && $this->partial == $partial) {
-            return;
+            return false;
         }
 
         $this->balance = $this->balance + $balanceAdjustment;
@@ -774,7 +786,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
             'documents',
             'expenses',
             'vendor',
-            'purchase_invitations',
+            'invitations',
             'tax_name1',
             'tax_rate1',
             'tax_name2',
@@ -856,8 +868,8 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
             'signature_on_pdf',
         ]);
 
-        foreach ($this->purchase_invitations as $purchase_invitation) {
-            $purchase_invitation->setVisible([
+        foreach ($this->invitations as $invitation) {
+            $invitation->setVisible([
                 'signature_base64',
                 'signature_date',
             ]);
@@ -1031,7 +1043,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
         return implode('<br/>', $dates);
     }
 
-    public function getPDFString($purchase_invitation = false, $decode = true)
+    public function getPDFString($invitation = false, $decode = true)
     {
         if (!env('PHANTOMJS_CLOUD_KEY') && !env('PHANTOMJS_BIN_PATH')) {
             return false;
@@ -1041,8 +1053,8 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
             return false;
         }
 
-        $purchase_invitation = $purchase_invitation ?: $this->purchase_invitations[0];
-        $link = $purchase_invitation->getLink('view', true, true);
+        $invitation = $invitation ?: $this->purchase_invitations[0];
+        $link = $invitation->getLink('view', true, true);
         $pdfString = false;
         $phantomjsSecret = env('PHANTOMJS_SECRET');
         $phantomjsLink = $link . "?phantomjs=true&phantomjs_secret={$phantomjsSecret}";
@@ -1217,7 +1229,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
     private function calculateTax(&$taxes, $name, $rate, $amount, $paid)
     {
         if (!$amount) {
-            return;
+            return false;
         }
 
         $amount = round($amount, 2);
@@ -1389,15 +1401,15 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
             return false;
         }
 
-        $purchaseInvoice = static::scope($this->quote_invoice_id, $this->account_id)->with('purchase_invitations')->first();
+        $purchaseInvoice = static::scope($this->quote_invoice_id, $this->account_id)->with('invitations')->first();
 
         if (!$purchaseInvoice) {
             return false;
         }
 
-        foreach ($purchaseInvoice->purchase_invitations as $purchase_invitation) {
-            if ($purchase_invitation->vendor_contact_id == $vendorContactId) {
-                return $purchase_invitation->getLink();
+        foreach ($purchaseInvoice->invitations as $invitation) {
+            if ($invitation->contact_id == $vendorContactId) {
+                return $invitation->getLink();
             }
         }
 

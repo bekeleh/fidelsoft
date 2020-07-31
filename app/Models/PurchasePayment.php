@@ -16,6 +16,7 @@ class PurchasePayment extends EntityModel
 {
     use PresentableTrait;
     use SoftDeletes;
+    protected $presenter = 'App\Ninja\Presenters\PurchasePaymentPresenter';
 
     protected $fillable = [
         'transaction_reference',
@@ -39,10 +40,8 @@ class PurchasePayment extends EntityModel
         PAYMENT_STATUS_ADVANCE_PAID => 'success',
     ];
 
-
+    protected $table = 'purchase_payments';
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
-
-    protected $presenter = 'App\Ninja\Presenters\PurchasePaymentPresenter';
 
     public function getEntityType()
     {

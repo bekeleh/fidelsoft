@@ -153,8 +153,17 @@ class InvoiceDatatable extends EntityDatatable
                 function ($model) {
                     return URL::to("invoices/{$model->public_id}/edit");
                 },
+                function ($model) use ($entityType) {
+                    return $entityType == ENTITY_INVOICE && Auth::user()->can('edit', [ENTITY_INVOICE]);
+                },
+            ],
+            [
+                trans('texts.edit_quote'),
                 function ($model) {
-                    return !$model->is_public && Auth::user()->can('edit', [ENTITY_INVOICE, $model]);
+                    return URL::to("quotes/{$model->public_id}/edit");
+                },
+                function ($model) use ($entityType) {
+                    return $entityType == ENTITY_QUOTE && Auth::user()->can('edit', [ENTITY_QUOTE]);
                 },
             ],
             [

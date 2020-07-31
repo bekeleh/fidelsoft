@@ -4,11 +4,12 @@ namespace App\Ninja\Repositories;
 
 use App\Libraries\Utils;
 use App\Models\Document;
-use Datatable;
-use Form;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\FacadesAuth;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManager;
+use Datatable;
+use Form;
 
 class DocumentRepository extends BaseRepository
 {
@@ -27,37 +28,44 @@ class DocumentRepository extends BaseRepository
     public function all()
     {
         return Document::scope()
-        ->with('user')
-        ->get();
+            ->with('user')
+            ->get();
     }
 
     public function find($accountId = false, $filter = null)
     {
-        $accountid = Auth::user()->account_id;
+        $accountId = Auth::user()->account_id;
 
-        $query = DB::table('clients')
-        ->leftJoin('accounts', 'accounts.id', '=', 'clients.account_id')
-        ->leftJoin('clients', 'clients.id', '=', 'clients.client_id')
-        ->where('documents.account_id', '=', $accountid)
-        // ->whereNull('documents.deleted_at')
-        ->select(
-            'documents.account_id',
-            'documents.path',
-            'documents.deleted_at',
-            'documents.size',
-            'documents.width',
-            'documents.height',
-            'documents.id',
-            'documents.is_deleted',
-            'documents.public_id',
-            'documents.invoice_id',
-            'documents.expense_id',
-            'documents.user_id',
-            'invoices.public_id as invoice_public_id',
-            'invoices.user_id as invoice_user_id',
-            'expenses.public_id as expense_public_id',
-            'expenses.user_id as expense_user_id'
-        );
+        $query = DB::table('documents')
+            ->leftJoin('accounts', 'accounts.id', '=', 'documents.account_id')
+//            ->leftJoin('clients', 'clients.id', '=', 'documents.client_id')
+            ->where('documents.account_id', $accountId)
+            // ->whereNull('documents.deleted_at')
+            ->select(
+                'documents.account_id',
+                'documents.path',
+                'documents.deleted_at',
+                'documents.size',
+                'documents.width',
+                'documents.height',
+                'documents.id',
+                'documents.is_deleted',
+                'documents.public_id',
+                'documents.invoice_id',
+                'documents.expense_id',
+                'documents.user_id',
+                'invoices.public_id as invoice_public_id',
+                'invoices.user_id as invoice_user_id',
+                'expenses.public_id as expense_public_id',
+                'expenses.user_id as expense_user_id'
+            );
+        if ($filter) {
+            $query->where(function ($query) use ($filter) {
+                $query->where('documents.id', 'like', '%' . $filter . '%')
+                    ->orWhere('documents.document_key', 'like', '%' . $filter . '%')
+                    ->orWhere('invoices.invoice_number', 'like', '%' . $filter . '%');
+            });
+        }
 
         return $query;
     }
@@ -99,7 +107,7 @@ class DocumentRepository extends BaseRepository
         }
 
         $hash = sha1_file($filePath);
-        $filename = \Auth::user()->account->account_key . '/' . $hash . '.' . $documentType;
+        $filename = Auth::user()->account->account_key . '/' . $hash . '.' . $documentType;
 
         $document = Document::createNew();
         $document->fill($data);
@@ -146,7 +154,7 @@ class DocumentRepository extends BaseRepository
                     $previewType = 'png';
                 }
 
-                $document->preview = \Auth::user()->account->account_key . '/' . $hash . '.' . $documentType . '.x' . DOCUMENT_PREVIEW_SIZE . '.' . $previewType;
+                $document->preview = Auth::user()->account->account_key . '/' . $hash . '.' . $documentType . '.x' . DOCUMENT_PREVIEW_SIZE . '.' . $previewType;
                 if (!$disk->exists($document->preview)) {
                     // We haven't created a preview yet
                     $imgManager = new ImageManager($imgManagerConfig);
@@ -187,7 +195,7 @@ class DocumentRepository extends BaseRepository
             $document->width = $imageSize[0];
             $document->height = $imageSize[1];
         }
-
+        $document->created_by = auth::user()->username;
         $document->save();
         $doc_array = $document->toArray();
 
@@ -202,47 +210,47 @@ class DocumentRepository extends BaseRepository
     public function getClientDatatable($contactId, $entityType, $search)
     {
         $query = DB::table('invitations')
-        ->join('accounts', 'accounts.id', '=', 'invitations.account_id')
-        ->join('invoices', 'invoices.id', '=', 'invitations.invoice_id')
-        ->join('documents', 'documents.invoice_id', '=', 'invitations.invoice_id')
-        ->join('clients', 'clients.id', '=', 'invoices.client_id')
-        ->where('invitations.contact_id', '=', $contactId)
-        ->where('invitations.deleted_at', '=', null)
-        ->where('invoices.is_deleted', '=', false)
-        ->where('clients.deleted_at', '=', null)
-        ->where('invoices.is_recurring', '=', false)
-        ->where('invoices.is_public', '=', true)
+            ->leftJoin('accounts', 'accounts.id', '=', 'invitations.account_id')
+            ->leftJoin('invoices', 'invoices.id', '=', 'invitations.invoice_id')
+            ->leftJoin('documents', 'documents.invoice_id', '=', 'invitations.invoice_id')
+            ->leftJoin('clients', 'clients.id', '=', 'invoices.client_id')
+            ->where('invitations.contact_id', $contactId)
+            ->where('invitations.deleted_at', null)
+            ->where('invoices.is_deleted', false)
+            ->where('clients.deleted_at', null)
+            ->where('invoices.is_recurring', false)
+            ->where('invoices.is_public', true)
             // TODO: This needs to be a setting to also hide the activity on the dashboard page
             //->where('invoices.invoice_status_id', '>=', INVOICE_STATUS_SENT)
-        ->select(
-            'invitations.invitation_key',
-            'invoices.invoice_number',
-            'documents.name',
-            'documents.public_id',
-            'documents.created_at',
-            'documents.size'
-        );
+            ->select(
+                'invitations.invitation_key',
+                'invoices.invoice_number',
+                'documents.name',
+                'documents.public_id',
+                'documents.created_at',
+                'documents.size'
+            );
 
         $table = Datatable::query($query)
-        ->addColumn('invoice_number', function ($model) {
-            return link_to(
-                '/view/' . $model->invitation_key,
-                $model->invoice_number
-            )->toHtml();
-        })
-        ->addColumn('name', function ($model) {
-            return link_to(
-                '/client/documents/' . $model->invitation_key . '/' . $model->public_id . '/' . $model->name,
-                $model->name,
-                ['target' => '_blank']
-            )->toHtml();
-        })
-        ->addColumn('created_at', function ($model) {
-            return Utils::dateToString($model->created_at);
-        })
-        ->addColumn('size', function ($model) {
-            return Form::human_filesize($model->size);
-        });
+            ->addColumn('invoice_number', function ($model) {
+                return link_to(
+                    '/view/' . $model->invitation_key,
+                    $model->invoice_number
+                )->toHtml();
+            })
+            ->addColumn('name', function ($model) {
+                return link_to(
+                    '/client/documents/' . $model->invitation_key . '/' . $model->public_id . '/' . $model->name,
+                    $model->name,
+                    ['target' => '_blank']
+                )->toHtml();
+            })
+            ->addColumn('created_at', function ($model) {
+                return Utils::dateToString($model->created_at);
+            })
+            ->addColumn('size', function ($model) {
+                return Form::human_filesize($model->size);
+            });
 
         return $table->make();
     }

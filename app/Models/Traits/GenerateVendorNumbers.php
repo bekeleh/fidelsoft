@@ -122,9 +122,10 @@ trait GenerateVendorNumbers
         if (!$this->isPro()) {
             return false;
         }
-
-        $pattern = $purchaseInvoice->invoice_type_id == PURCHASE_INVOICE_TYPE_QUOTE ? $this->purchase_quote_number_pattern : $this->purchase_invoice_number_pattern;
-
+        $pattern = false;
+        if (isset($purchaseInvoice->invoice_type_id)) {
+            $pattern = $purchaseInvoice->invoice_type_id == PURCHASE_INVOICE_TYPE_QUOTE ? $this->purchase_quote_number_pattern : $this->purchase_invoice_number_pattern;
+        }
         return strstr($pattern, '$vendor') !== false || strstr($pattern, '$idNumber') !== false;
     }
 

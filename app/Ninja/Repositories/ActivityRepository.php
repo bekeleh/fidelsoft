@@ -7,6 +7,8 @@ use App\Libraries\Utils;
 use App\Models\Activity;
 use App\Models\Client;
 use App\Models\Invitation;
+use App\Models\PurchaseInvitation;
+use App\Models\Vendor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
@@ -45,11 +47,44 @@ class ActivityRepository extends BaseRepository
         $activity->$keyField = $entity->id;
 
         $activity->ip = Request::getClientIp();
-//      save activity
         $activity->save();
-//      if any client balance adjustment
+
         if ($client) {
             $client->updateBalances($balanceChange, $paidToDateChange);
+        }
+
+        return $activity;
+    }
+
+    public function createPurchaseInvoice($entity, $activityTypeId, $balanceChange = 0, $paidToDateChange = 0, $altEntity = null, $notes = false)
+    {
+        if ($entity instanceof Vendor) {
+            $vendor = $entity;
+        } elseif ($entity instanceof PurchaseInvitation) {
+            $vendor = $entity->invoice->client;
+        } else {
+            $vendor = $entity->client;
+        }
+
+        // init activity and copy over context
+        $activity = self::getBlank($altEntity ?: ($vendor ?: $entity));
+        $activity = Utils::copyContext($activity, $entity);
+        $activity = Utils::copyContext($activity, $altEntity);
+
+        $activity->activity_type_id = $activityTypeId;
+        $activity->adjustment = $balanceChange;
+        $activity->vendor_id = $vendor ? $vendor->id : null;
+        $activity->balance = $vendor ? ($vendor->balance + $balanceChange) : 0;
+        $activity->notes = $notes ?: '';
+
+        $keyField = $entity->getKeyField();
+        $activity->$keyField = $entity->id;
+
+        $activity->ip = Request::getClientIp();
+        $activity->save();
+
+        if ($vendor) {
+            $vendor->updateBalances($balanceChange, $paidToDateChange);
         }
 
         return $activity;

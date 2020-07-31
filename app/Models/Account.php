@@ -969,6 +969,7 @@ class Account extends Eloquent
                 $purchaseInvoice->invoice_type_id = PURCHASE_INVOICE_TYPE_QUOTE;
                 $purchaseInvoice->invoice_design_id = $this->quote_design_id;
             }
+
             if ($this->hasVendorNumberPattern($purchaseInvoice) && !$vendorId) {
                 // do nothing, we don't yet know the value
             } elseif (!$purchaseInvoice->invoice_number) {
@@ -1671,6 +1672,11 @@ class Account extends Eloquent
     }
 
     public function isClientPortalPasswordEnabled()
+    {
+        return $this->hasFeature(FEATURE_CLIENT_PORTAL_PASSWORD) && $this->enable_portal_password;
+    }
+
+    public function isVendorPortalPasswordEnabled()
     {
         return $this->hasFeature(FEATURE_CLIENT_PORTAL_PASSWORD) && $this->enable_portal_password;
     }

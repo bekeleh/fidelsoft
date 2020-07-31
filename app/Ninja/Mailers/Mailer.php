@@ -2,12 +2,16 @@
 
 namespace App\Ninja\Mailers;
 
+use App;
 use App\Libraries\Utils;
 use Exception;
+use Illuminate\Mail\TransportManager;
 use Illuminate\Support\Facades\Mail;
+use Log;
 use Postmark\Models\PostmarkAttachment;
 use Postmark\Models\PostmarkException;
 use Postmark\PostmarkClient;
+use Swift_Mailer;
 
 /**
  * Class Mailer.
@@ -31,7 +35,7 @@ class Mailer
         $fromEmail = CONTACT_EMAIL;
 
         if (Utils::isSelfHost() && config('app.debug')) {
-            \Log::info("Sending email - To: {$toEmail} | Reply: {$replyEmail} | From: $fromEmail");
+            Log::info("Sending email - To: {$toEmail} | Reply: {$replyEmail} | From: $fromEmail");
         }
 
         // Optionally send for alternate domain
@@ -70,11 +74,11 @@ class Mailer
                     }
 
                     $fromEmail = config('mail.from.address');
-                    $app = \App::getInstance();
+                    $app = App::getInstance();
                     $app->singleton('swift.transport', function ($app) {
-                        return new \Illuminate\Mail\TransportManager($app);
+                        return new TransportManager($app);
                     });
-                    $mailer = new \Swift_Mailer($app['swift.transport']->driver());
+                    $mailer = new Swift_Mailer($app['swift.transport']->driver());
                     Mail::setSwiftMailer($mailer);
                 }
             }

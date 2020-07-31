@@ -270,30 +270,30 @@
             {!! Former::close() !!}
             <ul class="nav navbar-nav hide-non-phone" style="font-weight: bold">
                 @foreach ([
-                'dashboard' => false,
-                'users' => false,
-                'permission_groups' => false,
-                'clients' => false,
-                'point_of_sales' => false,
-                'products' => false,
-                'locations' => false,
-                'invoices' => false,
-                'purchase_invoices' => false,
-                'receive_invoices' => false,
-                'quotes' => false,
-                'payments' => false,
-                'recurring_invoices' => false,
-                'credits' => false,
-                'proposals' => false,
-                'projects' => false,
-                'tasks' => false,
-                'expenses' => false,
-                'vendors' => false,
-                'manufacturers' => false,
-                'schedules' => false,
-                'reports' => false,
-                'settings' => false,
-                ] as $key => $value)
+                    'dashboard' => false,
+                    'users' => false,
+                    'permission_groups' => false,
+                    'clients' => false,
+                    'point_of_sales' => false,
+                    'products' => false,
+                    'locations' => false,
+                    'purchase_invoices' => false,
+                    'purchase_quotes' => false,
+                    'invoices' => false,
+                    'quotes' => false,
+                    'payments' => false,
+                    'recurring_invoices' => false,
+                    'credits' => false,
+                    'proposals' => false,
+                    'projects' => false,
+                    'tasks' => false,
+                    'expenses' => false,
+                    'vendors' => false,
+                    'manufacturers' => false,
+                    'schedules' => false,
+                    'reports' => false,
+                    'settings' => false,
+                    ] as $key => $value)
                     {!! Form::nav_link($key, $value ?: $key) !!}
                 @endforeach
             </ul>
@@ -305,25 +305,25 @@
         <div id="left-sidebar-wrapper" class="hide-phone">
             <ul class="sidebar-nav {{ Auth::user()->dark_mode ? 'sidebar-nav-dark' : 'sidebar-nav-light' }}">
             @foreach([
-            'dashboard',
-            'clients',
-            'vendors',
-            'users',
-            'purchase_invoices',
-            'receive_invoices',
-            'invoices',
-            'quotes',
-            'payments',
-            'recurring_invoices' => 'recurring',
-            'credits',
-            'expenses',
-            'products',
-            'proposals',
-            'projects',
-            'tasks',
-            'schedules',
-            'manufacturers',
-            ] as $option)
+                'dashboard',
+                'clients',
+                'vendors',
+                'users',
+                'purchase_invoices',
+                'purchase_quotes',
+                'invoices',
+                'quotes',
+                'payments',
+                'recurring_invoices' => 'recurring',
+                'credits',
+                'expenses',
+                'products',
+                'proposals',
+                'projects',
+                'tasks',
+                'schedules',
+                'manufacturers',
+                ] as $option)
                 @if(!Auth::user()->account->isModuleEnabled(substr($option, 0, -1)))
                     {{ '' }}
                 @else
@@ -401,8 +401,8 @@
                         @if (Auth::check() && Auth::user()->hasActivePromo())
                         @elseif (Auth::check() && Auth::user()->isTrial())
                             {!! trans(Auth::user()->account->getCountTrialDaysLeft() == 0 ? 'texts.trial_footer_last_day' : 'texts.trial_footer', [
-                            'count' => Auth::user()->account->getCountTrialDaysLeft(),
-                            ]) !!}
+                                'count' => Auth::user()->account->getCountTrialDaysLeft(),
+                                ]) !!}
                         @endif
                     @else
                         <!-- In Dev  -->

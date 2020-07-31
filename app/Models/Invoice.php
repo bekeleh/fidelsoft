@@ -35,7 +35,6 @@ class Invoice extends EntityModel implements BalanceAffecting
 
     protected $presenter = 'App\Ninja\Presenters\InvoicePresenter';
 
-    protected $appends = [];
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
     protected $hidden = ['deleted_at'];
 
