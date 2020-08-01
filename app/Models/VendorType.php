@@ -1,0 +1,49 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Laracasts\Presenter\PresentableTrait;
+
+/**
+ * Class VendorType.
+ */
+class VendorType extends EntityModel
+{
+    use PresentableTrait;
+    use SoftDeletes;
+
+    /**
+     * @var string
+     */
+    protected $presenter = 'App\Ninja\Presenters\VendorTypePresenter';
+
+    protected $table = 'vendor_types';
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+
+    protected $hidden = ['deleted_at'];
+
+    protected $fillable = [
+        'name',
+        'is_deleted',
+        'notes',
+        'created_by',
+        'updated_by',
+        'deleted_by',
+    ];
+
+    public function getEntityType()
+    {
+        return ENTITY_CLIENT_TYPE;
+    }
+
+    public function vendors()
+    {
+        return $this->hasMany('App\Models\Vendor')->withTrashed();
+    }
+
+    public function itemPrices()
+    {
+        return $this->hasMany('App\Models\ItemPrice')->withTrashed();
+    }
+}

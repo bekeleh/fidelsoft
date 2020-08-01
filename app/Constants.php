@@ -54,6 +54,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_ITEM_PRICE', 'item_price');
     define('ENTITY_CLIENT_TYPE', 'client_type');
     define('ENTITY_SALE_TYPE', 'sale_type');
+    define('ENTITY_VENDOR_TYPE', 'vendor_type');
     define('ENTITY_HOLD_REASON', 'hold_reason');
     define('ENTITY_ACTIVITY', 'activity');
     define('ENTITY_VENDOR', 'vendor');
@@ -192,6 +193,7 @@ if (!defined('APP_NAME')) {
     define('ACCOUNT_PRODUCTS', 'products');
     define('ACCOUNT_CLIENT_TYPES', 'client_types');
     define('ACCOUNT_SALE_TYPES', 'sale_types');
+    define('ACCOUNT_VENDOR_TYPES', 'vendor_types');
     define('ACCOUNT_ITEM_STORES', 'item_stores');
     define('ACCOUNT_ITEM_REQUESTS', 'item_requests');
     define('ACCOUNT_ITEM_TRANSFERS', 'item_transfers');
