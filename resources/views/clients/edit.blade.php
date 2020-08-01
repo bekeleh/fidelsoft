@@ -282,63 +282,6 @@
                         </div>
                     </div>
                 </div>
-                @if (Auth::user()->account->isNinjaAccount())
-                    <div class="panel panel-default">
-                        <div class="panel-heading" style="color:white;background: #777 !important;">
-                            <h3 class="panel-title in-bold-white">{!! trans('texts.pro_plan_product') !!}</h3>
-                        </div>
-                        <div class="panel-body">
-                        @if (isset($planDetails))
-                            {!! Former::populateField('plan', $planDetails['plan']) !!}
-                            {!! Former::populateField('plan_term', $planDetails['term']) !!}
-                            {!! Former::populateField('plan_price', $planDetails['plan_price']) !!}
-                            @if (!empty($planDetails['paid']))
-                                {!! Former::populateField('plan_paid', $planDetails['paid']->format('Y-m-d')) !!}
-                            @endif
-                            @if (!empty($planDetails['expires']))
-                                {!! Former::populateField('plan_expires', $planDetails['expires']->format('Y-m-d')) !!}
-                            @endif
-                            @if (!empty($planDetails['started']))
-                                {!! Former::populateField('plan_started', $planDetails['started']->format('Y-m-d')) !!}
-                            @endif
-                        @endif
-                        <!-- plan -->
-                        {!! Former::select('plan')
-                        ->addOption(trans('texts.plan_free'), PLAN_FREE)
-                        ->addOption(trans('texts.plan_pro'), PLAN_PRO)
-                        ->addOption(trans('texts.plan_enterprise'), PLAN_ENTERPRISE)!!}
-                        <!-- plan term -->
-                        {!! Former::select('plan_term')
-                        ->addOption()
-                        ->placeholder(trans('texts.select_plan_term'))
-                        ->addOption(trans('texts.plan_term_yearly'), PLAN_TERM_YEARLY)
-                        ->addOption(trans('texts.plan_term_monthly'), PLAN_TERM_MONTHLY)!!}
-                        <!-- plan price -->
-                        {!! Former::text('plan_price') !!}
-                        {!! Former::text('plan_started')
-                        ->data_date_format('yyyy-mm-dd')
-                        ->addGroupClass('plan_start_date')
-                        ->append('<i class="glyphicon glyphicon-calendar"></i>') !!}
-                        <!-- plan paid -->
-                        {!! Former::text('plan_paid')
-                        ->data_date_format('yyyy-mm-dd')
-                        ->addGroupClass('plan_paid_date')
-                        ->append('<i class="glyphicon glyphicon-calendar"></i>') !!}
-                        <!-- plan expire -->
-                        {!! Former::text('plan_expires')
-                        ->data_date_format('yyyy-mm-dd')
-                        ->addGroupClass('plan_expire_date')
-                        ->append('<i class="glyphicon glyphicon-calendar"></i>') !!}
-                        <!-- date picker -->
-                            <script type="text/javascript">
-                                $(function () {
-                                    $('#plan_started, #plan_paid, #plan_expires').datepicker();
-                                });
-                            </script>
-
-                        </div>
-                    </div>
-                @endif
             </div>
         </div>
         {!! Former::hidden('data')->data_bind("value: ko.toJSON(model)") !!}

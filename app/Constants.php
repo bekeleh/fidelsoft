@@ -60,6 +60,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_VENDOR_CONTACT', 'vendor_contact');
     define('ENTITY_VENDOR_ACTIVITY', 'vendor_activity');
     define('ENTITY_EXPENSE', 'expense');
+    define('ENTITY_PURCHASE_EXPENSE', 'purchase_expense');
     define('ENTITY_PAYMENT_TERM', 'payment_term');
     define('ENTITY_EXPENSE_ACTIVITY', 'expense_activity');
     define('ENTITY_BANK_ACCOUNT', 'bank_account');

@@ -8,15 +8,15 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
+
 /**
  * Class SendPurchaseNotificationEmail.
  */
 class SendPurchaseNotificationEmail extends Job implements ShouldQueue
 {
-    use InteractsWithQueue, SerializesModels {
+    use InteractsWithQueue, SerializesModels, SerialisesDeletedModels {
         SerialisesDeletedModels::getRestoredPropertyValue insteadof SerializesModels;
     }
-
 
     protected $user;
     protected $invoice;

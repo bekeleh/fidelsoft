@@ -16,10 +16,10 @@
                 border-color: #ddd;
             }
         </style>
-
         <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}"></script>
     @endif
 @stop
+
 @section('content')
     <div class="row">
         <div class="col-md-7">
@@ -30,41 +30,54 @@
         </div>
         <div class="col-md-5">
             <div class="pull-right">
-
                 {!! Former::open('vendors/bulk')->autocomplete('off')->addClass('mainForm') !!}
                 <div style="display:none">
                     {!! Former::text('action') !!}
                     {!! Former::text('public_id')->value($vendor->public_id) !!}
                 </div>
-                @if ( ! $vendor->is_deleted)
+
+                @if ($gatewayLink)
+                    {!! Button::normal(trans('texts.view_in_gateway', ['gateway'=>$gatewayName]))
+                    ->asLinkTo($gatewayLink)
+                    ->withAttributes(['target' => '_blank']) !!}
+                @endif
+
+                @if (!$vendor->is_deleted)
                     @can('edit', $vendor)
                         {!! DropdownButton::normal(trans('texts.edit_vendor'))
-                            ->withAttributes(['class'=>'normalDropDown'])
-                            ->withContents([
-                              ($vendor->trashed() ? false : ['label' => trans('texts.archive_vendor'), 'url' => "javascript:onArchiveClick()"]),
-                              ['label' => trans('texts.delete_vendor'), 'url' => "javascript:onDeleteClick()"],
-                            ]
-                          )->split() !!}
+                        ->withAttributes(['class'=>'normalDropDown'])
+                        ->withContents([
+                        ($vendor->trashed() ? false : ['label' => trans('texts.archive_vendor'), 'url' => "javascript:onArchiveClick()"]),
+                        ['label' => trans('texts.delete_vendor'), 'url' => "javascript:onDeleteClick()"],
+                        auth()->user()->is_admin ? DropdownButton::DIVIDER : false,
+                        ]
+                        )->split() !!}
                     @endcan
-                    @if ( ! $vendor->trashed())
-                        @can('create', ENTITY_EXPENSE)
-                            {!! Button::primary(trans("texts.new_expense"))
-                                    ->asLinkTo(URL::to("/expenses/create/0/{$vendor->public_id}"))
-                                    ->appendIcon(Icon::create('plus-sign')) !!}
+                    @if (!$vendor->trashed())
+                        @can('create', ENTITY_PURCHASE_INVOICE)
+                            {!! DropdownButton::primary(trans('texts.view_statement'))
+                            ->withAttributes(['class'=>'primaryDropDown'])
+                            ->withContents($actionLinks)->split() !!}
                         @endcan
                     @endif
                 @endif
                 @if ($vendor->trashed())
                     @can('edit', $vendor)
                         {!! Button::primary(trans('texts.restore_vendor'))
-                                ->appendIcon(Icon::create('cloud-download'))
-                                ->withAttributes(['onclick' => 'onRestoreClick()']) !!}
+                        ->appendIcon(Icon::create('retweet'))
+                        ->withAttributes(['onclick' => 'onRestoreClick()']) !!}
                     @endcan
                 @endif
                 {!! Former::close() !!}
             </div>
         </div>
     </div>
+    @if ($vendor->last_login)
+        <h3 style="margin-top:0px"><small>
+                {{ trans('texts.last_logged_in') }} {{ Utils::timestampToDateTimeString(strtotime($vendor->last_login)) }}
+            </small>
+        </h3>
+    @endif
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="row">
@@ -87,51 +100,65 @@
                         {{ $vendor->account->present()->customLabel('vendor2') . ': ' }} {!! nl2br(e($vendor->custom_value2)) !!}
                         <br/>
                     @endif
-                    @if ($vendor->address1)
-                        {{ $vendor->address1 }}<br/>
-                    @endif
-                    @if ($vendor->address2)
-                        {{ $vendor->address2 }}<br/>
-                    @endif
-                    @if ($vendor->getCityState())
-                        {{ $vendor->getCityState() }}<br/>
-                    @endif
-                    @if ($vendor->country)
-                        {{ $vendor->country->getName() }}<br/>
-                    @endif
-                    @if ($vendor->account->custom_vendor_label1 && $vendor->custom_value1)
-                        {{ $vendor->account->custom_vendor_label1 . ': ' . $vendor->custom_value1 }}<br/>
-                    @endif
-                    @if ($vendor->account->custom_vendor_label2 && $vendor->custom_value2)
-                        {{ $vendor->account->custom_vendor_label2 . ': ' . $vendor->custom_value2 }}<br/>
-                    @endif
 
                     @if ($vendor->work_phone)
                         <i class="fa fa-phone" style="width: 20px"></i>{{ $vendor->work_phone }}
                     @endif
 
+                    @if (floatval($vendor->task_rate))
+                        <p>{{ trans('texts.task_rate') }}: {{ Utils::roundSignificant($vendor->task_rate) }}</p>
+                    @endif
+                    @if ($vendor->public_notes)
+                        <p><i>{!! nl2br(e($vendor->public_notes)) !!}</i></p>
+                    @endif
                     @if ($vendor->private_notes)
                         <p><i>{!! nl2br(e($vendor->private_notes)) !!}</i></p>
                     @endif
-                    @if ($vendor->vendor_industry)
-                        {{ $vendor->vendor_industry->name }}<br/>
+                    @if ($vendor->industry || $vendor->size)
+                        @if ($vendor->industry)
+                            {{ $vendor->industry->name }}
+                        @endif
+                        @if ($vendor->industry && $vendor->size)
+                            |
+                        @endif
+                        @if ($vendor->size)
+                            {{ $vendor->size->name }}<br/>
+                        @endif
                     @endif
-                    @if ($vendor->vendor_size)
-                        {{ $vendor->vendor_size->name }}<br/>
-                    @endif
-
                     @if ($vendor->website)
                         <p>{!! Utils::formatWebsite($vendor->website) !!}</p>
                     @endif
-
                     @if ($vendor->language)
                         <p><i class="fa fa-language" style="width: 20px"></i>{{ $vendor->language->name }}</p>
                     @endif
-                    <p>{{ $vendor->payment_terms ? trans('texts.payment_terms') . ": " . trans('texts.payment_terms_net') . " " . $vendor->payment_terms : '' }}</p>
+                    <p>{{ trans('texts.payment_terms').': '.trans('texts.payment_terms_net')}} {{ $vendor->present()->paymentTerms }}</p>
+                    <!--- vendor vendor type -->
+                    <p>{{ trans('texts.vendor_type_name').': '}} {{ $vendor->present()->vendorType}}</p>
+                    <!--- vendor sale type -->
+                    <p>{{ trans('texts.sale_type_name').': '}} {{ $vendor->present()->saleType}}</p>
+                    <!--- vendor hold reason -->
+                    <p>{{ trans('texts.hold_reason_name').': '}}{{ $vendor->present()->holdReason}}</p>
+                    <div class="text-muted" style="padding-top:8px">
+                        @if ($vendor->show_tasks_in_portal)
+                            • {{ trans('texts.can_view_tasks') }}<br/>
+                        @endif
+                        @if ($vendor->account->hasReminders() && ! $vendor->send_reminders)
+                            • {{ trans('texts.is_not_sent_reminders') }}</br>
+                        @endif
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h3>{{ trans('texts.address') }}</h3>
+                    @if ($vendor->addressesMatch())
+                        {!! $vendor->present()->address(ADDRESS_BILLING) !!}
+                    @else
+                        {!! $vendor->present()->address(ADDRESS_BILLING, true) !!}<br/>
+                        {!! $vendor->present()->address(ADDRESS_SHIPPING, true) !!}
+                    @endif
                 </div>
 
                 <div class="col-md-3">
-                    <h3>{{ trans('texts.contacts') }}</h3>
+                    <h3>{{ trans('texts.vendor_contacts') }}</h3>
                     @foreach ($vendor->contacts as $contact)
                         @if ($contact->first_name || $contact->last_name)
                             <b>{{ $contact->first_name.' '.$contact->last_name }}</b><br/>
@@ -143,50 +170,222 @@
                         @if ($contact->phone)
                             <i class="fa fa-phone" style="width: 20px"></i>{{ $contact->phone }}<br/>
                         @endif
+
+                        @if ($vendor->account->customLabel('contact1') && $contact->custom_value1)
+                            {{ $vendor->account->present()->customLabel('contact1') . ': ' . $contact->custom_value1 }}
+                            <br/>
+                        @endif
+                        @if ($vendor->account->customLabel('contact2') && $contact->custom_value2)
+                            {{ $vendor->account->present()->customLabel('contact2') . ': ' . $contact->custom_value2 }}
+                            <br/>
+                        @endif
+
+                        @if (Auth::user()->confirmed && $vendor->account->enable_vendor_portal)
+                            <i class="fa fa-dashboard" style="width: 20px"></i>
+                            <a href="{{ $contact->link }}"
+                               onclick="window.open('{{ $contact->link }}?silent=true', '_blank');return false;">
+                                {{ trans('texts.view_in_portal') }}
+                            </a>
+                            @if (config('services.postmark'))
+                                | <a href="#" onclick="showEmailHistory('{{ $contact->email }}')">
+                                    {{ trans('texts.email_history') }}
+                                </a>
+                            @endif
+                            <br/>
+                        @endif
+                        <br/>
                     @endforeach
                 </div>
-                <div class="col-md-4">
+
+                <div class="col-md-3">
                     <h3>{{ trans('texts.standing') }}
                         <table class="table" style="width:100%">
                             <tr>
-                                <td style="vertical-align: top"><small>{{ trans('texts.balance') }}</small></td>
-                                <td style="text-align: right">
-                                    @foreach ($vendor->getTotalExpenses() as $currency)
-                                        <p>{{ Utils::formatMoney($currency->amount, $currency->expense_currency_id) }}</p>
-                                    @endforeach
+                                <td><small>{{ trans('texts.paid_to_date') }}</small></td>
+                                <td style="text-align: left">{{ Utils::formatMoney($vendor->paid_to_date, $vendor->getCurrencyId()) }}
                                 </td>
                             </tr>
+                            <tr>
+                                <td><small>{{ trans('texts.balance') }}</small></td>
+                                <td style="text-align: left">{{ Utils::formatMoney($vendor->balance, $vendor->getCurrencyId()) }}
+                                </td>
+                            </tr>
+                            @if ($credit > 0)
+                                <tr>
+                                    <td><small>{{ trans('texts.credit') }}</small></td>
+                                    <td style="text-align: left">{{ Utils::formatMoney($credit, $vendor->getCurrencyId()) }}
+                                    </td>
+                                </tr>
+                            @endif
                         </table>
                     </h3>
                 </div>
             </div>
         </div>
     </div>
+
     @if ($vendor->showMap())
         <div id="map"></div>
         <br/>
     @endif
+
     <ul class="nav nav-tabs nav-justified">
-        {!! Form::tab_link('#expenses', trans('texts.expenses')) !!}
-    </ul><br/>
+        {!! Form::tab_link('#activity', trans('texts.activity'), true) !!}
+        @if ($hasExpenses)
+            {!! Form::tab_link('#expenses', trans('texts.expenses')) !!}
+        @endif
+        @if ($hasQuotes)
+            {!! Form::tab_link('#quotes', trans('texts.quotes')) !!}
+        @endif
+        @if ($hasRecurringInvoices)
+            {!! Form::tab_link('#recurring_purchase_invoices', trans('texts.recurring')) !!}
+        @endif
+        {!! Form::tab_link('#purchase_invoices', trans('texts.purchase_invoices')) !!}
+        {!! Form::tab_link('#payments', trans('texts.payments')) !!}
+        @if ($account->isModuleEnabled(ENTITY_PURCHASE_CREDIT))
+            {!! Form::tab_link('#credits', trans('texts.credits')) !!}
+        @endif
+    </ul>
+    <br/>
+
     <div class="tab-content">
-        <div class="tab-pane" id="expenses">
-            @include('list', [
-                'entityType' => ENTITY_EXPENSE,
-                'datatable' => new \App\Ninja\Datatables\ExpenseDatatable(true, true),
+        <div class="tab-pane active" id="activity">
+            {!! Datatable::table()
+                ->addColumn(
+                trans('texts.date'),
+                trans('texts.message'),
+                trans('texts.balance'),
+                trans('texts.adjustment'))
+                ->setUrl(url('api/activities/'. $vendor->public_id))
+                ->setCustomValues('entityType', 'activity')
+                ->setCustomValues('vendorId', $vendor->public_id)
+                ->setCustomValues('rightAlign', [2, 3])
+                ->setOptions('sPaginationType', 'bootstrap')
+                ->setOptions('bFilter', true)
+                ->setOptions('aaSorting', [['0', 'desc']])
+                ->render('datatable') !!}
+        </div>
+
+        @if ($hasExpenses)
+            <div class="tab-pane" id="expenses">
+                @include('list', [
+                'entityType' => ENTITY_PURCHASE_EXPENSE,
+                'datatable' => new \App\Ninja\Datatables\PurchaseExpenseDatatable(true, true),
                 'vendorId' => $vendor->public_id,
                 'url' => url('api/vendor_expenses/' . $vendor->public_id),
+                ])
+            </div>
+        @endif
+
+        @if (Utils::hasFeature(FEATURE_QUOTES) && $hasQuotes)
+            <div class="tab-pane" id="quotes">
+                @include('list', [
+                'entityType' => ENTITY_QUOTE,
+                'datatable' => new \App\Ninja\Datatables\PurchaseInvoiceDatatable(true, true, ENTITY_QUOTE),
+                'vendorId' => $vendor->public_id,
+                'url' => url('api/quotes/' . $vendor->public_id),
+                ])
+            </div>
+        @endif
+
+        @if ($hasRecurringInvoices)
+            <div class="tab-pane" id="recurring_purchase_invoices">
+                @include('list', [
+                'entityType' => ENTITY_RECURRING_INVOICE,
+                'datatable' => new \App\Ninja\Datatables\RecurringPurchaseInvoiceDatatable(true, true),
+                'vendorId' => $vendor->public_id,
+                'url' => url('api/recurring_purchase_invoices/' . $vendor->public_id),
+                ])
+            </div>
+        @endif
+
+        <div class="tab-pane" id="purchase_invoices">
+            @include('list', [
+            'entityType' => ENTITY_PURCHASE_INVOICE,
+            'datatable' => new \App\Ninja\Datatables\PurchaseInvoiceDatatable(true, true),
+            'vendorId' => $vendor->public_id,
+            'url' => url('api/purchase_invoices/' . $vendor->public_id),
             ])
+        </div>
+
+        <div class="tab-pane" id="payments">
+            @include('list', [
+            'entityType' => ENTITY_PURCHASE_PAYMENT,
+            'datatable' => new \App\Ninja\Datatables\PurchasePaymentDatatable(true, true),
+            'vendorId' => $vendor->public_id,
+            'url' => url('api/payments/' . $vendor->public_id),
+            ])
+        </div>
+
+        @if ($account->isModuleEnabled(ENTITY_PURCHASE_CREDIT))
+            <div class="tab-pane" id="credits">
+                @include('list', [
+                'entityType' => ENTITY_PURCHASE_CREDIT,
+                'datatable' => new \App\Ninja\Datatables\PurchaseCreditDatatable(true, true),
+                'vendorId' => $vendor->public_id,
+                'url' => url('api/credits/' . $vendor->public_id),
+                ])
+            </div>
+        @endif
+    </div>
+    <div class="modal fade" id="emailHistoryModal" tabindex="-1" role="dialog" aria-labelledby="emailHistoryModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">{{ trans('texts.email_history') }}</h4>
+                </div>
+
+                <div class="container" style="width: 100%; padding-bottom: 0px !important">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer" id="signUpFooter" style="margin-top: 0px">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">{{ trans('texts.close') }} </button>
+                    <button type="button" class="btn btn-danger" onclick="onReactivateClick()" id="reactivateButton"
+                            style="display:none;">{{ trans('texts.reactivate') }} </button>
+                </div>
+            </div>
         </div>
     </div>
     <script type="text/javascript">
         var loadedTabs = {};
         $(function () {
             $('.normalDropDown:not(.dropdown-toggle)').click(function (event) {
-                openUrlOnClick('{{ URL::to('vendors/' . $vendor->public_id . '/edit') }}', event)
+                openUrlOnClick('{{ URL::to('vendors/' . $vendor->public_id . '/edit') }}', event);
+            });
+            $('.primaryDropDown:not(.dropdown-toggle)').click(function (event) {
+                openUrlOnClick('{{ URL::to('vendors/statement/' . $vendor->public_id ) }}', event);
             });
 
-            $('.nav-tabs a[href="#expenses"]').tab('show');
+            // load datatable data when tab is shown and remember last tab selected
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                var target = $(e.target).attr("href"); // activated tab
+                target = target.substring(1);
+                if (isStorageSupported()) {
+                    localStorage.setItem('vendor_tab', target);
+                }
+                if (!loadedTabs.hasOwnProperty(target) && window['load_' + target]) {
+                    loadedTabs[target] = true;
+                    window['load_' + target]();
+                }
+            });
+
+            var tab = window.location.hash || (localStorage.getItem('vendor_tab') || '');
+            tab = tab.replace('#', '');
+            var selector = '.nav-tabs a[href="#' + tab + '"]';
+
+            if (tab && tab != 'activity' && $(selector).length && window['load_' + tab]) {
+                $(selector).tab('show');
+            } else {
+                window['load_activity']();
+            }
         });
 
         function onArchiveClick() {
@@ -200,10 +399,36 @@
         }
 
         function onDeleteClick() {
-            if (confirm({!! json_encode(trans('texts.are_you_sure')) !!})) {
+            sweetConfirm(function () {
                 $('#action').val('delete');
                 $('.mainForm').submit();
-            }
+            });
+        }
+
+        function onPurgeClick() {
+            sweetConfirm(function () {
+                $('#action').val('purge');
+                $('.mainForm').submit();
+            }, "{{ trans('texts.purge_vendor_warning') . "\\n\\n" . trans('texts.mobile_refresh_warning') . "\\n\\n" . trans('texts.no_undo') }}");
+        }
+
+        function showEmailHistory(email) {
+            window.emailBounceId = false;
+            $('#emailHistoryModal .panel-body').html("{{ trans('texts.loading') }}...");
+            $('#reactivateButton').hide();
+            $('#emailHistoryModal').modal('show');
+            $.post('{{ url('/email_history') }}', {email: email}, function (data) {
+                $('#emailHistoryModal .panel-body').html(data.str);
+                window.emailBounceId = data.bounce_id;
+                $('#reactivateButton').toggle(!!window.emailBounceId);
+            })
+        }
+
+        function onReactivateClick() {
+            $.post('{{ url('/reactivate_email') }}/' + window.emailBounceId, function (data) {
+                $('#emailHistoryModal').modal('hide');
+                swal("{{ trans('texts.reactivated_email') }}")
+            })
         }
 
         @if ($vendor->showMap())
@@ -214,6 +439,7 @@
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
                 zoomControl: true,
             };
+
             var map = new google.maps.Map(mapCanvas, mapOptions);
             var address = {!! json_encode(e("{$vendor->address1} {$vendor->address2} {$vendor->city} {$vendor->state} {$vendor->postal_code} " . ($vendor->country ? $vendor->country->getName() : ''))) !!};
 
