@@ -115,9 +115,14 @@ class ActivityRepository extends BaseRepository
             ->leftJoin('users', 'users.id', '=', 'activities.user_id')
             ->leftJoin('clients', 'clients.id', '=', 'activities.client_id')
             ->leftJoin('contacts', 'contacts.client_id', '=', 'clients.id')
+            ->leftJoin('vendors', 'vendors.id', '=', 'activities.vendor_id')
+            ->leftJoin('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
             ->leftJoin('invoices', 'invoices.id', '=', 'activities.invoice_id')
+            ->leftJoin('purchase_invoices', 'purchase_invoices.id', '=', 'activities.purchase_invoice_id')
             ->leftJoin('payments', 'payments.id', '=', 'activities.payment_id')
+            ->leftJoin('purchase_payments', 'purchase_payments.id', '=', 'activities.purchase_payment_id')
             ->leftJoin('credits', 'credits.id', '=', 'activities.credit_id')
+            ->leftJoin('purchase_credits', 'purchase_credits.id', '=', 'activities.purchase_credit_id')
             ->leftJoin('tasks', 'tasks.id', '=', 'activities.task_id')
             ->leftJoin('expenses', 'expenses.id', '=', 'activities.expense_id')
             ->where('clients.id', $clientId)
@@ -139,9 +144,12 @@ class ActivityRepository extends BaseRepository
                 'users.first_name as user_first_name',
                 'users.last_name as user_last_name',
                 'users.email as user_email',
-                'invoices.invoice_number as invoice',
+                'invoices.invoice_number as invoice_number',
                 'invoices.public_id as invoice_public_id',
                 'invoices.is_recurring',
+                'purchase_invoices.invoice_number as purchase_invoice_number',
+                'purchase_invoices.public_id as purchase_invoice_public_id',
+                'purchase_invoices.is_recurring',
                 'clients.name as client_name',
                 'accounts.name as account_name',
                 'clients.public_id as client_public_id',
@@ -158,14 +166,14 @@ class ActivityRepository extends BaseRepository
                 'expenses.public_id as expense_public_id'
             );
 
-        if ($filter) {
-            $query->where(function ($query) use ($filter) {
-                $query->where('invoices.invoice_number', 'like', '%' . $filter . '%')
-                    ->orWhere('activities.ip', 'like', '%' . $filter . '%');
-            });
-        }
+//        if ($filter) {
+//            $query->where(function ($query) use ($filter) {
+//                $query->where('invoices.invoice_number', 'like', '%' . $filter . '%')
+//                    ->orWhere('activities.ip', 'like', '%' . $filter . '%');
+//            });
+//        }
 
-        $this->applyFilters($query, ENTITY_ACTIVITY);
+//        $this->applyFilters($query, ENTITY_ACTIVITY);
 
         return $query;
     }

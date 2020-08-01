@@ -330,6 +330,7 @@ class EntityModel extends Eloquent
             'locations' => 'location-arrow',
             'invoices' => 'file-pdf-o',
             'purchase_invoices' => 'file-pdf-o',
+            'purchase_quotes' => 'file-pdf-o',
             'payments' => 'credit-card',
             'recurring_invoices' => 'files-o',
             'recurring' => 'files-o',

@@ -408,6 +408,7 @@
                     <p>&nbsp;</p>
                 @endif
             @endif
+        <!-- activities -->
             <div class="row">
                 <div class="col-md-6">
                     <div class="panel panel-default dashboard" style="height:320px">

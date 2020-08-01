@@ -934,7 +934,7 @@ $LANG = array(
     'enable_line_item_tax' => 'Enable specifying <b>line item taxes</b>',
     'dashboard' => 'Dashboard',
     'dashboard_totals_in_all_currencies_help' => 'Note: add a :link named ":name" to show the totals using a single base currency.',
-    'invoices' => 'Sales Invoice',
+    'invoices' => 'Sale Invoices',
     'sales_return' => 'Sales Return',
     'payments' => 'Receive Payments',
     'credits' => 'Client Credits',
@@ -1164,7 +1164,7 @@ $LANG = array(
 //   Quotes
     'go_pro' => 'Go Pro',
     'quote' => 'Quote',
-    'quotes' => 'Sales Quotation',
+    'quotes' => 'Sale Quotes',
     'quote_number' => 'Quote Number',
     'quote_number_short' => 'Quote #',
     'quote_date' => 'Quote Date',

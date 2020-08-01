@@ -47,6 +47,11 @@ class Activity extends EntityModel
         return $this->belongsTo('App\Models\Vendor')->withTrashed();
     }
 
+    public function vendor_contact()
+    {
+        return $this->belongsTo('App\Models\VendorContact')->withTrashed();
+    }
+
     public function invoice()
     {
         return $this->belongsTo('App\Models\Invoice')->withTrashed();
@@ -97,11 +102,12 @@ class Activity extends EntityModel
         $activityTypeId = $this->activity_type_id;
         $account = $this->account;
         $client = $this->client;
+        $contactId = $this->contact_id;
         $vendor = $this->vendor;
         $user = $this->user;
         $invoice = $this->invoice;
         $purchase_invoice = $this->purchase_invoice;
-        $contactId = $this->contact_id;
+        $contactVendorId = $this->vendor_contact_id;
         $payment = $this->payment;
         $purchase_payment = $this->purchase_payment;
         $credit = $this->credit;

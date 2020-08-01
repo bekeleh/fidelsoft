@@ -25,7 +25,7 @@ class DashboardController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', ENTITY_DASHBOARD);
+//        $this->authorize('view', ENTITY_DASHBOARD);
         if (!Auth::check()) {
             return;
         }
@@ -114,7 +114,7 @@ class DashboardController extends BaseController
 
             $data['usdLast12Months'] = $usdLast12Months;
         }
-
+        dd($data);
         return View::make('dashboard', $data);
     }
 

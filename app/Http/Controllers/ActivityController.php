@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\ActivityService;
+use App\Ninja\Datatables\ActivityDatatable;
 use App\Ninja\Repositories\ActivityRepository;
-use Illuminate\Support\Facades\Auth;
+use App\Services\ActivityService;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Session;
 
 class ActivityController extends BaseController
 {
@@ -36,7 +34,7 @@ class ActivityController extends BaseController
     public function getDatatable($clientPublicId)
     {
         $search = Input::get('sSearch');
-        
+
         return $this->activityService->getDatatable($clientPublicId, $search);
     }
 }

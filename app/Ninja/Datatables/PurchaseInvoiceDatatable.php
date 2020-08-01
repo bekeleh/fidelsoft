@@ -159,7 +159,7 @@ class PurchaseInvoiceDatatable extends EntityDatatable
             [
                 trans("texts.clone_quote"),
                 function ($model) {
-                    return URL::to("quotes/{$model->public_id}/clone");
+                    return URL::to("purchase_quotes/{$model->public_id}/clone");
                 },
                 function ($model) {
                     return Auth::user()->can('create', ENTITY_QUOTE);
@@ -172,9 +172,9 @@ class PurchaseInvoiceDatatable extends EntityDatatable
                 },
             ],
             [
-                trans('texts.delivery_note'),
+                trans('texts.receive_note'),
                 function ($model) use ($entityType) {
-                    return url("purchase_invoices/delivery_note/{$model->public_id}");
+                    return url("purchase_invoices/receive_note/{$model->public_id}");
                 },
                 function ($model) use ($entityType) {
                     return $entityType == ENTITY_PURCHASE_INVOICE;
