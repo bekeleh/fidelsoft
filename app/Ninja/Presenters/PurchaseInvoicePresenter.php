@@ -65,7 +65,7 @@ class PurchaseInvoicePresenter extends EntityPresenter
     {
         if ($this->entity->partial > 0) {
             return 'partial_due';
-        } elseif ($this->entity->isType(PURCHASE_INVOICE_TYPE_QUOTE)) {
+        } elseif ($this->entity->isType(INVOICE_TYPE_QUOTE)) {
             return 'total';
         } else {
             return 'balance_due';
@@ -109,7 +109,7 @@ class PurchaseInvoicePresenter extends EntityPresenter
 
     public function dueDateLabel()
     {
-        if ($this->entity->isType(PURCHASE_INVOICE_TYPE_STANDARD)) {
+        if ($this->entity->isType(INVOICE_TYPE_STANDARD)) {
             return trans('texts.due_date');
         } else {
             return trans('texts.valid_until');
@@ -276,7 +276,7 @@ class PurchaseInvoicePresenter extends EntityPresenter
             }
         } elseif ($entityType == ENTITY_PURCHASE_INVOICE) {
             if ($purchaseInvoice->quote_id && $purchaseInvoice->quote) {
-                $actions[] = ['url' => url("quotes/{$purchaseInvoice->quote->public_id}/edit"), 'label' => trans('texts.view_quote')];
+                $actions[] = ['url' => url("purchase_quotes/{$purchaseInvoice->quote->public_id}/edit"), 'label' => trans('texts.view_quote')];
             }
 
             if ($purchaseInvoice->onlyHasTasks()) {

@@ -114,7 +114,7 @@ class DashboardController extends BaseController
 
             $data['usdLast12Months'] = $usdLast12Months;
         }
-        dd($data);
+
         return View::make('dashboard', $data);
     }
 

@@ -240,7 +240,7 @@ class PurchaseInvoiceApiController extends BaseAPIController
         }
 
         $purchaseInvoice = PurchaseInvoice::scope($purchaseInvoice->public_id)
-            ->with('vendor', 'purchase_invoice_items', 'purchase_invitations')
+            ->with('vendor', 'purchase_invoice_items', 'invitations')
             ->first();
 
         if (isset($data['download_invoice']) && boolval($data['download_invoice'])) {
@@ -443,7 +443,7 @@ class PurchaseInvoiceApiController extends BaseAPIController
 
         $purchaseInvoice = PurchaseInvoice::scope($publicId)
             ->withTrashed()
-            ->with('vendor', 'purchase_invoice_items', 'purchase_invitations')
+            ->with('vendor', 'purchase_invoice_items', 'invitations')
             ->firstOrFail();
 
         return $this->itemResponse($purchaseInvoice);

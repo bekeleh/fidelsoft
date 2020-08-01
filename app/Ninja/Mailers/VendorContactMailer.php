@@ -31,7 +31,7 @@ class VendorContactMailer extends Mailer
             return false;
         }
 
-        $invoice->load('purchase_invitations', 'vendor.language', 'account');
+        $invoice->load('invitations', 'vendor.language', 'account');
 
         if ($proposal) {
             $entityType = ENTITY_PROPOSAL;
@@ -82,8 +82,8 @@ class VendorContactMailer extends Mailer
         }
 
         $isFirst = true;
-        $purchase_invitations = $proposal ? $proposal->purchase_invitations : $invoice->purchase_invitations;
-        foreach ($purchase_invitations as $invitation) {
+        $invitations = $proposal ? $proposal->invitations : $invoice->invitations;
+        foreach ($invitations as $invitation) {
             if ($account->attachPDF() && !$proposal) {
                 $pdfString = $invoice->getPDFString($invitation);
             }
@@ -240,7 +240,7 @@ class VendorContactMailer extends Mailer
 
         $account->loadLocalizationSettings($vendor);
         $invoice = $payment->invoice;
-        $invitation = $payment->invitation ?: $payment->invoice->purchase_invitations[0];
+        $invitation = $payment->invitation ?: $payment->invoice->invitations[0];
         $accountName = $account->getDisplayName();
 
         if ($refunded > 0) {

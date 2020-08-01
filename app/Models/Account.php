@@ -966,7 +966,7 @@ class Account extends Eloquent
             $purchaseInvoice->is_recurring = true;
         } else {
             if ($entityType == ENTITY_PURCHASE_QUOTE) {
-                $purchaseInvoice->invoice_type_id = PURCHASE_INVOICE_TYPE_QUOTE;
+                $purchaseInvoice->invoice_type_id = INVOICE_TYPE_QUOTE;
                 $purchaseInvoice->invoice_design_id = $this->quote_design_id;
             }
 

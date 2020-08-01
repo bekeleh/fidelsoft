@@ -70,7 +70,7 @@ trait GenerateVendorNumbers
                     $this->vendor_number_counter += $counterOffset - 1;
                     $this->save();
                 }
-            } elseif ($entity->isType(PURCHASE_INVOICE_TYPE_QUOTE)) {
+            } elseif ($entity->isType(INVOICE_TYPE_QUOTE)) {
                 if (!$this->share_purchase_counter) {
                     $this->quote_number_counter += $counterOffset - 1;
                     $this->save();
@@ -124,7 +124,7 @@ trait GenerateVendorNumbers
         }
         $pattern = false;
         if (isset($purchaseInvoice->invoice_type_id)) {
-            $pattern = $purchaseInvoice->invoice_type_id == PURCHASE_INVOICE_TYPE_QUOTE ? $this->purchase_quote_number_pattern : $this->purchase_invoice_number_pattern;
+            $pattern = $purchaseInvoice->invoice_type_id == INVOICE_TYPE_QUOTE ? $this->purchase_quote_number_pattern : $this->purchase_invoice_number_pattern;
         }
         return strstr($pattern, '$vendor') !== false || strstr($pattern, '$idNumber') !== false;
     }
@@ -238,7 +238,7 @@ trait GenerateVendorNumbers
         }
 
         if ($this->usesVendorInvoiceCounter()) {
-            if ($entity->isType(PURCHASE_INVOICE_TYPE_QUOTE) && !$this->share_purchase_counter) {
+            if ($entity->isType(INVOICE_TYPE_QUOTE) && !$this->share_purchase_counter) {
                 $entity->vendor->quote_number_counter += 1;
             } else {
                 $entity->vendor->invoice_number_counter += 1;
@@ -247,7 +247,7 @@ trait GenerateVendorNumbers
         }
 //   purchase invoice counter
         if ($this->usesPurchaseInvoiceCounter()) {
-            if ($entity->isType(PURCHASE_INVOICE_TYPE_QUOTE) && !$this->share_purchase_counter) {
+            if ($entity->isType(INVOICE_TYPE_QUOTE) && !$this->share_purchase_counter) {
                 $this->quote_number_counter += 1;
             } else {
                 $this->invoice_number_counter += 1;

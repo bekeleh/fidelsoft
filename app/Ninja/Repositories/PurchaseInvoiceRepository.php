@@ -250,13 +250,13 @@ class PurchaseInvoiceRepository extends BaseRepository
      */
     public function getVendorRecurringDatatable($contactId, $filter = null)
     {
-        $query = DB::table('purchase_invitations')
-            ->LeftJoin('accounts', 'accounts.id', '=', 'purchase_invitations.account_id')
-            ->LeftJoin('purchase_invoices', 'purchase_invoices.id', '=', 'purchase_invitations.invoice_id')
+        $query = DB::table('invitations')
+            ->LeftJoin('accounts', 'accounts.id', '=', 'invitations.account_id')
+            ->LeftJoin('purchase_invoices', 'purchase_invoices.id', '=', 'invitations.invoice_id')
             ->LeftJoin('vendors', 'vendors.id', '=', 'purchase_invoices.vendor_id')
             ->LeftJoin('frequencies', 'frequencies.id', '=', 'purchase_invoices.frequency_id')
-            ->where('purchase_invitations.contact_id', $contactId)
-            ->where('purchase_invitations.deleted_at', null)
+            ->where('invitations.contact_id', $contactId)
+            ->where('invitations.deleted_at', null)
             ->where('purchase_invoices.invoice_type_id', INVOICE_TYPE_STANDARD)
             ->where('purchase_invoices.is_deleted', false)
             ->where('vendors.deleted_at', null)
@@ -267,7 +267,7 @@ class PurchaseInvoiceRepository extends BaseRepository
             ->select(
                 DB::raw('COALESCE(vendors.currency_id, accounts.currency_id) currency_id'),
                 DB::raw('COALESCE(vendors.country_id, accounts.country_id) country_id'),
-                'purchase_invitations.invitation_key',
+                'invitations.invitation_key',
                 'purchase_invoices.invoice_number',
                 'purchase_invoices.due_date',
                 'vendors.public_id as vendor_public_id',
@@ -325,13 +325,13 @@ class PurchaseInvoiceRepository extends BaseRepository
      */
     public function getVendorDatatable($contactId, $entityType, $search)
     {
-        $query = DB::table('purchase_invitations')
-            ->LeftJoin('accounts', 'accounts.id', '=', 'purchase_invitations.account_id')
-            ->LeftJoin('purchase_invoices', 'purchase_invoices.id', '=', 'purchase_invitations.invoice_id')
+        $query = DB::table('invitations')
+            ->LeftJoin('accounts', 'accounts.id', '=', 'invitations.account_id')
+            ->LeftJoin('purchase_invoices', 'purchase_invoices.id', '=', 'invitations.invoice_id')
             ->LeftJoin('vendors', 'vendors.id', '=', 'purchase_invoices.vendor_id')
             ->LeftJoin('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
-            ->where('purchase_invitations.contact_id', $contactId)
-            ->where('purchase_invitations.deleted_at', null)
+            ->where('invitations.contact_id', $contactId)
+            ->where('invitations.deleted_at', null)
             ->where('purchase_invoices.invoice_type_id', $entityType == ENTITY_QUOTE ? INVOICE_TYPE_QUOTE : INVOICE_TYPE_STANDARD)
             ->where('purchase_invoices.is_deleted', false)
             ->where('vendors.deleted_at', null)
@@ -344,7 +344,7 @@ class PurchaseInvoiceRepository extends BaseRepository
             ->select(
                 DB::raw('COALESCE(vendors.currency_id, accounts.currency_id) currency_id'),
                 DB::raw('COALESCE(vendors.country_id, accounts.country_id) country_id'),
-                'purchase_invitations.invitation_key',
+                'invitations.invitation_key',
                 'purchase_invoices.invoice_number',
                 'purchase_invoices.invoice_date',
                 'purchase_invoices.balance as balance',
@@ -705,7 +705,7 @@ class PurchaseInvoiceRepository extends BaseRepository
             return null;
         }
 
-        $purchaseInvoice->load('purchase_invitations', 'invoice_items');
+        $purchaseInvoice->load('invitations', 'invoice_items');
         $account = $purchaseInvoice->account;
 
         $clone = PurchaseInvoice::createNew($purchaseInvoice);
@@ -822,11 +822,11 @@ class PurchaseInvoiceRepository extends BaseRepository
             $clone->documents()->save($cloneDocument);
         }
 
-        foreach ($purchaseInvoice->purchase_invitations as $invitation) {
+        foreach ($purchaseInvoice->invitations as $invitation) {
             $cloneInvitation = PurchaseInvitation::createNew($purchaseInvoice);
             $cloneInvitation->contact_id = $invitation->contact_id;
             $cloneInvitation->invitation_key = strtolower(str_random(RANDOM_KEY_LENGTH));
-            $clone->purchase_invitations()->save($cloneInvitation);
+            $clone->invitations()->save($cloneInvitation);
         }
 
         $this->dispatchEvents($clone);
@@ -1055,11 +1055,11 @@ class PurchaseInvoiceRepository extends BaseRepository
             $purchaseInvoice->documents()->save($document);
         }
 
-        foreach ($recurPurchaseInvoice->purchase_invitations as $recurInvitation) {
+        foreach ($recurPurchaseInvoice->invitations as $recurInvitation) {
             $invitation = PurchaseInvitation::createNew($recurInvitation);
             $invitation->contact_id = $recurInvitation->contact_id;
             $invitation->invitation_key = strtolower(str_random(RANDOM_KEY_LENGTH));
-            $purchaseInvoice->purchase_invitations()->save($invitation);
+            $purchaseInvoice->invitations()->save($invitation);
         }
 
         $recurPurchaseInvoice->last_sent_date = date('Y-m-d');

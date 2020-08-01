@@ -104,13 +104,15 @@ class Activity extends EntityModel
         $client = $this->client;
         $contactId = $this->contact_id;
         $vendor = $this->vendor;
+        $vendorContactId = $this->vendor_contact_id;
         $user = $this->user;
         $invoice = $this->invoice;
         $purchase_invoice = $this->purchase_invoice;
         $contactVendorId = $this->vendor_contact_id;
         $payment = $this->payment;
-        $purchase_payment = $this->purchase_payment;
+        $purchasePayment = $this->purchase_payment;
         $credit = $this->credit;
+        $purchaseCredit = $this->purchase_credit;
         $expense = $this->expense;
         $isSystem = $this->is_system;
         $task = $this->task;
@@ -122,11 +124,15 @@ class Activity extends EntityModel
             'invoice' => $invoice ? link_to($invoice->getRoute(), $invoice->getDisplayName()) : null,
             'purchase_invoice' => $purchase_invoice ? link_to($purchase_invoice->getRoute(), $purchase_invoice->getDisplayName()) : null,
             'quote' => $invoice ? link_to($invoice->getRoute(), $invoice->getDisplayName()) : null,
+            'purchase_quote' => $purchase_invoice ? link_to($purchase_invoice->getRoute(), $purchase_invoice->getDisplayName()) : null,
             'contact' => $contactId ? link_to($client->getRoute(), $client->getDisplayName()) : e($user->getDisplayName()),
+            'vendor_contact' => $vendorContactId ? link_to($vendor->getRoute(), $vendor->getDisplayName()) : e($user->getDisplayName()),
             'payment' => $payment ? e($payment->transaction_reference) : null,
+            'purchase_payment' => $purchasePayment ? e($purchasePayment->transaction_reference) : null,
             'payment_amount' => $payment ? $account->formatMoney($payment->amount, $payment) : null,
             'adjustment' => $this->adjustment ? $account->formatMoney($this->adjustment, $this) : null,
             'credit' => $credit ? $account->formatMoney($credit->amount, $client) : null,
+            'purchase_credit' => $purchaseCredit ? $account->formatMoney($credit->amount, $client) : null,
             'task' => $task ? link_to($task->getRoute(), substr($task->description, 0, 30) . '...') : null,
             'expense' => $expense ? link_to($expense->getRoute(), substr($expense->public_notes, 0, 30) . '...') : null,
         ];

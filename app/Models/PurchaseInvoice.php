@@ -138,7 +138,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     public function getEntityType()
     {
-        return $this->isType(PURCHASE_INVOICE_TYPE_QUOTE) ? ENTITY_PURCHASE_QUOTE : ENTITY_PURCHASE_INVOICE;
+        return $this->isType(INVOICE_TYPE_QUOTE) ? ENTITY_PURCHASE_QUOTE : ENTITY_PURCHASE_INVOICE;
     }
 
     public function subEntityType()
@@ -169,7 +169,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     public function affectsBalance()
     {
-        return $this->isType(PURCHASE_INVOICE_TYPE_STANDARD) && !$this->is_recurring && $this->is_public;
+        return $this->isType(INVOICE_TYPE_STANDARD) && !$this->is_recurring && $this->is_public;
     }
 
     public function getAdjustment()
@@ -229,7 +229,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     public function getAmountPaid($calculate = false)
     {
-        if ($this->isType(PURCHASE_INVOICE_TYPE_QUOTE) || $this->is_recurring) {
+        if ($this->isType(INVOICE_TYPE_QUOTE) || $this->is_recurring) {
             return 0;
         }
 
@@ -342,7 +342,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     public function invitations()
     {
-        return $this->hasMany('App\Models\PurchaseInvitation')->orderBy('purchase_invitations.contact_id');
+        return $this->hasMany('App\Models\PurchaseInvitation')->orderBy('invitations.contact_id');
     }
 
     public function expenses()
@@ -362,13 +362,13 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     public function scopePurchaseInvoices($query)
     {
-        return $query->where('invoice_type_id', PURCHASE_INVOICE_TYPE_STANDARD)
+        return $query->where('invoice_type_id', INVOICE_TYPE_STANDARD)
             ->where('is_recurring', false);
     }
 
     public function scopeRecurring($query)
     {
-        return $query->where('invoice_type_id', PURCHASE_INVOICE_TYPE_STANDARD)
+        return $query->where('invoice_type_id', INVOICE_TYPE_STANDARD)
             ->where('is_recurring', true);
     }
 
@@ -383,7 +383,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     public function scopeQuotes($query)
     {
-        return $query->where('invoice_type_id', PURCHASE_INVOICE_TYPE_QUOTE)
+        return $query->where('invoice_type_id', INVOICE_TYPE_QUOTE)
             ->where('is_recurring', false);
     }
 
@@ -437,7 +437,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     public function isQuote()
     {
-        return $this->isType(PURCHASE_INVOICE_TYPE_QUOTE);
+        return $this->isType(INVOICE_TYPE_QUOTE);
     }
 
     public function getCustomMessageType()
@@ -451,7 +451,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     public function isStandard()
     {
-        return $this->isType(PURCHASE_INVOICE_TYPE_STANDARD) && !$this->is_recurring;
+        return $this->isType(INVOICE_TYPE_STANDARD) && !$this->is_recurring;
     }
 
     public function markSentIfUnsent()
@@ -483,22 +483,22 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
             return false;
         }
 
-        if (!$this->relationLoaded('purchase_invitations')) {
-            $this->load('purchase_invitations');
+        if (!$this->relationLoaded('invitations')) {
+            $this->load('invitations');
         }
 
-        foreach ($this->purchase_invitations as $invitation) {
+        foreach ($this->invitations as $invitation) {
             $this->markInvitationSent($invitation, false, $notify, $reminder);
         }
     }
 
     public function areInvitationsSent()
     {
-        if (!$this->relationLoaded('purchase_invitations')) {
-            $this->load('purchase_invitations');
+        if (!$this->relationLoaded('invitations')) {
+            $this->load('invitations');
         }
 
-        foreach ($this->purchase_invitations as $invitation) {
+        foreach ($this->invitations as $invitation) {
             if (!$invitation->isSent()) {
                 return false;
             }
@@ -527,7 +527,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
             return false;
         }
 
-        if ($this->isType(PURCHASE_INVOICE_TYPE_QUOTE)) {
+        if ($this->isType(INVOICE_TYPE_QUOTE)) {
             event(new PurchaseQuoteInvitationWasEmailed($invitation, $notes));
         } else {
             event(new PurchaseInvitationWasEmailed($invitation, $notes));
@@ -563,7 +563,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     public function markApproved()
     {
-        if ($this->isType(PURCHASE_INVOICE_TYPE_QUOTE)) {
+        if ($this->isType(INVOICE_TYPE_QUOTE)) {
             $this->invoice_status_id = INVOICE_STATUS_APPROVED;
             $this->save();
         }
@@ -692,7 +692,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
     public static function calcLink($purchaseInvoice)
     {
         if (!empty($purchaseInvoice->invoice_type_id)) {
-            $linkPrefix = ($purchaseInvoice->invoice_type_id == PURCHASE_INVOICE_TYPE_QUOTE) ? 'purchase_quotes/' : 'purchase_invoices/';
+            $linkPrefix = ($purchaseInvoice->invoice_type_id == INVOICE_TYPE_QUOTE) ? 'purchase_quotes/' : 'purchase_invoices/';
         } else {
             $linkPrefix = 'invoices/';
         }
@@ -706,11 +706,11 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     public function getInvitationLink($type = 'view', $forceOnsite = false, $forcePlain = false)
     {
-        if (!$this->relationLoaded('purchase_invitations')) {
-            $this->load('purchase_invitations');
+        if (!$this->relationLoaded('invitations')) {
+            $this->load('invitations');
         }
 
-        return $this->purchase_invitations[0]->getLink($type, $forceOnsite, $forcePlain);
+        return $this->invitations[0]->getLink($type, $forceOnsite, $forcePlain);
     }
 
     public function isSent()
@@ -1053,7 +1053,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
             return false;
         }
 
-        $invitation = $invitation ?: $this->purchase_invitations[0];
+        $invitation = $invitation ?: $this->invitations[0];
         $link = $invitation->getLink('view', true, true);
         $pdfString = false;
         $phantomjsSecret = env('PHANTOMJS_SECRET');
@@ -1430,7 +1430,7 @@ PurchaseInvoice::creating(function ($purchaseInvoice) {
 });
 
 PurchaseInvoice::created(function ($purchaseInvoice) {
-    if ($purchaseInvoice->isType(PURCHASE_INVOICE_TYPE_QUOTE)) {
+    if ($purchaseInvoice->isType(INVOICE_TYPE_QUOTE)) {
         event(new PurchaseQuoteWasCreated($purchaseInvoice));
     } else {
         event(new PurchaseInvoiceWasCreated($purchaseInvoice));
@@ -1438,7 +1438,7 @@ PurchaseInvoice::created(function ($purchaseInvoice) {
 });
 
 PurchaseInvoice::updating(function ($purchaseInvoice) {
-    if ($purchaseInvoice->isType(PURCHASE_INVOICE_TYPE_QUOTE)) {
+    if ($purchaseInvoice->isType(INVOICE_TYPE_QUOTE)) {
         event(new PurchaseQuoteWasUpdated($purchaseInvoice));
     } else {
         event(new PurchaseInvoiceWasUpdated($purchaseInvoice));

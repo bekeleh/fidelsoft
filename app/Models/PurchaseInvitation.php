@@ -26,7 +26,7 @@ class PurchaseInvitation extends EntityModel
 
     public function getRoute()
     {
-        return "/purchase_invitations/{$this->public_id}/edit";
+        return "/invitations/{$this->public_id}/edit";
     }
 
     public function purchase_invoice()

@@ -172,20 +172,20 @@ class PurchaseInvoiceController extends BaseController
 
         $entityType = $invoice->getEntityType();
 
-        $contactIds = DB::table('purchase_invitations')
-            ->leftJoin('vendor_contacts', 'vendor_contacts.id', 'purchase_invitations.contact_id')
-            ->where('purchase_invitations.purchase_invoice_id', $invoice->id)
-            ->where('purchase_invitations.account_id', Auth::user()->account_id)
+        $contactIds = DB::table('invitations')
+            ->leftJoin('vendor_contacts', 'vendor_contacts.id', 'invitations.contact_id')
+            ->where('invitations.purchase_invoice_id', $invoice->id)
+            ->where('invitations.account_id', Auth::user()->account_id)
             ->select('vendor_contacts.public_id')->pluck('public_id')
-            ->where('purchase_invitations.deleted_at', null);
+            ->where('invitations.deleted_at', null);
 
         $clients = Vendor::scope()->withTrashed()->with('contacts', 'country');
 
         if ($clone) {
-            $entityType = $clone == PURCHASE_INVOICE_TYPE_STANDARD ? ENTITY_PURCHASE_INVOICE : ENTITY_QUOTE;
+            $entityType = $clone == INVOICE_TYPE_STANDARD ? ENTITY_PURCHASE_INVOICE : ENTITY_QUOTE;
             $invoice->id = $invoice->public_id = null;
             $invoice->is_public = false;
-            $invoice->is_recurring = $invoice->is_recurring && $clone == PURCHASE_INVOICE_TYPE_STANDARD;
+            $invoice->is_recurring = $invoice->is_recurring && $clone == INVOICE_TYPE_STANDARD;
             $invoice->invoice_type_id = $clone;
             $invoice->invoice_number = $account->getNextNumber($invoice);
             $invoice->due_date = null;
@@ -523,12 +523,12 @@ class PurchaseInvoiceController extends BaseController
 
     public function cloneInvoice(PurchaseInvoiceRequest $request, $publicId)
     {
-        return self::edit($request, $publicId, PURCHASE_INVOICE_TYPE_STANDARD);
+        return self::edit($request, $publicId, INVOICE_TYPE_STANDARD);
     }
 
     public function cloneQuote(PurchaseInvoiceRequest $request, $publicId)
     {
-        return self::edit($request, $publicId, PURCHASE_INVOICE_TYPE_QUOTE);
+        return self::edit($request, $publicId, INVOICE_TYPE_QUOTE);
     }
 
     public function invoiceHistory(PurchaseInvoiceRequest $request)

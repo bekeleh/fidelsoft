@@ -98,7 +98,7 @@ class PurchaseInvoiceService extends BaseService
     {
         $account = $quote->account;
 
-        if (!$account->hasFeature(FEATURE_QUOTES) || !$quote->isType(PURCHASE_INVOICE_TYPE_QUOTE) || $quote->quote_invoice_id) {
+        if (!$account->hasFeature(FEATURE_QUOTES) || !$quote->isType(INVOICE_TYPE_QUOTE) || $quote->quote_invoice_id) {
             return null;
         }
 
@@ -107,7 +107,7 @@ class PurchaseInvoiceService extends BaseService
         if ($account->auto_convert_quote) {
             $purchaseInvoice = $this->convertQuote($quote);
 
-            foreach ($purchaseInvoice->purchase_invitations as $purchaseInvoiceInvitation) {
+            foreach ($purchaseInvoice->invitations as $purchaseInvoiceInvitation) {
                 if ($purchaseInvitation->contact_id == $purchaseInvoiceInvitation->contact_id) {
                     $purchaseInvitation = $purchaseInvoiceInvitation;
                 }
@@ -130,7 +130,7 @@ class PurchaseInvoiceService extends BaseService
 
         $query = $this->purchaseInvoiceRepo
             ->getPurchaseInvoices($accountId, $vendorPublicId, $entityType, $search)
-            ->where('purchase_invoices.invoice_type_id', $entityType == ENTITY_PURCHASE_QUOTE ? PURCHASE_INVOICE_TYPE_QUOTE : PURCHASE_INVOICE_TYPE_STANDARD);
+            ->where('purchase_invoices.invoice_type_id', $entityType == ENTITY_PURCHASE_QUOTE ? INVOICE_TYPE_QUOTE : INVOICE_TYPE_STANDARD);
 
         if (!Utils::hasPermission('view_purchase_invoice')) {
             $query->where('purchase_invoices.user_id', Auth::user()->id);

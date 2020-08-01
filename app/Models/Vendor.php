@@ -145,14 +145,14 @@ class Vendor extends EntityModel
     public function quotes()
     {
         return $this->hasMany('App\Models\PurchaseInvoice')
-            ->where('invoice_type_id', PURCHASE_INVOICE_TYPE_QUOTE);
+            ->where('invoice_type_id', INVOICE_TYPE_QUOTE);
     }
 
 
     public function publicQuotes()
     {
         return $this->hasMany('App\Models\PurchaseInvoice')
-            ->where('invoice_type_id', PURCHASE_INVOICE_TYPE_QUOTE)
+            ->where('invoice_type_id', INVOICE_TYPE_QUOTE)
             ->where('is_public', true);
     }
 

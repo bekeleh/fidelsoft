@@ -13,7 +13,7 @@ use Illuminate\Queue\SerializesModels;
  */
 class SendNotificationEmail extends Job implements ShouldQueue
 {
-    use InteractsWithQueue, SerializesModels {
+    use InteractsWithQueue, SerializesModels, SerialisesDeletedModels {
         SerialisesDeletedModels::getRestoredPropertyValue insteadof SerializesModels;
     }
 
