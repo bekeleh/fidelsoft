@@ -134,8 +134,6 @@
                     <p>{{ trans('texts.payment_terms').': '.trans('texts.payment_terms_net')}} {{ $vendor->present()->paymentTerms }}</p>
                     <!--- vendor vendor type -->
                     <p>{{ trans('texts.vendor_type_name').': '}} {{ $vendor->present()->vendorType}}</p>
-                    <!--- vendor sale type -->
-                    <p>{{ trans('texts.sale_type_name').': '}} {{ $vendor->present()->saleType}}</p>
                     <!--- vendor hold reason -->
                     <p>{{ trans('texts.hold_reason_name').': '}}{{ $vendor->present()->holdReason}}</p>
                     <div class="text-muted" style="padding-top:8px">
@@ -212,7 +210,7 @@
                             </tr>
                             @if ($credit > 0)
                                 <tr>
-                                    <td><small>{{ trans('texts.credit') }}</small></td>
+                                    <td><small>{{ trans('texts.purchase_credit') }}</small></td>
                                     <td style="text-align: left">{{ Utils::formatMoney($credit, $vendor->getCurrencyId()) }}
                                     </td>
                                 </tr>
@@ -243,7 +241,7 @@
         {!! Form::tab_link('#purchase_invoices', trans('texts.purchase_invoices')) !!}
         {!! Form::tab_link('#payments', trans('texts.payments')) !!}
         @if ($account->isModuleEnabled(ENTITY_PURCHASE_CREDIT))
-            {!! Form::tab_link('#credits', trans('texts.credits')) !!}
+            {!! Form::tab_link('#credits', trans('texts.purchase_credit')) !!}
         @endif
     </ul>
     <br/>
@@ -256,7 +254,7 @@
                 trans('texts.message'),
                 trans('texts.balance'),
                 trans('texts.adjustment'))
-                ->setUrl(url('api/activities/'. $vendor->public_id))
+                ->setUrl(url('api/vendor/activities/'. $vendor->public_id))
                 ->setCustomValues('entityType', 'activity')
                 ->setCustomValues('vendorId', $vendor->public_id)
                 ->setCustomValues('rightAlign', [2, 3])
@@ -280,8 +278,8 @@
         @if (Utils::hasFeature(FEATURE_QUOTES) && $hasQuotes)
             <div class="tab-pane" id="quotes">
                 @include('list', [
-                'entityType' => ENTITY_QUOTE,
-                'datatable' => new \App\Ninja\Datatables\PurchaseInvoiceDatatable(true, true, ENTITY_QUOTE),
+                'entityType' => ENTITY_PURCHASE_QUOTE,
+                'datatable' => new \App\Ninja\Datatables\PurchaseInvoiceDatatable(true, true, ENTITY_PURCHASE_QUOTE),
                 'vendorId' => $vendor->public_id,
                 'url' => url('api/quotes/' . $vendor->public_id),
                 ])
@@ -384,7 +382,7 @@
             if (tab && tab != 'activity' && $(selector).length && window['load_' + tab]) {
                 $(selector).tab('show');
             } else {
-                window['load_activity']();
+                // window['load_activity']();
             }
         });
 

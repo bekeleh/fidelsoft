@@ -115,14 +115,9 @@ class ActivityRepository extends BaseRepository
             ->leftJoin('users', 'users.id', '=', 'activities.user_id')
             ->leftJoin('clients', 'clients.id', '=', 'activities.client_id')
             ->leftJoin('contacts', 'contacts.client_id', '=', 'clients.id')
-            ->leftJoin('vendors', 'vendors.id', '=', 'activities.vendor_id')
-            ->leftJoin('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
             ->leftJoin('invoices', 'invoices.id', '=', 'activities.invoice_id')
-            ->leftJoin('purchase_invoices', 'purchase_invoices.id', '=', 'activities.purchase_invoice_id')
             ->leftJoin('payments', 'payments.id', '=', 'activities.payment_id')
-            ->leftJoin('purchase_payments', 'purchase_payments.id', '=', 'activities.purchase_payment_id')
             ->leftJoin('credits', 'credits.id', '=', 'activities.credit_id')
-            ->leftJoin('purchase_credits', 'purchase_credits.id', '=', 'activities.purchase_credit_id')
             ->leftJoin('tasks', 'tasks.id', '=', 'activities.task_id')
             ->leftJoin('expenses', 'expenses.id', '=', 'activities.expense_id')
             ->where('clients.id', $clientId)
@@ -145,13 +140,10 @@ class ActivityRepository extends BaseRepository
                 'users.last_name as user_last_name',
                 'users.email as user_email',
                 'invoices.invoice_number as invoice_number',
+                'invoices.invoice_number as invoice',
                 'invoices.public_id as invoice_public_id',
                 'invoices.is_recurring',
-                'purchase_invoices.invoice_number as purchase_invoice_number',
-                'purchase_invoices.public_id as purchase_invoice_public_id',
-                'purchase_invoices.is_recurring',
                 'clients.name as client_name',
-                'accounts.name as account_name',
                 'clients.public_id as client_public_id',
                 'contacts.id as contact',
                 'contacts.first_name as first_name',
@@ -162,6 +154,65 @@ class ActivityRepository extends BaseRepository
                 'credits.amount as credit',
                 'tasks.description as task_description',
                 'tasks.public_id as task_public_id',
+                'expenses.public_notes as expense_public_notes',
+                'expenses.public_id as expense_public_id'
+            );
+
+//        if ($filter) {
+//            $query->where(function ($query) use ($filter) {
+//                $query->where('invoices.invoice_number', 'like', '%' . $filter . '%')
+//                    ->orWhere('activities.ip', 'like', '%' . $filter . '%');
+//            });
+//        }
+
+//        $this->applyFilters($query, ENTITY_ACTIVITY);
+
+        return $query;
+    }
+
+    public function findByVendorId($vendorId, $filter = null)
+    {
+        $query = DB::table('activities')
+            ->leftJoin('accounts', 'accounts.id', '=', 'activities.account_id')
+            ->leftJoin('users', 'users.id', '=', 'activities.user_id')
+            ->leftJoin('vendors', 'vendors.id', '=', 'activities.vendor_id')
+            ->leftJoin('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
+            ->leftJoin('purchase_invoices', 'purchase_invoices.id', '=', 'activities.purchase_invoice_id')
+            ->leftJoin('purchase_payments', 'purchase_payments.id', '=', 'activities.purchase_payment_id')
+            ->leftJoin('purchase_credits', 'purchase_credits.id', '=', 'activities.purchase_credit_id')
+            ->leftJoin('expenses', 'expenses.id', '=', 'activities.expense_id')
+            ->where('vendors.id', $vendorId)
+            ->where('vendor_contacts.is_primary', 1)
+            ->whereNull('vendor_contacts.deleted_at')
+            ->select(
+                DB::raw('COALESCE(clients.currency_id, accounts.currency_id) currency_id'),
+                DB::raw('COALESCE(clients.country_id, accounts.country_id) country_id'),
+                'activities.id',
+                'activities.created_at',
+                'activities.contact_id',
+                'activities.activity_type_id',
+                'activities.balance',
+                'activities.adjustment',
+                'activities.token_id',
+                'activities.notes',
+                'activities.ip',
+                'activities.is_system',
+                'users.first_name as user_first_name',
+                'users.last_name as user_last_name',
+                'users.email as user_email',
+                'purchase_invoices.invoice_number',
+                'purchase_invoices.invoice',
+                'purchase_invoices.public_id as invoice_public_id',
+                'purchase_invoices.is_recurring',
+                'vendors.name as vendor_name',
+                'vendors.public_id as vendor_public_id',
+                'vendor_contacts.id as contact',
+                'vendor_contacts.first_name as first_name',
+                'vendor_contacts.last_name as last_name',
+                'vendor_contacts.email as email',
+                'purchase_payments.transaction_reference as payment',
+                'purchase_payments.amount as payment_amount',
+                'purchase_credits.amount as credit',
                 'expenses.public_notes as expense_public_notes',
                 'expenses.public_id as expense_public_id'
             );

@@ -162,7 +162,7 @@ Route::group(['middleware' => ['lookup:user', 'auth:user', 'banned:user']], func
     Route::post('users/change_permission', 'UserController@changePermission');
     Route::get('settings/enable_two_factor', 'TwoFactorController@setupTwoFactor');
     Route::post('settings/enable_two_factor', 'TwoFactorController@enableTwoFactor');
-
+//  client
     Route::resource('clients', 'ClientController');
     Route::get('api/clients', 'ClientController@getDatatable');
     Route::get('api/activities/{client_id?}', 'ActivityController@getDatatable');
@@ -412,12 +412,15 @@ Route::group(['middleware' => ['lookup:user', 'auth:user', 'banned:user']], func
 //   account
     Route::get('/resend_confirmation', 'AccountController@resendConfirmation');
     Route::post('/update_setup', 'AppController@updateSetup');
-
 // vendor
     Route::get('vendors/{vendors}/clone', 'VendorController@cloneVendor');
     Route::resource('vendors', 'VendorController');
     Route::get('api/vendors', 'VendorController@getDatatable');
     Route::post('vendors/bulk', 'VendorController@bulk');
+    Route::get('api/vendor/activities/{vendor_id?}', 'ActivityController@getVendorDatatable');
+    Route::get('vendors/statement/{vendor_id}', 'ClientController@statement');
+    Route::post('email_history', 'VendorController@getEmailHistory');
+    Route::post('reactivate_email/{bounce_id}', 'VendorController@reactivateEmail');
 
 // Expense
     Route::get('expenses/{expenses}/clone', 'ExpenseController@cloneExpense');

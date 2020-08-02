@@ -31,10 +31,19 @@ class ActivityController extends BaseController
         ]);
     }
 
+//  client activity
     public function getDatatable($clientPublicId)
     {
         $search = Input::get('sSearch');
 
         return $this->activityService->getDatatable($clientPublicId, $search);
+    }
+
+//  vendor activity
+    public function getVendorDatatable($vendorPublicId)
+    {
+        $search = Input::get('sSearch');
+
+        return $this->activityService->getVendorDatatable($vendorPublicId, $search);
     }
 }

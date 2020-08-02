@@ -4,7 +4,7 @@ namespace App\Ninja\Datatables;
 
 use App\Libraries\Utils;
 
-class ActivityDatatable extends EntityDatatable
+class ActivityVendorDatatable extends EntityDatatable
 {
     public $entityType = ENTITY_ACTIVITY;
 

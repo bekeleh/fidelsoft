@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Client;
+use App\Models\Vendor;
 use App\Ninja\Datatables\ActivityDatatable;
 use App\Ninja\Repositories\ActivityRepository;
 use Illuminate\Http\JsonResponse;
@@ -26,7 +27,7 @@ class ActivityService extends BaseService
      * ActivityService constructor.
      *
      * @param ActivityRepository $activityRepo
-     * @param DatatableService   $datatableService
+     * @param DatatableService $datatableService
      */
     public function __construct(ActivityRepository $activityRepo, DatatableService $datatableService)
     {
@@ -48,6 +49,19 @@ class ActivityService extends BaseService
 
 
         $query = $this->activityRepo->findByClientId($clientId, $search);
+
+        return $this->datatableService->createDatatable($datatable, $query);
+    }
+
+    public function getVendorDatatable($vendorPublicId = null, $search)
+    {
+
+        $datatable = new ActivityDatatable(false);
+
+        $vendorId = Vendor::getPrivateId($vendorPublicId);
+
+
+        $query = $this->activityRepo->findByVendorId($vendorId, $search);
 
         return $this->datatableService->createDatatable($datatable, $query);
     }
