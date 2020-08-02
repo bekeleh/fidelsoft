@@ -212,9 +212,9 @@ Route::group(['middleware' => ['lookup:user', 'auth:user', 'banned:user']], func
     Route::post('invoice_items/bulk', 'InvoiceItemController@bulk');
 //    purchase invoice
     Route::get('api/recurring_invoices/{vendor_id?}', 'PurchaseInvoiceController@getRecurringDatatable');
-    Route::get('purchase_invoices/receive_note/{purchase_invoice_id}', 'PurchaseInvoiceController@receiveNote');
-    Route::get('purchase_invoices/purchase_invoice_history/{purchase_invoice_id}', 'PurchaseInvoiceController@purchaseInvoiceHistory');
-    Route::get('quotes/quote_history/{purchase_invoice_id}', 'PurchaseInvoiceController@purchaseInvoiceHistory');
+    Route::get('purchase_invoices/receive_note/{invoice_id}', 'PurchaseInvoiceController@receiveNote');
+    Route::get('purchase_invoices/purchase_invoice_history/{invoice_id}', 'PurchaseInvoiceController@purchaseInvoiceHistory');
+    Route::get('quotes/quote_history/{invoice_id}', 'PurchaseInvoiceController@purchaseInvoiceHistory');
 
     Route::resource('purchase_invoices', 'PurchaseInvoiceController');
     Route::get('api/purchase_invoices/{vendor_id?}', 'PurchaseInvoiceController@getDatatable');

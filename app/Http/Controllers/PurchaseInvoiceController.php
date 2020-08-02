@@ -174,7 +174,7 @@ class PurchaseInvoiceController extends BaseController
 
         $contactIds = DB::table('invitations')
             ->leftJoin('vendor_contacts', 'vendor_contacts.id', 'invitations.contact_id')
-            ->where('invitations.purchase_invoice_id', $invoice->id)
+            ->where('invitations.invoice_id', $invoice->id)
             ->where('invitations.account_id', Auth::user()->account_id)
             ->select('vendor_contacts.public_id')->pluck('public_id')
             ->where('invitations.deleted_at', null);

@@ -16,10 +16,6 @@ class ActivityVendorDatatable extends EntityDatatable
                 function ($model) {
                     $str = Utils::timestampToDateTimeString(strtotime($model->created_at));
                     $activityTypes = [
-                        ACTIVITY_TYPE_VIEW_INVOICE,
-                        ACTIVITY_TYPE_VIEW_QUOTE,
-                        ACTIVITY_TYPE_CREATE_PAYMENT,
-                        ACTIVITY_TYPE_APPROVE_QUOTE,
                         ACTIVITY_TYPE_VIEW_PURCHASE_QUOTE,
                         ACTIVITY_TYPE_VIEW_PURCHASE_QUOTE,
                         ACTIVITY_TYPE_CREATE_PURCHASE_PAYMENT,
@@ -44,17 +40,16 @@ class ActivityVendorDatatable extends EntityDatatable
                 'activity_type_id',
                 function ($model) {
                     $data = [
-                        'client' => link_to('/clients/' . $model->client_public_id, Utils::getClientDisplayName($model))->toHtml(),
+                        'vendor' => link_to('/vendors/' . $model->vendor_public_id, Utils::getVendorDisplayName($model))->toHtml(),
                         'user' => $model->is_system ? '<i>' . trans('texts.system') . '</i>' : Utils::getPersonDisplayName($model->user_first_name, $model->user_last_name, $model->user_email),
-                        'invoice' => $model->invoice ? link_to('/invoices/' . $model->invoice_public_id, $model->is_recurring ? trans('texts.recurring_invoice') : $model->invoice_number)->toHtml() : null,
-                        'quote' => $model->invoice ? link_to('/quotes/' . $model->invoice_public_id, $model->invoice)->toHtml() : null,
-                        'contact' => $model->contact_id ? link_to('/clients/' . $model->client_public_id, Utils::getPersonDisplayName($model->first_name, $model->last_name, $model->email))->toHtml() : Utils::getPersonDisplayName($model->user_first_name, $model->user_last_name, $model->user_email),
-                        'payment' => $model->payment ? e($model->payment) : '',
-                        'credit' => $model->payment_amount ? Utils::formatMoney($model->credit, $model->currency_id, $model->country_id) : '',
+                        'purchase_invoice' => $model->invoice_number ? link_to('/purchase_invoices/' . $model->invoice_public_id, $model->is_recurring ? trans('texts.recurring_invoice') : $model->invoice_number)->toHtml() : null,
+                        'purchase_quote' => $model->invoice ? link_to('/purchase_quotes/' . $model->invoice_public_id, $model->invoice)->toHtml() : null,
+                        'vendor_contact' => $model->contact_id ? link_to('/vendors/' . $model->vendor_public_id, Utils::getPersonDisplayName($model->first_name, $model->last_name, $model->email))->toHtml() : Utils::getPersonDisplayName($model->user_first_name, $model->user_last_name, $model->user_email),
+                        'purchase_payment' => $model->payment ? e($model->payment) : '',
+                        'purchase_credit' => $model->payment_amount ? Utils::formatMoney($model->credit, $model->currency_id, $model->country_id) : '',
                         'payment_amount' => $model->payment_amount ? Utils::formatMoney($model->payment_amount, $model->currency_id, $model->country_id) : null,
                         'adjustment' => $model->adjustment ? Utils::formatMoney($model->adjustment, $model->currency_id, $model->country_id) : null,
-                        'task' => $model->task_public_id ? link_to('/tasks/' . $model->task_public_id, substr($model->task_description, 0, 30) . '...') : null,
-                        'expense' => $model->expense_public_id ? link_to('/expenses/' . $model->expense_public_id, substr($model->expense_public_notes, 0, 30) . '...') : null,
+                        'purchase_expense' => $model->expense_public_id ? link_to('/purchase_expenses/' . $model->expense_public_id, substr($model->expense_public_notes, 0, 30) . '...') : null,
                     ];
 
                     $str = trans("texts.activity_{$model->activity_type_id}", $data);

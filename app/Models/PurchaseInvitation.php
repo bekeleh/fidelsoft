@@ -69,7 +69,7 @@ PurchaseInvitation::creating(function ($invitation) {
 PurchaseInvitation::updating(function ($invitation) {
     $dirty = $invitation->getDirty();
     if (array_key_exists('message_id', $dirty)) {
-        LookupPurchaseInvitation::updatePurchaseInvitation($invitation->account->account_key, $invitation);
+        LookupPurchaseInvitation::updateInvitation($invitation->account->account_key, $invitation);
     }
 });
 

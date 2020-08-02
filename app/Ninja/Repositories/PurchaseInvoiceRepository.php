@@ -650,10 +650,10 @@ class PurchaseInvoiceRepository extends BaseRepository
 
         foreach ($vendor->contacts as $contact) {
             $invitation = PurchaseInvitation::scope()->where('contact_id', $contact->id)
-                ->where('purchase_invoice_id', $purchaseInvoice->id)->first();
+                ->where('invoice_id', $purchaseInvoice->id)->first();
             if (in_array($contact->id, $sendPurchaseInvoiceIds) && empty($invitation)) {
                 $invitation = PurchaseInvitation::createNew($purchaseInvoice);
-                $invitation->purchase_invoice_id = $purchaseInvoice->id;
+                $invitation->invoice_id = $purchaseInvoice->id;
                 $invitation->contact_id = $contact->id;
                 $invitation->invitation_key = strtolower(str_random(RANDOM_KEY_LENGTH));
                 $invitation->created_by = auth::user()->username;
@@ -1326,9 +1326,9 @@ class PurchaseInvoiceRepository extends BaseRepository
         }
 
         $expense = Expense::scope($item['expense_public_id'])
-            ->where('purchase_invoice_id', null)->firstOrFail();
+            ->where('invoice_id', null)->firstOrFail();
         if (Auth::user()->can('edit', $expense)) {
-            $expense->purchase_invoice_id = $purchaseInvoice->id;
+            $expense->invoice_id = $purchaseInvoice->id;
             $expense->vendor_id = $purchaseInvoice->vendor_id;
             if ($expense->save()) {
                 return true;
@@ -1376,12 +1376,12 @@ class PurchaseInvoiceRepository extends BaseRepository
         foreach ($document_ids as $document_id) {
             $document = Document::scope($document_id)->first();
             if ($document && Auth::user()->can('edit', $document)) {
-                if ($document->purchase_invoice_id && $document->purchase_invoice_id != $purchaseInvoice->id) {
+                if ($document->invoice_id && $document->invoice_id != $purchaseInvoice->id) {
 //                From a clone
                     $document = $document->cloneDocument();
                     $document_ids[] = $document->public_id; // Don't remove this document
                 }
-                $document->purchase_invoice_id = $purchaseInvoice->id;
+                $document->invoice_id = $purchaseInvoice->id;
                 $document->expense_id = null;
                 $document->save();
             }
@@ -1405,7 +1405,7 @@ class PurchaseInvoiceRepository extends BaseRepository
                 if (!in_array($document->public_id, $document_ids)) {
                     if (Auth::user()->can('delete', $document)) {
 // Not checking permissions; deleting a document is just editing the invoice
-                        if ($document->purchase_invoice_id === $purchaseInvoice->id) {
+                        if ($document->invoice_id === $purchaseInvoice->id) {
 // Make sure the document isn't on a clone
                             $document->delete();
                         }

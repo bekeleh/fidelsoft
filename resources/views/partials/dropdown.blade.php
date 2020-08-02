@@ -24,20 +24,20 @@
                     ])
                 @endif
             @endforeach
-            @if (Utils::isSuperUser())
-                @foreach (session(SESSION_USER_ACCOUNTS) as $item)
-                    @if ($item->user_id != Auth::user()->id)
-                        @include('user_account', [
-                        'user_account_id' => $item->id,
-                        'user_id' => $item->user_id,
-                        'account_name' => $item->account_name,
-                        'user_name' => $item->user_name,
-                        'logo_url' => isset($item->logo_url) ? $item->logo_url : "",
-                        'selected' => false,
-                        ])
-                    @endif
-                @endforeach
-            @endif
+            {{--            @if (Utils::isSuperUser())--}}
+            {{--                @foreach (session(SESSION_USER_ACCOUNTS) as $item)--}}
+            {{--                    @if ($item->user_id != Auth::user()->id)--}}
+            {{--                        @include('user_account', [--}}
+            {{--                        'user_account_id' => $item->id,--}}
+            {{--                        'user_id' => $item->user_id,--}}
+            {{--                        'account_name' => $item->account_name,--}}
+            {{--                        'user_name' => $item->user_name,--}}
+            {{--                        'logo_url' => isset($item->logo_url) ? $item->logo_url : "",--}}
+            {{--                        'selected' => false,--}}
+            {{--                        ])--}}
+            {{--                    @endif--}}
+            {{--                @endforeach--}}
+            {{--            @endif--}}
         @else
             @include('user_account', [
             'account_name' => Auth::user()->account->name ?: trans('texts.untitled'),

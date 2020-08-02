@@ -21,7 +21,7 @@ Route::resource('invoices', 'InvoiceApiController');
 Route::resource('invoice_items', 'InvoiceItemApiController');
 // purchase
 Route::get('purchase_quotes', 'PurchaseQuoteApiController@index');
-Route::get('download/purchase/{purchase_invoice_id}', 'PurchaseInvoiceApiController@download');
+Route::get('download/purchase/{invoice_id}', 'PurchaseInvoiceApiController@download');
 Route::resource('purchase_invoices', 'PurchaseInvoiceApiController');
 Route::resource('purchase_invoice_items', 'PurchaseInvoiceItemApiController');
 

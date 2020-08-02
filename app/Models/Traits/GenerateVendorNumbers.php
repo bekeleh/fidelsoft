@@ -36,7 +36,7 @@ trait GenerateVendorNumbers
                 $number = $prefix . str_pad($counter, $this->invoice_number_padding, '0', STR_PAD_LEFT);
             }
 
-            if ($entity->recurring_purchase_invoice_id) {
+            if ($entity->recurring_invoice_id) {
                 $number = $this->recurring_purchase_invoice_number_prefix . $number;
             }
 

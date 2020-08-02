@@ -4,7 +4,7 @@ namespace App\Models;
 
 
 /**
- * Class ExpenseCategory.
+ * Class LookupInvitation.
  */
 class LookupInvitation extends LookupModel
 {

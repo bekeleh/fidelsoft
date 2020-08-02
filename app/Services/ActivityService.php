@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Client;
 use App\Models\Vendor;
 use App\Ninja\Datatables\ActivityDatatable;
+use App\Ninja\Datatables\ActivityVendorDatatable;
 use App\Ninja\Repositories\ActivityRepository;
 use Illuminate\Http\JsonResponse;
 
@@ -56,7 +57,7 @@ class ActivityService extends BaseService
     public function getVendorDatatable($vendorPublicId = null, $search)
     {
 
-        $datatable = new ActivityDatatable(false);
+        $datatable = new ActivityVendorDatatable(false);
 
         $vendorId = Vendor::getPrivateId($vendorPublicId);
 

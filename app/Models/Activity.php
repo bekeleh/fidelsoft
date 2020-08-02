@@ -59,7 +59,7 @@ class Activity extends EntityModel
 
     public function purchase_invoice()
     {
-        return $this->belongsTo('App\Models\PurchaseInvoice', 'purchase_invoice_id')->withTrashed();
+        return $this->belongsTo('App\Models\PurchaseInvoice', 'invoice_id')->withTrashed();
     }
 
     public function credit()

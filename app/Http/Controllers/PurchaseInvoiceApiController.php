@@ -94,12 +94,12 @@ class PurchaseInvoiceApiController extends BaseAPIController
 
     /**
      * @SWG\Get(
-     *   path="/invoices/{purchase_invoice_id}",
+     *   path="/invoices/{invoice_id}",
      *   summary="Retrieve an PurchaseInvoice",
      *   tags={"invoice"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="purchase_invoice_id",
+     *     name="invoice_id",
      *     type="integer",
      *     required=true
      *   ),
@@ -220,7 +220,7 @@ class PurchaseInvoiceApiController extends BaseAPIController
                 $payment = $this->paymentService->autoBillPurchaseInvoice($purchaseInvoice);
             } elseif ($isPaid) {
                 $payment = $this->paymentRepo->save([
-                    'purchase_invoice_id' => $purchaseInvoice->id,
+                    'invoice_id' => $purchaseInvoice->id,
                     'vendor_id' => $vendor->id,
                     'amount' => round($data['paid'], 2),
                 ]);
@@ -397,12 +397,12 @@ class PurchaseInvoiceApiController extends BaseAPIController
 
     /**
      * @SWG\Put(
-     *   path="/invoices/{purchase_invoice_id}",
+     *   path="/invoices/{invoice_id}",
      *   summary="Update an invoice",
      *   tags={"invoice"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="purchase_invoice_id",
+     *     name="invoice_id",
      *     type="integer",
      *     required=true
      *   ),
@@ -451,12 +451,12 @@ class PurchaseInvoiceApiController extends BaseAPIController
 
     /**
      * @SWG\Delete(
-     *   path="/invoices/{purchase_invoice_id}",
+     *   path="/invoices/{invoice_id}",
      *   summary="Delete an invoice",
      *   tags={"invoice"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="purchase_invoice_id",
+     *     name="invoice_id",
      *     type="integer",
      *     required=true
      *   ),

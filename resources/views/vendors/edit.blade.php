@@ -231,7 +231,7 @@
 
                                 {!! Former::select('payment_terms')->addOption('','')
                                 ->fromQuery(\App\Models\PaymentTerm::getSelectOptions(), 'name', 'num_days')
-                                ->placeholder($account->present()->paymentTerms)
+                                ->placeholder(trans('texts.select_payment_term'))
                                 ->help(trans('texts.payment_terms_help') . ' | ' . link_to('/settings/payment_terms', trans('texts.customize_options')))
                                 !!}
 

@@ -281,7 +281,7 @@
                 'entityType' => ENTITY_PURCHASE_QUOTE,
                 'datatable' => new \App\Ninja\Datatables\PurchaseInvoiceDatatable(true, true, ENTITY_PURCHASE_QUOTE),
                 'vendorId' => $vendor->public_id,
-                'url' => url('api/quotes/' . $vendor->public_id),
+                'url' => url('api/purchase_quotes/' . $vendor->public_id),
                 ])
             </div>
         @endif
@@ -289,7 +289,7 @@
         @if ($hasRecurringInvoices)
             <div class="tab-pane" id="recurring_purchase_invoices">
                 @include('list', [
-                'entityType' => ENTITY_RECURRING_INVOICE,
+                'entityType' => ENTITY_RECURRING_PURCHASE_INVOICE,
                 'datatable' => new \App\Ninja\Datatables\RecurringPurchaseInvoiceDatatable(true, true),
                 'vendorId' => $vendor->public_id,
                 'url' => url('api/recurring_purchase_invoices/' . $vendor->public_id),
@@ -311,7 +311,7 @@
             'entityType' => ENTITY_PURCHASE_PAYMENT,
             'datatable' => new \App\Ninja\Datatables\PurchasePaymentDatatable(true, true),
             'vendorId' => $vendor->public_id,
-            'url' => url('api/payments/' . $vendor->public_id),
+            'url' => url('api/purchase_payments/' . $vendor->public_id),
             ])
         </div>
 
@@ -321,7 +321,7 @@
                 'entityType' => ENTITY_PURCHASE_CREDIT,
                 'datatable' => new \App\Ninja\Datatables\PurchaseCreditDatatable(true, true),
                 'vendorId' => $vendor->public_id,
-                'url' => url('api/credits/' . $vendor->public_id),
+                'url' => url('api/purchase_credits/' . $vendor->public_id),
                 ])
             </div>
         @endif

@@ -119,7 +119,7 @@ class RecurringPurchaseInvoiceDatatable extends EntityDatatable
     private function getStatusLabel($model)
     {
         $class = PurchaseInvoice::calcStatusClass($model->invoice_status_id, $model->balance, $model->due_date_sql, $model->is_recurring);
-        $label = PurchaseInvoice::calcStatusLabel($model->invoice_status_name, $class, $this->entityType, $model->quote_purchase_invoice_id);
+        $label = PurchaseInvoice::calcStatusLabel($model->invoice_status_name, $class, $this->entityType, $model->quote_invoice_id);
 
         if ($model->invoice_status_id == INVOICE_STATUS_SENT) {
             if (!$model->last_sent_date_sql || $model->last_sent_date_sql == '0000-00-00') {

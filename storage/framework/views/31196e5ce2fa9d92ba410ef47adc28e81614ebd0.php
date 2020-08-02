@@ -26,20 +26,20 @@
                     ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 <?php endif; ?>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            <?php if(Utils::isSuperUser()): ?>
-                <?php $__currentLoopData = session(SESSION_USER_ACCOUNTS); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <?php if($item->user_id != Auth::user()->id): ?>
-                        <?php echo $__env->make('user_account', [
-                        'user_account_id' => $item->id,
-                        'user_id' => $item->user_id,
-                        'account_name' => $item->account_name,
-                        'user_name' => $item->user_name,
-                        'logo_url' => isset($item->logo_url) ? $item->logo_url : "",
-                        'selected' => false,
-                        ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                    <?php endif; ?>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            <?php endif; ?>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
         <?php else: ?>
             <?php echo $__env->make('user_account', [
             'account_name' => Auth::user()->account->name ?: trans('texts.untitled'),

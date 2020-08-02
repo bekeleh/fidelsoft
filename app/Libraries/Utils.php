@@ -1100,19 +1100,6 @@ class Utils
         return $location->name ?: null;
     }
 
-//    public static function getVendorDisplayName($model)
-//    {
-//        if (is_null($model)) {
-//            return null;
-//        }
-//
-//        if ($model->vendor_name) {
-//            return $model->vendor_name;
-//        }
-//
-//        return 'No vendor name';
-//    }
-
     public static function getPersonDisplayName($firstName, $lastName, $email)
     {
         if ($firstName || $lastName) {
@@ -1384,7 +1371,7 @@ class Utils
             'payment_id',
             'purchase_payment_id',
             'invoice_id',
-            'purchase_invoice_id',
+            'invoice_id',
             'credit_id',
             'purchase_credit_id',
             'invitation_id',

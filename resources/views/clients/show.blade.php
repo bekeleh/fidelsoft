@@ -264,7 +264,7 @@
                 ->setCustomValues('clientId', $client->public_id)
                 ->setCustomValues('rightAlign', [2, 3])
                 ->setOptions('sPaginationType', 'bootstrap')
-                ->setOptions('bFilter', true)
+                ->setOptions('bFilter', false)
                 ->setOptions('aaSorting', [['0', 'desc']])
                 ->render('datatable') !!}
         </div>

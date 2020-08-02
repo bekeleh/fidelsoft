@@ -280,7 +280,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     public function invoice_items()
     {
-        return $this->hasMany('App\Models\PurchaseInvoiceItem', 'purchase_invoice_id')->orderBy('id');
+        return $this->hasMany('App\Models\PurchaseInvoiceItem', 'invoice_id')->orderBy('id');
     }
 
     public function documents()
@@ -342,12 +342,12 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
 
     public function invitations()
     {
-        return $this->hasMany('App\Models\PurchaseInvitation')->orderBy('invitations.contact_id');
+        return $this->hasMany('App\Models\PurchaseInvitation', 'invoice_id');
     }
 
     public function expenses()
     {
-        return $this->hasMany('App\Models\Expense')->withTrashed();
+        return $this->hasMany('App\Models\Expense', 'invoice_id')->withTrashed();
     }
 
     public function branch()
@@ -1343,7 +1343,7 @@ class PurchaseInvoice extends EntityModel implements BalanceAffecting
     {
         return Activity::scope()
             ->with(['vendor_contact'])
-            ->where('purchase_invoice_id', $this->id)
+            ->where('invoice_id', $this->id)
             ->whereIn('activity_type_id', [ACTIVITY_TYPE_EMAIL_INVOICE, ACTIVITY_TYPE_EMAIL_QUOTE])
             ->orderBy('id', 'desc')
             ->get();

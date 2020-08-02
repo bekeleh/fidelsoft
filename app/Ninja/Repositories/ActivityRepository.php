@@ -158,15 +158,6 @@ class ActivityRepository extends BaseRepository
                 'expenses.public_id as expense_public_id'
             );
 
-//        if ($filter) {
-//            $query->where(function ($query) use ($filter) {
-//                $query->where('invoices.invoice_number', 'like', '%' . $filter . '%')
-//                    ->orWhere('activities.ip', 'like', '%' . $filter . '%');
-//            });
-//        }
-
-//        $this->applyFilters($query, ENTITY_ACTIVITY);
-
         return $query;
     }
 
@@ -177,7 +168,7 @@ class ActivityRepository extends BaseRepository
             ->leftJoin('users', 'users.id', '=', 'activities.user_id')
             ->leftJoin('vendors', 'vendors.id', '=', 'activities.vendor_id')
             ->leftJoin('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
-            ->leftJoin('purchase_invoices', 'purchase_invoices.id', '=', 'activities.purchase_invoice_id')
+            ->leftJoin('purchase_invoices', 'purchase_invoices.id', '=', 'activities.invoice_id')
             ->leftJoin('purchase_payments', 'purchase_payments.id', '=', 'activities.purchase_payment_id')
             ->leftJoin('purchase_credits', 'purchase_credits.id', '=', 'activities.purchase_credit_id')
             ->leftJoin('expenses', 'expenses.id', '=', 'activities.expense_id')
@@ -185,8 +176,8 @@ class ActivityRepository extends BaseRepository
             ->where('vendor_contacts.is_primary', 1)
             ->whereNull('vendor_contacts.deleted_at')
             ->select(
-                DB::raw('COALESCE(clients.currency_id, accounts.currency_id) currency_id'),
-                DB::raw('COALESCE(clients.country_id, accounts.country_id) country_id'),
+                DB::raw('COALESCE(vendors.currency_id, accounts.currency_id) currency_id'),
+                DB::raw('COALESCE(vendors.country_id, accounts.country_id) country_id'),
                 'activities.id',
                 'activities.created_at',
                 'activities.contact_id',
@@ -201,7 +192,7 @@ class ActivityRepository extends BaseRepository
                 'users.last_name as user_last_name',
                 'users.email as user_email',
                 'purchase_invoices.invoice_number',
-                'purchase_invoices.invoice',
+                'purchase_invoices.invoice_number as invoice',
                 'purchase_invoices.public_id as invoice_public_id',
                 'purchase_invoices.is_recurring',
                 'vendors.name as vendor_name',
@@ -216,15 +207,6 @@ class ActivityRepository extends BaseRepository
                 'expenses.public_notes as expense_public_notes',
                 'expenses.public_id as expense_public_id'
             );
-
-//        if ($filter) {
-//            $query->where(function ($query) use ($filter) {
-//                $query->where('invoices.invoice_number', 'like', '%' . $filter . '%')
-//                    ->orWhere('activities.ip', 'like', '%' . $filter . '%');
-//            });
-//        }
-
-//        $this->applyFilters($query, ENTITY_ACTIVITY);
 
         return $query;
     }

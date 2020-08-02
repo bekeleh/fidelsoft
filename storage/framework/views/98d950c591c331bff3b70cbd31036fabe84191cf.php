@@ -346,7 +346,7 @@ $__env->startSection('head_css'); ?>
                 <?php if(Utils::isAdmin() ): ?>
                     <?php echo $__env->make('partials.navigation_option', ['option' => 'settings'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 <?php endif; ?>
-                <h3 style="height: 15px;"></h3>
+                <h3 style="height: 50px;"></h3>
             </ul><!-- /.. ul -->
         </div>
         <!-- /#left-sidebar-wrapper -->
