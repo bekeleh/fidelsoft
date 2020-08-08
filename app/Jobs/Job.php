@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Ninja\Mailers\ContactMailer;
+use App\Ninja\Mailers\VendorContactMailer;
 use Illuminate\Bus\Queueable;
 use Monolog\Logger;
 

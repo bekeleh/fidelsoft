@@ -1,9 +1,12 @@
-<?php 
+<?php
 
 namespace App\Providers;
 
-use App\Libraries\Utils;
+use Form;
+use App\Http\Macros\FormMixins;
+use App\Http\Macros\RuleMixins;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rule;
 
 class MacroServiceProvider extends ServiceProvider
 {
@@ -15,11 +18,9 @@ class MacroServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-      //  require base_path() . '/resources/macros/community_types.php';
-        // foreach (glob(base_path('resources/macros/*.php')) as $filename) {
-        //     require_once($filename);
-        // }
 
+        Form::mixin(new FormMixins());
+        Rule::mixin(new RuleMixins());
     }
 
     /**

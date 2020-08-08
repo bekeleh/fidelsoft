@@ -29,12 +29,12 @@ class PurchaseInvitation extends EntityModel
         return "/invitations/{$this->public_id}/edit";
     }
 
-    public function purchase_invoice()
+    public function invoice()
     {
         return $this->belongsTo('App\Models\PurchaseInvoice')->withTrashed();
     }
 
-    public function vendor_contact()
+    public function contact()
     {
         return $this->belongsTo('App\Models\VendorContact')->withTrashed();
     }

@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use App;
 use App\Models\PurchaseInvoice;
-use App\Ninja\Mailers\ContactMailer;
 use App\Ninja\Mailers\PurchaseContactMailer;
 use App\Ninja\Mailers\VendorContactMailer;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -73,15 +72,15 @@ class SendPurchaseInvoiceEmail extends Job implements ShouldQueue
     /*
      * Handle a job failure.
      *
-     * @param PurchaseContactMailer $mailer
+     * @param VendorContactMailer $mailer
      * @param Logger $logger
      */
 
-    public function failed(ContactMailer $mailer, Logger $logger)
+    public function sendPurchaseInvoiceFailed(VendorContactMailer $mailer, Logger $logger)
     {
         $this->jobName = $this->job->getName();
 
-        parent::failed($mailer, $logger);
+        parent::sendPurchaseInvoiceFailed($mailer, $logger);
     }
 
 }

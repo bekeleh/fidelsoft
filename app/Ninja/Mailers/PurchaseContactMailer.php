@@ -9,7 +9,7 @@ use App\Jobs\ConvertInvoiceToUbl;
 use App\Libraries\Utils;
 use App\Models\PurchaseInvoice;
 use App\Models\PurchasePayment;
-use App\Services\TemplateService;
+use App\Services\VendorTemplateService;
 use HTMLUtils;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
@@ -20,7 +20,7 @@ class PurchaseContactMailer extends Mailer
     protected $templateService;
 
 
-    public function __construct(TemplateService $templateService)
+    public function __construct(VendorTemplateService $templateService)
     {
         $this->templateService = $templateService;
     }

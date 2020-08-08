@@ -2,14 +2,10 @@
 
 namespace App\Providers;
 
-use App\Http\Macros\FormMixins;
-use App\Http\Macros\RuleMixins;
-use Form;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Validation\Rule;
 
 /**
  * Class AppServiceProvider.
@@ -35,8 +31,6 @@ class AppServiceProvider extends ServiceProvider
             }
         });
 
-        Form::mixin(new FormMixins());
-        Rule::mixin(new RuleMixins());
     }
 
     /**
