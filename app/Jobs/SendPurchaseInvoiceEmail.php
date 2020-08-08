@@ -15,7 +15,7 @@ use Monolog\Logger;
 /**
  * Class SendPurchaseInvoiceEmail.
  */
-class SendPurchaseInvoiceEmail extends Job implements ShouldQueue
+class SendPurchaseInvoiceEmail implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
@@ -25,6 +25,7 @@ class SendPurchaseInvoiceEmail extends Job implements ShouldQueue
     protected $userId;
     protected $server;
     protected $proposal;
+    protected $jobName;
 
     /**
      * Create a new job instance.
@@ -76,11 +77,32 @@ class SendPurchaseInvoiceEmail extends Job implements ShouldQueue
      * @param Logger $logger
      */
 
-    public function sendPurchaseInvoiceFailed(VendorContactMailer $mailer, Logger $logger)
+    /**
+     * @param VendorContactMailer $mailer
+     * @param Logger $logger
+     */
+    public function failed(VendorContactMailer $mailer, Logger $logger)
     {
         $this->jobName = $this->job->getName();
 
-        parent::sendPurchaseInvoiceFailed($mailer, $logger);
+        if (config('queue.failed.notify_email')) {
+            $mailer->sendTo(
+                config('queue.failed.notify_email'),
+                config('mail.from.address'),
+                config('mail.from.name'),
+                config('queue.failed.notify_subject', trans('texts.job_failed', ['name' => $this->jobName])),
+                'job_failed',
+                [
+                    'name' => $this->jobName,
+                ]
+            );
+        }
+
+        $logger->error(
+            trans('texts.job_failed', ['name' => $this->jobName])
+        );
+
+//        parent::failed();
     }
 
 }

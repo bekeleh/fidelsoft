@@ -14,10 +14,11 @@ use Monolog\Logger;
 /**
  * Class SendInvoiceEmail.
  */
-class SendInvoiceEmail extends Job implements ShouldQueue
+class SendInvoiceEmail implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
+    protected $jobName;
     protected $invoice;
     protected $reminder;
     protected $template;
@@ -74,7 +75,25 @@ class SendInvoiceEmail extends Job implements ShouldQueue
     {
         $this->jobName = $this->job->getName();
 
-        parent::failed($mailer, $logger);
+        if (config('queue.failed.notify_email')) {
+            $mailer->sendTo(
+                config('queue.failed.notify_email'),
+                config('mail.from.address'),
+                config('mail.from.name'),
+                config('queue.failed.notify_subject', trans('texts.job_failed', ['name' => $this->jobName])),
+                'job_failed',
+                [
+                    'name' => $this->jobName,
+                ]
+            );
+        }
+
+        $logger->error(
+            trans('texts.job_failed', ['name' => $this->jobName])
+        );
+
+//        parent::failed($mailer, $logger);
+
     }
 
 }

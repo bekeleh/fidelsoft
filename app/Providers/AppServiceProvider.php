@@ -2,10 +2,13 @@
 
 namespace App\Providers;
 
+use App\Notifications\SlackFailedJob;
+use Illuminate\Notifications\Notification;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Queue\Events\JobFailed;
 
 /**
  * Class AppServiceProvider.
@@ -29,6 +32,11 @@ class AppServiceProvider extends ServiceProvider
             if (count($matches)) {
                 config(['database.default' => $matches[0]]);
             }
+        });
+
+        $slackUrl = env('SLACK_URL', '');
+        Queue::failing(function (JobFailed $event) use ($slackUrl) {
+            Notification::route('slack', $slackUrl)->notify(new SlackFailedJob($event));
         });
 
     }
