@@ -163,19 +163,19 @@ $__env->startSection('head'); ?>
                             <?php endif; ?>
 
                             <div style="display:none" data-bind="visible: mark_paid">
-                                <?php echo Former::select('payment_type_id')
-                                ->addOption('','')
-                                ->fromQuery($paymentTypes, 'name', 'id')
-                                ->addGroupClass('payment-type-select'); ?>
+                            <?php echo Former::select('payment_type_id')
+                            ->addOption('','')
+                            ->fromQuery($paymentTypes, 'name', 'id')
+                            ->addGroupClass('payment-type-select'); ?>
 
 
-                                <?php echo Former::text('payment_date')
-                                ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT))
-                                ->addGroupClass('payment_date')
-                                ->append('<i class="glyphicon glyphicon-calendar"></i>'); ?>
+                            <?php echo Former::text('payment_date')
+                            ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT))
+                            ->addGroupClass('payment_date')
+                            ->append('<i class="glyphicon glyphicon-calendar"></i>'); ?>
 
-
-                                <?php echo Former::text('transaction_reference'); ?>
+                            <!-- expense reference -->
+                                <?php echo Former::text('transaction_reference')->value(time().str_random(4)); ?>
 
                             </div>
                         <?php endif; ?>
