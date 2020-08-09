@@ -336,6 +336,8 @@ class Client extends EntityModel
         } else if ($contact = $this->getPrimaryContact()) {
             return $contact->getDisplayName();
         }
+
+        return false;
     }
 
     public function getCityState()

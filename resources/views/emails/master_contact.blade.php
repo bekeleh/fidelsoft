@@ -6,11 +6,15 @@
     </tr>
     <tr>
         <td style="border-collapse: collapse;">
-            <table cellpadding="10" cellspacing="0" border="0" bgcolor="#2F2C2B" width="600" align="center" class="header">
+            <table cellpadding="10" cellspacing="0" border="0" bgcolor="#2F2C2B" width="600" align="center"
+                   class="header">
                 <tr>
-                    <td class="logo" style="border-collapse: collapse; vertical-align: middle; padding-left:34px; padding-top:20px; padding-bottom:12px" valign="middle">
+                    <td class="logo"
+                        style="border-collapse: collapse; vertical-align: middle; padding-left:34px; padding-top:20px; padding-bottom:12px"
+                        valign="middle">
                         @if (Utils::isNinja() || ! Utils::isWhiteLabel())
-                            <img src="{{ isset($message) ? $message->embed(public_path('images/fidel-logo.png')) : 'cid:fidel-logo.png'  }}" alt="Fidel" />
+                            <img src="{{ isset($message) ? $message->embed(public_path('images/fidel-logo.png')) : 'cid:fidel-logo.png'  }}"
+                                 alt="Fidelsoft"/>
                         @endif
                     </td>
                 </tr>

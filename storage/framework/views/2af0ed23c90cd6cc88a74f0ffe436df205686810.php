@@ -1,17 +1,17 @@
-@extends('header')
+<?php use App\Models\Frequency;
 
-@section('head')
-    @parent
-    @include('money_script')
+$__env->startSection('head'); ?>
+    ##parent-placeholder-1a954628a960aaef81d7b2d4521929579f3541e6##
+    <?php echo $__env->make('money_script', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
     <style type="text/css">
         .input-group-addon {
             min-width: 40px;
         }
     </style>
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('content')
-    {!! Former::open($url)
+<?php $__env->startSection('content'); ?>
+    <?php echo Former::open($url)
     ->addClass('warn-on-exit main-form')
     ->onsubmit('return onFormSubmit(event)')
     ->autocomplete('off')
@@ -24,191 +24,221 @@
         'expense_date' => 'required',
         'client_id' => 'required',
         ])
-    ->method($method) !!}
+    ->method($method); ?>
+
     <div style="display:none">
-        {!! Former::text('action') !!}
-        {!! Former::text('data')->data_bind('value: ko.mapping.toJSON(model)') !!}
+        <?php echo Former::text('action'); ?>
+
+        <?php echo Former::text('data')->data_bind('value: ko.mapping.toJSON(model)'); ?>
+
     </div>
 
-    @if ($expense)
-        {!! Former::populate($expense) !!}
-        {!! Former::populateField('should_be_invoiced', intval($expense->should_be_invoiced)) !!}
+    <?php if($expense): ?>
+        <?php echo Former::populate($expense); ?>
+
+        <?php echo Former::populateField('should_be_invoiced', intval($expense->should_be_invoiced)); ?>
+
 
         <div style="display:none">
-            {!! Former::text('public_id') !!}
-            {!! Former::text('invoice_id') !!}
+            <?php echo Former::text('public_id'); ?>
+
+            <?php echo Former::text('invoice_id'); ?>
+
         </div>
-    @endif
+    <?php endif; ?>
 
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-6">
 
-                    {!! Former::select('vendor_id')->addOption('', '')
+                    <?php echo Former::select('vendor_id')->addOption('', '')
                     ->label(trans('texts.vendor'))
                     ->addGroupClass('vendor-select')
-                   ->help(trans('texts.vendor_help') . ' | ' . link_to('/vendors/', trans('texts.customize_options')))
-                    !!}
+                   ->help(trans('texts.vendor_help') . ' | ' . link_to('/vendors/', trans('texts.customize_options'))); ?>
 
-                    {!! Former::select('expense_category_id')->addOption('', '')
+
+                    <?php echo Former::select('expense_category_id')->addOption('', '')
                     ->label(trans('texts.category'))
                     ->addGroupClass('expense-category-select')
-                   ->help(trans('texts.expense_category_help') . ' | ' . link_to('/expense_categories/', trans('texts.customize_options')))
-                    !!}
+                   ->help(trans('texts.expense_category_help') . ' | ' . link_to('/expense_categories/', trans('texts.customize_options'))); ?>
 
-                    {!! Former::text('amount')
+
+                    <?php echo Former::text('amount')
                     ->label(trans('texts.amount'))
                     ->data_bind("value: amount, valueUpdate: 'afterkeydown'")
                     ->addGroupClass('amount')
-                    ->append('<span data-bind="html: expenseCurrencyCode"></span>') !!}
+                    ->append('<span data-bind="html: expenseCurrencyCode"></span>'); ?>
 
-                    {!! Former::select('expense_currency_id')->addOption('','')
+
+                    <?php echo Former::select('expense_currency_id')->addOption('','')
                     ->data_bind('combobox: expense_currency_id')
                     ->label(trans('texts.currency_id'))
                     ->data_placeholder(Utils::getFromCache($account->getCurrencyId(), 'currencies')->getTranslatedName())
-                    ->fromQuery($currencies, 'name', 'id') !!}
+                    ->fromQuery($currencies, 'name', 'id'); ?>
 
-                    @if (! $isRecurring)
-                        {!! Former::text('expense_date')
+
+                    <?php if(! $isRecurring): ?>
+                        <?php echo Former::text('expense_date')
                         ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
                         ->addGroupClass('expense_date')
                         ->label(trans('texts.date'))
-                        ->append('<i class="glyphicon glyphicon-calendar"></i>') !!}
-                    @endif
+                        ->append('<i class="glyphicon glyphicon-calendar"></i>'); ?>
 
-                    @if ($expense && $expense->invoice_id)
-                        {!! Former::plaintext()
+                    <?php endif; ?>
+
+                    <?php if($expense && $expense->invoice_id): ?>
+                        <?php echo Former::plaintext()
                         ->label('client')
-                        ->value($expense->client->present()->link)  !!}
-                    @else
-                        {!! Former::select('client_id')
+                        ->value($expense->client->present()->link); ?>
+
+                    <?php else: ?>
+                        <?php echo Former::select('client_id')
                         ->addOption('', '')
                         ->label(trans('texts.client'))
                         ->data_bind('combobox: client_id')
-                        ->addGroupClass('client-select') !!}
-                    @endif
+                        ->addGroupClass('client-select'); ?>
 
-                    @include('partials/custom_fields', ['entityType' => ENTITY_EXPENSE])
+                    <?php endif; ?>
 
-                    @if (count($taxRates))
-                        @if (!$expense || ($expense && (!$expense->tax_name1 && !$expense->tax_name2)))
-                            {!! Former::checkbox('apply_taxes')
+                    <?php echo $__env->make('partials/custom_fields', ['entityType' => ENTITY_EXPENSE], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+                    <?php if(count($taxRates)): ?>
+                        <?php if(!$expense || ($expense && (!$expense->tax_name1 && !$expense->tax_name2))): ?>
+                            <?php echo Former::checkbox('apply_taxes')
                             ->text(trans('texts.apply_taxes'))
                             ->data_bind('checked: apply_taxes')
                             ->label(' ')
-                            ->value(1) !!}
-                        @endif
-                    @endif
+                            ->value(1); ?>
+
+                        <?php endif; ?>
+                    <?php endif; ?>
 
                     <div style="display:none" data-bind="visible: apply_taxes">
                         <br/>
-                        @include('partials.tax_rates')
+                        <?php echo $__env->make('partials.tax_rates', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                     </div>
 
-                    @if (!$expense || ($expense && !$expense->invoice_id))
-                        {!! Former::checkbox('should_be_invoiced')
+                    <?php if(!$expense || ($expense && !$expense->invoice_id)): ?>
+                        <?php echo Former::checkbox('should_be_invoiced')
                         ->text(trans('texts.mark_billable'))
                         ->data_bind('checked: should_be_invoiced()')
                         ->label(' ')
-                        ->value(1) !!}
-                    @endif
+                        ->value(1); ?>
 
-                    @if ($isRecurring)
-                        {!! Former::select('frequency_id')
+                    <?php endif; ?>
+
+                    <?php if($isRecurring): ?>
+                        <?php echo Former::select('frequency_id')
                         ->label('frequency')
-                        ->options(\App\Models\Frequency::selectOptions())
-                        ->data_bind("value: frequency_id") !!}
-                        {!! Former::text('start_date')
+                        ->options(Frequency::selectOptions())
+                        ->data_bind("value: frequency_id"); ?>
+
+                        <?php echo Former::text('start_date')
                         ->data_bind("datePicker: start_date, valueUpdate: 'afterkeydown'")
                         ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
                         ->appendIcon('calendar')
                         ->addGroupClass('start_date')
-                        ->data_date_start_date($expense ? false : $account->formatDate($account->getDateTime())) !!}
+                        ->data_date_start_date($expense ? false : $account->formatDate($account->getDateTime())); ?>
 
-                        {!! Former::text('end_date')
+
+                        <?php echo Former::text('end_date')
                         ->data_bind("datePicker: end_date, valueUpdate: 'afterkeydown'")
                         ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
                         ->appendIcon('calendar')
                         ->addGroupClass('end_date')
-                        ->data_date_start_date($expense ? false : $account->formatDate($account->getDateTime())) !!}
+                        ->data_date_start_date($expense ? false : $account->formatDate($account->getDateTime())); ?>
 
-                    @else
-                        @if ((! $expense || ! $expense->transaction_id))
 
-                            @if (! $expense || ! $expense->isPaid())
-                                {!! Former::checkbox('mark_paid')
+                    <?php else: ?>
+                        <?php if((! $expense || ! $expense->transaction_id)): ?>
+
+                            <?php if(! $expense || ! $expense->isPaid()): ?>
+                                <?php echo Former::checkbox('mark_paid')
                                 ->data_bind('checked: mark_paid')
                                 ->text(trans('texts.mark_expense_paid'))
                                 ->label(' ')
-                                ->value(1) !!}
-                            @endif
+                                ->value(1); ?>
+
+                            <?php endif; ?>
 
                             <div style="display:none" data-bind="visible: mark_paid">
-                            {!! Former::select('payment_type_id')
-                            ->addOption('','')
-                            ->fromQuery($paymentTypes, 'name', 'id')
-                            ->addGroupClass('payment-type-select') !!}
+                                <?php echo Former::select('payment_type_id')
+                                ->addOption('','')
+                                ->fromQuery($paymentTypes, 'name', 'id')
+                                ->addGroupClass('payment-type-select'); ?>
 
-                            {!! Former::text('payment_date')
-                            ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT))
-                            ->addGroupClass('payment_date')
-                            ->append('<i class="glyphicon glyphicon-calendar"></i>') !!}
-                            <!-- expense reference -->
-                                {!! Former::text('transaction_reference')->value(time().str_random(4))!!}
+
+                                <?php echo Former::text('payment_date')
+                                ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT))
+                                ->addGroupClass('payment_date')
+                                ->append('<i class="glyphicon glyphicon-calendar"></i>'); ?>
+
+
+                                <?php echo Former::text('transaction_reference'); ?>
+
                             </div>
-                        @endif
+                        <?php endif; ?>
 
-                        @if (!$expense || ($expense && ! $expense->isExchanged()))
-                            {!! Former::checkbox('convert_currency')
+                        <?php if(!$expense || ($expense && ! $expense->isExchanged())): ?>
+                            <?php echo Former::checkbox('convert_currency')
                             ->text(trans('texts.convert_currency'))
                             ->data_bind('checked: convert_currency')
                             ->label(' ')
-                            ->value(1) !!}
-                        @endif
+                            ->value(1); ?>
+
+                        <?php endif; ?>
 
                         <div style="display:none" data-bind="visible: enableExchangeRate">
                             <br/>
                             <span style="display:none" data-bind="visible: !client_id()">
-                                {!! Former::select('invoice_currency_id')->addOption('','')
+                                <?php echo Former::select('invoice_currency_id')->addOption('','')
                                 ->label(trans('texts.invoice_currency'))
                                 ->data_placeholder(Utils::getFromCache($account->getCurrencyId(), 'currencies')->name)
                                 ->data_bind('combobox: invoice_currency_id, disable: true')
-                                ->fromQuery($currencies, 'name', 'id') !!}
+                                ->fromQuery($currencies, 'name', 'id'); ?>
+
                                 </span>
                             <span style="display:none;" data-bind="visible: client_id">
-                                {!! Former::plaintext('')
+                                <?php echo Former::plaintext('')
                                 ->value('<span data-bind="html: invoiceCurrencyName"></span>')
                                 ->style('min-height:46px')
-                                ->label(trans('texts.invoice_currency')) !!}
+                                ->label(trans('texts.invoice_currency')); ?>
+
                                 </span>
 
-                            {!! Former::text('exchange_rate')
-                            ->data_bind("value: exchange_rate, enable: enableExchangeRate, valueUpdate: 'afterkeydown'") !!}
+                            <?php echo Former::text('exchange_rate')
+                            ->data_bind("value: exchange_rate, enable: enableExchangeRate, valueUpdate: 'afterkeydown'"); ?>
 
-                            {!! Former::text('invoice_amount')
+
+                            <?php echo Former::text('invoice_amount')
                             ->addGroupClass('converted-amount')
                             ->data_bind("value: convertedAmount, enable: enableExchangeRate")
-                            ->append('<span data-bind="html: invoiceCurrencyCode"></span>') !!}
+                            ->append('<span data-bind="html: invoiceCurrencyCode"></span>'); ?>
+
                         </div>
 
-                        @if ($account->hasFeature(FEATURE_DOCUMENTS))
-                            {!! Former::checkbox('invoice_documents')
+                        <?php if($account->hasFeature(FEATURE_DOCUMENTS)): ?>
+                            <?php echo Former::checkbox('invoice_documents')
                             ->text(trans('texts.add_documents_to_invoice'))
                             ->onchange('onInvoiceDocumentsChange()')
                             ->data_bind('checked: invoice_documents')
                             ->label(' ')
-                            ->value(1) !!}
-                        @endif
-                    @endif
+                            ->value(1); ?>
+
+                        <?php endif; ?>
+                    <?php endif; ?>
                 </div>
                 <div class="col-md-6">
-                    {!! Former::textarea('private_notes')->rows(! $isRecurring && $account->hasFeature(FEATURE_DOCUMENTS) ? 6 : 10) !!}
-                    {!! Former::textarea('public_notes')->rows(! $isRecurring && $account->hasFeature(FEATURE_DOCUMENTS) ? 6 : 10) !!}
-                    @if (! $isRecurring && $account->hasFeature(FEATURE_DOCUMENTS))
+                    <?php echo Former::textarea('private_notes')->rows(! $isRecurring && $account->hasFeature(FEATURE_DOCUMENTS) ? 6 : 10); ?>
+
+                    <?php echo Former::textarea('public_notes')->rows(! $isRecurring && $account->hasFeature(FEATURE_DOCUMENTS) ? 6 : 10); ?>
+
+                    <?php if(! $isRecurring && $account->hasFeature(FEATURE_DOCUMENTS)): ?>
                         <div class="form-group">
                             <label for="public_notes" class="control-label col-lg-4 col-sm-4">
-                                {{trans('texts.documents')}}
+                                <?php echo e(trans('texts.documents')); ?>
+
                             </label>
                             <div class="col-lg-8 col-sm-8">
                                 <div role="tabpanel" class="tab-pane" id="attached-documents"
@@ -224,7 +254,7 @@
                                 </div>
                             </div>
                         </div>
-                    @endif
+                    <?php endif; ?>
 
                 </div>
             </div>
@@ -232,44 +262,49 @@
     </div>
 
     <center class="buttons">
-        {!! Button::normal(trans('texts.cancel'))
+        <?php echo Button::normal(trans('texts.cancel'))
         ->asLinkTo(HTMLUtils::previousUrl('/expenses'))
         ->appendIcon(Icon::create('remove-circle'))
-        ->large() !!}
+        ->large(); ?>
 
-        @if (Auth::user()->canCreateOrEdit(ENTITY_EXPENSE, $expense))
-            @if (Auth::user()->hasFeature(FEATURE_EXPENSES))
-                @if (!$expense || !$expense->is_deleted)
-                    {!! Button::success(trans('texts.save'))
+
+        <?php if(Auth::user()->canCreateOrEdit(ENTITY_EXPENSE, $expense)): ?>
+            <?php if(Auth::user()->hasFeature(FEATURE_EXPENSES)): ?>
+                <?php if(!$expense || !$expense->is_deleted): ?>
+                    <?php echo Button::success(trans('texts.save'))
                     ->appendIcon(Icon::create('floppy-disk'))
                     ->large()
-                    ->submit() !!}
-                @endif
+                    ->submit(); ?>
 
-                @if ($expense && !$expense->trashed())
-                    {!! DropdownButton::normal(trans('texts.more_actions'))
+                <?php endif; ?>
+
+                <?php if($expense && !$expense->trashed()): ?>
+                    <?php echo DropdownButton::normal(trans('texts.more_actions'))
                     ->withContents($actions)
                     ->large()
-                    ->dropup() !!}
-                @endif
+                    ->dropup(); ?>
 
-                @if ($expense && $expense->trashed())
-                    {!! Button::primary(trans('texts.restore'))
+                <?php endif; ?>
+
+                <?php if($expense && $expense->trashed()): ?>
+                    <?php echo Button::primary(trans('texts.restore'))
                     ->withAttributes(['onclick' => 'submitAction("restore")'])
                     ->appendIcon(Icon::create('cloud-download'))
-                    ->large() !!}
-                @endif
+                    ->large(); ?>
 
-            @endif
-        @endif
+                <?php endif; ?>
+
+            <?php endif; ?>
+        <?php endif; ?>
     </center>
 
-    {!! Former::close() !!}
+    <?php echo Former::close(); ?>
+
 
     <script type="text/javascript">
-        var vendors = {!! $vendors !!};
-        var clients = {!! $clients !!};
-        var categories = {!! $categories !!};
+        var vendors = <?php echo $vendors; ?>;
+        var clients = <?php echo $clients; ?>;
+        var categories = <?php echo $categories; ?>;
 
         var clientMap = {};
         var vendorMap = {};
@@ -282,15 +317,15 @@
 
         function onFormSubmit(event) {
             if (window.countUploadingDocuments > 0) {
-                swal({!! json_encode(trans('texts.wait_for_upload')) !!});
+                swal(<?php echo json_encode(trans('texts.wait_for_upload')); ?>);
                 return false;
             }
 
-            @if (Auth::user()->canCreateOrEdit(ENTITY_EXPENSE, $expense))
+            <?php if(Auth::user()->canCreateOrEdit(ENTITY_EXPENSE, $expense)): ?>
                 return true;
-            @else
+            <?php else: ?>
                 return false;
-            @endif
+            <?php endif; ?>
         }
 
         function onClientChange() {
@@ -315,39 +350,39 @@
         }
 
         $(function () {
-            var vendorId = {{ $vendorPublicId ?: 0 }};
+            var vendorId = <?php echo e($vendorPublicId ?: 0); ?>;
             var $vendorSelect = $('select#vendor_id');
-            @if (Auth::user()->can('create', ENTITY_VENDOR))
-            $vendorSelect.append(new Option("{{ trans('texts.create_vendor')}}: $name", '-1'));
-                    @endif
+            <?php if(Auth::user()->can('create', ENTITY_VENDOR)): ?>
+            $vendorSelect.append(new Option("<?php echo e(trans('texts.create_vendor')); ?>: $name", '-1'));
+                    <?php endif; ?>
             for (var i = 0; i < vendors.length; i++) {
                 var vendor = vendors[i];
                 vendorMap[vendor.public_id] = vendor;
                 $vendorSelect.append(new Option(getClientDisplayName(vendor), vendor.public_id));
             }
-            @include('partials/entity_combobox', ['entityType' => ENTITY_VENDOR])
+            <?php echo $__env->make('partials/entity_combobox', ['entityType' => ENTITY_VENDOR], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             if (vendorId) {
                 var vendor = vendorMap[vendorId];
                 setComboboxValue($('.vendor-select'), vendor.public_id, vendor.name);
             }
 
-            var categoryId = {{ $categoryPublicId ?: 0 }};
+            var categoryId = <?php echo e($categoryPublicId ?: 0); ?>;
             var $expense_categorySelect = $('select#expense_category_id');
-            @if (Auth::user()->can('create', ENTITY_EXPENSE_CATEGORY))
-            $expense_categorySelect.append(new Option("{{ trans('texts.create_expense_category')}}: $name", '-1'));
-                    @endif
+            <?php if(Auth::user()->can('create', ENTITY_EXPENSE_CATEGORY)): ?>
+            $expense_categorySelect.append(new Option("<?php echo e(trans('texts.create_expense_category')); ?>: $name", '-1'));
+                    <?php endif; ?>
             for (var i = 0; i < categories.length; i++) {
                 var category = categories[i];
                 categoryMap[category.public_id] = category;
                 $expense_categorySelect.append(new Option(category.name, category.public_id));
             }
-            @include('partials/entity_combobox', ['entityType' => ENTITY_EXPENSE_CATEGORY])
+            <?php echo $__env->make('partials/entity_combobox', ['entityType' => ENTITY_EXPENSE_CATEGORY], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             if (categoryId) {
                 var category = categoryMap[categoryId];
                 setComboboxValue($('.expense-category-select'), category.public_id, category.name);
             }
 
-            $('#expense_date').datepicker('update', '{{ $expense ? Utils::fromSqlDate($expense->expense_date) : 'new Date()' }}');
+            $('#expense_date').datepicker('update', '<?php echo e($expense ? Utils::fromSqlDate($expense->expense_date) : 'new Date()'); ?>');
 
             $('.expense_date .input-group-addon').click(function () {
                 toggleDatePicker('expense_date');
@@ -372,35 +407,35 @@
                 }, 1);
             });
 
-            @if ($data)
+            <?php if($data): ?>
             // this means we failed so we'll reload the previous state
-            window.model = new ViewModel({!! $data !!});
-            @else
+            window.model = new ViewModel(<?php echo $data; ?>);
+            <?php else: ?>
             // otherwise create blank model
-            window.model = new ViewModel({!! $expense !!});
-            @endif
+            window.model = new ViewModel(<?php echo $expense; ?>);
+            <?php endif; ?>
             ko.applyBindings(model);
 
-            @if (!$expense && $clientPublicId)
+            <?php if(!$expense && $clientPublicId): ?>
             onClientChange();
-            @endif
+            <?php endif; ?>
 
-            @if (!$vendorPublicId)
+            <?php if(!$vendorPublicId): ?>
             $('.vendor-select input.form-control').focus();
-            @else
+            <?php else: ?>
             $('#amount').focus();
-            @endif
+            <?php endif; ?>
 
-            @if ($isRecurring)
+            <?php if($isRecurring): ?>
             $('#start_date, #end_date').datepicker();
-            @if ($expense && $expense->start_date)
-            $('#start_date').datepicker('update', '{{ $expense && $expense->start_date ? Utils::fromSqlDate($expense->start_date) : 'new Date()' }}');
-            @elseif (! $expense)
+            <?php if($expense && $expense->start_date): ?>
+            $('#start_date').datepicker('update', '<?php echo e($expense && $expense->start_date ? Utils::fromSqlDate($expense->start_date) : 'new Date()'); ?>');
+            <?php elseif(! $expense): ?>
             $('#start_date').datepicker('update', new Date());
-            @endif
-            @if ($expense && $expense->end_date)
-            $('#end_date').datepicker('update', '{{ Utils::fromSqlDate($expense->end_date) }}');
-            @endif
+            <?php endif; ?>
+            <?php if($expense && $expense->end_date): ?>
+            $('#end_date').datepicker('update', '<?php echo e(Utils::fromSqlDate($expense->end_date)); ?>');
+            <?php endif; ?>
 
             $('.start_date .input-group-addon').click(function () {
                 toggleDatePicker('start_date');
@@ -408,37 +443,37 @@
             $('.end_date .input-group-addon').click(function () {
                 toggleDatePicker('end_date');
             });
-            @else
+            <?php else: ?>
             $('#payment_type_id').combobox();
             $('#mark_paid').click(function (event) {
                 if ($('#mark_paid').is(':checked')) {
                     $('#payment_date').datepicker('update', new Date());
-                    @if ($account->payment_type_id)
-                    setComboboxValue($('.payment-type-select'), {{ $account->payment_type_id }}, "{{ trans('texts.payment_type_' . $account->payment_type->name) }}");
-                    @endif
+                    <?php if($account->payment_type_id): ?>
+                    setComboboxValue($('.payment-type-select'), <?php echo e($account->payment_type_id); ?>, "<?php echo e(trans('texts.payment_type_' . $account->payment_type->name)); ?>");
+                    <?php endif; ?>
                 } else {
                     $('#payment_date').datepicker('update', false);
                     setComboboxValue($('.payment-type-select'), '', '');
                 }
             });
 
-            @if ($expense && $expense->payment_date)
-            $('#payment_date').datepicker('update', '{{ Utils::fromSqlDate($expense->payment_date) }}');
-            @endif
+            <?php if($expense && $expense->payment_date): ?>
+            $('#payment_date').datepicker('update', '<?php echo e(Utils::fromSqlDate($expense->payment_date)); ?>');
+            <?php endif; ?>
 
             $('.payment_date .input-group-addon').click(function () {
                 toggleDatePicker('payment_date');
             });
 
-            @if (Auth::user()->account->hasFeature(FEATURE_DOCUMENTS))
+            <?php if(Auth::user()->account->hasFeature(FEATURE_DOCUMENTS)): ?>
             $('.main-form').submit(function () {
                 if ($('#document-upload .fallback input').val()) $(this).attr('enctype', 'multipart/form-data');
                 else $(this).removeAttr('enctype')
             });
 
-            @include('partials.dropzone', ['documentSource' => 'model.documents()'])
-            @endif
-            @endif
+            <?php echo $__env->make('partials.dropzone', ['documentSource' => 'model.documents()'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            <?php endif; ?>
+            <?php endif; ?>
         });
 
         var ViewModel = function (data) {
@@ -450,22 +485,22 @@
             self.amount = ko.observable();
             self.exchange_rate = ko.observable(1);
             self.should_be_invoiced = ko.observable();
-            self.apply_taxes = ko.observable({{ ($expense && ($expense->tax_name1 || $expense->tax_name2)) ? 'true' : 'false' }});
+            self.apply_taxes = ko.observable(<?php echo e(($expense && ($expense->tax_name1 || $expense->tax_name2)) ? 'true' : 'false'); ?>);
 
-            @if ($isRecurring)
-                self.frequency_id = ko.observable({{ FREQUENCY_MONTHLY }});
+            <?php if($isRecurring): ?>
+                self.frequency_id = ko.observable(<?php echo e(FREQUENCY_MONTHLY); ?>);
             self.start_date = ko.observable();
             self.end_date = ko.observable();
-            @else
-                self.convert_currency = ko.observable({{ ($expense && $expense->isExchanged()) ? 'true' : 'false' }});
-            self.mark_paid = ko.observable({{ $expense && $expense->isPaid() ? 'true' : 'false' }});
-                    @endif
+            <?php else: ?>
+                self.convert_currency = ko.observable(<?php echo e(($expense && $expense->isExchanged()) ? 'true' : 'false'); ?>);
+            self.mark_paid = ko.observable(<?php echo e($expense && $expense->isPaid() ? 'true' : 'false'); ?>);
+                    <?php endif; ?>
 
             var invoiceDocuments = false;
             if (isStorageSupported()) {
                 invoiceDocuments = localStorage.getItem('last:invoice_documents');
             }
-            self.invoice_documents = ko.observable({{ $expense ? $expense->invoice_documents : 'invoiceDocuments' }});
+            self.invoice_documents = ko.observable(<?php echo e($expense ? $expense->invoice_documents : 'invoiceDocuments'); ?>);
 
             self.mapping = {
                 'documents': {
@@ -479,10 +514,10 @@
                 ko.mapping.fromJS(data, self.mapping, this);
             }
 
-            self.account_currency_id = ko.observable({{ $account->getCurrencyId() }});
-            self.client_id = ko.observable({{ $clientPublicId }});
-//self.vendor_id = ko.observable({{ $vendorPublicId }});
-//self.expense_category_id = ko.observable({{ $categoryPublicId }});
+            self.account_currency_id = ko.observable(<?php echo e($account->getCurrencyId()); ?>);
+            self.client_id = ko.observable(<?php echo e($clientPublicId); ?>);
+//self.vendor_id = ko.observable(<?php echo e($vendorPublicId); ?>);
+//self.expense_category_id = ko.observable(<?php echo e($categoryPublicId); ?>);
 
             self.convertedAmount = ko.computed({
                 read: function () {
@@ -590,4 +625,6 @@
 
     </script>
 
-@stop
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

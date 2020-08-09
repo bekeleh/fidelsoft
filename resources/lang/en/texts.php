@@ -900,6 +900,7 @@ $LANG = array(
     'description' => 'Description',
     'cost' => 'Unit Cost',
     'unit_cost' => 'Unit Cost',
+    'item_cost' => 'Unit Cost',
     'unit_price' => 'Unit Price',
     'quantity' => 'Quantity',
     'current_qty' => 'Quantity On Hand',
