@@ -54,4 +54,20 @@ class Unit extends EntityModel
     {
         return $this->hasMany('App\Models\Product')->withTrashed();
     }
+    public static function selectOptions()
+    {
+        $units = Unit::where('account_id', null)->get();
+
+        foreach (Unit::scope()->get() as $unit) {
+            $units->push($unit);
+        }
+
+        foreach($units as $unit){
+            $name = Str::snake(str_replace(' ', '_', $unit->name));
+            $units->name = trans('texts.unit_' . $name);
+        }
+
+        return $units->sortBy('name');
+    }
+
 }

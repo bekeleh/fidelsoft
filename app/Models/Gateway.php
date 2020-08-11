@@ -149,7 +149,7 @@ class Gateway extends Eloquent
      */
     public function scopePrimary($query, $accountGatewaysIds)
     {
-        $query->where('payment_library_id', '=', 1)
+        $query->where('payment_library_id', 1)
             ->whereIn('id', static::$preferred)
             ->whereIn('id', $accountGatewaysIds);
 

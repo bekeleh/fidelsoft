@@ -25,4 +25,20 @@ class ItemType extends Eloquent
     {
         return $this->hasMany('App\Models\Product')->withTrashed();
     }
+
+    public static function selectOptions()
+    {
+        $types = ItemType::where('account_id', null)->get();
+
+        foreach (ItemType::scope()->get() as $type) {
+            $types->push($type);
+        }
+
+        foreach($types as $type){
+            $name = Str::snake(str_replace(' ', '_', $type->name));
+            $types->name = trans('texts.item_type_' . $name);
+        }
+
+        return $types->sortBy('name');
+    }
 }

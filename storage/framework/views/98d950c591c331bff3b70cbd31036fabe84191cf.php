@@ -1,6 +1,4 @@
-<?php use App\Libraries\HistoryUtils;
-
-$__env->startSection('head_css'); ?>
+<?php $__env->startSection('head_css'); ?>
     <link href="<?php echo e(asset('css/built.css')); ?>?no_cache=<?php echo e(NINJA_VERSION); ?>" rel="stylesheet" type="text/css"/>
 <?php $__env->stopSection(); ?>
 
@@ -352,7 +350,7 @@ $__env->startSection('head_css'); ?>
         <!-- /#left-sidebar-wrapper -->
         <div id="right-sidebar-wrapper" class="hide-phone" style="overflow-y:hidden">
             <ul class="sidebar-nav <?php echo e(Auth::user()->dark_mode ? 'sidebar-nav-dark' : 'sidebar-nav-light'); ?>">
-                <?php echo HistoryUtils::renderHtml(Auth::user()->account_id); ?>
+                <?php echo \App\Libraries\HistoryUtils::renderHtml(Auth::user()->account_id); ?>
 
             </ul>
         </div>

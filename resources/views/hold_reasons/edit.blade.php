@@ -26,7 +26,7 @@
                     {!! Former::text('name')->label('texts.hold_reason') !!}
                     {!! Former::select('allow_invoice')
                              ->placeholder(trans('texts.select_hold_reason'))
-                             ->fromQuery(\App\Models\HoldReason::getSelectOptions(), 'name', 'id') !!}
+                             ->fromQuery(\App\Models\HoldReason::allowInvoice(), 'name', 'id') !!}
                     {!! Former::textarea('notes')->rows(6) !!}
                 </div>
             </div>

@@ -32,11 +32,6 @@ class ClientType extends EntityModel
         'deleted_by',
     ];
 
-    public static function findClientTypeByKey($key)
-    {
-        return self::scope()->where('name', $key)->first();
-    }
-
     public function getEntityType()
     {
         return ENTITY_CLIENT_TYPE;
@@ -50,5 +45,21 @@ class ClientType extends EntityModel
     public function itemPrices()
     {
         return $this->hasMany('App\Models\ItemPrice')->withTrashed();
+    }
+
+    public static function selectOptions()
+    {
+        $types = ClientType::where('account_id', null)->get();
+
+        foreach (ClientType::scope()->get() as $type) {
+            $types->push($type);
+        }
+
+        foreach($types as $type){
+            $name = Str::snake(str_replace(' ', '_', $type->name));
+            $types->name = trans('texts.client_type_' . $name);
+        }
+
+        return $types->sortBy('name');
     }
 }

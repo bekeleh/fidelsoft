@@ -31,7 +31,7 @@ class HoldReason extends EntityModel
     protected $casts = [];
 
 
-    public function getEntityType()
+    public function getEntityreason()
     {
         return ENTITY_HOLD_REASON;
     }
@@ -62,10 +62,29 @@ class HoldReason extends EntityModel
         return "/hold_reasons/{$this->public_id}/edit";
     }
 
-    public static function getSelectOptions()
+    public static function allowInvoice()
     {
-        $allowInvoice = ['0' => 'deny', '1' => 'allow'];
+        $allowInvoice = [
+            '0' => DENIED, 
+            '1' => ALLOWED
+        ];
 
         return $allowInvoice;
+    }
+
+    public static function selectOptions()
+    {
+        $reasons = HoldReason::where('account_id', null)->get();
+
+        foreach (HoldReason::scope()->get() as $reason) {
+            $reasons->push($reason);
+        }
+
+        foreach($reasons as $reason){
+            $name = Str::snake(str_replace(' ', '_', $reason->name));
+            $reasons->name = trans('texts.hold_reason_' . $name);
+        }
+
+        return $reasons->sortBy('name');
     }
 }

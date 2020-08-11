@@ -33,7 +33,7 @@ class GatewayType extends Eloquent
     {
         $data = Cache::get('gatewayTypes')->where('alias', $alias)->first()->id;
         if (!$data) {
-            return null;
+            return false;
         }
 
         return $data;

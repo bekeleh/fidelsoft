@@ -46,4 +46,21 @@ class VendorType extends EntityModel
     {
         return $this->hasMany('App\Models\ItemPrice')->withTrashed();
     }
+
+    public static function selectOptions()
+    {
+        $types = VendorType::where('account_id', null)->get();
+
+        foreach (VendorType::scope()->get() as $type) {
+            $types->push($type);
+        }
+
+        foreach($types as $type){
+            $name = Str::snake(str_replace(' ', '_', $type->name));
+            $types->name = trans('texts.vendor_type_' . $name);
+        }
+
+        return $types->sortBy('name');
+    }
+    
 }

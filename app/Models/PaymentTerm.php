@@ -29,7 +29,8 @@ class PaymentTerm extends EntityModel
 
     public static function getSelectOptions()
     {
-        $terms = PaymentTerm::whereAccountId(null)->get();
+        // default payment terms
+        $terms = PaymentTerm::where('account_id',null)->get();
 
 //      if any client payment terms
         foreach (PaymentTerm::scope()->get() as $term) {

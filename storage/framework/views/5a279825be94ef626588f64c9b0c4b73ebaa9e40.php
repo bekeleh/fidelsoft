@@ -12,7 +12,7 @@
                     return false;
                 }
             });
-        });
+        })
         <?php if(Auth::check() && !Utils::isNinja() && ! Auth::user()->registered): ?>
         $('#closeSignUpButton').hide();
         showSignUp();
@@ -145,7 +145,7 @@
         trackEvent('/account', '/signed_up');
     }
 </script>
-<?php if(Request::is('dashboard')): ?>
+<?php if(\Request::is('dashboard')): ?>
     <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="signUpModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">

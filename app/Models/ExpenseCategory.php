@@ -41,4 +41,20 @@ class ExpenseCategory extends EntityModel
         return $this->belongsTo('App\Models\Expense');
     }
 
+    public static function selectOptions()
+    {
+        $categories = ExpenseCategory::where('account_id', null)->get();
+
+        foreach (ExpenseCategory::scope()->get() as $category) {
+            $categories->push($category);
+        }
+
+        foreach($categories as $category){
+            $name = Str::snake(str_replace(' ', '_', $category->name));
+            $categories->name = trans('texts.expense_category_' . $name);
+        }
+
+        return $categories->sortBy('name');
+    }
+
 }

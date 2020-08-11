@@ -760,6 +760,10 @@ if (!defined('APP_NAME')) {
     define('SUBSCRIPTION_FORMAT_JSON', 'JSON');
     define('SUBSCRIPTION_FORMAT_UBL', 'UBL');
 
+    // allow invoice
+    define('ALLOWED', 'allow');
+    define('DENIED', 'denied');
+
 // Pro
     define('FEATURE_CUSTOMIZE_INVOICE_DESIGN', 'customize_invoice_design');
     define('FEATURE_REMOVE_CREATED_BY', 'remove_created_by');

@@ -260,6 +260,7 @@
             @endif
             @if (Auth::user()->hasPermission('admin'))
                 <div class="row">
+                    <!-- panel -->
                     <div class="col-md-4">
                         <div class="panel-heading" style="color:white;background: #777 !important;">
                             <div class="{{ $headerClass }}">
@@ -297,6 +298,8 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- total expense -->
                     <div class="col-md-4">
                         <div class="panel-heading" style="color:white;background: #777 !important;">
                             <div class="{{ $headerClass }}">

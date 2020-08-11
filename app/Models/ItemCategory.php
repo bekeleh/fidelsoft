@@ -59,4 +59,21 @@ class ItemCategory extends EntityModel
     {
         return $this->hasMany('App\Models\ItemBrand')->withTrashed();
     }
+
+    public static function selectOptions()
+    {
+        $categories = ItemCategory::where('account_id', null)->get();
+
+        foreach (TaxCategory::scope()->get() as $category) {
+            $categories->push($category);
+        }
+
+        foreach($categories as $category){
+            $name = Str::snake(str_replace(' ', '_', $category->name));
+            $categories->name = trans('texts.item_category_' . $name);
+        }
+
+        return $categories->sortBy('name');
+    }
+
 }
