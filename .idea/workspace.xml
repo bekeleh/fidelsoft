@@ -2,30 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Notifications/InvoiceCreated.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/partials/sidebar_auth.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/U4Ghi22gYt3zkTky00P466KqGkx2S9cCnrOtRCyY" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/3c83481e25e3665f586f8dcf6abccfff4b8de92e.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/InvoiceListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/InvoiceListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/header.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/partials/dropdown.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/164a304441f125a84b726bac92ff14e69906aa98.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/31196e5ce2fa9d92ba410ef47adc28e81614ebd0.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/35e374f17d647b94794275f5cf6b45357ea3b2e6.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/500d0f483d5cf7767537cdee32c6603a72ed6904.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/58d214bc6a35d4d4a7d5e7711f8e782eba601406.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/66dd28c7557aa3116e59c5c483a2e327810bc96a.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/6f250ca3afe1b8610adc9d63eb9dc02a451f6416.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/7e1d8871c2df57c46d5c7259d88099f78adc534e.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/98d950c591c331bff3b70cbd31036fabe84191cf.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/98d950c591c331bff3b70cbd31036fabe84191cf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/daeef524828a2a35505d2921f4d0e7394c7cf914.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/e983185c042778ab51e00a8ca3167a19e3847605.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -542,14 +519,7 @@
       <workItem from="1596973358715" duration="4360000" />
       <workItem from="1596989006645" duration="2890000" />
       <workItem from="1597054384377" duration="611000" />
-      <workItem from="1597257597805" duration="910000" />
-    </task>
-    <task id="LOCAL-00417" summary="2020-07-01 9:27">
-      <created>1593598569614</created>
-      <option name="number" value="00417" />
-      <option name="presentableId" value="LOCAL-00417" />
-      <option name="project" value="LOCAL" />
-      <updated>1593598569614</updated>
+      <workItem from="1597257597805" duration="1080000" />
     </task>
     <task id="LOCAL-00418" summary="2020-07-01 9:27">
       <created>1593603759995</created>
@@ -887,7 +857,14 @@
       <option name="project" value="LOCAL" />
       <updated>1596995141699</updated>
     </task>
-    <option name="localTasksCounter" value="466" />
+    <task id="LOCAL-00466" summary="2020-08-12 9:27">
+      <created>1597258570396</created>
+      <option name="number" value="00466" />
+      <option name="presentableId" value="LOCAL-00466" />
+      <option name="project" value="LOCAL" />
+      <updated>1597258570397</updated>
+    </task>
+    <option name="localTasksCounter" value="467" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -914,7 +891,6 @@
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="2020-06-16 9:27" />
     <MESSAGE value="2020-06-17 9:27" />
     <MESSAGE value="2020-06-18 9:27" />
     <MESSAGE value="2020-06-19 9:27" />
@@ -939,7 +915,8 @@
     <MESSAGE value="2020-08-02 9:27" />
     <MESSAGE value="2020-08-08 9:27" />
     <MESSAGE value="2020-08-09 9:27" />
-    <option name="LAST_COMMIT_MESSAGE" value="2020-08-09 9:27" />
+    <MESSAGE value="2020-08-12 9:27" />
+    <option name="LAST_COMMIT_MESSAGE" value="2020-08-12 9:27" />
   </component>
   <component name="WindowStateProjectService">
     <state x="317" y="0" key="#Deployment" timestamp="1592045080985">
@@ -994,10 +971,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1590585842435" />
-    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1597258562254">
+    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1597258569460">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1597258562254" />
+    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1597258569460" />
     <state x="418" y="255" key="ComposerInitDialogKey" timestamp="1589789975070">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
