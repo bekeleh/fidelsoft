@@ -445,5 +445,18 @@ class UserController extends BaseController
             'groups' => PermissionGroup::scope()->withActiveOrSelected(false)->orderBy('name')->pluck('name', 'id'),
         ];
     }
+    public function notifications($id) {
+
+        if (!isset(Auth::user()->id))
+            abort(401, "Unauthorized");
+
+        if(Auth::user()->id == $id) {
+            $user = User::findOrFail($id);
+            return view('user.notifications')->with('user',$user)->with('user',$user)->with('page_title', $user->name . 'Notifications');
+        } else {
+            abort(401, "Unauthorized");
+        }
+        
+    }
 
 }

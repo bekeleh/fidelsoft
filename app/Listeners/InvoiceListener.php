@@ -14,15 +14,21 @@ use App\Events\PaymentWasRestored;
 use App\Events\PaymentWasVoided;
 use App\Libraries\Utils;
 use App\Models\Activity;
+use App\Models\Subscription;
+use App\Notifications\InvoiceCreated;
 use Illuminate\Queue\Events\JobExceptionOccurred;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * Class InvoiceListener.
  */
 class InvoiceListener
 {
+    use Notifiable;
+
     public function createdInvoice(InvoiceWasCreated $event)
     {
 //        if (Utils::hasFeature(FEATURE_DIFFERENT_DESIGNS)) {
@@ -39,6 +45,12 @@ class InvoiceListener
 
                 $account->save();
             }
+        }
+//          send notification for subscribers
+        $invoice = $event->invoice->toArray();
+        if (isset($invoice['question_id'])) {
+            $user = Subscription::find($event->id);
+            Notification::send($user, new InvoiceCreated($invoice));
         }
     }
 

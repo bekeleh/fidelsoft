@@ -478,6 +478,15 @@ public function sendPasswordResetNotification($token)
     app('App\Ninja\Mailers\UserMailer')->sendPasswordReset($this, $token);
 }
 
+/**
+ * Route notifications for the mail channel.
+ *
+ * @return string
+ */
+public function routeNotificationForMail() {
+    return $this->email;
+    }
+    
 public function routeNotificationForSlack()
 {
     return $this->slack_webhook_url;
@@ -550,6 +559,15 @@ public function eligibleForMigration()
 
     return is_null($this->public_id) || $this->public_id == 0;
 }
+// Needs mysql 5.7
+// Would allow to check past notifications
+public static function get_meta($question_id) {
+// In database facades
+return DB::table('notifications')
+->where('data->question_id', $question_id)
+->get();
+}
+
 
 }
 

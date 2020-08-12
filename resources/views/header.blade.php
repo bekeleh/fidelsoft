@@ -255,7 +255,7 @@
             <div class="navbar-form navbar-right">
 
                 @include('partials.setting')
-                @include('partials.dropdown')
+                @include('partials.sidebar_auth')
             </div>
             {!! Former::open('/handle_command')->id('search-form')->addClass('navbar-form navbar-right')->role('search') !!}
             <div class="form-group has-feedback">
@@ -267,6 +267,7 @@
                     @include('partials/speech_recognition')
                 @endif
             </div>
+
             {!! Former::close() !!}
             <ul class="nav navbar-nav hide-non-phone" style="font-weight: bold">
                 @foreach ([

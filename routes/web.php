@@ -556,6 +556,7 @@ Route::get('compare-online-invoicing{sites?}', 'AppController@redirect');
 Route::get('feed', 'AppController@redirect');
 Route::get('comments/feed', 'AppController@redirect');
 Route::get('terms', 'AppController@redirect');
-
+// notification
+Route::get('user/{id}/notifications', 'UserController@notifications');
 // Include static app constants
 require_once app_path() . '/Constants.php';

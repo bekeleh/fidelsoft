@@ -1,4 +1,6 @@
-<?php $__env->startSection('head_css'); ?>
+<?php use App\Libraries\HistoryUtils;
+
+$__env->startSection('head_css'); ?>
     <link href="<?php echo e(asset('css/built.css')); ?>?no_cache=<?php echo e(NINJA_VERSION); ?>" rel="stylesheet" type="text/css"/>
 <?php $__env->stopSection(); ?>
 
@@ -256,7 +258,7 @@
             <div class="navbar-form navbar-right">
 
                 <?php echo $__env->make('partials.setting', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                <?php echo $__env->make('partials.dropdown', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                <?php echo $__env->make('partials.sidebar_auth', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             </div>
             <?php echo Former::open('/handle_command')->id('search-form')->addClass('navbar-form navbar-right')->role('search'); ?>
 
@@ -269,6 +271,7 @@
                     <?php echo $__env->make('partials/speech_recognition', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 <?php endif; ?>
             </div>
+
             <?php echo Former::close(); ?>
 
             <ul class="nav navbar-nav hide-non-phone" style="font-weight: bold">
@@ -350,7 +353,7 @@
         <!-- /#left-sidebar-wrapper -->
         <div id="right-sidebar-wrapper" class="hide-phone" style="overflow-y:hidden">
             <ul class="sidebar-nav <?php echo e(Auth::user()->dark_mode ? 'sidebar-nav-dark' : 'sidebar-nav-light'); ?>">
-                <?php echo \App\Libraries\HistoryUtils::renderHtml(Auth::user()->account_id); ?>
+                <?php echo HistoryUtils::renderHtml(Auth::user()->account_id); ?>
 
             </ul>
         </div>
