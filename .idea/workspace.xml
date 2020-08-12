@@ -519,14 +519,7 @@
       <workItem from="1596973358715" duration="4360000" />
       <workItem from="1596989006645" duration="2890000" />
       <workItem from="1597054384377" duration="611000" />
-      <workItem from="1597257597805" duration="1080000" />
-    </task>
-    <task id="LOCAL-00418" summary="2020-07-01 9:27">
-      <created>1593603759995</created>
-      <option name="number" value="00418" />
-      <option name="presentableId" value="LOCAL-00418" />
-      <option name="project" value="LOCAL" />
-      <updated>1593603759995</updated>
+      <workItem from="1597257597805" duration="1718000" />
     </task>
     <task id="LOCAL-00419" summary="2020-07-01 9:27">
       <created>1593605663074</created>
@@ -864,7 +857,14 @@
       <option name="project" value="LOCAL" />
       <updated>1597258570397</updated>
     </task>
-    <option name="localTasksCounter" value="467" />
+    <task id="LOCAL-00467" summary="2020-08-12 9:27">
+      <created>1597258706575</created>
+      <option name="number" value="00467" />
+      <option name="presentableId" value="LOCAL-00467" />
+      <option name="project" value="LOCAL" />
+      <updated>1597258706575</updated>
+    </task>
+    <option name="localTasksCounter" value="468" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -971,10 +971,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1590585842435" />
-    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1597258569460">
+    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1597258705897">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1597258569460" />
+    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1597258705897" />
     <state x="418" y="255" key="ComposerInitDialogKey" timestamp="1589789975070">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
