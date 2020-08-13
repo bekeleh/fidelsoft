@@ -35,7 +35,7 @@ class SaleTypeRepository extends BaseRepository
         $query = DB::table('sale_types')
         ->leftJoin('accounts', 'accounts.id', '=', 'sale_types.account_id')
         ->leftJoin('users', 'users.id', '=', 'sale_types.user_id')
-//            ->where('sale_types.account_id', '=', $accountId)
+            ->where('sale_types.account_id', '=', $accountId)
             //->where('sale_types.deleted_at', '=', null)
         ->select(
             'sale_types.id',
