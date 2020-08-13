@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/Notifications/BillCreated.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Bill.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Bill.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -521,14 +521,7 @@
       <workItem from="1596989006645" duration="2890000" />
       <workItem from="1597054384377" duration="611000" />
       <workItem from="1597257597805" duration="1728000" />
-      <workItem from="1597336910243" duration="9583000" />
-    </task>
-    <task id="LOCAL-00423" summary="2020-07-01 9:27">
-      <created>1593612524176</created>
-      <option name="number" value="00423" />
-      <option name="presentableId" value="LOCAL-00423" />
-      <option name="project" value="LOCAL" />
-      <updated>1593612524176</updated>
+      <workItem from="1597336910243" duration="10162000" />
     </task>
     <task id="LOCAL-00424" summary="2020-07-01 9:27">
       <created>1593613732042</created>
@@ -866,7 +859,14 @@
       <option name="project" value="LOCAL" />
       <updated>1597348897958</updated>
     </task>
-    <option name="localTasksCounter" value="472" />
+    <task id="LOCAL-00472" summary="2020-08-13 9:27">
+      <created>1597349264977</created>
+      <option name="number" value="00472" />
+      <option name="presentableId" value="LOCAL-00472" />
+      <option name="project" value="LOCAL" />
+      <updated>1597349264977</updated>
+    </task>
+    <option name="localTasksCounter" value="473" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -973,10 +973,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1597344338612" />
-    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1597348895888">
+    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1597349263198">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1597348895888" />
+    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1597349263198" />
     <state x="418" y="255" key="ComposerInitDialogKey" timestamp="1589789975070">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -993,10 +993,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="468" y="194" key="NewPhpClassDialog/0.0.1280.680@0.0.1280.680" timestamp="1595245521679" />
-    <state x="547" y="220" key="NewPhpFileDialog" timestamp="1597348263531">
+    <state x="547" y="220" key="NewPhpFileDialog" timestamp="1597349774260">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="547" y="220" key="NewPhpFileDialog/0.0.1280.680@0.0.1280.680" timestamp="1597348263531" />
+    <state x="547" y="220" key="NewPhpFileDialog/0.0.1280.680@0.0.1280.680" timestamp="1597349774260" />
     <state x="456" y="276" key="ReplaceDuplicatesPrompt" timestamp="1592570494945">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
