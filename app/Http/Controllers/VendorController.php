@@ -96,13 +96,13 @@ class VendorController extends BaseController
 
         $actionLinks = [];
         if ($user->can('create', ENTITY_BILL)) {
-            $actionLinks[] = ['label' => trans('texts.new_invoice'), 'url' => URL::to('/BILLs/create/' . $vendor->public_id)];
+            $actionLinks[] = ['label' => trans('texts.new_invoice'), 'url' => URL::to('/bills/create/' . $vendor->public_id)];
         }
         if (Utils::hasFeature(FEATURE_QUOTES) && $user->can('create', ENTITY_BILL_QUOTE)) {
-            $actionLinks[] = ['label' => trans('texts.new_quote'), 'url' => URL::to('/BILL_QUOTEs/create/' . $vendor->public_id)];
+            $actionLinks[] = ['label' => trans('texts.new_quote'), 'url' => URL::to('/bill_quotes/create/' . $vendor->public_id)];
         }
         if ($user->can('create', ENTITY_RECURRING_INVOICE)) {
-            $actionLinks[] = ['label' => trans('texts.new_recurring_invoice'), 'url' => URL::to('/recurring_BILLs/create/' . $vendor->public_id)];
+            $actionLinks[] = ['label' => trans('texts.new_recurring_invoice'), 'url' => URL::to('/recurring_bills/create/' . $vendor->public_id)];
         }
 
         if (!empty($actionLinks)) {

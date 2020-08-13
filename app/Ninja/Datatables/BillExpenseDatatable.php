@@ -154,7 +154,7 @@ class BillExpenseDatatable extends EntityDatatable
             [
                 trans('texts.edit_invoice'),
                 function ($model) {
-                    return URL::to("/BILLs/{$model->invoice_public_id}/edit");
+                    return URL::to("/bills/{$model->invoice_public_id}/edit");
                 },
                 function ($model) {
                     return $model->invoice_public_id && Auth::user()->can('edit', [ENTITY_BILL, $model]);

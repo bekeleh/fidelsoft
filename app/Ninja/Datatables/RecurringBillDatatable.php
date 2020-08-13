@@ -26,7 +26,7 @@ class RecurringBillDatatable extends EntityDatatable
                         $label = trans('texts.freq_inactive');
                     }
 
-                    return link_to("recurring_purchase_purchase_BILLs/{$model->public_id}/edit", $label)->toHtml();
+                    return link_to("recurring_purchase_purchase_bills/{$model->public_id}/edit", $label)->toHtml();
                 },
             ],
             [
@@ -138,7 +138,7 @@ class RecurringBillDatatable extends EntityDatatable
             [
                 trans('texts.edit_BILL'),
                 function ($model) {
-                    return URL::to("BILLs/{$model->public_id}/edit");
+                    return URL::to("bills/{$model->public_id}/edit");
                 },
                 function ($model) {
                     return Auth::user()->can('edit', [ENTITY_BILL, $model]);
@@ -147,7 +147,7 @@ class RecurringBillDatatable extends EntityDatatable
             [
                 trans("texts.clone_BILL"),
                 function ($model) {
-                    return URL::to("BILLs/{$model->public_id}/clone");
+                    return URL::to("bills/{$model->public_id}/clone");
                 },
                 function ($model) {
                     return Auth::user()->can('create', ENTITY_BILL);
@@ -156,7 +156,7 @@ class RecurringBillDatatable extends EntityDatatable
             [
                 trans("texts.clone_BILL_QUOTE"),
                 function ($model) {
-                    return URL::to("BILL_QUOTEs/{$model->public_id}/clone");
+                    return URL::to("bill_quotes/{$model->public_id}/clone");
                 },
                 function ($model) {
                     return Auth::user()->can('create', ENTITY_BILL_QUOTE);

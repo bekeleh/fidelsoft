@@ -752,7 +752,7 @@ yaml: |
   comments: >
     Late afternoon is best.
     Backup contact is Nancy
-    Billsmer @ 338-4338.
+    billsmer @ 338-4338.
 php: |
   [
      'invoice' => 34843, 'date' => gmmktime(0, 0, 0, 1, 23, 2001),
@@ -766,7 +766,7 @@ php: |
         [ 'sku' => 'BL4438H', 'quantity' => 1, 'description' => 'Super Hoop', 'price' => 2392.00 ]
        ],
      'tax' => 251.42, 'total' => 4443.52,
-     'comments' => "Late afternoon is best. Backup contact is Nancy Billsmer @ 338-4338.\n"
+     'comments' => "Late afternoon is best. Backup contact is Nancy billsmer @ 338-4338.\n"
   ]
 ---
 test: Log file

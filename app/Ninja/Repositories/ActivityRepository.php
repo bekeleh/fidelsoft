@@ -168,7 +168,7 @@ class ActivityRepository extends BaseRepository
             ->leftJoin('users', 'users.id', '=', 'activities.user_id')
             ->leftJoin('vendors', 'vendors.id', '=', 'activities.vendor_id')
             ->leftJoin('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
-            ->leftJoin('BILLs', 'BILLs.id', '=', 'activities.invoice_id')
+            ->leftJoin('bills', 'bills.id', '=', 'activities.invoice_id')
             ->leftJoin('BILL_PAYMENTs', 'BILL_PAYMENTs.id', '=', 'activities.BILL_PAYMENT_id')
             ->leftJoin('BILL_CREDITs', 'BILL_CREDITs.id', '=', 'activities.BILL_CREDIT_id')
             ->leftJoin('expenses', 'expenses.id', '=', 'activities.expense_id')
@@ -191,10 +191,10 @@ class ActivityRepository extends BaseRepository
                 'users.first_name as user_first_name',
                 'users.last_name as user_last_name',
                 'users.email as user_email',
-                'BILLs.invoice_number',
-                'BILLs.invoice_number as invoice',
-                'BILLs.public_id as invoice_public_id',
-                'BILLs.is_recurring',
+                'bills.invoice_number',
+                'bills.invoice_number as invoice',
+                'bills.public_id as invoice_public_id',
+                'bills.is_recurring',
                 'vendors.name as vendor_name',
                 'vendors.public_id as vendor_public_id',
                 'vendor_contacts.id as contact',

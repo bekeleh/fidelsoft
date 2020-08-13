@@ -25,7 +25,7 @@ class UpdateBillAPIRequest extends BillRequest
 
         $rules = [
             'invoice_items' => 'valid_invoice_items',
-            'invoice_number' => 'unique:BILLs,invoice_number,' . $invoiceId . ',id,account_id,' . $this->user()->account_id,
+            'invoice_number' => 'unique:bills,invoice_number,' . $invoiceId . ',id,account_id,' . $this->user()->account_id,
             'discount' => 'positive',
             //'invoice_date' => 'date',
             //'due_date' => 'date',

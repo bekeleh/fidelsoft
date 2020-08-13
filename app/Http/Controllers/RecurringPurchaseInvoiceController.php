@@ -25,7 +25,7 @@ class RecurringBillController extends BaseController
     {
         $this->authorize('view', ENTITY_RECURRING_BILL);
         $data = [
-            'title' => trans('texts.recurring_BILLs'),
+            'title' => trans('texts.recurring_bills'),
             'entityType' => ENTITY_RECURRING_BILL,
             'datatable' => new RecurringBillDatatable(),
         ];

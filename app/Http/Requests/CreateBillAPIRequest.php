@@ -18,7 +18,7 @@ class CreateBillAPIRequest extends BillRequest
             'email' => 'required_without:vendor_id',
             'vendor_id' => 'required_without:email',
             'invoice_items' => 'valid_invoice_items',
-            'invoice_number' => 'unique:BILLs,invoice_number,,id,account_id,' . $this->user()->account_id,
+            'invoice_number' => 'unique:bills,invoice_number,,id,account_id,' . $this->user()->account_id,
             'discount' => 'positive',
             //'invoice_date' => 'date',
             //'due_date' => 'date',

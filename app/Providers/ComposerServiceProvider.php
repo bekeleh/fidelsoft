@@ -21,7 +21,7 @@ class ComposerServiceProvider extends ServiceProvider
                 'vendors.edit',
                 'payments.edit',
                 'invoices.edit',
-                'BILLs.edit',
+                'bills.edit',
                 'expenses.edit',
                 'accounts.localization',
                 'payments.credit_card',

@@ -359,7 +359,7 @@ class Bill extends EntityModel implements BalanceAffecting
         return $this->hasMany('App\Models\Activity')->withTrashed();
     }
 
-    public function scopeBills($query)
+    public function scopebills($query)
     {
         return $query->where('bill_type_id', BILL_TYPE_STANDARD)
             ->where('is_recurring', false);
@@ -691,7 +691,7 @@ class Bill extends EntityModel implements BalanceAffecting
     public static function calcLink($bill)
     {
         if (!empty($bill->bill_type_id)) {
-            $linkPrefix = ($bill->bill_type_id == INVOICE_TYPE_QUOTE) ? 'BILL_QUOTEs/' : 'BILLs/';
+            $linkPrefix = ($bill->bill_type_id == INVOICE_TYPE_QUOTE) ? 'bill_quotes/' : 'bills/';
         } else {
             $linkPrefix = 'invoices/';
         }

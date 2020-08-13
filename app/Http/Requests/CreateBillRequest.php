@@ -18,7 +18,7 @@ class CreateBillRequest extends BillRequest
         $rules = [
             'client' => 'required',
             'invoice_items' => 'valid_invoice_items',
-            'invoice_number' => 'required|unique:BILLs,invoice_number,' . $this->id . ',id,account_id,' . $this->user()->account_id,
+            'invoice_number' => 'required|unique:bills,invoice_number,' . $this->id . ',id,account_id,' . $this->user()->account_id,
             'discount' => 'positive',
             'invoice_date' => 'required',
             //'due_date' => 'date',

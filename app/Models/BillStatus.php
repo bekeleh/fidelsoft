@@ -8,7 +8,7 @@ use Laracasts\Presenter\PresentableTrait;
 /**
  * Model Class PurchaseOrderStatusService.
  */
-class BillStatus extends EntityModel
+class billstatus extends EntityModel
 {
     use PresentableTrait;
     use SoftDeletes;

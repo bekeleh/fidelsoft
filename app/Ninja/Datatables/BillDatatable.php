@@ -85,7 +85,7 @@ class BillDatatable extends EntityDatatable
             [
                 'status',
                 function ($model) use ($entityType) {
-                    return $model->quote_invoice_id ? link_to("BILLs/{$model->quote_invoice_id}/edit", trans('texts.converted'))->toHtml() : self::getStatusLabel($model);
+                    return $model->quote_invoice_id ? link_to("bills/{$model->quote_invoice_id}/edit", trans('texts.converted'))->toHtml() : self::getStatusLabel($model);
                 },
             ],
             [
@@ -141,7 +141,7 @@ class BillDatatable extends EntityDatatable
             [
                 trans('texts.edit_invoice'),
                 function ($model) {
-                    return URL::to("BILLs/{$model->public_id}/edit");
+                    return URL::to("bills/{$model->public_id}/edit");
                 },
                 function ($model) {
                     return !$model->is_public && Auth::user()->can('edit', [ENTITY_BILL, $model]);
@@ -150,7 +150,7 @@ class BillDatatable extends EntityDatatable
             [
                 trans("texts.clone_invoice"),
                 function ($model) {
-                    return URL::to("BILLs/{$model->public_id}/clone");
+                    return URL::to("bills/{$model->public_id}/clone");
                 },
                 function ($model) {
                     return Auth::user()->can('create', ENTITY_BILL);
@@ -159,7 +159,7 @@ class BillDatatable extends EntityDatatable
             [
                 trans("texts.clone_quote"),
                 function ($model) {
-                    return URL::to("BILL_QUOTEs/{$model->public_id}/clone");
+                    return URL::to("bill_quotes/{$model->public_id}/clone");
                 },
                 function ($model) {
                     return Auth::user()->can('create', ENTITY_QUOTE);
@@ -174,7 +174,7 @@ class BillDatatable extends EntityDatatable
             [
                 trans('texts.receive_note'),
                 function ($model) use ($entityType) {
-                    return url("BILLs/receive_note/{$model->public_id}");
+                    return url("bills/receive_note/{$model->public_id}");
                 },
                 function ($model) use ($entityType) {
                     return $entityType == ENTITY_BILL;
@@ -235,7 +235,7 @@ class BillDatatable extends EntityDatatable
             [
                 trans('texts.view_invoice'),
                 function ($model) {
-                    return URL::to("BILLs/{$model->quote_invoice_id}/edit");
+                    return URL::to("bills/{$model->quote_invoice_id}/edit");
                 },
                 function ($model) use ($entityType) {
                     return $entityType == ENTITY_QUOTE && $model->quote_invoice_id && Auth::user()->can('view', [ENTITY_BILL, $model]);

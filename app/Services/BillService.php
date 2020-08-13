@@ -13,7 +13,7 @@ use App\Ninja\Repositories\VendorRepository;
 use App\Ninja\Repositories\BillRepository;
 use Illuminate\Support\Facades\Auth;
 
-class BillService extends BaseService
+class billservice extends BaseService
 {
 
     protected $vendorRepo;
@@ -22,7 +22,7 @@ class BillService extends BaseService
 
     /**
      *
-     * BillService constructor.
+     * billservice constructor.
      *
      * @param VendorRepository $vendorRepo
      * @param BillRepository $billRepo
@@ -48,9 +48,9 @@ class BillService extends BaseService
     {
         $user = Auth::user();
         if ($action == 'download') {
-            $Bills = $this->getRepo()->findByPublicIdsWithTrashed($ids);
-            dispatch(new DownloadBill($user, $Bills));
-            return count($Bills);
+            $bills = $this->getRepo()->findByPublicIdsWithTrashed($ids);
+            dispatch(new DownloadBill($user, $bills));
+            return count($bills);
         } else {
             return parent::bulk($ids, $action);
         }
@@ -129,7 +129,7 @@ class BillService extends BaseService
         $datatable->entityType = $entityType;
 
         $query = $this->billRepo
-            ->getBills($accountId, $vendorPublicId, $entityType, $search)
+            ->getbills($accountId, $vendorPublicId, $entityType, $search)
             ->where('bills.bill_type_id', $entityType == ENTITY_BILL_QUOTE ? BILL_TYPE_QUOTE : BILL_TYPE_STANDARD);
 
         if (!Utils::hasPermission('view_bill')) {

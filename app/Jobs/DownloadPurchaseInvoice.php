@@ -21,18 +21,18 @@ class DownloadBill extends Job
 
     protected $user;
 
-    protected $Bills;
+    protected $bills;
 
     /**
      * Create a new job instance.
      *
      * @param User $user
-     * @param $Bills
+     * @param $bills
      */
-    public function __construct(User $user, $Bills)
+    public function __construct(User $user, $bills)
     {
         $this->user = $user;
-        $this->Bills = $Bills;
+        $this->bills = $bills;
     }
 
     /**
@@ -48,7 +48,7 @@ class DownloadBill extends Job
 
         $zip = Archive::instance_by_useragent(date('Y-m-d') . '_' . str_replace(' ', '_', trans('texts.invoice_pdfs')));
 
-        foreach ($this->Bills as $invoice) {
+        foreach ($this->bills as $invoice) {
             $zip->add_file($invoice->getFileName(), $invoice->getPDFString());
         }
 

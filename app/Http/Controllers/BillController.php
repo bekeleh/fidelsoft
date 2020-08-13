@@ -20,7 +20,7 @@ use App\Ninja\Repositories\DocumentRepository;
 use App\Ninja\Repositories\BillRepository;
 use App\Ninja\Repositories\VendorRepository;
 use App\Services\BillPaymentService;
-use App\Services\BillService;
+use App\Services\billservice;
 use App\Services\RecurringInvoiceService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -36,24 +36,24 @@ class BillController extends BaseController
     protected $invoiceRepo;
     protected $vendorRepo;
     protected $documentRepo;
-    protected $BillService;
+    protected $billservice;
     protected $paymentService;
-    protected $recurringBillService;
+    protected $recurringbillservice;
     protected $entityType = ENTITY_BILL;
 
     public function __construct(
         BillRepository $invoiceRepo,
         VendorRepository $vendorRepo,
-        BillService $BillService,
+        billservice $billservice,
         DocumentRepository $documentRepo,
-        RecurringInvoiceService $recurringBillService,
+        RecurringInvoiceService $recurringbillservice,
         BillPaymentService $paymentService)
     {
         // parent::__construct();
         $this->invoiceRepo = $invoiceRepo;
         $this->vendorRepo = $vendorRepo;
-        $this->BillService = $BillService;
-        $this->recurringBillService = $recurringBillService;
+        $this->billservice = $billservice;
+        $this->recurringbillservice = $recurringbillservice;
         $this->paymentService = $paymentService;
     }
 
@@ -61,7 +61,7 @@ class BillController extends BaseController
     {
         $this->authorize('view', ENTITY_BILL);
         $data = [
-            'title' => trans('texts.BILLs'),
+            'title' => trans('texts.bills'),
             'entityType' => ENTITY_BILL,
             'statuses' => Bill::getStatuses(),
             'datatable' => new BillDatatable(),
@@ -75,7 +75,7 @@ class BillController extends BaseController
     {
         Session::reflash();
 
-        return Redirect::to("BILLs/{$publicId}/edit");
+        return Redirect::to("bills/{$publicId}/edit");
     }
 
     public function getDatatable($vendorPublicId = null)
@@ -83,7 +83,7 @@ class BillController extends BaseController
         $accountId = Auth::user()->account_id;
         $search = Input::get('sSearch');
 
-        return $this->BillService
+        return $this->billservice
             ->getDatatable($accountId, $vendorPublicId, ENTITY_BILL, $search);
     }
 
@@ -92,7 +92,7 @@ class BillController extends BaseController
         $accountId = Auth::user()->account_id;
         $search = Input::get('sSearch');
 
-        return $this->recurringBillService
+        return $this->recurringbillservice
             ->getDatatable($accountId, $vendorPublicId, ENTITY_RECURRING_INVOICE, $search);
     }
 
@@ -124,13 +124,13 @@ class BillController extends BaseController
             'entityType' => $invoice->getEntityType(),
             'invoice' => $invoice,
             'method' => 'POST',
-            'url' => 'BILLs',
+            'url' => 'bills',
             'title' => trans('texts.new_BILL'),
         ];
 
         $data = array_merge($data, self::getViewModel($invoice));
 
-        return View::make('BILLs.edit', $data);
+        return View::make('bills.edit', $data);
     }
 
     public function store(CreateBillRequest $request)
@@ -143,7 +143,7 @@ class BillController extends BaseController
         $entityType = Input::get('entityType');
 
 
-        $invoice = $this->BillService->save($data);
+        $invoice = $this->billservice->save($data);
 
         $entityType = $invoice->getEntityType();
 
@@ -222,7 +222,7 @@ class BillController extends BaseController
             'invoice_settings' => Auth::user()->hasFeature(FEATURE_INVOICE_SETTINGS),
         ];
 
-        $lastSent = ($invoice->is_recurring && $invoice->last_sent_date) ? $invoice->recurring_BILLs->last() : null;
+        $lastSent = ($invoice->is_recurring && $invoice->last_sent_date) ? $invoice->recurring_bills->last() : null;
 
         if (!Auth::user()->hasPermission('view_vendor')) {
             $clients = $clients->where('vendors.user_id', Auth::user()->id);
@@ -282,7 +282,7 @@ class BillController extends BaseController
                 ]));
         }
 
-        return View::make('BILLs.edit', $data);
+        return View::make('bills.edit', $data);
     }
 
     public function update(UpdateBillRequest $request)
@@ -293,16 +293,16 @@ class BillController extends BaseController
         $action = Input::get('action');
         $entityType = Input::get('entityType');
 
-        $invoice = $this->BillService->save($data, $request->entity());
+        $invoice = $this->billservice->save($data, $request->entity());
 
         $entityType = $invoice->getEntityType();
         $message = trans("texts.updated_{$entityType}");
         Session::flash('message', $message);
 
         if ($action == 'clone_invoice') {
-            return url(sprintf('BILLs/%s/clone', $invoice->public_id));
+            return url(sprintf('bills/%s/clone', $invoice->public_id));
         } else if ($action == 'clone_quote') {
-            return url(sprintf('BILL_QUOTEs/%s/clone', $invoice->public_id));
+            return url(sprintf('bill_quotes/%s/clone', $invoice->public_id));
         } elseif ($action == 'convert') {
             return $this->convertQuote($request, $invoice->public_id);
         } elseif ($action == 'email') {
@@ -438,7 +438,7 @@ class BillController extends BaseController
 
             Session::flash('error', $errorMessage);
 
-            return Redirect::to('BILLs/' . $invoice->public_id . '/edit');
+            return Redirect::to('bills/' . $invoice->public_id . '/edit');
         }
 
         if ($invoice->is_recurring) {
@@ -487,7 +487,7 @@ class BillController extends BaseController
     {
         $action = Input::get('bulk_action') ?: Input::get('action');
         $ids = Input::get('bulk_public_id') ?: (Input::get('public_id') ?: Input::get('ids'));
-        $count = $this->BillService->bulk($ids, $action);
+        $count = $this->billservice->bulk($ids, $action);
 
         if ($count > 0) {
             if ($action == 'markSent') {
@@ -505,7 +505,7 @@ class BillController extends BaseController
             Session::flash('message', $message);
         }
 
-        if (strpos(Request::server('HTTP_REFERER'), 'recurring_BILLs')) {
+        if (strpos(Request::server('HTTP_REFERER'), 'recurring_bills')) {
             $entityType = ENTITY_RECURRING_INVOICE;
         }
 
@@ -514,11 +514,11 @@ class BillController extends BaseController
 
     public function convertQuote(BillRequest $request)
     {
-        $clone = $this->BillService->convertQuote($request->entity());
+        $clone = $this->billservice->convertQuote($request->entity());
 
         Session::flash('message', trans('texts.converted_to_invoice'));
 
-        return url('BILLs/' . $clone->public_id);
+        return url('bills/' . $clone->public_id);
     }
 
     public function cloneInvoice(BillRequest $request, $publicId)
@@ -596,7 +596,7 @@ class BillController extends BaseController
             'paymentId' => $paymentId,
         ];
 
-        return View::make('BILLs.history', $data);
+        return View::make('bills.history', $data);
     }
 
     public function receiveNote(BillRequest $request)
@@ -624,7 +624,7 @@ class BillController extends BaseController
             'invoiceFonts' => Cache::get('fonts'),
         ];
 
-        return View::make('BILLs.delivery_note', $data);
+        return View::make('bills.delivery_note', $data);
     }
 
     public function checkInvoiceNumber($invoicePublicId = false)

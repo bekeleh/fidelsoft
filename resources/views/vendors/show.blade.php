@@ -236,9 +236,9 @@
             {!! Form::tab_link('#quotes', trans('texts.quotes')) !!}
         @endif
         @if ($hasRecurringInvoices)
-            {!! Form::tab_link('#recurring_BILLs', trans('texts.recurring')) !!}
+            {!! Form::tab_link('#recurring_bills', trans('texts.recurring')) !!}
         @endif
-        {!! Form::tab_link('#BILLs', trans('texts.BILLs')) !!}
+        {!! Form::tab_link('#bills', trans('texts.bills')) !!}
         {!! Form::tab_link('#payments', trans('texts.payments')) !!}
         @if ($account->isModuleEnabled(ENTITY_BILL_CREDIT))
             {!! Form::tab_link('#credits', trans('texts.BILL_CREDIT')) !!}
@@ -281,28 +281,28 @@
                 'entityType' => ENTITY_BILL_QUOTE,
                 'datatable' => new \App\Ninja\Datatables\BillDatatable(true, true, ENTITY_BILL_QUOTE),
                 'vendorId' => $vendor->public_id,
-                'url' => url('api/BILL_QUOTEs/' . $vendor->public_id),
+                'url' => url('api/bill_quotes/' . $vendor->public_id),
                 ])
             </div>
         @endif
 
         @if ($hasRecurringInvoices)
-            <div class="tab-pane" id="recurring_BILLs">
+            <div class="tab-pane" id="recurring_bills">
                 @include('list', [
                 'entityType' => ENTITY_RECURRING_BILL,
                 'datatable' => new \App\Ninja\Datatables\RecurringBillDatatable(true, true),
                 'vendorId' => $vendor->public_id,
-                'url' => url('api/recurring_BILLs/' . $vendor->public_id),
+                'url' => url('api/recurring_bills/' . $vendor->public_id),
                 ])
             </div>
         @endif
 
-        <div class="tab-pane" id="BILLs">
+        <div class="tab-pane" id="bills">
             @include('list', [
             'entityType' => ENTITY_BILL,
             'datatable' => new \App\Ninja\Datatables\BillDatatable(true, true),
             'vendorId' => $vendor->public_id,
-            'url' => url('api/BILLs/' . $vendor->public_id),
+            'url' => url('api/bills/' . $vendor->public_id),
             ])
         </div>
 

@@ -62,7 +62,7 @@ class BillRepository extends BaseRepository
      * @param bool $filter
      * @return mixed|null
      */
-    public function getBills($accountId = false, $vendorPublicId = false, $entityType = ENTITY_BILL, $filter = false)
+    public function getbills($accountId = false, $vendorPublicId = false, $entityType = ENTITY_BILL, $filter = false)
     {
         $query = DB::table('bills')
             ->LeftJoin('accounts', 'accounts.id', '=', 'bills.account_id')
@@ -169,7 +169,7 @@ class BillRepository extends BaseRepository
      * @param bool $filter
      * @return mixed
      */
-    public function getRecurringBills($accountId = false, $vendorPublicId = false, $filter = false)
+    public function getRecurringbills($accountId = false, $vendorPublicId = false, $filter = false)
     {
         $query = DB::table('bills')
             ->LeftJoin('accounts', 'accounts.id', '=', 'bills.account_id')
@@ -961,7 +961,7 @@ class BillRepository extends BaseRepository
      * @param $vendorId
      * @return mixed
      */
-    public function findOpenBills($vendorId)
+    public function findOpenbills($vendorId)
     {
         if (empty($vendorId)) {
             return false;

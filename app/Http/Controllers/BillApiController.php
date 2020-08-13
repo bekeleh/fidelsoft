@@ -14,7 +14,7 @@ use App\Models\Product;
 use App\Ninja\Repositories\VendorRepository;
 use App\Ninja\Repositories\BillRepository;
 use App\Ninja\Repositories\PaymentRepository;
-use App\Services\BillService;
+use App\Services\billservice;
 use App\Services\PaymentService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -27,11 +27,11 @@ class BillApiController extends BaseAPIController
     protected $vendorRepo;
     protected $BillRepo;
     protected $paymentRepo;
-    protected $BillService;
+    protected $billservice;
     protected $paymentService;
 
     public function __construct(
-        BillService $BillService,
+        billservice $billservice,
         BillRepository $BillRepo,
         VendorRepository $vendorRepo,
         PaymentRepository $paymentRepo,
@@ -43,7 +43,7 @@ class BillApiController extends BaseAPIController
         $this->BillRepo = $BillRepo;
         $this->vendorRepo = $vendorRepo;
         $this->paymentRepo = $paymentRepo;
-        $this->BillService = $BillService;
+        $this->billservice = $billservice;
         $this->paymentService = $paymentService;
     }
 
@@ -51,7 +51,7 @@ class BillApiController extends BaseAPIController
      * @SWG\Get(
      *   path="/invoices",
      *   summary="List invoices",
-     *   operationId="listBills",
+     *   operationId="listbills",
      *   tags={"invoice"},
      *   @SWG\Response(
      *     response=200,
@@ -66,30 +66,30 @@ class BillApiController extends BaseAPIController
      */
     public function index()
     {
-        $Bills = Bill::scope()
+        $bills = Bill::scope()
             ->withTrashed()
             ->with('Bill_items', 'vendor')
             ->orderBy('updated_at', 'desc');
 
         // Filter by invoice number
         if ($BillNumber = Input::get('invoice_number')) {
-            $Bills->where('invoice_number', $BillNumber);
+            $bills->where('invoice_number', $BillNumber);
         }
 
         // Fllter by status
         if ($statusId = Input::get('status_id')) {
-            $Bills->where('invoice_status_id', '>=', $statusId);
+            $bills->where('invoice_status_id', '>=', $statusId);
         }
 
         if (request()->has('is_recurring')) {
-            $Bills->where('is_recurring', request()->is_recurring);
+            $bills->where('is_recurring', request()->is_recurring);
         }
 
         if (request()->has('invoice_type_id')) {
-            $Bills->where('invoice_type_id', request()->invoice_type_id);
+            $bills->where('invoice_type_id', request()->invoice_type_id);
         }
 
-        return $this->listResponse($Bills);
+        return $this->listResponse($bills);
     }
 
     /**
@@ -212,7 +212,7 @@ class BillApiController extends BaseAPIController
             $data['is_public'] = true;
         }
 
-        $Bill = $this->BillService->save($data);
+        $Bill = $this->billservice->save($data);
         $payment = false;
 
         if ($Bill->isStandard()) {
@@ -439,7 +439,7 @@ class BillApiController extends BaseAPIController
 
         $data = $request->input();
         $data['public_id'] = $publicId;
-        $this->BillService->save($data, $request->entity());
+        $this->billservice->save($data, $request->entity());
 
         $Bill = Bill::scope($publicId)
             ->withTrashed()

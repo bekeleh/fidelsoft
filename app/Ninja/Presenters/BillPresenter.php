@@ -251,23 +251,23 @@ class BillPresenter extends EntityPresenter
         $actions[] = ['url' => url("{$entityType}s/{$entityType}_history/{$Bill->public_id}"), 'label' => trans('texts.view_history')];
 //     delivery note
         if ($entityType == ENTITY_BILL) {
-            $actions[] = ['url' => url("BILLs/receive_note/{$Bill->public_id}"), 'label' => trans('texts.receive_note')];
+            $actions[] = ['url' => url("bills/receive_note/{$Bill->public_id}"), 'label' => trans('texts.receive_note')];
         }
 //    packing list
         if ($entityType == ENTITY_BILL) {
-            $actions[] = ['url' => url("BILLs/packing_list/{$Bill->public_id}"), 'label' => trans('texts.packing_list')];
+            $actions[] = ['url' => url("bills/packing_list/{$Bill->public_id}"), 'label' => trans('texts.packing_list')];
         }
 
 //      Return purchase
         if ($entityType == ENTITY_BILL) {
-            $actions[] = ['url' => url("BILLs/return_purchase/{$Bill->public_id}"), 'label' => trans('texts.return_purchase')];
+            $actions[] = ['url' => url("bills/return_purchase/{$Bill->public_id}"), 'label' => trans('texts.return_purchase')];
         }
 
         $actions[] = DropdownButton::DIVIDER;
 
         if ($entityType == ENTITY_BILL_QUOTE) {
             if ($Bill->quote_invoice_id) {
-                $actions[] = ['url' => url("BILLs/{$Bill->quote_invoice_id}/edit"), 'label' => trans('texts.view_invoice')];
+                $actions[] = ['url' => url("bills/{$Bill->quote_invoice_id}/edit"), 'label' => trans('texts.view_invoice')];
             } else {
                 if (!$Bill->isApproved()) {
                     $actions[] = ['url' => url("proposals/create/{$Bill->public_id}"), 'label' => trans('texts.new_proposal')];
@@ -276,7 +276,7 @@ class BillPresenter extends EntityPresenter
             }
         } elseif ($entityType == ENTITY_BILL) {
             if ($Bill->quote_id && $Bill->quote) {
-                $actions[] = ['url' => url("BILL_QUOTEs/{$Bill->quote->public_id}/edit"), 'label' => trans('texts.view_quote')];
+                $actions[] = ['url' => url("bill_quotes/{$Bill->quote->public_id}/edit"), 'label' => trans('texts.view_quote')];
             }
 
             if ($Bill->onlyHasTasks()) {

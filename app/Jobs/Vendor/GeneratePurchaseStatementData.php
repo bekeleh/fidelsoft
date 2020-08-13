@@ -35,7 +35,7 @@ class GeneratePurchaseStatementData
         $Bill->account = $account;
         $Bill->vendor = $vendor;
 
-        $Bill->invoice_items = $this->getBills();
+        $Bill->invoice_items = $this->getbills();
 
         if ($this->options['show_payments']) {
             $payments = $this->getPurchasePayments($Bill->invoice_items);
@@ -47,11 +47,11 @@ class GeneratePurchaseStatementData
         return json_encode($Bill);
     }
 
-    private function getBills()
+    private function getbills()
     {
         $statusId = intval($this->options['status_id']);
 
-        $Bills = Bill::with(['vendor'])
+        $bills = Bill::with(['vendor'])
             ->invoices()
             ->whereClientId($this->vendor->id)
             ->whereIsPublic(true)
@@ -59,27 +59,27 @@ class GeneratePurchaseStatementData
             ->orderBy('invoice_date', 'asc');
 
         if ($statusId == INVOICE_STATUS_PAID) {
-            $Bills->where('invoice_status_id', '=', INVOICE_STATUS_PAID);
+            $bills->where('invoice_status_id', '=', INVOICE_STATUS_PAID);
         } elseif ($statusId == INVOICE_STATUS_UNPAID) {
-            $Bills->where('invoice_status_id', '!=', INVOICE_STATUS_PAID);
+            $bills->where('invoice_status_id', '!=', INVOICE_STATUS_PAID);
         }
 
         if ($statusId == INVOICE_STATUS_PAID || !$statusId) {
-            $Bills->where('invoice_date', '>=', $this->options['start_date'])
+            $bills->where('invoice_date', '>=', $this->options['start_date'])
                 ->where('invoice_date', '<=', $this->options['end_date']);
         }
 
         if ($this->contact) {
-            $Bills->whereHas('invitations', function ($query) {
+            $bills->whereHas('invitations', function ($query) {
                 $query->where('contact_id', $this->contact->id);
             });
         }
 
-        $Bills = $Bills->get();
+        $bills = $bills->get();
         $data = collect();
 
-        for ($i = 0; $i < $Bills->count(); $i++) {
-            $Bill = $Bills[$i];
+        for ($i = 0; $i < $bills->count(); $i++) {
+            $Bill = $bills[$i];
             $item = new BillItem();
             $item->id = $Bill->id;
             $item->product_key = $Bill->invoice_number;
@@ -93,14 +93,14 @@ class GeneratePurchaseStatementData
         }
 
         if ($this->options['show_aging']) {
-            $aging = $this->getAging($Bills);
+            $aging = $this->getAging($bills);
             $data = $data->merge($aging);
         }
 
         return $data;
     }
 
-    private function getPurchasePayments($Bills)
+    private function getPurchasePayments($bills)
     {
         $payments = BillPayment::with('invoice', 'payment_type')
             ->withArchived()
@@ -110,7 +110,7 @@ class GeneratePurchaseStatementData
             ->where('payment_date', '<=', $this->options['end_date']);
 
         if ($this->contact) {
-            $payments->whereIn('invoice_id', $Bills->pluck('id'));
+            $payments->whereIn('invoice_id', $bills->pluck('id'));
         }
 
         $payments = $payments->get();
@@ -131,7 +131,7 @@ class GeneratePurchaseStatementData
         return $data;
     }
 
-    private function getAging($Bills)
+    private function getAging($bills)
     {
         $data = collect();
         $ageGroups = [
@@ -142,7 +142,7 @@ class GeneratePurchaseStatementData
             'age_group_120' => 0,
         ];
 
-        foreach ($Bills as $Bill) {
+        foreach ($bills as $Bill) {
             $age = $Bill->present()->ageGroup;
             $ageGroups[$age] += $Bill->getRequestedAmount();
         }
