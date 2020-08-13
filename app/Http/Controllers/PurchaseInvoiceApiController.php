@@ -68,7 +68,7 @@ class BillApiController extends BaseAPIController
     {
         $Bills = Bill::scope()
             ->withTrashed()
-            ->with('BILL_items', 'vendor')
+            ->with('Bill_items', 'vendor')
             ->orderBy('updated_at', 'desc');
 
         // Filter by invoice number
@@ -240,7 +240,7 @@ class BillApiController extends BaseAPIController
         }
 
         $Bill = Bill::scope($Bill->public_id)
-            ->with('vendor', 'BILL_items', 'invitations')
+            ->with('vendor', 'Bill_items', 'invitations')
             ->first();
 
         if (isset($data['download_invoice']) && boolval($data['download_invoice'])) {
@@ -264,7 +264,7 @@ class BillApiController extends BaseAPIController
             'public_notes' => '',
             'po_number' => '',
             'invoice_design_id' => $account->invoice_design_id,
-            'BILL_items' => [],
+            'Bill_items' => [],
             'custom_taxes1' => false,
             'custom_taxes2' => false,
             'tax_name1' => '',
@@ -296,26 +296,26 @@ class BillApiController extends BaseAPIController
         }
 
         // initialize the line items
-        if (!isset($data['BILL_items']) && (isset($data['name']) || isset($data['cost']) || isset($data['notes']) || isset($data['qty']))) {
-            $data['BILL_items'] = [self::prepareItem($data)];
+        if (!isset($data['Bill_items']) && (isset($data['name']) || isset($data['cost']) || isset($data['notes']) || isset($data['qty']))) {
+            $data['Bill_items'] = [self::prepareItem($data)];
             // make sure the tax isn't applied twice (for the invoice and the line item)
-            unset($data['BILL_items'][0]['tax_name1']);
-            unset($data['BILL_items'][0]['tax_rate1']);
-            unset($data['BILL_items'][0]['tax_name2']);
-            unset($data['BILL_items'][0]['tax_rate2']);
+            unset($data['Bill_items'][0]['tax_name1']);
+            unset($data['Bill_items'][0]['tax_rate1']);
+            unset($data['Bill_items'][0]['tax_name2']);
+            unset($data['Bill_items'][0]['tax_rate2']);
         } else {
-            foreach ($data['BILL_items'] as $index => $item) {
+            foreach ($data['Bill_items'] as $index => $item) {
                 // check for multiple products
                 if ($productKey = array_get($item, 'name')) {
                     $parts = explode(',', $productKey);
                     if (count($parts) > 1 && Product::findProductByKey($parts[0])) {
                         foreach ($parts as $index => $productKey) {
-                            $data['BILL_items'][$index] = self::prepareItem(['name' => $productKey]);
+                            $data['Bill_items'][$index] = self::prepareItem(['name' => $productKey]);
                         }
                         break;
                     }
                 }
-                $data['BILL_items'][$index] = self::prepareItem($item);
+                $data['Bill_items'][$index] = self::prepareItem($item);
             }
         }
 
@@ -443,7 +443,7 @@ class BillApiController extends BaseAPIController
 
         $Bill = Bill::scope($publicId)
             ->withTrashed()
-            ->with('vendor', 'BILL_items', 'invitations')
+            ->with('vendor', 'Bill_items', 'invitations')
             ->firstOrFail();
 
         return $this->itemResponse($Bill);

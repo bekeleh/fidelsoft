@@ -277,7 +277,7 @@ class Bill extends EntityModel implements BalanceAffecting
         return $this->belongsTo('App\Models\Vendor', 'vendor_id')->withTrashed();
     }
 
-    public function bill_items()
+    public function Bill_items()
     {
         return $this->hasMany('App\Models\BillItem', 'bill_id')->orderBy('id');
     }
@@ -781,7 +781,7 @@ class Bill extends EntityModel implements BalanceAffecting
             'public_notes',
             'amount',
             'balance',
-            'bill_items',
+            'Bill_items',
             'documents',
             'expenses',
             'vendor',
@@ -874,7 +874,7 @@ class Bill extends EntityModel implements BalanceAffecting
             ]);
         }
 
-        foreach ($this->bill_items as $billItem) {
+        foreach ($this->Bill_items as $billItem) {
             $billItem->setVisible([
                 'name',
                 'notes',
@@ -1130,7 +1130,7 @@ class Bill extends EntityModel implements BalanceAffecting
     {
         $total = 0;
 
-        foreach ($this->bill_items as $billItem) {
+        foreach ($this->Bill_items as $billItem) {
             $lineTotal = $billItem->qty * $billItem->cost;
 
             if ($billItem->discount != 0) {
@@ -1185,7 +1185,7 @@ class Bill extends EntityModel implements BalanceAffecting
             $this->calculateTax($taxes, $this->tax_name2, $this->tax_rate2, $billTaxAmount, $billPaidAmount);
         }
 
-        foreach ($this->bill_items as $billItem) {
+        foreach ($this->Bill_items as $billItem) {
             $itemTaxable = $this->getItemTaxable($billItem, $taxable);
 
             if ($billItem->tax_name1) {
@@ -1360,7 +1360,7 @@ class Bill extends EntityModel implements BalanceAffecting
 
     public function onlyHasTasks()
     {
-        foreach ($this->bill_items as $item) {
+        foreach ($this->Bill_items as $item) {
             if ($item->bill_item_type_id != BILL_ITEM_TYPE_TASK) {
                 return false;
             }

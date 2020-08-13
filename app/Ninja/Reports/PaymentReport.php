@@ -31,18 +31,18 @@ class PaymentReport extends AbstractReport
         $subgroup = $this->options['subgroup'];
 
         $payments = Payment::scope()
-        ->orderBy('payment_date', 'desc')
-        ->withArchived()
-        ->excludeFailed()
-        ->whereHas('client', function ($query) {
-            $query->where('is_deleted', '=', false);
-        })
-        ->whereHas('invoice', function ($query) {
-            $query->where('is_deleted', '=', false);
-        })
-        ->with('client.contacts', 'invoice', 'payment_type', 'account_gateway.gateway', 'user')
-        ->where('payment_date', '>=', $this->startDate)
-        ->where('payment_date', '<=', $this->endDate);
+            ->orderBy('payment_date', 'desc')
+            ->withArchived()
+            ->excludeFailed()
+            ->whereHas('client', function ($query) {
+                $query->where('is_deleted', '=', false);
+            })
+            ->whereHas('invoice', function ($query) {
+                $query->where('is_deleted', '=', false);
+            })
+            ->with('client.contacts', 'invoice', 'payment_type', 'account_gateway.gateway', 'user')
+            ->where('payment_date', '>=', $this->startDate)
+            ->where('payment_date', '<=', $this->endDate);
 
         $lastInvoiceId = 0;
         foreach ($payments->get() as $payment) {

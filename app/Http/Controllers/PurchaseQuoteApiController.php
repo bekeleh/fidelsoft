@@ -32,7 +32,7 @@ class PurchaseQuoteApiController extends BillApiController
         $invoices = Bill::scope()
             ->withTrashed()
             ->quotes()
-            ->with('BILL_items', 'vendor')
+            ->with('Bill_items', 'vendor')
             ->orderBy('updated_at', 'desc');
 
         return $this->listResponse($invoices);

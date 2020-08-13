@@ -4,7 +4,7 @@ namespace App\Jobs;
 
 use App;
 use App\Models\Bill;
-use App\Ninja\Mailers\PurchaseContactMailer;
+use App\Ninja\Mailers\BillContactMailer;
 use App\Ninja\Mailers\VendorContactMailer;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -19,7 +19,7 @@ class SendBillEmail implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
-    protected $invoice;
+    protected $bill;
     protected $reminder;
     protected $template;
     protected $userId;
@@ -30,20 +30,20 @@ class SendBillEmail implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param Bill $invoice
+     * @param Bill $bill
      * @param bool $userId
      * @param bool $reminder
      * @param bool $template
      * @param bool $proposal
      */
     public function __construct(
-        Bill $invoice,
+        Bill $bill,
         $userId = false,
         $reminder = false,
         $template = false,
         $proposal = false)
     {
-        $this->invoice = $invoice;
+        $this->bill = $bill;
         $this->userId = $userId;
         $this->reminder = $reminder;
         $this->template = $template;
@@ -54,16 +54,16 @@ class SendBillEmail implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @param PurchaseContactMailer $mailer
+     * @param BillContactMailer $mailer
      */
-    public function handle(PurchaseContactMailer $mailer)
+    public function handle(BillContactMailer $mailer)
     {
         // send email as user
         if (App::runningInConsole() && $this->userId) {
             Auth::onceUsingId($this->userId);
         }
 
-        $mailer->sendInvoice($this->invoice, $this->reminder, $this->template, $this->proposal);
+        $mailer->sendInvoice($this->bill, $this->reminder, $this->template, $this->proposal);
 
         if (App::runningInConsole() && $this->userId) {
             Auth::logout();

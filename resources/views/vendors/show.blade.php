@@ -268,7 +268,7 @@
             <div class="tab-pane" id="expenses">
                 @include('list', [
                 'entityType' => ENTITY_BILL_EXPENSE,
-                'datatable' => new \App\Ninja\Datatables\PurchaseExpenseDatatable(true, true),
+                'datatable' => new \App\Ninja\Datatables\BillExpenseDatatable(true, true),
                 'vendorId' => $vendor->public_id,
                 'url' => url('api/vendor_expenses/' . $vendor->public_id),
                 ])
@@ -309,7 +309,7 @@
         <div class="tab-pane" id="payments">
             @include('list', [
             'entityType' => ENTITY_BILL_PAYMENT,
-            'datatable' => new \App\Ninja\Datatables\PurchasePaymentDatatable(true, true),
+            'datatable' => new \App\Ninja\Datatables\BillPaymentDatatable(true, true),
             'vendorId' => $vendor->public_id,
             'url' => url('api/BILL_PAYMENTs/' . $vendor->public_id),
             ])
@@ -319,7 +319,7 @@
             <div class="tab-pane" id="credits">
                 @include('list', [
                 'entityType' => ENTITY_BILL_CREDIT,
-                'datatable' => new \App\Ninja\Datatables\PurchaseCreditDatatable(true, true),
+                'datatable' => new \App\Ninja\Datatables\BillCreditDatatable(true, true),
                 'vendorId' => $vendor->public_id,
                 'url' => url('api/BILL_CREDITs/' . $vendor->public_id),
                 ])

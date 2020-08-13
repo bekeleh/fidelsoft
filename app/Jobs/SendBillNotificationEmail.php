@@ -10,9 +10,9 @@ use Illuminate\Queue\SerializesModels;
 
 
 /**
- * Class SendPurchaseNotificationEmail.
+ * Class SendBillNotificationEmail.
  */
-class SendPurchaseNotificationEmail extends Job implements ShouldQueue
+class SendBillNotificationEmail extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels, SerialisesDeletedModels {
         SerialisesDeletedModels::getRestoredPropertyValue insteadof SerializesModels;

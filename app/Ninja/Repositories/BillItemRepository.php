@@ -35,53 +35,53 @@ class BillItemRepository extends BaseRepository
 
         $productId = Product::getPrivateId($productPublicId);
 
-        $query = $this->find()->where('BILL_items.product_id', $productId);
+        $query = $this->find()->where('Bill_items.product_id', $productId);
 
         return $query;
     }
 
     public function find($accountId = false, $filter = null)
     {
-        $query = DB::table('BILL_items')
-            ->leftJoin('accounts', 'accounts.id', '=', 'BILL_items.account_id')
-            ->leftJoin('products', 'products.id', '=', 'BILL_items.product_id')
-            ->leftJoin('invoices', 'invoices.id', '=', 'BILL_items.invoice_id')
-            ->leftJoin('users', 'users.id', '=', 'BILL_items.user_id')
-            ->where('BILL_items.invoice_item_type_id', '=', true)
-            ->where('BILL_items.account_id', '=', $accountId)
-//            ->where('BILL_items.deleted_at', '=', null)
+        $query = DB::table('Bill_items')
+            ->leftJoin('accounts', 'accounts.id', '=', 'Bill_items.account_id')
+            ->leftJoin('products', 'products.id', '=', 'Bill_items.product_id')
+            ->leftJoin('bills', 'bills.id', '=', 'Bill_items.invoice_id')
+            ->leftJoin('users', 'users.id', '=', 'Bill_items.user_id')
+            ->where('Bill_items.invoice_item_type_id', '=', true)
+            ->where('Bill_items.account_id', '=', $accountId)
+//            ->where('Bill_items.deleted_at', '=', null)
             ->select(
-                'BILL_items.id',
-                'BILL_items.public_id',
-                'BILL_items.product_key as invoice_item_name',
-                'BILL_items.qty',
-                'BILL_items.demand_qty',
-                'BILL_items.cost',
-                'BILL_items.discount',
-                'BILL_items.is_deleted',
-                'BILL_items.notes',
-                'BILL_items.created_at',
-                'BILL_items.updated_at',
-                'BILL_items.deleted_at',
-                'BILL_items.created_by',
-                'BILL_items.updated_by',
-                'BILL_items.deleted_by',
-                'invoices.public_id as invoice_public_id',
-                'invoices.invoice_number',
+                'Bill_items.id',
+                'Bill_items.public_id',
+                'Bill_items.product_key as invoice_item_name',
+                'Bill_items.qty',
+                'Bill_items.demand_qty',
+                'Bill_items.cost',
+                'Bill_items.discount',
+                'Bill_items.is_deleted',
+                'Bill_items.notes',
+                'Bill_items.created_at',
+                'Bill_items.updated_at',
+                'Bill_items.deleted_at',
+                'Bill_items.created_by',
+                'Bill_items.updated_by',
+                'Bill_items.deleted_by',
+                'bills.public_id as bill_public_id',
+                'bills.bill_number',
                 'products.public_id as product_public_id',
                 'products.product_key'
             );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
-                $query->where('BILL_items.product_key', 'like', '%' . $filter . '%')
-                    ->orWhere('BILL_items.notes', 'like', '%' . $filter . '%')
+                $query->where('Bill_items.product_key', 'like', '%' . $filter . '%')
+                    ->orWhere('Bill_items.notes', 'like', '%' . $filter . '%')
                     ->orWhere('products.product_key', 'like', '%' . $filter . '%')
-                    ->orWhere('invoices.invoice_number', 'like', '%' . $filter . '%');
+                    ->orWhere('bills.bill_number', 'like', '%' . $filter . '%');
             });
         }
 
-        $this->applyFilters($query, ENTITY_INVOICE_ITEM);
+        $this->applyFilters($query, ENTITY_BILL_ITEM);
 
         return $query;
     }

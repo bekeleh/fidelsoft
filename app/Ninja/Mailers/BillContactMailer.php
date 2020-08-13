@@ -5,7 +5,7 @@ namespace App\Ninja\Mailers;
 use App;
 use App\Events\BillWasEmailed;
 use App\Events\BillQuoteWasEmailed;
-use App\Jobs\ConvertInvoiceToUbl;
+use App\Jobs\ConvertBillToUbl;
 use App\Libraries\Utils;
 use App\Models\Bill;
 use App\Models\BillPayment;
@@ -14,7 +14,7 @@ use HTMLUtils;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 
-class PurchaseContactMailer extends Mailer
+class BillContactMailer extends Mailer
 {
 
     protected $templateService;
@@ -25,28 +25,28 @@ class PurchaseContactMailer extends Mailer
         $this->templateService = $templateService;
     }
 
-    public function sendInvoice(Bill $invoice, $reminder = false, $template = false, $proposal = false)
+    public function sendBill(Bill $bill, $reminder = false, $template = false, $proposal = false)
     {
-        if ($invoice->is_recurring) {
+        if ($bill->is_recurring) {
             return false;
         }
 
-        $invoice->load('invitations', 'vendor.language', 'account');
+        $bill->load('invitations', 'vendor.language', 'account');
 
         if ($proposal) {
             $entityType = ENTITY_PROPOSAL;
         } else {
-            $entityType = $invoice->getEntityType();
+            $entityType = $bill->getEntityType();
         }
 
-        $vendor = $invoice->vendor;
-        $account = $invoice->account;
+        $vendor = $bill->vendor;
+        $account = $bill->account;
         $response = null;
 
         if ($vendor->trashed()) {
             return trans('texts.email_error_inactive_vendor');
-        } elseif ($invoice->trashed()) {
-            return trans('texts.email_error_inactive_invoice');
+        } elseif ($bill->trashed()) {
+            return trans('texts.email_error_inactive_bill');
         }
 
         $account->loadLocalizationSettings($vendor);
@@ -58,12 +58,12 @@ class PurchaseContactMailer extends Mailer
         $ublString = false;
 
         if ($account->attachUBL() && !$proposal) {
-            $ublString = dispatch(new ConvertInvoiceToUbl($invoice));
+            $ublString = dispatch(new ConvertBillToUbl($bill));
         }
 
         $documentStrings = [];
-        if ($account->document_email_attachment && $invoice->hasDocuments()) {
-            $documents = $invoice->allDocuments();
+        if ($account->document_email_attachment && $bill->hasDocuments()) {
+            $documents = $bill->allDocuments();
             $documents = $documents->sortBy('size');
 
             $size = 0;
@@ -82,10 +82,10 @@ class PurchaseContactMailer extends Mailer
         }
 
         $isFirst = true;
-        $invitations = $proposal ? $proposal->invitations : $invoice->invitations;
-        foreach ($invitations as $purchaseInvitation) {
+        $invitations = $proposal ? $proposal->invitations : $bill->invitations;
+        foreach ($invitations as $billInvitation) {
             if ($account->attachPDF() && !$proposal) {
-                $pdfString = $invoice->getPDFString($purchaseInvitation);
+                $pdfString = $bill->getPDFString($billInvitation);
             }
             $data = [
                 'pdfString' => $pdfString,
@@ -93,7 +93,7 @@ class PurchaseContactMailer extends Mailer
                 'ublString' => $ublString,
                 'proposal' => $proposal,
             ];
-            $response = $this->sendPurchaseInvitation($purchaseInvitation, $invoice, $emailTemplate, $emailSubject, $reminder, $isFirst, $data);
+            $response = $this->sendBillInvitation($billInvitation, $bill, $emailTemplate, $emailSubject, $reminder, $isFirst, $data);
             $isFirst = false;
             if ($response === true) {
                 $sent = true;
@@ -103,19 +103,19 @@ class PurchaseContactMailer extends Mailer
         $account->loadLocalizationSettings();
 
         if ($sent === true && !$proposal) {
-            if ($invoice->isType(INVOICE_TYPE_QUOTE)) {
-                event(new BillQuoteWasEmailed($invoice, $reminder));
+            if ($bill->isType(BILL_TYPE_QUOTE)) {
+                event(new BillQuoteWasEmailed($bill, $reminder));
             } else {
-                event(new BillWasEmailed($invoice, $reminder));
+                event(new BillWasEmailed($bill, $reminder));
             }
         }
 
         return $response;
     }
 
-    private function sendPurchaseInvitation(
-        $purchaseInvitation,
-        Bill $invoice,
+    private function sendBillInvitation(
+        $billInvitation,
+        Bill $bill,
         $body,
         $subject,
         $reminder,
@@ -123,9 +123,9 @@ class PurchaseContactMailer extends Mailer
         $extra
     )
     {
-        $vendor = $invoice->vendor;
-        $account = $invoice->account;
-        $user = $purchaseInvitation->user;
+        $vendor = $bill->vendor;
+        $account = $bill->account;
+        $user = $billInvitation->user;
         $proposal = $extra['proposal'];
 
         if ($user->trashed()) {
@@ -136,30 +136,30 @@ class PurchaseContactMailer extends Mailer
             return trans('texts.email_error_user_unregistered');
         } elseif (!$user->confirmed || $this->isThrottled($account)) {
             return trans('texts.email_error_user_unconfirmed');
-        } elseif (!$purchaseInvitation->contact->email) {
+        } elseif (!$billInvitation->contact->email) {
             return trans('texts.email_error_invalid_contact_email');
-        } elseif ($purchaseInvitation->contact->trashed()) {
+        } elseif ($billInvitation->contact->trashed()) {
             return trans('texts.email_error_inactive_contact');
         }
 
         $variables = [
             'account' => $account,
             'vendor' => $vendor,
-            'invitation' => $purchaseInvitation,
-            'amount' => $invoice->getRequestedAmount(),
+            'invitation' => $billInvitation,
+            'amount' => $bill->getRequestedAmount(),
         ];
 
         if (!$proposal) {
             // Let the vendor know they'll be billed later
             if ($vendor->autoBillLater()) {
-                $variables['autobill'] = $invoice->present()->autoBillEmailMessage();
+                $variables['autobill'] = $bill->present()->autoBillEmailMessage();
             }
 
-            if (empty($purchaseInvitation->contact->password) && $account->isClientPortalPasswordEnabled() && $account->send_portal_password) {
+            if (empty($billInvitation->contact->password) && $account->isClientPortalPasswordEnabled() && $account->send_portal_password) {
                 // The contact needs a password
                 $variables['password'] = $password = $this->generatePassword();
-                $purchaseInvitation->contact->password = bcrypt($password);
-                $purchaseInvitation->contact->save();
+                $billInvitation->contact->password = bcrypt($password);
+                $billInvitation->contact->save();
             }
         }
 
@@ -171,13 +171,13 @@ class PurchaseContactMailer extends Mailer
 
         $data = [
             'body' => $body,
-            'link' => $purchaseInvitation->getLink(),
-            'entityType' => $proposal ? ENTITY_PROPOSAL : $invoice->getEntityType(),
-            'invoiceId' => $invoice->id,
-            'invitation' => $purchaseInvitation,
+            'link' => $billInvitation->getLink(),
+            'entityType' => $proposal ? ENTITY_PROPOSAL : $bill->getEntityType(),
+            'billId' => $bill->id,
+            'invitation' => $billInvitation,
             'account' => $account,
             'vendor' => $vendor,
-            'invoice' => $invoice,
+            'bill' => $bill,
             'documents' => $extra['documentStrings'],
             'notes' => $reminder,
             'bccEmail' => $isFirst ? $account->getBccEmail() : false,
@@ -189,11 +189,11 @@ class PurchaseContactMailer extends Mailer
         if (!$proposal) {
             if ($account->attachPDF()) {
                 $data['pdfString'] = $extra['pdfString'];
-                $data['pdfFileName'] = $invoice->getFileName();
+                $data['pdfFileName'] = $bill->getFileName();
             }
             if ($account->attachUBL()) {
                 $data['ublString'] = $extra['ublString'];
-                $data['ublFileName'] = $invoice->getFileName('xml');
+                $data['ublFileName'] = $bill->getFileName('xml');
             }
         }
 
@@ -201,7 +201,7 @@ class PurchaseContactMailer extends Mailer
         $fromEmail = $account->getReplyToEmail() ?: $user->email;
         $view = $account->getTemplateView(ENTITY_BILL);
 
-        $response = $this->sendTo($purchaseInvitation->contact->email, $fromEmail, $account->getDisplayName(), $subject, $view, $data);
+        $response = $this->sendTo($billInvitation->contact->email, $fromEmail, $account->getDisplayName(), $subject, $view, $data);
 
         if ($response === true) {
             return true;
@@ -233,49 +233,49 @@ class PurchaseContactMailer extends Mailer
     }
 
 
-    public function sendPaymentConfirmation(BillPayment $purchasePayment, $refunded = 0)
+    public function sendPaymentConfirmation(BillPayment $billPayment, $refunded = 0)
     {
-        $account = $purchasePayment->account;
-        $vendor = $purchasePayment->vendor;
+        $account = $billPayment->account;
+        $vendor = $billPayment->vendor;
 
         $account->loadLocalizationSettings($vendor);
-        $invoice = $purchasePayment->BILL;
-        $purchaseInvitation = $purchasePayment->invitation ?: $purchasePayment->BILL->invitations[0];
+        $bill = $billPayment->BILL;
+        $billInvitation = $billPayment->invitation ?: $billPayment->BILL->invitations[0];
         $accountName = $account->getDisplayName();
 
         if ($refunded > 0) {
             $emailSubject = trans('texts.refund_subject');
             $emailTemplate = trans('texts.refund_body', [
                 'amount' => $account->formatMoney($refunded, $vendor),
-                'invoice_number' => $invoice->invoice_number,
+                'bill_number' => $bill->bill_number,
             ]);
         } else {
-            $emailSubject = $invoice->account->getEmailSubject(ENTITY_PAYMENT);
+            $emailSubject = $bill->account->getEmailSubject(ENTITY_PAYMENT);
             $emailTemplate = $account->getEmailTemplate(ENTITY_PAYMENT);
         }
 
-        if ($purchasePayment->invitation) {
-            $user = $purchasePayment->invitation->user;
-            $contact = $purchasePayment->contact;
+        if ($billPayment->invitation) {
+            $user = $billPayment->invitation->user;
+            $contact = $billPayment->contact;
         } else {
-            $user = $purchasePayment->user;
+            $user = $billPayment->user;
             $contact = $vendor->contacts->count() ? $vendor->contacts[0] : '';
         }
 
         $variables = [
             'account' => $account,
             'vendor' => $vendor,
-            'invitation' => $purchaseInvitation,
-            'amount' => $purchasePayment->amount,
+            'invitation' => $billInvitation,
+            'amount' => $billPayment->amount,
         ];
 
         $data = [
             'body' => $this->templateService->processVariables($emailTemplate, $variables),
-            'link' => $purchaseInvitation->getLink(),
-            'invoice' => $invoice,
+            'link' => $billInvitation->getLink(),
+            'bill' => $bill,
             'vendor' => $vendor,
             'account' => $account,
-            'payment' => $purchasePayment,
+            'payment' => $billPayment,
             'entityType' => ENTITY_BILL,
             'bccEmail' => $account->getBccEmail(),
             'fromEmail' => $account->getFromEmail(),
@@ -284,12 +284,12 @@ class PurchaseContactMailer extends Mailer
         ];
 
         if (!$refunded && $account->attachPDF()) {
-            $data['pdfString'] = $invoice->getPDFString();
-            $data['pdfFileName'] = $invoice->getFileName();
+            $data['pdfString'] = $bill->getPDFString();
+            $data['pdfFileName'] = $bill->getFileName();
         }
 
         $subject = $this->templateService->processVariables($emailSubject, $variables);
-        $data['invoice_id'] = $purchasePayment->BILL->id;
+        $data['bill_id'] = $billPayment->Bill->id;
 
         $view = $account->getTemplateView('payment_confirmation');
         $fromEmail = $account->getReplyToEmail() ?: $user->email;
@@ -375,7 +375,9 @@ class PurchaseContactMailer extends Mailer
                         ->subject("Email throttle triggered for account " . $account->id);
                 });
             }
+
             Cache::put("throttle_notified:{$key}", true, 60 * 24);
+
             return true;
         }
 

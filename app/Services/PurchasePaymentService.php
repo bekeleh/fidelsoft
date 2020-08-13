@@ -9,7 +9,7 @@ use App\Models\BillCredit;
 use App\Models\Bill;
 use App\Ninja\Datatables\PaymentDatatable;
 use App\Ninja\Repositories\AccountRepository;
-use App\Ninja\Repositories\PurchasePaymentRepository;
+use App\Ninja\Repositories\BillPaymentRepository;
 use DateTime;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +23,7 @@ class PurchasePaymentService extends BaseService
     private $accountRepo;
 
     public function __construct(
-        PurchasePaymentRepository $paymentRepo,
+        BillPaymentRepository $paymentRepo,
         AccountRepository $accountRepo,
         DatatableService $datatableService)
     {

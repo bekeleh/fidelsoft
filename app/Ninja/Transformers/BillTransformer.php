@@ -40,7 +40,7 @@ class BillTransformer extends EntityTransformer
     {
         $transformer = new BillItemTransformer($this->account, $this->serializer);
 
-        return $this->includeCollection($invoice->invoice_items, $transformer, ENTITY_INVOICE_ITEM);
+        return $this->includeCollection($invoice->invoice_items, $transformer, ENTITY_BILL_ITEM);
     }
 
     public function includeInvitations(Bill $invoice)

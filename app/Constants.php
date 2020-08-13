@@ -160,18 +160,22 @@ if (!defined('APP_NAME')) {
     define('INVOICE_TYPE_STANDARD', 1);
     define('INVOICE_TYPE_QUOTE', 2);
 
-    define('BILL_TYPE_STANDARD', 1);
-    define('BILL_TYPE_QUOTE', 2);
-
     define('INVOICE_ITEM_TYPE_STANDARD', 1);
     define('INVOICE_ITEM_TYPE_TASK', 2);
-
-    define('BILL_ITEM_TYPE_STANDARD', 1);
-    define('BILL_ITEM_TYPE_TASK', 2);
 
     define('INVOICE_ITEM_TYPE_PENDING_GATEWAY_FEE', 3);
     define('INVOICE_ITEM_TYPE_PAID_GATEWAY_FEE', 4);
     define('INVOICE_ITEM_TYPE_LATE_FEE', 5);
+
+    define('BILL_TYPE_STANDARD', 1);
+    define('BILL_TYPE_QUOTE', 2);
+
+    define('BILL_ITEM_TYPE_STANDARD', 1);
+    define('BILL_ITEM_TYPE_TASK', 2);
+
+    define('BILL_ITEM_TYPE_PENDING_GATEWAY_FEE', 3);
+    define('BILL_ITEM_TYPE_PAID_GATEWAY_FEE', 4);
+    define('BILL_ITEM_TYPE_LATE_FEE', 5);
 
     define('PERSON_CONTACT', 'contact');
     define('PERSON_USER', 'user');

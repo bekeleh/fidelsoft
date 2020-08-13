@@ -9,8 +9,8 @@ use App\Events\QuoteInvitationWasViewed;
 use App\Events\QuoteInvitationWasApproved;
 use App\Events\PaymentWasCreated;
 use App\Services\PushService;
-use App\Jobs\SendPurchaseNotificationEmail;
-use App\Jobs\SendPurchasePaymentEmail;
+use App\Jobs\SendBillNotificationEmail;
+use App\Jobs\SendBillPaymentEmail;
 use App\Notifications\BillPaymentCreated;
 
 /**
@@ -48,7 +48,7 @@ class PurchaseNotificationListener
     {
         foreach ($Bill->account->users as $user) {
             if ($user->{"notify_{$type}"}) {
-                dispatch(new SendPurchaseNotificationEmail($user, $Bill, $type, $purchasePayment, $notes));
+                dispatch(new SendBillNotificationEmail($user, $Bill, $type, $purchasePayment, $notes));
             }
 
             if ($purchasePayment && $user->slack_webhook_url) {
@@ -120,7 +120,7 @@ class PurchaseNotificationListener
             return;
         }
 
-        dispatch(new SendPurchasePaymentEmail($event->payment));
+        dispatch(new SendBillPaymentEmail($event->payment));
         $this->sendNotifications($event->payment->invoice, 'paid', $event->payment);
 
         $this->pushService->sendNotification($event->payment->invoice, 'paid');

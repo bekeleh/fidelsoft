@@ -41,7 +41,7 @@ class BillItemController extends BaseController
         return View::make('list_wrapper', [
             'entityType' => ENTITY_BILL_ITEM,
             'datatable' => new InvoiceItemDatatable(),
-            'title' => trans('texts.BILL_items'),
+            'title' => trans('texts.Bill_items'),
         ]);
     }
 
@@ -70,14 +70,14 @@ class BillItemController extends BaseController
             'product' => $product,
             'invoiceItem' => null,
             'method' => 'POST',
-            'url' => 'BILL_items',
+            'url' => 'Bill_items',
             'title' => trans('texts.new_invoice_item'),
             'productPublicId' => Input::old('product') ? Input::old('product') : $request->product_id,
         ];
 
         $data = array_merge($data, self::getViewModel());
 
-        return View::make('BILL_items.edit', $data);
+        return View::make('Bill_items.edit', $data);
     }
 
     private static function getViewModel($invoiceItem = false)
@@ -96,10 +96,10 @@ class BillItemController extends BaseController
         $invoiceItem = $this->BillItemService->save($data, $invoiceItem);
 
         if ($invoiceItem) {
-            return redirect()->to("BILL_items/{$invoiceItem->public_id}/edit")->with('success', trans('texts.created_invoice_item'));
+            return redirect()->to("Bill_items/{$invoiceItem->public_id}/edit")->with('success', trans('texts.created_invoice_item'));
         }
 
-        return redirect()->to("BILL_items");
+        return redirect()->to("Bill_items");
     }
 
     public function edit(BillItemRequest $request, $publicId = false, $clone = false)
@@ -112,10 +112,10 @@ class BillItemController extends BaseController
             $invoiceItem->public_id = null;
             $invoiceItem->deleted_at = null;
             $method = 'POST';
-            $url = 'BILL_items';
+            $url = 'Bill_items';
         } else {
             $method = 'PUT';
-            $url = 'BILL_items/' . $invoiceItem->public_id;
+            $url = 'Bill_items/' . $invoiceItem->public_id;
         }
 
         $data = [
@@ -131,7 +131,7 @@ class BillItemController extends BaseController
 
         $data = array_merge($data, self::getViewModel($invoiceItem));
 
-        return View::make('BILL_items.edit', $data);
+        return View::make('Bill_items.edit', $data);
     }
 
     public function update(UpdateBillItemRequest $request)
@@ -146,9 +146,9 @@ class BillItemController extends BaseController
         }
 
         if ($action == 'clone') {
-            return redirect()->to(sprintf('BILL_items/%s/clone', $invoiceItem->public_id))->with('success', trans('texts.clone_invoice_item'));
+            return redirect()->to(sprintf('Bill_items/%s/clone', $invoiceItem->public_id))->with('success', trans('texts.clone_invoice_item'));
         } else {
-            return redirect()->to("BILL_items/{$invoiceItem->public_id}/edit")->with('success', trans('texts.updated_invoice_item'));
+            return redirect()->to("Bill_items/{$invoiceItem->public_id}/edit")->with('success', trans('texts.updated_invoice_item'));
         }
     }
 
@@ -173,6 +173,6 @@ class BillItemController extends BaseController
     {
         Session::reflash();
 
-        return Redirect::to("BILL_items/{$publicId}/edit");
+        return Redirect::to("Bill_items/{$publicId}/edit");
     }
 }

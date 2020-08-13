@@ -23,7 +23,7 @@ Route::resource('invoice_items', 'InvoiceItemApiController');
 Route::get('BILL_QUOTEs', 'PurchaseQuoteApiController@index');
 Route::get('download/purchase/{invoice_id}', 'BillApiController@download');
 Route::resource('BILLs', 'BillApiController');
-Route::resource('BILL_items', 'BillItemApiController');
+Route::resource('Bill_items', 'BillItemApiController');
 
 Route::resource('payments', 'PaymentApiController');
 Route::resource('tasks', 'TaskApiController');

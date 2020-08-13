@@ -39,7 +39,7 @@ class BillItem extends EntityModel
 
     public function getRoute()
     {
-        return "/BILL_items/{$this->public_id}/edit";
+        return "/Bill_items/{$this->public_id}/edit";
     }
 
     public function invoice()

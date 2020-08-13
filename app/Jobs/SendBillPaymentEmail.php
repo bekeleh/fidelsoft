@@ -9,9 +9,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class SendPurchasePaymentEmail.
+ * Class SendBillPaymentEmail.
  */
-class SendPurchasePaymentEmail extends Job implements ShouldQueue
+class SendBillPaymentEmail extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 

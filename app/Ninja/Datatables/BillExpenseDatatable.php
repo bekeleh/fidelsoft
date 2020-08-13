@@ -7,7 +7,7 @@ use App\Models\Expense;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 
-class PurchaseExpenseDatatable extends EntityDatatable
+class BillExpenseDatatable extends EntityDatatable
 {
     public $entityType = ENTITY_BILL_EXPENSE;
     public $sortCol = 1;

@@ -2,148 +2,39 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Events/BillInvitationWasViewed.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Events/BillItemsWereCreated.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Events/BillItemsWereDeleted.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Events/BillItemsWereUpdated.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Events/BillWasArchived.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Events/BillWasCreated.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Events/BillWasDeleted.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Events/BillWasEmailed.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Events/BillWasRestored.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Events/BillWasUpdated.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Constants.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Constants.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseCreditWasArchived.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillCreditWasArchived.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseCreditWasCreated.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillCreditWasCreated.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseCreditWasDeleted.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillCreditWasDeleted.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseCreditWasRestored.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillCreditWasRestored.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseCreditWasUpdated.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillCreditWasUpdated.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseInvitationWasEmailed.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseInvoiceInvitationWasEmailed.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillInvitationWasEmailed.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseInvoiceInvitationWasViewed.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseInvoiceItemsWereCreated.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseInvoiceItemsWereDeleted.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseInvoiceItemsWereUpdated.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseInvoiceWasArchived.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseInvoiceWasCreated.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseInvoiceWasDeleted.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseInvoiceWasEmailed.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseInvoiceWasRestored.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseInvoiceWasUpdated.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseItemWasCreated.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillItemWasCreated.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseItemWasDeleted.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillItemWasDeleted.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseItemWasUpdated.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillItemWasUpdated.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchasePaymentCompleted.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillPaymentCompleted.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchasePaymentFailed.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillPaymentFailed.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchasePaymentWasArchived.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillPaymentWasArchived.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchasePaymentWasCreated.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillPaymentWasCreated.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchasePaymentWasDeleted.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillPaymentWasDeleted.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchasePaymentWasRefunded.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillPaymentWasRefunded.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchasePaymentWasRestored.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillPaymentWasRestored.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchasePaymentWasVoided.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillPaymentWasVoided.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseQuoteInvitationWasEmailed.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillQuoteInvitationWasEmailed.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseQuoteInvitationWasViewed.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillQuoteInvitationWasViewed.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseQuoteItemsWereCreated.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillQuoteItemsWereCreated.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseQuoteItemsWereDeleted.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillQuoteItemsWereDeleted.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseQuoteItemsWereUpdated.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillQuoteItemsWereUpdated.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseQuoteWasArchived.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillQuoteWasArchived.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseQuoteWasCreated.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillQuoteWasCreated.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseQuoteWasDeleted.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillQuoteWasDeleted.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseQuoteWasEmailed.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillQuoteWasEmailed.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseQuoteWasRestored.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillQuoteWasRestored.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/PurchaseQuoteWasUpdated.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillQuoteWasUpdated.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/purchaseQuoteInvitationWasApproved.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/BillQuoteInvitationWasApproved.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PurchaseInvoiceApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PurchaseInvoiceApiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PurchaseInvoiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PurchaseInvoiceController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PurchaseInvoiceItemApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PurchaseInvoiceItemApiController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PurchaseInvoiceItemController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PurchaseInvoiceItemController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PurchaseQuoteApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PurchaseQuoteApiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/RecurringPurchaseInvoiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/RecurringPurchaseInvoiceController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/VendorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/VendorController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/CreatePurchaseInvoiceAPIRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/CreatePurchaseInvoiceAPIRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/CreatePurchaseInvoiceItemRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/CreatePurchaseInvoiceItemRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/CreatePurchaseInvoiceRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/CreatePurchaseInvoiceRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/PurchaseInvoiceItemRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/PurchaseInvoiceItemRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/PurchaseInvoiceRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/PurchaseInvoiceRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdatePurchaseInvoiceAPIRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdatePurchaseInvoiceAPIRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdatePurchaseInvoiceItemRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdatePurchaseInvoiceItemRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdatePurchaseInvoiceRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdatePurchaseInvoiceRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Jobs/ConvertPurchaseInvoiceToUbl.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/ConvertPurchaseInvoiceToUbl.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Jobs/DownloadPurchaseInvoice.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/DownloadPurchaseInvoice.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Jobs/SendPurchaseInvoiceEmail.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/SendPurchaseInvoiceEmail.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Jobs/Vendor/GeneratePurchaseStatementData.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/Vendor/GeneratePurchaseStatementData.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Libraries/HistoryUtils.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Libraries/HistoryUtils.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Libraries/Utils.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Libraries/Utils.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/ActivityListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/ActivityListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/PurchaseInvoiceItemListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/PurchaseInvoiceItemListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/PurchaseInvoiceListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/PurchaseInvoiceListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Jobs/ConvertPurchaseInvoiceToUbl.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/ConvertBillToUbl.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Jobs/SendPurchaseInvoiceEmail.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/SendBillEmail.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Jobs/SendPurchaseNotificationEmail.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/SendBillNotificationEmail.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Jobs/SendPurchasePaymentEmail.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/SendBillPaymentEmail.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Listeners/PurchaseNotificationListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/PurchaseNotificationListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Account.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Account.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Activity.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Activity.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Branch.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Branch.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Document.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Document.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/EntityModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/EntityModel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/PurchaseCredit.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/BillCredit.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/PurchaseInvitation.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/BillInvitation.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/PurchaseInvoice.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Bill.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/PurchaseInvoiceItem.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/BillItem.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/PurchaseOrderStatus.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/BillStatus.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/PurchasePayment.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/BillPayment.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/PurchaseProposalInvitation.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/BillProposalInvitation.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Traits/GenerateVendorNumbers.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Traits/GenerateVendorNumbers.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Traits/PresentsInvoice.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Traits/PresentsInvoice.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Vendor.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Vendor.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/ActivityDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/ActivityDatatable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/ActivityVendorDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/ActivityVendorDatatable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/PurchaseCreditDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/PurchaseCreditDatatable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/PurchaseExpenseDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/PurchaseExpenseDatatable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/PurchaseInvoiceDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/PurchaseInvoiceDatatable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/PurchasePaymentDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/PurchasePaymentDatatable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/RecurringPurchaseInvoiceDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/RecurringPurchaseInvoiceDatatable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Mailers/PurchaseContactMailer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Mailers/PurchaseContactMailer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Bill.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Bill.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/BillItem.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/BillItem.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/PurchaseCreditDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/BillCreditDatatable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/PurchaseExpenseDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/BillExpenseDatatable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/PurchaseInvoiceDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/BillDatatable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/PurchasePaymentDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/BillPaymentDatatable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Datatables/RecurringPurchaseInvoiceDatatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Datatables/RecurringBillDatatable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Mailers/PurchaseContactMailer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Mailers/BillContactMailer.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Ninja/Mailers/VendorContactMailer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Mailers/VendorContactMailer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Presenters/PurchaseInvoicePresenter.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Presenters/PurchaseInvoicePresenter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/AccountRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/AccountRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/ActivityRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/ActivityRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/DashboardRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/DashboardRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/PurchaseInvoiceItemRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/PurchaseInvoiceItemRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/PurchaseInvoiceRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/PurchaseInvoiceRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Transformers/PurchaseInvoiceItemTransfer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Transformers/PurchaseInvoiceItemTransfer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Transformers/PurchaseInvoiceItemTransformer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Transformers/PurchaseInvoiceItemTransformer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Transformers/PurchaseInvoiceTransfer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Transformers/PurchaseInvoiceTransfer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Transformers/PurchaseInvoiceTransformer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Transformers/PurchaseInvoiceTransformer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Notifications/InvoiceCreated.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Notifications/InvoiceCreated.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Notifications/PurchasePaymentCreated.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Notifications/BillPaymentCreated.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/PurchaseInvoiceItemPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/PurchaseInvoiceItemPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/PurchaseInvoicePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/PurchaseInvoicePolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/ComposerServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/ComposerServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Services/PurchaseInvoiceItemService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/PurchaseInvoiceItemService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Services/PurchaseInvoiceService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/PurchaseInvoiceService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Presenters/PurchaseInvoicePresenter.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Presenters/BillPresenter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Reports/InvoiceReport.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Reports/InvoiceReport.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Reports/PaymentReport.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Reports/PaymentReport.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/PurchaseInvoiceItemRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/BillItemRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/PurchaseInvoiceRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/BillRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/PurchasePaymentRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/BillPaymentRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Transformers/PurchaseInvoiceItemTransfer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Transformers/BillItemTransformer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Transformers/PurchaseInvoiceItemTransformer.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Transformers/PurchaseInvoiceTransfer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Transformers/BillTransformer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Transformers/PurchaseInvoiceTransformer.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Services/PurchasePaymentService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/PurchasePaymentService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/header.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/purchase_invoices/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/purchase_invoices/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/purchase_invoices/knockout.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/purchase_invoices/knockout.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/vendors/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/vendors/show.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/03efba010240a672126cb75903850efc2f6c5a42.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/260b098165fb22f7c123ca59426c4ba9c1922746.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/3a820e3699124697be10fafab1a304baae41f817.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/3c83481e25e3665f586f8dcf6abccfff4b8de92e.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/4e2ab5f4a468d3b9f9052d3716c7deee4de44366.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/5a279825be94ef626588f64c9b0c4b73ebaa9e40.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/8631eef0d79bb90c52d7e5e53c20fe5130fa29b5.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/91c182d0c259ac53866b38df85fffb074d0d4fb6.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/95725a4244a7988928c0b2630a9c854403849698.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/98d950c591c331bff3b70cbd31036fabe84191cf.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/ac84fbd078e74302cdb0375e82ab9e3748786d04.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/d05e21dc4052c9336e934f8d4491a36d174bad0e.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/db72111d53ed80bd61018ff586df638fb73fb9a9.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -661,14 +552,7 @@
       <workItem from="1596989006645" duration="2890000" />
       <workItem from="1597054384377" duration="611000" />
       <workItem from="1597257597805" duration="1728000" />
-      <workItem from="1597336910243" duration="6073000" />
-    </task>
-    <task id="LOCAL-00420" summary="2020-07-01 9:27">
-      <created>1593607881615</created>
-      <option name="number" value="00420" />
-      <option name="presentableId" value="LOCAL-00420" />
-      <option name="project" value="LOCAL" />
-      <updated>1593607881616</updated>
+      <workItem from="1597336910243" duration="8262000" />
     </task>
     <task id="LOCAL-00421" summary="2020-07-01 9:27">
       <created>1593607920951</created>
@@ -1006,7 +890,14 @@
       <option name="project" value="LOCAL" />
       <updated>1597263888621</updated>
     </task>
-    <option name="localTasksCounter" value="469" />
+    <task id="LOCAL-00469" summary="2020-08-13 9:27">
+      <created>1597345789786</created>
+      <option name="number" value="00469" />
+      <option name="presentableId" value="LOCAL-00469" />
+      <option name="project" value="LOCAL" />
+      <updated>1597345789787</updated>
+    </task>
+    <option name="localTasksCounter" value="470" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1033,7 +924,6 @@
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="2020-06-17 9:27" />
     <MESSAGE value="2020-06-18 9:27" />
     <MESSAGE value="2020-06-19 9:27" />
     <MESSAGE value="2020-06-20 9:27" />
@@ -1058,7 +948,8 @@
     <MESSAGE value="2020-08-08 9:27" />
     <MESSAGE value="2020-08-09 9:27" />
     <MESSAGE value="2020-08-12 9:27" />
-    <option name="LAST_COMMIT_MESSAGE" value="2020-08-12 9:27" />
+    <MESSAGE value="2020-08-13 9:27" />
+    <option name="LAST_COMMIT_MESSAGE" value="2020-08-13 9:27" />
   </component>
   <component name="WindowStateProjectService">
     <state x="317" y="0" key="#Deployment" timestamp="1592045080985">
@@ -1089,10 +980,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="321" y="78" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1280.680@0.0.1280.680" timestamp="1593156785958" />
-    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1597344776151">
+    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1597346868043">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1280.680@0.0.1280.680" timestamp="1597344776151" />
+    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1280.680@0.0.1280.680" timestamp="1597346868043" />
     <state x="371" y="89" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1588775995159">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -1113,10 +1004,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1597344338612" />
-    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1597263887889">
+    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1597345787160">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1597263887889" />
+    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1597345787160" />
     <state x="418" y="255" key="ComposerInitDialogKey" timestamp="1589789975070">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -1161,10 +1052,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="93" y="93" width="1095" height="495" key="dock-window-1/0.0.1280.680@0.0.1280.680" timestamp="1592129193822" />
-    <state x="305" y="41" width="906" height="638" key="find.popup" timestamp="1597344067391">
+    <state x="305" y="41" width="906" height="638" key="find.popup" timestamp="1597346912764">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="305" y="41" width="906" height="638" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1597344067391" />
+    <state x="305" y="41" width="906" height="638" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1597346912764" />
     <state x="334" y="154" width="672" height="677" key="run.anything.popup" timestamp="1595263809986">
       <screen x="0" y="0" width="1280" height="680" />
     </state>

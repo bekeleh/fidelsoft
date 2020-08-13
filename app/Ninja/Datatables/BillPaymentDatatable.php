@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 use App\Libraries\Utils;
 
-class PurchasePaymentDatatable extends EntityDatatable
+class BillPaymentDatatable extends EntityDatatable
 {
     public $entityType = ENTITY_BILL_PAYMENT;
     public $sortCol = 1;
