@@ -11,7 +11,7 @@ Route::get('static', 'AccountApiController@getStaticData');
 Route::get('accounts', 'AccountApiController@show');
 Route::put('accounts', 'AccountApiController@update');
 Route::post('refresh', 'AccountApiController@refresh');
-// sales
+// invoice
 Route::resource('clients', 'ClientApiController');
 Route::resource('client_types', 'ClientTypeApiController');
 Route::resource('contacts', 'ContactApiController');
@@ -19,11 +19,11 @@ Route::get('quotes', 'QuoteApiController@index');
 Route::get('download/{invoice_id}', 'InvoiceApiController@download');
 Route::resource('invoices', 'InvoiceApiController');
 Route::resource('invoice_items', 'InvoiceItemApiController');
-// purchase
-Route::get('BILL_QUOTEs', 'PurchaseQuoteApiController@index');
+// bill
+Route::get('bill_quotes', 'BillQuoteApiController@index');
 Route::get('download/purchase/{invoice_id}', 'BillApiController@download');
-Route::resource('BILLs', 'BillApiController');
-Route::resource('Bill_items', 'BillItemApiController');
+Route::resource('bills', 'BillApiController');
+Route::resource('bill_items', 'BillItemApiController');
 
 Route::resource('payments', 'PaymentApiController');
 Route::resource('tasks', 'TaskApiController');

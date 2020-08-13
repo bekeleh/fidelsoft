@@ -210,23 +210,23 @@ Route::group(['middleware' => ['lookup:user', 'auth:user', 'banned:user']], func
     Route::get('api/invoice_items', 'InvoiceItemController@getDatatable');
     Route::resource('invoice_items', 'InvoiceItemController');
     Route::post('invoice_items/bulk', 'InvoiceItemController@bulk');
-//    purchase invoice
+//    Bill
     Route::get('api/recurring_invoices/{vendor_id?}', 'BillController@getRecurringDatatable');
-    Route::get('BILLs/receive_note/{invoice_id}', 'BillController@receiveNote');
-    Route::get('BILLs/BILL_history/{invoice_id}', 'BillController@BillHistory');
+    Route::get('bills/receive_note/{invoice_id}', 'BillController@receiveNote');
+    Route::get('bills/BILL_history/{invoice_id}', 'BillController@BillHistory');
     Route::get('quotes/quote_history/{invoice_id}', 'BillController@BillHistory');
 
-    Route::resource('BILLs', 'BillController');
-    Route::get('api/BILLs/{vendor_id?}', 'BillController@getDatatable');
-    Route::get('BILLs/create/{vendor_id?}', 'BillController@create');
-    Route::get('BILLs/{BILLs}/clone', 'BillController@cloneBill');
-    Route::post('BILLs/bulk', 'BillController@bulk');
-    Route::get('recurring_BILLs/create/{vendor_id?}', 'BillController@createPurchaseRecurring');
-    Route::get('recurring_BILLs', 'RecurringBillController@index');
-    Route::get('recurring_BILLs/{invoices}/edit', 'BillController@edit');
-    Route::get('recurring_BILLs/{invoices}', 'BillController@edit');
-    Route::post('recurring_BILLs/bulk', 'BillController@bulk');
-//   purchase invoice item
+    Route::resource('bills', 'BillController');
+    Route::get('api/bills/{vendor_id?}', 'BillController@getDatatable');
+    Route::get('bills/create/{vendor_id?}', 'BillController@create');
+    Route::get('bills/{bills}/clone', 'BillController@cloneBill');
+    Route::post('bills/bulk', 'BillController@bulk');
+    Route::get('recurring_bills/create/{vendor_id?}', 'BillController@createBillRecurring');
+    Route::get('recurring_bills', 'RecurringBillController@index');
+    Route::get('recurring_bills/{invoices}/edit', 'BillController@edit');
+    Route::get('recurring_bills/{invoices}', 'BillController@edit');
+    Route::post('recurring_bills/bulk', 'BillController@bulk');
+//   Bill item
     Route::get('Bill_items/{Bill_items}/clone', 'BillItemController@cloneBillItem');
     Route::get('api/Bill_items', 'BillItemController@getDatatable');
     Route::resource('Bill_items', 'BillItemController');
@@ -445,7 +445,7 @@ Route::group(['middleware' => ['lookup:user', 'auth:user', 'banned:user']], func
     Route::get('bluevine/completed', 'BlueVineController@handleCompleted');
 
     Route::get('white_label/hide_message', 'NinjaController@hideWhiteLabelMessage');
-    Route::get('white_label/purchase', 'NinjaController@purchaseWhiteLabel');
+    Route::get('white_label/bill', 'NinjaController@billWhiteLabel');
 
     Route::get('reports', 'ReportController@showReports');
     Route::post('reports', 'ReportController@showReports');
