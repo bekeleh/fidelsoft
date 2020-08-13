@@ -2,20 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Ninja/Datatables/BillItemDatatable.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PurchaseInvoiceApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BillApiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PurchaseInvoiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BillController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PurchaseInvoiceItemApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BillItemApiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PurchaseInvoiceItemController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BillItemController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/CreatePurchaseInvoiceAPIRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/CreateBillAPIRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/CreatePurchaseInvoiceItemRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/CreateBillItemRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/CreatePurchaseInvoiceRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/CreateBillRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/PurchaseInvoiceItemPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/BillItemPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/PurchaseInvoicePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/BillPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Services/PurchaseInvoiceItemService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/BillItemService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Services/PurchaseInvoiceService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/BillService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Services/PurchasePaymentService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/BillPaymentService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Bill.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Bill.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -533,14 +521,7 @@
       <workItem from="1596989006645" duration="2890000" />
       <workItem from="1597054384377" duration="611000" />
       <workItem from="1597257597805" duration="1728000" />
-      <workItem from="1597336910243" duration="9204000" />
-    </task>
-    <task id="LOCAL-00422" summary="2020-07-01 9:27">
-      <created>1593609152179</created>
-      <option name="number" value="00422" />
-      <option name="presentableId" value="LOCAL-00422" />
-      <option name="project" value="LOCAL" />
-      <updated>1593609152179</updated>
+      <workItem from="1597336910243" duration="9583000" />
     </task>
     <task id="LOCAL-00423" summary="2020-07-01 9:27">
       <created>1593612524176</created>
@@ -878,7 +859,14 @@
       <option name="project" value="LOCAL" />
       <updated>1597347961216</updated>
     </task>
-    <option name="localTasksCounter" value="471" />
+    <task id="LOCAL-00471" summary="2020-08-13 9:27">
+      <created>1597348897958</created>
+      <option name="number" value="00471" />
+      <option name="presentableId" value="LOCAL-00471" />
+      <option name="project" value="LOCAL" />
+      <updated>1597348897958</updated>
+    </task>
+    <option name="localTasksCounter" value="472" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -985,10 +973,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1597344338612" />
-    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1597347958776">
+    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1597348895888">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1597347958776" />
+    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1597348895888" />
     <state x="418" y="255" key="ComposerInitDialogKey" timestamp="1589789975070">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -1041,9 +1029,9 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="334" y="154" width="672" height="677" key="run.anything.popup/0.0.1280.680@0.0.1280.680" timestamp="1595263809986" />
-    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup" timestamp="1597343928727">
+    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup" timestamp="1597349106653">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1597343928727" />
+    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1597349106653" />
   </component>
 </project>
