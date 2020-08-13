@@ -289,80 +289,80 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\UserListener@deletedUser',
         ],
 //      Purchase Invoices
-        'App\Events\PurchaseInvoiceWasCreated' => [
-            'App\Listeners\ActivityListener@createdPurchaseInvoice',
-            'App\Listeners\PurchaseInvoiceListener@createdInvoice',
+        'App\Events\BillWasCreated' => [
+            'App\Listeners\ActivityListener@createdBill',
+            'App\Listeners\BillListener@createdInvoice',
         ],
-        'App\Events\PurchaseInvoiceWasUpdated' => [
-            'App\Listeners\ActivityListener@updatedPurchaseInvoice',
-            'App\Listeners\PurchaseInvoiceListener@updatedInvoice',
+        'App\Events\BillWasUpdated' => [
+            'App\Listeners\ActivityListener@updatedBill',
+            'App\Listeners\BillListener@updatedInvoice',
         ],
-        'App\Events\PurchaseInvoiceItemsWereCreated' => [
-            'App\Listeners\PurchaseInvoiceItemListener@createdInvoice',
+        'App\Events\BillItemsWereCreated' => [
+            'App\Listeners\BillItemListener@createdInvoice',
         ],
-        'App\Events\PurchaseInvoiceItemsWereUpdated' => [
-            'App\Listeners\PurchaseInvoiceItemListener@updatedInvoice',
+        'App\Events\BillItemsWereUpdated' => [
+            'App\Listeners\BillItemListener@updatedInvoice',
         ],
-        'App\Events\PurchaseInvoiceWasArchived' => [
-            'App\Listeners\ActivityListener@archivedPurchaseInvoice',
+        'App\Events\BillWasArchived' => [
+            'App\Listeners\ActivityListener@archivedBill',
         ],
-        'App\Events\PurchaseInvoiceWasDeleted' => [
-            'App\Listeners\ActivityListener@deletedPurchaseInvoice',
+        'App\Events\BillWasDeleted' => [
+            'App\Listeners\ActivityListener@deletedBill',
 //            'App\Listeners\HistoryListener@deletedInvoice',
-            'App\Listeners\PurchaseInvoiceItemListener@deletedInvoice',
+            'App\Listeners\BillItemListener@deletedInvoice',
         ],
-        'App\Events\PurchaseInvoiceWasRestored' => [
-            'App\Listeners\ActivityListener@restoredPurchaseInvoice',
+        'App\Events\BillWasRestored' => [
+            'App\Listeners\ActivityListener@restoredBill',
         ],
-        'App\Events\PurchaseInvoiceWasEmailed' => [
-            'App\Listeners\PurchaseInvoiceListener@emailedInvoice',
-            'App\Listeners\PurchaseNotificationListener@emailedPurchaseInvoice',
+        'App\Events\BillWasEmailed' => [
+            'App\Listeners\BillListener@emailedInvoice',
+            'App\Listeners\PurchaseNotificationListener@emailedBill',
         ],
-        'App\Events\PurchaseInvoiceInvitationWasEmailed' => [
-            'App\Listeners\ActivityListener@emailedPurchaseInvoice',
+        'App\Events\BillInvitationWasEmailed' => [
+            'App\Listeners\ActivityListener@emailedBill',
         ],
-        'App\Events\PurchaseInvoiceInvitationWasViewed' => [
-            'App\Listeners\ActivityListener@viewedPurchaseInvoice',
+        'App\Events\BillInvitationWasViewed' => [
+            'App\Listeners\ActivityListener@viewedBill',
             'App\Listeners\PurchaseNotificationListener@viewedInvoice',
-            'App\Listeners\PurchaseInvoiceListener@viewedInvoice',
+            'App\Listeners\BillListener@viewedInvoice',
         ],
 //     purchase quote
-        'App\Events\PurchaseQuoteWasCreated' => [
+        'App\Events\BillQuoteWasCreated' => [
             'App\Listeners\ActivityListener@createdPurchaseQuote',
         ],
-        'App\Events\PurchaseQuoteWasUpdated' => [
+        'App\Events\BillQuoteWasUpdated' => [
             'App\Listeners\ActivityListener@updatedPurchaseQuote',
         ],
-        'App\Events\PurchaseQuoteItemsWereCreated' => [
-            'App\Listeners\PurchaseInvoiceItemListener@createdQuote',
+        'App\Events\BillQuoteItemsWereCreated' => [
+            'App\Listeners\BillItemListener@createdQuote',
         ],
-        'App\Events\PurchaseQuoteItemsWereUpdated' => [
-            'App\Listeners\PurchaseInvoiceItemListener@updatedQuote',
+        'App\Events\BillQuoteItemsWereUpdated' => [
+            'App\Listeners\BillItemListener@updatedQuote',
         ],
-        'App\Events\PurchaseQuoteWasArchived' => [
+        'App\Events\BillQuoteWasArchived' => [
             'App\Listeners\ActivityListener@archivedPurchaseQuote',
         ],
-        'App\Events\PurchaseQuoteWasDeleted' => [
+        'App\Events\BillQuoteWasDeleted' => [
             'App\Listeners\ActivityListener@deletedPurchaseQuote',
 //            'App\Listeners\HistoryListener@deletedQuote',
-            'App\Listeners\PurchaseInvoiceItemListener@deletedQuote',
+            'App\Listeners\BillItemListener@deletedQuote',
         ],
-        'App\Events\PurchaseQuoteWasRestored' => [
+        'App\Events\BillQuoteWasRestored' => [
             'App\Listeners\ActivityListener@restoredPurchaseQuote',
         ],
-        'App\Events\PurchaseQuoteWasEmailed' => [
+        'App\Events\BillQuoteWasEmailed' => [
             'App\Listeners\PurchaseQuoteListener@emailedQuote',
             'App\Listeners\PurchaseNotificationListener@emailedQuote',
         ],
-        'App\Events\PurchaseQuoteInvitationWasEmailed' => [
+        'App\Events\BillQuoteInvitationWasEmailed' => [
             'App\Listeners\ActivityListener@emailedPurchaseQuote',
         ],
-        'App\Events\PurchaseQuoteInvitationWasViewed' => [
+        'App\Events\BillQuoteInvitationWasViewed' => [
             'App\Listeners\ActivityListener@viewedPurchaseQuote',
             'App\Listeners\PurchaseNotificationListener@viewedQuote',
             'App\Listeners\PurchaseQuoteListener@viewedQuote',
         ],
-        'App\Events\PurchaseQuoteInvitationWasApproved' => [
+        'App\Events\billQuoteInvitationWasApproved' => [
             'App\Listeners\ActivityListener@approvedPurchaseQuote',
             'App\Listeners\PurchaseNotificationListener@approvedQuote',
             'App\Listeners\PurchaseQuoteListener@approvedQuote',

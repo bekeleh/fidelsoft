@@ -7,7 +7,7 @@ use App\Libraries\Utils;
 use App\Models\Activity;
 use App\Models\Client;
 use App\Models\Invitation;
-use App\Models\PurchaseInvitation;
+use App\Models\BillInvitation;
 use App\Models\Vendor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -56,11 +56,11 @@ class ActivityRepository extends BaseRepository
         return $activity;
     }
 
-    public function createPurchaseInvoice($entity, $activityTypeId, $balanceChange = 0, $paidToDateChange = 0, $altEntity = null, $notes = false)
+    public function createBill($entity, $activityTypeId, $balanceChange = 0, $paidToDateChange = 0, $altEntity = null, $notes = false)
     {
         if ($entity instanceof Vendor) {
             $vendor = $entity;
-        } elseif ($entity instanceof PurchaseInvitation) {
+        } elseif ($entity instanceof BillInvitation) {
             $vendor = $entity->invoice->client;
         } else {
             $vendor = $entity->client;
@@ -168,9 +168,9 @@ class ActivityRepository extends BaseRepository
             ->leftJoin('users', 'users.id', '=', 'activities.user_id')
             ->leftJoin('vendors', 'vendors.id', '=', 'activities.vendor_id')
             ->leftJoin('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
-            ->leftJoin('purchase_invoices', 'purchase_invoices.id', '=', 'activities.invoice_id')
-            ->leftJoin('purchase_payments', 'purchase_payments.id', '=', 'activities.purchase_payment_id')
-            ->leftJoin('purchase_credits', 'purchase_credits.id', '=', 'activities.purchase_credit_id')
+            ->leftJoin('BILLs', 'BILLs.id', '=', 'activities.invoice_id')
+            ->leftJoin('BILL_PAYMENTs', 'BILL_PAYMENTs.id', '=', 'activities.BILL_PAYMENT_id')
+            ->leftJoin('BILL_CREDITs', 'BILL_CREDITs.id', '=', 'activities.BILL_CREDIT_id')
             ->leftJoin('expenses', 'expenses.id', '=', 'activities.expense_id')
             ->where('vendors.id', $vendorId)
             ->where('vendor_contacts.is_primary', 1)
@@ -191,19 +191,19 @@ class ActivityRepository extends BaseRepository
                 'users.first_name as user_first_name',
                 'users.last_name as user_last_name',
                 'users.email as user_email',
-                'purchase_invoices.invoice_number',
-                'purchase_invoices.invoice_number as invoice',
-                'purchase_invoices.public_id as invoice_public_id',
-                'purchase_invoices.is_recurring',
+                'BILLs.invoice_number',
+                'BILLs.invoice_number as invoice',
+                'BILLs.public_id as invoice_public_id',
+                'BILLs.is_recurring',
                 'vendors.name as vendor_name',
                 'vendors.public_id as vendor_public_id',
                 'vendor_contacts.id as contact',
                 'vendor_contacts.first_name as first_name',
                 'vendor_contacts.last_name as last_name',
                 'vendor_contacts.email as email',
-                'purchase_payments.transaction_reference as payment',
-                'purchase_payments.amount as payment_amount',
-                'purchase_credits.amount as credit',
+                'BILL_PAYMENTs.transaction_reference as payment',
+                'BILL_PAYMENTs.amount as payment_amount',
+                'BILL_CREDITs.amount as credit',
                 'expenses.public_notes as expense_public_notes',
                 'expenses.public_id as expense_public_id'
             );

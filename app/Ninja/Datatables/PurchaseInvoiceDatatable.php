@@ -3,14 +3,14 @@
 namespace App\Ninja\Datatables;
 
 use App\Libraries\Utils;
-use App\Models\PurchaseInvoice;
+use App\Models\Bill;
 use DropdownButton;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 
-class PurchaseInvoiceDatatable extends EntityDatatable
+class BillDatatable extends EntityDatatable
 {
-    public $entityType = ENTITY_PURCHASE_INVOICE;
+    public $entityType = ENTITY_BILL;
     public $sortCol = 1;
 
     public function columns()
@@ -19,7 +19,7 @@ class PurchaseInvoiceDatatable extends EntityDatatable
 
         return [
             [
-                ENTITY_PURCHASE_INVOICE ? 'invoice_number' : 'quote_number',
+                ENTITY_BILL ? 'invoice_number' : 'quote_number',
                 function ($model) {
                     if (Auth::user()->can('edit', $this->entityType)) {
                         $str = link_to("{$this->entityType}s/{$model->public_id}/edit", $model->invoice_number, ['class' => Utils::getEntityRowClass($model)])->toHtml();
@@ -61,7 +61,7 @@ class PurchaseInvoiceDatatable extends EntityDatatable
                         Utils::formatMoney($model->balance, $model->currency_id, $model->country_id);
                 },
 
-                $entityType == ENTITY_PURCHASE_INVOICE,
+                $entityType == ENTITY_BILL,
             ],
             [
                 'discount',
@@ -70,7 +70,7 @@ class PurchaseInvoiceDatatable extends EntityDatatable
                 },
             ],
             [
-                $entityType == ENTITY_PURCHASE_INVOICE ? 'due_date' : 'valid_until',
+                $entityType == ENTITY_BILL ? 'due_date' : 'valid_until',
                 function ($model) {
                     $str = '';
                     if ($model->partial_due_date) {
@@ -85,7 +85,7 @@ class PurchaseInvoiceDatatable extends EntityDatatable
             [
                 'status',
                 function ($model) use ($entityType) {
-                    return $model->quote_invoice_id ? link_to("purchase_invoices/{$model->quote_invoice_id}/edit", trans('texts.converted'))->toHtml() : self::getStatusLabel($model);
+                    return $model->quote_invoice_id ? link_to("BILLs/{$model->quote_invoice_id}/edit", trans('texts.converted'))->toHtml() : self::getStatusLabel($model);
                 },
             ],
             [
@@ -141,25 +141,25 @@ class PurchaseInvoiceDatatable extends EntityDatatable
             [
                 trans('texts.edit_invoice'),
                 function ($model) {
-                    return URL::to("purchase_invoices/{$model->public_id}/edit");
+                    return URL::to("BILLs/{$model->public_id}/edit");
                 },
                 function ($model) {
-                    return !$model->is_public && Auth::user()->can('edit', [ENTITY_PURCHASE_INVOICE, $model]);
+                    return !$model->is_public && Auth::user()->can('edit', [ENTITY_BILL, $model]);
                 },
             ],
             [
                 trans("texts.clone_invoice"),
                 function ($model) {
-                    return URL::to("purchase_invoices/{$model->public_id}/clone");
+                    return URL::to("BILLs/{$model->public_id}/clone");
                 },
                 function ($model) {
-                    return Auth::user()->can('create', ENTITY_PURCHASE_INVOICE);
+                    return Auth::user()->can('create', ENTITY_BILL);
                 },
             ],
             [
                 trans("texts.clone_quote"),
                 function ($model) {
-                    return URL::to("purchase_quotes/{$model->public_id}/clone");
+                    return URL::to("BILL_QUOTEs/{$model->public_id}/clone");
                 },
                 function ($model) {
                     return Auth::user()->can('create', ENTITY_QUOTE);
@@ -174,10 +174,10 @@ class PurchaseInvoiceDatatable extends EntityDatatable
             [
                 trans('texts.receive_note'),
                 function ($model) use ($entityType) {
-                    return url("purchase_invoices/receive_note/{$model->public_id}");
+                    return url("BILLs/receive_note/{$model->public_id}");
                 },
                 function ($model) use ($entityType) {
-                    return $entityType == ENTITY_PURCHASE_INVOICE;
+                    return $entityType == ENTITY_BILL;
                 },
             ],
             [
@@ -185,7 +185,7 @@ class PurchaseInvoiceDatatable extends EntityDatatable
                 return false;
             },
                 function ($model) {
-                    return Auth::user()->canCreateOrEdit(ENTITY_PURCHASE_INVOICE);
+                    return Auth::user()->canCreateOrEdit(ENTITY_BILL);
                 },
             ],
             [
@@ -194,7 +194,7 @@ class PurchaseInvoiceDatatable extends EntityDatatable
                     return "javascript:submitForm_quote('convert', {$model->public_id})";
                 },
                 function ($model) use ($entityType) {
-                    return $entityType == ENTITY_QUOTE && !$model->quote_invoice_id && Auth::user()->can('edit', [ENTITY_PURCHASE_INVOICE, $model]);
+                    return $entityType == ENTITY_QUOTE && !$model->quote_invoice_id && Auth::user()->can('edit', [ENTITY_BILL, $model]);
                 },
             ],
             [
@@ -202,7 +202,7 @@ class PurchaseInvoiceDatatable extends EntityDatatable
                 return false;
             },
                 function ($model) {
-                    return Auth::user()->canCreateOrEdit(ENTITY_PURCHASE_INVOICE);
+                    return Auth::user()->canCreateOrEdit(ENTITY_BILL);
                 },
             ],
             [
@@ -211,7 +211,7 @@ class PurchaseInvoiceDatatable extends EntityDatatable
                     return "javascript:submitForm_{$entityType}('markSent', {$model->public_id})";
                 },
                 function ($model) {
-                    return !$model->is_public && Auth::user()->can('edit', [ENTITY_PURCHASE_INVOICE, $model]);
+                    return !$model->is_public && Auth::user()->can('edit', [ENTITY_BILL, $model]);
                 },
             ],
             [
@@ -220,7 +220,7 @@ class PurchaseInvoiceDatatable extends EntityDatatable
                     return "javascript:submitForm_{$entityType}('markPaid', {$model->public_id})";
                 },
                 function ($model) use ($entityType) {
-                    return $entityType == ENTITY_PURCHASE_INVOICE && $model->invoice_status_id != INVOICE_STATUS_PAID && Auth::user()->can('edit', [ENTITY_PURCHASE_INVOICE, $model]);
+                    return $entityType == ENTITY_BILL && $model->invoice_status_id != INVOICE_STATUS_PAID && Auth::user()->can('edit', [ENTITY_BILL, $model]);
                 },
             ],
             [
@@ -229,16 +229,16 @@ class PurchaseInvoiceDatatable extends EntityDatatable
                     return URL::to("payments/create/{$model->vendor_public_id}/{$model->public_id}");
                 },
                 function ($model) use ($entityType) {
-                    return $entityType == ENTITY_PURCHASE_INVOICE && $model->invoice_status_id != INVOICE_STATUS_PAID && Auth::user()->can('create', ENTITY_PAYMENT);
+                    return $entityType == ENTITY_BILL && $model->invoice_status_id != INVOICE_STATUS_PAID && Auth::user()->can('create', ENTITY_PAYMENT);
                 },
             ],
             [
                 trans('texts.view_invoice'),
                 function ($model) {
-                    return URL::to("purchase_invoices/{$model->quote_invoice_id}/edit");
+                    return URL::to("BILLs/{$model->quote_invoice_id}/edit");
                 },
                 function ($model) use ($entityType) {
-                    return $entityType == ENTITY_QUOTE && $model->quote_invoice_id && Auth::user()->can('view', [ENTITY_PURCHASE_INVOICE, $model]);
+                    return $entityType == ENTITY_QUOTE && $model->quote_invoice_id && Auth::user()->can('view', [ENTITY_BILL, $model]);
                 },
             ],
             [
@@ -255,8 +255,8 @@ class PurchaseInvoiceDatatable extends EntityDatatable
 
     private function getStatusLabel($model)
     {
-        $class = PurchaseInvoice::calcStatusClass($model->invoice_status_id, $model->balance, $model->partial_due_date ?: $model->due_date_sql, $model->is_recurring);
-        $label = PurchaseInvoice::calcStatusLabel($model->invoice_status_name, $class, $this->entityType, $model->quote_invoice_id);
+        $class = Bill::calcStatusClass($model->invoice_status_id, $model->balance, $model->partial_due_date ?: $model->due_date_sql, $model->is_recurring);
+        $label = Bill::calcStatusLabel($model->invoice_status_name, $class, $this->entityType, $model->quote_invoice_id);
 
         return "<h4><div class=\"label label-{$class}\">$label</div></h4>";
     }
@@ -267,7 +267,7 @@ class PurchaseInvoiceDatatable extends EntityDatatable
 
         $actions = [];
 
-        if ($this->entityType == ENTITY_PURCHASE_INVOICE || $this->entityType == ENTITY_PURCHASE_QUOTE) {
+        if ($this->entityType == ENTITY_BILL || $this->entityType == ENTITY_BILL_QUOTE) {
             $actions[] = [
                 'label' => mtrans($this->entityType, 'download_' . $this->entityType),
                 'url' => 'javascript:submitForm_' . $this->entityType . '("download")',
@@ -285,7 +285,7 @@ class PurchaseInvoiceDatatable extends EntityDatatable
             ];
         }
 
-        if ($this->entityType == ENTITY_PURCHASE_INVOICE) {
+        if ($this->entityType == ENTITY_BILL) {
             $actions[] = [
                 'label' => mtrans($this->entityType, 'mark_paid'),
                 'url' => 'javascript:submitForm_' . $this->entityType . '("markPaid")',

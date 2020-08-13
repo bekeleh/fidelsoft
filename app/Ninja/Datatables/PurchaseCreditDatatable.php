@@ -8,7 +8,7 @@ use App\Libraries\Utils;
 
 class PurchaseCreditDatatable extends EntityDatatable
 {
-    public $entityType = ENTITY_PURCHASE_CREDIT;
+    public $entityType = ENTITY_BILL_CREDIT;
     public $sortCol = 1;
 
     public function columns()
@@ -44,8 +44,8 @@ class PurchaseCreditDatatable extends EntityDatatable
             [
                 'credit_date',
                 function ($model) {
-                    if (Auth::user()->can('view', [ENTITY_PURCHASE_CREDIT, $model]))
-                        return link_to("purchase_credits/{$model->public_id}/edit", Utils::fromSqlDate($model->credit_date_sql))->toHtml();
+                    if (Auth::user()->can('view', [ENTITY_BILL_CREDIT, $model]))
+                        return link_to("BILL_CREDITs/{$model->public_id}/edit", Utils::fromSqlDate($model->credit_date_sql))->toHtml();
                     else
                         return Utils::fromSqlDate($model->credit_date_sql);
 
@@ -54,14 +54,14 @@ class PurchaseCreditDatatable extends EntityDatatable
             [
                 'public_notes',
                 function ($model) {
-                    if (Auth::user()->can('view', [ENTITY_PURCHASE_CREDIT, $model]))
+                    if (Auth::user()->can('view', [ENTITY_BILL_CREDIT, $model]))
                         return e($model->public_notes);
                 },
             ],
             // [
             //     'private_notes',
             //     function ($model) {
-            //         if (Auth::user()->can('view', [ENTITY_PURCHASE_CREDIT, $model]))
+            //         if (Auth::user()->can('view', [ENTITY_BILL_CREDIT, $model]))
             //             return e($model->private_notes);
             //     },
             // ],
@@ -102,30 +102,30 @@ class PurchaseCreditDatatable extends EntityDatatable
     {
         return [
             [
-                trans('texts.edit_purchase_credit'),
+                trans('texts.edit_BILL_CREDIT'),
                 function ($model) {
-                    return URL::to("purchase_credits/{$model->public_id}/edit");
+                    return URL::to("BILL_CREDITs/{$model->public_id}/edit");
                 },
                 function ($model) {
-                    return Auth::user()->can('edit', [ENTITY_PURCHASE_CREDIT, $model]);
-                },
-            ],
-            [
-                trans('texts.clone_purchase_credit'),
-                function ($model) {
-                    return URL::to("purchase_credits/{$model->public_id}/clone");
-                },
-                function ($model) {
-                    return Auth::user()->can('create', [ENTITY_PURCHASE_CREDIT, $model]);
+                    return Auth::user()->can('edit', [ENTITY_BILL_CREDIT, $model]);
                 },
             ],
             [
-                trans('texts.apply_purchase_credit'),
+                trans('texts.clone_BILL_CREDIT'),
                 function ($model) {
-                    return URL::to("purchase_payments/create/{$model->vendor_public_id}") . '?paymentTypeId=1';
+                    return URL::to("BILL_CREDITs/{$model->public_id}/clone");
                 },
                 function ($model) {
-                    return Auth::user()->can('create', ENTITY_PURCHASE_PAYMENT);
+                    return Auth::user()->can('create', [ENTITY_BILL_CREDIT, $model]);
+                },
+            ],
+            [
+                trans('texts.apply_BILL_CREDIT'),
+                function ($model) {
+                    return URL::to("BILL_PAYMENTs/create/{$model->vendor_public_id}") . '?paymentTypeId=1';
+                },
+                function ($model) {
+                    return Auth::user()->can('create', ENTITY_BILL_PAYMENT);
                 },
             ],
             [
@@ -133,7 +133,7 @@ class PurchaseCreditDatatable extends EntityDatatable
                 return false;
             },
                 function ($model) {
-                    return Auth::user()->can('edit', [ENTITY_PURCHASE_PAYMENT]);
+                    return Auth::user()->can('edit', [ENTITY_BILL_PAYMENT]);
                 },
             ],
         ];

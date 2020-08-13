@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreatePurchaseInvoiceItemRequest;
-use App\Http\Requests\PurchaseInvoiceItemRequest;
-use App\Http\Requests\UpdatePurchaseInvoiceItemRequest;
+use App\Http\Requests\CreateBillItemRequest;
+use App\Http\Requests\BillItemRequest;
+use App\Http\Requests\UpdateBillItemRequest;
 use App\Libraries\Utils;
 use App\Models\InvoiceItem;
 use App\Models\Product;
 use App\Ninja\Datatables\InvoiceItemDatatable;
-use App\Ninja\Repositories\PurchaseInvoiceItemRepository;
-use App\Services\PurchaseInvoiceItemService;
+use App\Ninja\Repositories\BillItemRepository;
+use App\Services\BillItemService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
@@ -18,30 +18,30 @@ use Illuminate\Support\Facades\View;
 use Redirect;
 
 /**
- * Class PurchaseInvoiceItemController.
+ * Class BillItemController.
  */
-class PurchaseInvoiceItemController extends BaseController
+class BillItemController extends BaseController
 {
-    protected $purchaseInvoiceItemRepo;
-    protected $purchaseInvoiceItemService;
-    protected $entityType = ENTITY_PURCHASE_INVOICE_ITEM;
+    protected $BillItemRepo;
+    protected $BillItemService;
+    protected $entityType = ENTITY_BILL_ITEM;
 
-    public function __construct(PurchaseInvoiceItemRepository $purchaseInvoiceItemRepo, PurchaseInvoiceItemService $purchaseInvoiceItemService)
+    public function __construct(BillItemRepository $BillItemRepo, BillItemService $BillItemService)
     {
         // parent::__construct();
 
-        $this->purchaseInvoiceItemRepo = $purchaseInvoiceItemRepo;
-        $this->purchaseInvoiceItemService = $purchaseInvoiceItemService;
+        $this->BillItemRepo = $BillItemRepo;
+        $this->BillItemService = $BillItemService;
     }
 
 
     public function index()
     {
-        $this->authorize('view', ENTITY_PURCHASE_INVOICE_ITEM);
+        $this->authorize('view', ENTITY_BILL_ITEM);
         return View::make('list_wrapper', [
-            'entityType' => ENTITY_PURCHASE_INVOICE_ITEM,
+            'entityType' => ENTITY_BILL_ITEM,
             'datatable' => new InvoiceItemDatatable(),
-            'title' => trans('texts.purchase_invoice_items'),
+            'title' => trans('texts.BILL_items'),
         ]);
     }
 
@@ -49,17 +49,17 @@ class PurchaseInvoiceItemController extends BaseController
     {
         $account = Auth::user()->account_id;
         $search = Input::get('sSearch');
-        return $this->purchaseInvoiceItemService->getDatatable($account, $search);
+        return $this->BillItemService->getDatatable($account, $search);
     }
 
     public function getDatatableProduct($productPublicId = null)
     {
-        return $this->purchaseInvoiceItemService->getDatatableProduct($productPublicId);
+        return $this->BillItemService->getDatatableProduct($productPublicId);
     }
 
-    public function create(PurchaseInvoiceItemRequest $request)
+    public function create(BillItemRequest $request)
     {
-        $this->authorize('create', ENTITY_PURCHASE_INVOICE_ITEM);
+        $this->authorize('create', ENTITY_BILL_ITEM);
         if ($request->product_id != 0) {
             $product = Product::scope($request->product_id)->firstOrFail();
         } else {
@@ -70,14 +70,14 @@ class PurchaseInvoiceItemController extends BaseController
             'product' => $product,
             'invoiceItem' => null,
             'method' => 'POST',
-            'url' => 'purchase_invoice_items',
+            'url' => 'BILL_items',
             'title' => trans('texts.new_invoice_item'),
             'productPublicId' => Input::old('product') ? Input::old('product') : $request->product_id,
         ];
 
         $data = array_merge($data, self::getViewModel());
 
-        return View::make('purchase_invoice_items.edit', $data);
+        return View::make('BILL_items.edit', $data);
     }
 
     private static function getViewModel($invoiceItem = false)
@@ -89,22 +89,22 @@ class PurchaseInvoiceItemController extends BaseController
         ];
     }
 
-    public function store(CreatePurchaseInvoiceItemRequest $request)
+    public function store(CreateBillItemRequest $request)
     {
         $data = $request->input();
         $invoiceItem = $request->entity();
-        $invoiceItem = $this->purchaseInvoiceItemService->save($data, $invoiceItem);
+        $invoiceItem = $this->BillItemService->save($data, $invoiceItem);
 
         if ($invoiceItem) {
-            return redirect()->to("purchase_invoice_items/{$invoiceItem->public_id}/edit")->with('success', trans('texts.created_invoice_item'));
+            return redirect()->to("BILL_items/{$invoiceItem->public_id}/edit")->with('success', trans('texts.created_invoice_item'));
         }
 
-        return redirect()->to("purchase_invoice_items");
+        return redirect()->to("BILL_items");
     }
 
-    public function edit(PurchaseInvoiceItemRequest $request, $publicId = false, $clone = false)
+    public function edit(BillItemRequest $request, $publicId = false, $clone = false)
     {
-        $this->authorize('edit', ENTITY_PURCHASE_INVOICE_ITEM);
+        $this->authorize('edit', ENTITY_BILL_ITEM);
         $invoiceItem = InvoiceItem::scope($publicId)->withTrashed()->firstOrFail();
 
         if ($clone) {
@@ -112,10 +112,10 @@ class PurchaseInvoiceItemController extends BaseController
             $invoiceItem->public_id = null;
             $invoiceItem->deleted_at = null;
             $method = 'POST';
-            $url = 'purchase_invoice_items';
+            $url = 'BILL_items';
         } else {
             $method = 'PUT';
-            $url = 'purchase_invoice_items/' . $invoiceItem->public_id;
+            $url = 'BILL_items/' . $invoiceItem->public_id;
         }
 
         $data = [
@@ -131,14 +131,14 @@ class PurchaseInvoiceItemController extends BaseController
 
         $data = array_merge($data, self::getViewModel($invoiceItem));
 
-        return View::make('purchase_invoice_items.edit', $data);
+        return View::make('BILL_items.edit', $data);
     }
 
-    public function update(UpdatePurchaseInvoiceItemRequest $request)
+    public function update(UpdateBillItemRequest $request)
     {
         $data = $request->input();
 
-        $invoiceItem = $this->purchaseInvoiceItemService->save($data, $request->entity());
+        $invoiceItem = $this->BillItemService->save($data, $request->entity());
 
         $action = Input::get('action');
         if (in_array($action, ['archive', 'delete', 'restore'])) {
@@ -146,9 +146,9 @@ class PurchaseInvoiceItemController extends BaseController
         }
 
         if ($action == 'clone') {
-            return redirect()->to(sprintf('purchase_invoice_items/%s/clone', $invoiceItem->public_id))->with('success', trans('texts.clone_invoice_item'));
+            return redirect()->to(sprintf('BILL_items/%s/clone', $invoiceItem->public_id))->with('success', trans('texts.clone_invoice_item'));
         } else {
-            return redirect()->to("purchase_invoice_items/{$invoiceItem->public_id}/edit")->with('success', trans('texts.updated_invoice_item'));
+            return redirect()->to("BILL_items/{$invoiceItem->public_id}/edit")->with('success', trans('texts.updated_invoice_item'));
         }
     }
 
@@ -157,14 +157,14 @@ class PurchaseInvoiceItemController extends BaseController
         $action = Input::get('action');
         $ids = Input::get('public_id') ? Input::get('public_id') : Input::get('ids');
 
-        $count = $this->purchaseInvoiceItemService->bulk($ids, $action);
+        $count = $this->BillItemService->bulk($ids, $action);
 
         $message = Utils::pluralize($action . 'd_invoice_item', $count);
 
-        return $this->returnBulk(ENTITY_PURCHASE_INVOICE_ITEM, $action, $ids)->with('message', $message);
+        return $this->returnBulk(ENTITY_BILL_ITEM, $action, $ids)->with('message', $message);
     }
 
-    public function cloneInvoiceItem(PurchaseInvoiceItemRequest $request, $publicId)
+    public function cloneInvoiceItem(BillItemRequest $request, $publicId)
     {
         return self::edit($request, $publicId, true);
     }
@@ -173,6 +173,6 @@ class PurchaseInvoiceItemController extends BaseController
     {
         Session::reflash();
 
-        return Redirect::to("purchase_invoice_items/{$publicId}/edit");
+        return Redirect::to("BILL_items/{$publicId}/edit");
     }
 }

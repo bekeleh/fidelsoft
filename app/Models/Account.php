@@ -80,12 +80,12 @@ class Account extends Eloquent
         'quote_number_prefix',
         'quote_number_counter',
         'share_counter',
-//      purchase counter
-        'purchase_invoice_number_prefix',
+//      bill counter
+        'BILL_number_prefix',
         'invoice_number_counter',
-        'purchase_quote_number_prefix',
+        'BILL_QUOTE_number_prefix',
         'quote_number_counter',
-        'share_purchase_counter',
+        'share_bill_counter',
         'id_number',
         'token_billing_type_id',
         'invoice_footer',
@@ -164,9 +164,9 @@ class Account extends Eloquent
         'vendor_number_pattern',
         'payment_terms',
         'reset_counter_frequency_id',
-        'reset_purchase_counter_frequency_id',
+        'reset_bill_counter_frequency_id',
         'reset_counter_date',
-        'reset_purchase_counter_date',
+        'reset_bill_counter_date',
         'payment_type_id',
         'gateway_fee_enabled',
         'send_item_details',
@@ -176,7 +176,7 @@ class Account extends Eloquent
         'credit_number_counter',
         'credit_number_prefix',
         'credit_number_pattern',
-//       purchase credit info
+//       bill credit info
         'vendor_credit_number_counter',
         'vendor_credit_number_prefix',
         'vendor_credit_number_pattern',
@@ -249,8 +249,8 @@ class Account extends Eloquent
         'product2',
         'invoice1',
         'invoice2',
-        'purchase_invoice1',
-        'purchase_invoice2',
+        'BILL1',
+        'BILL2',
         'invoice_surcharge1',
         'invoice_surcharge2',
         'task1',
@@ -298,7 +298,7 @@ class Account extends Eloquent
         'hours',
         'id_number',
         'invoice',
-        'purchase_invoice',
+        'BILL',
         'invoice_date',
         'invoice_due_date',
         'invoice_issued_to',
@@ -388,10 +388,10 @@ class Account extends Eloquent
         return $this->hasMany('App\Models\Invoice');
     }
 
-// purchase invoices
-    public function purchase_invoices()
+// bill invoices
+    public function bills()
     {
-        return $this->hasMany('App\Models\PurchaseInvoice');
+        return $this->hasMany('App\Models\Bill');
     }
 
     public function account_gateways()
@@ -948,41 +948,41 @@ class Account extends Eloquent
         return $invoice;
     }
 
-    public function createPurchaseInvoice($entityType = ENTITY_PURCHASE_INVOICE, $vendorId = null)
+    public function createBill($entityType = ENTITY_BILL, $vendorId = null)
     {
-        $purchaseInvoice = PurchaseInvoice::createNew();
+        $Bill = Bill::createNew();
 
-        $purchaseInvoice->is_recurring = false;
-        $purchaseInvoice->invoice_type_id = INVOICE_TYPE_STANDARD;
-        $purchaseInvoice->invoice_date = Utils::today();
-        $purchaseInvoice->start_date = Utils::today();
-        $purchaseInvoice->invoice_design_id = $this->invoice_design_id;
-        $purchaseInvoice->vendor_id = $vendorId;
-        $purchaseInvoice->custom_taxes1 = $this->custom_invoice_taxes1;
-        $purchaseInvoice->custom_taxes2 = $this->custom_invoice_taxes2;
+        $Bill->is_recurring = false;
+        $Bill->invoice_type_id = INVOICE_TYPE_STANDARD;
+        $Bill->invoice_date = Utils::today();
+        $Bill->start_date = Utils::today();
+        $Bill->invoice_design_id = $this->invoice_design_id;
+        $Bill->vendor_id = $vendorId;
+        $Bill->custom_taxes1 = $this->custom_invoice_taxes1;
+        $Bill->custom_taxes2 = $this->custom_invoice_taxes2;
 //      to generate invoice number using micro time() carbon instance
-        if ($entityType === ENTITY_RECURRING_PURCHASE_INVOICE) {
-            $purchaseInvoice->invoice_number = microtime(true);
-            $purchaseInvoice->is_recurring = true;
+        if ($entityType === ENTITY_RECURRING_BILL) {
+            $Bill->invoice_number = microtime(true);
+            $Bill->is_recurring = true;
         } else {
-            if ($entityType == ENTITY_PURCHASE_QUOTE) {
-                $purchaseInvoice->invoice_type_id = INVOICE_TYPE_QUOTE;
-                $purchaseInvoice->invoice_design_id = $this->quote_design_id;
+            if ($entityType == ENTITY_BILL_QUOTE) {
+                $Bill->invoice_type_id = INVOICE_TYPE_QUOTE;
+                $Bill->invoice_design_id = $this->quote_design_id;
             }
 
-            if ($this->hasVendorNumberPattern($purchaseInvoice) && !$vendorId) {
+            if ($this->hasVendorNumberPattern($Bill) && !$vendorId) {
                 // do nothing, we don't yet know the value
-            } elseif (!$purchaseInvoice->invoice_number) {
-                $purchaseInvoice->invoice_number = $this->getVendorNextNumber($purchaseInvoice);
+            } elseif (!$Bill->invoice_number) {
+                $Bill->invoice_number = $this->getVendorNextNumber($Bill);
             }
         }
 
         if (!$vendorId) {
-            $purchaseInvoice->client = Vendor::createNew();
-            $purchaseInvoice->client->public_id = 0;
+            $Bill->client = Vendor::createNew();
+            $Bill->client->public_id = 0;
         }
 
-        return $purchaseInvoice;
+        return $Bill;
     }
 
     public function loadLocalizationSettings($entity = false)

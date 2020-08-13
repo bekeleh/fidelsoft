@@ -2,12 +2,12 @@
 
 namespace App\Ninja\Transformers;
 
-use App\Models\PurchaseInvoice;
+use App\Models\Bill;
 
 /**
- * @SWG\Definition(definition="PurchaseInvoice", required={"invoice_number"}, @SWG\Xml(name="PurchaseInvoice"))
+ * @SWG\Definition(definition="Bill", required={"invoice_number"}, @SWG\Xml(name="Bill"))
  */
-class PurchaseInvoiceTransformer extends EntityTransformer
+class BillTransformer extends EntityTransformer
 {
     /**
      * @SWG\Property(property="id", type="integer", example=1, readOnly=true)
@@ -36,42 +36,42 @@ class PurchaseInvoiceTransformer extends EntityTransformer
         $this->vendor = $vendor;
     }
 
-    public function includePurchaseInvoiceItems(PurchaseInvoice $invoice)
+    public function includeBillItems(Bill $invoice)
     {
-        $transformer = new PurchaseInvoiceItemTransformer($this->account, $this->serializer);
+        $transformer = new BillItemTransformer($this->account, $this->serializer);
 
         return $this->includeCollection($invoice->invoice_items, $transformer, ENTITY_INVOICE_ITEM);
     }
 
-    public function includeInvitations(PurchaseInvoice $invoice)
+    public function includeInvitations(Bill $invoice)
     {
         $transformer = new InvitationTransformer($this->account, $this->serializer);
 
         return $this->includeCollection($invoice->invitations, $transformer, ENTITY_INVITATION);
     }
 
-    public function includePayments(PurchaseInvoice $invoice)
+    public function includePayments(Bill $invoice)
     {
         $transformer = new PaymentTransformer($this->account, $this->serializer, $invoice);
 
         return $this->includeCollection($invoice->payments, $transformer, ENTITY_PAYMENT);
     }
 
-    public function includeClient(PurchaseInvoice $invoice)
+    public function includeClient(Bill $invoice)
     {
         $transformer = new ClientTransformer($this->account, $this->serializer);
 
         return $this->includeItem($invoice->vendor, $transformer, ENTITY_CLIENT);
     }
 
-    public function includeExpenses(PurchaseInvoice $invoice)
+    public function includeExpenses(Bill $invoice)
     {
         $transformer = new ExpenseTransformer($this->account, $this->serializer);
 
         return $this->includeCollection($invoice->expenses, $transformer, ENTITY_EXPENSE);
     }
 
-    public function includeDocuments(PurchaseInvoice $invoice)
+    public function includeDocuments(Bill $invoice)
     {
         $transformer = new DocumentTransformer($this->account, $this->serializer);
 
@@ -82,7 +82,7 @@ class PurchaseInvoiceTransformer extends EntityTransformer
         return $this->includeCollection($invoice->documents, $transformer, ENTITY_DOCUMENT);
     }
 
-    public function transform(PurchaseInvoice $invoice)
+    public function transform(Bill $invoice)
     {
         return array_merge($this->getDefaults($invoice), [
             'id' => (int)$invoice->public_id,

@@ -138,27 +138,27 @@ class Vendor extends EntityModel
 
     public function invoices()
     {
-        return $this->hasMany('App\Models\PurchaseInvoice');
+        return $this->hasMany('App\Models\Bill');
     }
 
 
     public function quotes()
     {
-        return $this->hasMany('App\Models\PurchaseInvoice')
+        return $this->hasMany('App\Models\Bill')
             ->where('invoice_type_id', INVOICE_TYPE_QUOTE);
     }
 
 
     public function publicQuotes()
     {
-        return $this->hasMany('App\Models\PurchaseInvoice')
+        return $this->hasMany('App\Models\Bill')
             ->where('invoice_type_id', INVOICE_TYPE_QUOTE)
             ->where('is_public', true);
     }
 
     public function payments()
     {
-        return $this->hasMany('App\Models\PurchasePayment');
+        return $this->hasMany('App\Models\BillPayment');
     }
 
 
@@ -216,13 +216,13 @@ class Vendor extends EntityModel
 
     public function credits()
     {
-        return $this->hasMany('App\Models\PurchaseCredit');
+        return $this->hasMany('App\Models\BillCredit');
     }
 
 
     public function creditsWithBalance()
     {
-        return $this->hasMany('App\Models\PurchaseCredit')
+        return $this->hasMany('App\Models\BillCredit')
             ->where('balance', '>', 0);
     }
 
@@ -292,7 +292,7 @@ class Vendor extends EntityModel
 
     public function getTotalCredit()
     {
-        return DB::table('purchase_credits')
+        return DB::table('BILL_CREDITs')
             ->where('vendor_id', $this->id)
             ->whereNull('deleted_at')
             ->sum('balance');

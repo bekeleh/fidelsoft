@@ -54,7 +54,7 @@
                         )->split() !!}
                     @endcan
                     @if (!$vendor->trashed())
-                        @can('create', ENTITY_PURCHASE_INVOICE)
+                        @can('create', ENTITY_BILL)
                             {!! DropdownButton::primary(trans('texts.view_statement'))
                             ->withAttributes(['class'=>'primaryDropDown'])
                             ->withContents($actionLinks)->split() !!}
@@ -210,7 +210,7 @@
                             </tr>
                             @if ($credit > 0)
                                 <tr>
-                                    <td><small>{{ trans('texts.purchase_credit') }}</small></td>
+                                    <td><small>{{ trans('texts.BILL_CREDIT') }}</small></td>
                                     <td style="text-align: left">{{ Utils::formatMoney($credit, $vendor->getCurrencyId()) }}
                                     </td>
                                 </tr>
@@ -236,12 +236,12 @@
             {!! Form::tab_link('#quotes', trans('texts.quotes')) !!}
         @endif
         @if ($hasRecurringInvoices)
-            {!! Form::tab_link('#recurring_purchase_invoices', trans('texts.recurring')) !!}
+            {!! Form::tab_link('#recurring_BILLs', trans('texts.recurring')) !!}
         @endif
-        {!! Form::tab_link('#purchase_invoices', trans('texts.purchase_invoices')) !!}
+        {!! Form::tab_link('#BILLs', trans('texts.BILLs')) !!}
         {!! Form::tab_link('#payments', trans('texts.payments')) !!}
-        @if ($account->isModuleEnabled(ENTITY_PURCHASE_CREDIT))
-            {!! Form::tab_link('#credits', trans('texts.purchase_credit')) !!}
+        @if ($account->isModuleEnabled(ENTITY_BILL_CREDIT))
+            {!! Form::tab_link('#credits', trans('texts.BILL_CREDIT')) !!}
         @endif
     </ul>
     <br/>
@@ -267,7 +267,7 @@
         @if ($hasExpenses)
             <div class="tab-pane" id="expenses">
                 @include('list', [
-                'entityType' => ENTITY_PURCHASE_EXPENSE,
+                'entityType' => ENTITY_BILL_EXPENSE,
                 'datatable' => new \App\Ninja\Datatables\PurchaseExpenseDatatable(true, true),
                 'vendorId' => $vendor->public_id,
                 'url' => url('api/vendor_expenses/' . $vendor->public_id),
@@ -278,50 +278,50 @@
         @if (Utils::hasFeature(FEATURE_QUOTES) && $hasQuotes)
             <div class="tab-pane" id="quotes">
                 @include('list', [
-                'entityType' => ENTITY_PURCHASE_QUOTE,
-                'datatable' => new \App\Ninja\Datatables\PurchaseInvoiceDatatable(true, true, ENTITY_PURCHASE_QUOTE),
+                'entityType' => ENTITY_BILL_QUOTE,
+                'datatable' => new \App\Ninja\Datatables\BillDatatable(true, true, ENTITY_BILL_QUOTE),
                 'vendorId' => $vendor->public_id,
-                'url' => url('api/purchase_quotes/' . $vendor->public_id),
+                'url' => url('api/BILL_QUOTEs/' . $vendor->public_id),
                 ])
             </div>
         @endif
 
         @if ($hasRecurringInvoices)
-            <div class="tab-pane" id="recurring_purchase_invoices">
+            <div class="tab-pane" id="recurring_BILLs">
                 @include('list', [
-                'entityType' => ENTITY_RECURRING_PURCHASE_INVOICE,
-                'datatable' => new \App\Ninja\Datatables\RecurringPurchaseInvoiceDatatable(true, true),
+                'entityType' => ENTITY_RECURRING_BILL,
+                'datatable' => new \App\Ninja\Datatables\RecurringBillDatatable(true, true),
                 'vendorId' => $vendor->public_id,
-                'url' => url('api/recurring_purchase_invoices/' . $vendor->public_id),
+                'url' => url('api/recurring_BILLs/' . $vendor->public_id),
                 ])
             </div>
         @endif
 
-        <div class="tab-pane" id="purchase_invoices">
+        <div class="tab-pane" id="BILLs">
             @include('list', [
-            'entityType' => ENTITY_PURCHASE_INVOICE,
-            'datatable' => new \App\Ninja\Datatables\PurchaseInvoiceDatatable(true, true),
+            'entityType' => ENTITY_BILL,
+            'datatable' => new \App\Ninja\Datatables\BillDatatable(true, true),
             'vendorId' => $vendor->public_id,
-            'url' => url('api/purchase_invoices/' . $vendor->public_id),
+            'url' => url('api/BILLs/' . $vendor->public_id),
             ])
         </div>
 
         <div class="tab-pane" id="payments">
             @include('list', [
-            'entityType' => ENTITY_PURCHASE_PAYMENT,
+            'entityType' => ENTITY_BILL_PAYMENT,
             'datatable' => new \App\Ninja\Datatables\PurchasePaymentDatatable(true, true),
             'vendorId' => $vendor->public_id,
-            'url' => url('api/purchase_payments/' . $vendor->public_id),
+            'url' => url('api/BILL_PAYMENTs/' . $vendor->public_id),
             ])
         </div>
 
-        @if ($account->isModuleEnabled(ENTITY_PURCHASE_CREDIT))
+        @if ($account->isModuleEnabled(ENTITY_BILL_CREDIT))
             <div class="tab-pane" id="credits">
                 @include('list', [
-                'entityType' => ENTITY_PURCHASE_CREDIT,
+                'entityType' => ENTITY_BILL_CREDIT,
                 'datatable' => new \App\Ninja\Datatables\PurchaseCreditDatatable(true, true),
                 'vendorId' => $vendor->public_id,
-                'url' => url('api/purchase_credits/' . $vendor->public_id),
+                'url' => url('api/BILL_CREDITs/' . $vendor->public_id),
                 ])
             </div>
         @endif

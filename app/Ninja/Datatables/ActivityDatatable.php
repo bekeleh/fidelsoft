@@ -20,10 +20,10 @@ class ActivityDatatable extends EntityDatatable
                         ACTIVITY_TYPE_VIEW_QUOTE,
                         ACTIVITY_TYPE_CREATE_PAYMENT,
                         ACTIVITY_TYPE_APPROVE_QUOTE,
-                        ACTIVITY_TYPE_VIEW_PURCHASE_QUOTE,
-                        ACTIVITY_TYPE_VIEW_PURCHASE_QUOTE,
-                        ACTIVITY_TYPE_CREATE_PURCHASE_PAYMENT,
-                        ACTIVITY_TYPE_APPROVE_PURCHASE_QUOTE,
+                        ACTIVITY_TYPE_VIEW_BILL_QUOTE,
+                        ACTIVITY_TYPE_VIEW_BILL_QUOTE,
+                        ACTIVITY_TYPE_CREATE_BILL_PAYMENT,
+                        ACTIVITY_TYPE_APPROVE_BILL_QUOTE,
                     ];
 
                     if ($model->contact_id

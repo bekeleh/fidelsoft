@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Models\PurchaseInvoice;
+use App\Models\Bill;
 
-class PurchaseInvoiceRequest extends EntityRequest
+class BillRequest extends EntityRequest
 {
-    protected $entityType = ENTITY_PURCHASE_INVOICE;
+    protected $entityType = ENTITY_BILL;
 
     public function authorize()
     {
@@ -15,23 +15,23 @@ class PurchaseInvoiceRequest extends EntityRequest
 
     public function entity()
     {
-        $purchaseInvoice = parent::entity();
+        $Bill = parent::entity();
 
         // support loading an invoice by its invoice number
-        if ($this->invoice_number && !$purchaseInvoice) {
-            $purchaseInvoice = PurchaseInvoice::scope()
+        if ($this->invoice_number && !$Bill) {
+            $Bill = Bill::scope()
                 ->where('invoice_number', $this->invoice_number)
                 ->withTrashed()->first();
 
-            if (!$purchaseInvoice) {
+            if (!$Bill) {
                 return response()->view('errors/403');
             }
         }
         // eager load the invoice items
-        if ($purchaseInvoice && !$purchaseInvoice->relationLoaded('invoice_items')) {
-            $purchaseInvoice->load('invoice_items');
+        if ($Bill && !$Bill->relationLoaded('invoice_items')) {
+            $Bill->load('invoice_items');
         }
 
-        return $purchaseInvoice;
+        return $Bill;
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-class UpdatePurchaseInvoiceAPIRequest extends PurchaseInvoiceRequest
+class UpdateBillAPIRequest extends BillRequest
 {
-    protected $entityType = ENTITY_PURCHASE_INVOICE;
+    protected $entityType = ENTITY_BILL;
 
     public function authorize()
     {
@@ -25,7 +25,7 @@ class UpdatePurchaseInvoiceAPIRequest extends PurchaseInvoiceRequest
 
         $rules = [
             'invoice_items' => 'valid_invoice_items',
-            'invoice_number' => 'unique:purchase_invoices,invoice_number,' . $invoiceId . ',id,account_id,' . $this->user()->account_id,
+            'invoice_number' => 'unique:BILLs,invoice_number,' . $invoiceId . ',id,account_id,' . $this->user()->account_id,
             'discount' => 'positive',
             //'invoice_date' => 'date',
             //'due_date' => 'date',

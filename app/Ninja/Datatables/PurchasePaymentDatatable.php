@@ -2,7 +2,7 @@
 
 namespace App\Ninja\Datatables;
 
-use App\Models\PurchasePayment;
+use App\Models\BillPayment;
 use App\Models\PaymentMethod;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
@@ -10,7 +10,7 @@ use App\Libraries\Utils;
 
 class PurchasePaymentDatatable extends EntityDatatable
 {
-    public $entityType = ENTITY_PURCHASE_PAYMENT;
+    public $entityType = ENTITY_BILL_PAYMENT;
     public $sortCol = 1;
 
     protected static $refundableGateways = [
@@ -166,7 +166,7 @@ class PurchasePaymentDatatable extends EntityDatatable
                     return URL::to("payments/{$model->public_id}/edit");
                 },
                 function ($model) {
-                    return Auth::user()->can('edit', [ENTITY_PURCHASE_PAYMENT, $model]);
+                    return Auth::user()->can('edit', [ENTITY_BILL_PAYMENT, $model]);
                 },
             ],
             [
@@ -175,7 +175,7 @@ class PurchasePaymentDatatable extends EntityDatatable
                     return URL::to("payments/{$model->public_id}/clone");
                 },
                 function ($model) {
-                    return Auth::user()->can('create', [ENTITY_PURCHASE_PAYMENT, $model]);
+                    return Auth::user()->can('create', [ENTITY_BILL_PAYMENT, $model]);
                 },
             ],
             [
@@ -184,7 +184,7 @@ class PurchasePaymentDatatable extends EntityDatatable
                     return "javascript:submitForm_payment('email', {$model->public_id})";
                 },
                 function ($model) {
-                    return Auth::user()->can('edit', [ENTITY_PURCHASE_PAYMENT, $model]);
+                    return Auth::user()->can('edit', [ENTITY_BILL_PAYMENT, $model]);
                 },
             ],
             [
@@ -198,7 +198,7 @@ class PurchasePaymentDatatable extends EntityDatatable
                     return "javascript:showRefundModal({$model->public_id}, '{$max_refund}', '{$formatted}', '{$symbol}', {$local})";
                 },
                 function ($model) {
-                    return Auth::user()->can('edit', [ENTITY_PURCHASE_PAYMENT, $model])
+                    return Auth::user()->can('edit', [ENTITY_BILL_PAYMENT, $model])
                         && $model->payment_status_id >= PAYMENT_STATUS_COMPLETED
                         && $model->refunded < $model->amount;
                 },
@@ -208,7 +208,7 @@ class PurchasePaymentDatatable extends EntityDatatable
                 return false;
             },
                 function ($model) {
-                    return Auth::user()->can('edit', [ENTITY_PURCHASE_PAYMENT]);
+                    return Auth::user()->can('edit', [ENTITY_BILL_PAYMENT]);
                 },
             ],
         ];
@@ -217,8 +217,8 @@ class PurchasePaymentDatatable extends EntityDatatable
     private function getStatusLabel($model)
     {
         $amount = Utils::formatMoney($model->refunded, $model->currency_id, $model->country_id);
-        $label = PurchasePayment::calcStatusLabel($model->payment_status_id, $model->status, $amount);
-        $class = PurchasePayment::calcStatusClass($model->payment_status_id);
+        $label = BillPayment::calcStatusLabel($model->payment_status_id, $model->status, $amount);
+        $class = BillPayment::calcStatusClass($model->payment_status_id);
 
         return "<h4><div class=\"label label-{$class}\">$label</div></h4>";
     }

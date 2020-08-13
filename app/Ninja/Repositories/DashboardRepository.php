@@ -86,9 +86,9 @@ class DashboardRepository
                 $color = '54,193,87';
             } elseif ($entityType == ENTITY_EXPENSE) {
                 $color = '128,128,128';
-            } elseif ($entityType == ENTITY_PURCHASE_INVOICE) {
+            } elseif ($entityType == ENTITY_BILL) {
                 $color = '128,128,45';
-            } elseif ($entityType == ENTITY_PURCHASE_PAYMENT) {
+            } elseif ($entityType == ENTITY_BILL_PAYMENT) {
                 $color = '128,128,33';
             }
 
@@ -295,7 +295,7 @@ class DashboardRepository
         }
 
         return $activities->orderBy('activities.created_at', 'desc')
-            ->with('client.contacts', 'vendor.contacts', 'user', 'invoice', 'purchase_invoice', 'payment', 'purchase_payment', 'credit', 'purchase_credit', 'account', 'task', 'expense', 'contact')
+            ->with('client.contacts', 'vendor.contacts', 'user', 'invoice', 'BILL', 'payment', 'BILL_PAYMENT', 'credit', 'BILL_CREDIT', 'account', 'task', 'expense', 'contact')
             ->take(100)
             ->get();
     }

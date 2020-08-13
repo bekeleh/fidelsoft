@@ -4,9 +4,9 @@ namespace App\Http\Requests;
 
 use App\Models\Client;
 
-class UpdatePurchaseInvoiceRequest extends InvoiceRequest
+class UpdateBillRequest extends InvoiceRequest
 {
-    protected $entityType = ENTITY_PURCHASE_INVOICE;
+    protected $entityType = ENTITY_BILL;
 
     public function authorize()
     {
@@ -24,7 +24,7 @@ class UpdatePurchaseInvoiceRequest extends InvoiceRequest
         $rules = [
             'client' => 'required',
             'invoice_items' => 'valid_invoice_items',
-            'invoice_number' => 'required|unique:purchase_invoices,invoice_number,' . $invoiceId . ',id,account_id,' . $this->user()->account_id,
+            'invoice_number' => 'required|unique:BILLs,invoice_number,' . $invoiceId . ',id,account_id,' . $this->user()->account_id,
             'discount' => 'positive',
             'invoice_date' => 'required',
             //'due_date' => 'date',

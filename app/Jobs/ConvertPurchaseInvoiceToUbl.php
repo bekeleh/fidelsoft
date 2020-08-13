@@ -18,7 +18,7 @@ use CleverIt\UBL\Invoice\TaxSubTotal;
 use CleverIt\UBL\Invoice\TaxTotal;
 use Exception;
 
-class ConvertPurchaseInvoiceToUbl extends Job
+class ConvertBillToUbl extends Job
 {
     const INVOICE_TYPE_STANDARD = 380;
     const INVOICE_TYPE_CREDIT = 381;

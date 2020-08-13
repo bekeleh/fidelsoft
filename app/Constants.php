@@ -17,19 +17,19 @@ if (!defined('APP_NAME')) {
     define('ENTITY_INVOICE', 'invoice');
     define('ENTITY_DOCUMENT', 'document');
     define('ENTITY_INVOICE_ITEM', 'invoice_item');
-    define('ENTITY_PURCHASE_INVOICE_ITEM', 'purchase_invoice_item');
+    define('ENTITY_BILL_ITEM', 'bill_item');
     define('ENTITY_INVITATION', 'invitation');
-    define('ENTITY_PURCHASE_PROPOSAL_INVITATION', 'purchase_proposal_invitation');
-    define('ENTITY_PURCHASE_INVITATION', 'invitation');
+    define('ENTITY_BILL_PROPOSAL_INVITATION', 'bill_proposal_invitation');
+    define('ENTITY_BILL_INVITATION', 'bill_invitation');
     define('ENTITY_RECURRING_INVOICE', 'recurring_invoice');
-    define('ENTITY_RECURRING_PURCHASE_INVOICE', 'recurring_purchase_invoice');
-    define('ENTITY_PURCHASE_RECURRING_INVOICE', 'purchase_recurring_invoice');
+    define('ENTITY_RECURRING_BILL', 'recurring_bill');
+    define('ENTITY_BILL_RECURRING', 'recurring_bill');
     define('ENTITY_PAYMENT', 'payment');
-    define('ENTITY_PURCHASE_PAYMENT', 'purchase_payment');
+    define('ENTITY_BILL_PAYMENT', 'bill_payment');
     define('ENTITY_CREDIT', 'credit');
-    define('ENTITY_PURCHASE_CREDIT', 'purchase_credit');
+    define('ENTITY_BILL_CREDIT', 'bill_credit');
     define('ENTITY_QUOTE', 'quote');
-    define('ENTITY_PURCHASE_QUOTE', 'purchase_quote');
+    define('ENTITY_BILL_QUOTE', 'bill_quote');
     define('ENTITY_TASK', 'task');
     define('ENTITY_TASK_STATUS', 'task_status');
     define('ENTITY_ACCOUNT_GATEWAY', 'account_gateway');
@@ -61,7 +61,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_VENDOR_CONTACT', 'vendor_contact');
     define('ENTITY_VENDOR_ACTIVITY', 'vendor_activity');
     define('ENTITY_EXPENSE', 'expense');
-    define('ENTITY_PURCHASE_EXPENSE', 'purchase_expense');
+    define('ENTITY_BILL_EXPENSE', 'bill_expense');
     define('ENTITY_PAYMENT_TERM', 'payment_term');
     define('ENTITY_EXPENSE_ACTIVITY', 'expense_activity');
     define('ENTITY_BANK_ACCOUNT', 'bank_account');
@@ -88,9 +88,8 @@ if (!defined('APP_NAME')) {
     define('ENTITY_SCHEDULE_RESOURCE', 'schedule_resource');
     define('ENTITY_SCHEDULE_SETTING', 'schedule_setting');
     define('ENTITY_SCHEDULED_REPORT', 'scheduled_report');
-    define('ENTITY_PURCHASE_ITEM', 'purchase_item');
-    define('ENTITY_PURCHASE_INVOICE', 'purchase_invoice');
-    define('ENTITY_PURCHASE_ORDER_STATUS', 'purchase_order_status');
+    define('ENTITY_BILL', 'bill');
+    define('ENTITY_BILL_STATUS', 'bill_status');
 
 
     $permissionEntities = [
@@ -119,8 +118,8 @@ if (!defined('APP_NAME')) {
         ENTITY_DEPARTMENT,
         ENTITY_MANUFACTURER,
         ENTITY_MANUFACTURER_PRODUCT_DETAIL,
-        ENTITY_PURCHASE_INVOICE,
-        ENTITY_PURCHASE_ITEM,
+        ENTITY_BILL,
+        ENTITY_BILL_ITEM,
         ENTITY_PAYMENT,
         ENTITY_PERMISSION,
         ENTITY_PERMISSION_GROUP,
@@ -132,10 +131,10 @@ if (!defined('APP_NAME')) {
         ENTITY_PROPOSAL_SNIPPET,
         ENTITY_PROPOSAL_TEMPLATE,
         ENTITY_QUOTE,
-        ENTITY_PURCHASE_QUOTE,
+        ENTITY_BILL_QUOTE,
         ENTITY_RECURRING_EXPENSE,
         ENTITY_RECURRING_INVOICE,
-        ENTITY_PURCHASE_RECURRING_INVOICE,
+        ENTITY_BILL_RECURRING,
         ENTITY_REPORT,
         ENTITY_SALE_TYPE,
         ENTITY_SEARCH,
@@ -161,8 +160,14 @@ if (!defined('APP_NAME')) {
     define('INVOICE_TYPE_STANDARD', 1);
     define('INVOICE_TYPE_QUOTE', 2);
 
+    define('BILL_TYPE_STANDARD', 1);
+    define('BILL_TYPE_QUOTE', 2);
+
     define('INVOICE_ITEM_TYPE_STANDARD', 1);
     define('INVOICE_ITEM_TYPE_TASK', 2);
+
+    define('BILL_ITEM_TYPE_STANDARD', 1);
+    define('BILL_ITEM_TYPE_TASK', 2);
 
     define('INVOICE_ITEM_TYPE_PENDING_GATEWAY_FEE', 3);
     define('INVOICE_ITEM_TYPE_PAID_GATEWAY_FEE', 4);
@@ -238,8 +243,7 @@ if (!defined('APP_NAME')) {
     define('ACCOUNT_SCHEDULE_RESOURCE', 'schedule_resources');
     define('ACCOUNT_SCHEDULED_REPORT', 'scheduled_reports');
     define('ACCOUNT_SCHEDULE_SETTING', 'schedule_settings');
-    define('ACCOUNT_PURCHASE_ITEM', 'invoice_items');
-    define('ACCOUNT_PURCHASE_INVOICE', 'purchase_invoice');
+
 //    define activities type constants
     define('ACTIVITY_TYPE_CREATE_CLIENT', 1);
     define('ACTIVITY_TYPE_ARCHIVE_CLIENT', 2);
@@ -287,42 +291,42 @@ if (!defined('APP_NAME')) {
     define('ACTIVITY_TYPE_DELETE_TASK', 45);
     define('ACTIVITY_TYPE_RESTORE_TASK', 46);
     define('ACTIVITY_TYPE_UPDATE_EXPENSE', 47);
-//  define activities type for purchase invoice
 
-    define('ACTIVITY_TYPE_CREATE_PURCHASE_INVOICE', 60);
-    define('ACTIVITY_TYPE_UPDATE_PURCHASE_INVOICE', 61);
-    define('ACTIVITY_TYPE_EMAIL_PURCHASE_INVOICE', 62);
-    define('ACTIVITY_TYPE_VIEW_PURCHASE_INVOICE', 63);
-    define('ACTIVITY_TYPE_ARCHIVE_PURCHASE_INVOICE', 64);
-    define('ACTIVITY_TYPE_DELETE_PURCHASE_INVOICE', 65);
-    define('ACTIVITY_TYPE_CREATE_PURCHASE_PAYMENT', 66);
-    define('ACTIVITY_TYPE_UPDATE_PURCHASE_PAYMENT', 67);
-    define('ACTIVITY_TYPE_ARCHIVE_PURCHASE_PAYMENT', 68);
-    define('ACTIVITY_TYPE_DELETE_PURCHASE_PAYMENT', 69);
-    define('ACTIVITY_TYPE_CREATE_PURCHASE_CREDIT', 70);
-    define('ACTIVITY_TYPE_UPDATE_PURCHASE_CREDIT', 71);
-    define('ACTIVITY_TYPE_ARCHIVE_PURCHASE_CREDIT', 72);
-    define('ACTIVITY_TYPE_DELETE_PURCHASE_CREDIT', 73);
-    define('ACTIVITY_TYPE_CREATE_PURCHASE_QUOTE', 74);
-    define('ACTIVITY_TYPE_UPDATE_PURCHASE_QUOTE', 75);
-    define('ACTIVITY_TYPE_EMAIL_PURCHASE_QUOTE', 76);
-    define('ACTIVITY_TYPE_VIEW_PURCHASE_QUOTE', 77);
-    define('ACTIVITY_TYPE_ARCHIVE_PURCHASE_QUOTE', 78);
-    define('ACTIVITY_TYPE_DELETE_PURCHASE_QUOTE', 79);
-    define('ACTIVITY_TYPE_RESTORE_PURCHASE_QUOTE', 80);
-    define('ACTIVITY_TYPE_RESTORE_PURCHASE_INVOICE', 81);
-    define('ACTIVITY_TYPE_RESTORE_PURCHASE_VENDOR', 82);
-    define('ACTIVITY_TYPE_RESTORE_PURCHASE_PAYMENT', 83);
-    define('ACTIVITY_TYPE_RESTORE_PURCHASE_CREDIT', 87);
-    define('ACTIVITY_TYPE_APPROVE_PURCHASE_QUOTE', 88);
-    define('ACTIVITY_TYPE_CREATE_PURCHASE_EXPENSE', 90);
-    define('ACTIVITY_TYPE_ARCHIVE_PURCHASE_EXPENSE', 91);
-    define('ACTIVITY_TYPE_DELETE_PURCHASE_EXPENSE', 92);
-    define('ACTIVITY_TYPE_RESTORE_PURCHASE_EXPENSE', 93);
-    define('ACTIVITY_TYPE_UPDATE_PURCHASE_EXPENSE', 94);
-    define('ACTIVITY_TYPE_VOIDED_PURCHASE_PAYMENT', 84);
-    define('ACTIVITY_TYPE_REFUNDED_PURCHASE_PAYMENT', 85);
-    define('ACTIVITY_TYPE_FAILED_PURCHASE_PAYMENT', 86);
+//  define activities type for bill
+    define('ACTIVITY_TYPE_CREATE_BILL', 60);
+    define('ACTIVITY_TYPE_UPDATE_BILL', 61);
+    define('ACTIVITY_TYPE_EMAIL_BILL', 62);
+    define('ACTIVITY_TYPE_VIEW_BILL', 63);
+    define('ACTIVITY_TYPE_ARCHIVE_BILL', 64);
+    define('ACTIVITY_TYPE_DELETE_BILL', 65);
+    define('ACTIVITY_TYPE_CREATE_BILL_PAYMENT', 66);
+    define('ACTIVITY_TYPE_UPDATE_BILL_PAYMENT', 67);
+    define('ACTIVITY_TYPE_ARCHIVE_BILL_PAYMENT', 68);
+    define('ACTIVITY_TYPE_DELETE_BILL_PAYMENT', 69);
+    define('ACTIVITY_TYPE_CREATE_BILL_CREDIT', 70);
+    define('ACTIVITY_TYPE_UPDATE_BILL_CREDIT', 71);
+    define('ACTIVITY_TYPE_ARCHIVE_BILL_CREDIT', 72);
+    define('ACTIVITY_TYPE_DELETE_BILL_CREDIT', 73);
+    define('ACTIVITY_TYPE_CREATE_BILL_QUOTE', 74);
+    define('ACTIVITY_TYPE_UPDATE_BILL_QUOTE', 75);
+    define('ACTIVITY_TYPE_EMAIL_BILL_QUOTE', 76);
+    define('ACTIVITY_TYPE_VIEW_BILL_QUOTE', 77);
+    define('ACTIVITY_TYPE_ARCHIVE_BILL_QUOTE', 78);
+    define('ACTIVITY_TYPE_DELETE_BILL_QUOTE', 79);
+    define('ACTIVITY_TYPE_RESTORE_BILL_QUOTE', 80);
+    define('ACTIVITY_TYPE_RESTORE_BILL', 81);
+    define('ACTIVITY_TYPE_RESTORE_BILL_VENDOR', 82);
+    define('ACTIVITY_TYPE_RESTORE_BILL_PAYMENT', 83);
+    define('ACTIVITY_TYPE_RESTORE_BILL_CREDIT', 87);
+    define('ACTIVITY_TYPE_APPROVE_BILL_QUOTE', 88);
+    define('ACTIVITY_TYPE_CREATE_BILL_EXPENSE', 90);
+    define('ACTIVITY_TYPE_ARCHIVE_BILL_EXPENSE', 91);
+    define('ACTIVITY_TYPE_DELETE_BILL_EXPENSE', 92);
+    define('ACTIVITY_TYPE_RESTORE_BILL_EXPENSE', 93);
+    define('ACTIVITY_TYPE_UPDATE_BILL_EXPENSE', 94);
+    define('ACTIVITY_TYPE_VOIDED_BILL_PAYMENT', 84);
+    define('ACTIVITY_TYPE_REFUNDED_BILL_PAYMENT', 85);
+    define('ACTIVITY_TYPE_FAILED_BILL_PAYMENT', 86);
 
     define('DEFAULT_INVOICE_NUMBER', '0001');
     define('RECENTLY_VIEWED_LIMIT', 20);
@@ -385,6 +389,15 @@ if (!defined('APP_NAME')) {
     define('INVOICE_STATUS_PAID', 6);
     define('INVOICE_STATUS_OVERDUE', -1);
     define('INVOICE_STATUS_UNPAID', -2);
+
+    define('BILL_STATUS_DRAFT', 1);
+    define('BILL_STATUS_SENT', 2);
+    define('BILL_STATUS_VIEWED', 3);
+    define('BILL_STATUS_APPROVED', 4);
+    define('BILL_STATUS_PARTIAL', 5);
+    define('BILL_STATUS_PAID', 6);
+    define('BILL_STATUS_OVERDUE', -1);
+    define('BILL_STATUS_UNPAID', -2);
 
     define('PAYMENT_STATUS_PENDING', 1);
     define('PAYMENT_STATUS_VOIDED', 2);
@@ -534,15 +547,15 @@ if (!defined('APP_NAME')) {
     define('EVENT_CREATE_USER', 25);
     define('EVENT_UPDATE_USER', 26);
     define('EVENT_DELETE_USER', 27);
-//  purchase invoice
-    define('EVENT_CREATE_PURCHASE_INVOICE', 28);
-    define('EVENT_UPDATE_PURCHASE_INVOICE', 29);
-    define('EVENT_DELETE_PURCHASE_INVOICE', 30);
-//  purchase quote
-    define('EVENT_CREATE_PURCHASE_QUOTE', 31);
-    define('EVENT_UPDATE_PURCHASE_QUOTE', 32);
-    define('EVENT_DELETE_PURCHASE_QUOTE', 33);
-    define('EVENT_APPROVE_PURCHASE_QUOTE', 34);
+//  bill
+    define('EVENT_CREATE_BILL', 28);
+    define('EVENT_UPDATE_BILL', 29);
+    define('EVENT_DELETE_BILL', 30);
+//  bill quote
+    define('EVENT_CREATE_BILL_QUOTE', 31);
+    define('EVENT_UPDATE_BILL_QUOTE', 32);
+    define('EVENT_DELETE_BILL_QUOTE', 33);
+    define('EVENT_APPROVE_BILL_QUOTE', 34);
 
 //    others
     define('REQUESTED_PRO_PLAN', 'REQUESTED_PRO_PLAN');
@@ -770,7 +783,7 @@ if (!defined('APP_NAME')) {
     define('FEATURE_DIFFERENT_DESIGNS', 'different_designs');
     define('FEATURE_EMAIL_TEMPLATES_REMINDERS', 'email_templates_reminders');
     define('FEATURE_INVOICE_SETTINGS', 'invoice_settings');
-    define('FEATURE_PURCHASE_INVOICE_SETTINGS', 'purchase_invoice_settings');
+    define('FEATURE_BILL_SETTINGS', 'BILL_settings');
     define('FEATURE_CUSTOM_EMAILS', 'custom_emails');
     define('FEATURE_PDF_ATTACHMENT', 'pdf_attachment');
     define('FEATURE_MORE_INVOICE_DESIGNS', 'more_invoice_designs');
@@ -829,7 +842,7 @@ if (!defined('APP_NAME')) {
     define('INVOICE_FIELDS_CLIENT', 'client_fields');
     define('INVOICE_FIELDS_VENDOR', 'vendor_fields');
     define('INVOICE_FIELDS_INVOICE', 'invoice_fields');
-    define('PURCHASE_INVOICE_FIELDS_INVOICE', 'purchase_invoice_fields');
+    define('BILL_FIELDS_INVOICE', 'BILL_fields');
     define('INVOICE_FIELDS_ACCOUNT', 'account_fields');
     define('INVOICE_FIELDS_PRODUCT', 'product_fields');
     define('INVOICE_FIELDS_TASK', 'task_fields');

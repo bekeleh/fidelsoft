@@ -30,35 +30,35 @@ use App\Events\PaymentWasDeleted;
 use App\Events\PaymentWasRefunded;
 use App\Events\PaymentWasRestored;
 use App\Events\PaymentWasVoided;
-use App\Events\PurchaseCreditWasArchived;
-use App\Events\PurchaseCreditWasCreated;
-use App\Events\PurchaseCreditWasDeleted;
-use App\Events\PurchaseCreditWasRestored;
-use App\Events\PurchaseInvoiceInvitationWasEmailed;
-use App\Events\PurchaseInvoiceInvitationWasViewed;
-use App\Events\PurchaseInvoiceWasArchived;
-use App\Events\PurchaseInvoiceWasCreated;
-use App\Events\PurchaseInvoiceWasDeleted;
-use App\Events\PurchaseInvoiceWasRestored;
-use App\Events\PurchaseInvoiceWasUpdated;
-use App\Events\PurchasePaymentFailed;
-use App\Events\PurchasePaymentWasArchived;
-use App\Events\PurchasePaymentWasCreated;
-use App\Events\PurchasePaymentWasDeleted;
-use App\Events\PurchasePaymentWasRefunded;
-use App\Events\PurchasePaymentWasRestored;
-use App\Events\PurchasePaymentWasVoided;
-use App\Events\PurchaseQuoteInvitationWasEmailed;
-use App\Events\PurchaseQuoteInvitationWasViewed;
-use App\Events\PurchaseQuoteWasArchived;
-use App\Events\PurchaseQuoteWasCreated;
-use App\Events\PurchaseQuoteWasDeleted;
-use App\Events\PurchaseQuoteWasRestored;
-use App\Events\PurchaseQuoteWasUpdated;
+use App\Events\BillCreditWasArchived;
+use App\Events\BillCreditWasCreated;
+use App\Events\BillCreditWasDeleted;
+use App\Events\BillCreditWasRestored;
+use App\Events\BillInvitationWasEmailed;
+use App\Events\BillInvitationWasViewed;
+use App\Events\BillWasArchived;
+use App\Events\BillWasCreated;
+use App\Events\BillWasDeleted;
+use App\Events\BillWasRestored;
+use App\Events\BillWasUpdated;
+use App\Events\BillPaymentFailed;
+use App\Events\BillPaymentWasArchived;
+use App\Events\BillPaymentWasCreated;
+use App\Events\BillPaymentWasDeleted;
+use App\Events\BillPaymentWasRefunded;
+use App\Events\BillPaymentWasRestored;
+use App\Events\BillPaymentWasVoided;
+use App\Events\BillQuoteInvitationWasEmailed;
+use App\Events\BillQuoteInvitationWasViewed;
+use App\Events\BillQuoteWasArchived;
+use App\Events\BillQuoteWasCreated;
+use App\Events\BillQuoteWasDeleted;
+use App\Events\BillQuoteWasRestored;
+use App\Events\BillQuoteWasUpdated;
 use App\Events\QuoteInvitationWasApproved;
 use App\Events\QuoteInvitationWasEmailed;
 use App\Events\QuoteInvitationWasViewed;
-use App\Events\purchaseQuoteInvitationWasApproved;
+use App\Events\billQuoteInvitationWasApproved;
 use App\Events\QuoteWasArchived;
 use App\Events\QuoteWasCreated;
 use App\Events\QuoteWasDeleted;
@@ -74,7 +74,7 @@ use App\Events\VendorWasCreated;
 use App\Events\VendorWasDeleted;
 use App\Events\VendorWasRestored;
 use App\Models\Invoice;
-use App\Models\PurchaseInvoice;
+use App\Models\Bill;
 use App\Ninja\Repositories\ActivityRepository;
 
 /**
@@ -465,28 +465,28 @@ class ActivityListener
     }
 
 //  purchase invoice activities
-    public function createdPurchaseInvoice(PurchaseInvoiceWasCreated $event)
+    public function createdBill(BillWasCreated $event)
     {
-        $this->activityRepo->createPurchaseInvoice(
-            $event->purchaseInvoice, ACTIVITY_TYPE_CREATE_PURCHASE_INVOICE,
-            $event->purchaseInvoice->getAdjustment()
+        $this->activityRepo->createBill(
+            $event->Bill, ACTIVITY_TYPE_CREATE_BILL,
+            $event->Bill->getAdjustment()
         );
     }
 
-    public function updatedPurchaseInvoice(PurchaseInvoiceWasUpdated $event)
+    public function updatedBill(BillWasUpdated $event)
     {
-        if (!$event->purchaseInvoice->isChanged()) {
+        if (!$event->Bill->isChanged()) {
             return;
         }
 
-        $backupInvoice = PurchaseInvoice::with('invoice_items', 'vendor.account', 'vendor.contacts')
+        $backupInvoice = Bill::with('invoice_items', 'vendor.account', 'vendor.contacts')
             ->withTrashed()
-            ->find($event->purchaseInvoice->id);
+            ->find($event->Bill->id);
 
-        $activity = $this->activityRepo->createPurchaseInvoice(
-            $event->purchaseInvoice,
-            ACTIVITY_TYPE_UPDATE_PURCHASE_INVOICE,
-            $event->purchaseInvoice->getAdjustment()
+        $activity = $this->activityRepo->createBill(
+            $event->Bill,
+            ACTIVITY_TYPE_UPDATE_BILL,
+            $event->Bill->getAdjustment()
         );
 
         $activity->json_backup = $backupInvoice->hidePrivateFields()->toJSON();
@@ -494,47 +494,47 @@ class ActivityListener
         $activity->save();
     }
 
-    public function deletedPurchaseInvoice(PurchaseInvoiceWasDeleted $event)
+    public function deletedBill(BillWasDeleted $event)
     {
-        $purchaseInvoice = $event->purchaseInvoice;
+        $Bill = $event->Bill;
 
-        $this->activityRepo->createPurchaseInvoice(
-            $purchaseInvoice,
-            ACTIVITY_TYPE_DELETE_PURCHASE_INVOICE,
-            $purchaseInvoice->affectsBalance() ? $purchaseInvoice->balance * -1 : 0,
-            $purchaseInvoice->affectsBalance() ? $purchaseInvoice->getAmountPaid() * -1 : 0
+        $this->activityRepo->createBill(
+            $Bill,
+            ACTIVITY_TYPE_DELETE_BILL,
+            $Bill->affectsBalance() ? $Bill->balance * -1 : 0,
+            $Bill->affectsBalance() ? $Bill->getAmountPaid() * -1 : 0
         );
     }
 
-    public function archivedPurchaseInvoice(PurchaseInvoiceWasArchived $event)
+    public function archivedBill(BillWasArchived $event)
     {
-        if ($event->purchaseInvoice->is_deleted) {
+        if ($event->Bill->is_deleted) {
             return;
         }
 
-        $this->activityRepo->createPurchaseInvoice(
-            $event->purchaseInvoice,
-            ACTIVITY_TYPE_ARCHIVE_PURCHASE_INVOICE
+        $this->activityRepo->createBill(
+            $event->Bill,
+            ACTIVITY_TYPE_ARCHIVE_BILL
         );
     }
 
-    public function restoredPurchaseInvoice(PurchaseInvoiceWasRestored $event)
+    public function restoredBill(BillWasRestored $event)
     {
-        $purchaseInvoice = $event->purchaseInvoice;
+        $Bill = $event->Bill;
 
-        $this->activityRepo->createPurchaseInvoice(
-            $purchaseInvoice,
+        $this->activityRepo->createBill(
+            $Bill,
             ACTIVITY_TYPE_RESTORE_INVOICE,
-            $purchaseInvoice->affectsBalance() && $event->fromDeleted ? $purchaseInvoice->balance : 0,
-            $purchaseInvoice->affectsBalance() && $event->fromDeleted ? $purchaseInvoice->getAmountPaid() : 0
+            $Bill->affectsBalance() && $event->fromDeleted ? $Bill->balance : 0,
+            $Bill->affectsBalance() && $event->fromDeleted ? $Bill->getAmountPaid() : 0
         );
     }
 
-    public function emailedPurchaseInvoice(PurchaseInvoiceInvitationWasEmailed $event)
+    public function emailedBill(BillInvitationWasEmailed $event)
     {
-        $this->activityRepo->createPurchaseInvoice(
-            $event->purchaseInvitation->purchase_invoice,
-            ACTIVITY_TYPE_EMAIL_PURCHASE_INVOICE,
+        $this->activityRepo->createBill(
+            $event->purchaseInvitation->BILL,
+            ACTIVITY_TYPE_EMAIL_BILL,
             false,
             false,
             $event->purchaseInvitation,
@@ -542,11 +542,11 @@ class ActivityListener
         );
     }
 
-    public function viewedPurchaseInvoice(PurchaseInvoiceInvitationWasViewed $event)
+    public function viewedBill(BillInvitationWasViewed $event)
     {
-        $this->activityRepo->createPurchaseInvoice(
-            $event->purchaseInvoice,
-            ACTIVITY_TYPE_VIEW_PURCHASE_INVOICE,
+        $this->activityRepo->createBill(
+            $event->Bill,
+            ACTIVITY_TYPE_VIEW_BILL,
             false,
             false,
             $event->purchaseInvitation
@@ -554,66 +554,66 @@ class ActivityListener
     }
 
 //  invoice quote activities
-    public function createdPurchaseQuote(PurchaseQuoteWasCreated $event)
+    public function createdPurchaseQuote(BillQuoteWasCreated $event)
     {
-        $this->activityRepo->createPurchaseInvoice(
+        $this->activityRepo->createBill(
             $event->quote,
-            ACTIVITY_TYPE_CREATE_PURCHASE_QUOTE
+            ACTIVITY_TYPE_CREATE_BILL_QUOTE
         );
     }
 
-    public function updatedPurchaseQuote(PurchaseQuoteWasUpdated $event)
+    public function updatedPurchaseQuote(BillQuoteWasUpdated $event)
     {
         if (!$event->quote->isChanged()) {
             return;
         }
 
-        $backupQuote = PurchaseInvoice::with('invoice_items', 'vendor.account', 'vendor.contacts')
+        $backupQuote = Bill::with('invoice_items', 'vendor.account', 'vendor.contacts')
             ->withTrashed()
             ->find($event->quote->id);
 
-        $activity = $this->activityRepo->createPurchaseInvoice(
+        $activity = $this->activityRepo->createBill(
             $event->quote,
-            ACTIVITY_TYPE_UPDATE_PURCHASE_QUOTE
+            ACTIVITY_TYPE_UPDATE_BILL_QUOTE
         );
 
         $activity->json_backup = $backupQuote->hidePrivateFields()->toJSON();
         $activity->save();
     }
 
-    public function deletedPurchaseQuote(PurchaseQuoteWasDeleted $event)
+    public function deletedPurchaseQuote(BillQuoteWasDeleted $event)
     {
-        $this->activityRepo->createPurchaseInvoice(
+        $this->activityRepo->createBill(
             $event->quote,
-            ACTIVITY_TYPE_DELETE_PURCHASE_QUOTE
+            ACTIVITY_TYPE_DELETE_BILL_QUOTE
         );
     }
 
-    public function archivedPurchaseQuote(PurchaseQuoteWasArchived $event)
+    public function archivedPurchaseQuote(BillQuoteWasArchived $event)
     {
         if ($event->quote->is_deleted) {
             return;
         }
 
-        $this->activityRepo->createPurchaseInvoice(
+        $this->activityRepo->createBill(
             $event->quote,
-            ACTIVITY_TYPE_ARCHIVE_PURCHASE_QUOTE
+            ACTIVITY_TYPE_ARCHIVE_BILL_QUOTE
         );
     }
 
-    public function restoredPurchaseQuote(PurchaseQuoteWasRestored $event)
+    public function restoredPurchaseQuote(BillQuoteWasRestored $event)
     {
-        $this->activityRepo->createPurchaseInvoice(
+        $this->activityRepo->createBill(
             $event->quote,
-            ACTIVITY_TYPE_RESTORE_PURCHASE_QUOTE
+            ACTIVITY_TYPE_RESTORE_BILL_QUOTE
         );
     }
 
-    public function emailedPurchaseQuote(PurchaseQuoteInvitationWasEmailed $event)
+    public function emailedPurchaseQuote(BillQuoteInvitationWasEmailed $event)
     {
-        $this->activityRepo->createPurchaseInvoice(
-            $event->purchaseInvitation->purchase_invoice,
-            ACTIVITY_TYPE_EMAIL_PURCHASE_QUOTE,
+        $this->activityRepo->createBill(
+            $event->purchaseInvitation->BILL,
+            ACTIVITY_TYPE_EMAIL_BILL_QUOTE,
             false,
             false,
             $event->purchaseInvitation,
@@ -621,22 +621,22 @@ class ActivityListener
         );
     }
 
-    public function viewedPurchaseQuote(PurchaseQuoteInvitationWasViewed $event)
+    public function viewedPurchaseQuote(BillQuoteInvitationWasViewed $event)
     {
-        $this->activityRepo->createPurchaseInvoice(
+        $this->activityRepo->createBill(
             $event->quote,
-            ACTIVITY_TYPE_VIEW_PURCHASE_QUOTE,
+            ACTIVITY_TYPE_VIEW_BILL_QUOTE,
             false,
             false,
             $event->invitation
         );
     }
 
-    public function approvedPurchaseQuote(purchaseQuoteInvitationWasApproved $event)
+    public function approvedPurchaseQuote(billQuoteInvitationWasApproved $event)
     {
-        $this->activityRepo->createPurchaseInvoice(
+        $this->activityRepo->createBill(
             $event->quote,
-            ACTIVITY_TYPE_APPROVE_PURCHASE_QUOTE,
+            ACTIVITY_TYPE_APPROVE_BILL_QUOTE,
             false,
             false,
             $event->invitation
@@ -644,48 +644,48 @@ class ActivityListener
     }
 
 //  invoice credit activities
-    public function createdPurchaseCredit(PurchaseCreditWasCreated $event)
+    public function createdPurchaseCredit(BillCreditWasCreated $event)
     {
-        $this->activityRepo->createPurchaseInvoice(
+        $this->activityRepo->createBill(
             $event->purchaseCredit,
-            ACTIVITY_TYPE_CREATE_PURCHASE_CREDIT
+            ACTIVITY_TYPE_CREATE_BILL_CREDIT
         );
     }
 
-    public function deletedPurchaseCredit(PurchaseCreditWasDeleted $event)
+    public function deletedPurchaseCredit(BillCreditWasDeleted $event)
     {
-        $this->activityRepo->createPurchaseInvoice(
+        $this->activityRepo->createBill(
             $event->purchaseCredit,
-            ACTIVITY_TYPE_DELETE_PURCHASE_CREDIT
+            ACTIVITY_TYPE_DELETE_BILL_CREDIT
         );
     }
 
-    public function archivedPurchaseCredit(PurchaseCreditWasArchived $event)
+    public function archivedPurchaseCredit(BillCreditWasArchived $event)
     {
         if ($event->purchaseCredit->is_deleted) {
             return;
         }
 
-        $this->activityRepo->createPurchaseInvoice(
+        $this->activityRepo->createBill(
             $event->purchaseCredit,
-            ACTIVITY_TYPE_ARCHIVE_PURCHASE_CREDIT
+            ACTIVITY_TYPE_ARCHIVE_BILL_CREDIT
         );
     }
 
-    public function restoredPurchaseCredit(PurchaseCreditWasRestored $event)
+    public function restoredPurchaseCredit(BillCreditWasRestored $event)
     {
-        $this->activityRepo->createPurchaseInvoice(
+        $this->activityRepo->createBill(
             $event->purchaseCredit,
-            ACTIVITY_TYPE_RESTORE_PURCHASE_CREDIT
+            ACTIVITY_TYPE_RESTORE_BILL_CREDIT
         );
     }
 
 //   invoice payment activities
-    public function createdPurchasePayment(PurchasePaymentWasCreated $event)
+    public function createdPurchasePayment(BillPaymentWasCreated $event)
     {
-        $this->activityRepo->createPurchaseInvoice(
+        $this->activityRepo->createBill(
             $event->purchasePayment,
-            ACTIVITY_TYPE_CREATE_PURCHASE_PAYMENT,
+            ACTIVITY_TYPE_CREATE_BILL_PAYMENT,
             $event->purchasePayment->amount * -1,
             $event->purchasePayment->amount,
             false,
@@ -693,73 +693,73 @@ class ActivityListener
         );
     }
 
-    public function deletedPurchasePayment(PurchasePaymentWasDeleted $event)
+    public function deletedPurchasePayment(BillPaymentWasDeleted $event)
     {
         $payment = $event->purchasePayment;
 
-        $this->activityRepo->createPurchaseInvoice(
+        $this->activityRepo->createBill(
             $payment,
-            ACTIVITY_TYPE_DELETE_PURCHASE_PAYMENT,
+            ACTIVITY_TYPE_DELETE_BILL_PAYMENT,
             $payment->isFailedOrVoided() ? 0 : $payment->getCompletedAmount(),
             $payment->isFailedOrVoided() ? 0 : $payment->getCompletedAmount() * -1
         );
     }
 
-    public function refundedPurchasePayment(PurchasePaymentWasRefunded $event)
+    public function refundedPurchasePayment(BillPaymentWasRefunded $event)
     {
         $payment = $event->purchasePayment;
 
-        $this->activityRepo->createPurchaseInvoice(
+        $this->activityRepo->createBill(
             $payment,
-            ACTIVITY_TYPE_REFUNDED_PURCHASE_PAYMENT,
+            ACTIVITY_TYPE_REFUNDED_BILL_PAYMENT,
             $event->refundAmount,
             $event->refundAmount * -1
         );
     }
 
-    public function voidedPurchasePayment(PurchasePaymentWasVoided $event)
+    public function voidedPurchasePayment(BillPaymentWasVoided $event)
     {
         $payment = $event->purchasePayment;
 
-        $this->activityRepo->createPurchaseInvoice(
+        $this->activityRepo->createBill(
             $payment,
-            ACTIVITY_TYPE_VOIDED_PURCHASE_PAYMENT,
+            ACTIVITY_TYPE_VOIDED_BILL_PAYMENT,
             $payment->is_deleted ? 0 : $payment->getCompletedAmount(),
             $payment->is_deleted ? 0 : $payment->getCompletedAmount() * -1
         );
     }
 
-    public function failedPurchasePayment(PurchasePaymentFailed $event)
+    public function failedPurchasePayment(BillPaymentFailed $event)
     {
         $payment = $event->purchasePayment;
 
-        $this->activityRepo->createPurchaseInvoice(
+        $this->activityRepo->createBill(
             $payment,
-            ACTIVITY_TYPE_FAILED_PURCHASE_PAYMENT,
+            ACTIVITY_TYPE_FAILED_BILL_PAYMENT,
             $payment->is_deleted ? 0 : $payment->getCompletedAmount(),
             $payment->is_deleted ? 0 : $payment->getCompletedAmount() * -1
         );
     }
 
-    public function archivedPurchasePayment(PurchasePaymentWasArchived $event)
+    public function archivedPurchasePayment(BillPaymentWasArchived $event)
     {
         if ($event->purchasePayment->is_deleted) {
             return;
         }
 
-        $this->activityRepo->createPurchaseInvoice(
+        $this->activityRepo->createBill(
             $event->purchasePayment,
-            ACTIVITY_TYPE_ARCHIVE_PURCHASE_PAYMENT
+            ACTIVITY_TYPE_ARCHIVE_BILL_PAYMENT
         );
     }
 
-    public function restoredPurchasePayment(PurchasePaymentWasRestored $event)
+    public function restoredPurchasePayment(BillPaymentWasRestored $event)
     {
         $payment = $event->purchasePayment;
 
-        $this->activityRepo->createPurchaseInvoice(
+        $this->activityRepo->createBill(
             $payment,
-            ACTIVITY_TYPE_RESTORE_PURCHASE_INVOICE,
+            ACTIVITY_TYPE_RESTORE_BILL,
             $event->fromDeleted && !$payment->isFailedOrVoided() ? $payment->getCompletedAmount() * -1 : 0,
             $event->fromDeleted && !$payment->isFailedOrVoided() ? $payment->getCompletedAmount() : 0
         );

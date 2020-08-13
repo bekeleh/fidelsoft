@@ -3,12 +3,12 @@
 namespace App\Ninja\Mailers;
 
 use App;
-use App\Events\PurchaseInvoiceWasEmailed;
-use App\Events\PurchaseQuoteWasEmailed;
+use App\Events\BillWasEmailed;
+use App\Events\BillQuoteWasEmailed;
 use App\Jobs\ConvertInvoiceToUbl;
 use App\Libraries\Utils;
-use App\Models\PurchaseInvoice;
-use App\Models\PurchasePayment;
+use App\Models\Bill;
+use App\Models\BillPayment;
 use App\Services\VendorTemplateService;
 use HTMLUtils;
 use Illuminate\Support\Facades\Cache;
@@ -25,7 +25,7 @@ class PurchaseContactMailer extends Mailer
         $this->templateService = $templateService;
     }
 
-    public function sendInvoice(PurchaseInvoice $invoice, $reminder = false, $template = false, $proposal = false)
+    public function sendInvoice(Bill $invoice, $reminder = false, $template = false, $proposal = false)
     {
         if ($invoice->is_recurring) {
             return false;
@@ -104,9 +104,9 @@ class PurchaseContactMailer extends Mailer
 
         if ($sent === true && !$proposal) {
             if ($invoice->isType(INVOICE_TYPE_QUOTE)) {
-                event(new PurchaseQuoteWasEmailed($invoice, $reminder));
+                event(new BillQuoteWasEmailed($invoice, $reminder));
             } else {
-                event(new PurchaseInvoiceWasEmailed($invoice, $reminder));
+                event(new BillWasEmailed($invoice, $reminder));
             }
         }
 
@@ -115,7 +115,7 @@ class PurchaseContactMailer extends Mailer
 
     private function sendPurchaseInvitation(
         $purchaseInvitation,
-        PurchaseInvoice $invoice,
+        Bill $invoice,
         $body,
         $subject,
         $reminder,
@@ -199,7 +199,7 @@ class PurchaseContactMailer extends Mailer
 
         $subject = $this->templateService->processVariables($subject, $variables);
         $fromEmail = $account->getReplyToEmail() ?: $user->email;
-        $view = $account->getTemplateView(ENTITY_PURCHASE_INVOICE);
+        $view = $account->getTemplateView(ENTITY_BILL);
 
         $response = $this->sendTo($purchaseInvitation->contact->email, $fromEmail, $account->getDisplayName(), $subject, $view, $data);
 
@@ -233,14 +233,14 @@ class PurchaseContactMailer extends Mailer
     }
 
 
-    public function sendPaymentConfirmation(PurchasePayment $purchasePayment, $refunded = 0)
+    public function sendPaymentConfirmation(BillPayment $purchasePayment, $refunded = 0)
     {
         $account = $purchasePayment->account;
         $vendor = $purchasePayment->vendor;
 
         $account->loadLocalizationSettings($vendor);
-        $invoice = $purchasePayment->purchase_invoice;
-        $purchaseInvitation = $purchasePayment->invitation ?: $purchasePayment->purchase_invoice->invitations[0];
+        $invoice = $purchasePayment->BILL;
+        $purchaseInvitation = $purchasePayment->invitation ?: $purchasePayment->BILL->invitations[0];
         $accountName = $account->getDisplayName();
 
         if ($refunded > 0) {
@@ -276,7 +276,7 @@ class PurchaseContactMailer extends Mailer
             'vendor' => $vendor,
             'account' => $account,
             'payment' => $purchasePayment,
-            'entityType' => ENTITY_PURCHASE_INVOICE,
+            'entityType' => ENTITY_BILL,
             'bccEmail' => $account->getBccEmail(),
             'fromEmail' => $account->getFromEmail(),
             'isRefund' => $refunded > 0,
@@ -289,7 +289,7 @@ class PurchaseContactMailer extends Mailer
         }
 
         $subject = $this->templateService->processVariables($emailSubject, $variables);
-        $data['invoice_id'] = $purchasePayment->purchase_invoice->id;
+        $data['invoice_id'] = $purchasePayment->BILL->id;
 
         $view = $account->getTemplateView('payment_confirmation');
         $fromEmail = $account->getReplyToEmail() ?: $user->email;

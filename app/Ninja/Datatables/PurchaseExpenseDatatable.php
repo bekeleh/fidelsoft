@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\URL;
 
 class PurchaseExpenseDatatable extends EntityDatatable
 {
-    public $entityType = ENTITY_PURCHASE_EXPENSE;
+    public $entityType = ENTITY_BILL_EXPENSE;
     public $sortCol = 1;
 
     public function columns()
@@ -46,8 +46,8 @@ class PurchaseExpenseDatatable extends EntityDatatable
             [
                 'expense_date',
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_PURCHASE_EXPENSE, $model]))
-                        return $this->addNote(link_to("purchase_purchase_expenses/{$model->public_id}/edit", Utils::fromSqlDate($model->expense_date_sql))->toHtml(), $model->private_notes);
+                    if (Auth::user()->can('edit', [ENTITY_BILL_EXPENSE, $model]))
+                        return $this->addNote(link_to("purchase_BILL_EXPENSEs/{$model->public_id}/edit", Utils::fromSqlDate($model->expense_date_sql))->toHtml(), $model->private_notes);
                     else
                         return Utils::fromSqlDate($model->expense_date_sql);
 
@@ -78,7 +78,7 @@ class PurchaseExpenseDatatable extends EntityDatatable
                 'category',
                 function ($model) {
                     $category = $model->category != null ? substr($model->category, 0, 100) : '';
-                    if (Auth::user()->can('edit', [ENTITY_PURCHASE_EXPENSE, $model]))
+                    if (Auth::user()->can('edit', [ENTITY_BILL_EXPENSE, $model]))
                         return $model->category_public_id ? link_to("expense_categories/{$model->category_public_id}/edit", $category)->toHtml() : '';
                     else
                         return $category;
@@ -134,39 +134,39 @@ class PurchaseExpenseDatatable extends EntityDatatable
     {
         return [
             [
-                trans('texts.edit_purchase_expense'),
+                trans('texts.edit_BILL_EXPENSE'),
                 function ($model) {
-                    return URL::to("purchase_purchase_expenses/{$model->public_id}/edit");
+                    return URL::to("purchase_BILL_EXPENSEs/{$model->public_id}/edit");
                 },
                 function ($model) {
-                    return Auth::user()->can('edit', [ENTITY_PURCHASE_EXPENSE, $model]);
+                    return Auth::user()->can('edit', [ENTITY_BILL_EXPENSE, $model]);
                 },
             ],
             [
-                trans("texts.clone_purchase_expense"),
+                trans("texts.clone_BILL_EXPENSE"),
                 function ($model) {
-                    return URL::to("purchase_purchase_expenses/{$model->public_id}/clone");
+                    return URL::to("purchase_BILL_EXPENSEs/{$model->public_id}/clone");
                 },
                 function ($model) {
-                    return Auth::user()->can('create', ENTITY_PURCHASE_EXPENSE);
+                    return Auth::user()->can('create', ENTITY_BILL_EXPENSE);
                 },
             ],
             [
                 trans('texts.edit_invoice'),
                 function ($model) {
-                    return URL::to("/purchase_invoices/{$model->invoice_public_id}/edit");
+                    return URL::to("/BILLs/{$model->invoice_public_id}/edit");
                 },
                 function ($model) {
-                    return $model->invoice_public_id && Auth::user()->can('edit', [ENTITY_PURCHASE_INVOICE, $model]);
+                    return $model->invoice_public_id && Auth::user()->can('edit', [ENTITY_BILL, $model]);
                 },
             ],
             [
-                trans('texts.invoice_purchase_expense'),
+                trans('texts.invoice_BILL_EXPENSE'),
                 function ($model) {
-                    return "javascript:submitForm_purchase_expense('invoice', {$model->public_id})";
+                    return "javascript:submitForm_BILL_EXPENSE('invoice', {$model->public_id})";
                 },
                 function ($model) {
-                    return !$model->invoice_id && (!$model->deleted_at || $model->deleted_at == '0000-00-00') && Auth::user()->can('create', ENTITY_PURCHASE_INVOICE);
+                    return !$model->invoice_id && (!$model->deleted_at || $model->deleted_at == '0000-00-00') && Auth::user()->can('create', ENTITY_BILL);
                 },
             ],
             [
@@ -174,7 +174,7 @@ class PurchaseExpenseDatatable extends EntityDatatable
                 return false;
             },
                 function ($model) {
-                    return Auth::user()->can('edit', [ENTITY_PURCHASE_INVOICE]);
+                    return Auth::user()->can('edit', [ENTITY_BILL]);
                 },
             ],
         ];

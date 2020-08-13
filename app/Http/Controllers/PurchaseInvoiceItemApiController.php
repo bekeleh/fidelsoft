@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreatePurchaseInvoiceItemAPIRequest;
-use App\Http\Requests\PurchaseInvoiceItemRequest;
-use App\Http\Requests\UpdatePurchaseInvoiceItemRequest;
+use App\Http\Requests\CreateBillItemAPIRequest;
+use App\Http\Requests\BillItemRequest;
+use App\Http\Requests\UpdateBillItemRequest;
 use App\Libraries\Utils;
-use App\Models\PurchaseInvoiceItem;
+use App\Models\BillItem;
 use App\Models\Product;
 use App\Ninja\Repositories\ClientRepository;
-use App\Ninja\Repositories\PurchaseInvoiceItemRepository;
+use App\Ninja\Repositories\BillItemRepository;
 use App\Ninja\Repositories\PaymentRepository;
-use App\Services\PurchaseInvoiceItemService;
+use App\Services\BillItemService;
 use App\Services\PaymentService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Response;
 
-class PurchaseInvoiceItemApiController extends BaseAPIController
+class BillItemApiController extends BaseAPIController
 {
-    protected $entityType = ENTITY_PURCHASE_INVOICE;
+    protected $entityType = ENTITY_BILL;
     protected $clientRepo;
     protected $invoiceItemRepo;
     protected $paymentRepo;
@@ -27,8 +27,8 @@ class PurchaseInvoiceItemApiController extends BaseAPIController
     protected $paymentService;
 
     public function __construct(
-        PurchaseInvoiceItemService $invoiceService,
-        PurchaseInvoiceItemRepository $invoiceItemRepo,
+        BillItemService $invoiceService,
+        BillItemRepository $invoiceItemRepo,
         ClientRepository $clientRepo,
         PaymentRepository $paymentRepo,
         PaymentService $paymentService)
@@ -46,12 +46,12 @@ class PurchaseInvoiceItemApiController extends BaseAPIController
      * @SWG\Get(
      *   path="/invoices",
      *   summary="List invoices",
-     *   operationId="listPurchaseInvoiceItems",
+     *   operationId="listBillItems",
      *   tags={"invoice"},
      *   @SWG\Response(
      *     response=200,
      *     description="A list of invoices",
-     *      @SWG\Schema(type="array", @SWG\Items(ref="#/definitions/PurchaseInvoiceItem"))
+     *      @SWG\Schema(type="array", @SWG\Items(ref="#/definitions/BillItem"))
      *   ),
      *   @SWG\Response(
      *     response="default",
@@ -61,7 +61,7 @@ class PurchaseInvoiceItemApiController extends BaseAPIController
      */
     public function index()
     {
-        $invoices = PurchaseInvoiceItem::scope()
+        $invoices = BillItem::scope()
             ->withTrashed()
             ->with('invoice_items', 'client')
             ->orderBy('updated_at', 'desc');
@@ -90,7 +90,7 @@ class PurchaseInvoiceItemApiController extends BaseAPIController
     /**
      * @SWG\Get(
      *   path="/invoices/{invoice_id}",
-     *   summary="Retrieve an PurchaseInvoiceItem",
+     *   summary="Retrieve an BillItem",
      *   tags={"invoice"},
      *   @SWG\Parameter(
      *     in="path",
@@ -101,17 +101,17 @@ class PurchaseInvoiceItemApiController extends BaseAPIController
      *   @SWG\Response(
      *     response=200,
      *     description="A single invoice",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/PurchaseInvoiceItem"))
+     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/BillItem"))
      *   ),
      *   @SWG\Response(
      *     response="default",
      *     description="an ""unexpected"" error"
      *   )
      * )
-     * @param PurchaseInvoiceItemRequest $request
+     * @param BillItemRequest $request
      * @return
      */
-    public function show(PurchaseInvoiceItemRequest $request)
+    public function show(BillItemRequest $request)
     {
         return $this->itemResponse($request->entity());
     }
@@ -124,41 +124,41 @@ class PurchaseInvoiceItemApiController extends BaseAPIController
      *   @SWG\Parameter(
      *     in="body",
      *     name="invoice",
-     *     @SWG\Schema(ref="#/definitions/PurchaseInvoiceItem")
+     *     @SWG\Schema(ref="#/definitions/BillItem")
      *   ),
      *   @SWG\Response(
      *     response=200,
      *     description="New invoice",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/PurchaseInvoiceItem"))
+     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/BillItem"))
      *   ),
      *   @SWG\Response(
      *     response="default",
      *     description="an ""unexpected"" error"
      *   )
      * )
-     * @param CreatePurchaseInvoiceItemAPIRequest $request
+     * @param CreateBillItemAPIRequest $request
      * @return
      */
-    public function store(CreatePurchaseInvoiceItemAPIRequest $request)
+    public function store(CreateBillItemAPIRequest $request)
     {
 
     }
 
-    public function emailPurchaseInvoiceItem(PurchaseInvoiceItemRequest $request)
+    public function emailBillItem(BillItemRequest $request)
     {
         $invoice = $request->entity();
 
-        if ($invoice->is_recurring && $recurringPurchaseInvoiceItem = $this->invoiceItemRepo->createRecurringPurchaseInvoiceItem($invoice)) {
-            $invoice = $recurringPurchaseInvoiceItem;
+        if ($invoice->is_recurring && $recurringBillItem = $this->invoiceItemRepo->createRecurringBillItem($invoice)) {
+            $invoice = $recurringBillItem;
         }
 
         $reminder = request()->reminder;
         $template = request()->template;
 
         if (config('queue.default') !== 'sync') {
-            $this->dispatch(new SendPurchaseInvoiceItemEmail($invoice, auth()->user()->id, $reminder, $template));
+            $this->dispatch(new SendBillItemEmail($invoice, auth()->user()->id, $reminder, $template));
         } else {
-            $result = app('App\Ninja\Mailers\ContactMailer')->sendPurchaseInvoiceItem($invoice, $reminder, $template);
+            $result = app('App\Ninja\Mailers\ContactMailer')->sendBillItem($invoice, $reminder, $template);
             if ($result !== true) {
                 return $this->errorResponse($result, 500);
             }
@@ -184,12 +184,12 @@ class PurchaseInvoiceItemApiController extends BaseAPIController
      *   @SWG\Parameter(
      *     in="body",
      *     name="invoice",
-     *     @SWG\Schema(ref="#/definitions/PurchaseInvoiceItem")
+     *     @SWG\Schema(ref="#/definitions/BillItem")
      *   ),
      *   @SWG\Response(
      *     response=200,
      *     description="Updated invoice",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/PurchaseInvoiceItem"))
+     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/BillItem"))
      *   ),
      *   @SWG\Response(
      *     response="default",
@@ -197,15 +197,15 @@ class PurchaseInvoiceItemApiController extends BaseAPIController
      *   )
      * )
      *
-     * @param UpdatePurchaseInvoiceItemRequest $request
+     * @param UpdateBillItemRequest $request
      * @param mixed $publicId
      * @return
      */
-    public function update(UpdatePurchaseInvoiceItemRequest $request, $publicId)
+    public function update(UpdateBillItemRequest $request, $publicId)
     {
         if ($request->action == ACTION_CONVERT) {
             $quote = $request->entity();
-            $invoice = $this->invoiceItemRepo->clonePurchaseInvoiceItem($quote, $quote->id);
+            $invoice = $this->invoiceItemRepo->cloneBillItem($quote, $quote->id);
 
             return $this->itemResponse($invoice);
         } elseif ($request->action) {
@@ -216,7 +216,7 @@ class PurchaseInvoiceItemApiController extends BaseAPIController
         $data['public_id'] = $publicId;
         $this->invoiceService->save($data, $request->entity());
 
-        $invoice = PurchaseInvoiceItem::scope($publicId)
+        $invoice = BillItem::scope($publicId)
             ->withTrashed()
             ->with('client', 'invoice_items', 'invitations')
             ->firstOrFail();
@@ -238,17 +238,17 @@ class PurchaseInvoiceItemApiController extends BaseAPIController
      *   @SWG\Response(
      *     response=200,
      *     description="Deleted invoice",
-     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/PurchaseInvoiceItem"))
+     *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/BillItem"))
      *   ),
      *   @SWG\Response(
      *     response="default",
      *     description="an ""unexpected"" error"
      *   )
      * )
-     * @param UpdatePurchaseInvoiceItemRequest $request
+     * @param UpdateBillItemRequest $request
      * @return
      */
-    public function destroy(UpdatePurchaseInvoiceItemRequest $request)
+    public function destroy(UpdateBillItemRequest $request)
     {
         $invoice = $request->entity();
 
@@ -257,7 +257,7 @@ class PurchaseInvoiceItemApiController extends BaseAPIController
         return $this->itemResponse($invoice);
     }
 
-    public function download(PurchaseInvoiceItemRequest $request)
+    public function download(BillItemRequest $request)
     {
         $invoice = $request->entity();
 

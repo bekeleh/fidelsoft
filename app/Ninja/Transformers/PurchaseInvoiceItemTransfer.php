@@ -2,11 +2,11 @@
 
 namespace App\Ninja\Transformers;
 
-use App\Models\PurchaseInvoiceItem;
+use App\Models\BillItem;
 
-class PurchaseInvoiceItemTransformer extends EntityTransformer
+class BillItemTransformer extends EntityTransformer
 {
-    public function transform(PurchaseInvoiceItem $item)
+    public function transform(BillItem $item)
     {
         return array_merge($this->getDefaults($item), [
             'id' => (int)$item->public_id,

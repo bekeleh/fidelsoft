@@ -4,9 +4,9 @@ namespace App\Http\Requests;
 
 use App\Models\Vendor;
 
-class CreatePurchaseInvoiceRequest extends PurchaseInvoiceRequest
+class CreateBillRequest extends BillRequest
 {
-    protected $entityType = ENTITY_PURCHASE_INVOICE;
+    protected $entityType = ENTITY_BILL;
 
     public function authorize()
     {
@@ -18,7 +18,7 @@ class CreatePurchaseInvoiceRequest extends PurchaseInvoiceRequest
         $rules = [
             'client' => 'required',
             'invoice_items' => 'valid_invoice_items',
-            'invoice_number' => 'required|unique:purchase_invoices,invoice_number,' . $this->id . ',id,account_id,' . $this->user()->account_id,
+            'invoice_number' => 'required|unique:BILLs,invoice_number,' . $this->id . ',id,account_id,' . $this->user()->account_id,
             'discount' => 'positive',
             'invoice_date' => 'required',
             //'due_date' => 'date',

@@ -57,9 +57,9 @@ class Activity extends EntityModel
         return $this->belongsTo('App\Models\Invoice')->withTrashed();
     }
 
-    public function purchase_invoice()
+    public function BILL()
     {
-        return $this->belongsTo('App\Models\PurchaseInvoice', 'invoice_id')->withTrashed();
+        return $this->belongsTo('App\Models\Bill', 'invoice_id')->withTrashed();
     }
 
     public function credit()
@@ -67,9 +67,9 @@ class Activity extends EntityModel
         return $this->belongsTo('App\Models\Credit')->withTrashed();
     }
 
-    public function purchase_credit()
+    public function BILL_CREDIT()
     {
-        return $this->belongsTo('App\Models\PurchaseCredit')->withTrashed();
+        return $this->belongsTo('App\Models\BillCredit')->withTrashed();
     }
 
     public function payment()
@@ -77,9 +77,9 @@ class Activity extends EntityModel
         return $this->belongsTo('App\Models\Payment')->withTrashed();
     }
 
-    public function purchase_payment()
+    public function BILL_PAYMENT()
     {
-        return $this->belongsTo('App\Models\PurchasePayment')->withTrashed();
+        return $this->belongsTo('App\Models\BillPayment')->withTrashed();
     }
 
     public function task()
@@ -107,12 +107,12 @@ class Activity extends EntityModel
         $vendorContactId = $this->vendor_contact_id;
         $user = $this->user;
         $invoice = $this->invoice;
-        $purchase_invoice = $this->purchase_invoice;
+        $BILL = $this->BILL;
         $contactVendorId = $this->vendor_contact_id;
         $payment = $this->payment;
-        $purchasePayment = $this->purchase_payment;
+        $purchasePayment = $this->BILL_PAYMENT;
         $credit = $this->credit;
-        $purchaseCredit = $this->purchase_credit;
+        $purchaseCredit = $this->BILL_CREDIT;
         $expense = $this->expense;
         $isSystem = $this->is_system;
         $task = $this->task;
@@ -122,17 +122,17 @@ class Activity extends EntityModel
             'vendor' => $vendor ? link_to($vendor->getRoute(), $vendor->getDisplayName()) : null,
             'user' => $isSystem ? '<i>' . trans('texts.system') . '</i>' : e($user->getDisplayName()),
             'invoice' => $invoice ? link_to($invoice->getRoute(), $invoice->getDisplayName()) : null,
-            'purchase_invoice' => $purchase_invoice ? link_to($purchase_invoice->getRoute(), $purchase_invoice->getDisplayName()) : null,
+            'BILL' => $BILL ? link_to($BILL->getRoute(), $BILL->getDisplayName()) : null,
             'quote' => $invoice ? link_to($invoice->getRoute(), $invoice->getDisplayName()) : null,
-            'purchase_quote' => $purchase_invoice ? link_to($purchase_invoice->getRoute(), $purchase_invoice->getDisplayName()) : null,
+            'BILL_QUOTE' => $BILL ? link_to($BILL->getRoute(), $BILL->getDisplayName()) : null,
             'contact' => $contactId ? link_to($client->getRoute(), $client->getDisplayName()) : e($user->getDisplayName()),
             'vendor_contact' => $vendorContactId ? link_to($vendor->getRoute(), $vendor->getDisplayName()) : e($user->getDisplayName()),
             'payment' => $payment ? e($payment->transaction_reference) : null,
-            'purchase_payment' => $purchasePayment ? e($purchasePayment->transaction_reference) : null,
+            'BILL_PAYMENT' => $purchasePayment ? e($purchasePayment->transaction_reference) : null,
             'payment_amount' => $payment ? $account->formatMoney($payment->amount, $payment) : null,
             'adjustment' => $this->adjustment ? $account->formatMoney($this->adjustment, $this) : null,
             'credit' => $credit ? $account->formatMoney($credit->amount, $client) : null,
-            'purchase_credit' => $purchaseCredit ? $account->formatMoney($credit->amount, $client) : null,
+            'BILL_CREDIT' => $purchaseCredit ? $account->formatMoney($credit->amount, $client) : null,
             'task' => $task ? link_to($task->getRoute(), substr($task->description, 0, 30) . '...') : null,
             'expense' => $expense ? link_to($expense->getRoute(), substr($expense->public_notes, 0, 30) . '...') : null,
         ];
@@ -157,10 +157,10 @@ class Activity extends EntityModel
             case ACTIVITY_TYPE_ARCHIVE_VENDOR:
             case ACTIVITY_TYPE_DELETE_VENDOR:
             case ACTIVITY_TYPE_RESTORE_VENDOR:
-            case ACTIVITY_TYPE_CREATE_PURCHASE_CREDIT:
-            case ACTIVITY_TYPE_ARCHIVE_PURCHASE_CREDIT:
-            case ACTIVITY_TYPE_DELETE_PURCHASE_CREDIT:
-            case ACTIVITY_TYPE_RESTORE_PURCHASE_CREDIT:
+            case ACTIVITY_TYPE_CREATE_BILL_CREDIT:
+            case ACTIVITY_TYPE_ARCHIVE_BILL_CREDIT:
+            case ACTIVITY_TYPE_DELETE_BILL_CREDIT:
+            case ACTIVITY_TYPE_RESTORE_BILL_CREDIT:
                 return ENTITY_VENDOR;
                 break;
             case ACTIVITY_TYPE_CREATE_INVOICE:
@@ -172,14 +172,14 @@ class Activity extends EntityModel
             case ACTIVITY_TYPE_RESTORE_INVOICE:
                 return ENTITY_INVOICE;
                 break;
-            case ACTIVITY_TYPE_CREATE_PURCHASE_INVOICE:
-            case ACTIVITY_TYPE_UPDATE_PURCHASE_INVOICE:
-            case ACTIVITY_TYPE_EMAIL_PURCHASE_INVOICE:
-            case ACTIVITY_TYPE_VIEW_PURCHASE_INVOICE:
-            case ACTIVITY_TYPE_ARCHIVE_PURCHASE_INVOICE:
-            case ACTIVITY_TYPE_DELETE_PURCHASE_INVOICE:
-            case ACTIVITY_TYPE_RESTORE_PURCHASE_INVOICE:
-                return ENTITY_PURCHASE_INVOICE;
+            case ACTIVITY_TYPE_CREATE_BILL:
+            case ACTIVITY_TYPE_UPDATE_BILL:
+            case ACTIVITY_TYPE_EMAIL_BILL:
+            case ACTIVITY_TYPE_VIEW_BILL:
+            case ACTIVITY_TYPE_ARCHIVE_BILL:
+            case ACTIVITY_TYPE_DELETE_BILL:
+            case ACTIVITY_TYPE_RESTORE_BILL:
+                return ENTITY_BILL;
                 break;
             case ACTIVITY_TYPE_CREATE_PAYMENT:
             case ACTIVITY_TYPE_ARCHIVE_PAYMENT:
@@ -190,14 +190,14 @@ class Activity extends EntityModel
             case ACTIVITY_TYPE_FAILED_PAYMENT:
                 return ENTITY_PAYMENT;
                 break;
-            case ACTIVITY_TYPE_CREATE_PURCHASE_PAYMENT:
-            case ACTIVITY_TYPE_ARCHIVE_PURCHASE_PAYMENT:
-            case ACTIVITY_TYPE_DELETE_PURCHASE_PAYMENT:
-            case ACTIVITY_TYPE_RESTORE_PURCHASE_PAYMENT:
-            case ACTIVITY_TYPE_VOIDED_PURCHASE_PAYMENT:
-            case ACTIVITY_TYPE_REFUNDED_PURCHASE_PAYMENT:
-            case ACTIVITY_TYPE_FAILED_PURCHASE_PAYMENT:
-                return ENTITY_PURCHASE_PAYMENT;
+            case ACTIVITY_TYPE_CREATE_BILL_PAYMENT:
+            case ACTIVITY_TYPE_ARCHIVE_BILL_PAYMENT:
+            case ACTIVITY_TYPE_DELETE_BILL_PAYMENT:
+            case ACTIVITY_TYPE_RESTORE_BILL_PAYMENT:
+            case ACTIVITY_TYPE_VOIDED_BILL_PAYMENT:
+            case ACTIVITY_TYPE_REFUNDED_BILL_PAYMENT:
+            case ACTIVITY_TYPE_FAILED_BILL_PAYMENT:
+                return ENTITY_BILL_PAYMENT;
                 break;
             case ACTIVITY_TYPE_CREATE_QUOTE:
             case ACTIVITY_TYPE_UPDATE_QUOTE:
@@ -209,15 +209,15 @@ class Activity extends EntityModel
             case ACTIVITY_TYPE_APPROVE_QUOTE:
                 return ENTITY_QUOTE;
                 break;
-            case ACTIVITY_TYPE_CREATE_PURCHASE_QUOTE:
-            case ACTIVITY_TYPE_UPDATE_PURCHASE_QUOTE:
-            case ACTIVITY_TYPE_EMAIL_PURCHASE_QUOTE:
-            case ACTIVITY_TYPE_VIEW_PURCHASE_QUOTE:
-            case ACTIVITY_TYPE_ARCHIVE_PURCHASE_QUOTE:
-            case ACTIVITY_TYPE_DELETE_PURCHASE_QUOTE:
-            case ACTIVITY_TYPE_RESTORE_PURCHASE_QUOTE:
-            case ACTIVITY_TYPE_APPROVE_PURCHASE_QUOTE:
-                return ENTITY_PURCHASE_QUOTE;
+            case ACTIVITY_TYPE_CREATE_BILL_QUOTE:
+            case ACTIVITY_TYPE_UPDATE_BILL_QUOTE:
+            case ACTIVITY_TYPE_EMAIL_BILL_QUOTE:
+            case ACTIVITY_TYPE_VIEW_BILL_QUOTE:
+            case ACTIVITY_TYPE_ARCHIVE_BILL_QUOTE:
+            case ACTIVITY_TYPE_DELETE_BILL_QUOTE:
+            case ACTIVITY_TYPE_RESTORE_BILL_QUOTE:
+            case ACTIVITY_TYPE_APPROVE_BILL_QUOTE:
+                return ENTITY_BILL_QUOTE;
                 break;
 //            case ACTIVITY_TYPE_CREATE_VENDOR:
 //            case ACTIVITY_TYPE_ARCHIVE_VENDOR:

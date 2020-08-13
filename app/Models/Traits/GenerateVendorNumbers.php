@@ -3,7 +3,7 @@
 namespace App\Models\Traits;
 
 use App\Models\Vendor;
-use App\Models\PurchaseInvoice;
+use App\Models\Bill;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,13 +37,13 @@ trait GenerateVendorNumbers
             }
 
             if ($entity->recurring_invoice_id) {
-                $number = $this->recurring_purchase_invoice_number_prefix . $number;
+                $number = $this->recurring_BILL_number_prefix . $number;
             }
 
             if ($entity->isEntityType(ENTITY_VENDOR)) {
                 $check = Vendor::scope(false, $this->id)->where('id_number', $number)->withTrashed()->first();
             } else {
-                $check = PurchaseInvoice::scope(false, $this->id)->where('invoice_number', $number)->withTrashed()->first();
+                $check = Bill::scope(false, $this->id)->where('invoice_number', $number)->withTrashed()->first();
             }
             $counter++;
             $counterOffset++;
@@ -65,7 +65,7 @@ trait GenerateVendorNumbers
                     $this->vendor_number_counter += $counterOffset - 1;
                     $this->save();
                 }
-            } elseif ($entity->isEntityType(ENTITY_PURCHASE_CREDIT)) {
+            } elseif ($entity->isEntityType(ENTITY_BILL_CREDIT)) {
                 if ($this->vendorNumbersEnabled()) {
                     $this->vendor_number_counter += $counterOffset - 1;
                     $this->save();
@@ -91,7 +91,7 @@ trait GenerateVendorNumbers
      */
     public function getVendorNumberPrefix($entityType)
     {
-        if (!$this->hasFeature(FEATURE_PURCHASE_INVOICE_SETTINGS)) {
+        if (!$this->hasFeature(FEATURE_BILL_SETTINGS)) {
             return '';
         }
 
@@ -102,7 +102,7 @@ trait GenerateVendorNumbers
 
     public function getVendorNumberPattern($entityType)
     {
-        if (!$this->hasFeature(FEATURE_PURCHASE_INVOICE_SETTINGS)) {
+        if (!$this->hasFeature(FEATURE_BILL_SETTINGS)) {
             return false;
         }
 
@@ -117,14 +117,14 @@ trait GenerateVendorNumbers
         return $this->hasVendorNumberPattern($entityType) ? true : false;
     }
 
-    public function hasVendorNumberPattern($purchaseInvoice)
+    public function hasVendorNumberPattern($Bill)
     {
         if (!$this->isPro()) {
             return false;
         }
         $pattern = false;
-        if (isset($purchaseInvoice->invoice_type_id)) {
-            $pattern = $purchaseInvoice->invoice_type_id == INVOICE_TYPE_QUOTE ? $this->purchase_quote_number_pattern : $this->purchase_invoice_number_pattern;
+        if (isset($Bill->invoice_type_id)) {
+            $pattern = $Bill->invoice_type_id == INVOICE_TYPE_QUOTE ? $this->BILL_QUOTE_number_pattern : $this->BILL_number_pattern;
         }
         return strstr($pattern, '$vendor') !== false || strstr($pattern, '$idNumber') !== false;
     }
@@ -162,14 +162,14 @@ trait GenerateVendorNumbers
         }
 
         $pattern = str_replace($search, $replace, $pattern);
-        $pattern = $this->getVendorPurchaseInvoiceNumber($pattern, $entity);
+        $pattern = $this->getVendorBillNumber($pattern, $entity);
 
         return $pattern;
     }
 
-    private function getVendorPurchaseInvoiceNumber($pattern, $purchaseInvoice)
+    private function getVendorBillNumber($pattern, $Bill)
     {
-        if (!$purchaseInvoice->vendor_id) {
+        if (!$Bill->vendor_id) {
             return $pattern;
         }
 
@@ -183,8 +183,8 @@ trait GenerateVendorNumbers
             '{$vendorCounter}',
         ];
 
-        $vendor = $purchaseInvoice->vendor;
-        $vendorCounter = ($purchaseInvoice->isQuote() && !$this->share_counter) ? $vendor->quote_number_counter : $vendor->invoice_number_counter;
+        $vendor = $Bill->vendor;
+        $vendorCounter = ($Bill->isQuote() && !$this->share_counter) ? $vendor->quote_number_counter : $vendor->invoice_number_counter;
 
         $replace = [
             $vendor->custom_value1,
@@ -203,25 +203,25 @@ trait GenerateVendorNumbers
     {
         if ($entityType == ENTITY_VENDOR) {
             return $this->vendor_number_counter;
-        } elseif ($entityType == ENTITY_PURCHASE_CREDIT) {
+        } elseif ($entityType == ENTITY_BILL_CREDIT) {
             return $this->vendor_credit_number_counter;
-        } elseif ($entityType == ENTITY_PURCHASE_QUOTE && !$this->share_counter) {
+        } elseif ($entityType == ENTITY_BILL_QUOTE && !$this->share_counter) {
             return $this->quote_number_counter;
         } else {
             return $this->invoice_number_counter;
         }
     }
 
-    public function previewNextPurchaseInvoiceNumber($entityType = ENTITY_PURCHASE_INVOICE)
+    public function previewNextBillNumber($entityType = ENTITY_BILL)
     {
         $vendor = Vendor::scope()->first();
 
-        $purchaseInvoice = $this->createPurchaseInvoice($entityType, $vendor ? $vendor->id : 0);
+        $Bill = $this->createBill($entityType, $vendor ? $vendor->id : 0);
 
-        return $this->getVendorNextNumber($purchaseInvoice);
+        return $this->getVendorNextNumber($Bill);
     }
 
-    public function purchaseIncrementCounter($entity)
+    public function billIncrementCounter($entity)
     {
         if ($entity->isEntityType(ENTITY_VENDOR)) {
             if ($this->vendor_number_counter > 0) {
@@ -229,7 +229,7 @@ trait GenerateVendorNumbers
             }
             $this->save();
             return;
-        } elseif ($entity->isEntityType(ENTITY_PURCHASE_CREDIT)) {
+        } elseif ($entity->isEntityType(ENTITY_BILL_CREDIT)) {
             if ($this->credit_number_counter > 0) {
                 $this->credit_number_counter += 1;
             }
@@ -246,7 +246,7 @@ trait GenerateVendorNumbers
             $entity->vendor->save();
         }
 //   purchase invoice counter
-        if ($this->usesPurchaseInvoiceCounter()) {
+        if ($this->usesBillCounter()) {
             if ($entity->isType(INVOICE_TYPE_QUOTE) && !$this->share_purchase_counter) {
                 $this->quote_number_counter += 1;
             } else {
@@ -256,19 +256,19 @@ trait GenerateVendorNumbers
         }
     }
 
-    public function usesPurchaseInvoiceCounter()
+    public function usesBillCounter()
     {
-        return !$this->hasIdPattern(ENTITY_PURCHASE_INVOICE) || strpos($this->purchase_invoice_number_pattern, '{$counter}') !== false;
+        return !$this->hasIdPattern(ENTITY_BILL) || strpos($this->BILL_number_pattern, '{$counter}') !== false;
     }
 
     public function usesVendorInvoiceCounter()
     {
-        return strpos($this->purchase_invoice_number_pattern, '{$vendorCounter}') !== false;
+        return strpos($this->BILL_number_pattern, '{$vendorCounter}') !== false;
     }
 
     public function vendorNumbersEnabled()
     {
-        return $this->hasFeature(FEATURE_PURCHASE_INVOICE_SETTINGS) && $this->vendor_number_counter > 0;
+        return $this->hasFeature(FEATURE_BILL_SETTINGS) && $this->vendor_number_counter > 0;
     }
 
     public function checkPurchaseCounterReset()

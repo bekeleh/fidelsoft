@@ -11,28 +11,28 @@ use Barracuda\ArchiveStream\Archive;
 
 /**
  *
- * Class DownloadPurchaseInvoice.
+ * Class DownloadBill.
  */
 //class DownloadInvoices extends Job implements ShouldQueue
-class DownloadPurchaseInvoice extends Job
+class DownloadBill extends Job
 {
     //use InteractsWithQueue,
     use SerializesModels;
 
     protected $user;
 
-    protected $purchaseInvoices;
+    protected $Bills;
 
     /**
      * Create a new job instance.
      *
      * @param User $user
-     * @param $purchaseInvoices
+     * @param $Bills
      */
-    public function __construct(User $user, $purchaseInvoices)
+    public function __construct(User $user, $Bills)
     {
         $this->user = $user;
-        $this->purchaseInvoices = $purchaseInvoices;
+        $this->Bills = $Bills;
     }
 
     /**
@@ -48,7 +48,7 @@ class DownloadPurchaseInvoice extends Job
 
         $zip = Archive::instance_by_useragent(date('Y-m-d') . '_' . str_replace(' ', '_', trans('texts.invoice_pdfs')));
 
-        foreach ($this->purchaseInvoices as $invoice) {
+        foreach ($this->Bills as $invoice) {
             $zip->add_file($invoice->getFileName(), $invoice->getPDFString());
         }
 

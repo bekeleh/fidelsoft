@@ -129,9 +129,9 @@ class Document extends EntityModel
         return $this->belongsTo('App\Models\Invoice')->withTrashed();
     }
 
-    public function purchase_invoice()
+    public function BILL()
     {
-        return $this->belongsTo('App\Models\PurchaseInvoice')->withTrashed();
+        return $this->belongsTo('App\Models\Bill')->withTrashed();
     }
 
     public function getDisk()

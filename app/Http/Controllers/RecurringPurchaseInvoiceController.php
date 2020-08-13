@@ -2,32 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Ninja\Datatables\RecurringPurchaseInvoiceDatatable;
-use App\Ninja\Repositories\PurchaseInvoiceRepository;
+use App\Ninja\Datatables\RecurringBillDatatable;
+use App\Ninja\Repositories\BillRepository;
 
 /**
- * Class RecurringPurchaseInvoiceController.
+ * Class RecurringBillController.
  */
-class RecurringPurchaseInvoiceController extends BaseController
+class RecurringBillController extends BaseController
 {
 
-    protected $purchaseInvoiceRepo;
+    protected $BillRepo;
 
 
-    public function __construct(PurchaseInvoiceRepository $purchaseInvoiceRepo)
+    public function __construct(BillRepository $BillRepo)
     {
         //parent::__construct();
 
-        $this->purchaseInvoiceRepo = $purchaseInvoiceRepo;
+        $this->BillRepo = $BillRepo;
     }
 
     public function index()
     {
-        $this->authorize('view', ENTITY_RECURRING_PURCHASE_INVOICE);
+        $this->authorize('view', ENTITY_RECURRING_BILL);
         $data = [
-            'title' => trans('texts.recurring_purchase_invoices'),
-            'entityType' => ENTITY_RECURRING_PURCHASE_INVOICE,
-            'datatable' => new RecurringPurchaseInvoiceDatatable(),
+            'title' => trans('texts.recurring_BILLs'),
+            'entityType' => ENTITY_RECURRING_BILL,
+            'datatable' => new RecurringBillDatatable(),
         ];
 
         return response()->view('list_wrapper', $data);

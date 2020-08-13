@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-class CreatePurchaseInvoiceItemRequest extends PurchaseInvoiceItemRequest
+class CreateBillItemRequest extends BillItemRequest
 {
-    protected $entityType = ENTITY_PURCHASE_INVOICE_ITEM;
+    protected $entityType = ENTITY_BILL_ITEM;
 
     public function authorize()
     {

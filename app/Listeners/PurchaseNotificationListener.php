@@ -11,7 +11,7 @@ use App\Events\PaymentWasCreated;
 use App\Services\PushService;
 use App\Jobs\SendPurchaseNotificationEmail;
 use App\Jobs\SendPurchasePaymentEmail;
-use App\Notifications\PurchasePaymentCreated;
+use App\Notifications\BillPaymentCreated;
 
 /**
  * Class NotificationListener
@@ -39,20 +39,20 @@ class PurchaseNotificationListener
     }
 
     /**
-     * @param $purchaseInvoice
+     * @param $Bill
      * @param $type
      * @param null $purchasePayment
      * @param bool $notes
      */
-    private function sendNotifications($purchaseInvoice, $type, $purchasePayment = null, $notes = false)
+    private function sendNotifications($Bill, $type, $purchasePayment = null, $notes = false)
     {
-        foreach ($purchaseInvoice->account->users as $user) {
+        foreach ($Bill->account->users as $user) {
             if ($user->{"notify_{$type}"}) {
-                dispatch(new SendPurchaseNotificationEmail($user, $purchaseInvoice, $type, $purchasePayment, $notes));
+                dispatch(new SendPurchaseNotificationEmail($user, $Bill, $type, $purchasePayment, $notes));
             }
 
             if ($purchasePayment && $user->slack_webhook_url) {
-                $user->notify(new PurchasePaymentCreated($purchasePayment, $purchaseInvoice));
+                $user->notify(new BillPaymentCreated($purchasePayment, $Bill));
             }
         }
     }

@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use auth;
 use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -59,13 +60,12 @@ class InvoiceCreated extends Notification implements ShouldQueue
      */
     public function toDatabase($notifiable)
     {
-
         return [
             'Title' => 'Server Expenses',
-            'Amount' => '$1,234',
+            'Amount' => $this->invoice->amount,
             'Via' => 'American Express',
             'Was Overdue' => ':-1:',
-            'user_id' => $this->invoice['user_id'],
+            'user_id' => auth::id(),
             'created_at' => Carbon::now(),
         ];
     }

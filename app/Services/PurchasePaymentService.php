@@ -5,8 +5,8 @@ namespace App\Services;
 use App;
 use App\Libraries\Utils;
 use App\Models\Activity;
-use App\Models\PurchaseCredit;
-use App\Models\PurchaseInvoice;
+use App\Models\BillCredit;
+use App\Models\Bill;
 use App\Ninja\Datatables\PaymentDatatable;
 use App\Ninja\Repositories\AccountRepository;
 use App\Ninja\Repositories\PurchasePaymentRepository;
@@ -37,30 +37,30 @@ class PurchasePaymentService extends BaseService
         return $this->paymentRepo;
     }
 
-    public function autoBillPurchaseInvoice(PurchaseInvoice $purchaseInvoice)
+    public function autoBillBill(Bill $Bill)
     {
-        if (!$purchaseInvoice->canBePaid()) {
+        if (!$Bill->canBePaid()) {
             return false;
         }
 
-        $vendor = $purchaseInvoice->client;
+        $vendor = $Bill->client;
 
         $account = $vendor->account;
 
-        $invitation = $purchaseInvoice->invitations->first();
+        $invitation = $Bill->invitations->first();
 
         if (!$invitation) {
             return false;
         }
 
-        $purchaseInvoice->markSentIfUnsent();
+        $Bill->markSentIfUnsent();
 
         if ($credits = $vendor->credits->sum('balance')) {
-            $balance = $purchaseInvoice->balance;
+            $balance = $Bill->balance;
             $amount = min($credits, $balance);
             $data = [
                 'payment_type_id' => PAYMENT_TYPE_CREDIT,
-                'invoice_id' => $purchaseInvoice->id,
+                'invoice_id' => $Bill->id,
                 'client_id' => $vendor->id,
                 'amount' => $amount,
             ];
@@ -89,8 +89,8 @@ class PurchasePaymentService extends BaseService
         }
 
         if ($paymentMethod->requiresDelayedAutoBill()) {
-            $purchaseInvoiceDate = DateTime::createFromFormat('Y-m-d', $purchaseInvoice->invoice_date);
-            $minDueDate = clone $purchaseInvoiceDate;
+            $BillDate = DateTime::createFromFormat('Y-m-d', $Bill->invoice_date);
+            $minDueDate = clone $BillDate;
             $minDueDate->modify('+10 days');
 
             if (date_create() < $minDueDate) {
@@ -98,25 +98,25 @@ class PurchasePaymentService extends BaseService
                 return false;
             }
 
-            if ($purchaseInvoice->partial > 0) {
+            if ($Bill->partial > 0) {
                 // The amount would be different than the amount in the email
                 return false;
             }
 
-            $firstUpdate = Activity::where('invoice_id', '=', $purchaseInvoice->id)
+            $firstUpdate = Activity::where('invoice_id', '=', $Bill->id)
                 ->where('activity_type_id', '=', ACTIVITY_TYPE_UPDATE_INVOICE)
                 ->first();
 
             if ($firstUpdate) {
                 $backup = json_decode($firstUpdate->json_backup);
 
-                if ($backup->balance != $purchaseInvoice->balance || $backup->due_date != $purchaseInvoice->due_date) {
+                if ($backup->balance != $Bill->balance || $backup->due_date != $Bill->due_date) {
                     // It's changed since we sent the email can't bill now
                     return false;
                 }
             }
 
-            if ($purchaseInvoice->payments->count()) {
+            if ($Bill->payments->count()) {
                 // ACH requirements are strict; don't auto bill this
                 return false;
             }
@@ -125,14 +125,14 @@ class PurchasePaymentService extends BaseService
         try {
             return $paymentDriver->completeOnsitePurchase(false, $paymentMethod);
         } catch (Exception $exception) {
-            $subject = trans('texts.auto_bill_failed', ['invoice_number' => $purchaseInvoice->invoice_number]);
+            $subject = trans('texts.auto_bill_failed', ['invoice_number' => $Bill->invoice_number]);
             $message = sprintf('%s: %s', ucwords($paymentDriver->providerName()), $exception->getMessage());
             //$message .= $exception->getTraceAsString();
             Utils::logError($message, 'PHP', true);
             if (App::runningInConsole()) {
                 $mailer = app('App\Ninja\Mailers\UserMailer');
-                $mailer->sendMessage($purchaseInvoice->user, $subject, $message, [
-                    'invoice' => $purchaseInvoice
+                $mailer->sendMessage($Bill->user, $subject, $message, [
+                    'invoice' => $Bill
                 ]);
             }
 
@@ -140,17 +140,17 @@ class PurchasePaymentService extends BaseService
         }
     }
 
-    public function save($input, $payment = null, $purchaseInvoice = null)
+    public function save($input, $payment = null, $Bill = null)
     {
         // if the payment amount is more than the balance create a credit
-        if ($purchaseInvoice && Utils::parseFloat($input['amount']) > $purchaseInvoice->balance) {
-            $credit = PurchaseCredit::createNew();
-            $credit->client_id = $purchaseInvoice->client_id;
+        if ($Bill && Utils::parseFloat($input['amount']) > $Bill->balance) {
+            $credit = BillCredit::createNew();
+            $credit->client_id = $Bill->client_id;
             $credit->credit_date = date_create()->format('Y-m-d');
-            $credit->amount = $credit->balance = $input['amount'] - $purchaseInvoice->balance;
+            $credit->amount = $credit->balance = $input['amount'] - $Bill->balance;
             $credit->private_notes = trans('texts.credit_created_by', ['transaction_reference' => isset($input['transaction_reference']) ? $input['transaction_reference'] : '']);
             $credit->save();
-            $input['amount'] = $purchaseInvoice->balance;
+            $input['amount'] = $Bill->balance;
         }
 
         return $this->paymentRepo->save($input, $payment);

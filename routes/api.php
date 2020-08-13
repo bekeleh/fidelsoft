@@ -20,10 +20,10 @@ Route::get('download/{invoice_id}', 'InvoiceApiController@download');
 Route::resource('invoices', 'InvoiceApiController');
 Route::resource('invoice_items', 'InvoiceItemApiController');
 // purchase
-Route::get('purchase_quotes', 'PurchaseQuoteApiController@index');
-Route::get('download/purchase/{invoice_id}', 'PurchaseInvoiceApiController@download');
-Route::resource('purchase_invoices', 'PurchaseInvoiceApiController');
-Route::resource('purchase_invoice_items', 'PurchaseInvoiceItemApiController');
+Route::get('BILL_QUOTEs', 'PurchaseQuoteApiController@index');
+Route::get('download/purchase/{invoice_id}', 'BillApiController@download');
+Route::resource('BILLs', 'BillApiController');
+Route::resource('BILL_items', 'BillItemApiController');
 
 Route::resource('payments', 'PaymentApiController');
 Route::resource('tasks', 'TaskApiController');

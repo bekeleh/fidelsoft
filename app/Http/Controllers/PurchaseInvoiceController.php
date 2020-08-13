@@ -2,25 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreatePurchaseInvoiceRequest;
-use App\Http\Requests\PurchaseInvoiceRequest;
-use App\Http\Requests\UpdatePurchaseInvoiceRequest;
-use App\Jobs\SendPurchaseInvoiceEmail;
+use App\Http\Requests\CreateBillRequest;
+use App\Http\Requests\BillRequest;
+use App\Http\Requests\UpdateBillRequest;
+use App\Jobs\SendBillEmail;
 use App\Libraries\Utils;
 use App\Models\Activity;
 use App\Models\Vendor;
 use App\Models\Expense;
 use App\Models\Frequency;
-use App\Models\PurchaseInvoice;
+use App\Models\Bill;
 use App\Models\InvoiceDesign;
-use App\Models\PurchasePayment;
+use App\Models\BillPayment;
 use App\Models\Product;
-use App\Ninja\Datatables\PurchaseInvoiceDatatable;
+use App\Ninja\Datatables\BillDatatable;
 use App\Ninja\Repositories\DocumentRepository;
-use App\Ninja\Repositories\PurchaseInvoiceRepository;
+use App\Ninja\Repositories\BillRepository;
 use App\Ninja\Repositories\VendorRepository;
 use App\Services\PurchasePaymentService;
-use App\Services\PurchaseInvoiceService;
+use App\Services\BillService;
 use App\Services\RecurringInvoiceService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -31,40 +31,40 @@ use Illuminate\Support\Facades\View;
 use Redirect;
 use Illuminate\Support\Facades\Request;
 
-class PurchaseInvoiceController extends BaseController
+class BillController extends BaseController
 {
     protected $invoiceRepo;
     protected $vendorRepo;
     protected $documentRepo;
-    protected $purchaseInvoiceService;
+    protected $BillService;
     protected $paymentService;
-    protected $recurringPurchaseInvoiceService;
-    protected $entityType = ENTITY_PURCHASE_INVOICE;
+    protected $recurringBillService;
+    protected $entityType = ENTITY_BILL;
 
     public function __construct(
-        PurchaseInvoiceRepository $invoiceRepo,
+        BillRepository $invoiceRepo,
         VendorRepository $vendorRepo,
-        PurchaseInvoiceService $purchaseInvoiceService,
+        BillService $BillService,
         DocumentRepository $documentRepo,
-        RecurringInvoiceService $recurringPurchaseInvoiceService,
+        RecurringInvoiceService $recurringBillService,
         PurchasePaymentService $paymentService)
     {
         // parent::__construct();
         $this->invoiceRepo = $invoiceRepo;
         $this->vendorRepo = $vendorRepo;
-        $this->purchaseInvoiceService = $purchaseInvoiceService;
-        $this->recurringPurchaseInvoiceService = $recurringPurchaseInvoiceService;
+        $this->BillService = $BillService;
+        $this->recurringBillService = $recurringBillService;
         $this->paymentService = $paymentService;
     }
 
     public function index()
     {
-        $this->authorize('view', ENTITY_PURCHASE_INVOICE);
+        $this->authorize('view', ENTITY_BILL);
         $data = [
-            'title' => trans('texts.purchase_invoices'),
-            'entityType' => ENTITY_PURCHASE_INVOICE,
-            'statuses' => PurchaseInvoice::getStatuses(),
-            'datatable' => new PurchaseInvoiceDatatable(),
+            'title' => trans('texts.BILLs'),
+            'entityType' => ENTITY_BILL,
+            'statuses' => Bill::getStatuses(),
+            'datatable' => new BillDatatable(),
         ];
 
         return response()->view('list_wrapper', $data);
@@ -75,7 +75,7 @@ class PurchaseInvoiceController extends BaseController
     {
         Session::reflash();
 
-        return Redirect::to("purchase_invoices/{$publicId}/edit");
+        return Redirect::to("BILLs/{$publicId}/edit");
     }
 
     public function getDatatable($vendorPublicId = null)
@@ -83,8 +83,8 @@ class PurchaseInvoiceController extends BaseController
         $accountId = Auth::user()->account_id;
         $search = Input::get('sSearch');
 
-        return $this->purchaseInvoiceService
-            ->getDatatable($accountId, $vendorPublicId, ENTITY_PURCHASE_INVOICE, $search);
+        return $this->BillService
+            ->getDatatable($accountId, $vendorPublicId, ENTITY_BILL, $search);
     }
 
     public function getRecurringDatatable($vendorPublicId = null)
@@ -92,23 +92,23 @@ class PurchaseInvoiceController extends BaseController
         $accountId = Auth::user()->account_id;
         $search = Input::get('sSearch');
 
-        return $this->recurringPurchaseInvoiceService
+        return $this->recurringBillService
             ->getDatatable($accountId, $vendorPublicId, ENTITY_RECURRING_INVOICE, $search);
     }
 
-    public function create(PurchaseInvoiceRequest $request, $vendorPublicId = 0, $isRecurring = false)
+    public function create(BillRequest $request, $vendorPublicId = 0, $isRecurring = false)
     {
-        $this->authorize('create', ENTITY_PURCHASE_INVOICE);
+        $this->authorize('create', ENTITY_BILL);
         $account = Auth::user()->account;
 
-        $entityType = $isRecurring ? ENTITY_RECURRING_PURCHASE_INVOICE : ENTITY_PURCHASE_INVOICE;
+        $entityType = $isRecurring ? ENTITY_RECURRING_BILL : ENTITY_BILL;
         $vendorId = null;
 
         if ($request->vendor_id) {
             $vendorId = Vendor::getPrivateId($request->vendor_id);
         }
 
-        $invoice = $account->createPurchaseInvoice($entityType, $vendorId);
+        $invoice = $account->createBill($entityType, $vendorId);
 
         $invoice->public_id = 0;
         $invoice->loadFromRequest();
@@ -124,16 +124,16 @@ class PurchaseInvoiceController extends BaseController
             'entityType' => $invoice->getEntityType(),
             'invoice' => $invoice,
             'method' => 'POST',
-            'url' => 'purchase_invoices',
-            'title' => trans('texts.new_purchase_invoice'),
+            'url' => 'BILLs',
+            'title' => trans('texts.new_BILL'),
         ];
 
         $data = array_merge($data, self::getViewModel($invoice));
 
-        return View::make('purchase_invoices.edit', $data);
+        return View::make('BILLs.edit', $data);
     }
 
-    public function store(CreatePurchaseInvoiceRequest $request)
+    public function store(CreateBillRequest $request)
     {
         $data = $request->input();
         $data['documents'] = $request->file('documents');
@@ -143,7 +143,7 @@ class PurchaseInvoiceController extends BaseController
         $entityType = Input::get('entityType');
 
 
-        $invoice = $this->purchaseInvoiceService->save($data);
+        $invoice = $this->BillService->save($data);
 
         $entityType = $invoice->getEntityType();
 
@@ -164,9 +164,9 @@ class PurchaseInvoiceController extends BaseController
         return url($invoice->getRoute());
     }
 
-    public function edit(PurchaseInvoiceRequest $request, $publicId, $clone = false)
+    public function edit(BillRequest $request, $publicId, $clone = false)
     {
-        $this->authorize('edit', ENTITY_PURCHASE_INVOICE);
+        $this->authorize('edit', ENTITY_BILL);
         $account = Auth::user()->account;
         $invoice = $request->entity()->load('invitations', 'account.country', 'client.contacts', 'vendor.country', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'payments');
 
@@ -182,7 +182,7 @@ class PurchaseInvoiceController extends BaseController
         $clients = Vendor::scope()->withTrashed()->with('contacts', 'country');
 
         if ($clone) {
-            $entityType = $clone == INVOICE_TYPE_STANDARD ? ENTITY_PURCHASE_INVOICE : ENTITY_QUOTE;
+            $entityType = $clone == INVOICE_TYPE_STANDARD ? ENTITY_BILL : ENTITY_QUOTE;
             $invoice->id = $invoice->public_id = null;
             $invoice->is_public = false;
             $invoice->is_recurring = $invoice->is_recurring && $clone == INVOICE_TYPE_STANDARD;
@@ -222,7 +222,7 @@ class PurchaseInvoiceController extends BaseController
             'invoice_settings' => Auth::user()->hasFeature(FEATURE_INVOICE_SETTINGS),
         ];
 
-        $lastSent = ($invoice->is_recurring && $invoice->last_sent_date) ? $invoice->recurring_purchase_invoices->last() : null;
+        $lastSent = ($invoice->is_recurring && $invoice->last_sent_date) ? $invoice->recurring_BILLs->last() : null;
 
         if (!Auth::user()->hasPermission('view_vendor')) {
             $clients = $clients->where('vendors.user_id', Auth::user()->id);
@@ -282,10 +282,10 @@ class PurchaseInvoiceController extends BaseController
                 ]));
         }
 
-        return View::make('purchase_invoices.edit', $data);
+        return View::make('BILLs.edit', $data);
     }
 
-    public function update(UpdatePurchaseInvoiceRequest $request)
+    public function update(UpdateBillRequest $request)
     {
         $data = $request->input();
         $data['documents'] = $request->file('documents');
@@ -293,16 +293,16 @@ class PurchaseInvoiceController extends BaseController
         $action = Input::get('action');
         $entityType = Input::get('entityType');
 
-        $invoice = $this->purchaseInvoiceService->save($data, $request->entity());
+        $invoice = $this->BillService->save($data, $request->entity());
 
         $entityType = $invoice->getEntityType();
         $message = trans("texts.updated_{$entityType}");
         Session::flash('message', $message);
 
         if ($action == 'clone_invoice') {
-            return url(sprintf('purchase_invoices/%s/clone', $invoice->public_id));
+            return url(sprintf('BILLs/%s/clone', $invoice->public_id));
         } else if ($action == 'clone_quote') {
-            return url(sprintf('purchase_quotes/%s/clone', $invoice->public_id));
+            return url(sprintf('BILL_QUOTEs/%s/clone', $invoice->public_id));
         } elseif ($action == 'convert') {
             return $this->convertQuote($request, $invoice->public_id);
         } elseif ($action == 'email') {
@@ -312,7 +312,7 @@ class PurchaseInvoiceController extends BaseController
         return url($invoice->getRoute());
     }
 
-    public function createRecurring(PurchaseInvoiceRequest $request, $vendorPublicId = 0)
+    public function createRecurring(BillRequest $request, $vendorPublicId = 0)
     {
         return self::create($request, $vendorPublicId, true);
     }
@@ -438,14 +438,14 @@ class PurchaseInvoiceController extends BaseController
 
             Session::flash('error', $errorMessage);
 
-            return Redirect::to('purchase_invoices/' . $invoice->public_id . '/edit');
+            return Redirect::to('BILLs/' . $invoice->public_id . '/edit');
         }
 
         if ($invoice->is_recurring) {
             $response = $this->emailRecurringInvoice($invoice);
         } else {
             $userId = Auth::user()->id;
-            $this->dispatch(new SendPurchaseInvoiceEmail($invoice, $userId, $reminder, $template));
+            $this->dispatch(new SendBillEmail($invoice, $userId, $reminder, $template));
             $response = true;
         }
 
@@ -471,23 +471,23 @@ class PurchaseInvoiceController extends BaseController
         }
 
         // switch from the recurring invoice to the generated invoice
-        $invoice = $this->invoiceRepo->createRecurringPurchaseInvoice($invoice);
+        $invoice = $this->invoiceRepo->createRecurringBill($invoice);
 
         // in case auto-bill is enabled then a receipt has been sent
         if ($invoice->isPaid()) {
             return true;
         } else {
             $userId = Auth::user()->id;
-            $this->dispatch(new SendPurchaseInvoiceEmail($invoice, $userId));
+            $this->dispatch(new SendBillEmail($invoice, $userId));
             return true;
         }
     }
 
-    public function bulk($entityType = ENTITY_PURCHASE_INVOICE)
+    public function bulk($entityType = ENTITY_BILL)
     {
         $action = Input::get('bulk_action') ?: Input::get('action');
         $ids = Input::get('bulk_public_id') ?: (Input::get('public_id') ?: Input::get('ids'));
-        $count = $this->purchaseInvoiceService->bulk($ids, $action);
+        $count = $this->BillService->bulk($ids, $action);
 
         if ($count > 0) {
             if ($action == 'markSent') {
@@ -505,36 +505,36 @@ class PurchaseInvoiceController extends BaseController
             Session::flash('message', $message);
         }
 
-        if (strpos(Request::server('HTTP_REFERER'), 'recurring_purchase_invoices')) {
+        if (strpos(Request::server('HTTP_REFERER'), 'recurring_BILLs')) {
             $entityType = ENTITY_RECURRING_INVOICE;
         }
 
         return $this->returnBulk($entityType, $action, $ids);
     }
 
-    public function convertQuote(PurchaseInvoiceRequest $request)
+    public function convertQuote(BillRequest $request)
     {
-        $clone = $this->purchaseInvoiceService->convertQuote($request->entity());
+        $clone = $this->BillService->convertQuote($request->entity());
 
         Session::flash('message', trans('texts.converted_to_invoice'));
 
-        return url('purchase_invoices/' . $clone->public_id);
+        return url('BILLs/' . $clone->public_id);
     }
 
-    public function cloneInvoice(PurchaseInvoiceRequest $request, $publicId)
+    public function cloneInvoice(BillRequest $request, $publicId)
     {
         return self::edit($request, $publicId, INVOICE_TYPE_STANDARD);
     }
 
-    public function cloneQuote(PurchaseInvoiceRequest $request, $publicId)
+    public function cloneQuote(BillRequest $request, $publicId)
     {
         return self::edit($request, $publicId, INVOICE_TYPE_QUOTE);
     }
 
-    public function invoiceHistory(PurchaseInvoiceRequest $request)
+    public function invoiceHistory(BillRequest $request)
     {
         $invoice = $request->entity();
-        $paymentId = $request->payment_id ? PurchasePayment::getPrivateId($request->payment_id) : false;
+        $paymentId = $request->payment_id ? BillPayment::getPrivateId($request->payment_id) : false;
 
         $invoice->load('user', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'account.country', 'vendor.contacts', 'vendor.country');
         $invoice->invoice_date = Utils::fromSqlDate($invoice->invoice_date);
@@ -548,10 +548,10 @@ class PurchaseInvoiceController extends BaseController
 
         $activities = Activity::scope(false, $invoice->account_id);
         if ($paymentId) {
-            $activities->whereIn('activity_type_id', [ACTIVITY_TYPE_CREATE_PURCHASE_PAYMENT])
+            $activities->whereIn('activity_type_id', [ACTIVITY_TYPE_CREATE_BILL_PAYMENT])
                 ->where('payment_id', $paymentId);
         } else {
-            $activities->whereIn('activity_type_id', [ACTIVITY_TYPE_UPDATE_PURCHASE_INVOICE, ACTIVITY_TYPE_UPDATE_PURCHASE_QUOTE])
+            $activities->whereIn('activity_type_id', [ACTIVITY_TYPE_UPDATE_BILL, ACTIVITY_TYPE_UPDATE_BILL_QUOTE])
                 ->where('invoice_id', $invoice->id);
         }
         $activities = $activities->orderBy('id', 'desc')
@@ -596,10 +596,10 @@ class PurchaseInvoiceController extends BaseController
             'paymentId' => $paymentId,
         ];
 
-        return View::make('purchase_invoices.history', $data);
+        return View::make('BILLs.history', $data);
     }
 
-    public function receiveNote(PurchaseInvoiceRequest $request)
+    public function receiveNote(BillRequest $request)
     {
         $invoice = $request->entity();
         $invoice->load('user', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'account.country', 'vendor.contacts', 'vendor.country', 'vendor.shipping_country');
@@ -624,14 +624,14 @@ class PurchaseInvoiceController extends BaseController
             'invoiceFonts' => Cache::get('fonts'),
         ];
 
-        return View::make('purchase_invoices.delivery_note', $data);
+        return View::make('BILLs.delivery_note', $data);
     }
 
     public function checkInvoiceNumber($invoicePublicId = false)
     {
         $invoiceNumber = request()->invoice_number;
 
-        $query = PurchaseInvoice::scope()
+        $query = Bill::scope()
             ->where('invoice_number', $invoiceNumber)
             ->withTrashed();
 

@@ -31,22 +31,22 @@ class HistoryUtils
             ACTIVITY_TYPE_UPDATE_EXPENSE,
             ACTIVITY_TYPE_CREATE_INVOICE,
             ACTIVITY_TYPE_UPDATE_INVOICE,
-            ACTIVITY_TYPE_CREATE_PURCHASE_INVOICE,
-            ACTIVITY_TYPE_UPDATE_PURCHASE_INVOICE,
+            ACTIVITY_TYPE_CREATE_BILL,
+            ACTIVITY_TYPE_UPDATE_BILL,
             ACTIVITY_TYPE_EMAIL_INVOICE,
             ACTIVITY_TYPE_CREATE_QUOTE,
             ACTIVITY_TYPE_UPDATE_QUOTE,
             ACTIVITY_TYPE_EMAIL_QUOTE,
             ACTIVITY_TYPE_VIEW_INVOICE,
             ACTIVITY_TYPE_VIEW_QUOTE,
-            ACTIVITY_TYPE_EMAIL_PURCHASE_INVOICE,
-            ACTIVITY_TYPE_EMAIL_PURCHASE_QUOTE,
-            ACTIVITY_TYPE_VIEW_PURCHASE_INVOICE,
-            ACTIVITY_TYPE_UPDATE_PURCHASE_QUOTE,
-            ACTIVITY_TYPE_VIEW_PURCHASE_QUOTE,
+            ACTIVITY_TYPE_EMAIL_BILL,
+            ACTIVITY_TYPE_EMAIL_BILL_QUOTE,
+            ACTIVITY_TYPE_VIEW_BILL,
+            ACTIVITY_TYPE_UPDATE_BILL_QUOTE,
+            ACTIVITY_TYPE_VIEW_BILL_QUOTE,
         ];
 
-        $activities = Activity::with(['client.contacts', 'payment', 'invoice', 'purchase_invoice', 'vendor.contacts', 'task.project', 'expense'])
+        $activities = Activity::with(['client.contacts', 'payment', 'invoice', 'BILL', 'vendor.contacts', 'task.project', 'expense'])
             ->whereIn('user_id', $userIds)
             ->whereIn('activity_type_id', $activityTypes)
             ->orderBy('id', 'desc')
@@ -119,7 +119,7 @@ class HistoryUtils
             ENTITY_CLIENT,
             ENTITY_VENDOR,
             ENTITY_INVOICE,
-            ENTITY_PURCHASE_INVOICE,
+            ENTITY_BILL,
             ENTITY_QUOTE,
             ENTITY_TASK,
             ENTITY_EXPENSE,

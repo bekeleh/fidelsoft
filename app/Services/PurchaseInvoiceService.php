@@ -2,61 +2,61 @@
 
 namespace App\Services;
 
-use App\Events\purchaseQuoteInvitationWasApproved;
-use App\Jobs\DownloadPurchaseInvoice;
+use App\Events\billQuoteInvitationWasApproved;
+use App\Jobs\DownloadBill;
 use App\Libraries\Utils;
 use App\Models\Vendor;
-use App\Models\PurchaseInvitation;
-use App\Models\PurchaseInvoice;
-use App\Ninja\Datatables\PurchaseInvoiceDatatable;
+use App\Models\BillInvitation;
+use App\Models\Bill;
+use App\Ninja\Datatables\BillDatatable;
 use App\Ninja\Repositories\VendorRepository;
-use App\Ninja\Repositories\PurchaseInvoiceRepository;
+use App\Ninja\Repositories\BillRepository;
 use Illuminate\Support\Facades\Auth;
 
-class PurchaseInvoiceService extends BaseService
+class BillService extends BaseService
 {
 
     protected $vendorRepo;
-    protected $purchaseInvoiceRepo;
+    protected $BillRepo;
     protected $datatableService;
 
     /**
      *
-     * PurchaseInvoiceService constructor.
+     * BillService constructor.
      *
      * @param VendorRepository $vendorRepo
-     * @param PurchaseInvoiceRepository $purchaseInvoiceRepo
+     * @param BillRepository $BillRepo
      * @param DatatableService $datatableService
      */
     public function __construct(
         VendorRepository $vendorRepo,
-        PurchaseInvoiceRepository $purchaseInvoiceRepo,
+        BillRepository $BillRepo,
         DatatableService $datatableService)
     {
         $this->vendorRepo = $vendorRepo;
-        $this->purchaseInvoiceRepo = $purchaseInvoiceRepo;
+        $this->BillRepo = $BillRepo;
         $this->datatableService = $datatableService;
     }
 
 
     protected function getRepo()
     {
-        return $this->purchaseInvoiceRepo;
+        return $this->BillRepo;
     }
 
     public function bulk($ids, $action)
     {
         $user = Auth::user();
         if ($action == 'download') {
-            $purchaseInvoices = $this->getRepo()->findByPublicIdsWithTrashed($ids);
-            dispatch(new DownloadPurchaseInvoice($user, $purchaseInvoices));
-            return count($purchaseInvoices);
+            $Bills = $this->getRepo()->findByPublicIdsWithTrashed($ids);
+            dispatch(new DownloadBill($user, $Bills));
+            return count($Bills);
         } else {
             return parent::bulk($ids, $action);
         }
     }
 
-    public function save(array $data, PurchaseInvoice $purchaseInvoice = null)
+    public function save(array $data, Bill $Bill = null)
     {
 
         if (!empty($data['client'])) {
@@ -79,22 +79,22 @@ class PurchaseInvoiceService extends BaseService
             }
         }
 
-        return $this->purchaseInvoiceRepo->save($data, $purchaseInvoice);
+        return $this->BillRepo->save($data, $Bill);
     }
 
     public function convertQuote($quote)
     {
         $account = $quote->account;
-        $purchaseInvoice = $this->purchaseInvoiceRepo->clonePurchaseInvoice($quote, $quote->id);
+        $Bill = $this->BillRepo->cloneBill($quote, $quote->id);
 
         if ($account->auto_archive_quote) {
-            $this->purchaseInvoiceRepo->archive($quote);
+            $this->BillRepo->archive($quote);
         }
 
-        return $purchaseInvoice;
+        return $Bill;
     }
 
-    public function approveQuote($quote, PurchaseInvitation $purchaseInvitation = null)
+    public function approveQuote($quote, BillInvitation $purchaseInvitation = null)
     {
         $account = $quote->account;
 
@@ -102,14 +102,14 @@ class PurchaseInvoiceService extends BaseService
             return null;
         }
 
-        event(new purchaseQuoteInvitationWasApproved($quote, $purchaseInvitation));
+        event(new billQuoteInvitationWasApproved($quote, $purchaseInvitation));
 
         if ($account->auto_convert_quote) {
-            $purchaseInvoice = $this->convertQuote($quote);
+            $Bill = $this->convertQuote($quote);
 
-            foreach ($purchaseInvoice->invitations as $purchaseInvoiceInvitation) {
-                if ($purchaseInvitation->contact_id == $purchaseInvoiceInvitation->contact_id) {
-                    $purchaseInvitation = $purchaseInvoiceInvitation;
+            foreach ($Bill->invitations as $BillInvitation) {
+                if ($purchaseInvitation->contact_id == $BillInvitation->contact_id) {
+                    $purchaseInvitation = $BillInvitation;
                 }
             }
         } else {
@@ -117,7 +117,7 @@ class PurchaseInvoiceService extends BaseService
         }
 
         if ($account->auto_archive_quote) {
-            $this->purchaseInvoiceRepo->archive($quote);
+            $this->BillRepo->archive($quote);
         }
 
         return $purchaseInvitation->invitation_key;
@@ -125,15 +125,15 @@ class PurchaseInvoiceService extends BaseService
 
     public function getDatatable($accountId, $vendorPublicId, $entityType, $search)
     {
-        $datatable = new PurchaseInvoiceDatatable(true, true);
+        $datatable = new BillDatatable(true, true);
         $datatable->entityType = $entityType;
 
-        $query = $this->purchaseInvoiceRepo
-            ->getPurchaseInvoices($accountId, $vendorPublicId, $entityType, $search)
-            ->where('purchase_invoices.invoice_type_id', $entityType == ENTITY_PURCHASE_QUOTE ? INVOICE_TYPE_QUOTE : INVOICE_TYPE_STANDARD);
+        $query = $this->BillRepo
+            ->getBills($accountId, $vendorPublicId, $entityType, $search)
+            ->where('BILLs.invoice_type_id', $entityType == ENTITY_BILL_QUOTE ? INVOICE_TYPE_QUOTE : INVOICE_TYPE_STANDARD);
 
-        if (!Utils::hasPermission('view_purchase_invoice')) {
-            $query->where('purchase_invoices.user_id', Auth::user()->id);
+        if (!Utils::hasPermission('view_BILL')) {
+            $query->where('BILLs.user_id', Auth::user()->id);
         }
 
         return $this->datatableService->createDatatable($datatable, $query);

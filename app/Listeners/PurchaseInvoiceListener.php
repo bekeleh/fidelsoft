@@ -2,16 +2,16 @@
 
 namespace App\Listeners;
 
-use App\Events\PurchaseInvoiceInvitationWasViewed;
-use App\Events\PurchaseInvoiceWasCreated;
-use App\Events\PurchaseInvoiceWasEmailed;
-use App\Events\PurchaseInvoiceWasUpdated;
-use App\Events\PurchasePaymentFailed;
-use App\Events\PurchasePaymentWasCreated;
-use App\Events\PurchasePaymentWasDeleted;
-use App\Events\PurchasePaymentWasRefunded;
-use App\Events\PurchasePaymentWasRestored;
-use App\Events\PurchasePaymentWasVoided;
+use App\Events\BillInvitationWasViewed;
+use App\Events\BillWasCreated;
+use App\Events\BillWasEmailed;
+use App\Events\BillWasUpdated;
+use App\Events\BillPaymentFailed;
+use App\Events\BillPaymentWasCreated;
+use App\Events\BillPaymentWasDeleted;
+use App\Events\BillPaymentWasRefunded;
+use App\Events\BillPaymentWasRestored;
+use App\Events\BillPaymentWasVoided;
 use App\Libraries\Utils;
 use App\Models\Activity;
 use Illuminate\Queue\Events\JobExceptionOccurred;
@@ -19,11 +19,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 /**
- * Class PurchaseInvoiceListener.
+ * Class BillListener.
  */
-class PurchaseInvoiceListener
+class BillListener
 {
-    public function createdInvoice(PurchaseInvoiceWasCreated $event)
+    public function createdInvoice(BillWasCreated $event)
     {
 //        if (Utils::hasFeature(FEATURE_DIFFERENT_DESIGNS)) {
 //            return false;
@@ -31,7 +31,7 @@ class PurchaseInvoiceListener
 
         // Make sure the account has the same design set as the invoice does
         if (Auth::check()) {
-            $invoice = $event->purchaseInvoice;
+            $invoice = $event->Bill;
             $account = Auth::user()->account;
 
             if ($invoice->invoice_design_id && $account->invoice_design_id != $invoice->invoice_design_id) {
@@ -42,32 +42,32 @@ class PurchaseInvoiceListener
         }
     }
 
-    public function updatedInvoice(PurchaseInvoiceWasUpdated $event)
+    public function updatedInvoice(BillWasUpdated $event)
     {
-        $invoice = $event->purchaseInvoice;
+        $invoice = $event->Bill;
 
         $invoice->updatePaidStatus(false, false);
     }
 
-    public function viewedInvoice(PurchaseInvoiceInvitationWasViewed $event)
+    public function viewedInvoice(BillInvitationWasViewed $event)
     {
         $invitation = $event->purchaseInvitation;
         $invitation->markViewed();
     }
 
 
-    public function emailedInvoice(PurchaseInvoiceWasEmailed $event)
+    public function emailedInvoice(BillWasEmailed $event)
     {
-        $invoice = $event->purchaseInvoice;
+        $invoice = $event->Bill;
         $invoice->last_sent_date = date('Y-m-d');
 
         $invoice->save();
     }
 
-    public function createdPayment(PurchasePaymentWasCreated $event)
+    public function createdPayment(BillPaymentWasCreated $event)
     {
         $payment = $event->purchasePayment;
-        $invoice = $payment->purchase_invoice;
+        $invoice = $payment->BILL;
         $adjustment = $payment->amount * -1;
         $partial = max(0, $invoice->partial - $payment->amount);
 
@@ -76,18 +76,18 @@ class PurchaseInvoiceListener
 
         // store a backup of the invoice
         $activity = Activity::where('payment_id', $payment->id)
-            ->where('activity_type_id', ACTIVITY_TYPE_CREATE_PURCHASE_PAYMENT)
+            ->where('activity_type_id', ACTIVITY_TYPE_CREATE_BILL_PAYMENT)
             ->first();
         $activity->json_backup = $invoice->hidePrivateFields()->toJSON();
         $activity->save();
 
         if ($invoice->balance == 0 && $payment->account->auto_archive_invoice) {
-            $invoiceRepo = app('App\Ninja\Repositories\PurchaseInvoiceRepository');
+            $invoiceRepo = app('App\Ninja\Repositories\BillRepository');
             $invoiceRepo->archive($invoice);
         }
     }
 
-    public function deletedPayment(PurchasePaymentWasDeleted $event)
+    public function deletedPayment(BillPaymentWasDeleted $event)
     {
         $payment = $event->purchasePayment;
 
@@ -95,44 +95,44 @@ class PurchaseInvoiceListener
             return;
         }
 
-        $invoice = $payment->purchase_invoice;
+        $invoice = $payment->BILL;
         $adjustment = $payment->getCompletedAmount();
 
         $invoice->updateBalances($adjustment);
         $invoice->updatePaidStatus();
     }
 
-    public function refundedPayment(PurchasePaymentWasRefunded $event)
+    public function refundedPayment(BillPaymentWasRefunded $event)
     {
         $payment = $event->purchasePayment;
-        $invoice = $payment->purchase_invoice;
+        $invoice = $payment->BILL;
         $adjustment = $event->refundAmount;
 
         $invoice->updateBalances($adjustment);
         $invoice->updatePaidStatus();
     }
 
-    public function voidedPayment(PurchasePaymentWasVoided $event)
+    public function voidedPayment(BillPaymentWasVoided $event)
     {
         $payment = $event->purchasePayment;
-        $invoice = $payment->purchase_invoice;
+        $invoice = $payment->BILL;
         $adjustment = $payment->amount;
 
         $invoice->updateBalances($adjustment);
         $invoice->updatePaidStatus();
     }
 
-    public function failedPayment(PurchasePaymentFailed $event)
+    public function failedPayment(BillPaymentFailed $event)
     {
         $payment = $event->purchasePayment;
-        $invoice = $payment->purchase_invoice;
+        $invoice = $payment->BILL;
         $adjustment = $payment->getCompletedAmount();
 
         $invoice->updateBalances($adjustment);
         $invoice->updatePaidStatus();
     }
 
-    public function restoredPayment(PurchasePaymentWasRestored $event)
+    public function restoredPayment(BillPaymentWasRestored $event)
     {
         if (!$event->fromDeleted) {
             return;
@@ -144,7 +144,7 @@ class PurchaseInvoiceListener
             return;
         }
 
-        $invoice = $payment->purchase_invoice;
+        $invoice = $payment->BILL;
         $adjustment = $payment->getCompletedAmount() * -1;
 
         $invoice->updateBalances($adjustment);

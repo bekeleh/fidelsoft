@@ -9,7 +9,7 @@ use DropdownButton;
 use Illuminate\Support\Facades\Auth;
 use stdClass;
 
-class PurchaseInvoicePresenter extends EntityPresenter
+class BillPresenter extends EntityPresenter
 {
     public function vendor()
     {
@@ -23,42 +23,42 @@ class PurchaseInvoicePresenter extends EntityPresenter
 
     public function amount()
     {
-        $purchaseInvoice = $this->entity;
-        $account = $purchaseInvoice->account;
+        $Bill = $this->entity;
+        $account = $Bill->account;
 
-        return $account->formatMoney($purchaseInvoice->amount, $purchaseInvoice->vendor);
+        return $account->formatMoney($Bill->amount, $Bill->vendor);
     }
 
     public function balance()
     {
-        $purchaseInvoice = $this->entity;
-        $account = $purchaseInvoice->account;
+        $Bill = $this->entity;
+        $account = $Bill->account;
 
-        return $account->formatMoney($purchaseInvoice->balance, $purchaseInvoice->vendor);
+        return $account->formatMoney($Bill->balance, $Bill->vendor);
     }
 
     public function paid()
     {
-        $purchaseInvoice = $this->entity;
-        $account = $purchaseInvoice->account;
+        $Bill = $this->entity;
+        $account = $Bill->account;
 
-        return $account->formatMoney($purchaseInvoice->amount - $purchaseInvoice->balance, $purchaseInvoice->vendor);
+        return $account->formatMoney($Bill->amount - $Bill->balance, $Bill->vendor);
     }
 
     public function partial()
     {
-        $purchaseInvoice = $this->entity;
-        $account = $purchaseInvoice->account;
+        $Bill = $this->entity;
+        $account = $Bill->account;
 
-        return $account->formatMoney($purchaseInvoice->partial, $purchaseInvoice->vendor);
+        return $account->formatMoney($Bill->partial, $Bill->vendor);
     }
 
     public function requestedAmount()
     {
-        $purchaseInvoice = $this->entity;
-        $account = $purchaseInvoice->account;
+        $Bill = $this->entity;
+        $account = $Bill->account;
 
-        return $account->formatMoney($purchaseInvoice->getRequestedAmount(), $purchaseInvoice->vendor);
+        return $account->formatMoney($Bill->getRequestedAmount(), $Bill->vendor);
     }
 
     public function balanceDueLabel()
@@ -74,8 +74,8 @@ class PurchaseInvoicePresenter extends EntityPresenter
 
     public function age()
     {
-        $purchaseInvoice = $this->entity;
-        $dueDate = $purchaseInvoice->partial_due_date ?: $purchaseInvoice->due_date;
+        $Bill = $this->entity;
+        $dueDate = $Bill->partial_due_date ?: $Bill->due_date;
 
         if (!$dueDate || $dueDate === '0000-00-00') {
             return 0;
@@ -118,12 +118,12 @@ class PurchaseInvoicePresenter extends EntityPresenter
 
     public function discount()
     {
-        $purchaseInvoice = $this->entity;
+        $Bill = $this->entity;
 
-        if ($purchaseInvoice->is_amount_discount) {
-            return $purchaseInvoice->account->formatMoney($purchaseInvoice->discount);
+        if ($Bill->is_amount_discount) {
+            return $Bill->account->formatMoney($Bill->discount);
         } else {
-            return $purchaseInvoice->discount . '%';
+            return $Bill->discount . '%';
         }
     }
 
@@ -237,61 +237,61 @@ class PurchaseInvoicePresenter extends EntityPresenter
 
     public function moreActions()
     {
-        $purchaseInvoice = $this->entity;
-        $entityType = $purchaseInvoice->getEntityType();
+        $Bill = $this->entity;
+        $entityType = $Bill->getEntityType();
 
         $actions = [
-            ['url' => 'javascript:onClonePurchaseInvoiceClick()', 'label' => trans("texts.clone_purchase_invoice")]
+            ['url' => 'javascript:onCloneBillClick()', 'label' => trans("texts.clone_BILL")]
         ];
 
-        if (Auth::user()->can('create', ENTITY_PURCHASE_QUOTE)) {
-            $actions[] = ['url' => 'javascript:onClonePurchaseQuoteClick()', 'label' => trans("texts.clone_purchase_quote")];
+        if (Auth::user()->can('create', ENTITY_BILL_QUOTE)) {
+            $actions[] = ['url' => 'javascript:onClonePurchaseQuoteClick()', 'label' => trans("texts.clone_BILL_QUOTE")];
         }
 
-        $actions[] = ['url' => url("{$entityType}s/{$entityType}_history/{$purchaseInvoice->public_id}"), 'label' => trans('texts.view_history')];
+        $actions[] = ['url' => url("{$entityType}s/{$entityType}_history/{$Bill->public_id}"), 'label' => trans('texts.view_history')];
 //     delivery note
-        if ($entityType == ENTITY_PURCHASE_INVOICE) {
-            $actions[] = ['url' => url("purchase_invoices/receive_note/{$purchaseInvoice->public_id}"), 'label' => trans('texts.receive_note')];
+        if ($entityType == ENTITY_BILL) {
+            $actions[] = ['url' => url("BILLs/receive_note/{$Bill->public_id}"), 'label' => trans('texts.receive_note')];
         }
 //    packing list
-        if ($entityType == ENTITY_PURCHASE_INVOICE) {
-            $actions[] = ['url' => url("purchase_invoices/packing_list/{$purchaseInvoice->public_id}"), 'label' => trans('texts.packing_list')];
+        if ($entityType == ENTITY_BILL) {
+            $actions[] = ['url' => url("BILLs/packing_list/{$Bill->public_id}"), 'label' => trans('texts.packing_list')];
         }
 
 //      Return purchase
-        if ($entityType == ENTITY_PURCHASE_INVOICE) {
-            $actions[] = ['url' => url("purchase_invoices/return_purchase/{$purchaseInvoice->public_id}"), 'label' => trans('texts.return_purchase')];
+        if ($entityType == ENTITY_BILL) {
+            $actions[] = ['url' => url("BILLs/return_purchase/{$Bill->public_id}"), 'label' => trans('texts.return_purchase')];
         }
 
         $actions[] = DropdownButton::DIVIDER;
 
-        if ($entityType == ENTITY_PURCHASE_QUOTE) {
-            if ($purchaseInvoice->quote_invoice_id) {
-                $actions[] = ['url' => url("purchase_invoices/{$purchaseInvoice->quote_invoice_id}/edit"), 'label' => trans('texts.view_invoice')];
+        if ($entityType == ENTITY_BILL_QUOTE) {
+            if ($Bill->quote_invoice_id) {
+                $actions[] = ['url' => url("BILLs/{$Bill->quote_invoice_id}/edit"), 'label' => trans('texts.view_invoice')];
             } else {
-                if (!$purchaseInvoice->isApproved()) {
-                    $actions[] = ['url' => url("proposals/create/{$purchaseInvoice->public_id}"), 'label' => trans('texts.new_proposal')];
+                if (!$Bill->isApproved()) {
+                    $actions[] = ['url' => url("proposals/create/{$Bill->public_id}"), 'label' => trans('texts.new_proposal')];
                 }
                 $actions[] = ['url' => 'javascript:onConvertClick()', 'label' => trans('texts.convert_to_invoice')];
             }
-        } elseif ($entityType == ENTITY_PURCHASE_INVOICE) {
-            if ($purchaseInvoice->quote_id && $purchaseInvoice->quote) {
-                $actions[] = ['url' => url("purchase_quotes/{$purchaseInvoice->quote->public_id}/edit"), 'label' => trans('texts.view_quote')];
+        } elseif ($entityType == ENTITY_BILL) {
+            if ($Bill->quote_id && $Bill->quote) {
+                $actions[] = ['url' => url("BILL_QUOTEs/{$Bill->quote->public_id}/edit"), 'label' => trans('texts.view_quote')];
             }
 
-            if ($purchaseInvoice->onlyHasTasks()) {
+            if ($Bill->onlyHasTasks()) {
                 $actions[] = ['url' => 'javascript:onAddItemClick()', 'label' => trans('texts.add_product')];
             }
 
-            if ($purchaseInvoice->canBePaid()) {
+            if ($Bill->canBePaid()) {
                 $actions[] = ['url' => 'javascript:submitBulkAction("markPaid")', 'label' => trans('texts.mark_paid')];
                 $actions[] = ['url' => 'javascript:onPaymentClick()', 'label' => trans('texts.enter_payment')];
             }
 
-            foreach ($purchaseInvoice->payments as $payment) {
+            foreach ($Bill->payments as $payment) {
                 $label = trans('texts.view_payment');
-                if ($purchaseInvoice->payments->count() > 1) {
-                    $label .= ' - ' . $purchaseInvoice->account->formatMoney($payment->amount, $purchaseInvoice->vendor);
+                if ($Bill->payments->count() > 1) {
+                    $label .= ' - ' . $Bill->account->formatMoney($payment->amount, $Bill->vendor);
                 }
                 $actions[] = ['url' => $payment->present()->url, 'label' => $label];
             }
@@ -301,10 +301,10 @@ class PurchaseInvoicePresenter extends EntityPresenter
             $actions[] = DropdownButton::DIVIDER;
         }
 
-        if (!$purchaseInvoice->trashed()) {
+        if (!$Bill->trashed()) {
             $actions[] = ['url' => 'javascript:onArchiveClick()', 'label' => trans("texts.archive_{$entityType}")];
         }
-        if (!$purchaseInvoice->is_deleted) {
+        if (!$Bill->is_deleted) {
             $actions[] = ['url' => 'javascript:onDeleteClick()', 'label' => trans("texts.delete_{$entityType}")];
         }
 
@@ -313,8 +313,8 @@ class PurchaseInvoicePresenter extends EntityPresenter
 
     public function gatewayFee($gatewayTypeId = false)
     {
-        $purchaseInvoice = $this->entity;
-        $account = $purchaseInvoice->account;
+        $Bill = $this->entity;
+        $account = $Bill->account;
 
         if (!$account->gateway_fee_enabled) {
             return '';
@@ -326,11 +326,11 @@ class PurchaseInvoicePresenter extends EntityPresenter
             return '';
         }
 
-        if ($purchaseInvoice->getGatewayFeeItem()) {
+        if ($Bill->getGatewayFeeItem()) {
             $label = ' + ' . trans('texts.fee');
         } else {
-            $fee = $purchaseInvoice->calcGatewayFee($gatewayTypeId, true);
-            $fee = $account->formatMoney($fee, $purchaseInvoice->vendor);
+            $fee = $Bill->calcGatewayFee($gatewayTypeId, true);
+            $fee = $account->formatMoney($fee, $Bill->vendor);
 
             if (floatval($settings->fee_amount) < 0 || floatval($settings->fee_percent) < 0) {
                 $label = trans('texts.discount');
@@ -348,14 +348,14 @@ class PurchaseInvoicePresenter extends EntityPresenter
 
     public function multiAccountLink()
     {
-        $purchaseInvoice = $this->entity;
-        $account = $purchaseInvoice->account;
+        $Bill = $this->entity;
+        $account = $Bill->account;
 
         if ($account->hasMultipleAccounts()) {
             $link = url(sprintf('/account/%s?redirect_to=%s', $account->account_key,
-                $purchaseInvoice->present()->path));
+                $Bill->present()->path));
         } else {
-            $link = $purchaseInvoice->present()->url;
+            $link = $Bill->present()->url;
         }
 
         return $link;
@@ -364,16 +364,16 @@ class PurchaseInvoicePresenter extends EntityPresenter
     public function calendarEvent($subColors = false)
     {
         $data = parent::calendarEvent();
-        $purchaseInvoice = $this->entity;
-        $entityType = $purchaseInvoice->getEntityType();
+        $Bill = $this->entity;
+        $entityType = $Bill->getEntityType();
 
-        $data->title = trans("texts.{$entityType}") . ' ' . $purchaseInvoice->invoice_number . ' | ' . $this->amount() . ' | ' . $this->vendor();
-        $data->start = $purchaseInvoice->due_date ?: $purchaseInvoice->invoice_date;
+        $data->title = trans("texts.{$entityType}") . ' ' . $Bill->invoice_number . ' | ' . $this->amount() . ' | ' . $this->vendor();
+        $data->start = $Bill->due_date ?: $Bill->invoice_date;
 
         if ($subColors) {
-            $data->borderColor = $data->backgroundColor = $purchaseInvoice->present()->statusColor();
+            $data->borderColor = $data->backgroundColor = $Bill->present()->statusColor();
         } else {
-            $data->borderColor = $data->backgroundColor = $purchaseInvoice->isQuote() ? '#716cb1' : '#377eb8';
+            $data->borderColor = $data->backgroundColor = $Bill->isQuote() ? '#716cb1' : '#377eb8';
         }
 
         return $data;

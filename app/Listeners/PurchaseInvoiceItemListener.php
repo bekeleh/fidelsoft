@@ -2,54 +2,54 @@
 
 namespace App\Listeners;
 
-use App\Events\PurchaseInvoiceItemsWereCreated;
-use App\Events\PurchaseInvoiceItemsWereUpdated;
-use App\Events\PurchaseInvoiceWasDeleted;
-use App\Events\PurchaseQuoteItemsWereCreated;
-use App\Events\PurchaseQuoteItemsWereDeleted;
-use App\Events\PurchaseQuoteItemsWereUpdated;
-use App\Ninja\Transformers\PurchaseInvoiceTransformer;
+use App\Events\BillItemsWereCreated;
+use App\Events\BillItemsWereUpdated;
+use App\Events\BillWasDeleted;
+use App\Events\BillQuoteItemsWereCreated;
+use App\Events\BillQuoteItemsWereDeleted;
+use App\Events\BillQuoteItemsWereUpdated;
+use App\Ninja\Transformers\BillTransformer;
 
 /**
  * Class InvoiceItemListener.
  */
-class PurchaseInvoiceItemListener extends EntityListener
+class BillItemListener extends EntityListener
 {
 
-    public function createdInvoice(PurchaseInvoiceItemsWereCreated $event)
+    public function createdInvoice(BillItemsWereCreated $event)
     {
-        $transformer = new PurchaseInvoiceTransformer($event->purchaseInvoice->account);
+        $transformer = new BillTransformer($event->Bill->account);
 
-        $this->checkSubscriptions(EVENT_CREATE_PURCHASE_INVOICE, $event->purchaseInvoice, $transformer, ENTITY_VENDOR);
+        $this->checkSubscriptions(EVENT_CREATE_BILL, $event->Bill, $transformer, ENTITY_VENDOR);
     }
 
-    public function updatedInvoice(PurchaseInvoiceItemsWereUpdated $event)
+    public function updatedInvoice(BillItemsWereUpdated $event)
     {
-        $transformer = new PurchaseInvoiceTransformer($event->purchaseInvoice->account);
-        $this->checkSubscriptions(EVENT_UPDATE_PURCHASE_INVOICE, $event->purchaseInvoice, $transformer, ENTITY_VENDOR);
+        $transformer = new BillTransformer($event->Bill->account);
+        $this->checkSubscriptions(EVENT_UPDATE_BILL, $event->Bill, $transformer, ENTITY_VENDOR);
     }
 
-    public function deletedInvoice(PurchaseInvoiceWasDeleted $event)
+    public function deletedInvoice(BillWasDeleted $event)
     {
-        $transformer = new PurchaseInvoiceTransformer($event->purchaseInvoice->account);
-        $this->checkSubscriptions(EVENT_DELETE_PURCHASE_INVOICE, $event->purchaseInvoice, $transformer, ENTITY_VENDOR);
+        $transformer = new BillTransformer($event->Bill->account);
+        $this->checkSubscriptions(EVENT_DELETE_BILL, $event->Bill, $transformer, ENTITY_VENDOR);
     }
 
-    public function createdQuote(PurchaseQuoteItemsWereCreated $event)
+    public function createdQuote(BillQuoteItemsWereCreated $event)
     {
-        $transformer = new PurchaseInvoiceTransformer($event->purchaseQuote->account);
-        $this->checkSubscriptions(EVENT_CREATE_PURCHASE_QUOTE, $event->purchaseQuote, $transformer, ENTITY_VENDOR);
+        $transformer = new BillTransformer($event->purchaseQuote->account);
+        $this->checkSubscriptions(EVENT_CREATE_BILL_QUOTE, $event->purchaseQuote, $transformer, ENTITY_VENDOR);
     }
 
-    public function updatedQuote(PurchaseQuoteItemsWereUpdated $event)
+    public function updatedQuote(BillQuoteItemsWereUpdated $event)
     {
-        $transformer = new PurchaseInvoiceTransformer($event->purchaseQuote->account);
-        $this->checkSubscriptions(EVENT_UPDATE_PURCHASE_QUOTE, $event->purchaseQuote, $transformer, ENTITY_VENDOR);
+        $transformer = new BillTransformer($event->purchaseQuote->account);
+        $this->checkSubscriptions(EVENT_UPDATE_BILL_QUOTE, $event->purchaseQuote, $transformer, ENTITY_VENDOR);
     }
 
-    public function deletedQuote(PurchaseQuoteItemsWereDeleted $event)
+    public function deletedQuote(BillQuoteItemsWereDeleted $event)
     {
-        $transformer = new PurchaseInvoiceTransformer($event->purchaseQuote->account);
-        $this->checkSubscriptions(EVENT_DELETE_PURCHASE_QUOTE, $event->purchaseQuote, $transformer, ENTITY_VENDOR);
+        $transformer = new BillTransformer($event->purchaseQuote->account);
+        $this->checkSubscriptions(EVENT_DELETE_BILL_QUOTE, $event->purchaseQuote, $transformer, ENTITY_VENDOR);
     }
 }

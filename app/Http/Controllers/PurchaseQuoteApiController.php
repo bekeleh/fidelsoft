@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PurchaseInvoice;
+use App\Models\Bill;
 
-class PurchaseQuoteApiController extends PurchaseInvoiceApiController
+class PurchaseQuoteApiController extends BillApiController
 {
-    protected $purchaseInvoiceRepo;
+    protected $BillRepo;
 
-    protected $entityType = ENTITY_PURCHASE_INVOICE;
+    protected $entityType = ENTITY_BILL;
 
     /**
      * @SWG\Get(
@@ -19,7 +19,7 @@ class PurchaseQuoteApiController extends PurchaseInvoiceApiController
      *   @SWG\Response(
      *     response=200,
      *     description="A list of quotes",
-     *      @SWG\Schema(type="array", @SWG\Items(ref="#/definitions/PurchaseInvoice"))
+     *      @SWG\Schema(type="array", @SWG\Items(ref="#/definitions/Bill"))
      *   ),
      *   @SWG\Response(
      *     response="default",
@@ -29,10 +29,10 @@ class PurchaseQuoteApiController extends PurchaseInvoiceApiController
      */
     public function index()
     {
-        $invoices = PurchaseInvoice::scope()
+        $invoices = Bill::scope()
             ->withTrashed()
             ->quotes()
-            ->with('purchase_invoice_items', 'vendor')
+            ->with('BILL_items', 'vendor')
             ->orderBy('updated_at', 'desc');
 
         return $this->listResponse($invoices);

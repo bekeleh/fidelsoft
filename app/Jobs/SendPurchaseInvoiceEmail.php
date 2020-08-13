@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App;
-use App\Models\PurchaseInvoice;
+use App\Models\Bill;
 use App\Ninja\Mailers\PurchaseContactMailer;
 use App\Ninja\Mailers\VendorContactMailer;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Auth;
 use Monolog\Logger;
 
 /**
- * Class SendPurchaseInvoiceEmail.
+ * Class SendBillEmail.
  */
-class SendPurchaseInvoiceEmail implements ShouldQueue
+class SendBillEmail implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
@@ -30,14 +30,14 @@ class SendPurchaseInvoiceEmail implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param PurchaseInvoice $invoice
+     * @param Bill $invoice
      * @param bool $userId
      * @param bool $reminder
      * @param bool $template
      * @param bool $proposal
      */
     public function __construct(
-        PurchaseInvoice $invoice,
+        Bill $invoice,
         $userId = false,
         $reminder = false,
         $template = false,

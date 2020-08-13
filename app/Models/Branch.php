@@ -87,9 +87,9 @@ class Branch extends EntityModel
         return $this->hasMany('App\Models\Invoice')->withTrashed();
     }
 
-    public function purchase_invoices()
+    public function BILLs()
     {
-        return $this->hasMany('App\Models\PurchaseInvoice')->withTrashed();
+        return $this->hasMany('App\Models\Bill')->withTrashed();
     }
 
     public function warehouse()

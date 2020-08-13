@@ -11,7 +11,7 @@ use App\Jobs\Vendor\GeneratePurchaseStatementData;
 use App\Libraries\Utils;
 use App\Models\Account;
 use App\Models\Expense;
-use App\Models\PurchaseInvoice;
+use App\Models\Bill;
 use App\Models\Vendor;
 use App\Ninja\Datatables\VendorDatatable;
 use App\Ninja\Repositories\VendorRepository;
@@ -95,30 +95,30 @@ class VendorController extends BaseController
         $account = $user->account;
 
         $actionLinks = [];
-        if ($user->can('create', ENTITY_PURCHASE_INVOICE)) {
-            $actionLinks[] = ['label' => trans('texts.new_invoice'), 'url' => URL::to('/purchase_invoices/create/' . $vendor->public_id)];
+        if ($user->can('create', ENTITY_BILL)) {
+            $actionLinks[] = ['label' => trans('texts.new_invoice'), 'url' => URL::to('/BILLs/create/' . $vendor->public_id)];
         }
-        if (Utils::hasFeature(FEATURE_QUOTES) && $user->can('create', ENTITY_PURCHASE_QUOTE)) {
-            $actionLinks[] = ['label' => trans('texts.new_quote'), 'url' => URL::to('/purchase_quotes/create/' . $vendor->public_id)];
+        if (Utils::hasFeature(FEATURE_QUOTES) && $user->can('create', ENTITY_BILL_QUOTE)) {
+            $actionLinks[] = ['label' => trans('texts.new_quote'), 'url' => URL::to('/BILL_QUOTEs/create/' . $vendor->public_id)];
         }
         if ($user->can('create', ENTITY_RECURRING_INVOICE)) {
-            $actionLinks[] = ['label' => trans('texts.new_recurring_invoice'), 'url' => URL::to('/recurring_purchase_invoices/create/' . $vendor->public_id)];
+            $actionLinks[] = ['label' => trans('texts.new_recurring_invoice'), 'url' => URL::to('/recurring_BILLs/create/' . $vendor->public_id)];
         }
 
         if (!empty($actionLinks)) {
             $actionLinks[] = DropdownButton::DIVIDER;
         }
 
-        if ($user->can('create', ENTITY_PURCHASE_PAYMENT)) {
-            $actionLinks[] = ['label' => trans('texts.enter_payment'), 'url' => URL::to('/purchase_payments/create/' . $vendor->public_id)];
+        if ($user->can('create', ENTITY_BILL_PAYMENT)) {
+            $actionLinks[] = ['label' => trans('texts.enter_payment'), 'url' => URL::to('/BILL_PAYMENTs/create/' . $vendor->public_id)];
         }
 
-        if ($user->can('create', ENTITY_PURCHASE_CREDIT)) {
-            $actionLinks[] = ['label' => trans('texts.enter_vendor'), 'url' => URL::to('/purchase_vendors/create/' . $vendor->public_id)];
+        if ($user->can('create', ENTITY_BILL_CREDIT)) {
+            $actionLinks[] = ['label' => trans('texts.enter_vendor'), 'url' => URL::to('/BILL_VENDORs/create/' . $vendor->public_id)];
         }
 
-        if ($user->can('create', ENTITY_PURCHASE_EXPENSE)) {
-            $actionLinks[] = ['label' => trans('texts.enter_expense'), 'url' => URL::to('/purchase_expenses/create/' . $vendor->public_id)];
+        if ($user->can('create', ENTITY_BILL_EXPENSE)) {
+            $actionLinks[] = ['label' => trans('texts.enter_expense'), 'url' => URL::to('/BILL_EXPENSEs/create/' . $vendor->public_id)];
         }
 
         $token = $vendor->getGatewayToken();
@@ -130,9 +130,9 @@ class VendorController extends BaseController
             'vendor' => $vendor,
             'credit' => $vendor->getTotalCredit(),
             'title' => trans('texts.view_vendor'),
-            'hasRecurringInvoices' => $account->isModuleEnabled(ENTITY_RECURRING_INVOICE) && PurchaseInvoice::scope()->recurring()->withArchived()->where('vendor_id', $vendor->id)->count() > 0,
-            'hasQuotes' => $account->isModuleEnabled(ENTITY_PURCHASE_QUOTE) && PurchaseInvoice::scope()->quotes()->withArchived()->where('vendor_id', $vendor->id)->count() > 0,
-            'hasExpenses' => $account->isModuleEnabled(ENTITY_PURCHASE_EXPENSE) && Expense::scope()->withArchived()->where('vendor_id', $vendor->id)->count() > 0,
+            'hasRecurringInvoices' => $account->isModuleEnabled(ENTITY_RECURRING_INVOICE) && Bill::scope()->recurring()->withArchived()->where('vendor_id', $vendor->id)->count() > 0,
+            'hasQuotes' => $account->isModuleEnabled(ENTITY_BILL_QUOTE) && Bill::scope()->quotes()->withArchived()->where('vendor_id', $vendor->id)->count() > 0,
+            'hasExpenses' => $account->isModuleEnabled(ENTITY_BILL_EXPENSE) && Expense::scope()->withArchived()->where('vendor_id', $vendor->id)->count() > 0,
             'gatewayLink' => $token ? $token->gatewayLink() : false,
             'gatewayName' => $token ? $token->gatewayName() : false,
         ];

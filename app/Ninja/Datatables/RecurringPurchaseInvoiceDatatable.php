@@ -5,11 +5,11 @@ namespace App\Ninja\Datatables;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 use App\Libraries\Utils;
-use App\Models\PurchaseInvoice;
+use App\Models\Bill;
 
-class RecurringPurchaseInvoiceDatatable extends EntityDatatable
+class RecurringBillDatatable extends EntityDatatable
 {
-    public $entityType = ENTITY_RECURRING_PURCHASE_INVOICE;
+    public $entityType = ENTITY_RECURRING_BILL;
     public $sortCol = 1;
 
     public function columns()
@@ -26,7 +26,7 @@ class RecurringPurchaseInvoiceDatatable extends EntityDatatable
                         $label = trans('texts.freq_inactive');
                     }
 
-                    return link_to("recurring_purchase_purchase_purchase_invoices/{$model->public_id}/edit", $label)->toHtml();
+                    return link_to("recurring_purchase_purchase_BILLs/{$model->public_id}/edit", $label)->toHtml();
                 },
             ],
             [
@@ -118,8 +118,8 @@ class RecurringPurchaseInvoiceDatatable extends EntityDatatable
 
     private function getStatusLabel($model)
     {
-        $class = PurchaseInvoice::calcStatusClass($model->invoice_status_id, $model->balance, $model->due_date_sql, $model->is_recurring);
-        $label = PurchaseInvoice::calcStatusLabel($model->invoice_status_name, $class, $this->entityType, $model->quote_invoice_id);
+        $class = Bill::calcStatusClass($model->invoice_status_id, $model->balance, $model->due_date_sql, $model->is_recurring);
+        $label = Bill::calcStatusLabel($model->invoice_status_name, $class, $this->entityType, $model->quote_invoice_id);
 
         if ($model->invoice_status_id == INVOICE_STATUS_SENT) {
             if (!$model->last_sent_date_sql || $model->last_sent_date_sql == '0000-00-00') {
@@ -136,30 +136,30 @@ class RecurringPurchaseInvoiceDatatable extends EntityDatatable
     {
         return [
             [
-                trans('texts.edit_purchase_invoice'),
+                trans('texts.edit_BILL'),
                 function ($model) {
-                    return URL::to("purchase_invoices/{$model->public_id}/edit");
+                    return URL::to("BILLs/{$model->public_id}/edit");
                 },
                 function ($model) {
-                    return Auth::user()->can('edit', [ENTITY_PURCHASE_INVOICE, $model]);
-                },
-            ],
-            [
-                trans("texts.clone_purchase_invoice"),
-                function ($model) {
-                    return URL::to("purchase_invoices/{$model->public_id}/clone");
-                },
-                function ($model) {
-                    return Auth::user()->can('create', ENTITY_PURCHASE_INVOICE);
+                    return Auth::user()->can('edit', [ENTITY_BILL, $model]);
                 },
             ],
             [
-                trans("texts.clone_purchase_quote"),
+                trans("texts.clone_BILL"),
                 function ($model) {
-                    return URL::to("purchase_quotes/{$model->public_id}/clone");
+                    return URL::to("BILLs/{$model->public_id}/clone");
                 },
                 function ($model) {
-                    return Auth::user()->can('create', ENTITY_PURCHASE_QUOTE);
+                    return Auth::user()->can('create', ENTITY_BILL);
+                },
+            ],
+            [
+                trans("texts.clone_BILL_QUOTE"),
+                function ($model) {
+                    return URL::to("BILL_QUOTEs/{$model->public_id}/clone");
+                },
+                function ($model) {
+                    return Auth::user()->can('create', ENTITY_BILL_QUOTE);
                 },
             ],
             [
@@ -167,7 +167,7 @@ class RecurringPurchaseInvoiceDatatable extends EntityDatatable
                 return false;
             },
                 function ($model) {
-                    return Auth::user()->can('edit', [ENTITY_PURCHASE_INVOICE]);
+                    return Auth::user()->can('edit', [ENTITY_BILL]);
                 },
             ],
 

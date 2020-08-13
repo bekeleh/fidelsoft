@@ -70,7 +70,7 @@
             @if ($invoice->is_recurring)
                 <li>{!! link_to('recurring_invoices', trans('texts.recurring_invoices')) !!}</li>
             @else
-                <li>{!! link_to(($entityType == ENTITY_PURCHASE_QUOTE ? 'purchase_quotes' : 'purchase_invoices'), trans('texts.' . ($entityType == ENTITY_PURCHASE_QUOTE ? 'purchase_quotes' : 'purchase_invoices'))) !!}</li>
+                <li>{!! link_to(($entityType == ENTITY_BILL_QUOTE ? 'BILL_QUOTEs' : 'BILLs'), trans('texts.' . ($entityType == ENTITY_BILL_QUOTE ? 'BILL_QUOTEs' : 'BILLs'))) !!}</li>
                 <li class="active">{{ $invoice->invoice_number }}</li>
             @endif
             @if ($invoice->is_recurring && $invoice->isSent())
@@ -233,7 +233,7 @@
                                 </div>
                             </div>
                         </div>
-                        @if ($entityType == ENTITY_PURCHASE_INVOICE)
+                        @if ($entityType == ENTITY_BILL)
                             <div data-bind="visible: is_recurring" style="display: none">
                                 {!! Former::select('frequency_id')->label('frequency')->options($frequencies)->data_bind("value: frequency_id")
                                 ->appendIcon('question-sign')->addGroupClass('frequency_id')->onchange('onFrequencyChange()') !!}
@@ -311,7 +311,7 @@ AUTO_BILL_ALWAYS => trans('texts.always'),
                             ])
                         @endif
 
-                        @if ($entityType == ENTITY_PURCHASE_INVOICE)
+                        @if ($entityType == ENTITY_BILL)
                             <div class="form-group" style="margin-bottom: 8px">
                                 <div class="col-lg-8 col-sm-8 col-sm-offset-4 smaller" style="padding-top: 10px;">
                                     @if ($invoice->recurring_invoice_id && $invoice->recurring_invoice)
@@ -432,7 +432,7 @@ AUTO_BILL_ALWAYS => trans('texts.always'),
                         <tr data-bind="style: { 'font-weight': partial() ? 'normal' : 'bold', 'font-size': partial() ? '1em' : '1.05em' }"
                             style="font-size:1.05em;font-weight:bold;">
                             <td class="hide-border" data-bind="css: {'hide-border': !partial()}"
-                                colspan="2">{{ $entityType == ENTITY_PURCHASE_INVOICE ? $invoiceLabels['balance_due'] : trans('texts.total') }}</td>
+                                colspan="2">{{ $entityType == ENTITY_BILL ? $invoiceLabels['balance_due'] : trans('texts.total') }}</td>
                             <td class="hide-border" data-bind="css: {'hide-border': !partial()}"
                                 style="text-align: right"><span data-bind="text: totals.total"></span></td>
                         </tr>
@@ -579,7 +579,7 @@ AUTO_BILL_ALWAYS => trans('texts.always'),
             ->appendIcon(Icon::create('download-alt')) !!}
         @endif
 
-        @if (Auth::user()->canCreateOrEdit(ENTITY_PURCHASE_INVOICE, $invoice))
+        @if (Auth::user()->canCreateOrEdit(ENTITY_BILL, $invoice))
             @if ($invoice->isVendorTrashed())
                 <!-- do nothing -->
                 @elseif ($invoice->isLocked())
@@ -1232,7 +1232,7 @@ afterAdd: showContact }'>
                 remove_created_by:{{ Auth::user()->hasFeature(FEATURE_REMOVE_CREATED_BY) ? 'true' : 'false' }},
                 invoice_settings:{{ Auth::user()->hasFeature(FEATURE_INVOICE_SETTINGS) ? 'true' : 'false' }}
             };
-            invoice.is_quote = {{ $entityType == ENTITY_PURCHASE_QUOTE ? 'true' : 'false' }};
+            invoice.is_quote = {{ $entityType == ENTITY_BILL_QUOTE ? 'true' : 'false' }};
             invoice.contact = _.findWhere(invoice.client.contacts, {send_invoice: true});
 
             if (invoice.is_recurring) {
@@ -1334,7 +1334,7 @@ afterAdd: showContact }'>
             var design = getDesignJavascript();
             if (!design) return;
             var doc = generatePDF(invoice, design, true);
-            var type = invoice.is_quote ? {!! json_encode(trans('texts.'.ENTITY_PURCHASE_QUOTE)) !!} : {!! json_encode(trans('texts.'.ENTITY_PURCHASE_INVOICE)) !!};
+            var type = invoice.is_quote ? {!! json_encode(trans('texts.'.ENTITY_BILL_QUOTE)) !!} : {!! json_encode(trans('texts.'.ENTITY_BILL)) !!};
             doc.save(type + '_' + $('#invoice_number').val() + '.pdf');
         }
 
@@ -1554,7 +1554,7 @@ afterAdd: showContact }'>
                 return false;
             }
 
-            @if (Auth::user()->canCreateOrEdit(ENTITY_PURCHASE_INVOICE, $invoice))
+            @if (Auth::user()->canCreateOrEdit(ENTITY_BILL, $invoice))
             if ($('#saveButton').is(':disabled')) {
                 return false;
             }
@@ -1651,15 +1651,15 @@ afterAdd: showContact }'>
         function onPaymentClick() {
             @if (!empty($autoBillChangeWarning))
             sweetConfirm(function () {
-                window.location = '{{ URL::to('purchase_payments/create/' . $invoice->client->public_id . '/' . $invoice->public_id ) }}';
+                window.location = '{{ URL::to('BILL_PAYMENTs/create/' . $invoice->client->public_id . '/' . $invoice->public_id ) }}';
             }, {!! json_encode(trans('texts.warn_change_auto_bill')) !!});
             @else
-                window.location = '{{ URL::to('purchase_payments/create/' . $invoice->client->public_id . '/' . $invoice->public_id ) }}';
+                window.location = '{{ URL::to('BILL_PAYMENTs/create/' . $invoice->client->public_id . '/' . $invoice->public_id ) }}';
             @endif
         }
 
         function onCreditClick() {
-            window.location = '{{ URL::to('purchase_credits/create/' . $invoice->client->public_id . '/' . $invoice->public_id ) }}';
+            window.location = '{{ URL::to('BILL_CREDITs/create/' . $invoice->client->public_id . '/' . $invoice->public_id ) }}';
         }
 
         @endif

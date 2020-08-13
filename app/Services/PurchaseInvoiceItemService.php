@@ -2,16 +2,16 @@
 
 namespace App\Services;
 
-use App\Events\purchaseQuoteInvitationWasApproved;
+use App\Events\billQuoteInvitationWasApproved;
 use App\Jobs\DownloadInvoices;
 use App\Libraries\Utils;
-use App\Models\PurchaseInvitation;
+use App\Models\BillInvitation;
 use App\Models\InvoiceItem;
 use App\Ninja\Datatables\InvoiceItemDatatable;
 use App\Ninja\Repositories\InvoiceItemRepository;
 use Illuminate\Support\Facades\Auth;
 
-class PurchaseInvoiceItemService extends BaseService
+class BillItemService extends BaseService
 {
 
     protected $invoiceItemItemRepo;
@@ -52,7 +52,7 @@ class PurchaseInvoiceItemService extends BaseService
         return $this->invoiceItemRepo->save($data, $invoiceItem);
     }
 
-    public function approveQuote($quote, PurchaseInvitation $invitation = null)
+    public function approveQuote($quote, BillInvitation $invitation = null)
     {
         $account = $quote->account;
 
@@ -60,7 +60,7 @@ class PurchaseInvoiceItemService extends BaseService
             return null;
         }
 
-        event(new purchaseQuoteInvitationWasApproved($quote, $invitation));
+        event(new billQuoteInvitationWasApproved($quote, $invitation));
 
         if ($account->auto_convert_quote) {
             $invoiceItem = $this->convertQuote($quote);

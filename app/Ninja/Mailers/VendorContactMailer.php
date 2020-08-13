@@ -3,11 +3,11 @@
 namespace App\Ninja\Mailers;
 
 use App;
-use App\Events\PurchaseInvoiceWasEmailed;
-use App\Events\PurchaseQuoteWasEmailed;
-use App\Jobs\ConvertPurchaseInvoiceToUbl;
+use App\Events\BillWasEmailed;
+use App\Events\BillQuoteWasEmailed;
+use App\Jobs\ConvertBillToUbl;
 use App\Libraries\Utils;
-use App\Models\PurchaseInvoice;
+use App\Models\Bill;
 use App\Models\Payment;
 use App\Services\VendorTemplateService;
 use HTMLUtils;
@@ -25,7 +25,7 @@ class VendorContactMailer extends Mailer
         $this->templateService = $templateService;
     }
 
-    public function sendPurchaseInvoice(PurchaseInvoice $invoice, $reminder = false, $template = false, $proposal = false)
+    public function sendBill(Bill $invoice, $reminder = false, $template = false, $proposal = false)
     {
         if ($invoice->is_recurring) {
             return false;
@@ -58,7 +58,7 @@ class VendorContactMailer extends Mailer
         $ublString = false;
 
         if ($account->attachUBL() && !$proposal) {
-            $ublString = dispatch(new ConvertPurchaseInvoiceToUbl($invoice));
+            $ublString = dispatch(new ConvertBillToUbl($invoice));
         }
 
         $documentStrings = [];
@@ -104,9 +104,9 @@ class VendorContactMailer extends Mailer
 
         if ($sent === true && !$proposal) {
             if ($invoice->isType(INVOICE_TYPE_QUOTE)) {
-                event(new PurchaseQuoteWasEmailed($invoice, $reminder));
+                event(new BillQuoteWasEmailed($invoice, $reminder));
             } else {
-                event(new PurchaseInvoiceWasEmailed($invoice, $reminder));
+                event(new BillWasEmailed($invoice, $reminder));
             }
         }
 
@@ -115,7 +115,7 @@ class VendorContactMailer extends Mailer
 
     private function sendInvitation(
         $invitation,
-        PurchaseInvoice $invoice,
+        Bill $invoice,
         $body,
         $subject,
         $reminder,
