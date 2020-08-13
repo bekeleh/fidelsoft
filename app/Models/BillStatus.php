@@ -14,8 +14,9 @@ class BillStatus extends EntityModel
     use SoftDeletes;
     protected $presenter = 'App\Ninja\Presenters\PurchaseOrderStatusPresenter';
 
-    protected $appends = [];
-    protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
+    protected $dates = ['created_at', 'deleted_at'];
+    protected $hidden = ['deleted_at'];
+    protected $casts = [];
 
     protected $fillable = [
         'name',
@@ -24,9 +25,6 @@ class BillStatus extends EntityModel
         'updated_by',
         'deleted_by',
     ];
-
-    protected $hidden = [];
-    protected $casts = [];
 
     public function getEntityType()
     {

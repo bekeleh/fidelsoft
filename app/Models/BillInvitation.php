@@ -14,10 +14,8 @@ class BillInvitation extends EntityModel
     use SoftDeletes;
     use Inviteable;
 
-    protected $appends = [];
-    protected $casts = [];
-    protected $dates = ['deleted_at', 'updated_at', 'deleted_at'];
-    protected $hidden = [];
+    protected $dates = ['deleted_at', 'updated_at'];
+    protected $hidden = ['deleted_at'];
 
     public function getEntityType()
     {

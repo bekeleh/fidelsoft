@@ -16,7 +16,8 @@ class BillPayment extends EntityModel
 {
     use PresentableTrait;
     use SoftDeletes;
-    protected $presenter = 'App\Ninja\Presenters\PurchasePaymentPresenter';
+
+    protected $presenter = 'App\Ninja\Presenters\BillPaymentPresenter';
 
     protected $fillable = [
         'transaction_reference',

@@ -15,7 +15,8 @@ class BillItem extends EntityModel
 
     protected $presenter = 'App\Ninja\Presenters\BillItemPresenter';
 
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+    protected $dates = ['created_at', 'updated_at'];
+    protected $hidden = ['deleted_at'];
 
     protected $fillable = [
         'cost',
