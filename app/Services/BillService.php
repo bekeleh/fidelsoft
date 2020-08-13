@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Events\billQuoteInvitationWasApproved;
+use App\Events\BillQuoteInvitationWasApproved;
 use App\Jobs\DownloadBill;
 use App\Libraries\Utils;
 use App\Models\Vendor;
@@ -17,7 +17,7 @@ class BillService extends BaseService
 {
 
     protected $vendorRepo;
-    protected $BillRepo;
+    protected $billRepo;
     protected $datatableService;
 
     /**
@@ -25,23 +25,23 @@ class BillService extends BaseService
      * BillService constructor.
      *
      * @param VendorRepository $vendorRepo
-     * @param BillRepository $BillRepo
+     * @param BillRepository $billRepo
      * @param DatatableService $datatableService
      */
     public function __construct(
         VendorRepository $vendorRepo,
-        BillRepository $BillRepo,
+        BillRepository $billRepo,
         DatatableService $datatableService)
     {
         $this->vendorRepo = $vendorRepo;
-        $this->BillRepo = $BillRepo;
+        $this->billRepo = $billRepo;
         $this->datatableService = $datatableService;
     }
 
 
     protected function getRepo()
     {
-        return $this->BillRepo;
+        return $this->billRepo;
     }
 
     public function bulk($ids, $action)
@@ -59,10 +59,10 @@ class BillService extends BaseService
     public function save(array $data, Bill $Bill = null)
     {
 
-        if (!empty($data['client'])) {
+        if (!empty($data['vendor'])) {
             $canSaveVendor = false;
             $canViewVendor = false;
-            $vendorPublicId = array_get($data, 'client.public_id') ?: array_get($data, 'client.id');
+            $vendorPublicId = array_get($data, 'vendor.public_id') ?: array_get($data, 'vendor.id');
             if (empty($vendorPublicId) || intval($vendorPublicId) < 0) {
                 $canSaveVendor = Auth::user()->can('create', ENTITY_VENDOR);
             } else {
@@ -72,23 +72,23 @@ class BillService extends BaseService
             }
 //          if new vendor is created
             if ($canSaveVendor) {
-                $vendor = $this->vendorRepo->save($data['client']);
+                $vendor = $this->vendorRepo->save($data['vendor']);
             }
             if ($canSaveVendor || $canViewVendor) {
-                $data['client_id'] = $vendor->id;
+                $data['vendor_id'] = $vendor->id;
             }
         }
 
-        return $this->BillRepo->save($data, $Bill);
+        return $this->billRepo->save($data, $Bill);
     }
 
     public function convertQuote($quote)
     {
         $account = $quote->account;
-        $Bill = $this->BillRepo->cloneBill($quote, $quote->id);
+        $Bill = $this->billRepo->cloneBill($quote, $quote->id);
 
         if ($account->auto_archive_quote) {
-            $this->BillRepo->archive($quote);
+            $this->billRepo->archive($quote);
         }
 
         return $Bill;
@@ -98,11 +98,11 @@ class BillService extends BaseService
     {
         $account = $quote->account;
 
-        if (!$account->hasFeature(FEATURE_QUOTES) || !$quote->isType(INVOICE_TYPE_QUOTE) || $quote->quote_invoice_id) {
+        if (!$account->hasFeature(FEATURE_QUOTES) || !$quote->isType(BILL_TYPE_QUOTE) || $quote->quote_invoice_id) {
             return null;
         }
 
-        event(new billQuoteInvitationWasApproved($quote, $purchaseInvitation));
+        event(new BillQuoteInvitationWasApproved($quote, $purchaseInvitation));
 
         if ($account->auto_convert_quote) {
             $Bill = $this->convertQuote($quote);
@@ -117,7 +117,7 @@ class BillService extends BaseService
         }
 
         if ($account->auto_archive_quote) {
-            $this->BillRepo->archive($quote);
+            $this->billRepo->archive($quote);
         }
 
         return $purchaseInvitation->invitation_key;
@@ -128,12 +128,12 @@ class BillService extends BaseService
         $datatable = new BillDatatable(true, true);
         $datatable->entityType = $entityType;
 
-        $query = $this->BillRepo
+        $query = $this->billRepo
             ->getBills($accountId, $vendorPublicId, $entityType, $search)
-            ->where('BILLs.invoice_type_id', $entityType == ENTITY_BILL_QUOTE ? INVOICE_TYPE_QUOTE : INVOICE_TYPE_STANDARD);
+            ->where('bills.bill_type_id', $entityType == ENTITY_BILL_QUOTE ? BILL_TYPE_QUOTE : BILL_TYPE_STANDARD);
 
-        if (!Utils::hasPermission('view_BILL')) {
-            $query->where('BILLs.user_id', Auth::user()->id);
+        if (!Utils::hasPermission('view_bill')) {
+            $query->where('bills.user_id', Auth::user()->id);
         }
 
         return $this->datatableService->createDatatable($datatable, $query);

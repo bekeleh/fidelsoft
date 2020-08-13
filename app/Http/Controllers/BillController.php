@@ -19,7 +19,7 @@ use App\Ninja\Datatables\BillDatatable;
 use App\Ninja\Repositories\DocumentRepository;
 use App\Ninja\Repositories\BillRepository;
 use App\Ninja\Repositories\VendorRepository;
-use App\Services\PurchasePaymentService;
+use App\Services\BillPaymentService;
 use App\Services\BillService;
 use App\Services\RecurringInvoiceService;
 use Illuminate\Support\Facades\Auth;
@@ -47,7 +47,7 @@ class BillController extends BaseController
         BillService $BillService,
         DocumentRepository $documentRepo,
         RecurringInvoiceService $recurringBillService,
-        PurchasePaymentService $paymentService)
+        BillPaymentService $paymentService)
     {
         // parent::__construct();
         $this->invoiceRepo = $invoiceRepo;

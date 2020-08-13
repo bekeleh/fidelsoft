@@ -14,7 +14,7 @@ use DateTime;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 
-class PurchasePaymentService extends BaseService
+class BillPaymentService extends BaseService
 {
 
 
@@ -43,7 +43,7 @@ class PurchasePaymentService extends BaseService
             return false;
         }
 
-        $vendor = $Bill->client;
+        $vendor = $Bill->vendor;
 
         $account = $vendor->account;
 
@@ -60,8 +60,8 @@ class PurchasePaymentService extends BaseService
             $amount = min($credits, $balance);
             $data = [
                 'payment_type_id' => PAYMENT_TYPE_CREDIT,
-                'invoice_id' => $Bill->id,
-                'client_id' => $vendor->id,
+                'bill_id' => $Bill->id,
+                'vendor_id' => $vendor->id,
                 'amount' => $amount,
             ];
             $payment = $this->paymentRepo->save($data);
@@ -89,7 +89,7 @@ class PurchasePaymentService extends BaseService
         }
 
         if ($paymentMethod->requiresDelayedAutoBill()) {
-            $BillDate = DateTime::createFromFormat('Y-m-d', $Bill->invoice_date);
+            $BillDate = DateTime::createFromFormat('Y-m-d', $Bill->bill_date);
             $minDueDate = clone $BillDate;
             $minDueDate->modify('+10 days');
 
@@ -103,7 +103,7 @@ class PurchasePaymentService extends BaseService
                 return false;
             }
 
-            $firstUpdate = Activity::where('invoice_id', '=', $Bill->id)
+            $firstUpdate = Activity::where('bill_id', '=', $Bill->id)
                 ->where('activity_type_id', '=', ACTIVITY_TYPE_UPDATE_INVOICE)
                 ->first();
 
@@ -125,14 +125,14 @@ class PurchasePaymentService extends BaseService
         try {
             return $paymentDriver->completeOnsitePurchase(false, $paymentMethod);
         } catch (Exception $exception) {
-            $subject = trans('texts.auto_bill_failed', ['invoice_number' => $Bill->invoice_number]);
+            $subject = trans('texts.auto_bill_failed', ['bill_number' => $Bill->bill_number]);
             $message = sprintf('%s: %s', ucwords($paymentDriver->providerName()), $exception->getMessage());
             //$message .= $exception->getTraceAsString();
             Utils::logError($message, 'PHP', true);
             if (App::runningInConsole()) {
                 $mailer = app('App\Ninja\Mailers\UserMailer');
                 $mailer->sendMessage($Bill->user, $subject, $message, [
-                    'invoice' => $Bill
+                    'bill' => $Bill
                 ]);
             }
 
@@ -145,7 +145,7 @@ class PurchasePaymentService extends BaseService
         // if the payment amount is more than the balance create a credit
         if ($Bill && Utils::parseFloat($input['amount']) > $Bill->balance) {
             $credit = BillCredit::createNew();
-            $credit->client_id = $Bill->client_id;
+            $credit->vendor_id = $Bill->vendor_id;
             $credit->credit_date = date_create()->format('Y-m-d');
             $credit->amount = $credit->balance = $input['amount'] - $Bill->balance;
             $credit->private_notes = trans('texts.credit_created_by', ['transaction_reference' => isset($input['transaction_reference']) ? $input['transaction_reference'] : '']);

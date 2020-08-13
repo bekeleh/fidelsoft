@@ -8,9 +8,9 @@ use App\Http\Requests\UpdateBillItemRequest;
 use App\Libraries\Utils;
 use App\Models\InvoiceItem;
 use App\Models\Product;
-use App\Ninja\Datatables\InvoiceItemDatatable;
+use App\Ninja\Datatables\BillItemDatatable;
 use App\Ninja\Repositories\BillItemRepository;
-use App\Services\BillItemService;
+use App\Services\billItemService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
@@ -22,16 +22,16 @@ use Redirect;
  */
 class BillItemController extends BaseController
 {
-    protected $BillItemRepo;
-    protected $BillItemService;
+    protected $billItemRepo;
+    protected $billItemService;
     protected $entityType = ENTITY_BILL_ITEM;
 
-    public function __construct(BillItemRepository $BillItemRepo, BillItemService $BillItemService)
+    public function __construct(BillItemRepository $billItemRepo, billItemService $billItemService)
     {
         // parent::__construct();
 
-        $this->BillItemRepo = $BillItemRepo;
-        $this->BillItemService = $BillItemService;
+        $this->billItemRepo = $billItemRepo;
+        $this->billItemService = $billItemService;
     }
 
 
@@ -40,21 +40,21 @@ class BillItemController extends BaseController
         $this->authorize('view', ENTITY_BILL_ITEM);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_BILL_ITEM,
-            'datatable' => new InvoiceItemDatatable(),
+            'datatable' => new BillItemDatatable(),
             'title' => trans('texts.Bill_items'),
         ]);
     }
 
-    public function getDatatable($invoiceItemPublicId = null)
+    public function getDatatable($billItemPublicId = null)
     {
         $account = Auth::user()->account_id;
         $search = Input::get('sSearch');
-        return $this->BillItemService->getDatatable($account, $search);
+        return $this->billItemService->getDatatable($account, $search);
     }
 
     public function getDatatableProduct($productPublicId = null)
     {
-        return $this->BillItemService->getDatatableProduct($productPublicId);
+        return $this->billItemService->getDatatableProduct($productPublicId);
     }
 
     public function create(BillItemRequest $request)
@@ -93,7 +93,7 @@ class BillItemController extends BaseController
     {
         $data = $request->input();
         $invoiceItem = $request->entity();
-        $invoiceItem = $this->BillItemService->save($data, $invoiceItem);
+        $invoiceItem = $this->billItemService->save($data, $invoiceItem);
 
         if ($invoiceItem) {
             return redirect()->to("Bill_items/{$invoiceItem->public_id}/edit")->with('success', trans('texts.created_invoice_item'));
@@ -138,7 +138,7 @@ class BillItemController extends BaseController
     {
         $data = $request->input();
 
-        $invoiceItem = $this->BillItemService->save($data, $request->entity());
+        $invoiceItem = $this->billItemService->save($data, $request->entity());
 
         $action = Input::get('action');
         if (in_array($action, ['archive', 'delete', 'restore'])) {
@@ -157,7 +157,7 @@ class BillItemController extends BaseController
         $action = Input::get('action');
         $ids = Input::get('public_id') ? Input::get('public_id') : Input::get('ids');
 
-        $count = $this->BillItemService->bulk($ids, $action);
+        $count = $this->billItemService->bulk($ids, $action);
 
         $message = Utils::pluralize($action . 'd_invoice_item', $count);
 
