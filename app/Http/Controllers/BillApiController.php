@@ -49,13 +49,13 @@ class BillApiController extends BaseAPIController
 
     /**
      * @SWG\Get(
-     *   path="/invoices",
-     *   summary="List invoices",
+     *   path="/bills",
+     *   summary="List bills",
      *   operationId="listbills",
-     *   tags={"invoice"},
+     *   tags={"bill"},
      *   @SWG\Response(
      *     response=200,
-     *     description="A list of invoices",
+     *     description="A list of bills",
      *      @SWG\Schema(type="array", @SWG\Items(ref="#/definitions/Bill"))
      *   ),
      *   @SWG\Response(
@@ -71,9 +71,9 @@ class BillApiController extends BaseAPIController
             ->with('bill_items', 'vendor')
             ->orderBy('updated_at', 'desc');
 
-        // Filter by invoice number
-        if ($billNumber = Input::get('invoice_number')) {
-            $bills->where('invoice_number', $billNumber);
+        // Filter by bill number
+        if ($billNumber = Input::get('bill_number')) {
+            $bills->where('bill_number', $billNumber);
         }
 
         // Fllter by status
@@ -85,8 +85,8 @@ class BillApiController extends BaseAPIController
             $bills->where('is_recurring', request()->is_recurring);
         }
 
-        if (request()->has('invoice_type_id')) {
-            $bills->where('invoice_type_id', request()->invoice_type_id);
+        if (request()->has('bill_type_id')) {
+            $bills->where('bill_type_id', request()->bill_type_id);
         }
 
         return $this->listResponse($bills);
@@ -94,18 +94,18 @@ class BillApiController extends BaseAPIController
 
     /**
      * @SWG\Get(
-     *   path="/invoices/{invoice_id}",
+     *   path="/bills/{bill_id}",
      *   summary="Retrieve an Bill",
-     *   tags={"invoice"},
+     *   tags={"bill"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="invoice_id",
+     *     name="bill_id",
      *     type="integer",
      *     required=true
      *   ),
      *   @SWG\Response(
      *     response=200,
-     *     description="A single invoice",
+     *     description="A single bill",
      *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Bill"))
      *   ),
      *   @SWG\Response(
@@ -123,17 +123,17 @@ class BillApiController extends BaseAPIController
 
     /**
      * @SWG\Post(
-     *   path="/invoices",
-     *   summary="Create an invoice",
-     *   tags={"invoice"},
+     *   path="/bills",
+     *   summary="Create an bill",
+     *   tags={"bill"},
      *   @SWG\Parameter(
      *     in="body",
-     *     name="invoice",
+     *     name="bill",
      *     @SWG\Schema(ref="#/definitions/Bill")
      *   ),
      *   @SWG\Response(
      *     response=200,
-     *     description="New invoice",
+     *     description="New bill",
      *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Bill"))
      *   ),
      *   @SWG\Response(
@@ -203,9 +203,9 @@ class BillApiController extends BaseAPIController
         $data = self::prepareData($data, $vendor);
         $data['vendor_id'] = $vendor->id;
 
-        // in these cases the invoice needs to be set as public
+        // in these cases the bill needs to be set as public
         $isAutoBill = isset($data['auto_bill']) && filter_var($data['auto_bill'], FILTER_VALIDATE_BOOLEAN);
-        $isEmailBill = isset($data['email_invoice']) && filter_var($data['email_invoice'], FILTER_VALIDATE_BOOLEAN);
+        $isEmailBill = isset($data['email_bill']) && filter_var($data['email_bill'], FILTER_VALIDATE_BOOLEAN);
         $isPaid = isset($data['paid']) && floatval($data['paid']);
 
         if ($isAutoBill || $isPaid || $isEmailBill) {
@@ -220,7 +220,7 @@ class BillApiController extends BaseAPIController
                 $payment = $this->paymentService->autoBillBill($bill);
             } elseif ($isPaid) {
                 $payment = $this->paymentRepo->save([
-                    'invoice_id' => $bill->id,
+                    'bill_id' => $bill->id,
                     'vendor_id' => $vendor->id,
                     'amount' => round($data['paid'], 2),
                 ]);
@@ -243,7 +243,7 @@ class BillApiController extends BaseAPIController
             ->with('vendor', 'bill_items', 'bill_invitations')
             ->first();
 
-        if (isset($data['download_invoice']) && boolval($data['download_invoice'])) {
+        if (isset($data['download_bill']) && boolval($data['download_bill'])) {
             return $this->fileReponse($bill->getFileName(), $bill->getPDFString());
         }
 
@@ -263,7 +263,7 @@ class BillApiController extends BaseAPIController
             'bill_footer' => '',
             'public_notes' => '',
             'po_number' => '',
-            'invoice_design_id' => $account->invoice_design_id,
+            'bill_design_id' => $account->bill_design_id,
             'bill_items' => [],
             'custom_taxes1' => false,
             'custom_taxes2' => false,
@@ -286,7 +286,7 @@ class BillApiController extends BaseAPIController
         }
 
         if (isset($data['is_quote']) && filter_var($data['is_quote'], FILTER_VALIDATE_BOOLEAN)) {
-            $fields['invoice_design_id'] = $account->quote_design_id;
+            $fields['bill_design_id'] = $account->quote_design_id;
         }
 
         foreach ($fields as $key => $val) {
@@ -298,7 +298,7 @@ class BillApiController extends BaseAPIController
         // initialize the line items
         if (!isset($data['bill_items']) && (isset($data['name']) || isset($data['cost']) || isset($data['notes']) || isset($data['qty']))) {
             $data['bill_items'] = [self::prepareItem($data)];
-            // make sure the tax isn't applied twice (for the invoice and the line item)
+            // make sure the tax isn't applied twice (for the bill and the line item)
             unset($data['bill_items'][0]['tax_name1']);
             unset($data['bill_items'][0]['tax_rate1']);
             unset($data['bill_items'][0]['tax_name2']);
@@ -397,23 +397,23 @@ class BillApiController extends BaseAPIController
 
     /**
      * @SWG\Put(
-     *   path="/invoices/{invoice_id}",
-     *   summary="Update an invoice",
-     *   tags={"invoice"},
+     *   path="/bills/{bill_id}",
+     *   summary="Update an bill",
+     *   tags={"bill"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="invoice_id",
+     *     name="bill_id",
      *     type="integer",
      *     required=true
      *   ),
      *   @SWG\Parameter(
      *     in="body",
-     *     name="invoice",
+     *     name="bill",
      *     @SWG\Schema(ref="#/definitions/Bill")
      *   ),
      *   @SWG\Response(
      *     response=200,
-     *     description="Updated invoice",
+     *     description="Updated bill",
      *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Bill"))
      *   ),
      *   @SWG\Response(
@@ -451,18 +451,18 @@ class BillApiController extends BaseAPIController
 
     /**
      * @SWG\Delete(
-     *   path="/invoices/{invoice_id}",
-     *   summary="Delete an invoice",
-     *   tags={"invoice"},
+     *   path="/bills/{bill_id}",
+     *   summary="Delete an bill",
+     *   tags={"bill"},
      *   @SWG\Parameter(
      *     in="path",
-     *     name="invoice_id",
+     *     name="bill_id",
      *     type="integer",
      *     required=true
      *   ),
      *   @SWG\Response(
      *     response=200,
-     *     description="Deleted purchase invoice",
+     *     description="Deleted bill",
      *      @SWG\Schema(type="object", @SWG\Items(ref="#/definitions/Bill"))
      *   ),
      *   @SWG\Response(

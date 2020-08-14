@@ -108,7 +108,7 @@ class BillController extends BaseController
         }
 
         $bill = $account->createBill($entityType, $vendorId);
-
+        dd($bill);
         $bill->public_id = 0;
         $bill->loadFromRequest();
 
@@ -124,11 +124,11 @@ class BillController extends BaseController
             'invoice' => $bill,
             'method' => 'POST',
             'url' => 'bills',
-            'title' => trans('texts.new_BILL'),
+            'title' => trans('texts.new_bill'),
         ];
 
         $data = array_merge($data, self::getViewModel($bill));
-
+        dd($data);
         return View::make('bills.edit', $data);
     }
 

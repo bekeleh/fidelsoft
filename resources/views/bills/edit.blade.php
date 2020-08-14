@@ -61,8 +61,8 @@
 @stop
 
 @section('content')
-    @if ($errors->first('invoice_items'))
-        <div class="alert alert-danger">{{ trans($errors->first('invoice_items')) }}</div>
+    @if ($errors->first('bill_items'))
+        <div class="alert alert-danger">{{ trans($errors->first('bill_items')) }}</div>
     @endif
 
     @if ($invoice->id)
@@ -71,7 +71,7 @@
                 <li>{!! link_to('recurring_invoices', trans('texts.recurring_invoices')) !!}</li>
             @else
                 <li>{!! link_to(($entityType == ENTITY_BILL_QUOTE ? 'bill_quotes' : 'bills'), trans('texts.' . ($entityType == ENTITY_BILL_QUOTE ? 'bill_quotes' : 'bills'))) !!}</li>
-                <li class="active">{{ $invoice->invoice_number }}</li>
+                <li class="active">{{ $invoice->bill_number }}</li>
             @endif
             @if ($invoice->is_recurring && $invoice->isSent())
                 @if (! $invoice->last_sent_date || $invoice->last_sent_date == '0000-00-00')
@@ -95,8 +95,8 @@
     ->onsubmit('return onFormSubmit(event)')
     ->rules(array(
     'client' => 'required',
-    'invoice_number' => 'required',
-    'invoice_date' => 'required',
+    'bill_number' => 'required',
+    'bill_date' => 'required',
     'public_notes' => 'required',
     'product_key' => 'max:255'
     )) !!}
@@ -169,9 +169,9 @@
                                            data-bind="attr: {for: $index() + '_check'}, visible: email.display"
                                            onclick="refreshPDF(true)">
                                         <input type="hidden" value="0"
-                                               data-bind="attr: {name: 'client[contacts][' + $index() + '][send_invoice]'}">
+                                               data-bind="attr: {name: 'client[contacts][' + $index() + '][send_bill]'}">
                                         <input type="checkbox" value="1"
-                                               data-bind="visible: email() || first_name() || last_name(), checked: send_invoice, attr: {id: $index() + '_check', name: 'client[contacts][' + $index() + '][send_invoice]'}">
+                                               data-bind="visible: email() || first_name() || last_name(), checked: send_bill, attr: {id: $index() + '_check', name: 'client[contacts][' + $index() + '][send_bill]'}">
                                         <span data-bind="visible: first_name || last_name">
                                         <span data-bind="text: (first_name() || '') + ' ' + (last_name() || '')"></span>
                                         <br/>
@@ -206,8 +206,8 @@
                     </div>
                     <div class="col-md-4" id="col_2">
                         <div data-bind="visible: !is_recurring()">
-                            {!! Former::text('invoice_date')->data_bind("datePicker: invoice_date, valueUpdate: 'afterkeydown'")->label($account->getLabel("{$entityType}_date"))
-                            ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))->appendIcon('calendar')->addGroupClass('invoice_date') !!}
+                            {!! Former::text('bill_date')->data_bind("datePicker: bill_date, valueUpdate: 'afterkeydown'")->label($account->getLabel("{$entityType}_date"))
+                            ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))->appendIcon('calendar')->addGroupClass('bill_date') !!}
                             {!! Former::text('due_date')->data_bind("datePicker: due_date, valueUpdate: 'afterkeydown'")->label($account->getLabel($invoice->getDueDateLabel()))
                             ->placeholder($invoice->id || $invoice->isQuote() ? ' ' : $account->present()->dueDatePlaceholder())
                             ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))->appendIcon('calendar')->addGroupClass('due_date') !!}
@@ -256,11 +256,11 @@
 
                     <div class="col-md-4" id="col_2">
 <span data-bind="visible: !is_recurring()">
-{!! Former::text('invoice_number')
+{!! Former::text('bill_number')
 ->label(trans("texts.{$entityType}_number_short"))
-->onchange('checkInvoiceNumber()')
-->addGroupClass('invoice-number')
-->data_bind("value: invoice_number, valueUpdate: 'afterkeydown'") !!}
+->onchange('checkBillNumber()')
+->addGroupClass('bill-number')
+->data_bind("value: bill_number, valueUpdate: 'afterkeydown'") !!}
 </span>
                         <span data-bind="visible: is_recurring()" style="display: none">
 <div data-bind="visible: !(auto_bill() == {{AUTO_BILL_OPT_IN}} &amp;&amp; client_enable_auto_bill()) &amp;&amp; !(auto_bill() == {{AUTO_BILL_OPT_OUT}} &amp;&amp; !client_enable_auto_bill())"
@@ -947,7 +947,7 @@ afterAdd: showContact }'>
             if (client) { // in case it's deleted
                 for (var i = 0; i < client.contacts.length; i++) {
                     var contact = client.contacts[i];
-                    contact.send_invoice = invitationContactIds.indexOf(contact.public_id) >= 0;
+                    contact.send_bill = invitationContactIds.indexOf(contact.public_id) >= 0;
                 }
             }
             model.invoice().addItem(); // add blank item
@@ -994,7 +994,7 @@ afterAdd: showContact }'>
             model.expense_currency_id({{ isset($expenseCurrencyId) ? $expenseCurrencyId : 0 }});
 
 // move the blank invoice line item to the end
-            var blank = model.invoice().invoice_items_without_tasks.pop();
+            var blank = model.invoice().bill_items_without_tasks.pop();
             var expenses =;
                     {!! $expenses !!}
 
@@ -1011,14 +1011,14 @@ afterAdd: showContact }'>
                 item.tax_rate2(expense.tax_rate2);
                 item.tax_name2(expense.tax_name2);
             }
-            model.invoice().invoice_items_without_tasks.push(blank);
+            model.invoice().bill_items_without_tasks.push(blank);
             model.invoice().has_expenses(true);
             NINJA.formIsChanged = true;
             @endif
 
             @if ($selectedProducts = session('selectedProducts'))
             // move the blank invoice line item to the end
-            var blank = model.invoice().invoice_items_without_tasks.pop();
+            var blank = model.invoice().bill_items_without_tasks.pop();
             var productMap = {};
             for (var i = 0; i < products.length; i++) {
                 var product = products[i];
@@ -1035,7 +1035,7 @@ afterAdd: showContact }'>
                     item.qty(1);
                 }
             }
-            model.invoice().invoice_items_without_tasks.push(blank);
+            model.invoice().bill_items_without_tasks.push(blank);
             NINJA.formIsChanged = true;
             @endif
 
@@ -1064,7 +1064,7 @@ afterAdd: showContact }'>
 
             $('[rel=tooltip]').tooltip({'trigger': 'manual'});
 
-            $('#invoice_date, #due_date, #start_date, #end_date, #last_sent_date, #partial_due_date').datepicker();
+            $('#bill_date, #due_date, #start_date, #end_date, #last_sent_date, #partial_due_date').datepicker();
 
             @if ($invoice->client && !$invoice->id)
             $('input[name=client]').val({{ $invoice->client->public_id }});
@@ -1080,7 +1080,7 @@ afterAdd: showContact }'>
 // we enable searching by contact but the selection must be the client
                     $('.client-input').val(getClientDisplayName(selected));
 // if there's an invoice number pattern we'll apply it now
-                    setInvoiceNumber(selected);
+                    setBillNumber(selected);
                     refreshPDF(true);
                 } else if (oldId) {
                     model.loadClient($.parseJSON(ko.toJSON(new ClientModel())));
@@ -1098,7 +1098,7 @@ afterAdd: showContact }'>
             }
             @endcan
 
-            $('#invoice_footer, #terms, #public_notes, #invoice_number, #invoice_date, #due_date, #partial_due_date, #start_date, #po_number, #discount, #currency_id, #invoice_design_id, #recurring, #is_amount_discount, #partial, #custom_text_value1, #custom_text_value2, #taxRateSelect1, #taxRateSelect2').change(function () {
+            $('#invoice_footer, #terms, #public_notes, #bill_number, #bill_date, #due_date, #partial_due_date, #start_date, #po_number, #discount, #currency_id, #invoice_design_id, #recurring, #is_amount_discount, #partial, #custom_text_value1, #custom_text_value2, #taxRateSelect1, #taxRateSelect2').change(function () {
                 $('#downloadPdfButton').attr('disabled', true);
                 setTimeout(function () {
                     refreshPDF(true);
@@ -1113,7 +1113,7 @@ afterAdd: showContact }'>
                 showRecurringDueDateLearnMore();
             });
 
-            var fields = ['invoice_date', 'due_date', 'start_date', 'end_date', 'last_sent_date'];
+            var fields = ['bill_date', 'due_date', 'start_date', 'end_date', 'last_sent_date'];
             for (var i = 0; i < fields.length; i++) {
                 var field = fields[i];
                 (function (_field) {
@@ -1221,7 +1221,7 @@ afterAdd: showContact }'>
 
         }
 
-        function createInvoiceModel() {
+        function createBillModel() {
             var model = ko.toJS(window.model);
             if (!model) {
                 return;
@@ -1233,15 +1233,15 @@ afterAdd: showContact }'>
                 invoice_settings:{{ Auth::user()->hasFeature(FEATURE_INVOICE_SETTINGS) ? 'true' : 'false' }}
             };
             invoice.is_quote = {{ $entityType == ENTITY_BILL_QUOTE ? 'true' : 'false' }};
-            invoice.contact = _.findWhere(invoice.client.contacts, {send_invoice: true});
+            invoice.contact = _.findWhere(invoice.client.contacts, {send_bill: true});
 
             if (invoice.is_recurring) {
-                invoice.invoice_number = {!! json_encode(trans('texts.assigned_when_sent')) !!};
+                invoice.bill_number = {!! json_encode(trans('texts.assigned_when_sent')) !!};
                 invoice.due_date = {!! json_encode(trans('texts.assigned_when_sent')) !!};
                 if (invoice.start_date) {
-                    invoice.invoice_date = invoice.start_date;
+                    invoice.bill_date = invoice.start_date;
                 } else {
-                    invoice.invoice_date = invoice.due_date;
+                    invoice.bill_date = invoice.due_date;
                 }
             }
 
@@ -1272,13 +1272,13 @@ afterAdd: showContact }'>
         function getPDFString(cb, force) {
                     @if (! $invoice->id && $account->credit_number_counter > 0)
             var total = model.invoice().totals.rawTotal();
-            var invoiceNumber = model.invoice().invoice_number();
+            var invoiceNumber = model.invoice().bill_number();
             var creditNumber = "{{ $account->getClientNextNumber(new \App\Models\Credit()) }}";
             if (total < 0 && invoiceNumber != creditNumber) {
                 origInvoiceNumber = invoiceNumber;
-                model.invoice().invoice_number(creditNumber);
+                model.invoice().bill_number(creditNumber);
             } else if (total >= 0 && invoiceNumber == creditNumber && origInvoiceNumber) {
-                model.invoice().invoice_number(origInvoiceNumber);
+                model.invoice().bill_number(origInvoiceNumber);
             }
             @endif
 
@@ -1286,7 +1286,7 @@ afterAdd: showContact }'>
                 return;
                     @endif
 
-            var invoice = createInvoiceModel();
+            var invoice = createBillModel();
             var design = getDesignJavascript();
 
             if (!design) {
@@ -1330,12 +1330,12 @@ afterAdd: showContact }'>
 
         function onDownloadClick() {
             trackEvent('/activity', '/download_pdf');
-            var invoice = createInvoiceModel();
+            var invoice = createBillModel();
             var design = getDesignJavascript();
             if (!design) return;
             var doc = generatePDF(invoice, design, true);
             var type = invoice.is_quote ? {!! json_encode(trans('texts.'.ENTITY_BILL_QUOTE)) !!} : {!! json_encode(trans('texts.'.ENTITY_BILL)) !!};
-            doc.save(type + '_' + $('#invoice_number').val() + '.pdf');
+            doc.save(type + '_' + $('#bill_number').val() + '.pdf');
         }
 
         function onRecurrClick() {
@@ -1367,7 +1367,7 @@ afterAdd: showContact }'>
 
             var clientId = parseInt($('input[name=client]').val(), 10) || 0;
             if (clientId == 0) {
-                swal({!! json_encode(trans('texts.no_client_selected')) !!});
+                swal({!! json_encode(trans('texts.no_vendor_selected')) !!});
                 return;
             }
 
@@ -1486,7 +1486,7 @@ afterAdd: showContact }'>
 
             for (var i = 0; i < client.contacts().length; i++) {
                 var contact = client.contacts()[i];
-                if (contact.send_invoice()) {
+                if (contact.send_bill()) {
                     parts.push(contact.displayName());
                 }
             }
@@ -1495,7 +1495,7 @@ afterAdd: showContact }'>
         }
 
         function preparePdfData(action) {
-            var invoice = createInvoiceModel();
+            var invoice = createBillModel();
             var design = getDesignJavascript();
             if (!design) return;
 
@@ -1535,7 +1535,7 @@ afterAdd: showContact }'>
             @endif
 
             // check invoice number is unique
-            if ($('.invoice-number').hasClass('has-error')) {
+            if ($('.bill-number').hasClass('has-error')) {
                 return false;
             } else if ($('.partial').hasClass('has-error')) {
                 return false;
@@ -1583,7 +1583,7 @@ afterAdd: showContact }'>
             if (data) {
                 var error = firstJSONError(data.responseJSON) || data.statusText;
             }
-            swal({!! json_encode(trans('texts.invoice_save_error')) !!}, error);
+            swal({!! json_encode(trans('texts.bill_save_error')) !!}, error);
         }
 
         function submitBulkAction(value) {
@@ -1609,7 +1609,7 @@ afterAdd: showContact }'>
             var client = model.invoice().client();
             for (var i = 0; i < client.contacts().length; i++) {
                 var contact = client.contacts()[i];
-                if (contact.send_invoice()) {
+                if (contact.send_bill()) {
                     return true;
                 }
             }
@@ -1621,7 +1621,7 @@ afterAdd: showContact }'>
             var client = model.invoice().client();
             for (var i = 0; i < client.contacts().length; i++) {
                 var contact = client.contacts()[i];
-                if (!contact.send_invoice()) {
+                if (!contact.send_bill()) {
                     continue;
                 }
                 var email = contact.email() ? contact.email().trim() : '';
@@ -1635,8 +1635,8 @@ afterAdd: showContact }'>
             return isValid;
         }
 
-        function onCloneInvoiceClick() {
-            submitAction('clone_invoice');
+        function onCloneBillClick() {
+            submitAction('clone_bill');
         }
 
         function onCloneQuoteClick() {
@@ -1701,8 +1701,8 @@ afterAdd: showContact }'>
             var hasEmptyStandard = false;
             var hasEmptyTask = false;
 
-            for (var i = 0; i < model.invoice().invoice_items_without_tasks().length; i++) {
-                var item = model.invoice().invoice_items_without_tasks()[i];
+            for (var i = 0; i < model.invoice().bill_items_without_tasks().length; i++) {
+                var item = model.invoice().bill_items_without_tasks()[i];
                 if (item.isEmpty()) {
                     hasEmptyStandard = true;
                 }
@@ -1711,8 +1711,8 @@ afterAdd: showContact }'>
                 model.invoice().addItem();
             }
 
-            for (var i = 0; i < model.invoice().invoice_items_with_tasks().length; i++) {
-                var item = model.invoice().invoice_items_with_tasks()[i];
+            for (var i = 0; i < model.invoice().bill_items_with_tasks().length; i++) {
+                var item = model.invoice().bill_items_with_tasks()[i];
                 if (item.isEmpty()) {
                     hasEmptyTask = true;
                 }
@@ -1765,24 +1765,24 @@ afterAdd: showContact }'>
             $('#recurringDueDateModal').modal('show');
         }
 
-        function setInvoiceNumber(client) {
-            @if ($invoice->id || !$account->hasClientNumberPattern($invoice))
+        function setBillNumber(client) {
+            @if ($invoice->id || !$account->hasVendorNumberPattern($invoice))
                 return;
                     @endif
-            var number = '{{ $account->applyClientNumberPattern($invoice) }}';
+            var number = '{{ $account->applyVendorNumberPattern($invoice) }}';
             number = number.replace('{$clientCustom1}', client.custom_value1 ? client.custom_value1 : '');
             number = number.replace('{$clientCustom2}', client.custom_value2 ? client.custom_value1 : '');
-            number = number.replace('{$clientIdNumber}', client.id_number ? client.id_number : '');
-            @if ($invoice->isQuote() && ! $account->share_counter)
-                number = number.replace('{$clientCounter}', pad(client.quote_number_counter, {{ $account->invoice_number_padding }}));
+            number = number.replace('{$vendorIdNumber}', client.id_number ? client.id_number : '');
+            @if ($invoice->isQuote() && ! $account->share_bill_counter)
+                number = number.replace('{$vendorCounter}', pad(client.quote_number_counter, {{ $account->bill_number_padding }}));
             @else
-                number = number.replace('{$clientCounter}', pad(client.invoice_number_counter, {{ $account->invoice_number_padding }}));
+                number = number.replace('{$vendorCounter}', pad(client.bill_number_counter, {{ $account->bill_number_padding }}));
             @endif
             // backwards compatibility
             number = number.replace('{$custom1}', client.custom_value1 ? client.custom_value1 : '');
             number = number.replace('{$custom2}', client.custom_value2 ? client.custom_value1 : '');
             number = number.replace('{$idNumber}', client.id_number ? client.id_number : '');
-            model.invoice().invoice_number(number);
+            model.invoice().bill_number(number);
         }
 
         function addDocument(file) {
@@ -1792,7 +1792,7 @@ afterAdd: showContact }'>
 
         function addedDocument(file, response) {
             model.invoice().documents()[file.index].update(response.document);
-            @if ($account->invoice_embed_documents)
+            @if ($account->bill_embed_documents)
             refreshPDF(true);
             @endif
         }
@@ -1807,7 +1807,7 @@ afterAdd: showContact }'>
         }
 
     </script>
-    @if ($account->hasFeature(FEATURE_DOCUMENTS) && $account->invoice_embed_documents)
+    @if ($account->hasFeature(FEATURE_DOCUMENTS) && $account->bill_embed_documents)
         @foreach ($invoice->documents as $document)
             @if($document->isPDFEmbeddable())
                 <script src="{{ $document->getVFSJSUrl() }}" type="text/javascript" async></script>

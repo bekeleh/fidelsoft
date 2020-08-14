@@ -2764,6 +2764,7 @@ $LANG = array(
     'no_undo' => 'this can\'t be undone.',
     'no_contact_selected' => 'Please select a contact',
     'no_client_selected' => 'Please select a client',
+    'no_vendor_selected' => 'Please select a vendor',
 
     'gateway_config_error' => 'It may help to set new passwords or generate new API keys.',
     'payment_type_on_file' => ':type on file',
@@ -2847,6 +2848,7 @@ $LANG = array(
     'new_category' => 'New Category',
     'blank' => 'Blank',
     'invoice_save_error' => 'There was an error saving your invoice',
+    'bill_save_error' => 'There was an error saving your bill',
     'enable_recurring' => 'Enable Recurring',
     'disable_recurring' => 'Disable Recurring',
     'text' => 'Text',
