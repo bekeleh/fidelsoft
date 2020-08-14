@@ -47,6 +47,9 @@ class BillRepository extends BaseRepository
         return 'App\Models\Bill';
     }
 
+    /**
+     * @return mixed
+     */
     public function all()
     {
         return Bill::scope()
@@ -62,7 +65,7 @@ class BillRepository extends BaseRepository
      * @param bool $filter
      * @return mixed|null
      */
-    public function getbills($accountId = false, $vendorPublicId = false, $entityType = ENTITY_BILL, $filter = false)
+    public function getBills($accountId = false, $vendorPublicId = false, $entityType = ENTITY_BILL, $filter = false)
     {
         $query = DB::table('bills')
             ->LeftJoin('accounts', 'accounts.id', '=', 'bills.account_id')
@@ -250,13 +253,13 @@ class BillRepository extends BaseRepository
      */
     public function getVendorRecurringDatatable($contactId, $filter = null)
     {
-        $query = DB::table('invitations')
-            ->LeftJoin('accounts', 'accounts.id', '=', 'invitations.account_id')
-            ->LeftJoin('bills', 'bills.id', '=', 'invitations.bill_id')
+        $query = DB::table('bill_invitations')
+            ->LeftJoin('accounts', 'accounts.id', '=', 'bill_invitations.account_id')
+            ->LeftJoin('bills', 'bills.id', '=', 'bill_invitations.bill_id')
             ->LeftJoin('vendors', 'vendors.id', '=', 'bills.vendor_id')
             ->LeftJoin('frequencies', 'frequencies.id', '=', 'bills.frequency_id')
-            ->where('invitations.contact_id', $contactId)
-            ->where('invitations.deleted_at', null)
+            ->where('bill_invitations.contact_id', $contactId)
+            ->where('bill_invitations.deleted_at', null)
             ->where('bills.bill_type_id', BILL_TYPE_STANDARD)
             ->where('bills.is_deleted', false)
             ->where('vendors.deleted_at', null)
@@ -267,7 +270,7 @@ class BillRepository extends BaseRepository
             ->select(
                 DB::raw('COALESCE(vendors.currency_id, accounts.currency_id) currency_id'),
                 DB::raw('COALESCE(vendors.country_id, accounts.country_id) country_id'),
-                'invitations.invitation_key',
+                'bill_invitations.invitation_key',
                 'bills.bill_number',
                 'bills.due_date',
                 'vendors.public_id as vendor_public_id',
@@ -325,13 +328,13 @@ class BillRepository extends BaseRepository
      */
     public function getVendorDatatable($contactId, $entityType, $search)
     {
-        $query = DB::table('invitations')
-            ->LeftJoin('accounts', 'accounts.id', '=', 'invitations.account_id')
-            ->LeftJoin('bills', 'bills.id', '=', 'invitations.bill_id')
+        $query = DB::table('bill_invitations')
+            ->LeftJoin('accounts', 'accounts.id', '=', 'bill_invitations.account_id')
+            ->LeftJoin('bills', 'bills.id', '=', 'bill_invitations.bill_id')
             ->LeftJoin('vendors', 'vendors.id', '=', 'bills.vendor_id')
             ->LeftJoin('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
-            ->where('invitations.contact_id', $contactId)
-            ->where('invitations.deleted_at', null)
+            ->where('bill_invitations.contact_id', $contactId)
+            ->where('bill_invitations.deleted_at', null)
             ->where('bills.bill_type_id', $entityType == ENTITY_QUOTE ? BILL_TYPE_QUOTE : BILL_TYPE_STANDARD)
             ->where('bills.is_deleted', false)
             ->where('vendors.deleted_at', null)
@@ -344,7 +347,7 @@ class BillRepository extends BaseRepository
             ->select(
                 DB::raw('COALESCE(vendors.currency_id, accounts.currency_id) currency_id'),
                 DB::raw('COALESCE(vendors.country_id, accounts.country_id) country_id'),
-                'invitations.invitation_key',
+                'bill_invitations.invitation_key',
                 'bills.bill_number',
                 'bills.bill_date',
                 'bills.balance as balance',
@@ -433,11 +436,11 @@ class BillRepository extends BaseRepository
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
         $isNew = !$publicId || intval($publicId) < 0;
 
-        if (!empty($bill)) {
+        if ($bill) {
             $entityType = $bill->getEntityType();
             $bill->updated_by = Auth::user()->username;
 
-        } elseif (!empty($isNew)) {
+        } elseif ($isNew) {
             $entityType = ENTITY_BILL;
             if (!empty($data['is_recurring']) && filter_var($data['is_recurring'], FILTER_VALIDATE_BOOLEAN)) {
                 $entityType = ENTITY_RECURRING_BILL;
@@ -451,7 +454,7 @@ class BillRepository extends BaseRepository
             $bill->custom_taxes2 = $account->custom_bill_taxes2 ?: false;
             $bill->created_by = Auth::user()->username;
 //           set the default due date
-            if ($entityType === ENTITY_BILL && !empty($data['partial_due_date'])) {
+            if ($entityType === ENTITY_BILL && empty($data['partial_due_date'])) {
                 $vendor = Vendor::scope()->where('id', $data['client_id'])->first();
                 $bill->due_date = $account->defaultDueDate($vendor);
             }
@@ -705,7 +708,7 @@ class BillRepository extends BaseRepository
             return null;
         }
 
-        $bill->load('invitations', 'bill_items');
+        $bill->load('bill_invitations', 'bill_items');
         $account = $bill->account;
 
         $clone = Bill::createNew($bill);
@@ -822,11 +825,11 @@ class BillRepository extends BaseRepository
             $clone->documents()->save($cloneDocument);
         }
 
-        foreach ($bill->invitations as $invitation) {
+        foreach ($bill->bill_invitations as $invitation) {
             $cloneInvitation = BillInvitation::createNew($bill);
             $cloneInvitation->contact_id = $invitation->contact_id;
             $cloneInvitation->invitation_key = strtolower(str_random(RANDOM_KEY_LENGTH));
-            $clone->invitations()->save($cloneInvitation);
+            $clone->bill_invitations()->save($cloneInvitation);
         }
 
         $this->dispatchEvents($clone);
@@ -1055,11 +1058,11 @@ class BillRepository extends BaseRepository
             $bill->documents()->save($document);
         }
 
-        foreach ($recurBill->invitations as $recurInvitation) {
+        foreach ($recurBill->bill_invitations as $recurInvitation) {
             $invitation = BillInvitation::createNew($recurInvitation);
             $invitation->contact_id = $recurInvitation->contact_id;
             $invitation->invitation_key = strtolower(str_random(RANDOM_KEY_LENGTH));
-            $bill->invitations()->save($invitation);
+            $bill->bill_invitations()->save($invitation);
         }
 
         $recurBill->last_sent_date = date('Y-m-d');

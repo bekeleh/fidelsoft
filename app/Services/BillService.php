@@ -56,7 +56,7 @@ class BillService extends BaseService
         }
     }
 
-    public function save(array $data, Bill $Bill = null)
+    public function save(array $data, Bill $bill = null)
     {
 
         if (!empty($data['vendor'])) {
@@ -79,37 +79,37 @@ class BillService extends BaseService
             }
         }
 
-        return $this->billRepo->save($data, $Bill);
+        return $this->billRepo->save($data, $bill);
     }
 
     public function convertQuote($quote)
     {
         $account = $quote->account;
-        $Bill = $this->billRepo->cloneBill($quote, $quote->id);
+        $bill = $this->billRepo->cloneBill($quote, $quote->id);
 
         if ($account->auto_archive_quote) {
             $this->billRepo->archive($quote);
         }
 
-        return $Bill;
+        return $bill;
     }
 
-    public function approveQuote($quote, BillInvitation $purchaseInvitation = null)
+    public function approveQuote($quote, BillInvitation $billInvitation = null)
     {
         $account = $quote->account;
 
-        if (!$account->hasFeature(FEATURE_QUOTES) || !$quote->isType(BILL_TYPE_QUOTE) || $quote->quote_invoice_id) {
+        if (!$account->hasFeature(FEATURE_QUOTES) || !$quote->isType(BILL_TYPE_QUOTE) || $quote->quote_bill_id) {
             return null;
         }
 
-        event(new BillQuoteInvitationWasApproved($quote, $purchaseInvitation));
+        event(new BillQuoteInvitationWasApproved($quote, $billInvitation));
 
         if ($account->auto_convert_quote) {
-            $Bill = $this->convertQuote($quote);
+            $bill = $this->convertQuote($quote);
 
-            foreach ($Bill->invitations as $BillInvitation) {
-                if ($purchaseInvitation->contact_id == $BillInvitation->contact_id) {
-                    $purchaseInvitation = $BillInvitation;
+            foreach ($bill->bill_invitations as $invitation) {
+                if ($billInvitation->contact_id == $invitation->contact_id) {
+                    $billInvitation = $invitation;
                 }
             }
         } else {
@@ -120,7 +120,7 @@ class BillService extends BaseService
             $this->billRepo->archive($quote);
         }
 
-        return $purchaseInvitation->invitation_key;
+        return $billInvitation->invitation_key;
     }
 
     public function getDatatable($accountId, $vendorPublicId, $entityType, $search)
@@ -129,7 +129,7 @@ class BillService extends BaseService
         $datatable->entityType = $entityType;
 
         $query = $this->billRepo
-            ->getbills($accountId, $vendorPublicId, $entityType, $search)
+            ->getBills($accountId, $vendorPublicId, $entityType, $search)
             ->where('bills.bill_type_id', $entityType == ENTITY_BILL_QUOTE ? BILL_TYPE_QUOTE : BILL_TYPE_STANDARD);
 
         if (!Utils::hasPermission('view_bill')) {

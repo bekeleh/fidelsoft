@@ -4,8 +4,8 @@
         var self = this;
         self.showMore = ko.observable(false);
 
-        //self.invoice = data ? false : new InvoiceModel();
-        self.invoice = ko.observable(data ? false : new InvoiceModel());
+        //self.invoice = data ? false : new BillModel();
+        self.invoice = ko.observable(data ? false : new BillModel());
         self.expense_currency_id = ko.observable();
         self.products = {!! $products !!};
 
@@ -55,7 +55,7 @@
         self.mapping = {
             'invoice': {
                 create: function (options) {
-                    return new InvoiceModel(options.data);
+                    return new BillModel(options.data);
                 }
             },
         };
@@ -76,8 +76,8 @@
             if (self.invoice_item_taxes() && {{ count($taxRateOptions) ? 'true' : 'false' }}) {
                 return true;
             }
-            for (var i = 0; i < self.invoice().invoice_items().length; i++) {
-                var item = self.invoice().invoice_items()[i];
+            for (var i = 0; i < self.invoice().bill_items().length; i++) {
+                var item = self.invoice().bill_items()[i];
                 if (item.tax_name1() || item.tax_name2()) {
                     return true;
                 }
@@ -164,8 +164,8 @@
                 return true;
             }
             invoice = self.invoice();
-            for (var i = 0; i < invoice.invoice_items_with_tasks().length; ++i) {
-                var item = invoice.invoice_items_with_tasks()[i];
+            for (var i = 0; i < invoice.bill_items_with_tasks().length; ++i) {
+                var item = invoice.bill_items_with_tasks()[i];
                 if (!item.isEmpty()) {
                     self.hasTasksCached = true;
                     return true;
@@ -184,8 +184,8 @@
                 return true;
             }
             invoice = self.invoice();
-            for (var i = 0; i < invoice.invoice_items_without_tasks().length; ++i) {
-                var item = invoice.invoice_items_without_tasks()[i];
+            for (var i = 0; i < invoice.bill_items_without_tasks().length; ++i) {
+                var item = invoice.bill_items_without_tasks()[i];
                 if (!item.isEmpty()) {
                     self.hasItemsCached = true;
                     return true;
@@ -195,12 +195,12 @@
         });
     }
 
-    function InvoiceModel(data) {
+    function BillModel(data) {
         if (data) {
             var vendorModel = false;
         } else {
             var vendorModel = new VendorModel();
-            vendorModel.id_number("{{ $account->getClientNextNumber() }}");
+            vendorModel.id_number("{{ $account->getVendorNextNumber() }}");
         }
 
         var self = this;
@@ -258,21 +258,21 @@
         self.custom_text_value1 = ko.observable();
         self.custom_text_value2 = ko.observable();
 
-        self.invoice_items_with_tasks = ko.observableArray();
-        self.invoice_items_without_tasks = ko.observableArray();
-        self.invoice_items = ko.computed({
+        self.bill_items_with_tasks = ko.observableArray();
+        self.bill_items_without_tasks = ko.observableArray();
+        self.bill_items = ko.computed({
             read: function () {
-                return self.invoice_items_with_tasks().concat(self.invoice_items_without_tasks());
+                return self.bill_items_with_tasks().concat(self.bill_items_without_tasks());
             },
             write: function (data) {
-                self.invoice_items_with_tasks.removeAll();
-                self.invoice_items_without_tasks.removeAll();
+                self.bill_items_with_tasks.removeAll();
+                self.bill_items_without_tasks.removeAll();
                 for (var i = 0; i < data.length; i++) {
                     var item = new ItemModel(data[i]);
                     if (item.isTask()) {
-                        self.invoice_items_with_tasks.push(item);
+                        self.bill_items_with_tasks.push(item);
                     } else {
-                        self.invoice_items_without_tasks.push(item);
+                        self.bill_items_without_tasks.push(item);
                     }
                 }
             },
@@ -298,15 +298,15 @@
         };
 
         self.addItem = function (isTask) {
-            if (self.invoice_items().length >= {{ MAX_INVOICE_ITEMS }}) {
+            if (self.bill_items().length >= {{ MAX_INVOICE_ITEMS }}) {
                 return false;
             }
             var itemModel = new ItemModel();
             if (isTask) {
                 itemModel.invoice_item_type_id({{ INVOICE_ITEM_TYPE_TASK }});
-                self.invoice_items_with_tasks.push(itemModel);
+                self.bill_items_with_tasks.push(itemModel);
             } else {
-                self.invoice_items_without_tasks.push(itemModel);
+                self.bill_items_without_tasks.push(itemModel);
             }
             applyComboboxListeners();
 
@@ -363,9 +363,9 @@
 
         self.removeItem = function (item) {
             if (item.isTask()) {
-                self.invoice_items_with_tasks.remove(item);
+                self.bill_items_with_tasks.remove(item);
             } else {
-                self.invoice_items_without_tasks.remove(item);
+                self.bill_items_without_tasks.remove(item);
             }
             refreshPDF(true);
         };
@@ -386,8 +386,8 @@
 
         self.totals.rawSubtotal = ko.computed(function () {
             var total = 0;
-            for (var p = 0; p < self.invoice_items().length; ++p) {
-                var item = self.invoice_items()[p];
+            for (var p = 0; p < self.bill_items().length; ++p) {
+                var item = self.bill_items()[p];
                 total += item.totals.rawTotal();
                 total = roundToTwo(total);
             }
@@ -448,8 +448,8 @@
         self.totals.itemTaxes = ko.computed(function () {
             var taxes = {};
             var total = self.totals.rawSubtotal();
-            for (var i = 0; i < self.invoice_items().length; i++) {
-                var item = self.invoice_items()[i];
+            for (var i = 0; i < self.bill_items().length; i++) {
+                var item = self.bill_items()[i];
                 var lineTotal = item.totals.rawTotal();
                 if (self.discount()) {
                     if (parseInt(self.is_amount_discount())) {
@@ -598,8 +598,8 @@
         };
 
         self.applyInclusiveTax = function (taxRate) {
-            for (var i = 0; i < self.invoice_items().length; i++) {
-                var item = self.invoice_items()[i];
+            for (var i = 0; i < self.bill_items().length; i++) {
+                var item = self.bill_items()[i];
                 item.applyInclusiveTax(taxRate);
             }
         };

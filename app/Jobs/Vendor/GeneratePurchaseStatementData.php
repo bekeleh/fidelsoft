@@ -35,7 +35,7 @@ class GeneratePurchaseStatementData
         $Bill->account = $account;
         $Bill->vendor = $vendor;
 
-        $Bill->invoice_items = $this->getbills();
+        $Bill->invoice_items = $this->getBills();
 
         if ($this->options['show_payments']) {
             $payments = $this->getPurchasePayments($Bill->invoice_items);
@@ -47,7 +47,7 @@ class GeneratePurchaseStatementData
         return json_encode($Bill);
     }
 
-    private function getbills()
+    private function getBills()
     {
         $statusId = intval($this->options['status_id']);
 

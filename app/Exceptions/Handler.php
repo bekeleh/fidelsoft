@@ -3,12 +3,15 @@
 namespace App\Exceptions;
 
 use App\Libraries\Utils;
+use Crawler;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Foundation\Validation\ValidationException;
 use Illuminate\Http\Exception\HttpResponseException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
@@ -31,6 +34,11 @@ class Handler extends ExceptionHandler
     ];
 
 
+    /**
+     * @param Exception $e
+     * @return bool|mixed
+     * @throws Exception
+     */
     public function report(Exception $e)
     {
         if (!$this->shouldReport($e)) {
@@ -42,7 +50,7 @@ class Handler extends ExceptionHandler
             return parent::report($e);
         }
 
-        if (\Crawler::isCrawler()) {
+        if (Crawler::isCrawler()) {
             return false;
         }
 
@@ -79,6 +87,11 @@ class Handler extends ExceptionHandler
         }
     }
 
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param Exception $e
+     * @return RedirectResponse|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
+     */
     public function render($request, Exception $e)
     {
         $value = Request::header('X-Ninja-Token');
@@ -86,7 +99,7 @@ class Handler extends ExceptionHandler
         if ($e instanceof ModelNotFoundException) {
 
             if (isset($value) && strlen($value) > 1) {
-                $headers = \App\Libraries\Utils::getApiHeaders();
+                $headers = Utils::getApiHeaders();
                 $response = json_encode(['message' => 'record does not exist'], JSON_PRETTY_PRINT);
 
                 return Response::make($response, 404, $headers);
@@ -159,6 +172,11 @@ class Handler extends ExceptionHandler
     }
 
 
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param AuthenticationException $exception
+     * @return JsonResponse|RedirectResponse|\Illuminate\Http\Response
+     */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         if ($request->expectsJson()) {

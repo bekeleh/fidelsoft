@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Bill;
+use Illuminate\Http\Response;
 
 class BillRequest extends EntityRequest
 {
@@ -13,6 +14,9 @@ class BillRequest extends EntityRequest
         return true;
     }
 
+    /**
+     * @return Response|null
+     */
     public function entity()
     {
         $bill = parent::entity();

@@ -68,7 +68,7 @@
     @if ($invoice->id)
         <ol class="breadcrumb">
             @if ($invoice->is_recurring)
-                <li>{!! link_to('recurring_invoices', trans('texts.recurring_invoices')) !!}</li>
+                <li>{!! link_to('recurring_bills', trans('texts.recurring_bills')) !!}</li>
             @else
                 <li>{!! link_to(($entityType == ENTITY_BILL_QUOTE ? 'bill_quotes' : 'bills'), trans('texts.' . ($entityType == ENTITY_BILL_QUOTE ? 'bill_quotes' : 'bills'))) !!}</li>
                 <li class="active">{{ $invoice->bill_number }}</li>
@@ -151,10 +151,10 @@
                                         @endcan
                                         <span data-bind="visible: $root.invoice().client().public_id() > 0"
                                               style="display:none">|
-                                            <a data-bind="attr: {href: '{{ url('/vendors') }}/' + $root.invoice().client().public_id()}"
-                                               target="_blank">{{ trans('texts.view_vendor') }}
-                                            </a>
-                                            </span>
+<a data-bind="attr: {href: '{{ url('/vendors') }}/' + $root.invoice().client().public_id()}"
+   target="_blank">{{ trans('texts.view_vendor') }}
+</a>
+</span>
                                     </div>
                                 </div>
                                 @if ($invoice->id || $data)
@@ -173,31 +173,31 @@
                                         <input type="checkbox" value="1"
                                                data-bind="visible: email() || first_name() || last_name(), checked: send_bill, attr: {id: $index() + '_check', name: 'client[contacts][' + $index() + '][send_bill]'}">
                                         <span data-bind="visible: first_name || last_name">
-                                        <span data-bind="text: (first_name() || '') + ' ' + (last_name() || '')"></span>
-                                        <br/>
-                                        </span>
+<span data-bind="text: (first_name() || '') + ' ' + (last_name() || '')"></span>
+<br/>
+</span>
                                         <span data-bind="visible: email">
-                                        <span data-bind="text: email"></span>
-                                        <br/>
-                                        </span>
+<span data-bind="text: email"></span>
+<br/>
+</span>
                                     </label>
                                     @if ( ! $invoice->is_deleted && ! $invoice->client->is_deleted)
                                         <span data-bind="visible: !$root.invoice().is_recurring()">
-                                            <span data-bind="html: $data.view_as_recipient"></span>&nbsp;&nbsp;
-                                            @if (Utils::isConfirmed())
+<span data-bind="html: $data.view_as_recipient"></span>&nbsp;&nbsp;
+@if (Utils::isConfirmed())
                                                 <span style="vertical-align:text-top;color:red"
                                                       class="fa fa-exclamation-triangle"
                                                       data-bind="visible: $data.email_error, tooltip: {title: $data.email_error}"></span>
                                                 <span style="vertical-align:text-top;padding-top:2px"
                                                       class="fa fa-info-circle"
                                                       data-bind="visible: $data.invitation_status, tooltip: {title: $data.invitation_status, html: true},
-                                                    style: {color: $data.info_color}"></span>
+        style: {color: $data.info_color}"></span>
                                                 <span class="signature-wrapper">&nbsp;
-                                                <span style="vertical-align:text-top;color:#888" class="fa fa-user"
-                                                      data-bind="visible: $data.invitation_signature_svg, tooltip: {title: $data.invitation_signature_svg, html: true}"></span>
-                                                </span>
+    <span style="vertical-align:text-top;color:#888" class="fa fa-user"
+          data-bind="visible: $data.invitation_signature_svg, tooltip: {title: $data.invitation_signature_svg, html: true}"></span>
+    </span>
                                             @endif
-                                        </span>
+</span>
                                     @endif
                                 </div>
                             </div>
@@ -314,8 +314,8 @@ AUTO_BILL_ALWAYS => trans('texts.always'),
                         @if ($entityType == ENTITY_BILL)
                             <div class="form-group" style="margin-bottom: 8px">
                                 <div class="col-lg-8 col-sm-8 col-sm-offset-4 smaller" style="padding-top: 10px;">
-                                    @if ($invoice->recurring_invoice_id && $invoice->recurring_invoice)
-                                        {!! trans('texts.created_by_invoice', ['invoice' => link_to('/invoices/'.$invoice->recurring_invoice->public_id, trans('texts.recurring_invoice'))]) !!}
+                                    @if ($invoice->recurring_bill_id && $invoice->recurring_bill)
+                                        {!! trans('texts.created_by_invoice', ['invoice' => link_to('/invoices/'.$invoice->recurring_bill->public_id, trans('texts.recurring_bill'))]) !!}
                                         <p/>
                                     @elseif ($invoice->id)
                                         @if (isset($lastSent) && $lastSent)
@@ -787,19 +787,25 @@ afterAdd: showContact }'>
 ->label(trans('texts.language_id'))
 ->data_bind('value: language_id')
 ->fromQuery($languages, 'name', 'id') !!}
-                                            {!! Former::select('client[payment_terms]')->addOption('','')->data_bind('value: payment_terms')
-                                            ->fromQuery(\App\Models\PaymentTerm::getSelectOptions(), 'name', 'num_days')
-                                            ->label(trans('texts.payment_terms'))
-                                            ->help(trans('texts.payment_terms_help')) !!}
-                                            {!! Former::select('client[size_id]')->addOption('','')->data_bind('value: size_id')
-                                            ->label(trans('texts.size_id'))
-                                            ->fromQuery($sizes, 'name', 'id') !!}
-                                            {!! Former::select('client[industry_id]')->addOption('','')->data_bind('value: industry_id')
-                                            ->label(trans('texts.industry_id'))
-                                            ->fromQuery($industries, 'name', 'id') !!}
-                                            {!! Former::textarea('client_private_notes')
-                                            ->label(trans('texts.private_notes'))
-                                            ->data_bind("value: private_notes, attr:{ name: 'client[private_notes]'}") !!}
+<!-- vendor payment -->
+{!! Former::select('client[payment_terms]')->addOption('','')->data_bind('value: payment_terms')
+->fromQuery(\App\Models\PaymentTerm::getSelectOptions(), 'name', 'num_days')
+->label(trans('texts.payment_terms'))
+->help(trans('texts.payment_terms_help')) !!}
+<!-- vendor size -->
+{!! Former::select('client[size_id]')->addOption('','')->data_bind('value: size_id')
+->label(trans('texts.size_id'))
+->fromQuery($sizes, 'name', 'id') !!}
+
+<!-- vendor industry -->
+{!! Former::select('client[industry_id]')->addOption('','')->data_bind('value: industry_id')
+->label(trans('texts.industry_id'))
+->fromQuery($industries, 'name', 'id') !!}
+
+<!-- vendor private notes -->
+    {!! Former::textarea('client_private_notes')
+    ->label(trans('texts.private_notes'))
+    ->data_bind("value: private_notes, attr:{ name: 'client[private_notes]'}") !!}
 </span>
                                     </div>
                                 </div>
@@ -828,7 +834,7 @@ afterAdd: showContact }'>
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="recurringModalLabel">{{ trans('texts.recurring_invoices') }}</h4>
+                        <h4 class="modal-title" id="recurringModalLabel">{{ trans('texts.recurring_bills') }}</h4>
                     </div>
 
                     <div class="container" style="width: 100%; padding-bottom: 0px !important">

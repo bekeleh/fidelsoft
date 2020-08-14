@@ -2,7 +2,7 @@
 
 namespace App\Ninja\Presenters;
 
-use App\Libraries\Skype\InvoiceCard;
+use App\Libraries\Skype\BillCard;
 use App\Libraries\Utils;
 use Carbon\Carbon;
 use DropdownButton;
@@ -23,42 +23,42 @@ class BillPresenter extends EntityPresenter
 
     public function amount()
     {
-        $Bill = $this->entity;
-        $account = $Bill->account;
+        $bill = $this->entity;
+        $account = $bill->account;
 
-        return $account->formatMoney($Bill->amount, $Bill->vendor);
+        return $account->formatMoney($bill->amount, $bill->vendor);
     }
 
     public function balance()
     {
-        $Bill = $this->entity;
-        $account = $Bill->account;
+        $bill = $this->entity;
+        $account = $bill->account;
 
-        return $account->formatMoney($Bill->balance, $Bill->vendor);
+        return $account->formatMoney($bill->balance, $bill->vendor);
     }
 
     public function paid()
     {
-        $Bill = $this->entity;
-        $account = $Bill->account;
+        $bill = $this->entity;
+        $account = $bill->account;
 
-        return $account->formatMoney($Bill->amount - $Bill->balance, $Bill->vendor);
+        return $account->formatMoney($bill->amount - $bill->balance, $bill->vendor);
     }
 
     public function partial()
     {
-        $Bill = $this->entity;
-        $account = $Bill->account;
+        $bill = $this->entity;
+        $account = $bill->account;
 
-        return $account->formatMoney($Bill->partial, $Bill->vendor);
+        return $account->formatMoney($bill->partial, $bill->vendor);
     }
 
     public function requestedAmount()
     {
-        $Bill = $this->entity;
-        $account = $Bill->account;
+        $bill = $this->entity;
+        $account = $bill->account;
 
-        return $account->formatMoney($Bill->getRequestedAmount(), $Bill->vendor);
+        return $account->formatMoney($bill->getRequestedAmount(), $bill->vendor);
     }
 
     public function balanceDueLabel()
@@ -74,8 +74,8 @@ class BillPresenter extends EntityPresenter
 
     public function age()
     {
-        $Bill = $this->entity;
-        $dueDate = $Bill->partial_due_date ?: $Bill->due_date;
+        $bill = $this->entity;
+        $dueDate = $bill->partial_due_date ?: $bill->due_date;
 
         if (!$dueDate || $dueDate === '0000-00-00') {
             return 0;
@@ -118,12 +118,12 @@ class BillPresenter extends EntityPresenter
 
     public function discount()
     {
-        $Bill = $this->entity;
+        $bill = $this->entity;
 
-        if ($Bill->is_amount_discount) {
-            return $Bill->account->formatMoney($Bill->discount);
+        if ($bill->is_amount_discount) {
+            return $bill->account->formatMoney($bill->discount);
         } else {
-            return $Bill->discount . '%';
+            return $bill->discount . '%';
         }
     }
 
@@ -155,9 +155,9 @@ class BillPresenter extends EntityPresenter
         }
     }
 
-    public function invoice_date()
+    public function bill_date()
     {
-        return Utils::fromSqlDate($this->entity->invoice_date);
+        return Utils::fromSqlDate($this->entity->bill_date);
     }
 
     public function due_date()
@@ -212,7 +212,7 @@ class BillPresenter extends EntityPresenter
 
     public function skypeBot()
     {
-        return new InvoiceCard($this->entity);
+        return new BillCard($this->entity);
     }
 
     public function rBits()
@@ -237,61 +237,61 @@ class BillPresenter extends EntityPresenter
 
     public function moreActions()
     {
-        $Bill = $this->entity;
-        $entityType = $Bill->getEntityType();
+        $bill = $this->entity;
+        $entityType = $bill->getEntityType();
 
         $actions = [
-            ['url' => 'javascript:onCloneBillClick()', 'label' => trans("texts.clone_BILL")]
+            ['url' => 'javascript:onCloneBillClick()', 'label' => trans("texts.clone_bill")]
         ];
 
         if (Auth::user()->can('create', ENTITY_BILL_QUOTE)) {
             $actions[] = ['url' => 'javascript:onClonePurchaseQuoteClick()', 'label' => trans("texts.clone_bill_quote")];
         }
 
-        $actions[] = ['url' => url("{$entityType}s/{$entityType}_history/{$Bill->public_id}"), 'label' => trans('texts.view_history')];
+        $actions[] = ['url' => url("{$entityType}s/{$entityType}_history/{$bill->public_id}"), 'label' => trans('texts.view_history')];
 //     delivery note
         if ($entityType == ENTITY_BILL) {
-            $actions[] = ['url' => url("bills/receive_note/{$Bill->public_id}"), 'label' => trans('texts.receive_note')];
+            $actions[] = ['url' => url("bills/receive_note/{$bill->public_id}"), 'label' => trans('texts.receive_note')];
         }
 //    packing list
         if ($entityType == ENTITY_BILL) {
-            $actions[] = ['url' => url("bills/packing_list/{$Bill->public_id}"), 'label' => trans('texts.packing_list')];
+            $actions[] = ['url' => url("bills/packing_list/{$bill->public_id}"), 'label' => trans('texts.packing_list')];
         }
 
 //      Return purchase
         if ($entityType == ENTITY_BILL) {
-            $actions[] = ['url' => url("bills/return_purchase/{$Bill->public_id}"), 'label' => trans('texts.return_purchase')];
+            $actions[] = ['url' => url("bills/return_purchase/{$bill->public_id}"), 'label' => trans('texts.return_purchase')];
         }
 
         $actions[] = DropdownButton::DIVIDER;
 
         if ($entityType == ENTITY_BILL_QUOTE) {
-            if ($Bill->quote_invoice_id) {
-                $actions[] = ['url' => url("bills/{$Bill->quote_invoice_id}/edit"), 'label' => trans('texts.view_invoice')];
+            if ($bill->quote_bill_id) {
+                $actions[] = ['url' => url("bills/{$bill->quote_bill_id}/edit"), 'label' => trans('texts.view_invoice')];
             } else {
-                if (!$Bill->isApproved()) {
-                    $actions[] = ['url' => url("proposals/create/{$Bill->public_id}"), 'label' => trans('texts.new_proposal')];
+                if (!$bill->isApproved()) {
+                    $actions[] = ['url' => url("proposals/create/{$bill->public_id}"), 'label' => trans('texts.new_proposal')];
                 }
                 $actions[] = ['url' => 'javascript:onConvertClick()', 'label' => trans('texts.convert_to_invoice')];
             }
         } elseif ($entityType == ENTITY_BILL) {
-            if ($Bill->quote_id && $Bill->quote) {
-                $actions[] = ['url' => url("bill_quotes/{$Bill->quote->public_id}/edit"), 'label' => trans('texts.view_quote')];
+            if ($bill->quote_id && $bill->quote) {
+                $actions[] = ['url' => url("bill_quotes/{$bill->quote->public_id}/edit"), 'label' => trans('texts.view_quote')];
             }
 
-            if ($Bill->onlyHasTasks()) {
+            if ($bill->onlyHasTasks()) {
                 $actions[] = ['url' => 'javascript:onAddItemClick()', 'label' => trans('texts.add_product')];
             }
 
-            if ($Bill->canBePaid()) {
+            if ($bill->canBePaid()) {
                 $actions[] = ['url' => 'javascript:submitBulkAction("markPaid")', 'label' => trans('texts.mark_paid')];
                 $actions[] = ['url' => 'javascript:onPaymentClick()', 'label' => trans('texts.enter_payment')];
             }
 
-            foreach ($Bill->payments as $payment) {
+            foreach ($bill->payments as $payment) {
                 $label = trans('texts.view_payment');
-                if ($Bill->payments->count() > 1) {
-                    $label .= ' - ' . $Bill->account->formatMoney($payment->amount, $Bill->vendor);
+                if ($bill->payments->count() > 1) {
+                    $label .= ' - ' . $bill->account->formatMoney($payment->amount, $bill->vendor);
                 }
                 $actions[] = ['url' => $payment->present()->url, 'label' => $label];
             }
@@ -301,10 +301,10 @@ class BillPresenter extends EntityPresenter
             $actions[] = DropdownButton::DIVIDER;
         }
 
-        if (!$Bill->trashed()) {
+        if (!$bill->trashed()) {
             $actions[] = ['url' => 'javascript:onArchiveClick()', 'label' => trans("texts.archive_{$entityType}")];
         }
-        if (!$Bill->is_deleted) {
+        if (!$bill->is_deleted) {
             $actions[] = ['url' => 'javascript:onDeleteClick()', 'label' => trans("texts.delete_{$entityType}")];
         }
 
@@ -313,8 +313,8 @@ class BillPresenter extends EntityPresenter
 
     public function gatewayFee($gatewayTypeId = false)
     {
-        $Bill = $this->entity;
-        $account = $Bill->account;
+        $bill = $this->entity;
+        $account = $bill->account;
 
         if (!$account->gateway_fee_enabled) {
             return '';
@@ -326,11 +326,11 @@ class BillPresenter extends EntityPresenter
             return '';
         }
 
-        if ($Bill->getGatewayFeeItem()) {
+        if ($bill->getGatewayFeeItem()) {
             $label = ' + ' . trans('texts.fee');
         } else {
-            $fee = $Bill->calcGatewayFee($gatewayTypeId, true);
-            $fee = $account->formatMoney($fee, $Bill->vendor);
+            $fee = $bill->calcGatewayFee($gatewayTypeId, true);
+            $fee = $account->formatMoney($fee, $bill->vendor);
 
             if (floatval($settings->fee_amount) < 0 || floatval($settings->fee_percent) < 0) {
                 $label = trans('texts.discount');
@@ -348,14 +348,14 @@ class BillPresenter extends EntityPresenter
 
     public function multiAccountLink()
     {
-        $Bill = $this->entity;
-        $account = $Bill->account;
+        $bill = $this->entity;
+        $account = $bill->account;
 
         if ($account->hasMultipleAccounts()) {
             $link = url(sprintf('/account/%s?redirect_to=%s', $account->account_key,
-                $Bill->present()->path));
+                $bill->present()->path));
         } else {
-            $link = $Bill->present()->url;
+            $link = $bill->present()->url;
         }
 
         return $link;
@@ -364,16 +364,16 @@ class BillPresenter extends EntityPresenter
     public function calendarEvent($subColors = false)
     {
         $data = parent::calendarEvent();
-        $Bill = $this->entity;
-        $entityType = $Bill->getEntityType();
+        $bill = $this->entity;
+        $entityType = $bill->getEntityType();
 
-        $data->title = trans("texts.{$entityType}") . ' ' . $Bill->invoice_number . ' | ' . $this->amount() . ' | ' . $this->vendor();
-        $data->start = $Bill->due_date ?: $Bill->invoice_date;
+        $data->title = trans("texts.{$entityType}") . ' ' . $bill->bill_number . ' | ' . $this->amount() . ' | ' . $this->vendor();
+        $data->start = $bill->due_date ?: $bill->bill_date;
 
         if ($subColors) {
-            $data->borderColor = $data->backgroundColor = $Bill->present()->statusColor();
+            $data->borderColor = $data->backgroundColor = $bill->present()->statusColor();
         } else {
-            $data->borderColor = $data->backgroundColor = $Bill->isQuote() ? '#716cb1' : '#377eb8';
+            $data->borderColor = $data->backgroundColor = $bill->isQuote() ? '#716cb1' : '#377eb8';
         }
 
         return $data;
