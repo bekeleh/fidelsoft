@@ -311,18 +311,18 @@ if (!defined('APP_NAME')) {
     define('ACTIVITY_TYPE_UPDATE_BILL_CREDIT', 71);
     define('ACTIVITY_TYPE_ARCHIVE_BILL_CREDIT', 72);
     define('ACTIVITY_TYPE_DELETE_BILL_CREDIT', 73);
-    define('ACTIVITY_TYPE_CREATE_BILL_QUOTE', 74);
-    define('ACTIVITY_TYPE_UPDATE_BILL_QUOTE', 75);
-    define('ACTIVITY_TYPE_EMAIL_BILL_QUOTE', 76);
-    define('ACTIVITY_TYPE_VIEW_BILL_QUOTE', 77);
-    define('ACTIVITY_TYPE_ARCHIVE_BILL_QUOTE', 78);
-    define('ACTIVITY_TYPE_DELETE_BILL_QUOTE', 79);
-    define('ACTIVITY_TYPE_RESTORE_BILL_QUOTE', 80);
+    define('ACTIVITY_TYPE_CREATE_bill_quote', 74);
+    define('ACTIVITY_TYPE_UPDATE_bill_quote', 75);
+    define('ACTIVITY_TYPE_EMAIL_bill_quote', 76);
+    define('ACTIVITY_TYPE_VIEW_bill_quote', 77);
+    define('ACTIVITY_TYPE_ARCHIVE_bill_quote', 78);
+    define('ACTIVITY_TYPE_DELETE_bill_quote', 79);
+    define('ACTIVITY_TYPE_RESTORE_bill_quote', 80);
     define('ACTIVITY_TYPE_RESTORE_BILL', 81);
     define('ACTIVITY_TYPE_RESTORE_BILL_VENDOR', 82);
     define('ACTIVITY_TYPE_RESTORE_BILL_PAYMENT', 83);
     define('ACTIVITY_TYPE_RESTORE_BILL_CREDIT', 87);
-    define('ACTIVITY_TYPE_APPROVE_BILL_QUOTE', 88);
+    define('ACTIVITY_TYPE_APPROVE_bill_quote', 88);
     define('ACTIVITY_TYPE_CREATE_BILL_EXPENSE', 90);
     define('ACTIVITY_TYPE_ARCHIVE_BILL_EXPENSE', 91);
     define('ACTIVITY_TYPE_DELETE_BILL_EXPENSE', 92);
@@ -556,10 +556,10 @@ if (!defined('APP_NAME')) {
     define('EVENT_UPDATE_BILL', 29);
     define('EVENT_DELETE_BILL', 30);
 //  bill quote
-    define('EVENT_CREATE_BILL_QUOTE', 31);
-    define('EVENT_UPDATE_BILL_QUOTE', 32);
-    define('EVENT_DELETE_BILL_QUOTE', 33);
-    define('EVENT_APPROVE_BILL_QUOTE', 34);
+    define('EVENT_CREATE_bill_quote', 31);
+    define('EVENT_UPDATE_bill_quote', 32);
+    define('EVENT_DELETE_bill_quote', 33);
+    define('EVENT_APPROVE_bill_quote', 34);
 
 //    others
     define('REQUESTED_PRO_PLAN', 'REQUESTED_PRO_PLAN');

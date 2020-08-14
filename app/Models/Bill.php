@@ -35,7 +35,7 @@ class Bill extends EntityModel implements BalanceAffecting
 
     protected $presenter = 'App\Ninja\Presenters\BillPresenter';
 
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+    protected $dates = ['created_at', 'updated_at'];
     protected $hidden = ['deleted_at'];
 
 
@@ -1343,7 +1343,7 @@ class Bill extends EntityModel implements BalanceAffecting
         return Activity::scope()
             ->with(['vendor_contact'])
             ->where('bill_id', $this->id)
-            ->whereIn('activity_type_id', [ACTIVITY_TYPE_EMAIL_BILL, ACTIVITY_TYPE_EMAIL_BILL_QUOTE])
+            ->whereIn('activity_type_id', [ACTIVITY_TYPE_EMAIL_BILL, ACTIVITY_TYPE_EMAIL_bill_quote])
             ->orderBy('id', 'desc')
             ->get();
     }

@@ -558,7 +558,7 @@ class ActivityListener
     {
         $this->activityRepo->createBill(
             $event->quote,
-            ACTIVITY_TYPE_CREATE_BILL_QUOTE
+            ACTIVITY_TYPE_CREATE_bill_quote
         );
     }
 
@@ -574,7 +574,7 @@ class ActivityListener
 
         $activity = $this->activityRepo->createBill(
             $event->quote,
-            ACTIVITY_TYPE_UPDATE_BILL_QUOTE
+            ACTIVITY_TYPE_UPDATE_bill_quote
         );
 
         $activity->json_backup = $backupQuote->hidePrivateFields()->toJSON();
@@ -585,7 +585,7 @@ class ActivityListener
     {
         $this->activityRepo->createBill(
             $event->quote,
-            ACTIVITY_TYPE_DELETE_BILL_QUOTE
+            ACTIVITY_TYPE_DELETE_bill_quote
         );
     }
 
@@ -597,7 +597,7 @@ class ActivityListener
 
         $this->activityRepo->createBill(
             $event->quote,
-            ACTIVITY_TYPE_ARCHIVE_BILL_QUOTE
+            ACTIVITY_TYPE_ARCHIVE_bill_quote
         );
     }
 
@@ -605,7 +605,7 @@ class ActivityListener
     {
         $this->activityRepo->createBill(
             $event->quote,
-            ACTIVITY_TYPE_RESTORE_BILL_QUOTE
+            ACTIVITY_TYPE_RESTORE_bill_quote
         );
     }
 
@@ -613,7 +613,7 @@ class ActivityListener
     {
         $this->activityRepo->createBill(
             $event->purchaseInvitation->BILL,
-            ACTIVITY_TYPE_EMAIL_BILL_QUOTE,
+            ACTIVITY_TYPE_EMAIL_bill_quote,
             false,
             false,
             $event->purchaseInvitation,
@@ -625,7 +625,7 @@ class ActivityListener
     {
         $this->activityRepo->createBill(
             $event->quote,
-            ACTIVITY_TYPE_VIEW_BILL_QUOTE,
+            ACTIVITY_TYPE_VIEW_bill_quote,
             false,
             false,
             $event->invitation
@@ -636,7 +636,7 @@ class ActivityListener
     {
         $this->activityRepo->createBill(
             $event->quote,
-            ACTIVITY_TYPE_APPROVE_BILL_QUOTE,
+            ACTIVITY_TYPE_APPROVE_bill_quote,
             false,
             false,
             $event->invitation

@@ -5,7 +5,7 @@ namespace App\Models;
 use App;
 use App\Events\UserSettingsChanged;
 use App\Libraries\Utils;
-use App\Models\Traits\GeneratesNumbers;
+use App\Models\Traits\GenerateClientNumbers;
 use App\Models\Traits\GenerateVendorNumbers;
 use App\Models\Traits\HasCustomMessages;
 use App\Models\Traits\HasLogo;
@@ -29,7 +29,7 @@ class Account extends Eloquent
     use PresentableTrait;
     use SoftDeletes;
     use PresentsInvoice;
-    use GeneratesNumbers;
+    use GenerateClientNumbers;
     use GenerateVendorNumbers;
     use SendsEmails;
     use HasLogo;
@@ -57,13 +57,18 @@ class Account extends Eloquent
         'postal_code',
         'country_id',
         'invoice_terms',
+        'bill_terms',
         'email_footer',
         'industry_id',
         'size_id',
         'invoice_taxes',
         'invoice_item_taxes',
+        'bill_taxes',
+        'bill_item_taxes',
         'invoice_design_id',
         'quote_design_id',
+        'bill_design_id',
+        'bill_quote_design_id',
         'work_phone',
         'work_email',
         'language_id',
@@ -74,24 +79,27 @@ class Account extends Eloquent
         'hide_quantity',
         'hide_paid_to_date',
         'vat_number',
-//      client counter
+
         'invoice_number_prefix',
         'invoice_number_counter',
         'quote_number_prefix',
         'quote_number_counter',
         'share_counter',
-//      bill counter
-        'BILL_number_prefix',
-        'invoice_number_counter',
-        'BILL_QUOTE_number_prefix',
-        'quote_number_counter',
+
+        'bill_number_prefix',
+        'bill_number_counter',
+        'bill_quote_number_prefix',
+        'bill_quote_number_counter',
         'share_bill_counter',
+
         'id_number',
         'token_billing_type_id',
         'invoice_footer',
+        'bill_footer',
         'pdf_email_attachment',
         'font_size',
         'invoice_labels',
+        'bill_labels',
         'custom_design1',
         'custom_design2',
         'custom_design3',
@@ -109,12 +117,19 @@ class Account extends Eloquent
         'tax_name2',
         'tax_rate2',
         'recurring_hour',
+
         'invoice_number_pattern',
         'quote_number_pattern',
         'quote_terms',
+
+        'bill_number_pattern',
+        'bill_quote_number_pattern',
+        'bill_quote_terms',
+
         'email_design_id',
         'enable_email_markup',
         'website',
+
         'direction_reminder1',
         'direction_reminder2',
         'direction_reminder3',
@@ -130,11 +145,16 @@ class Account extends Eloquent
         'all_pages_footer',
         'all_pages_header',
         'show_currency_code',
+
         'enable_portal_password',
         'send_portal_password',
+
         'recurring_invoice_number_prefix',
+        'recurring_bill_number_prefix',
         'enable_client_portal',
         'invoice_fields',
+        'bill_fields',
+
         'invoice_embed_documents',
         'document_email_attachment',
         'ubl_email_attachment',
@@ -142,7 +162,9 @@ class Account extends Eloquent
         'page_size',
         'live_preview',
         'invoice_number_padding',
+        'bill_number_padding',
         'enable_second_tax_rate',
+        'auto_invoice_on_due_date',
         'auto_bill_on_due_date',
         'start_of_week',
         'enable_buy_now_buttons',
@@ -154,14 +176,17 @@ class Account extends Eloquent
         'show_accept_quote_terms',
         'require_invoice_signature',
         'require_quote_signature',
-//      client info
+        'require_bill_signature',
+        'require_quote_quote_signature',
+
         'client_number_prefix',
         'client_number_counter',
         'client_number_pattern',
-//       vendor info
+
         'vendor_number_prefix',
         'vendor_number_counter',
         'vendor_number_pattern',
+
         'payment_terms',
         'reset_counter_frequency_id',
         'reset_bill_counter_frequency_id',
@@ -172,14 +197,16 @@ class Account extends Eloquent
         'send_item_details',
         'domain_id',
         'analytics_key',
-//       sales credit info
+
         'credit_number_counter',
         'credit_number_prefix',
         'credit_number_pattern',
-//       bill credit info
+
+
         'vendor_credit_number_counter',
         'vendor_credit_number_prefix',
         'vendor_credit_number_pattern',
+
         'task_rate',
         'inclusive_taxes',
         'convert_products',
@@ -249,8 +276,8 @@ class Account extends Eloquent
         'product2',
         'invoice1',
         'invoice2',
-        'BILL1',
-        'BILL2',
+        'bill1',
+        'bill2',
         'invoice_surcharge1',
         'invoice_surcharge2',
         'task1',
@@ -298,7 +325,7 @@ class Account extends Eloquent
         'hours',
         'id_number',
         'invoice',
-        'BILL',
+        'bill',
         'invoice_date',
         'invoice_due_date',
         'invoice_issued_to',
@@ -382,13 +409,11 @@ class Account extends Eloquent
         return $this->hasMany('App\Models\Contact');
     }
 
-//  sales invoices
     public function invoices()
     {
         return $this->hasMany('App\Models\Invoice');
     }
 
-// bill invoices
     public function bills()
     {
         return $this->hasMany('App\Models\Bill');
@@ -929,14 +954,14 @@ class Account extends Eloquent
             $invoice->is_recurring = true;
         } else {
             if ($entityType == ENTITY_QUOTE) {
-                $invoice->invoice_type_id = INVOICE_TYPE_QUOTE;
+                $invoice->invoice_type_id = BILL_TYPE_QUOTE;
                 $invoice->invoice_design_id = $this->quote_design_id;
             }
 
             if ($this->hasClientNumberPattern($invoice) && !$clientId) {
                 // do nothing, we don't yet know the value
             } elseif (!$invoice->invoice_number) {
-                $invoice->invoice_number = $this->getNextNumber($invoice);
+                $invoice->invoice_number = $this->getClientNextNumber($invoice);
             }
         }
 
@@ -950,39 +975,39 @@ class Account extends Eloquent
 
     public function createBill($entityType = ENTITY_BILL, $vendorId = null)
     {
-        $Bill = Bill::createNew();
+        $bill = Bill::createNew();
 
-        $Bill->is_recurring = false;
-        $Bill->invoice_type_id = INVOICE_TYPE_STANDARD;
-        $Bill->invoice_date = Utils::today();
-        $Bill->start_date = Utils::today();
-        $Bill->invoice_design_id = $this->invoice_design_id;
-        $Bill->vendor_id = $vendorId;
-        $Bill->custom_taxes1 = $this->custom_invoice_taxes1;
-        $Bill->custom_taxes2 = $this->custom_invoice_taxes2;
+        $bill->is_recurring = false;
+        $bill->bill_type_id = BILL_TYPE_STANDARD;
+        $bill->bill_date = Utils::today();
+        $bill->start_date = Utils::today();
+        $bill->invoice_design_id = $this->invoice_design_id;
+        $bill->vendor_id = $vendorId;
+        $bill->custom_taxes1 = $this->custom_bill_taxes1;
+        $bill->custom_taxes2 = $this->custom_bill_taxes2;
 //      to generate invoice number using micro time() carbon instance
         if ($entityType === ENTITY_RECURRING_BILL) {
-            $Bill->invoice_number = microtime(true);
-            $Bill->is_recurring = true;
+            $bill->invoice_number = microtime(true);
+            $bill->is_recurring = true;
         } else {
             if ($entityType == ENTITY_BILL_QUOTE) {
-                $Bill->invoice_type_id = INVOICE_TYPE_QUOTE;
-                $Bill->invoice_design_id = $this->quote_design_id;
+                $bill->bill_type_id = BILL_TYPE_QUOTE;
+                $bill->invoice_design_id = $this->quote_design_id;
             }
 
-            if ($this->hasVendorNumberPattern($Bill) && !$vendorId) {
+            if (isset($bill) && $this->hasVendorNumberPattern($bill) && !$vendorId) {
                 // do nothing, we don't yet know the value
-            } elseif (!$Bill->invoice_number) {
-                $Bill->invoice_number = $this->getVendorNextNumber($Bill);
+            } elseif (!$bill->bill_number) {
+                $bill->invoice_number = $this->getVendorNextNumber($bill);
             }
         }
 
         if (!$vendorId) {
-            $Bill->client = Vendor::createNew();
-            $Bill->client->public_id = 0;
+            $bill->client = Vendor::createNew();
+            $bill->client->public_id = 0;
         }
 
-        return $Bill;
+        return $bill;
     }
 
     public function loadLocalizationSettings($entity = false)

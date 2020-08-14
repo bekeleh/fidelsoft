@@ -245,7 +245,7 @@ class BillPresenter extends EntityPresenter
         ];
 
         if (Auth::user()->can('create', ENTITY_BILL_QUOTE)) {
-            $actions[] = ['url' => 'javascript:onClonePurchaseQuoteClick()', 'label' => trans("texts.clone_BILL_QUOTE")];
+            $actions[] = ['url' => 'javascript:onClonePurchaseQuoteClick()', 'label' => trans("texts.clone_bill_quote")];
         }
 
         $actions[] = ['url' => url("{$entityType}s/{$entityType}_history/{$Bill->public_id}"), 'label' => trans('texts.view_history')];

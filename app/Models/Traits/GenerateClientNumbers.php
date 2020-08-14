@@ -8,19 +8,19 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * Class GeneratesNumbers.
+ * Class GenerateClientNumbers.
  */
-trait GeneratesNumbers
+trait GenerateClientNumbers
 {
 
 // get client next number
-    public function getNextNumber($entity = false)
+    public function getClientNextNumber($entity = false)
     {
         $entity = $entity ?: new Client();
         $entityType = $entity->getEntityType();
 
         $counter = $this->getCounter($entityType);
-        $prefix = $this->getNumberPrefix($entityType);
+        $prefix = $this->getClientNumberPrefix($entityType);
         $counterOffset = 0;
         $check = false;
         $lastNumber = false;
@@ -89,10 +89,10 @@ trait GeneratesNumbers
      *
      * @return string
      */
-    public function getNumberPrefix($entityType)
+    public function getClientNumberPrefix($entityType)
     {
         if (!$this->hasFeature(FEATURE_INVOICE_SETTINGS)) {
-            return '';
+            return false;
         }
 
         $field = "{$entityType}_number_prefix";
@@ -100,7 +100,7 @@ trait GeneratesNumbers
         return $this->$field ?: '';
     }
 
-    public function getNumberPattern($entityType)
+    public function getClientNumberPattern($entityType)
     {
         if (!$this->hasFeature(FEATURE_INVOICE_SETTINGS)) {
             return false;
@@ -108,13 +108,12 @@ trait GeneratesNumbers
 
         $field = "{$entityType}_number_pattern";
 
-        return $this->$field;
+        return $this->$field ?: '';
     }
-
 
     public function hasNumberPattern($entityType)
     {
-        return $this->getNumberPattern($entityType) ? true : false;
+        return $this->getClientNumberPattern($entityType) ? true : false;
     }
 
 //    client number pattern
@@ -133,7 +132,7 @@ trait GeneratesNumbers
     {
         $entityType = $entity->getEntityType();
         $counter = $counter ?: $this->getCounter($entityType);
-        $pattern = $this->getNumberPattern($entityType);
+        $pattern = $this->getClientNumberPattern($entityType);
 
         if (!$pattern) {
             return false;
@@ -218,7 +217,7 @@ trait GeneratesNumbers
 
         $invoice = $this->createInvoice($entityType, $client ? $client->id : 0);
 
-        return $this->getNextNumber($invoice);
+        return $this->getClientNextNumber($invoice);
     }
 
     public function incrementCounter($entity)
@@ -227,14 +226,16 @@ trait GeneratesNumbers
             if ($this->client_number_counter > 0) {
                 $this->client_number_counter += 1;
             }
+
             $this->save();
-            return;
+            return true;
         } elseif ($entity->isEntityType(ENTITY_CREDIT)) {
             if ($this->credit_number_counter > 0) {
                 $this->credit_number_counter += 1;
             }
+
             $this->save();
-            return;
+            return true;
         }
 
         if ($this->usesClientInvoiceCounter()) {
@@ -243,9 +244,9 @@ trait GeneratesNumbers
             } else {
                 $entity->client->invoice_number_counter += 1;
             }
+
             $entity->client->save();
         }
-
         if ($this->usesInvoiceCounter()) {
             if ($entity->isType(INVOICE_TYPE_QUOTE) && !$this->share_counter) {
                 $this->quote_number_counter += 1;
@@ -254,6 +255,8 @@ trait GeneratesNumbers
             }
             $this->save();
         }
+
+        return true;
     }
 
     public function usesInvoiceCounter()
@@ -326,6 +329,7 @@ trait GeneratesNumbers
         $this->invoice_number_counter = 1;
         $this->quote_number_counter = 1;
         $this->credit_number_counter = $this->credit_number_counter > 0 ? 1 : 0;
+
         $this->save();
     }
 }

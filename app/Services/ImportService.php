@@ -344,7 +344,7 @@ class ImportService
         if ($entityType == ENTITY_INVOICE && ! $data['invoice_number']) {
             $account = Auth::user()->account;
             $invoice = Invoice::createNew();
-            $data['invoice_number'] = $account->getNextNumber($invoice);
+            $data['invoice_number'] = $account->getClientNextNumber($invoice);
         }
         */
 

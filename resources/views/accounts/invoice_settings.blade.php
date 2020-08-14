@@ -150,7 +150,7 @@
                                     ->label(trans('texts.counter'))
                                     ->addGroupClass('pad-checkbox')
                                     ->help(trans('texts.client_number_help') . ' ' .
-                                        trans('texts.next_client_number', ['number' => $account->getNextNumber() ?: '0001'])) !!}
+                                        trans('texts.next_client_number', ['number' => $account->getClientNextNumber() ?: '0001'])) !!}
 
                         </div>
                     </div>
@@ -187,7 +187,7 @@
                                     ->label(trans('texts.counter'))
                                     ->addGroupClass('pad-checkbox')
                                     ->help(trans('texts.credit_number_help') . ' ' .
-                                        trans('texts.next_credit_number', ['number' => $account->getNextNumber(new \App\Models\Credit()) ?: '0001'])) !!}
+                                        trans('texts.next_credit_number', ['number' => $account->getClientNextNumber(new \App\Models\Credit()) ?: '0001'])) !!}
                         </div>
                     </div>
                 </div>

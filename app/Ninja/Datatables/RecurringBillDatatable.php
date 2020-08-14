@@ -154,7 +154,7 @@ class RecurringBillDatatable extends EntityDatatable
                 },
             ],
             [
-                trans("texts.clone_BILL_QUOTE"),
+                trans("texts.clone_bill_quote"),
                 function ($model) {
                     return URL::to("bill_quotes/{$model->public_id}/clone");
                 },

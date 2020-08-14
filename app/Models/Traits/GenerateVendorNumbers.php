@@ -2,57 +2,57 @@
 
 namespace App\Models\Traits;
 
-use App\Models\Vendor;
-use App\Models\Bill;
+use App\Models\Client;
+use App\Models\Invoice;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * Class GenerateVendorNumbers.
+ * Class GenerateClientNumbers.
  */
 trait GenerateVendorNumbers
 {
 
-// get next number vendor
-    public function getVendorNextNumber($entity = false)
+// get client next number
+    public function getClientNextNumber($entity = false)
     {
-        $entity = $entity ?: new Vendor();
+        $entity = $entity ?: new Client();
         $entityType = $entity->getEntityType();
 
-        $counter = $this->getVendorCounter($entityType);
-        $prefix = $this->getVendorNumberPrefix($entityType);
+        $counter = $this->getCounter($entityType);
+        $prefix = $this->getClientNumberPrefix($entityType);
         $counterOffset = 0;
         $check = false;
         $lastNumber = false;
 
-        if ($entityType == ENTITY_VENDOR && !$this->vendorNumbersEnabled()) {
+        if ($entityType == ENTITY_CLIENT && !$this->clientNumbersEnabled()) {
             return false;
         }
-        // confirm the purchase invoice number isn't already taken
+
+        // confirm the invoice number isn't already taken
         do {
-            if ($this->hasIdPattern($entity)) {
-                $number = $this->applyVendorNumberPattern($entity, $counter);
+            if ($this->hasNumberPattern($entityType)) {
+                $number = $this->applyNumberPattern($entity, $counter);
             } else {
                 $number = $prefix . str_pad($counter, $this->invoice_number_padding, '0', STR_PAD_LEFT);
             }
 
             if ($entity->recurring_invoice_id) {
-                $number = $this->recurring_BILL_number_prefix . $number;
+                $number = $this->recurring_invoice_number_prefix . $number;
             }
 
-            if ($entity->isEntityType(ENTITY_VENDOR)) {
-                $check = Vendor::scope(false, $this->id)->where('id_number', $number)->withTrashed()->first();
+            if ($entity->isEntityType(ENTITY_CLIENT)) {
+                $check = Client::scope(false, $this->id)->where('id_number', $number)->withTrashed()->first();
             } else {
-                $check = Bill::scope(false, $this->id)->where('invoice_number', $number)->withTrashed()->first();
+                $check = Invoice::scope(false, $this->id)->where('invoice_number', $number)->withTrashed()->first();
             }
             $counter++;
             $counterOffset++;
 
             // prevent getting stuck in a loop
-            if ($number === $lastNumber) {
+            if ($number == $lastNumber) {
                 return '';
             }
-
             $lastNumber = $number;
 
         } while ($check);
@@ -60,18 +60,18 @@ trait GenerateVendorNumbers
         // update the counter to be caught up
         if ($counterOffset > 1) {
             $this->syncOriginal();
-            if ($entity->isEntityType(ENTITY_VENDOR)) {
-                if ($this->vendorNumbersEnabled()) {
-                    $this->vendor_number_counter += $counterOffset - 1;
+            if ($entity->isEntityType(ENTITY_CLIENT)) {
+                if ($this->clientNumbersEnabled()) {
+                    $this->client_number_counter += $counterOffset - 1;
                     $this->save();
                 }
-            } elseif ($entity->isEntityType(ENTITY_BILL_CREDIT)) {
-                if ($this->vendorNumbersEnabled()) {
-                    $this->vendor_number_counter += $counterOffset - 1;
+            } elseif ($entity->isEntityType(ENTITY_CREDIT)) {
+                if ($this->creditNumbersEnabled()) {
+                    $this->credit_number_counter += $counterOffset - 1;
                     $this->save();
                 }
             } elseif ($entity->isType(INVOICE_TYPE_QUOTE)) {
-                if (!$this->share_purchase_counter) {
+                if (!$this->share_counter) {
                     $this->quote_number_counter += $counterOffset - 1;
                     $this->save();
                 }
@@ -89,10 +89,10 @@ trait GenerateVendorNumbers
      *
      * @return string
      */
-    public function getVendorNumberPrefix($entityType)
+    public function getClientNumberPrefix($entityType)
     {
-        if (!$this->hasFeature(FEATURE_BILL_SETTINGS)) {
-            return '';
+        if (!$this->hasFeature(FEATURE_INVOICE_SETTINGS)) {
+            return false;
         }
 
         $field = "{$entityType}_number_prefix";
@@ -100,40 +100,39 @@ trait GenerateVendorNumbers
         return $this->$field ?: '';
     }
 
-    public function getVendorNumberPattern($entityType)
+    public function getClientNumberPattern($entityType)
     {
-        if (!$this->hasFeature(FEATURE_BILL_SETTINGS)) {
+        if (!$this->hasFeature(FEATURE_INVOICE_SETTINGS)) {
             return false;
         }
 
         $field = "{$entityType}_number_pattern";
 
-        return $this->$field;
+        return $this->$field ?: '';
     }
 
-
-    public function hasIdPattern($entityType)
+    public function hasNumberPattern($entityType)
     {
-        return $this->hasVendorNumberPattern($entityType) ? true : false;
+        return $this->getClientNumberPattern($entityType) ? true : false;
     }
 
-    public function hasVendorNumberPattern($Bill)
+//    client number pattern
+    public function hasClientNumberPattern($invoice)
     {
         if (!$this->isPro()) {
             return false;
         }
-        $pattern = false;
-        if (isset($Bill->invoice_type_id)) {
-            $pattern = $Bill->invoice_type_id == INVOICE_TYPE_QUOTE ? $this->BILL_QUOTE_number_pattern : $this->BILL_number_pattern;
-        }
-        return strstr($pattern, '$vendor') !== false || strstr($pattern, '$idNumber') !== false;
+
+        $pattern = $invoice->invoice_type_id == INVOICE_TYPE_QUOTE ? $this->quote_number_pattern : $this->invoice_number_pattern;
+
+        return strstr($pattern, '$client') !== false || strstr($pattern, '$idNumber') !== false;
     }
 
-    public function applyVendorNumberPattern($entity, $counter = 0)
+    public function applyNumberPattern($entity, $counter = 0)
     {
         $entityType = $entity->getEntityType();
-        $counter = $counter ?: $this->getVendorCounter($entityType);
-        $pattern = $this->getVendorNumberPattern($entityType);
+        $counter = $counter ?: $this->getCounter($entityType);
+        $pattern = $this->getClientNumberPattern($entityType);
 
         if (!$pattern) {
             return false;
@@ -162,14 +161,14 @@ trait GenerateVendorNumbers
         }
 
         $pattern = str_replace($search, $replace, $pattern);
-        $pattern = $this->getVendorBillNumber($pattern, $entity);
+        $pattern = $this->getClientInvoiceNumber($pattern, $entity);
 
         return $pattern;
     }
 
-    private function getVendorBillNumber($pattern, $Bill)
+    private function getClientInvoiceNumber($pattern, $invoice)
     {
-        if (!$Bill->vendor_id) {
+        if (!$invoice->client_id) {
             return $pattern;
         }
 
@@ -177,114 +176,123 @@ trait GenerateVendorNumbers
             '{$custom1}',
             '{$custom2}',
             '{$idNumber}',
-            '{$vendorCustom1}',
-            '{$vendorCustom2}',
-            '{$vendorIdNumber}',
-            '{$vendorCounter}',
+            '{$clientCustom1}',
+            '{$clientCustom2}',
+            '{$clientIdNumber}',
+            '{$clientCounter}',
         ];
 
-        $vendor = $Bill->vendor;
-        $vendorCounter = ($Bill->isQuote() && !$this->share_counter) ? $vendor->quote_number_counter : $vendor->invoice_number_counter;
+        $client = $invoice->client;
+        $clientCounter = ($invoice->isQuote() && !$this->share_counter) ? $client->quote_number_counter : $client->invoice_number_counter;
 
         $replace = [
-            $vendor->custom_value1,
-            $vendor->custom_value2,
-            $vendor->id_number,
-            $vendor->custom_value1, // backwards compatibility
-            $vendor->custom_value2,
-            $vendor->id_number,
-            str_pad($vendorCounter, $this->invoice_number_padding, '0', STR_PAD_LEFT),
+            $client->custom_value1,
+            $client->custom_value2,
+            $client->id_number,
+            $client->custom_value1, // backwards compatibility
+            $client->custom_value2,
+            $client->id_number,
+            str_pad($clientCounter, $this->invoice_number_padding, '0', STR_PAD_LEFT),
         ];
 
         return str_replace($search, $replace, $pattern);
     }
 
-    public function getVendorCounter($entityType)
+    public function getCounter($entityType)
     {
-        if ($entityType == ENTITY_VENDOR) {
-            return $this->vendor_number_counter;
-        } elseif ($entityType == ENTITY_BILL_CREDIT) {
-            return $this->vendor_credit_number_counter;
-        } elseif ($entityType == ENTITY_BILL_QUOTE && !$this->share_counter) {
+        if ($entityType == ENTITY_CLIENT) {
+            return $this->client_number_counter;
+        } elseif ($entityType == ENTITY_CREDIT) {
+            return $this->credit_number_counter;
+        } elseif ($entityType == ENTITY_QUOTE && !$this->share_counter) {
             return $this->quote_number_counter;
         } else {
             return $this->invoice_number_counter;
         }
     }
 
-    public function previewNextBillNumber($entityType = ENTITY_BILL)
+    public function previewNextInvoiceNumber($entityType = ENTITY_INVOICE)
     {
-        $vendor = Vendor::scope()->first();
+        $client = Client::scope()->first();
 
-        $Bill = $this->createBill($entityType, $vendor ? $vendor->id : 0);
+        $invoice = $this->createInvoice($entityType, $client ? $client->id : 0);
 
-        return $this->getVendorNextNumber($Bill);
+        return $this->getClientNextNumber($invoice);
     }
 
-    public function billIncrementCounter($entity)
+    public function incrementCounter($entity)
     {
-        if ($entity->isEntityType(ENTITY_VENDOR)) {
-            if ($this->vendor_number_counter > 0) {
-                $this->vendor_number_counter += 1;
+        if ($entity->isEntityType(ENTITY_CLIENT)) {
+            if ($this->client_number_counter > 0) {
+                $this->client_number_counter += 1;
             }
+
             $this->save();
-            return;
-        } elseif ($entity->isEntityType(ENTITY_BILL_CREDIT)) {
+            return true;
+        } elseif ($entity->isEntityType(ENTITY_CREDIT)) {
             if ($this->credit_number_counter > 0) {
                 $this->credit_number_counter += 1;
             }
+
             $this->save();
-            return;
+            return true;
         }
 
-        if ($this->usesVendorInvoiceCounter()) {
-            if ($entity->isType(INVOICE_TYPE_QUOTE) && !$this->share_purchase_counter) {
-                $entity->vendor->quote_number_counter += 1;
+        if ($this->usesClientInvoiceCounter()) {
+            if ($entity->isType(INVOICE_TYPE_QUOTE) && !$this->share_counter) {
+                $entity->client->quote_number_counter += 1;
             } else {
-                $entity->vendor->invoice_number_counter += 1;
+                $entity->client->invoice_number_counter += 1;
             }
-            $entity->vendor->save();
+
+            $entity->client->save();
         }
-//   purchase invoice counter
-        if ($this->usesBillCounter()) {
-            if ($entity->isType(INVOICE_TYPE_QUOTE) && !$this->share_purchase_counter) {
+        if ($this->usesInvoiceCounter()) {
+            if ($entity->isType(INVOICE_TYPE_QUOTE) && !$this->share_counter) {
                 $this->quote_number_counter += 1;
             } else {
                 $this->invoice_number_counter += 1;
             }
             $this->save();
         }
+
+        return true;
     }
 
-    public function usesBillCounter()
+    public function usesInvoiceCounter()
     {
-        return !$this->hasIdPattern(ENTITY_BILL) || strpos($this->BILL_number_pattern, '{$counter}') !== false;
+        return !$this->hasNumberPattern(ENTITY_INVOICE) || strpos($this->invoice_number_pattern, '{$counter}') !== false;
     }
 
-    public function usesVendorInvoiceCounter()
+    public function usesClientInvoiceCounter()
     {
-        return strpos($this->BILL_number_pattern, '{$vendorCounter}') !== false;
+        return strpos($this->invoice_number_pattern, '{$clientCounter}') !== false;
     }
 
-    public function vendorNumbersEnabled()
+    public function clientNumbersEnabled()
     {
-        return $this->hasFeature(FEATURE_BILL_SETTINGS) && $this->vendor_number_counter > 0;
+        return $this->hasFeature(FEATURE_INVOICE_SETTINGS) && $this->client_number_counter > 0;
     }
 
-    public function checkPurchaseCounterReset()
+    public function creditNumbersEnabled()
     {
-        if (!$this->reset_purchase_counter_frequency_id || !$this->reset_purchase_counter_date) {
+        return $this->hasFeature(FEATURE_INVOICE_SETTINGS) && $this->credit_number_counter > 0;
+    }
+
+    public function checkCounterReset()
+    {
+        if (!$this->reset_counter_frequency_id || !$this->reset_counter_date) {
             return false;
         }
 
         $timezone = $this->getTimezone();
-        $resetDate = Carbon::parse($this->reset_purchase_counter_date, $timezone);
+        $resetDate = Carbon::parse($this->reset_counter_date, $timezone);
 
         if (!$resetDate->isToday()) {
             return false;
         }
 
-        switch ($this->reset_purchase_counter_frequency_id) {
+        switch ($this->reset_counter_frequency_id) {
             case FREQUENCY_WEEKLY:
                 $resetDate->addWeek();
                 break;
@@ -317,10 +325,10 @@ trait GenerateVendorNumbers
                 break;
         }
 
-        $this->reset_purchase_counter_date = $resetDate->format('Y-m-d');
+        $this->reset_counter_date = $resetDate->format('Y-m-d');
         $this->invoice_number_counter = 1;
         $this->quote_number_counter = 1;
-        $this->vendor_number_counter = $this->vendor_number_counter > 0 ? 1 : 0;
+        $this->credit_number_counter = $this->credit_number_counter > 0 ? 1 : 0;
 
         $this->save();
     }

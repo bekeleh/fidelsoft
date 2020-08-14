@@ -200,7 +200,7 @@
             var vendorModel = false;
         } else {
             var vendorModel = new VendorModel();
-            vendorModel.id_number("{{ $account->getNextNumber() }}");
+            vendorModel.id_number("{{ $account->getClientNextNumber() }}");
         }
 
         var self = this;

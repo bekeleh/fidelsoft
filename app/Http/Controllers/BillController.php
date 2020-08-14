@@ -187,7 +187,7 @@ class BillController extends BaseController
             $invoice->is_public = false;
             $invoice->is_recurring = $invoice->is_recurring && $clone == INVOICE_TYPE_STANDARD;
             $invoice->invoice_type_id = $clone;
-            $invoice->invoice_number = $account->getNextNumber($invoice);
+            $invoice->invoice_number = $account->getClientNextNumber($invoice);
             $invoice->due_date = null;
             $invoice->partial_due_date = null;
             $invoice->balance = $invoice->amount;
@@ -551,7 +551,7 @@ class BillController extends BaseController
             $activities->whereIn('activity_type_id', [ACTIVITY_TYPE_CREATE_BILL_PAYMENT])
                 ->where('payment_id', $paymentId);
         } else {
-            $activities->whereIn('activity_type_id', [ACTIVITY_TYPE_UPDATE_BILL, ACTIVITY_TYPE_UPDATE_BILL_QUOTE])
+            $activities->whereIn('activity_type_id', [ACTIVITY_TYPE_UPDATE_BILL, ACTIVITY_TYPE_UPDATE_bill_quote])
                 ->where('invoice_id', $invoice->id);
         }
         $activities = $activities->orderBy('id', 'desc')

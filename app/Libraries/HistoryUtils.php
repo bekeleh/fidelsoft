@@ -40,10 +40,10 @@ class HistoryUtils
             ACTIVITY_TYPE_VIEW_INVOICE,
             ACTIVITY_TYPE_VIEW_QUOTE,
             ACTIVITY_TYPE_EMAIL_BILL,
-            ACTIVITY_TYPE_EMAIL_BILL_QUOTE,
+            ACTIVITY_TYPE_EMAIL_bill_quote,
             ACTIVITY_TYPE_VIEW_BILL,
-            ACTIVITY_TYPE_UPDATE_BILL_QUOTE,
-            ACTIVITY_TYPE_VIEW_BILL_QUOTE,
+            ACTIVITY_TYPE_UPDATE_bill_quote,
+            ACTIVITY_TYPE_VIEW_bill_quote,
         ];
 
         $activities = Activity::with(['client.contacts', 'payment', 'invoice', 'BILL', 'vendor.contacts', 'task.project', 'expense'])

@@ -124,7 +124,7 @@ class Activity extends EntityModel
             'invoice' => $invoice ? link_to($invoice->getRoute(), $invoice->getDisplayName()) : null,
             'BILL' => $BILL ? link_to($BILL->getRoute(), $BILL->getDisplayName()) : null,
             'quote' => $invoice ? link_to($invoice->getRoute(), $invoice->getDisplayName()) : null,
-            'BILL_QUOTE' => $BILL ? link_to($BILL->getRoute(), $BILL->getDisplayName()) : null,
+            'bill_quote' => $BILL ? link_to($BILL->getRoute(), $BILL->getDisplayName()) : null,
             'contact' => $contactId ? link_to($client->getRoute(), $client->getDisplayName()) : e($user->getDisplayName()),
             'vendor_contact' => $vendorContactId ? link_to($vendor->getRoute(), $vendor->getDisplayName()) : e($user->getDisplayName()),
             'payment' => $payment ? e($payment->transaction_reference) : null,
@@ -209,14 +209,14 @@ class Activity extends EntityModel
             case ACTIVITY_TYPE_APPROVE_QUOTE:
                 return ENTITY_QUOTE;
                 break;
-            case ACTIVITY_TYPE_CREATE_BILL_QUOTE:
-            case ACTIVITY_TYPE_UPDATE_BILL_QUOTE:
-            case ACTIVITY_TYPE_EMAIL_BILL_QUOTE:
-            case ACTIVITY_TYPE_VIEW_BILL_QUOTE:
-            case ACTIVITY_TYPE_ARCHIVE_BILL_QUOTE:
-            case ACTIVITY_TYPE_DELETE_BILL_QUOTE:
-            case ACTIVITY_TYPE_RESTORE_BILL_QUOTE:
-            case ACTIVITY_TYPE_APPROVE_BILL_QUOTE:
+            case ACTIVITY_TYPE_CREATE_bill_quote:
+            case ACTIVITY_TYPE_UPDATE_bill_quote:
+            case ACTIVITY_TYPE_EMAIL_bill_quote:
+            case ACTIVITY_TYPE_VIEW_bill_quote:
+            case ACTIVITY_TYPE_ARCHIVE_bill_quote:
+            case ACTIVITY_TYPE_DELETE_bill_quote:
+            case ACTIVITY_TYPE_RESTORE_bill_quote:
+            case ACTIVITY_TYPE_APPROVE_bill_quote:
                 return ENTITY_BILL_QUOTE;
                 break;
 //            case ACTIVITY_TYPE_CREATE_VENDOR:
