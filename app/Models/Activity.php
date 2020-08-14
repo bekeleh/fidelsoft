@@ -57,9 +57,9 @@ class Activity extends EntityModel
         return $this->belongsTo('App\Models\Invoice')->withTrashed();
     }
 
-    public function BILL()
+    public function bill()
     {
-        return $this->belongsTo('App\Models\Bill', 'invoice_id')->withTrashed();
+        return $this->belongsTo('App\Models\Bill')->withTrashed();
     }
 
     public function credit()
@@ -67,7 +67,7 @@ class Activity extends EntityModel
         return $this->belongsTo('App\Models\Credit')->withTrashed();
     }
 
-    public function BILL_CREDIT()
+    public function bill_credit()
     {
         return $this->belongsTo('App\Models\BillCredit')->withTrashed();
     }
@@ -77,7 +77,7 @@ class Activity extends EntityModel
         return $this->belongsTo('App\Models\Payment')->withTrashed();
     }
 
-    public function BILL_PAYMENT()
+    public function bill_payment()
     {
         return $this->belongsTo('App\Models\BillPayment')->withTrashed();
     }
@@ -107,12 +107,12 @@ class Activity extends EntityModel
         $vendorContactId = $this->vendor_contact_id;
         $user = $this->user;
         $invoice = $this->invoice;
-        $BILL = $this->BILL;
+        $bill = $this->bill;
         $contactVendorId = $this->vendor_contact_id;
         $payment = $this->payment;
-        $purchasePayment = $this->BILL_PAYMENT;
+        $billPayment = $this->bill_payment;
         $credit = $this->credit;
-        $purchaseCredit = $this->BILL_CREDIT;
+        $purchaseCredit = $this->bill_credit;
         $expense = $this->expense;
         $isSystem = $this->is_system;
         $task = $this->task;
@@ -122,17 +122,17 @@ class Activity extends EntityModel
             'vendor' => $vendor ? link_to($vendor->getRoute(), $vendor->getDisplayName()) : null,
             'user' => $isSystem ? '<i>' . trans('texts.system') . '</i>' : e($user->getDisplayName()),
             'invoice' => $invoice ? link_to($invoice->getRoute(), $invoice->getDisplayName()) : null,
-            'BILL' => $BILL ? link_to($BILL->getRoute(), $BILL->getDisplayName()) : null,
+            'bill' => $bill ? link_to($bill->getRoute(), $bill->getDisplayName()) : null,
             'quote' => $invoice ? link_to($invoice->getRoute(), $invoice->getDisplayName()) : null,
-            'bill_quote' => $BILL ? link_to($BILL->getRoute(), $BILL->getDisplayName()) : null,
+            'bill_quote' => $bill ? link_to($bill->getRoute(), $bill->getDisplayName()) : null,
             'contact' => $contactId ? link_to($client->getRoute(), $client->getDisplayName()) : e($user->getDisplayName()),
             'vendor_contact' => $vendorContactId ? link_to($vendor->getRoute(), $vendor->getDisplayName()) : e($user->getDisplayName()),
             'payment' => $payment ? e($payment->transaction_reference) : null,
-            'BILL_PAYMENT' => $purchasePayment ? e($purchasePayment->transaction_reference) : null,
+            'bill_payment' => $billPayment ? e($billPayment->transaction_reference) : null,
             'payment_amount' => $payment ? $account->formatMoney($payment->amount, $payment) : null,
             'adjustment' => $this->adjustment ? $account->formatMoney($this->adjustment, $this) : null,
             'credit' => $credit ? $account->formatMoney($credit->amount, $client) : null,
-            'BILL_CREDIT' => $purchaseCredit ? $account->formatMoney($credit->amount, $client) : null,
+            'bill_credit' => $purchaseCredit ? $account->formatMoney($credit->amount, $client) : null,
             'task' => $task ? link_to($task->getRoute(), substr($task->description, 0, 30) . '...') : null,
             'expense' => $expense ? link_to($expense->getRoute(), substr($expense->public_notes, 0, 30) . '...') : null,
         ];
@@ -211,7 +211,7 @@ class Activity extends EntityModel
                 break;
             case ACTIVITY_TYPE_CREATE_bill_quote:
             case ACTIVITY_TYPE_UPDATE_bill_quote:
-            case ACTIVITY_TYPE_EMAIL_bill_quote:
+            case ACTIVITY_TYPE_EMAIL_BILL_QUOTE:
             case ACTIVITY_TYPE_VIEW_bill_quote:
             case ACTIVITY_TYPE_ARCHIVE_bill_quote:
             case ACTIVITY_TYPE_DELETE_bill_quote:

@@ -22,7 +22,7 @@ class BillItem extends EntityModel
         'cost',
         'qty',
         'notes',
-        'invoice_item_type_id',
+        'bill_item_type_id',
         'tax_name1',
         'tax_rate1',
         'tax_name2',
@@ -40,10 +40,10 @@ class BillItem extends EntityModel
 
     public function getRoute()
     {
-        return "/Bill_items/{$this->public_id}/edit";
+        return "/bill_items/{$this->public_id}/edit";
     }
 
-    public function invoice()
+    public function bill()
     {
         return $this->belongsTo('App\Models\Bill');
     }
@@ -69,7 +69,7 @@ class BillItem extends EntityModel
         $amount = $this->cost * $this->qty;
 
         if ($this->discount != 0) {
-            if ($this->invoice->is_amount_discount) {
+            if ($this->bill->is_amount_discount) {
                 $amount -= $this->discount;
             } else {
                 $amount -= round($amount * $this->discount / 100, 4);
@@ -102,8 +102,8 @@ class BillItem extends EntityModel
 
     public function markFeePaid()
     {
-        if ($this->invoice_item_type_id == INVOICE_ITEM_TYPE_PENDING_GATEWAY_FEE) {
-            $this->invoice_item_type_id = INVOICE_ITEM_TYPE_PAID_GATEWAY_FEE;
+        if ($this->bill_item_type_id == INVOICE_ITEM_TYPE_PENDING_GATEWAY_FEE) {
+            $this->bill_item_type_id = INVOICE_ITEM_TYPE_PAID_GATEWAY_FEE;
             $this->save();
         }
     }
@@ -126,7 +126,7 @@ class BillItem extends EntityModel
         $unitCost = $this->cost;
 
         if ($this->discount != 0) {
-            if ($this->invoice->is_amount_discount) {
+            if ($this->bill->is_amount_discount) {
                 $unitCost -= $this->discount / $this->qty;
             } else {
                 $unitCost -= $unitCost * $this->discount / 100;

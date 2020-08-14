@@ -169,7 +169,7 @@ class ActivityRepository extends BaseRepository
             ->leftJoin('vendors', 'vendors.id', '=', 'activities.vendor_id')
             ->leftJoin('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
             ->leftJoin('bills', 'bills.id', '=', 'activities.invoice_id')
-            ->leftJoin('BILL_PAYMENTs', 'BILL_PAYMENTs.id', '=', 'activities.BILL_PAYMENT_id')
+            ->leftJoin('bill_payments', 'bill_payments.id', '=', 'activities.BILL_PAYMENT_id')
             ->leftJoin('BILL_CREDITs', 'BILL_CREDITs.id', '=', 'activities.BILL_CREDIT_id')
             ->leftJoin('expenses', 'expenses.id', '=', 'activities.expense_id')
             ->where('vendors.id', $vendorId)
@@ -201,8 +201,8 @@ class ActivityRepository extends BaseRepository
                 'vendor_contacts.first_name as first_name',
                 'vendor_contacts.last_name as last_name',
                 'vendor_contacts.email as email',
-                'BILL_PAYMENTs.transaction_reference as payment',
-                'BILL_PAYMENTs.amount as payment_amount',
+                'bill_payments.transaction_reference as payment',
+                'bill_payments.amount as payment_amount',
                 'BILL_CREDITs.amount as credit',
                 'expenses.public_notes as expense_public_notes',
                 'expenses.public_id as expense_public_id'

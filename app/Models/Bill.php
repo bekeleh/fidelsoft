@@ -205,7 +205,7 @@ class Bill extends EntityModel implements BalanceAffecting
                          'due_date',
                          'terms',
                          'public_notes',
-                         'invoice_footer',
+                         'bill_footer',
                          'partial',
                          'partial_due_date',
                      ] as $field) {
@@ -258,7 +258,7 @@ class Bill extends EntityModel implements BalanceAffecting
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account');
+        return $this->belongsTo('App\Models\Account')->withTrashed();
     }
 
     public function user()
@@ -277,9 +277,9 @@ class Bill extends EntityModel implements BalanceAffecting
         return $this->belongsTo('App\Models\Vendor', 'vendor_id')->withTrashed();
     }
 
-    public function Bill_items()
+    public function bill_items()
     {
-        return $this->hasMany('App\Models\BillItem', 'bill_id')->orderBy('id');
+        return $this->hasMany('App\Models\BillItem')->orderBy('id');
     }
 
     public function documents()
@@ -302,24 +302,23 @@ class Bill extends EntityModel implements BalanceAffecting
         return $documents;
     }
 
-
     public function invoice_status()
     {
-        return $this->belongsTo('App\Models\InvoiceStatus');
+        return $this->belongsTo('App\Models\BillStatus');
     }
 
 
     public function invoice_design()
     {
-        return $this->belongsTo('App\Models\BillInvoiceDesign');
+        return $this->belongsTo('App\Models\BillBillDesign');
     }
 
-    public function payments()
+    public function bill_payments()
     {
         return $this->hasMany('App\Models\BillPayment');
     }
 
-    public function recurring_invoice()
+    public function recurring_bill()
     {
         return $this->belongsTo('App\Models\Bill');
     }
@@ -329,7 +328,7 @@ class Bill extends EntityModel implements BalanceAffecting
         return $this->belongsTo('App\Models\Bill')->withTrashed();
     }
 
-    public function recurring_invoices()
+    public function recurring_bills()
     {
         return $this->hasMany('App\Models\Bill', 'recurring_bill_id');
     }
@@ -339,14 +338,14 @@ class Bill extends EntityModel implements BalanceAffecting
         return $this->belongsTo('App\Models\Frequency');
     }
 
-    public function invitations()
+    public function bill_invitations()
     {
-        return $this->hasMany('App\Models\BillInvitation', 'bill_id');
+        return $this->hasMany('App\Models\BillInvitation');
     }
 
     public function expenses()
     {
-        return $this->hasMany('App\Models\Expense', 'bill_id')->withTrashed();
+        return $this->hasMany('App\Models\BillExpense')->withTrashed();
     }
 
     public function branch()
@@ -359,7 +358,7 @@ class Bill extends EntityModel implements BalanceAffecting
         return $this->hasMany('App\Models\Activity')->withTrashed();
     }
 
-    public function scopebills($query)
+    public function scopeBills($query)
     {
         return $query->where('bill_type_id', BILL_TYPE_STANDARD)
             ->where('is_recurring', false);
@@ -382,7 +381,7 @@ class Bill extends EntityModel implements BalanceAffecting
 
     public function scopeQuotes($query)
     {
-        return $query->where('bill_type_id', INVOICE_TYPE_QUOTE)
+        return $query->where('bill_type_id', BILL_TYPE_QUOTE)
             ->where('is_recurring', false);
     }
 
@@ -392,13 +391,13 @@ class Bill extends EntityModel implements BalanceAffecting
             ->where(function ($query) use ($includeBillId) {
                 $query->where('id', $includeBillId)
                     ->orWhere(function ($query) {
-                        $query->where('invoice_status_id', '<', BILL_STATUS_APPROVED)
+                        $query->where('bill_status_id', '<', BILL_STATUS_APPROVED)
                             ->whereNull('quote_bill_id');
                     });
             });
     }
 
-    public function scopeInvoiceType($query, $typeId)
+    public function scopeBillType($query, $typeId)
     {
         return $query->where('bill_type_id', $typeId);
     }
@@ -411,7 +410,7 @@ class Bill extends EntityModel implements BalanceAffecting
 
         return $query->where(function ($query) use ($statusIds) {
             foreach ($statusIds as $statusId) {
-                $query->orWhere('invoice_status_id', $statusId);
+                $query->orWhere('bill_status_id', $statusId);
             }
             if (in_array(BILL_STATUS_UNPAID, $statusIds)) {
                 $query->orWhere(function ($query) {
@@ -436,7 +435,7 @@ class Bill extends EntityModel implements BalanceAffecting
 
     public function isQuote()
     {
-        return $this->isType(INVOICE_TYPE_QUOTE);
+        return $this->isType(BILL_TYPE_QUOTE);
     }
 
     public function getCustomMessageType()
@@ -467,7 +466,7 @@ class Bill extends EntityModel implements BalanceAffecting
         }
 
         if (!$this->isSent()) {
-            $this->invoice_status_id = INVOICE_STATUS_SENT;
+            $this->bill_status_id = BILL_STATUS_SENT;
         }
 
         $this->is_public = true;
@@ -482,22 +481,22 @@ class Bill extends EntityModel implements BalanceAffecting
             return false;
         }
 
-        if (!$this->relationLoaded('invitations')) {
-            $this->load('invitations');
+        if (!$this->relationLoaded('bill_invitations')) {
+            $this->load('bill_invitations');
         }
 
-        foreach ($this->invitations as $invitation) {
+        foreach ($this->bill_invitations as $invitation) {
             $this->markInvitationSent($invitation, false, $notify, $reminder);
         }
     }
 
     public function areInvitationsSent()
     {
-        if (!$this->relationLoaded('invitations')) {
-            $this->load('invitations');
+        if (!$this->relationLoaded('bill_invitations')) {
+            $this->load('bill_invitations');
         }
 
-        foreach ($this->invitations as $invitation) {
+        foreach ($this->bill_invitations as $invitation) {
             if (!$invitation->isSent()) {
                 return false;
             }
@@ -514,7 +513,7 @@ class Bill extends EntityModel implements BalanceAffecting
 
         if (!$this->isSent()) {
             $this->is_public = true;
-            $this->invoice_status_id = INVOICE_STATUS_SENT;
+            $this->bill_status_id = BILL_STATUS_SENT;
             $this->save();
         }
 
@@ -526,7 +525,7 @@ class Bill extends EntityModel implements BalanceAffecting
             return false;
         }
 
-        if ($this->isType(INVOICE_TYPE_QUOTE)) {
+        if ($this->isType(BILL_TYPE_QUOTE)) {
             event(new BillQuoteInvitationWasEmailed($invitation, $notes));
         } else {
             event(new BillInvitationWasEmailed($invitation, $notes));
@@ -536,7 +535,7 @@ class Bill extends EntityModel implements BalanceAffecting
     public function markViewed()
     {
         if (!$this->isViewed()) {
-            $this->invoice_status_id = INVOICE_STATUS_VIEWED;
+            $this->bill_status_id = BILL_STATUS_VIEWED;
             $this->save();
         }
     }
@@ -549,11 +548,11 @@ class Bill extends EntityModel implements BalanceAffecting
         } elseif ($paid && $this->balance > 0 && $this->balance < $this->amount) {
             $statusId = BILL_STATUS_PARTIAL;
         } elseif ($this->isPartial() && $this->balance > 0) {
-            $statusId = ($this->balance == $this->amount ? INVOICE_STATUS_SENT : BILL_STATUS_PARTIAL);
+            $statusId = ($this->balance == $this->amount ? BILL_STATUS_SENT : BILL_STATUS_PARTIAL);
         }
 
-        if ($statusId && $statusId != $this->invoice_status_id) {
-            $this->invoice_status_id = $statusId;
+        if ($statusId && $statusId != $this->bill_status_id) {
+            $this->bill_status_id = $statusId;
             if ($save) {
                 $this->save();
             }
@@ -562,8 +561,8 @@ class Bill extends EntityModel implements BalanceAffecting
 
     public function markApproved()
     {
-        if ($this->isType(INVOICE_TYPE_QUOTE)) {
-            $this->invoice_status_id = BILL_STATUS_APPROVED;
+        if ($this->isType(BILL_TYPE_QUOTE)) {
+            $this->bill_status_id = BILL_STATUS_APPROVED;
             $this->save();
         }
     }
@@ -652,7 +651,7 @@ class Bill extends EntityModel implements BalanceAffecting
 
     public static function calcStatusClass($statusId, $balance, $dueDate, $isRecurring)
     {
-        if ($statusId >= INVOICE_STATUS_SENT && !$isRecurring && static::calcIsOverdue($balance, $dueDate)) {
+        if ($statusId >= BILL_STATUS_SENT && !$isRecurring && static::calcIsOverdue($balance, $dueDate)) {
             return 'danger';
         }
 
@@ -680,7 +679,7 @@ class Bill extends EntityModel implements BalanceAffecting
     public function statusClass()
     {
         $dueDate = $this->getOriginal('partial_due_date') ?: $this->getOriginal('due_date');
-        return static::calcStatusClass($this->invoice_status_id, $this->balance, $dueDate, $this->is_recurring);
+        return static::calcStatusClass($this->bill_status_id, $this->balance, $dueDate, $this->is_recurring);
     }
 
     public function statusLabel()
@@ -691,7 +690,7 @@ class Bill extends EntityModel implements BalanceAffecting
     public static function calcLink($bill)
     {
         if (!empty($bill->bill_type_id)) {
-            $linkPrefix = ($bill->bill_type_id == INVOICE_TYPE_QUOTE) ? 'bill_quotes/' : 'bills/';
+            $linkPrefix = ($bill->bill_type_id == BILL_TYPE_QUOTE) ? 'bill_quotes/' : 'bills/';
         } else {
             $linkPrefix = 'invoices/';
         }
@@ -705,36 +704,36 @@ class Bill extends EntityModel implements BalanceAffecting
 
     public function getInvitationLink($type = 'view', $forceOnsite = false, $forcePlain = false)
     {
-        if (!$this->relationLoaded('invitations')) {
-            $this->load('invitations');
+        if (!$this->relationLoaded('bill_invitations')) {
+            $this->load('bill_invitations');
         }
 
-        return $this->invitations[0]->getLink($type, $forceOnsite, $forcePlain);
+        return $this->bill_invitations[0]->getLink($type, $forceOnsite, $forcePlain);
     }
 
     public function isSent()
     {
-        return $this->invoice_status_id >= INVOICE_STATUS_SENT && $this->getOriginal('is_public');
+        return $this->bill_status_id >= BILL_STATUS_SENT && $this->getOriginal('is_public');
     }
 
     public function isViewed()
     {
-        return $this->invoice_status_id >= INVOICE_STATUS_VIEWED;
+        return $this->bill_status_id >= BILL_STATUS_VIEWED;
     }
 
     public function isApproved()
     {
-        return $this->invoice_status_id >= BILL_STATUS_APPROVED || $this->quote_bill_id;
+        return $this->bill_status_id >= BILL_STATUS_APPROVED || $this->quote_bill_id;
     }
 
     public function isPartial()
     {
-        return $this->invoice_status_id >= BILL_STATUS_PARTIAL;
+        return $this->bill_status_id >= BILL_STATUS_PARTIAL;
     }
 
     public function isPaid()
     {
-        return $this->invoice_status_id >= BILL_STATUS_PAID;
+        return $this->bill_status_id >= BILL_STATUS_PAID;
     }
 
     public function isOverdue()
@@ -777,15 +776,15 @@ class Bill extends EntityModel implements BalanceAffecting
             'bill_date',
             'due_date',
             'terms',
-            'invoice_footer',
+            'bill_footer',
             'public_notes',
             'amount',
             'balance',
-            'Bill_items',
+            'bill_items',
             'documents',
             'expenses',
             'vendor',
-            'invitations',
+            'bill_invitations',
             'tax_name1',
             'tax_rate1',
             'tax_name2',
@@ -855,10 +854,10 @@ class Bill extends EntityModel implements BalanceAffecting
             'all_pages_footer',
             'pdf_email_attachment',
             'show_item_taxes',
-            'invoice_embed_documents',
+            'bill_embed_documents',
             'page_size',
             'include_item_taxes_inline',
-            'invoice_fields',
+            'bill_fields',
             'show_currency_code',
             'inclusive_taxes',
             'date_format',
@@ -867,14 +866,14 @@ class Bill extends EntityModel implements BalanceAffecting
             'signature_on_pdf',
         ]);
 
-        foreach ($this->invitations as $invitation) {
+        foreach ($this->bill_invitations as $invitation) {
             $invitation->setVisible([
                 'signature_base64',
                 'signature_date',
             ]);
         }
 
-        foreach ($this->Bill_items as $billItem) {
+        foreach ($this->bill_items as $billItem) {
             $billItem->setVisible([
                 'name',
                 'notes',
@@ -1052,7 +1051,7 @@ class Bill extends EntityModel implements BalanceAffecting
             return false;
         }
 
-        $invitation = $invitation ?: $this->invitations[0];
+        $invitation = $invitation ?: $this->bill_invitations[0];
         $link = $invitation->getLink('view', true, true);
         $pdfString = false;
         $phantomjsSecret = env('PHANTOMJS_SECRET');
@@ -1130,7 +1129,7 @@ class Bill extends EntityModel implements BalanceAffecting
     {
         $total = 0;
 
-        foreach ($this->Bill_items as $billItem) {
+        foreach ($this->bill_items as $billItem) {
             $lineTotal = $billItem->qty * $billItem->cost;
 
             if ($billItem->discount != 0) {
@@ -1185,7 +1184,7 @@ class Bill extends EntityModel implements BalanceAffecting
             $this->calculateTax($taxes, $this->tax_name2, $this->tax_rate2, $billTaxAmount, $billPaidAmount);
         }
 
-        foreach ($this->Bill_items as $billItem) {
+        foreach ($this->bill_items as $billItem) {
             $itemTaxable = $this->getItemTaxable($billItem, $taxable);
 
             if ($billItem->tax_name1) {
@@ -1296,7 +1295,7 @@ class Bill extends EntityModel implements BalanceAffecting
     public function getAutoBillEnabled()
     {
         if (!$this->is_recurring) {
-            $recurBill = $this->recurring_invoice;
+            $recurBill = $this->recurring_bill;
         } else {
             $recurBill = $this;
         }
@@ -1343,7 +1342,7 @@ class Bill extends EntityModel implements BalanceAffecting
         return Activity::scope()
             ->with(['vendor_contact'])
             ->where('bill_id', $this->id)
-            ->whereIn('activity_type_id', [ACTIVITY_TYPE_EMAIL_BILL, ACTIVITY_TYPE_EMAIL_bill_quote])
+            ->whereIn('activity_type_id', [ACTIVITY_TYPE_EMAIL_BILL, ACTIVITY_TYPE_EMAIL_BILL_QUOTE])
             ->orderBy('id', 'desc')
             ->get();
     }
@@ -1360,7 +1359,7 @@ class Bill extends EntityModel implements BalanceAffecting
 
     public function onlyHasTasks()
     {
-        foreach ($this->Bill_items as $item) {
+        foreach ($this->bill_items as $item) {
             if ($item->bill_item_type_id != BILL_ITEM_TYPE_TASK) {
                 return false;
             }
@@ -1407,7 +1406,7 @@ class Bill extends EntityModel implements BalanceAffecting
             return false;
         }
 
-        foreach ($bill->invitations as $invitation) {
+        foreach ($bill->bill_invitations as $invitation) {
             if ($invitation->contact_id == $vendorContactId) {
                 return $invitation->getLink();
             }
@@ -1422,15 +1421,15 @@ Bill::creating(function ($bill) {
     if (!$bill->is_recurring) {
         $account = $bill->account;
         if ($bill->amount >= 0) {
-            $account->billclientIncrementCounter($bill);
+            $account->vendorIncrementCounter($bill);
         } elseif ($account->credit_number_counter > 0) {
-            $account->billclientIncrementCounter(new BillCredit());
+            $account->vendorIncrementCounter(new BillCredit());
         }
     }
 });
 
 Bill::created(function ($bill) {
-    if ($bill->isType(INVOICE_TYPE_QUOTE)) {
+    if ($bill->isType(BILL_TYPE_QUOTE)) {
         event(new BillQuoteWasCreated($bill));
     } else {
         event(new BillWasCreated($bill));
@@ -1438,7 +1437,7 @@ Bill::created(function ($bill) {
 });
 
 Bill::updating(function ($bill) {
-    if ($bill->isType(INVOICE_TYPE_QUOTE)) {
+    if ($bill->isType(BILL_TYPE_QUOTE)) {
         event(new BillQuoteWasUpdated($bill));
     } else {
         event(new BillWasUpdated($bill));

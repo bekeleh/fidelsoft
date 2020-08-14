@@ -39,9 +39,9 @@ class Account extends Eloquent
     protected $presenter = 'App\Ninja\Presenters\AccountPresenter';
 
 
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+    protected $dates = ['created_at', 'updated_at'];
 
-    protected $hidden = ['ip'];
+    protected $hidden = ['ip', 'deleted_at'];
 
 
     protected $fillable = [
@@ -79,19 +79,16 @@ class Account extends Eloquent
         'hide_quantity',
         'hide_paid_to_date',
         'vat_number',
-
         'invoice_number_prefix',
         'invoice_number_counter',
         'quote_number_prefix',
         'quote_number_counter',
         'share_counter',
-
         'bill_number_prefix',
         'bill_number_counter',
         'bill_quote_number_prefix',
         'bill_quote_number_counter',
         'share_bill_counter',
-
         'id_number',
         'token_billing_type_id',
         'invoice_footer',
@@ -117,19 +114,15 @@ class Account extends Eloquent
         'tax_name2',
         'tax_rate2',
         'recurring_hour',
-
         'invoice_number_pattern',
         'quote_number_pattern',
         'quote_terms',
-
         'bill_number_pattern',
         'bill_quote_number_pattern',
         'bill_quote_terms',
-
         'email_design_id',
         'enable_email_markup',
         'website',
-
         'direction_reminder1',
         'direction_reminder2',
         'direction_reminder3',
@@ -145,16 +138,13 @@ class Account extends Eloquent
         'all_pages_footer',
         'all_pages_header',
         'show_currency_code',
-
         'enable_portal_password',
         'send_portal_password',
-
         'recurring_invoice_number_prefix',
         'recurring_bill_number_prefix',
         'enable_client_portal',
         'invoice_fields',
         'bill_fields',
-
         'invoice_embed_documents',
         'document_email_attachment',
         'ubl_email_attachment',
@@ -177,16 +167,13 @@ class Account extends Eloquent
         'require_invoice_signature',
         'require_quote_signature',
         'require_bill_signature',
-        'require_quote_quote_signature',
-
+        'require_bill_quote_signature',
         'client_number_prefix',
         'client_number_counter',
         'client_number_pattern',
-
         'vendor_number_prefix',
         'vendor_number_counter',
         'vendor_number_pattern',
-
         'payment_terms',
         'reset_counter_frequency_id',
         'reset_bill_counter_frequency_id',
@@ -197,16 +184,12 @@ class Account extends Eloquent
         'send_item_details',
         'domain_id',
         'analytics_key',
-
         'credit_number_counter',
         'credit_number_prefix',
         'credit_number_pattern',
-
-
         'vendor_credit_number_counter',
         'vendor_credit_number_prefix',
         'vendor_credit_number_pattern',
-
         'task_rate',
         'inclusive_taxes',
         'convert_products',

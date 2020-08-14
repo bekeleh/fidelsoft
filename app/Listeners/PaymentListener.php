@@ -12,6 +12,10 @@ use App\Ninja\Transformers\PaymentTransformer;
  */
 class PaymentListener extends EntityListener
 {
+    public function __construct()
+    {
+        //
+    }
 
     public function createdPayment(PaymentWasCreated $event)
     {

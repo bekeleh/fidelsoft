@@ -613,7 +613,7 @@ class ActivityListener
     {
         $this->activityRepo->createBill(
             $event->purchaseInvitation->BILL,
-            ACTIVITY_TYPE_EMAIL_bill_quote,
+            ACTIVITY_TYPE_EMAIL_BILL_QUOTE,
             false,
             false,
             $event->purchaseInvitation,

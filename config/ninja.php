@@ -10,6 +10,8 @@ return [
 
     // invoice locking feature
     'lock_sent_invoices' => env('LOCK_SENT_INVOICES'),
+    // bill locking feature
+    'lock_sent_bills' => env('LOCK_SENT_BILLS'),
 
     // Marketing links
     'time_tracker_web_url' => env('TIME_TRACKER_WEB_URL', 'https://www.care.com/time-tracker'),

@@ -11,20 +11,25 @@ class BillPaymentCreated extends Notification implements ShouldQueue
 {
     use Queueable;
 
+    public $bill;
+    public $billPayment;
+
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param $billPayment
+     * @param $bill
      */
-    public function __construct()
+    public function __construct($billPayment, $bill)
     {
-        //
+        $this->billPayment = $billPayment;
+        $this->bill = $bill;
     }
 
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
     public function via($notifiable)
@@ -35,21 +40,21 @@ class BillPaymentCreated extends Notification implements ShouldQueue
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return MailMessage
      */
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->line('The introduction to the notification.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
     public function toArray($notifiable)

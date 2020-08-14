@@ -311,7 +311,7 @@
             'entityType' => ENTITY_BILL_PAYMENT,
             'datatable' => new \App\Ninja\Datatables\BillPaymentDatatable(true, true),
             'vendorId' => $vendor->public_id,
-            'url' => url('api/BILL_PAYMENTs/' . $vendor->public_id),
+            'url' => url('api/bill_payments/' . $vendor->public_id),
             ])
         </div>
 

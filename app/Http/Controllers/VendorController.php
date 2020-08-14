@@ -110,7 +110,7 @@ class VendorController extends BaseController
         }
 
         if ($user->can('create', ENTITY_BILL_PAYMENT)) {
-            $actionLinks[] = ['label' => trans('texts.enter_payment'), 'url' => URL::to('/BILL_PAYMENTs/create/' . $vendor->public_id)];
+            $actionLinks[] = ['label' => trans('texts.enter_payment'), 'url' => URL::to('/bill_payments/create/' . $vendor->public_id)];
         }
 
         if ($user->can('create', ENTITY_BILL_CREDIT)) {

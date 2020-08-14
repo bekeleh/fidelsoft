@@ -313,7 +313,7 @@ if (!defined('APP_NAME')) {
     define('ACTIVITY_TYPE_DELETE_BILL_CREDIT', 73);
     define('ACTIVITY_TYPE_CREATE_bill_quote', 74);
     define('ACTIVITY_TYPE_UPDATE_bill_quote', 75);
-    define('ACTIVITY_TYPE_EMAIL_bill_quote', 76);
+    define('ACTIVITY_TYPE_EMAIL_BILL_QUOTE', 76);
     define('ACTIVITY_TYPE_VIEW_bill_quote', 77);
     define('ACTIVITY_TYPE_ARCHIVE_bill_quote', 78);
     define('ACTIVITY_TYPE_DELETE_bill_quote', 79);

@@ -15,6 +15,9 @@ use App\Ninja\Transformers\BillTransformer;
  */
 class BillItemListener extends EntityListener
 {
+    public function __construct()
+    {
+    }
 
     public function createdInvoice(BillItemsWereCreated $event)
     {

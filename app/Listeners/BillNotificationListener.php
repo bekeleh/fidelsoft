@@ -2,11 +2,11 @@
 
 use App\Ninja\Mailers\UserMailer;
 use App\Ninja\Mailers\ContactMailer;
-use App\Events\InvoiceWasEmailed;
-use App\Events\QuoteWasEmailed;
-use App\Events\InvoiceInvitationWasViewed;
-use App\Events\QuoteInvitationWasViewed;
-use App\Events\QuoteInvitationWasApproved;
+use App\Events\BillWasEmailed;
+use App\Events\BillQuoteWasEmailed;
+use App\Events\BillInvitationWasViewed;
+use App\Events\BillQuoteInvitationWasViewed;
+use App\Events\BillQuoteInvitationWasApproved;
 use App\Events\PaymentWasCreated;
 use App\Services\PushService;
 use App\Jobs\SendBillNotificationEmail;
@@ -16,7 +16,7 @@ use App\Notifications\BillPaymentCreated;
 /**
  * Class NotificationListener
  */
-class PurchaseNotificationListener
+class BillNotificationListener
 {
     protected $userMailer;
     protected $contactMailer;
@@ -39,46 +39,46 @@ class PurchaseNotificationListener
     }
 
     /**
-     * @param $Bill
+     * @param $bill
      * @param $type
-     * @param null $purchasePayment
+     * @param null $billPayment
      * @param bool $notes
      */
-    private function sendNotifications($Bill, $type, $purchasePayment = null, $notes = false)
+    private function sendNotifications($bill, $type, $billPayment = null, $notes = false)
     {
-        foreach ($Bill->account->users as $user) {
+        foreach ($bill->account->users as $user) {
             if ($user->{"notify_{$type}"}) {
-                dispatch(new SendBillNotificationEmail($user, $Bill, $type, $purchasePayment, $notes));
+                dispatch(new SendBillNotificationEmail($user, $bill, $type, $billPayment, $notes));
             }
 
-            if ($purchasePayment && $user->slack_webhook_url) {
-                $user->notify(new BillPaymentCreated($purchasePayment, $Bill));
+            if ($billPayment && $user->slack_webhook_url) {
+                $user->notify(new BillPaymentCreated($billPayment, $bill));
             }
         }
     }
 
     /**
-     * @param InvoiceWasEmailed $event
+     * @param BillWasEmailed $event
      */
-    public function emailedInvoice(InvoiceWasEmailed $event)
+    public function emailedInvoice(BillWasEmailed $event)
     {
         $this->sendNotifications($event->invoice, 'sent', null, $event->notes);
         $this->pushService->sendNotification($event->invoice, 'sent');
     }
 
     /**
-     * @param QuoteWasEmailed $event
+     * @param BillQuoteWasEmailed $event
      */
-    public function emailedQuote(QuoteWasEmailed $event)
+    public function emailedQuote(BillQuoteWasEmailed $event)
     {
         $this->sendNotifications($event->quote, 'sent', null, $event->notes);
         $this->pushService->sendNotification($event->quote, 'sent');
     }
 
     /**
-     * @param InvoiceInvitationWasViewed $event
+     * @param BillInvitationWasViewed $event
      */
-    public function viewedInvoice(InvoiceInvitationWasViewed $event)
+    public function viewedInvoice(BillInvitationWasViewed $event)
     {
         if (!floatval($event->invoice->balance)) {
             return;
@@ -89,9 +89,9 @@ class PurchaseNotificationListener
     }
 
     /**
-     * @param QuoteInvitationWasViewed $event
+     * @param BillQuoteInvitationWasViewed $event
      */
-    public function viewedQuote(QuoteInvitationWasViewed $event)
+    public function viewedQuote(BillQuoteInvitationWasViewed $event)
     {
         if ($event->quote->quote_invoice_id) {
             return;
@@ -102,9 +102,9 @@ class PurchaseNotificationListener
     }
 
     /**
-     * @param QuoteInvitationWasApproved $event
+     * @param BillQuoteInvitationWasApproved $event
      */
-    public function approvedQuote(QuoteInvitationWasApproved $event)
+    public function approvedQuote(BillQuoteInvitationWasApproved $event)
     {
         $this->sendNotifications($event->quote, 'approved');
         $this->pushService->sendNotification($event->quote, 'approved');

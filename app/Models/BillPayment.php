@@ -41,20 +41,20 @@ class BillPayment extends EntityModel
         PAYMENT_STATUS_ADVANCE_PAID => 'success',
     ];
 
-    protected $table = 'BILL_PAYMENTs';
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+    protected $dates = ['created_at', 'updated_at'];
+    protected $hidden = ['deleted_at'];
 
     public function getEntityType()
     {
-        return ENTITY_BILL_PAYMENT;
+        return ENTITY_bill_PAYMENT;
     }
 
     public function getRoute()
     {
-        return "/BILL_PAYMENTs/{$this->public_id}/edit";
+        return "/bill_payments/{$this->public_id}/edit";
     }
 
-    public function BILL()
+    public function bill()
     {
         return $this->belongsTo('App\Models\Bill')->withTrashed();
     }
@@ -303,7 +303,7 @@ class BillPayment extends EntityModel
 
     public function invoiceJsonBackup()
     {
-        $activity = Activity::where('BILL_PAYMENT_id', $this->id)
+        $activity = Activity::where('bill_payment_id', $this->id)
             ->where('activity_type_id', ACTIVITY_TYPE_CREATE_PAYMENT)
             ->get(['json_backup'])
             ->first();

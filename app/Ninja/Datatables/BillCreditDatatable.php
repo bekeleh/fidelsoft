@@ -122,7 +122,7 @@ class BillCreditDatatable extends EntityDatatable
             [
                 trans('texts.apply_BILL_CREDIT'),
                 function ($model) {
-                    return URL::to("BILL_PAYMENTs/create/{$model->vendor_public_id}") . '?paymentTypeId=1';
+                    return URL::to("bill_payments/create/{$model->vendor_public_id}") . '?paymentTypeId=1';
                 },
                 function ($model) {
                     return Auth::user()->can('create', ENTITY_BILL_PAYMENT);

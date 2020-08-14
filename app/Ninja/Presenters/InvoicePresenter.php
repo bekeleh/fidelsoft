@@ -260,7 +260,7 @@ class InvoicePresenter extends EntityPresenter
 
 //      Return sales
         if ($entityType == ENTITY_INVOICE) {
-            $actions[] = ['url' => url("invoices/return_sale/{$invoice->public_id}"), 'label' => trans('texts.return_sale')];
+            $actions[] = ['url' => url("invoices/return_invoice/{$invoice->public_id}"), 'label' => trans('texts.return_invoice')];
         }
 
         $actions[] = DropdownButton::DIVIDER;
