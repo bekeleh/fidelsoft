@@ -48,7 +48,7 @@ class Google_Service_DeploymentManager_LogConfig extends Google_Model
   /**
    * @return Google_Service_DeploymentManager_LogConfigCounterOptions
    */
-  public function getCounter()
+  public function getClientCounter()
   {
     return $this->counter;
   }

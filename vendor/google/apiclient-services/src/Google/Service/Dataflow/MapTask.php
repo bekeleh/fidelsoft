@@ -28,7 +28,7 @@ class Google_Service_Dataflow_MapTask extends Google_Collection
   {
     $this->counterPrefix = $counterPrefix;
   }
-  public function getCounterPrefix()
+  public function getClientCounterPrefix()
   {
     return $this->counterPrefix;
   }

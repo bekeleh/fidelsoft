@@ -1404,9 +1404,9 @@ Invoice::creating(function ($invoice) {
     if (!$invoice->is_recurring) {
         $account = $invoice->account;
         if ($invoice->amount >= 0) {
-            $account->incrementCounter($invoice);
+            $account->clientIncrementCounter($invoice);
         } elseif ($account->credit_number_counter > 0) {
-            $account->incrementCounter(new Credit());
+            $account->clientIncrementCounter(new Credit());
         }
     }
 });

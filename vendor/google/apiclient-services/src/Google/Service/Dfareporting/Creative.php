@@ -314,7 +314,7 @@ class Google_Service_Dfareporting_Creative extends Google_Collection
   /**
    * @return Google_Service_Dfareporting_CreativeCustomEvent
    */
-  public function getCounterCustomEvents()
+  public function getClientCounterCustomEvents()
   {
     return $this->counterCustomEvents;
   }

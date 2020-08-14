@@ -19,7 +19,7 @@ trait GenerateClientNumbers
         $entity = $entity ?: new Client();
         $entityType = $entity->getEntityType();
 
-        $counter = $this->getCounter($entityType);
+        $counter = $this->getClientCounter($entityType);
         $prefix = $this->getClientNumberPrefix($entityType);
         $counterOffset = 0;
         $check = false;
@@ -31,8 +31,8 @@ trait GenerateClientNumbers
 
         // confirm the invoice number isn't already taken
         do {
-            if ($this->hasNumberPattern($entityType)) {
-                $number = $this->applyNumberPattern($entity, $counter);
+            if ($this->hasClientIdentificationPattern($entityType)) {
+                $number = $this->applyClientNumberPattern($entity, $counter);
             } else {
                 $number = $prefix . str_pad($counter, $this->invoice_number_padding, '0', STR_PAD_LEFT);
             }
@@ -66,7 +66,7 @@ trait GenerateClientNumbers
                     $this->save();
                 }
             } elseif ($entity->isEntityType(ENTITY_CREDIT)) {
-                if ($this->creditNumbersEnabled()) {
+                if ($this->clientCreditNumbersEnabled()) {
                     $this->credit_number_counter += $counterOffset - 1;
                     $this->save();
                 }
@@ -111,12 +111,11 @@ trait GenerateClientNumbers
         return $this->$field ?: '';
     }
 
-    public function hasNumberPattern($entityType)
+    public function hasClientIdentificationPattern($entityType)
     {
         return $this->getClientNumberPattern($entityType) ? true : false;
     }
 
-//    client number pattern
     public function hasClientNumberPattern($invoice)
     {
         if (!$this->isPro()) {
@@ -128,10 +127,10 @@ trait GenerateClientNumbers
         return strstr($pattern, '$client') !== false || strstr($pattern, '$idNumber') !== false;
     }
 
-    public function applyNumberPattern($entity, $counter = 0)
+    public function applyClientNumberPattern($entity, $counter = 0)
     {
         $entityType = $entity->getEntityType();
-        $counter = $counter ?: $this->getCounter($entityType);
+        $counter = $counter ?: $this->getClientCounter($entityType);
         $pattern = $this->getClientNumberPattern($entityType);
 
         if (!$pattern) {
@@ -198,7 +197,7 @@ trait GenerateClientNumbers
         return str_replace($search, $replace, $pattern);
     }
 
-    public function getCounter($entityType)
+    public function getClientCounter($entityType)
     {
         if ($entityType == ENTITY_CLIENT) {
             return $this->client_number_counter;
@@ -220,20 +219,18 @@ trait GenerateClientNumbers
         return $this->getClientNextNumber($invoice);
     }
 
-    public function incrementCounter($entity)
+    public function clientIncrementCounter($entity)
     {
         if ($entity->isEntityType(ENTITY_CLIENT)) {
             if ($this->client_number_counter > 0) {
                 $this->client_number_counter += 1;
             }
-
             $this->save();
             return true;
         } elseif ($entity->isEntityType(ENTITY_CREDIT)) {
             if ($this->credit_number_counter > 0) {
                 $this->credit_number_counter += 1;
             }
-
             $this->save();
             return true;
         }
@@ -261,7 +258,7 @@ trait GenerateClientNumbers
 
     public function usesInvoiceCounter()
     {
-        return !$this->hasNumberPattern(ENTITY_INVOICE) || strpos($this->invoice_number_pattern, '{$counter}') !== false;
+        return !$this->hasClientIdentificationPattern(ENTITY_INVOICE) || strpos($this->invoice_number_pattern, '{$counter}') !== false;
     }
 
     public function usesClientInvoiceCounter()
@@ -274,12 +271,12 @@ trait GenerateClientNumbers
         return $this->hasFeature(FEATURE_INVOICE_SETTINGS) && $this->client_number_counter > 0;
     }
 
-    public function creditNumbersEnabled()
+    public function clientCreditNumbersEnabled()
     {
         return $this->hasFeature(FEATURE_INVOICE_SETTINGS) && $this->credit_number_counter > 0;
     }
 
-    public function checkCounterReset()
+    public function checkInvoiceCounterReset()
     {
         if (!$this->reset_counter_frequency_id || !$this->reset_counter_date) {
             return false;

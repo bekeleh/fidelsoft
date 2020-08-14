@@ -469,7 +469,7 @@ class Vendor extends EntityModel
         return $this->account->country ? $this->account->country->iso_3166_2 : 'US';
     }
 
-    public function getCounter($isQuote)
+    public function getClientCounter($isQuote)
     {
         return $isQuote ? $this->quote_number_counter : $this->invoice_number_counter;
     }
@@ -514,7 +514,7 @@ class Vendor extends EntityModel
 
 Vendor::creating(function ($vendor) {
     $vendor->setNullValues();
-    $vendor->account->incrementCounter($vendor);
+    $vendor->account->clientIncrementCounter($vendor);
 });
 
 Vendor::updating(function ($vendor) {

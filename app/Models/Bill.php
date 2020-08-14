@@ -1422,9 +1422,9 @@ Bill::creating(function ($bill) {
     if (!$bill->is_recurring) {
         $account = $bill->account;
         if ($bill->amount >= 0) {
-            $account->billIncrementCounter($bill);
+            $account->billclientIncrementCounter($bill);
         } elseif ($account->credit_number_counter > 0) {
-            $account->billIncrementCounter(new BillCredit());
+            $account->billclientIncrementCounter(new BillCredit());
         }
     }
 });

@@ -70,7 +70,7 @@ class SendRecurringInvoices extends Command
             ->get();
 
         foreach ($accounts as $account) {
-            $account->checkCounterReset();
+            $account->checkInvoiceCounterReset();
         }
     }
 

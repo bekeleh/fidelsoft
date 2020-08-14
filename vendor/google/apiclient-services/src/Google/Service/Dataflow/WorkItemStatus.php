@@ -60,7 +60,7 @@ class Google_Service_Dataflow_WorkItemStatus extends Google_Collection
   /**
    * @return Google_Service_Dataflow_CounterUpdate
    */
-  public function getCounterUpdates()
+  public function getClientCounterUpdates()
   {
     return $this->counterUpdates;
   }

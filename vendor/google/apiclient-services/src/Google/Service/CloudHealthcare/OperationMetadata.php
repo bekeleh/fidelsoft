@@ -51,7 +51,7 @@ class Google_Service_CloudHealthcare_OperationMetadata extends Google_Model
   /**
    * @return Google_Service_CloudHealthcare_ProgressCounter
    */
-  public function getCounter()
+  public function getClientCounter()
   {
     return $this->counter;
   }

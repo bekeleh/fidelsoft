@@ -1769,7 +1769,7 @@ afterAdd: showContact }'>
             @if ($invoice->id || !$account->hasClientNumberPattern($invoice))
                 return;
                     @endif
-            var number = '{{ $account->applyNumberPattern($invoice) }}';
+            var number = '{{ $account->applyClientNumberPattern($invoice) }}';
             number = number.replace('{$clientCustom1}', client.custom_value1 ? client.custom_value1 : '');
             number = number.replace('{$clientCustom2}', client.custom_value2 ? client.custom_value1 : '');
             number = number.replace('{$clientIdNumber}', client.id_number ? client.id_number : '');

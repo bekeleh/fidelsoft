@@ -787,7 +787,7 @@ if (!defined('APP_NAME')) {
     define('FEATURE_DIFFERENT_DESIGNS', 'different_designs');
     define('FEATURE_EMAIL_TEMPLATES_REMINDERS', 'email_templates_reminders');
     define('FEATURE_INVOICE_SETTINGS', 'invoice_settings');
-    define('FEATURE_BILL_SETTINGS', 'BILL_settings');
+    define('FEATURE_BILL_SETTINGS', 'bill_settings');
     define('FEATURE_CUSTOM_EMAILS', 'custom_emails');
     define('FEATURE_PDF_ATTACHMENT', 'pdf_attachment');
     define('FEATURE_MORE_INVOICE_DESIGNS', 'more_invoice_designs');
