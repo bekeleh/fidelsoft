@@ -14,7 +14,7 @@ use App\Models\Product;
 use App\Ninja\Repositories\VendorRepository;
 use App\Ninja\Repositories\BillRepository;
 use App\Ninja\Repositories\PaymentRepository;
-use App\Services\billservice;
+use App\Services\BillService;
 use App\Services\PaymentService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -23,16 +23,16 @@ use Illuminate\Support\Facades\Validator;
 
 class BillApiController extends BaseAPIController
 {
-    protected $entityType = ENTITY_INVOICE;
+    protected $entityType = ENTITY_BILL;
     protected $vendorRepo;
-    protected $BillRepo;
+    protected $billRepo;
     protected $paymentRepo;
-    protected $billservice;
+    protected $billService;
     protected $paymentService;
 
     public function __construct(
-        billservice $billservice,
-        BillRepository $BillRepo,
+        BillService $billService,
+        BillRepository $billRepo,
         VendorRepository $vendorRepo,
         PaymentRepository $paymentRepo,
         PaymentService $paymentService
@@ -40,10 +40,10 @@ class BillApiController extends BaseAPIController
     {
         parent::__construct();
 
-        $this->BillRepo = $BillRepo;
+        $this->billRepo = $billRepo;
         $this->vendorRepo = $vendorRepo;
         $this->paymentRepo = $paymentRepo;
-        $this->billservice = $billservice;
+        $this->billService = $billService;
         $this->paymentService = $paymentService;
     }
 
@@ -68,17 +68,17 @@ class BillApiController extends BaseAPIController
     {
         $bills = Bill::scope()
             ->withTrashed()
-            ->with('Bill_items', 'vendor')
+            ->with('bill_items', 'vendor')
             ->orderBy('updated_at', 'desc');
 
         // Filter by invoice number
-        if ($BillNumber = Input::get('invoice_number')) {
-            $bills->where('invoice_number', $BillNumber);
+        if ($billNumber = Input::get('invoice_number')) {
+            $bills->where('invoice_number', $billNumber);
         }
 
         // Fllter by status
         if ($statusId = Input::get('status_id')) {
-            $bills->where('invoice_status_id', '>=', $statusId);
+            $bills->where('bill_status_id', '>=', $statusId);
         }
 
         if (request()->has('is_recurring')) {
@@ -212,15 +212,15 @@ class BillApiController extends BaseAPIController
             $data['is_public'] = true;
         }
 
-        $Bill = $this->billservice->save($data);
+        $bill = $this->BillService->save($data);
         $payment = false;
 
-        if ($Bill->isStandard()) {
+        if ($bill->isStandard()) {
             if ($isAutoBill) {
-                $payment = $this->paymentService->autoBillBill($Bill);
+                $payment = $this->paymentService->autoBillBill($bill);
             } elseif ($isPaid) {
                 $payment = $this->paymentRepo->save([
-                    'invoice_id' => $Bill->id,
+                    'invoice_id' => $bill->id,
                     'vendor_id' => $vendor->id,
                     'amount' => round($data['paid'], 2),
                 ]);
@@ -231,23 +231,23 @@ class BillApiController extends BaseAPIController
             if ($payment) {
                 $this->dispatch(new SendPaymentEmail($payment));
             } else {
-                if ($Bill->is_recurring && $recurringBill = $this->BillRepo->createRecurringBill($Bill)) {
-                    $Bill = $recurringBill;
+                if ($bill->is_recurring && $recurringBill = $this->billRepo->createRecurringBill($bill)) {
+                    $bill = $recurringBill;
                 }
                 $reminder = isset($data['email_type']) ? $data['email_type'] : false;
-                $this->dispatch(new SendBillEmail($Bill, auth()->user()->id, $reminder));
+                $this->dispatch(new SendBillEmail($bill, auth()->user()->id, $reminder));
             }
         }
 
-        $Bill = Bill::scope($Bill->public_id)
-            ->with('vendor', 'Bill_items', 'invitations')
+        $bill = Bill::scope($bill->public_id)
+            ->with('vendor', 'bill_items', 'bill_invitations')
             ->first();
 
         if (isset($data['download_invoice']) && boolval($data['download_invoice'])) {
-            return $this->fileReponse($Bill->getFileName(), $Bill->getPDFString());
+            return $this->fileReponse($bill->getFileName(), $bill->getPDFString());
         }
 
-        return $this->itemResponse($Bill);
+        return $this->itemResponse($bill);
     }
 
     private function prepareData($data, $vendor)
@@ -260,11 +260,11 @@ class BillApiController extends BaseAPIController
             'discount' => 0,
             'is_amount_discount' => false,
             'terms' => '',
-            'invoice_footer' => '',
+            'bill_footer' => '',
             'public_notes' => '',
             'po_number' => '',
             'invoice_design_id' => $account->invoice_design_id,
-            'Bill_items' => [],
+            'bill_items' => [],
             'custom_taxes1' => false,
             'custom_taxes2' => false,
             'tax_name1' => '',
@@ -274,12 +274,12 @@ class BillApiController extends BaseAPIController
             'partial' => 0,
         ];
 
-        if (!isset($data['invoice_status_id']) || $data['invoice_status_id'] == 0) {
-            $data['invoice_status_id'] = INVOICE_STATUS_DRAFT;
+        if (!isset($data['bill_status_id']) || $data['bill_status_id'] == 0) {
+            $data['bill_status_id'] = INVOICE_STATUS_DRAFT;
         }
 
-        if (!isset($data['invoice_date'])) {
-            $fields['invoice_date_sql'] = date_create()->format('Y-m-d');
+        if (!isset($data['bill_date'])) {
+            $fields['bill_date_sql'] = date_create()->format('Y-m-d');
         }
         if (!isset($data['due_date'])) {
             $fields['due_date_sql'] = false;
@@ -296,26 +296,26 @@ class BillApiController extends BaseAPIController
         }
 
         // initialize the line items
-        if (!isset($data['Bill_items']) && (isset($data['name']) || isset($data['cost']) || isset($data['notes']) || isset($data['qty']))) {
-            $data['Bill_items'] = [self::prepareItem($data)];
+        if (!isset($data['bill_items']) && (isset($data['name']) || isset($data['cost']) || isset($data['notes']) || isset($data['qty']))) {
+            $data['bill_items'] = [self::prepareItem($data)];
             // make sure the tax isn't applied twice (for the invoice and the line item)
-            unset($data['Bill_items'][0]['tax_name1']);
-            unset($data['Bill_items'][0]['tax_rate1']);
-            unset($data['Bill_items'][0]['tax_name2']);
-            unset($data['Bill_items'][0]['tax_rate2']);
+            unset($data['bill_items'][0]['tax_name1']);
+            unset($data['bill_items'][0]['tax_rate1']);
+            unset($data['bill_items'][0]['tax_name2']);
+            unset($data['bill_items'][0]['tax_rate2']);
         } else {
-            foreach ($data['Bill_items'] as $index => $item) {
+            foreach ($data['bill_items'] as $index => $item) {
                 // check for multiple products
                 if ($productKey = array_get($item, 'name')) {
                     $parts = explode(',', $productKey);
                     if (count($parts) > 1 && Product::findProductByKey($parts[0])) {
                         foreach ($parts as $index => $productKey) {
-                            $data['Bill_items'][$index] = self::prepareItem(['name' => $productKey]);
+                            $data['bill_items'][$index] = self::prepareItem(['name' => $productKey]);
                         }
                         break;
                     }
                 }
-                $data['Bill_items'][$index] = self::prepareItem($item);
+                $data['bill_items'][$index] = self::prepareItem($item);
             }
         }
 
@@ -371,19 +371,19 @@ class BillApiController extends BaseAPIController
 
     public function emailBill(BillRequest $request)
     {
-        $Bill = $request->entity();
+        $bill = $request->entity();
 
-        if ($Bill->is_recurring && $recurringBill = $this->BillRepo->createRecurringBill($Bill)) {
-            $Bill = $recurringBill;
+        if ($bill->is_recurring && $recurringBill = $this->billRepo->createRecurringBill($bill)) {
+            $bill = $recurringBill;
         }
 
         $reminder = request()->reminder;
         $template = request()->template;
 
         if (config('queue.default') !== 'sync') {
-            $this->dispatch(new SendBillEmail($Bill, auth()->user()->id, $reminder, $template));
+            $this->dispatch(new SendBillEmail($bill, auth()->user()->id, $reminder, $template));
         } else {
-            $result = app('App\Ninja\Mailers\ContactMailer')->sendBill($Bill, $reminder, $template);
+            $result = app('App\Ninja\Mailers\ContactMailer')->sendBill($bill, $reminder, $template);
             if ($result !== true) {
                 return $this->errorResponse($result, 500);
             }
@@ -430,23 +430,23 @@ class BillApiController extends BaseAPIController
     {
         if ($request->action == ACTION_CONVERT) {
             $quote = $request->entity();
-            $Bill = $this->BillRepo->cloneBill($quote, $quote->id);
+            $bill = $this->billRepo->cloneBill($quote, $quote->id);
 
-            return $this->itemResponse($Bill);
+            return $this->itemResponse($bill);
         } elseif ($request->action) {
             return $this->handleAction($request);
         }
 
         $data = $request->input();
         $data['public_id'] = $publicId;
-        $this->billservice->save($data, $request->entity());
+        $this->BillService->save($data, $request->entity());
 
-        $Bill = Bill::scope($publicId)
+        $bill = Bill::scope($publicId)
             ->withTrashed()
-            ->with('vendor', 'Bill_items', 'invitations')
+            ->with('vendor', 'bill_items', 'bill_invitations')
             ->firstOrFail();
 
-        return $this->itemResponse($Bill);
+        return $this->itemResponse($bill);
     }
 
     /**
@@ -475,25 +475,25 @@ class BillApiController extends BaseAPIController
      */
     public function destroy(UpdateBillAPIRequest $request)
     {
-        $Bill = $request->entity();
+        $bill = $request->entity();
 
-        $this->BillRepo->delete($Bill);
+        $this->billRepo->delete($bill);
 
-        return $this->itemResponse($Bill);
+        return $this->itemResponse($bill);
     }
 
     public function download(BillRequest $request)
     {
-        $Bill = $request->entity();
+        $bill = $request->entity();
 
-        if ($Bill->is_deleted) {
+        if ($bill->is_deleted) {
             abort(404);
         }
 
-        $pdfString = $Bill->getPDFString();
+        $pdfString = $bill->getPDFString();
 
         if ($pdfString) {
-            return $this->fileReponse($Bill->getFileName(), $pdfString);
+            return $this->fileReponse($bill->getFileName(), $pdfString);
         } else {
             abort(404);
         }

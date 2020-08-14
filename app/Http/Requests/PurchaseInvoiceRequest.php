@@ -15,23 +15,23 @@ class BillRequest extends EntityRequest
 
     public function entity()
     {
-        $Bill = parent::entity();
+        $bill = parent::entity();
 
-        // support loading an invoice by its invoice number
-        if ($this->invoice_number && !$Bill) {
-            $Bill = Bill::scope()
-                ->where('invoice_number', $this->invoice_number)
+        // support loading an bill by its bill number
+        if ($this->bill_number && !$bill) {
+            $bill = Bill::scope()
+                ->where('bill_number', $this->bill_number)
                 ->withTrashed()->first();
 
-            if (!$Bill) {
+            if (!$bill) {
                 return response()->view('errors/403');
             }
         }
-        // eager load the invoice items
-        if ($Bill && !$Bill->relationLoaded('invoice_items')) {
-            $Bill->load('invoice_items');
+        // eager load the bill items
+        if ($bill && !$bill->relationLoaded('bill_items')) {
+            $bill->load('bill_items');
         }
 
-        return $Bill;
+        return $bill;
     }
 }

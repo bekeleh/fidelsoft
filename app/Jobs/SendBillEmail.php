@@ -63,7 +63,7 @@ class SendBillEmail implements ShouldQueue
             Auth::onceUsingId($this->userId);
         }
 
-        $mailer->sendInvoice($this->bill, $this->reminder, $this->template, $this->proposal);
+        $mailer->sendBill($this->bill, $this->reminder, $this->template, $this->proposal);
 
         if (App::runningInConsole() && $this->userId) {
             Auth::logout();
@@ -102,7 +102,6 @@ class SendBillEmail implements ShouldQueue
             trans('texts.job_failed', ['name' => $this->jobName])
         );
 
-//        parent::failed();
     }
 
 }

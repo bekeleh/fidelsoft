@@ -84,6 +84,19 @@ class ValidationServiceProvider extends ServiceProvider
                 return $total <= MAX_INVOICE_AMOUNT;
             });
 
+        Validator::extendImplicit('valid_bill_items',
+            function ($attribute, $value, $parameters) {
+                $total = 0;
+                foreach ($value as $item) {
+                    $qty = isset($item['qty']) ? Utils::parseFloat($item['qty']) : 1;
+                    $cost = isset($item['cost']) ? Utils::parseFloat($item['cost']) : 1;
+
+                    $total += $qty * $cost;
+                }
+
+                return $total <= MAX_INVOICE_AMOUNT;
+            });
+
         Validator::extend('valid_subdomain', function ($attribute, $value, $parameters) {
             return !in_array($value, ['www', 'app', 'mail', 'admin', 'blog', 'user', 'contact', 'payment', 'payments', 'billing', 'invoice', 'business', 'owner', 'info', 'ninja', 'docs', 'doc', 'documents', 'download']);
         });

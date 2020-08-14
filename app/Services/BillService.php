@@ -13,7 +13,7 @@ use App\Ninja\Repositories\VendorRepository;
 use App\Ninja\Repositories\BillRepository;
 use Illuminate\Support\Facades\Auth;
 
-class billservice extends BaseService
+class BillService extends BaseService
 {
 
     protected $vendorRepo;
@@ -22,7 +22,7 @@ class billservice extends BaseService
 
     /**
      *
-     * billservice constructor.
+     * BillService constructor.
      *
      * @param VendorRepository $vendorRepo
      * @param BillRepository $billRepo

@@ -798,6 +798,7 @@ if (!defined('APP_NAME')) {
     define('FEATURE_BUY_NOW_BUTTONS', 'buy_now_buttons');
     define('FEATURE_API', 'api');
     define('FEATURE_CLIENT_PORTAL_PASSWORD', 'client_portal_password');
+    define('FEATURE_vendor_PORTAL_PASSWORD', 'vendor_portal_password');
     define('FEATURE_CUSTOM_URL', 'custom_url');
     define('FEATURE_MORE_CLIENTS', 'more_clients'); // No trial allowed
 

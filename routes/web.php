@@ -145,7 +145,7 @@ Route::group(['middleware' => ['lookup:user', 'auth:user', 'banned:user']], func
     Route::get('force_inline_pdf', 'UserController@forcePDFJS');
     Route::get('account/get_search_data', ['as' => 'get_search_data', 'uses' => 'AccountController@getSearchData']);
     Route::get('check_invoice_number/{invoice_id?}', 'InvoiceController@checkInvoiceNumber');
-    Route::get('check_BILL_number/{invoice_id?}', 'BillController@checkInvoiceNumber');
+    Route::get('check_bill_number/{bill_id?}', 'BillController@checkBillNumber');
     Route::post('save_sidebar_state', 'UserController@saveSidebarState');
     Route::post('contact_us', 'HomeController@contactUs');
     Route::post('handle_command', 'BotController@handleCommand');
@@ -213,7 +213,7 @@ Route::group(['middleware' => ['lookup:user', 'auth:user', 'banned:user']], func
 //    Bill
     Route::get('api/recurring_invoices/{vendor_id?}', 'BillController@getRecurringDatatable');
     Route::get('bills/receive_note/{invoice_id}', 'BillController@receiveNote');
-    Route::get('bills/BILL_history/{invoice_id}', 'BillController@BillHistory');
+    Route::get('bills/bill_history/{invoice_id}', 'BillController@BillHistory');
     Route::get('quotes/quote_history/{invoice_id}', 'BillController@BillHistory');
 
     Route::resource('bills', 'BillController');
@@ -227,10 +227,10 @@ Route::group(['middleware' => ['lookup:user', 'auth:user', 'banned:user']], func
     Route::get('recurring_bills/{invoices}', 'BillController@edit');
     Route::post('recurring_bills/bulk', 'BillController@bulk');
 //   Bill item
-    Route::get('Bill_items/{Bill_items}/clone', 'BillItemController@cloneBillItem');
-    Route::get('api/Bill_items', 'BillItemController@getDatatable');
-    Route::resource('Bill_items', 'BillItemController');
-    Route::post('Bill_items/bulk', 'BillItemController@bulk');
+    Route::get('bill_items/{bill_items}/clone', 'BillItemController@cloneBillItem');
+    Route::get('api/bill_items', 'BillItemController@getDatatable');
+    Route::resource('bill_items', 'BillItemController');
+    Route::post('bill_items/bulk', 'BillItemController@bulk');
 //     expense
     Route::get('recurring_expenses', 'RecurringExpenseController@index');
     Route::get('api/recurring_expenses', 'RecurringExpenseController@getDatatable');

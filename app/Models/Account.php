@@ -970,7 +970,7 @@ class Account extends Eloquent
         $bill->custom_taxes2 = $this->custom_bill_taxes2;
 //      to generate invoice number using micro time() carbon instance
         if ($entityType === ENTITY_RECURRING_BILL) {
-            $bill->invoice_number = microtime(true);
+            $bill->bill_number = microtime(true);
             $bill->is_recurring = true;
         } else {
             if ($entityType == ENTITY_BILL_QUOTE) {
@@ -981,7 +981,7 @@ class Account extends Eloquent
             if (isset($bill) && $this->hasVendorNumberPattern($bill) && !$vendorId) {
                 // do nothing, we don't yet know the value
             } elseif (!$bill->bill_number) {
-                $bill->invoice_number = $this->getVendorNextNumber($bill);
+                $bill->bill_number = $this->getVendorNextNumber($bill);
             }
         }
 
@@ -1686,7 +1686,7 @@ class Account extends Eloquent
 
     public function isVendorPortalPasswordEnabled()
     {
-        return $this->hasFeature(FEATURE_CLIENT_PORTAL_PASSWORD) && $this->enable_portal_password;
+        return $this->hasFeature(FEATURE_vendor_PORTAL_PASSWORD) && $this->enable_portal_password;
     }
 
     public function getBaseUrl()

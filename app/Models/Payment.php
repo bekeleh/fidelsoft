@@ -308,7 +308,11 @@ class Payment extends EntityModel
             ->get(['json_backup'])
             ->first();
 
-        return $activity->json_backup;
+        if ($activity) {
+            return $activity->json_backup;
+        }
+
+        return false;
     }
 }
 

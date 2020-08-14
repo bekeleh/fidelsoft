@@ -31,7 +31,7 @@ class BillContactMailer extends Mailer
             return false;
         }
 
-        $bill->load('invitations', 'vendor.language', 'account');
+        $bill->load('bill_invitations', 'vendor.language', 'account');
 
         if ($proposal) {
             $entityType = ENTITY_PROPOSAL;

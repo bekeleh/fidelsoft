@@ -64,9 +64,9 @@ class PaymentController extends BaseController
         $account = $user->account;
 
         $invoices = Invoice::scope()->invoices()
-        ->where('invoices.invoice_status_id', '!=', INVOICE_STATUS_PAID)
-        ->with('client', 'invoice_status')
-        ->orderBy('invoice_number')->get();
+            ->where('invoices.invoice_status_id', '!=', INVOICE_STATUS_PAID)
+            ->with('client', 'invoice_status')
+            ->orderBy('invoice_number')->get();
 
         $clientPublicId = Input::old('client') ? Input::old('client') : ($request->client_id ?: 0);
         $invoicePublicId = Input::old('invoice') ? Input::old('invoice') : ($request->invoice_id ?: 0);
@@ -135,9 +135,9 @@ class PaymentController extends BaseController
             'client' => null,
             'invoice' => null,
             'invoices' => Invoice::scope()->invoices()
-            ->whereIsPublic(true)
-            ->with('client', 'invoice_status')
-            ->orderBy('invoice_number')->get(),
+                ->whereIsPublic(true)
+                ->with('client', 'invoice_status')
+                ->orderBy('invoice_number')->get(),
             'payment' => $payment,
             'entity' => $payment,
             'method' => 'PUT',

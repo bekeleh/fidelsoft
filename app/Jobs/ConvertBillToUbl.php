@@ -20,51 +20,52 @@ use Exception;
 
 class ConvertBillToUbl extends Job
 {
-    const INVOICE_TYPE_STANDARD = 380;
-    const INVOICE_TYPE_CREDIT = 381;
+    const BILL_TYPE_STANDARD = 380;
+    const BILL_TYPE_CREDIT = 381;
 
+    public $bill;
 
-    public function __construct($invoice)
+    public function __construct($bill)
     {
-        $this->invoice = $invoice;
+        $this->bill = $bill;
     }
 
     public function handle()
     {
-        $invoice = $this->invoice;
-        $account = $invoice->account;
-        $client = $invoice->client;
+        $bill = $this->bill;
+        $account = $bill->account;
+        $vendor = $bill->vendor;
         $ublInvoice = new Invoice();
 
-        // invoice
-        $ublInvoice->setId($invoice->invoice_number);
-        $ublInvoice->setIssueDate(date_create($invoice->invoice_date));
-        $ublInvoice->setInvoiceTypeCode($invoice->amount < 0 ? self::INVOICE_TYPE_CREDIT : self::INVOICE_TYPE_STANDARD);
+        // bill
+        $ublInvoice->setId($bill->bill_number);
+        $ublInvoice->setIssueDate(date_create($bill->bill_date));
+        $ublInvoice->setInvoiceTypeCode($bill->amount < 0 ? self::BILL_TYPE_CREDIT : self::BILL_TYPE_STANDARD);
 
-        $supplierParty = $this->createParty($account, $invoice->user);
+        $supplierParty = $this->createParty($account, $bill->user);
         $ublInvoice->setAccountingSupplierParty($supplierParty);
 
-        $customerParty = $this->createParty($client, $client->contacts[0]);
+        $customerParty = $this->createParty($vendor, $vendor->contacts[0]);
         $ublInvoice->setAccountingCustomerParty($customerParty);
 
         // line items
-        $invoiceLines = [];
-        $taxable = $invoice->getTaxable();
+        $billLines = [];
+        $taxable = $bill->getTaxable();
 
-        foreach ($invoice->invoice_items as $index => $item) {
-            $itemTaxable = $invoice->getItemTaxable($item, $taxable);
-            $item->setRelation('invoice', $invoice);
-            $invoiceLines[] = $this->createInvoiceLine($index, $item, $itemTaxable);
+        foreach ($bill->bill_items as $index => $item) {
+            $itemTaxable = $bill->getItemTaxable($item, $taxable);
+            $item->setRelation('bill', $bill);
+            $billLines[] = $this->createInvoiceLine($index, $item, $itemTaxable);
         }
 
-        $ublInvoice->setInvoiceLines($invoiceLines);
+        $ublInvoice->setBillLines($billLines);
 
         $taxtotal = new TaxTotal();
         $taxAmount1 = $taxAmount2 = 0;
 
-        $taxAmount1 = $this->createTaxRate($taxtotal, $taxable, $invoice->tax_rate1, $invoice->tax_name1);
-        if ($invoice->tax_name2 || floatval($invoice->tax_rate2)) {
-            $taxAmount2 = $this->createTaxRate($taxtotal, $taxable, $invoice->tax_rate2, $invoice->tax_name2);
+        $taxAmount1 = $this->createTaxRate($taxtotal, $taxable, $bill->tax_rate1, $bill->tax_name1);
+        if ($bill->tax_name2 || floatval($bill->tax_rate2)) {
+            $taxAmount2 = $this->createTaxRate($taxtotal, $taxable, $bill->tax_rate2, $bill->tax_name2);
         }
 
         $taxtotal->setTaxAmount($taxAmount1 + $taxAmount2);
@@ -73,10 +74,10 @@ class ConvertBillToUbl extends Job
         $ublInvoice->setLegalMonetaryTotal((new LegalMonetaryTotal())
             //->setLineExtensionAmount()
             ->setTaxExclusiveAmount($taxable)
-            ->setPayableAmount($invoice->balance));
+            ->setPayableAmount($bill->balance));
 
         try {
-            return Generator::invoice($ublInvoice, $invoice->client->getCurrencyCode());
+            return Generator::bill($ublInvoice, $bill->vendor->getCurrencyCode());
         } catch (Exception $exception) {
             Utils::logError($exception);
 
@@ -112,7 +113,7 @@ class ConvertBillToUbl extends Job
 
     private function createInvoiceLine($index, $item, $taxable)
     {
-        $invoiceLine = (new InvoiceLine())
+        $billLine = (new InvoiceLine())
             ->setId($index + 1)
             ->setInvoicedQuantity($item->qty)
             ->setLineExtensionAmount($item->costWithDiscount())
@@ -130,15 +131,15 @@ class ConvertBillToUbl extends Job
         }
 
         $taxtotal->setTaxAmount($itemTaxAmount1 + $itemTaxAmount2);
-        $invoiceLine->setTaxTotal($taxtotal);
+        $billLine->setTaxTotal($taxtotal);
 
-        return $invoiceLine;
+        return $billLine;
     }
 
     private function createTaxRate(&$taxtotal, $taxable, $taxRate, $taxName)
     {
-        $invoice = $this->invoice;
-        $taxAmount = $invoice->taxAmount($taxable, $taxRate);
+        $bill = $this->bill;
+        $taxAmount = $bill->taxAmount($taxable, $taxRate);
         $taxScheme = ((new TaxScheme()))->setId($taxName);
 
         $taxtotal->addTaxSubTotal((new TaxSubTotal())

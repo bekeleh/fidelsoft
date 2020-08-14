@@ -23,7 +23,7 @@ use App\Services\PaymentService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use mysql_xdevapi\Exception;
+use Illuminate\Support\Facades\Log;
 
 class InvoiceRepository extends BaseRepository
 {
@@ -440,26 +440,24 @@ class InvoiceRepository extends BaseRepository
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
         $isNew = !$publicId || intval($publicId) < 0;
 
-        if (!empty($invoice)) {
+        if ($invoice) {
             $entityType = $invoice->getEntityType();
             $invoice->updated_by = Auth::user()->username;
-
-        } elseif (!empty($isNew)) {
+        } elseif ($isNew) {
             $entityType = ENTITY_INVOICE;
             if (!empty($data['is_recurring']) && filter_var($data['is_recurring'], FILTER_VALIDATE_BOOLEAN)) {
                 $entityType = ENTITY_RECURRING_INVOICE;
             } elseif (!empty($data['is_quote']) && filter_var($data['is_quote'], FILTER_VALIDATE_BOOLEAN)) {
                 $entityType = ENTITY_QUOTE;
             }
-
             $invoice = $account->createInvoice($entityType, $data['client_id']);
             $invoice->invoice_date = date_create()->format('Y-m-d');
             $invoice->custom_taxes1 = $account->custom_invoice_taxes1 ?: false;
             $invoice->custom_taxes2 = $account->custom_invoice_taxes2 ?: false;
             $invoice->created_by = Auth::user()->username;
             $invoice->branch_id = Auth::user()->branch->id;
-//           set the default due date
-            if ($entityType === ENTITY_INVOICE && !empty($data['partial_due_date'])) {
+            // set the default due date
+            if ($entityType == ENTITY_INVOICE && empty($data['partial_due_date'])) {
                 $client = Client::scope()->where('id', $data['client_id'])->first();
                 $invoice->due_date = $account->defaultDueDate($client);
             }
@@ -522,9 +520,9 @@ class InvoiceRepository extends BaseRepository
         } else {
             $invoice->invoice_status_id = !empty($data['invoice_status_id']) ? $data['invoice_status_id'] : INVOICE_STATUS_DRAFT;
         }
-        if (!empty($invoice->is_recurring)) {
-            if ($isNew && !empty($data['start_date']) && !empty($invoice->start_date)
-                && $invoice->start_date != Utils::toSqlDate($data['start_date'])) {
+
+        if ($invoice->is_recurring) {
+            if (!$isNew && isset($data['start_date']) && $invoice->start_date && $invoice->start_date != Utils::toSqlDate($data['start_date'])) {
                 $invoice->last_sent_date = null;
             }
 
@@ -545,12 +543,12 @@ class InvoiceRepository extends BaseRepository
             }
         } else {
             if ($isNew && empty($data['due_date']) && empty($data['due_date_sql'])) {
-// do nothing
+                //
             } elseif (!empty($data['due_date']) || !empty($data['due_date_sql'])) {
                 $invoice->due_date = !empty($data['due_date_sql']) ? $data['due_date_sql'] :
                     Utils::toSqlDate($data['due_date']);
             }
-// invoice is not recurring
+//         invoice is not recurring
             $invoice->frequency_id = 0;
             $invoice->start_date = null;
             $invoice->end_date = null;

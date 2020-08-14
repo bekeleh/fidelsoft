@@ -23,7 +23,7 @@ class PaymentDatatable extends EntityDatatable
     {
         return [
             [
-                'invoice_name',
+                'invoice_number',
                 function ($model) {
                     if (Auth::user()->can('view', [ENTITY_INVOICE, $model->invoice_user_id]))
                         return link_to("invoices/{$model->invoice_public_id}/edit", $model->invoice_number, ['class' => Utils::getEntityRowClass($model)])->toHtml();
@@ -199,14 +199,14 @@ class PaymentDatatable extends EntityDatatable
                 },
                 function ($model) {
                     return Auth::user()->can('edit', [ENTITY_PAYMENT, $model])
-                    && $model->payment_status_id >= PAYMENT_STATUS_COMPLETED
-                    && $model->refunded < $model->amount;
+                        && $model->payment_status_id >= PAYMENT_STATUS_COMPLETED
+                        && $model->refunded < $model->amount;
                 },
             ],
             [
                 '--divider--', function () {
-                    return false;
-                },
+                return false;
+            },
                 function ($model) {
                     return Auth::user()->can('edit', [ENTITY_PAYMENT]);
                 },

@@ -20,7 +20,7 @@ use App\Ninja\Repositories\DocumentRepository;
 use App\Ninja\Repositories\BillRepository;
 use App\Ninja\Repositories\VendorRepository;
 use App\Services\BillPaymentService;
-use App\Services\billservice;
+use App\Services\BillService;
 use App\Services\RecurringInvoiceService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -33,27 +33,27 @@ use Illuminate\Support\Facades\Request;
 
 class BillController extends BaseController
 {
-    protected $invoiceRepo;
+    protected $billRepo;
     protected $vendorRepo;
     protected $documentRepo;
-    protected $billservice;
+    protected $billService;
     protected $paymentService;
-    protected $recurringbillservice;
+    protected $recurringBillService;
     protected $entityType = ENTITY_BILL;
 
     public function __construct(
-        BillRepository $invoiceRepo,
+        BillRepository $billRepo,
         VendorRepository $vendorRepo,
-        billservice $billservice,
+        BillService $billService,
         DocumentRepository $documentRepo,
-        RecurringInvoiceService $recurringbillservice,
+        RecurringInvoiceService $recurringBillService,
         BillPaymentService $paymentService)
     {
         // parent::__construct();
-        $this->invoiceRepo = $invoiceRepo;
+        $this->invoiceRepo = $billRepo;
         $this->vendorRepo = $vendorRepo;
-        $this->billservice = $billservice;
-        $this->recurringbillservice = $recurringbillservice;
+        $this->billService = $billService;
+        $this->recurringBillService = $recurringBillService;
         $this->paymentService = $paymentService;
     }
 
@@ -63,8 +63,8 @@ class BillController extends BaseController
         $data = [
             'title' => trans('texts.bills'),
             'entityType' => ENTITY_BILL,
-            'statuses' => Bill::getStatuses(),
             'datatable' => new BillDatatable(),
+            'statuses' => Bill::getStatuses(),
         ];
 
         return response()->view('list_wrapper', $data);
@@ -83,8 +83,7 @@ class BillController extends BaseController
         $accountId = Auth::user()->account_id;
         $search = Input::get('sSearch');
 
-        return $this->billservice
-            ->getDatatable($accountId, $vendorPublicId, ENTITY_BILL, $search);
+        return $this->BillService->getDatatable($accountId, $vendorPublicId, ENTITY_BILL, $search);
     }
 
     public function getRecurringDatatable($vendorPublicId = null)
@@ -92,8 +91,8 @@ class BillController extends BaseController
         $accountId = Auth::user()->account_id;
         $search = Input::get('sSearch');
 
-        return $this->recurringbillservice
-            ->getDatatable($accountId, $vendorPublicId, ENTITY_RECURRING_INVOICE, $search);
+        return $this->recurringBillService
+            ->getDatatable($accountId, $vendorPublicId, ENTITY_RECURRING_BILL, $search);
     }
 
     public function create(BillRequest $request, $vendorPublicId = 0, $isRecurring = false)
@@ -108,27 +107,27 @@ class BillController extends BaseController
             $vendorId = Vendor::getPrivateId($request->vendor_id);
         }
 
-        $invoice = $account->createBill($entityType, $vendorId);
+        $bill = $account->createBill($entityType, $vendorId);
 
-        $invoice->public_id = 0;
-        $invoice->loadFromRequest();
+        $bill->public_id = 0;
+        $bill->loadFromRequest();
 
-        $clients = Vendor::scope()->with('contacts', 'country')->orderBy('name');
+        $vendors = Vendor::scope()->with('contacts', 'country')->orderBy('name');
 
         if (!Utils::hasPermission('view_vendor')) {
-            $clients = $clients->where('vendors.user_id', Auth::user()->id);
+            $vendors = $vendors->where('vendors.user_id', Auth::user()->id);
         }
 
         $data = [
-            'clients' => $clients->get(),
-            'entityType' => $invoice->getEntityType(),
-            'invoice' => $invoice,
+            'clients' => $vendors->get(),
+            'entityType' => $bill->getEntityType(),
+            'invoice' => $bill,
             'method' => 'POST',
             'url' => 'bills',
             'title' => trans('texts.new_BILL'),
         ];
 
-        $data = array_merge($data, self::getViewModel($invoice));
+        $data = array_merge($data, self::getViewModel($bill));
 
         return View::make('bills.edit', $data);
     }
@@ -143,9 +142,9 @@ class BillController extends BaseController
         $entityType = Input::get('entityType');
 
 
-        $invoice = $this->billservice->save($data);
+        $bill = $this->BillService->save($data);
 
-        $entityType = $invoice->getEntityType();
+        $entityType = $bill->getEntityType();
 
         $message = trans("texts.created_{$entityType}");
 
@@ -158,93 +157,93 @@ class BillController extends BaseController
         Session::flash('message', $message);
 
         if ($action == 'email') {
-            $this->emailInvoice($invoice);
+            $this->emailBill($bill);
         }
 
-        return url($invoice->getRoute());
+        return url($bill->getRoute());
     }
 
     public function edit(BillRequest $request, $publicId, $clone = false)
     {
         $this->authorize('edit', ENTITY_BILL);
         $account = Auth::user()->account;
-        $invoice = $request->entity()->load('invitations', 'account.country', 'client.contacts', 'vendor.country', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'payments');
+        $bill = $request->entity()->load('invitations', 'account.country', 'client.contacts', 'vendor.country', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'payments');
 
-        $entityType = $invoice->getEntityType();
+        $entityType = $bill->getEntityType();
 
         $contactIds = DB::table('invitations')
             ->leftJoin('vendor_contacts', 'vendor_contacts.id', 'invitations.contact_id')
-            ->where('invitations.invoice_id', $invoice->id)
+            ->where('invitations.invoice_id', $bill->id)
             ->where('invitations.account_id', Auth::user()->account_id)
             ->select('vendor_contacts.public_id')->pluck('public_id')
             ->where('invitations.deleted_at', null);
 
-        $clients = Vendor::scope()->withTrashed()->with('contacts', 'country');
+        $vendors = Vendor::scope()->withTrashed()->with('contacts', 'country');
 
         if ($clone) {
             $entityType = $clone == INVOICE_TYPE_STANDARD ? ENTITY_BILL : ENTITY_QUOTE;
-            $invoice->id = $invoice->public_id = null;
-            $invoice->is_public = false;
-            $invoice->is_recurring = $invoice->is_recurring && $clone == INVOICE_TYPE_STANDARD;
-            $invoice->invoice_type_id = $clone;
-            $invoice->invoice_number = $account->getClientNextNumber($invoice);
-            $invoice->due_date = null;
-            $invoice->partial_due_date = null;
-            $invoice->balance = $invoice->amount;
-            $invoice->invoice_status_id = 0;
-            $invoice->invoice_date = date_create()->format('Y-m-d');
-            $invoice->deleted_at = null;
-            while ($invoice->documents->count()) {
-                $invoice->documents->pop();
+            $bill->id = $bill->public_id = null;
+            $bill->is_public = false;
+            $bill->is_recurring = $bill->is_recurring && $clone == INVOICE_TYPE_STANDARD;
+            $bill->bill_type_id = $clone;
+            $bill->bill_number = $account->getClientNextNumber($bill);
+            $bill->due_date = null;
+            $bill->partial_due_date = null;
+            $bill->balance = $bill->amount;
+            $bill->invoice_status_id = 0;
+            $bill->bill_date = date_create()->format('Y-m-d');
+            $bill->deleted_at = null;
+            while ($bill->documents->count()) {
+                $bill->documents->pop();
             }
-            while ($invoice->expenses->count()) {
-                $invoice->expenses->pop();
+            while ($bill->expenses->count()) {
+                $bill->expenses->pop();
             }
             $method = 'POST';
             $url = "{$entityType}s";
         } else {
             $method = 'PUT';
-            $url = "{$entityType}s/{$invoice->public_id}";
-            $clients->where('id', $invoice->vendor_id);
+            $url = "{$entityType}s/{$bill->public_id}";
+            $vendors->where('id', $bill->vendor_id);
         }
 
-        $invoice->invoice_date = Utils::fromSqlDate($invoice->invoice_date);
-        $invoice->recurring_due_date = $invoice->due_date; // Keep in SQL form
-        $invoice->due_date = Utils::fromSqlDate($invoice->due_date);
-        $invoice->start_date = Utils::fromSqlDate($invoice->start_date);
-        $invoice->end_date = Utils::fromSqlDate($invoice->end_date);
-        $invoice->last_sent_date = Utils::fromSqlDate($invoice->last_sent_date);
-        $invoice->partial_due_date = Utils::fromSqlDate($invoice->partial_due_date);
+        $bill->bill_date = Utils::fromSqlDate($bill->bill_date);
+        $bill->recurring_due_date = $bill->due_date; // Keep in SQL form
+        $bill->due_date = Utils::fromSqlDate($bill->due_date);
+        $bill->start_date = Utils::fromSqlDate($bill->start_date);
+        $bill->end_date = Utils::fromSqlDate($bill->end_date);
+        $bill->last_sent_date = Utils::fromSqlDate($bill->last_sent_date);
+        $bill->partial_due_date = Utils::fromSqlDate($bill->partial_due_date);
 
-        $invoice->features = [
+        $bill->features = [
             'customize_invoice_design' => Auth::user()->hasFeature(FEATURE_CUSTOMIZE_INVOICE_DESIGN),
             'remove_created_by' => Auth::user()->hasFeature(FEATURE_REMOVE_CREATED_BY),
             'invoice_settings' => Auth::user()->hasFeature(FEATURE_INVOICE_SETTINGS),
         ];
 
-        $lastSent = ($invoice->is_recurring && $invoice->last_sent_date) ? $invoice->recurring_bills->last() : null;
+        $lastSent = ($bill->is_recurring && $bill->last_sent_date) ? $bill->recurring_bills->last() : null;
 
         if (!Auth::user()->hasPermission('view_vendor')) {
-            $clients = $clients->where('vendors.user_id', Auth::user()->id);
+            $vendors = $vendors->where('vendors.user_id', Auth::user()->id);
         }
 
         $data = [
-            'clients' => $clients->get(),
+            'clients' => $vendors->get(),
             'entityType' => $entityType,
             'showBreadcrumbs' => $clone,
-            'invoice' => $invoice,
+            'invoice' => $bill,
             'method' => $method,
             'invitationContactIds' => $contactIds,
             'url' => $url,
             'title' => trans("texts.edit_{$entityType}"),
-            'vendor' => $invoice->vendor,
-            'isRecurring' => $invoice->is_recurring,
+            'vendor' => $bill->vendor,
+            'isRecurring' => $bill->is_recurring,
             'lastSent' => $lastSent,];
 
-        $data = array_merge($data, self::getViewModel($invoice));
+        $data = array_merge($data, self::getViewModel($bill));
 
-        if ($invoice->isSent() && $invoice->getAutoBillEnabled() && !$invoice->isPaid()) {
-            $data['autoBillChangeWarning'] = $invoice->vendor->autoBillLater();
+        if ($bill->isSent() && $bill->getAutoBillEnabled() && !$bill->isPaid()) {
+            $data['autoBillChangeWarning'] = $bill->vendor->autoBillLater();
         }
 
         if ($clone) {
@@ -253,15 +252,15 @@ class BillController extends BaseController
 
         // Set the invitation data on the vendor's contacts
         if (!$clone) {
-            $clients = $data['clients'];
-            foreach ($clients as $vendor) {
-                if ($vendor->id != $invoice->vendor->id) {
+            $vendors = $data['clients'];
+            foreach ($vendors as $vendor) {
+                if ($vendor->id != $bill->vendor->id) {
                     continue;
                 }
-                foreach ($invoice->invitations as $invitation) {
+                foreach ($bill->invitations as $invitation) {
                     foreach ($vendor->contacts as $contact) {
                         if ($invitation->contact_id == $contact->id) {
-                            $hasPassword = $account->isClientPortalPasswordEnabled() && $contact->password;
+                            $hasPassword = $account->isVendorPortalPasswordEnabled() && $contact->password;
                             $contact->email_error = $invitation->email_error;
                             $contact->invitation_link = $invitation->getLink('view', $hasPassword, $hasPassword);
                             $contact->invitation_viewed = $invitation->viewed_date && $invitation->viewed_date != '0000-00-00 00:00:00' ? $invitation->viewed_date : false;
@@ -293,23 +292,23 @@ class BillController extends BaseController
         $action = Input::get('action');
         $entityType = Input::get('entityType');
 
-        $invoice = $this->billservice->save($data, $request->entity());
+        $bill = $this->BillService->save($data, $request->entity());
 
-        $entityType = $invoice->getEntityType();
+        $entityType = $bill->getEntityType();
         $message = trans("texts.updated_{$entityType}");
         Session::flash('message', $message);
 
         if ($action == 'clone_invoice') {
-            return url(sprintf('bills/%s/clone', $invoice->public_id));
+            return url(sprintf('bills/%s/clone', $bill->public_id));
         } else if ($action == 'clone_quote') {
-            return url(sprintf('bill_quotes/%s/clone', $invoice->public_id));
+            return url(sprintf('bill_quotes/%s/clone', $bill->public_id));
         } elseif ($action == 'convert') {
-            return $this->convertQuote($request, $invoice->public_id);
+            return $this->convertQuote($request, $bill->public_id);
         } elseif ($action == 'email') {
-            $this->emailInvoice($invoice);
+            $this->emailBill($bill);
         }
 
-        return url($invoice->getRoute());
+        return url($bill->getRoute());
     }
 
     public function createRecurring(BillRequest $request, $vendorPublicId = 0)
@@ -317,7 +316,7 @@ class BillController extends BaseController
         return self::create($request, $vendorPublicId, true);
     }
 
-    private static function getViewModel($invoice)
+    private static function getViewModel($bill)
     {
 
         $account = Auth::user()->account;
@@ -386,8 +385,8 @@ class BillController extends BaseController
 
         // Check for any taxes which have been deleted
         $taxRateOptions = $account->present()->taxRateOptions;
-        if ($invoice->exists) {
-            foreach ($invoice->getTaxes() as $key => $rate) {
+        if ($bill->exists) {
+            foreach ($bill->getTaxes() as $key => $rate) {
                 $key = '0 ' . $key; // mark it as a standard exclusive rate option
                 if (isset($taxRateOptions[$key])) {
                     continue;
@@ -399,7 +398,7 @@ class BillController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account->load('country'),
-            'products' => Product::scope()->withActiveOrSelected(isset($invoice) ? $invoice->product_id : false)->orderBy('product_key')->get(),
+            'products' => Product::scope()->withActiveOrSelected(isset($bill) ? $bill->product_id : false)->orderBy('product_key')->get(),
             'clients' => Vendor::scope()->with('contacts', 'country')->orderBy('name')->get(),
             'taxRateOptions' => $taxRateOptions,
             'sizes' => Cache::get('sizes'),
@@ -416,12 +415,12 @@ class BillController extends BaseController
         ];
     }
 
-    private function emailInvoice($invoice)
+    private function emailBill($bill)
     {
         $reminder = Input::get('reminder');
         $template = Input::get('template');
         $pdfUpload = Utils::decodePDF(Input::get('pdfupload'));
-        $entityType = $invoice->getEntityType();
+        $entityType = $bill->getEntityType();
 
         if (filter_var(Input::get('save_as_default'), FILTER_VALIDATE_BOOLEAN)) {
             $account = Auth::user()->account;
@@ -438,14 +437,14 @@ class BillController extends BaseController
 
             Session::flash('error', $errorMessage);
 
-            return Redirect::to('bills/' . $invoice->public_id . '/edit');
+            return Redirect::to('bills/' . $bill->public_id . '/edit');
         }
 
-        if ($invoice->is_recurring) {
-            $response = $this->emailRecurringInvoice($invoice);
+        if ($bill->is_recurring) {
+            $response = $this->emailRecurringInvoice($bill);
         } else {
             $userId = Auth::user()->id;
-            $this->dispatch(new SendBillEmail($invoice, $userId, $reminder, $template));
+            $this->dispatch(new SendBillEmail($bill, $userId, $reminder, $template));
             $response = true;
         }
 
@@ -457,12 +456,12 @@ class BillController extends BaseController
         }
     }
 
-    private function emailRecurringInvoice(&$invoice)
+    private function emailRecurringInvoice(&$bill)
     {
-        if (!$invoice->shouldSendToday()) {
-            if ($date = $invoice->getNextSendDate()) {
-                $date = $invoice->account->formatDate($date);
-                $date .= ' ' . DEFAULT_SEND_RECURRING_HOUR . ':00 am ' . $invoice->account->getTimezone();
+        if (!$bill->shouldSendToday()) {
+            if ($date = $bill->getNextSendDate()) {
+                $date = $bill->account->formatDate($date);
+                $date .= ' ' . DEFAULT_SEND_RECURRING_HOUR . ':00 am ' . $bill->account->getTimezone();
 
                 return trans('texts.recurring_too_soon', ['date' => $date]);
             } else {
@@ -471,14 +470,14 @@ class BillController extends BaseController
         }
 
         // switch from the recurring invoice to the generated invoice
-        $invoice = $this->invoiceRepo->createRecurringBill($invoice);
+        $bill = $this->invoiceRepo->createRecurringBill($bill);
 
         // in case auto-bill is enabled then a receipt has been sent
-        if ($invoice->isPaid()) {
+        if ($bill->isPaid()) {
             return true;
         } else {
             $userId = Auth::user()->id;
-            $this->dispatch(new SendBillEmail($invoice, $userId));
+            $this->dispatch(new SendBillEmail($bill, $userId));
             return true;
         }
     }
@@ -487,12 +486,12 @@ class BillController extends BaseController
     {
         $action = Input::get('bulk_action') ?: Input::get('action');
         $ids = Input::get('bulk_public_id') ?: (Input::get('public_id') ?: Input::get('ids'));
-        $count = $this->billservice->bulk($ids, $action);
+        $count = $this->BillService->bulk($ids, $action);
 
         if ($count > 0) {
             if ($action == 'markSent') {
-                $key = 'marked_sent_invoice';
-            } elseif ($action == 'emailInvoice') {
+                $key = 'marked_sent_bill';
+            } elseif ($action == 'emailBill') {
                 $key = 'emailed_' . $entityType;
             } elseif ($action == 'markPaid') {
                 $key = 'created_payment';
@@ -506,7 +505,7 @@ class BillController extends BaseController
         }
 
         if (strpos(Request::server('HTTP_REFERER'), 'recurring_bills')) {
-            $entityType = ENTITY_RECURRING_INVOICE;
+            $entityType = ENTITY_RECURRING_BILL;
         }
 
         return $this->returnBulk($entityType, $action, $ids);
@@ -514,7 +513,7 @@ class BillController extends BaseController
 
     public function convertQuote(BillRequest $request)
     {
-        $clone = $this->billservice->convertQuote($request->entity());
+        $clone = $this->BillService->convertQuote($request->entity());
 
         Session::flash('message', trans('texts.converted_to_invoice'));
 
@@ -533,26 +532,26 @@ class BillController extends BaseController
 
     public function invoiceHistory(BillRequest $request)
     {
-        $invoice = $request->entity();
+        $bill = $request->entity();
         $paymentId = $request->payment_id ? BillPayment::getPrivateId($request->payment_id) : false;
 
-        $invoice->load('user', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'account.country', 'vendor.contacts', 'vendor.country');
-        $invoice->invoice_date = Utils::fromSqlDate($invoice->invoice_date);
-        $invoice->due_date = Utils::fromSqlDate($invoice->due_date);
-        $invoice->features = [
+        $bill->load('user', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'account.country', 'vendor.contacts', 'vendor.country');
+        $bill->bill_date = Utils::fromSqlDate($bill->bill_date);
+        $bill->due_date = Utils::fromSqlDate($bill->due_date);
+        $bill->features = [
             'customize_invoice_design' => Auth::user()->hasFeature(FEATURE_CUSTOMIZE_INVOICE_DESIGN),
             'remove_created_by' => Auth::user()->hasFeature(FEATURE_REMOVE_CREATED_BY),
             'invoice_settings' => Auth::user()->hasFeature(FEATURE_INVOICE_SETTINGS),
         ];
-        $invoice->invoice_type_id = intval($invoice->invoice_type_id);
+        $bill->bill_type_id = intval($bill->bill_type_id);
 
-        $activities = Activity::scope(false, $invoice->account_id);
+        $activities = Activity::scope(false, $bill->account_id);
         if ($paymentId) {
             $activities->whereIn('activity_type_id', [ACTIVITY_TYPE_CREATE_BILL_PAYMENT])
                 ->where('payment_id', $paymentId);
         } else {
             $activities->whereIn('activity_type_id', [ACTIVITY_TYPE_UPDATE_BILL, ACTIVITY_TYPE_UPDATE_bill_quote])
-                ->where('invoice_id', $invoice->id);
+                ->where('invoice_id', $bill->id);
         }
         $activities = $activities->orderBy('id', 'desc')
             ->get(['id', 'created_at', 'user_id', 'json_backup', 'activity_type_id', 'payment_id']);
@@ -563,15 +562,15 @@ class BillController extends BaseController
 
         foreach ($activities as $activity) {
             if ($backup = json_decode($activity->json_backup)) {
-                $backup->invoice_date = Utils::fromSqlDate($backup->invoice_date);
+                $backup->bill_date = Utils::fromSqlDate($backup->bill_date);
                 $backup->due_date = Utils::fromSqlDate($backup->due_date);
                 $backup->features = [
                     'customize_invoice_design' => Auth::user()->hasFeature(FEATURE_CUSTOMIZE_INVOICE_DESIGN),
                     'remove_created_by' => Auth::user()->hasFeature(FEATURE_REMOVE_CREATED_BY),
                     'invoice_settings' => Auth::user()->hasFeature(FEATURE_INVOICE_SETTINGS),
                 ];
-                $backup->invoice_type_id = isset($backup->invoice_type_id) && intval($backup->invoice_type_id) == INVOICE_TYPE_QUOTE;
-                $backup->account = $invoice->account->toArray();
+                $backup->bill_type_id = isset($backup->bill_type_id) && intval($backup->bill_type_id) == INVOICE_TYPE_QUOTE;
+                $backup->account = $bill->account->toArray();
 
                 $versionsJson[$paymentId ? 0 : $activity->id] = $backup;
                 $key = Utils::timestampToDateTimeString(strtotime($activity->created_at)) . ' - ' . $activity->user->getDisplayName();
@@ -584,11 +583,11 @@ class BillController extends BaseController
 
         // Show the current version as the last in the history
         if (!$paymentId) {
-            $versionsSelect[$lastId] = Utils::timestampToDateTimeString(strtotime($invoice->created_at)) . ' - ' . $invoice->user->getDisplayName();
+            $versionsSelect[$lastId] = Utils::timestampToDateTimeString(strtotime($bill->created_at)) . ' - ' . $bill->user->getDisplayName();
         }
 
         $data = [
-            'invoice' => $invoice,
+            'invoice' => $bill,
             'versionsJson' => json_encode($versionsJson),
             'versionsSelect' => $versionsSelect,
             'invoiceDesigns' => InvoiceDesign::getDesigns(),
@@ -601,25 +600,25 @@ class BillController extends BaseController
 
     public function receiveNote(BillRequest $request)
     {
-        $invoice = $request->entity();
-        $invoice->load('user', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'account.country', 'vendor.contacts', 'vendor.country', 'vendor.shipping_country');
-        $invoice->invoice_date = Utils::fromSqlDate($invoice->invoice_date);
-        $invoice->due_date = Utils::fromSqlDate($invoice->due_date);
-        $invoice->features = [
+        $bill = $request->entity();
+        $bill->load('user', 'bill_items', 'documents', 'expenses', 'expenses.documents', 'account.country', 'vendor.contacts', 'vendor.country', 'vendor.shipping_country');
+        $bill->bill_date = Utils::fromSqlDate($bill->bill_date);
+        $bill->due_date = Utils::fromSqlDate($bill->due_date);
+        $bill->features = [
             'customize_invoice_design' => Auth::user()->hasFeature(FEATURE_CUSTOMIZE_INVOICE_DESIGN),
             'remove_created_by' => Auth::user()->hasFeature(FEATURE_REMOVE_CREATED_BY),
             'invoice_settings' => Auth::user()->hasFeature(FEATURE_INVOICE_SETTINGS),
         ];
-        $invoice->invoice_type_id = intval($invoice->invoice_type_id);
+        $bill->bill_type_id = intval($bill->bill_type_id);
 
-        if ($invoice->vendor->shipping_address1) {
+        if ($bill->vendor->shipping_address1) {
             foreach (['address1', 'address2', 'city', 'state', 'postal_code', 'country_id'] as $field) {
-                $invoice->vendor->$field = $invoice->vendor->{'shipping_' . $field};
+                $bill->vendor->$field = $bill->vendor->{'shipping_' . $field};
             }
         }
 
         $data = [
-            'invoice' => $invoice,
+            'invoice' => $bill,
             'invoiceDesigns' => InvoiceDesign::getDesigns(),
             'invoiceFonts' => Cache::get('fonts'),
         ];
@@ -627,16 +626,14 @@ class BillController extends BaseController
         return View::make('bills.delivery_note', $data);
     }
 
-    public function checkInvoiceNumber($invoicePublicId = false)
+    public function checkBillNumber($billPublicId = false)
     {
-        $invoiceNumber = request()->invoice_number;
+        $billNumber = request()->bill_number;
 
-        $query = Bill::scope()
-            ->where('invoice_number', $invoiceNumber)
-            ->withTrashed();
+        $query = Bill::scope()->where('bill_number', $billNumber)->withTrashed();
 
-        if ($invoicePublicId) {
-            $query->where('public_id', $invoicePublicId);
+        if ($billPublicId) {
+            $query->where('public_id', $billPublicId);
         }
 
         $count = $query->count();
