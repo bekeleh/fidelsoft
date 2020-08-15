@@ -172,7 +172,7 @@ class BillRepository extends BaseRepository
      * @param bool $filter
      * @return mixed
      */
-    public function getRecurringbills($accountId = false, $vendorPublicId = false, $filter = false)
+    public function getRecurringBills($accountId = false, $vendorPublicId = false, $filter = false)
     {
         $query = DB::table('bills')
             ->LeftJoin('accounts', 'accounts.id', '=', 'bills.account_id')
@@ -206,8 +206,7 @@ class BillRepository extends BaseRepository
                 'bills.is_deleted',
                 'bills.user_id',
                 'bill_statuses.name as bill_status_name',
-                'bill_statuses.name as status',
-                'bills.bill_status_id',
+                'bill_statuses.public as bill_status_public',
                 'bills.balance',
                 'bills.due_date',
                 'bills.due_date as due_date_sql',

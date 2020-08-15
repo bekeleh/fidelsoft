@@ -43,15 +43,16 @@ class LoginController extends Controller
     {
         $subdomain = Utils::getSubdomain(\Request::server('HTTP_HOST'));
 
-        $hasAccountIndentifier = request()->account_key || ($subdomain && !in_array($subdomain, ['www', 'app']));
+//        $hasAccountIdentifier = request()->account_key || ($subdomain && !in_array($subdomain, ['www', 'app']));
+        $hasAccountIdentifier = request()->account_key;
 
         if (!session('contact_key')) {
             if (Utils::isNinja()) {
-                if (!$hasAccountIndentifier) {
+                if (!$hasAccountIdentifier) {
                     return redirect('/client/session_expired');
                 }
             } else {
-                if (!$hasAccountIndentifier && Account::count() > 1) {
+                if (!$hasAccountIdentifier && Account::count() > 1) {
                     return redirect('/client/session_expired');
                 }
             }
@@ -64,20 +65,20 @@ class LoginController extends Controller
     protected function credentials(Request $request)
     {
         if ($contactKey = session('contact_key')) {
-            $credentials = $request->only('password');
+            $credentials = $request->only(['email', 'password']);
             $credentials['contact_key'] = $contactKey;
         } else {
-            $credentials = $request->only('email', 'password');
+            $credentials = $request->only(['email', 'password']);
             $email = $request->input('email');
             $password = bcrypt($request->input('password'));
-            $auth = Contact::where('email', $email)->first();
+            $auth = Contact::where(['email' => $email, 'password' => $password])->first();
             if ($auth) {
                 $account = $auth->account;
                 // resolve the email to a contact/account
 //                if (!Utils::isNinja() && Account::count() == 1) {
 //                    $account = Account::first();
 //                } elseif ($accountKey = request()->account_key) {
-//                    $account = Account::whereAccountKey($accountKey)->first();
+//                    $account = Account::where('account_key',$accountKey)->first();
 //                } else {
 //                    $subdomain = Utils::getSubdomain(\Request::server('HTTP_HOST'));
 //                    if ($subdomain && $subdomain != 'app') {

@@ -2,7 +2,7 @@
     <thead {!! $isTasks ? 'style="display:none;" data-bind="visible: $root.hasTasks"' : ($invoice->has_tasks || ! empty($tasks) ? 'data-bind="visible: $root.hasItems"' : '') !!}>
     @if ($isTasks)
         <tr data-bind="visible: $root.hasItems">
-            <td style="20px" colspan="20"></td>
+            <td style="width: 20px;" colspan="20"></td>
         </tr>
     @endif
     <tr>

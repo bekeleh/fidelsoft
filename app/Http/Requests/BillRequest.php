@@ -31,8 +31,8 @@ class BillRequest extends EntityRequest
             }
         }
         // eager load the bill items
-        if ($bill && !$bill->relationLoaded('bill_items')) {
-            $bill->load('bill_items');
+        if ($bill && !$bill->relationLoaded('invoice_items')) {
+            $bill->load('invoice_items');
         }
 
         return $bill;

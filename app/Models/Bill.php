@@ -51,7 +51,7 @@ class Bill extends EntityModel implements BalanceAffecting
         'delivery_date',
         'due_date',
         'invoice_design_id',
-        'invoice_status_id',
+        'bill_status_id',
         'branch_id',
         'created_by',
         'updated_by',
@@ -278,7 +278,7 @@ class Bill extends EntityModel implements BalanceAffecting
         return $this->belongsTo('App\Models\Vendor', 'vendor_id')->withTrashed();
     }
 
-    public function bill_items()
+    public function invoice_items()
     {
         return $this->hasMany('App\Models\BillItem')->orderBy('id');
     }
@@ -303,15 +303,15 @@ class Bill extends EntityModel implements BalanceAffecting
         return $documents;
     }
 
-    public function invoice_status()
+    public function bill_status()
     {
-        return $this->belongsTo('App\Models\InvoiceStatus');
+        return $this->belongsTo('App\Models\BillStatus');
     }
 
 
     public function invoice_design()
     {
-        return $this->belongsTo('App\Models\BillBillDesign');
+        return $this->belongsTo('App\Models\BillDesign');
     }
 
     public function bill_payments()
@@ -690,7 +690,7 @@ class Bill extends EntityModel implements BalanceAffecting
 
     public function statusLabel()
     {
-        return static::calcStatusLabel($this->invoice_status->name, $this->statusClass(), $this->getEntityType(), $this->quote_bill_id);
+        return static::calcStatusLabel($this->bill_status->name, $this->statusClass(), $this->getEntityType(), $this->quote_bill_id);
     }
 
     public static function calcLink($bill)
@@ -786,7 +786,7 @@ class Bill extends EntityModel implements BalanceAffecting
             'public_notes',
             'amount',
             'balance',
-            'bill_items',
+            'invoice_items',
             'documents',
             'expenses',
             'vendor',
@@ -879,7 +879,7 @@ class Bill extends EntityModel implements BalanceAffecting
             ]);
         }
 
-        foreach ($this->bill_items as $billItem) {
+        foreach ($this->invoice_items as $billItem) {
             $billItem->setVisible([
                 'name',
                 'notes',
@@ -1135,7 +1135,7 @@ class Bill extends EntityModel implements BalanceAffecting
     {
         $total = 0;
 
-        foreach ($this->bill_items as $billItem) {
+        foreach ($this->invoice_items as $billItem) {
             $lineTotal = $billItem->qty * $billItem->cost;
 
             if ($billItem->discount != 0) {
@@ -1190,7 +1190,7 @@ class Bill extends EntityModel implements BalanceAffecting
             $this->calculateTax($taxes, $this->tax_name2, $this->tax_rate2, $billTaxAmount, $billPaidAmount);
         }
 
-        foreach ($this->bill_items as $billItem) {
+        foreach ($this->invoice_items as $billItem) {
             $itemTaxable = $this->getItemTaxable($billItem, $taxable);
 
             if ($billItem->tax_name1) {
@@ -1365,7 +1365,7 @@ class Bill extends EntityModel implements BalanceAffecting
 
     public function onlyHasTasks()
     {
-        foreach ($this->bill_items as $item) {
+        foreach ($this->invoice_items as $item) {
             if ($item->bill_item_type_id != BILL_ITEM_TYPE_TASK) {
                 return false;
             }

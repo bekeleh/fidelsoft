@@ -258,9 +258,9 @@ class BillPresenter extends EntityPresenter
             $actions[] = ['url' => url("bills/packing_list/{$bill->public_id}"), 'label' => trans('texts.packing_list')];
         }
 
-//      Return Bill
+//      Return purchase Bill
         if ($entityType == ENTITY_BILL) {
-            $actions[] = ['url' => url("bills/return_Bill/{$bill->public_id}"), 'label' => trans('texts.return_Bill')];
+            $actions[] = ['url' => url("bills/return_bill/{$bill->public_id}"), 'label' => trans('texts.return_bill')];
         }
 
         $actions[] = DropdownButton::DIVIDER;

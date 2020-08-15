@@ -61,8 +61,8 @@
 @stop
 
 @section('content')
-    @if ($errors->first('bill_items'))
-        <div class="alert alert-danger">{{ trans($errors->first('bill_items')) }}</div>
+    @if ($errors->first('invoice_items'))
+        <div class="alert alert-danger">{{ trans($errors->first('invoice_items')) }}</div>
     @endif
 
     @if ($invoice->id)
@@ -1776,8 +1776,8 @@ afterAdd: showContact }'>
                 return;
                     @endif
             var number = '{{ $account->applyVendorNumberPattern($invoice) }}';
-            number = number.replace('{$clientCustom1}', client.custom_value1 ? client.custom_value1 : '');
-            number = number.replace('{$clientCustom2}', client.custom_value2 ? client.custom_value1 : '');
+            number = number.replace('{$vendorCustom1}', client.custom_value1 ? client.custom_value1 : '');
+            number = number.replace('{$vendorCustom2}', client.custom_value2 ? client.custom_value1 : '');
             number = number.replace('{$vendorIdNumber}', client.id_number ? client.id_number : '');
             @if ($invoice->isQuote() && ! $account->share_bill_counter)
                 number = number.replace('{$vendorCounter}', pad(client.quote_number_counter, {{ $account->bill_number_padding }}));

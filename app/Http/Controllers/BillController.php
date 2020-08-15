@@ -219,7 +219,7 @@ class BillController extends BaseController
         /**
          * TODO: bill payment documents and expense should be revised
          */
-        $bill = $request->entity()->load('bill_invitations', 'account.country', 'client.contacts', 'vendor.country', 'bill_items', 'documents', 'expenses', 'expenses.documents', 'bill_payments');
+        $bill = $request->entity()->load('bill_invitations', 'account.country', 'client.contacts', 'vendor.country', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'bill_payments');
 
         $entityType = $bill->getEntityType();
 
@@ -637,7 +637,7 @@ class BillController extends BaseController
         $bill = $request->entity();
         $paymentId = $request->payment_id ? BillPayment::getPrivateId($request->payment_id) : false;
 
-        $bill->load('user', 'bill_items', 'documents', 'expenses', 'expenses.documents', 'account.country', 'vendor.contacts', 'vendor.country');
+        $bill->load('user', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'account.country', 'vendor.contacts', 'vendor.country');
         $bill->bill_date = Utils::fromSqlDate($bill->bill_date);
         $bill->due_date = Utils::fromSqlDate($bill->due_date);
         $bill->features = [
@@ -707,7 +707,7 @@ class BillController extends BaseController
     public function receiveNote(BillRequest $request)
     {
         $bill = $request->entity();
-        $bill->load('user', 'bill_items', 'documents', 'expenses', 'expenses.documents', 'account.country', 'vendor.contacts', 'vendor.country', 'vendor.shipping_country');
+        $bill->load('user', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'account.country', 'vendor.contacts', 'vendor.country', 'vendor.shipping_country');
         $bill->bill_date = Utils::fromSqlDate($bill->bill_date);
         $bill->due_date = Utils::fromSqlDate($bill->due_date);
         $bill->features = [
