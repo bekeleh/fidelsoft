@@ -20,7 +20,7 @@ class Google_Service_Reseller_ChangePlanRequest extends Google_Model
   public $dealCode;
   public $kind;
   public $planName;
-  public $purchaseOrderId;
+  public $BillOrderId;
   protected $seatsType = 'Google_Service_Reseller_Seats';
   protected $seatsDataType = '';
 
@@ -48,13 +48,13 @@ class Google_Service_Reseller_ChangePlanRequest extends Google_Model
   {
     return $this->planName;
   }
-  public function setPurchaseOrderId($purchaseOrderId)
+  public function setBillOrderId($BillOrderId)
   {
-    $this->purchaseOrderId = $purchaseOrderId;
+    $this->BillOrderId = $BillOrderId;
   }
-  public function getPurchaseOrderId()
+  public function getBillOrderId()
   {
-    return $this->purchaseOrderId;
+    return $this->BillOrderId;
   }
   /**
    * @param Google_Service_Reseller_Seats

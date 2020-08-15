@@ -65,9 +65,9 @@ class BillItemService extends BaseService
         if ($account->auto_convert_quote) {
             $billItem = $this->convertQuote($quote);
 
-            foreach ($billItem->invitations as $billItemPurchaseInvitation) {
-                if ($invitation->contact_id == $billItemPurchaseInvitation->contact_id) {
-                    $invitation = $billItemPurchaseInvitation;
+            foreach ($billItem->invitations as $billItemBillInvitation) {
+                if ($invitation->contact_id == $billItemBillInvitation->contact_id) {
+                    $invitation = $billItemBillInvitation;
                 }
             }
         } else {

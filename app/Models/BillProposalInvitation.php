@@ -6,14 +6,14 @@ use App\Models\Traits\Inviteable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class PurchasePurchaseProposalInvitation.
+ * Class BillBillProposalInvitation.
  */
 class BillProposalInvitation extends EntityModel
 {
     use SoftDeletes;
     use Inviteable;
 
-    protected $table = 'purchase_proposal_invitations';
+    protected $table = 'Bill_proposal_invitations';
     protected $dates = ['deleted_at'];
 
 
@@ -24,7 +24,7 @@ class BillProposalInvitation extends EntityModel
 
     public function getRoute()
     {
-        return "/purchase_proposal_invitations/{$this->public_id}/edit";
+        return "/Bill_proposal_invitations/{$this->public_id}/edit";
     }
 
     public function proposal()
@@ -49,7 +49,7 @@ class BillProposalInvitation extends EntityModel
 }
 
 BillProposalInvitation::creating(function ($invitation) {
-    LookupPurchaseProposalInvitation::createNew($invitation->account->account_key, [
+    LookupBillProposalInvitation::createNew($invitation->account->account_key, [
         'invitation_key' => $invitation->invitation_key,
     ]);
 });
@@ -57,13 +57,13 @@ BillProposalInvitation::creating(function ($invitation) {
 BillProposalInvitation::updating(function ($invitation) {
     $dirty = $invitation->getDirty();
     if (array_key_exists('message_id', $dirty)) {
-        LookupPurchaseProposalInvitation::updateInvitation($invitation->account->account_key, $invitation);
+        LookupBillProposalInvitation::updateInvitation($invitation->account->account_key, $invitation);
     }
 });
 
 BillProposalInvitation::deleted(function ($invitation) {
     if ($invitation->forceDeleting) {
-        LookupPurchaseProposalInvitation::deleteWhere([
+        LookupBillProposalInvitation::deleteWhere([
             'invitation_key' => $invitation->invitation_key,
         ]);
     }

@@ -2,6 +2,6 @@
 
 namespace App\Policies;
 
-class PurchasePaymentPolicy extends EntityPolicy
+class BillPaymentPolicy extends EntityPolicy
 {
 }

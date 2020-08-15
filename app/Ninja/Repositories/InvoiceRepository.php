@@ -1440,7 +1440,7 @@ class InvoiceRepository extends BaseRepository
         $qoh = !empty($itemStore) ? Utils::parseFloat($itemStore->qty) : 0;
         $demandQty = Utils::parseFloat(trim($newLineItem['qty']));
 
-//        $purchase = Purchase::where('product_key',$productKey);
+//        $Bill = Bill::where('product_key',$productKey);
 //        $orderQty = Utils::parseFloat(0);
         if ($isNew) {
             $this->updateItemStore($qoh, $demandQty, $itemStore);

@@ -53,7 +53,7 @@ class JobBenefit
     const MEDICAL = 5;
     /**
      * The job includes a life insurance plan provided by the employer or
-     * available for purchase by the employee.
+     * available for Bill by the employee.
      *
      * Generated from protobuf enum <code>LIFE_INSURANCE = 6;</code>
      */
@@ -67,7 +67,7 @@ class JobBenefit
     const PARENTAL_LEAVE = 7;
     /**
      * The job includes a workplace retirement plan provided by the
-     * employer or available for purchase by the employee.
+     * employer or available for Bill by the employee.
      *
      * Generated from protobuf enum <code>RETIREMENT_PLAN = 8;</code>
      */

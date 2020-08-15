@@ -71,7 +71,7 @@ Do you have some experience in web design? Want to put your individual fingerpri
 Buy Now Buttons
 """""""""""""""
 
-Streamline the purchase payment process by adding a Buy Now button to the client portals. Clients can click the button to pay the invoice instantly online.
+Streamline the Bill payment process by adding a Buy Now button to the client portals. Clients can click the button to pay the invoice instantly online.
 
 To enable support for Buy Now buttons in your client portals, check Enable.
 

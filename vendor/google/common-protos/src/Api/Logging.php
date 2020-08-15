@@ -13,7 +13,7 @@ use Google\Protobuf\Internal\GPBUtil;
  * The following example shows how to configure logs to be sent to the
  * producer and consumer projects. In the example, the `activity_history`
  * log is sent to both the producer and consumer projects, whereas the
- * `purchase_history` log is only sent to the producer project.
+ * `Bill_history` log is only sent to the producer project.
  *     monitored_resources:
  *     - type: library.googleapis.com/branch
  *       labels:
@@ -25,13 +25,13 @@ use Google\Protobuf\Internal\GPBUtil;
  *     - name: activity_history
  *       labels:
  *       - key: /customer_id
- *     - name: purchase_history
+ *     - name: Bill_history
  *     logging:
  *       producer_destinations:
  *       - monitored_resource: library.googleapis.com/branch
  *         logs:
  *         - activity_history
- *         - purchase_history
+ *         - Bill_history
  *       consumer_destinations:
  *       - monitored_resource: library.googleapis.com/branch
  *         logs:

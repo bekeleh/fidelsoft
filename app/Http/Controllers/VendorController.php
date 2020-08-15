@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateVendorRequest;
 use App\Http\Requests\VendorRequest;
 use App\Jobs\LoadPostmarkHistory;
 use App\Jobs\ReactivatePostmarkEmail;
-use App\Jobs\Vendor\GeneratePurchaseStatementData;
+use App\Jobs\Vendor\GenerateBillStatementData;
 use App\Libraries\Utils;
 use App\Models\Account;
 use App\Models\Expense;
@@ -258,7 +258,7 @@ class VendorController extends BaseController
         }
 
         if (request()->json) {
-            return dispatch_now(new GeneratePurchaseStatementData($vendor, request()->all()));
+            return dispatch_now(new GenerateBillStatementData($vendor, request()->all()));
         }
 
         $data = [

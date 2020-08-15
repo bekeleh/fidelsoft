@@ -30,7 +30,7 @@ class InvoiceTransformer extends BaseTransformer
                 'client_id' => $this->getClientId($data->client),
                 'invoice_number' => $this->getInvoiceNumber($data->document_no),
                 'paid' => (float) $data->paid_to_date,
-                'po_number' => $this->getString($data, 'purchase_order'),
+                'po_number' => $this->getString($data, 'Bill_order'),
                 'terms' => $this->getString($data, 'terms'),
                 'public_notes' => $this->getString($data, 'notes'),
                 'invoice_date_sql' => $this->getDate($data, 'date'),

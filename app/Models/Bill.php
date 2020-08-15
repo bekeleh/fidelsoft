@@ -51,6 +51,7 @@ class Bill extends EntityModel implements BalanceAffecting
         'delivery_date',
         'due_date',
         'invoice_design_id',
+        'invoice_status_id',
         'branch_id',
         'created_by',
         'updated_by',
@@ -304,7 +305,7 @@ class Bill extends EntityModel implements BalanceAffecting
 
     public function invoice_status()
     {
-        return $this->belongsTo('App\Models\BillStatus');
+        return $this->belongsTo('App\Models\InvoiceStatus');
     }
 
 
@@ -345,7 +346,12 @@ class Bill extends EntityModel implements BalanceAffecting
 
     public function expenses()
     {
-        return $this->hasMany('App\Models\BillExpense')->withTrashed();
+        return $this->hasMany('App\Models\Expense')->withTrashed();
+    }
+
+    public function bill_expenses()
+    {
+        return $this->hasMany('App\Models\Expense')->withTrashed();
     }
 
     public function branch()

@@ -58,7 +58,7 @@ aria-hidden="true">
             <button type="button" class="btn btn-primary"
             onclick="showApplyLicense()"><?php echo e(trans('texts.apply')); ?> </button>
             <button type="button" class="btn btn-success"
-            onclick="buyWhiteLabel()"><?php echo e(trans('texts.purchase')); ?> </button>
+            onclick="buyWhiteLabel()"><?php echo e(trans('texts.Bill')); ?> </button>
         </div>
     </div>
 </div>
@@ -138,7 +138,7 @@ aria-hidden="true">
     }
 
     function buyProduct(affiliateKey, productId) {
-        location.href = "<?php echo e(url('white_label/purchase')); ?>";
+        location.href = "<?php echo e(url('white_label/Bill')); ?>";
     }
 
     function showApplyLicense() {

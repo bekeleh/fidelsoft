@@ -119,7 +119,7 @@ class PaymentService extends BaseService
         }
 
         try {
-            return $paymentDriver->completeOnsitePurchase(false, $paymentMethod);
+            return $paymentDriver->completeOnsiteBill(false, $paymentMethod);
         } catch (Exception $exception) {
             $subject = trans('texts.auto_bill_failed', ['invoice_number' => $invoice->invoice_number]);
             $message = sprintf('%s: %s', ucwords($paymentDriver->providerName()), $exception->getMessage());

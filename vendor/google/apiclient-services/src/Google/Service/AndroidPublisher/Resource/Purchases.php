@@ -16,13 +16,13 @@
  */
 
 /**
- * The "purchases" collection of methods.
+ * The "Bills" collection of methods.
  * Typical usage is:
  *  <code>
  *   $androidpublisherService = new Google_Service_AndroidPublisher(...);
- *   $purchases = $androidpublisherService->purchases;
+ *   $Bills = $androidpublisherService->Bills;
  *  </code>
  */
-class Google_Service_AndroidPublisher_Resource_Purchases extends Google_Service_Resource
+class Google_Service_AndroidPublisher_Resource_Bills extends Google_Service_Resource
 {
 }

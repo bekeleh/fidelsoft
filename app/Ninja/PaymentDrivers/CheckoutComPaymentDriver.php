@@ -6,7 +6,7 @@ class CheckoutComPaymentDriver extends BasePaymentDriver
 {
     public function createTransactionToken()
     {
-        $response = $this->gateway()->purchase([
+        $response = $this->gateway()->Bill([
             'amount' => $this->invoice()->getRequestedAmount(),
             'currency' => $this->client()->getCurrencyCode(),
         ])->send();

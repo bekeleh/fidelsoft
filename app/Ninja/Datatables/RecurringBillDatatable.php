@@ -26,7 +26,7 @@ class RecurringBillDatatable extends EntityDatatable
                         $label = trans('texts.freq_inactive');
                     }
 
-                    return link_to("recurring_purchase_purchase_bills/{$model->public_id}/edit", $label)->toHtml();
+                    return link_to("recurring_Bill_Bill_bills/{$model->public_id}/edit", $label)->toHtml();
                 },
             ],
             [

@@ -59,7 +59,7 @@ class BillInvitation extends EntityModel
 }
 
 BillInvitation::creating(function ($invitation) {
-    LookupPurchaseInvitation::createNew($invitation->account->account_key, [
+    LookupBillInvitation::createNew($invitation->account->account_key, [
         'invitation_key' => $invitation->invitation_key,
     ]);
 });
@@ -67,13 +67,13 @@ BillInvitation::creating(function ($invitation) {
 BillInvitation::updating(function ($invitation) {
     $dirty = $invitation->getDirty();
     if (array_key_exists('message_id', $dirty)) {
-        LookupPurchaseInvitation::updateInvitation($invitation->account->account_key, $invitation);
+        LookupBillInvitation::updateInvitation($invitation->account->account_key, $invitation);
     }
 });
 
 BillInvitation::deleted(function ($invitation) {
     if ($invitation->forceDeleting) {
-        LookupPurchaseInvitation::deleteWhere([
+        LookupBillInvitation::deleteWhere([
             'invitation_key' => $invitation->invitation_key,
         ]);
     }

@@ -22,7 +22,7 @@ Save your .env file and now open Fidel on your iPhone.
 Mobile App configuration
 """"""""""""""""""""""""
 
-Once you have completed the in-app purchase to unlock the mobile app to connect to your own server, you'll be presented with two fields.
+Once you have completed the in-app Bill to unlock the mobile app to connect to your own server, you'll be presented with two fields.
 
 The first is the Base URL of your self-hosted installation, ie http://ninja.yourapp.com
 

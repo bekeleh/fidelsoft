@@ -15,7 +15,7 @@
  * the License.
  */
 
-class Google_Service_AndroidPublisher_SubscriptionPurchasesDeferRequest extends Google_Model
+class Google_Service_AndroidPublisher_SubscriptionBillsDeferRequest extends Google_Model
 {
   protected $deferralInfoType = 'Google_Service_AndroidPublisher_SubscriptionDeferralInfo';
   protected $deferralInfoDataType = '';

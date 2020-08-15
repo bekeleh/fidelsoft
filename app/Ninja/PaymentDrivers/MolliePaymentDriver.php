@@ -18,7 +18,7 @@ class MolliePaymentDriver extends BasePaymentDriver
         return $data;
     }
 
-    public function completeOffsitePurchase($input)
+    public function completeOffsiteBill($input)
     {
         // payment is created by the webhook
         return false;

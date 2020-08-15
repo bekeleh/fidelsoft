@@ -289,7 +289,7 @@ test: Sequence key shortcut
 spec: 2.12
 yaml: |
   ---
-  # products purchased
+  # products Billd
   - item    : Super Hoop
     quantity: 1
   - item    : Basketball

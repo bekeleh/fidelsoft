@@ -15,7 +15,7 @@
  * the License.
  */
 
-class Google_Service_AndroidPublisher_SubscriptionPurchase extends Google_Model
+class Google_Service_AndroidPublisher_SubscriptionBill extends Google_Model
 {
   public $acknowledgementState;
   public $autoRenewing;
@@ -33,7 +33,7 @@ class Google_Service_AndroidPublisher_SubscriptionPurchase extends Google_Model
   protected $introductoryPriceInfoType = 'Google_Service_AndroidPublisher_IntroductoryPriceInfo';
   protected $introductoryPriceInfoDataType = '';
   public $kind;
-  public $linkedPurchaseToken;
+  public $linkedBillToken;
   public $orderId;
   public $paymentState;
   public $priceAmountMicros;
@@ -44,7 +44,7 @@ class Google_Service_AndroidPublisher_SubscriptionPurchase extends Google_Model
   public $profileName;
   public $promotionCode;
   public $promotionType;
-  public $purchaseType;
+  public $BillType;
   public $startTimeMillis;
   public $userCancellationTimeMillis;
 
@@ -172,13 +172,13 @@ class Google_Service_AndroidPublisher_SubscriptionPurchase extends Google_Model
   {
     return $this->kind;
   }
-  public function setLinkedPurchaseToken($linkedPurchaseToken)
+  public function setLinkedBillToken($linkedBillToken)
   {
-    $this->linkedPurchaseToken = $linkedPurchaseToken;
+    $this->linkedBillToken = $linkedBillToken;
   }
-  public function getLinkedPurchaseToken()
+  public function getLinkedBillToken()
   {
-    return $this->linkedPurchaseToken;
+    return $this->linkedBillToken;
   }
   public function setOrderId($orderId)
   {
@@ -258,13 +258,13 @@ class Google_Service_AndroidPublisher_SubscriptionPurchase extends Google_Model
   {
     return $this->promotionType;
   }
-  public function setPurchaseType($purchaseType)
+  public function setBillType($BillType)
   {
-    $this->purchaseType = $purchaseType;
+    $this->BillType = $BillType;
   }
-  public function getPurchaseType()
+  public function getBillType()
   {
-    return $this->purchaseType;
+    return $this->BillType;
   }
   public function setStartTimeMillis($startTimeMillis)
   {

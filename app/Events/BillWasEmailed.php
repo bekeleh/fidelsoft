@@ -6,7 +6,7 @@ use App\Models\Bill;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class PurchaseBillWasEmailed.
+ * Class BillBillWasEmailed.
  */
 class BillWasEmailed extends Event
 {

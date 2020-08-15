@@ -75,7 +75,7 @@ class Google_Service_AndroidProvisioningPartner_Resource_PartnersDevices extends
   /**
    * Finds devices claimed for customers. The results only contain devices
    * registered to the reseller that's identified by the `partnerId` argument. The
-   * customer's devices purchased from other resellers don't appear in the
+   * customer's devices Billd from other resellers don't appear in the
    * results. (devices.findByOwner)
    *
    * @param string $partnerId Required. The ID of the reseller partner.

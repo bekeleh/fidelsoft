@@ -98,7 +98,7 @@ The top section of the invoice contains a range of important information specifi
 - **Due Date**: The date the invoice payment is due. Click the calendar icon to select the relevant date.
 - **Partial/Deposit**: In the event that you need to bill the client for a partial amount of the total amount due, enter the amount in the Partial/Deposit field. This will be automatically applied to the invoice.
 - **Invoice #**: The invoice number is assigned automatically when you create a new invoice, in order of chronology. TIP: You can manually override the default invoice number by entering a different number in the Invoice # field.
-- **PO #**: The purchase order number. Enter the purchase order number for easy reference.
+- **PO #**: The Bill order number. Enter the Bill order number for easy reference.
 - **Discount**: If you wish to apply a discount to the invoice, you can choose one of two methods: a monetary amount, or a percentage of the total amount due. To choose a method, click on the arrow at the right side of the box next to the Discount field. Select Percent or Amount from the drop-down list. Then enter the relevant figure. For example, to apply a 20% discount, enter the number 20, and select “Percent” from the drop-down list. To apply a $50 discount, enter the number 50, and select “Amount” from the drop-down list.
 .. TIP: The currency of the invoice will be set according to the default currency specified for this client when you created the client.
 

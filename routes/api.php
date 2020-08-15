@@ -21,7 +21,7 @@ Route::resource('invoices', 'InvoiceApiController');
 Route::resource('invoice_items', 'InvoiceItemApiController');
 // bill
 Route::get('bill_quotes', 'BillQuoteApiController@index');
-Route::get('download/purchase/{invoice_id}', 'BillApiController@download');
+Route::get('download/Bill/{invoice_id}', 'BillApiController@download');
 Route::resource('bills', 'BillApiController');
 Route::resource('bill_items', 'BillItemApiController');
 

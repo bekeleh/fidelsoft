@@ -15,7 +15,7 @@
  * the License.
  */
 
-class Google_Service_AndroidPublisher_SubscriptionPurchasesAcknowledgeRequest extends Google_Model
+class Google_Service_AndroidPublisher_SubscriptionBillsAcknowledgeRequest extends Google_Model
 {
   public $developerPayload;
 

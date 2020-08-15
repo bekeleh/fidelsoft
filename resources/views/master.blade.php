@@ -321,7 +321,7 @@
 
         @if (Session::has('trackEventCategory') && Session::has('trackEventAction'))
         @if (Session::get('trackEventAction') === '/buy_pro_plan')
-        fbq('track', 'Purchase', {value: '{{ session('trackEventAmount') }}', currency: 'USD'});
+        fbq('track', 'Bill', {value: '{{ session('trackEventAmount') }}', currency: 'USD'});
         @endif
         @endif
 

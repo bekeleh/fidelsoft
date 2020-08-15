@@ -26,7 +26,7 @@ class Google_Service_Reseller_Subscription extends Google_Collection
   public $kind;
   protected $planType = 'Google_Service_Reseller_SubscriptionPlan';
   protected $planDataType = '';
-  public $purchaseOrderId;
+  public $BillOrderId;
   protected $renewalSettingsType = 'Google_Service_Reseller_RenewalSettings';
   protected $renewalSettingsDataType = '';
   public $resourceUiUrl;
@@ -104,13 +104,13 @@ class Google_Service_Reseller_Subscription extends Google_Collection
   {
     return $this->plan;
   }
-  public function setPurchaseOrderId($purchaseOrderId)
+  public function setBillOrderId($BillOrderId)
   {
-    $this->purchaseOrderId = $purchaseOrderId;
+    $this->BillOrderId = $BillOrderId;
   }
-  public function getPurchaseOrderId()
+  public function getBillOrderId()
   {
-    return $this->purchaseOrderId;
+    return $this->BillOrderId;
   }
   /**
    * @param Google_Service_Reseller_RenewalSettings

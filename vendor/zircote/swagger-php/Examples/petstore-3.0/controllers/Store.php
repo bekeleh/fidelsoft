@@ -111,7 +111,7 @@ class Store
      * @OA\Delete(
      *     path="/store/order/{orderId}",
      *     tags={"store"},
-     *     summary="Delete purchase order by ID",
+     *     summary="Delete Bill order by ID",
      *     description=">-
     For valid response try integer IDs with positive integer value.\ \
     Negative or non-integer values will generate API errors",

@@ -12,7 +12,7 @@
                 <h>
                 FIDEL lets you work more productive and get more profit. </h1>
                 <p class="minor-text">
-                    FIDEL let you manage entire ERP process like inventory, sales, invoices, purchases, projects,
+                    FIDEL let you manage entire ERP process like inventory, sales, invoices, Bills, projects,
                     taskes
                 and manufacturing management solution.</p>
                 <div class="brand-buttons text-center">

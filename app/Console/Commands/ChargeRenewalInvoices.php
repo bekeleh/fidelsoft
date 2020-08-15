@@ -8,7 +8,8 @@ use App\Ninja\Mailers\ContactMailer as Mailer;
 use App\Ninja\Repositories\AccountRepository;
 use App\Services\PaymentService;
 use Illuminate\Console\Command;
-use Carbon;
+use Carbon\Carbon;
+use Mail;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -44,9 +45,9 @@ class ChargeRenewalInvoices extends Command
     /**
      * ChargeRenewalInvoices constructor.
      *
-     * @param Mailer            $mailer
+     * @param Mailer $mailer
      * @param AccountRepository $repo
-     * @param PaymentService    $paymentService
+     * @param PaymentService $paymentService
      */
     public function __construct(Mailer $mailer, AccountRepository $repo, PaymentService $paymentService)
     {
@@ -59,7 +60,7 @@ class ChargeRenewalInvoices extends Command
 
     public function fire()
     {
-        $this->info(date('r').' ChargeRenewalInvoices...');
+        $this->info(date('r') . ' ChargeRenewalInvoices...');
 
         if ($database = $this->option('database')) {
             config(['database.default' => $database]);
@@ -67,11 +68,11 @@ class ChargeRenewalInvoices extends Command
 
         $ninjaAccount = $this->accountRepo->getNinjaAccount();
         $invoices = Invoice::whereAccountId($ninjaAccount->id)
-                        ->whereDueDate(date('Y-m-d'))
-                        ->where('balance', '>', 0)
-                        ->with('client')
-                        ->orderBy('id')
-                        ->get();
+            ->whereDueDate(date('Y-m-d'))
+            ->where('balance', '>', 0)
+            ->with('client')
+            ->orderBy('id')
+            ->get();
 
         $this->info($invoices->count() . ' invoices found');
 
@@ -80,12 +81,12 @@ class ChargeRenewalInvoices extends Command
             // check if account has switched to free since the invoice was created
             $account = Account::find($invoice->client->public_id);
 
-            if (! $account) {
+            if (!$account) {
                 continue;
             }
 
             $company = $account->company;
-            if (! $company->plan || $company->plan == PLAN_FREE) {
+            if (!$company->plan || $company->plan == PLAN_FREE) {
                 continue;
             }
 
@@ -95,7 +96,7 @@ class ChargeRenewalInvoices extends Command
             }
 
             $this->info("Charging invoice {$invoice->invoice_number}");
-            if (! $this->paymentService->autoBillInvoice($invoice)) {
+            if (!$this->paymentService->autoBillInvoice($invoice)) {
                 $this->info('Failed to auto-bill, emailing invoice');
                 $this->mailer->sendInvoice($invoice);
             }
@@ -104,10 +105,10 @@ class ChargeRenewalInvoices extends Command
         $this->info('Done');
 
         if ($errorEmail = env('ERROR_EMAIL')) {
-            \Mail::raw('EOM', function ($message) use ($errorEmail) {
+            Mail::raw('EOM', function ($message) use ($errorEmail) {
                 $message->to($errorEmail)
-                        ->from(CONTACT_EMAIL)
-                        ->subject('ChargeRenewalInvoices: Finished successfully');
+                    ->from(CONTACT_EMAIL)
+                    ->subject('ChargeRenewalInvoices: Finished successfully');
             });
         }
     }

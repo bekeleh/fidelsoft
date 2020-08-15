@@ -33,7 +33,7 @@ class BasePaymentDriver
 
     protected $customerResponse;
     protected $tokenResponse;
-    protected $purchaseResponse;
+    protected $BillResponse;
 
     protected $sourceReferenceParam = 'token';
     protected $customerReferenceParam;
@@ -117,7 +117,7 @@ class BasePaymentDriver
         return $this->client()->account;
     }
 
-    public function startPurchase($input = false, $sourceId = false)
+    public function startBill($input = false, $sourceId = false)
     {
         $this->input = $input;
         $this->sourceId = $sourceId;
@@ -150,7 +150,7 @@ class BasePaymentDriver
             if (Session::has('error')) {
                 Session::reflash();
             } else {
-                $this->completeOnsitePurchase();
+                $this->completeOnsiteBill();
                 if ($redirectUrl = session('redirect_url:' . $this->invitation->invitation_key)) {
                     $separator = strpos($redirectUrl, '?') === false ? '?' : '&';
 
@@ -267,7 +267,7 @@ class BasePaymentDriver
         return $this->gateway;
     }
 
-    public function completeOnsitePurchase($input = false, $paymentMethod = false)
+    public function completeOnsiteBill($input = false, $paymentMethod = false)
     {
         $this->input = $input && count($input) ? $input : false;
         $gateway = $this->gateway();
@@ -321,15 +321,15 @@ class BasePaymentDriver
         } else {
             $items = null;
         }
-        $response = $gateway->purchase($data)
+        $response = $gateway->Bill($data)
                         ->setItems($items)
                         ->send();
-        $this->purchaseResponse = (array) $response->getData();
+        $this->BillResponse = (array) $response->getData();
 
         // parse the transaction reference
         if ($this->transactionReferenceParam) {
-            if (! empty($this->purchaseResponse[$this->transactionReferenceParam])) {
-                $ref = $this->purchaseResponse[$this->transactionReferenceParam];
+            if (! empty($this->BillResponse[$this->transactionReferenceParam])) {
+                $ref = $this->BillResponse[$this->transactionReferenceParam];
             } else {
                 throw new Exception($response->getMessage() ?: trans('texts.payment_error'));
             }
@@ -457,7 +457,7 @@ class BasePaymentDriver
             'cancelUrl' => $this->invitation->getLink(),
             'description' => trans('texts.' . $invoice->getEntityType()) . " {$invoice->invoice_number}",
             'transactionId' => $invoice->invoice_number,
-            'transactionType' => 'Purchase',
+            'transactionType' => 'Bill',
             'clientIp' => Request::getClientIp(),
         ];
 
@@ -894,14 +894,14 @@ class BasePaymentDriver
         // do nothing
     }
 
-    public function completeOffsitePurchase($input)
+    public function completeOffsiteBill($input)
     {
         $this->input = $input;
         $transRef = array_get($this->input, 'token') ?: $this->invitation->transaction_reference;
 
-        if (method_exists($this->gateway(), 'completePurchase')) {
+        if (method_exists($this->gateway(), 'completeBill')) {
             $details = $this->paymentDetails();
-            $response = $this->gateway()->completePurchase($details)->send();
+            $response = $this->gateway()->completeBill($details)->send();
             $paymentRef = $response->getTransactionReference() ?: $transRef;
 
             if ($response->isCancelled()) {

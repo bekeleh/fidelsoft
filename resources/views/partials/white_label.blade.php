@@ -54,7 +54,7 @@ aria-hidden="true">
             <button type="button" class="btn btn-primary"
             onclick="showApplyLicense()">{{ trans('texts.apply') }} </button>
             <button type="button" class="btn btn-success"
-            onclick="buyWhiteLabel()">{{ trans('texts.purchase') }} </button>
+            onclick="buyWhiteLabel()">{{ trans('texts.Bill') }} </button>
         </div>
     </div>
 </div>
@@ -128,7 +128,7 @@ aria-hidden="true">
     }
 
     function buyProduct(affiliateKey, productId) {
-        location.href = "{{ url('white_label/purchase') }}";
+        location.href = "{{ url('white_label/Bill') }}";
     }
 
     function showApplyLicense() {

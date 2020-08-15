@@ -15,25 +15,25 @@
  * the License.
  */
 
-class Google_Service_ToolResults_InAppPurchasesFound extends Google_Model
+class Google_Service_ToolResults_InAppBillsFound extends Google_Model
 {
-  public $inAppPurchasesFlowsExplored;
-  public $inAppPurchasesFlowsStarted;
+  public $inAppBillsFlowsExplored;
+  public $inAppBillsFlowsStarted;
 
-  public function setInAppPurchasesFlowsExplored($inAppPurchasesFlowsExplored)
+  public function setInAppBillsFlowsExplored($inAppBillsFlowsExplored)
   {
-    $this->inAppPurchasesFlowsExplored = $inAppPurchasesFlowsExplored;
+    $this->inAppBillsFlowsExplored = $inAppBillsFlowsExplored;
   }
-  public function getInAppPurchasesFlowsExplored()
+  public function getInAppBillsFlowsExplored()
   {
-    return $this->inAppPurchasesFlowsExplored;
+    return $this->inAppBillsFlowsExplored;
   }
-  public function setInAppPurchasesFlowsStarted($inAppPurchasesFlowsStarted)
+  public function setInAppBillsFlowsStarted($inAppBillsFlowsStarted)
   {
-    $this->inAppPurchasesFlowsStarted = $inAppPurchasesFlowsStarted;
+    $this->inAppBillsFlowsStarted = $inAppBillsFlowsStarted;
   }
-  public function getInAppPurchasesFlowsStarted()
+  public function getInAppBillsFlowsStarted()
   {
-    return $this->inAppPurchasesFlowsStarted;
+    return $this->inAppBillsFlowsStarted;
   }
 }

@@ -56,7 +56,7 @@ class Google_Service_Chromewebstore_Resource_Payments extends Google_Service_Res
     return $this->call('delete', array($params), "Google_Service_Chromewebstore_PaymentsDeleteResponse");
   }
   /**
-   * Lists the in-app products that the user has purchased.
+   * Lists the in-app products that the user has Billd.
    * (payments.listPayments)
    *
    * @param array $optParams Optional parameters.

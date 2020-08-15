@@ -23,36 +23,36 @@
  *   $subscriptions = $androidpublisherService->subscriptions;
  *  </code>
  */
-class Google_Service_AndroidPublisher_Resource_PurchasesSubscriptions extends Google_Service_Resource
+class Google_Service_AndroidPublisher_Resource_BillsSubscriptions extends Google_Service_Resource
 {
   /**
-   * Acknowledges a subscription purchase. (subscriptions.acknowledge)
+   * Acknowledges a subscription Bill. (subscriptions.acknowledge)
    *
    * @param string $packageName The package name of the application for which this
-   * subscription was purchased (for example, 'com.some.thing').
-   * @param string $subscriptionId The purchased subscription ID (for example,
+   * subscription was Billd (for example, 'com.some.thing').
+   * @param string $subscriptionId The Billd subscription ID (for example,
    * 'monthly001').
    * @param string $token The token provided to the user's device when the
-   * subscription was purchased.
-   * @param Google_Service_AndroidPublisher_SubscriptionPurchasesAcknowledgeRequest $postBody
+   * subscription was Billd.
+   * @param Google_Service_AndroidPublisher_SubscriptionBillsAcknowledgeRequest $postBody
    * @param array $optParams Optional parameters.
    */
-  public function acknowledge($packageName, $subscriptionId, $token, Google_Service_AndroidPublisher_SubscriptionPurchasesAcknowledgeRequest $postBody, $optParams = array())
+  public function acknowledge($packageName, $subscriptionId, $token, Google_Service_AndroidPublisher_SubscriptionBillsAcknowledgeRequest $postBody, $optParams = array())
   {
     $params = array('packageName' => $packageName, 'subscriptionId' => $subscriptionId, 'token' => $token, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
     return $this->call('acknowledge', array($params));
   }
   /**
-   * Cancels a user's subscription purchase. The subscription remains valid until
+   * Cancels a user's subscription Bill. The subscription remains valid until
    * its expiration time. (subscriptions.cancel)
    *
    * @param string $packageName The package name of the application for which this
-   * subscription was purchased (for example, 'com.some.thing').
-   * @param string $subscriptionId The purchased subscription ID (for example,
+   * subscription was Billd (for example, 'com.some.thing').
+   * @param string $subscriptionId The Billd subscription ID (for example,
    * 'monthly001').
    * @param string $token The token provided to the user's device when the
-   * subscription was purchased.
+   * subscription was Billd.
    * @param array $optParams Optional parameters.
    */
   public function cancel($packageName, $subscriptionId, $token, $optParams = array())
@@ -62,55 +62,55 @@ class Google_Service_AndroidPublisher_Resource_PurchasesSubscriptions extends Go
     return $this->call('cancel', array($params));
   }
   /**
-   * Defers a user's subscription purchase until a specified future expiration
+   * Defers a user's subscription Bill until a specified future expiration
    * time. (subscriptions.defer)
    *
    * @param string $packageName The package name of the application for which this
-   * subscription was purchased (for example, 'com.some.thing').
-   * @param string $subscriptionId The purchased subscription ID (for example,
+   * subscription was Billd (for example, 'com.some.thing').
+   * @param string $subscriptionId The Billd subscription ID (for example,
    * 'monthly001').
    * @param string $token The token provided to the user's device when the
-   * subscription was purchased.
-   * @param Google_Service_AndroidPublisher_SubscriptionPurchasesDeferRequest $postBody
+   * subscription was Billd.
+   * @param Google_Service_AndroidPublisher_SubscriptionBillsDeferRequest $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_AndroidPublisher_SubscriptionPurchasesDeferResponse
+   * @return Google_Service_AndroidPublisher_SubscriptionBillsDeferResponse
    */
-  public function defer($packageName, $subscriptionId, $token, Google_Service_AndroidPublisher_SubscriptionPurchasesDeferRequest $postBody, $optParams = array())
+  public function defer($packageName, $subscriptionId, $token, Google_Service_AndroidPublisher_SubscriptionBillsDeferRequest $postBody, $optParams = array())
   {
     $params = array('packageName' => $packageName, 'subscriptionId' => $subscriptionId, 'token' => $token, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('defer', array($params), "Google_Service_AndroidPublisher_SubscriptionPurchasesDeferResponse");
+    return $this->call('defer', array($params), "Google_Service_AndroidPublisher_SubscriptionBillsDeferResponse");
   }
   /**
-   * Checks whether a user's subscription purchase is valid and returns its expiry
+   * Checks whether a user's subscription Bill is valid and returns its expiry
    * time. (subscriptions.get)
    *
    * @param string $packageName The package name of the application for which this
-   * subscription was purchased (for example, 'com.some.thing').
-   * @param string $subscriptionId The purchased subscription ID (for example,
+   * subscription was Billd (for example, 'com.some.thing').
+   * @param string $subscriptionId The Billd subscription ID (for example,
    * 'monthly001').
    * @param string $token The token provided to the user's device when the
-   * subscription was purchased.
+   * subscription was Billd.
    * @param array $optParams Optional parameters.
-   * @return Google_Service_AndroidPublisher_SubscriptionPurchase
+   * @return Google_Service_AndroidPublisher_SubscriptionBill
    */
   public function get($packageName, $subscriptionId, $token, $optParams = array())
   {
     $params = array('packageName' => $packageName, 'subscriptionId' => $subscriptionId, 'token' => $token);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_AndroidPublisher_SubscriptionPurchase");
+    return $this->call('get', array($params), "Google_Service_AndroidPublisher_SubscriptionBill");
   }
   /**
-   * Refunds a user's subscription purchase, but the subscription remains valid
+   * Refunds a user's subscription Bill, but the subscription remains valid
    * until its expiration time and it will continue to recur.
    * (subscriptions.refund)
    *
    * @param string $packageName The package name of the application for which this
-   * subscription was purchased (for example, 'com.some.thing').
-   * @param string $subscriptionId The purchased subscription ID (for example,
+   * subscription was Billd (for example, 'com.some.thing').
+   * @param string $subscriptionId The Billd subscription ID (for example,
    * 'monthly001').
    * @param string $token The token provided to the user's device when the
-   * subscription was purchased.
+   * subscription was Billd.
    * @param array $optParams Optional parameters.
    */
   public function refund($packageName, $subscriptionId, $token, $optParams = array())
@@ -120,16 +120,16 @@ class Google_Service_AndroidPublisher_Resource_PurchasesSubscriptions extends Go
     return $this->call('refund', array($params));
   }
   /**
-   * Refunds and immediately revokes a user's subscription purchase. Access to the
+   * Refunds and immediately revokes a user's subscription Bill. Access to the
    * subscription will be terminated immediately and it will stop recurring.
    * (subscriptions.revoke)
    *
    * @param string $packageName The package name of the application for which this
-   * subscription was purchased (for example, 'com.some.thing').
-   * @param string $subscriptionId The purchased subscription ID (for example,
+   * subscription was Billd (for example, 'com.some.thing').
+   * @param string $subscriptionId The Billd subscription ID (for example,
    * 'monthly001').
    * @param string $token The token provided to the user's device when the
-   * subscription was purchased.
+   * subscription was Billd.
    * @param array $optParams Optional parameters.
    */
   public function revoke($packageName, $subscriptionId, $token, $optParams = array())

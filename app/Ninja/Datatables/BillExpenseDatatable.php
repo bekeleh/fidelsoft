@@ -47,7 +47,7 @@ class BillExpenseDatatable extends EntityDatatable
                 'expense_date',
                 function ($model) {
                     if (Auth::user()->can('edit', [ENTITY_BILL_EXPENSE, $model]))
-                        return $this->addNote(link_to("purchase_BILL_EXPENSEs/{$model->public_id}/edit", Utils::fromSqlDate($model->expense_date_sql))->toHtml(), $model->private_notes);
+                        return $this->addNote(link_to("Bill_BILL_EXPENSEs/{$model->public_id}/edit", Utils::fromSqlDate($model->expense_date_sql))->toHtml(), $model->private_notes);
                     else
                         return Utils::fromSqlDate($model->expense_date_sql);
 
@@ -136,7 +136,7 @@ class BillExpenseDatatable extends EntityDatatable
             [
                 trans('texts.edit_BILL_EXPENSE'),
                 function ($model) {
-                    return URL::to("purchase_BILL_EXPENSEs/{$model->public_id}/edit");
+                    return URL::to("Bill_BILL_EXPENSEs/{$model->public_id}/edit");
                 },
                 function ($model) {
                     return Auth::user()->can('edit', [ENTITY_BILL_EXPENSE, $model]);
@@ -145,7 +145,7 @@ class BillExpenseDatatable extends EntityDatatable
             [
                 trans("texts.clone_BILL_EXPENSE"),
                 function ($model) {
-                    return URL::to("purchase_BILL_EXPENSEs/{$model->public_id}/clone");
+                    return URL::to("Bill_BILL_EXPENSEs/{$model->public_id}/clone");
                 },
                 function ($model) {
                     return Auth::user()->can('create', ENTITY_BILL_EXPENSE);

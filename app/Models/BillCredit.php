@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
- * Class PurchasePurchaseCredit.
+ * Class BillBillCredit.
  */
 class BillCredit extends EntityModel
 {
@@ -17,7 +17,7 @@ class BillCredit extends EntityModel
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
-    protected $presenter = 'App\Ninja\Presenters\PurchaseCreditPresenter';
+    protected $presenter = 'App\Ninja\Presenters\BillCreditPresenter';
 
 
     protected $fillable = [

@@ -4,7 +4,7 @@ brief: |
     Compact notation for sets of mappings with single element
 yaml: |
   ---
-  # products purchased
+  # products Billd
   - item    : Super Hoop
   - item    : Basketball
     quantity: 1
@@ -57,7 +57,7 @@ brief: |
     Compact notation for sets of mappings with single element
 yaml: |
   ---
-  # products purchased
+  # products Billd
   - item    : Super Hoop
   - item    : Basketball
     quantity: 1
@@ -110,7 +110,7 @@ brief: |
     Compact notation for sets of mappings with single element
 yaml: |
   ---
-  # products purchased
+  # products Billd
   - item    : Super Hoop
   - item    : Basketball
     quantity: 1

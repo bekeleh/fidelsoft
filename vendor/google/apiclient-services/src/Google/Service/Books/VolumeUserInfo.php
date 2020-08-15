@@ -30,7 +30,7 @@ class Google_Service_Books_VolumeUserInfo extends Google_Model
   public $isFamilySharingDisabledByFop;
   public $isInMyBooks;
   public $isPreordered;
-  public $isPurchased;
+  public $isBilld;
   public $isUploaded;
   protected $readingPositionType = 'Google_Service_Books_ReadingPosition';
   protected $readingPositionDataType = '';
@@ -143,13 +143,13 @@ class Google_Service_Books_VolumeUserInfo extends Google_Model
   {
     return $this->isPreordered;
   }
-  public function setIsPurchased($isPurchased)
+  public function setIsBilld($isBilld)
   {
-    $this->isPurchased = $isPurchased;
+    $this->isBilld = $isBilld;
   }
-  public function getIsPurchased()
+  public function getIsBilld()
   {
-    return $this->isPurchased;
+    return $this->isBilld;
   }
   public function setIsUploaded($isUploaded)
   {

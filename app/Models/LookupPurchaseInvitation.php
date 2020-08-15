@@ -5,7 +5,7 @@ namespace App\Models;
 /**
  * Class ExpenseCategory.
  */
-class LookupPurchaseInvitation extends LookupModel
+class LookupBillInvitation extends LookupModel
 {
     /**
      * @var array

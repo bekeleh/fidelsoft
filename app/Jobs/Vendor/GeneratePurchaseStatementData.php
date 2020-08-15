@@ -8,7 +8,7 @@ use App\Models\BillItem;
 use App\Models\BillPayment;
 use App\Libraries\Utils;
 
-class GeneratePurchaseStatementData
+class GenerateBillStatementData
 {
     public function __construct($vendor, $options, $contact = false)
     {
@@ -38,7 +38,7 @@ class GeneratePurchaseStatementData
         $Bill->invoice_items = $this->getBills();
 
         if ($this->options['show_payments']) {
-            $payments = $this->getPurchasePayments($Bill->invoice_items);
+            $payments = $this->getBillPayments($Bill->invoice_items);
             $Bill->invoice_items = $Bill->invoice_items->merge($payments);
         }
 
@@ -100,7 +100,7 @@ class GeneratePurchaseStatementData
         return $data;
     }
 
-    private function getPurchasePayments($bills)
+    private function getBillPayments($bills)
     {
         $payments = BillPayment::with('invoice', 'payment_type')
             ->withArchived()

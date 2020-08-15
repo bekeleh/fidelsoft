@@ -9,6 +9,7 @@ use App\Models\Country;
 use App\Models\License;
 use App\Ninja\Mailers\ContactMailer;
 use App\Ninja\Repositories\AccountRepository;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Input;
@@ -178,7 +179,7 @@ class NinjaController extends BaseController
 
                 $gateway = Omnipay::create($accountGateway->gateway->provider);
                 $gateway->initialize((array)$accountGateway->getConfig());
-                $response = $gateway->purchase($details)->send();
+                $response = $gateway->Bill($details)->send();
 
                 $ref = $response->getTransactionReference();
 
@@ -218,7 +219,7 @@ class NinjaController extends BaseController
             }
 
             return View::make('public.license', $data);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->error('License-Uncaught', false, $accountGateway, $e);
 
             return redirect()->to('license')->withInput();
@@ -283,7 +284,7 @@ class NinjaController extends BaseController
         return RESULT_SUCCESS;
     }
 
-    public function purchaseWhiteLabel()
+    public function BillWhiteLabel()
     {
         if (Utils::isNinja()) {
             return redirect('/');

@@ -57,7 +57,7 @@ abstract class StoreController
     /**
      * @OA\Get(path="/store/order/{orderId}",
      *   tags={"store"},
-     *   summary="Find purchase order by ID",
+     *   summary="Find Bill order by ID",
      *   description="For valid response try integer IDs with value >= 1 and <= 10. Other values will generated exceptions",
      *   operationId="getOrderById",
      *   @OA\Parameter(
@@ -88,7 +88,7 @@ abstract class StoreController
     /**
      * @OA\Delete(path="/store/order/{orderId}",
      *   tags={"store"},
-     *   summary="Delete purchase order by ID",
+     *   summary="Delete Bill order by ID",
      *   description="For valid response try integer IDs with positive integer value. Negative or non-integer values will generate API errors",
      *   operationId="deleteOrder",
      *   @OA\Parameter(

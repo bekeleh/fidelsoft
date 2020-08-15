@@ -188,22 +188,22 @@ class BillPresenter extends EntityPresenter
     public function autoBillEmailMessage()
     {
         $vendor = $this->entity->vendor;
-        $paymentMethod = $vendor->defaultPaymentMethod();
+        $billPaymentMethod = $vendor->defaultPaymentMethod();
 
-        if (!$paymentMethod) {
+        if (!$billPaymentMethod) {
             return false;
         }
 
-        if ($paymentMethod->payment_type_id === PAYMENT_TYPE_ACH) {
-            $paymentMethodString = trans('texts.auto_bill_payment_method_bank_transfer');
-        } elseif ($paymentMethod->payment_type_id == PAYMENT_TYPE_PAYPAL) {
-            $paymentMethodString = trans('texts.auto_bill_payment_method_paypal');
+        if ($billPaymentMethod->payment_type_id === PAYMENT_TYPE_ACH) {
+            $billPaymentMethodString = trans('texts.auto_bill_payment_method_bank_transfer');
+        } elseif ($billPaymentMethod->payment_type_id == PAYMENT_TYPE_PAYPAL) {
+            $billPaymentMethodString = trans('texts.auto_bill_payment_method_paypal');
         } else {
-            $paymentMethodString = trans('texts.auto_bill_payment_method_credit_card');
+            $billPaymentMethodString = trans('texts.auto_bill_payment_method_credit_card');
         }
 
         $data = [
-            'payment_method' => $paymentMethodString,
+            'payment_method' => $billPaymentMethodString,
             'due_date' => $this->due_date(),
         ];
 
@@ -245,7 +245,7 @@ class BillPresenter extends EntityPresenter
         ];
 
         if (Auth::user()->can('create', ENTITY_BILL_QUOTE)) {
-            $actions[] = ['url' => 'javascript:onClonePurchaseQuoteClick()', 'label' => trans("texts.clone_bill_quote")];
+            $actions[] = ['url' => 'javascript:onCloneBillQuoteClick()', 'label' => trans("texts.clone_bill_quote")];
         }
 
         $actions[] = ['url' => url("{$entityType}s/{$entityType}_history/{$bill->public_id}"), 'label' => trans('texts.view_history')];
@@ -258,21 +258,21 @@ class BillPresenter extends EntityPresenter
             $actions[] = ['url' => url("bills/packing_list/{$bill->public_id}"), 'label' => trans('texts.packing_list')];
         }
 
-//      Return purchase
+//      Return Bill
         if ($entityType == ENTITY_BILL) {
-            $actions[] = ['url' => url("bills/return_purchase/{$bill->public_id}"), 'label' => trans('texts.return_purchase')];
+            $actions[] = ['url' => url("bills/return_Bill/{$bill->public_id}"), 'label' => trans('texts.return_Bill')];
         }
 
         $actions[] = DropdownButton::DIVIDER;
 
         if ($entityType == ENTITY_BILL_QUOTE) {
             if ($bill->quote_bill_id) {
-                $actions[] = ['url' => url("bills/{$bill->quote_bill_id}/edit"), 'label' => trans('texts.view_invoice')];
+                $actions[] = ['url' => url("bills/{$bill->quote_bill_id}/edit"), 'label' => trans('texts.view_bill')];
             } else {
                 if (!$bill->isApproved()) {
                     $actions[] = ['url' => url("proposals/create/{$bill->public_id}"), 'label' => trans('texts.new_proposal')];
                 }
-                $actions[] = ['url' => 'javascript:onConvertClick()', 'label' => trans('texts.convert_to_invoice')];
+                $actions[] = ['url' => 'javascript:onConvertClick()', 'label' => trans('texts.convert_to_bill')];
             }
         } elseif ($entityType == ENTITY_BILL) {
             if ($bill->quote_id && $bill->quote) {
@@ -288,12 +288,13 @@ class BillPresenter extends EntityPresenter
                 $actions[] = ['url' => 'javascript:onPaymentClick()', 'label' => trans('texts.enter_payment')];
             }
 
-            foreach ($bill->payments as $payment) {
+            foreach ($bill->bill_payments as $billPayment) {
                 $label = trans('texts.view_payment');
-                if ($bill->payments->count() > 1) {
-                    $label .= ' - ' . $bill->account->formatMoney($payment->amount, $bill->vendor);
+                if ($bill->bill_payments->count() > 1) {
+                    $label .= ' - ' . $bill->account->formatMoney($billPayment->amount, $bill->vendor);
                 }
-                $actions[] = ['url' => $payment->present()->url, 'label' => $label];
+
+                $actions[] = ['url' => $billPayment->present()->url, 'label' => $label];
             }
         }
 

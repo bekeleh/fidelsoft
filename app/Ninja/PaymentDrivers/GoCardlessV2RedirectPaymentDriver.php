@@ -61,31 +61,31 @@ class GoCardlessV2RedirectPaymentDriver extends BasePaymentDriver
         return false;
     }
 
-    public function completeOffsitePurchase($input)
+    public function completeOffsiteBill($input)
     {
         $details = $this->paymentDetails();
-        $this->purchaseResponse = $response = $this->gateway()->completePurchase($details)->send();
+        $this->BillResponse = $response = $this->gateway()->completeBill($details)->send();
 
         if (! $response->isSuccessful()) {
             return false;
         }
 
         $paymentMethod = $this->createToken();
-        $payment = $this->completeOnsitePurchase(false, $paymentMethod);
+        $payment = $this->completeOnsiteBill(false, $paymentMethod);
 
         return $payment;
     }
 
     protected function creatingCustomer($customer)
     {
-        $customer->token = $this->purchaseResponse->getCustomerId();
+        $customer->token = $this->BillResponse->getCustomerId();
 
         return $customer;
     }
 
     protected function creatingPaymentMethod($paymentMethod)
     {
-        $paymentMethod->source_reference = $this->purchaseResponse->getMandateId();
+        $paymentMethod->source_reference = $this->BillResponse->getMandateId();
         $paymentMethod->payment_type_id = PAYMENT_TYPE_ACH;
         $paymentMethod->status = PAYMENT_METHOD_STATUS_VERIFIED;
 

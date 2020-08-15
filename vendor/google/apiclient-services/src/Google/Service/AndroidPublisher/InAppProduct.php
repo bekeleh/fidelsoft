@@ -26,7 +26,7 @@ class Google_Service_AndroidPublisher_InAppProduct extends Google_Model
   public $packageName;
   protected $pricesType = 'Google_Service_AndroidPublisher_Price';
   protected $pricesDataType = 'map';
-  public $purchaseType;
+  public $BillType;
   public $sku;
   public $status;
   public $subscriptionPeriod;
@@ -98,13 +98,13 @@ class Google_Service_AndroidPublisher_InAppProduct extends Google_Model
   {
     return $this->prices;
   }
-  public function setPurchaseType($purchaseType)
+  public function setBillType($BillType)
   {
-    $this->purchaseType = $purchaseType;
+    $this->BillType = $BillType;
   }
-  public function getPurchaseType()
+  public function getBillType()
   {
-    return $this->purchaseType;
+    return $this->BillType;
   }
   public function setSku($sku)
   {

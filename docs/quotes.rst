@@ -83,7 +83,7 @@ The top section of the quote contains a range of important information specific 
 - **Valid Until**: The last date that the quote is valid and can be accepted by the client. Click the calendar icon to select the relevant date.
 - **Partial**: In the event that you will be billing the client for a partial amount of the quote, enter the amount in the Partial field. This will be automatically applied to the quote, and later, to the invoice.
 - **Quote #**: The quote number is assigned automatically when you create a new quote, in order of chronology. You can manually override the default quote number by entering a different number in the Quote # field.
-- **PO #**: The purchase order number. Enter the purchase order number for easy reference.
+- **PO #**: The Bill order number. Enter the Bill order number for easy reference.
 - **Discount**: Applying a discount to a quote is the same as applying a discount to an invoice. To learn how to apply a discount, refer to section 5.11 of the User Guide.
 
 .. TIP:: The currency of the quote will be according to the default currency specified for this client when you created the client.

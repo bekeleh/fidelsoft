@@ -65,7 +65,7 @@ class BillController extends BaseController
         BillPaymentService $paymentService)
     {
         // parent::__construct();
-        $this->invoiceRepo = $billRepo;
+        $this->billRepo = $billRepo;
         $this->vendorRepo = $vendorRepo;
         $this->billService = $billService;
         $this->recurringBillService = $recurringBillService;
@@ -216,30 +216,33 @@ class BillController extends BaseController
     {
         $this->authorize('edit', ENTITY_BILL);
         $account = Auth::user()->account;
-        $bill = $request->entity()->load('invitations', 'account.country', 'client.contacts', 'vendor.country', 'bill_items', 'documents', 'expenses', 'expenses.documents', 'payments');
+        /**
+         * TODO: bill payment documents and expense should be revised
+         */
+        $bill = $request->entity()->load('bill_invitations', 'account.country', 'client.contacts', 'vendor.country', 'bill_items', 'documents', 'expenses', 'expenses.documents', 'bill_payments');
 
         $entityType = $bill->getEntityType();
 
-        $contactIds = DB::table('invitations')
-            ->leftJoin('vendor_contacts', 'vendor_contacts.id', 'invitations.contact_id')
-            ->where('invitations.invoice_id', $bill->id)
-            ->where('invitations.account_id', Auth::user()->account_id)
+        $contactIds = DB::table('bill_invitations')
+            ->leftJoin('vendor_contacts', 'vendor_contacts.id', 'bill_invitations.contact_id')
+            ->where('bill_invitations.bill_id', $bill->id)
+            ->where('bill_invitations.account_id', Auth::user()->account_id)
             ->select('vendor_contacts.public_id')->pluck('public_id')
-            ->where('invitations.deleted_at', null);
+            ->where('bill_invitations.deleted_at', null);
 
         $vendors = Vendor::scope()->withTrashed()->with('contacts', 'country');
 
         if ($clone) {
-            $entityType = $clone == INVOICE_TYPE_STANDARD ? ENTITY_BILL : ENTITY_QUOTE;
+            $entityType = $clone == BILL_TYPE_STANDARD ? ENTITY_BILL : ENTITY_QUOTE;
             $bill->id = $bill->public_id = null;
             $bill->is_public = false;
-            $bill->is_recurring = $bill->is_recurring && $clone == INVOICE_TYPE_STANDARD;
+            $bill->is_recurring = $bill->is_recurring && $clone == BILL_TYPE_STANDARD;
             $bill->bill_type_id = $clone;
             $bill->bill_number = $account->getClientNextNumber($bill);
             $bill->due_date = null;
             $bill->partial_due_date = null;
             $bill->balance = $bill->amount;
-            $bill->invoice_status_id = 0;
+            $bill->bill_status_id = 0;
             $bill->bill_date = date_create()->format('Y-m-d');
             $bill->deleted_at = null;
             while ($bill->documents->count()) {
@@ -303,19 +306,21 @@ class BillController extends BaseController
         if (!$clone) {
             $vendors = $data['clients'];
             foreach ($vendors as $vendor) {
+
                 if ($vendor->id != $bill->vendor->id) {
                     continue;
                 }
-                foreach ($bill->invitations as $invitation) {
+
+                foreach ($bill->bill_invitations as $billInvitation) {
                     foreach ($vendor->contacts as $contact) {
-                        if ($invitation->contact_id == $contact->id) {
+                        if ($billInvitation->contact_id == $contact->id) {
                             $hasPassword = $account->isVendorPortalPasswordEnabled() && $contact->password;
-                            $contact->email_error = $invitation->email_error;
-                            $contact->invitation_link = $invitation->getLink('view', $hasPassword, $hasPassword);
-                            $contact->invitation_viewed = $invitation->viewed_date && $invitation->viewed_date != '0000-00-00 00:00:00' ? $invitation->viewed_date : false;
-                            $contact->invitation_opened = $invitation->opened_date && $invitation->opened_date != '0000-00-00 00:00:00' ? $invitation->opened_date : false;
-                            $contact->invitation_status = $contact->email_error ? false : $invitation->getStatus();
-                            $contact->invitation_signature_svg = $invitation->signatureDiv();
+                            $contact->email_error = $billInvitation->email_error;
+                            $contact->invitation_link = $billInvitation->getLink('view', $hasPassword, $hasPassword);
+                            $contact->invitation_viewed = $billInvitation->viewed_date && $billInvitation->viewed_date != '0000-00-00 00:00:00' ? $billInvitation->viewed_date : false;
+                            $contact->invitation_opened = $billInvitation->opened_date && $billInvitation->opened_date != '0000-00-00 00:00:00' ? $billInvitation->opened_date : false;
+                            $contact->invitation_status = $contact->email_error ? false : $billInvitation->getStatus();
+                            $contact->invitation_signature_svg = $billInvitation->signatureDiv();
                         }
                     }
                 }
@@ -541,14 +546,16 @@ class BillController extends BaseController
         }
 
         // switch from the recurring invoice to the generated invoice
-        $bill = $this->invoiceRepo->createRecurringBill($bill);
+        $bill = $this->billRepo->createRecurringBill($bill);
 
         // in case auto-bill is enabled then a receipt has been sent
         if ($bill->isPaid()) {
+
             return true;
         } else {
             $userId = Auth::user()->id;
             $this->dispatch(new SendBillEmail($bill, $userId));
+
             return true;
         }
     }
@@ -594,7 +601,7 @@ class BillController extends BaseController
     {
         $clone = $this->billService->convertQuote($request->entity());
 
-        Session::flash('message', trans('texts.converted_to_invoice'));
+        Session::flash('message', trans('texts.converted_to_bill'));
 
         return url('bills/' . $clone->public_id);
     }
@@ -607,7 +614,7 @@ class BillController extends BaseController
      */
     public function cloneBill(BillRequest $request, $publicId)
     {
-        return self::edit($request, $publicId, INVOICE_TYPE_STANDARD);
+        return self::edit($request, $publicId, BILL_TYPE_STANDARD);
     }
 
     /**
@@ -646,7 +653,7 @@ class BillController extends BaseController
                 ->where('payment_id', $paymentId);
         } else {
             $activities->whereIn('activity_type_id', [ACTIVITY_TYPE_UPDATE_BILL, ACTIVITY_TYPE_UPDATE_bill_quote])
-                ->where('invoice_id', $bill->id);
+                ->where('bill_id', $bill->id);
         }
         $activities = $activities->orderBy('id', 'desc')
             ->get(['id', 'created_at', 'user_id', 'json_backup', 'activity_type_id', 'payment_id']);

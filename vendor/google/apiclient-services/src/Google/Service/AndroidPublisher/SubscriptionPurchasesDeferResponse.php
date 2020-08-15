@@ -15,7 +15,7 @@
  * the License.
  */
 
-class Google_Service_AndroidPublisher_SubscriptionPurchasesDeferResponse extends Google_Model
+class Google_Service_AndroidPublisher_SubscriptionBillsDeferResponse extends Google_Model
 {
   public $newExpiryTimeMillis;
 

@@ -114,7 +114,7 @@ class OnlinePaymentController extends BaseController
         }
 
         try {
-            return $paymentDriver->startPurchase(Input::all(), $sourceId);
+            return $paymentDriver->startBill(Input::all(), $sourceId);
         } catch (Exception $exception) {
             return $this->error($paymentDriver, $exception);
         }
@@ -142,7 +142,7 @@ class OnlinePaymentController extends BaseController
         }
 
         try {
-            $paymentDriver->completeOnsitePurchase($request->all());
+            $paymentDriver->completeOnsiteBill($request->all());
 
             if (request()->capture) {
                 return redirect('/client/dashboard')->withMessage(trans('texts.updated_payment_details'));
@@ -152,7 +152,7 @@ class OnlinePaymentController extends BaseController
                 Session::flash('message', trans('texts.applied_payment'));
             }
 
-            return $this->completePurchase($invitation);
+            return $this->completeBill($invitation);
         } catch (Exception $exception) {
             return $this->error($paymentDriver, $exception, true);
         }
@@ -189,17 +189,17 @@ class OnlinePaymentController extends BaseController
         }
 
         try {
-            if ($paymentDriver->completeOffsitePurchase(Input::all())) {
+            if ($paymentDriver->completeOffsiteBill(Input::all())) {
                 Session::flash('message', trans('texts.applied_payment'));
             }
 
-            return $this->completePurchase($invitation, true);
+            return $this->completeBill($invitation, true);
         } catch (Exception $exception) {
             return $this->error($paymentDriver, $exception);
         }
     }
 
-    private function completePurchase($invitation, $isOffsite = false)
+    private function completeBill($invitation, $isOffsite = false)
     {
         if (request()->wantsJson()) {
             return response()->json(RESULT_SUCCESS);

@@ -270,7 +270,7 @@ class PHPExcel_Calculation_Financial
      * AMORDEGRC
      *
      * Returns the depreciation for each accounting period.
-     * This function is provided for the French accounting system. If an asset is purchased in
+     * This function is provided for the French accounting system. If an asset is Billd in
      * the middle of the accounting period, the prorated depreciation is taken into account.
      * The function is similar to AMORLINC, except that a depreciation coefficient is applied in
      * the calculation depending on the life of the assets.
@@ -279,12 +279,12 @@ class PHPExcel_Calculation_Financial
      * the salvage value.
      *
      * Excel Function:
-     *        AMORDEGRC(cost,purchased,firstPeriod,salvage,period,rate[,basis])
+     *        AMORDEGRC(cost,Billd,firstPeriod,salvage,period,rate[,basis])
      *
      * @access    public
      * @category Financial Functions
      * @param    float    cost        The cost of the asset.
-     * @param    mixed    purchased    Date of the purchase of the asset.
+     * @param    mixed    Billd    Date of the Bill of the asset.
      * @param    mixed    firstPeriod    Date of the end of the first period.
      * @param    mixed    salvage        The salvage value at the end of the life of the asset.
      * @param    float    period        The period.
@@ -297,10 +297,10 @@ class PHPExcel_Calculation_Financial
      *                                        4                European 30/360
      * @return    float
      */
-    public static function AMORDEGRC($cost, $purchased, $firstPeriod, $salvage, $period, $rate, $basis = 0)
+    public static function AMORDEGRC($cost, $Billd, $firstPeriod, $salvage, $period, $rate, $basis = 0)
     {
         $cost            = PHPExcel_Calculation_Functions::flattenSingleValue($cost);
-        $purchased        = PHPExcel_Calculation_Functions::flattenSingleValue($purchased);
+        $Billd        = PHPExcel_Calculation_Functions::flattenSingleValue($Billd);
         $firstPeriod    = PHPExcel_Calculation_Functions::flattenSingleValue($firstPeriod);
         $salvage        = PHPExcel_Calculation_Functions::flattenSingleValue($salvage);
         $period            = floor(PHPExcel_Calculation_Functions::flattenSingleValue($period));
@@ -325,7 +325,7 @@ class PHPExcel_Calculation_Financial
         }
 
         $rate *= $amortiseCoeff;
-        $fNRate = round(PHPExcel_Calculation_DateTime::YEARFRAC($purchased, $firstPeriod, $basis) * $rate * $cost, 0);
+        $fNRate = round(PHPExcel_Calculation_DateTime::YEARFRAC($Billd, $firstPeriod, $basis) * $rate * $cost, 0);
         $cost -= $fNRate;
         $fRest = $cost - $salvage;
 
@@ -352,16 +352,16 @@ class PHPExcel_Calculation_Financial
      * AMORLINC
      *
      * Returns the depreciation for each accounting period.
-     * This function is provided for the French accounting system. If an asset is purchased in
+     * This function is provided for the French accounting system. If an asset is Billd in
      * the middle of the accounting period, the prorated depreciation is taken into account.
      *
      * Excel Function:
-     *        AMORLINC(cost,purchased,firstPeriod,salvage,period,rate[,basis])
+     *        AMORLINC(cost,Billd,firstPeriod,salvage,period,rate[,basis])
      *
      * @access    public
      * @category Financial Functions
      * @param    float    cost        The cost of the asset.
-     * @param    mixed    purchased    Date of the purchase of the asset.
+     * @param    mixed    Billd    Date of the Bill of the asset.
      * @param    mixed    firstPeriod    Date of the end of the first period.
      * @param    mixed    salvage        The salvage value at the end of the life of the asset.
      * @param    float    period        The period.
@@ -374,10 +374,10 @@ class PHPExcel_Calculation_Financial
      *                                        4                European 30/360
      * @return    float
      */
-    public static function AMORLINC($cost, $purchased, $firstPeriod, $salvage, $period, $rate, $basis = 0)
+    public static function AMORLINC($cost, $Billd, $firstPeriod, $salvage, $period, $rate, $basis = 0)
     {
         $cost        = PHPExcel_Calculation_Functions::flattenSingleValue($cost);
-        $purchased   = PHPExcel_Calculation_Functions::flattenSingleValue($purchased);
+        $Billd   = PHPExcel_Calculation_Functions::flattenSingleValue($Billd);
         $firstPeriod = PHPExcel_Calculation_Functions::flattenSingleValue($firstPeriod);
         $salvage     = PHPExcel_Calculation_Functions::flattenSingleValue($salvage);
         $period      = PHPExcel_Calculation_Functions::flattenSingleValue($period);
@@ -387,10 +387,10 @@ class PHPExcel_Calculation_Financial
         $fOneRate = $cost * $rate;
         $fCostDelta = $cost - $salvage;
         //    Note, quirky variation for leap years on the YEARFRAC for this function
-        $purchasedYear = PHPExcel_Calculation_DateTime::YEAR($purchased);
-        $yearFrac = PHPExcel_Calculation_DateTime::YEARFRAC($purchased, $firstPeriod, $basis);
+        $BilldYear = PHPExcel_Calculation_DateTime::YEAR($Billd);
+        $yearFrac = PHPExcel_Calculation_DateTime::YEARFRAC($Billd, $firstPeriod, $basis);
 
-        if (($basis == 1) && ($yearFrac < 1) && (PHPExcel_Calculation_DateTime::isLeapYear($purchasedYear))) {
+        if (($basis == 1) && ($yearFrac < 1) && (PHPExcel_Calculation_DateTime::isLeapYear($BilldYear))) {
             $yearFrac *= 365 / 366;
         }
 

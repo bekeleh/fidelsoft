@@ -40,19 +40,19 @@ class BillItemListener extends EntityListener
 
     public function createdQuote(BillQuoteItemsWereCreated $event)
     {
-        $transformer = new BillTransformer($event->purchaseQuote->account);
-        $this->checkSubscriptions(EVENT_CREATE_bill_quote, $event->purchaseQuote, $transformer, ENTITY_VENDOR);
+        $transformer = new BillTransformer($event->BillQuote->account);
+        $this->checkSubscriptions(EVENT_CREATE_bill_quote, $event->BillQuote, $transformer, ENTITY_VENDOR);
     }
 
     public function updatedQuote(BillQuoteItemsWereUpdated $event)
     {
-        $transformer = new BillTransformer($event->purchaseQuote->account);
-        $this->checkSubscriptions(EVENT_UPDATE_bill_quote, $event->purchaseQuote, $transformer, ENTITY_VENDOR);
+        $transformer = new BillTransformer($event->BillQuote->account);
+        $this->checkSubscriptions(EVENT_UPDATE_bill_quote, $event->BillQuote, $transformer, ENTITY_VENDOR);
     }
 
     public function deletedQuote(BillQuoteItemsWereDeleted $event)
     {
-        $transformer = new BillTransformer($event->purchaseQuote->account);
-        $this->checkSubscriptions(EVENT_DELETE_bill_quote, $event->purchaseQuote, $transformer, ENTITY_VENDOR);
+        $transformer = new BillTransformer($event->BillQuote->account);
+        $this->checkSubscriptions(EVENT_DELETE_bill_quote, $event->BillQuote, $transformer, ENTITY_VENDOR);
     }
 }

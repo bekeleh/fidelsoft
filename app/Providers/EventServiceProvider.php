@@ -288,7 +288,7 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\UserWasDeleted' => [
             'App\Listeners\UserListener@deletedUser',
         ],
-//      Purchase Invoices
+//      Bill Invoices
         'App\Events\BillWasCreated' => [
             'App\Listeners\ActivityListener@createdBill',
             'App\Listeners\BillListener@createdInvoice',
@@ -316,22 +316,22 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\BillWasEmailed' => [
             'App\Listeners\BillListener@emailedInvoice',
-            'App\Listeners\PurchaseNotificationListener@emailedBill',
+            'App\Listeners\BillNotificationListener@emailedBill',
         ],
         'App\Events\BillInvitationWasEmailed' => [
             'App\Listeners\ActivityListener@emailedBill',
         ],
         'App\Events\BillInvitationWasViewed' => [
             'App\Listeners\ActivityListener@viewedBill',
-            'App\Listeners\PurchaseNotificationListener@viewedInvoice',
+            'App\Listeners\BillNotificationListener@viewedInvoice',
             'App\Listeners\BillListener@viewedInvoice',
         ],
-//     purchase quote
+//     Bill quote
         'App\Events\BillQuoteWasCreated' => [
-            'App\Listeners\ActivityListener@createdPurchaseQuote',
+            'App\Listeners\ActivityListener@createdBillQuote',
         ],
         'App\Events\BillQuoteWasUpdated' => [
-            'App\Listeners\ActivityListener@updatedPurchaseQuote',
+            'App\Listeners\ActivityListener@updatedBillQuote',
         ],
         'App\Events\BillQuoteItemsWereCreated' => [
             'App\Listeners\BillItemListener@createdQuote',
@@ -340,34 +340,34 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\BillItemListener@updatedQuote',
         ],
         'App\Events\BillQuoteWasArchived' => [
-            'App\Listeners\ActivityListener@archivedPurchaseQuote',
+            'App\Listeners\ActivityListener@archivedBillQuote',
         ],
         'App\Events\BillQuoteWasDeleted' => [
-            'App\Listeners\ActivityListener@deletedPurchaseQuote',
+            'App\Listeners\ActivityListener@deletedBillQuote',
 //            'App\Listeners\HistoryListener@deletedQuote',
             'App\Listeners\BillItemListener@deletedQuote',
         ],
         'App\Events\BillQuoteWasRestored' => [
-            'App\Listeners\ActivityListener@restoredPurchaseQuote',
+            'App\Listeners\ActivityListener@restoredBillQuote',
         ],
         'App\Events\BillQuoteWasEmailed' => [
-            'App\Listeners\PurchaseQuoteListener@emailedQuote',
-            'App\Listeners\PurchaseNotificationListener@emailedQuote',
+            'App\Listeners\BillQuoteListener@emailedQuote',
+            'App\Listeners\BillNotificationListener@emailedQuote',
         ],
         'App\Events\BillQuoteInvitationWasEmailed' => [
-            'App\Listeners\ActivityListener@emailedPurchaseQuote',
+            'App\Listeners\ActivityListener@emailedBillQuote',
         ],
         'App\Events\BillQuoteInvitationWasViewed' => [
-            'App\Listeners\ActivityListener@viewedPurchaseQuote',
-            'App\Listeners\PurchaseNotificationListener@viewedQuote',
-            'App\Listeners\PurchaseQuoteListener@viewedQuote',
+            'App\Listeners\ActivityListener@viewedBillQuote',
+            'App\Listeners\BillNotificationListener@viewedQuote',
+            'App\Listeners\BillQuoteListener@viewedQuote',
         ],
         'App\Events\billQuoteInvitationWasApproved' => [
-            'App\Listeners\ActivityListener@approvedPurchaseQuote',
-            'App\Listeners\PurchaseNotificationListener@approvedQuote',
-            'App\Listeners\PurchaseQuoteListener@approvedQuote',
+            'App\Listeners\ActivityListener@approvedBillQuote',
+            'App\Listeners\BillNotificationListener@approvedQuote',
+            'App\Listeners\BillQuoteListener@approvedQuote',
         ],
-//     Purchase invoice payment and credit and others
+//     Bill invoice payment and credit and others
 
     ];
 

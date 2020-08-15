@@ -1000,7 +1000,7 @@ afterAdd: showContact }'>
             model.expense_currency_id({{ isset($expenseCurrencyId) ? $expenseCurrencyId : 0 }});
 
 // move the blank invoice line item to the end
-            var blank = model.invoice().bill_items_without_tasks.pop();
+            var blank = model.invoice().invoice_items_without_tasks.pop();
             var expenses =;
                     {!! $expenses !!}
 
@@ -1017,14 +1017,14 @@ afterAdd: showContact }'>
                 item.tax_rate2(expense.tax_rate2);
                 item.tax_name2(expense.tax_name2);
             }
-            model.invoice().bill_items_without_tasks.push(blank);
+            model.invoice().invoice_items_without_tasks.push(blank);
             model.invoice().has_expenses(true);
             NINJA.formIsChanged = true;
             @endif
 
             @if ($selectedProducts = session('selectedProducts'))
             // move the blank invoice line item to the end
-            var blank = model.invoice().bill_items_without_tasks.pop();
+            var blank = model.invoice().invoice_items_without_tasks.pop();
             var productMap = {};
             for (var i = 0; i < products.length; i++) {
                 var product = products[i];
@@ -1041,7 +1041,7 @@ afterAdd: showContact }'>
                     item.qty(1);
                 }
             }
-            model.invoice().bill_items_without_tasks.push(blank);
+            model.invoice().invoice_items_without_tasks.push(blank);
             NINJA.formIsChanged = true;
             @endif
 
@@ -1707,8 +1707,8 @@ afterAdd: showContact }'>
             var hasEmptyStandard = false;
             var hasEmptyTask = false;
 
-            for (var i = 0; i < model.invoice().bill_items_without_tasks().length; i++) {
-                var item = model.invoice().bill_items_without_tasks()[i];
+            for (var i = 0; i < model.invoice().invoice_items_without_tasks().length; i++) {
+                var item = model.invoice().invoice_items_without_tasks()[i];
                 if (item.isEmpty()) {
                     hasEmptyStandard = true;
                 }
@@ -1717,8 +1717,8 @@ afterAdd: showContact }'>
                 model.invoice().addItem();
             }
 
-            for (var i = 0; i < model.invoice().bill_items_with_tasks().length; i++) {
-                var item = model.invoice().bill_items_with_tasks()[i];
+            for (var i = 0; i < model.invoice().invoice_items_with_tasks().length; i++) {
+                var item = model.invoice().invoice_items_with_tasks()[i];
                 if (item.isEmpty()) {
                     hasEmptyTask = true;
                 }

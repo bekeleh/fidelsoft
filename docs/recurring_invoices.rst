@@ -74,7 +74,7 @@ Next, you'll need to complete the invoice details. Let's go over the fields to g
 - **End Date**: The date the recurring invoice series is due to stop
 - **Due date**: The date each recurring invoice is due. This is the default date for all invoices in the recurring invoice series. For example, you may want the client to pay on the 1st of the month for each recurring invoice. If so, select "1st day of month" from the drop-down menu. TIP: You can also choose to define the due date according to the client's pre-defined terms. If so, select "Use client terms" from the drop-down menu.
 - **Auto-Bill**: Select the applicable option if you want the system to bill the customer automatically at the selected frequency. To disable Auto Bill, select "Off". To enable Auto-Bill at all times, select "Always".  To give your customers the option to manage their auto billing for the recurring invoice on their client portal, check the "Opt-In" or "Opt-Out" setting.
-- **PO #**: Enter the purchase order number for easy reference.
+- **PO #**: Enter the Bill order number for easy reference.
 - **Discount**: If you wish to apply a discount to the invoice, you can choose one of two methods: a monetary amount, or a percentage of the total amount due.
 
 Complete the rest of the recurring invoice as you would a regular invoice. Enter the item(s), quantities and amounts that you are charging on a recurring basis.

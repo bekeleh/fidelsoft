@@ -15,15 +15,15 @@
  * the License.
  */
 
-class Google_Service_AndroidPublisher_VoidedPurchasesListResponse extends Google_Collection
+class Google_Service_AndroidPublisher_VoidedBillsListResponse extends Google_Collection
 {
-  protected $collection_key = 'voidedPurchases';
+  protected $collection_key = 'voidedBills';
   protected $pageInfoType = 'Google_Service_AndroidPublisher_PageInfo';
   protected $pageInfoDataType = '';
   protected $tokenPaginationType = 'Google_Service_AndroidPublisher_TokenPagination';
   protected $tokenPaginationDataType = '';
-  protected $voidedPurchasesType = 'Google_Service_AndroidPublisher_VoidedPurchase';
-  protected $voidedPurchasesDataType = 'array';
+  protected $voidedBillsType = 'Google_Service_AndroidPublisher_VoidedBill';
+  protected $voidedBillsDataType = 'array';
 
   /**
    * @param Google_Service_AndroidPublisher_PageInfo
@@ -54,17 +54,17 @@ class Google_Service_AndroidPublisher_VoidedPurchasesListResponse extends Google
     return $this->tokenPagination;
   }
   /**
-   * @param Google_Service_AndroidPublisher_VoidedPurchase
+   * @param Google_Service_AndroidPublisher_VoidedBill
    */
-  public function setVoidedPurchases($voidedPurchases)
+  public function setVoidedBills($voidedBills)
   {
-    $this->voidedPurchases = $voidedPurchases;
+    $this->voidedBills = $voidedBills;
   }
   /**
-   * @return Google_Service_AndroidPublisher_VoidedPurchase
+   * @return Google_Service_AndroidPublisher_VoidedBill
    */
-  public function getVoidedPurchases()
+  public function getVoidedBills()
   {
-    return $this->voidedPurchases;
+    return $this->voidedBills;
   }
 }

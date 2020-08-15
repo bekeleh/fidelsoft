@@ -164,8 +164,8 @@
                 return true;
             }
             invoice = self.invoice();
-            for (var i = 0; i < invoice.bill_items_with_tasks().length; ++i) {
-                var item = invoice.bill_items_with_tasks()[i];
+            for (var i = 0; i < invoice.invoice_items_with_tasks().length; ++i) {
+                var item = invoice.invoice_items_with_tasks()[i];
                 if (!item.isEmpty()) {
                     self.hasTasksCached = true;
                     return true;
@@ -258,19 +258,19 @@
         self.custom_text_value1 = ko.observable();
         self.custom_text_value2 = ko.observable();
 
-        self.bill_items_with_tasks = ko.observableArray();
+        self.invoice_items_with_tasks = ko.observableArray();
         self.bill_items_without_tasks = ko.observableArray();
         self.bill_items = ko.computed({
             read: function () {
-                return self.bill_items_with_tasks().concat(self.bill_items_without_tasks());
+                return self.invoice_items_with_tasks().concat(self.bill_items_without_tasks());
             },
             write: function (data) {
-                self.bill_items_with_tasks.removeAll();
+                self.invoice_items_with_tasks.removeAll();
                 self.bill_items_without_tasks.removeAll();
                 for (var i = 0; i < data.length; i++) {
                     var item = new ItemModel(data[i]);
                     if (item.isTask()) {
-                        self.bill_items_with_tasks.push(item);
+                        self.invoice_items_with_tasks.push(item);
                     } else {
                         self.bill_items_without_tasks.push(item);
                     }
@@ -304,7 +304,7 @@
             var itemModel = new ItemModel();
             if (isTask) {
                 itemModel.invoice_item_type_id({{ INVOICE_ITEM_TYPE_TASK }});
-                self.bill_items_with_tasks.push(itemModel);
+                self.invoice_items_with_tasks.push(itemModel);
             } else {
                 self.bill_items_without_tasks.push(itemModel);
             }
@@ -363,7 +363,7 @@
 
         self.removeItem = function (item) {
             if (item.isTask()) {
-                self.bill_items_with_tasks.remove(item);
+                self.invoice_items_with_tasks.remove(item);
             } else {
                 self.bill_items_without_tasks.remove(item);
             }

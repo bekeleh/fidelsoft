@@ -309,7 +309,7 @@ class VendorContactMailer extends Mailer
         if ($productId == PRODUCT_ONE_CLICK_INSTALL) {
             $license = "Softaculous install license: $license";
         } elseif ($productId == PRODUCT_INVOICE_DESIGNS) {
-            $license = "Purchase Invoice designs license: $license";
+            $license = "Bill Invoice designs license: $license";
         } elseif ($productId == PRODUCT_WHITE_LABEL) {
             $license = "White label license: $license";
         }

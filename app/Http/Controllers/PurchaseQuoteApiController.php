@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bill;
 
-class PurchaseQuoteApiController extends BillApiController
+class BillQuoteApiController extends BillApiController
 {
     protected $BillRepo;
 

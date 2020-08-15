@@ -15,7 +15,7 @@
  * the License.
  */
 
-class Google_Service_AndroidPublisher_ProductPurchase extends Google_Model
+class Google_Service_AndroidPublisher_ProductBill extends Google_Model
 {
   public $acknowledgementState;
   public $consumptionState;
@@ -23,10 +23,10 @@ class Google_Service_AndroidPublisher_ProductPurchase extends Google_Model
   public $kind;
   public $orderId;
   public $productId;
-  public $purchaseState;
-  public $purchaseTimeMillis;
-  public $purchaseToken;
-  public $purchaseType;
+  public $BillState;
+  public $BillTimeMillis;
+  public $BillToken;
+  public $BillType;
   public $quantity;
 
   public function setAcknowledgementState($acknowledgementState)
@@ -77,37 +77,37 @@ class Google_Service_AndroidPublisher_ProductPurchase extends Google_Model
   {
     return $this->productId;
   }
-  public function setPurchaseState($purchaseState)
+  public function setBillState($BillState)
   {
-    $this->purchaseState = $purchaseState;
+    $this->BillState = $BillState;
   }
-  public function getPurchaseState()
+  public function getBillState()
   {
-    return $this->purchaseState;
+    return $this->BillState;
   }
-  public function setPurchaseTimeMillis($purchaseTimeMillis)
+  public function setBillTimeMillis($BillTimeMillis)
   {
-    $this->purchaseTimeMillis = $purchaseTimeMillis;
+    $this->BillTimeMillis = $BillTimeMillis;
   }
-  public function getPurchaseTimeMillis()
+  public function getBillTimeMillis()
   {
-    return $this->purchaseTimeMillis;
+    return $this->BillTimeMillis;
   }
-  public function setPurchaseToken($purchaseToken)
+  public function setBillToken($BillToken)
   {
-    $this->purchaseToken = $purchaseToken;
+    $this->BillToken = $BillToken;
   }
-  public function getPurchaseToken()
+  public function getBillToken()
   {
-    return $this->purchaseToken;
+    return $this->BillToken;
   }
-  public function setPurchaseType($purchaseType)
+  public function setBillType($BillType)
   {
-    $this->purchaseType = $purchaseType;
+    $this->BillType = $BillType;
   }
-  public function getPurchaseType()
+  public function getBillType()
   {
-    return $this->purchaseType;
+    return $this->BillType;
   }
   public function setQuantity($quantity)
   {

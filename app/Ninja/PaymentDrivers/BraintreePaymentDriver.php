@@ -3,6 +3,7 @@
 namespace App\Ninja\PaymentDrivers;
 
 use Braintree\Customer;
+use Braintree\Result\Error;
 use Exception;
 use Session;
 use Utils;
@@ -34,9 +35,9 @@ class BraintreePaymentDriver extends BasePaymentDriver
         return true;
     }
 
-    public function startPurchase($input = false, $sourceId = false)
+    public function startBill($input = false, $sourceId = false)
     {
-        $data = parent::startPurchase($input, $sourceId);
+        $data = parent::startBill($input, $sourceId);
 
         if ($this->isGatewayType(GATEWAY_TYPE_PAYPAL)) {
             /*
@@ -195,7 +196,7 @@ class BraintreePaymentDriver extends BasePaymentDriver
 
         $data = $response->getData();
 
-        if ($data instanceof \Braintree\Result\Error) {
+        if ($data instanceof Error) {
             $error = $data->errors->deepAll()[0];
             if ($error && $error->code == 91506) {
                 return true;

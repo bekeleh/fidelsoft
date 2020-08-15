@@ -181,7 +181,7 @@ $LANG = array(
     'deleted_manufacturer' => 'Successfully Deleted Manufacturer',
     'deleted_manufacturers' => 'Successfully Deleted :count Manufacturers',
     'manufacturer_help' => 'Sets the default <b>manufacturer</b>',
-//   bill
+//   Purchase bill
     'bill_name' => 'Bill Name',
     'bill_number' => 'Bill Number',
     'bill' => 'Purchase Bill',
@@ -210,8 +210,8 @@ $LANG = array(
     'bill_date' => 'Bill Date',
     'receive_bills' => 'Receive Bills',
 //   Bill quote
-    'bill_quote' => 'Purchase Quote',
-    'bill_quotes' => 'Purchase Quotes',
+    'bill_quote' => 'Bill Quote',
+    'bill_quotes' => 'Bill Quotes',
     'bill_quote_return' => 'Bill Quote Return',
     'bill_quote_list' => 'Bill Quote Lists',
     'list_bill_quotes' => 'List Bill Quote',
@@ -1189,6 +1189,7 @@ $LANG = array(
     'deleted_quote' => 'Successfully deleted quote',
     'deleted_quotes' => 'Successfully deleted :count quotes',
     'converted_to_invoice' => 'Successfully converted quote to invoice',
+    'converted_to_bill' => 'Successfully converted quote to bill',
     'quote_subject' => 'New quote :number from :account',
     'quote_message' => 'To view your quote for :amount, click the link below.',
     'quote_link_message' => 'To view your client quote click the link below:',

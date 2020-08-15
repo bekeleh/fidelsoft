@@ -21,10 +21,9 @@ class BillRequest extends EntityRequest
     {
         $bill = parent::entity();
 
-        // support loading an bill by its bill number
+        // support loading an Bill by its bill number
         if ($this->bill_number && !$bill) {
-            $bill = Bill::scope()
-                ->where('bill_number', $this->bill_number)
+            $bill = Bill::scope()->where('bill_number', $this->bill_number)
                 ->withTrashed()->first();
 
             if (!$bill) {

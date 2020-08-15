@@ -60,7 +60,7 @@ class BillPayment extends EntityModel
     }
 
 
-    public function purchase_invitation()
+    public function Bill_invitation()
     {
         return $this->belongsTo('App\Models\BillInvitation');
     }
@@ -97,7 +97,7 @@ class BillPayment extends EntityModel
 
     public function payment_type()
     {
-        return $this->belongsTo('App\Models\PurchasePaymentType');
+        return $this->belongsTo('App\Models\BillPaymentType');
     }
 
 
@@ -108,7 +108,7 @@ class BillPayment extends EntityModel
 
     public function payment_status()
     {
-        return $this->belongsTo('App\Models\PurchasePaymentStatus');
+        return $this->belongsTo('App\Models\BillPaymentStatus');
     }
 
     public function scopeExcludeFailed($query)

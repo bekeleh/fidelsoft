@@ -6,6 +6,8 @@ use App\Models\Payment;
 use App\Models\Invitation;
 use App\Models\PaymentMethod;
 use App\Models\GatewayType;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\BadResponseException;
 use Illuminate\Support\Facades\Cache;
 use Exception;
 use App\Models\PaymentType;
@@ -263,7 +265,7 @@ class StripePaymentDriver extends BasePaymentDriver
         $isBitcoin = $this->isGatewayType(GATEWAY_TYPE_BITCOIN, $paymentMethod);
 
         if ($isBank || $isAlipay || $isSofort || $isBitcoin) {
-            $payment->payment_status_id = $this->purchaseResponse['status'] == 'succeeded' ? PAYMENT_STATUS_COMPLETED : PAYMENT_STATUS_PENDING;
+            $payment->payment_status_id = $this->BillResponse['status'] == 'succeeded' ? PAYMENT_STATUS_COMPLETED : PAYMENT_STATUS_PENDING;
             if ($isAlipay) {
                 $payment->payment_type_id = PAYMENT_TYPE_ALIPAY;
             } elseif ($isSofort) {
@@ -311,7 +313,7 @@ class StripePaymentDriver extends BasePaymentDriver
 
         try {
             $subdomain = $this->accountGateway->getPlaidEnvironment() == 'production' ? 'api' : 'tartan';
-            $response = (new \GuzzleHttp\Client(['base_uri' => "https://{$subdomain}.plaid.com"]))->request(
+            $response = (new Client(['base_uri' => "https://{$subdomain}.plaid.com"]))->request(
                 'POST',
                 'exchange_token',
                 [
@@ -327,7 +329,7 @@ class StripePaymentDriver extends BasePaymentDriver
             );
 
             return json_decode($response->getBody(), true);
-        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
+        } catch (BadResponseException $e) {
             $response = $e->getResponse();
             $body = json_decode($response->getBody(), true);
 
@@ -441,14 +443,14 @@ class StripePaymentDriver extends BasePaymentDriver
                 $options['body'] = $body;
             }
 
-            $response = (new \GuzzleHttp\Client(['base_uri' => 'https://api.stripe.com/v1/']))->request(
+            $response = (new Client(['base_uri' => 'https://api.stripe.com/v1/']))->request(
                 $method,
                 $url,
                 $options
             );
 
             return json_decode($response->getBody(), true);
-        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
+        } catch (BadResponseException $e) {
             $response = $e->getResponse();
 
             $body = json_decode($response->getBody(), true);
@@ -549,7 +551,7 @@ class StripePaymentDriver extends BasePaymentDriver
                 return false;
             }
             $data = sprintf('amount=%d&currency=%s&source=%s', $source['amount'], $source['currency'], $source['id']);
-            $this->purchaseResponse = $response = $this->makeStripeCall('POST', 'charges', $data);
+            $this->BillResponse = $response = $this->makeStripeCall('POST', 'charges', $data);
             $this->gatewayType = GatewayType::getIdFromAlias($source['type']);
             if (is_array($response) && isset($response['id'])) {
                 $this->createPayment($response['id']);

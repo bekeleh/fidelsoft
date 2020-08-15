@@ -2,48 +2,41 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Laracasts\Presenter\PresentableTrait;
+use Illuminate\Database\Eloquent\Model as Eloquent;
+use Illuminate\Support\Str;
 
 /**
- * Model Class PurchaseOrderStatusService.
+ * Class BillStatus.
  */
-class billstatus extends EntityModel
+class BillStatus extends Eloquent
 {
-    use PresentableTrait;
-    use SoftDeletes;
-    protected $presenter = 'App\Ninja\Presenters\PurchaseOrderStatusPresenter';
+    public $timestamps = false;
 
-    protected $dates = ['created_at', 'deleted_at'];
-    protected $hidden = ['deleted_at'];
-    protected $casts = [];
-
-    protected $fillable = [
-        'name',
-        'notes',
-        'created_by',
-        'updated_by',
-        'deleted_by',
-    ];
-
-    public function getEntityType()
+    public static function getIdFromAlias($status)
     {
-        return ENTITY_BILL_STATUS;
+        switch ($status) {
+            case 'draft':
+                return INVOICE_STATUS_DRAFT;
+            case 'sent':
+                return INVOICE_STATUS_SENT;
+            case 'viewed':
+                return INVOICE_STATUS_VIEWED;
+            case 'approved':
+                return INVOICE_STATUS_APPROVED;
+            case 'partial':
+                return INVOICE_STATUS_PARTIAL;
+            case 'overdue':
+                return INVOICE_STATUS_OVERDUE;
+            case 'unpaid':
+                return INVOICE_STATUS_UNPAID;
+            default:
+                return false;
+        }
     }
 
-    public function getRoute()
-    {
-        return "/purchase_order_statuses/{$this->public_id}/edit";
-    }
 
-    public function account()
+    public function getTranslatedName()
     {
-        return $this->belongsTo('App\Models\Account')->withTrashed();
+        return trans('texts.status_' . Str::slug($this->name, '_'));
     }
-
-    public function user()
-    {
-        return $this->belongsTo('App\Models\User')->withTrashed();
-    }
-
 }

@@ -47,9 +47,9 @@ class Google_Service_AndroidPublisher extends Google_Service
   public $inappproducts;
   public $internalappsharingartifacts;
   public $orders;
-  public $purchases_products;
-  public $purchases_subscriptions;
-  public $purchases_voidedpurchases;
+  public $Bills_products;
+  public $Bills_subscriptions;
+  public $Bills_voidedBills;
   public $reviews;
   public $systemapks_variants;
   
@@ -1010,14 +1010,14 @@ class Google_Service_AndroidPublisher extends Google_Service
           )
         )
     );
-    $this->purchases_products = new Google_Service_AndroidPublisher_Resource_PurchasesProducts(
+    $this->Bills_products = new Google_Service_AndroidPublisher_Resource_BillsProducts(
         $this,
         $this->serviceName,
         'products',
         array(
           'methods' => array(
             'acknowledge' => array(
-              'path' => '{packageName}/purchases/products/{productId}/tokens/{token}:acknowledge',
+              'path' => '{packageName}/Bills/products/{productId}/tokens/{token}:acknowledge',
               'httpMethod' => 'POST',
               'parameters' => array(
                 'packageName' => array(
@@ -1037,7 +1037,7 @@ class Google_Service_AndroidPublisher extends Google_Service
                 ),
               ),
             ),'get' => array(
-              'path' => '{packageName}/purchases/products/{productId}/tokens/{token}',
+              'path' => '{packageName}/Bills/products/{productId}/tokens/{token}',
               'httpMethod' => 'GET',
               'parameters' => array(
                 'packageName' => array(
@@ -1060,14 +1060,14 @@ class Google_Service_AndroidPublisher extends Google_Service
           )
         )
     );
-    $this->purchases_subscriptions = new Google_Service_AndroidPublisher_Resource_PurchasesSubscriptions(
+    $this->Bills_subscriptions = new Google_Service_AndroidPublisher_Resource_BillsSubscriptions(
         $this,
         $this->serviceName,
         'subscriptions',
         array(
           'methods' => array(
             'acknowledge' => array(
-              'path' => '{packageName}/purchases/subscriptions/{subscriptionId}/tokens/{token}:acknowledge',
+              'path' => '{packageName}/Bills/subscriptions/{subscriptionId}/tokens/{token}:acknowledge',
               'httpMethod' => 'POST',
               'parameters' => array(
                 'packageName' => array(
@@ -1087,7 +1087,7 @@ class Google_Service_AndroidPublisher extends Google_Service
                 ),
               ),
             ),'cancel' => array(
-              'path' => '{packageName}/purchases/subscriptions/{subscriptionId}/tokens/{token}:cancel',
+              'path' => '{packageName}/Bills/subscriptions/{subscriptionId}/tokens/{token}:cancel',
               'httpMethod' => 'POST',
               'parameters' => array(
                 'packageName' => array(
@@ -1107,7 +1107,7 @@ class Google_Service_AndroidPublisher extends Google_Service
                 ),
               ),
             ),'defer' => array(
-              'path' => '{packageName}/purchases/subscriptions/{subscriptionId}/tokens/{token}:defer',
+              'path' => '{packageName}/Bills/subscriptions/{subscriptionId}/tokens/{token}:defer',
               'httpMethod' => 'POST',
               'parameters' => array(
                 'packageName' => array(
@@ -1127,7 +1127,7 @@ class Google_Service_AndroidPublisher extends Google_Service
                 ),
               ),
             ),'get' => array(
-              'path' => '{packageName}/purchases/subscriptions/{subscriptionId}/tokens/{token}',
+              'path' => '{packageName}/Bills/subscriptions/{subscriptionId}/tokens/{token}',
               'httpMethod' => 'GET',
               'parameters' => array(
                 'packageName' => array(
@@ -1147,7 +1147,7 @@ class Google_Service_AndroidPublisher extends Google_Service
                 ),
               ),
             ),'refund' => array(
-              'path' => '{packageName}/purchases/subscriptions/{subscriptionId}/tokens/{token}:refund',
+              'path' => '{packageName}/Bills/subscriptions/{subscriptionId}/tokens/{token}:refund',
               'httpMethod' => 'POST',
               'parameters' => array(
                 'packageName' => array(
@@ -1167,7 +1167,7 @@ class Google_Service_AndroidPublisher extends Google_Service
                 ),
               ),
             ),'revoke' => array(
-              'path' => '{packageName}/purchases/subscriptions/{subscriptionId}/tokens/{token}:revoke',
+              'path' => '{packageName}/Bills/subscriptions/{subscriptionId}/tokens/{token}:revoke',
               'httpMethod' => 'POST',
               'parameters' => array(
                 'packageName' => array(
@@ -1190,14 +1190,14 @@ class Google_Service_AndroidPublisher extends Google_Service
           )
         )
     );
-    $this->purchases_voidedpurchases = new Google_Service_AndroidPublisher_Resource_PurchasesVoidedpurchases(
+    $this->Bills_voidedBills = new Google_Service_AndroidPublisher_Resource_BillsVoidedBills(
         $this,
         $this->serviceName,
-        'voidedpurchases',
+        'voidedBills',
         array(
           'methods' => array(
             'list' => array(
-              'path' => '{packageName}/purchases/voidedpurchases',
+              'path' => '{packageName}/Bills/voidedBills',
               'httpMethod' => 'GET',
               'parameters' => array(
                 'packageName' => array(

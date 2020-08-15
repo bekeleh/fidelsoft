@@ -112,7 +112,7 @@ class Activity extends EntityModel
         $payment = $this->payment;
         $billPayment = $this->bill_payment;
         $credit = $this->credit;
-        $purchaseCredit = $this->bill_credit;
+        $BillCredit = $this->bill_credit;
         $expense = $this->expense;
         $isSystem = $this->is_system;
         $task = $this->task;
@@ -132,7 +132,7 @@ class Activity extends EntityModel
             'payment_amount' => $payment ? $account->formatMoney($payment->amount, $payment) : null,
             'adjustment' => $this->adjustment ? $account->formatMoney($this->adjustment, $this) : null,
             'credit' => $credit ? $account->formatMoney($credit->amount, $client) : null,
-            'bill_credit' => $purchaseCredit ? $account->formatMoney($credit->amount, $client) : null,
+            'bill_credit' => $BillCredit ? $account->formatMoney($credit->amount, $client) : null,
             'task' => $task ? link_to($task->getRoute(), substr($task->description, 0, 30) . '...') : null,
             'expense' => $expense ? link_to($expense->getRoute(), substr($expense->public_notes, 0, 30) . '...') : null,
         ];

@@ -610,7 +610,7 @@ class BillRepository extends BaseRepository
 
         }
 
-//      purchase bill line item detail
+//      Bill bill line item detail
         $this->saveLineItemDetail($account, $bill, $data);
 
         $this->saveInvitations($bill);
@@ -1433,7 +1433,7 @@ class BillRepository extends BaseRepository
         $qoh = !empty($itemStore) ? Utils::parseFloat($itemStore->qty) : 0;
         $demandQty = Utils::parseFloat(trim($newLineItem['qty']));
 
-//        $purchase = Purchase::whereName($productKey);
+//        $Bill = Bill::whereName($productKey);
 //        $orderQty = Utils::parseFloat(0);
         if ($isNew) {
             $this->updateItemStore($qoh, $demandQty, $itemStore);

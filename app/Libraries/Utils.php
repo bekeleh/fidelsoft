@@ -1375,7 +1375,7 @@ class Utils
             'credit_id',
             'BILL_CREDIT_id',
             'invitation_id',
-            'purchase_invitation_id',
+            'Bill_invitation_id',
         ];
 
         $fields1 = $entity1->getAttributes();

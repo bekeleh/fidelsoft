@@ -15,11 +15,11 @@ use App\Ninja\Repositories\AccountRepository;
 use App\Ninja\Repositories\InvoiceRepository;
 use App\Services\PaymentService;
 use DateTime;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Auth;
-use Mail;
+use Illuminate\Support\Facades\Mail;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -60,7 +60,11 @@ class SendReminders extends Command
      * @param accountRepository $accountRepo
      * @param UserMailer $userMailer
      */
-    public function __construct(InvoiceRepository $invoiceRepo, PaymentService $paymentService, AccountRepository $accountRepo, UserMailer $userMailer)
+    public function __construct(
+        InvoiceRepository $invoiceRepo,
+        PaymentService $paymentService,
+        AccountRepository $accountRepo,
+        UserMailer $userMailer)
     {
         parent::__construct();
 
