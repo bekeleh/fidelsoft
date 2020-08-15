@@ -333,7 +333,8 @@ if (!defined('APP_NAME')) {
     define('ACTIVITY_TYPE_FAILED_BILL_PAYMENT', 86);
 
     define('DEFAULT_INVOICE_NUMBER', '0001');
-    define('RECENTLY_VIEWED_LIMIT', 20);
+    define('DEFAULT_BILL_NUMBER', '0001');
+    define('RECENTLY_VIEWED_LIMIT', 50);
     define('LOGGED_ERROR_LIMIT', 100);
     define('RANDOM_KEY_LENGTH', 32);
     define('MAX_NUM_USERS', 20);

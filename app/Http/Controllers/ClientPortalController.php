@@ -20,6 +20,8 @@ use App\Services\PaymentService;
 use Barracuda\ArchiveStream\ZipArchive;
 use Datatable;
 use Exception;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Request;
@@ -40,6 +42,16 @@ class ClientPortalController extends BaseController
     private $creditRepo;
     private $taskRepo;
 
+    /**
+     * ClientPortalController constructor.
+     * @param InvoiceRepository $invoiceRepo
+     * @param PaymentRepository $paymentRepo
+     * @param ActivityRepository $activityRepo
+     * @param DocumentRepository $documentRepo
+     * @param PaymentService $paymentService
+     * @param CreditRepository $creditRepo
+     * @param TaskRepository $taskRepo
+     */
     public function __construct(
         InvoiceRepository $invoiceRepo,
         PaymentRepository $paymentRepo,
@@ -58,6 +70,10 @@ class ClientPortalController extends BaseController
         $this->taskRepo = $taskRepo;
     }
 
+    /**
+     * @param $invitationKey
+     * @return RedirectResponse|\Illuminate\Http\Response|Redirector
+     */
     public function viewInvoice($invitationKey)
     {
         if (!$invitation = $this->invoiceRepo->findInvoiceByInvitation($invitationKey)) {
@@ -663,6 +679,11 @@ class ClientPortalController extends BaseController
         return $contact;
     }
 
+    /**
+     * @param $publicId
+     * @param $name
+     * @return \Illuminate\Http\Response
+     */
     public function getDocumentVFSJS($publicId, $name)
     {
         if (!$contact = $this->getContact()) {
@@ -788,6 +809,11 @@ class ClientPortalController extends BaseController
         }, 200);
     }
 
+    /**
+     * @param $invitationKey
+     * @param $publicId
+     * @return RedirectResponse|\Illuminate\Http\Response|Redirector
+     */
     public function getDocument($invitationKey, $publicId)
     {
         if (!$invitation = $this->invoiceRepo->findInvoiceByInvitation($invitationKey)) {

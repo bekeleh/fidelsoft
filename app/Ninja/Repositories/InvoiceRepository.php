@@ -68,11 +68,11 @@ class InvoiceRepository extends BaseRepository
     {
 
         $query = DB::table('invoices')
-            ->LeftJoin('accounts', 'accounts.id', '=', 'invoices.account_id')
-            ->LeftJoin('clients', 'clients.id', '=', 'invoices.client_id')
-            ->leftJoin('invoice_statuses', 'invoice_statuses.id', '=', 'invoices.invoice_status_id')
-            ->LeftJoin('contacts', 'contacts.client_id', '=', 'clients.id')
-            ->LeftJoin('branches', 'branches.id', '=', 'invoices.branch_id')
+            ->LeftJoin('accounts', 'accounts.id', 'invoices.account_id')
+            ->LeftJoin('clients', 'clients.id', 'invoices.client_id')
+            ->leftJoin('invoice_statuses', 'invoice_statuses.id', 'invoices.invoice_status_id')
+            ->LeftJoin('contacts', 'contacts.client_id', 'clients.id')
+            ->LeftJoin('branches', 'branches.id', 'invoices.branch_id')
             ->where('invoices.account_id', $accountId)
             ->where('contacts.deleted_at', null)
             ->where('invoices.is_recurring', false)
@@ -180,11 +180,11 @@ class InvoiceRepository extends BaseRepository
     public function getRecurringInvoices($accountId = false, $clientPublicId = false, $entityType = null, $filter = false)
     {
         $query = DB::table('invoices')
-            ->leftJoin('accounts', 'accounts.id', '=', 'invoices.account_id')
-            ->leftJoin('clients', 'clients.id', '=', 'invoices.client_id')
-            ->leftJoin('invoice_statuses', 'invoice_statuses.id', '=', 'invoices.invoice_status_id')
-            ->leftJoin('frequencies', 'frequencies.id', '=', 'invoices.frequency_id')
-            ->leftJoin('contacts', 'contacts.client_id', '=', 'clients.id')
+            ->leftJoin('accounts', 'accounts.id', 'invoices.account_id')
+            ->leftJoin('clients', 'clients.id', 'invoices.client_id')
+            ->leftJoin('invoice_statuses', 'invoice_statuses.id', 'invoices.invoice_status_id')
+            ->leftJoin('frequencies', 'frequencies.id', 'invoices.frequency_id')
+            ->leftJoin('contacts', 'contacts.client_id', 'clients.id')
             ->where('invoices.account_id', $accountId)
             ->where('invoices.invoice_type_id', INVOICE_TYPE_STANDARD)
             ->where('contacts.deleted_at', null)
@@ -258,10 +258,10 @@ class InvoiceRepository extends BaseRepository
     public function getClientRecurringDatatable($contactId, $filter = null)
     {
         $query = DB::table('invitations')
-            ->leftJoin('accounts', 'accounts.id', '=', 'invitations.account_id')
-            ->leftJoin('invoices', 'invoices.id', '=', 'invitations.invoice_id')
-            ->leftJoin('clients', 'clients.id', '=', 'invoices.client_id')
-            ->leftJoin('frequencies', 'frequencies.id', '=', 'invoices.frequency_id')
+            ->leftJoin('accounts', 'accounts.id', 'invitations.account_id')
+            ->leftJoin('invoices', 'invoices.id', 'invitations.invoice_id')
+            ->leftJoin('clients', 'clients.id', 'invoices.client_id')
+            ->leftJoin('frequencies', 'frequencies.id', 'invoices.frequency_id')
             ->where('invitations.contact_id', $contactId)
             ->where('invitations.deleted_at', null)
             ->where('invoices.invoice_type_id', INVOICE_TYPE_STANDARD)
@@ -333,10 +333,10 @@ class InvoiceRepository extends BaseRepository
     public function getClientDatatable($contactId, $entityType, $search)
     {
         $query = DB::table('invitations')
-            ->leftJoin('accounts', 'accounts.id', '=', 'invitations.account_id')
-            ->leftJoin('invoices', 'invoices.id', '=', 'invitations.invoice_id')
-            ->leftJoin('clients', 'clients.id', '=', 'invoices.client_id')
-            ->leftJoin('contacts', 'contacts.client_id', '=', 'clients.id')
+            ->leftJoin('accounts', 'accounts.id', 'invitations.account_id')
+            ->leftJoin('invoices', 'invoices.id', 'invitations.invoice_id')
+            ->leftJoin('clients', 'clients.id', 'invoices.client_id')
+            ->leftJoin('contacts', 'contacts.client_id', 'clients.id')
             ->where('invitations.contact_id', $contactId)
             ->where('invitations.deleted_at', null)
             ->where('invoices.invoice_type_id', $entityType == ENTITY_QUOTE ? INVOICE_TYPE_QUOTE : INVOICE_TYPE_STANDARD)
@@ -437,7 +437,7 @@ class InvoiceRepository extends BaseRepository
     public function save(array $data, Invoice $invoice = null)
     {
         $account = $invoice ? $invoice->account : Auth::user()->account;
-        $publicId = isset($data['public_id']) ? $data['public_id'] : false;
+        $publicId = !empty($data['public_id']) ? $data['public_id'] : false;
         $isNew = !$publicId || intval($publicId) < 0;
 
         if ($invoice) {
@@ -470,14 +470,14 @@ class InvoiceRepository extends BaseRepository
             return $invoice;
         }
 
-        if (isset($data['has_tasks']) && filter_var($data['has_tasks'], FILTER_VALIDATE_BOOLEAN)) {
+        if (!empty($data['has_tasks']) && filter_var($data['has_tasks'], FILTER_VALIDATE_BOOLEAN)) {
             $invoice->has_tasks = true;
         }
-        if (isset($data['has_expenses']) && filter_var($data['has_expenses'], FILTER_VALIDATE_BOOLEAN)) {
+        if (!empty($data['has_expenses']) && filter_var($data['has_expenses'], FILTER_VALIDATE_BOOLEAN)) {
             $invoice->has_expenses = true;
         }
 
-        if (isset($data['is_public']) && filter_var($data['is_public'], FILTER_VALIDATE_BOOLEAN)) {
+        if (!empty($data['is_public']) && filter_var($data['is_public'], FILTER_VALIDATE_BOOLEAN)) {
             $invoice->is_public = true;
             if (!$invoice->isSent()) {
                 $invoice->invoice_status_id = INVOICE_STATUS_SENT;
@@ -485,7 +485,7 @@ class InvoiceRepository extends BaseRepository
         }
 
 //     TODO: should be examine this expression
-        if (isset($data['invoice_design_id']) && !$data['invoice_design_id']) {
+        if (!empty($data['invoice_design_id']) && !$data['invoice_design_id']) {
             $data['invoice_design_id'] = 1;
         }
 
@@ -499,10 +499,10 @@ class InvoiceRepository extends BaseRepository
             $invoice->invoice_number = trim($data['invoice_number']);
         }
 
-        if (isset($data['discount'])) {
+        if (!empty($data['discount'])) {
             $invoice->discount = round(Utils::parseFloat($data['discount']), 2);
         }
-        if (isset($data['is_amount_discount'])) {
+        if (!empty($data['is_amount_discount'])) {
             $invoice->is_amount_discount = $data['is_amount_discount'] ? true : false;
         }
 
@@ -522,7 +522,7 @@ class InvoiceRepository extends BaseRepository
         }
 
         if ($invoice->is_recurring) {
-            if (!$isNew && isset($data['start_date']) && $invoice->start_date && $invoice->start_date != Utils::toSqlDate($data['start_date'])) {
+            if (!$isNew && !empty($data['start_date']) && $invoice->start_date && $invoice->start_date != Utils::toSqlDate($data['start_date'])) {
                 $invoice->last_sent_date = null;
             }
 
@@ -894,28 +894,30 @@ class InvoiceRepository extends BaseRepository
     public function findInvoiceByInvitation($invitationKey)
     {
         if (empty($invitationKey)) {
-            return null;
+            return false;
         }
 // check for extra params at end of value (from website feature)
         list($invitationKey) = explode('&', $invitationKey);
         $invitationKey = substr($invitationKey, 0, RANDOM_KEY_LENGTH);
 
         /** @var Invitation $invitation */
-        $invitation = Invitation::where('invitation_key', '=', $invitationKey)->first();
+        $invitation = Invitation::with('invoice')
+            ->where('invitation_key', $invitationKey)->first();
 
         if (empty($invitation)) {
             return false;
         }
 
-        $invoice = $invitation->invoice;
-        if (empty($invoice) || isset($invoice->is_deleted)) {
+        $invoice = $invitation->invoice
+            ->load('user', 'invoice_items', 'invoice_design', 'documents', 'account.country', 'client.contacts', 'client.country');
+
+        if (empty($invoice) || !empty($invoice->is_deleted)) {
             return false;
         }
 
-        $invoice->load('user', 'invoice_items', 'documents', 'invoice_design', 'account.country', 'client.contacts', 'client.country');
         $client = $invoice->client;
 
-        if (empty($client) || isset($client->is_deleted)) {
+        if (empty($client) || !empty($client->is_deleted)) {
             return false;
         }
 
@@ -1004,7 +1006,7 @@ class InvoiceRepository extends BaseRepository
             return false;
         }
 
-        if (!isset($recurInvoice->user->confirmed)) {
+        if (!!empty($recurInvoice->user->confirmed)) {
             return false;
         }
 
@@ -1121,7 +1123,7 @@ class InvoiceRepository extends BaseRepository
             })
             ->where('account_id', $account->id)
             ->where('balance', '>', 0)
-            ->where('is_recurring', '=', false)
+            ->where('is_recurring', false)
             ->where('is_public', true)
             ->whereRaw('(' . $sql . ')')
             ->get();
@@ -1142,7 +1144,7 @@ class InvoiceRepository extends BaseRepository
         $settings = $account->account_email_settings;
         $frequencyId = $settings->frequency_id_reminder4;
 
-        if (!empty($frequencyId) || !isset($account->enable_reminder4)) {
+        if (!empty($frequencyId) || !!empty($account->enable_reminder4)) {
             return collect();
         }
 
@@ -1255,7 +1257,7 @@ class InvoiceRepository extends BaseRepository
 
         $account = $invoice->account;
 
-        if (!isset($account->gateway_fee_enabled)) {
+        if (!!empty($account->gateway_fee_enabled)) {
             return false;
         }
 
@@ -1483,7 +1485,7 @@ class InvoiceRepository extends BaseRepository
     {
         $invoicedQty = !empty($item['qty']) ? Utils::parseFloat(trim($item['qty'])) : 1;
         $demandQty = !empty($item['qty']) ? Utils::parseFloat(trim($item['qty'])) : 1;
-        $itemCost = !empty($item['cost']) ? Utils::parseFloat(trim($item['cost'])) : (isset($product->cost) ? $product->cost : 0);
+        $itemCost = !empty($item['cost']) ? Utils::parseFloat(trim($item['cost'])) : (!empty($product->cost) ? $product->cost : 0);
         $invoiceItem = InvoiceItem::createNew($invoice);
         $invoiceItem->fill($item);
         $invoiceItem->product_id = !empty($product) ? $product->id : null;

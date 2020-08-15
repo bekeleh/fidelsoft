@@ -1565,6 +1565,7 @@ $LANG = array(
     'reminder_subject' => 'Reminder: Invoice :invoice from :account',
     'reset' => 'Reset',
     'invoice_not_found' => 'The requested invoice is not available',
+    'bill_not_found' => 'The requested bill is not available',
     'referral_program' => 'Referral Program',
     'utility' => 'Utility',
     'last_sent_on' => 'Sent Last: :date',
