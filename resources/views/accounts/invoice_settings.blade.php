@@ -104,11 +104,13 @@
                         {!! Former::text('quote_number_prefix')
                                 ->addGroupClass('quote-prefix')
                                 ->label(trans('texts.prefix')) !!}
+
                         {!! Former::text('quote_number_pattern')
                                 ->appendIcon('question-sign')
                                 ->addGroupClass('quote-pattern')
                                 ->addGroupClass('number-pattern')
                                 ->label(trans('texts.pattern')) !!}
+
                         {!! Former::text('quote_number_counter')
                                 ->label(trans('texts.counter'))
                                 ->addGroupClass('pad-checkbox')
@@ -292,13 +294,13 @@
                             ])->check($account->bill_quote_number_pattern ? 'pattern' : 'prefix') !!}
 
                     {!! Former::text('bill_quote_number_prefix')
-                            ->addGroupClass('bill-quote-prefix')
+                            ->addGroupClass('quote-prefix')
                             ->label(trans('texts.prefix')) !!}
 
                     {!! Former::text('bill_quote_number_pattern')
                             ->appendIcon('question-sign')
-                            ->addGroupClass('bill-quote-pattern')
-                            ->addGroupClass('number-pattern')
+                            ->addGroupClass('quote-pattern')
+                            ->addGroupClass('bill-number-pattern')
                             ->label(trans('texts.pattern')) !!}
 
                     {!! Former::text('bill_quote_number_counter')
@@ -307,7 +309,7 @@
                             ->append(Former::checkbox('share_bill_counter')->raw()->value(1)
                             ->onclick('setBillQuoteNumberEnabled()') . ' ' . trans('texts.share_bill_counter'))
                             ->help(trans('texts.bill_quote_number_help') . ' ' .
-                                trans('texts.next_bill_quote_number', ['number' => $account->previewNextBILLNumber(ENTITY_BILL_QUOTE)])) !!}
+                                trans('texts.next_bill_quote_number', ['number' => $account->previewNextBillNumber(ENTITY_BILL_QUOTE)])) !!}
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="vendor_number">
@@ -350,7 +352,7 @@
             <div role="tabpanel" class="tab-pane" id="vendor_credit_number">
                 <div class="panel-body">
                     {!! Former::checkbox('vendor_credit_number_enabled')
-                            ->label('vendor_credit_number')
+                            ->label('credit_number')
                             ->onchange('onVendorCreditNumberEnabled()')
                             ->text('enable')
                             ->value(1)
@@ -368,16 +370,18 @@
                         {!! Former::text('vendor_number_prefix')
                                 ->addGroupClass('vendor-prefix')
                                 ->label(trans('texts.prefix')) !!}
+
                         {!! Former::text('vendor_number_pattern')
                                 ->appendIcon('question-sign')
                                 ->addGroupClass('vendor-pattern')
-                                ->addGroupClass('vendor-number-pattern')
+                                ->addGroupClass('number-pattern')
                                 ->label(trans('texts.pattern')) !!}
+
                         {!! Former::text('vendor_number_counter')
                                 ->label(trans('texts.counter'))
                                 ->addGroupClass('pad-checkbox')
                                 ->help(trans('texts.vendor_number_help') . ' ' .
-                                    trans('texts.next_vendor_number', ['number' => $account->getVendorNextNumber(new \App\Models\VendorCredit()) ?: '0001'])) !!}
+                                    trans('texts.next_vendor_number', ['number' => $account->getVendorNextNumber(new \App\Models\Credit()) ?: '0001'])) !!}
                     </div>
                 </div>
             </div>
@@ -633,7 +637,7 @@
                            data-toggle="tab">{{ trans('texts.quote_terms') }}</a>
                     </li>
 
-                    <li role="presentation" class="active">
+                    <li role="presentation">
                         <a href="#bill_terms" aria-controls="bill_terms"
                            role="tab"
                            data-toggle="tab">{{ trans('texts.bill_terms') }}</a>
