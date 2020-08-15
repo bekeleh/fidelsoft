@@ -3578,7 +3578,9 @@ $LANG = array(
     'module_user' => 'User',
     'module_permission_group' => 'Permission Group',
     'module_store' => 'Store',
+    'module_item_transfer' => 'Item Transfer',
     'module_item_store' => 'Item Store',
+    'module_warehouse' => 'Warehouse',
 
     'reminders' => 'Reminders',
     'send_client_reminders' => 'Send email reminders',

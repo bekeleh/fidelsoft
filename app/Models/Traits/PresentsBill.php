@@ -3,14 +3,14 @@
 namespace App\Models\Traits;
 
 /**
- * Class PresentsInvoice.
+ * Class PresentsBill.
  */
-trait PresentsInvoice
+trait PresentsBill
 {
-    public function getInvoiceFields()
+    public function getBillFields()
     {
-        if ($this->invoice_fields) {
-            $fields = json_decode($this->invoice_fields, true);
+        if ($this->bill_fields) {
+            $fields = json_decode($this->bill_fields, true);
 
             if (!isset($fields['product_fields'])) {
                 $fields['product_fields'] = [
@@ -48,13 +48,13 @@ trait PresentsInvoice
                 ];
             }
 
-            return $this->applyLabels($fields);
+            return $this->applyBillLabels($fields);
         } else {
-            return $this->getDefaultInvoiceFields();
+            return $this->getDefaultBillFields();
         }
     }
 
-    public function getDefaultInvoiceFields()
+    public function getDefaultBillFields()
     {
         $fields = [
             INVOICE_FIELDS_INVOICE => [
@@ -169,10 +169,10 @@ trait PresentsInvoice
             $fields['account_fields2'][] = 'account.custom_value2';
         }
 
-        return $this->applyLabels($fields);
+        return $this->applyBillLabels($fields);
     }
 
-    public function getAllInvoiceFields()
+    public function getAllBillFields()
     {
         $fields = [
             INVOICE_FIELDS_INVOICE => [
@@ -295,12 +295,12 @@ trait PresentsInvoice
             ],
         ];
 
-        return $this->applyLabels($fields);
+        return $this->applyBillLabels($fields);
     }
 
-    private function applyLabels($fields)
+    private function applyBillLabels($fields)
     {
-        $labels = $this->getInvoiceLabels();
+        $labels = $this->getBillLabels();
 
         foreach ($fields as $section => $sectionFields) {
             foreach ($sectionFields as $index => $field) {
@@ -346,7 +346,7 @@ trait PresentsInvoice
     /**
      * @return array
      */
-    public function getInvoiceLabels()
+    public function getBillLabels()
     {
         $data = [];
         $custom = (array)json_decode($this->invoice_labels);
@@ -491,9 +491,9 @@ trait PresentsInvoice
         return null;
     }
 
-    public function hasInvoiceField($type, $field)
+    public function hasBillField($type, $field)
     {
-        $fields = $this->getInvoiceFields();
+        $fields = $this->getBillFields();
 
         return isset($fields[$type . '_fields'][$field]);
     }
