@@ -868,7 +868,7 @@ class AccountController extends BaseController
     {
         if (Auth::user()->account->hasFeature(FEATURE_INVOICE_SETTINGS)) {
             $rules = [];
-            foreach ([ENTITY_INVOICE, ENTITY_QUOTE, ENTITY_CLIENT] as $entityType) {
+            foreach ([ENTITY_INVOICE, ENTITY_QUOTE, ENTITY_CLIENT, ENTITY_BILL, ENTITY_BILL_QUOTE, ENTITY_VENDOR] as $entityType) {
                 if (Input::get("{$entityType}_number_type") == 'pattern') {
                     $rules["{$entityType}_number_pattern"] = 'has_counter';
                 }
@@ -877,6 +877,11 @@ class AccountController extends BaseController
                 $rules['credit_number_prefix'] = 'required_without:credit_number_pattern';
                 $rules['credit_number_pattern'] = 'required_without:credit_number_prefix';
             }
+            if (Input::get('vendor_credit_number_enabled')) {
+                $rules['vendor_credit_number_prefix'] = 'required_without:vendor_credit_number_pattern';
+                $rules['vendor_credit_number_pattern'] = 'required_without:vendor_credit_number_prefix';
+            }
+
             $validator = Validator::make(Input::all(), $rules);
 
             if ($validator->fails()) {
@@ -897,20 +902,47 @@ class AccountController extends BaseController
                 $account->invoice_terms = Input::get('invoice_terms');
                 $account->invoice_footer = Input::get('invoice_footer');
                 $account->quote_terms = Input::get('quote_terms');
+
+                $account->bill_number_padding = Input::get('bill_number_padding');
+                $account->bill_number_counter = Input::get('bill_number_counter');
+                $account->bill_quote_number_prefix = Input::get('bill_quote_number_prefix');
+                $account->share_counter = Input::get('share_counter') ? true : false;
+                $account->bill_terms = Input::get('bill_terms');
+                $account->bill_footer = Input::get('bill_footer');
+                $account->bill_quote_terms = Input::get('bill_quote_terms');
+
                 $account->auto_convert_quote = Input::get('auto_convert_quote');
                 $account->auto_archive_quote = Input::get('auto_archive_quote');
                 $account->auto_archive_invoice = Input::get('auto_archive_invoice');
                 $account->auto_email_invoice = Input::get('auto_email_invoice');
+
+                $account->auto_convert_bill_quote = Input::get('auto_convert_bill_quote');
+                $account->auto_archive_bill_quote = Input::get('auto_archive_bill_quote');
+                $account->auto_archive_bill = Input::get('auto_archive_bill');
+                $account->auto_email_bill = Input::get('auto_email_bill');
+
                 $account->recurring_invoice_number_prefix = Input::get('recurring_invoice_number_prefix');
+                $account->recurring_bill_number_prefix = Input::get('recurring_bill_number_prefix');
 
                 $account->client_number_prefix = trim(Input::get('client_number_prefix'));
                 $account->client_number_pattern = trim(Input::get('client_number_pattern'));
                 $account->client_number_counter = Input::get('client_number_counter');
+
+                $account->vendor_number_prefix = trim(Input::get('vendor_number_prefix'));
+                $account->vendor_number_pattern = trim(Input::get('vendor_number_pattern'));
+                $account->vendor_number_counter = Input::get('vendor_number_counter');
+
                 $account->credit_number_counter = Input::get('credit_number_counter');
                 $account->credit_number_prefix = trim(Input::get('credit_number_prefix'));
                 $account->credit_number_pattern = trim(Input::get('credit_number_pattern'));
                 $account->reset_counter_frequency_id = Input::get('reset_counter_frequency_id');
                 $account->reset_counter_date = $account->reset_counter_frequency_id ? Utils::toSqlDate(Input::get('reset_counter_date')) : null;
+
+                $account->vendor_credit_number_counter = Input::get('vendor_credit_number_counter');
+                $account->vendor_credit_number_prefix = trim(Input::get('vendor_credit_number_prefix'));
+                $account->vendor_credit_number_pattern = trim(Input::get('vendor_credit_number_pattern'));
+                $account->reset_bill_counter_frequency_id = Input::get('reset_bill_counter_frequency_id');
+                $account->reset_bill_counter_date = $account->reset_bill_counter_frequency_id ? Utils::toSqlDate(Input::get('reset_bill_counter_date')) : null;
 
                 if (Input::has('recurring_hour')) {
                     $account->recurring_hour = Input::get('recurring_hour');
@@ -920,7 +952,11 @@ class AccountController extends BaseController
                     $account->quote_number_counter = Input::get('quote_number_counter');
                 }
 
-                foreach ([ENTITY_INVOICE, ENTITY_QUOTE, ENTITY_CLIENT] as $entityType) {
+                if (!$account->share_bill_counter) {
+                    $account->bill_quote_number_counter = Input::get('bill_quote_number_counter');
+                }
+
+                foreach ([ENTITY_INVOICE, ENTITY_QUOTE, ENTITY_CLIENT, ENTITY_BILL, ENTITY_BILL_QUOTE, ENTITY_VENDOR] as $entityType) {
                     if (Input::get("{$entityType}_number_type") == 'prefix') {
                         $account->{"{$entityType}_number_prefix"} = trim(Input::get("{$entityType}_number_prefix"));
                         $account->{"{$entityType}_number_pattern"} = null;
@@ -929,7 +965,7 @@ class AccountController extends BaseController
                         $account->{"{$entityType}_number_prefix"} = null;
                     }
                 }
-
+//           invoice
                 if (!$account->share_counter
                     && $account->invoice_number_prefix == $account->quote_number_prefix
                     && $account->invoice_number_pattern == $account->quote_number_pattern) {
@@ -940,6 +976,18 @@ class AccountController extends BaseController
                     $account->save();
                     Session::flash('message', trans('texts.updated_settings'));
                 }
+//              bill
+                if (!$account->share_bill_counter
+                    && $account->bill_number_prefix == $account->bill_quote_number_prefix
+                    && $account->bill_number_pattern == $account->bill_quote_number_pattern) {
+                    Session::flash('error', trans('texts.invalid_counter'));
+
+                    return Redirect::to('settings/' . ACCOUNT_INVOICE_SETTINGS)->withInput();
+                } else {
+                    $account->save();
+                    Session::flash('message', trans('texts.updated_settings'));
+                }
+
             }
         }
 

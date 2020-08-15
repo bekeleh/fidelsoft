@@ -27,6 +27,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_PAYMENT', 'payment');
     define('ENTITY_BILL_PAYMENT', 'bill_payment');
     define('ENTITY_CREDIT', 'credit');
+    define('ENTITY_VENDOR_CREDIT', 'vendor_credit');
     define('ENTITY_BILL_CREDIT', 'bill_credit');
     define('ENTITY_QUOTE', 'quote');
     define('ENTITY_BILL_QUOTE', 'bill_quote');

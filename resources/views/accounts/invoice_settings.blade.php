@@ -246,8 +246,8 @@
                            data-toggle="tab">{{ trans('texts.vendor_number') }}</a>
                     </li>
                     <li role="presentation">
-                        <a href="#bill_credit_number" aria-controls="bill_credit_number" role="tab"
-                           data-toggle="tab">{{ trans('texts.bill_credit_number') }}</a>
+                        <a href="#vendor_credit_number" aria-controls="vendor_credit_number" role="tab"
+                           data-toggle="tab">{{ trans('texts.vendor_credit_number') }}</a>
                     </li>
                     <li role="presentation">
                         <a href="#bill_options" aria-controls="bill_options" role="tab"
@@ -259,55 +259,55 @@
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="bill_number">
                 <div class="panel-body">
-                    {!! Former::inline_radios('invoice_number_type')
-                            ->onchange("onNumberTypeChange('invoice')")
+                    {!! Former::inline_radios('bill_number_type')
+                            ->onchange("onNumberTypeChange('bill')")
                             ->label(trans('texts.type'))
                             ->radios([
-                                trans('texts.prefix') => ['value' => 'prefix', 'name' => 'invoice_number_type'],
-                                trans('texts.pattern') => ['value' => 'pattern', 'name' => 'invoice_number_type'],
-                            ])->check($account->invoice_number_pattern ? 'pattern' : 'prefix') !!}
+                                trans('texts.prefix') => ['value' => 'prefix', 'name' => 'bill_number_type'],
+                                trans('texts.pattern') => ['value' => 'pattern', 'name' => 'bill_number_type'],
+                            ])->check($account->bill_number_pattern ? 'pattern' : 'prefix') !!}
 
-                    {!! Former::text('invoice_number_prefix')
-                            ->addGroupClass('invoice-prefix')
+                    {!! Former::text('bill_number_prefix')
+                            ->addGroupClass('bill-prefix')
                             ->label(trans('texts.prefix')) !!}
-                    {!! Former::text('invoice_number_pattern')
+                    {!! Former::text('bill_number_pattern')
                             ->appendIcon('question-sign')
-                            ->addGroupClass('invoice-pattern')
+                            ->addGroupClass('bill-pattern')
                             ->label(trans('texts.pattern'))
                             ->addGroupClass('number-pattern') !!}
-                    {!! Former::text('invoice_number_counter')
+                    {!! Former::text('bill_number_counter')
                             ->label(trans('texts.counter'))
-                            ->help(trans('texts.invoice_number_help') . ' ' .
-                                trans('texts.next_invoice_number', ['number' => $account->previewNextInvoiceNumber()])) !!}
+                            ->help(trans('texts.bill_number_help') . ' ' .
+                                trans('texts.next_bill_number', ['number' => $account->previewNextBillNumber()])) !!}
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="bill_quote_number">
                 <div class="panel-body">
-                    {!! Former::inline_radios('quote_number_type')
-                            ->onchange("onNumberTypeChange('quote')")
+                    {!! Former::inline_radios('bill_quote_number_type')
+                            ->onchange("onNumberTypeChange('bill_quote')")
                             ->label(trans('texts.type'))
                             ->radios([
-                                trans('texts.prefix') => ['value' => 'prefix', 'name' => 'quote_number_type'],
-                                trans('texts.pattern') => ['value' => 'pattern', 'name' => 'quote_number_type'],
-                            ])->check($account->quote_number_pattern ? 'pattern' : 'prefix') !!}
+                                trans('texts.prefix') => ['value' => 'prefix', 'name' => 'bill_quote_number_type'],
+                                trans('texts.pattern') => ['value' => 'pattern', 'name' => 'bill_quote_number_type'],
+                            ])->check($account->bill_quote_number_pattern ? 'pattern' : 'prefix') !!}
 
-                    {!! Former::text('quote_number_prefix')
-                            ->addGroupClass('quote-prefix')
+                    {!! Former::text('bill_quote_number_prefix')
+                            ->addGroupClass('bill-quote-prefix')
                             ->label(trans('texts.prefix')) !!}
-                    {!! Former::text('quote_number_pattern')
+
+                    {!! Former::text('bill_quote_number_pattern')
                             ->appendIcon('question-sign')
-                            ->addGroupClass('quote-pattern')
+                            ->addGroupClass('bill-quote-pattern')
                             ->addGroupClass('number-pattern')
                             ->label(trans('texts.pattern')) !!}
-                    {!! Former::text('quote_number_counter')
+
+                    {!! Former::text('bill_quote_number_counter')
                             ->label(trans('texts.counter'))
                             ->addGroupClass('pad-checkbox')
-                            ->append(Former::checkbox('share_counter')->raw()->value(1)
-                            ->onclick('setQuoteNumberEnabled()') . ' ' . trans('texts.share_invoice_counter'))
-                            ->help(trans('texts.quote_number_help') . ' ' .
-                                trans('texts.next_quote_number', ['number' => $account->previewNextInvoiceNumber(ENTITY_QUOTE)])) !!}
-
-
+                            ->append(Former::checkbox('share_bill_counter')->raw()->value(1)
+                            ->onclick('setBillQuoteNumberEnabled()') . ' ' . trans('texts.share_bill_counter'))
+                            ->help(trans('texts.bill_quote_number_help') . ' ' .
+                                trans('texts.next_bill_quote_number', ['number' => $account->previewNextBILLNumber(ENTITY_BILL_QUOTE)])) !!}
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="vendor_number">
@@ -347,58 +347,57 @@
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="bill_credit_number">
+            <div role="tabpanel" class="tab-pane" id="vendor_credit_number">
                 <div class="panel-body">
-                    {!! Former::checkbox('credit_number_enabled')
-                            ->label('credit_number')
-                            ->onchange('onCreditNumberEnabled()')
+                    {!! Former::checkbox('vendor_credit_number_enabled')
+                            ->label('vendor_credit_number')
+                            ->onchange('onVendorCreditNumberEnabled()')
                             ->text('enable')
                             ->value(1)
-                            ->check($account->credit_number_counter > 0) !!}
+                            ->check($account->vendor_credit_number_counter > 0) !!}
 
-                    <div id="creditNumberDiv" style="display:none">
-
-                        {!! Former::inline_radios('credit_number_type')
-                                ->onchange("onNumberTypeChange('credit')")
+                    <div id="vendorCreditNumberDiv" style="display:none">
+                        {!! Former::inline_radios('vendor_credit_number_type')
+                                ->onchange("onNumberTypeChange('vendor_credit')")
                                 ->label(trans('texts.type'))
                                 ->radios([
-                                    trans('texts.prefix') => ['value' => 'prefix', 'name' => 'credit_number_type'],
-                                    trans('texts.pattern') => ['value' => 'pattern', 'name' => 'credit_number_type'],
-                                ])->check($account->credit_number_pattern ? 'pattern' : 'prefix') !!}
+                                    trans('texts.prefix') => ['value' => 'prefix', 'name' => 'vendor_credit_number_type'],
+                                    trans('texts.pattern') => ['value' => 'pattern', 'name' => 'vendor_credit_number_type'],
+                                ])->check($account->vendor_credit_number_pattern ? 'pattern' : 'prefix') !!}
 
-                        {!! Former::text('credit_number_prefix')
-                                ->addGroupClass('credit-prefix')
+                        {!! Former::text('vendor_number_prefix')
+                                ->addGroupClass('vendor-prefix')
                                 ->label(trans('texts.prefix')) !!}
-                        {!! Former::text('credit_number_pattern')
+                        {!! Former::text('vendor_number_pattern')
                                 ->appendIcon('question-sign')
-                                ->addGroupClass('credit-pattern')
-                                ->addGroupClass('credit-number-pattern')
+                                ->addGroupClass('vendor-pattern')
+                                ->addGroupClass('vendor-number-pattern')
                                 ->label(trans('texts.pattern')) !!}
-                        {!! Former::text('credit_number_counter')
+                        {!! Former::text('vendor_number_counter')
                                 ->label(trans('texts.counter'))
                                 ->addGroupClass('pad-checkbox')
-                                ->help(trans('texts.credit_number_help') . ' ' .
-                                    trans('texts.next_credit_number', ['number' => $account->getClientNextNumber(new \App\Models\Credit()) ?: '0001'])) !!}
+                                ->help(trans('texts.vendor_number_help') . ' ' .
+                                    trans('texts.next_vendor_number', ['number' => $account->getVendorNextNumber(new \App\Models\VendorCredit()) ?: '0001'])) !!}
                     </div>
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="bill_options">
                 <div class="panel-body">
-                    {!! Former::text('invoice_number_padding')
+                    {!! Former::text('bill_number_padding')
                             ->help('padding_help') !!}
 
-                    {!! Former::text('recurring_invoice_number_prefix')
+                    {!! Former::text('recurring_bill_number_prefix')
                             ->label(trans('texts.recurring_prefix'))
-                            ->help(trans('texts.recurring_invoice_number_prefix_help')) !!}
+                            ->help(trans('texts.recurring_bill_number_prefix_help')) !!}
 
-                    {!! Former::select('reset_counter_frequency_id')
-                            ->onchange('onResetFrequencyChange()')
+                    {!! Former::select('reset_bill_counter_frequency_id')
+                            ->onchange('onResetBillFrequencyChange()')
                             ->label('reset_counter')
                             ->addOption(trans('texts.never'), '')
                             ->options(\App\Models\Frequency::selectOptions())
-                            ->help('reset_counter_help') !!}
+                            ->help('reset_bill_counter_help') !!}
 
-                    {!! Former::text('reset_counter_date')
+                    {!! Former::text('reset_bill_counter_date')
                                 ->label('next_reset')
                                 ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
                                 ->addGroupClass('reset_counter_date_group')
@@ -625,18 +624,39 @@
                            role="tab"
                            data-toggle="tab">{{ trans('texts.invoice_terms') }}</a>
                     </li>
-                    <li role="presentation"><a href="#invoice_footer" aria-controls="invoice_footer" role="tab"
-                                               data-toggle="tab">{{ trans('texts.invoice_footer') }}</a></li>
-                    <li role="presentation"><a href="#quote_terms" aria-controls="quote_terms" role="tab"
-                                               data-toggle="tab">{{ trans('texts.quote_terms') }}</a></li>
+                    <li role="presentation">
+                        <a href="#invoice_footer" aria-controls="invoice_footer" role="tab"
+                           data-toggle="tab">{{ trans('texts.invoice_footer') }}</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#quote_terms" aria-controls="quote_terms" role="tab"
+                           data-toggle="tab">{{ trans('texts.quote_terms') }}</a>
+                    </li>
+
+                    <li role="presentation" class="active">
+                        <a href="#bill_terms" aria-controls="bill_terms"
+                           role="tab"
+                           data-toggle="tab">{{ trans('texts.bill_terms') }}</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#bill_footer" aria-controls="bill_footer" role="tab"
+                           data-toggle="tab">{{ trans('texts.bill_footer') }}</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#bill_quote_terms" aria-controls="bill_quote_terms" role="tab"
+                           data-toggle="tab">{{ trans('texts.bill_quote_terms') }}</a>
+                    </li>
+
                     @if ($account->hasFeature(FEATURE_DOCUMENTS))
-                        <li role="presentation"><a href="#documents" aria-controls="documents" role="tab"
-                                                   data-toggle="tab">
+                        <li role="presentation">
+                            <a href="#documents" aria-controls="documents" role="tab"
+                               data-toggle="tab">
                                 {{ trans('texts.documents') }}
                                 @if ($count = $account->defaultDocuments->count())
                                     ({{ $count }})
                                 @endif
-                            </a></li>
+                            </a>
+                        </li>
                     @endif
                 </ul>
             </div>
@@ -666,6 +686,35 @@
                     <div class="panel-body">
                         {!! Former::textarea('quote_terms')
                                 ->label(trans('texts.default_quote_terms'))
+                                ->rows(8)
+                                ->raw() !!}
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="bill_terms">
+                    <div class="panel-body">
+                        {!! Former::textarea('bill_terms')
+                                ->label(trans('texts.default_bill_terms'))
+                                ->rows(8)
+                                ->raw() !!}
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="bill_footer">
+                    <div class="panel-body">
+                        {!! Former::textarea('bill_footer')
+                                ->label(trans('texts.default_bill_footer'))
+                                ->rows(8)
+                                ->raw() !!}
+                        @if ($account->hasFeature(FEATURE_REMOVE_CREATED_BY) && ! $account->isTrial())
+                            <div class="help-block">
+                                {{ trans('texts.bill_footer_help')}}
+                            </div>
+                        @endif
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="bill_quote_terms">
+                    <div class="panel-body">
+                        {!! Former::textarea('bill_quote_terms')
+                                ->label(trans('texts.default_bill_quote_terms'))
                                 ->rows(8)
                                 ->raw() !!}
                     </div>
@@ -744,6 +793,49 @@
         </div>
     </div>
 
+    <div class="modal fade" id="vendorPatternHelpModal" tabindex="-1" role="dialog"
+         aria-labelledby="vendorPatternHelpModal"
+         aria-hidden="true">
+        <div class="modal-dialog" style="min-width:150px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="patternHelpModalLabel">{{ trans('texts.pattern_help_title') }}</h4>
+                </div>
+                <div class="container" style="width: 100%; padding-bottom: 0px !important">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p>{{ trans('texts.pattern_help_1') }}</p>
+                            <p>{{ trans('texts.pattern_help_2') }}</p>
+                            <ul>
+                                @foreach (\App\Models\Bill::$patternFields as $field)
+                                    @if ($field == 'date:')
+                                        <li>{$date:format}
+                                            - {!! link_to(PHP_DATE_FORMATS, trans('texts.see_options'), ['target' => '_blank']) !!}</li>
+                                    @elseif (strpos($field, 'vendor') !== false)
+                                        <li class="hide-client">{${{ $field }}}</li>
+                                    @else
+                                        <li>{${{ $field }}}</li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                            <p class="hide-vendor">{{ trans('texts.pattern_help_3', [
+                            'example' => '{$year}-{$counter}',
+                            'value' => date('Y') . '-0001'
+                        ]) }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary"
+                            data-dismiss="modal">{{ trans('texts.close') }}</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     {!! Former::close() !!}
 
     <script type="text/javascript">
@@ -752,6 +844,12 @@
             var disabled = $('#share_counter').prop('checked');
             $('#quote_number_counter').prop('disabled', disabled);
             $('#quote_number_counter').val(disabled ? '' : {!! json_encode($account->quote_number_counter) !!});
+        }
+
+        function setBillQuoteNumberEnabled() {
+            var disabled = $('#share_bill_counter').prop('checked');
+            $('#bill_quote_number_counter').prop('disabled', disabled);
+            $('#bill_quote_number_counter').val(disabled ? '' : {!! json_encode($account->bill_quote_number_counter) !!});
         }
 
         function onNumberTypeChange(entityType) {
@@ -799,13 +897,13 @@
         }
 
         function onVendorCreditNumberEnabled() {
-            var enabled = $('#bill_credit_number_enabled').is(':checked');
+            var enabled = $('#vendor_credit_number_enabled').is(':checked');
             if (enabled) {
-                $('#billCreditNumberDiv').show();
-                $('#bill_credit_number_counter').val({{ $account->credit_number_counter ?: 1 }});
+                $('#vendorCreditNumberDiv').show();
+                $('#vendor_credit_number_counter').val({{ $account->vendor_credit_number_counter ?: 1 }});
             } else {
-                $('#creditNumberDiv').hide();
-                $('#credit_number_counter').val(0);
+                $('#vendorCreditNumberDiv').hide();
+                $('#vendor_credit_number_counter').val(0);
             }
         }
 
@@ -815,6 +913,15 @@
                 $('.reset_counter_date_group').show();
             } else {
                 $('.reset_counter_date_group').hide();
+            }
+        }
+
+        function onResetBillFrequencyChange() {
+            var val = $('#reset_bill_counter_frequency_id').val();
+            if (val) {
+                $('.reset_bill_counter_date_group').show();
+            } else {
+                $('.reset_bill_counter_date_group').hide();
             }
         }
 
@@ -833,10 +940,28 @@
             $('#patternHelpModal').modal('show');
         });
 
+        <!-- vendor -->
+
+        $('.number-pattern .input-group-addon').click(function () {
+            $('.hide-vendor').show();
+            $('#vendorPatternHelpModal').modal('show');
+        });
+
+        $('.vendor-number-pattern .input-group-addon').click(function () {
+            $('.hide-vendor').hide();
+            $('#vendorPatternHelpModal').modal('show');
+        });
+
+        $('.vendor-credit-number-pattern .input-group-addon').click(function () {
+            $('.hide-vendor').hide();
+            $('#vendorPatternHelpModal').modal('show');
+        });
+
         var defaultDocuments = {!! $account->defaultDocuments()->get() !!};
 
         $(function () {
             setQuoteNumberEnabled();
+            setBillQuoteNumberEnabled();
             onNumberTypeChange('invoice');
             onNumberTypeChange('quote');
             onNumberTypeChange('client');
@@ -844,16 +969,22 @@
             onNumberTypeChange('bill');
             onNumberTypeChange('bill_quote');
             onNumberTypeChange('vendor');
-            onNumberTypeChange('bill_credit');
+            onNumberTypeChange('vendor_credit');
             onClientNumberEnabled();
             onVendorNumberEnabled();
             onCreditNumberEnabled();
             onVendorCreditNumberEnabled();
             onResetFrequencyChange();
+            onResetBillFrequencyChange();
 
             $('#reset_counter_date').datepicker('update', '{{ Utils::fromSqlDate($account->reset_counter_date) ?: 'new Date()' }}');
             $('.reset_counter_date_group .input-group-addon').click(function () {
                 toggleDatePicker('reset_counter_date');
+            });
+
+            $('#reset_bill_counter_date').datepicker('update', '{{ Utils::fromSqlDate($account->reset_bill_counter_date) ?: 'new Date()' }}');
+            $('.reset_bill_counter_date_group .input-group-addon').click(function () {
+                toggleDatePicker('reset_bill_counter_date');
             });
 
             @if ($account->hasFeature(FEATURE_DOCUMENTS))
