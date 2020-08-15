@@ -34,10 +34,11 @@
     @foreach (App\Models\Account::$customFields as $field)
         {{ Former::populateField("custom_fields[$field]", $account->customLabel($field)) }}
     @endforeach
+    <!-- client number -->
     <div class="panel panel-default">
         <div class="panel-heading" style="color:white;background-color: #777 !important;">
             <h3 class="panel-title in-bold-white">
-                {!! trans('texts.generated_numbers') !!}
+                {!! trans('texts.generated_client_numbers') !!}
             </h3>
         </div>
         <div class="panel-body form-padding-right">
@@ -141,17 +142,18 @@
                             {!! Former::text('client_number_prefix')
                                     ->addGroupClass('client-prefix')
                                     ->label(trans('texts.prefix')) !!}
+
                             {!! Former::text('client_number_pattern')
                                     ->appendIcon('question-sign')
                                     ->addGroupClass('client-pattern')
                                     ->addGroupClass('client-number-pattern')
                                     ->label(trans('texts.pattern')) !!}
+
                             {!! Former::text('client_number_counter')
                                     ->label(trans('texts.counter'))
                                     ->addGroupClass('pad-checkbox')
                                     ->help(trans('texts.client_number_help') . ' ' .
                                         trans('texts.next_client_number', ['number' => $account->getClientNextNumber() ?: '0001'])) !!}
-
                         </div>
                     </div>
                 </div>
@@ -221,7 +223,193 @@
 
         </div>
     </div>
+    <!-- vendor number -->
+    <div class="panel panel-default">
+        <div class="panel-heading" style="color:white;background-color: #777 !important;">
+            <h3 class="panel-title in-bold-white">
+                {!! trans('texts.generated_vendor_numbers') !!}
+            </h3>
+        </div>
+        <div class="panel-body form-padding-right">
+            <div role="tabpanel">
+                <ul class="nav nav-tabs" role="tablist" style="border: none">
+                    <li role="presentation" class="active">
+                        <a href="#bill_number" aria-controls="bill_number" role="tab"
+                           data-toggle="tab">{{ trans('texts.bill_number') }}</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#bill_quote_number" aria-controls="bill_quote_number" role="tab"
+                           data-toggle="tab">{{ trans('texts.bill_quote_number') }}</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#vendor_number" aria-controls="vendor_number" role="tab"
+                           data-toggle="tab">{{ trans('texts.vendor_number') }}</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#bill_credit_number" aria-controls="bill_credit_number" role="tab"
+                           data-toggle="tab">{{ trans('texts.bill_credit_number') }}</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#bill_options" aria-controls="bill_options" role="tab"
+                           data-toggle="tab">{{ trans('texts.bill_options') }}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="bill_number">
+                <div class="panel-body">
+                    {!! Former::inline_radios('invoice_number_type')
+                            ->onchange("onNumberTypeChange('invoice')")
+                            ->label(trans('texts.type'))
+                            ->radios([
+                                trans('texts.prefix') => ['value' => 'prefix', 'name' => 'invoice_number_type'],
+                                trans('texts.pattern') => ['value' => 'pattern', 'name' => 'invoice_number_type'],
+                            ])->check($account->invoice_number_pattern ? 'pattern' : 'prefix') !!}
 
+                    {!! Former::text('invoice_number_prefix')
+                            ->addGroupClass('invoice-prefix')
+                            ->label(trans('texts.prefix')) !!}
+                    {!! Former::text('invoice_number_pattern')
+                            ->appendIcon('question-sign')
+                            ->addGroupClass('invoice-pattern')
+                            ->label(trans('texts.pattern'))
+                            ->addGroupClass('number-pattern') !!}
+                    {!! Former::text('invoice_number_counter')
+                            ->label(trans('texts.counter'))
+                            ->help(trans('texts.invoice_number_help') . ' ' .
+                                trans('texts.next_invoice_number', ['number' => $account->previewNextInvoiceNumber()])) !!}
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="bill_quote_number">
+                <div class="panel-body">
+                    {!! Former::inline_radios('quote_number_type')
+                            ->onchange("onNumberTypeChange('quote')")
+                            ->label(trans('texts.type'))
+                            ->radios([
+                                trans('texts.prefix') => ['value' => 'prefix', 'name' => 'quote_number_type'],
+                                trans('texts.pattern') => ['value' => 'pattern', 'name' => 'quote_number_type'],
+                            ])->check($account->quote_number_pattern ? 'pattern' : 'prefix') !!}
+
+                    {!! Former::text('quote_number_prefix')
+                            ->addGroupClass('quote-prefix')
+                            ->label(trans('texts.prefix')) !!}
+                    {!! Former::text('quote_number_pattern')
+                            ->appendIcon('question-sign')
+                            ->addGroupClass('quote-pattern')
+                            ->addGroupClass('number-pattern')
+                            ->label(trans('texts.pattern')) !!}
+                    {!! Former::text('quote_number_counter')
+                            ->label(trans('texts.counter'))
+                            ->addGroupClass('pad-checkbox')
+                            ->append(Former::checkbox('share_counter')->raw()->value(1)
+                            ->onclick('setQuoteNumberEnabled()') . ' ' . trans('texts.share_invoice_counter'))
+                            ->help(trans('texts.quote_number_help') . ' ' .
+                                trans('texts.next_quote_number', ['number' => $account->previewNextInvoiceNumber(ENTITY_QUOTE)])) !!}
+
+
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="vendor_number">
+                <div class="panel-body">
+                    {!! Former::checkbox('vendor_number_enabled')
+                            ->label('vendor_number')
+                            ->onchange('onVendorNumberEnabled()')
+                            ->text('enable')
+                            ->value(1)
+                            ->check($account->vendor_number_counter > 0) !!}
+
+                    <div id="vendorNumberDiv" style="display:none">
+                        {!! Former::inline_radios('vendor_number_type')
+                                ->onchange("onNumberTypeChange('vendor')")
+                                ->label(trans('texts.type'))
+                                ->radios([
+                                    trans('texts.prefix') => ['value' => 'prefix', 'name' => 'vendor_number_type'],
+                                    trans('texts.pattern') => ['value' => 'pattern', 'name' => 'vendor_number_type'],
+                                ])->check($account->vendor_number_pattern ? 'pattern' : 'prefix') !!}
+
+                        {!! Former::text('vendor_number_prefix')
+                                ->addGroupClass('vendor-prefix')
+                                ->label(trans('texts.prefix')) !!}
+
+                        {!! Former::text('vendor_number_pattern')
+                                ->appendIcon('question-sign')
+                                ->addGroupClass('vendor-pattern')
+                                ->addGroupClass('vendor-number-pattern')
+                                ->label(trans('texts.pattern')) !!}
+
+                        {!! Former::text('vendor_number_counter')
+                                ->label(trans('texts.counter'))
+                                ->addGroupClass('pad-checkbox')
+                                ->help(trans('texts.vendor_number_help') . ' ' .
+                                    trans('texts.next_vendor_number', ['number' => $account->getVendorNextNumber() ?: '0001'])) !!}
+
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="bill_credit_number">
+                <div class="panel-body">
+                    {!! Former::checkbox('credit_number_enabled')
+                            ->label('credit_number')
+                            ->onchange('onCreditNumberEnabled()')
+                            ->text('enable')
+                            ->value(1)
+                            ->check($account->credit_number_counter > 0) !!}
+
+                    <div id="creditNumberDiv" style="display:none">
+
+                        {!! Former::inline_radios('credit_number_type')
+                                ->onchange("onNumberTypeChange('credit')")
+                                ->label(trans('texts.type'))
+                                ->radios([
+                                    trans('texts.prefix') => ['value' => 'prefix', 'name' => 'credit_number_type'],
+                                    trans('texts.pattern') => ['value' => 'pattern', 'name' => 'credit_number_type'],
+                                ])->check($account->credit_number_pattern ? 'pattern' : 'prefix') !!}
+
+                        {!! Former::text('credit_number_prefix')
+                                ->addGroupClass('credit-prefix')
+                                ->label(trans('texts.prefix')) !!}
+                        {!! Former::text('credit_number_pattern')
+                                ->appendIcon('question-sign')
+                                ->addGroupClass('credit-pattern')
+                                ->addGroupClass('credit-number-pattern')
+                                ->label(trans('texts.pattern')) !!}
+                        {!! Former::text('credit_number_counter')
+                                ->label(trans('texts.counter'))
+                                ->addGroupClass('pad-checkbox')
+                                ->help(trans('texts.credit_number_help') . ' ' .
+                                    trans('texts.next_credit_number', ['number' => $account->getClientNextNumber(new \App\Models\Credit()) ?: '0001'])) !!}
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="bill_options">
+                <div class="panel-body">
+                    {!! Former::text('invoice_number_padding')
+                            ->help('padding_help') !!}
+
+                    {!! Former::text('recurring_invoice_number_prefix')
+                            ->label(trans('texts.recurring_prefix'))
+                            ->help(trans('texts.recurring_invoice_number_prefix_help')) !!}
+
+                    {!! Former::select('reset_counter_frequency_id')
+                            ->onchange('onResetFrequencyChange()')
+                            ->label('reset_counter')
+                            ->addOption(trans('texts.never'), '')
+                            ->options(\App\Models\Frequency::selectOptions())
+                            ->help('reset_counter_help') !!}
+
+                    {!! Former::text('reset_counter_date')
+                                ->label('next_reset')
+                                ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))
+                                ->addGroupClass('reset_counter_date_group')
+                                ->append('<i class="glyphicon glyphicon-calendar"></i>')
+                                ->data_date_start_date($account->formatDate($account->getDateTime())) !!}
+
+                </div>
+            </div>
+        </div>
+        <!-- /..end  -->
+    </div>
     <div class="panel panel-default">
         <div class="panel-heading" style="color:white;background-color: #777 !important;">
             <h3 class="panel-title in-bold-white">
@@ -588,11 +776,33 @@
             }
         }
 
+        function onVendorNumberEnabled() {
+            var enabled = $('#vendor_number_enabled').is(':checked');
+            if (enabled) {
+                $('#vendorNumberDiv').show();
+                $('#vendor_number_counter').val({{ $account->vendor_number_counter ?: 1 }});
+            } else {
+                $('#vendorNumberDiv').hide();
+                $('#vendor_number_counter').val(0);
+            }
+        }
+
         function onCreditNumberEnabled() {
             var enabled = $('#credit_number_enabled').is(':checked');
             if (enabled) {
                 $('#creditNumberDiv').show();
                 $('#credit_number_counter').val({{ $account->credit_number_counter ?: 1 }});
+            } else {
+                $('#creditNumberDiv').hide();
+                $('#credit_number_counter').val(0);
+            }
+        }
+
+        function onVendorCreditNumberEnabled() {
+            var enabled = $('#bill_credit_number_enabled').is(':checked');
+            if (enabled) {
+                $('#billCreditNumberDiv').show();
+                $('#bill_credit_number_counter').val({{ $account->credit_number_counter ?: 1 }});
             } else {
                 $('#creditNumberDiv').hide();
                 $('#credit_number_counter').val(0);
@@ -623,7 +833,6 @@
             $('#patternHelpModal').modal('show');
         });
 
-
         var defaultDocuments = {!! $account->defaultDocuments()->get() !!};
 
         $(function () {
@@ -632,8 +841,14 @@
             onNumberTypeChange('quote');
             onNumberTypeChange('client');
             onNumberTypeChange('credit');
+            onNumberTypeChange('bill');
+            onNumberTypeChange('bill_quote');
+            onNumberTypeChange('vendor');
+            onNumberTypeChange('bill_credit');
             onClientNumberEnabled();
+            onVendorNumberEnabled();
             onCreditNumberEnabled();
+            onVendorCreditNumberEnabled();
             onResetFrequencyChange();
 
             $('#reset_counter_date').datepicker('update', '{{ Utils::fromSqlDate($account->reset_counter_date) ?: 'new Date()' }}');
