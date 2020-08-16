@@ -524,12 +524,15 @@ class Account extends Eloquent
         return $this->hasMany('App\Models\Project')->withTrashed();
     }
 
-
     public function custom_payment_terms()
     {
         return $this->hasMany('App\Models\PaymentTerm')->withTrashed();
     }
 
+    public function subscriptions()
+    {
+        return $this->hasMany('App\Models\Subscription');
+    }
 
     public function setIndustryIdAttribute($value)
     {

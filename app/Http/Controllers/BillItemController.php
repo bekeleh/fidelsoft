@@ -2,177 +2,180 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateBillItemRequest;
-use App\Http\Requests\BillItemRequest;
-use App\Http\Requests\UpdateBillItemRequest;
+use App\Http\Requests\QuoteRequest;
 use App\Libraries\Utils;
-use App\Models\InvoiceItem;
+use App\Models\Client;
+use App\Models\Invitation;
+use App\Models\Invoice;
+use App\Models\InvoiceDesign;
 use App\Models\Product;
-use App\Ninja\Datatables\BillItemDatatable;
-use App\Ninja\Repositories\BillItemRepository;
-use App\Services\billItemService;
+use App\Models\TaxRate;
+use App\Ninja\Datatables\InvoiceDatatable;
+use App\Ninja\Mailers\ContactMailer as Mailer;
+use App\Ninja\Repositories\ClientRepository;
+use App\Ninja\Repositories\InvoiceRepository;
+use App\Services\InvoiceService;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use Redirect;
 
-/**
- * Class BillItemController.
- */
 class BillItemController extends BaseController
 {
-    protected $billItemRepo;
-    protected $billItemService;
-    protected $entityType = ENTITY_BILL_ITEM;
+    protected $mailer;
+    protected $invoiceRepo;
+    protected $clientRepo;
+    protected $invoiceService;
+    protected $entityType = ENTITY_INVOICE;
 
-    public function __construct(BillItemRepository $billItemRepo, billItemService $billItemService)
+    /**
+     * BillItemController constructor.
+     * @param Mailer $mailer
+     * @param InvoiceRepository $invoiceRepo
+     * @param ClientRepository $clientRepo
+     * @param InvoiceService $invoiceService
+     */
+    public function __construct(Mailer $mailer, InvoiceRepository $invoiceRepo, ClientRepository $clientRepo, InvoiceService $invoiceService)
     {
         // parent::__construct();
 
-        $this->billItemRepo = $billItemRepo;
-        $this->billItemService = $billItemService;
+        $this->mailer = $mailer;
+        $this->invoiceRepo = $invoiceRepo;
+        $this->clientRepo = $clientRepo;
+        $this->invoiceService = $invoiceService;
     }
-
 
     public function index()
     {
-        $this->authorize('view', ENTITY_BILL_ITEM);
-        return View::make('list_wrapper', [
-            'entityType' => ENTITY_BILL_ITEM,
-            'datatable' => new BillItemDatatable(),
-            'title' => trans('texts.Bill_items'),
-        ]);
+        $this->authorize('view', ENTITY_QUOTE);
+        $datatable = new InvoiceDatatable();
+        $datatable->entityType = ENTITY_QUOTE;
+
+        $data = [
+            'title' => trans('texts.quotes'),
+            'entityType' => ENTITY_QUOTE,
+            'datatable' => $datatable,
+        ];
+
+        return response()->view('list_wrapper', $data);
     }
 
-    public function getDatatable($billItemPublicId = null)
+    public function getDatatable($clientPublicId = null)
     {
-        $account = Auth::user()->account_id;
+        $accountId = Auth::user()->account_id;
         $search = Input::get('sSearch');
-        return $this->billItemService->getDatatable($account, $search);
+
+        return $this->invoiceService->getDatatable($accountId, $clientPublicId, ENTITY_QUOTE, $search);
     }
 
-    public function getDatatableProduct($productPublicId = null)
+    public function create(QuoteRequest $request, $clientPublicId = 0)
     {
-        return $this->billItemService->getDatatableProduct($productPublicId);
-    }
-
-    public function create(BillItemRequest $request)
-    {
-        $this->authorize('create', ENTITY_BILL_ITEM);
-        if ($request->product_id != 0) {
-            $product = Product::scope($request->product_id)->firstOrFail();
-        } else {
-            $product = null;
+        $this->authorize('create', ENTITY_QUOTE);
+        if (!Utils::hasFeature(FEATURE_QUOTES)) {
+            return Redirect::to('/invoices/create');
         }
 
+        $account = Auth::user()->account;
+        $clientId = null;
+        if ($clientPublicId) {
+            $clientId = Client::getPrivateId($clientPublicId);
+        }
+        $invoice = $account->createInvoice(ENTITY_QUOTE, $clientId);
+        $invoice->public_id = 0;
+
         $data = [
-            'product' => $product,
-            'invoiceItem' => null,
-            'method' => 'POST',
-            'url' => 'Bill_items',
-            'title' => trans('texts.new_invoice_item'),
-            'productPublicId' => Input::old('product') ? Input::old('product') : $request->product_id,
-        ];
-
-        $data = array_merge($data, self::getViewModel());
-
-        return View::make('Bill_items.edit', $data);
-    }
-
-    private static function getViewModel($invoiceItem = false)
-    {
-        return [
+            'entityType' => $invoice->getEntityType(),
+            'invoice' => $invoice,
             'data' => Input::old('data'),
-            'account' => Auth::user()->account,
-            'products' => Product::scope()->withActiveOrSelected($invoiceItem ? $invoiceItem->product_id : false)->orderBy('product_key')->get(),
+            'method' => 'POST',
+            'url' => 'invoices',
+            'title' => trans('texts.new_quote'),
         ];
+        $data = array_merge($data, self::getViewModel($invoice));
+
+        return View::make('invoices.edit', $data);
     }
 
-    public function store(CreateBillItemRequest $request)
+    private static function getViewModel($invoice = null)
     {
-        $data = $request->input();
-        $invoiceItem = $request->entity();
-        $invoiceItem = $this->billItemService->save($data, $invoiceItem);
+        $account = Auth::user()->account;
 
-        if ($invoiceItem) {
-            return redirect()->to("Bill_items/{$invoiceItem->public_id}/edit")->with('success', trans('texts.created_invoice_item'));
-        }
+        $userBranch = isset(Auth::user()->branch->id) ? intval(Auth::user()->branch->id) : null;
 
-        return redirect()->to("Bill_items");
-    }
-
-    public function edit(BillItemRequest $request, $publicId = false, $clone = false)
-    {
-        $this->authorize('edit', ENTITY_BILL_ITEM);
-        $invoiceItem = InvoiceItem::scope($publicId)->withTrashed()->firstOrFail();
-
-        if ($clone) {
-            $invoiceItem->id = null;
-            $invoiceItem->public_id = null;
-            $invoiceItem->deleted_at = null;
-            $method = 'POST';
-            $url = 'Bill_items';
-        } else {
-            $method = 'PUT';
-            $url = 'Bill_items/' . $invoiceItem->public_id;
-        }
-
-        $data = [
-            'product' => null,
-            'store' => null,
-            'invoiceItem' => $invoiceItem,
-            'entity' => $invoiceItem,
-            'method' => $method,
-            'url' => $url,
-            'title' => trans('texts.edit_invoice_item'),
-            'productPublicId' => $invoiceItem->product ? $invoiceItem->product->public_id : null,
+        return [
+            'entityType' => ENTITY_QUOTE,
+            'account' => Auth::user()->account->load('country'),
+            'products' => Product::scope()->withActiveOrSelected(isset($invoice) ? $invoice->product_id : false)->stock()->orderBy('product_key')->get(),
+            'clients' => Client::scope()->with('contacts', 'country')->orderBy('name')->get(),
+            'taxRateOptions' => $account->present()->taxRateOptions,
+            'taxRates' => TaxRate::scope()->orderBy('name')->get(),
+            'sizes' => Cache::get('sizes'),
+            'paymentTerms' => Cache::get('paymentTerms'),
+            'invoiceDesigns' => InvoiceDesign::getDesigns(),
+            'invoiceFonts' => Cache::get('fonts'),
+            'invoiceLabels' => Auth::user()->account->getInvoiceLabels(),
+            'isRecurring' => false,
+            'expenses' => collect(),
         ];
-
-        $data = array_merge($data, self::getViewModel($invoiceItem));
-
-        return View::make('Bill_items.edit', $data);
-    }
-
-    public function update(UpdateBillItemRequest $request)
-    {
-        $data = $request->input();
-
-        $invoiceItem = $this->billItemService->save($data, $request->entity());
-
-        $action = Input::get('action');
-        if (in_array($action, ['archive', 'delete', 'restore'])) {
-            return self::bulk();
-        }
-
-        if ($action == 'clone') {
-            return redirect()->to(sprintf('Bill_items/%s/clone', $invoiceItem->public_id))->with('success', trans('texts.clone_invoice_item'));
-        } else {
-            return redirect()->to("Bill_items/{$invoiceItem->public_id}/edit")->with('success', trans('texts.updated_invoice_item'));
-        }
     }
 
     public function bulk()
     {
-        $action = Input::get('action');
-        $ids = Input::get('public_id') ? Input::get('public_id') : Input::get('ids');
+        $action = Input::get('bulk_action') ?: Input::get('action');
+        $ids = Input::get('bulk_public_id') ?: (Input::get('public_id') ?: Input::get('ids'));
 
-        $count = $this->billItemService->bulk($ids, $action);
+        if ($action == 'convert') {
+            $invoice = Invoice::with('invoice_items')->scope($ids)->firstOrFail();
+            $clone = $this->invoiceService->convertQuote($invoice);
 
-        $message = Utils::pluralize($action . 'd_invoice_item', $count);
+            Session::flash('message', trans('texts.converted_to_invoice'));
 
-        return $this->returnBulk(ENTITY_BILL_ITEM, $action, $ids)->with('message', $message);
+            return Redirect::to('invoices/' . $clone->public_id);
+        }
+
+        $count = $this->invoiceService->bulk($ids, $action);
+
+        if ($count > 0) {
+            if ($action == 'markSent') {
+                $key = 'updated_quote';
+            } elseif ($action == 'download') {
+                $key = 'downloaded_quote';
+            } else {
+                $key = "{$action}d_quote";
+            }
+            $message = Utils::pluralize($key, $count);
+            Session::flash('message', $message);
+        }
+
+        return $this->returnBulk(ENTITY_QUOTE, $action, $ids);
     }
 
-    public function cloneInvoiceItem(BillItemRequest $request, $publicId)
+    public function approve($invitationKey)
     {
-        return self::edit($request, $publicId, true);
-    }
+        $invitation = Invitation::with('invoice.invoice_items', 'invoice.invitations')->where('invitation_key', '=', $invitationKey)
+            ->firstOrFail();
+        $invoice = $invitation->invoice;
+        $account = $invoice->account;
 
-    public function show($publicId)
-    {
-        Session::reflash();
+        if ($account->requiresAuthorization($invoice) && !session('authorized:' . $invitation->invitation_key)) {
+            return redirect()->to('view/' . $invitation->invitation_key);
+        }
 
-        return Redirect::to("Bill_items/{$publicId}/edit");
+        if ($invoice->due_date) {
+            $carbonDueDate = Carbon::parse($invoice->due_date);
+            if (!$carbonDueDate->isToday() && !$carbonDueDate->isFuture()) {
+                return redirect("view/{$invitationKey}")->withError(trans('texts.quote_has_expired'));
+            }
+        }
+
+        if ($invoiceInvitationKey = $this->invoiceService->approveQuote($invoice, $invitation)) {
+            Session::flash('message', trans('texts.quote_is_approved'));
+            return Redirect::to("view/{$invoiceInvitationKey}");
+        } else {
+            return Redirect::to("view/{$invitationKey}");
+        }
     }
 }

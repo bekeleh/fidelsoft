@@ -15,19 +15,17 @@ use App\Events\PaymentWasVoided;
 use App\Libraries\Utils;
 use App\Models\Activity;
 use App\Models\Subscription;
-use App\Notifications\InvoiceCreated;
+use App\Notifications\NotifyInvoiceCreated;
+use App\Notifications\NotifyInvoiceUpdated;
 use Illuminate\Queue\Events\JobExceptionOccurred;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Notification;
-use Illuminate\Notifications\Notifiable;
 
 /**
  * Class InvoiceListener.
  */
 class InvoiceListener
 {
-    use Notifiable;
 
     public function createdInvoice(InvoiceWasCreated $event)
     {
@@ -46,12 +44,16 @@ class InvoiceListener
                 $account->save();
             }
         }
-//          send notification for subscribers
+
+//     send notification for subscribers
         $invoice = $event->invoice->toArray();
-        if (isset($invoice['question_id'])) {
-            $user = Subscription::find($event->id);
-            Notification::send($user, new InvoiceCreated($invoice));
+        $users = Subscription::subscriber(EVENT_CREATE_INVOICE);
+        if ($users) {
+            foreach ($users as $user) {
+                $user->notify(new NotifyInvoiceCreated($invoice));
+            }
         }
+
     }
 
     public function updatedInvoice(InvoiceWasUpdated $event)
@@ -59,6 +61,16 @@ class InvoiceListener
         $invoice = $event->invoice;
 
         $invoice->updatePaidStatus(false, false);
+
+//      send notification for subscribers
+        $invoice = $event->invoice->toArray();
+        $users = Subscription::subscriber(EVENT_UPDATE_INVOICE);
+        if ($users) {
+            foreach ($users as $user) {
+                $user->notify(new NotifyInvoiceUpdated($invoice));
+            }
+        }
+
     }
 
     public function viewedInvoice(InvoiceInvitationWasViewed $event)

@@ -2,13 +2,13 @@
 
 namespace App\Notifications;
 
-use auth;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Log;
 
-class InvoiceCreated extends Notification implements ShouldQueue
+class NotifyInvoiceCreated extends Notification
 {
 
     protected $invoice;
@@ -38,6 +38,24 @@ class InvoiceCreated extends Notification implements ShouldQueue
      * Get the mail representation of the notification.
      *
      * @param mixed $notifiable
+     * @return array
+     */
+    public function toDatabase($notifiable)
+    {
+        Log::info($this->invoice);
+        return [
+            'title' => 'new invoice was created',
+            'link' => 'link',
+            'user_id' => auth::id(),
+            'created_at' => Carbon::now(),
+        ];
+    }
+
+
+    /**
+     * Get the mail representation of the notification.
+     *
+     * @param mixed $notifiable
      * @return MailMessage
      */
     public function toMail($notifiable)
@@ -50,24 +68,6 @@ class InvoiceCreated extends Notification implements ShouldQueue
             ->line($this->user->name . ' Said')
             ->line('"' . $this->invoice['invoice'] . '"')
             ->action('See All invoices', url('/invoices/' . $this->invoice->id . '/' . URL::get_slug($this->invoice)));
-    }
-
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param mixed $notifiable
-     * @return array
-     */
-    public function toDatabase($notifiable)
-    {
-        return [
-            'Title' => 'Server Expenses',
-            'Amount' => $this->invoice->amount,
-            'Via' => 'American Express',
-            'Was Overdue' => ':-1:',
-            'user_id' => auth::id(),
-            'created_at' => Carbon::now(),
-        ];
     }
 
     /**

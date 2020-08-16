@@ -136,6 +136,11 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
         return $this->belongsTo('App\Models\Theme');
     }
 
+    public function subscriptions()
+    {
+        return $this->hasMany('App\Models\Subscription');
+    }
+
 //    public function getName()
 //    {
 //        return $this->getDisplayName();
@@ -191,6 +196,10 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
             ? 13 : COUNT_FREE_DESIGNS;
     }
 
+    public function getSubscriptions($eventId)
+    {
+        return Subscription::where('user_id', $this->id)->where('event_id', $eventId)->get();
+    }
 
     public function getDisplayName()
     {

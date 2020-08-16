@@ -4,11 +4,10 @@ namespace App\Notifications;
 
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class BillCreated extends Notification implements ShouldQueue
+class NotifyBillCreated extends Notification
 {
 
     protected $bill;

@@ -438,7 +438,10 @@ Route::group(['middleware' => ['lookup:user', 'auth:user', 'banned:user']], func
     Route::put('expense_categories/{expense_categories}', 'ExpenseCategoryController@update');
     Route::get('expense_categories/{expense_categories}/edit', 'ExpenseCategoryController@edit');
     Route::post('expense_categories/bulk', 'ExpenseCategoryController@bulk');
-
+//   user notification
+    Route::get('/profiles/{user}/notifications', 'UserNotificationController@index');
+    Route::delete('/profiles/{user}/notifications/{notification}', 'UserNotificationController@destroy');
+    
 // BlueVine
     Route::post('bluevine/signup', 'BlueVineController@signup');
     Route::get('bluevine/hide_message', 'BlueVineController@hideMessage');

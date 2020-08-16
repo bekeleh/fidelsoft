@@ -33,10 +33,30 @@ class Subscription extends EntityModel
         return ENTITY_SUBSCRIPTION;
     }
 
+    public function getRoute()
+    {
+        return "/subscriptions/{$this->public_id}/edit";
+    }
 
     public function account()
     {
         return $this->belongsTo('App\Models\Account');
     }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+
+    public function notify($notification = null, $event = null)
+    {
+        $this->user->notify(new $notification($event));
+    }
+
+    public static function subscriber($eventId)
+    {
+        return Subscription::where('event_id', $eventId)->get();
+    }
+
 
 }

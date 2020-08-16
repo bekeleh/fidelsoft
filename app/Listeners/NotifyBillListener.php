@@ -11,19 +11,19 @@ use App\Events\PaymentWasCreated;
 use App\Services\PushService;
 use App\Jobs\SendBillNotificationEmail;
 use App\Jobs\SendBillPaymentEmail;
-use App\Notifications\BillPaymentCreated;
+use App\Notifications\NotifyBillPaymentCreated;
 
 /**
- * Class NotificationListener
+ * Class NotifyListener
  */
-class BillNotificationListener
+class NotifyBillListener
 {
     protected $userMailer;
     protected $contactMailer;
     protected $pushService;
 
     /**
-     * NotificationListener constructor.
+     * NotifyListener constructor.
      * @param UserMailer $userMailer
      * @param ContactMailer $contactMailer
      * @param PushService $pushService
@@ -52,7 +52,7 @@ class BillNotificationListener
             }
 
             if ($billPayment && $user->slack_webhook_url) {
-                $user->notify(new BillPaymentCreated($billPayment, $bill));
+                $user->notify(new NotifyBillPaymentCreated($billPayment, $bill));
             }
         }
     }
