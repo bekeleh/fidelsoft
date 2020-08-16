@@ -2,16 +2,16 @@
 
 namespace App\Listeners;
 
-use App\Events\BillInvitationWasViewed;
-use App\Events\BillWasCreated;
-use App\Events\BillWasEmailed;
-use App\Events\BillWasUpdated;
-use App\Events\BillPaymentFailed;
-use App\Events\BillPaymentWasCreated;
-use App\Events\BillPaymentWasDeleted;
-use App\Events\BillPaymentWasRefunded;
-use App\Events\BillPaymentWasRestored;
-use App\Events\BillPaymentWasVoided;
+use App\Events\BillInvitationWasViewedEvent;
+use App\Events\BillWasCreatedEvent;
+use App\Events\BillWasEmailedEvent;
+use App\Events\BillWasUpdatedEvent;
+use App\Events\BillPaymentFailedEvent;
+use App\Events\BillPaymentWasCreatedEvent;
+use App\Events\BillPaymentWasDeletedEvent;
+use App\Events\BillPaymentWasRefundedEvent;
+use App\Events\BillPaymentWasRestoredEvent;
+use App\Events\BillPaymentWasVoidedEvent;
 use App\Libraries\Utils;
 use App\Models\Activity;
 use Illuminate\Queue\Events\JobExceptionOccurred;
@@ -27,7 +27,7 @@ class BillListener
     {
     }
 
-    public function createdBill(BillWasCreated $event)
+    public function createdBill(BillWasCreatedEvent $event)
     {
 //        if (Utils::hasFeature(FEATURE_DIFFERENT_DESIGNS)) {
 //            return false;
@@ -46,21 +46,21 @@ class BillListener
         }
     }
 
-    public function updatedBill(BillWasUpdated $event)
+    public function updatedBill(BillWasUpdatedEvent $event)
     {
         $bill = $event->bill;
 
         $bill->updatePaidStatus(false, false);
     }
 
-    public function viewedBill(BillInvitationWasViewed $event)
+    public function viewedBill(BillInvitationWasViewedEvent $event)
     {
         $invitation = $event->billInvitation;
         $invitation->markViewed();
     }
 
 
-    public function emailedBill(BillWasEmailed $event)
+    public function emailedBill(BillWasEmailedEvent $event)
     {
         $bill = $event->bill;
         $bill->last_sent_date = date('Y-m-d');
@@ -68,7 +68,7 @@ class BillListener
         $bill->save();
     }
 
-    public function createdPayment(BillPaymentWasCreated $event)
+    public function createdPayment(BillPaymentWasCreatedEvent $event)
     {
         $paymentBill = $event->billPayment;
         $bill = $paymentBill->bill;
@@ -91,7 +91,7 @@ class BillListener
         }
     }
 
-    public function deletedPayment(BillPaymentWasDeleted $event)
+    public function deletedPayment(BillPaymentWasDeletedEvent $event)
     {
         $paymentBill = $event->billPayment;
 
@@ -106,7 +106,7 @@ class BillListener
         $bill->updatePaidStatus();
     }
 
-    public function refundedPayment(BillPaymentWasRefunded $event)
+    public function refundedPayment(BillPaymentWasRefundedEvent $event)
     {
         $paymentBill = $event->billPayment;
         $bill = $paymentBill->bill;
@@ -116,7 +116,7 @@ class BillListener
         $bill->updatePaidStatus();
     }
 
-    public function voidedPayment(BillPaymentWasVoided $event)
+    public function voidedPayment(BillPaymentWasVoidedEvent $event)
     {
         $paymentBill = $event->billPayment;
         $bill = $paymentBill->bill;
@@ -126,7 +126,7 @@ class BillListener
         $bill->updatePaidStatus();
     }
 
-    public function failedPayment(BillPaymentFailed $event)
+    public function failedPayment(BillPaymentFailedEvent $event)
     {
         $paymentBill = $event->billPayment;
         $bill = $paymentBill->bill;
@@ -136,7 +136,7 @@ class BillListener
         $bill->updatePaidStatus();
     }
 
-    public function restoredPayment(BillPaymentWasRestored $event)
+    public function restoredPayment(BillPaymentWasRestoredEvent $event)
     {
         if (!$event->fromDeleted) {
             return;

@@ -2,8 +2,8 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Events\ItemStoreWasCreated;
-use App\Events\ItemStoreWasUpdated;
+use App\Events\ItemStoreWasCreatedEvent;
+use App\Events\ItemStoreWasUpdatedEvent;
 use App\Models\ItemMovement;
 use App\Models\ItemStore;
 use App\Models\Product;
@@ -157,9 +157,9 @@ class ItemStoreRepository extends BaseRepository
         }
 
         if ($publicId) {
-            event(new ItemStoreWasUpdated($itemStore));
+            event(new ItemStoreWasUpdatedEvent($itemStore));
         } else {
-            event(new ItemStoreWasCreated($itemStore));
+            event(new ItemStoreWasCreatedEvent($itemStore));
         }
 
         return $itemStore;

@@ -2,16 +2,16 @@
 
 namespace App\Listeners;
 
-use App\Events\InvoiceInvitationWasViewed;
-use App\Events\InvoiceWasCreated;
+use App\Events\InvoiceInvitationWasViewedEvent;
+use App\Events\InvoiceWasCreatedEvent;
 use App\Events\InvoiceWasEmailedEvent;
 use App\Events\InvoiceWasUpdatedEvent;
-use App\Events\PaymentFailed;
-use App\Events\PaymentWasCreated;
-use App\Events\PaymentWasDeleted;
-use App\Events\PaymentWasRefunded;
-use App\Events\PaymentWasRestored;
-use App\Events\PaymentWasVoided;
+use App\Events\PaymentFailedEvent;
+use App\Events\PaymentWasCreatedEvent;
+use App\Events\PaymentWasDeletedEvent;
+use App\Events\PaymentWasRefundedEvent;
+use App\Events\PaymentWasRestoredEvent;
+use App\Events\PaymentWasVoidedEvent;
 use App\Libraries\Utils;
 use App\Models\Activity;
 use App\Models\Subscription;
@@ -21,6 +21,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Queue\Events\JobExceptionOccurred;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 /**
  * Class InvoiceListener.
@@ -30,9 +31,9 @@ class InvoiceListener
     use Notifiable;
 
     /**
-     * @param InvoiceWasCreated $event
+     * @param InvoiceWasCreatedEvent $event
      */
-    public function createdInvoice(InvoiceWasCreated $event)
+    public function createdInvoice(InvoiceWasCreatedEvent $event)
     {
         // Make sure the account has the same design set as the invoice does
         if (Auth::check()) {
@@ -69,12 +70,14 @@ class InvoiceListener
         if ($users) {
             foreach ($users as $user) {
                 $user->notify(new NotifyInvoiceUpdated($invoice), $invoice);
+//                $user = User::find($question->user_id);
+//                Notification::send($user, new NotifyInvoiceUpdated($invoice));
             }
         }
 
     }
 
-    public function viewedInvoice(InvoiceInvitationWasViewed $event)
+    public function viewedInvoice(InvoiceInvitationWasViewedEvent $event)
     {
         $invitation = $event->invitation;
         $invitation->markViewed();
@@ -89,7 +92,7 @@ class InvoiceListener
         $invoice->save();
     }
 
-    public function createdPayment(PaymentWasCreated $event)
+    public function createdPayment(PaymentWasCreatedEvent $event)
     {
         $payment = $event->payment;
         $invoice = $payment->invoice;
@@ -112,7 +115,7 @@ class InvoiceListener
         }
     }
 
-    public function deletedPayment(PaymentWasDeleted $event)
+    public function deletedPayment(PaymentWasDeletedEvent $event)
     {
         $payment = $event->payment;
 
@@ -127,7 +130,7 @@ class InvoiceListener
         $invoice->updatePaidStatus();
     }
 
-    public function refundedPayment(PaymentWasRefunded $event)
+    public function refundedPayment(PaymentWasRefundedEvent $event)
     {
         $payment = $event->payment;
         $invoice = $payment->invoice;
@@ -137,7 +140,7 @@ class InvoiceListener
         $invoice->updatePaidStatus();
     }
 
-    public function voidedPayment(PaymentWasVoided $event)
+    public function voidedPayment(PaymentWasVoidedEvent $event)
     {
         $payment = $event->payment;
         $invoice = $payment->invoice;
@@ -147,7 +150,7 @@ class InvoiceListener
         $invoice->updatePaidStatus();
     }
 
-    public function failedPayment(PaymentFailed $event)
+    public function failedPayment(PaymentFailedEvent $event)
     {
         $payment = $event->payment;
         $invoice = $payment->invoice;
@@ -157,7 +160,7 @@ class InvoiceListener
         $invoice->updatePaidStatus();
     }
 
-    public function restoredPayment(PaymentWasRestored $event)
+    public function restoredPayment(PaymentWasRestoredEvent $event)
     {
         if (!$event->fromDeleted) {
             return;

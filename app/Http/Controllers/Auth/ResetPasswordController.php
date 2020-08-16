@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Http\Request;
-use App\Events\UserLoggedIn;
+use App\Events\UserLoggedInEvent;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
@@ -51,7 +51,7 @@ class ResetPasswordController extends Controller
             session(['2fa:user:id' => $user->id]);
             return redirect('/validate_two_factor/' . $user->account->account_key);
         } else {
-            Event::fire(new UserLoggedIn());
+            Event::fire(new UserLoggedInEvent());
             return $this->traitSendResetResponse($response);
         }
     }

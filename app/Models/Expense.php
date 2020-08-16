@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Events\ExpenseWasCreated;
-use App\Events\ExpenseWasUpdated;
+use App\Events\ExpenseWasCreatedEvent;
+use App\Events\ExpenseWasUpdatedEvent;
 use App\Libraries\Utils;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
@@ -275,7 +275,7 @@ Expense::creating(function ($expense) {
 });
 
 Expense::created(function ($expense) {
-    event(new ExpenseWasCreated($expense));
+    event(new ExpenseWasCreatedEvent($expense));
 });
 
 Expense::updating(function ($expense) {
@@ -283,7 +283,7 @@ Expense::updating(function ($expense) {
 });
 
 Expense::updated(function ($expense) {
-    event(new ExpenseWasUpdated($expense));
+    event(new ExpenseWasUpdatedEvent($expense));
 });
 
 Expense::deleting(function ($expense) {

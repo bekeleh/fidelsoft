@@ -2,8 +2,8 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Events\ManufacturerWasCreated;
-use App\Events\ManufacturerWasUpdated;
+use App\Events\ManufacturerWasCreatedEvent;
+use App\Events\ManufacturerWasUpdatedEvent;
 use App\Models\Manufacturer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -74,9 +74,9 @@ class ManufacturerRepository extends BaseRepository
         $manufacturer->save();
 
         if (!$publicId || $publicId == '-1') {
-            event(new ManufacturerWasCreated($manufacturer));
+            event(new ManufacturerWasCreatedEvent($manufacturer));
         } else {
-            event(new ManufacturerWasUpdated($manufacturer));
+            event(new ManufacturerWasUpdatedEvent($manufacturer));
         }
 
         return $manufacturer;

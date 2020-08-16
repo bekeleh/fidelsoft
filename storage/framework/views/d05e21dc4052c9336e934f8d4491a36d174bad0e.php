@@ -1,6 +1,6 @@
 <script type="text/javascript">
 
-    var currencies = <?php echo Cache::get('currencies'); ?>;
+    var currencies = <?php echo \Cache::get('currencies'); ?>;
     var currencyMap = {};
     for (var i=0; i<currencies.length; i++) {
         var currency = currencies[i];
@@ -8,7 +8,7 @@
         currencyMap[currency.code] = currency;
     }
 
-    var countries = <?php echo Cache::get('countries'); ?>;
+    var countries = <?php echo \Cache::get('countries'); ?>;
     var countryMap = {};
     for (var i=0; i<countries.length; i++) {
         var country = countries[i];
@@ -20,7 +20,7 @@
                     ->keyBy('code')
                     ->map(function($item, $key) {
                         return $item->exchange_rate ?: 1;
-                    }); ?>;
+                    });; ?>;
 
     var NINJA = NINJA || {};
     <?php if(Auth::check()): ?>

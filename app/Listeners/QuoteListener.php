@@ -2,12 +2,12 @@
 
 namespace App\Listeners;
 
-use App\Events\QuoteInvitationWasApproved;
-use App\Events\QuoteInvitationWasViewed;
-use App\Events\QuoteItemsWereCreated;
-use App\Events\QuoteItemsWereUpdated;
-use App\Events\QuoteWasDeleted;
-use App\Events\QuoteWasEmailed;
+use App\Events\QuoteInvitationWasApprovedEvent;
+use App\Events\QuoteInvitationWasViewedEvent;
+use App\Events\QuoteItemsWereCreatedEvent;
+use App\Events\QuoteItemsWereUpdatedEvent;
+use App\Events\QuoteWasDeletedEvent;
+use App\Events\QuoteWasEmailedEvent;
 use App\Ninja\Transformers\InvoiceTransformer;
 
 /**
@@ -15,13 +15,13 @@ use App\Ninja\Transformers\InvoiceTransformer;
  */
 class QuoteListener extends EntityListener
 {
-    public function viewedQuote(QuoteInvitationWasViewed $event)
+    public function viewedQuote(QuoteInvitationWasViewedEvent $event)
     {
         $invitation = $event->invitation;
         $invitation->markViewed();
     }
 
-    public function emailedQuote(QuoteWasEmailed $event)
+    public function emailedQuote(QuoteWasEmailedEvent $event)
     {
         $quote = $event->quote;
         $quote->last_sent_date = date('Y-m-d');
@@ -29,25 +29,25 @@ class QuoteListener extends EntityListener
         $quote->save();
     }
 
-    public function createdQuote(QuoteItemsWereCreated $event)
+    public function createdQuote(QuoteItemsWereCreatedEvent $event)
     {
         $transformer = new InvoiceTransformer($event->quote->account);
         $this->checkSubscriptions(EVENT_CREATE_QUOTE, $event->quote, $transformer, ENTITY_CLIENT);
     }
 
-    public function updatedQuote(QuoteItemsWereUpdated $event)
+    public function updatedQuote(QuoteItemsWereUpdatedEvent $event)
     {
         $transformer = new InvoiceTransformer($event->quote->account);
         $this->checkSubscriptions(EVENT_UPDATE_QUOTE, $event->quote, $transformer, ENTITY_CLIENT);
     }
 
-    public function approvedQuote(QuoteInvitationWasApproved $event)
+    public function approvedQuote(QuoteInvitationWasApprovedEvent $event)
     {
         $transformer = new InvoiceTransformer($event->quote->account);
         $this->checkSubscriptions(EVENT_APPROVE_QUOTE, $event->quote, $transformer, ENTITY_CLIENT);
     }
 
-    public function deletedQuote(QuoteWasDeleted $event)
+    public function deletedQuote(QuoteWasDeletedEvent $event)
     {
         $transformer = new InvoiceTransformer($event->quote->account);
         $this->checkSubscriptions(EVENT_DELETE_QUOTE, $event->quote, $transformer, ENTITY_CLIENT);

@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use App\Events\BillPaymentCompleted;
-use App\Events\BillPaymentFailed;
-use App\Events\BillPaymentWasCreated;
-use App\Events\BillPaymentWasRefunded;
-use App\Events\BillPaymentWasVoided;
+use App\Events\BillPaymentCompletedEvent;
+use App\Events\BillPaymentFailedEvent;
+use App\Events\BillPaymentWasCreatedEvent;
+use App\Events\BillPaymentWasRefundedEvent;
+use App\Events\BillPaymentWasVoidedEvent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Event;
 use Laracasts\Presenter\PresentableTrait;
@@ -194,7 +194,7 @@ class BillPayment extends EntityModel
             $this->payment_status_id = $this->refunded == $this->amount ? PAYMENT_STATUS_REFUNDED : PAYMENT_STATUS_PARTIALLY_REFUNDED;
             $this->save();
 
-            Event::fire(new BillPaymentWasRefunded($this, $refund_change));
+            Event::fire(new BillPaymentWasRefundedEvent($this, $refund_change));
         }
 
         return true;
@@ -206,7 +206,7 @@ class BillPayment extends EntityModel
             return false;
         }
 
-        Event::fire(new BillPaymentWasVoided($this));
+        Event::fire(new BillPaymentWasVoidedEvent($this));
 
         $this->refunded = $this->amount;
         $this->payment_status_id = PAYMENT_STATUS_VOIDED;
@@ -219,7 +219,7 @@ class BillPayment extends EntityModel
     {
         $this->payment_status_id = PAYMENT_STATUS_COMPLETED;
         $this->save();
-        Event::fire(new BillPaymentCompleted($this));
+        Event::fire(new BillPaymentCompletedEvent($this));
     }
 
     public function markFailed($failureMessage = '')
@@ -227,7 +227,7 @@ class BillPayment extends EntityModel
         $this->payment_status_id = PAYMENT_STATUS_FAILED;
         $this->gateway_error = $failureMessage;
         $this->save();
-        Event::fire(new BillPaymentFailed($this));
+        Event::fire(new BillPaymentFailedEvent($this));
     }
 
     public function getCompletedAmount()
@@ -316,5 +316,5 @@ BillPayment::creating(function ($payment) {
 });
 
 BillPayment::created(function ($payment) {
-    event(new BillPaymentWasCreated($payment));
+    event(new BillPaymentWasCreatedEvent($payment));
 });

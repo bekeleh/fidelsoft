@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use App\Events\BillInvitationWasEmailed;
-use App\Events\BillWasCreated;
-use App\Events\BillWasUpdated;
-use App\Events\BillQuoteInvitationWasEmailed;
-use App\Events\BillQuoteWasCreated;
-use App\Events\BillQuoteWasUpdated;
+use App\Events\BillInvitationWasEmailedEvent;
+use App\Events\BillWasCreatedEvent;
+use App\Events\BillWasUpdatedEvent;
+use App\Events\BillQuoteInvitationWasEmailedEvent;
+use App\Events\BillQuoteWasCreatedEvent;
+use App\Events\BillQuoteWasUpdatedEvent;
 use App\Libraries\CurlUtils;
 use App\Libraries\Utils;
 use App\Models\Traits\ChargesFees;
@@ -532,9 +532,9 @@ class Bill extends EntityModel implements BalanceAffecting
         }
 
         if ($this->isType(BILL_TYPE_QUOTE)) {
-            event(new BillQuoteInvitationWasEmailed($invitation, $notes));
+            event(new BillQuoteInvitationWasEmailedEvent($invitation, $notes));
         } else {
-            event(new BillInvitationWasEmailed($invitation, $notes));
+            event(new BillInvitationWasEmailedEvent($invitation, $notes));
         }
     }
 
@@ -1436,16 +1436,16 @@ Bill::creating(function ($bill) {
 
 Bill::created(function ($bill) {
     if ($bill->isType(BILL_TYPE_QUOTE)) {
-        event(new BillQuoteWasCreated($bill));
+        event(new BillQuoteWasCreatedEvent($bill));
     } else {
-        event(new BillWasCreated($bill));
+        event(new BillWasCreatedEvent($bill));
     }
 });
 
 Bill::updating(function ($bill) {
     if ($bill->isType(BILL_TYPE_QUOTE)) {
-        event(new BillQuoteWasUpdated($bill));
+        event(new BillQuoteWasUpdatedEvent($bill));
     } else {
-        event(new BillWasUpdated($bill));
+        event(new BillWasUpdatedEvent($bill));
     }
 });

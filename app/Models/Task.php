@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Events\TaskWasCreated;
-use App\Events\TaskWasUpdated;
+use App\Events\TaskWasCreatedEvent;
+use App\Events\TaskWasUpdatedEvent;
 use App\Libraries\Utils;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
@@ -279,9 +279,9 @@ class Task extends EntityModel
 }
 
 Task::created(function ($task) {
-    event(new TaskWasCreated($task));
+    event(new TaskWasCreatedEvent($task));
 });
 
 Task::updated(function ($task) {
-    event(new TaskWasUpdated($task));
+    event(new TaskWasUpdatedEvent($task));
 });

@@ -2,9 +2,9 @@
 
 namespace App\Listeners;
 
-use App\Events\InvoiceItemsWereCreated;
-use App\Events\InvoiceItemsWereUpdated;
-use App\Events\InvoiceWasDeleted;
+use App\Events\InvoiceItemsWereCreatedEvent;
+use App\Events\InvoiceItemsWereUpdatedEvent;
+use App\Events\InvoiceWasDeletedEvent;
 use App\Ninja\Transformers\InvoiceTransformer;
 
 /**

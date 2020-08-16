@@ -86,7 +86,7 @@
             $('#contactUsModal .response-div').hide();
             $("#contact_us_message").val(message).focus().selectRange(0, 0);
         })
-    });
+    })
 
     function onContactUsFormSubmit() {
         $('#contactUsModal .modal-footer button').attr('disabled', true);

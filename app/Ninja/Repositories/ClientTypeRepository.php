@@ -2,8 +2,8 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Events\ClientTypeWasCreated;
-use App\Events\ClientTypeWasUpdated;
+use App\Events\ClientTypeWasCreatedEvent;
+use App\Events\ClientTypeWasUpdatedEvent;
 use App\Models\ClientType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -83,9 +83,9 @@ class ClientTypeRepository extends BaseRepository
         $clientType->save();
 
         if ($publicId) {
-            event(new ClientTypeWasUpdated($clientType));
+            event(new ClientTypeWasUpdatedEvent($clientType));
         } else {
-            event(new ClientTypeWasCreated($clientType));
+            event(new ClientTypeWasCreatedEvent($clientType));
         }
 
         return $clientType;

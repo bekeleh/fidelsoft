@@ -2,9 +2,9 @@
 
 namespace App\Listeners;
 
-use App\Events\ClientWasCreated;
-use App\Events\ClientWasDeleted;
-use App\Events\ClientWasUpdated;
+use App\Events\ClientWasCreatedEvent;
+use App\Events\ClientWasDeletedEvent;
+use App\Events\ClientWasUpdatedEvent;
 use App\Ninja\Transformers\ClientTransformer;
 
 /**
@@ -13,20 +13,20 @@ use App\Ninja\Transformers\ClientTransformer;
 class ClientListener extends EntityListener
 {
 
-    public function createdClient(ClientWasCreated $event)
+    public function createdClient(ClientWasCreatedEvent $event)
     {
         $transformer = new ClientTransformer($event->client->account);
 
         $this->checkSubscriptions(EVENT_CREATE_CLIENT, $event->client, $transformer);
     }
 
-    public function updatedClient(ClientWasUpdated $event)
+    public function updatedClient(ClientWasUpdatedEvent $event)
     {
         $transformer = new ClientTransformer($event->client->account);
         $this->checkSubscriptions(EVENT_UPDATE_CLIENT, $event->client, $transformer);
     }
 
-    public function deletedClient(ClientWasDeleted $event)
+    public function deletedClient(ClientWasDeletedEvent $event)
     {
         $transformer = new ClientTransformer($event->client->account);
         $this->checkSubscriptions(EVENT_DELETE_CLIENT, $event->client, $transformer);

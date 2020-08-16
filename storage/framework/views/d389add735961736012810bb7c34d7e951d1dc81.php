@@ -2,14 +2,12 @@ Dropzone.autoDiscover = false;
 window.countUploadingDocuments = 0;
 
 window.dropzone = new Dropzone('#document-upload .dropzone', {
-    url: <?php use App\Models\Document;
-
-echo json_encode(url('documents')); ?>,
+    url: <?php echo json_encode(url('documents')); ?>,
     params: {
         '_token': '<?php echo e(Session::token()); ?>',
         'is_default': <?php echo e(isset($isDefault) && $isDefault ? '1' : '0'); ?>,
     },
-    acceptedFiles: <?php echo json_encode(implode(',', Document::$allowedMimes)); ?>,
+    acceptedFiles: <?php echo json_encode(implode(',',\App\Models\Document::$allowedMimes)); ?>,
     addRemoveLinks: true,
     dictRemoveFileConfirmation: "<?php echo e(trans('texts.are_you_sure')); ?>",
     <?php $__currentLoopData = ['default_message', 'fallback_message', 'fallback_text', 'file_too_big', 'invalid_file_type', 'response_error', 'cancel_upload', 'cancel_upload_confirmation', 'remove_file']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>

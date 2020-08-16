@@ -3,11 +3,11 @@
 use App\Ninja\Mailers\UserMailer;
 use App\Ninja\Mailers\ContactMailer;
 use App\Events\InvoiceWasEmailedEvent;
-use App\Events\QuoteWasEmailed;
-use App\Events\InvoiceInvitationWasViewed;
-use App\Events\QuoteInvitationWasViewed;
-use App\Events\QuoteInvitationWasApproved;
-use App\Events\PaymentWasCreated;
+use App\Events\QuoteWasEmailedEvent;
+use App\Events\InvoiceInvitationWasViewedEvent;
+use App\Events\QuoteInvitationWasViewedEvent;
+use App\Events\QuoteInvitationWasApprovedEvent;
+use App\Events\PaymentWasCreatedEvent;
 use App\Services\PushService;
 use App\Jobs\SendNotificationEmail;
 use App\Jobs\SendPaymentEmail;
@@ -76,18 +76,18 @@ class NotifyListener
     }
 
     /**
-     * @param QuoteWasEmailed $event
+     * @param QuoteWasEmailedEvent $event
      */
-    public function emailedQuote(QuoteWasEmailed $event)
+    public function emailedQuote(QuoteWasEmailedEvent $event)
     {
         $this->sendNotifications($event->quote, 'sent', null, $event->notes);
         $this->pushService->sendNotification($event->quote, 'sent');
     }
 
     /**
-     * @param InvoiceInvitationWasViewed $event
+     * @param InvoiceInvitationWasViewedEvent $event
      */
-    public function viewedInvoice(InvoiceInvitationWasViewed $event)
+    public function viewedInvoice(InvoiceInvitationWasViewedEvent $event)
     {
         if ( ! floatval($event->invoice->balance)) {
             return;
@@ -98,9 +98,9 @@ class NotifyListener
     }
 
     /**
-     * @param QuoteInvitationWasViewed $event
+     * @param QuoteInvitationWasViewedEvent $event
      */
-    public function viewedQuote(QuoteInvitationWasViewed $event)
+    public function viewedQuote(QuoteInvitationWasViewedEvent $event)
     {
         if ($event->quote->quote_invoice_id) {
             return;
@@ -111,18 +111,18 @@ class NotifyListener
     }
 
     /**
-     * @param QuoteInvitationWasApproved $event
+     * @param QuoteInvitationWasApprovedEvent $event
      */
-    public function approvedQuote(QuoteInvitationWasApproved $event)
+    public function approvedQuote(QuoteInvitationWasApprovedEvent $event)
     {
         $this->sendNotifications($event->quote, 'approved');
         $this->pushService->sendNotification($event->quote, 'approved');
     }
 
     /**
-     * @param PaymentWasCreated $event
+     * @param PaymentWasCreatedEvent $event
      */
-    public function createdPayment(PaymentWasCreated $event)
+    public function createdPayment(PaymentWasCreatedEvent $event)
     {
         // only send emails for online payments
         if ( ! $event->payment->account_gateway_id) {

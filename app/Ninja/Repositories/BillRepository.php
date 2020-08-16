@@ -2,10 +2,10 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Events\BillItemsWereCreated;
-use App\Events\BillItemsWereUpdated;
-use App\Events\QuoteItemsWereCreated;
-use App\Events\QuoteItemsWereUpdated;
+use App\Events\BillItemsWereCreatedEvent;
+use App\Events\BillItemsWereUpdatedEvent;
+use App\Events\QuoteItemsWereCreatedEvent;
+use App\Events\QuoteItemsWereUpdatedEvent;
 use App\Jobs\SendBillEmail;
 use App\Libraries\Utils;
 use App\Models\Account;
@@ -683,15 +683,15 @@ class BillRepository extends BaseRepository
         }
         if ($bill->isType(BILL_TYPE_QUOTE)) {
             if ($bill->wasRecentlyCreated) {
-                event(new QuoteItemsWereCreated($bill));
+                event(new QuoteItemsWereCreatedEvent($bill));
             } else {
-                event(new QuoteItemsWereUpdated($bill));
+                event(new QuoteItemsWereUpdatedEvent($bill));
             }
         } else {
             if ($bill->wasRecentlyCreated) {
-                event(new BillItemsWereCreated($bill));
+                event(new BillItemsWereCreatedEvent($bill));
             } else {
-                event(new BillItemsWereUpdated($bill));
+                event(new BillItemsWereUpdatedEvent($bill));
             }
         }
     }

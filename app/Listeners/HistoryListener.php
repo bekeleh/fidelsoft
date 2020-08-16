@@ -2,13 +2,13 @@
 
 namespace App\Listeners;
 
-use App\Events\InvoiceWasDeleted;
-use App\Events\ClientWasDeleted;
-use App\Events\QuoteWasDeleted;
-use App\Events\TaskWasDeleted;
-use App\Events\ExpenseWasDeleted;
-use App\Events\ProjectWasDeleted;
-use App\Events\ProposalWasDeleted;
+use App\Events\InvoiceWasDeletedEvent;
+use App\Events\ClientWasDeletedEvent;
+use App\Events\QuoteWasDeletedEvent;
+use App\Events\TaskWasDeletedEvent;
+use App\Events\ExpenseWasDeletedEvent;
+use App\Events\ProjectWasDeletedEvent;
+use App\Events\ProposalWasDeletedEvent;
 use App\Libraries\HistoryUtils;
 
 /**
@@ -17,57 +17,57 @@ use App\Libraries\HistoryUtils;
 class HistoryListener
 {
     /**
-     * @param ClientWasDeleted $event
+     * @param ClientWasDeletedEvent $event
      */
-    public function deletedClient(ClientWasDeleted $event)
+    public function deletedClient(ClientWasDeletedEvent $event)
     {
         HistoryUtils::deleteHistory($event->client);
     }
 
     /**
-     * @param InvoiceWasDeleted $event
+     * @param InvoiceWasDeletedEvent $event
      */
-    public function deletedInvoice(InvoiceWasDeleted $event)
+    public function deletedInvoice(InvoiceWasDeletedEvent $event)
     {
         HistoryUtils::deleteHistory($event->invoice);
     }
 
     /**
-     * @param QuoteWasDeleted $event
+     * @param QuoteWasDeletedEvent $event
      */
-    public function deletedQuote(QuoteWasDeleted $event)
+    public function deletedQuote(QuoteWasDeletedEvent $event)
     {
         HistoryUtils::deleteHistory($event->quote);
     }
 
     /**
-     * @param TaskWasDeleted $event
+     * @param TaskWasDeletedEvent $event
      */
-    public function deletedTask(TaskWasDeleted $event)
+    public function deletedTask(TaskWasDeletedEvent $event)
     {
         HistoryUtils::deleteHistory($event->task);
     }
 
     /**
-     * @param ExpenseWasDeleted $event
+     * @param ExpenseWasDeletedEvent $event
      */
-    public function deletedExpense(ExpenseWasDeleted $event)
+    public function deletedExpense(ExpenseWasDeletedEvent $event)
     {
         HistoryUtils::deleteHistory($event->expense);
     }
 
     /**
-     * @param ProjectWasDeleted $event
+     * @param ProjectWasDeletedEvent $event
      */
-    public function deletedProject(ProjectWasDeleted $event)
+    public function deletedProject(ProjectWasDeletedEvent $event)
     {
         HistoryUtils::deleteHistory($event->project);
     }
 
     /**
-     * @param ProposalWasDeleted $event
+     * @param ProposalWasDeletedEvent $event
      */
-    public function deletedProposal(ProposalWasDeleted $event)
+    public function deletedProposal(ProposalWasDeletedEvent $event)
     {
         HistoryUtils::deleteHistory($event->proposal);
     }

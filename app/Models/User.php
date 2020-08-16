@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Events\UserSettingsChanged;
-use App\Events\UserSignedUp;
+use App\Events\UserSettingsChangedEvent;
+use App\Events\UserSignedUpEvent;
 use App\Libraries\Utils;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -300,10 +300,10 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
         if (!$user->getOriginal('email')
             || $user->getOriginal('email') === TEST_USERNAME
             || $user->getOriginal('email') === 'tests@bitrock.com') {
-            event(new UserSignedUp());
+            event(new UserSignedUpEvent());
         }
 
-        event(new UserSettingsChanged($user));
+        event(new UserSettingsChangedEvent($user));
     }
 
 

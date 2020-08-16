@@ -2,10 +2,10 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Events\InvoiceItemsWereCreated;
-use App\Events\InvoiceItemsWereUpdated;
-use App\Events\QuoteItemsWereCreated;
-use App\Events\QuoteItemsWereUpdated;
+use App\Events\InvoiceItemsWereCreatedEvent;
+use App\Events\InvoiceItemsWereUpdatedEvent;
+use App\Events\QuoteItemsWereCreatedEvent;
+use App\Events\QuoteItemsWereUpdatedEvent;
 use App\Jobs\SendInvoiceEmail;
 use App\Libraries\Utils;
 use App\Models\Account;
@@ -688,15 +688,15 @@ class InvoiceRepository extends BaseRepository
         }
         if ($invoice->isType(INVOICE_TYPE_QUOTE)) {
             if ($invoice->wasRecentlyCreated) {
-                event(new QuoteItemsWereCreated($invoice));
+                event(new QuoteItemsWereCreatedEvent($invoice));
             } else {
-                event(new QuoteItemsWereUpdated($invoice));
+                event(new QuoteItemsWereUpdatedEvent($invoice));
             }
         } else {
             if ($invoice->wasRecentlyCreated) {
-                event(new InvoiceItemsWereCreated($invoice));
+                event(new InvoiceItemsWereCreatedEvent($invoice));
             } else {
-                event(new InvoiceItemsWereUpdated($invoice));
+                event(new InvoiceItemsWereUpdatedEvent($invoice));
             }
         }
     }

@@ -3,8 +3,8 @@
 namespace App\Ninja\Mailers;
 
 use App;
-use App\Events\BillWasEmailed;
-use App\Events\BillQuoteWasEmailed;
+use App\Events\BillWasEmailedEvent;
+use App\Events\BillQuoteWasEmailedEvent;
 use App\Jobs\ConvertBillToUbl;
 use App\Libraries\Utils;
 use App\Models\Bill;
@@ -104,9 +104,9 @@ class VendorContactMailer extends Mailer
 
         if ($sent === true && !$proposal) {
             if ($bill->isType(INVOICE_TYPE_QUOTE)) {
-                event(new BillQuoteWasEmailed($bill, $reminder));
+                event(new BillQuoteWasEmailedEvent($bill, $reminder));
             } else {
-                event(new BillWasEmailed($bill, $reminder));
+                event(new BillWasEmailedEvent($bill, $reminder));
             }
         }
 

@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\PaymentWasCreated;
+use App\Events\PaymentWasCreatedEvent;
 use App\Libraries\Utils;
 
 /**
@@ -11,9 +11,9 @@ use App\Libraries\Utils;
 class AnalyticsListener
 {
     /**
-     * @param PaymentWasCreated $event
+     * @param PaymentWasCreatedEvent $event
      */
-    public function trackRevenue(PaymentWasCreated $event)
+    public function trackRevenue(PaymentWasCreatedEvent $event)
     {
         $payment = $event->payment;
         $invoice = $payment->invoice;

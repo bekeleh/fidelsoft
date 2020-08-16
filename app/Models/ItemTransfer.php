@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
-use App\Events\ItemTransferWasCreated;
-use App\Events\ItemTransferWasUpdated;
+use App\Events\ItemTransferWasCreatedEvent;
+use App\Events\ItemTransferWasUpdatedEvent;
 
 /**
  * Model Class ItemTransferPresenter.
@@ -120,9 +120,9 @@ class ItemTransfer extends EntityModel
 }
 
 ItemTransfer::created(function ($itemTransfer) {
-    event(new ItemTransferWasCreated($itemTransfer));
+    event(new ItemTransferWasCreatedEvent($itemTransfer));
 });
 
 ItemTransfer::updating(function ($itemTransfer) {
-    event(new ItemTransferWasUpdated());
+    event(new ItemTransferWasUpdatedEvent());
 });

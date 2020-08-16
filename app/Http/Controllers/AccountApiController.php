@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\UserSignedUp;
+use App\Events\UserSignedUpEvent;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateAccountRequest;
 use App\Libraries\Utils;
@@ -48,7 +48,7 @@ class AccountApiController extends BaseAPIController
         $user = $account->users()->first();
 
         Auth::login($user);
-        event(new UserSignedUp());
+        event(new UserSignedUpEvent());
 
         return $this->processLogin($request);
     }

@@ -2,8 +2,8 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Events\ProductWasCreated;
-use App\Events\ProductWasUpdated;
+use App\Events\ProductWasCreatedEvent;
+use App\Events\ProductWasUpdatedEvent;
 use App\Libraries\Utils;
 use App\Models\ItemBrand;
 use App\Models\Product;
@@ -131,9 +131,9 @@ class ProductRepository extends BaseRepository
         $product->save();
 
         if ($publicId) {
-            event(new ProductWasUpdated($product));
+            event(new ProductWasUpdatedEvent($product));
         } else {
-            event(new ProductWasCreated($product));
+            event(new ProductWasCreatedEvent($product));
         }
         return $product;
     }

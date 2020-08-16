@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use App\Events\PaymentCompleted;
-use App\Events\PaymentFailed;
-use App\Events\PaymentWasCreated;
-use App\Events\PaymentWasRefunded;
-use App\Events\PaymentWasVoided;
+use App\Events\PaymentCompletedEvent;
+use App\Events\PaymentFailedEvent;
+use App\Events\PaymentWasCreatedEvent;
+use App\Events\PaymentWasRefundedEvent;
+use App\Events\PaymentWasVoidedEvent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Event;
 use Laracasts\Presenter\PresentableTrait;
@@ -194,7 +194,7 @@ class Payment extends EntityModel
             $this->payment_status_id = $this->refunded == $this->amount ? PAYMENT_STATUS_REFUNDED : PAYMENT_STATUS_PARTIALLY_REFUNDED;
             $this->save();
 
-            Event::fire(new PaymentWasRefunded($this, $refund_change));
+            Event::fire(new PaymentWasRefundedEvent($this, $refund_change));
         }
 
         return true;
@@ -206,7 +206,7 @@ class Payment extends EntityModel
             return false;
         }
 
-        Event::fire(new PaymentWasVoided($this));
+        Event::fire(new PaymentWasVoidedEvent($this));
 
         $this->refunded = $this->amount;
         $this->payment_status_id = PAYMENT_STATUS_VOIDED;
@@ -219,7 +219,7 @@ class Payment extends EntityModel
     {
         $this->payment_status_id = PAYMENT_STATUS_COMPLETED;
         $this->save();
-        Event::fire(new PaymentCompleted($this));
+        Event::fire(new PaymentCompletedEvent($this));
     }
 
     public function markFailed($failureMessage = '')
@@ -227,7 +227,7 @@ class Payment extends EntityModel
         $this->payment_status_id = PAYMENT_STATUS_FAILED;
         $this->gateway_error = $failureMessage;
         $this->save();
-        Event::fire(new PaymentFailed($this));
+        Event::fire(new PaymentFailedEvent($this));
     }
 
     public function getCompletedAmount()
@@ -321,5 +321,5 @@ Payment::creating(function ($payment) {
 });
 
 Payment::created(function ($payment) {
-    event(new PaymentWasCreated($payment));
+    event(new PaymentWasCreatedEvent($payment));
 });

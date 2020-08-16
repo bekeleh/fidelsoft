@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use App;
-use App\Events\UserLoggedIn;
+use App\Events\UserLoggedInEvent;
 use App\Libraries\CurlUtils;
 use App\Libraries\Utils;
 use App\Models\Language;
@@ -163,7 +163,7 @@ class StartupCheck
 
         // Make sure the account/user localization settings are in the session
         if (Auth::check() && !Session::has(SESSION_TIMEZONE)) {
-            Event::fire(new UserLoggedIn());
+            Event::fire(new UserLoggedInEvent());
         }
 
         // Check if the user is claiming a license (ie, additional invoices, white label, etc.)

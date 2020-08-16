@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Events\billQuoteInvitationWasApproved;
+use App\Events\BillQuoteInvitationWasApprovedEvent;
 use App\Jobs\DownloadInvoices;
 use App\Libraries\Utils;
 use App\Models\BillInvitation;
@@ -60,7 +60,7 @@ class BillItemService extends BaseService
             return null;
         }
 
-        event(new billQuoteInvitationWasApproved($quote, $invitation));
+        event(new BillQuoteInvitationWasApprovedEvent($quote, $invitation));
 
         if ($account->auto_convert_quote) {
             $billItem = $this->convertQuote($quote);

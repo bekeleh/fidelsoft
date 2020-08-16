@@ -5,7 +5,7 @@
             return '';
         }
 
-        if (invoice && invoice.invoice_type_id == <?php use App\Libraries\Utils;use App\Models\Gateway;use App\Models\GatewayType;echo e(INVOICE_TYPE_QUOTE); ?> || entityType == '<?php echo e(ENTITY_QUOTE); ?>') {
+        if (invoice && invoice.invoice_type_id == <?php echo e(INVOICE_TYPE_QUOTE); ?> || entityType == '<?php echo e(ENTITY_QUOTE); ?>') {
             var viewButton = <?php echo json_encode(Form::flatButton('view_quote', '#777')); ?> +'$password';
         } else if (entityType == '<?php echo e(ENTITY_PROPOSAL); ?>') {
             var viewButton = <?php echo json_encode(Form::flatButton('view_proposal', '#777')); ?> +'$password';
@@ -62,11 +62,11 @@
             };
 
         // Add any available payment method links
-                <?php $__currentLoopData = Gateway::$gatewayTypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php $__currentLoopData = \App\Models\Gateway::$gatewayTypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <?php if($type != GATEWAY_TYPE_TOKEN): ?>
-                <?php echo "keys['" . Utils::toCamelCase(GatewayType::getAliasFromId($type)) . "Link'] = '" . auth()->user()->account->getBaseUrl() . "/...';"; ?>
+                <?php echo "keys['" . \App\Libraries\Utils::toCamelCase(\App\Models\GatewayType::getAliasFromId($type)) . "Link'] = '" . auth()->user()->account->getBaseUrl() . "/...';"; ?>
 
-                <?php echo "keys['" . Utils::toCamelCase(GatewayType::getAliasFromId($type)) . "Button'] = '" . Form::flatButton('pay_now', '#36c157') . "';"; ?>
+                <?php echo "keys['" . \App\Libraries\Utils::toCamelCase(\App\Models\GatewayType::getAliasFromId($type)) . "Button'] = '" . Form::flatButton('pay_now', '#36c157') . "';"; ?>
 
                 <?php endif; ?>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -80,7 +80,7 @@
         }
 
         if (!includesPasswordPlaceholder) {
-            var lastSpot = str.lastIndexOf('$password');
+            var lastSpot = str.lastIndexOf('$password')
             str = str.slice(0, lastSpot) + str.slice(lastSpot).replace('$password', passwordHtml);
         }
         str = str.replace(/\$password/g, '');
@@ -159,16 +159,16 @@
                                     ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $field): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <li>$<?php echo e($field); ?></li>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    <?php $__currentLoopData = Gateway::$gatewayTypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <?php $__currentLoopData = \App\Models\Gateway::$gatewayTypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <?php if($account->getGatewayByType($type)): ?>
                                             <?php if($type != GATEWAY_TYPE_TOKEN): ?>
                                                 <li>
-                                                    $<?php echo e(Utils::toCamelCase(GatewayType::getAliasFromId($type))); ?>
+                                                    $<?php echo e(\App\Libraries\Utils::toCamelCase(\App\Models\GatewayType::getAliasFromId($type))); ?>
 
                                                     Link
                                                 </li>
                                                 <li>
-                                                    $<?php echo e(Utils::toCamelCase(GatewayType::getAliasFromId($type))); ?>
+                                                    $<?php echo e(\App\Libraries\Utils::toCamelCase(\App\Models\GatewayType::getAliasFromId($type))); ?>
 
                                                     Button
                                                 </li>

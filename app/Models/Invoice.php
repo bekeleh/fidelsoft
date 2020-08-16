@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use App\Events\InvoiceInvitationWasEmailed;
-use App\Events\InvoiceWasCreated;
+use App\Events\InvoiceInvitationWasEmailedEvent;
+use App\Events\InvoiceWasCreatedEvent;
 use App\Events\InvoiceWasUpdatedEvent;
-use App\Events\QuoteInvitationWasEmailed;
-use App\Events\QuoteWasCreated;
-use App\Events\QuoteWasUpdated;
+use App\Events\QuoteInvitationWasEmailedEvent;
+use App\Events\QuoteWasCreatedEvent;
+use App\Events\QuoteWasUpdatedEvent;
 use App\Libraries\CurlUtils;
 use App\Libraries\Utils;
 use App\Models\Traits\ChargesFees;
@@ -511,9 +511,9 @@ class Invoice extends EntityModel implements BalanceAffecting
         }
 
         if ($this->isType(INVOICE_TYPE_QUOTE)) {
-            event(new QuoteInvitationWasEmailed($invitation, $notes));
+            event(new QuoteInvitationWasEmailedEvent($invitation, $notes));
         } else {
-            event(new InvoiceInvitationWasEmailed($invitation, $notes));
+            event(new InvoiceInvitationWasEmailedEvent($invitation, $notes));
         }
     }
 
@@ -1413,15 +1413,15 @@ Invoice::creating(function ($invoice) {
 
 Invoice::created(function ($invoice) {
     if ($invoice->isType(INVOICE_TYPE_QUOTE)) {
-        event(new QuoteWasCreated($invoice));
+        event(new QuoteWasCreatedEvent($invoice));
     } else {
-        event(new InvoiceWasCreated($invoice));
+        event(new InvoiceWasCreatedEvent($invoice));
     }
 });
 
 Invoice::updating(function ($invoice) {
     if ($invoice->isType(INVOICE_TYPE_QUOTE)) {
-        event(new QuoteWasUpdated($invoice));
+        event(new QuoteWasUpdatedEvent($invoice));
     } else {
         event(new InvoiceWasUpdatedEvent($invoice));
     }

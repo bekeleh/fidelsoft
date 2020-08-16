@@ -55,7 +55,9 @@ class Subscription extends EntityModel
 
     public static function subscriber($eventId)
     {
-        return Subscription::where('event_id', $eventId)->get();
+        return Subscription::whereHas('user', function ($query) use ($eventId) {
+            $query->where('event_id', $eventId);
+        });
     }
 
 

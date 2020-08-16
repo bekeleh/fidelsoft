@@ -2,8 +2,8 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Events\SaleTypeWasCreated;
-use App\Events\SaleTypeWasUpdated;
+use App\Events\SaleTypeWasCreatedEvent;
+use App\Events\SaleTypeWasUpdatedEvent;
 use App\Models\SaleType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -83,9 +83,9 @@ class SaleTypeRepository extends BaseRepository
         $saleType->save();
 
         if ($publicId) {
-            event(new SaleTypeWasUpdated($saleType));
+            event(new SaleTypeWasUpdatedEvent($saleType));
         } else {
-            event(new SaleTypeWasCreated($saleType));
+            event(new SaleTypeWasCreatedEvent($saleType));
         }
 
         return $saleType;

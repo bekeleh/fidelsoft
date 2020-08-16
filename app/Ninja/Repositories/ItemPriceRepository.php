@@ -2,8 +2,8 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Events\ItemPriceWasCreated;
-use App\Events\ItemPriceWasUpdated;
+use App\Events\ItemPriceWasCreatedEvent;
+use App\Events\ItemPriceWasUpdatedEvent;
 use App\Models\ClientType;
 use App\Models\ItemPrice;
 use App\Models\Product;
@@ -120,9 +120,9 @@ class ItemPriceRepository extends BaseRepository
         $itemPrice->save();
 
         if ($publicId) {
-            event(new ItemPriceWasUpdated($itemPrice));
+            event(new ItemPriceWasUpdatedEvent($itemPrice));
         } else {
-            event(new ItemPriceWasCreated($itemPrice));
+            event(new ItemPriceWasCreatedEvent($itemPrice));
         }
 
         return $itemPrice;

@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\PaymentWasDeleted;
+use App\Events\PaymentWasDeletedEvent;
 use App\Models\Credit;
 use App\Ninja\Repositories\CreditRepository;
 use Carbon\Carbon;
@@ -26,7 +26,7 @@ class CreditListener
     }
 
 
-    public function deletedPayment(PaymentWasDeleted $event)
+    public function deletedPayment(PaymentWasDeletedEvent $event)
     {
         $payment = $event->payment;
 

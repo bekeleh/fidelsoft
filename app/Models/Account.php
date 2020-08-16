@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App;
-use App\Events\UserSettingsChanged;
+use App\Events\UserSettingsChangedEvent;
 use App\Libraries\Utils;
 use App\Models\Traits\GenerateClientNumbers;
 use App\Models\Traits\GenerateVendorNumbers;
@@ -1741,7 +1741,7 @@ Account::updated(function ($account) {
         return;
     }
 
-    Event::fire(new UserSettingsChanged());
+    Event::fire(new UserSettingsChangedEvent());
 });
 
 Account::deleted(function ($account) {

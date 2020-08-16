@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Events\BillQuoteInvitationWasApproved;
+use App\Events\BillQuoteInvitationWasApprovedEvent;
 use App\Jobs\DownloadBill;
 use App\Libraries\Utils;
 use App\Models\Vendor;
@@ -102,7 +102,7 @@ class BillService extends BaseService
             return null;
         }
 
-        event(new BillQuoteInvitationWasApproved($quote, $billInvitation));
+        event(new BillQuoteInvitationWasApprovedEvent($quote, $billInvitation));
 
         if ($account->auto_convert_quote) {
             $bill = $this->convertQuote($quote);

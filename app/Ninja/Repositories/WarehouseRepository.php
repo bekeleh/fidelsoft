@@ -2,8 +2,8 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Events\WarehouseWasCreated;
-use App\Events\WarehouseWasUpdated;
+use App\Events\WarehouseWasCreatedEvent;
+use App\Events\WarehouseWasUpdatedEvent;
 use App\Models\Location;
 use App\Models\Warehouse;
 use Illuminate\Support\Facades\Auth;
@@ -97,9 +97,9 @@ class WarehouseRepository extends BaseRepository
         $Warehouse->save();
 
         if ($publicId) {
-            event(new WarehouseWasUpdated($Warehouse));
+            event(new WarehouseWasUpdatedEvent($Warehouse));
         } else {
-            event(new WarehouseWasCreated($Warehouse));
+            event(new WarehouseWasCreatedEvent($Warehouse));
         }
         return $Warehouse;
     }

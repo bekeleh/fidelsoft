@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Events\QuoteInvitationWasApproved;
+use App\Events\QuoteInvitationWasApprovedEvent;
 use App\Jobs\DownloadInvoices;
 use App\Libraries\Utils;
 use App\Models\Invitation;
@@ -60,7 +60,7 @@ class InvoiceItemService extends BaseService
             return null;
         }
 
-        event(new QuoteInvitationWasApproved($quote, $invitation));
+        event(new QuoteInvitationWasApprovedEvent($quote, $invitation));
 
         if ($account->auto_convert_quote) {
             $invoiceItem = $this->convertQuote($quote);

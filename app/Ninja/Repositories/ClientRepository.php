@@ -2,8 +2,8 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Events\ClientWasCreated;
-use App\Events\ClientWasUpdated;
+use App\Events\ClientWasCreatedEvent;
+use App\Events\ClientWasUpdatedEvent;
 use App\Jobs\PurgeClientData;
 use App\Models\Client;
 use App\Models\ClientType;
@@ -249,9 +249,9 @@ class ClientRepository extends BaseRepository
         }
 
         if (!$publicId || intval($publicId) < 0) {
-            event(new ClientWasCreated($client));
+            event(new ClientWasCreatedEvent($client));
         } else {
-            event(new ClientWasUpdated($client));
+            event(new ClientWasUpdatedEvent($client));
         }
 
         return $client;

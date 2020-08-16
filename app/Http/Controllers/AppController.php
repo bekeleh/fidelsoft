@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\UserSettingsChanged;
+use App\Events\UserSettingsChangedEvent;
 use App\Libraries\Utils;
 use App\Models\Account;
 use App\Models\Industry;
@@ -318,7 +318,7 @@ class AppController extends BaseController
                 Session::flush();
                 Artisan::call('migrate', ['--force' => true]);
                 Artisan::call('db:seed', ['--force' => true, '--class' => 'UpdateSeeder']);
-                Event::fire(new UserSettingsChanged());
+                Event::fire(new UserSettingsChangedEvent());
 
                 // legacy fix: check cipher is in .env file
                 if (!env('APP_CIPHER')) {

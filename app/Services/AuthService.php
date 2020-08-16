@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Events\UserLoggedIn;
+use App\Events\UserLoggedInEvent;
 use App\Ninja\Repositories\AccountRepository;
 use App\Models\LookupUser;
 use Illuminate\Support\Facades\Auth;
@@ -74,7 +74,7 @@ class AuthService
                     return redirect('/validate_two_factor/' . $user->account->account_key);
                 } else {
                     Auth::login($user);
-                    event(new UserLoggedIn());
+                    event(new UserLoggedInEvent());
                 }
             } else {
                 Session::flash('error', trans('texts.invalid_credentials'));

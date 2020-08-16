@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
-use App\Events\ItemRequestWasCreated;
-use App\Events\ItemRequestWasUpdated;
+use App\Events\ItemRequestWasCreatedEvent;
+use App\Events\ItemRequestWasUpdatedEvent;
 
 /**
  * Model Class ItemRequestPresenter.
@@ -117,9 +117,9 @@ class ItemRequest extends EntityModel
 }
 
 ItemRequest::created(function ($itemRequest) {
-    event(new ItemRequestWasCreated($itemRequest));
+    event(new ItemRequestWasCreatedEvent($itemRequest));
 });
 
 ItemRequest::updating(function ($itemRequest) {
-    event(new ItemRequestWasUpdated($itemRequest));
+    event(new ItemRequestWasUpdatedEvent($itemRequest));
 });

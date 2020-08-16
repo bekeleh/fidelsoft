@@ -2,8 +2,8 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Events\ItemTransferWasCreated;
-use App\Events\ItemTransferWasUpdated;
+use App\Events\ItemTransferWasCreatedEvent;
+use App\Events\ItemTransferWasUpdatedEvent;
 use App\Models\ItemMovement;
 use App\Models\ItemStore;
 use App\Models\ItemTransfer;
@@ -190,9 +190,9 @@ class ItemTransferRepository extends BaseRepository
                     }
                 }
                 if ($update) {
-                    event(new ItemTransferWasUpdated($itemTransfer));
+                    event(new ItemTransferWasUpdatedEvent($itemTransfer));
                 } else {
-                    event(new ItemTransferWasCreated($itemTransfer));
+                    event(new ItemTransferWasCreatedEvent($itemTransfer));
                 }
             }
         }

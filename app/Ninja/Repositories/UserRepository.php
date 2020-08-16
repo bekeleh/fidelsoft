@@ -2,8 +2,8 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Events\UserWasCreated;
-use App\Events\UserWasUpdated;
+use App\Events\UserWasCreatedEvent;
+use App\Events\UserWasUpdatedEvent;
 use App\Models\Location;
 use App\Models\Store;
 use App\Models\User;
@@ -151,9 +151,9 @@ class UserRepository extends BaseRepository
         }
 
         if ($publicId) {
-            event(new UserWasUpdated($user, $data));
+            event(new UserWasUpdatedEvent($user, $data));
         } else {
-            event(new UserWasCreated($user, $data));
+            event(new UserWasCreatedEvent($user, $data));
         }
 
         return $user;

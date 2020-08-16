@@ -2,8 +2,8 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Events\LocationWasCreated;
-use App\Events\LocationWasUpdated;
+use App\Events\LocationWasCreatedEvent;
+use App\Events\LocationWasUpdatedEvent;
 use App\Models\Location;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -81,9 +81,9 @@ class LocationRepository extends BaseRepository
         $location->save();
 
         if ($publicId) {
-            event(new LocationWasUpdated($location, $data));
+            event(new LocationWasUpdatedEvent($location, $data));
         } else {
-            event(new LocationWasCreated($location, $data));
+            event(new LocationWasCreatedEvent($location, $data));
         }
         return $location;
     }

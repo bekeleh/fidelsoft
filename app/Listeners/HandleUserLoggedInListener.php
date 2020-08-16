@@ -2,8 +2,8 @@
 
 namespace App\Listeners;
 
-use App\Events\UserLoggedIn;
-use App\Events\UserSignedUp;
+use App\Events\UserLoggedInEvent;
+use App\Events\UserSignedUpEvent;
 use App\Libraries\HistoryUtils;
 use App\Libraries\Utils;
 use App\Models\Gateway;
@@ -33,17 +33,17 @@ class HandleUserLoggedInListener
     /**
      * Handle the event.
      *
-     * @param UserLoggedIn $event
+     * @param UserLoggedInEvent $event
      *
      * @return void
      */
-    public function handle(UserLoggedIn $event)
+    public function handle(UserLoggedInEvent $event)
     {
         $user = auth()->user();
         $account = $user->account;
 
         if (!Utils::isNinja() && empty($account->last_login)) {
-            event(new UserSignedUp());
+            event(new UserSignedUpEvent());
         }
 
         $account->last_login = Carbon::now()->toDateTimeString();

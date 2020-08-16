@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Events\ExpenseWasCreated;
-use App\Events\ExpenseWasUpdated;
+use App\Events\ExpenseWasCreatedEvent;
+use App\Events\ExpenseWasUpdatedEvent;
 use App\Models\Traits\HasRecurrence;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
@@ -106,7 +106,7 @@ RecurringExpense::creating(function ($expense) {
 });
 
 RecurringExpense::created(function ($expense) {
-    event(new ExpenseWasCreated($expense));
+    event(new ExpenseWasCreatedEvent($expense));
 });
 
 RecurringExpense::updating(function ($expense) {
@@ -114,7 +114,7 @@ RecurringExpense::updating(function ($expense) {
 });
 
 RecurringExpense::updated(function ($expense) {
-    event(new ExpenseWasUpdated($expense));
+    event(new ExpenseWasUpdatedEvent($expense));
 });
 
 RecurringExpense::deleting(function ($expense) {

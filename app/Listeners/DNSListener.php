@@ -2,8 +2,8 @@
 
 namespace App\Listeners;
 
-use App\Events\SubdomainWasRemoved;
-use App\Events\SubdomainWasUpdated;
+use App\Events\SubdomainWasRemovedEvent;
+use App\Events\SubdomainWasUpdatedEvent;
 use App\Ninja\DNS\Cloudflare;
 
 /**
@@ -11,13 +11,13 @@ use App\Ninja\DNS\Cloudflare;
  */
 class DNSListener
 {
-    public function addDNSRecord(SubdomainWasUpdated $event)
+    public function addDNSRecord(SubdomainWasUpdatedEvent $event)
     {
         if (env("CLOUDFLARE_DNS_ENABLED"))
             Cloudflare::addDNSRecord($event->account);
     }
 
-    public function removeDNSRecord(SubdomainWasRemoved $event)
+    public function removeDNSRecord(SubdomainWasRemovedEvent $event)
     {
         if (env("CLOUDFLARE_DNS_ENABLED"))
             Cloudflare::removeDNSRecord($event->account);

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Events\BillCreditWasCreated;
+use App\Events\BillCreditWasCreatedEvent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
@@ -84,5 +84,5 @@ BillCredit::creating(function ($credit) {
 });
 
 BillCredit::created(function ($credit) {
-    event(new BillCreditWasCreated($credit));
+    event(new BillCreditWasCreatedEvent($credit));
 });

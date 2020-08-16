@@ -2,12 +2,12 @@
 
 use App\Ninja\Mailers\UserMailer;
 use App\Ninja\Mailers\ContactMailer;
-use App\Events\BillWasEmailed;
-use App\Events\BillQuoteWasEmailed;
-use App\Events\BillInvitationWasViewed;
-use App\Events\BillQuoteInvitationWasViewed;
-use App\Events\BillQuoteInvitationWasApproved;
-use App\Events\PaymentWasCreated;
+use App\Events\BillWasEmailedEvent;
+use App\Events\BillQuoteWasEmailedEvent;
+use App\Events\BillInvitationWasViewedEvent;
+use App\Events\BillQuoteInvitationWasViewedEvent;
+use App\Events\BillQuoteInvitationWasApprovedEvent;
+use App\Events\PaymentWasCreatedEvent;
 use App\Services\PushService;
 use App\Jobs\SendBillNotificationEmail;
 use App\Jobs\SendBillPaymentEmail;
@@ -58,27 +58,27 @@ class NotifyBillListener
     }
 
     /**
-     * @param BillWasEmailed $event
+     * @param BillWasEmailedEvent $event
      */
-    public function emailedInvoice(BillWasEmailed $event)
+    public function emailedInvoice(BillWasEmailedEvent $event)
     {
         $this->sendNotifications($event->invoice, 'sent', null, $event->notes);
         $this->pushService->sendNotification($event->invoice, 'sent');
     }
 
     /**
-     * @param BillQuoteWasEmailed $event
+     * @param BillQuoteWasEmailedEvent $event
      */
-    public function emailedQuote(BillQuoteWasEmailed $event)
+    public function emailedQuote(BillQuoteWasEmailedEvent $event)
     {
         $this->sendNotifications($event->quote, 'sent', null, $event->notes);
         $this->pushService->sendNotification($event->quote, 'sent');
     }
 
     /**
-     * @param BillInvitationWasViewed $event
+     * @param BillInvitationWasViewedEvent $event
      */
-    public function viewedInvoice(BillInvitationWasViewed $event)
+    public function viewedInvoice(BillInvitationWasViewedEvent $event)
     {
         if (!floatval($event->invoice->balance)) {
             return;
@@ -89,9 +89,9 @@ class NotifyBillListener
     }
 
     /**
-     * @param BillQuoteInvitationWasViewed $event
+     * @param BillQuoteInvitationWasViewedEvent $event
      */
-    public function viewedQuote(BillQuoteInvitationWasViewed $event)
+    public function viewedQuote(BillQuoteInvitationWasViewedEvent $event)
     {
         if ($event->quote->quote_invoice_id) {
             return;
@@ -102,18 +102,18 @@ class NotifyBillListener
     }
 
     /**
-     * @param BillQuoteInvitationWasApproved $event
+     * @param BillQuoteInvitationWasApprovedEvent $event
      */
-    public function approvedQuote(BillQuoteInvitationWasApproved $event)
+    public function approvedQuote(BillQuoteInvitationWasApprovedEvent $event)
     {
         $this->sendNotifications($event->quote, 'approved');
         $this->pushService->sendNotification($event->quote, 'approved');
     }
 
     /**
-     * @param PaymentWasCreated $event
+     * @param PaymentWasCreatedEvent $event
      */
-    public function createdPayment(PaymentWasCreated $event)
+    public function createdPayment(PaymentWasCreatedEvent $event)
     {
         // only send emails for online payments
         if (!$event->payment->account_gateway_id) {

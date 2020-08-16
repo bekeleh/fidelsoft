@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\SubdomainWasRemoved;
-use App\Events\SubdomainWasUpdated;
-use App\Events\UserSettingsChanged;
-use App\Events\UserSignedUp;
+use App\Events\SubdomainWasRemovedEvent;
+use App\Events\SubdomainWasUpdatedEvent;
+use App\Events\UserSettingsChangedEvent;
+use App\Events\UserSignedUpEvent;
 use App\Http\Requests\SaveClientPortalSettings;
 use App\Http\Requests\SaveEmailSettings;
 use App\Http\Requests\UpdateAccountRequest;
@@ -118,7 +118,7 @@ class AccountController extends BaseController
 
         Auth::login($user, true);
 
-        event(new UserSignedUp());
+        event(new UserSignedUpEvent());
 
         if ($account && $account->language_id && $account->language_id != DEFAULT_LANGUAGE) {
             $link = link_to('/invoices/create?lang=en', 'click here');
@@ -774,7 +774,7 @@ class AccountController extends BaseController
 
         if ($account->subdomain !== $request->subdomain) {
             $fireUpdateSubdomainEvent = true;
-            event(new SubdomainWasRemoved($account));
+            event(new SubdomainWasRemovedEvent($account));
         }
 
         $account->fill($request->all());
@@ -785,7 +785,7 @@ class AccountController extends BaseController
         $account->save();
 
         if ($fireUpdateSubdomainEvent) {
-            event(new SubdomainWasUpdated($account));
+            event(new SubdomainWasUpdatedEvent($account));
         }
 
         return redirect('settings/' . ACCOUNT_CLIENT_PORTAL)->with('message', trans('texts.updated_settings'));
@@ -1136,7 +1136,7 @@ class AccountController extends BaseController
             $account->save();
         }
 
-        event(new UserSettingsChanged());
+        event(new UserSettingsChangedEvent());
 
         Session::flash('message', trans('texts.updated_settings'));
 
@@ -1196,7 +1196,7 @@ class AccountController extends BaseController
 
             $user->save();
 
-            event(new UserSettingsChanged());
+            event(new UserSettingsChangedEvent());
             Session::flash('message', trans('texts.updated_settings'));
 
             return Redirect::to('settings/' . ACCOUNT_USER_DETAILS);
@@ -1220,7 +1220,7 @@ class AccountController extends BaseController
         $account->financial_year_start = Input::get('financial_year_start') ? Input::get('financial_year_start') : null;
         $account->save();
 
-        event(new UserSettingsChanged());
+        event(new UserSettingsChangedEvent());
 
         Session::flash('message', trans('texts.updated_settings'));
 
@@ -1237,7 +1237,7 @@ class AccountController extends BaseController
 
         $account->save();
 
-        event(new UserSettingsChanged());
+        event(new UserSettingsChangedEvent());
 
         Session::flash('message', trans('texts.updated_settings'));
 

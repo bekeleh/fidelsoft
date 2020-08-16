@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Events\UserLoggedIn;
+use App\Events\UserLoggedInEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ValidateTwoFactorRequest;
 use App\Libraries\Utils;
@@ -248,7 +248,7 @@ class LoginController extends Controller
             }
         }
 
-        Event::fire(new UserLoggedIn($user));
+        Event::fire(new UserLoggedInEvent($user));
 
         return redirect()->intended($this->redirectTo);
     }
@@ -273,7 +273,7 @@ class LoginController extends Controller
 
         //login and redirect user
         auth()->loginUsingId($userId);
-        Event::fire(new UserLoggedIn());
+        Event::fire(new UserLoggedInEvent());
 
         if ($trust = request()->trust) {
             $user = auth()->user();

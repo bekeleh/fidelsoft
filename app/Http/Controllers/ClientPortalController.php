@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\ClientWasUpdated;
-use App\Events\InvoiceInvitationWasViewed;
-use App\Events\QuoteInvitationWasViewed;
+use App\Events\ClientWasUpdatedEvent;
+use App\Events\InvoiceInvitationWasViewedEvent;
+use App\Events\QuoteInvitationWasViewedEvent;
 use App\Jobs\Client\GenerateStatementData;
 use App\Libraries\Utils;
 use App\Models\Contact;
@@ -98,9 +98,9 @@ class ClientPortalController extends BaseController
         if (!Input::has('phantomjs') && !session('silent:' . $client->id) && !Session::has($invitation->invitation_key)
             && (!Auth::check() || Auth::user()->account_id != $invoice->account_id)) {
             if ($invoice->isType(INVOICE_TYPE_QUOTE)) {
-                event(new QuoteInvitationWasViewed($invoice, $invitation));
+                event(new QuoteInvitationWasViewedEvent($invoice, $invitation));
             } else {
-                event(new InvoiceInvitationWasViewed($invoice, $invitation));
+                event(new InvoiceInvitationWasViewedEvent($invoice, $invitation));
             }
         }
 
@@ -1037,7 +1037,7 @@ class ClientPortalController extends BaseController
         $client->fill(request()->all());
         $client->save();
 
-        event(new ClientWasUpdated($client));
+        event(new ClientWasUpdatedEvent($client));
 
         return redirect($account->enable_client_portal_dashboard ? '/client/dashboard' : '/client/payment_methods')
             ->withMessage(trans('texts.updated_client_details'));
