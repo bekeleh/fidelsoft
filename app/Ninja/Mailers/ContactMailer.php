@@ -233,6 +233,10 @@ class ContactMailer extends Mailer
     }
 
 
+    /**
+     * @param Payment $payment
+     * @param int $refunded
+     */
     public function sendPaymentConfirmation(Payment $payment, $refunded = 0)
     {
         $account = $payment->account;

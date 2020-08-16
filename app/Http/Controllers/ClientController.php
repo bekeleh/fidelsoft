@@ -81,10 +81,8 @@ class ClientController extends BaseController
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param ClientRequest $request
-     * @return Response
+     * @return mixed
      * @throws AuthorizationException
      */
     public function show(ClientRequest $request)
@@ -145,11 +143,10 @@ class ClientController extends BaseController
         return View::make('clients.show', $data);
     }
 
+
     /**
-     * Show the form for creating a new resource.
-     *
      * @param ClientRequest $request
-     * @return Response
+     * @return mixed
      * @throws AuthorizationException
      */
     public function create(ClientRequest $request)
@@ -173,10 +170,8 @@ class ClientController extends BaseController
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
      * @param ClientRequest $request
-     * @return Response
+     * @return mixed
      * @throws AuthorizationException
      */
     public function edit(ClientRequest $request)
@@ -202,6 +197,9 @@ class ClientController extends BaseController
         return View::make('clients.edit', $data);
     }
 
+    /**
+     * @return array
+     */
     private static function getViewModel()
     {
         return [
@@ -214,10 +212,8 @@ class ClientController extends BaseController
     }
 
     /**
-     * Update the specified resource in storage.
-     *
      * @param UpdateClientRequest $request
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateClientRequest $request)
     {
@@ -228,6 +224,9 @@ class ClientController extends BaseController
         return redirect()->to($client->getRoute());
     }
 
+    /**
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function bulk()
     {
         $action = Input::get('action');
@@ -249,6 +248,10 @@ class ClientController extends BaseController
         }
     }
 
+    /**
+     * @param $clientPublicId
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|mixed
+     */
     public function statement($clientPublicId)
     {
         $statusId = request()->status_id;
@@ -277,6 +280,9 @@ class ClientController extends BaseController
         return view('clients.statement', $data);
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getEmailHistory()
     {
         $history = dispatch_now(new LoadPostmarkHistory(request()->email));
@@ -284,6 +290,9 @@ class ClientController extends BaseController
         return response()->json($history);
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function reactivateEmail()
     {
         $result = dispatch_now(new ReactivatePostmarkEmail(request()->bounce_id));

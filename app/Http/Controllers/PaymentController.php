@@ -32,16 +32,20 @@ class PaymentController extends BaseController
      * PaymentController constructor.
      *
      * @param PaymentRepository $paymentRepo
-     * @param ContactMailer $contactMailer
      * @param PaymentService $paymentService
+     * @param ContactMailer $contactMailer
      */
-    public function __construct(PaymentRepository $paymentRepo, ContactMailer $contactMailer, PaymentService $paymentService)
+    public function __construct(PaymentRepository $paymentRepo, PaymentService $paymentService, ContactMailer $contactMailer)
     {
         $this->paymentRepo = $paymentRepo;
-        $this->contactMailer = $contactMailer;
         $this->paymentService = $paymentService;
+        $this->contactMailer = $contactMailer;
     }
 
+    /**
+     * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function index()
     {
         $this->authorize('view', ENTITY_PAYMENT);
@@ -52,11 +56,20 @@ class PaymentController extends BaseController
         ]);
     }
 
+    /**
+     * @param null $clientPublicId
+     * @return bool
+     */
     public function getDatatable($clientPublicId = null)
     {
         return $this->paymentService->getDatatable($clientPublicId, Input::get('sSearch'));
     }
 
+    /**
+     * @param PaymentRequest $request
+     * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function create(PaymentRequest $request)
     {
         $this->authorize('create', ENTITY_PAYMENT);
@@ -83,12 +96,12 @@ class PaymentController extends BaseController
             'clientPublicId' => $clientPublicId,
             'invoicePublicId' => $invoicePublicId,
             'invoice' => null,
-            'invoices' => $invoices,
             'payment' => null,
             'method' => 'POST',
             'url' => 'payments',
             'title' => trans('texts.new_payment'),
             'paymentTypeId' => Input::get('paymentTypeId'),
+            'invoices' => $invoices,
             'clients' => Client::scope()->with('contacts')->orderBy('name')->get(),
             'totalCredit' => $totalCredit,
         ];
@@ -96,6 +109,10 @@ class PaymentController extends BaseController
         return View::make('payments.edit', $data);
     }
 
+    /**
+     * @param $publicId
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function show($publicId)
     {
         Session::reflash();
@@ -103,6 +120,11 @@ class PaymentController extends BaseController
         return redirect()->to("payments/{$publicId}/edit");
     }
 
+    /**
+     * @param PaymentRequest $request
+     * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function edit(PaymentRequest $request)
     {
         $this->authorize('edit', ENTITY_PAYMENT);
@@ -131,26 +153,25 @@ class PaymentController extends BaseController
         }
 
         $data = [
-            'account' => Auth::user()->account,
             'client' => null,
             'invoice' => null,
-            'invoices' => Invoice::scope()->invoices()
-                ->whereIsPublic(true)
-                ->with('client', 'invoice_status')
-                ->orderBy('invoice_number')->get(),
             'payment' => $payment,
             'entity' => $payment,
             'method' => 'PUT',
             'url' => 'payments/' . $payment->public_id,
             'title' => trans('texts.edit_payment'),
             'actions' => $actions,
-            'paymentTypes' => Cache::get('paymentTypes'),
-            'clients' => Client::scope()->with('contacts')->orderBy('name')->get(),
         ];
+
+        array_merge($data, self::getViewModel());
 
         return View::make('payments.edit', $data);
     }
 
+    /**
+     * @param CreatePaymentRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(CreatePaymentRequest $request)
     {
         // check payment has been marked sent
@@ -178,6 +199,10 @@ class PaymentController extends BaseController
     }
 
 
+    /**
+     * @param UpdatePaymentRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(UpdatePaymentRequest $request)
     {
         if (in_array($request->action, ['archive', 'delete', 'restore', 'refund', 'email'])) {
@@ -189,6 +214,9 @@ class PaymentController extends BaseController
         return redirect()->to($payment->getRoute())->with('success', trans('texts.updated_payment'));
     }
 
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function bulk()
     {
         $action = Input::get('action');
@@ -212,4 +240,19 @@ class PaymentController extends BaseController
 
         return $this->returnBulk(ENTITY_PAYMENT, $action, $ids)->with('success', $message);
     }
+
+    /**
+     * @return array
+     */
+    private static function getViewModel()
+    {
+        return [
+            'data' => Input::old('data'),
+            'account' => Auth::user()->account,
+            'paymentTypes' => Cache::get('paymentTypes'),
+            'clients' => Client::scope()->with('contacts')->orderBy('name')->get(),
+            'invoices' => Invoice::scope()->invoices()->whereIsPublic(true)->with('client', 'invoice_status')->orderBy('invoice_number')->get(),
+        ];
+    }
+
 }

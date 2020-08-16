@@ -3,7 +3,7 @@
 namespace App\Models\Traits;
 
 use App\Constants\Domain;
-use Utils;
+use App\Libraries\Utils;
 use HTMLUtils;
 
 /**
@@ -18,6 +18,7 @@ trait SendsEmails
      */
     public function getDefaultEmailSubject($entityType)
     {
+//      finding a particular needle in the haystack, faster and less memory intensive
         if (strpos($entityType, 'reminder') !== false) {
             $entityType = 'reminder';
         }

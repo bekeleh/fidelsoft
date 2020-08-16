@@ -33,7 +33,7 @@ class Mailer
         $toEmail = strtolower($toEmail);
         $replyEmail = $fromEmail;
         $fromEmail = CONTACT_EMAIL;
-
+//       if it's in debugging mode/ development
         if (Utils::isSelfHost() && config('app.debug')) {
             Log::info("Sending email - To: {$toEmail} | Reply: {$replyEmail} | From: $fromEmail");
         }
@@ -50,6 +50,16 @@ class Mailer
         }
     }
 
+    /**
+     * @param $toEmail
+     * @param $fromEmail
+     * @param $fromName
+     * @param $replyEmail
+     * @param $subject
+     * @param $views
+     * @param array $data
+     * @return bool|mixed
+     */
     private function sendLaravelMail($toEmail, $fromEmail, $fromName, $replyEmail, $subject, $views, $data = [])
     {
         if (Utils::isSelfHost()) {
@@ -111,6 +121,7 @@ class Mailer
             });
 
             return $this->handleSuccess($data);
+
         } catch (Exception $exception) {
             return $this->handleFailure($data, $exception->getMessage());
         }
@@ -184,6 +195,11 @@ class Mailer
         }
     }
 
+    /**
+     * @param $data
+     * @param bool $messageId
+     * @return bool
+     */
     private function handleSuccess($data, $messageId = false)
     {
         if (isset($data['invitation'])) {
@@ -201,6 +217,11 @@ class Mailer
         return true;
     }
 
+    /**
+     * @param $data
+     * @param $emailError
+     * @return mixed
+     */
     private function handleFailure($data, $emailError)
     {
         if (isset($data['invitation'])) {

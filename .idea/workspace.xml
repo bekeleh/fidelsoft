@@ -3,11 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/accounts/invoice_settings.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/accounts/invoice_settings.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/aZSh770z06OBaZkd9gPILYuY7w3xCJlZtZcROjkI" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/aZSh770z06OBaZkd9gPILYuY7w3xCJlZtZcROjkI" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/d85f9d2ce531d550c03586bbf171f5dc0afd0a67.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/d85f9d2ce531d550c03586bbf171f5dc0afd0a67.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ClientController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ClientController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PaymentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PaymentController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Traits/SendsEmails.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Traits/SendsEmails.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Mailers/ContactMailer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Mailers/ContactMailer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Mailers/Mailer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Mailers/Mailer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -535,14 +536,8 @@
       <workItem from="1597424522992" duration="4586000" />
       <workItem from="1597432686091" duration="782000" />
       <workItem from="1597483743104" duration="16431000" />
-      <workItem from="1597502882343" duration="12237000" />
-    </task>
-    <task id="LOCAL-00442" summary="2020-07-23 9:27">
-      <created>1595533498590</created>
-      <option name="number" value="00442" />
-      <option name="presentableId" value="LOCAL-00442" />
-      <option name="project" value="LOCAL" />
-      <updated>1595533498591</updated>
+      <workItem from="1597502882343" duration="12587000" />
+      <workItem from="1597566126755" duration="2148000" />
     </task>
     <task id="LOCAL-00443" summary="2020-07-24 9:27">
       <created>1595589620252</created>
@@ -880,7 +875,14 @@
       <option name="project" value="LOCAL" />
       <updated>1597518229518</updated>
     </task>
-    <option name="localTasksCounter" value="491" />
+    <task id="LOCAL-00491" summary="2020-08-15 9:27">
+      <created>1597521459351</created>
+      <option name="number" value="00491" />
+      <option name="presentableId" value="LOCAL-00491" />
+      <option name="project" value="LOCAL" />
+      <updated>1597521459351</updated>
+    </task>
+    <option name="localTasksCounter" value="492" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -948,10 +950,6 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="347" y="14" width="600" height="652" key="#codeception.yml/0.0.1280.680@0.0.1280.680" timestamp="1590875093688" />
-    <state x="384" y="145" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1588865873644">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="384" y="145" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1280.680@0.0.1280.680" timestamp="1588865873644" />
     <state x="467" y="20" key="#com.intellij.ide.util.MemberChooser" timestamp="1593599933179">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -980,10 +978,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1597344338612" />
-    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1597518227319">
+    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1597521456632">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1597518227319" />
+    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1597521456632" />
     <state x="418" y="255" key="ComposerInitDialogKey" timestamp="1589789975070">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -1016,22 +1014,22 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="67" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1597424839722" />
-    <state x="421" y="115" key="com.intellij.ide.util.TipDialog" timestamp="1597483813890">
+    <state x="421" y="115" key="com.intellij.ide.util.TipDialog" timestamp="1597566157843">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="421" y="115" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1597483813890" />
+    <state x="421" y="115" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1597566157843" />
     <state x="303" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1592570261998">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="303" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1280.680@0.0.1280.680" timestamp="1592570261998" />
-    <state x="93" y="93" width="1095" height="495" key="dock-window-1" timestamp="1597351574693">
+    <state x="93" y="93" width="1095" height="495" key="dock-window-1" timestamp="1597566421634">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="93" y="93" width="1095" height="495" key="dock-window-1/0.0.1280.680@0.0.1280.680" timestamp="1597351574693" />
-    <state x="319" y="-3" width="906" height="638" key="find.popup" timestamp="1597507993545">
+    <state x="93" y="93" width="1095" height="495" key="dock-window-1/0.0.1280.680@0.0.1280.680" timestamp="1597566421634" />
+    <state x="319" y="-3" width="906" height="638" key="find.popup" timestamp="1597567570531">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="319" y="-3" width="906" height="638" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1597507993545" />
+    <state x="319" y="-3" width="906" height="638" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1597567570531" />
     <state x="282" y="67" width="700" height="530" key="recent.locations.popup" timestamp="1597406020338">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -1040,9 +1038,9 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="334" y="154" width="672" height="677" key="run.anything.popup/0.0.1280.680@0.0.1280.680" timestamp="1595263809986" />
-    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup" timestamp="1597510594660">
+    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup" timestamp="1597568424412">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1597510594660" />
+    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1597568424412" />
   </component>
 </project>
