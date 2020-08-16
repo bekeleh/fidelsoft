@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class LogSuccessfulLogin
 {
@@ -34,7 +34,8 @@ class LogSuccessfulLogin
                 ]
             );
         } catch (Exception $e) {
-            Log::debug($e);
+            $message = $event->user->name . ' just logged in to the application.';
+            Storage::put('loginactivity.txt', $message);
         }
     }
 }

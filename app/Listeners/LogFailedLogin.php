@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class LogFailedLogin
 {
@@ -27,7 +27,7 @@ class LogFailedLogin
             DB::table('login_attempts')
                 ->insert(
                     [
-                        'username' => $event->credentials['email'],
+                        'username' => $event->credentials['username'] ?: $event->credentials['email'],
                         'user_agent' => request()->header('UserModel-Agent') ?: null,
                         'remote_ip' => request()->ip(),
                         'successful' => 0,
@@ -35,7 +35,8 @@ class LogFailedLogin
                     ]
                 );
         } catch (Exception $e) {
-            throw new Exception('Sorry, somethings went wrong,try again later.');
+            $message = $event->user->name . ' can\'t logged in to the application.';
+            Storage::put('loginactivity.txt', $message);
         }
     }
 }

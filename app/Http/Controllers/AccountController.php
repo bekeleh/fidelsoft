@@ -895,9 +895,11 @@ class AccountController extends BaseController
                 $account->custom_invoice_taxes1 = Input::get('custom_invoice_taxes1') ? true : false;
                 $account->custom_invoice_taxes2 = Input::get('custom_invoice_taxes2') ? true : false;
                 $account->custom_fields = request()->custom_fields;
+
                 $account->invoice_number_padding = Input::get('invoice_number_padding');
                 $account->invoice_number_counter = Input::get('invoice_number_counter');
                 $account->quote_number_prefix = Input::get('quote_number_prefix');
+
                 $account->share_counter = Input::get('share_counter') ? true : false;
                 $account->invoice_terms = Input::get('invoice_terms');
                 $account->invoice_footer = Input::get('invoice_footer');
@@ -906,7 +908,8 @@ class AccountController extends BaseController
                 $account->bill_number_padding = Input::get('bill_number_padding');
                 $account->bill_number_counter = Input::get('bill_number_counter');
                 $account->bill_quote_number_prefix = Input::get('bill_quote_number_prefix');
-                $account->share_counter = Input::get('share_counter') ? true : false;
+
+                $account->share_bill_counter = Input::get('share_bill_counter') ? true : false;
                 $account->bill_terms = Input::get('bill_terms');
                 $account->bill_footer = Input::get('bill_footer');
                 $account->bill_quote_terms = Input::get('bill_quote_terms');

@@ -8,18 +8,21 @@ use App\Http\Requests\ValidateTwoFactorRequest;
 use App\Libraries\Utils;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class LoginController extends Controller
 {
@@ -33,13 +36,16 @@ class LoginController extends Controller
     private $lockoutTime;
 
 
+    /**
+     * LoginController constructor.
+     */
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'getLogoutWrapper']);
         Session::put('backUrl', URL::previous());
     }
 
-    public function redirectTo()
+    private function redirectTo()
     {
         return Session::get('backUrl') ? Session::get('backUrl') : $this->redirectTo;
     }
@@ -49,6 +55,10 @@ class LoginController extends Controller
         return $this->username;
     }
 
+    /**
+     * @param Request $request
+     * @return Factory|RedirectResponse|View
+     */
     public function showLoginForm(Request $request)
     {
         if (Auth::check()) {
@@ -58,6 +68,10 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
+    /**
+     * @param Request $request
+     * @return Factory|RedirectResponse|Redirector|View
+     */
     public function getLoginWrapper(Request $request)
     {
         if (auth()->check()) {
@@ -85,11 +99,18 @@ class LoginController extends Controller
         return self::showLoginForm($request);
     }
 
+    /**
+     * @return RedirectResponse
+     */
     public function legacyAuthRedirect()
     {
         return redirect()->route('login');
     }
 
+    /**
+     * @param Request $request
+     * @return bool
+     */
     protected function hasTooManyLoginAttempts(Request $request)
     {
         $lockoutTime = config('auth.throttle.lockout_duration');
@@ -101,6 +122,10 @@ class LoginController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
     protected function sendLockoutResponse(Request $request)
     {
         $seconds = $this->limiter()->availableIn(
@@ -116,6 +141,10 @@ class LoginController extends Controller
             ->withErrors([$this->username() => $message]);
     }
 
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
     public function postLoginWrapper(Request $request)
     {
         $validator = $this->validator($request->all());
@@ -142,7 +171,6 @@ class LoginController extends Controller
             if (!$lockedOut) {
                 $this->incrementLoginAttempts($request);
             }
-            Log::debug("Authentication failed.");
             return redirect()->back()->withInput()->with('error', trans('auth/message.account_not_found'));
         } else {
             $this->clearLoginAttempts($request);
@@ -157,6 +185,10 @@ class LoginController extends Controller
         return redirect()->intended()->with('success', trans('auth/message.signin.success'));
     }
 
+    /**
+     * @param Request $request
+     * @return array
+     */
     protected function credentials(Request $request)
     {
         $field = filter_var($request->get('email'), FILTER_VALIDATE_EMAIL)
@@ -169,6 +201,10 @@ class LoginController extends Controller
         ];
     }
 
+    /**
+     * @param array $data
+     * @return mixed
+     */
     protected function validator(array $data)
     {
         return Validator::make($data, [
@@ -177,6 +213,10 @@ class LoginController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
     protected function sendFailedLoginResponse(Request $request)
     {
         return redirect()->back()
@@ -186,6 +226,11 @@ class LoginController extends Controller
             ]);
     }
 
+    /**
+     * @param Request $request
+     * @param Authenticatable $user
+     * @return RedirectResponse|Redirector
+     */
     private function authenticated(Request $request, Authenticatable $user)
     {
         if ($user->google_2fa_secret) {
@@ -203,7 +248,7 @@ class LoginController extends Controller
             }
         }
 
-        Event::fire(new UserLoggedIn());
+        Event::fire(new UserLoggedIn($user));
 
         return redirect()->intended($this->redirectTo);
     }
