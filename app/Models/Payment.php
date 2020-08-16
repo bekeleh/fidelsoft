@@ -7,11 +7,113 @@ use App\Events\PaymentFailedEvent;
 use App\Events\PaymentWasCreatedEvent;
 use App\Events\PaymentWasRefundedEvent;
 use App\Events\PaymentWasVoidedEvent;
+use Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Event;
 use Laracasts\Presenter\PresentableTrait;
 
 
+/**
+ * App\Models\Payment
+ *
+ * @property int $id
+ * @property int|null $public_id
+ * @property int|null $account_id
+ * @property int|null $invoice_id
+ * @property int|null $client_id
+ * @property int|null $contact_id
+ * @property int|null $account_gateway_id
+ * @property int|null $payment_type_id
+ * @property int|null $user_id
+ * @property int|null $payment_status_id
+ * @property int|null $payment_method_id
+ * @property int|null $exchange_currency_id
+ * @property int|null $invitation_id
+ * @property string|null $payer_id
+ * @property float $amount
+ * @property float $refunded
+ * @property string|null $payment_date
+ * @property string|null $transaction_reference
+ * @property int|null $routing_number
+ * @property int|null $last4
+ * @property string|null $expiration
+ * @property string|null $gateway_error
+ * @property string|null $email
+ * @property string|null $bank_name
+ * @property string|null $ip
+ * @property string|null $created_by
+ * @property string|null $updated_by
+ * @property string|null $deleted_by
+ * @property string|null $credit_ids
+ * @property string|null $private_notes
+ * @property string|null $public_notes
+ * @property float $exchange_rate
+ * @property int $is_deleted
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ * @property-read Account|null $account
+ * @property-read AccountGateway|null $account_gateway
+ * @property-read Client|null $client
+ * @property-read Contact|null $contact
+ * @property-read mixed $bank_data
+ * @property-read Invitation|null $invitation
+ * @property-read Invoice|null $invoice
+ * @property-read PaymentMethod|null $payment_method
+ * @property-read PaymentStatus|null $payment_status
+ * @property-read PaymentType|null $payment_type
+ * @property-read User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment dateRange($startDate, $endDate)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment excludeFailed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment newQuery()
+ * @method static Builder|Payment onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment query()
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel scope($publicId = false, $accountId = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereAccountGatewayId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereAccountId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereBankName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereClientId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereContactId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereCreditIds($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereExchangeCurrencyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereExchangeRate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereExpiration($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereGatewayError($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereInvitationId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereInvoiceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereIp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereIsDeleted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereLast4($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment wherePayerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment wherePaymentDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment wherePaymentMethodId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment wherePaymentStatusId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment wherePaymentTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment wherePrivateNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment wherePublicId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment wherePublicNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereRefunded($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereRoutingNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereTransactionReference($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel withActiveOrSelected($id = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel withArchived()
+ * @method static Builder|Payment withTrashed()
+ * @method static Builder|Payment withoutTrashed()
+ * @mixin Eloquent
+ */
 class Payment extends EntityModel
 {
     use PresentableTrait;

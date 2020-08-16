@@ -2,11 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Support\Facades\Cache;
 
 /**
  * Class ExpenseCategory.
+ *
+ * @property-read LookupAccount $lookupAccount
+ * @method static Builder|LookupModel newModelQuery()
+ * @method static Builder|LookupModel newQuery()
+ * @method static Builder|LookupModel query()
+ * @mixin \Eloquent
  */
 class LookupModel extends Eloquent
 {

@@ -2,11 +2,26 @@
 
 namespace App\Models;
 
+use Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
  * Model Class Dashboard.
+ *
+ * @property-read Account $account
+ * @property-read User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|Dashboard newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Dashboard newQuery()
+ * @method static Builder|Dashboard onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Dashboard query()
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel scope($publicId = false, $accountId = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel withActiveOrSelected($id = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel withArchived()
+ * @method static Builder|Dashboard withTrashed()
+ * @method static Builder|Dashboard withoutTrashed()
+ * @mixin Eloquent
  */
 class Dashboard extends EntityModel
 {

@@ -5,7 +5,7 @@ namespace App\Ninja\Repositories;
 use App\Events\UserWasCreatedEvent;
 use App\Events\UserWasUpdatedEvent;
 use App\Models\Location;
-use App\Models\Store;
+use App\Models\Warehouse;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -106,7 +106,7 @@ class UserRepository extends BaseRepository
 
     public function findBranch($branchPublicId)
     {
-        $branchId = Store::getPrivateId($branchPublicId);
+        $branchId = Warehouse::getPrivateId($branchPublicId);
 
         $query = $this->find()->where('users.branch_id', '=', $branchId);
 

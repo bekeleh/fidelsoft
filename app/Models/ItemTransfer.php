@@ -2,13 +2,75 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
 use App\Events\ItemTransferWasCreatedEvent;
 use App\Events\ItemTransferWasUpdatedEvent;
 
 /**
  * Model Class ItemTransferPresenter.
+ *
+ * @property int $id
+ * @property int|null $public_id
+ * @property int|null $account_id
+ * @property int|null $user_id
+ * @property int|null $product_id
+ * @property int|null $previous_warehouse_id
+ * @property int|null $current_warehouse_id
+ * @property int|null $approver_id
+ * @property int|null $status_id
+ * @property int|null $qty
+ * @property int $is_deleted
+ * @property string|null $notes
+ * @property string|null $dispatch_date
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ * @property string|null $created_by
+ * @property string|null $updated_by
+ * @property string|null $deleted_by
+ * @property-read Account|null $account
+ * @property-read User|null $approver
+ * @property-read Warehouse|null $currentWarehouse
+ * @property-read Warehouse|null $previousWarehouse
+ * @property-read Product|null $product
+ * @property-read Status|null $status
+ * @property-read Collection|ItemMovement[] $stockMovements
+ * @property-read int|null $stock_movements_count
+ * @property-read User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemTransfer newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemTransfer newQuery()
+ * @method static Builder|ItemTransfer onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemTransfer query()
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel scope($publicId = false, $accountId = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemTransfer whereAccountId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemTransfer whereApproverId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemTransfer whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemTransfer whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemTransfer whereCurrentWarehouseId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemTransfer whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemTransfer whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemTransfer whereDispatchDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemTransfer whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemTransfer whereIsDeleted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemTransfer whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemTransfer wherePreviousWarehouseId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemTransfer whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemTransfer wherePublicId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemTransfer whereQty($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemTransfer whereStatusId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemTransfer whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemTransfer whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemTransfer whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel withActiveOrSelected($id = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel withArchived()
+ * @method static Builder|ItemTransfer withTrashed()
+ * @method static Builder|ItemTransfer withoutTrashed()
+ * @mixin Eloquent
  */
 class ItemTransfer extends EntityModel
 {

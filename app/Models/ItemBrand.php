@@ -2,12 +2,61 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
  * Model Class ItemBrand.
+ *
+ * @property int $id
+ * @property int|null $public_id
+ * @property int|null $account_id
+ * @property int|null $user_id
+ * @property int|null $item_category_id
+ * @property string|null $name
+ * @property string|null $notes
+ * @property int|null $is_deleted
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ * @property string|null $created_by
+ * @property string|null $updated_by
+ * @property string|null $deleted_by
+ * @property-read Account|null $account
+ * @property-read ItemCategory|null $item_category
+ * @property-read Collection|Product[] $products
+ * @property-read int|null $products_count
+ * @property-read User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemBrand brandWithCategory()
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemBrand newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemBrand newQuery()
+ * @method static Builder|ItemBrand onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemBrand query()
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel scope($publicId = false, $accountId = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemBrand whereAccountId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemBrand whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemBrand whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemBrand whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemBrand whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemBrand whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemBrand whereIsDeleted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemBrand whereItemCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemBrand whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemBrand whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemBrand wherePublicId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemBrand whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemBrand whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemBrand whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel withActiveOrSelected($id = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel withArchived()
+ * @method static Builder|ItemBrand withTrashed()
+ * @method static Builder|ItemBrand withoutTrashed()
+ * @mixin Eloquent
  */
 class ItemBrand extends EntityModel
 {

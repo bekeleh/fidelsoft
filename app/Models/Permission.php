@@ -2,11 +2,24 @@
 
 namespace App\Models;
 
+use Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
  * Class Model Permission.
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission newQuery()
+ * @method static Builder|Permission onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission query()
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel scope($publicId = false, $accountId = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel withActiveOrSelected($id = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel withArchived()
+ * @method static Builder|Permission withTrashed()
+ * @method static Builder|Permission withoutTrashed()
+ * @mixin Eloquent
  */
 class Permission extends EntityModel
 {

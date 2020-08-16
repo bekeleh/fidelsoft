@@ -3,15 +3,89 @@
 namespace App\Models;
 
 use App\Libraries\Utils;
+use Eloquent;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 
 /**
  * Class Contact.
+ *
+ * @property int $id
+ * @property int|null $public_id
+ * @property int|null $account_id
+ * @property int|null $user_id
+ * @property int|null $client_id
+ * @property string|null $contact_key
+ * @property string|null $bot_user_id
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ * @property int $is_primary
+ * @property int $send_invoice
+ * @property string|null $first_name
+ * @property string|null $last_name
+ * @property string|null $email
+ * @property string|null $password
+ * @property string|null $phone
+ * @property string|null $last_login
+ * @property string|null $banned_until
+ * @property int|null $confirmation_code
+ * @property int|null $remember_token
+ * @property string|null $custom_value1
+ * @property string|null $custom_value2
+ * @property string|null $created_by
+ * @property string|null $updated_by
+ * @property string|null $deleted_by
+ * @property-read Account|null $account
+ * @property-read Client|null $client
+ * @property-read mixed $link
+ * @property-read DatabaseNotificationCollection|DatabaseNotification[] $notifications
+ * @property-read int|null $notifications_count
+ * @property-read User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact newQuery()
+ * @method static Builder|Contact onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact query()
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel scope($publicId = false, $accountId = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereAccountId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereBannedUntil($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereBotUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereClientId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereConfirmationCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereContactKey($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereCustomValue1($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereCustomValue2($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereFirstName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereIsPrimary($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereLastLogin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereLastName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact wherePublicId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereSendInvoice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel withActiveOrSelected($id = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel withArchived()
+ * @method static Builder|Contact withTrashed()
+ * @method static Builder|Contact withoutTrashed()
+ * @mixin Eloquent
  */
 class Contact extends EntityModel implements AuthenticatableContract, CanResetPasswordContract
 {

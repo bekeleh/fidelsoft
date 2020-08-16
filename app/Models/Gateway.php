@@ -3,12 +3,59 @@
 namespace App\Models;
 
 use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
 use Omnipay;
 use App\Libraries\Utils;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class Gateway.
+ *
+ * @property int $id
+ * @property int|null $public_id
+ * @property int|null $account_id
+ * @property int|null $user_id
+ * @property int|null $payment_library_id
+ * @property string|null $name
+ * @property string|null $provider
+ * @property int $visible
+ * @property int $sort_order
+ * @property int $recommended
+ * @property string|null $site_url
+ * @property int $is_offsite
+ * @property int $is_secure
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property string|null $deleted_at
+ * @property string|null $created_by
+ * @property string|null $updated_by
+ * @property string|null $deleted_by
+ * @method static Builder|Gateway newModelQuery()
+ * @method static Builder|Gateway newQuery()
+ * @method static Builder|Gateway primary($accountGatewaysIds)
+ * @method static Builder|Gateway query()
+ * @method static Builder|Gateway secondary($accountGatewaysIds)
+ * @method static Builder|Gateway whereAccountId($value)
+ * @method static Builder|Gateway whereCreatedAt($value)
+ * @method static Builder|Gateway whereCreatedBy($value)
+ * @method static Builder|Gateway whereDeletedAt($value)
+ * @method static Builder|Gateway whereDeletedBy($value)
+ * @method static Builder|Gateway whereId($value)
+ * @method static Builder|Gateway whereIsOffsite($value)
+ * @method static Builder|Gateway whereIsSecure($value)
+ * @method static Builder|Gateway whereName($value)
+ * @method static Builder|Gateway wherePaymentLibraryId($value)
+ * @method static Builder|Gateway whereProvider($value)
+ * @method static Builder|Gateway wherePublicId($value)
+ * @method static Builder|Gateway whereRecommended($value)
+ * @method static Builder|Gateway whereSiteUrl($value)
+ * @method static Builder|Gateway whereSortOrder($value)
+ * @method static Builder|Gateway whereUpdatedAt($value)
+ * @method static Builder|Gateway whereUpdatedBy($value)
+ * @method static Builder|Gateway whereUserId($value)
+ * @method static Builder|Gateway whereVisible($value)
+ * @mixin Eloquent
  */
 class Gateway extends Eloquent
 {

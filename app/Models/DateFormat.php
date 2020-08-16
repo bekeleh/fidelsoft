@@ -2,10 +2,32 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class DateFormat.
+ *
+ * @property int $id
+ * @property string|null $format
+ * @property string|null $picker_format
+ * @property string|null $format_moment
+ * @property string|null $format_dart
+ * @property string|null $created_at
+ * @property string|null $updated_at
+ * @property string|null $deleted_at
+ * @method static Builder|DateFormat newModelQuery()
+ * @method static Builder|DateFormat newQuery()
+ * @method static Builder|DateFormat query()
+ * @method static Builder|DateFormat whereCreatedAt($value)
+ * @method static Builder|DateFormat whereDeletedAt($value)
+ * @method static Builder|DateFormat whereFormat($value)
+ * @method static Builder|DateFormat whereFormatDart($value)
+ * @method static Builder|DateFormat whereFormatMoment($value)
+ * @method static Builder|DateFormat whereId($value)
+ * @method static Builder|DateFormat wherePickerFormat($value)
+ * @method static Builder|DateFormat whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class DateFormat extends Eloquent
 {

@@ -4,10 +4,70 @@ namespace App\Models;
 
 use App\Libraries\Utils;
 use App\Models\Traits\Inviteable;
+use Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Carbon;
 
 /**
  * Class BillInvitation.
+ *
+ * @property int $id
+ * @property int|null $public_id
+ * @property int|null $account_id
+ * @property int|null $user_id
+ * @property int|null $contact_id
+ * @property int|null $bill_id
+ * @property string|null $message_id
+ * @property string|null $invitation_key
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ * @property string|null $transaction_reference
+ * @property string|null $sent_date
+ * @property string|null $viewed_date
+ * @property string|null $opened_date
+ * @property string|null $email_error
+ * @property string|null $signature_base64
+ * @property string|null $signature_date
+ * @property string|null $created_by
+ * @property string|null $updated_by
+ * @property string|null $deleted_by
+ * @property-read Account|null $account
+ * @property-read VendorContact|null $contact
+ * @property-read Bill $invoice
+ * @property-read User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInvitation newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInvitation newQuery()
+ * @method static Builder|BillInvitation onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInvitation query()
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel scope($publicId = false, $accountId = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInvitation whereAccountId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInvitation whereBillId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInvitation whereContactId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInvitation whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInvitation whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInvitation whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInvitation whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInvitation whereEmailError($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInvitation whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInvitation whereInvitationKey($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInvitation whereMessageId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInvitation whereOpenedDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInvitation wherePublicId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInvitation whereSentDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInvitation whereSignatureBase64($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInvitation whereSignatureDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInvitation whereTransactionReference($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInvitation whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInvitation whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInvitation whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInvitation whereViewedDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel withActiveOrSelected($id = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel withArchived()
+ * @method static Builder|BillInvitation withTrashed()
+ * @method static Builder|BillInvitation withoutTrashed()
+ * @mixin Eloquent
  */
 class BillInvitation extends EntityModel
 {

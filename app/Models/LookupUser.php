@@ -2,8 +2,37 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+
 /**
  * Class LookupUser.
+ *
+ * @property int $id
+ * @property int|null $lookup_account_id
+ * @property int|null $user_id
+ * @property string|null $email
+ * @property string|null $confirmation_code
+ * @property string|null $oauth_user_key
+ * @property string|null $referral_code
+ * @property string|null $create_at
+ * @property string|null $updated_at
+ * @property string|null $deleted_at
+ * @method static Builder|LookupUser newModelQuery()
+ * @method static Builder|LookupUser newQuery()
+ * @method static Builder|LookupUser query()
+ * @method static Builder|LookupUser whereConfirmationCode($value)
+ * @method static Builder|LookupUser whereCreateAt($value)
+ * @method static Builder|LookupUser whereDeletedAt($value)
+ * @method static Builder|LookupUser whereEmail($value)
+ * @method static Builder|LookupUser whereId($value)
+ * @method static Builder|LookupUser whereLookupAccountId($value)
+ * @method static Builder|LookupUser whereOauthUserKey($value)
+ * @method static Builder|LookupUser whereReferralCode($value)
+ * @method static Builder|LookupUser whereUpdatedAt($value)
+ * @method static Builder|LookupUser whereUserId($value)
+ * @mixin Eloquent
+ * @property-read LookupAccount|null $lookupAccount
  */
 class LookupUser extends LookupModel
 {

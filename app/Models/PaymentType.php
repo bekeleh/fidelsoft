@@ -2,10 +2,24 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class PaymentType.
+ *
+ * @property int $id
+ * @property string $name
+ * @property int|null $gateway_type_id
+ * @property-read GatewayType|null $gatewayType
+ * @method static Builder|PaymentType newModelQuery()
+ * @method static Builder|PaymentType newQuery()
+ * @method static Builder|PaymentType paymentTypes()
+ * @method static Builder|PaymentType query()
+ * @method static Builder|PaymentType whereGatewayTypeId($value)
+ * @method static Builder|PaymentType whereId($value)
+ * @method static Builder|PaymentType whereName($value)
+ * @mixin \Eloquent
  */
 class PaymentType extends Eloquent
 {

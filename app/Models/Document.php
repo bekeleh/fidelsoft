@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\AwsS3v3\AwsS3Adapter;
@@ -9,6 +12,70 @@ use League\Flysystem\Rackspace\RackspaceAdapter;
 
 /**
  * Class Document.
+ *
+ * @property int $id
+ * @property int|null $public_id
+ * @property int|null $account_id
+ * @property int|null $user_id
+ * @property int|null $invoice_id
+ * @property int|null $bill_id
+ * @property int|null $expense_id
+ * @property string|null $document_key
+ * @property string|null $path
+ * @property string|null $preview
+ * @property string|null $name
+ * @property string|null $type
+ * @property string|null $disk
+ * @property string|null $hash
+ * @property int $size
+ * @property int|null $width
+ * @property int|null $height
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property string|null $deleted_at
+ * @property int|null $is_default
+ * @property int $is_proposal
+ * @property string $created_by
+ * @property string $updated_by
+ * @property string $deleted_by
+ * @property-read Bill $BILL
+ * @property-read Account|null $account
+ * @property-read Expense|null $expense
+ * @property-read Invoice|null $invoice
+ * @property-read User|null $user
+ * @method static Builder|Document newModelQuery()
+ * @method static Builder|Document newQuery()
+ * @method static Builder|Document proposalImages()
+ * @method static Builder|Document query()
+ * @method static Builder|EntityModel scope($publicId = false, $accountId = false)
+ * @method static Builder|Document whereAccountId($value)
+ * @method static Builder|Document whereBillId($value)
+ * @method static Builder|Document whereCreatedAt($value)
+ * @method static Builder|Document whereCreatedBy($value)
+ * @method static Builder|Document whereDeletedAt($value)
+ * @method static Builder|Document whereDeletedBy($value)
+ * @method static Builder|Document whereDisk($value)
+ * @method static Builder|Document whereDocumentKey($value)
+ * @method static Builder|Document whereExpenseId($value)
+ * @method static Builder|Document whereHash($value)
+ * @method static Builder|Document whereHeight($value)
+ * @method static Builder|Document whereId($value)
+ * @method static Builder|Document whereInvoiceId($value)
+ * @method static Builder|Document whereIsDefault($value)
+ * @method static Builder|Document whereIsProposal($value)
+ * @method static Builder|Document whereName($value)
+ * @method static Builder|Document wherePath($value)
+ * @method static Builder|Document wherePreview($value)
+ * @method static Builder|Document wherePublicId($value)
+ * @method static Builder|Document whereSize($value)
+ * @method static Builder|Document whereType($value)
+ * @method static Builder|Document whereUpdatedAt($value)
+ * @method static Builder|Document whereUpdatedBy($value)
+ * @method static Builder|Document whereUserId($value)
+ * @method static Builder|Document whereWidth($value)
+ * @method static Builder|EntityModel withActiveOrSelected($id = false)
+ * @method static Builder|EntityModel withArchived()
+ * @mixin Eloquent
  */
 class Document extends EntityModel
 {

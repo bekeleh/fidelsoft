@@ -4,7 +4,10 @@ namespace App\Models;
 
 use App\Libraries\Utils;
 use App\Models\Traits\HasCustomMessages;
+use Eloquent;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Laracasts\Presenter\PresentableTrait;
@@ -12,6 +15,157 @@ use Carbon\Carbon;
 
 /**
  * Model Class Client.
+ *
+ * @property int $id
+ * @property int|null $public_id
+ * @property int|null $account_id
+ * @property int|null $user_id
+ * @property int|null $currency_id
+ * @property int|null $client_type_id
+ * @property int|null $sale_type_id
+ * @property int|null $hold_reason_id
+ * @property int|null $country_id
+ * @property int|null $industry_id
+ * @property int|null $size_id
+ * @property int|null $language_id
+ * @property int|null $shipping_country_id
+ * @property string|null $name
+ * @property string|null $id_number
+ * @property string|null $address1
+ * @property string|null $address2
+ * @property string|null $city
+ * @property string|null $state
+ * @property string|null $postal_code
+ * @property string|null $work_phone
+ * @property float $balance
+ * @property float $paid_to_date
+ * @property string|null $last_login
+ * @property string|null $website
+ * @property int $is_deleted
+ * @property int|null $payment_terms
+ * @property string|null $custom_value1
+ * @property string|null $custom_value2
+ * @property string|null $vat_number
+ * @property int $invoice_number_counter
+ * @property int $quote_number_counter
+ * @property int $credit_number_counter
+ * @property float $task_rate
+ * @property string|null $private_notes
+ * @property string|null $public_notes
+ * @property string|null $shipping_address1
+ * @property string|null $shipping_address2
+ * @property string|null $shipping_city
+ * @property string|null $shipping_state
+ * @property string|null $shipping_postal_code
+ * @property string|null $billing_address1
+ * @property string|null $billing_address2
+ * @property string|null $billing_city
+ * @property string|null $billing_state
+ * @property string|null $billing_postal_code
+ * @property int $show_tasks_in_portal
+ * @property int $send_reminders
+ * @property string|null $custom_messages
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property string|null $created_by
+ * @property string|null $updated_by
+ * @property string|null $deleted_by
+ * @property-read Account|null $account
+ * @property-read Collection|Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read ClientType|null $clientType
+ * @property-read Collection|Contact[] $contacts
+ * @property-read int|null $contacts_count
+ * @property-read Country|null $country
+ * @property-read Collection|Credit[] $credits
+ * @property-read int|null $credits_count
+ * @property-read Collection|Credit[] $creditsWithBalance
+ * @property-read int|null $credits_with_balance_count
+ * @property-read Currency|null $currency
+ * @property-read Collection|Expense[] $expenses
+ * @property-read int|null $expenses_count
+ * @property-read HoldReason|null $holdReason
+ * @property-read Industry|null $industry
+ * @property-read Collection|Invoice[] $invoices
+ * @property-read int|null $invoices_count
+ * @property-read Language|null $language
+ * @property-read Collection|Payment[] $payments
+ * @property-read int|null $payments_count
+ * @property-read Collection|Invoice[] $publicQuotes
+ * @property-read int|null $public_quotes_count
+ * @property-read Collection|Invoice[] $quotes
+ * @property-read int|null $quotes_count
+ * @property-read SaleType|null $saleType
+ * @property-read Country|null $shipping_country
+ * @property-read Size|null $size
+ * @property-read User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder|Client isInvoiceAllowed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Client newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Client newQuery()
+ * @method static Builder|Client onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Client query()
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel scope($publicId = false, $accountId = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereAccountId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereAddress1($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereAddress2($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereBalance($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereBillingAddress1($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereBillingAddress2($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereBillingCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereBillingPostalCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereBillingState($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereClientTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereCountryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereCreditNumberCounter($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereCurrencyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereCustomMessages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereCustomValue1($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereCustomValue2($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereHoldReasonId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereIdNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereIndustryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereInvoiceNumberCounter($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereIsDeleted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereLanguageId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereLastLogin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client wherePaidToDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client wherePaymentTerms($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client wherePostalCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client wherePrivateNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client wherePublicId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client wherePublicNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereQuoteNumberCounter($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereSaleTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereSendReminders($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereShippingAddress1($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereShippingAddress2($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereShippingCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereShippingCountryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereShippingPostalCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereShippingState($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereShowTasksInPortal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereSizeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereState($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereTaskRate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereVatNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereWebsite($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereWorkPhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel withActiveOrSelected($id = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel withArchived()
+ * @method static Builder|Client withTrashed()
+ * @method static Builder|Client withoutTrashed()
+ * @mixin Eloquent
  */
 class Client extends EntityModel
 {

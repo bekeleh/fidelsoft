@@ -2,10 +2,99 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
  * Class Activity.
+ *
+ * @property int $id
+ * @property int|null $public_id
+ * @property int|null $account_id
+ * @property int|null $user_id
+ * @property int|null $invoice_id
+ * @property int|null $bill_id
+ * @property int|null $client_id
+ * @property int|null $contact_id
+ * @property int|null $vendor_id
+ * @property int|null $vendor_contact_id
+ * @property int|null $payment_id
+ * @property int|null $bill_payment_id
+ * @property int|null $credit_id
+ * @property int|null $bill_credit_id
+ * @property int|null $invitation_id
+ * @property int|null $bill_invitation_id
+ * @property int|null $task_id
+ * @property int|null $expense_id
+ * @property string|null $json_backup
+ * @property int $activity_type_id
+ * @property float|null $adjustment
+ * @property float|null $balance
+ * @property int|null $token_id
+ * @property string|null $ip
+ * @property int $is_system
+ * @property string|null $notes
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property string|null $deleted_at
+ * @property string|null $created_by
+ * @property string|null $updated_by
+ * @property string|null $deleted_by
+ * @property-read Account|null $account
+ * @property-read Bill|null $bill
+ * @property-read BillCredit|null $bill_credit
+ * @property-read BillPayment|null $bill_payment
+ * @property-read Client|null $client
+ * @property-read Contact|null $contact
+ * @property-read Credit|null $credit
+ * @property-read Expense|null $expense
+ * @property-read Invoice|null $invoice
+ * @property-read Payment|null $payment
+ * @property-read Task|null $task
+ * @property-read User|null $user
+ * @property-read Vendor|null $vendor
+ * @property-read VendorContact|null $vendor_contact
+ * @method static Builder|Activity newModelQuery()
+ * @method static Builder|Activity newQuery()
+ * @method static Builder|Activity query()
+ * @method static Builder|EntityModel scope($publicId = false, $accountId = false)
+ * @method static Builder|Activity whereAccountId($value)
+ * @method static Builder|Activity whereActivityTypeId($value)
+ * @method static Builder|Activity whereAdjustment($value)
+ * @method static Builder|Activity whereBalance($value)
+ * @method static Builder|Activity whereBillCreditId($value)
+ * @method static Builder|Activity whereBillId($value)
+ * @method static Builder|Activity whereBillInvitationId($value)
+ * @method static Builder|Activity whereBillPaymentId($value)
+ * @method static Builder|Activity whereClientId($value)
+ * @method static Builder|Activity whereContactId($value)
+ * @method static Builder|Activity whereCreatedAt($value)
+ * @method static Builder|Activity whereCreatedBy($value)
+ * @method static Builder|Activity whereCreditId($value)
+ * @method static Builder|Activity whereDeletedAt($value)
+ * @method static Builder|Activity whereDeletedBy($value)
+ * @method static Builder|Activity whereExpenseId($value)
+ * @method static Builder|Activity whereId($value)
+ * @method static Builder|Activity whereInvitationId($value)
+ * @method static Builder|Activity whereInvoiceId($value)
+ * @method static Builder|Activity whereIp($value)
+ * @method static Builder|Activity whereIsSystem($value)
+ * @method static Builder|Activity whereJsonBackup($value)
+ * @method static Builder|Activity whereNotes($value)
+ * @method static Builder|Activity wherePaymentId($value)
+ * @method static Builder|Activity wherePublicId($value)
+ * @method static Builder|Activity whereTaskId($value)
+ * @method static Builder|Activity whereTokenId($value)
+ * @method static Builder|Activity whereUpdatedAt($value)
+ * @method static Builder|Activity whereUpdatedBy($value)
+ * @method static Builder|Activity whereUserId($value)
+ * @method static Builder|Activity whereVendorContactId($value)
+ * @method static Builder|Activity whereVendorId($value)
+ * @method static Builder|EntityModel withActiveOrSelected($id = false)
+ * @method static Builder|EntityModel withArchived()
+ * @mixin Eloquent
  */
 class Activity extends EntityModel
 {

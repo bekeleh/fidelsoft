@@ -2,10 +2,20 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
  * View Model Class Inventory.
+ *
+ * @method static Builder|Inventory newModelQuery()
+ * @method static Builder|Inventory newQuery()
+ * @method static Builder|Inventory query()
+ * @method static Builder|EntityModel scope($publicId = false, $accountId = false)
+ * @method static Builder|EntityModel withActiveOrSelected($id = false)
+ * @method static Builder|EntityModel withArchived()
+ * @mixin Eloquent
  */
 class Inventory extends EntityModel
 {

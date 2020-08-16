@@ -2,11 +2,56 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
  * Class Model PermissionGroup.
+ *
+ * @property int $id
+ * @property int|null $account_id
+ * @property int|null $user_id
+ * @property int|null $public_id
+ * @property string|null $name
+ * @property string|null $permissions
+ * @property string|null $notes
+ * @property int $is_deleted
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ * @property string|null $created_by
+ * @property string|null $updated_by
+ * @property string|null $deleted_by
+ * @property-read Collection|User[] $users
+ * @property-read int|null $users_count
+ * @method static \Illuminate\Database\Eloquent\Builder|PermissionGroup newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PermissionGroup newQuery()
+ * @method static Builder|PermissionGroup onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|PermissionGroup query()
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel scope($publicId = false, $accountId = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|PermissionGroup whereAccountId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PermissionGroup whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PermissionGroup whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PermissionGroup whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PermissionGroup whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PermissionGroup whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PermissionGroup whereIsDeleted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PermissionGroup whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PermissionGroup whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PermissionGroup wherePermissions($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PermissionGroup wherePublicId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PermissionGroup whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PermissionGroup whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PermissionGroup whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel withActiveOrSelected($id = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel withArchived()
+ * @method static Builder|PermissionGroup withTrashed()
+ * @method static Builder|PermissionGroup withoutTrashed()
+ * @mixin Eloquent
  */
 class PermissionGroup extends EntityModel
 {

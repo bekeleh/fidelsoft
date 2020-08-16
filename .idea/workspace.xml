@@ -3,6 +3,93 @@
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Account.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Account.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/AccountEmailSettings.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/AccountEmailSettings.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/AccountGateway.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/AccountGateway.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/AccountGatewaySettings.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/AccountGatewaySettings.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/AccountGatewayToken.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/AccountGatewayToken.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/AccountToken.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/AccountToken.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Activity.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Activity.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Affiliate.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Affiliate.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Bank.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Bank.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/BankAccount.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/BankAccount.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/BankSubaccount.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/BankSubaccount.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/BillCredit.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/BillCredit.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/BillInvitation.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/BillInvitation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/BillItem.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/BillItem.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/BillProposalInvitation.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/BillProposalInvitation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/BillStatus.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/BillStatus.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Branch.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Branch.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Client.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Client.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/ClientType.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ClientType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Company.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Company.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Contact.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Contact.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Country.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Country.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Credit.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Credit.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Currency.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Currency.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Dashboard.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Dashboard.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/DateFormat.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/DateFormat.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/DatetimeFormat.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/DatetimeFormat.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/DbServer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/DbServer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Document.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Document.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/EntityModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/EntityModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Expense.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Expense.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/ExpenseCategory.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ExpenseCategory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Font.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Font.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Frequency.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Frequency.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Gateway.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Gateway.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/GatewayType.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/GatewayType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/HoldReason.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/HoldReason.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Industry.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Industry.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Inventory.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Inventory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Invitation.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Invitation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Invoice.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Invoice.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/InvoiceDesign.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/InvoiceDesign.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/InvoiceItem.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/InvoiceItem.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/InvoiceStatus.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/InvoiceStatus.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/ItemBrand.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ItemBrand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/ItemCategory.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ItemCategory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/ItemPrice.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ItemPrice.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/ItemRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ItemRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/ItemStore.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ItemStore.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/ItemTransfer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ItemTransfer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/ItemType.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ItemType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Language.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Language.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/License.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/License.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/LookupAccount.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/LookupAccount.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/LookupAccountToken.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/LookupAccountToken.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/LookupCompany.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/LookupCompany.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/LookupContact.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/LookupContact.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/LookupInvitation.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/LookupInvitation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/LookupModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/LookupModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/LookupProposalInvitation.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/LookupProposalInvitation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/LookupUser.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/LookupUser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Manufacturer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Manufacturer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/PasswordReset.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/PasswordReset.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Payment.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Payment.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/PaymentLibrary.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/PaymentLibrary.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/PaymentStatus.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/PaymentStatus.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/PaymentTerm.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/PaymentTerm.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/PaymentType.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/PaymentType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Permission.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Permission.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/PermissionGroup.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/PermissionGroup.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Plan.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Plan.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/PointOfSale.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/PointOfSale.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Project.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Project.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Proposal.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Proposal.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/ProposalCategory.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ProposalCategory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/ProposalInvitation.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ProposalInvitation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/ProposalSnippet.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ProposalSnippet.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/ProposalTemplate.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ProposalTemplate.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Quote.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Quote.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/RecurringExpense.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/RecurringExpense.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/SaleType.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/SaleType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/ScheduleCategory.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ScheduleCategory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/ScheduledReport.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ScheduledReport.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/SecurityCode.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/SecurityCode.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/UserRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/UserRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -532,14 +619,7 @@
       <workItem from="1597483743104" duration="16431000" />
       <workItem from="1597502882343" duration="12587000" />
       <workItem from="1597566126755" duration="25425000" />
-      <workItem from="1597607705811" duration="248000" />
-    </task>
-    <task id="LOCAL-00446" summary="2020-07-25 9:27">
-      <created>1595689550184</created>
-      <option name="number" value="00446" />
-      <option name="presentableId" value="LOCAL-00446" />
-      <option name="project" value="LOCAL" />
-      <updated>1595689550184</updated>
+      <workItem from="1597607705811" duration="902000" />
     </task>
     <task id="LOCAL-00447" summary="2020-07-26 9:27">
       <created>1595779234039</created>
@@ -877,7 +957,14 @@
       <option name="project" value="LOCAL" />
       <updated>1597596374533</updated>
     </task>
-    <option name="localTasksCounter" value="495" />
+    <task id="LOCAL-00495" summary="2020-08-16 9:27">
+      <created>1597608324810</created>
+      <option name="number" value="00495" />
+      <option name="presentableId" value="LOCAL-00495" />
+      <option name="project" value="LOCAL" />
+      <updated>1597608324811</updated>
+    </task>
+    <option name="localTasksCounter" value="496" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -973,10 +1060,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1597344338612" />
-    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1597596373500">
+    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1597608321998">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1597596373500" />
+    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1597608321998" />
     <state x="418" y="255" key="ComposerInitDialogKey" timestamp="1589789975070">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -1005,10 +1092,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="394" y="64" key="RollbackChangesDialog/0.0.1280.680@0.0.1280.680" timestamp="1594902502686" />
-    <state x="67" y="0" key="SettingsEditor" timestamp="1597424839722">
+    <state x="67" y="0" key="SettingsEditor" timestamp="1597608823743">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="67" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1597424839722" />
+    <state x="67" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1597608823743" />
     <state x="421" y="115" key="com.intellij.ide.util.TipDialog" timestamp="1597607705702">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -1021,10 +1108,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="93" y="93" width="1095" height="495" key="dock-window-1/0.0.1280.680@0.0.1280.680" timestamp="1597566421634" />
-    <state x="319" y="-3" width="906" height="638" key="find.popup" timestamp="1597567570531">
+    <state x="319" y="-3" width="906" height="638" key="find.popup" timestamp="1597608541922">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="319" y="-3" width="906" height="638" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1597567570531" />
+    <state x="319" y="-3" width="906" height="638" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1597608541922" />
     <state x="282" y="67" width="700" height="530" key="recent.locations.popup" timestamp="1597406020338">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -1033,9 +1120,9 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="334" y="154" width="672" height="677" key="run.anything.popup/0.0.1280.680@0.0.1280.680" timestamp="1595263809986" />
-    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup" timestamp="1597597785209">
+    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup" timestamp="1597608546850">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1597597785209" />
+    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1597608546850" />
   </component>
 </project>

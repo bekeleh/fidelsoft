@@ -2,8 +2,32 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+
 /**
  * Class ExpenseCategory.
+ *
+ * @property int $id
+ * @property int|null $lookup_company_id
+ * @property string|null $account_key
+ * @property string|null $subdomain
+ * @property string|null $created_at
+ * @property string|null $updated_at
+ * @property string|null $deleted_at
+ * @property-read LookupAccount $lookupAccount
+ * @property-read LookupCompany|null $lookupCompany
+ * @method static Builder|LookupAccount newModelQuery()
+ * @method static Builder|LookupAccount newQuery()
+ * @method static Builder|LookupAccount query()
+ * @method static Builder|LookupAccount whereAccountKey($value)
+ * @method static Builder|LookupAccount whereCreatedAt($value)
+ * @method static Builder|LookupAccount whereDeletedAt($value)
+ * @method static Builder|LookupAccount whereId($value)
+ * @method static Builder|LookupAccount whereLookupCompanyId($value)
+ * @method static Builder|LookupAccount whereSubdomain($value)
+ * @method static Builder|LookupAccount whereUpdatedAt($value)
+ * @mixin Eloquent
  */
 class LookupAccount extends LookupModel
 {

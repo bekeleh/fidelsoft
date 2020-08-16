@@ -3,8 +3,31 @@
 namespace App\Models;
 
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+
 /**
  * Class LookupInvitation.
+ *
+ * @property int $id
+ * @property int|null $lookup_account_id
+ * @property string|null $invitation_key
+ * @property string|null $message_id
+ * @property string|null $created_at
+ * @property string|null $updated_at
+ * @property string|null $deleted_at
+ * @property-read LookupAccount|null $lookupAccount
+ * @method static Builder|LookupInvitation newModelQuery()
+ * @method static Builder|LookupInvitation newQuery()
+ * @method static Builder|LookupInvitation query()
+ * @method static Builder|LookupInvitation whereCreatedAt($value)
+ * @method static Builder|LookupInvitation whereDeletedAt($value)
+ * @method static Builder|LookupInvitation whereId($value)
+ * @method static Builder|LookupInvitation whereInvitationKey($value)
+ * @method static Builder|LookupInvitation whereLookupAccountId($value)
+ * @method static Builder|LookupInvitation whereMessageId($value)
+ * @method static Builder|LookupInvitation whereUpdatedAt($value)
+ * @mixin Eloquent
  */
 class LookupInvitation extends LookupModel
 {

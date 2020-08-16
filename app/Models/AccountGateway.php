@@ -3,14 +3,66 @@
 namespace App\Models;
 
 use App\Libraries\Utils;
+use Eloquent;
 use HTMLUtils;
 use Crypt;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
+use URL;
 
 /**
  * Class AccountGateway.
+ *
+ * @property int $id
+ * @property int|null $public_id
+ * @property int|null $account_id
+ * @property int|null $user_id
+ * @property int|null $gateway_id
+ * @property string|null $name
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ * @property string|null $config
+ * @property int|null $accepted_credit_cards
+ * @property int $show_address
+ * @property int $update_address
+ * @property int $require_cvv
+ * @property int $show_shipping_address
+ * @property string|null $created_by
+ * @property string|null $updated_by
+ * @property string|null $deleted_by
+ * @property-read Gateway|null $gateway
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountGateway newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountGateway newQuery()
+ * @method static Builder|AccountGateway onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountGateway query()
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel scope($publicId = false, $accountId = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountGateway whereAcceptedCreditCards($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountGateway whereAccountId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountGateway whereConfig($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountGateway whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountGateway whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountGateway whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountGateway whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountGateway whereGatewayId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountGateway whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountGateway whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountGateway wherePublicId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountGateway whereRequireCvv($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountGateway whereShowAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountGateway whereShowShippingAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountGateway whereUpdateAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountGateway whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountGateway whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountGateway whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel withActiveOrSelected($id = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel withArchived()
+ * @method static Builder|AccountGateway withTrashed()
+ * @method static Builder|AccountGateway withoutTrashed()
+ * @mixin Eloquent
  */
 class AccountGateway extends EntityModel
 {
@@ -290,7 +342,7 @@ class AccountGateway extends EntityModel
     {
         $account = $this->account ? $this->account : Account::find($this->account_id);
 
-        return \URL::to(env('WEBHOOK_PREFIX', '') . 'payment_hook/' . $account->account_key . '/' . $this->gateway_id . env('WEBHOOK_SUFFIX', ''));
+        return URL::to(env('WEBHOOK_PREFIX', '') . 'payment_hook/' . $account->account_key . '/' . $this->gateway_id . env('WEBHOOK_SUFFIX', ''));
     }
 
     public function isTestMode()

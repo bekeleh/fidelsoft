@@ -2,11 +2,50 @@
 
 namespace App\Models;
 
+use Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
  * Class ExpenseCategory.
+ *
+ * @property int $id
+ * @property int|null $account_id
+ * @property int|null $user_id
+ * @property int|null $public_id
+ * @property string|null $name
+ * @property int $is_deleted
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ * @property string|null $created_by
+ * @property string|null $updated_by
+ * @property string|null $deleted_by
+ * @property-read Account|null $account
+ * @method static \Illuminate\Database\Eloquent\Builder|ProposalCategory newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProposalCategory newQuery()
+ * @method static Builder|ProposalCategory onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProposalCategory query()
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel scope($publicId = false, $accountId = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProposalCategory whereAccountId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProposalCategory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProposalCategory whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProposalCategory whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProposalCategory whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProposalCategory whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProposalCategory whereIsDeleted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProposalCategory whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProposalCategory wherePublicId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProposalCategory whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProposalCategory whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProposalCategory whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel withActiveOrSelected($id = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel withArchived()
+ * @method static Builder|ProposalCategory withTrashed()
+ * @method static Builder|ProposalCategory withoutTrashed()
+ * @mixin Eloquent
  */
 class ProposalCategory extends EntityModel
 {

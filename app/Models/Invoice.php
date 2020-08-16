@@ -14,13 +14,162 @@ use App\Models\Traits\ChargesFees;
 use App\Models\Traits\HasRecurrence;
 use App\Models\Traits\OwnedByClientTrait;
 use DateTime;
+use Eloquent;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
  * Model Class Invoice.
+ *
+ * @property int $id
+ * @property int|null $public_id
+ * @property int|null $account_id
+ * @property int|null $client_id
+ * @property int|null $user_id
+ * @property int|null $recurring_invoice_id
+ * @property int|null $invoice_status_id
+ * @property int|null $branch_id
+ * @property int|null $invoice_design_id
+ * @property int|null $invoice_type_id
+ * @property int|null $quote_id
+ * @property int|null $quote_invoice_id
+ * @property string|null $invoice_number
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ * @property string|null $po_number
+ * @property string|null $invoice_date
+ * @property string|null $due_date
+ * @property string|null $terms
+ * @property string|null $public_notes
+ * @property int|null $is_deleted
+ * @property bool|null $is_recurring
+ * @property int|null $frequency_id
+ * @property string|null $start_date
+ * @property string|null $end_date
+ * @property string|null $last_sent_date
+ * @property string|null $tax_name1
+ * @property float|null $tax_rate1
+ * @property float|null $amount
+ * @property float|null $balance
+ * @property float|null $discount
+ * @property int|null $is_amount_discount
+ * @property float|null $custom_value1
+ * @property float|null $custom_value2
+ * @property int|null $custom_taxes1
+ * @property int|null $custom_taxes2
+ * @property string|null $invoice_footer
+ * @property float|null $partial
+ * @property bool|null $has_tasks
+ * @property int|null $auto_bill
+ * @property string|null $custom_text_value1
+ * @property string|null $custom_text_value2
+ * @property bool|null $has_expenses
+ * @property string|null $tax_name2
+ * @property float|null $tax_rate2
+ * @property bool|null $client_enable_auto_bill
+ * @property int|null $is_public
+ * @property string|null $private_notes
+ * @property string|null $partial_due_date
+ * @property string|null $created_by
+ * @property string|null $updated_by
+ * @property string|null $deleted_by
+ * @property-read Account|null $account
+ * @property-read Branch|null $branch
+ * @property-read Client|null $client
+ * @property-read Collection|Document[] $documents
+ * @property-read int|null $documents_count
+ * @property-read Collection|Expense[] $expenses
+ * @property-read int|null $expenses_count
+ * @property-read Frequency|null $frequency
+ * @property-read Collection|Invitation[] $invitations
+ * @property-read int|null $invitations_count
+ * @property-read InvoiceDesign|null $invoice_design
+ * @property-read Collection|InvoiceItem[] $invoice_items
+ * @property-read int|null $invoice_items_count
+ * @property-read InvoiceStatus|null $invoice_status
+ * @property-read Collection|Payment[] $payments
+ * @property-read int|null $payments_count
+ * @property-read Invoice|null $quote
+ * @property-read Invoice|null $recurring_invoice
+ * @property-read Collection|Invoice[] $recurring_invoices
+ * @property-read int|null $recurring_invoices_count
+ * @property-read User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice dateRange($startDate, $endDate)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice invoiceType($typeId)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice invoices()
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice newQuery()
+ * @method static Builder|Invoice onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice quotes()
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice recurring()
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel scope($publicId = false, $accountId = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice statusIds($statusIds)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice unapprovedQuotes($includeInvoiceId = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereAccountId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereAutoBill($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereBalance($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereBranchId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereClientEnableAutoBill($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereClientId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereCustomTaxes1($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereCustomTaxes2($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereCustomTextValue1($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereCustomTextValue2($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereCustomValue1($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereCustomValue2($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereDiscount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereDueDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereEndDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereFrequencyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereHasExpenses($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereHasTasks($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereInvoiceDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereInvoiceDesignId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereInvoiceFooter($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereInvoiceNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereInvoiceStatusId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereInvoiceTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereIsAmountDiscount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereIsDeleted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereIsPublic($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereIsRecurring($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereLastSentDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice wherePartial($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice wherePartialDueDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice wherePoNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice wherePrivateNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice wherePublicId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice wherePublicNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereQuoteId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereQuoteInvoiceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereRecurringInvoiceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereStartDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereTaxName1($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereTaxName2($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereTaxRate1($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereTaxRate2($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereTerms($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel withActiveOrSelected($id = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel withArchived()
+ * @method static Builder|Invoice withTrashed()
+ * @method static Builder|Invoice withoutTrashed()
+ * @mixin Eloquent
  */
 class Invoice extends EntityModel implements BalanceAffecting
 {

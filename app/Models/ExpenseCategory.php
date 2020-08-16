@@ -2,11 +2,52 @@
 
 namespace App\Models;
 
+use Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
  * Class ExpenseCategory.
+ *
+ * @property int $id
+ * @property int|null $public_id
+ * @property int|null $account_id
+ * @property int|null $user_id
+ * @property string|null $name
+ * @property string|null $notes
+ * @property int $is_deleted
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ * @property string|null $created_by
+ * @property string|null $updated_by
+ * @property string|null $deleted_by
+ * @property-read Expense $expense
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory newQuery()
+ * @method static Builder|ExpenseCategory onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory query()
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel scope($publicId = false, $accountId = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory whereAccountId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory whereIsDeleted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory wherePublicId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExpenseCategory whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel withActiveOrSelected($id = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|EntityModel withArchived()
+ * @method static Builder|ExpenseCategory withTrashed()
+ * @method static Builder|ExpenseCategory withoutTrashed()
+ * @mixin Eloquent
  */
 class ExpenseCategory extends EntityModel
 {

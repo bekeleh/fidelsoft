@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Libraries\Utils;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +14,14 @@ use Module;
 
 /**
  * Class EntityModel.
+ *
+ * @method static Builder|EntityModel newModelQuery()
+ * @method static Builder|EntityModel newQuery()
+ * @method static Builder|EntityModel query()
+ * @method static Builder|EntityModel scope($publicId = false, $accountId = false)
+ * @method static Builder|EntityModel withActiveOrSelected($id = false)
+ * @method static Builder|EntityModel withArchived()
+ * @mixin \Eloquent
  */
 class EntityModel extends Eloquent
 {
