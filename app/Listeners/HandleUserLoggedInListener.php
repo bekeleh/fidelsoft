@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 /**
- * Class HandleUserLoggedIn.
+ * Class HandleUserLoggedInListener.
  */
-class HandleUserLoggedIn
+class HandleUserLoggedInListener
 {
 
     protected $accountRepo;

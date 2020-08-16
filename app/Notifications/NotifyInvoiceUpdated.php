@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use Illuminate\Bus\Queueable;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -10,6 +11,7 @@ use Log;
 
 class NotifyInvoiceUpdated extends Notification
 {
+    use Queueable;
 
     protected $invoice;
 
@@ -42,14 +44,11 @@ class NotifyInvoiceUpdated extends Notification
      */
     public function toDatabase($notifiable)
     {
-        Log::info($this->invoice);
-        $url = "/invoices/";
-        $clientId = 'test';
+        $url = "/invoices/{$this->invoice['public_id']}";
 
         return [
             'title' => 'invoice was updated',
             'link' => $url,
-            'client_id' => $clientId,
             'user_id' => auth::id(),
             'created_at' => Carbon::now(),
         ];

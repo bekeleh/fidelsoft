@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Events\InvoiceInvitationWasEmailed;
 use App\Events\InvoiceWasCreated;
-use App\Events\InvoiceWasUpdated;
+use App\Events\InvoiceWasUpdatedEvent;
 use App\Events\QuoteInvitationWasEmailed;
 use App\Events\QuoteWasCreated;
 use App\Events\QuoteWasUpdated;
@@ -1423,6 +1423,6 @@ Invoice::updating(function ($invoice) {
     if ($invoice->isType(INVOICE_TYPE_QUOTE)) {
         event(new QuoteWasUpdated($invoice));
     } else {
-        event(new InvoiceWasUpdated($invoice));
+        event(new InvoiceWasUpdatedEvent($invoice));
     }
 });

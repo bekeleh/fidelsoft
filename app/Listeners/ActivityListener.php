@@ -21,8 +21,8 @@ use App\Events\InvoiceInvitationWasViewed;
 use App\Events\InvoiceWasArchived;
 use App\Events\InvoiceWasCreated;
 use App\Events\InvoiceWasDeleted;
-use App\Events\InvoiceWasRestored;
-use App\Events\InvoiceWasUpdated;
+use App\Events\InvoiceWasRestoredEvent;
+use App\Events\InvoiceWasUpdatedEvent;
 use App\Events\PaymentFailed;
 use App\Events\PaymentWasArchived;
 use App\Events\PaymentWasCreated;
@@ -172,7 +172,7 @@ class ActivityListener
         );
     }
 
-    public function updatedInvoice(InvoiceWasUpdated $event)
+    public function updatedInvoice(InvoiceWasUpdatedEvent $event)
     {
         if (!$event->invoice->isChanged()) {
             return;
@@ -217,7 +217,7 @@ class ActivityListener
         );
     }
 
-    public function restoredInvoice(InvoiceWasRestored $event)
+    public function restoredInvoice(InvoiceWasRestoredEvent $event)
     {
         $invoice = $event->invoice;
 

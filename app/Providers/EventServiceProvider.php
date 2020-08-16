@@ -14,11 +14,11 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
 //      user login
         'Illuminate\Auth\Events\Login' => [
-            'App\Listeners\LogSuccessfulLogin',
+            'App\Listeners\LogSuccessfulLoginListener',
         ],
 
         'Illuminate\Auth\Events\Failed' => [
-            'App\Listeners\LogFailedLogin',
+            'App\Listeners\LogFailedLoginListener',
         ],
 //      Clients
         'App\Events\ClientWasCreated' => [
@@ -65,7 +65,7 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\ActivityListener@createdInvoice',
             'App\Listeners\InvoiceListener@createdInvoice',
         ],
-        'App\Events\InvoiceWasUpdated' => [
+        'App\Events\InvoiceWasUpdatedEvent' => [
             'App\Listeners\ActivityListener@updatedInvoice',
             'App\Listeners\InvoiceListener@updatedInvoice',
         ],
@@ -85,10 +85,10 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\HistoryListener@deletedInvoice',
             'App\Listeners\InvoiceItemListener@deletedInvoice',
         ],
-        'App\Events\InvoiceWasRestored' => [
+        'App\Events\InvoiceWasRestoredEvent' => [
             'App\Listeners\ActivityListener@restoredInvoice',
         ],
-        'App\Events\InvoiceWasEmailed' => [
+        'App\Events\InvoiceWasEmailedEvent' => [
             'App\Listeners\InvoiceListener@emailedInvoice',
             'App\Listeners\NotificationListener@emailedInvoice',
         ],
@@ -193,13 +193,13 @@ class EventServiceProvider extends ServiceProvider
 
 //       User events
         'App\Events\UserSignedUp' => [
-            'App\Listeners\HandleUserSignedUp',
+            'App\Listeners\HandleUserSignedUpListener',
         ],
         'App\Events\UserLoggedIn' => [
-            'App\Listeners\HandleUserLoggedIn',
+            'App\Listeners\HandleUserLoggedInListener',
         ],
         'App\Events\UserSettingsChanged' => [
-            'App\Listeners\HandleUserSettingsChanged',
+            'App\Listeners\HandleUserSettingsChangedListener',
         ],
 
 //      Task events

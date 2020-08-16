@@ -8,7 +8,7 @@ use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class LogSuccessfulLogin
+class LogSuccessfulLoginListener
 {
     /**
      * Create the event listener.

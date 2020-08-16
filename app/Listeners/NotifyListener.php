@@ -2,7 +2,7 @@
 
 use App\Ninja\Mailers\UserMailer;
 use App\Ninja\Mailers\ContactMailer;
-use App\Events\InvoiceWasEmailed;
+use App\Events\InvoiceWasEmailedEvent;
 use App\Events\QuoteWasEmailed;
 use App\Events\InvoiceInvitationWasViewed;
 use App\Events\QuoteInvitationWasViewed;
@@ -67,9 +67,9 @@ class NotifyListener
     }
 
     /**
-     * @param InvoiceWasEmailed $event
+     * @param InvoiceWasEmailedEvent $event
      */
-    public function emailedInvoice(InvoiceWasEmailed $event)
+    public function emailedInvoice(InvoiceWasEmailedEvent $event)
     {
         $this->sendNotifications($event->invoice, 'sent', null, $event->notes);
         $this->pushService->sendNotification($event->invoice, 'sent');

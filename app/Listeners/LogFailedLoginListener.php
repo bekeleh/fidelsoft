@@ -8,7 +8,7 @@ use Illuminate\Auth\Events\Failed;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class LogFailedLogin
+class LogFailedLoginListener
 {
     /**
      * Create the event listener.

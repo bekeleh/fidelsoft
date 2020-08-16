@@ -48,7 +48,7 @@ class Subscription extends EntityModel
         return $this->belongsTo('App\Models\User');
     }
 
-    public function notify($notification = null, $event = null)
+    public function notify($notification, $event)
     {
         $this->user->notify(new $notification($event));
     }

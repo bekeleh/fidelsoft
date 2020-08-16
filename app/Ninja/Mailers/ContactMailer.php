@@ -3,7 +3,7 @@
 namespace App\Ninja\Mailers;
 
 use App;
-use App\Events\InvoiceWasEmailed;
+use App\Events\InvoiceWasEmailedEvent;
 use App\Events\QuoteWasEmailed;
 use App\Jobs\ConvertInvoiceToUbl;
 use App\Libraries\Utils;
@@ -106,7 +106,7 @@ class ContactMailer extends Mailer
             if ($invoice->isType(INVOICE_TYPE_QUOTE)) {
                 event(new QuoteWasEmailed($invoice, $reminder));
             } else {
-                event(new InvoiceWasEmailed($invoice, $reminder));
+                event(new InvoiceWasEmailedEvent($invoice, $reminder));
             }
         }
 

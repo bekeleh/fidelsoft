@@ -7,9 +7,9 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class InvoiceWasUpdated.
+ * Class InvoiceWasUpdatedEvent.
  */
-class InvoiceWasUpdated extends Event
+class InvoiceWasUpdatedEvent extends Event
 {
     use Dispatchable, SerializesModels;
 

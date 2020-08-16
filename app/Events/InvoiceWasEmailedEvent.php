@@ -6,9 +6,9 @@ use App\Models\Invoice;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class InvoiceWasEmailed.
+ * Class InvoiceWasEmailedEvent.
  */
-class InvoiceWasEmailed extends Event
+class InvoiceWasEmailedEvent extends Event
 {
     use SerializesModels;
 

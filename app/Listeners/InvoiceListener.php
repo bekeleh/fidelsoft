@@ -4,8 +4,8 @@ namespace App\Listeners;
 
 use App\Events\InvoiceInvitationWasViewed;
 use App\Events\InvoiceWasCreated;
-use App\Events\InvoiceWasEmailed;
-use App\Events\InvoiceWasUpdated;
+use App\Events\InvoiceWasEmailedEvent;
+use App\Events\InvoiceWasUpdatedEvent;
 use App\Events\PaymentFailed;
 use App\Events\PaymentWasCreated;
 use App\Events\PaymentWasDeleted;
@@ -17,6 +17,7 @@ use App\Models\Activity;
 use App\Models\Subscription;
 use App\Notifications\NotifyInvoiceCreated;
 use App\Notifications\NotifyInvoiceUpdated;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Queue\Events\JobExceptionOccurred;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -26,13 +27,13 @@ use Illuminate\Support\Facades\Mail;
  */
 class InvoiceListener
 {
+    use Notifiable;
 
+    /**
+     * @param InvoiceWasCreated $event
+     */
     public function createdInvoice(InvoiceWasCreated $event)
     {
-//        if (Utils::hasFeature(FEATURE_DIFFERENT_DESIGNS)) {
-//            return false;
-//        }
-
         // Make sure the account has the same design set as the invoice does
         if (Auth::check()) {
             $invoice = $event->invoice;
@@ -50,13 +51,13 @@ class InvoiceListener
         $users = Subscription::subscriber(EVENT_CREATE_INVOICE);
         if ($users) {
             foreach ($users as $user) {
-                $user->notify(new NotifyInvoiceCreated($invoice));
+                $user->notify(new NotifyInvoiceCreated($invoice), $invoice);
             }
         }
 
     }
 
-    public function updatedInvoice(InvoiceWasUpdated $event)
+    public function updatedInvoice(InvoiceWasUpdatedEvent $event)
     {
         $invoice = $event->invoice;
 
@@ -67,7 +68,7 @@ class InvoiceListener
         $users = Subscription::subscriber(EVENT_UPDATE_INVOICE);
         if ($users) {
             foreach ($users as $user) {
-                $user->notify(new NotifyInvoiceUpdated($invoice));
+                $user->notify(new NotifyInvoiceUpdated($invoice), $invoice);
             }
         }
 
@@ -80,7 +81,7 @@ class InvoiceListener
     }
 
 
-    public function emailedInvoice(InvoiceWasEmailed $event)
+    public function emailedInvoice(InvoiceWasEmailedEvent $event)
     {
         $invoice = $event->invoice;
         $invoice->last_sent_date = date('Y-m-d');

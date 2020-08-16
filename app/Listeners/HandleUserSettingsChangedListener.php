@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 /**
- * Class HandleUserSettingsChanged.
+ * Class HandleUserSettingsChangedListener.
  */
-class HandleUserSettingsChanged
+class HandleUserSettingsChangedListener
 {
     /**
      * Create the event handler.

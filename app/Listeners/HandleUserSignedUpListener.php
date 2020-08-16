@@ -9,9 +9,9 @@ use App\Ninja\Repositories\AccountRepository;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * Class HandleUserSignedUp.
+ * Class HandleUserSignedUpListener.
  */
-class HandleUserSignedUp
+class HandleUserSignedUpListener
 {
 
     protected $accountRepo;
