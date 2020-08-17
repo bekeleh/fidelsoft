@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Subscription;
+use App\Models\Common\Subscription;
 use App\Services\SubscriptionService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;

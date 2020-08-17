@@ -39,7 +39,7 @@ use App\Models\ScheduleCategory;
 use App\Models\ScheduledReport;
 use App\Models\Status;
 use App\Models\Store;
-use App\Models\Subscription;
+use App\Models\Common\Subscription;
 use App\Models\Task;
 use App\Models\TaxRate;
 use App\Models\User;

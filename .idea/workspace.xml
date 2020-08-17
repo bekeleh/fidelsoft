@@ -2,11 +2,105 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/_ide_helper_models.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Notifications/Auth/Reset.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Notifications/Sale/NotifyInvoiceDeleted.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/lang/en/auth/notification.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/03efba010240a672126cb75903850efc2f6c5a42.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/2553358af805b0cd6f1604c80f552e2522316ff1.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/260b098165fb22f7c123ca59426c4ba9c1922746.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/35e374f17d647b94794275f5cf6b45357ea3b2e6.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/3c83481e25e3665f586f8dcf6abccfff4b8de92e.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/479c9e553168185ddc171f3f4044a5e507adb447.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/4e2ab5f4a468d3b9f9052d3716c7deee4de44366.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/500d0f483d5cf7767537cdee32c6603a72ed6904.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/5a279825be94ef626588f64c9b0c4b73ebaa9e40.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/69cf4a071e2dc8bffe0d49ff48a0424d8efdf417.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/7e1d8871c2df57c46d5c7259d88099f78adc534e.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/8631eef0d79bb90c52d7e5e53c20fe5130fa29b5.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/8c2ff894ef3c0b2b4e370c3cd916511da966639e.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/91c182d0c259ac53866b38df85fffb074d0d4fb6.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/95725a4244a7988928c0b2630a9c854403849698.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/98d950c591c331bff3b70cbd31036fabe84191cf.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/ac84fbd078e74302cdb0375e82ab9e3748786d04.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/b0b0280759aa5bc595a23355c6af04688d6c228e.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/d05e21dc4052c9336e934f8d4491a36d174bad0e.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/d389add735961736012810bb7c34d7e951d1dc81.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/daeef524828a2a35505d2921f4d0e7394c7cf914.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/db72111d53ed80bd61018ff586df638fb73fb9a9.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/e983185c042778ab51e00a8ca3167a19e3847605.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/ed23d9e9d289af39b2b0cdb936915721cf4598dd.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/ef5872091772fdf86629c6fc357d8511627ffbbb.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/f5715107761c28e80945716f74feff721a94c522.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/AccountGateway.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Common/AccountGateway.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/ScheduleCategory.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ScheduleCategory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_ide_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/_ide_helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Events/InvoiceItemsWereUpdatedEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/InvoiceItemsWereUpdatedEvent.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Events/InvoiceWasUpdatedEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/InvoiceWasUpdatedEvent.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/IntegrationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/IntegrationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SubscriptionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/SubscriptionController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/EntityRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/EntityRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdatePurchaseInvoiceAPIRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateBillAPIRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdatePurchaseInvoiceItemRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateBillItemRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdatePurchaseInvoiceRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateBillRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/ViewComposers/TranslationComposer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/ViewComposers/TranslationComposer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/Auth/UserFailedLogin.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/Auth/FailedLoginListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/Auth/UserLogged.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/Auth/UserLoggedListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/Auth/UserSettingsChanged.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/Auth/UserSettingsChangedListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/Auth/UserSignedUp.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/Auth/UserSignedUpListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/Auth/UserSuccessfulLogin.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/Auth/UserSuccessfulLoginListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/Common/EntityListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/Common/EntityListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/HandleActivity.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/Report/ActivityListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/HandleAnalytics.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/AnalyticsListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/HandleBill.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/BillListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/HandleCredit.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/CreditListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/HandleDNS.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/DNSListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/HandleHistory.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/HistoryListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/HandleInvoice.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/Sale/InvoiceListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/InvoiceItemListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/InvoiceItemListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/ProductListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/ProductListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/QuoteListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/QuoteListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/Report/AddClients.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/Report/ClientListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/Report/AddUsers.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/Report/UserListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/Report/AddVendors.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/Report/VendorListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/SendInvoiceNotification.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/SendInvoiceNotification.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/SendInvoicePaymentNotification.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/SendInvoicePaymentNotification.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/SubscriptionListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/SubscriptionListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Listeners/TaskListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/TaskListener.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/AccountEmailSettings.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Common/AccountEmailSettings.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/AccountGatewaySettings.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Common/AccountGatewaySettings.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/AccountGatewayToken.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Common/AccountGatewayToken.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/AccountToken.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Common/AccountToken.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Activity.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Activity.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Client.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Client.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Common/Account.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Common/Account.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Invoice.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Invoice.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Setting.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Setting.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Setting/SaleType.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Setting/SaleType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Subscription.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Common/Subscription.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/InvoiceRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/InvoiceRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/SubscriptionRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/SubscriptionRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Transformers/ActivityTransformer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Transformers/ActivityTransformer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Notifications/NotifyBillCreated.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Notifications/Purchase/NotifyBillCreated.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Notifications/NotifyBillPaymentCreated.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Notifications/Purchase/NotifyBillPaymentCreated.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Notifications/NotifyInvoiceCreated.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Notifications/Sale/NotifyInvoiceCreated.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Notifications/NotifyInvoiceUpdated.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Notifications/Sale/NotifyInvoiceUpdated.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Notifications/NotifyPaymentCreated.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Notifications/Sale/NotifyInvoicePaymentCreated.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/list.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/list.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/partials/navigation_option.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/partials/navigation_option.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/reports/report_builder.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reports/report_builder.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/cache/4e/40/4e40041fb569838ca8abe1ac51a60c0edac1c265" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/cache/4e/40/4e40041fb569838ca8abe1ac51a60c0edac1c265" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/cache/75/2b/752b07fdc7e9e9afa59306df728becca095510f5" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/cache/91/76/917625318331cc88a4cff225fe7c0800dce625b6" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/cache/91/76/917625318331cc88a4cff225fe7c0800dce625b6" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/cache/URI/4.12.0,3478238e680361cd87bf880f5b3cc50a1e7abc6c,1.ser" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/cache/b6/af/b6afc14c279107a0e9f6dea08ef024575a47cee7" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/cache/b6/af/b6afc14c279107a0e9f6dea08ef024575a47cee7" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/cache/d8/53/d853882441c8fa9e39ec1e9e6ead65152edb8382" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/cache/f5/bf/f5bfbb9a0993b6b225eead72a22a865ed8bbf8d0" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/cache/f5/bf/f5bfbb9a0993b6b225eead72a22a865ed8bbf8d0" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/OK2tfgBYlxGywwuakjMhXH3fsahtN2shh9zsGe0E" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/pEoKmFeNG6mZlnmkhtT4Q6yRbLpfldafd4JlYsFs" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/pEoKmFeNG6mZlnmkhtT4Q6yRbLpfldafd4JlYsFs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -266,18 +360,18 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Models/Common" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Notifications/Sale" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\wamp64\www\invoiceninja\app\Models\Common" />
-      <recent name="C:\wamp64\www\invoiceninja\app\Listeners\Common" />
+      <recent name="C:\wamp64\www\invoiceninja\app\Notifications\Sale" />
+      <recent name="C:\wamp64\www\invoiceninja\app\Notifications\Purchase" />
+      <recent name="C:\wamp64\www\invoiceninja\app\Listeners\Sale" />
       <recent name="C:\wamp64\www\invoiceninja\app\Listeners\Report" />
-      <recent name="C:\wamp64\www\invoiceninja\app\Models\Setting" />
-      <recent name="C:\wamp64\www\invoiceninja\app\Listeners\Auth" />
+      <recent name="C:\wamp64\www\invoiceninja\app\Models\Common" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\wamp64\www\invoiceninja\resources\views\purchase_invoices" />
@@ -543,14 +637,7 @@
       <workItem from="1597618111101" duration="364000" />
       <workItem from="1597618487548" duration="187000" />
       <workItem from="1597618960219" duration="124000" />
-      <workItem from="1597652723704" duration="5721000" />
-    </task>
-    <task id="LOCAL-00449" summary="2020-07-27 9:27">
-      <created>1595857392169</created>
-      <option name="number" value="00449" />
-      <option name="presentableId" value="LOCAL-00449" />
-      <option name="project" value="LOCAL" />
-      <updated>1595857392169</updated>
+      <workItem from="1597652723704" duration="19163000" />
     </task>
     <task id="LOCAL-00450" summary="2020-07-27 9:27">
       <created>1595871688996</created>
@@ -888,7 +975,14 @@
       <option name="project" value="LOCAL" />
       <updated>1597658019651</updated>
     </task>
-    <option name="localTasksCounter" value="498" />
+    <task id="LOCAL-00498" summary="2020-08-17 9:27">
+      <created>1597658602768</created>
+      <option name="number" value="00498" />
+      <option name="presentableId" value="LOCAL-00498" />
+      <option name="project" value="LOCAL" />
+      <updated>1597658602768</updated>
+    </task>
+    <option name="localTasksCounter" value="499" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -956,22 +1050,22 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="347" y="14" width="600" height="652" key="#codeception.yml/0.0.1280.680@0.0.1280.680" timestamp="1590875093688" />
-    <state x="467" y="20" key="#com.intellij.ide.util.MemberChooser" timestamp="1597592921319">
+    <state x="467" y="20" key="#com.intellij.ide.util.MemberChooser" timestamp="1597659232836">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="467" y="20" key="#com.intellij.ide.util.MemberChooser/0.0.1280.680@0.0.1280.680" timestamp="1597592921319" />
+    <state x="467" y="20" key="#com.intellij.ide.util.MemberChooser/0.0.1280.680@0.0.1280.680" timestamp="1597659232836" />
     <state x="321" y="78" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1593156785958">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="321" y="78" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1280.680@0.0.1280.680" timestamp="1593156785958" />
-    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1597656325137">
+    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1597674322149">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1280.680@0.0.1280.680" timestamp="1597656325137" />
-    <state x="400" y="147" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1597594434787">
+    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1280.680@0.0.1280.680" timestamp="1597674322149" />
+    <state x="400" y="147" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1597673897260">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="400" y="147" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1280.680@0.0.1280.680" timestamp="1597594434787" />
+    <state x="400" y="147" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1280.680@0.0.1280.680" timestamp="1597673897260" />
     <state x="554" y="0" key="#com.jetbrains.php.refactoring.extractMethod.PhpExtractMethodDialog#method0" timestamp="1597618546270">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -984,10 +1078,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1597344338612" />
-    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1597658014938">
+    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1597658600402">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1597658014938" />
+    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1597658600402" />
     <state x="418" y="255" key="ComposerInitDialogKey" timestamp="1589789975070">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -996,18 +1090,18 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="109" y="31" key="DiffContextDialog/0.0.1280.680@0.0.1280.680" timestamp="1594902501485" />
-    <state x="444" y="140" key="FileChooserDialogImpl" timestamp="1597658388520">
+    <state x="444" y="140" key="FileChooserDialogImpl" timestamp="1597674347882">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="444" y="140" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1597658388520" />
+    <state x="444" y="140" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1597674347882" />
     <state x="468" y="194" key="NewPhpClassDialog" timestamp="1595245521679">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="468" y="194" key="NewPhpClassDialog/0.0.1280.680@0.0.1280.680" timestamp="1595245521679" />
-    <state x="547" y="220" key="NewPhpFileDialog" timestamp="1597653341705">
+    <state x="667" y="137" key="NewPhpFileDialog" timestamp="1597673117752">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="547" y="220" key="NewPhpFileDialog/0.0.1280.680@0.0.1280.680" timestamp="1597653341705" />
+    <state x="667" y="137" key="NewPhpFileDialog/0.0.1280.680@0.0.1280.680" timestamp="1597673117752" />
     <state x="456" y="276" key="ReplaceDuplicatesPrompt" timestamp="1592570494945">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -1032,21 +1126,21 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="93" y="93" width="1095" height="495" key="dock-window-1/0.0.1280.680@0.0.1280.680" timestamp="1597566421634" />
-    <state x="319" y="-3" width="906" height="638" key="find.popup" timestamp="1597658485873">
+    <state x="319" y="-3" width="906" height="638" key="find.popup" timestamp="1597666989551">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="319" y="-3" width="906" height="638" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1597658485873" />
+    <state x="319" y="-3" width="906" height="638" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1597666989551" />
     <state x="282" y="67" width="700" height="530" key="recent.locations.popup" timestamp="1597406020338">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="282" y="67" width="700" height="530" key="recent.locations.popup/0.0.1280.680@0.0.1280.680" timestamp="1597406020338" />
-    <state x="334" y="154" width="672" height="677" key="run.anything.popup" timestamp="1595263809986">
+    <state x="334" y="154" width="672" height="677" key="run.anything.popup" timestamp="1597659034597">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="334" y="154" width="672" height="677" key="run.anything.popup/0.0.1280.680@0.0.1280.680" timestamp="1595263809986" />
-    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup" timestamp="1597654273435">
+    <state x="334" y="154" width="672" height="677" key="run.anything.popup/0.0.1280.680@0.0.1280.680" timestamp="1597659034597" />
+    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup" timestamp="1597667655670">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1597654273435" />
+    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1597667655670" />
   </component>
 </project>

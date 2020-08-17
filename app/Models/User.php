@@ -6,6 +6,7 @@ use App\Models\Common\EntityModel;
 use App\Events\UserSettingsChangedEvent;
 use App\Events\UserSignedUpEvent;
 use App\Libraries\Utils;
+use App\Notifications\Auth\Reset;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -139,7 +140,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
 
     public function subscriptions()
     {
-        return $this->hasMany('App\Models\Subscription');
+        return $this->hasMany('App\Models\Common\Subscription');
     }
 
 //    public function getName()
@@ -484,6 +485,14 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
 
         return false;
     }
+
+    /**
+     * Send reset link to user via email
+     */
+//    public function sendPasswordResetNotification($token)
+//    {
+//        $this->notify(new Reset($token));
+//    }
 
     public function sendPasswordResetNotification($token)
     {

@@ -6,7 +6,7 @@ use App\Events\ProductWasCreatedEvent;
 use App\Events\ProductWasDeletedEvent;
 use App\Events\ProductWasUpdatedEvent;
 use App\Ninja\Transformers\ProductTransformer;
-
+use App\Listeners\Common\EntityListener;
 /**
  * Class ProductListener.
  */

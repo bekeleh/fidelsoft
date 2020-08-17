@@ -8,6 +8,7 @@ use App\Events\TaskWasDeletedEvent;
 use App\Events\TaskWasUpdatedEvent;
 use App\Models\Task;
 use App\Ninja\Transformers\TaskTransformer;
+use App\Listeners\Common\EntityListener;
 
 /**
  * Class TaskListener.

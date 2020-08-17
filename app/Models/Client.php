@@ -176,8 +176,9 @@ class Client extends EntityModel
 
     protected $presenter = 'App\Ninja\Presenters\ClientPresenter';
 
-
+    protected $table = 'clients';
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+    protected $hidden = ['deleted_at'];
 
 
     protected $fillable = [

@@ -5,7 +5,7 @@ namespace App\Ninja\Transformers;
 use App\Models\Activity;
 
 /**
- * @SWG\Definition(definition="Activity", @SWG\Xml(name="Activity"))
+ * @SWG\Definition(definition="ActivityListener", @SWG\Xml(name="ActivityListener"))
  */
 class ActivityTransformer extends EntityTransformer
 {

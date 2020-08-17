@@ -9,7 +9,7 @@ use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
- * Class Activity.
+ * Class ActivityListener.
  *
  * @property int $id
  * @property int|null $public_id

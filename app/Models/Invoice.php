@@ -185,7 +185,8 @@ class Invoice extends EntityModel implements BalanceAffecting
 
     protected $presenter = 'App\Ninja\Presenters\InvoicePresenter';
 
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+    protected $table = 'invoices';
+    protected $dates = ['created_at', 'updated_at'];
     protected $hidden = ['deleted_at'];
 
 

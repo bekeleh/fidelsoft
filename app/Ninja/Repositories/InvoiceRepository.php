@@ -8,22 +8,21 @@ use App\Events\QuoteItemsWereCreatedEvent;
 use App\Events\QuoteItemsWereUpdatedEvent;
 use App\Jobs\SendInvoiceEmail;
 use App\Libraries\Utils;
-use App\Models\Common\Account;
 use App\Models\Client;
+use App\Models\Common\Account;
+use App\Models\Common\EntityModel;
 use App\Models\Document;
-use App\Models\EntityModel;
 use App\Models\Expense;
 use App\Models\Invitation;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\ItemStore;
 use App\Models\Task;
-use Datatable;
 use App\Services\PaymentService;
+use Datatable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class InvoiceRepository extends BaseRepository
 {
@@ -626,10 +625,6 @@ class InvoiceRepository extends BaseRepository
         return $invoice->load('invoice_items');
     }
 
-    /**
-     * @param $invoice
-     * @return mixed
-     */
     private function saveInvitations($invoice)
     {
         if (empty($invoice)) {
@@ -644,7 +639,7 @@ class InvoiceRepository extends BaseRepository
             return $invoice;
         }
 
-//      those who have send invoice flagj client contact
+//      those who have send invoice flag client contact
         foreach ($client->contacts as $contact) {
             if ($contact->send_invoice) {
                 $sendInvoiceIds[] = $contact->id;
@@ -704,7 +699,7 @@ class InvoiceRepository extends BaseRepository
     /**
      * @param Invoice $invoice
      * @param null $quoteId
-     * @return mixed
+     * @return mixed|null
      */
     public function cloneInvoice(Invoice $invoice, $quoteId = null)
     {

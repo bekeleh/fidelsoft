@@ -1,5 +1,5 @@
 <!-- landing page -->
-{!! Former::open(\App\Models\EntityModel::getFormUrl($entityType) . '/bulk')->addClass('listForm_' . $entityType) !!}
+{!! Former::open(\App\Models\Common\EntityModel::getFormUrl($entityType) . '/bulk')->addClass('listForm_' . $entityType) !!}
 
 <div style="display:none">
     {!! Former::text('action')->id('action_' . $entityType) !!}
@@ -19,19 +19,19 @@
             ->split() !!}
             <span id="statusWrapper_{{ $entityType }}" style="display:none">
             <select class="form-control" style="width: 220px" id="statuses_{{ $entityType }}" multiple="true">
-            @if (count(\App\Models\EntityModel::getStatusesFor($entityType)))
+            @if (count(\App\Models\Common\EntityModel::getStatusesFor($entityType)))
                     <optgroup label="{{ trans('texts.entity_state') }}">
-            @foreach (\App\Models\EntityModel::getStatesFor($entityType) as $key => $value)
+            @foreach (\App\Models\Common\EntityModel::getStatesFor($entityType) as $key => $value)
                             <option value="{{ $key }}">{{ $value }}</option>
                         @endforeach
             </optgroup>
                     <optgroup label="{{ trans('texts.status') }}">
-            @foreach (\App\Models\EntityModel::getStatusesFor($entityType) as $key => $value)
+            @foreach (\App\Models\Common\EntityModel::getStatusesFor($entityType) as $key => $value)
                             <option value="{{ $key }}">{{ $value }}</option>
                         @endforeach
             </optgroup>
                 @else
-                    @foreach (\App\Models\EntityModel::getStatesFor($entityType) as $key => $value)
+                    @foreach (\App\Models\Common\EntityModel::getStatesFor($entityType) as $key => $value)
                         <option value="{{ $key }}">{{ $value }}</option>
                     @endforeach
                 @endif

@@ -961,7 +961,7 @@ class Account extends Eloquent
 
     public function subscriptions()
     {
-        return $this->hasMany('App\Models\Subscription');
+        return $this->hasMany('App\Models\Common\Subscription');
     }
 
     public function setIndustryIdAttribute($value)

@@ -6,6 +6,7 @@ use App\Events\PaymentWasCreatedEvent;
 use App\Events\PaymentWasDeletedEvent;
 use App\Events\PaymentWasUpdatedEvent;
 use App\Ninja\Transformers\PaymentTransformer;
+use App\Listeners\Common\EntityListener;
 
 /**
  * Class SendInvoicePaymentNotification.

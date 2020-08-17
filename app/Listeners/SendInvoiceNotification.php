@@ -11,7 +11,7 @@ use App\Events\PaymentWasCreatedEvent;
 use App\Services\PushService;
 use App\Jobs\SendNotificationEmail;
 use App\Jobs\SendPaymentEmail;
-use App\Notifications\NotifyPaymentCreated;
+use App\Notifications\NotifyInvoicePaymentCreated;
 
 /**
  * Class SendInvoiceNotification
@@ -61,7 +61,7 @@ class SendInvoiceNotification
             }
 
             if ($payment && $user->slack_webhook_url) {
-                $user->notify(new NotifyPaymentCreated($payment, $invoice));
+                $user->notify(new NotifyInvoicePaymentCreated($payment, $invoice));
             }
         }
     }

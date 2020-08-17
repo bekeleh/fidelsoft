@@ -185,7 +185,7 @@
                                     <div class="col-lg-8 col-sm-8">
                                         <select name="status_ids[]" class="form-control" style="width: 100%;"
                                                 id="statuses_{{ ENTITY_INVOICE }}" multiple="true">
-                                            @foreach (\App\Models\EntityModel::getStatusesFor(ENTITY_INVOICE) as $key => $value)
+                                            @foreach (\App\Models\Common\EntityModel::getStatusesFor(ENTITY_INVOICE) as $key => $value)
                                                 <option value="{{ $key }}">{{ $value }}</option>
                                             @endforeach
                                         </select>
@@ -592,7 +592,7 @@
                             new ExportFormatModel('csv', 'CSV'),
                             new ExportFormatModel('xlsx', 'XLSX'),
                             //new ExportFormatModel('pdf', 'PDF'),
-                        ]
+                        ];
 
                         if (['{{ ENTITY_INVOICE }}', '{{ ENTITY_QUOTE }}', '{{ ENTITY_EXPENSE }}', '{{ ENTITY_DOCUMENT }}'].indexOf(self.report_type()) >= 0) {
                             options.push(new ExportFormatModel('zip', 'ZIP - {{ trans('texts.documents') }}'));
@@ -626,7 +626,7 @@
 
                     self.showSubgroup = ko.computed(function () {
                         return self.group();
-                    })
+                    });
 
                     self.showInvoiceOrPaymentDate = ko.computed(function () {
                         return self.report_type() == '{{ ENTITY_TAX_RATE }}';

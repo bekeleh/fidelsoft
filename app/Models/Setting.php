@@ -3,17 +3,14 @@
 namespace App\Models;
 
 use App;
-use App\Models\Common\EntityModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Schema;
 use Parsedown;
-use Watson\Validating\ValidatingTrait;
 
 class Setting extends Model
 {
     use Notifiable;
-    use ValidatingTrait;
 
     protected $rules = [
         'brand' => 'required|min:1|numeric',

@@ -2,7 +2,7 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Models\Subscription;
+use App\Models\Common\Subscription;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -17,7 +17,7 @@ class SubscriptionRepository extends BaseRepository
 
     public function getClassName()
     {
-        return 'App\Models\Subscription';
+        return 'App\Models\Common\Subscription';
     }
 
     public function find($accountId = false, $filter = null)
