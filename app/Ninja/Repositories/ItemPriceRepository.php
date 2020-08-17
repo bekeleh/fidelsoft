@@ -4,7 +4,7 @@ namespace App\Ninja\Repositories;
 
 use App\Events\ItemPriceWasCreatedEvent;
 use App\Events\ItemPriceWasUpdatedEvent;
-use App\Models\ClientType;
+use App\Models\Setting\ClientType;
 use App\Models\ItemPrice;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;

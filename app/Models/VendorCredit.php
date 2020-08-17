@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Common\EntityModel;
 use App\Events\VendorCreditWasCreated;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
@@ -30,7 +31,7 @@ class VendorCredit extends EntityModel
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account');
+        return $this->belongsTo('App\Models\Common\Account');
     }
 
 

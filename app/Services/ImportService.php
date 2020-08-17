@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Libraries\Utils;
-use App\Models\AccountGatewayToken;
+use App\Models\Common\AccountGatewayToken;
 use App\Models\Client;
 use App\Models\Contact;
 use App\Models\EntityModel;

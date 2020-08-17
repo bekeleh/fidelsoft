@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Common\EntityModel;
 use App\Events\BillExpenseWasCreated;
 use App\Events\BillExpenseWasUpdated;
 use App\Libraries\Utils;
@@ -98,7 +99,7 @@ class BillExpense extends EntityModel
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account');
+        return $this->belongsTo('App\Models\Common\Account');
     }
 
     public function user()

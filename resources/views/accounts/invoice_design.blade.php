@@ -73,7 +73,7 @@
             NINJA.headerFont = $('#header_font_id option:selected').text();
             NINJA.bodyFont = $('#body_font_id option:selected').text();
 
-            var fields = {!! json_encode(App\Models\Account::$customLabels) !!};
+            var fields = {!! json_encode(App\Models\Common\Account::$customLabels) !!};
             for (var i=0; i<fields.length; i++) {
                 var field = fields[i];
                 var val = $('#labels_' + field).val();
@@ -87,7 +87,7 @@
         }
 
         function updateFieldLabels() {
-            @foreach (App\Models\Account::$customLabels as $field)
+            @foreach (App\Models\Common\Account::$customLabels as $field)
             if ($('#labels_{{ $field }}').val()) {
                 $('.{{ $field }}-label-group').show();
             } else {
@@ -237,10 +237,10 @@
                                                 ->placeholder('select_label')
                                                 ->label('label')
                                                 ->onchange('onFieldChange()')
-                                                ->options(array_combine(App\Models\Account::$customLabels, Utils::trans(App\Models\Account::$customLabels))) !!}
+                                                ->options(array_combine(App\Models\Common\Account::$customLabels, Utils::trans(App\Models\Common\Account::$customLabels))) !!}
                                     </div>
                                     <div class="col-md-6">
-                                        @foreach (App\Models\Account::$customLabels as $field)
+                                        @foreach (App\Models\Common\Account::$customLabels as $field)
                                             {!! Former::text('labels_' . $field)
                                                     ->label($field)
                                                     ->addGroupClass($field . '-label-group label-group') !!}

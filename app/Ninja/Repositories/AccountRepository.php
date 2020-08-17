@@ -3,10 +3,10 @@
 namespace App\Ninja\Repositories;
 
 use App\Libraries\Utils;
-use App\Models\Account;
-use App\Models\AccountEmailSettings;
-use App\Models\AccountGateway;
-use App\Models\AccountToken;
+use App\Models\Common\Account;
+use App\Models\Common\AccountEmailSettings;
+use App\Models\Common\AccountGateway;
+use App\Models\Common\AccountToken;
 use App\Models\Client;
 use App\Models\Company;
 use App\Models\Contact;

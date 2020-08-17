@@ -26,7 +26,7 @@
 
     {!! Former::vertical_open()->addClass('warn-on-exit') !!}
 
-    @foreach (App\Models\AccountEmailSettings::$templates as $type)
+    @foreach (App\Models\Common\AccountEmailSettings::$templates as $type)
         @foreach (['subject', 'template'] as $field)
             {{ Former::populateField("email_{$field}_{$type}", $templates[$type][$field]) }}
         @endforeach
@@ -170,7 +170,7 @@
 
     <script type="text/javascript">
 
-        var entityTypes = {!! json_encode(App\Models\AccountEmailSettings::$templates) !!};
+        var entityTypes = {!! json_encode(App\Models\Common\AccountEmailSettings::$templates) !!};
         var stringTypes = ['subject', 'template'];
         var templates = {!! json_encode($defaultTemplates) !!};
         var account = {!! Auth::user()->account !!};

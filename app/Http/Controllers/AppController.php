@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\UserSettingsChangedEvent;
 use App\Libraries\Utils;
-use App\Models\Account;
+use App\Models\Common\Account;
 use App\Models\Industry;
 use App\Models\Invoice;
 use App\Ninja\Mailers\Mailer;

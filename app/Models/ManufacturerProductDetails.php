@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Common\EntityModel;
 use Laracasts\Presenter\PresentableTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

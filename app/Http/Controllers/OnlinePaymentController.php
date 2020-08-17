@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateOnlinePaymentRequest;
 use App\Libraries\Utils;
-use App\Models\Account;
+use App\Models\Common\Account;
 use App\Models\Client;
 use App\Models\GatewayType;
 use App\Models\Invitation;

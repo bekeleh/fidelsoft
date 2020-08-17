@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Common\EntityModel;
 use Eloquent;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -92,7 +93,7 @@ class ItemCategory extends EntityModel
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account')->withTrashed();
+        return $this->belongsTo('App\Models\Common\Account')->withTrashed();
     }
 
     public function user()

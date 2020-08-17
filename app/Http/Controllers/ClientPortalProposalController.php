@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Account;
+use App\Models\Common\Account;
 use App\Models\Document;
 use App\Models\Invitation;
 use App\Ninja\Repositories\ProposalRepository;

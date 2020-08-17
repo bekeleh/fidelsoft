@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
-use App\Models\AccountGateway;
+use App\Models\Common\AccountGateway;
 use App\Models\BankAccount;
 use App\Models\User;
 use Artisan;

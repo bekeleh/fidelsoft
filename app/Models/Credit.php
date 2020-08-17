@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Common\EntityModel;
 use App\Events\CreditWasCreatedEvent;
 use Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -84,7 +85,7 @@ class Credit extends EntityModel
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account');
+        return $this->belongsTo('App\Models\Common\Account');
     }
 
 

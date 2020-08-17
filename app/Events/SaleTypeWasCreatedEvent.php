@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\SaleType;
+use App\Models\Setting\SaleType;
 use Illuminate\Queue\SerializesModels;
 
 /**

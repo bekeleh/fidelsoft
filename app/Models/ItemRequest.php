@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Common\EntityModel;
 use Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder;
@@ -112,7 +113,7 @@ class ItemRequest extends EntityModel
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account')->withTrashed();
+        return $this->belongsTo('App\Models\Common\Account')->withTrashed();
     }
 
     public function user()

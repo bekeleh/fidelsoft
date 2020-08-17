@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\ClientType;
+use App\Models\Setting\ClientType;
 
 class CreateClientTypeRequest extends ClientTypeRequest
 {

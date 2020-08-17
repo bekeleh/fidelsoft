@@ -9,7 +9,7 @@ use App\Jobs\Client\GenerateStatementData;
 use App\Jobs\LoadPostmarkHistory;
 use App\Jobs\ReactivatePostmarkEmail;
 use App\Libraries\Utils;
-use App\Models\Account;
+use App\Models\Common\Account;
 use App\Models\Client;
 use App\Models\Expense;
 use App\Models\Invoice;
@@ -19,6 +19,10 @@ use App\Ninja\Repositories\ClientRepository;
 use App\Services\ClientService;
 use DropdownButton;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Input;
@@ -213,7 +217,7 @@ class ClientController extends BaseController
 
     /**
      * @param UpdateClientRequest $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function update(UpdateClientRequest $request)
     {
@@ -225,7 +229,7 @@ class ClientController extends BaseController
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return RedirectResponse|Redirector
      */
     public function bulk()
     {
@@ -250,7 +254,7 @@ class ClientController extends BaseController
 
     /**
      * @param $clientPublicId
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|mixed
+     * @return Factory|\Illuminate\View\View|mixed
      */
     public function statement($clientPublicId)
     {
@@ -281,7 +285,7 @@ class ClientController extends BaseController
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getEmailHistory()
     {
@@ -291,7 +295,7 @@ class ClientController extends BaseController
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function reactivateEmail()
     {

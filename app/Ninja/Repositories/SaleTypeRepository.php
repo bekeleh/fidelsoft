@@ -4,7 +4,7 @@ namespace App\Ninja\Repositories;
 
 use App\Events\SaleTypeWasCreatedEvent;
 use App\Events\SaleTypeWasUpdatedEvent;
-use App\Models\SaleType;
+use App\Models\Setting\SaleType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -19,7 +19,7 @@ class SaleTypeRepository extends BaseRepository
 
     public function getClassName()
     {
-        return 'App\Models\SaleType';
+        return 'App\Models\Setting\SaleType';
     }
 
     public function all()

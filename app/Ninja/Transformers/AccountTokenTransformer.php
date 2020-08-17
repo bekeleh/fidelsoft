@@ -2,7 +2,7 @@
 
 namespace App\Ninja\Transformers;
 
-use App\Models\AccountToken;
+use App\Models\Common\AccountToken;
 use League\Fractal\TransformerAbstract;
 
 /**

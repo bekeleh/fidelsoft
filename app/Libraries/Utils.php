@@ -177,7 +177,7 @@ class Utils
 
         if (!$account && !self::isNinja()) {
             // For self-hosted accounts, pick the first account
-            $account = \App\Models\Account::first();
+            $account = \App\Models\Common\Account::first();
         }
 
         return $account ? $account->clientViewCSS() : null;
@@ -197,7 +197,7 @@ class Utils
 
         if (!$account && !self::isNinja()) {
             // For self-hosted accounts, pick the first account
-            $account = \App\Models\Account::first();
+            $account = \App\Models\Common\Account::first();
         }
 
         return $account ? $account->getFontsUrl($protocol) : false;
@@ -216,7 +216,7 @@ class Utils
                 }
             }
         } else {
-            $account = \App\Models\Account::first();
+            $account = \App\Models\Common\Account::first();
         }
 
         return $account ? $account->hasFeature(FEATURE_WHITE_LABEL) : false;
@@ -1490,14 +1490,14 @@ class Utils
         } elseif ($first == 'settings') {
             if ($second == 'bank_accounts') {
                 $page = null; // TODO write docs
-            } elseif (in_array($second, \App\Models\Account::$basicSettings)) {
+            } elseif (in_array($second, \App\Models\Common\Account::$basicSettings)) {
                 if ($second == 'products') {
                     $second = 'product_library';
                 } elseif ($second == 'notifications') {
                     $second = 'email_notifications';
                 }
                 $page = '/settings.html#' . str_replace('_', '-', $second);
-            } elseif (in_array($second, \App\Models\Account::$advancedSettings)) {
+            } elseif (in_array($second, \App\Models\Common\Account::$advancedSettings)) {
                 $page = "/{$second}.html";
             } elseif ($second == 'customize_design') {
                 $page = '/invoice_design.html#customize';

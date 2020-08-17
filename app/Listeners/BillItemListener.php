@@ -9,6 +9,7 @@ use App\Events\BillQuoteItemsWereCreatedEvent;
 use App\Events\BillQuoteItemsWereDeletedEvent;
 use App\Events\BillQuoteItemsWereUpdatedEvent;
 use App\Ninja\Transformers\BillTransformer;
+use App\Listeners\Common\EntityListener;
 
 /**
  * Class InvoiceItemListener.

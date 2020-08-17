@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\ClientAuth;
 
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Password;
 use Config;
 use App\Libraries\Utils;
 use App\Models\Contact;
-use App\Models\Account;
+use App\Models\Common\Account;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
@@ -39,7 +41,7 @@ class ForgotPasswordController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function showLinkRequestForm()
     {
@@ -53,9 +55,9 @@ class ForgotPasswordController extends Controller
     /**
      * Send a reset link to the given user.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function sendResetLinkEmail(Request $request)
     {

@@ -8,7 +8,7 @@ use App\Events\QuoteItemsWereCreatedEvent;
 use App\Events\QuoteItemsWereUpdatedEvent;
 use App\Jobs\SendInvoiceEmail;
 use App\Libraries\Utils;
-use App\Models\Account;
+use App\Models\Common\Account;
 use App\Models\Client;
 use App\Models\Document;
 use App\Models\EntityModel;

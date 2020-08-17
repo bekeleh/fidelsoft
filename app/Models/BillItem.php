@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Common\EntityModel;
 use Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder;
@@ -89,6 +90,8 @@ class BillItem extends EntityModel
 
     protected $presenter = 'App\Ninja\Presenters\BillItemPresenter';
 
+    protected $table = 'bill_items';
+
     protected $dates = ['created_at', 'updated_at'];
     protected $hidden = ['deleted_at'];
 
@@ -135,7 +138,7 @@ class BillItem extends EntityModel
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account');
+        return $this->belongsTo('App\Models\Common\Account');
     }
 
     public function getPreTaxAmount()

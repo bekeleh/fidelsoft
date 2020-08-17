@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Common\EntityModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 use stdClass;
@@ -35,7 +36,7 @@ class PaymentMethod extends EntityModel
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account');
+        return $this->belongsTo('App\Models\Common\Account');
     }
 
     public function contact()
@@ -45,7 +46,7 @@ class PaymentMethod extends EntityModel
 
     public function account_gateway_token()
     {
-        return $this->belongsTo('App\Models\AccountGatewayToken');
+        return $this->belongsTo('App\Models\Common\AccountGatewayToken');
     }
 
     public function payment_type()

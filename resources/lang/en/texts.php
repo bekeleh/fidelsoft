@@ -335,7 +335,9 @@ $LANG = array(
     'client_type_wholesaler' => 'Wholesaler',
     'client_type_retailer' => 'Retailer',
     'client_type_default' => 'Default',
+    'client_type_discount' => 'Discount',
     'select_client_type' => 'Select Client Type',
+
 //   Users
     'full_name' => 'Full Name',
     'first_name' => 'First Name',

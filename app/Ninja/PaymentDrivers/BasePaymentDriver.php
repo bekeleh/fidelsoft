@@ -2,9 +2,9 @@
 
 namespace App\Ninja\PaymentDrivers;
 
-use App\Models\Account;
-use App\Models\AccountGatewaySettings;
-use App\Models\AccountGatewayToken;
+use App\Models\Common\Account;
+use App\Models\Common\AccountGatewaySettings;
+use App\Models\Common\AccountGatewayToken;
 use App\Models\Country;
 use App\Models\GatewayType;
 use App\Models\License;

@@ -14,7 +14,7 @@
         }
 
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-            var target = $(e.target).attr("href") // activated tab
+            var target = $(e.target).attr("href"); // activated tab
             if (history.pushState) {
                 history.pushState(null, null, target);
             }
@@ -26,8 +26,8 @@
 <div class="row">
     <div class="col-md-3">
         @foreach([
-            BASIC_SETTINGS => \App\Models\Account::$basicSettings,
-            ADVANCED_SETTINGS => \App\Models\Account::$advancedSettings,
+            BASIC_SETTINGS => \App\Models\Common\Account::$basicSettings,
+            ADVANCED_SETTINGS => \App\Models\Common\Account::$advancedSettings,
         ] as $type => $settings)
             <div class="panel panel-default">
                 <div class="panel-heading" style="color:white;background-color: #777 !important;">

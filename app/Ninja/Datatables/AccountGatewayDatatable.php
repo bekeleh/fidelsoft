@@ -3,8 +3,8 @@
 namespace App\Ninja\Datatables;
 
 use App\Libraries\Utils;
-use App\Models\AccountGateway;
-use App\Models\AccountGatewaySettings;
+use App\Models\Common\AccountGateway;
+use App\Models\Common\AccountGatewaySettings;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\URL;
 use WePayException;

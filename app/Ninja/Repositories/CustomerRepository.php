@@ -2,7 +2,7 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Models\AccountGatewayToken;
+use App\Models\Common\AccountGatewayToken;
 use App\Models\PaymentMethod;
 use App\Models\Vendor;
 
@@ -17,7 +17,7 @@ class CustomerRepository extends BaseRepository
 
     public function getClassName()
     {
-        return 'App\Models\AccountGatewayToken';
+        return 'App\Models\Common\AccountGatewayToken';
     }
 
     public function all()

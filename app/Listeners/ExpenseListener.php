@@ -9,6 +9,7 @@ use App\Events\InvoiceWasDeletedEvent;
 use App\Models\Expense;
 use App\Ninja\Repositories\ExpenseRepository;
 use App\Ninja\Transformers\ExpenseTransformer;
+use App\Listeners\Common\EntityListener;
 
 /**
  * Class ExpenseListener.

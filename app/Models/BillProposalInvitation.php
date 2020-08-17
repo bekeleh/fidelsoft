@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Common\EntityModel;
 use App\Models\Traits\Inviteable;
 use Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -61,7 +62,7 @@ class BillProposalInvitation extends EntityModel
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account');
+        return $this->belongsTo('App\Models\Common\Account');
     }
 }
 

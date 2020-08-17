@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\ClientType;
+use App\Models\Setting\ClientType;
 use Illuminate\Queue\SerializesModels;
 
 /**

@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Account;
+use App\Models\Common\Account;
 use App\Models\Invoice;
 use App\Models\RecurringExpense;
 use App\Ninja\Repositories\InvoiceRepository;

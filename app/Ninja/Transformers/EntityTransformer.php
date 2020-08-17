@@ -2,7 +2,7 @@
 
 namespace App\Ninja\Transformers;
 
-use App\Models\Account;
+use App\Models\Common\Account;
 use Illuminate\Support\Facades\Auth;
 use League\Fractal\TransformerAbstract;
 

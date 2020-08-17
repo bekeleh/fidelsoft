@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Common\EntityModel;
 use App\Events\TaskWasCreatedEvent;
 use App\Events\TaskWasUpdatedEvent;
 use App\Libraries\Utils;
@@ -38,7 +39,7 @@ class Task extends EntityModel
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account');
+        return $this->belongsTo('App\Models\Common\Account');
     }
 
     public function invoice()

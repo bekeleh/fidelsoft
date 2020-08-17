@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Common\EntityModel;
 use Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder;
@@ -115,7 +116,7 @@ class ItemPrice extends EntityModel
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account')->withTrashed();
+        return $this->belongsTo('App\Models\Common\Account')->withTrashed();
     }
 
     public function user()
@@ -130,6 +131,6 @@ class ItemPrice extends EntityModel
 
     public function clientType()
     {
-        return $this->belongsTo('App\Models\ClientType')->withTrashed();
+        return $this->belongsTo('App\Models\Setting\ClientType')->withTrashed();
     }
 }

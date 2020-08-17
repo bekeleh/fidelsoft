@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Common\EntityModel;
 use App\Events\BillPaymentCompletedEvent;
 use App\Events\BillPaymentFailedEvent;
 use App\Events\BillPaymentWasCreatedEvent;
@@ -80,7 +81,7 @@ class BillPayment extends EntityModel
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account');
+        return $this->belongsTo('App\Models\Common\Account');
     }
 
 
@@ -92,7 +93,7 @@ class BillPayment extends EntityModel
 
     public function account_gateway()
     {
-        return $this->belongsTo('App\Models\AccountGateway')->withTrashed();
+        return $this->belongsTo('App\Models\Common\AccountGateway')->withTrashed();
     }
 
     public function payment_type()

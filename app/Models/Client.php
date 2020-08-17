@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Common\EntityModel;
 use App\Libraries\Utils;
 use App\Models\Traits\HasCustomMessages;
 use Eloquent;
@@ -286,7 +287,7 @@ class Client extends EntityModel
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account');
+        return $this->belongsTo('App\Models\Common\Account');
     }
 
 
@@ -359,12 +360,12 @@ class Client extends EntityModel
 
     public function clientType()
     {
-        return $this->belongsTo('App\Models\ClientType');
+        return $this->belongsTo('App\Models\Setting\ClientType');
     }
 
     public function saleType()
     {
-        return $this->belongsTo('App\Models\SaleType');
+        return $this->belongsTo('App\Models\Setting\SaleType');
     }
 
     public function holdReason()

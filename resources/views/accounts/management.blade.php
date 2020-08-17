@@ -186,7 +186,7 @@
             <div class="form-group">
                 <label for="modules" class="control-label col-lg-4 col-sm-4"></label>
                 <div class="col-lg-8 col-sm-8">
-                    @foreach (\App\Models\Account::$modules as $entityType => $value)
+                    @foreach (\App\Models\Common\Account::$modules as $entityType => $value)
                     <div class="checkbox">
                         <label for="modules_{{ $value}}">
                             <input name="modules[]" id="modules_{{ $value}}" type="checkbox"

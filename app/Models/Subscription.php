@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Common\EntityModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -40,7 +41,7 @@ class Subscription extends EntityModel
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account');
+        return $this->belongsTo('App\Models\Common\Account');
     }
 
     public function user()
@@ -53,11 +54,10 @@ class Subscription extends EntityModel
         $this->user->notify(new $notification($event));
     }
 
+//   can be optimized
     public static function subscriber($eventId)
     {
-        return Subscription::whereHas('user', function ($query) use ($eventId) {
-            $query->where('event_id', $eventId);
-        });
+        return Subscription::where('event_id', $eventId)->get();
     }
 
 

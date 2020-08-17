@@ -888,8 +888,8 @@ if (!defined('APP_NAME')) {
         'taxCategories' => 'App\Models\TaxCategory',
         'taxRates' => 'App\Models\TaxRate',
         'plans' => 'App\Models\Plan',
-        'saleTypes' => 'App\Models\SaleType',
-        'clientTypes' => 'App\Models\ClientType',
+        'saleTypes' => 'App\Models\Setting\SaleType',
+        'clientTypes' => 'App\Models\Setting\ClientType',
         'holdReasons' => 'App\Models\HoldReason',
         'paymentStatuses' => 'App\Models\PaymentStatus',
     ];

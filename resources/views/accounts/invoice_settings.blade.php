@@ -31,7 +31,7 @@
     {{ Former::populateField('custom_invoice_taxes1', intval($account->custom_invoice_taxes1)) }}
     {{ Former::populateField('custom_invoice_taxes2', intval($account->custom_invoice_taxes2)) }}
     {{ Former::populateField('share_counter', intval($account->share_counter)) }}
-    @foreach (App\Models\Account::$customFields as $field)
+    @foreach (App\Models\Common\Account::$customFields as $field)
         {{ Former::populateField("custom_fields[$field]", $account->customLabel($field)) }}
     @endforeach
     <!-- client number -->

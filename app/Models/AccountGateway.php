@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Common\EntityModel;
 use App\Libraries\Utils;
 use Eloquent;
 use HTMLUtils;

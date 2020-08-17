@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Utils;
 use stdClass;
-use App\Models\Account;
+use App\Models\Common\Account;
 use Faker\Factory;
 use Illuminate\Console\Command;
 

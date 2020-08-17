@@ -12,7 +12,6 @@ class UserWasUpdatedEvent extends Event
 {
     use SerializesModels;
 
-
     public $user;
 
     public function __construct(User $user)

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Common\EntityModel;
+
 class Throttle extends EntityModel
 {
 

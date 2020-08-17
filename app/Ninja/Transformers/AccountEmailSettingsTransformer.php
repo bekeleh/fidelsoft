@@ -2,7 +2,7 @@
 
 namespace App\Ninja\Transformers;
 
-use App\Models\AccountEmailSettings;
+use App\Models\Common\AccountEmailSettings;
 
 /**
  * Class AccountTransformer.

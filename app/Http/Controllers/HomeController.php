@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Libraries\Utils;
-use App\Models\Account;
+use App\Models\Common\Account;
 use App\Ninja\Mailers\Mailer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;

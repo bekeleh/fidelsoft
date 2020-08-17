@@ -8,7 +8,7 @@ use App\Events\QuoteItemsWereCreatedEvent;
 use App\Events\QuoteItemsWereUpdatedEvent;
 use App\Jobs\SendBillEmail;
 use App\Libraries\Utils;
-use App\Models\Account;
+use App\Models\Common\Account;
 use App\Models\Bill;
 use App\Models\BillInvitation;
 use App\Models\BillItem;

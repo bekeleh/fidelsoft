@@ -4,7 +4,7 @@ namespace App\Ninja\Repositories;
 
 use App\Events\ClientTypeWasCreatedEvent;
 use App\Events\ClientTypeWasUpdatedEvent;
-use App\Models\ClientType;
+use App\Models\Setting\ClientType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -19,7 +19,7 @@ class ClientTypeRepository extends BaseRepository
 
     public function getClassName()
     {
-        return 'App\Models\ClientType';
+        return 'App\Models\Setting\ClientType';
     }
 
     public function all()

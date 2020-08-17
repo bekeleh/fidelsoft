@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Libraries\Utils;
-use App\Models\Account;
-use App\Models\AccountGateway;
-use App\Models\AccountGatewaySettings;
+use App\Models\Common\Account;
+use App\Models\Common\AccountGateway;
+use App\Models\Common\AccountGatewaySettings;
 use App\Models\Gateway;
 use App\Services\AccountGatewayService;
 use Illuminate\Http\RedirectResponse;

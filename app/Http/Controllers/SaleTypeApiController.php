@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SaleTypeRequest;
-use App\Models\SaleType;
+use App\Models\Setting\SaleType;
 use App\Ninja\Repositories\SaleTypeRepository;
 
 /**

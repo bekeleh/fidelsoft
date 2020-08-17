@@ -4,9 +4,12 @@ namespace App\Ninja\Repositories;
 
 use App\Events\UserWasCreatedEvent;
 use App\Events\UserWasUpdatedEvent;
+use App\Models\EntityModel;
 use App\Models\Location;
 use App\Models\Warehouse;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -14,6 +17,10 @@ class UserRepository extends BaseRepository
 {
     private $model;
 
+    /**
+     * UserRepository constructor.
+     * @param User $model
+     */
     public function __construct(User $model)
     {
         $this->model = $model;
@@ -24,6 +31,11 @@ class UserRepository extends BaseRepository
         return 'App\Models\User';
     }
 
+    /**
+     * @param $publicId
+     * @param $accountId
+     * @return mixed
+     */
     public function getById($publicId, $accountId)
     {
         return $this->model->withTrashed()
@@ -32,6 +44,9 @@ class UserRepository extends BaseRepository
             ->first();
     }
 
+    /**
+     * @return mixed
+     */
     public function all()
     {
         return User::scope()->with('contacts', 'country')
@@ -40,6 +55,11 @@ class UserRepository extends BaseRepository
             ->get();
     }
 
+    /**
+     * @param bool $accountId
+     * @param null $filter
+     * @return \Illuminate\Database\Query\Builder
+     */
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('users')
@@ -47,8 +67,8 @@ class UserRepository extends BaseRepository
             ->leftJoin('users as admin', 'admin.id', '=', 'users.user_id')
             ->leftJoin('locations', 'locations.id', '=', 'users.location_id')
             ->leftJoin('branches', 'branches.id', '=', 'users.branch_id')
-            ->where('users.account_id', '=', $accountId)
-//            ->where('users.deleted_at', '=', null)
+            ->where('users.account_id', $accountId)
+//            ->where('users.deleted_at', null)
             ->select(
                 'users.id',
                 'users.public_id',
@@ -95,24 +115,37 @@ class UserRepository extends BaseRepository
         return $query;
     }
 
+    /**
+     * @param $locationPublicId
+     * @return \Illuminate\Database\Query\Builder
+     */
     public function findLocation($locationPublicId)
     {
         $locationId = Location::getPrivateId($locationPublicId);
 
-        $query = $this->find()->where('users.location_id', '=', $locationId);
+        $query = $this->find()->where('users.location_id', $locationId);
 
         return $query;
     }
 
+    /**
+     * @param $branchPublicId
+     * @return \Illuminate\Database\Query\Builder
+     */
     public function findBranch($branchPublicId)
     {
         $branchId = Warehouse::getPrivateId($branchPublicId);
 
-        $query = $this->find()->where('users.branch_id', '=', $branchId);
+        $query = $this->find()->where('users.branch_id', $branchId);
 
         return $query;
     }
 
+    /**
+     * @param $data
+     * @param null $user
+     * @return EntityModel|Builder|Model|mixed|null
+     */
     public function save($data, $user = null)
     {
         $publicId = isset($data['public_id']) ? $data['public_id'] : false;
@@ -124,7 +157,7 @@ class UserRepository extends BaseRepository
         } else {
             $user = User::createNew();
             $lastUser = User::withTrashed()
-                ->where('account_id', '=', Auth::user()->account_id)
+                ->where('account_id', Auth::user()->account_id)
                 ->orderBy('public_id', 'DESC')->first();
 
             $user->public_id = $lastUser->public_id + 1;
@@ -151,9 +184,9 @@ class UserRepository extends BaseRepository
         }
 
         if ($publicId) {
-            event(new UserWasUpdatedEvent($user, $data));
+            event(new UserWasUpdatedEvent($user));
         } else {
-            event(new UserWasCreatedEvent($user, $data));
+            event(new UserWasCreatedEvent($user));
         }
 
         return $user;

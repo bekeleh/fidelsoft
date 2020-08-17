@@ -9,7 +9,7 @@ use App\Jobs\LoadPostmarkHistory;
 use App\Jobs\ReactivatePostmarkEmail;
 use App\Jobs\Vendor\GenerateBillStatementData;
 use App\Libraries\Utils;
-use App\Models\Account;
+use App\Models\Common\Account;
 use App\Models\Expense;
 use App\Models\Bill;
 use App\Models\Vendor;

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Common\EntityModel;
 use App\Libraries\Utils;
 use Carbon\Carbon;
 use Eloquent;
@@ -128,7 +129,7 @@ class Company extends EntityModel
 
     public function accounts()
     {
-        return $this->hasMany('App\Models\Account');
+        return $this->hasMany('App\Models\Common\Account');
     }
 
     public function getEntityType()

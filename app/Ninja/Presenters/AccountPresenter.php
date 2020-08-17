@@ -3,7 +3,7 @@
 namespace App\Ninja\Presenters;
 
 use App\Libraries\Utils;
-use App\Models\Account;
+use App\Models\Common\Account;
 use App\Models\TaxRate;
 use Carbon\Carbon;
 use Domain;

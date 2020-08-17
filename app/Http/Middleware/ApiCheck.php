@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Libraries\Utils;
-use App\Models\AccountToken;
+use App\Models\Common\AccountToken;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;

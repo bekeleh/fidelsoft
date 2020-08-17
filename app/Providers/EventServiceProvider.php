@@ -14,26 +14,26 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
 //      user login
         'Illuminate\Auth\Events\Login' => [
-            'App\Listeners\LogSuccessfulLoginListener',
+            'App\Listeners\Auth\UserSuccessfulLogin',
         ],
 
         'Illuminate\Auth\Events\Failed' => [
-            'App\Listeners\LogFailedLoginListener',
+            'App\Listeners\Auth\UserFailedLogin',
         ],
 //      Clients
         'App\Events\ClientWasCreatedEvent' => [
             'App\Listeners\ActivityListener@createdClient',
-            'App\Listeners\ClientListener@createdClient',
+            'App\Listeners\Report\AddClients@createdClient',
         ],
         'App\Events\ClientWasArchivedEvent' => [
             'App\Listeners\ActivityListener@archivedClient',
         ],
         'App\Events\ClientWasUpdatedEvent' => [
-            'App\Listeners\ClientListener@updatedClient',
+            'App\Listeners\Report\AddClients@updatedClient',
         ],
         'App\Events\ClientWasDeletedEvent' => [
             'App\Listeners\ActivityListener@deletedClient',
-            'App\Listeners\ClientListener@deletedClient',
+            'App\Listeners\Report\AddClients@deletedClient',
             'App\Listeners\HistoryListener@deletedClient',
         ],
         'App\Events\ClientWasRestoredEvent' => [
@@ -43,17 +43,17 @@ class EventServiceProvider extends ServiceProvider
 //     Vendor events
         'App\Events\VendorWasCreatedEvent' => [
             'App\Listeners\ActivityListener@createdVendor',
-            'App\Listeners\VendorListener@createdVendor',
+            'App\Listeners\Report\AddVendors@createdVendor',
         ],
         'App\Events\VendorWasArchivedEvent' => [
             'App\Listeners\ActivityListener@archivedVendor',
         ],
         'App\Events\VendorWasUpdatedEvent' => [
-            'App\Listeners\VendorListener@updatedVendor',
+            'App\Listeners\Report\AddVendors@updatedVendor',
         ],
         'App\Events\VendorWasDeletedEvent' => [
             'App\Listeners\ActivityListener@deletedVendor',
-            'App\Listeners\VendorListener@deletedVendor',
+            'App\Listeners\Report\AddVendors@deletedVendor',
             'App\Listeners\HistoryListener@deletedVendor',
         ],
         'App\Events\VendorWasRestoredEvent' => [
@@ -193,13 +193,13 @@ class EventServiceProvider extends ServiceProvider
 
 //       User events
         'App\Events\UserSignedUpEvent' => [
-            'App\Listeners\HandleUserSignedUpListener',
+            'App\Listeners\Auth\UserSignedUp',
         ],
         'App\Events\UserLoggedInEvent' => [
-            'App\Listeners\HandleUserLoggedInListener',
+            'App\Listeners\Auth\UserLogged',
         ],
         'App\Events\UserSettingsChangedEvent' => [
-            'App\Listeners\HandleUserSettingsChangedListener',
+            'App\Listeners\Auth\UserSettingsChanged',
         ],
 
 //      Task events
@@ -280,13 +280,13 @@ class EventServiceProvider extends ServiceProvider
         ],
 //       User events
         'App\Events\UserWasCreatedEvent' => [
-            'App\Listeners\UserListener@createdUser',
+            'App\Listeners\Report\AddUsers@createdUser',
         ],
         'App\Events\UserWasUpdatedEvent' => [
-            'App\Listeners\UserListener@updatedUser',
+            'App\Listeners\Report\AddUsers@updatedUser',
         ],
         'App\Events\UserWasDeletedEvent' => [
-            'App\Listeners\UserListener@deletedUser',
+            'App\Listeners\Report\AddUsers@deletedUser',
         ],
 //      Bill Invoices
         'App\Events\BillWasCreatedEvent' => [
@@ -308,7 +308,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\BillWasDeletedEvent' => [
             'App\Listeners\ActivityListener@deletedBill',
-//            'App\Listeners\HistoryListener@deletedInvoice',
+//            'App\Listeners\HandleHistory@deletedInvoice',
             'App\Listeners\BillItemListener@deletedInvoice',
         ],
         'App\Events\BillWasRestoredEvent' => [
@@ -344,7 +344,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\BillQuoteWasDeletedEvent' => [
             'App\Listeners\ActivityListener@deletedBillQuote',
-//            'App\Listeners\HistoryListener@deletedQuote',
+//            'App\Listeners\HandleHistory@deletedQuote',
             'App\Listeners\BillItemListener@deletedQuote',
         ],
         'App\Events\BillQuoteWasRestoredEvent' => [

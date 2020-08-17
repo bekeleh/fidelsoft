@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Common\EntityModel;
 use App\Events\ExpenseWasCreatedEvent;
 use App\Events\ExpenseWasUpdatedEvent;
 use App\Models\Traits\HasRecurrence;
@@ -128,7 +129,7 @@ class RecurringExpense extends EntityModel
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account');
+        return $this->belongsTo('App\Models\Common\Account');
     }
 
     public function user()

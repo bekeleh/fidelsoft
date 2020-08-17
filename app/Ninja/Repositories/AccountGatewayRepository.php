@@ -2,7 +2,7 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Models\AccountGateway;
+use App\Models\Common\AccountGateway;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -17,7 +17,7 @@ class AccountGatewayRepository extends BaseRepository
 
     public function getClassName()
     {
-        return 'App\Models\AccountGateway';
+        return 'App\Models\Common\AccountGateway';
     }
 
     public function find($accountId = false, $filter = null)

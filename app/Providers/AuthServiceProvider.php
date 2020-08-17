@@ -2,13 +2,13 @@
 
 namespace App\Providers;
 
-use App\Models\AccountGateway;
-use App\Models\AccountGatewayToken;
-use App\Models\AccountToken;
+use App\Models\Common\AccountGateway;
+use App\Models\Common\AccountGatewayToken;
+use App\Models\Common\AccountToken;
 use App\Models\BankAccount;
 use App\Models\Branch;
 use App\Models\Client;
-use App\Models\ClientType;
+use App\Models\Setting\ClientType;
 use App\Models\Contact;
 use App\Models\Credit;
 use App\Models\Department;

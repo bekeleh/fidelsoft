@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Common\EntityModel;
 use App\Events\UserSettingsChangedEvent;
 use App\Events\UserSignedUpEvent;
 use App\Libraries\Utils;
@@ -113,7 +114,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account');
+        return $this->belongsTo('App\Models\Common\Account');
     }
 
     public function location()

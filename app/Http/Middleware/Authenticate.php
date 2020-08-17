@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Libraries\Utils;
-use App\Models\Account;
+use App\Models\Common\Account;
 use App\Models\Contact;
 use App\Models\Invitation;
 use App\Models\ProposalInvitation;

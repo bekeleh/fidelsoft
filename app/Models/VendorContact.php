@@ -2,8 +2,7 @@
 
 namespace App\Models;
 
-// vendor
-
+use App\Models\Common\EntityModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -46,7 +45,7 @@ class VendorContact extends EntityModel
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account');
+        return $this->belongsTo('App\Models\Common\Account');
     }
 
     public function user()

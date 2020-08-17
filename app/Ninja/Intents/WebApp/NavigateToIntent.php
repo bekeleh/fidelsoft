@@ -2,7 +2,7 @@
 
 namespace App\Ninja\Intents\WebApp;
 
-use App\Models\Account;
+use App\Models\Common\Account;
 use App\Ninja\Intents\BaseIntent;
 
 class NavigateToIntent extends BaseIntent

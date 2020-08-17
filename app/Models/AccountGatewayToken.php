@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Common\EntityModel;
 use Eloquent;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -98,7 +99,7 @@ class AccountGatewayToken extends Eloquent
      */
     public function account_gateway()
     {
-        return $this->belongsTo('App\Models\AccountGateway');
+        return $this->belongsTo('App\Models\Common\AccountGateway');
     }
 
     /**

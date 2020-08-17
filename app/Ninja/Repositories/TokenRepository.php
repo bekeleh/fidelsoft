@@ -16,7 +16,7 @@ class TokenRepository extends BaseRepository
 
     public function getClassName()
     {
-        return 'App\Models\AccountToken';
+        return 'App\Models\Common\AccountToken';
     }
 
     public function find($accountId = false, $filter = null)

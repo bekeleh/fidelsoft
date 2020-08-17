@@ -2,7 +2,7 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Models\Account;
+use App\Models\Common\Account;
 use App\Models\Company;
 use Exception;
 

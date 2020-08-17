@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Common\EntityModel;
 use App\Libraries\Utils;
 use Eloquent;
 use Illuminate\Auth\Authenticatable;
@@ -136,7 +137,7 @@ class Contact extends EntityModel implements AuthenticatableContract, CanResetPa
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account');
+        return $this->belongsTo('App\Models\Common\Account');
     }
 
     public function user()

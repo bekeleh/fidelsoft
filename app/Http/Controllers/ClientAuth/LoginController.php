@@ -4,7 +4,7 @@ namespace App\Http\Controllers\ClientAuth;
 
 use App\Http\Controllers\Controller;
 use App\Libraries\Utils;
-use App\Models\Account;
+use App\Models\Common\Account;
 use App\Models\Contact;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;

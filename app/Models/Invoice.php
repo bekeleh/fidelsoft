@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Common\EntityModel;
 use App\Events\InvoiceInvitationWasEmailedEvent;
 use App\Events\InvoiceWasCreatedEvent;
 use App\Events\InvoiceWasUpdatedEvent;
@@ -402,7 +403,7 @@ class Invoice extends EntityModel implements BalanceAffecting
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account');
+        return $this->belongsTo('App\Models\Common\Account');
     }
 
     public function user()

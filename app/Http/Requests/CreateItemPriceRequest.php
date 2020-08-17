@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Libraries\Utils;
 use App\Models\ItemPrice;
 use App\Models\Product;
-use App\Models\ClientType;
+use App\Models\Setting\ClientType;
 
 class CreateItemPriceRequest extends ItemPriceRequest
 {

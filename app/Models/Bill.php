@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Common\EntityModel;
 use App\Events\BillInvitationWasEmailedEvent;
 use App\Events\BillWasCreatedEvent;
 use App\Events\BillWasUpdatedEvent;
@@ -259,7 +260,7 @@ class Bill extends EntityModel implements BalanceAffecting
 
     public function account()
     {
-        return $this->belongsTo('App\Models\Account')->withTrashed();
+        return $this->belongsTo('App\Models\Common\Account')->withTrashed();
     }
 
     public function user()

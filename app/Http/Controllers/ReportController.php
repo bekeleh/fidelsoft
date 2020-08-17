@@ -6,7 +6,7 @@ use App\Jobs\ExportReportResults;
 use App\Jobs\LoadPostmarkStats;
 use App\Jobs\RunReport;
 use App\Libraries\Utils;
-use App\Models\Account;
+use App\Models\Common\Account;
 use App\Models\ScheduledReport;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;

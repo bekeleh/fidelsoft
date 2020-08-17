@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AccountToken;
+use App\Models\Common\AccountToken;
 use App\Services\TokenService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;

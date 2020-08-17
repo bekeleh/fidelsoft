@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\SaleType;
+use App\Models\Setting\SaleType;
 
 class UpdateSaleTypeRequest extends SaleTypeRequest
 {

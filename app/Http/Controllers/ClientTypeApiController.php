@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ClientTypeRequest;
-use App\Models\ClientType;
+use App\Models\Setting\ClientType;
 use App\Ninja\Repositories\ClientTypeRepository;
 
 /**

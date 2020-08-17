@@ -1,7 +1,9 @@
 <?php
 namespace App\Ninja\DNS;
 use App\Libraries\Utils;
-use App\Models\Account;
+use App\Models\Common\Account;
+use function json_decode;
+
 class Cloudflare
 {
     public static function addDNSRecord(Account $account){
@@ -77,7 +79,7 @@ class Cloudflare
         $result = curl_exec($curl);
         $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $data['status'] = $status;
-        $data['result'] = \json_decode($result, true);
+        $data['result'] = json_decode($result, true);
         curl_close($curl);
         return $data;
     }
