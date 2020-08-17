@@ -3,7 +3,7 @@
 namespace App\Listeners\Common;
 
 use App\Libraries\Utils;
-use App\Models\Common\EntityModel;
+use App\Models\EntityModel;
 use App\Ninja\Serializers\ArraySerializer;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Item;

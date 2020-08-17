@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Libraries\HistoryUtils;
-use App\Models\Common\EntityModel;
+use App\Models\EntityModel;
 use Illuminate\Support\Facades\Input;
 use App\Libraries\Utils;
 use Illuminate\Foundation\Http\FormRequest;

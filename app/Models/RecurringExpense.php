@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Common\EntityModel;
+use App\Models\EntityModel;
 use App\Events\ExpenseWasCreatedEvent;
 use App\Events\ExpenseWasUpdatedEvent;
 use App\Models\Traits\HasRecurrence;

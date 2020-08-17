@@ -1,5 +1,5 @@
 <!-- landing page -->
-<?php use App\Models\Common\EntityModel;
+<?php use App\Models\EntityModel;
 
 echo Former::open(EntityModel::getFormUrl($entityType) . '/bulk')->addClass('listForm_' . $entityType); ?>
 

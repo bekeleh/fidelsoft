@@ -185,7 +185,7 @@
                                     <div class="col-lg-8 col-sm-8">
                                         <select name="status_ids[]" class="form-control" style="width: 100%;"
                                                 id="statuses_{{ ENTITY_INVOICE }}" multiple="true">
-                                            @foreach (\App\Models\Common\EntityModel::getStatusesFor(ENTITY_INVOICE) as $key => $value)
+                                            @foreach (\App\Models\EntityModel::getStatusesFor(ENTITY_INVOICE) as $key => $value)
                                                 <option value="{{ $key }}">{{ $value }}</option>
                                             @endforeach
                                         </select>

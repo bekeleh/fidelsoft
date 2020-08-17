@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use App;
-use App\Events\UserLoggedInEvent;
+use App\Events\Auth\UserLoggedInEvent;
 use App\Libraries\CurlUtils;
 use App\Libraries\Utils;
 use App\Models\Language;
@@ -55,7 +55,7 @@ class StartupCheck
             // Check if config:cache may have been run
             if (!env('APP_URL')) {
                 echo "<p>There appears to be a problem with your configuration, please check your .env file.</p>" .
-                "<p>If you've run 'php artisan config:cache' you will need to run 'php artisan config:clear'</p>.";
+                    "<p>If you've run 'php artisan config:cache' you will need to run 'php artisan config:clear'</p>.";
                 exit;
             }
 
@@ -212,19 +212,19 @@ class StartupCheck
                     $orderBy = 'num_days';
                 } elseif ($name == 'fonts') {
                     $orderBy = 'sort_order';
-                } elseif (in_array($name, 
+                } elseif (in_array($name,
                     [
                         'currencies',
                         'industries',
-                        'languages', 
-                        'countries', 
+                        'languages',
+                        'countries',
                         'banks',
                         'item_types',
                         'units',
                         'client_types',
                         'hold_reasons',
                     ]
-                )){
+                )) {
                     $orderBy = 'name';
                 } else {
                     $orderBy = 'id';

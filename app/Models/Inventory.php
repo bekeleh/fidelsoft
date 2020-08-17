@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Common\EntityModel;
+use App\Models\EntityModel;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Laracasts\Presenter\PresentableTrait;

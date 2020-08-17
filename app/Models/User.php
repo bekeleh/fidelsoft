@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Common\EntityModel;
+use App\Models\EntityModel;
 use App\Events\UserSettingsChangedEvent;
 use App\Events\UserSignedUpEvent;
 use App\Libraries\Utils;

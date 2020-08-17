@@ -3,6 +3,7 @@
 namespace App\Models\Common;
 
 use App\Libraries\Utils;
+use App\Models\EntityModel;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use HTMLUtils;
 use Crypt;

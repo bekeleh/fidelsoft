@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Common\EntityModel;
+use App\Models\EntityModel;
 use App\Libraries\Utils;
 use App\Models\Traits\HasCustomMessages;
 use Illuminate\Database\Eloquent\SoftDeletes;

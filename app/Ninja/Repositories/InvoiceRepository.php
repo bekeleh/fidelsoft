@@ -10,7 +10,7 @@ use App\Jobs\SendInvoiceEmail;
 use App\Libraries\Utils;
 use App\Models\Client;
 use App\Models\Common\Account;
-use App\Models\Common\EntityModel;
+use App\Models\EntityModel;
 use App\Models\Document;
 use App\Models\Expense;
 use App\Models\Invitation;

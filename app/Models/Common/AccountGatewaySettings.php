@@ -3,6 +3,7 @@
 namespace App\Models\Common;
 
 use Eloquent;
+use App\Models\EntityModel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;

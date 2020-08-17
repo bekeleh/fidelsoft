@@ -2,6 +2,7 @@
 
 namespace App\Models\Common;
 
+use App\Models\EntityModel;
 use DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

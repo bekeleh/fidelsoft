@@ -1,5 +1,5 @@
 <!-- navigation option  -->
-<li class="nav-<?php use App\Models\Common\EntityModel;
+<li class="nav-<?php use App\Models\EntityModel;
 
 echo e($option); ?> <?php echo e(Request::is("{$option}*") ? 'active' : ''); ?>">
     <?php if($option == 'settings'): ?>

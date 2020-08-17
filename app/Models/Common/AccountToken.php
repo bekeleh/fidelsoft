@@ -2,6 +2,7 @@
 
 namespace App\Models\Common;
 
+use App\Models\EntityModel;
 use Eloquent;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Common\EntityModel;
+use App\Models\EntityModel;
 use App\Events\PaymentCompletedEvent;
 use App\Events\PaymentFailedEvent;
 use App\Events\PaymentWasCreatedEvent;

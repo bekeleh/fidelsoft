@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Common\EntityModel;
+use App\Models\EntityModel;
 use App\Libraries\Utils;
 use Carbon\Carbon;
 use Eloquent;
