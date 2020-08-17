@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Common;
 
-use App\Models\Common\EntityModel;
 use App\Libraries\Utils;
-use Eloquent;
+use Illuminate\Database\Eloquent\Model as Eloquent;
 use HTMLUtils;
 use Crypt;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -70,20 +69,17 @@ class AccountGateway extends EntityModel
     use SoftDeletes;
     use PresentableTrait;
 
-    /**
-     * @var string
-     */
+
     protected $presenter = 'App\Ninja\Presenters\AccountGatewayPresenter';
-    /**
-     * @var array
-     */
-    protected $dates = ['deleted_at'];
+
+    protected $dates = ['created_at', 'updated_at'];
 
     /**
      * @var array
      */
     protected $hidden = [
-        'config'
+        'config',
+        'deleted_at'
     ];
 
     /**

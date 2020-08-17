@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Common\EntityModel;
 use Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder;
@@ -59,7 +60,9 @@ class ScheduleCategory extends EntityModel
 
     protected $presenter = 'App\Ninja\Presenters\ScheduleCategoryPresenter';
 
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+    protected $table = 'schedule_categories';
+    protected $dates = ['created_at', 'updated_at'];
+    protected $hidden = ['deleted_at'];
 
     protected $fillable = [
         'name',
