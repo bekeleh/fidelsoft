@@ -2,8 +2,8 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Events\SaleTypeWasCreatedEvent;
-use App\Events\SaleTypeWasUpdatedEvent;
+use App\Events\Client\SaleTypeWasCreatedEvent;
+use App\Events\Client\SaleTypeWasUpdatedEvent;
 use App\Models\Setting\SaleType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -25,36 +25,36 @@ class SaleTypeRepository extends BaseRepository
     public function all()
     {
         return SaleType::scope()
-        ->withTrashed()
-        ->where('is_deleted', '=', false)
-        ->get();
+            ->withTrashed()
+            ->where('is_deleted', '=', false)
+            ->get();
     }
 
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('sale_types')
-        ->leftJoin('accounts', 'accounts.id', '=', 'sale_types.account_id')
-        ->leftJoin('users', 'users.id', '=', 'sale_types.user_id')
+            ->leftJoin('accounts', 'accounts.id', '=', 'sale_types.account_id')
+            ->leftJoin('users', 'users.id', '=', 'sale_types.user_id')
             ->where('sale_types.account_id', '=', $accountId)
             //->where('sale_types.deleted_at', '=', null)
-        ->select(
-            'sale_types.id',
-            'sale_types.public_id',
-            'sale_types.name as sale_type_name',
-            'sale_types.is_deleted',
-            'sale_types.notes',
-            'sale_types.created_at',
-            'sale_types.updated_at',
-            'sale_types.deleted_at',
-            'sale_types.created_by',
-            'sale_types.updated_by',
-            'sale_types.deleted_by'
-        );
+            ->select(
+                'sale_types.id',
+                'sale_types.public_id',
+                'sale_types.name as sale_type_name',
+                'sale_types.is_deleted',
+                'sale_types.notes',
+                'sale_types.created_at',
+                'sale_types.updated_at',
+                'sale_types.deleted_at',
+                'sale_types.created_by',
+                'sale_types.updated_by',
+                'sale_types.deleted_by'
+            );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('sale_types.sale_type_name', 'like', '%' . $filter . '%')
-                ->orWhere('sale_types.notes', 'like', '%' . $filter . '%');
+                    ->orWhere('sale_types.notes', 'like', '%' . $filter . '%');
             });
         }
 

@@ -39,12 +39,6 @@ class VendorController extends BaseController
         $this->vendorService = $vendorService;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     * @throws AuthorizationException
-     */
     public function index()
     {
         $this->authorize('view', ENTITY_VENDOR);
@@ -64,12 +58,7 @@ class VendorController extends BaseController
         return $this->vendorService->getDatatable($accountId, $search);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param CreateVendorRequest $request
-     * @return Response
-     */
+
     public function store(CreateVendorRequest $request)
     {
         $vendor = $this->vendorService->save($request->input());
@@ -79,13 +68,6 @@ class VendorController extends BaseController
         return redirect()->to($vendor->getRoute());
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param VendorRequest $request
-     * @return Response
-     * @throws AuthorizationException
-     */
     public function show(VendorRequest $request)
     {
         $this->authorize('view', ENTITY_VENDOR);
@@ -140,13 +122,7 @@ class VendorController extends BaseController
         return View::make('vendors.show', $data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @param VendorRequest $request
-     * @return Response
-     * @throws AuthorizationException
-     */
+
     public function create(VendorRequest $request)
     {
         $this->authorize('create', ENTITY_VENDOR);
@@ -167,13 +143,7 @@ class VendorController extends BaseController
         return View::make('vendors.edit', $data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param VendorRequest $request
-     * @return Response
-     * @throws AuthorizationException
-     */
+
     public function edit(VendorRequest $request)
     {
         $this->authorize('edit', ENTITY_VENDOR);
@@ -208,12 +178,6 @@ class VendorController extends BaseController
         ];
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param UpdateVendorRequest $request
-     * @return Response
-     */
     public function update(UpdateVendorRequest $request)
     {
         $vendor = $this->vendorService->save($request->input(), $request->entity());

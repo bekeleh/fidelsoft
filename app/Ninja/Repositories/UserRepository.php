@@ -2,8 +2,8 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Events\UserWasCreatedEvent;
-use App\Events\UserWasUpdatedEvent;
+use App\Events\User\UserWasCreatedEvent;
+use App\Events\User\UserWasUpdatedEvent;
 use App\Models\EntityModel;
 use App\Models\Location;
 use App\Models\Warehouse;

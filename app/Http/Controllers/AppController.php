@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\UserSettingsChangedEvent;
+use App\Events\Auth\UserSettingsChangedEvent;
 use App\Libraries\Utils;
 use App\Models\Common\Account;
 use App\Models\Industry;

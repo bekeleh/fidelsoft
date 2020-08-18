@@ -20,22 +20,32 @@ class EventServiceProvider extends ServiceProvider
         'Illuminate\Auth\Events\Failed' => [
             'App\Listeners\Auth\FailedLoginListener',
         ],
+//       User events
+        'App\Events\UserWasCreatedEvent' => [
+            'App\Listeners\User\UserListener@createdUser',
+        ],
+        'App\Events\UserWasUpdatedEvent' => [
+            'App\Listeners\User\UserListener@updatedUser',
+        ],
+        'App\Events\UserWasDeletedEvent' => [
+            'App\Listeners\User\UserListener@deletedUser',
+        ],
 
 //      Clients
         'App\Events\ClientWasCreatedEvent' => [
             'App\Listeners\Report\ActivityListener@createdClient',
-            'App\Listeners\Report\ClientListener@createdClient',
+            'App\Listeners\Client\ClientListener@createdClient',
         ],
         'App\Events\ClientWasArchivedEvent' => [
             'App\Listeners\Report\ActivityListener@archivedClient',
         ],
         'App\Events\ClientWasUpdatedEvent' => [
-            'App\Listeners\Report\ClientListener@updatedClient',
+            'App\Listeners\Client\ClientListener@updatedClient',
         ],
         'App\Events\ClientWasDeletedEvent' => [
             'App\Listeners\Report\ActivityListener@deletedClient',
-            'App\Listeners\Report\ClientListener@deletedClient',
-            'App\Listeners\HistoryListener@deletedClient',
+            'App\Listeners\Client\ClientListener@deletedClient',
+            'App\Listeners\Report\HistoryListener@deletedClient',
         ],
         'App\Events\ClientWasRestoredEvent' => [
             'App\Listeners\Report\ActivityListener@restoredClient',
@@ -44,18 +54,18 @@ class EventServiceProvider extends ServiceProvider
 //     Vendor events
         'App\Events\VendorWasCreatedEvent' => [
             'App\Listeners\Report\ActivityListener@createdVendor',
-            'App\Listeners\Report\VendorListener@createdVendor',
+            'App\Listeners\Vendor\VendorListener@createdVendor',
+        ],
+        'App\Events\VendorWasUpdatedEvent' => [
+            'App\Listeners\Vendor\VendorListener@updatedVendor',
         ],
         'App\Events\VendorWasArchivedEvent' => [
             'App\Listeners\Report\ActivityListener@archivedVendor',
         ],
-        'App\Events\VendorWasUpdatedEvent' => [
-            'App\Listeners\Report\VendorListener@updatedVendor',
-        ],
         'App\Events\VendorWasDeletedEvent' => [
             'App\Listeners\Report\ActivityListener@deletedVendor',
-            'App\Listeners\Report\VendorListener@deletedVendor',
-            'App\Listeners\HistoryListener@deletedVendor',
+            'App\Listeners\Vendor\VendorListener@deletedVendor',
+            'App\Listeners\Report\HistoryListener@deletedVendor',
         ],
         'App\Events\VendorWasRestoredEvent' => [
             'App\Listeners\Report\ActivityListener@restoredVendor',
@@ -70,11 +80,11 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\Report\ActivityListener@updatedInvoice',
             'App\Listeners\Sale\InvoiceListener@updatedInvoice',
         ],
-        'App\Events\InvoiceItemsWereCreatedEvent' => [
-            'App\Listeners\InvoiceItemListener@createdInvoice',
-        ],
         'App\Events\InvoiceItemsWereUpdatedEvent' => [
-            'App\Listeners\InvoiceItemListener@updatedInvoice',
+            'App\Listeners\Sale\InvoiceItemListener@updatedInvoice',
+        ],
+        'App\Events\InvoiceItemsWereCreatedEvent' => [
+            'App\Listeners\Sale\InvoiceItemListener@createdInvoice',
         ],
         'App\Events\InvoiceWasArchivedEvent' => [
             'App\Listeners\Report\ActivityListener@archivedInvoice',
@@ -82,24 +92,24 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\InvoiceWasDeletedEvent' => [
             'App\Listeners\Report\ActivityListener@deletedInvoice',
             'App\Listeners\Sale\InvoiceListener@deletedInvoice',
+            'App\Listeners\Sale\InvoiceItemListener@deletedInvoice',
             'App\Listeners\TaskListener@deletedInvoice',
-            'App\Listeners\ExpenseListener@deletedInvoice',
-            'App\Listeners\HistoryListener@deletedInvoice',
-            'App\Listeners\InvoiceItemListener@deletedInvoice',
+            'App\Listeners\Expense\ExpenseListener@deletedInvoice',
+            'App\Listeners\Report\HistoryListener@deletedInvoice',
         ],
         'App\Events\InvoiceWasRestoredEvent' => [
             'App\Listeners\Report\ActivityListener@restoredInvoice',
         ],
         'App\Events\InvoiceWasEmailedEvent' => [
             'App\Listeners\Sale\InvoiceListener@emailedInvoice',
-            'App\Listeners\NotificationListener@emailedInvoice',
+            'App\Listeners\Sale\SendInvoiceNotification@emailedInvoice',
         ],
         'App\Events\InvoiceInvitationWasEmailedEvent' => [
             'App\Listeners\Report\ActivityListener@emailedInvoice',
         ],
         'App\Events\InvoiceInvitationWasViewedEvent' => [
             'App\Listeners\Report\ActivityListener@viewedInvoice',
-            'App\Listeners\NotificationListener@viewedInvoice',
+            'App\Listeners\Sale\SendInvoiceNotification@viewedInvoice',
             'App\Listeners\Sale\InvoiceListener@viewedInvoice',
         ],
 
@@ -111,29 +121,30 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\Report\ActivityListener@updatedQuote',
         ],
         'App\Events\QuoteItemsWereCreatedEvent' => [
-            'App\Listeners\InvoiceItemListener@createdQuote',
+            'App\Listeners\Sale\InvoiceItemListener@createdQuote',
         ],
         'App\Events\QuoteItemsWereUpdatedEvent' => [
-            'App\Listeners\InvoiceItemListener@updatedQuote',
+            'App\Listeners\Sale\InvoiceItemListener@updatedQuote',
         ],
         'App\Events\QuoteWasArchivedEvent' => [
             'App\Listeners\Report\ActivityListener@archivedQuote',
         ],
         'App\Events\QuoteWasDeletedEvent' => [
             'App\Listeners\Report\ActivityListener@deletedQuote',
-            'App\Listeners\HistoryListener@deletedQuote',
-            'App\Listeners\InvoiceItemListener@deletedQuote',
+            'App\Listeners\Report\HistoryListener@deletedQuote',
+            'App\Listeners\Sale\InvoiceItemListener@deletedQuote',
         ],
         'App\Events\QuoteWasRestoredEvent' => [
             'App\Listeners\Report\ActivityListener@restoredQuote',
         ],
         'App\Events\QuoteWasEmailedEvent' => [
-            'App\Listeners\QuoteListener@emailedQuote',
-            'App\Listeners\NotificationListener@emailedQuote',
+            'App\Listeners\Sale\QuoteListener@emailedQuote',
+            'App\Listeners\Sale\SendInvoiceNotification@emailedQuote',
         ],
         'App\Events\QuoteInvitationWasEmailedEvent' => [
             'App\Listeners\Report\ActivityListener@emailedQuote',
         ],
+//      quote viewed
         'App\Events\QuoteInvitationWasViewedEvent' => [
             'App\Listeners\Report\ActivityListener@viewedQuote',
             'App\Listeners\NotificationListener@viewedQuote',
@@ -200,7 +211,7 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\UserLoggedInEvent' => [
             'App\Listeners\Auth\UserLoggedListener',
         ],
-        'App\Events\UserSettingsChangedEvent' => [
+        'App\Events\Auth\UserSettingsChangedEvent' => [
             'App\Listeners\Auth\UserSettingsChangedListener',
         ],
 
@@ -222,7 +233,7 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\TaskWasDeletedEvent' => [
             'App\Listeners\Report\ActivityListener@deletedTask',
             'App\Listeners\TaskListener@deletedTask',
-            'App\Listeners\HistoryListener@deletedTask',
+            'App\Listeners\Report\HistoryListener@deletedTask',
         ],
 
 //      Expense events
@@ -243,17 +254,17 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ExpenseWasDeletedEvent' => [
             'App\Listeners\Report\ActivityListener@deletedExpense',
             'App\Listeners\ExpenseListener@deletedExpense',
-            'App\Listeners\HistoryListener@deletedExpense',
+            'App\Listeners\Report\HistoryListener@deletedExpense',
         ],
 
 //       Project events
         'App\Events\ProjectWasDeletedEvent' => [
-            'App\Listeners\HistoryListener@deletedProject',
+            'App\Listeners\Report\HistoryListener@deletedProject',
         ],
 
 //      Proposal events
         'App\Events\ProposalWasDeletedEvent' => [
-            'App\Listeners\HistoryListener@deletedProposal',
+            'App\Listeners\Report\HistoryListener@deletedProposal',
         ],
 
         'Illuminate\Queue\Events\JobExceptionOccurred' => [
@@ -280,53 +291,44 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ProductWasDeletedEvent' => [
             'App\Listeners\ProductListener@deletedProduct',
         ],
-//       User events
-        'App\Events\UserWasCreatedEvent' => [
-            'App\Listeners\Report\AddUsers@createdUser',
-        ],
-        'App\Events\UserWasUpdatedEvent' => [
-            'App\Listeners\Report\AddUsers@updatedUser',
-        ],
-        'App\Events\UserWasDeletedEvent' => [
-            'App\Listeners\Report\AddUsers@deletedUser',
-        ],
+
 //      Bill Invoices
         'App\Events\BillWasCreatedEvent' => [
             'App\Listeners\Report\ActivityListener@createdBill',
-            'App\Listeners\BillListener@createdInvoice',
+            'App\Listeners\Purchase\BillListener@createdInvoice',
         ],
         'App\Events\BillWasUpdatedEvent' => [
             'App\Listeners\Report\ActivityListener@updatedBill',
-            'App\Listeners\BillListener@updatedInvoice',
+            'App\Listeners\Purchase\BillListener@updatedInvoice',
         ],
         'App\Events\BillItemsWereCreatedEvent' => [
-            'App\Listeners\BillItemListener@createdInvoice',
+            'App\Listeners\Purchase\BillItemListener@createdInvoice',
         ],
         'App\Events\BillItemsWereUpdatedEvent' => [
-            'App\Listeners\BillItemListener@updatedInvoice',
+            'App\Listeners\Purchase\BillItemListener@updatedInvoice',
         ],
         'App\Events\BillWasArchivedEvent' => [
             'App\Listeners\Report\ActivityListener@archivedBill',
         ],
         'App\Events\BillWasDeletedEvent' => [
             'App\Listeners\Report\ActivityListener@deletedBill',
-//            'App\Listeners\HistoryListener@deletedInvoice',
-            'App\Listeners\BillItemListener@deletedInvoice',
+//            'App\Listeners\Report\HistoryListener@deletedInvoice',
+            'App\Listeners\Purchase\BillItemListener@deletedInvoice',
         ],
         'App\Events\BillWasRestoredEvent' => [
             'App\Listeners\Report\ActivityListener@restoredBill',
         ],
         'App\Events\BillWasEmailedEvent' => [
-            'App\Listeners\BillListener@emailedInvoice',
-            'App\Listeners\BillNotificationListener@emailedBill',
+            'App\Listeners\Purchase\BillListener@emailedInvoice',
+            'App\Listeners\Purchase\BillNotificationListener@emailedBill',
         ],
         'App\Events\BillInvitationWasEmailedEvent' => [
             'App\Listeners\Report\ActivityListener@emailedBill',
         ],
         'App\Events\BillInvitationWasViewedEvent' => [
             'App\Listeners\Report\ActivityListener@viewedBill',
-            'App\Listeners\BillNotificationListener@viewedInvoice',
-            'App\Listeners\BillListener@viewedInvoice',
+            'App\Listeners\Purchase\BillNotificationListener@viewedInvoice',
+            'App\Listeners\Purchase\BillListener@viewedInvoice',
         ],
 //     Bill quote
         'App\Events\BillQuoteWasCreatedEvent' => [
@@ -336,38 +338,38 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\Report\ActivityListener@updatedBillQuote',
         ],
         'App\Events\BillQuoteItemsWereCreatedEvent' => [
-            'App\Listeners\BillItemListener@createdQuote',
+            'App\Listeners\Purchase\BillItemListener@createdQuote',
         ],
         'App\Events\BillQuoteItemsWereUpdatedEvent' => [
-            'App\Listeners\BillItemListener@updatedQuote',
+            'App\Listeners\Purchase\BillItemListener@updatedQuote',
         ],
         'App\Events\BillQuoteWasArchivedEvent' => [
             'App\Listeners\Report\ActivityListener@archivedBillQuote',
         ],
         'App\Events\BillQuoteWasDeletedEvent' => [
             'App\Listeners\Report\ActivityListener@deletedBillQuote',
-//            'App\Listeners\HistoryListener@deletedQuote',
-            'App\Listeners\BillItemListener@deletedQuote',
+//            'App\Listeners\Report\HistoryListener@deletedQuote',
+            'App\Listeners\Purchase\BillItemListener@deletedQuote',
         ],
         'App\Events\BillQuoteWasRestoredEvent' => [
             'App\Listeners\Report\ActivityListener@restoredBillQuote',
         ],
         'App\Events\BillQuoteWasEmailedEvent' => [
-            'App\Listeners\BillQuoteListener@emailedQuote',
-            'App\Listeners\BillNotificationListener@emailedQuote',
+            'App\Listeners\Purchase\BillQuoteListener@emailedQuote',
+            'App\Listeners\Purchase\BillNotificationListener@emailedQuote',
         ],
         'App\Events\BillQuoteInvitationWasEmailedEvent' => [
             'App\Listeners\Report\ActivityListener@emailedBillQuote',
         ],
         'App\Events\BillQuoteInvitationWasViewedEvent' => [
             'App\Listeners\Report\ActivityListener@viewedBillQuote',
-            'App\Listeners\BillNotificationListener@viewedQuote',
-            'App\Listeners\BillQuoteListener@viewedQuote',
+            'App\Listeners\Purchase\BillNotificationListener@viewedQuote',
+            'App\Listeners\Purchase\BillQuoteListener@viewedQuote',
         ],
         'App\Events\BillQuoteInvitationWasApprovedEvent' => [
             'App\Listeners\Report\ActivityListener@approvedBillQuote',
-            'App\Listeners\BillNotificationListener@approvedQuote',
-            'App\Listeners\BillQuoteListener@approvedQuote',
+            'App\Listeners\Purchase\BillNotificationListener@approvedQuote',
+            'App\Listeners\Purchase\BillQuoteListener@approvedQuote',
         ],
 //     Bill invoice payment and credit and others
 

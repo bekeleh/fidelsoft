@@ -9,7 +9,7 @@ use App\Libraries\Utils;
 use App\Models\ItemTransfer;
 use App\Models\Product;
 use App\Models\Status;
-use App\Models\Store;
+use App\Models\Warehouse;
 use App\Ninja\Datatables\ItemTransferDatatable;
 use App\Ninja\Repositories\ItemTransferRepository;
 use App\Services\ItemTransferService;
@@ -59,9 +59,9 @@ class ItemTransferController extends BaseController
         return $this->itemTransferService->getDatatableProduct($productPublicId);
     }
 
-    public function getDatatableStore($warehousePublicId = null)
+    public function getDatatableWarehouse($warehousePublicId = null)
     {
-        return $this->itemTransferService->getDatatableStore($warehousePublicId);
+        return $this->itemTransferService->getDatatableWarehouse($warehousePublicId);
     }
 
     public function getDatatableStatus($statusPublicId = null)
@@ -83,12 +83,12 @@ class ItemTransferController extends BaseController
             $product = null;
         }
         if ($request->previous_warehouse_id != 0) {
-            $previousWarehouse = Store::scope($request->previous_warehouse_id)->firstOrFail();
+            $previousWarehouse = Warehouse::scope($request->previous_warehouse_id)->firstOrFail();
         } else {
             $previousWarehouse = null;
         }
         if ($request->current_warehouse_id != 0) {
-            $currentWarehouse = Store::scope($request->current_warehouse_id)->firstOrFail();
+            $currentWarehouse = Warehouse::scope($request->current_warehouse_id)->firstOrFail();
         } else {
             $currentWarehouse = null;
         }
@@ -201,8 +201,8 @@ class ItemTransferController extends BaseController
             'account' => Auth::user()->account,
             'statuses' => Status::scope()->withActiveOrSelected($itemTransfer ? $itemTransfer->status_id : false)->orderBy('name')->get(),
             'products' => Product::scope()->withActiveOrSelected(false)->products(),
-            'previousWarehouses' => Store::scope()->withActiveOrSelected($itemTransfer ? $itemTransfer->previous_warehouse_id : false)->hasQuantity()->orderBy('name')->get(),
-            'currentWarehouses' => Store::scope()->withActiveOrSelected($itemTransfer ? $itemTransfer->current_warehouse_id : false)->orderBy('name')->get(),
+            'previousWarehouses' => Warehouse::scope()->withActiveOrSelected($itemTransfer ? $itemTransfer->previous_warehouse_id : false)->hasQuantity()->orderBy('name')->get(),
+            'currentWarehouses' => Warehouse::scope()->withActiveOrSelected($itemTransfer ? $itemTransfer->current_warehouse_id : false)->orderBy('name')->get(),
         ];
     }
 

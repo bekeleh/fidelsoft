@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateBillItemAPIRequest;
+use App\Http\Requests\CreateBillItemRequest;
 use App\Http\Requests\BillItemRequest;
 use App\Http\Requests\UpdateBillItemRequest;
 use App\Libraries\Utils;

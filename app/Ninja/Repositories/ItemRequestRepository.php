@@ -6,8 +6,7 @@ use App\Libraries\Utils;
 use App\Models\ItemMovement;
 use App\Models\ItemRequest;
 use App\Models\Product;
-use App\Models\Status;
-use App\Models\Store;
+use App\Models\Warehouse;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -34,52 +33,52 @@ class ItemRequestRepository extends BaseRepository
     public function find($accountId = false, $filter = null)
     {
         $query = DB::table('item_requests')
-        ->LeftJoin('accounts', 'accounts.id', '=', 'item_requests.account_id')
-        ->LeftJoin('users', 'users.id', '=', 'item_requests.user_id')
-        ->LeftJoin('products', 'products.id', '=', 'item_requests.product_id')
-        ->leftjoin('departments', 'departments.id', '=', 'item_requests.department_id')
-        ->leftjoin('warehouses', 'warehouses.id', '=', 'item_requests.warehouse_id')
-        ->leftjoin('statuses', 'statuses.id', '=', 'item_requests.status_id')
-        ->where('item_requests.account_id', '=', $accountId)
+            ->LeftJoin('accounts', 'accounts.id', '=', 'item_requests.account_id')
+            ->LeftJoin('users', 'users.id', '=', 'item_requests.user_id')
+            ->LeftJoin('products', 'products.id', '=', 'item_requests.product_id')
+            ->leftjoin('departments', 'departments.id', '=', 'item_requests.department_id')
+            ->leftjoin('warehouses', 'warehouses.id', '=', 'item_requests.warehouse_id')
+            ->leftjoin('statuses', 'statuses.id', '=', 'item_requests.status_id')
+            ->where('item_requests.account_id', '=', $accountId)
             //->where('item_requests.deleted_at', '=', null)
-        ->select(
-            'item_requests.id',
-            'item_requests.public_id',
-            'item_requests.user_id',
-            'item_requests.product_id',
-            'item_requests.department_id',
-            'item_requests.warehouse_id',
-            'item_requests.status_id',
-            'item_requests.qty',
-            'item_requests.delivered_qty',
-            'item_requests.is_deleted',
-            'item_requests.notes',
-            'item_requests.required_date',
-            'item_requests.dispatch_date',
-            'item_requests.created_at',
-            'item_requests.updated_at',
-            'item_requests.deleted_at',
-            'item_requests.created_by',
-            'item_requests.updated_by',
-            'item_requests.deleted_by',
-            'products.product_key',
-            'products.public_id as product_public_id',
-            'departments.name as department_name',
-            'departments.public_id as department_public_id',
-            'warehouses.name as store_name',
-            'warehouses.public_id as store_public_id',
-            'statuses.name as status_name',
-            'statuses.public_id as status_public_id'
-        );
+            ->select(
+                'item_requests.id',
+                'item_requests.public_id',
+                'item_requests.user_id',
+                'item_requests.product_id',
+                'item_requests.department_id',
+                'item_requests.warehouse_id',
+                'item_requests.status_id',
+                'item_requests.qty',
+                'item_requests.delivered_qty',
+                'item_requests.is_deleted',
+                'item_requests.notes',
+                'item_requests.required_date',
+                'item_requests.dispatch_date',
+                'item_requests.created_at',
+                'item_requests.updated_at',
+                'item_requests.deleted_at',
+                'item_requests.created_by',
+                'item_requests.updated_by',
+                'item_requests.deleted_by',
+                'products.product_key',
+                'products.public_id as product_public_id',
+                'departments.name as department_name',
+                'departments.public_id as department_public_id',
+                'warehouses.name as store_name',
+                'warehouses.public_id as store_public_id',
+                'statuses.name as status_name',
+                'statuses.public_id as status_public_id'
+            );
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->Where('item_requests.notes', 'like', '%' . $filter . '%')
-                ->orWhere('products.product_key', 'like', '%' . $filter . '%')
-                ->orWhere('departments.name', 'like', '%' . $filter . '%')
-                ->orWhere('warehouses.name', 'like', '%' . $filter . '%')
-                ->orWhere('statuses.name', 'like', '%' . $filter . '%')
-                ->orWhere('item_requests.created_by', 'like', '%' . $filter . '%')
-                ->orWhere('item_requests.updated_by', 'like', '%' . $filter . '%');
+                    ->orWhere('products.product_key', 'like', '%' . $filter . '%')
+                    ->orWhere('departments.name', 'like', '%' . $filter . '%')
+                    ->orWhere('warehouses.name', 'like', '%' . $filter . '%')
+                    ->orWhere('statuses.name', 'like', '%' . $filter . '%')
+                    ->orWhere('item_requests.created_by', 'like', '%' . $filter . '%')
+                    ->orWhere('item_requests.updated_by', 'like', '%' . $filter . '%');
             });
         }
 
@@ -138,12 +137,12 @@ class ItemRequestRepository extends BaseRepository
         return $query;
     }
 
-    public function findStore($warehousePublicId)
+    public function findWarehouse($warehousePublicId)
     {
         if (empty($warehousePublicId)) {
             return;
         }
-        $warehouseId = Store::getPrivateId($warehousePublicId);
+        $warehouseId = Warehouse::getPrivateId($warehousePublicId);
 
         $query = $this->find()->where('item_requests.warehouse_id', '=', $warehouseId);
 
@@ -168,15 +167,15 @@ class ItemRequestRepository extends BaseRepository
             return;
         }
 
-        $newQty = isset($data['qty']) ? Utils::parseFloat($data['qty']):0;
-        $qoh = isset($itemRequest->qty) ? Utils::parseFloat($itemRequest->qty):0;
+        $newQty = isset($data['qty']) ? Utils::parseFloat($data['qty']) : 0;
+        $qoh = isset($itemRequest->qty) ? Utils::parseFloat($itemRequest->qty) : 0;
 
         if ($update) {
             if ($newQty > 0) {
                 $movable = ItemMovement::createNew();
                 $itemRequest = $this->itemTransfer
-                ->where('warehouse_id', $itemRequest->current_warehouse_id)
-                ->where('product_id', $itemRequest->product_id)->first();
+                    ->where('warehouse_id', $itemRequest->current_warehouse_id)
+                    ->where('product_id', $itemRequest->product_id)->first();
                 $movable->qty = $newQty;
                 $movable->qoh = ($qoh + $newQty);
                 $movable->notes = 'stock request';

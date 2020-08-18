@@ -2,10 +2,10 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Events\InvoiceItemsWereCreatedEvent;
-use App\Events\InvoiceItemsWereUpdatedEvent;
-use App\Events\QuoteItemsWereCreatedEvent;
-use App\Events\QuoteItemsWereUpdatedEvent;
+use App\Events\Sale\InvoiceItemsWereCreatedEvent;
+use App\Events\Sale\InvoiceItemsWereUpdatedEvent;
+use App\Events\Sale\QuoteItemsWereCreatedEvent;
+use App\Events\Sale\QuoteItemsWereUpdatedEvent;
 use App\Jobs\SendInvoiceEmail;
 use App\Libraries\Utils;
 use App\Models\Client;

@@ -8,7 +8,7 @@ use App\Http\Requests\UpdateItemStoreRequest;
 use App\Libraries\Utils;
 use App\Models\ItemStore;
 use App\Models\Product;
-use App\Models\Store;
+use App\Models\Warehouse;
 use App\Ninja\Datatables\ItemStoreDatatable;
 use App\Ninja\Repositories\ItemStoreRepository;
 use App\Services\ItemStoreService;
@@ -23,16 +23,16 @@ use Redirect;
  */
 class ItemStoreController extends BaseController
 {
-    protected $itemStoreRepo;
-    protected $itemStoreService;
+    protected $itemWarehouseRepo;
+    protected $itemWarehouseService;
     protected $entityType = ENTITY_ITEM_STORE;
 
-    public function __construct(ItemStoreRepository $itemStoreRepo, ItemStoreService $itemStoreService)
+    public function __construct(ItemStoreRepository $itemWarehouseRepo, ItemStoreService $itemWarehouseService)
     {
         // parent::__construct();
 
-        $this->itemStoreRepo = $itemStoreRepo;
-        $this->itemStoreService = $itemStoreService;
+        $this->itemWarehouseRepo = $itemWarehouseRepo;
+        $this->itemWarehouseService = $itemWarehouseService;
     }
 
     public function index()
@@ -49,26 +49,26 @@ class ItemStoreController extends BaseController
     {
         $warehousePublicId = Input::get('warehouse_id');
         $accountId = Auth::user()->account_id;
-        $warehouseId = Store::getPrivateId($warehousePublicId);
+        $warehouseId = Warehouse::getPrivateId($warehousePublicId);
 
-        $data = $this->itemStoreRepo->getItems($accountId, $warehouseId);
+        $data = $this->itemWarehouseRepo->getItems($accountId, $warehouseId);
 
         return response()->json(['success' => true, 'data' => $data], 200);
     }
 
-    public function getDatatable($itemStorePublicId = null)
+    public function getDatatable($itemWarehousePublicId = null)
     {
-        return $this->itemStoreService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
+        return $this->itemWarehouseService->getDatatable(Auth::user()->account_id, Input::get('sSearch'));
     }
 
     public function getDatatableProduct($productPublicId = null)
     {
-        return $this->itemStoreService->getDatatableProduct($productPublicId);
+        return $this->itemWarehouseService->getDatatableProduct($productPublicId);
     }
 
-    public function getDatatableStore($warehousePublicId = null)
+    public function getDatatableWarehouse($warehousePublicId = null)
     {
-        return $this->itemStoreService->getDatatableStore($warehousePublicId);
+        return $this->itemWarehouseService->getDatatableWarehouse($warehousePublicId);
     }
 
     public function create(ItemStoreRequest $request)
@@ -80,7 +80,7 @@ class ItemStoreController extends BaseController
             $product = null;
         }
         if ($request->warehouse_id != 0) {
-            $store = Store::scope($request->warehouse_id)->firstOrFail();
+            $store = Warehouse::scope($request->warehouse_id)->firstOrFail();
         } else {
             $store = null;
         }
@@ -88,7 +88,7 @@ class ItemStoreController extends BaseController
         $data = [
             'product' => $product,
             'store' => $store,
-            'itemStore' => null,
+            'itemWarehouse' => null,
             'method' => 'POST',
             'url' => 'item_stores',
             'title' => trans('texts.new_item_store'),
@@ -105,40 +105,40 @@ class ItemStoreController extends BaseController
     {
         $data = $request->input();
 
-        $itemStore = $this->itemStoreService->save($data);
+        $itemWarehouse = $this->itemWarehouseService->save($data);
 
-        return redirect()->to("item_stores/{$itemStore->public_id}/edit")->with('success', trans('texts.created_item_store'));
+        return redirect()->to("item_stores/{$itemWarehouse->public_id}/edit")->with('success', trans('texts.created_item_store'));
     }
 
     public function edit(ItemStoreRequest $request, $publicId = false, $clone = false)
     {
         $this->authorize('edit', ENTITY_ITEM_STORE);
-        $itemStore = ItemStore::scope($publicId)->withTrashed()->firstOrFail();
+        $itemWarehouse = ItemStore::scope($publicId)->withTrashed()->firstOrFail();
 
         if ($clone) {
-            $itemStore->id = null;
-            $itemStore->public_id = null;
-            $itemStore->deleted_at = null;
+            $itemWarehouse->id = null;
+            $itemWarehouse->public_id = null;
+            $itemWarehouse->deleted_at = null;
             $method = 'POST';
             $url = 'item_stores';
         } else {
             $method = 'PUT';
-            $url = 'item_stores/' . $itemStore->public_id;
+            $url = 'item_stores/' . $itemWarehouse->public_id;
         }
 
         $data = [
             'product' => null,
             'store' => null,
-            'itemStore' => $itemStore,
-            'entity' => $itemStore,
+            'itemWarehouse' => $itemWarehouse,
+            'entity' => $itemWarehouse,
             'method' => $method,
             'url' => $url,
             'title' => trans('texts.edit_item_store'),
-            'productPublicId' => $itemStore->product ? $itemStore->product->public_id : null,
-            'storePublicId' => $itemStore->store ? $itemStore->store->public_id : null,
+            'productPublicId' => $itemWarehouse->product ? $itemWarehouse->product->public_id : null,
+            'storePublicId' => $itemWarehouse->store ? $itemWarehouse->store->public_id : null,
         ];
 
-        $data = array_merge($data, self::getViewModel($itemStore));
+        $data = array_merge($data, self::getViewModel($itemWarehouse));
 
         return View::make('item_stores.edit', $data);
     }
@@ -147,7 +147,7 @@ class ItemStoreController extends BaseController
     {
         $data = $request->input();
 
-        $itemStore = $this->itemStoreService->save($data, $request->entity());
+        $itemWarehouse = $this->itemWarehouseService->save($data, $request->entity());
 
         $action = Input::get('action');
         if (in_array($action, ['archive', 'delete', 'restore', 'invoice', 'add_to_invoice'])) {
@@ -155,9 +155,9 @@ class ItemStoreController extends BaseController
         }
 
         if ($action == 'clone') {
-            return redirect()->to(sprintf('item_stores/%s/clone', $itemStore->public_id))->with('success', trans('texts.clone_item_store'));
+            return redirect()->to(sprintf('item_stores/%s/clone', $itemWarehouse->public_id))->with('success', trans('texts.clone_item_store'));
         } else {
-            return redirect()->to("item_stores/{$itemStore->public_id}/edit")->with('success', trans('texts.updated_item_store'));
+            return redirect()->to("item_stores/{$itemWarehouse->public_id}/edit")->with('success', trans('texts.updated_item_store'));
         }
     }
 
@@ -171,20 +171,20 @@ class ItemStoreController extends BaseController
         $action = Input::get('action');
         $ids = Input::get('public_id') ? Input::get('public_id') : Input::get('ids');
 
-        $count = $this->itemStoreService->bulk($ids, $action);
+        $count = $this->itemWarehouseService->bulk($ids, $action);
 
         $message = Utils::pluralize($action . 'd_item_store', $count);
 
         return $this->returnBulk(ENTITY_ITEM_STORE, $action, $ids)->with('message', $message);
     }
 
-    private static function getViewModel($itemStore = false)
+    private static function getViewModel($itemWarehouse = false)
     {
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
             'products' => Product::scope()->withActiveOrSelected(false)->products()->orderBy('product_key')->get(),
-            'warehouses' => Store::scope()->withActiveOrSelected($itemStore ? $itemStore->warehouse_id : false)->orderBy('name')->get(),
+            'warehouses' => Warehouse::scope()->withActiveOrSelected($itemWarehouse ? $itemWarehouse->warehouse_id : false)->orderBy('name')->get(),
         ];
     }
 

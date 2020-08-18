@@ -1,17 +1,17 @@
 <?php namespace App\Listeners\Sale;
 
-use App\Ninja\Mailers\UserMailer;
-use App\Ninja\Mailers\ContactMailer;
-use App\Events\Sale\InvoiceWasEmailedEvent;
-use App\Events\Sale\QuoteWasEmailedEvent;
 use App\Events\Sale\InvoiceInvitationWasViewedEvent;
-use App\Events\Sale\QuoteInvitationWasViewedEvent;
-use App\Events\Sale\QuoteInvitationWasApprovedEvent;
+use App\Events\Sale\InvoiceWasEmailedEvent;
 use App\Events\Sale\PaymentWasCreatedEvent;
-use App\Services\PushService;
+use App\Events\Sale\QuoteInvitationWasApprovedEvent;
+use App\Events\Sale\QuoteInvitationWasViewedEvent;
+use App\Events\Sale\QuoteWasEmailedEvent;
 use App\Jobs\SendNotificationEmail;
 use App\Jobs\SendPaymentEmail;
+use App\Ninja\Mailers\ContactMailer;
+use App\Ninja\Mailers\UserMailer;
 use App\Notifications\Sale\NotifyInvoicePaymentCreated;
+use App\Services\PushService;
 
 /**
  * Class SendInvoiceNotification
@@ -47,15 +47,9 @@ class SendInvoiceNotification
         $this->pushService = $pushService;
     }
 
-    /**
-     * @param $invoice
-     * @param $type
-     * @param null $payment
-     */
     private function sendNotifications($invoice, $type, $payment = null, $notes = false)
     {
-        foreach ($invoice->account->users as $user)
-        {
+        foreach ($invoice->account->users as $user) {
             if ($user->{"notify_{$type}"}) {
                 dispatch(new SendNotificationEmail($user, $invoice, $type, $payment, $notes));
             }
@@ -89,7 +83,7 @@ class SendInvoiceNotification
      */
     public function viewedInvoice(InvoiceInvitationWasViewedEvent $event)
     {
-        if ( ! floatval($event->invoice->balance)) {
+        if (!floatval($event->invoice->balance)) {
             return;
         }
 
@@ -125,7 +119,7 @@ class SendInvoiceNotification
     public function createdPayment(PaymentWasCreatedEvent $event)
     {
         // only send emails for online payments
-        if ( ! $event->payment->account_gateway_id) {
+        if (!$event->payment->account_gateway_id) {
             return;
         }
 

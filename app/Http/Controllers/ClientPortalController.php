@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\ClientWasUpdatedEvent;
-use App\Events\InvoiceInvitationWasViewedEvent;
-use App\Events\QuoteInvitationWasViewedEvent;
+use App\Events\Client\ClientWasUpdatedEvent;
+use App\Events\Sale\InvoiceInvitationWasViewedEvent;
+use App\Events\Sale\QuoteInvitationWasViewedEvent;
 use App\Jobs\Client\GenerateStatementData;
 use App\Libraries\Utils;
 use App\Models\Contact;

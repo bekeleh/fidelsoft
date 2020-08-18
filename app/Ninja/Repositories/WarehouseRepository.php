@@ -2,8 +2,8 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Events\WarehouseWasCreatedEvent;
-use App\Events\WarehouseWasUpdatedEvent;
+use App\Events\Setting\WarehouseWasCreatedEvent;
+use App\Events\Setting\WarehouseWasUpdatedEvent;
 use App\Models\Location;
 use App\Models\Warehouse;
 use Illuminate\Support\Facades\Auth;

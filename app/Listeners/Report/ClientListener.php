@@ -2,11 +2,11 @@
 
 namespace App\Listeners\Report;
 
-use App\Events\ClientWasCreatedEvent;
-use App\Events\ClientWasDeletedEvent;
-use App\Events\ClientWasUpdatedEvent;
+use App\Events\Client\ClientWasCreatedEvent;
+use App\Events\Client\ClientWasDeletedEvent;
+use App\Events\Client\ClientWasUpdatedEvent;
 use App\Ninja\Transformers\ClientTransformer;
-use App\Listeners\Common\EntityListener;
+use App\Listeners\EntityListener;
 
 /**
  * Class ClientListener.

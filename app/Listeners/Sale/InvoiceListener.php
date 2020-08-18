@@ -2,24 +2,24 @@
 
 namespace App\Listeners\Sale;
 
-use App\Events\InvoiceInvitationWasViewedEvent;
-use App\Events\InvoiceWasCreatedEvent;
-use App\Events\InvoiceWasDeletedEvent;
-use App\Events\InvoiceWasEmailedEvent;
-use App\Events\InvoiceWasUpdatedEvent;
-use App\Events\PaymentFailedEvent;
-use App\Events\PaymentWasCreatedEvent;
-use App\Events\PaymentWasDeletedEvent;
-use App\Events\PaymentWasRefundedEvent;
-use App\Events\PaymentWasRestoredEvent;
-use App\Events\PaymentWasVoidedEvent;
+use App\Events\Sale\InvoiceInvitationWasViewedEvent;
+use App\Events\Sale\InvoiceWasCreatedEvent;
+use App\Events\Sale\InvoiceWasDeletedEvent;
+use App\Events\Sale\InvoiceWasEmailedEvent;
+use App\Events\Sale\InvoiceWasUpdatedEvent;
+use App\Events\Sale\PaymentFailedEvent;
+use App\Events\Sale\PaymentWasCreatedEvent;
+use App\Events\Sale\PaymentWasDeletedEvent;
+use App\Events\Sale\PaymentWasRefundedEvent;
+use App\Events\Sale\PaymentWasRestoredEvent;
+use App\Events\Sale\PaymentWasVoidedEvent;
 use App\Libraries\Utils;
 use App\Models\Activity;
 use App\Models\Common\Subscription;
 use App\Models\User;
 use App\Notifications\Sale\NotifyInvoiceCreated;
-use App\Notifications\Sale\NotifyInvoiceUpdated;
 use App\Notifications\Sale\NotifyInvoiceDeleted;
+use App\Notifications\Sale\NotifyInvoiceUpdated;
 use Illuminate\Queue\Events\JobExceptionOccurred;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -30,9 +30,6 @@ use Illuminate\Support\Facades\Notification;
  */
 class InvoiceListener
 {
-    /**
-     * @param InvoiceWasCreatedEvent $event
-     */
     public function createdInvoice(InvoiceWasCreatedEvent $event)
     {
         $invoice = $event->invoice;

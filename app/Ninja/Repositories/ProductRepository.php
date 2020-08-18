@@ -2,8 +2,8 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Events\ProductWasCreatedEvent;
-use App\Events\ProductWasUpdatedEvent;
+use App\Events\Setting\ProductWasCreatedEvent;
+use App\Events\Setting\ProductWasUpdatedEvent;
 use App\Libraries\Utils;
 use App\Models\ItemBrand;
 use App\Models\Product;

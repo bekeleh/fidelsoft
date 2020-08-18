@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\EntityModel;
-use App\Events\UserSettingsChangedEvent;
+use App\Events\Auth\UserSettingsChangedEvent;
 use App\Events\UserSignedUpEvent;
 use App\Libraries\Utils;
 use App\Notifications\Auth\Reset;

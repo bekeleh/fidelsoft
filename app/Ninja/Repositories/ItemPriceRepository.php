@@ -2,8 +2,8 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Events\ItemPriceWasCreatedEvent;
-use App\Events\ItemPriceWasUpdatedEvent;
+use App\Events\Setting\ItemPriceWasCreatedEvent;
+use App\Events\Setting\ItemPriceWasUpdatedEvent;
 use App\Models\Setting\ClientType;
 use App\Models\ItemPrice;
 use App\Models\Product;

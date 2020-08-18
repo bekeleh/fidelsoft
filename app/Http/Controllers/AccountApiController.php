@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\UserSignedUpEvent;
+use App\Events\Auth\UserSignedUpEvent;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateAccountRequest;
 use App\Libraries\Utils;
@@ -11,6 +11,8 @@ use App\Ninja\OAuth\OAuth;
 use App\Ninja\Repositories\AccountRepository;
 use App\Ninja\Transformers\AccountTransformer;
 use App\Ninja\Transformers\UserAccountTransformer;
+use Crypt;
+use Google2FA;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
@@ -65,10 +67,10 @@ class AccountApiController extends BaseAPIController
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             // TODO remove token_name check once legacy apps are deactivated
             if ($user->google_2fa_secret && strpos($request->token_name, 'invoice-ninja-') !== false) {
-                $secret = \Crypt::decrypt($user->google_2fa_secret);
+                $secret = Crypt::decrypt($user->google_2fa_secret);
                 if (!$request->one_time_password) {
                     return $this->errorResponse(['message' => 'OTP_REQUIRED'], 401);
-                } elseif (!\Google2FA::verifyKey($secret, $request->one_time_password)) {
+                } elseif (!Google2FA::verifyKey($secret, $request->one_time_password)) {
                     return $this->errorResponse(['message' => 'Invalid one time password'], 401);
                 }
             }

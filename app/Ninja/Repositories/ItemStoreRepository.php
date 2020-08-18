@@ -2,13 +2,14 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Events\ItemStoreWasCreatedEvent;
-use App\Events\ItemStoreWasUpdatedEvent;
+use App\Events\Setting\ItemStoreWasCreatedEvent;
+use App\Events\Setting\ItemStoreWasUpdatedEvent;
 use App\Models\ItemMovement;
 use App\Models\ItemStore;
 use App\Models\Product;
 use App\Models\Store;
 use App\Libraries\Utils;
+use App\Models\Warehouse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Log;

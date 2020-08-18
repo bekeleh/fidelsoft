@@ -73,13 +73,13 @@ class ItemRequestService extends BaseService
         return $this->datatableService->createDatatable($datatable, $query);
     }
 
-    public function getDatatableStore($warehousePublicId)
+    public function getDatatableWarehouse($warehousePublicId)
     {
         $datatable = new WarehouseDatatable(true, true);
 
-        $query = $this->itemRequestRepo->findStore($warehousePublicId);
+        $query = $this->itemRequestRepo->findWarehouse($warehousePublicId);
 
-        if (!Utils::hasPermission('view_store')) {
+        if (!Utils::hasPermission('view_warehouse')) {
             $query->where('warehouses.user_id', '=', Auth::user()->id);
         }
 

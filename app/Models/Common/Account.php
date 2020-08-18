@@ -3,7 +3,7 @@
 namespace App\Models\Common;
 
 use App;
-use App\Events\UserSettingsChangedEvent;
+use App\Events\Auth\UserSettingsChangedEvent;
 use App\Libraries\Utils;
 use App\Models\Traits\GenerateClientNumbers;
 use App\Models\Traits\GenerateVendorNumbers;

@@ -2,8 +2,8 @@
 
 namespace App\Ninja\Repositories;
 
-use App\Events\ClientTypeWasCreatedEvent;
-use App\Events\ClientTypeWasUpdatedEvent;
+use App\Events\Client\ClientTypeWasCreatedEvent;
+use App\Events\Client\ClientTypeWasUpdatedEvent;
 use App\Models\Setting\ClientType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
