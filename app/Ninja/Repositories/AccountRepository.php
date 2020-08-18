@@ -288,7 +288,6 @@ class AccountRepository
     private function getNavigationSearchData()
     {
         $entityTypes = [
-            ENTITY_STATUS,
             ENTITY_INVOICE,
             ENTITY_BILL,
             ENTITY_INVOICE_ITEM,
@@ -325,6 +324,7 @@ class AccountRepository
             ENTITY_SCHEDULE,
             ENTITY_SCHEDULED_REPORT,
             ENTITY_SUBSCRIPTION,
+            ENTITY_UNIT,
 
         ];
 
