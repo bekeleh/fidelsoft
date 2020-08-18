@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Events\UserLoggedInEvent;
+use App\Events\Auth\UserLoggedInEvent;
 use App\Ninja\Repositories\AccountRepository;
 use App\Models\LookupUser;
 use Illuminate\Support\Facades\Auth;
@@ -52,7 +52,7 @@ class AuthService
             $user = Auth::user();
             $isRegistered = $user->registered;
             $result = $this->accountRepo
-            ->updateUserFromOauth($user, $name[0], $name[1], $email, $providerId, $oauthUserId);
+                ->updateUserFromOauth($user, $name[0], $name[1], $email, $providerId, $oauthUserId);
 
             if ($result === true) {
                 if (!$isRegistered) {

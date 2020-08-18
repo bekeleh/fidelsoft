@@ -62,8 +62,8 @@ class SendBillNotification
      */
     public function emailedInvoice(BillWasEmailedEvent $event)
     {
-        $this->sendNotifications($event->invoice, 'sent', null, $event->notes);
-        $this->pushService->sendNotification($event->invoice, 'sent');
+        $this->sendNotifications($event->bill, 'sent', null, $event->notes);
+        $this->pushService->sendNotification($event->bill, 'sent');
     }
 
     /**
@@ -80,12 +80,12 @@ class SendBillNotification
      */
     public function viewedInvoice(BillInvitationWasViewedEvent $event)
     {
-        if (!floatval($event->invoice->balance)) {
+        if (!floatval($event->bill->balance)) {
             return;
         }
 
-        $this->sendNotifications($event->invoice, 'viewed');
-        $this->pushService->sendNotification($event->invoice, 'viewed');
+        $this->sendNotifications($event->bill, 'viewed');
+        $this->pushService->sendNotification($event->bill, 'viewed');
     }
 
     /**
@@ -93,7 +93,7 @@ class SendBillNotification
      */
     public function viewedQuote(BillQuoteInvitationWasViewedEvent $event)
     {
-        if ($event->quote->quote_invoice_id) {
+        if ($event->quote->quote_bill_id) {
             return;
         }
 
@@ -121,9 +121,9 @@ class SendBillNotification
         }
 
         dispatch(new SendBillPaymentEmail($event->payment));
-        $this->sendNotifications($event->payment->invoice, 'paid', $event->payment);
+        $this->sendNotifications($event->payment->bill, 'paid', $event->payment);
 
-        $this->pushService->sendNotification($event->payment->invoice, 'paid');
+        $this->pushService->sendNotification($event->payment->bill, 'paid');
     }
 
 }

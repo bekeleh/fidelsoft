@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications\Sale;
+namespace App\Notifications\Purchase;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;

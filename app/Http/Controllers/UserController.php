@@ -172,7 +172,7 @@ class UserController extends BaseController
     {
         $data = $request->input();
         $user = $request->entity();
-        
+
         $user = $this->userService->save($data, $user);
 
         $action = Input::get('action');
@@ -241,8 +241,8 @@ class UserController extends BaseController
 
     public function sendConfirmation($userPublicId)
     {
-        $user = User::where('account_id', '=', Auth::user()->account_id)
-        ->where('public_id', '=', $userPublicId)->firstOrFail();
+        $user = User::where('account_id', Auth::user()->account_id)
+            ->where('public_id', $userPublicId)->firstOrFail();
 
         $this->userMailer->sendConfirmation($user, Auth::user());
 
@@ -253,8 +253,7 @@ class UserController extends BaseController
 
     public function confirm($code)
     {
-        $user = User::where('confirmation_code', '=', $code)->get()->first();
-
+        $user = User::where('confirmation_code', $code)->get()->first();
         if ($user) {
             $notice_msg = trans('texts.security_confirmation');
             $user->confirmed = true;
@@ -445,18 +444,20 @@ class UserController extends BaseController
             'groups' => PermissionGroup::scope()->withActiveOrSelected(false)->orderBy('name')->pluck('name', 'id'),
         ];
     }
-    public function notifications($id) {
+
+    public function notifications($id)
+    {
 
         if (!isset(Auth::user()->id))
             abort(401, "Unauthorized");
 
-        if(Auth::user()->id == $id) {
+        if (Auth::user()->id == $id) {
             $user = User::findOrFail($id);
-            return view('user.notifications')->with('user',$user)->with('user',$user)->with('page_title', $user->name . 'Notifications');
+            return view('user.notifications')->with('user', $user)->with('user', $user)->with('page_title', $user->name . 'Notifications');
         } else {
             abort(401, "Unauthorized");
         }
-        
+
     }
 
 }

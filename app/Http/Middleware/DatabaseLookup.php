@@ -70,7 +70,7 @@ class DatabaseLookup
         } elseif ($guard == 'license') {
             config(['database.default' => DB_NINJA_1]);
         }
-        
+
 
         return $next($request);
     }

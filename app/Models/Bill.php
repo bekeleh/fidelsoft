@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use App\Models\EntityModel;
-use App\Events\BillInvitationWasEmailedEvent;
-use App\Events\BillWasCreatedEvent;
-use App\Events\BillWasUpdatedEvent;
-use App\Events\BillQuoteInvitationWasEmailedEvent;
-use App\Events\BillQuoteWasCreatedEvent;
-use App\Events\BillQuoteWasUpdatedEvent;
+use App\Events\Purchase\BillInvitationWasEmailedEvent;
+use App\Events\Purchase\BillQuoteInvitationWasEmailedEvent;
+use App\Events\Purchase\BillQuoteWasCreatedEvent;
+use App\Events\Purchase\BillQuoteWasUpdatedEvent;
+use App\Events\Purchase\BillWasCreatedEvent;
+use App\Events\Purchase\BillWasUpdatedEvent;
 use App\Libraries\CurlUtils;
 use App\Libraries\Utils;
 use App\Models\Traits\ChargesFees;

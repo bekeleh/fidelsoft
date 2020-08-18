@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Events\UserLoggedInEvent;
+use App\Events\Auth\UserLoggedInEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ValidateTwoFactorRequest;
 use App\Libraries\Utils;

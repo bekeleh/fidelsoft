@@ -441,7 +441,7 @@ Route::group(['middleware' => ['lookup:user', 'auth:user', 'banned:user']], func
 //   user notification
     Route::get('/profiles/{user}/notifications', 'UserNotificationController@index');
     Route::delete('/profiles/{user}/notifications/{notification}', 'UserNotificationController@destroy');
-    
+
 // BlueVine
     Route::post('bluevine/signup', 'BlueVineController@signup');
     Route::get('bluevine/hide_message', 'BlueVineController@hideMessage');
