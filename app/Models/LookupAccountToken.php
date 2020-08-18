@@ -28,9 +28,8 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class LookupAccountToken extends LookupModel
 {
-    /**
-     * @var array
-     */
+
+    protected $table = 'lookup_account_tokens';
     protected $fillable = [
         'lookup_account_id',
         'token',

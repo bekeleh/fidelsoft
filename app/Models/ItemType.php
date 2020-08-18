@@ -38,6 +38,8 @@ use Illuminate\Support\Str;
 class ItemType extends Eloquent
 {
 
+    protected $table = 'item_types';
+
     public function getName()
     {
         return $this->name;

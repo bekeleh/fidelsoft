@@ -5,6 +5,7 @@ namespace App\Ninja\Repositories;
 use App\Events\Client\ClientWasCreatedEvent;
 use App\Events\Client\ClientWasUpdatedEvent;
 use App\Jobs\PurgeClientData;
+use App\Libraries\Utils;
 use App\Models\Client;
 use App\Models\Contact;
 use App\Models\HoldReason;
@@ -108,11 +109,17 @@ class ClientRepository extends BaseRepository
                     ->orWhere('contacts.phone', 'like', '%' . $filter . '%')
                     ->orWhere('client_types.name', 'like', '%' . $filter . '%')
                     ->orWhere('sale_types.name', 'like', '%' . $filter . '%')
-                    ->orWhere('hold_reasons.name', 'like', '%' . $filter . '%');
+                    ->orWhere('hold_reasons.name', 'like', '%' . $filter . '%')
+                    ->orWhere('clients.created_by', 'like', '%' . $filter . '%');
             });
         }
 
         $this->applyFilters($query, ENTITY_CLIENT);
+
+        if (!Utils::hasPermission('view_client')) {
+            $query->where('clients.user_id', auth::user()->id);
+        }
+
 
         return $query;
     }

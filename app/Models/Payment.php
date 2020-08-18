@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\EntityModel;
-use App\Events\PaymentCompletedEvent;
-use App\Events\PaymentFailedEvent;
-use App\Events\PaymentWasCreatedEvent;
-use App\Events\PaymentWasRefundedEvent;
-use App\Events\PaymentWasVoidedEvent;
+use App\Events\Sale\PaymentCompletedEvent;
+use App\Events\Sale\PaymentFailedEvent;
+use App\Events\Sale\PaymentWasCreatedEvent;
+use App\Events\Sale\PaymentWasRefundedEvent;
+use App\Events\Sale\PaymentWasVoidedEvent;
 use Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder;
@@ -119,6 +118,8 @@ class Payment extends EntityModel
 {
     use PresentableTrait;
     use SoftDeletes;
+
+    protected $table = 'payments';
 
     protected $fillable = [
         'transaction_reference',

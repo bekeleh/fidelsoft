@@ -23,9 +23,7 @@ use App\Libraries\Utils;
  */
 class GatewayType extends Eloquent
 {
-    /**
-     * @var bool
-     */
+    protected $table = 'gateway_types';
     public $timestamps = false;
 
     /**

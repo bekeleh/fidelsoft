@@ -44,8 +44,7 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
  */
 class Font extends Eloquent
 {
-    /**
-     * @var bool
-     */
+    protected $table = 'fonts';
+
     public $timestamps = false;
 }

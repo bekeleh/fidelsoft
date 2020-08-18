@@ -11,9 +11,8 @@ use Illuminate\Support\Str;
  */
 class TaxCategory extends Eloquent
 {
-    /**
-     * @var bool
-     */
+
+    protected $table = 'tax_categories';
     public $timestamps = true;
     /**
      * @var bool

@@ -17,9 +17,7 @@ use Illuminate\Support\Facades\Cache;
  */
 class LookupModel extends Eloquent
 {
-    /**
-     * @var bool
-     */
+    protected $table = 'lookup_models';
     public $timestamps = false;
 
     public function lookupAccount()

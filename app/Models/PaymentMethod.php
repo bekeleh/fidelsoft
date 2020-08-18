@@ -14,7 +14,7 @@ class PaymentMethod extends EntityModel
 {
     use SoftDeletes;
 
-
+    protected $table = 'payment_methods';
     public $timestamps = true;
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];

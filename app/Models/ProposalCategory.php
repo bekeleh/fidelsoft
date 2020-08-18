@@ -53,7 +53,7 @@ class ProposalCategory extends EntityModel
     use SoftDeletes;
     use PresentableTrait;
 
-
+    protected $table = 'proposal_categories';
     protected $dates = ['deleted_at'];
 
 

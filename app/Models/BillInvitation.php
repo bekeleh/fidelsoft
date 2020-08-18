@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\EntityModel;
 use App\Libraries\Utils;
 use App\Models\Traits\Inviteable;
 use Eloquent;
@@ -75,7 +74,8 @@ class BillInvitation extends EntityModel
     use SoftDeletes;
     use Inviteable;
 
-    protected $dates = ['deleted_at', 'updated_at'];
+    protected $table = 'bill_invitations';
+    protected $dates = ['deleted_at', 'updated_at', 'deleted_at'];
     protected $hidden = ['deleted_at'];
 
     public function getEntityType()

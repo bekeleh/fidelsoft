@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\EntityModel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Support\Str;
@@ -43,6 +42,8 @@ use Illuminate\Support\Str;
  */
 class BillStatus extends Eloquent
 {
+
+    protected $table = 'bill_statuses';
     public $timestamps = false;
 
     public static function getIdFromAlias($status)

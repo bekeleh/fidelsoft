@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use App\Models\EntityModel;
-use App\Events\InvoiceInvitationWasEmailedEvent;
-use App\Events\InvoiceWasCreatedEvent;
-use App\Events\InvoiceWasUpdatedEvent;
-use App\Events\QuoteInvitationWasEmailedEvent;
-use App\Events\QuoteWasCreatedEvent;
-use App\Events\QuoteWasUpdatedEvent;
+use App\Events\Sale\InvoiceInvitationWasEmailedEvent;
+use App\Events\Sale\InvoiceWasCreatedEvent;
+use App\Events\Sale\InvoiceWasUpdatedEvent;
+use App\Events\Sale\QuoteInvitationWasEmailedEvent;
+use App\Events\Sale\QuoteWasCreatedEvent;
+use App\Events\Sale\QuoteWasUpdatedEvent;
 use App\Libraries\CurlUtils;
 use App\Libraries\Utils;
 use App\Models\Traits\ChargesFees;
@@ -186,7 +185,7 @@ class Invoice extends EntityModel implements BalanceAffecting
     protected $presenter = 'App\Ninja\Presenters\InvoicePresenter';
 
     protected $table = 'invoices';
-    protected $dates = ['created_at', 'updated_at'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
     protected $hidden = ['deleted_at'];
 
 

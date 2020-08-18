@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\EntityModel;
 use Eloquent;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Crypt;
 
 /**
  * Class BankAccount.
@@ -61,9 +60,7 @@ class BankAccount extends EntityModel
 {
     use SoftDeletes;
 
-    /**
-     * @var array
-     */
+    protected $table = 'bank_accounts';
     protected $dates = ['deleted_at'];
 
     /**

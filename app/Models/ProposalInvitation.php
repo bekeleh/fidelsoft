@@ -68,7 +68,7 @@ class ProposalInvitation extends EntityModel
     use SoftDeletes;
     use Inviteable;
 
-
+    protected $table = 'proposal_invitations';
     protected $dates = ['deleted_at'];
 
 

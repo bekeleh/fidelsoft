@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Models\EntityModel;
-use App\Events\ExpenseWasCreatedEvent;
-use App\Events\ExpenseWasUpdatedEvent;
+use App\Events\Expense\ExpenseWasCreatedEvent;
+use App\Events\Expense\ExpenseWasUpdatedEvent;
 use App\Libraries\Utils;
 use Eloquent;
 use Illuminate\Database\Eloquent\Collection;
@@ -115,11 +115,12 @@ use Laracasts\Presenter\PresentableTrait;
  */
 class Expense extends EntityModel
 {
-    // Expenses
     use SoftDeletes;
     use PresentableTrait;
 
     protected $presenter = 'App\Ninja\Presenters\ExpensePresenter';
+
+    protected $table = 'expenses';
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $fillable = [

@@ -60,9 +60,8 @@ class Manufacturer extends EntityModel
     use PresentableTrait;
     use SoftDeletes;
 
-
     protected $presenter = 'App\Ninja\Presenters\ManufacturerPresenter';
-
+    protected $table = 'manufacturers';
 
     protected $fillable = [
         'name',
@@ -71,8 +70,6 @@ class Manufacturer extends EntityModel
         'updated_by',
         'deleted_by',
     ];
-
-    protected $table = 'manufacturers';
 
     public function getEntityType()
     {

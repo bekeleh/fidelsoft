@@ -28,6 +28,7 @@ use Illuminate\Support\Str;
 class Plan extends Eloquent
 {
 
+    protected $table = 'plans';
     public $timestamps = true;
 
     protected $softDelete = true;

@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
  */
 class PaymentType extends Eloquent
 {
-
+    protected $table = 'payment_types';
     public $timestamps = false;
 
     public function gatewayType()

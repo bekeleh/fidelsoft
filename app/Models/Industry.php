@@ -33,6 +33,7 @@ use Illuminate\Support\Str;
 class Industry extends Eloquent
 {
 
+    protected $table = 'industries';
     public $timestamps = false;
 
     public function getName()

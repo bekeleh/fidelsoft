@@ -5,12 +5,18 @@ namespace App\Models\Common;
 use App;
 use App\Events\Auth\UserSettingsChangedEvent;
 use App\Libraries\Utils;
+use App\Models\Bill;
+use App\Models\Client;
+use App\Models\Invitation;
+use App\Models\Invoice;
+use App\Models\LookupAccount;
 use App\Models\Traits\GenerateClientNumbers;
 use App\Models\Traits\GenerateVendorNumbers;
 use App\Models\Traits\HasCustomMessages;
 use App\Models\Traits\HasLogo;
 use App\Models\Traits\PresentsInvoice;
 use App\Models\Traits\SendsEmails;
+use App\Models\Vendor;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -1247,7 +1253,6 @@ class Account extends Eloquent
             $this->load('account_gateways');
         }
 
-        /** @var AccountGateway $accountGateway */
         foreach ($this->account_gateways as $accountGateway) {
             if (!$type) {
                 return $accountGateway;
@@ -1298,10 +1303,8 @@ class Account extends Eloquent
         return $gatewayIds;
     }
 
-
     public function paymentDriver($invitation = false, $gatewayTypeId = false)
     {
-        /** @var AccountGateway $accountGateway */
         if ($accountGateway = $this->getGatewayByType($gatewayTypeId)) {
             return $accountGateway->paymentDriver($invitation, $gatewayTypeId);
         }

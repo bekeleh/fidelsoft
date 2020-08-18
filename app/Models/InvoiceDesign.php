@@ -26,9 +26,8 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
  */
 class InvoiceDesign extends Eloquent
 {
-    /**
-     * @var bool
-     */
+
+    protected $table = 'invoice_designs';
     public $timestamps = false;
 
     public static $pageSizes = [

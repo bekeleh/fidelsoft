@@ -16,10 +16,8 @@ class Unit extends EntityModel
 
     protected $presenter = 'App\Ninja\Presenters\UnitPresenter';
 
+    protected $table = 'units';
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
-    protected $hidden = [];
-    protected $casts = [];
-    protected $appends = [];
 
     protected $fillable = [
         'name',

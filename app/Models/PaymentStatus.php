@@ -37,8 +37,6 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class PaymentStatus extends Eloquent
 {
-    /**
-     * @var bool
-     */
+    protected $table = 'payment_statuses';
     public $timestamps = false;
 }

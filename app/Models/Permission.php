@@ -24,11 +24,11 @@ use Laracasts\Presenter\PresentableTrait;
  */
 class Permission extends EntityModel
 {
-    protected $presenter = 'App\Ninja\Presenters\PermissionPresenter';
     use PresentableTrait;
     use SoftDeletes;
 
-    protected $appends = [];
+    protected $presenter = 'App\Ninja\Presenters\PermissionPresenter';
+    protected $table = 'permissions';
 
 
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];

@@ -69,13 +69,10 @@ use Laracasts\Presenter\PresentableTrait;
  */
 class Project extends EntityModel
 {
-    // Expense Categories
     use SoftDeletes;
     use PresentableTrait;
 
-    /**
-     * @var array
-     */
+    protected $table = 'projects';
     protected $dates = ['deleted_at'];
 
     /**

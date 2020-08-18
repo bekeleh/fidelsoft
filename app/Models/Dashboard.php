@@ -26,9 +26,10 @@ use Laracasts\Presenter\PresentableTrait;
  */
 class Dashboard extends EntityModel
 {
-    protected $presenter = 'App\Ninja\Presenters\DashboardPresenter';
     use PresentableTrait;
     use SoftDeletes;
+
+    protected $presenter = 'App\Ninja\Presenters\DashboardPresenter';
 
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
 

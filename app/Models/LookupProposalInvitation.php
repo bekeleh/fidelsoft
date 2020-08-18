@@ -30,9 +30,7 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class LookupProposalInvitation extends LookupModel
 {
-    /**
-     * @var array
-     */
+    protected $table = 'lookup_proposal_invitations';
     protected $fillable = [
         'lookup_account_id',
         'invitation_key',

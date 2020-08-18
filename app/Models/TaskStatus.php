@@ -12,6 +12,7 @@ class TaskStatus extends EntityModel
 {
     use SoftDeletes;
 
+    protected $table = 'task_statuses';
     public $timestamps = true;
     protected $dates = ['deleted_at'];
 

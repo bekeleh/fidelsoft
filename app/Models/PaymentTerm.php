@@ -44,7 +44,7 @@ class PaymentTerm extends EntityModel
 {
     use SoftDeletes;
 
-
+    protected $table = 'payment_terms';
     public $timestamps = true;
 
     protected $dates = ['deleted_at'];

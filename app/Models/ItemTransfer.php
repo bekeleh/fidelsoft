@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
-use App\Events\ItemTransferWasCreatedEvent;
-use App\Events\ItemTransferWasUpdatedEvent;
+use App\Events\Setting\ItemTransferWasCreatedEvent;
+use App\Events\Setting\ItemTransferWasUpdatedEvent;
 
 /**
  * Model Class ItemTransferPresenter.
@@ -81,6 +81,7 @@ class ItemTransfer extends EntityModel
 
     protected $presenter = 'App\Ninja\Presenters\ItemTransferPresenter';
 
+    protected $table = 'item_transfers';
     protected $dates = ['approved_date', 'created_at', 'deleted_at'];
 
     protected $casts = [];

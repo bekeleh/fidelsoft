@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\EntityModel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Support\Carbon;
@@ -41,9 +40,7 @@ use Illuminate\Support\Carbon;
  */
 class Affiliate extends Eloquent
 {
-    /**
-     * @var bool
-     */
+    protected $table = 'affiliates';
     public $timestamps = true;
     /**
      * @var bool

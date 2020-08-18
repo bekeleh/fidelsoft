@@ -29,9 +29,7 @@ use Illuminate\Support\Str;
  */
 class Frequency extends Eloquent
 {
-    /**
-     * @var bool
-     */
+    protected $table = 'frequencies';
     public $timestamps = false;
 
     /**

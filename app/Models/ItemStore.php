@@ -78,6 +78,7 @@ class ItemStore extends EntityModel
 
     protected $presenter = 'App\Ninja\Presenters\ItemStorePresenter';
 
+    protected $table = 'item_stores';
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
     protected $appends = [];
     protected $hidden = [];

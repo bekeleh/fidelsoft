@@ -16,6 +16,7 @@ class TaxRate extends EntityModel
 
     protected $presenter = 'App\Ninja\Presenters\TaxRatePresenter';
 
+    protected $table = 'tax_rates';
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
 

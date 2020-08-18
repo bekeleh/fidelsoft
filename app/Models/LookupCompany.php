@@ -29,9 +29,7 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class LookupCompany extends LookupModel
 {
-    /**
-     * @var array
-     */
+    protected $table = 'lookup_companies';
     protected $fillable = [
         'db_server_id',
         'company_id',

@@ -35,7 +35,8 @@ class Bill extends EntityModel implements BalanceAffecting
 
     protected $presenter = 'App\Ninja\Presenters\BillPresenter';
 
-    protected $dates = ['created_at', 'updated_at'];
+    protected $table = 'bills';
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
     protected $hidden = ['deleted_at'];
 
 

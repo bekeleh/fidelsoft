@@ -37,6 +37,7 @@ use App\Services\AuthService;
 use App\Services\PaymentService;
 use App\Services\TemplateService;
 use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Input;
@@ -1143,9 +1144,11 @@ class AccountController extends BaseController
         return Redirect::to('settings/' . ACCOUNT_COMPANY_DETAILS);
     }
 
+    /**
+     * @return RedirectResponse
+     */
     public function saveUserDetails()
     {
-//      update user detail
         $user = Auth::user();
 
         $email = trim(strtolower(Input::get('email')));

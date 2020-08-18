@@ -59,6 +59,7 @@ class ProposalTemplate extends EntityModel
     use SoftDeletes;
     use PresentableTrait;
 
+    protected $table = 'proposal_templates';
     protected $dates = ['deleted_at'];
 
     protected $fillable = [

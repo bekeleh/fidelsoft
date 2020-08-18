@@ -61,7 +61,7 @@ class ScheduledReport extends EntityModel
     use PresentableTrait;
 
     protected $presenter = 'App\Ninja\Presenters\ScheduledReportPresenter';
-
+    protected $table = 'scheduled_reports';
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $fillable = [

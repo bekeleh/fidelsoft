@@ -14,9 +14,6 @@ class VendorType extends EntityModel
     use PresentableTrait;
     use SoftDeletes;
 
-    /**
-     * @var string
-     */
     protected $presenter = 'App\Ninja\Presenters\VendorTypePresenter';
 
     protected $table = 'vendor_types';

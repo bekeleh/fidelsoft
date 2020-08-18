@@ -28,6 +28,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
     use Authenticatable, Authorizable, CanResetPassword;
 
     protected $presenter = 'App\Ninja\Presenters\UserPresenter';
+    protected $table = 'users';
 
     private $slack_webhook_url;
 

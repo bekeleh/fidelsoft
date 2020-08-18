@@ -59,9 +59,7 @@ use Symfony\Component\Translation\TranslatorInterface;
  */
 class Gateway extends Eloquent
 {
-    /**
-     * @var bool
-     */
+    protected $table = 'gateways';
     public $timestamps = true;
 
     protected $fillable = [

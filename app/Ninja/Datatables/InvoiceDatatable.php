@@ -31,10 +31,11 @@ class InvoiceDatatable extends EntityDatatable
             [
                 'client_name',
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_CLIENT]))
+                    if (Auth::user()->can('edit', [ENTITY_CLIENT])) {
                         return link_to("clients/{$model->client_public_id}", Utils::getClientDisplayName($model))->toHtml();
-                    else
+                    } else {
                         return Utils::getClientDisplayName($model);
+                    }
 
                 },
             ],
@@ -154,7 +155,7 @@ class InvoiceDatatable extends EntityDatatable
                     return URL::to("invoices/{$model->public_id}/edit");
                 },
                 function ($model) use ($entityType) {
-                    return $entityType == ENTITY_INVOICE && Auth::user()->can('edit', [ENTITY_INVOICE]);
+                    return $entityType == ENTITY_INVOICE && Auth::user()->can('edit', [ENTITY_INVOICE]) && $model->user_id === auth::user()->id;
                 },
             ],
             [
@@ -163,7 +164,7 @@ class InvoiceDatatable extends EntityDatatable
                     return URL::to("quotes/{$model->public_id}/edit");
                 },
                 function ($model) use ($entityType) {
-                    return $entityType == ENTITY_QUOTE && Auth::user()->can('edit', [ENTITY_QUOTE]);
+                    return $entityType == ENTITY_QUOTE && Auth::user()->can('edit', [ENTITY_QUOTE]) && $model->user_id === auth::user()->id;
                 },
             ],
             [

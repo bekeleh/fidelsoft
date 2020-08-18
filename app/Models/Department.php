@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\EntityModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
@@ -11,10 +10,11 @@ use Laracasts\Presenter\PresentableTrait;
  */
 class Department extends EntityModel
 {
-    protected $presenter = 'App\Ninja\Presenters\DepartmentPresenter';
     use PresentableTrait;
     use SoftDeletes;
+    protected $presenter = 'App\Ninja\Presenters\DepartmentPresenter';
 
+    protected $table = 'departments';
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
 
     protected $fillable = [

@@ -147,8 +147,8 @@ class AccountGatewayToken extends Eloquent
      */
     public function scopeClientAndGateway($query, $clientId, $accountGatewayId)
     {
-        $query->where('client_id', '=', $clientId)
-            ->where('account_gateway_id', '=', $accountGatewayId);
+        $query->where('client_id', $clientId)
+            ->where('account_gateway_id', $accountGatewayId);
 
         return $query;
     }

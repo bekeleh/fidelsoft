@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\EntityModel;
 use Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder;
@@ -53,6 +52,7 @@ class BankSubaccount extends EntityModel
 {
     use SoftDeletes;
 
+    protected $table = 'bank_subaccounts';
     protected $dates = ['deleted_at'];
 
 

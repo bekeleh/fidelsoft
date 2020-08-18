@@ -95,6 +95,7 @@ class Contact extends EntityModel implements AuthenticatableContract, CanResetPa
     use CanResetPassword;
     use Notifiable;
 
+    protected $table = 'contacts';
     protected $guard = 'client';
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 

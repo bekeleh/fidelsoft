@@ -52,12 +52,12 @@ use Laracasts\Presenter\PresentableTrait;
  */
 class ExpenseCategory extends EntityModel
 {
-    // Expense Categories
     use SoftDeletes;
     use PresentableTrait;
 
     protected $presenter = 'App\Ninja\Presenters\EntityPresenter';
 
+    protected $table = 'expense_categories';
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $fillable = [
@@ -91,7 +91,7 @@ class ExpenseCategory extends EntityModel
             $categories->push($category);
         }
 
-        foreach($categories as $category){
+        foreach ($categories as $category) {
             $name = Str::snake(str_replace(' ', '_', $category->name));
             $categories->name = trans('texts.expense_category_' . $name);
         }

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\EntityModel;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
@@ -103,6 +102,7 @@ class Activity extends EntityModel
 
     protected $presenter = 'App\Ninja\Presenters\ActivityPresenter';
 
+    protected $table = 'activities';
 
     public $timestamps = true;
 

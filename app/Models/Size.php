@@ -9,9 +9,7 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
  */
 class Size extends Eloquent
 {
-    /**
-     * @var bool
-     */
+    protected $table = 'sizes';
     public $timestamps = false;
 
     /**

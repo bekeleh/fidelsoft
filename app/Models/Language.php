@@ -33,9 +33,7 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
  */
 class Language extends Eloquent
 {
-    /**
-     * @var bool
-     */
+    protected $table = 'languages';
     public $timestamps = false;
 
     /**

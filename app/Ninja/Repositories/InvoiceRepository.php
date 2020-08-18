@@ -56,13 +56,6 @@ class InvoiceRepository extends BaseRepository
             ->withTrashed()->where('is_recurring', false)->get();
     }
 
-    /**
-     * @param bool $accountId
-     * @param bool $clientPublicId
-     * @param string $entityType
-     * @param bool $filter
-     * @return mixed|null
-     */
     public function getInvoices($accountId = false, $clientPublicId = false, $entityType = null, $filter = false)
     {
 
@@ -129,7 +122,8 @@ class InvoiceRepository extends BaseRepository
                     ->orWhere('contacts.email', 'like', '%' . $filter . '%')
                     ->orWhere('contacts.first_name', 'like', '%' . $filter . '%')
                     ->orWhere('contacts.last_name', 'like', '%' . $filter . '%')
-                    ->orWhere('branches.name', 'like', '%' . $filter . '%');
+                    ->orWhere('branches.name', 'like', '%' . $filter . '%')
+                    ->orWhere('invoices.created_by', 'like', '%' . $filter . '%');
             });
         }
 
@@ -165,17 +159,14 @@ class InvoiceRepository extends BaseRepository
         } else {
             $query->where('clients.deleted_at', null);
         }
+        
+        if (!Utils::hasPermission('view_invoice')) {
+            $query->where('invoices.user_id', auth::user()->id);
+        }
 
         return $query;
     }
 
-    /**
-     * @param bool $accountId
-     * @param bool $clientPublicId
-     * @param null $entityType
-     * @param bool $filter
-     * @return mixed
-     */
     public function getRecurringInvoices($accountId = false, $clientPublicId = false, $entityType = null, $filter = false)
     {
         $query = DB::table('invoices')
@@ -249,11 +240,6 @@ class InvoiceRepository extends BaseRepository
         return $query;
     }
 
-    /**
-     * @param $contactId
-     * @param null $filter
-     * @return mixed
-     */
     public function getClientRecurringDatatable($contactId, $filter = null)
     {
         $query = DB::table('invitations')
@@ -323,12 +309,6 @@ class InvoiceRepository extends BaseRepository
         return $table->make();
     }
 
-    /**
-     * @param $contactId
-     * @param $entityType
-     * @param $search
-     * @return mixed
-     */
     public function getClientDatatable($contactId, $entityType, $search)
     {
         $query = DB::table('invitations')
@@ -428,11 +408,6 @@ class InvoiceRepository extends BaseRepository
             })->make();
     }
 
-    /**
-     * @param array $data
-     * @param Invoice|null $invoice
-     * @return Invoice
-     */
     public function save(array $data, Invoice $invoice = null)
     {
         $account = $invoice ? $invoice->account : Auth::user()->account;
@@ -672,10 +647,6 @@ class InvoiceRepository extends BaseRepository
         return $invoice;
     }
 
-    /**
-     * @param $invoice
-     * @return null
-     */
     private function dispatchEvents($invoice)
     {
         if (empty($invoice)) {
@@ -696,11 +667,6 @@ class InvoiceRepository extends BaseRepository
         }
     }
 
-    /**
-     * @param Invoice $invoice
-     * @param null $quoteId
-     * @return mixed|null
-     */
     public function cloneInvoice(Invoice $invoice, $quoteId = null)
     {
         if (empty($invoice)) {
@@ -836,10 +802,6 @@ class InvoiceRepository extends BaseRepository
         return $clone;
     }
 
-    /**
-     * @param Invoice $invoice
-     * @return mixed|null
-     */
     public function emailInvoice(Invoice $invoice)
     {
         if (empty($invoice)) {
@@ -853,18 +815,12 @@ class InvoiceRepository extends BaseRepository
         }
     }
 
-    /**
-     * @param Invoice $invoice
-     */
+
     public function markSent(Invoice $invoice)
     {
         $invoice->markSent();
     }
 
-    /**
-     * @param Invoice $invoice
-     * @return mixed|void|null
-     */
     public function markPaid(Invoice $invoice)
     {
         if (!$invoice->canBePaid()) {
@@ -882,10 +838,6 @@ class InvoiceRepository extends BaseRepository
         return $this->paymentRepo->save($data);
     }
 
-    /**
-     * @param $invitationKey
-     * @return Invitation|mixed
-     */
     public function findInvoiceByInvitation($invitationKey)
     {
         if (empty($invitationKey)) {
@@ -919,11 +871,6 @@ class InvoiceRepository extends BaseRepository
         return $invitation;
     }
 
-    /**
-     * @param $account
-     * @param $productKey
-     * @return mixed
-     */
     public function getProductDetail($account, $productKey = null)
     {
         if (empty($account) || empty($productKey)) {
@@ -939,11 +886,6 @@ class InvoiceRepository extends BaseRepository
         return !empty($product) ? $product : null;
     }
 
-    /**
-     * @param $account
-     * @param null $product
-     * @return mixed
-     */
     public function getItemStore($account, $product = null)
     {
         if (empty($account) || empty($product)) {
@@ -963,10 +905,6 @@ class InvoiceRepository extends BaseRepository
         return !empty($itemStore) ? $itemStore : null;
     }
 
-    /**
-     * @param $clientId
-     * @return mixed
-     */
     public function findOpenInvoices($clientId)
     {
         if (empty($clientId)) {
@@ -984,10 +922,6 @@ class InvoiceRepository extends BaseRepository
             ->get();
     }
 
-    /**
-     * @param Invoice $recurInvoice
-     * @return mixed
-     */
     public function createRecurringInvoice(Invoice $recurInvoice)
     {
         if (empty($recurInvoice)) {
@@ -1085,11 +1019,6 @@ class InvoiceRepository extends BaseRepository
         return $invoice;
     }
 
-    /**
-     * @param Account $account
-     * @param bool $filterEnabled
-     * @return Collection
-     */
     public function findNeedingReminding(Account $account, $filterEnabled = true)
     {
         if (empty($account)) {
@@ -1126,10 +1055,6 @@ class InvoiceRepository extends BaseRepository
         return $invoices;
     }
 
-    /**
-     * @param Account $account
-     * @return Collection
-     */
     public function findNeedingEndlessReminding(Account $account)
     {
         if (empty($account)) {
@@ -1173,10 +1098,6 @@ class InvoiceRepository extends BaseRepository
         return $invoices->get();
     }
 
-    /**
-     * @param $invoice
-     * @return mixed|null
-     */
     public function clearGatewayFee($invoice)
     {
         if (empty($invoice)) {
@@ -1201,12 +1122,6 @@ class InvoiceRepository extends BaseRepository
         return true;
     }
 
-    /**
-     * @param $invoice
-     * @param $amount
-     * @param $percent
-     * @return mixed|null
-     */
     public function setLateFee($invoice, $amount, $percent)
     {
         if (empty($invoice)) {
@@ -1239,11 +1154,6 @@ class InvoiceRepository extends BaseRepository
         return true;
     }
 
-    /**
-     * @param $invoice
-     * @param $gatewayTypeId
-     * @return mixed|null
-     */
     public function setGatewayFee($invoice, $gatewayTypeId)
     {
         if (empty($invoice)) {
@@ -1296,10 +1206,6 @@ class InvoiceRepository extends BaseRepository
         return true;
     }
 
-    /**
-     * @param $invoiceNumber
-     * @return mixed|null
-     */
     public function findPhonetically($invoiceNumber)
     {
         $map = [];
@@ -1320,11 +1226,6 @@ class InvoiceRepository extends BaseRepository
         return ($invoiceId && !empty($map[$invoiceId])) ? $map[$invoiceId] : null;
     }
 
-    /**
-     * @param Invoice $invoice
-     * @param array $item
-     * @return mixed|null
-     */
     private function getExpense(Invoice $invoice, array $item)
     {
         if (empty($item['expense_public_id'])) {
@@ -1344,11 +1245,6 @@ class InvoiceRepository extends BaseRepository
         return false;
     }
 
-    /**
-     * @param Invoice $invoice
-     * @param array $item
-     * @return mixed|null
-     */
     private function getTask(Invoice $invoice, array $item)
     {
         if (empty($item['task_public_id'])) {
@@ -1368,11 +1264,6 @@ class InvoiceRepository extends BaseRepository
         return false;
     }
 
-    /**
-     * @param Invoice $invoice
-     * @param array $document_ids
-     * @return mixed|null
-     */
     private function saveInvoiceDocuments(Invoice $invoice, array $document_ids)
     {
         // invoice docs
@@ -1397,11 +1288,6 @@ class InvoiceRepository extends BaseRepository
         return true;
     }
 
-    /**
-     * @param Invoice $invoice
-     * @param array $document_ids
-     * @return mixed|null
-     */
     private function updateInvoiceDocuments(Invoice $invoice, array $document_ids)
     {
         if (empty($invoice) || empty($document_ids)) {
@@ -1424,14 +1310,6 @@ class InvoiceRepository extends BaseRepository
         return true;
     }
 
-    /**
-     * @param $itemStore
-     * @param Invoice $invoice
-     * @param array $origLineItems
-     * @param array $newLineItem
-     * @param bool $isNew
-     * @return mixed|null
-     */
     private function stockAdjustment($itemStore, Invoice $invoice, $origLineItems, array $newLineItem, $isNew)
     {
         $qoh = !empty($itemStore) ? Utils::parseFloat($itemStore->qty) : 0;
@@ -1469,13 +1347,6 @@ class InvoiceRepository extends BaseRepository
         return true;
     }
 
-    /**
-     * @param $product
-     * @param $itemStore
-     * @param Invoice $invoice
-     * @param array $item
-     * @return mixed|null
-     */
     private function saveInvoiceLineItemAdjustment($product, $itemStore, Invoice $invoice, array $item)
     {
         $invoicedQty = !empty($item['qty']) ? Utils::parseFloat(trim($item['qty'])) : 1;
@@ -1525,12 +1396,6 @@ class InvoiceRepository extends BaseRepository
 
     }
 
-    /**
-     * @param array $data
-     * @param Invoice $invoice
-     * @param $account
-     * @return mixed|null
-     */
     private function saveAccountDefault($account, Invoice $invoice, array $data)
     {
         if (empty($invoice)) {
@@ -1552,12 +1417,6 @@ class InvoiceRepository extends BaseRepository
         return true;
     }
 
-    /**
-     * @param $account
-     * @param array $data
-     * @param Invoice $invoice
-     * @return mixed|null
-     */
     private function getLineItemNetTotal($account, Invoice $invoice, array $data)
     {
         $total = 0;
@@ -1591,13 +1450,6 @@ class InvoiceRepository extends BaseRepository
         return $total;
     }
 
-    /**
-     * @param $account
-     * @param array $data
-     * @param Invoice $invoice
-     * @param float $total
-     * @return mixed|null
-     */
     private function getLineItemNetTax($account, Invoice $invoice, array $data, $total)
     {
         $itemTax = 0;
@@ -1627,12 +1479,6 @@ class InvoiceRepository extends BaseRepository
         return $itemTax;
     }
 
-    /**
-     * @param float $qoh
-     * @param float $demandQty
-     * @param $itemStore
-     * @return mixed|null
-     */
     private function updateItemStore($qoh, $demandQty, $itemStore)
     {
         $qoh = Utils::parseFloat($qoh);
@@ -1650,14 +1496,6 @@ class InvoiceRepository extends BaseRepository
         return true;
     }
 
-    /**
-     * @param Invoice $invoice
-     * @param float $invoiceItemCost
-     * @param float $invoiceItemQty
-     * @param $discount
-     * @param float $total
-     * @return mixed|null
-     */
     private function getLineItemTotal(Invoice $invoice, $invoiceItemCost, $invoiceItemQty, $discount, $total)
     {
         $total = !empty($total) ? Utils::parseFloat($total) : 0;
@@ -1676,15 +1514,6 @@ class InvoiceRepository extends BaseRepository
         return $total;
     }
 
-    /**
-     * @param Invoice $invoice
-     * @param float $total
-     * @param float $invoiceItemCost
-     * @param float $invoiceItemQty
-     * @param array $item
-     * @param float $itemTax
-     * @return mixed|null
-     */
     private function getLineItemTaxTotal(Invoice $invoice, $total, $invoiceItemCost, $invoiceItemQty, array $item, $itemTax)
     {
         $total = Utils::parseFloat($total);
@@ -1726,15 +1555,6 @@ class InvoiceRepository extends BaseRepository
         return $itemTax;
     }
 
-    /**
-     * update invoice line item
-     * @param $account
-     * @param array $data
-     * @param Invoice $invoice
-     * @param $origLineItems
-     * @param bool $isNew
-     * @return mixed|null
-     */
     private function saveLineItemDetail($account, Invoice $invoice, array $data, $origLineItems, $isNew)
     {
         if (empty($invoice)) {
@@ -1778,15 +1598,6 @@ class InvoiceRepository extends BaseRepository
         return true;
     }
 
-    /**
-     * @param array $data
-     * @param Invoice $invoice
-     * @param float $total
-     * @param $account
-     * @param $itemTax
-     * @param bool $publicId
-     * @return mixed|null
-     */
     private function saveSaleInvoiceDetail($account, Invoice $invoice, array $data, $total, $itemTax, $publicId)
     {
         $total = !empty($total) ? Utils::parseFloat($total) : 0;

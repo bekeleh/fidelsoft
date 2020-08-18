@@ -58,11 +58,10 @@ use Laracasts\Presenter\PresentableTrait;
  */
 class HoldReason extends EntityModel
 {
-    protected $presenter = 'App\Ninja\Presenters\HoldReasonPresenter';
     use PresentableTrait;
     use SoftDeletes;
 
-    protected $appends = [];
+    protected $presenter = 'App\Ninja\Presenters\HoldReasonPresenter';
     protected $table = 'hold_reasons';
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
 
@@ -113,7 +112,7 @@ class HoldReason extends EntityModel
     public static function allowInvoice()
     {
         $allowInvoice = [
-            '0' => DENIED, 
+            '0' => DENIED,
             '1' => ALLOWED
         ];
 
@@ -128,7 +127,7 @@ class HoldReason extends EntityModel
             $reasons->push($reason);
         }
 
-        foreach($reasons as $reason){
+        foreach ($reasons as $reason) {
             $name = Str::snake(str_replace(' ', '_', $reason->name));
             $reasons->name = trans('texts.hold_reason_' . $name);
         }

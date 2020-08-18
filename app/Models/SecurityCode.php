@@ -42,8 +42,6 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class SecurityCode extends Eloquent
 {
-    /**
-     * @var bool
-     */
+    protected $table = 'security_codes';
     public $timestamps = false;
 }

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\EntityModel;
-use App\Events\VendorCreditWasCreated;
+use App\Events\Vendor\VendorCreditWasCreated;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
@@ -15,7 +15,7 @@ class VendorCredit extends EntityModel
     use SoftDeletes;
     use PresentableTrait;
 
-
+    protected $table = 'vendor_credits';
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $presenter = 'App\Ninja\Presenters\VendorCreditPresenter';

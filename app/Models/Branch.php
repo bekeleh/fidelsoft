@@ -71,10 +71,11 @@ use Laracasts\Presenter\PresentableTrait;
  */
 class Branch extends EntityModel
 {
-    protected $presenter = 'App\Ninja\Presenters\BranchPresenter';
     use PresentableTrait;
     use SoftDeletes;
+    protected $presenter = 'App\Ninja\Presenters\BranchPresenter';
 
+    protected $table = 'branches';
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
 
     protected $fillable = [

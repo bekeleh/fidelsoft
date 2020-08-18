@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\EntityModel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Support\Str;
@@ -36,6 +35,7 @@ use Illuminate\Support\Str;
 class Currency extends Eloquent
 {
 
+    protected $table = 'currencies';
     public $timestamps = false;
 
     protected $casts = [

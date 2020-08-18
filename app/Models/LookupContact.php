@@ -28,9 +28,7 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class LookupContact extends LookupModel
 {
-    /**
-     * @var array
-     */
+    protected $table = 'lookup_contacts';
     protected $fillable = [
         'lookup_account_id',
         'contact_key',

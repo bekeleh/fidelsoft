@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
-use App\Events\ItemRequestWasCreatedEvent;
-use App\Events\ItemRequestWasUpdatedEvent;
+use App\Events\Setting\ItemRequestWasCreatedEvent;
+use App\Events\Setting\ItemRequestWasUpdatedEvent;
 
 /**
  * Model Class ItemRequestPresenter.
@@ -73,10 +73,12 @@ use App\Events\ItemRequestWasUpdatedEvent;
  */
 class ItemRequest extends EntityModel
 {
-    protected $presenter = 'App\Ninja\Presenters\ItemRequestPresenter';
     use PresentableTrait;
     use SoftDeletes;
 
+    protected $presenter = 'App\Ninja\Presenters\ItemRequestPresenter';
+
+    protected $table = 'item_requests';
     protected $dates = ['approved_date', 'created_at', 'deleted_at', 'deleted_at'];
 
     protected $casts = [];

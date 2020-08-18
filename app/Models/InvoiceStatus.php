@@ -42,6 +42,7 @@ use Illuminate\Support\Str;
  */
 class InvoiceStatus extends Eloquent
 {
+    protected $table = 'invoice_statuses';
     public $timestamps = false;
 
     public static function getIdFromAlias($status)

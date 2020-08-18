@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\EntityModel;
-use App\Events\CreditWasCreatedEvent;
+use App\Events\Client\CreditWasCreatedEvent;
 use Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder;
@@ -69,10 +69,10 @@ class Credit extends EntityModel
     use SoftDeletes;
     use PresentableTrait;
 
-
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
-
     protected $presenter = 'App\Ninja\Presenters\CreditPresenter';
+
+    protected $table = 'credits';
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
 
     protected $fillable = [

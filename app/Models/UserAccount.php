@@ -9,9 +9,7 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
  */
 class UserAccount extends Eloquent
 {
-    /**
-     * @var bool
-     */
+    protected $table = 'user_accounts';
     public $timestamps = false;
 
     /**

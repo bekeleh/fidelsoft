@@ -9,8 +9,6 @@ use Eloquent;
  */
 class Timezone extends Eloquent
 {
-    /**
-     * @var bool
-     */
+    protected $table = 'timezones';
     public $timestamps = false;
 }

@@ -15,6 +15,7 @@ class ItemMovement extends EntityModel
     use PresentableTrait;
     use SoftDeletes;
 
+    protected $table = 'item_movements';
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
 
     protected $fillable = [

@@ -80,6 +80,7 @@ use League\Flysystem\Rackspace\RackspaceAdapter;
  */
 class Document extends EntityModel
 {
+    protected $table = 'documents';
 
     protected $fillable = [
         'invoice_id',

@@ -31,9 +31,7 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class LookupInvitation extends LookupModel
 {
-    /**
-     * @var array
-     */
+    protected $table = 'lookup_invitations';
     protected $fillable = [
         'lookup_account_id',
         'invitation_key',

@@ -15,7 +15,7 @@ class Warehouse extends EntityModel
     use SoftDeletes;
 
     protected $presenter = 'App\Ninja\Presenters\WarehousePresenter';
-
+    protected $table = 'warehouses';
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
 
     protected $fillable = [

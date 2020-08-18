@@ -12,6 +12,7 @@ class Setting extends Model
 {
     use Notifiable;
 
+    protected $table = 'settings';
     protected $rules = [
         'brand' => 'required|min:1|numeric',
         'qr_text' => 'max:31|nullable',

@@ -27,4 +27,6 @@ use Illuminate\Support\Carbon;
 class PasswordReset extends Eloquent
 {
 
+    protected $table = 'password_resets';
+
 }

@@ -7,9 +7,8 @@ namespace App\Models;
  */
 class LookupBillInvitation extends LookupModel
 {
-    /**
-     * @var array
-     */
+    protected $table = 'lookup_bill_invitations';
+
     protected $fillable = [
         'lookup_account_id',
         'invitation_key',

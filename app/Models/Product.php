@@ -14,9 +14,8 @@ class Product extends EntityModel
     use SoftDeletes;
 
     protected $presenter = 'App\Ninja\Presenters\ProductPresenter';
+    protected $table = 'products';
 
-    protected $appends = [];
-    protected $casts = [];
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
     protected $hidden = [];
 

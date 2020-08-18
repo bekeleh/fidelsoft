@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Models\EntityModel;
-use App\Events\TaskWasCreatedEvent;
-use App\Events\TaskWasUpdatedEvent;
+use App\Events\Setting\TaskWasCreatedEvent;
+use App\Events\Setting\TaskWasUpdatedEvent;
 use App\Libraries\Utils;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
@@ -18,7 +18,7 @@ class Task extends EntityModel
     use PresentableTrait;
 
     protected $presenter = 'App\Ninja\Presenters\TaskPresenter';
-
+    protected $table = 'tasks';
     protected $fillable = [
         'client_id',
         'description',

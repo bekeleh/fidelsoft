@@ -87,7 +87,7 @@ class InvoiceItem extends EntityModel
     use SoftDeletes;
 
     protected $presenter = 'App\Ninja\Presenters\InvoiceItemPresenter';
-
+    protected $table = 'invoice_items';
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $fillable = [

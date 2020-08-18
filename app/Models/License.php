@@ -50,9 +50,7 @@ use Illuminate\Support\Carbon;
  */
 class License extends Eloquent
 {
-    /**
-     * @var bool
-     */
+    protected $table = 'licenses';
     public $timestamps = true;
     use SoftDeletes;
     /**

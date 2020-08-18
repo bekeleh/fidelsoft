@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\EntityModel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model as Eloquent;
@@ -68,6 +67,7 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 class Country extends Eloquent
 {
 
+    protected $table = 'countries';
     public $timestamps = false;
 
     protected $visible = [

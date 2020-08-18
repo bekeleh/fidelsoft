@@ -11,11 +11,12 @@ use Laracasts\Presenter\PresentableTrait;
  */
 class Location extends EntityModel
 {
-    protected $presenter = 'App\Ninja\Presenters\LocationPresenter';
     use PresentableTrait;
     use SoftDeletes;
 
+    protected $presenter = 'App\Ninja\Presenters\LocationPresenter';
 
+    protected $table = 'locations';
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
 
     protected $fillable = [

@@ -64,6 +64,7 @@ class ProposalSnippet extends EntityModel
     use SoftDeletes;
     use PresentableTrait;
 
+    protected $table = 'proposal_snippets';
     protected $dates = ['deleted_at'];
 
 

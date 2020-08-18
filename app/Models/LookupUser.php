@@ -36,9 +36,7 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class LookupUser extends LookupModel
 {
-    /**
-     * @var array
-     */
+    protected $table = 'lookup_users';
     protected $fillable = [
         'lookup_account_id',
         'email',
@@ -84,10 +82,10 @@ class LookupUser extends LookupModel
 
         config(['database.default' => DB_NINJA_LOOKUP]);
 
-        $lookupUser = LookupUser::where($field, '=', $value)->first();
+        $lookupUser = LookupUser::where($field, $value)->first();
 
         if ($user) {
-            $lookupAccount = LookupAccount::whereAccountKey($accountKey)->firstOrFail();
+            $lookupAccount = LookupAccount::where('account_key', $accountKey)->firstOrFail();
             $isValid = !$lookupUser || ($lookupUser->lookup_account_id == $lookupAccount->id && $lookupUser->user_id == $user->id);
         } else {
             $isValid = !$lookupUser;

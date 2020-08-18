@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\EntityModel;
-use App\Events\BillPaymentCompletedEvent;
-use App\Events\BillPaymentFailedEvent;
-use App\Events\BillPaymentWasCreatedEvent;
-use App\Events\BillPaymentWasRefundedEvent;
-use App\Events\BillPaymentWasVoidedEvent;
+use App\Events\Purchase\BillPaymentCompletedEvent;
+use App\Events\Purchase\BillPaymentFailedEvent;
+use App\Events\Purchase\BillPaymentWasCreatedEvent;
+use App\Events\Purchase\BillPaymentWasRefundedEvent;
+use App\Events\Purchase\BillPaymentWasVoidedEvent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Event;
 use Laracasts\Presenter\PresentableTrait;
@@ -19,6 +18,8 @@ class BillPayment extends EntityModel
     use SoftDeletes;
 
     protected $presenter = 'App\Ninja\Presenters\BillPaymentPresenter';
+
+    protected $table = 'bill_payments';
 
     protected $fillable = [
         'transaction_reference',

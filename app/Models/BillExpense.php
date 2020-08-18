@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Models\EntityModel;
-use App\Events\BillExpenseWasCreated;
-use App\Events\BillExpenseWasUpdated;
+use App\Events\Purchase\BillExpenseWasCreated;
+use App\Events\Purchase\BillExpenseWasUpdated;
 use App\Libraries\Utils;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
@@ -18,6 +18,8 @@ class BillExpense extends EntityModel
     use PresentableTrait;
 
     protected $presenter = 'App\Ninja\Presenters\BillExpensePresenter';
+
+    protected $table = 'bill_expenses';
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $fillable = [

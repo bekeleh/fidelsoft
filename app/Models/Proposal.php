@@ -66,11 +66,10 @@ class Proposal extends EntityModel
     use SoftDeletes;
     use PresentableTrait;
 
-
-    protected $dates = ['deleted_at'];
-
     protected $presenter = 'App\Ninja\Presenters\ProposalPresenter';
 
+    protected $table = 'proposals';
+    protected $dates = ['deleted_at'];
 
     protected $fillable = [
         'private_notes',

@@ -11,11 +11,10 @@ use Laracasts\Presenter\PresentableTrait;
  */
 class Token extends EntityModel
 {
-    protected $presenter = 'App\Ninja\Presenters\TokenPresenter';
     use PresentableTrait;
     use SoftDeletes;
 
-    protected $appends = [];
+    protected $presenter = 'App\Ninja\Presenters\TokenPresenter';
     protected $table = 'tokens';
     protected $dates = ['created_at', 'deleted_at', 'deleted_at'];
 

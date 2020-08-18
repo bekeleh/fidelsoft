@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\EntityModel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
@@ -44,9 +43,8 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
  */
 class Bank extends Eloquent
 {
-    /**
-     * @var bool
-     */
+
+    protected $table = 'banks';
     public $timestamps = false;
 
     /**

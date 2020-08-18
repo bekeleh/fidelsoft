@@ -75,8 +75,8 @@ class Invitation extends EntityModel
     use SoftDeletes;
     use Inviteable;
 
-    protected $appends = [];
-    protected $casts = [];
+    protected $table = 'invitations';
+
     protected $dates = ['deleted_at'];
     protected $hidden = [];
 

@@ -20,4 +20,5 @@ use Illuminate\Database\Eloquent\Builder;
 class Quote extends EntityModel
 {
 
+    protected $table = 'invoices';
 }

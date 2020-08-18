@@ -106,6 +106,7 @@ class Company extends EntityModel
 
     protected $presenter = 'App\Ninja\Presenters\CompanyPresenter';
 
+    protected $table = 'companies';
 
     protected $fillable = [
         'plan',
