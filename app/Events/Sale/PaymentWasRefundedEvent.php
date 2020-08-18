@@ -3,7 +3,7 @@
 namespace App\Events\Sale;
 
 use App\Events\Event;
-use App\Models\Payment;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -11,22 +11,14 @@ use Illuminate\Queue\SerializesModels;
  */
 class PaymentWasRefundedEvent extends Event
 {
-    use SerializesModels;
+    use Dispatchable, SerializesModels;
 
-    /**
-     * @var Payment
-     */
+
     public $payment;
 
     public $refundAmount;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param Payment $payment
-     * @param $refundAmount
-     */
-    public function __construct(Payment $payment, $refundAmount)
+    public function __construct($payment, $refundAmount)
     {
         $this->payment = $payment;
         $this->refundAmount = $refundAmount;

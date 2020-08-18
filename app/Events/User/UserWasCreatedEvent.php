@@ -3,7 +3,7 @@
 namespace App\Events\User;
 
 use App\Events\Event;
-use App\Models\User;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -11,19 +11,13 @@ use Illuminate\Queue\SerializesModels;
  */
 class UserWasCreatedEvent extends Event
 {
-    use SerializesModels;
+    use Dispatchable, SerializesModels;
 
-    /**
-     * @var User
-     */
+
     public $user;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param User $user
-     */
-    public function __construct(User $user)
+
+    public function __construct($user)
     {
         $this->user = $user;
     }

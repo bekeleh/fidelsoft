@@ -25,4 +25,5 @@ class InvoiceWasUpdatedEvent extends Event
     {
         $this->invoice = $invoice;
     }
+
 }

@@ -3,8 +3,7 @@
 namespace App\Events\Purchase;
 
 use App\Events\Event;
-use Illuminate\Bus\Queueable;
-use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -12,7 +11,7 @@ use Illuminate\Queue\SerializesModels;
  */
 class BillInvitationWasEmailedEvent extends Event
 {
-    use Dispatchable, Queueable, SerializesModels;
+    use Dispatchable, SerializesModels;
 
     public $billInvitation;
     public $notes;

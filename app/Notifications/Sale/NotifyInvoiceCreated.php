@@ -4,14 +4,13 @@ namespace App\Notifications\Sale;
 
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Auth;
 
-class NotifyInvoiceCreated extends Notification implements ShouldQueue
+class NotifyInvoiceCreated extends Notification
 {
     use Dispatchable, Queueable, SerializesModels;
 

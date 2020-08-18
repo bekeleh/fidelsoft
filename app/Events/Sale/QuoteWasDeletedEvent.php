@@ -3,7 +3,7 @@
 namespace App\Events\Sale;
 
 use App\Events\Event;
-use App\Models\Invoice;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -11,15 +11,10 @@ use Illuminate\Queue\SerializesModels;
  */
 class QuoteWasDeletedEvent extends Event
 {
-    use SerializesModels;
+    use Dispatchable, SerializesModels;
     public $quote;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param $quote
-     */
-    public function __construct(Invoice $quote)
+    public function __construct($quote)
     {
         $this->quote = $quote;
     }

@@ -3,7 +3,7 @@
 namespace App\Events\Sale;
 
 use App\Events\Event;
-use App\Models\Invitation;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -11,22 +11,13 @@ use Illuminate\Queue\SerializesModels;
  */
 class QuoteInvitationWasViewedEvent extends Event
 {
-    use SerializesModels;
+    use Dispatchable, SerializesModels;
 
     public $quote;
-
-    /**
-     * @var Invitation
-     */
     public $invitation;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param $quote
-     * @param Invitation $invitation
-     */
-    public function __construct($quote, Invitation $invitation)
+
+    public function __construct($quote, $invitation)
     {
         $this->quote = $quote;
         $this->invitation = $invitation;

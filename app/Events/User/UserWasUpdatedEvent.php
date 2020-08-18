@@ -3,7 +3,7 @@
 namespace App\Events\user;
 
 use App\Events\Event;
-use App\Models\User;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -11,11 +11,11 @@ use Illuminate\Queue\SerializesModels;
  */
 class UserWasUpdatedEvent extends Event
 {
-    use SerializesModels;
+    use Dispatchable, SerializesModels;
 
     public $user;
 
-    public function __construct(User $user)
+    public function __construct($user)
     {
         $this->user = $user;
     }

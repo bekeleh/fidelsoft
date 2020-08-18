@@ -3,13 +3,12 @@
 namespace App\Events\Purchase;
 
 use App\Events\Event;
-use Illuminate\Bus\Queueable;
-use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 class BillCreditWasUpdatedEvent extends Event
 {
-    use Dispatchable, Queueable, SerializesModels;
+    use Dispatchable, SerializesModels;
 
 
     public $billCredit;

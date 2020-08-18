@@ -3,7 +3,7 @@
 namespace App\Events\Purchase;
 
 use App\Events\Event;
-use App\Models\BillItem;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -11,19 +11,13 @@ use Illuminate\Queue\SerializesModels;
  */
 class BillItemWasCreatedEvent extends Event
 {
-    use SerializesModels;
+    use Dispatchable, SerializesModels;
 
-    /**
-     * @var BillItem
-     */
+
     public $billItem;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param BillItem $billItem
-     */
-    public function __construct(BillItem $billItem)
+
+    public function __construct($billItem)
     {
         $this->billItem = $billItem;
     }

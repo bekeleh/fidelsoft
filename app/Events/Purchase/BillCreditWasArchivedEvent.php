@@ -3,8 +3,7 @@
 namespace App\Events\Purchase;
 
 use App\Events\Event;
-use Illuminate\Bus\Queueable;
-use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -12,15 +11,11 @@ use Illuminate\Queue\SerializesModels;
  */
 class BillCreditWasArchivedEvent extends Event
 {
-    use Dispatchable, Queueable, SerializesModels;
+    use Dispatchable, SerializesModels;
 
     public $billCredit;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param $billCredit
-     */
+
     public function __construct($billCredit)
     {
         $this->billCredit = $billCredit;

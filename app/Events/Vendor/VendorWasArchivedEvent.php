@@ -3,7 +3,7 @@
 namespace App\Events\Vendor;
 
 use App\Events\Event;
-use App\Models\Vendor;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -11,20 +11,14 @@ use Illuminate\Queue\SerializesModels;
  */
 class VendorWasArchivedEvent extends Event
 {
-    // vendor
-    use SerializesModels;
 
-    /**
-     * @var Vendor
-     */
+    use Dispatchable, SerializesModels;
+
+
     public $vendor;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param Vendor $vendor
-     */
-    public function __construct(Vendor $vendor)
+
+    public function __construct($vendor)
     {
         $this->vendor = $vendor;
     }

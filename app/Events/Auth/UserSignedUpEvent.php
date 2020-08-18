@@ -3,6 +3,7 @@
 namespace App\Events\Auth;
 
 use App\Events\Event;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -10,7 +11,7 @@ use Illuminate\Queue\SerializesModels;
  */
 class UserSignedUpEvent extends Event
 {
-    use SerializesModels;
+    use Dispatchable, SerializesModels;
 
     /**
      * Create a new event instance.

@@ -3,7 +3,7 @@
 namespace App\Events\Sale;
 
 use App\Events\Event;
-use App\Models\Invoice;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -11,19 +11,13 @@ use Illuminate\Queue\SerializesModels;
  */
 class InvoiceWasArchivedEvent extends Event
 {
-    use SerializesModels;
+    use SerializesModels, Dispatchable;
 
-    /**
-     * @var Invoice
-     */
+
     public $invoice;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param Invoice $invoice
-     */
-    public function __construct(Invoice $invoice)
+
+    public function __construct($invoice)
     {
         $this->invoice = $invoice;
     }

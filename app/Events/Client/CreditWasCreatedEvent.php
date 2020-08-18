@@ -3,11 +3,12 @@
 namespace App\Events\Client;
 
 use App\Events\Event;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 class CreditWasCreatedEvent extends Event
 {
-    use SerializesModels;
+    use Dispatchable, SerializesModels;
 
 
     public $credit;

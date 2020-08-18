@@ -3,10 +3,7 @@
 namespace App\Events\Purchase;
 
 use App\Events\Event;
-use App\Models\BillInvitation;
-use App\Models\Bill;
-use Illuminate\Bus\Queueable;
-use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -14,18 +11,13 @@ use Illuminate\Queue\SerializesModels;
  */
 class BillInvitationWasViewedEvent extends Event
 {
-    use Dispatchable, Queueable, SerializesModels;
+    use Dispatchable, SerializesModels;
 
     public $bill;
     public $billInvitation;
 
 
-    /**
-     * BillInvitationWasViewedEvent constructor.
-     * @param Bill $bill
-     * @param BillInvitation $billInvitation
-     */
-    public function __construct(Bill $bill, BillInvitation $billInvitation)
+    public function __construct($bill, $billInvitation)
     {
         $this->bill = $bill;
         $this->billInvitation = $billInvitation;

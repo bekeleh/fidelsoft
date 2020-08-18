@@ -3,6 +3,7 @@
 namespace App\Events\Sale;
 
 use App\Events\Event;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -10,19 +11,12 @@ use Illuminate\Queue\SerializesModels;
  */
 class QuoteWasEmailedEvent extends Event
 {
-    use SerializesModels;
-    public $quote;
+    use Dispatchable, SerializesModels;
 
-    /**
-     * @var string
-     */
+    public $quote;
     public $notes;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param $quote
-     */
+
     public function __construct($quote, $notes)
     {
         $this->quote = $quote;

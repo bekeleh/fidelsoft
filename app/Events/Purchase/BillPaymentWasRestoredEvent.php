@@ -3,7 +3,7 @@
 namespace App\Events\Purchase;
 
 use App\Events\Event;
-use App\Models\BillPayment;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -11,18 +11,13 @@ use Illuminate\Queue\SerializesModels;
  */
 class BillPaymentWasRestoredEvent extends Event
 {
-    use SerializesModels;
+    use Dispatchable, SerializesModels;
 
     public $billPayment;
     public $fromDeleted;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param BillPayment $billPayment
-     * @param $fromDeleted
-     */
-    public function __construct(BillPayment $billPayment, $fromDeleted)
+
+    public function __construct($billPayment, $fromDeleted)
     {
         $this->billPayment = $billPayment;
         $this->fromDeleted = $fromDeleted;

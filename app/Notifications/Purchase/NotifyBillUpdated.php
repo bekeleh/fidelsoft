@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications\Sale;
+namespace App\Notifications\Purchase;
 
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Auth;
 
-class NotifyBillCreated extends Notification
+class NotifyBillUpdated extends Notification
 {
     use Dispatchable, Queueable, SerializesModels;
 

@@ -3,7 +3,7 @@
 namespace App\Events\Sale;
 
 use App\Events\Event;
-use App\Models\Invitation;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -11,11 +11,8 @@ use Illuminate\Queue\SerializesModels;
  */
 class InvoiceInvitationWasEmailedEvent extends Event
 {
-    use SerializesModels;
+    use SerializesModels, Dispatchable;
 
-    /**
-     * @var Invitation
-     */
     public $invitation;
 
     /**
@@ -23,13 +20,8 @@ class InvoiceInvitationWasEmailedEvent extends Event
      */
     public $notes;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param Invitation $invitation
-     * @param mixed $notes
-     */
-    public function __construct(Invitation $invitation, $notes)
+
+    public function __construct($invitation, $notes)
     {
         $this->invitation = $invitation;
         $this->notes = $notes;

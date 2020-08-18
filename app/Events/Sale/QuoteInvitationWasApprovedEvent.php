@@ -3,28 +3,19 @@
 namespace App\Events\Sale;
 
 use App\Events\Event;
-use App\Models\Invitation;
-use App\Models\Invoice;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 class QuoteInvitationWasApprovedEvent extends Event
 {
-    use SerializesModels;
+    use Dispatchable, SerializesModels;
 
     public $quote;
 
-    /**
-     * @var Invitation
-     */
     public $invitation;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param Invoice $quote
-     * @param Invitation $invitation
-     */
-    public function __construct(Invoice $quote, Invitation $invitation)
+
+    public function __construct($quote, $invitation)
     {
         $this->quote = $quote;
         $this->invitation = $invitation;

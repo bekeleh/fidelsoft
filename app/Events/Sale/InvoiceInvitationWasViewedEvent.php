@@ -3,8 +3,7 @@
 namespace App\Events\Sale;
 
 use App\Events\Event;
-use App\Models\Invitation;
-use App\Models\Invoice;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -12,25 +11,14 @@ use Illuminate\Queue\SerializesModels;
  */
 class InvoiceInvitationWasViewedEvent extends Event
 {
-    use SerializesModels;
+    use SerializesModels, Dispatchable;
 
-    /**
-     * @var Invoice
-     */
     public $invoice;
 
-    /**
-     * @var Invitation
-     */
+
     public $invitation;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param Invoice    $invoice
-     * @param Invitation $invitation
-     */
-    public function __construct(Invoice $invoice, Invitation $invitation)
+    public function __construct($invoice, $invitation)
     {
         $this->invoice = $invoice;
         $this->invitation = $invitation;
