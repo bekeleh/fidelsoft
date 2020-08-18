@@ -2,7 +2,7 @@
 
 namespace App\Listeners\Auth;
 
-use App\Events\UserSignedUpEvent;
+use App\Events\Auth\UserSignedUpEvent;
 use App\Libraries\Utils;
 use App\Ninja\Mailers\UserMailer;
 use App\Ninja\Repositories\AccountRepository;

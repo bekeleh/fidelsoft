@@ -2,7 +2,7 @@
 
 namespace App\Listeners\Auth;
 
-use App\Events\UserSettingsChangedEvent;
+use App\Events\Auth\UserSettingsChangedEvent;
 use App\Ninja\Mailers\UserMailer;
 use App\Ninja\Repositories\AccountRepository;
 use Illuminate\Support\Facades\Auth;

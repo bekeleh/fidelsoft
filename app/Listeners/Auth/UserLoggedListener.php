@@ -2,8 +2,8 @@
 
 namespace App\Listeners\Auth;
 
-use App\Events\UserLoggedInEvent;
-use App\Events\UserSignedUpEvent;
+use App\Events\Auth\UserLoggedInEvent;
+use App\Events\Auth\UserSignedUpEvent;
 use App\Libraries\HistoryUtils;
 use App\Libraries\Utils;
 use App\Models\Gateway;

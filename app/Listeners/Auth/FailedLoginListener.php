@@ -34,7 +34,7 @@ class FailedLoginListener
                         'created_at' => $now,
                     ]
                 );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $message = $event->user->name . ' can\'t logged in to the application.';
             Storage::put('loginactivity.txt', $message);
         }
