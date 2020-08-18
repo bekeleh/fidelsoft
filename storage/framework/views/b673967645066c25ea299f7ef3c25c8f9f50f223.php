@@ -10,11 +10,11 @@
             <?php $__currentLoopData = $links =Auth::user()->unreadnotifications; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $link): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <li>
                     <a href="<?php echo e($link->data['link']); ?>">
-                        <span class="fa fa-file-pdf-o"></span> <?php echo e($link->data['title']); ?> <?php echo e(\Carbon\Carbon::parse($link->posted_at)->diffForHumans()); ?>
+                        <span class="fa fa-file-pdf-o"></span>
+                        <?php echo e($link->data['title']); ?> <?php echo e(\Carbon\Carbon::parse($link->posted_at)->diffForHumans()); ?>
 
                     </a>
                 </li>
-
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         <?php endif; ?>
     </ul>
