@@ -2,8 +2,8 @@
 
 namespace App\Listeners;
 
-use App\Events\SubdomainWasRemovedEvent;
-use App\Events\SubdomainWasUpdatedEvent;
+use App\Events\Setting\SubdomainWasRemovedEvent;
+use App\Events\Setting\SubdomainWasUpdatedEvent;
 use App\Ninja\DNS\Cloudflare;
 
 /**
