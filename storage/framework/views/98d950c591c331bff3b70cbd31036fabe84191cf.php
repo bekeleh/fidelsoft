@@ -256,8 +256,8 @@ $__env->startSection('head_css'); ?>
         </a>
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
             <div class="navbar-form navbar-right">
-
-                <?php echo $__env->make('partials.setting', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                <?php echo $__env->make('partials.notification', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                
                 <?php echo $__env->make('partials.sidebar_auth', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             </div>
             <?php echo Former::open('/handle_command')->id('search-form')->addClass('navbar-form navbar-right')->role('search'); ?>

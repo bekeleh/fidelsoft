@@ -9,7 +9,7 @@
                 <?php echo e(Auth::user()->getDisplayName()); ?>
 
             <?php endif; ?>
-            <span class="caret"></span>
+            <b> <span class="caret"></span></b>
         </div>
     </button>
     <ul class="dropdown-menu user-accounts">
@@ -50,20 +50,13 @@
         <?php endif; ?>
         <li class="divider"></li>
         <?php if(Utils::isSuperUser() && Auth::user()->confirmed && Utils::getResllerType() != RESELLER_ACCOUNT_COUNT): ?>
-            <!-- <?php if(!session(SESSION_USER_ACCOUNTS) || count(session(SESSION_USER_ACCOUNTS)) < 5): ?> -->
-                <li><?php echo link_to('#', trans('texts.add_company'), ['onclick' => 'showSignUp()']); ?></li>
-            <!-- <?php endif; ?> -->
+        <!-- <?php if(!session(SESSION_USER_ACCOUNTS) || count(session(SESSION_USER_ACCOUNTS)) < 5): ?> -->
+            <li><?php echo link_to('#', trans('texts.add_company'), ['onclick' => 'showSignUp()']); ?></li>
+        <!-- <?php endif; ?> -->
         <?php endif; ?>
         <li>
             <?php echo link_to('#', trans('texts.logout'), array('onclick'=>'logout()')); ?>
 
         </li>
-        <?php
-                                    // todo clean this up
-                                    $notif_cnt = count(Auth::user()->unreadnotifications);
-                                    if ($notif_cnt > 0) 
-                                    echo "<li><a href='/user/".Auth::user()->id."/notifications' title='Show Notifications' style='padding: 13px 0px;'>
-                                    <span class='badge' style='background-color:#fff;color: #333;'>$notif_cnt Notifications</span></a></li>";
-                                ?>
     </ul>
 </div>

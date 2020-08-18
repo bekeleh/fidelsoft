@@ -1,7 +1,7 @@
 <div class="btn-group">
     <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
         <div id="myAccountButton" class="ellipsis" style="width:60px;max-width:80px;">
-            <span class="caret"></span>
+            Quick links <span class="caret"></span>
         </div>
     </button>
     <ul class="dropdown-menu">

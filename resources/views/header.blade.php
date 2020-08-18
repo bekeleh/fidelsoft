@@ -253,8 +253,8 @@
         </a>
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
             <div class="navbar-form navbar-right">
-
-                @include('partials.setting')
+                @include('partials.notification')
+                {{--                @include('partials.setting')--}}
                 @include('partials.sidebar_auth')
             </div>
             {!! Former::open('/handle_command')->id('search-form')->addClass('navbar-form navbar-right')->role('search') !!}
