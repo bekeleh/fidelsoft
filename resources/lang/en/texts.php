@@ -211,7 +211,7 @@ $LANG = array(
     'receive_bills' => 'Receive Bills',
 //   Bill quote
     'bill_quote' => 'Bill Quote',
-    'bill_quotes' => 'Bill Quotes',
+    'bill_quotes' => 'Purchase Quotes',
     'bill_quote_return' => 'Bill Quote Return',
     'bill_quote_list' => 'Bill Quote Lists',
     'list_bill_quotes' => 'List Bill Quote',
@@ -875,13 +875,13 @@ $LANG = array(
     'po_number' => 'PO Number',
     'po_number_short' => 'PO #',
     'frequency_id' => 'How Often',
-    'discount' => 'Discount',
+//    'discount' => 'Discount',
     'taxes' => 'Taxes',
     'tax' => 'Tax',
     'tax_rate1' => 'Tax Rate',
     'tax_rate2' => 'Tax Rate',
     'item' => 'Item',
-    'UPC' => 'UPC',
+    'upc' => 'UPC',
     'item_barcode' => 'Item Barcode',
     'item_serial' => 'Item Serial',
     'item_tag' => 'Item Tag',
@@ -1062,8 +1062,8 @@ $LANG = array(
     'payment_error' => 'There was an error processing your payment. Please try again later.',
     'registration_required' => 'Please sign up to email an invoice',
     'confirmation_required' => 'Please confirm your email address, :link to resend the confirmation email.',
-    'default_store_required' => 'Please specify default user warehouse, :link to set default user warehouse.',
-    'user_branch_required' => 'Please specify default user branch, :link to set default user branch, otherwise you can\'t proceed to the invoice.',
+    'default_store_required' => 'Please specify default user <strong>warehouse</strong>, :link to set default user warehouse.',
+    'user_branch_required' => 'Please specify default user <strong>branch</strong>, :link to set default user branch, otherwise you can\'t proceed to the invoice.',
 
     'user_store_required' => 'Please specify default user warehouse, :link to set default user warehouse, otherwise you can\'t proceed to the next action.',
 
@@ -2372,12 +2372,14 @@ $LANG = array(
     'select_payment_type' => 'Select Payment Type',
 // Categories
     'item_type_name' => 'Item Type',
+    'item_type_purchased' => 'Purchased',
     'item_type_assembly' => 'Assembly',
     'item_type_kit' => 'Kit',
     'item_type_manufactured' => 'Manufactured',
     'item_type_phantom' => 'Phantom',
     'item_type_billd' => 'Billd',
     'item_type_service_labour' => 'Service/Labour',
+
 // Tax Categories
     'tax_category_name' => 'Tax Category',
     'tax_category_exempt' => 'Exempt',

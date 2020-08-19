@@ -138,19 +138,16 @@ class Product extends EntityModel
     public function scopeStock($query, $publicId = false, $accountId = false)
     {
         $warehouseId = isset(auth::user()->branch->warehouse_id) ? auth::user()->branch->warehouse_id : 0;
-        if (!$warehouseId) {
-            return $query;
-        }
 
         $query = $query->whereHas('item_stores', function ($query) use ($warehouseId) {
             $query->where('item_stores.warehouse_id', $warehouseId)
                 ->where('item_stores.qty', '>', 0)
                 ->Where('item_stores.is_locked', false)
                 ->Where('item_stores.is_deleted', false)
-                ->Where('item_stores.deleted_at', null);
+                ->WhereNull('item_stores.deleted_at');
         });
 
-        return $query;
+        return $query->get();
     }
 
     public function scopeService($query, $publicId = false, $accountId = false)

@@ -21,9 +21,9 @@ class ItemStoreDatatable extends EntityDatatable
                 'product_key',
                 function ($model) {
                     if ($model->product_public_id) {
-                        return link_to("products/{$model->product_public_id}", 
+                        return link_to("products/{$model->product_public_id}",
                             $model->product_key)->toHtml();
-                    }else{
+                    } else {
                         return $model->product_key;
                     }
                 },
@@ -32,9 +32,9 @@ class ItemStoreDatatable extends EntityDatatable
                 'item_brand_name',
                 function ($model) {
                     if ($model->item_brand_public_id) {
-                        return link_to("item_brands/{$model->item_brand_public_id}", 
+                        return link_to("item_brands/{$model->item_brand_public_id}",
                             $model->item_brand_name)->toHtml();
-                    }else{
+                    } else {
                         return $model->item_brand_name;
                     }
                 },
@@ -43,20 +43,20 @@ class ItemStoreDatatable extends EntityDatatable
                 'item_category_name',
                 function ($model) {
                     if ($model->item_category_public_id) {
-                        return link_to("item_categories/{$model->item_category_public_id}", 
+                        return link_to("item_categories/{$model->item_category_public_id}",
                             $model->item_category_name)->toHtml();
-                    }else{
+                    } else {
                         return $model->item_category_name;
                     }
                 },
             ],
             [
-                'store_name',
+                'warehouse_name',
                 function ($model) {
                     if ($model->store_public_id) {
                         return link_to("warehouses/{$model->store_public_id}",
                             $model->store_name)->toHtml();
-                    }else{
+                    } else {
                         return $model->store_name;
                     }
                 },

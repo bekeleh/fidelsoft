@@ -138,9 +138,10 @@ class InvoiceController extends BaseController
         ];
 
         $data = array_merge($data, self::getViewModel($invoice));
-        $this->checkDefaultBranch();
-        $this->checkDefaultWarehouse();
+
         $this->checkProduct($data);
+        $this->checkDefaultWarehouse();
+        $this->checkDefaultBranch();
 
         return View::make('invoices.edit', $data);
     }
@@ -442,7 +443,7 @@ class InvoiceController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account->load('country'),
-            'products' => Product::scope()->withActiveOrSelected(isset($invoice) ? $invoice->product_id : false)->stock()->orderBy('product_key')->get(),
+            'products' => Product::scope()->withActiveOrSelected(isset($invoice) ? $invoice->product_id : false)->stock(),
             'clients' => Client::scope()->with('contacts', 'country')->orderBy('name')->get(),
             'taxRateOptions' => $taxRateOptions,
             'sizes' => Cache::get('sizes'),
