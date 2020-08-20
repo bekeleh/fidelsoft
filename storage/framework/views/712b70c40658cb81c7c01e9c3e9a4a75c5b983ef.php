@@ -1,1 +1,0 @@
-<?php echo strip_tags(str_replace('</div>', "\n\n", $body)); ?>

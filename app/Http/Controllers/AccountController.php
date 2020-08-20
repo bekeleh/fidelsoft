@@ -869,7 +869,7 @@ class AccountController extends BaseController
     {
         if (Auth::user()->account->hasFeature(FEATURE_INVOICE_SETTINGS)) {
             $rules = [];
-            foreach ([ENTITY_INVOICE, ENTITY_QUOTE, ENTITY_CLIENT, ENTITY_BILL, ENTITY_BILL_QUOTE, ENTITY_VENDOR] as $entityType) {
+            foreach ([ENTITY_INVOICE, ENTITY_QUOTE, ENTITY_CLIENT, ENTITY_CREDIT, ENTITY_BILL, ENTITY_BILL_QUOTE, ENTITY_VENDOR, ENTITY_VENDOR_CREDIT] as $entityType) {
                 if (Input::get("{$entityType}_number_type") == 'pattern') {
                     $rules["{$entityType}_number_pattern"] = 'has_counter';
                 }
@@ -878,10 +878,11 @@ class AccountController extends BaseController
                 $rules['credit_number_prefix'] = 'required_without:credit_number_pattern';
                 $rules['credit_number_pattern'] = 'required_without:credit_number_prefix';
             }
-            if (Input::get('vendor_credit_number_enabled')) {
-                $rules['vendor_credit_number_prefix'] = 'required_without:vendor_credit_number_pattern';
-                $rules['vendor_credit_number_pattern'] = 'required_without:vendor_credit_number_prefix';
-            }
+
+//            if (Input::get('vendor_credit_number_enabled')) {
+//                $rules['vendor_credit_number_prefix'] = 'required_without:vendor_credit_number_pattern';
+//                $rules['vendor_credit_number_pattern'] = 'required_without:vendor_credit_number_prefix';
+//            }
 
             $validator = Validator::make(Input::all(), $rules);
 
