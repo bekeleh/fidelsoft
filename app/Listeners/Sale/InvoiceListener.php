@@ -55,7 +55,7 @@ class InvoiceListener
         $invoice->updatePaidStatus(false, false);
 
 //      send notification for subscribers
-        $this->notifyInvoiceUpdated($invoice);
+//        $this->notifyInvoiceUpdated($invoice);
 
     }
 
@@ -189,7 +189,7 @@ class InvoiceListener
     private function notifyInvoiceCreated($invoice): void
     {
 //      get event subscriber
-        $subscribers = Subscription::subscriber(EVENT_UPDATE_INVOICE);
+        $subscribers = Subscription::subscriber(EVENT_CREATE_INVOICE);
         $users = User::whereIn('id', $subscribers)->get();
         if ($users) {
             Notification::send($users, new NotifyInvoiceCreated($invoice));
@@ -215,7 +215,7 @@ class InvoiceListener
     private function notifyInvoiceDeleted($invoice): void
     {
 //      get event subscriber
-        $subscribers = Subscription::subscriber(EVENT_UPDATE_INVOICE);
+        $subscribers = Subscription::subscriber(EVENT_DELETE_INVOICE);
         $users = User::whereIn('id', $subscribers)->get();
         if ($users) {
             Notification::send($users, new NotifyInvoiceDeleted($invoice));
