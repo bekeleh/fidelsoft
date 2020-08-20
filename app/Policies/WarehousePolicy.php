@@ -5,6 +5,6 @@ namespace App\Policies;
 /**
  * Class StorePolicy.
  */
-class StorePolicy extends EntityPolicy
+class WarehousePolicy extends EntityPolicy
 {
 }

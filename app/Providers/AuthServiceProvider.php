@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Bill;
+use App\Models\BillPayment;
+use App\Models\BillQuote;
 use App\Models\Common\AccountGateway;
 use App\Models\Common\AccountGatewayToken;
 use App\Models\Common\AccountToken;
@@ -38,7 +41,7 @@ use App\Models\Schedule;
 use App\Models\ScheduleCategory;
 use App\Models\ScheduledReport;
 use App\Models\Status;
-use App\Models\Store;
+use App\Models\Warehouse;
 use App\Models\Common\Subscription;
 use App\Models\Task;
 use App\Models\TaxRate;
@@ -46,6 +49,9 @@ use App\Models\User;
 use App\Models\Vendor;
 use App\Policies\AccountGatewayPolicy;
 use App\Policies\BankAccountPolicy;
+use App\Policies\BillPaymentPolicy;
+use App\Policies\BillPolicy;
+use App\Policies\BillQuotePolicy;
 use App\Policies\BranchPolicy;
 use App\Policies\ClientPolicy;
 use App\Policies\ClientTypePolicy;
@@ -80,7 +86,7 @@ use App\Policies\ScheduleCategoryPolicy;
 use App\Policies\ScheduledReportPolicy;
 use App\Policies\SchedulePolicy;
 use App\Policies\StatusPolicy;
-use App\Policies\StorePolicy;
+use App\Policies\WarehousePolicy;
 use App\Policies\SubscriptionPolicy;
 use App\Policies\TaskPolicy;
 use App\Policies\TaxRatePolicy;
@@ -113,6 +119,9 @@ class AuthServiceProvider extends ServiceProvider
         Invoice::class => InvoicePolicy::class,
         Quote::class => QuotePolicy::class,
         Payment::class => PaymentPolicy::class,
+        Bill::class => BillPolicy::class,
+        BillQuote::class => BillQuotePolicy::class,
+        BillPayment::class => BillPaymentPolicy::class,
         Task::class => TaskPolicy::class,
         Product::class => ProductPolicy::class,
         ItemCategory::class => ItemCategoryPolicy::class,
@@ -120,7 +129,7 @@ class AuthServiceProvider extends ServiceProvider
         Location::class => LocationPolicy::class,
         Department::class => DepartmentPolicy::class,
         Branch::class => BranchPolicy::class,
-        Store::class => StorePolicy::class,
+        warehouse::class => warehousePolicy::class,
         ItemStore::class => ItemStorePolicy::class,
         ItemTransfer::class => ItemTransferPolicy::class,
         ItemRequest::class => ItemRequestPolicy::class,

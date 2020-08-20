@@ -2,16 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/0521543ddcf08ca8a3825ba18602575e392cbd0b.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/0e74b0eeab6faa39fa506f103a4e2308b4bc489d.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/362c8e4f7383faa309f6f061744495d8cb117774.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/5bf9b8fd8ebde14719c7f2ec1969c4fbdcc9edb3.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/8c2ff894ef3c0b2b4e370c3cd916511da966639e.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/d05e21dc4052c9336e934f8d4491a36d174bad0e.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Models/BillQuote.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/1c54b10809ba1ad640aeeb7b04c3a970e6f17dc0.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/c9a0509e50ecb4a322446b6624e35c7170934918.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/dd01c89cabf7799557454f3d8595f675186413bb.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/ed23d9e9d289af39b2b0cdb936915721cf4598dd.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Constants/Domain.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Constants/Domain.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/accounts/client_portal.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/accounts/client_portal.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/accounts/invoice_design.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/accounts/invoice_design.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AccountController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AccountController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/PurchasePaymentPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/BillPaymentPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/PurchaseQuotePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/BillQuotePolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/StorePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/WarehousePolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/sessions/qdKDRC42gBScMOtRiclCAu3x0aZt0f0opZffXStk" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/qdKDRC42gBScMOtRiclCAu3x0aZt0f0opZffXStk" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -555,14 +557,7 @@
       <workItem from="1597780765394" duration="1169000" />
       <workItem from="1597783530468" duration="132000" />
       <workItem from="1597857668208" duration="5145000" />
-      <workItem from="1597906948085" duration="22105000" />
-    </task>
-    <task id="LOCAL-00465" summary="2020-08-09 9:27">
-      <created>1596995141699</created>
-      <option name="number" value="00465" />
-      <option name="presentableId" value="LOCAL-00465" />
-      <option name="project" value="LOCAL" />
-      <updated>1596995141699</updated>
+      <workItem from="1597906948085" duration="23110000" />
     </task>
     <task id="LOCAL-00466" summary="2020-08-12 9:27">
       <created>1597258570396</created>
@@ -900,7 +895,14 @@
       <option name="project" value="LOCAL" />
       <updated>1597949284963</updated>
     </task>
-    <option name="localTasksCounter" value="514" />
+    <task id="LOCAL-00514" summary="2020-08-20 9:27">
+      <created>1597949717273</created>
+      <option name="number" value="00514" />
+      <option name="presentableId" value="LOCAL-00514" />
+      <option name="project" value="LOCAL" />
+      <updated>1597949717273</updated>
+    </task>
+    <option name="localTasksCounter" value="515" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -980,10 +982,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1280.680@0.0.1280.680" timestamp="1597674322149" />
-    <state x="400" y="147" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1597699194032">
+    <state x="400" y="147" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1597950533122">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="400" y="147" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1280.680@0.0.1280.680" timestamp="1597699194032" />
+    <state x="400" y="147" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1280.680@0.0.1280.680" timestamp="1597950533122" />
     <state x="554" y="0" key="#com.jetbrains.php.refactoring.extractMethod.PhpExtractMethodDialog#method0" timestamp="1597618546270">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -1016,10 +1018,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="468" y="194" key="NewPhpClassDialog/0.0.1280.680@0.0.1280.680" timestamp="1595245521679" />
-    <state x="667" y="137" key="NewPhpFileDialog" timestamp="1597943572601">
+    <state x="667" y="137" key="NewPhpFileDialog" timestamp="1597950530097">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="667" y="137" key="NewPhpFileDialog/0.0.1280.680@0.0.1280.680" timestamp="1597943572601" />
+    <state x="667" y="137" key="NewPhpFileDialog/0.0.1280.680@0.0.1280.680" timestamp="1597950530097" />
     <state x="456" y="276" key="ReplaceDuplicatesPrompt" timestamp="1592570494945">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -1056,9 +1058,9 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="334" y="154" width="672" height="677" key="run.anything.popup/0.0.1280.680@0.0.1280.680" timestamp="1597659034597" />
-    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup" timestamp="1597949642943">
+    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup" timestamp="1597950695335">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1597949642943" />
+    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1597950695335" />
   </component>
 </project>

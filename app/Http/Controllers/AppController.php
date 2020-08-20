@@ -407,85 +407,85 @@ class AppController extends BaseController
         }
 
         if (Utils::isNinjaProd()) {
-           return redirect('/');
-       }
+            return redirect('/');
+        }
 
         // if (!Utils::isSuperUser()) {
         //     return redirect('/');
         // }
 
-       $errors = Utils::getErrors();
+        $errors = Utils::getErrors();
 
-       return view('errors.list', compact('errors'));
-   }
-
-   public function stats()
-   {
-    if (!hash_equals(Input::get('password') ?: '', env('RESELLER_PASSWORD'))) {
-        sleep(3);
-
-        return '';
+        return view('errors.list', compact('errors'));
     }
 
-    if (Utils::getResllerType() == RESELLER_REVENUE_SHARE) {
-        $data = DB::table('accounts')
-        ->leftJoin('payments', 'payments.account_id', '=', 'accounts.id')
-        ->leftJoin('clients', 'clients.id', '=', 'payments.client_id')
-        ->where('accounts.account_key', '=', NINJA_ACCOUNT_KEY)
-        ->where('payments.is_deleted', '=', false)
-        ->get([
-            'clients.public_id as client_id',
-            'payments.public_id as payment_id',
-            'payments.payment_date',
-            'payments.amount',
-        ]);
-    } else {
-        $data = DB::table('users')->count();
+    public function stats()
+    {
+        if (!hash_equals(Input::get('password') ?: '', env('RESELLER_PASSWORD'))) {
+            sleep(3);
+
+            return '';
+        }
+
+        if (Utils::getResllerType() == RESELLER_REVENUE_SHARE) {
+            $data = DB::table('accounts')
+                ->leftJoin('payments', 'payments.account_id', '=', 'accounts.id')
+                ->leftJoin('clients', 'clients.id', '=', 'payments.client_id')
+                ->where('accounts.account_key', '=', NINJA_ACCOUNT_KEY)
+                ->where('payments.is_deleted', '=', false)
+                ->get([
+                    'clients.public_id as client_id',
+                    'payments.public_id as payment_id',
+                    'payments.payment_date',
+                    'payments.amount',
+                ]);
+        } else {
+            $data = DB::table('users')->count();
+        }
+
+        return json_encode($data);
     }
 
-    return json_encode($data);
-}
+    public function testHeadless()
+    {
+        $invoice = Invoice::scope()->orderBy('id')->first();
 
-public function testHeadless()
-{
-    $invoice = Invoice::scope()->orderBy('id')->first();
+        if (!$invoice) {
+            dd('Please create an invoice to run this test');
+        }
 
-    if (!$invoice) {
-        dd('Please create an invoice to run this test');
+        header('Content-type:application/pdf');
+        echo $invoice->getPDFString();
+        exit;
     }
 
-    header('Content-type:application/pdf');
-    echo $invoice->getPDFString();
-    exit;
-}
+    public function runCommand()
+    {
+        if (Utils::isNinjaProd()) {
+            abort(400, 'Not allowed');
+        }
 
-public function runCommand()
-{
-    if (Utils::isNinjaProd()) {
-        abort(400, 'Not allowed');
+        $command = request()->command;
+        $options = request()->options ?: [];
+        $secret = env('COMMAND_SECRET');
+
+        if (!$secret) {
+            exit('Set a value for COMMAND_SECRET in the .env file');
+        } elseif (!hash_equals($secret, request()->secret ?: '')) {
+            exit('Invalid secret');
+        }
+
+        if (!$command || !in_array($command, ['send-invoices', 'send-reminders', 'update-key'])) {
+            exit('Invalid command: Valid options are send-invoices, send-reminders or update-key');
+        }
+
+        Artisan::call('ninja:' . $command, $options);
+
+        return response(nl2br(Artisan::output()));
     }
 
-    $command = request()->command;
-    $options = request()->options ?: [];
-    $secret = env('COMMAND_SECRET');
-
-    if (!$secret) {
-        exit('Set a value for COMMAND_SECRET in the .env file');
-    } elseif (!hash_equals($secret, request()->secret ?: '')) {
-        exit('Invalid secret');
+    public function redirect()
+    {
+        return redirect((Utils::isNinja() ? NINJA_WEB_URL : ''), 301);
     }
-
-    if (!$command || !in_array($command, ['send-invoices', 'send-reminders', 'update-key'])) {
-        exit('Invalid command: Valid options are send-invoices, send-reminders or update-key');
-    }
-
-    Artisan::call('ninja:' . $command, $options);
-
-    return response(nl2br(Artisan::output()));
-}
-
-public function redirect()
-{
-    return redirect((Utils::isNinja() ? NINJA_WEB_URL : ''), 301);
-}
 }
