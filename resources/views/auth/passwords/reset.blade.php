@@ -63,7 +63,7 @@
         $(function () {
             $('#password').focus();
             validateForm();
-        })
+        });
 
         function validateForm() {
             var isValid = true;
@@ -75,7 +75,7 @@
             var password = $('#password').val();
             var confirm = $('#password_confirmation').val();
 
-            if (!password || password != confirm || password.length < 8) {
+            if (!password || password != confirm || password.length < 10) {
                 isValid = false;
             }
 

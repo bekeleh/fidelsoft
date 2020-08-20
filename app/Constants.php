@@ -1,7 +1,7 @@
 <?php
 
 if (!defined('APP_NAME')) {
-    define('APP_NAME', env('APP_NAME', 'Fidelsoft'));
+    define('APP_NAME', env('APP_NAME', 'Fidelsoft Business Management Suit'));
     define('APP_DOMAIN', env('APP_DOMAIN', ''));
     define('CONTACT_EMAIL', env('MAIL_FROM_ADDRESS'));
     define('CONTACT_NAME', env('MAIL_FROM_NAME'));

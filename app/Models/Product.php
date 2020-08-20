@@ -170,7 +170,7 @@ class Product extends EntityModel
                 'products.id',
                 'products.public_id',
                 'products.product_key',
-                DB::raw("COALESCE(CONCAT(NULLIF(products.product_key,''), ' ', NULLIF(item_brands.name,''), ' ', NULLIF(item_categories.name,'')), NULLIF(products.product_key,'')) product_key")
+                \DB::raw("COALESCE(CONCAT(NULLIF(products.product_key,''), ' ', NULLIF(item_brands.name,''), ' ', NULLIF(item_categories.name,'')), NULLIF(products.product_key,'')) product_key")
             );
 
         return $query->whereNotNull('products.product_key');

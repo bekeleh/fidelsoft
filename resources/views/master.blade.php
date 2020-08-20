@@ -129,7 +129,7 @@
         function showPasswordStrength(password, score) {
             if (password) {
                 var str = {!! json_encode(trans('texts.password_strength')) !!} +': ';
-                if (password.length < 8 || score < 50) {
+                if (password.length < 10 || score < 50) {
                     str += {!! json_encode(trans('texts.strength_weak')) !!};
                 } else if (score < 75) {
                     str += {!! json_encode(trans('texts.strength_good')) !!};

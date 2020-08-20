@@ -159,7 +159,7 @@ class InvoiceRepository extends BaseRepository
         } else {
             $query->where('clients.deleted_at', null);
         }
-        
+
         if (!Utils::hasPermission('view_invoice')) {
             $query->where('invoices.user_id', auth::user()->id);
         }

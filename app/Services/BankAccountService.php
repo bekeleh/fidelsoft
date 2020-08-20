@@ -74,7 +74,7 @@ class BankAccountService extends BaseService
         $vendorMap = $this->createVendorMap();
         $bankAccounts = BankSubaccount::scope()
             ->whereHas('bank_account', function ($query) use ($bankId) {
-                $query->where('bank_id', '=', $bankId);
+                $query->where('bank_id', $bankId);
             })
             ->get();
         $bank = Utils::getFromCache($bankId, 'banks');
