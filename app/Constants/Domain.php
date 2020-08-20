@@ -15,7 +15,7 @@ class Domain
             case static::INVOICENINJA_COM:
                 return 'fidel.com.et';
             case static::INVOICE_SERVICES:
-                return 'invoice.services';
+                return 'fidel.services';
         }
 
         return 'fidel.com.et';
@@ -23,7 +23,7 @@ class Domain
 
     public static function getLinkFromId($id)
     {
-        return 'https://app.' . static::getDomainFromId($id);
+        return 'https://www.' . static::getDomainFromId($id);
     }
 
     public static function getEmailFromId($id)
