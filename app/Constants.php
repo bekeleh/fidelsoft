@@ -519,6 +519,7 @@ if (!defined('APP_NAME')) {
     define('CUSTOMER_REFERENCE_LOCAL', 'local');
 //    payment
     define('EVENT_CREATE_PAYMENT', 4);
+    define('EVENT_UPDATE_PAYMENT', 412);
     define('EVENT_DELETE_PAYMENT', 12);
 //     invoice
     define('EVENT_CREATE_INVOICE', 2);

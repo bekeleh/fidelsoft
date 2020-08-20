@@ -171,7 +171,7 @@ class EventServiceProvider extends ServiceProvider
 //      sales Payment
         'App\Events\Sale\PaymentWasCreatedEvent' => [
             'App\Listeners\Report\ActivityListener@createdPayment',
-            'App\Listeners\PaymentListener@createdPayment',
+            'App\Listeners\Sale\PaymentListener@createdPayment',
             'App\Listeners\Sale\InvoiceListener@createdPayment',
             'App\Listeners\Sale\SendInvoicePaymentNotification@createdPayment',
             'App\Listeners\Report\AnalyticsListener@trackRevenue',

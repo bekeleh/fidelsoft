@@ -216,7 +216,7 @@ class InvoiceDatatable extends EntityDatatable
                     return "javascript:submitForm_quote('convert', {$model->public_id})";
                 },
                 function ($model) use ($entityType) {
-                    return $entityType == ENTITY_QUOTE && !$model->quote_invoice_id && Auth::user()->can('edit', [ENTITY_INVOICE, $model]);
+                    return $entityType == ENTITY_QUOTE && empty($model->quote_invoice_id) && Auth::user()->can('edit', [ENTITY_INVOICE, $model]);
                 },
             ],
             [

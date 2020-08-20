@@ -283,7 +283,7 @@ class Client extends EntityModel
 
     public function getRoute()
     {
-        return "/clients/{$this->public_id}/edit";
+        return "/clients/{$this->public_id}";
     }
 
     public function account()

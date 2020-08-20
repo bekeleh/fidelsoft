@@ -429,7 +429,7 @@ class InvoiceRepository extends BaseRepository
             $invoice->custom_taxes1 = $account->custom_invoice_taxes1 ?: false;
             $invoice->custom_taxes2 = $account->custom_invoice_taxes2 ?: false;
             $invoice->created_by = Auth::user()->username;
-            $invoice->branch_id = Auth::user()->branch->id;
+            $invoice->branch_id = !empty(Auth::user()->branch->id) ?: '';
             // set the default due date
             if ($entityType == ENTITY_INVOICE && empty($data['partial_due_date'])) {
                 $client = Client::scope()->where('id', $data['client_id'])->first();
@@ -678,6 +678,7 @@ class InvoiceRepository extends BaseRepository
 
         $clone = Invoice::createNew($invoice);
         $clone->balance = $invoice->amount;
+        $clone->branch_id = !empty(Auth::user()->branch->id) ?: '';
 
 // if the invoice prefix is diff than quote prefix, use the same number for the invoice (if it's available)
         $invoiceNumber = false;
