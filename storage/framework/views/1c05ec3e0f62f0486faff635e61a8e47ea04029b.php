@@ -1,31 +1,37 @@
 <!-- tax rate 1-->
-{!! Former::select('tax_select1')
+<?php echo Former::select('tax_select1')
   ->addOption('','')
   ->label(isset($taxRateLabel) ? $taxRateLabel : trans('texts.tax_rate'))
   ->onchange('taxSelectChange(event)')
-  ->fromQuery($taxRates, null, 'public_id') !!}
+  ->fromQuery($taxRates, null, 'public_id'); ?>
+
 
 <div style="display:none">
-    {!! Former::input('tax_rate1') !!}
-    {!! Former::input('tax_name1') !!}
+    <?php echo Former::input('tax_rate1'); ?>
+
+    <?php echo Former::input('tax_name1'); ?>
+
 </div>
 <!-- tax rate 2-->
-<div style="display:{{ $account->enable_second_tax_rate ? 'block' : 'none' }}">
-    {!! Former::select('tax_select2')
+<div style="display:<?php echo e($account->enable_second_tax_rate ? 'block' : 'none'); ?>">
+    <?php echo Former::select('tax_select2')
         ->addOption('','')
         ->label(isset($taxRateLabel) ? $taxRateLabel : trans('texts.tax_rate2'))
         ->onchange('taxSelectChange(event)')
-        ->fromQuery($taxRates, null, 'public_id') !!}
+        ->fromQuery($taxRates, null, 'public_id'); ?>
+
 
     <div style="display:none">
-        {!! Former::input('tax_rate2') !!}
-        {!! Former::input('tax_name2') !!}
+        <?php echo Former::input('tax_rate2'); ?>
+
+        <?php echo Former::input('tax_name2'); ?>
+
     </div>
 </div>
 
 <script type="text/javascript">
 
-    var taxRates = {!! $taxRates !!};
+    var taxRates = <?php echo $taxRates; ?>;
 
     function taxSelectChange(event) {
         var $select = $(event.target);

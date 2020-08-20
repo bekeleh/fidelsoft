@@ -42,11 +42,13 @@ class InvoiceDatatable extends EntityDatatable
             [
                 'branch_name',
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_BRANCH]))
-                        return link_to("branches/{$model->branch_public_id}", $model->branch_name)->toHtml();
-                    else
-                        return $model->branch_name;
-
+                    if ($model->branch_public_id) {
+                        if (Auth::user()->can('edit', [ENTITY_BRANCH])) {
+                            return link_to("branches/{$model->branch_public_id}", $model->branch_name)->toHtml();
+                        } else {
+                            return $model->branch_name;
+                        }
+                    }
                 },
             ],
             [

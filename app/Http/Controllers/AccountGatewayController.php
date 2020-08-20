@@ -92,6 +92,8 @@ class AccountGatewayController extends BaseController
      */
     public function create()
     {
+
+        abort(403, 'Coming soon...');
         $this->authorize('create', ENTITY_ACCOUNT_GATEWAY);
         if (!Request::secure() && !Utils::isNinjaDev()) {
             Session::now('warning', trans('texts.enable_https'));
@@ -102,6 +104,7 @@ class AccountGatewayController extends BaseController
         $wepay = Input::get('wepay');
 
         $data = self::getViewModel();
+
         $data['url'] = 'gateways';
         $data['method'] = 'POST';
         $data['title'] = trans('texts.add_gateway');
@@ -126,6 +129,7 @@ class AccountGatewayController extends BaseController
         $account = $user->account;
 
         $creditCardsArray = unserialize(CREDIT_CARDS);
+
         $creditCards = [];
         foreach ($creditCardsArray as $card => $name) {
             if ($selectedCards > 0 && ($selectedCards & $card) == $card) {
@@ -137,7 +141,7 @@ class AccountGatewayController extends BaseController
 
         $account->load('account_gateways');
         $currentGateways = $account->account_gateways;
-        $gateways = Gateway::where('payment_library_id', '=', 1)->orderBy('name')->get();
+        $gateways = Gateway::where('payment_library_id', 1)->orderBy('name')->get();
 
         if ($accountGateway) {
             $accountGateway->fields = [];

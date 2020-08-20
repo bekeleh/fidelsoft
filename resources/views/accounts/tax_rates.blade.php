@@ -57,12 +57,9 @@
                 {!! Former::plaintext(' ')->help(
                         trans($account->inclusive_taxes ? 'texts.taxes_are_included_help' : 'texts.taxes_are_not_included_help'))  !!}
             @endif
-
             &nbsp;
-
             @if ($taxRates->count())
                 @include('partials.tax_rates', ['taxRateLabel' => trans('texts.default_tax_rate_id')])
-                &nbsp;
             @endif
 
             {!! Former::actions( Button::success(trans('texts.save'))->submit()->appendIcon(Icon::create('floppy-disk')) ) !!}
@@ -79,7 +76,7 @@
             @if ($countInvoices > 0)
             $('#inclusive_taxes').change(function () {
                 swal("{{ trans('texts.inclusive_taxes_warning') }}");
-            })
+            });
             @endif
         })
     </script>
