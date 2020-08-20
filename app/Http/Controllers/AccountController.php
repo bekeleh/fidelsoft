@@ -298,7 +298,11 @@ class AccountController extends BaseController
 //    system setting
     private function showSystemSettings()
     {
-        if (Utils::isNinjaProd() || !auth::user()->isSuperUser()) {
+        if (!auth::user()->isSuperUser()) {
+            return Redirect::to('/');
+        }
+
+        if (Utils::isNinjaProd()) {
             return Redirect::to('/');
         }
 

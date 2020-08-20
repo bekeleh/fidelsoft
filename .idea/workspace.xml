@@ -2,19 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Models/BillQuote.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/1c54b10809ba1ad640aeeb7b04c3a970e6f17dc0.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/c9a0509e50ecb4a322446b6624e35c7170934918.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/dd01c89cabf7799557454f3d8595f675186413bb.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/ed23d9e9d289af39b2b0cdb936915721cf4598dd.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AccountController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AccountController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/PurchasePaymentPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/BillPaymentPolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/PurchaseQuotePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/BillQuotePolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Policies/StorePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/WarehousePolicy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/qdKDRC42gBScMOtRiclCAu3x0aZt0f0opZffXStk" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/qdKDRC42gBScMOtRiclCAu3x0aZt0f0opZffXStk" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -557,14 +546,7 @@
       <workItem from="1597780765394" duration="1169000" />
       <workItem from="1597783530468" duration="132000" />
       <workItem from="1597857668208" duration="5145000" />
-      <workItem from="1597906948085" duration="23110000" />
-    </task>
-    <task id="LOCAL-00466" summary="2020-08-12 9:27">
-      <created>1597258570396</created>
-      <option name="number" value="00466" />
-      <option name="presentableId" value="LOCAL-00466" />
-      <option name="project" value="LOCAL" />
-      <updated>1597258570397</updated>
+      <workItem from="1597906948085" duration="23192000" />
     </task>
     <task id="LOCAL-00467" summary="2020-08-12 9:27">
       <created>1597258706575</created>
@@ -902,7 +884,14 @@
       <option name="project" value="LOCAL" />
       <updated>1597949717273</updated>
     </task>
-    <option name="localTasksCounter" value="515" />
+    <task id="LOCAL-00515" summary="2020-08-20 9:27">
+      <created>1597950729156</created>
+      <option name="number" value="00515" />
+      <option name="presentableId" value="LOCAL-00515" />
+      <option name="project" value="LOCAL" />
+      <updated>1597950729156</updated>
+    </task>
+    <option name="localTasksCounter" value="516" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -998,10 +987,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1597344338612" />
-    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1597949714732">
+    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1597950957164">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1597949714732" />
+    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1597950957164" />
     <state x="418" y="255" key="ComposerInitDialogKey" timestamp="1589789975070">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -1058,9 +1047,9 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="334" y="154" width="672" height="677" key="run.anything.popup/0.0.1280.680@0.0.1280.680" timestamp="1597659034597" />
-    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup" timestamp="1597950695335">
+    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup" timestamp="1597950776223">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1597950695335" />
+    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1597950776223" />
   </component>
 </project>
