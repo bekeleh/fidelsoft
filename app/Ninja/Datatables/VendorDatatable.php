@@ -44,6 +44,20 @@ class VendorDatatable extends EntityDatatable
                 },
             ],
             [
+                'warehouse_name',
+                function ($model) {
+                    if ($model->warehouse_public_id) {
+                        if (auth::user()->can('edit', $model)) {
+                            link_to("warehouses/{$model->warehouse_public_id}", $model->warehouse_name ?: '')->toHtml();
+                        } else {
+                            return $model->warehouse_name;
+                        }
+                    } else {
+                        return '';
+                    }
+                },
+            ],
+            [
                 'public_notes',
                 function ($model) {
                     return $model->public_notes;

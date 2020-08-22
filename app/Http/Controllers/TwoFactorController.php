@@ -9,6 +9,7 @@ class TwoFactorController extends Controller
 {
     public function setupTwoFactor()
     {
+        abort(403, 'under construction');
         $user = auth()->user();
 
         if ($user->google_2fa_secret || !$user->phone || !$user->confirmed) {

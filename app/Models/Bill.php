@@ -240,6 +240,7 @@ class Bill extends EntityModel implements BalanceAffecting
                 if ($payment->payment_status_id == PAYMENT_STATUS_VOIDED || $payment->payment_status_id == PAYMENT_STATUS_FAILED) {
                     continue;
                 }
+
                 $amount += $payment->getCompletedAmount();
             }
 
@@ -279,6 +280,7 @@ class Bill extends EntityModel implements BalanceAffecting
         return $this->belongsTo('App\Models\Vendor', 'vendor_id')->withTrashed();
     }
 
+//  to cheat bill items
     public function invoice_items()
     {
         return $this->hasMany('App\Models\BillItem')->orderBy('id');
@@ -940,7 +942,7 @@ class Bill extends EntityModel implements BalanceAffecting
             if ($bill_date) {
                 // If $bill_date is specified, all calculations are based on that date
                 if (is_numeric($bill_date)) {
-                    $now = $bill_date;
+                    $now = strtotime($bill_date);
                 } elseif (is_string($bill_date)) {
                     $now = strtotime($bill_date);
                 } elseif ($bill_date instanceof DateTime) {

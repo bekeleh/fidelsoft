@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
+use Log;
 use Redirect;
 use Illuminate\Support\Facades\Request;
 
@@ -72,10 +73,6 @@ class BillController extends BaseController
         $this->paymentService = $paymentService;
     }
 
-    /**
-     * @return Response
-     * @throws AuthorizationException
-     */
     public function index()
     {
         $this->authorize('view', ENTITY_BILL);
@@ -89,11 +86,6 @@ class BillController extends BaseController
         return response()->view('list_wrapper', $data);
     }
 
-
-    /**
-     * @param $publicId
-     * @return mixed
-     */
     public function show($publicId)
     {
         Session::reflash();
@@ -101,10 +93,6 @@ class BillController extends BaseController
         return Redirect::to("bills/{$publicId}/edit");
     }
 
-    /**
-     * @param null $vendorPublicId
-     * @return mixed
-     */
     public function getDatatable($vendorPublicId = null)
     {
         $accountId = Auth::user()->account_id;
@@ -113,10 +101,6 @@ class BillController extends BaseController
         return $this->billService->getDatatable($accountId, $vendorPublicId, ENTITY_BILL, $search);
     }
 
-    /**
-     * @param null $vendorPublicId
-     * @return bool
-     */
     public function getRecurringDatatable($vendorPublicId = null)
     {
         $accountId = Auth::user()->account_id;
@@ -126,13 +110,6 @@ class BillController extends BaseController
             ->getDatatable($accountId, $vendorPublicId, ENTITY_RECURRING_BILL, $search);
     }
 
-    /**
-     * @param BillRequest $request
-     * @param int $vendorPublicId
-     * @param bool $isRecurring
-     * @return mixed
-     * @throws AuthorizationException
-     */
     public function create(BillRequest $request, $vendorPublicId = 0, $isRecurring = false)
     {
         $this->authorize('create', ENTITY_BILL);
@@ -146,6 +123,7 @@ class BillController extends BaseController
         }
 
         $bill = $account->createBill($entityType, $vendorId);
+
         dd($bill);
         $bill->public_id = 0;
         $bill->loadFromRequest();
@@ -170,48 +148,38 @@ class BillController extends BaseController
         return View::make('bills.edit', $data);
     }
 
-    /**
-     * @param CreateBillRequest $request
-     * @return UrlGenerator|string
-     */
     public function store(CreateBillRequest $request)
     {
-        $data = $request->input();
-        $data['documents'] = $request->file('documents');
-
-        $action = Input::get('action');
-
-        $entityType = Input::get('entityType');
-
-
-        $bill = $this->billService->save($data);
-
-        $entityType = $bill->getEntityType();
-
-        $message = trans("texts.created_{$entityType}");
-
-        $input = $request->input();
-        $vendorPublicId = isset($input['client']['public_id']) ? $input['client']['public_id'] : false;
-        if ($vendorPublicId == '-1') {
-            $message = $message . ' ' . trans('texts.and_created_vendor');
-        }
-
-        Session::flash('message', $message);
-
-        if ($action == 'email') {
-            $this->emailBill($bill);
-        }
-
-        return url($bill->getRoute());
+        Log::info($request->all());
+//        $data = $request->input();
+//        $data['documents'] = $request->file('documents');
+//
+//        $action = Input::get('action');
+//
+//        $entityType = Input::get('entityType');
+//
+//
+//        $bill = $this->billService->save($data);
+//
+//        $entityType = $bill->getEntityType();
+//
+//        $message = trans("texts.created_{$entityType}");
+//
+//        $input = $request->input();
+//        $vendorPublicId = isset($input['client']['public_id']) ? $input['client']['public_id'] : false;
+//        if ($vendorPublicId == '-1') {
+//            $message = $message . ' ' . trans('texts.and_created_vendor');
+//        }
+//
+//        Session::flash('message', $message);
+//
+//        if ($action == 'email') {
+//            $this->emailBill($bill);
+//        }
+//
+//        return url($bill->getRoute());
     }
 
-    /**
-     * @param BillRequest $request
-     * @param $publicId
-     * @param bool $clone
-     * @return mixed
-     * @throws AuthorizationException
-     */
     public function edit(BillRequest $request, $publicId, $clone = false)
     {
         $this->authorize('edit', ENTITY_BILL);
@@ -338,10 +306,6 @@ class BillController extends BaseController
         return View::make('bills.edit', $data);
     }
 
-    /**
-     * @param UpdateBillRequest $request
-     * @return UrlGenerator|string
-     */
     public function update(UpdateBillRequest $request)
     {
         $data = $request->input();
@@ -369,21 +333,11 @@ class BillController extends BaseController
         return url($bill->getRoute());
     }
 
-    /**
-     * @param BillRequest $request
-     * @param int $vendorPublicId
-     * @return mixed
-     * @throws AuthorizationException
-     */
     public function createRecurring(BillRequest $request, $vendorPublicId = 0)
     {
         return self::create($request, $vendorPublicId, true);
     }
 
-    /**
-     * @param $bill
-     * @return array
-     */
     private static function getViewModel($bill)
     {
 
@@ -483,10 +437,6 @@ class BillController extends BaseController
         ];
     }
 
-    /**
-     * @param $bill
-     * @return mixed
-     */
     private function emailBill($bill)
     {
         $reminder = Input::get('reminder');
@@ -528,10 +478,6 @@ class BillController extends BaseController
         }
     }
 
-    /**
-     * @param $bill
-     * @return array|bool|Translator|string|null
-     */
     private function emailRecurringInvoice(&$bill)
     {
         if (!$bill->shouldSendToday()) {
@@ -560,10 +506,6 @@ class BillController extends BaseController
         }
     }
 
-    /**
-     * @param string $entityType
-     * @return RedirectResponse|Redirector
-     */
     public function bulk($entityType = ENTITY_BILL)
     {
         $action = Input::get('bulk_action') ?: Input::get('action');
@@ -593,10 +535,6 @@ class BillController extends BaseController
         return $this->returnBulk($entityType, $action, $ids);
     }
 
-    /**
-     * @param BillRequest $request
-     * @return UrlGenerator|string
-     */
     public function convertQuote(BillRequest $request)
     {
         $clone = $this->billService->convertQuote($request->entity());
@@ -606,32 +544,16 @@ class BillController extends BaseController
         return url('bills/' . $clone->public_id);
     }
 
-    /**
-     * @param BillRequest $request
-     * @param $publicId
-     * @return mixed
-     * @throws AuthorizationException
-     */
     public function cloneBill(BillRequest $request, $publicId)
     {
         return self::edit($request, $publicId, BILL_TYPE_STANDARD);
     }
 
-    /**
-     * @param BillRequest $request
-     * @param $publicId
-     * @return mixed
-     * @throws AuthorizationException
-     */
     public function cloneQuote(BillRequest $request, $publicId)
     {
         return self::edit($request, $publicId, INVOICE_TYPE_QUOTE);
     }
 
-    /**
-     * @param BillRequest $request
-     * @return mixed
-     */
     public function billHistory(BillRequest $request)
     {
         $bill = $request->entity();
@@ -700,10 +622,6 @@ class BillController extends BaseController
         return View::make('bills.history', $data);
     }
 
-    /**
-     * @param BillRequest $request
-     * @return mixed
-     */
     public function receiveNote(BillRequest $request)
     {
         $bill = $request->entity();
@@ -732,10 +650,6 @@ class BillController extends BaseController
         return View::make('bills.delivery_note', $data);
     }
 
-    /**
-     * @param bool $billPublicId
-     * @return string
-     */
     public function checkBillNumber($billPublicId = false)
     {
         $billNumber = request()->bill_number;

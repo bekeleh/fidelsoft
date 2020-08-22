@@ -1404,7 +1404,7 @@ class Account extends Eloquent
         $bill->vendor_id = $vendorId;
         $bill->custom_taxes1 = $this->custom_bill_taxes1;
         $bill->custom_taxes2 = $this->custom_bill_taxes2;
-//      to generate invoice number using micro time() carbon instance
+//      to generate bill number using micro time() carbon instance
         if ($entityType === ENTITY_RECURRING_BILL) {
             $bill->bill_number = microtime(true);
             $bill->is_recurring = true;

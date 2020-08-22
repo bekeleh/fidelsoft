@@ -34,6 +34,7 @@ class VendorRepository extends BaseRepository
             ->LeftJoin('accounts', 'accounts.id', '=', 'vendors.account_id')
             ->LeftJoin('users', 'users.id', '=', 'vendors.user_id')
             ->LeftJoin('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
+            ->LeftJoin('warehouses', 'warehouses.id', '=', 'vendors.warehouse_id')
             ->where('vendors.account_id', $accountId)
             ->where('vendor_contacts.is_primary', true)
 //            ->where('vendor_contacts.deleted_at', null)
@@ -57,7 +58,9 @@ class VendorRepository extends BaseRepository
                 'vendors.deleted_at',
                 'vendors.created_by',
                 'vendors.updated_by',
-                'vendors.deleted_by'
+                'vendors.deleted_by',
+                'warehouses.public_id as warehouse_public_id',
+                'warehouses.name as warehouse_name'
             );
 
         if ($filter) {
@@ -71,7 +74,8 @@ class VendorRepository extends BaseRepository
                     ->orWhere('vendor_contacts.first_name', 'like', '%' . $filter . '%')
                     ->orWhere('vendor_contacts.last_name', 'like', '%' . $filter . '%')
                     ->orWhere('vendor_contacts.phone', 'like', '%' . $filter . '%')
-                    ->orWhere('vendor_contacts.email', 'like', '%' . $filter . '%');
+                    ->orWhere('vendor_contacts.email', 'like', '%' . $filter . '%')
+                    ->orWhere('warehouses.name', 'like', '%' . $filter . '%');
             });
         }
 

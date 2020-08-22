@@ -220,6 +220,11 @@ class Vendor extends EntityModel
         return $this->hasMany('App\Models\BillCredit');
     }
 
+//  default warehouse
+    public function warehouse()
+    {
+        return $this->belongsTo('App\Models\Warehouse');
+    }
 
     public function creditsWithBalance()
     {

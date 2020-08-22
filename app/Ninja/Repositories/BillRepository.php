@@ -481,8 +481,8 @@ class BillRepository extends BaseRepository
         }
 
 //     TODO: should be examine this expression
-        if ($data['bill_design_id'] && !$data['bill_design_id']) {
-            $data['bill_design_id'] = 1;
+        if ($data['invoice_design_id'] && !$data['invoice_design_id']) {
+            $data['invoice_design_id'] = 1;
         }
 
 //      fill bill

@@ -86,6 +86,11 @@ class Warehouse extends EntityModel
         return $this->belongsToMany('\App\Models\Product', 'item_stores')->withTrashed();
     }
 
+    public function vendors()
+    {
+        return $this->hasMany('\App\Models\Vendor')->withTrashed();
+    }
+
     public function scopeHasQuantity($query)
     {
         $query = $query->whereHas('item_stores', function ($query) {

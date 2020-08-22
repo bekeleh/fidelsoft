@@ -207,10 +207,10 @@ class AppController extends BaseController
             $config .= "{$key}={$val}\n";
         }
 
-        $filePath = base_path() . '/.env';
-        $fp = fopen($filePath, 'w');
-        fwrite($fp, $config);
-        fclose($fp);
+//        $filePath = base_path() . '/.env';
+//        $fp = fopen($filePath, 'w');
+//        fwrite($fp, $config);
+//        fclose($fp);
 
         Session::flash('message', trans('texts.updated_settings'));
 

@@ -952,7 +952,7 @@ $LANG = array(
     'close' => 'Close',
     'provide_email' => 'Please provide a valid email address',
     'powered_by' => 'Powered by',
-    'team_source' => 'Fidelsoftsoft Business Management Suit',
+    'team_source' => 'Fidelsoft Business Management Suit',
     'no_items' => 'No items',
     //  Recurrring invoice
     'recurring_invoices' => 'Recurring Invoices',
@@ -1102,7 +1102,7 @@ $LANG = array(
     'payment_message' => 'Thank you for your payment of :amount.',
     'email_salutation' => 'Dear :name,',
     'email_signature' => 'Regards,',
-    'email_from' => 'Fidelsoftsoft Business Management Suit',
+    'email_from' => 'Fidelsoft Business Management Suit',
     'invoice_link_message' => 'To view the invoice click the link below:',
     'notification_invoice_paid_subject' => 'Invoice :invoice was paid by :client',
     'notification_invoice_sent_subject' => 'Invoice :invoice was sent to :client',
