@@ -293,34 +293,34 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\Setting\ProductListener@deletedProduct',
         ],
 
-//      Bill Invoices
+//      Bills
         'App\Events\Purchase\BillWasCreatedEvent' => [
             'App\Listeners\Report\ActivityListener@createdBill',
-            'App\Listeners\Purchase\BillListener@createdInvoice',
+            'App\Listeners\Purchase\BillListener@createdBill',
         ],
         'App\Events\Purchase\BillWasUpdatedEvent' => [
             'App\Listeners\Report\ActivityListener@updatedBill',
-            'App\Listeners\Purchase\BillListener@updatedInvoice',
+            'App\Listeners\Purchase\BillListener@updatedBill',
         ],
         'App\Events\Purchase\BillItemsWereCreatedEvent' => [
-            'App\Listeners\Purchase\BillItemListener@createdInvoice',
+            'App\Listeners\Purchase\BillItemListener@createdBill',
         ],
         'App\Events\Purchase\BillItemsWereUpdatedEvent' => [
-            'App\Listeners\Purchase\BillItemListener@updatedInvoice',
+            'App\Listeners\Purchase\BillItemListener@updatedBill',
         ],
         'App\Events\Purchase\BillWasArchivedEvent' => [
             'App\Listeners\Report\ActivityListener@archivedBill',
         ],
         'App\Events\Purchase\BillWasDeletedEvent' => [
             'App\Listeners\Report\ActivityListener@deletedBill',
-//            'App\Listeners\Report\HistoryListener@deletedInvoice',
-            'App\Listeners\Purchase\BillItemListener@deletedInvoice',
+//            'App\Listeners\Report\HistoryListener@deletedBill',
+            'App\Listeners\Purchase\BillItemListener@deletedBill',
         ],
         'App\Events\Purchase\BillWasRestoredEvent' => [
             'App\Listeners\Report\ActivityListener@restoredBill',
         ],
         'App\Events\Purchase\BillWasEmailedEvent' => [
-            'App\Listeners\Purchase\BillListener@emailedInvoice',
+            'App\Listeners\Purchase\BillListener@emailedBill',
             'App\Listeners\Purchase\BillNotificationListener@emailedBill',
         ],
         'App\Events\Purchase\BillInvitationWasEmailedEvent' => [
@@ -328,8 +328,8 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\Purchase\BillInvitationWasViewedEvent' => [
             'App\Listeners\Report\ActivityListener@viewedBill',
-            'App\Listeners\Purchase\SendBillNotification@viewedInvoice',
-            'App\Listeners\Purchase\BillListener@viewedInvoice',
+            'App\Listeners\Purchase\SendBillNotification@viewedBill',
+            'App\Listeners\Purchase\BillListener@viewedBill',
         ],
 //     Bill quote
         'App\Events\Purchase\BillQuoteWasCreatedEvent' => [

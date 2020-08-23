@@ -7,6 +7,7 @@ use App\Events\Auth\UserSettingsChangedEvent;
 use App\Events\UserSignedUpEvent;
 use App\Libraries\Utils;
 use App\Notifications\Auth\Reset;
+use DB;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -582,6 +583,12 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
         }
 
         return is_null($this->public_id) || $this->public_id == 0;
+    }
+
+    // Would allow to check past notifications
+    public static function getNotifyUserId($userId)
+    {
+        return User::whereIn('id', $userId)->get();
     }
 // Needs mysql 5.7
 // Would allow to check past notifications

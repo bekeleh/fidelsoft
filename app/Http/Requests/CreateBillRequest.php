@@ -17,7 +17,7 @@ class CreateBillRequest extends BillRequest
     {
         $rules = [
             'client' => 'required',
-            'bill_items' => 'valid_bill_items',
+            'invoice_items' => 'valid_bill_items',
             'bill_number' => 'required|unique:bills,bill_number,' . $this->id . ',id,account_id,' . $this->user()->account_id,
             'discount' => 'positive',
             'bill_date' => 'required',
@@ -27,8 +27,8 @@ class CreateBillRequest extends BillRequest
         ];
 
         if ($this->user()->account->vendor_number_counter) {
-            $vendorId = Vendor::getPrivateId(request()->input('vendor')['public_id']);
-            $rules['vendor.id_number'] = 'unique:vendors,id_number,' . $vendorId . ',id,account_id,' . $this->user()->account_id;
+            $vendorId = Vendor::getPrivateId(request()->input('client')['public_id']);
+            $rules['client.id_number'] = 'unique:vendors,id_number,' . $vendorId . ',id,account_id,' . $this->user()->account_id;
         }
 
         /* There's a problem parsing the dates

@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Client;
+use App\Models\Vendor;
 
 class UpdateBillRequest extends InvoiceRequest
 {
@@ -19,12 +19,12 @@ class UpdateBillRequest extends InvoiceRequest
             return [];
         }
 
-        $invoiceId = $this->entity()->id;
+        $billId = $this->entity()->id;
 
         $rules = [
             'client' => 'required',
-            'bill_items' => 'valid_bill_items',
-            'bill_number' => 'required|unique:bills,bill_number,' . $invoiceId . ',id,account_id,' . $this->user()->account_id,
+            'invoice_items' => 'valid_bill_items',
+            'bill_number' => 'required|unique:bills,bill_number,' . $billId . ',id,account_id,' . $this->user()->account_id,
             'discount' => 'positive',
             'bill_date' => 'required',
             //'due_date' => 'date',
@@ -33,8 +33,8 @@ class UpdateBillRequest extends InvoiceRequest
         ];
 
         if ($this->user()->account->vendor_number_counter) {
-            $vendorId = Client::getPrivateId(request()->input('vendor')['public_id']);
-            $rules['vendor.id_number'] = 'unique:vendors,id_number,' . $vendorId . ',id,account_id,' . $this->user()->account_id;
+            $vendorId = Vendor::getPrivateId(request()->input('client')['public_id']);
+            $rules['client.id_number'] = 'unique:vendors,id_number,' . $vendorId . ',id,account_id,' . $this->user()->account_id;
         }
 
         /* There's a problem parsing the dates

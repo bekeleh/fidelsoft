@@ -23,7 +23,7 @@ class UpdateBillItemRequest extends BillItemRequest
 
         $rules = [
             'client' => 'required',
-            'bill_items' => 'valid_bill_items',
+            'invoice_items' => 'valid_bill_items',
             'bill_number' => 'required|unique:bills,bill_number,' . $billId . ',id,account_id,' . $this->user()->account_id,
             'discount' => 'positive',
             'bill_date' => 'required',

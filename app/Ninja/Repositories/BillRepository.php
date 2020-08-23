@@ -22,6 +22,7 @@ use Datatable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Log;
 
 class BillRepository extends BaseRepository
 {
@@ -47,9 +48,7 @@ class BillRepository extends BaseRepository
         return 'App\Models\Bill';
     }
 
-    /**
-     * @return mixed
-     */
+
     public function all()
     {
         return Bill::scope()
@@ -58,13 +57,6 @@ class BillRepository extends BaseRepository
             ->withTrashed()->where('is_recurring', false)->get();
     }
 
-    /**
-     * @param bool $accountId
-     * @param bool $vendorPublicId
-     * @param string $entityType
-     * @param bool $filter
-     * @return mixed|null
-     */
     public function getBills($accountId = false, $vendorPublicId = false, $entityType = ENTITY_BILL, $filter = false)
     {
         $query = DB::table('bills')
@@ -166,12 +158,6 @@ class BillRepository extends BaseRepository
         return $query;
     }
 
-    /**
-     * @param bool $accountId
-     * @param bool $vendorPublicId
-     * @param bool $filter
-     * @return mixed
-     */
     public function getRecurringBills($accountId = false, $vendorPublicId = false, $filter = false)
     {
         $query = DB::table('bills')
@@ -245,11 +231,6 @@ class BillRepository extends BaseRepository
         return $query;
     }
 
-    /**
-     * @param $contactId
-     * @param null $filter
-     * @return mixed
-     */
     public function getVendorRecurringDatatable($contactId, $filter = null)
     {
         $query = DB::table('bill_invitations')
@@ -319,12 +300,6 @@ class BillRepository extends BaseRepository
         return $table->make();
     }
 
-    /**
-     * @param $contactId
-     * @param $entityType
-     * @param $search
-     * @return mixed
-     */
     public function getVendorDatatable($contactId, $entityType, $search)
     {
         $query = DB::table('bill_invitations')
@@ -424,11 +399,6 @@ class BillRepository extends BaseRepository
             })->make();
     }
 
-    /**
-     * @param array $data
-     * @param Bill|null $bill
-     * @return Bill
-     */
     public function save(array $data, Bill $bill = null)
     {
         $account = $bill ? $bill->account : Auth::user()->account;
@@ -489,7 +459,7 @@ class BillRepository extends BaseRepository
         $bill->fill($data);
 
 //      update account default template
-//        $this->saveAccountDefault($account, $bill, $data);
+        $this->saveAccountDefault($account, $bill, $data);
 
         if (!empty($data['bill_number']) && !empty($bill->is_recurring)) {
             $bill->bill_number = trim($data['bill_number']);
@@ -597,9 +567,9 @@ class BillRepository extends BaseRepository
 
         $origLineItems = [];
         if (!empty($publicId)) {
-            $origLineItems = !empty($bill->bill_items) ? $bill->bill_items()->get()->toArray() : '';
+            $origLineItems = !empty($bill->invoice_items) ? $bill->invoice_items()->get()->toArray() : '';
 //            remove old bill line items
-            $bill->bill_items()->forceDelete();
+            $bill->invoice_items()->forceDelete();
         }
 //      update if any bill documents
         if (!empty($data['document_ids'])) {
@@ -617,13 +587,9 @@ class BillRepository extends BaseRepository
 //      finally dispatch events
         $this->dispatchEvents($bill);
 
-        return $bill->load('bill_items');
+        return $bill->load('invoice_items');
     }
 
-    /**
-     * @param $bill
-     * @return mixed
-     */
     private function saveInvitations($bill)
     {
         if (empty($bill)) {
@@ -672,10 +638,6 @@ class BillRepository extends BaseRepository
         return $bill;
     }
 
-    /**
-     * @param $bill
-     * @return null
-     */
     private function dispatchEvents($bill)
     {
         if (empty($bill)) {
@@ -696,18 +658,13 @@ class BillRepository extends BaseRepository
         }
     }
 
-    /**
-     * @param Bill $bill
-     * @param null $quoteId
-     * @return mixed
-     */
     public function cloneBill(Bill $bill, $quoteId = null)
     {
         if (empty($bill)) {
             return null;
         }
 
-        $bill->load('bill_invitations', 'bill_items');
+        $bill->load('bill_invitations', 'invoice_items');
         $account = $bill->account;
 
         $clone = Bill::createNew($bill);
@@ -788,7 +745,7 @@ class BillRepository extends BaseRepository
             $bill->save();
         }
 
-        foreach ($bill->bill_items as $item) {
+        foreach ($bill->invoice_items as $item) {
 //          bill item instance
             $cloneItem = BillItem::createNew($bill);
             foreach ([
@@ -816,7 +773,7 @@ class BillRepository extends BaseRepository
                 $this->updateItemStore($qoh, $cloneItem->qty, $itemStore);
             }
 
-            $clone->bill_items()->save($cloneItem);
+            $clone->invoice_items()->save($cloneItem);
         }
 
         foreach ($bill->documents as $document) {
@@ -836,10 +793,6 @@ class BillRepository extends BaseRepository
         return $clone;
     }
 
-    /**
-     * @param Bill $bill
-     * @return mixed|null
-     */
     public function emailBill(Bill $bill)
     {
         if (empty($bill)) {
@@ -853,18 +806,12 @@ class BillRepository extends BaseRepository
         }
     }
 
-    /**
-     * @param Bill $bill
-     */
     public function markSent(Bill $bill)
     {
+        Log::info('markSent hit');
         $bill->markSent();
     }
 
-    /**
-     * @param Bill $bill
-     * @return mixed|void|null
-     */
     public function markPaid(Bill $bill)
     {
         if (!$bill->canBePaid()) {
@@ -882,10 +829,6 @@ class BillRepository extends BaseRepository
         return $this->paymentRepo->save($data);
     }
 
-    /**
-     * @param $invitationKey
-     * @return Invitation|mixed
-     */
     public function findBillByInvitation($invitationKey)
     {
         if (empty($invitationKey)) {
@@ -906,7 +849,7 @@ class BillRepository extends BaseRepository
             return false;
         }
 
-        $bill->load('user', 'bill_items', 'documents', 'bill_design', 'account.country', 'vendor.contacts', 'vendor.country');
+        $bill->load('user', 'invoice_items', 'documents', 'bill_design', 'account.country', 'vendor.contacts', 'vendor.country');
         $vendor = $bill->vendor;
 
         if (empty($vendor) || isset($vendor->is_deleted)) {
@@ -916,11 +859,6 @@ class BillRepository extends BaseRepository
         return $invitation;
     }
 
-    /**
-     * @param $account
-     * @param $productKey
-     * @return mixed
-     */
     public function getProductDetail($account, $productKey = null)
     {
         if (empty($account) || empty($productKey)) {
@@ -936,11 +874,6 @@ class BillRepository extends BaseRepository
         return !empty($product) ? $product : false;
     }
 
-    /**
-     * @param $account
-     * @param null $product
-     * @return mixed
-     */
     public function getItemStore($account, $product = null)
     {
         if (empty($account) || empty($product)) {
@@ -959,10 +892,6 @@ class BillRepository extends BaseRepository
         return !empty($itemStore) ? $itemStore : false;
     }
 
-    /**
-     * @param $vendorId
-     * @return mixed
-     */
     public function findOpenbills($vendorId)
     {
         if (empty($vendorId)) {
@@ -980,17 +909,13 @@ class BillRepository extends BaseRepository
             ->get();
     }
 
-    /**
-     * @param Bill $recurBill
-     * @return mixed
-     */
     public function createRecurringBill(Bill $recurBill)
     {
         if (empty($recurBill)) {
             return null;
         }
 
-        $recurBill->load('account.timezone', 'bill_items', 'vendor', 'user');
+        $recurBill->load('account.timezone', 'invoice_items', 'vendor', 'user');
         $vendor = $recurBill->vendor;
 
         if ($vendor->deleted_at) {
@@ -1034,7 +959,7 @@ class BillRepository extends BaseRepository
         $bill->due_date = $recurBill->getDueDate();
         $bill->save();
 
-        foreach ($recurBill->bill_items as $recurItem) {
+        foreach ($recurBill->invoice_items as $recurItem) {
             $item = BillItem::createNew($recurItem);
             $item->product_id = $recurItem->product_id;
             $item->qty = $recurItem->qty;
@@ -1049,7 +974,7 @@ class BillRepository extends BaseRepository
             $item->custom_value2 = Utils::processVariables($recurItem->custom_value2, $vendor);
             $item->discount = $recurItem->discount;
 
-            $bill->bill_items()->save($item);
+            $bill->invoice_items()->save($item);
         }
 
         foreach ($recurBill->documents as $recurDocument) {
@@ -1081,11 +1006,6 @@ class BillRepository extends BaseRepository
         return $bill;
     }
 
-    /**
-     * @param Account $account
-     * @param bool $filterEnabled
-     * @return Collection
-     */
     public function findNeedingReminding(Account $account, $filterEnabled = true)
     {
         if (empty($account)) {
@@ -1108,7 +1028,7 @@ class BillRepository extends BaseRepository
 
         $sql = implode(' OR ', $dates);
         $bills = Bill::billType(BILL_TYPE_STANDARD)
-            ->with('vendor', 'bill_items')
+            ->with('vendor', 'invoice_items')
             ->whereHas('vendor', function ($query) {
                 $query->where('send_reminders', true);
             })
@@ -1122,10 +1042,6 @@ class BillRepository extends BaseRepository
         return $bills;
     }
 
-    /**
-     * @param Account $account
-     * @return Collection
-     */
     public function findNeedingEndlessReminding(Account $account)
     {
         if (empty($account)) {
@@ -1144,7 +1060,7 @@ class BillRepository extends BaseRepository
         $lastSentDate->sub(date_interval_create_from_date_string($frequency->date_interval));
 
         $bills = Bill::billType(BILL_TYPE_STANDARD)
-            ->with('vendor', 'bill_items')
+            ->with('vendor', 'invoice_items')
             ->whereHas('vendor', function ($query) {
                 $query->where('send_reminders', true);
             })
@@ -1169,10 +1085,6 @@ class BillRepository extends BaseRepository
         return $bills->get();
     }
 
-    /**
-     * @param $bill
-     * @return mixed|null
-     */
     public function clearGatewayFee($bill)
     {
         if (empty($bill)) {
@@ -1181,14 +1093,14 @@ class BillRepository extends BaseRepository
 
         $account = $bill->account;
 
-        if (!$bill->relationLoaded('bill_items')) {
-            $bill->load('bill_items');
+        if (!$bill->relationLoaded('invoice_items')) {
+            $bill->load('invoice_items');
         }
 
         $data = $bill->toArray();
-        foreach ($data['bill_items'] as $key => $item) {
+        foreach ($data['invoice_items'] as $key => $item) {
             if ($item['bill_item_type_id'] == BILL_ITEM_TYPE_PENDING_GATEWAY_FEE) {
-                unset($data['bill_items'][$key]);
+                unset($data['invoice_items'][$key]);
                 $this->save($data, $bill);
                 break;
             }
@@ -1197,12 +1109,6 @@ class BillRepository extends BaseRepository
         return true;
     }
 
-    /**
-     * @param $bill
-     * @param $amount
-     * @param $percent
-     * @return mixed|null
-     */
     public function setLateFee($bill, $amount, $percent)
     {
         if (empty($bill)) {
@@ -1228,18 +1134,13 @@ class BillRepository extends BaseRepository
         $item['qty'] = 1;
         $item['cost'] = $fee;
         $item['bill_item_type_id'] = BILL_ITEM_TYPE_LATE_FEE;
-        $data['bill_items'][] = $item;
+        $data['invoice_items'][] = $item;
 
         $this->save($data, $bill);
 
         return true;
     }
 
-    /**
-     * @param $bill
-     * @param $gatewayTypeId
-     * @return mixed|null
-     */
     public function setGatewayFee($bill, $gatewayTypeId)
     {
         if (empty($bill)) {
@@ -1285,17 +1186,13 @@ class BillRepository extends BaseRepository
         $item['tax_rate2'] = $settings->fee_tax_rate2;
         $item['tax_name2'] = $settings->fee_tax_name2;
         $item['bill_item_type_id'] = BILL_ITEM_TYPE_PENDING_GATEWAY_FEE;
-        $data['bill_items'][] = $item;
+        $data['invoice_items'][] = $item;
 
         $this->save($data, $bill);
 
         return true;
     }
 
-    /**
-     * @param $billNumber
-     * @return mixed|null
-     */
     public function findPhonetically($billNumber)
     {
         $map = [];
@@ -1316,11 +1213,6 @@ class BillRepository extends BaseRepository
         return ($billId && !empty($map[$billId])) ? $map[$billId] : null;
     }
 
-    /**
-     * @param Bill $bill
-     * @param array $item
-     * @return mixed|null
-     */
     private function saveExpense(Bill $bill, array $item)
     {
         if (empty($item['expense_public_id'])) {
@@ -1340,11 +1232,6 @@ class BillRepository extends BaseRepository
         return false;
     }
 
-    /**
-     * @param Bill $bill
-     * @param array $item
-     * @return mixed|null
-     */
 //    private function getTask(Bill $bill, array $item)
 //    {
 //        if (empty($item['task_public_id'])) {
@@ -1364,11 +1251,7 @@ class BillRepository extends BaseRepository
 //        return false;
 //    }
 
-    /**
-     * @param Bill $bill
-     * @param array $document_ids
-     * @return mixed|null
-     */
+
     private function saveBillDocuments(Bill $bill, array $document_ids)
     {
         if (empty($bill) || empty($document_ids)) {
@@ -1392,11 +1275,6 @@ class BillRepository extends BaseRepository
         return true;
     }
 
-    /**
-     * @param Bill $bill
-     * @param array $document_ids
-     * @return mixed|null
-     */
     private function updateBillDocuments(Bill $bill, array $document_ids)
     {
         if (empty($bill) || empty($document_ids)) {
@@ -1419,14 +1297,6 @@ class BillRepository extends BaseRepository
         return true;
     }
 
-    /**
-     * @param $itemStore
-     * @param Bill $bill
-     * @param array $origLineItems
-     * @param array $newLineItem
-     * @param bool $isNew
-     * @return mixed|null
-     */
     private function stockAdjustment($itemStore, Bill $bill, $origLineItems, array $newLineItem, $isNew)
     {
         $qoh = !empty($itemStore) ? Utils::parseFloat($itemStore->qty) : 0;
@@ -1464,13 +1334,6 @@ class BillRepository extends BaseRepository
         return true;
     }
 
-    /**
-     * @param $product
-     * @param $itemStore
-     * @param Bill $bill
-     * @param array $item
-     * @return mixed|null
-     */
     private function saveBillLineItemAdjustment($product, $itemStore, Bill $bill, array $item)
     {
         $billQty = !empty($item['qty']) ? Utils::parseFloat(trim($item['qty'])) : 1;
@@ -1500,58 +1363,47 @@ class BillRepository extends BaseRepository
         }
 
 // provide backwards compatibility
-        if (!empty($item['bill_item_type_id']) && in_array($billItem->notes, [trans('texts.online_payment_surcharge'), trans('texts.online_payment_discount')])) {
+        if (!empty($item['invoice_item_type_id']) && in_array($billItem->notes, [trans('texts.online_payment_surcharge'), trans('texts.online_payment_discount')])) {
             $billItem->bill_item_type_id = $bill->balance > 0 ? BILL_ITEM_TYPE_PENDING_GATEWAY_FEE : BILL_ITEM_TYPE_PAID_GATEWAY_FEE;
         }
 
         $billItem->fill($item);
 
-        $bill->bill_items()->save($billItem);
+        $bill->invoice_items()->save($billItem);
 
         return true;
     }
 
-    /**
-     * @param array $data
-     * @param Bill $bill
-     * @param $account
-     * @return mixed|null
-     */
-//    private function saveAccountDefault($account, Bill $bill, array $data)
-//    {
-//        if (empty($bill)) {
-//            return false;
-//        }
-//
-//        if ((!empty($data['set_default_terms']) && $data['set_default_terms'])
-//            || (!empty($data['set_default_footer']) && $data['set_default_footer'])) {
-//            if (!empty($data['set_default_terms']) && $data['set_default_terms']) {
-//                $account->{"{$bill->getEntityType()}_terms"} = trim($data['terms']);
-//            }
-//            if (!empty($data['set_default_footer']) && $data['set_default_footer']) {
-//                $account->bill_footer = trim($data['bill_footer']);
-//            }
-//
-//            $account->save();
-//        }
-//
-//        return true;
-//    }
+    private function saveAccountDefault($account, Bill $bill, array $data)
+    {
+        if (empty($bill)) {
+            return false;
+        }
 
-    /**
-     * @param $account
-     * @param array $data
-     * @param Bill $bill
-     * @return mixed|null
-     */
+        if ((!empty($data['set_default_terms']) && $data['set_default_terms'])
+            || (!empty($data['set_default_footer']) && $data['set_default_footer'])) {
+            if (!empty($data['set_default_terms']) && $data['set_default_terms']) {
+                $account->{"{$bill->getEntityType()}_terms"} = trim($data['bill_terms']);
+            }
+            if (!empty($data['set_default_footer']) && $data['set_default_footer']) {
+                $account->bill_footer = trim($data['bill_footer']);
+            }
+
+            $account->save();
+        }
+
+        return true;
+    }
+
+
     private function getLineItemNetTotal($account, Bill $bill, array $data)
     {
         $total = 0;
         $data = (array)$data;
         if (is_array($data)) {
-            foreach ($data['bill_items'] as $item) {
+            foreach ($data['invoice_items'] as $item) {
                 $item = (array)$item;
-                if (empty($item['cost']) && empty($item['product_key'])) {
+                if (empty($item['cost']) || empty($item['product_key'])) {
                     continue;
                 }
                 $product = $this->getProductDetail($account, $item['product_key']);
@@ -1569,18 +1421,11 @@ class BillRepository extends BaseRepository
         return $total;
     }
 
-    /**
-     * @param $account
-     * @param array $data
-     * @param Bill $bill
-     * @param float $total
-     * @return mixed|null
-     */
     private function getLineItemNetTax($account, Bill $bill, array $data, $total)
     {
         $itemTax = 0;
         if (is_array($data)) {
-            foreach ($data['bill_items'] as $item) {
+            foreach ($data['invoice_items'] as $item) {
                 $item = (array)$item;
                 $product = $this->getProductDetail($account, $item['product_key']);
                 if (!empty($product)) {
@@ -1597,12 +1442,6 @@ class BillRepository extends BaseRepository
         return $itemTax;
     }
 
-    /**
-     * @param float $qoh
-     * @param float $demandQty
-     * @param $itemStore
-     * @return mixed|null
-     */
     private function updateItemStore($qoh, $demandQty, $itemStore)
     {
         $qoh = Utils::parseFloat($qoh);
@@ -1620,14 +1459,6 @@ class BillRepository extends BaseRepository
         return true;
     }
 
-    /**
-     * @param Bill $bill
-     * @param float $billItemCost
-     * @param float $billItemQty
-     * @param $discount
-     * @param float $total
-     * @return mixed|null
-     */
     private function getLineItemTotal(Bill $bill, $billItemCost, $billItemQty, $discount, $total)
     {
         $total = !empty($total) ? Utils::parseFloat($total) : 0;
@@ -1646,15 +1477,6 @@ class BillRepository extends BaseRepository
         return $total;
     }
 
-    /**
-     * @param Bill $bill
-     * @param float $total
-     * @param float $billItemCost
-     * @param float $billItemQty
-     * @param array $item
-     * @param float $itemTax
-     * @return mixed|null
-     */
     private function getLineItemTaxTotal(Bill $bill, $total, $billItemCost, $billItemQty, array $item, $itemTax)
     {
         $total = Utils::parseFloat($total);
@@ -1696,13 +1518,6 @@ class BillRepository extends BaseRepository
         return $itemTax;
     }
 
-    /**
-     * update bill line item
-     * @param $account
-     * @param Bill $bill
-     * @param array $data
-     * @return mixed|null
-     */
     private function saveLineItemDetail($account, Bill $bill, array $data)
     {
         if (empty($bill)) {
@@ -1711,7 +1526,7 @@ class BillRepository extends BaseRepository
         $product = null;
         $itemStore = null;
         if (is_array($data)) {
-            foreach ($data['bill_items'] as $item) {
+            foreach ($data['invoice_items'] as $item) {
                 $item = (array)$item;
                 if (empty($item['product_key']) && empty($item['cost'])) {
                     continue;

@@ -20,40 +20,40 @@ class BillItemListener extends EntityListener
     {
     }
 
-    public function createdInvoice(BillItemsWereCreatedEvent $event)
+    public function createdBill(BillItemsWereCreatedEvent $event)
     {
-        $transformer = new BillTransformer($event->Bill->account);
+        $transformer = new BillTransformer($event->bill->account);
 
-        $this->checkSubscriptions(EVENT_CREATE_BILL, $event->Bill, $transformer, ENTITY_VENDOR);
+        $this->checkSubscriptions(EVENT_CREATE_BILL, $event->bill, $transformer, ENTITY_VENDOR);
     }
 
-    public function updatedInvoice(BillItemsWereUpdatedEvent $event)
+    public function updatedBill(BillItemsWereUpdatedEvent $event)
     {
-        $transformer = new BillTransformer($event->Bill->account);
-        $this->checkSubscriptions(EVENT_UPDATE_BILL, $event->Bill, $transformer, ENTITY_VENDOR);
+        $transformer = new BillTransformer($event->bill->account);
+        $this->checkSubscriptions(EVENT_UPDATE_BILL, $event->bill, $transformer, ENTITY_VENDOR);
     }
 
-    public function deletedInvoice(BillWasDeletedEvent $event)
+    public function deletedBill(BillWasDeletedEvent $event)
     {
-        $transformer = new BillTransformer($event->Bill->account);
-        $this->checkSubscriptions(EVENT_DELETE_BILL, $event->Bill, $transformer, ENTITY_VENDOR);
+        $transformer = new BillTransformer($event->bill->account);
+        $this->checkSubscriptions(EVENT_DELETE_BILL, $event->bill, $transformer, ENTITY_VENDOR);
     }
 
     public function createdQuote(BillQuoteItemsWereCreatedEvent $event)
     {
-        $transformer = new BillTransformer($event->BillQuote->account);
-        $this->checkSubscriptions(EVENT_CREATE_bill_quote, $event->BillQuote, $transformer, ENTITY_VENDOR);
+        $transformer = new BillTransformer($event->billQuote->account);
+        $this->checkSubscriptions(EVENT_CREATE_bill_quote, $event->billQuote, $transformer, ENTITY_VENDOR);
     }
 
     public function updatedQuote(BillQuoteItemsWereUpdatedEvent $event)
     {
-        $transformer = new BillTransformer($event->BillQuote->account);
-        $this->checkSubscriptions(EVENT_UPDATE_bill_quote, $event->BillQuote, $transformer, ENTITY_VENDOR);
+        $transformer = new BillTransformer($event->billQuote->account);
+        $this->checkSubscriptions(EVENT_UPDATE_bill_quote, $event->billQuote, $transformer, ENTITY_VENDOR);
     }
 
     public function deletedQuote(BillQuoteItemsWereDeletedEvent $event)
     {
-        $transformer = new BillTransformer($event->BillQuote->account);
-        $this->checkSubscriptions(EVENT_DELETE_bill_quote, $event->BillQuote, $transformer, ENTITY_VENDOR);
+        $transformer = new BillTransformer($event->billQuote->account);
+        $this->checkSubscriptions(EVENT_DELETE_bill_quote, $event->billQuote, $transformer, ENTITY_VENDOR);
     }
 }

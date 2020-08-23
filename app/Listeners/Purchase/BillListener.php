@@ -169,19 +169,6 @@ class BillListener
         $bill->updatePaidStatus();
     }
 
-    public function jobFailed(JobExceptionOccurred $exception)
-    {
-        if ($errorEmail = env('ERROR_EMAIL')) {
-            Mail::raw(print_r($exception->data, true), function ($message) use ($errorEmail) {
-                $message->to($errorEmail)
-                    ->from(CONTACT_EMAIL)
-                    ->subject('Job failed');
-            });
-        }
-
-        Utils::logError($exception->exception);
-    }
-
     private function notifyBillCreated($bill): void
     {
 //      get event subscriber
@@ -210,5 +197,18 @@ class BillListener
         if ($users) {
             Notification::send($users, new NotifyBillDeleted($bill));
         }
+    }
+
+    public function jobFailed(JobExceptionOccurred $exception)
+    {
+        if ($errorEmail = env('ERROR_EMAIL')) {
+            Mail::raw(print_r($exception->data, true), function ($message) use ($errorEmail) {
+                $message->to($errorEmail)
+                    ->from(CONTACT_EMAIL)
+                    ->subject('Job failed');
+            });
+        }
+
+        Utils::logError($exception->exception);
     }
 }

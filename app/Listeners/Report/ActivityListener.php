@@ -468,25 +468,25 @@ class ActivityListener
     public function createdBill(BillWasCreatedEvent $event)
     {
         $this->activityRepo->createBill(
-            $event->Bill, ACTIVITY_TYPE_CREATE_BILL,
-            $event->Bill->getAdjustment()
+            $event->bill, ACTIVITY_TYPE_CREATE_BILL,
+            $event->bill->getAdjustment()
         );
     }
 
     public function updatedBill(BillWasUpdatedEvent $event)
     {
-        if (!$event->Bill->isChanged()) {
+        if (!$event->bill->isChanged()) {
             return;
         }
 
         $backupInvoice = Bill::with('invoice_items', 'vendor.account', 'vendor.contacts')
             ->withTrashed()
-            ->find($event->Bill->id);
+            ->find($event->bill->id);
 
         $activity = $this->activityRepo->createBill(
-            $event->Bill,
+            $event->bill,
             ACTIVITY_TYPE_UPDATE_BILL,
-            $event->Bill->getAdjustment()
+            $event->bill->getAdjustment()
         );
 
         $activity->json_backup = $backupInvoice->hidePrivateFields()->toJSON();
@@ -496,7 +496,7 @@ class ActivityListener
 
     public function deletedBill(BillWasDeletedEvent $event)
     {
-        $Bill = $event->Bill;
+        $Bill = $event->bill;
 
         $this->activityRepo->createBill(
             $Bill,
@@ -508,19 +508,19 @@ class ActivityListener
 
     public function archivedBill(BillWasArchivedEvent $event)
     {
-        if ($event->Bill->is_deleted) {
+        if ($event->bill->is_deleted) {
             return;
         }
 
         $this->activityRepo->createBill(
-            $event->Bill,
+            $event->bill,
             ACTIVITY_TYPE_ARCHIVE_BILL
         );
     }
 
     public function restoredBill(BillWasRestoredEvent $event)
     {
-        $Bill = $event->Bill;
+        $Bill = $event->bill;
 
         $this->activityRepo->createBill(
             $Bill,
@@ -533,11 +533,11 @@ class ActivityListener
     public function emailedBill(BillInvitationWasEmailedEvent $event)
     {
         $this->activityRepo->createBill(
-            $event->BillInvitation->BILL,
+            $event->billInvitation->BILL,
             ACTIVITY_TYPE_EMAIL_BILL,
             false,
             false,
-            $event->BillInvitation,
+            $event->billInvitation,
             $event->notes
         );
     }
@@ -545,11 +545,11 @@ class ActivityListener
     public function viewedBill(BillInvitationWasViewedEvent $event)
     {
         $this->activityRepo->createBill(
-            $event->Bill,
+            $event->bill,
             ACTIVITY_TYPE_VIEW_BILL,
             false,
             false,
-            $event->BillInvitation
+            $event->billInvitation
         );
     }
 
@@ -612,11 +612,11 @@ class ActivityListener
     public function emailedBillQuote(BillQuoteInvitationWasEmailedEvent $event)
     {
         $this->activityRepo->createBill(
-            $event->BillInvitation->BILL,
+            $event->billInvitation->BILL,
             ACTIVITY_TYPE_EMAIL_BILL_QUOTE,
             false,
             false,
-            $event->BillInvitation,
+            $event->billInvitation,
             $event->notes
         );
     }
@@ -647,7 +647,7 @@ class ActivityListener
     public function createdBillCredit(BillCreditWasCreatedEvent $event)
     {
         $this->activityRepo->createBill(
-            $event->BillCredit,
+            $event->billCredit,
             ACTIVITY_TYPE_CREATE_BILL_CREDIT
         );
     }
@@ -655,19 +655,19 @@ class ActivityListener
     public function deletedBillCredit(BillCreditWasDeletedEvent $event)
     {
         $this->activityRepo->createBill(
-            $event->BillCredit,
+            $event->billCredit,
             ACTIVITY_TYPE_DELETE_BILL_CREDIT
         );
     }
 
     public function archivedBillCredit(BillCreditWasArchivedEvent $event)
     {
-        if ($event->BillCredit->is_deleted) {
+        if ($event->billCredit->is_deleted) {
             return;
         }
 
         $this->activityRepo->createBill(
-            $event->BillCredit,
+            $event->billCredit,
             ACTIVITY_TYPE_ARCHIVE_BILL_CREDIT
         );
     }
@@ -675,7 +675,7 @@ class ActivityListener
     public function restoredBillCredit(BillCreditWasRestoredEvent $event)
     {
         $this->activityRepo->createBill(
-            $event->BillCredit,
+            $event->billCredit,
             ACTIVITY_TYPE_RESTORE_BILL_CREDIT
         );
     }
@@ -684,10 +684,10 @@ class ActivityListener
     public function createdBillPayment(BillPaymentWasCreatedEvent $event)
     {
         $this->activityRepo->createBill(
-            $event->BillPayment,
+            $event->billPayment,
             ACTIVITY_TYPE_CREATE_BILL_PAYMENT,
-            $event->BillPayment->amount * -1,
-            $event->BillPayment->amount,
+            $event->billPayment->amount * -1,
+            $event->billPayment->amount,
             false,
             App::runningInConsole() ? 'auto_billed' : ''
         );
@@ -695,7 +695,7 @@ class ActivityListener
 
     public function deletedBillPayment(BillPaymentWasDeletedEvent $event)
     {
-        $payment = $event->BillPayment;
+        $payment = $event->billPayment;
 
         $this->activityRepo->createBill(
             $payment,
@@ -707,7 +707,7 @@ class ActivityListener
 
     public function refundedBillPayment(BillPaymentWasRefundedEvent $event)
     {
-        $payment = $event->BillPayment;
+        $payment = $event->billPayment;
 
         $this->activityRepo->createBill(
             $payment,
@@ -719,7 +719,7 @@ class ActivityListener
 
     public function voidedBillPayment(BillPaymentWasVoidedEvent $event)
     {
-        $payment = $event->BillPayment;
+        $payment = $event->billPayment;
 
         $this->activityRepo->createBill(
             $payment,
@@ -731,7 +731,7 @@ class ActivityListener
 
     public function failedBillPayment(BillPaymentFailedEvent $event)
     {
-        $payment = $event->BillPayment;
+        $payment = $event->billPayment;
 
         $this->activityRepo->createBill(
             $payment,
@@ -743,19 +743,19 @@ class ActivityListener
 
     public function archivedBillPayment(BillPaymentWasArchivedEvent $event)
     {
-        if ($event->BillPayment->is_deleted) {
+        if ($event->billPayment->is_deleted) {
             return;
         }
 
         $this->activityRepo->createBill(
-            $event->BillPayment,
+            $event->billPayment,
             ACTIVITY_TYPE_ARCHIVE_BILL_PAYMENT
         );
     }
 
     public function restoredBillPayment(BillPaymentWasRestoredEvent $event)
     {
-        $payment = $event->BillPayment;
+        $payment = $event->billPayment;
 
         $this->activityRepo->createBill(
             $payment,
