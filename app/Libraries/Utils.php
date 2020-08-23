@@ -1373,7 +1373,7 @@ class Utils
             'invoice_id',
             'invoice_id',
             'credit_id',
-            'BILL_CREDIT_id',
+            'bill_credit_id',
             'invitation_id',
             'Bill_invitation_id',
         ];

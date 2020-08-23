@@ -48,6 +48,7 @@ class VendorRepository extends BaseRepository
                 'vendors.private_notes',
                 'vendors.public_notes',
                 'vendors.work_phone',
+                'vendors.id_number',
                 'vendors.city',
                 'vendor_contacts.email',
                 'vendors.deleted_at',

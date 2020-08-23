@@ -204,57 +204,60 @@ class ExpenseController extends BaseController
 
     public function bulk()
     {
+
         $action = Input::get('action');
         $ids = Input::get('public_id') ? Input::get('public_id') : Input::get('ids');
         $referer = Request::server('HTTP_REFERER');
+//        $expense = Expense::where('public_id', $ids)->first();
+//        $client = $expense->load('client');
 
         switch ($action) {
             case 'invoice':
             case 'add_to_invoice':
-            $expenses = Expense::scope($ids)->with('client')->get();
-            $clientPublicId = null;
-            $currencyId = null;
+                $expenses = Expense::scope($ids)->with('client')->get();
+                $clientPublicId = null;
+                $currencyId = null;
 
                 // Validate that either all expenses do not have a client or if there is a client, it is the same client
-            foreach ($expenses as $expense) {
-                if ($expense->client) {
-                    if ($expense->client->trashed()) {
-                        return redirect($referer)->withError(trans('texts.client_must_be_active'));
+                foreach ($expenses as $expense) {
+                    if ($expense->client) {
+                        if ($expense->client->trashed()) {
+                            return redirect($referer)->withError(trans('texts.client_must_be_active'));
+                        }
+
+                        if (!$clientPublicId) {
+                            $clientPublicId = $expense->client->public_id;
+                        } elseif ($clientPublicId != $expense->client->public_id) {
+                            return redirect($referer)->withError(trans('texts.expense_error_multiple_clients'));
+                        }
                     }
 
-                    if (!$clientPublicId) {
-                        $clientPublicId = $expense->client->public_id;
-                    } elseif ($clientPublicId != $expense->client->public_id) {
-                        return redirect($referer)->withError(trans('texts.expense_error_multiple_clients'));
+                    if (!$currencyId) {
+                        $currencyId = $expense->invoice_currency_id;
+                    } elseif ($currencyId != $expense->invoice_currency_id && $expense->invoice_currency_id) {
+                        return redirect($referer)->withError(trans('texts.expense_error_multiple_currencies'));
+                    }
+
+                    if ($expense->invoice_id) {
+                        return redirect($referer)->withError(trans('texts.expense_error_invoiced'));
                     }
                 }
 
-                if (!$currencyId) {
-                    $currencyId = $expense->invoice_currency_id;
-                } elseif ($currencyId != $expense->invoice_currency_id && $expense->invoice_currency_id) {
-                    return redirect($referer)->withError(trans('texts.expense_error_multiple_currencies'));
+                if ($action == 'invoice') {
+                    return Redirect::to("invoices/create/{$clientPublicId}")
+                        ->with('expenseCurrencyId', $currencyId)
+                        ->with('expenses', $ids);
+                } else {
+                    $invoiceId = Input::get('invoice_id');
+
+                    return Redirect::to("invoices/{$invoiceId}/edit")
+                        ->with('expenseCurrencyId', $currencyId)
+                        ->with('expenses', $ids);
                 }
-
-                if ($expense->invoice_id) {
-                    return redirect($referer)->withError(trans('texts.expense_error_invoiced'));
-                }
-            }
-
-            if ($action == 'invoice') {
-                return Redirect::to("invoices/create/{$clientPublicId}")
-                ->with('expenseCurrencyId', $currencyId)
-                ->with('expenses', $ids);
-            } else {
-                $invoiceId = Input::get('invoice_id');
-
-                return Redirect::to("invoices/{$invoiceId}/edit")
-                ->with('expenseCurrencyId', $currencyId)
-                ->with('expenses', $ids);
-            }
-            break;
+                break;
 
             default:
-            $count = $this->expenseService->bulk($ids, $action);
+                $count = $this->expenseService->bulk($ids, $action);
         }
 
         if ($count > 0) {

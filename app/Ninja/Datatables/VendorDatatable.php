@@ -26,9 +26,9 @@ class VendorDatatable extends EntityDatatable
                 },
             ],
             [
-                'city',
+                'id_number',
                 function ($model) {
-                    return $model->city;
+                    return $model->id_number;
                 },
             ],
             [
@@ -61,6 +61,12 @@ class VendorDatatable extends EntityDatatable
                 'public_notes',
                 function ($model) {
                     return $model->public_notes;
+                },
+            ],
+            [
+                'city',
+                function ($model) {
+                    return $model->city;
                 },
             ],
             [
