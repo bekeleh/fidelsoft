@@ -25,6 +25,7 @@ Route::get('download/Bill/{invoice_id}', 'BillApiController@download');
 Route::resource('bills', 'BillApiController');
 Route::resource('bill_items', 'BillItemApiController');
 
+Route::resource('bill_payments', 'BillPaymentApiController');
 Route::resource('payments', 'PaymentApiController');
 Route::resource('tasks', 'TaskApiController');
 Route::resource('credits', 'CreditApiController');
