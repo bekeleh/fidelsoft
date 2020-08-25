@@ -127,14 +127,15 @@ class BillController extends BaseController
         $bill->public_id = 0;
         $bill->loadFromRequest();
 
-        $vendors = Vendor::scope()->with('contacts', 'country')->orderBy('name');
+        $clients = Vendor::scope()->with('contacts', 'country')->orderBy('name');
 
         if (!Utils::hasPermission('view_vendor')) {
-            $vendors = $vendors->where('vendors.user_id', Auth::user()->id);
+            $clients = $clients->where('vendors.user_id', Auth::user()->id);
         }
 
         $data = [
-            'clients' => $vendors->get(),
+            'clients' => $clients->get(),
+            'vendors' => $clients->get(),
             'entityType' => $bill->getEntityType(),
             'invoice' => $bill,
             'method' => 'POST',
@@ -149,34 +150,34 @@ class BillController extends BaseController
 
     public function store(CreateBillRequest $request)
     {
-        Log::info($request->all());
-//        $data = $request->input();
-//        $data['documents'] = $request->file('documents');
-//
-//        $action = Input::get('action');
-//
-//        $entityType = Input::get('entityType');
-//
-//
-//        $bill = $this->billService->save($data);
-//
-//        $entityType = $bill->getEntityType();
-//
-//        $message = trans("texts.created_{$entityType}");
-//
-//        $input = $request->input();
-//        $vendorPublicId = isset($input['client']['public_id']) ? $input['client']['public_id'] : false;
-//        if ($vendorPublicId == '-1') {
-//            $message = $message . ' ' . trans('texts.and_created_vendor');
-//        }
-//
-//        Session::flash('message', $message);
-//
-//        if ($action == 'email') {
-//            $this->emailBill($bill);
-//        }
-//
-//        return url($bill->getRoute());
+
+        $data = $request->input();
+        $data['documents'] = $request->file('documents');
+
+        $action = Input::get('action');
+
+        $entityType = Input::get('entityType');
+
+
+        $bill = $this->billService->save($data);
+
+        $entityType = $bill->getEntityType();
+
+        $message = trans("texts.created_{$entityType}");
+
+        $input = $request->input();
+        $vendorPublicId = isset($input['client']['public_id']) ? $input['client']['public_id'] : false;
+        if ($vendorPublicId == '-1') {
+            $message = $message . ' ' . trans('texts.and_created_vendor');
+        }
+
+        Session::flash('message', $message);
+
+        if ($action == 'email') {
+            $this->emailBill($bill);
+        }
+
+        return url($bill->getRoute());
     }
 
     public function edit(BillRequest $request, $publicId, $clone = false)
@@ -197,7 +198,7 @@ class BillController extends BaseController
             ->select('vendor_contacts.public_id')->pluck('public_id')
             ->where('bill_invitations.deleted_at', null);
 
-        $vendors = Vendor::scope()->withTrashed()->with('contacts', 'country');
+        $clients = Vendor::scope()->withTrashed()->with('contacts', 'country');
 
         if ($clone) {
             $entityType = $clone == BILL_TYPE_STANDARD ? ENTITY_BILL : ENTITY_QUOTE;
@@ -223,7 +224,7 @@ class BillController extends BaseController
         } else {
             $method = 'PUT';
             $url = "{$entityType}s/{$bill->public_id}";
-            $vendors->where('id', $bill->vendor_id);
+            $clients->where('id', $bill->vendor_id);
         }
 
         $bill->bill_date = Utils::fromSqlDate($bill->bill_date);
@@ -243,11 +244,11 @@ class BillController extends BaseController
         $lastSent = ($bill->is_recurring && $bill->last_sent_date) ? $bill->recurring_bills->last() : null;
 
         if (!Auth::user()->hasPermission('view_vendor')) {
-            $vendors = $vendors->where('vendors.user_id', Auth::user()->id);
+            $clients = $clients->where('vendors.user_id', Auth::user()->id);
         }
 
         $data = [
-            'clients' => $vendors->get(),
+            'clients' => $clients->get(),
             'entityType' => $entityType,
             'showBreadcrumbs' => $clone,
             'invoice' => $bill,
@@ -271,8 +272,8 @@ class BillController extends BaseController
 
         // Set the invitation data on the vendor's contacts
         if (!$clone) {
-            $vendors = $data['clients'];
-            foreach ($vendors as $vendor) {
+            $clients = $data['clients'];
+            foreach ($clients as $vendor) {
 
                 if ($vendor->id != $bill->vendor->id) {
                     continue;
@@ -307,6 +308,7 @@ class BillController extends BaseController
 
     public function update(UpdateBillRequest $request)
     {
+
         $data = $request->input();
         $data['documents'] = $request->file('documents');
 
@@ -509,6 +511,7 @@ class BillController extends BaseController
     {
         $action = Input::get('bulk_action') ?: Input::get('action');
         $ids = Input::get('bulk_public_id') ?: (Input::get('public_id') ?: Input::get('ids'));
+
         $count = $this->billService->bulk($ids, $action);
 
         if ($count > 0) {

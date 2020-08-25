@@ -169,9 +169,9 @@
                                            data-bind="attr: {for: $index() + '_check'}, visible: email.display"
                                            onclick="refreshPDF(true)">
                                         <input type="hidden" value="0"
-                                               data-bind="attr: {name: 'client[contacts][' + $index() + '][send_bill]'}">
+                                               data-bind="attr: {name: 'client[contacts][' + $index() + '][send_invoice]'}">
                                         <input type="checkbox" value="1"
-                                               data-bind="visible: email() || first_name() || last_name(), checked: send_bill, attr: {id: $index() + '_check', name: 'client[contacts][' + $index() + '][send_bill]'}">
+                                               data-bind="visible: email() || first_name() || last_name(), checked: send_invoice, attr: {id: $index() + '_check', name: 'client[contacts][' + $index() + '][send_invoice]'}">
                                         <span data-bind="visible: first_name || last_name">
 <span data-bind="text: (first_name() || '') + ' ' + (last_name() || '')"></span>
 <br/>
@@ -953,7 +953,7 @@ afterAdd: showContact }'>
             if (client) { // in case it's deleted
                 for (var i = 0; i < client.contacts.length; i++) {
                     var contact = client.contacts[i];
-                    contact.send_bill = invitationContactIds.indexOf(contact.public_id) >= 0;
+                    contact.send_invoice = invitationContactIds.indexOf(contact.public_id) >= 0;
                 }
             }
             model.invoice().addItem(); // add blank item
@@ -1239,7 +1239,7 @@ afterAdd: showContact }'>
                 invoice_settings:{{ Auth::user()->hasFeature(FEATURE_INVOICE_SETTINGS) ? 'true' : 'false' }}
             };
             invoice.is_quote = {{ $entityType == ENTITY_BILL_QUOTE ? 'true' : 'false' }};
-            invoice.contact = _.findWhere(invoice.client.contacts, {send_bill: true});
+            invoice.contact = _.findWhere(invoice.client.contacts, {send_invoice: true});
 
             if (invoice.is_recurring) {
                 invoice.bill_number = {!! json_encode(trans('texts.assigned_when_sent')) !!};
@@ -1492,7 +1492,7 @@ afterAdd: showContact }'>
 
             for (var i = 0; i < client.contacts().length; i++) {
                 var contact = client.contacts()[i];
-                if (contact.send_bill()) {
+                if (contact.send_invoice()) {
                     parts.push(contact.displayName());
                 }
             }
@@ -1615,7 +1615,7 @@ afterAdd: showContact }'>
             var client = model.invoice().client();
             for (var i = 0; i < client.contacts().length; i++) {
                 var contact = client.contacts()[i];
-                if (contact.send_bill()) {
+                if (contact.send_invoice()) {
                     return true;
                 }
             }
@@ -1627,7 +1627,7 @@ afterAdd: showContact }'>
             var client = model.invoice().client();
             for (var i = 0; i < client.contacts().length; i++) {
                 var contact = client.contacts()[i];
-                if (!contact.send_bill()) {
+                if (!contact.send_invoice()) {
                     continue;
                 }
                 var email = contact.email() ? contact.email().trim() : '';

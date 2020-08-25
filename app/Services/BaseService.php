@@ -32,6 +32,7 @@ class BaseService
                 }
             }
         }
+
         return count($entities);
     }
 }

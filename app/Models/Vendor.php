@@ -49,8 +49,9 @@ class Vendor extends EntityModel
         'hold_reason_id',
         'payment_terms',
         'website',
-        'invoice_number_counter',
+        'bill_number_counter',
         'quote_number_counter',
+        'credit_number_counter',
         'public_notes',
         'task_rate',
         'show_tasks_in_portal',
@@ -494,6 +495,17 @@ class Vendor extends EntityModel
     public function hasRecurringInvoices()
     {
         return $this->invoices()->where('is_public', true)->where('is_recurring', true)->count() > 0;
+    }
+
+    public function defaultDueDate()
+    {
+        if ($this->payment_terms != 0) {
+            $numDays = $this->defaultDaysDue();
+        } else {
+            return null;
+        }
+
+        return Carbon::now()->addDays($numDays)->format('Y-m-d');
     }
 
     public function defaultDaysDue()

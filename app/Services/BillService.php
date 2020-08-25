@@ -47,6 +47,7 @@ class BillService extends BaseService
     public function bulk($ids, $action)
     {
         $user = Auth::user();
+
         if ($action == 'download') {
             $bills = $this->getRepo()->findByPublicIdsWithTrashed($ids);
             dispatch(new DownloadBill($user, $bills));

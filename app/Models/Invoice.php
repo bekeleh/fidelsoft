@@ -654,7 +654,7 @@ class Invoice extends EntityModel implements BalanceAffecting
 
         $invitation->markSent($messageId);
 
-        // if the user marks it as sent rather than acually sending it
+        // if the user marks it as sent rather than actually sending it
         // then we won't track it in the activity log
         if (!$notify) {
             return;

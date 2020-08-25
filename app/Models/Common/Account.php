@@ -2073,6 +2073,19 @@ class Account extends Eloquent
         return Carbon::now()->addDays($numDays)->format('Y-m-d');
     }
 
+    public function defaultVendorDueDate($vendor = false)
+    {
+        if ($vendor && $vendor->payment_terms != 0) {
+            $numDays = $vendor->defaultDaysDue();
+        } elseif ($this->payment_terms != 0) {
+            $numDays = $this->defaultDaysDue();
+        } else {
+            return null;
+        }
+
+        return Carbon::now()->addDays($numDays)->format('Y-m-d');
+    }
+
     public function hasMultipleAccounts()
     {
         return $this->company->accounts->count() > 1;

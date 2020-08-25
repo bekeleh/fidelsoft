@@ -1238,6 +1238,7 @@ $LANG = array(
     'mark_sent' => 'Mark Sent',
     'share_counter' => 'Share Counter',
     'share_bill_counter' => 'Share Bill Counter',
+    'bill_counter' => 'Bill Counter',
 //   Invoices
     'invoice_item_name' => 'Item Name',
     'invoice_item' => 'Invoice Item',
@@ -3000,6 +3001,8 @@ $LANG = array(
     'mark_paid' => 'Mark Paid',
     'marked_sent_invoice' => 'Successfully marked invoice sent',
     'marked_sent_invoices' => 'Successfully marked invoices sent',
+    'marked_sent_bill' => 'Successfully marked bll sent',
+    'marked_sent_bills' => 'Successfully marked bills sent',
     'invoice_name' => 'Invoice',
     'product_will_create' => 'product will be created',
     'contact_us_response' => 'Thank you for your message! We\'ll try to respond as soon as possible.',

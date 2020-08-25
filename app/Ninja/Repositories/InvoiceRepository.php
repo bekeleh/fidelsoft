@@ -486,14 +486,15 @@ class InvoiceRepository extends BaseRepository
             $invoice->invoice_date = Utils::toSqlDate($data['invoice_date']);
         }
 
-        if (!empty($data['invoice_status_id'])) {
-            if ($data['invoice_status_id'] == 0) {
-                $data['invoice_status_id'] = INVOICE_STATUS_DRAFT;
-            }
-            $invoice->invoice_status_id = !empty($data['invoice_status_id']) ? $data['invoice_status_id'] : INVOICE_STATUS_DRAFT;
-        } else {
-            $invoice->invoice_status_id = !empty($data['invoice_status_id']) ? $data['invoice_status_id'] : INVOICE_STATUS_DRAFT;
-        }
+
+        /*     if (isset($data['invoice_status_id'])) {
+                 if ($data['invoice_status_id'] == 0) {
+                     $data['invoice_status_id'] = INVOICE_STATUS_DRAFT;
+                 }
+                 $invoice->invoice_status_id = !empty($data['invoice_status_id']) ? $data['invoice_status_id'] : INVOICE_STATUS_DRAFT;
+             } else {
+                 $invoice->invoice_status_id = !empty($data['invoice_status_id']) ? $data['invoice_status_id'] : INVOICE_STATUS_DRAFT;
+             }*/
 
         if ($invoice->is_recurring) {
             if (!$isNew && !empty($data['start_date']) && $invoice->start_date && $invoice->start_date != Utils::toSqlDate($data['start_date'])) {
@@ -627,8 +628,10 @@ class InvoiceRepository extends BaseRepository
         }
 
         foreach ($client->contacts as $contact) {
-            $invitation = Invitation::scope()->where('contact_id', $contact->id)
-                ->where('invoice_id', $invoice->id)->first();
+            $invitation = Invitation::scope()
+                ->where('contact_id', $contact->id)
+                ->where('invoice_id', $invoice->id)
+                ->first();
             if (in_array($contact->id, $sendInvoiceIds) && empty($invitation)) {
                 $invitation = Invitation::createNew($invoice);
                 $invitation->invoice_id = $invoice->id;

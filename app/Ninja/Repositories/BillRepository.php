@@ -425,8 +425,9 @@ class BillRepository extends BaseRepository
 //           set the default due date
             if ($entityType === ENTITY_BILL && empty($data['partial_due_date'])) {
                 $vendor = Vendor::scope()->where('id', $data['client_id'])->first();
-                $bill->due_date = $account->defaultDueDate($vendor);
+                $bill->due_date = $account->defaultVendorDueDate($vendor);
             }
+            $bill->bill_status_id = !empty($data['invoice_status_id']) ? $data['invoice_status_id'] : INVOICE_STATUS_DRAFT;
         } else {
             $bill = Bill::scope($publicId)->firstOrFail();
         }
@@ -478,14 +479,15 @@ class BillRepository extends BaseRepository
             $bill->bill_date = Utils::toSqlDate($data['bill_date']);
         }
 
-        if (!empty($data['bill_status_id'])) {
-            if ($data['bill_status_id'] == 0) {
-                $data['bill_status_id'] = BILL_STATUS_DRAFT;
-            }
-            $bill->bill_status_id = !empty($data['bill_status_id']) ? $data['bill_status_id'] : BILL_STATUS_DRAFT;
-        } else {
-            $bill->bill_status_id = !empty($data['bill_status_id']) ? $data['bill_status_id'] : BILL_STATUS_DRAFT;
-        }
+        /*     if (isset($data['bill_status_id'])) {
+                  if ($data['bill_status_id'] == 0) {
+                      $data['bill_status_id'] = INVOICE_STATUS_DRAFT;
+                  }
+                  $bill->bill_status_id = !empty($data['invoice_status_id']) ? $data['invoice_status_id'] : INVOICE_STATUS_DRAFT;
+              } else {
+                  $bill->bill_status_id = !empty($data['invoice_status_id']) ? $data['invoice_status_id'] : INVOICE_STATUS_DRAFT;
+              }*/
+
         if (!empty($bill->is_recurring)) {
             if ($isNew && !empty($data['start_date']) && !empty($bill->start_date)
                 && $bill->start_date != Utils::toSqlDate($data['start_date'])) {
@@ -808,7 +810,6 @@ class BillRepository extends BaseRepository
 
     public function markSent(Bill $bill)
     {
-        Log::info('markSent hit');
         $bill->markSent();
     }
 
