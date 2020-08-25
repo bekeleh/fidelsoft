@@ -705,7 +705,7 @@ class BillRepository extends BaseRepository
                      'terms',
                      'bill_footer',
                      'public_notes',
-                     'bill_design_id',
+                     'invoice_design_id',
                      'tax_name1',
                      'tax_rate1',
                      'tax_name2',

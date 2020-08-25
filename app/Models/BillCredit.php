@@ -110,7 +110,7 @@ class BillCredit extends EntityModel
 
     public function getRoute()
     {
-        return "/BILL_CREDITs/{$this->public_id}/edit";
+        return "/bill_credits/{$this->public_id}/edit";
     }
 
     public function getEntityType()

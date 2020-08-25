@@ -42,14 +42,14 @@ class ActivityVendorDatatable extends EntityDatatable
                     $data = [
                         'vendor' => link_to('/vendors/' . $model->vendor_public_id, Utils::getVendorDisplayName($model))->toHtml(),
                         'user' => $model->is_system ? '<i>' . trans('texts.system') . '</i>' : Utils::getPersonDisplayName($model->user_first_name, $model->user_last_name, $model->user_email),
-                        'BILL' => $model->invoice_number ? link_to('/bills/' . $model->invoice_public_id, $model->is_recurring ? trans('texts.recurring_invoice') : $model->invoice_number)->toHtml() : null,
-                        'bill_quote' => $model->invoice ? link_to('/bill_quotes/' . $model->invoice_public_id, $model->invoice)->toHtml() : null,
+                        'bill' => $model->bill_number ? link_to('/bills/' . $model->bill_public_id, $model->is_recurring ? trans('texts.recurring_bill') : $model->bill_number)->toHtml() : null,
+                        'bill_quote' => $model->bill_number ? link_to('/bill_quotes/' . $model->bill_public_id, $model->bill_number)->toHtml() : null,
                         'vendor_contact' => $model->contact_id ? link_to('/vendors/' . $model->vendor_public_id, Utils::getPersonDisplayName($model->first_name, $model->last_name, $model->email))->toHtml() : Utils::getPersonDisplayName($model->user_first_name, $model->user_last_name, $model->user_email),
-                        'BILL_PAYMENT' => $model->payment ? e($model->payment) : '',
-                        'BILL_CREDIT' => $model->payment_amount ? Utils::formatMoney($model->credit, $model->currency_id, $model->country_id) : '',
+                        'bill_payment' => $model->payment ? e($model->payment) : '',
+                        'bill_credit' => $model->payment_amount ? Utils::formatMoney($model->credit, $model->currency_id, $model->country_id) : '',
                         'payment_amount' => $model->payment_amount ? Utils::formatMoney($model->payment_amount, $model->currency_id, $model->country_id) : null,
                         'adjustment' => $model->adjustment ? Utils::formatMoney($model->adjustment, $model->currency_id, $model->country_id) : null,
-                        'BILL_EXPENSE' => $model->expense_public_id ? link_to('/BILL_EXPENSEs/' . $model->expense_public_id, substr($model->expense_public_notes, 0, 30) . '...') : null,
+                        'bill_expense' => $model->expense_public_id ? link_to('/bill_expenses/' . $model->expense_public_id, substr($model->expense_public_notes, 0, 30) . '...') : null,
                     ];
 
                     $str = trans("texts.activity_{$model->activity_type_id}", $data);

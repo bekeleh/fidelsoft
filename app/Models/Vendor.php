@@ -44,7 +44,12 @@ class Vendor extends EntityModel
         'industry_id',
         'currency_id',
         'language_id',
-        'vendor_type_id',
+        'shipping_address1',
+        'shipping_address2',
+        'shipping_city',
+        'shipping_state',
+        'shipping_postal_code',
+        'shipping_country_id',
         'vendor_type_id',
         'hold_reason_id',
         'payment_terms',
@@ -299,7 +304,7 @@ class Vendor extends EntityModel
 
     public function getTotalCredit()
     {
-        return DB::table('BILL_CREDITs')
+        return DB::table('bill_credits')
             ->where('vendor_id', $this->id)
             ->whereNull('deleted_at')
             ->sum('balance');

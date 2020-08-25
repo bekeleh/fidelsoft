@@ -210,7 +210,7 @@
                             </tr>
                             @if ($credit > 0)
                                 <tr>
-                                    <td><small>{{ trans('texts.BILL_CREDIT') }}</small></td>
+                                    <td><small>{{ trans('texts.bill_credit') }}</small></td>
                                     <td style="text-align: left">{{ Utils::formatMoney($credit, $vendor->getCurrencyId()) }}
                                     </td>
                                 </tr>
@@ -241,7 +241,7 @@
         {!! Form::tab_link('#bills', trans('texts.bills')) !!}
         {!! Form::tab_link('#payments', trans('texts.payments')) !!}
         @if ($account->isModuleEnabled(ENTITY_BILL_CREDIT))
-            {!! Form::tab_link('#credits', trans('texts.BILL_CREDIT')) !!}
+            {!! Form::tab_link('#credits', trans('texts.bill_credit')) !!}
         @endif
     </ul>
     <br/>
@@ -321,7 +321,7 @@
                 'entityType' => ENTITY_BILL_CREDIT,
                 'datatable' => new \App\Ninja\Datatables\BillCreditDatatable(true, true),
                 'vendorId' => $vendor->public_id,
-                'url' => url('api/BILL_CREDITs/' . $vendor->public_id),
+                'url' => url('api/bill_credits/' . $vendor->public_id),
                 ])
             </div>
         @endif

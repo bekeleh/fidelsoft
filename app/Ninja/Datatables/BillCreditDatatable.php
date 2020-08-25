@@ -45,7 +45,7 @@ class BillCreditDatatable extends EntityDatatable
                 'credit_date',
                 function ($model) {
                     if (Auth::user()->can('view', [ENTITY_BILL_CREDIT, $model]))
-                        return link_to("BILL_CREDITs/{$model->public_id}/edit", Utils::fromSqlDate($model->credit_date_sql))->toHtml();
+                        return link_to("bill_credits/{$model->public_id}/edit", Utils::fromSqlDate($model->credit_date_sql))->toHtml();
                     else
                         return Utils::fromSqlDate($model->credit_date_sql);
 
@@ -104,7 +104,7 @@ class BillCreditDatatable extends EntityDatatable
             [
                 trans('texts.edit_BILL_CREDIT'),
                 function ($model) {
-                    return URL::to("BILL_CREDITs/{$model->public_id}/edit");
+                    return URL::to("bill_credits/{$model->public_id}/edit");
                 },
                 function ($model) {
                     return Auth::user()->can('edit', [ENTITY_BILL_CREDIT, $model]);
@@ -113,7 +113,7 @@ class BillCreditDatatable extends EntityDatatable
             [
                 trans('texts.clone_BILL_CREDIT'),
                 function ($model) {
-                    return URL::to("BILL_CREDITs/{$model->public_id}/clone");
+                    return URL::to("bill_credits/{$model->public_id}/clone");
                 },
                 function ($model) {
                     return Auth::user()->can('create', [ENTITY_BILL_CREDIT, $model]);

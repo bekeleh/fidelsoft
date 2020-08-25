@@ -1665,7 +1665,7 @@ afterAdd: showContact }'>
         }
 
         function onCreditClick() {
-            window.location = '{{ URL::to('BILL_CREDITs/create/' . $invoice->client->public_id . '/' . $invoice->public_id ) }}';
+            window.location = '{{ URL::to('bill_credits/create/' . $invoice->client->public_id . '/' . $invoice->public_id ) }}';
         }
 
         @endif

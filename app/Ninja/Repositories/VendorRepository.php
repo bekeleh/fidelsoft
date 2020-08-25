@@ -108,17 +108,17 @@ class VendorRepository extends BaseRepository
 
         $first = true;
         if (isset($data['vendor_contact'])) {
-            $vendorcontacts = [$data['vendor_contact']];
+            $contacts = [$data['vendor_contact']];
         } elseif (isset($data['contacts'])) {
-            $vendorcontacts = $data['contacts'];
+            $contacts = $data['contacts'];
         } else {
-            $vendorcontacts = [[]];
+            $contacts = [[]];
         }
 
-        $vendorcontactIds = [];
+        $contactIds = [];
 
         // If the primary is set ensure it's listed first
-        usort($vendorcontacts, function ($left, $right) {
+        usort($contacts, function ($left, $right) {
             if (isset($right['is_primary']) && isset($left['is_primary'])) {
                 return $right['is_primary'] - $left['is_primary'];
             } else {
@@ -126,15 +126,15 @@ class VendorRepository extends BaseRepository
             }
         });
 
-        foreach ($vendorcontacts as $vendorcontact) {
-            $vendorcontact = $vendor->addContact($vendorcontact, $first);
-            $vendorcontactIds[] = $vendorcontact->public_id;
+        foreach ($contacts as $contact) {
+            $contact = $vendor->addContact($contact, $first);
+            $contactIds[] = $contact->public_id;
             $first = false;
         }
 
         if (!$vendor->wasRecentlyCreated) {
             foreach ($vendor->contacts as $contact) {
-                if (!in_array($contact->public_id, $vendorcontactIds)) {
+                if (!in_array($contact->public_id, $contactIds)) {
                     $contact->delete();
                 }
             }

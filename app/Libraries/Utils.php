@@ -1369,7 +1369,7 @@ class Utils
             'contact_id',
             'contact_id',
             'payment_id',
-            'BILL_PAYMENT_id',
+            'bill_payment_id',
             'invoice_id',
             'invoice_id',
             'credit_id',

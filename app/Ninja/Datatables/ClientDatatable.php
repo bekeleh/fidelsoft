@@ -18,9 +18,10 @@ class ClientDatatable extends EntityDatatable
                 'client_name',
                 function ($model) {
                     if (Auth::user()->can('edit', [ENTITY_CLIENT])) {
-                        return link_to("clients/{$model->public_id}", $model->client_name ?: '')->toHtml();
+                        $str = link_to("clients/{$model->public_id}", $model->client_name ?: '')->toHtml();
+                        return $this->addNote($str, $model->private_notes);
                     } else {
-                        return $model->client_name;
+                        $model->vendor_name;
                     }
                 },
             ],
