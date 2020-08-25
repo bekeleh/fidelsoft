@@ -435,6 +435,8 @@ class InvoiceRepository extends BaseRepository
                 $client = Client::scope()->where('id', $data['client_id'])->first();
                 $invoice->due_date = $account->defaultDueDate($client);
             }
+            $invoice->bill_status_id = !empty($data['invoice_status_id']) ? $data['invoice_status_id'] : INVOICE_STATUS_DRAFT;
+
         } else {
             $invoice = Invoice::scope($publicId)->firstOrFail();
         }
