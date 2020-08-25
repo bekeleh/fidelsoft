@@ -578,7 +578,6 @@ class BillRepository extends BaseRepository
             $document_ids = array_map('intval', $data['document_ids']);
             $this->saveBillDocuments($bill, $document_ids);
             $this->updateBillDocuments($bill, $document_ids);
-
         }
 
 //      Bill bill line item detail
