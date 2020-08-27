@@ -17,11 +17,11 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use Redirect;
 
-class VendorVendorCreditController extends BaseController
+class VendorCreditController extends BaseController
 {
     protected $creditRepo;
     protected $creditService;
-    protected $entityType = ENTITY_CREDIT;
+    protected $entityType = ENTITY_VENDOR_CREDIT;
 
     public function __construct(VendorCreditRepository $creditRepo, VendorCreditService $creditService)
     {
@@ -33,60 +33,60 @@ class VendorVendorCreditController extends BaseController
 
     public function index()
     {
-        $this->authorize('view', ENTITY_CREDIT);
+        $this->authorize('view', ENTITY_VENDOR_CREDIT);
         return View::make('list_wrapper', [
-            'entityType' => ENTITY_CREDIT,
+            'entityType' => ENTITY_VENDOR_CREDIT,
             'datatable' => new VendorCreditDatatable(),
-            'title' => trans('texts.credits'),
+            'title' => trans('texts.vendor_credits'),
         ]);
     }
 
-    public function getDatatable($clientPublicId = null)
+    public function getDatatable($vendorPublicId = null)
     {
         $search = Input::get('sSearch');
 
-        return $this->creditService->getDatatable($clientPublicId, $search);
+        return $this->creditService->getDatatable($vendorPublicId, $search);
     }
 
     public function create(VendorCreditRequest $request)
     {
-        $this->authorize('create', ENTITY_CREDIT);
+        $this->authorize('create', ENTITY_VENDOR_CREDIT);
         $data = [
-            'clientPublicId' => Input::old('client') ? Input::old('client') : ($request->client_id ?: 0),
+            'vendorPublicId' => Input::old('vendor') ? Input::old('vendor') : ($request->vendor_id ?: 0),
             'credit' => null,
             'method' => 'POST',
-            'url' => 'credits',
+            'url' => 'vendor_credits',
             'title' => trans('texts.new_credit'),
             'vendors' => Vendor::scope()->with('contacts')->orderBy('name')->get(),
         ];
 
-        return View::make('credits.edit', $data);
+        return View::make('vendor_credits.edit', $data);
     }
 
     public function edit($publicId)
     {
-        $this->authorize('edit', ENTITY_CREDIT);
+        $this->authorize('edit', ENTITY_VENDOR_CREDIT);
         $credit = VendorCredit::withTrashed()->scope($publicId)->firstOrFail();
         $credit->credit_date = Utils::fromSqlDate($credit->credit_date);
 
         $data = [
-            'client' => $credit->client,
-            'clientPublicId' => $credit->client->public_id,
+            'vendor' => $credit->vendor,
+            'vendorPublicId' => $credit->vendor->public_id,
             'credit' => $credit,
             'method' => 'PUT',
-            'url' => 'credits/' . $publicId,
+            'url' => 'vendor_credits/' . $publicId,
             'title' => 'Edit VendorCredit',
             'vendors' => null,
         ];
 
-        return View::make('credits.edit', $data);
+        return View::make('vendor_credits.edit', $data);
     }
 
     public function show($publicId)
     {
         Session::reflash();
 
-        return Redirect::to("credits/{$publicId}/edit");
+        return Redirect::to("vendor_credits/{$publicId}/edit");
     }
 
     public function update(UpdateVendorCreditRequest $request)
@@ -108,7 +108,7 @@ class VendorVendorCreditController extends BaseController
         $message = $credit->wasRecentlyCreated ? trans('texts.created_credit') : trans('texts.updated_credit');
         Session::flash('message', $message);
 
-        return redirect()->to("vendors/{$credit->client->public_id}#credits");
+        return redirect()->to("vendors/{$credit->vendor->public_id}#vendor_credits");
     }
 
     public function bulk()
@@ -122,6 +122,6 @@ class VendorVendorCreditController extends BaseController
             Session::flash('message', $message);
         }
 
-        return $this->returnBulk(ENTITY_CREDIT, $action, $ids);
+        return $this->returnBulk(ENTITY_VENDOR_CREDIT, $action, $ids);
     }
 }
