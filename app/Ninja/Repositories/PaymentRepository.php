@@ -34,10 +34,10 @@ class PaymentRepository extends BaseRepository
             ->leftJoin('payment_types', 'payment_types.id', '=', 'payments.payment_type_id')
             ->leftJoin('account_gateways', 'account_gateways.id', '=', 'payments.account_gateway_id')
             ->leftJoin('gateways', 'gateways.id', '=', 'account_gateways.gateway_id')
-            ->where('payments.account_id', '=', Auth::user()->account_id)
-            ->where('contacts.is_primary', '=', true)
-            ->where('contacts.deleted_at', '=', null)
-            ->where('invoices.is_deleted', '=', false)
+            ->where('payments.account_id', Auth::user()->account_id)
+            ->where('contacts.is_primary', true)
+            ->where('contacts.deleted_at', null)
+            ->where('invoices.is_deleted', false)
             ->select('payments.public_id',
                 DB::raw('COALESCE(clients.currency_id, accounts.currency_id) currency_id'),
                 DB::raw('COALESCE(clients.country_id, accounts.country_id) country_id'),
@@ -101,8 +101,7 @@ class PaymentRepository extends BaseRepository
                     ->orWhere('payments.transaction_reference', 'like', '%' . $filter . '%')
                     ->orWhere('gateways.name', 'like', '%' . $filter . '%')
                     ->orWhere('payment_types.name', 'like', '%' . $filter . '%')
-                    ->orWhere('contacts.first_name', 'like', '%' . $filter . '%')
-                    ->orWhere('contacts.last_name', 'like', '%' . $filter . '%')
+                    ->orWhere('contacts.phone', 'like', '%' . $filter . '%')
                     ->orWhere('contacts.email', 'like', '%' . $filter . '%');
             });
         }

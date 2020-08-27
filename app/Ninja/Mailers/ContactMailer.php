@@ -3,8 +3,8 @@
 namespace App\Ninja\Mailers;
 
 use App;
-use App\Events\InvoiceWasEmailedEvent;
-use App\Events\QuoteWasEmailedEvent;
+use App\Events\Sale\InvoiceWasEmailedEvent;
+use App\Events\Sale\QuoteWasEmailedEvent;
 use App\Jobs\ConvertInvoiceToUbl;
 use App\Libraries\Utils;
 use App\Models\Invoice;

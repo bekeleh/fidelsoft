@@ -11,6 +11,7 @@ use App\Ninja\Datatables\PaymentDatatable;
 use App\Ninja\Repositories\AccountRepository;
 use App\Ninja\Repositories\PaymentRepository;
 use DateTime;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 
 class PaymentService extends BaseService
@@ -100,8 +101,8 @@ class PaymentService extends BaseService
             }
 
             $firstUpdate = Activity::where('invoice_id', '=', $invoice->id)
-            ->where('activity_type_id', '=', ACTIVITY_TYPE_UPDATE_INVOICE)
-            ->first();
+                ->where('activity_type_id', '=', ACTIVITY_TYPE_UPDATE_INVOICE)
+                ->first();
 
             if ($firstUpdate) {
                 $backup = json_decode($firstUpdate->json_backup);
@@ -148,7 +149,7 @@ class PaymentService extends BaseService
             $credit->save();
             $input['amount'] = $invoice->balance;
         }
-        
+
         return $this->paymentRepo->save($input, $payment);
     }
 

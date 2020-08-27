@@ -3,12 +3,12 @@
 namespace App\Ninja\Mailers;
 
 use App;
-use App\Events\BillWasEmailedEvent;
-use App\Events\BillQuoteWasEmailedEvent;
+use App\Events\Purchase\BillWasEmailedEvent;
+use App\Events\Purchase\BillQuoteWasEmailedEvent;
 use App\Jobs\ConvertBillToUbl;
 use App\Libraries\Utils;
 use App\Models\Bill;
-use App\Models\Payment;
+use App\Models\BillPayment;
 use App\Services\VendorTemplateService;
 use HTMLUtils;
 use Illuminate\Support\Facades\Cache;
@@ -34,7 +34,7 @@ class VendorContactMailer extends Mailer
         $bill->load('invitations', 'vendor.language', 'account');
 
         if ($proposal) {
-            $entityType = ENTITY_PROPOSAL;
+            $entityType = ENTITY_BILL_PROPOSAL;
         } else {
             $entityType = $bill->getEntityType();
         }
@@ -113,15 +113,7 @@ class VendorContactMailer extends Mailer
         return $response;
     }
 
-    private function sendInvitation(
-        $invitation,
-        Bill $bill,
-        $body,
-        $subject,
-        $reminder,
-        $isFirst,
-        $extra
-    )
+    private function sendInvitation($invitation, Bill $bill, $body, $subject, $reminder, $isFirst, $extra)
     {
         $vendor = $bill->vendor;
         $account = $bill->account;
@@ -172,7 +164,7 @@ class VendorContactMailer extends Mailer
         $data = [
             'body' => $body,
             'link' => $invitation->getLink(),
-            'entityType' => $proposal ? ENTITY_PROPOSAL : $bill->getEntityType(),
+            'entityType' => $proposal ? ENTITY_BILL_PROPOSAL : $bill->getEntityType(),
             'billId' => $bill->id,
             'invitation' => $invitation,
             'account' => $account,
@@ -199,7 +191,7 @@ class VendorContactMailer extends Mailer
 
         $subject = $this->templateService->processVariables($subject, $variables);
         $fromEmail = $account->getReplyToEmail() ?: $user->email;
-        $view = $account->getTemplateView(ENTITY_INVOICE);
+        $view = $account->getTemplateView(ENTITY_BILL);
 
         $response = $this->sendTo($invitation->contact->email, $fromEmail, $account->getDisplayName(), $subject, $view, $data);
 
@@ -233,14 +225,14 @@ class VendorContactMailer extends Mailer
     }
 
 
-    public function sendPaymentConfirmation(Payment $payment, $refunded = 0)
+    public function sendBillPaymentConfirmation(BillPayment $billPayment, $refunded = 0)
     {
-        $account = $payment->account;
-        $vendor = $payment->vendor;
+        $account = $billPayment->account;
+        $vendor = $billPayment->vendor;
 
         $account->loadLocalizationSettings($vendor);
-        $bill = $payment->bill;
-        $invitation = $payment->invitation ?: $payment->bill->invitations[0];
+        $bill = $billPayment->bill;
+        $invitation = $billPayment->bill_invitation ?: $billPayment->bill->bill_invitation[0];
         $accountName = $account->getDisplayName();
 
         if ($refunded > 0) {
@@ -250,15 +242,15 @@ class VendorContactMailer extends Mailer
                 'bill_number' => $bill->bill_number,
             ]);
         } else {
-            $emailSubject = $bill->account->getEmailSubject(ENTITY_PAYMENT);
-            $emailTemplate = $account->getEmailTemplate(ENTITY_PAYMENT);
+            $emailSubject = $bill->account->getEmailSubject(ENTITY_BILL_PAYMENT);
+            $emailTemplate = $account->getEmailTemplate(ENTITY_BILL_PAYMENT);
         }
 
-        if ($payment->invitation) {
-            $user = $payment->invitation->user;
-            $contact = $payment->contact;
+        if ($billPayment->bill_invitation) {
+            $user = $billPayment->bill_invitation->user;
+            $contact = $billPayment->contact;
         } else {
-            $user = $payment->user;
+            $user = $billPayment->user;
             $contact = $vendor->contacts->count() ? $vendor->contacts[0] : '';
         }
 
@@ -266,7 +258,7 @@ class VendorContactMailer extends Mailer
             'account' => $account,
             'vendor' => $vendor,
             'invitation' => $invitation,
-            'amount' => $payment->amount,
+            'amount' => $billPayment->amount,
         ];
 
         $data = [
@@ -275,8 +267,8 @@ class VendorContactMailer extends Mailer
             'bill' => $bill,
             'vendor' => $vendor,
             'account' => $account,
-            'payment' => $payment,
-            'entityType' => ENTITY_INVOICE,
+            'payment' => $billPayment,
+            'entityType' => ENTITY_BILL,
             'bccEmail' => $account->getBccEmail(),
             'fromEmail' => $account->getFromEmail(),
             'isRefund' => $refunded > 0,
@@ -289,7 +281,7 @@ class VendorContactMailer extends Mailer
         }
 
         $subject = $this->templateService->processVariables($emailSubject, $variables);
-        $data['bill_id'] = $payment->bill->id;
+        $data['bill_id'] = $billPayment->bill->id;
 
         $view = $account->getTemplateView('payment_confirmation');
         $fromEmail = $account->getReplyToEmail() ?: $user->email;
@@ -301,7 +293,7 @@ class VendorContactMailer extends Mailer
         $account->loadLocalizationSettings();
     }
 
-    public function sendLicensePaymentConfirmation($name, $email, $amount, $license, $productId)
+    public function sendLicenseBillPaymentConfirmation($name, $email, $amount, $license, $productId)
     {
         $view = 'license_confirmation';
         $subject = trans('texts.payment_subject');

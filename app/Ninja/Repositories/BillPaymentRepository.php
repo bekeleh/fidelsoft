@@ -3,9 +3,9 @@
 namespace App\Ninja\Repositories;
 
 use App\Libraries\Utils;
-use App\Models\Credit;
+use App\Models\VendorCredit;
 use App\Models\Vendor;
-use App\Models\Payment;
+use App\Models\BillPayment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -14,78 +14,78 @@ class BillPaymentRepository extends BaseRepository
 {
     private $model;
 
-    public function __construct(Payment $model)
+    public function __construct(BillPayment $model)
     {
         $this->model = $model;
     }
 
     public function getClassName()
     {
-        return 'App\Models\Payment';
+        return 'App\Models\BillPayment';
     }
 
     public function find($clientPublicId = false, $filter = null)
     {
-        $query = DB::table('payments')
-            ->leftJoin('accounts', 'accounts.id', '=', 'payments.account_id')
-            ->leftJoin('users', 'users.id', '=', 'payments.user_id')
-            ->leftJoin('vendors', 'vendors.id', '=', 'payments.vendor_id')
-            ->leftJoin('bills', 'bills.id', '=', 'payments.bill_id')
-            ->leftJoin('contacts', 'contacts.vendor_id', '=', 'vendors.id')
-            ->leftJoin('payment_statuses', 'payment_statuses.id', '=', 'payments.payment_status_id')
-            ->leftJoin('payment_types', 'payment_types.id', '=', 'payments.payment_type_id')
-            ->leftJoin('account_gateways', 'account_gateways.id', '=', 'payments.account_gateway_id')
+        $query = DB::table('bill_payments')
+            ->leftJoin('accounts', 'accounts.id', '=', 'bill_payments.account_id')
+            ->leftJoin('users', 'users.id', '=', 'bill_payments.user_id')
+            ->leftJoin('vendors', 'vendors.id', '=', 'bill_payments.vendor_id')
+            ->leftJoin('bills', 'bills.id', '=', 'bill_payments.bill_id')
+            ->leftJoin('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
+            ->leftJoin('payment_statuses', 'payment_statuses.id', '=', 'bill_payments.payment_status_id')
+            ->leftJoin('payment_types', 'payment_types.id', '=', 'bill_payments.payment_type_id')
+            ->leftJoin('account_gateways', 'account_gateways.id', '=', 'bill_payments.account_gateway_id')
             ->leftJoin('gateways', 'gateways.id', '=', 'account_gateways.gateway_id')
-            ->where('payments.account_id', '=', Auth::user()->account_id)
-            ->where('contacts.is_primary', '=', true)
-            ->where('contacts.deleted_at', '=', null)
-            ->where('bills.is_deleted', '=', false)
-            ->select('payments.public_id',
+            ->where('bill_payments.account_id', Auth::user()->account_id)
+            ->where('vendor_contacts.is_primary', true)
+            ->where('vendor_contacts.deleted_at', null)
+            ->where('bills.is_deleted', false)
+            ->select('bill_payments.public_id',
                 DB::raw('COALESCE(vendors.currency_id, accounts.currency_id) currency_id'),
                 DB::raw('COALESCE(vendors.country_id, accounts.country_id) country_id'),
-                'payments.transaction_reference',
-                DB::raw("COALESCE(NULLIF(vendors.name,''), NULLIF(CONCAT(contacts.first_name, ' ', contacts.last_name),''), NULLIF(contacts.email,'')) client_name"),
+                'bill_payments.transaction_reference',
+                DB::raw("COALESCE(NULLIF(vendors.name,''), NULLIF(CONCAT(vendor_contacts.first_name, ' ', vendor_contacts.last_name),''), NULLIF(vendor_contacts.email,'')) client_name"),
                 'vendors.public_id as client_public_id',
                 'vendors.user_id as client_user_id',
-                'payments.amount',
-                DB::raw("CONCAT(payments.payment_date, payments.created_at) as date"),
-                'payments.payment_date',
-                'payments.payment_status_id',
-                'payments.payment_type_id',
-                'payments.payment_type_id as source',
-                'bills.public_id as invoice_public_id',
-                'bills.user_id as invoice_user_id',
+                'bill_payments.amount',
+                DB::raw("CONCAT(bill_payments.payment_date, bill_payments.created_at) as date"),
+                'bill_payments.payment_date',
+                'bill_payments.payment_status_id',
+                'bill_payments.payment_type_id',
+                'bill_payments.payment_type_id as source',
+                'bills.public_id as bill_public_id',
+                'bills.user_id as bill_user_id',
                 'bills.bill_number',
-                'bills.bill_number as invoice_name',
-                'contacts.first_name',
-                'contacts.last_name',
-                'contacts.email',
+                'bills.bill_number as bill_name',
+                'vendor_contacts.first_name',
+                'vendor_contacts.last_name',
+                'vendor_contacts.email',
                 'payment_types.name as method',
                 'payment_types.name as payment_type',
-                'payments.account_gateway_id',
-                'payments.deleted_at',
-                'payments.is_deleted',
-                'payments.user_id',
-                'payments.refunded',
-                'payments.expiration',
-                'payments.last4',
-                'payments.email',
-                'payments.routing_number',
-                'payments.bank_name',
-                'payments.private_notes',
-                'payments.public_notes',
-                'payments.exchange_rate',
-                'payments.exchange_currency_id',
-                'bills.is_deleted as invoice_is_deleted',
+                'bill_payments.account_gateway_id',
+                'bill_payments.deleted_at',
+                'bill_payments.is_deleted',
+                'bill_payments.user_id',
+                'bill_payments.refunded',
+                'bill_payments.expiration',
+                'bill_payments.last4',
+                'bill_payments.email',
+                'bill_payments.routing_number',
+                'bill_payments.bank_name',
+                'bill_payments.private_notes',
+                'bill_payments.public_notes',
+                'bill_payments.exchange_rate',
+                'bill_payments.exchange_currency_id',
+                'bills.is_deleted as bill_is_deleted',
                 'gateways.name as gateway_name',
                 'gateways.id as gateway_id',
                 'payment_statuses.name as status',
-                'payments.created_at',
-                'payments.updated_at',
-                'payments.deleted_at',
-                'payments.created_by',
-                'payments.updated_by',
-                'payments.deleted_by'
+                'bill_payments.created_at',
+                'bill_payments.updated_at',
+                'bill_payments.deleted_at',
+                'bill_payments.created_by',
+                'bill_payments.updated_by',
+                'bill_payments.deleted_by'
             );
 
         $this->applyFilters($query, ENTITY_PAYMENT);
@@ -100,12 +100,12 @@ class BillPaymentRepository extends BaseRepository
             $query->where(function ($query) use ($filter) {
                 $query->where('vendors.name', 'like', '%' . $filter . '%')
                     ->orWhere('bills.bill_number', 'like', '%' . $filter . '%')
-                    ->orWhere('payments.transaction_reference', 'like', '%' . $filter . '%')
+                    ->orWhere('bill_payments.transaction_reference', 'like', '%' . $filter . '%')
                     ->orWhere('gateways.name', 'like', '%' . $filter . '%')
                     ->orWhere('payment_types.name', 'like', '%' . $filter . '%')
-                    ->orWhere('contacts.first_name', 'like', '%' . $filter . '%')
-                    ->orWhere('contacts.last_name', 'like', '%' . $filter . '%')
-                    ->orWhere('contacts.email', 'like', '%' . $filter . '%');
+                    ->orWhere('vendor_contacts.first_name', 'like', '%' . $filter . '%')
+                    ->orWhere('vendor_contacts.last_name', 'like', '%' . $filter . '%')
+                    ->orWhere('vendor_contacts.email', 'like', '%' . $filter . '%');
             });
         }
 
@@ -114,55 +114,60 @@ class BillPaymentRepository extends BaseRepository
 
     public function findForContact($contactId = null, $filter = null)
     {
-        $query = DB::table('payments')
-            ->join('accounts', 'accounts.id', '=', 'payments.account_id')
-            ->join('vendors', 'vendors.id', '=', 'payments.vendor_id')
-            ->join('bills', 'bills.id', '=', 'payments.bill_id')
-            ->join('contacts', 'contacts.vendor_id', '=', 'vendors.id')
-            ->join('payment_statuses', 'payment_statuses.id', '=', 'payments.payment_status_id')
-            ->leftJoin('invitations', function ($join) use ($contactId) {
-                $join->on('invitations.bill_id', '=', 'bills.id')
-                    ->on('invitations.contact_id', '=', 'contacts.id')
-                    ->where('invitations.contact_id', '=', $contactId);
+        $query = DB::table('bill_payments')
+            ->leftJoin('accounts', 'accounts.id', '=', 'bill_payments.account_id')
+            ->leftJoin('vendors', 'vendors.id', '=', 'bill_payments.vendor_id')
+            ->leftJoin('bills', 'bills.id', '=', 'bill_payments.bill_id')
+            ->leftJoin('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
+            ->leftJoin('payment_statuses', 'payment_statuses.id', '=', 'bill_payments.payment_status_id')
+            ->leftJoin('bill_invitations', function ($join) use ($contactId) {
+                $join->on('bill_invitations.bill_id', 'bills.id')
+                    ->on('bill_invitations.contact_id', 'vendor_contacts.id')
+                    ->where('bill_invitations.contact_id', $contactId);
             })
-            ->leftJoin('payment_types', 'payment_types.id', '=', 'payments.payment_type_id')
-            ->where('vendors.is_deleted', '=', false)
-            ->where('payments.is_deleted', '=', false)
-            ->where('bills.is_deleted', '=', false)
-            ->where('bills.is_public', '=', true)
-            ->where('invitations.deleted_at', '=', null)
+            ->leftJoin('payment_types', 'payment_types.id', '=', 'bill_payments.payment_type_id')
+            ->where('vendors.is_deleted', false)
+            ->where('bill_payments.is_deleted', false)
+            ->where('bills.is_deleted', false)
+            ->where('bills.is_public', true)
+            ->where('bill_invitations.deleted_at', null)
             ->select(
                 DB::raw('COALESCE(vendors.currency_id, accounts.currency_id) currency_id'),
                 DB::raw('COALESCE(vendors.country_id, accounts.country_id) country_id'),
-                'invitations.invitation_key',
-                'invitations.contact_id',
-                'payments.public_id',
-                'payments.transaction_reference',
-                DB::raw("COALESCE(NULLIF(vendors.name,''), NULLIF(CONCAT(contacts.first_name, ' ', contacts.last_name),''), NULLIF(contacts.email,'')) client_name"),
+                'bill_invitations.invitation_key',
+                'bill_invitations.contact_id',
+                'bill_payments.public_id',
+                'bill_payments.transaction_reference',
+                DB::raw("COALESCE(NULLIF(vendors.name,''), NULLIF(CONCAT(vendor_contacts.first_name, ' ', vendor_contacts.last_name),''), NULLIF(vendor_contacts.email,'')) client_name"),
                 'vendors.public_id as client_public_id',
-                'payments.amount',
-                'payments.payment_date',
-                'payments.payment_type_id',
-                'bills.public_id as invoice_public_id',
+                'bill_payments.amount',
+                'bill_payments.payment_date',
+                'bill_payments.payment_type_id',
+                'bills.public_id as bill_public_id',
                 'bills.bill_number',
-                'contacts.first_name',
-                'contacts.last_name',
-                'contacts.email',
+                'vendor_contacts.first_name',
+                'vendor_contacts.last_name',
+                'vendor_contacts.email',
                 'payment_types.name as payment_type',
-                'payments.account_gateway_id',
-                'payments.refunded',
-                'payments.expiration',
-                'payments.last4',
-                'payments.email',
-                'payments.routing_number',
-                'payments.bank_name',
-                'payments.payment_status_id',
+                'bill_payments.account_gateway_id',
+                'bill_payments.refunded',
+                'bill_payments.expiration',
+                'bill_payments.last4',
+                'bill_payments.email',
+                'bill_payments.routing_number',
+                'bill_payments.bank_name',
+                'bill_payments.payment_status_id',
                 'payment_statuses.name as payment_status_name'
             );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
-                $query->where('vendors.name', 'like', '%' . $filter . '%');
+                $query->where('vendors.name', 'like', '%' . $filter . '%')
+                    ->orwhere('bills.bill_number', 'like', '%' . $filter . '%')
+                    ->orwhere('bill_payments.transaction_reference', 'like', '%' . $filter . '%')
+                    ->orWhere('payment_types.name', 'like', '%' . $filter . '%')
+                    ->orWhere('contacts.phone', 'like', '%' . $filter . '%')
+                    ->orWhere('contacts.email', 'like', '%' . $filter . '%');
             });
         }
 
@@ -176,9 +181,9 @@ class BillPaymentRepository extends BaseRepository
         if ($payment) {
             $payment->updated_by = auth::user()->username;
         } elseif ($publicId) {
-            $payment = Payment::scope($publicId)->firstOrFail();
+            $payment = BillPayment::scope($publicId)->firstOrFail();
         } else {
-            $payment = Payment::createNew();
+            $payment = BillPayment::createNew();
             if (Auth::check() && Auth::user()->account->payment_type_id) {
                 $payment->payment_type_id = Auth::user()->account->payment_type_id;
             }
@@ -200,7 +205,7 @@ class BillPaymentRepository extends BaseRepository
             $payment->payment_status_id = $paymentStatusId;
         }
         if (!isset($input['exchange_currency_id'])) {
-            // $client = Vendor::scope()->where('id',$clientId)->first();
+            // $client = Vendor::scope()->where('id',$vendorId)->first();
             // $payment->exchange_currency_id = ($client->currency_id)? $client->currency_id: null;
         }
         if (isset($input['payment_date_sql'])) {
@@ -214,12 +219,12 @@ class BillPaymentRepository extends BaseRepository
         $payment->fill($input);
 
         if (!$publicId) {
-            $clientId = $input['vendor_id'];
+            $vendorId = $input['vendor_id'];
             $amount = round(Utils::parseFloat($input['amount']), 2);
             $amount = min($amount, MAX_INVOICE_AMOUNT);
 
             if ($paymentTypeId == PAYMENT_TYPE_CREDIT) {
-                $credits = Credit::scope()->where('vendor_id', $clientId)
+                $credits = VendorCredit::scope()->where('vendor_id', $vendorId)
                     ->where('balance', '>', 0)->orderBy('created_at')->get();
                 if ($credits->count()) {
                     $remaining = $amount;
@@ -233,7 +238,7 @@ class BillPaymentRepository extends BaseRepository
             }
 
             $payment->bill_id = $input['bill_id'];
-            $payment->vendor_id = $clientId;
+            $payment->vendor_id = $vendorId;
             $payment->amount = $amount;
         }
 
@@ -244,7 +249,7 @@ class BillPaymentRepository extends BaseRepository
 
     public function delete($payment)
     {
-        if ($payment->invoice->is_deleted) {
+        if ($payment->bill->is_deleted) {
             return false;
         }
 
@@ -253,7 +258,7 @@ class BillPaymentRepository extends BaseRepository
 
     public function restore($payment)
     {
-        if ($payment->invoice->is_deleted) {
+        if ($payment->bill->is_deleted) {
             return false;
         }
 

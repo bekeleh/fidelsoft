@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreatePaymentRequest;
-use App\Http\Requests\PaymentRequest;
-use App\Http\Requests\UpdatePaymentRequest;
+use App\Http\Requests\CreateBillPaymentRequest;
+use App\Http\Requests\BillPaymentRequest;
+use App\Http\Requests\UpdateBillPaymentRequest;
 use App\Libraries\Utils;
 use App\Models\Vendor;
 use App\Models\Bill;
 use App\Models\BillPayment;
 use App\Ninja\Datatables\BillPaymentDatatable;
-use App\Ninja\Mailers\ContactMailer;
-use App\Ninja\Repositories\PaymentRepository;
-use App\Services\PaymentService;
+use App\Ninja\Mailers\VendorContactMailer;
+use App\Ninja\Repositories\BillPaymentRepository;
+use App\Services\BillPaymentService;
 use DropdownButton;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
@@ -33,14 +33,14 @@ class BillPaymentController extends BaseController
     /**
      * PaymentController constructor.
      *
-     * @param PaymentRepository $billPaymentRepo
-     * @param PaymentService $billPaymentService
-     * @param ContactMailer $contactMailer
+     * @param BillPaymentRepository $billPaymentRepo
+     * @param BillPaymentService $billPaymentService
+     * @param VendorContactMailer $contactMailer
      */
-    public function __construct(PaymentRepository $billPaymentRepo, PaymentService $billPaymentService, ContactMailer $contactMailer)
+    public function __construct(BillPaymentRepository $billPaymentRepo, BillPaymentService $billPaymentService, VendorContactMailer $contactMailer)
     {
         $this->billPaymentRepo = $billPaymentRepo;
-        $this->paymentService = $billPaymentService;
+        $this->billPaymentService = $billPaymentService;
         $this->contactMailer = $contactMailer;
     }
 
@@ -54,7 +54,7 @@ class BillPaymentController extends BaseController
         return View::make('list_wrapper', [
             'entityType' => ENTITY_BILL_PAYMENT,
             'datatable' => new BillPaymentDatatable(),
-            'title' => trans('texts.payments'),
+            'title' => trans('texts.bill_payments'),
         ]);
     }
 
@@ -64,15 +64,15 @@ class BillPaymentController extends BaseController
      */
     public function getDatatable($vendorPublicId = null)
     {
-        return $this->paymentService->getDatatable($vendorPublicId, Input::get('sSearch'));
+        return $this->billPaymentService->getDatatable($vendorPublicId, Input::get('sSearch'));
     }
 
     /**
-     * @param PaymentRequest $request
+     * @param BillPaymentRequest $request
      * @return mixed
      * @throws AuthorizationException
      */
-    public function create(PaymentRequest $request)
+    public function create(BillPaymentRequest $request)
     {
         $this->authorize('create', ENTITY_BILL_PAYMENT);
         $user = auth()->user();
@@ -100,7 +100,7 @@ class BillPaymentController extends BaseController
             'bill' => null,
             'billPayment' => null,
             'method' => 'POST',
-            'url' => 'payments',
+            'url' => 'bill_payments',
             'title' => trans('texts.new_payment'),
             'paymentTypeId' => Input::get('paymentTypeId'),
             'bills' => $bills,
@@ -108,7 +108,7 @@ class BillPaymentController extends BaseController
             'totalCredit' => $totalCredit,
         ];
 
-        return View::make('payments.edit', $data);
+        return View::make('bill_payments.edit', $data);
     }
 
     /**
@@ -119,15 +119,15 @@ class BillPaymentController extends BaseController
     {
         Session::reflash();
 
-        return redirect()->to("payments/{$publicId}/edit");
+        return redirect()->to("bill_payments/{$publicId}/edit");
     }
 
     /**
-     * @param PaymentRequest $request
+     * @param BillPaymentRequest $request
      * @return mixed
      * @throws AuthorizationException
      */
-    public function edit(PaymentRequest $request)
+    public function edit(BillPaymentRequest $request)
     {
         $this->authorize('edit', ENTITY_BILL_PAYMENT);
         $billPayment = $request->entity();
@@ -157,24 +157,24 @@ class BillPaymentController extends BaseController
         $data = [
             'vendor' => null,
             'bill' => null,
-            'payment' => $billPayment,
+            'billPayment' => $billPayment,
             'entity' => $billPayment,
             'method' => 'PUT',
-            'url' => 'payments/' . $billPayment->public_id,
+            'url' => 'bill_payments/' . $billPayment->public_id,
             'title' => trans('texts.edit_payment'),
             'actions' => $actions,
         ];
 
         array_merge($data, self::getViewModel());
 
-        return View::make('payments.edit', $data);
+        return View::make('bill_payments.edit', $data);
     }
 
     /**
-     * @param CreatePaymentRequest $request
+     * @param CreateBillPaymentRequest $request
      * @return RedirectResponse
      */
-    public function store(CreatePaymentRequest $request)
+    public function store(CreateBillPaymentRequest $request)
     {
         // check payment has been marked sent
         $request->bill->markSentIfUnsent();
@@ -186,7 +186,8 @@ class BillPaymentController extends BaseController
             $credit = true;
         }
 
-        $billPayment = $this->paymentService->save($input, null, $request->bill);
+        $billPayment = $this->billPaymentService->save($input, null, $request->bill);
+
 //       if vendor requires receipt via email
         if (Input::get('email_receipt')) {
             $this->contactMailer->sendPaymentConfirmation($billPayment);
@@ -202,10 +203,10 @@ class BillPaymentController extends BaseController
 
 
     /**
-     * @param UpdatePaymentRequest $request
+     * @param UpdateBillPaymentRequest $request
      * @return RedirectResponse
      */
-    public function update(UpdatePaymentRequest $request)
+    public function update(UpdateBillPaymentRequest $request)
     {
         if (in_array($request->action, ['archive', 'delete', 'restore', 'refund', 'email'])) {
             return self::bulk();
@@ -230,7 +231,7 @@ class BillPaymentController extends BaseController
             $message = trans('texts.emailed_payment');
 //            Session::flash('message', trans('texts.emailed_payment'));
         } else {
-            $count = $this->paymentService->bulk($ids, $action, [
+            $count = $this->billPaymentService->bulk($ids, $action, [
                 'refund_amount' => Input::get('refund_amount'),
                 'refund_email' => Input::get('refund_email'),
             ]);

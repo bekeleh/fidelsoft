@@ -15,10 +15,10 @@ class VendorCredit extends EntityModel
     use SoftDeletes;
     use PresentableTrait;
 
+    protected $presenter = 'App\Ninja\Presenters\VendorCreditPresenter';
+
     protected $table = 'vendor_credits';
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
-
-    protected $presenter = 'App\Ninja\Presenters\VendorCreditPresenter';
 
 
     protected $fillable = [

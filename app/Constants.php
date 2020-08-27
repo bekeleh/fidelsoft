@@ -73,6 +73,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_CUSTOMER', 'customer');
     define('ENTITY_SUBSCRIPTION', 'subscription');
     define('ENTITY_PROPOSAL', 'proposal');
+    define('ENTITY_BILL_PROPOSAL', 'bill_proposal');
     define('ENTITY_PROPOSAL_TEMPLATE', 'proposal_template');
     define('ENTITY_PROPOSAL_SNIPPET', 'proposal_snippet');
     define('ENTITY_PROPOSAL_CATEGORY', 'proposal_category');

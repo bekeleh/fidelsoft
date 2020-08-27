@@ -64,7 +64,9 @@ class BillPaymentService extends BaseService
                 'vendor_id' => $vendor->id,
                 'amount' => $amount,
             ];
+
             $payment = $this->billPaymentRepo->save($data);
+
             if ($amount == $balance) {
                 return $payment;
             }
@@ -161,8 +163,8 @@ class BillPaymentService extends BaseService
         $datatable = new BillPaymentDatatable(true, $vendorPublicId);
         $query = $this->billPaymentRepo->find($vendorPublicId, $search);
 
-        if (!Utils::hasPermission('view_payments')) {
-            $query->where('payments.user_id', '=', Auth::user()->id);
+        if (!Utils::hasPermission('view_bill_payments')) {
+            $query->where('bill_payments.user_id', Auth::user()->id);
         }
 
         return $this->datatableService->createDatatable($datatable, $query);
@@ -201,7 +203,7 @@ class BillPaymentService extends BaseService
                     }
 
                     if ($refunded && $sendEmail) {
-                        $mailer = app('App\Ninja\Mailers\ContactMailer');
+                        $mailer = app('App\Ninja\Mailers\VendorContactMailer');
                         $mailer->sendPaymentConfirmation($payment, $amount);
                     }
                 }

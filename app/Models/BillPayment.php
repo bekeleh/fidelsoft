@@ -62,7 +62,7 @@ class BillPayment extends EntityModel
     }
 
 
-    public function bill_invitations()
+    public function bill_invitation()
     {
         return $this->belongsTo('App\Models\BillInvitation');
     }

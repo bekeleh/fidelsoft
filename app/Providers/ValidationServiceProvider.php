@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Libraries\Utils;
 use App\Models\Client;
+use App\Models\Vendor;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -24,7 +25,7 @@ class ValidationServiceProvider extends ServiceProvider
         Validator::extend('positive', function ($attribute, $value, $parameters) {
             return Utils::parseFloat($value) >= 0;
         });
-
+//     client credit
         Validator::extend('has_credit', function ($attribute, $value, $parameters) {
             $publicClientId = $parameters[0];
             $amount = $parameters[1];
@@ -34,7 +35,16 @@ class ValidationServiceProvider extends ServiceProvider
 
             return $credit >= $amount;
         });
+//         vendor credit
+        Validator::extend('has_vendor_credit', function ($attribute, $value, $parameters) {
+            $publicVendorId = $parameters[0];
+            $amount = $parameters[1];
 
+            $vendor = Vendor::scope($publicVendorId)->firstOrFail();
+            $credit = $vendor->getTotalCredit();
+
+            return $credit >= $amount;
+        });
         // check that the time log elements don't overlap
         Validator::extend('time_log', function ($attribute, $value, $parameters) {
             $lastTime = 0;

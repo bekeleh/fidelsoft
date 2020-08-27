@@ -2,15 +2,14 @@
 
 namespace App\Http\Requests;
 
-class Cr extends PaymentRequest
+class UpdateBillPaymentRequest extends BillPaymentRequest
 {
-    protected $entityType = ENTITY_PAYMENT;
+    protected $entityType = ENTITY_BILL_PAYMENT;
 
     public function authorize()
     {
         return $this->user()->can('edit', $this->entityType);
     }
-
 
     public function rules()
     {
