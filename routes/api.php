@@ -24,11 +24,12 @@ Route::get('bill_quotes', 'BillQuoteApiController@index');
 Route::get('download/Bill/{invoice_id}', 'BillApiController@download');
 Route::resource('bills', 'BillApiController');
 Route::resource('bill_items', 'BillItemApiController');
-
 Route::resource('bill_payments', 'BillPaymentApiController');
+// invoice payment
 Route::resource('payments', 'PaymentApiController');
 Route::resource('tasks', 'TaskApiController');
 Route::resource('credits', 'CreditApiController');
+Route::resource('vendor_credits', 'VendorCreditApiController');
 Route::post('hooks', 'IntegrationController@subscribe');
 Route::delete('hooks/{subscription_id}', 'IntegrationController@unsubscribe');
 Route::post('email_invoice', 'InvoiceApiController@emailInvoice');

@@ -6,64 +6,65 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 use App\Libraries\Utils;
 
-class CreditDatatable extends EntityDatatable
+class VendorCreditDatatable extends EntityDatatable
 {
-    public $entityType = ENTITY_CREDIT;
+    public $entityType = ENTITY_VENDOR_CREDIT;
     public $sortCol = 1;
 
     public function columns()
     {
         return [
             [
-                'client_name',
+                'vendor_name',
                 function ($model) {
-                    if (Auth::user()->can('view', [ENTITY_CLIENT, $model])) {
-                        $str = $model->client_public_id ? link_to("clients/{$model->client_public_id}", Utils::getClientDisplayName($model))->toHtml() : '';
+                    if (Auth::user()->can('view', [ENTITY_VENDOR, $model])) {
+                        $str = $model->vendor_public_id ? link_to("clients/{$model->vendor_public_id}", Utils::getVendorDisplayName($model))->toHtml() : '';
                         return $this->addNote($str, $model->private_notes);
                     } else {
-                        return Utils::getClientDisplayName($model);
+                        return Utils::getVendorDisplayName($model);
                     }
-
                 },
             ],
             [
                 'amount',
                 function ($model) {
-                    if (Auth::user()->can('view', [ENTITY_CLIENT, $model]))
+                    if (Auth::user()->can('view', [ENTITY_VENDOR, $model])) {
                         return Utils::formatMoney($model->amount, $model->currency_id, $model->country_id) . '<span ' . Utils::getEntityRowClass($model) . '/>';
+                    } else {
+                        return '';
+                    }
                 },
             ],
             [
                 'balance',
                 function ($model) {
-                    if (Auth::user()->can('view', [ENTITY_CLIENT, $model]))
+                    if (Auth::user()->can('view', [ENTITY_VENDOR, $model])) {
                         return Utils::formatMoney($model->balance, $model->currency_id, $model->country_id);
+                    } else {
+                        return '';
+                    }
                 },
             ],
             [
                 'credit_date',
                 function ($model) {
-                    if (Auth::user()->can('view', [ENTITY_CREDIT, $model]))
-                        return link_to("credits/{$model->public_id}/edit", Utils::fromSqlDate($model->credit_date_sql))->toHtml();
-                    else
+                    if (Auth::user()->can('view', [ENTITY_VENDOR_CREDIT, $model])) {
+                        return link_to("vendor_credits/{$model->public_id}/edit", Utils::fromSqlDate($model->credit_date_sql))->toHtml();
+                    } else {
                         return Utils::fromSqlDate($model->credit_date_sql);
-
+                    }
                 },
             ],
             [
                 'public_notes',
                 function ($model) {
-                    if (Auth::user()->can('view', [ENTITY_CREDIT, $model]))
+                    if (Auth::user()->can('view', [ENTITY_VENDOR_CREDIT, $model])) {
                         return e($model->public_notes);
+                    } else {
+                        return '';
+                    }
                 },
             ],
-            // [
-            //     'private_notes',
-            //     function ($model) {
-            //         if (Auth::user()->can('view', [ENTITY_CREDIT, $model]))
-            //             return e($model->private_notes);
-            //     },
-            // ],
             [
                 'created_at',
                 function ($model) {
@@ -103,28 +104,28 @@ class CreditDatatable extends EntityDatatable
             [
                 trans('texts.edit_credit'),
                 function ($model) {
-                    return URL::to("credits/{$model->public_id}/edit");
+                    return URL::to("vendor_credits/{$model->public_id}/edit");
                 },
                 function ($model) {
-                    return Auth::user()->can('edit', [ENTITY_CREDIT, $model]);
+                    return Auth::user()->can('edit', [ENTITY_VENDOR_CREDIT, $model]);
                 },
             ],
             [
                 trans('texts.clone_credit'),
                 function ($model) {
-                    return URL::to("credits/{$model->public_id}/clone");
+                    return URL::to("vendor_credits/{$model->public_id}/clone");
                 },
                 function ($model) {
-                    return Auth::user()->can('create', [ENTITY_CREDIT, $model]);
+                    return Auth::user()->can('create', [ENTITY_VENDOR_CREDIT, $model]);
                 },
             ],
             [
                 trans('texts.apply_credit'),
                 function ($model) {
-                    return URL::to("payments/create/{$model->client_public_id}") . '?paymentTypeId=1';
+                    return URL::to("vendor_payments/create/{$model->vendor_public_id}") . '?paymentTypeId=1';
                 },
                 function ($model) {
-                    return Auth::user()->can('create', ENTITY_PAYMENT);
+                    return Auth::user()->can('create', ENTITY_BILL_PAYMENT);
                 },
             ],
             [
@@ -132,7 +133,7 @@ class CreditDatatable extends EntityDatatable
                 return false;
             },
                 function ($model) {
-                    return Auth::user()->can('edit', [ENTITY_PAYMENT]);
+                    return Auth::user()->can('edit', [ENTITY_BILL_PAYMENT]);
                 },
             ],
         ];

@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class Cr extends PaymentRequest
+class UpdatePaymentRequest extends PaymentRequest
 {
     protected $entityType = ENTITY_PAYMENT;
 

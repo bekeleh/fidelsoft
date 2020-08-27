@@ -287,17 +287,26 @@ Route::group(['middleware' => ['lookup:user', 'auth:user', 'banned:user']], func
     Route::get('proposals/create/{invoice_id?}/{proposal_template_id?}', 'ProposalController@create');
     Route::resource('proposals', 'ProposalController');
     Route::get('api/proposals', 'ProposalController@getDatatable');
-// payment
+// invoice payment
     Route::resource('payments', 'PaymentController');
     Route::get('payments/create/{client_id?}/{invoice_id?}', 'PaymentController@create');
     Route::get('api/payments/{client_id?}', 'PaymentController@getDatatable');
     Route::post('payments/bulk', 'PaymentController@bulk');
-//  credit
+// client credit
     Route::resource('credits', 'CreditController');
     Route::get('credits/create/{client_id?}/{invoice_id?}', 'CreditController@create');
     Route::get('api/credits/{client_id?}', 'CreditController@getDatatable');
     Route::post('credits/bulk', 'CreditController@bulk');
-
+// bill payment
+    Route::resource('bill_payments', 'BillPaymentController');
+    Route::get('bill_payments/create/{vendor_id?}/{bill_id?}', 'BillPaymentController@create');
+    Route::get('api/bill_payments/{client_id?}', 'BillPaymentController@getDatatable');
+    Route::post('bill_payments/bulk', 'BillPaymentController@bulk');
+// vendor credit
+    Route::resource('vendor_credits', 'VendorCreditController');
+    Route::get('vendor_credits/create/{vendor_id?}/{bill_id?}', 'VendorCreditController@create');
+    Route::get('api/vendor_credits/{vendor_id?}', 'VendorCreditController@getDatatable');
+    Route::post('vendor_credits/bulk', 'VendorCreditController@bulk');
 //  approval status
     Route::get('statuses/{statuses}/clone', 'StatusController@cloneStatus');
     Route::get('api/statuses', 'StatusController@getDatatable');

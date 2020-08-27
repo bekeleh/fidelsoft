@@ -40,7 +40,7 @@ class VendorCredit extends EntityModel
         return $this->belongsTo('App\Models\User')->withTrashed();
     }
 
-    public function Bill()
+    public function bill()
     {
         return $this->belongsTo('App\Models\Bill')->withTrashed();
     }
