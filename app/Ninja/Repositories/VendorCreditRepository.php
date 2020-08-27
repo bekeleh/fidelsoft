@@ -28,25 +28,25 @@ class VendorCreditRepository extends BaseRepository
         $query = DB::table('vendor_credits')
             ->leftJoin('accounts', 'accounts.id', '=', 'vendor_credits.account_id')
             ->leftJoin('vendors', 'vendors.id', '=', 'vendor_credits.vendor_id')
-            ->leftJoin('contacts', 'contacts.vendor_id', '=', 'vendors.id')
+            ->leftJoin('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
             ->where('vendors.account_id', Auth::user()->account_id)
-            ->where('contacts.is_primary', true)
-            // ->whereNull('contacts.deleted_at')
+            ->where('vendor_contacts.is_primary', true)
+            // ->whereNull('vendor_contacts.deleted_at')
             // ->whereNull('vendors.deleted_at')
             ->select(
                 DB::raw('COALESCE(vendors.currency_id, accounts.currency_id) currency_id'),
                 DB::raw('COALESCE(vendors.country_id, accounts.country_id) country_id'),
                 'vendor_credits.public_id',
-                DB::raw("COALESCE(NULLIF(vendors.name,''), NULLIF(CONCAT(contacts.first_name, ' ', contacts.last_name),''), NULLIF(contacts.email,'')) client_name"),
-                'vendors.public_id as client_public_id',
-                'vendors.user_id as client_user_id',
+                DB::raw("COALESCE(NULLIF(vendors.name,''), NULLIF(CONCAT(vendor_contacts.first_name, ' ', vendor_contacts.last_name),''), NULLIF(vendor_contacts.email,'')) vendor_name"),
+                'vendors.public_id as vendor_public_id',
+                'vendors.user_id as vendor_user_id',
                 'vendor_credits.amount',
                 'vendor_credits.balance',
                 'vendor_credits.credit_date as credit_date_sql',
                 DB::raw("CONCAT(vendor_credits.credit_date, vendor_credits.created_at) as credit_date"),
-                'contacts.first_name',
-                'contacts.last_name',
-                'contacts.email',
+                'vendor_contacts.first_name',
+                'vendor_contacts.last_name',
+                'vendor_contacts.email',
                 'vendor_credits.private_notes',
                 'vendor_credits.public_notes',
                 'vendor_credits.deleted_at',
@@ -67,8 +67,8 @@ class VendorCreditRepository extends BaseRepository
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('vendors.name', 'like', '%' . $filter . '%')
-                    ->orWhere('contacts.email', 'like', '%' . $filter . '%')
-                    ->orWhere('contacts.phone', 'like', '%' . $filter . '%');
+                    ->orWhere('vendor_contacts.email', 'like', '%' . $filter . '%')
+                    ->orWhere('vendor_contacts.phone', 'like', '%' . $filter . '%');
             });
         }
 

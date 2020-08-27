@@ -24,7 +24,7 @@ class BillPaymentRepository extends BaseRepository
         return 'App\Models\BillPayment';
     }
 
-    public function find($clientPublicId = false, $filter = null)
+    public function find($vendorPublicId = false, $filter = null)
     {
         $query = DB::table('bill_payments')
             ->leftJoin('accounts', 'accounts.id', '=', 'bill_payments.account_id')
@@ -44,9 +44,9 @@ class BillPaymentRepository extends BaseRepository
                 DB::raw('COALESCE(vendors.currency_id, accounts.currency_id) currency_id'),
                 DB::raw('COALESCE(vendors.country_id, accounts.country_id) country_id'),
                 'bill_payments.transaction_reference',
-                DB::raw("COALESCE(NULLIF(vendors.name,''), NULLIF(CONCAT(vendor_contacts.first_name, ' ', vendor_contacts.last_name),''), NULLIF(vendor_contacts.email,'')) client_name"),
-                'vendors.public_id as client_public_id',
-                'vendors.user_id as client_user_id',
+                DB::raw("COALESCE(NULLIF(vendors.name,''), NULLIF(CONCAT(vendor_contacts.first_name, ' ', vendor_contacts.last_name),''), NULLIF(vendor_contacts.email,'')) vendor_name"),
+                'vendors.public_id as vendor_public_id',
+                'vendors.user_id as vendor_user_id',
                 'bill_payments.amount',
                 DB::raw("CONCAT(bill_payments.payment_date, bill_payments.created_at) as date"),
                 'bill_payments.payment_date',
@@ -88,10 +88,10 @@ class BillPaymentRepository extends BaseRepository
                 'bill_payments.deleted_by'
             );
 
-        $this->applyFilters($query, ENTITY_PAYMENT);
+        $this->applyFilters($query, ENTITY_BILL_PAYMENT);
 
-        if ($clientPublicId) {
-            $query->where('vendors.public_id', '=', $clientPublicId);
+        if ($vendorPublicId) {
+            $query->where('vendors.public_id', $vendorPublicId);
         } else {
             $query->whereNull('vendors.deleted_at');
         }
@@ -103,9 +103,8 @@ class BillPaymentRepository extends BaseRepository
                     ->orWhere('bill_payments.transaction_reference', 'like', '%' . $filter . '%')
                     ->orWhere('gateways.name', 'like', '%' . $filter . '%')
                     ->orWhere('payment_types.name', 'like', '%' . $filter . '%')
-                    ->orWhere('vendor_contacts.first_name', 'like', '%' . $filter . '%')
-                    ->orWhere('vendor_contacts.last_name', 'like', '%' . $filter . '%')
-                    ->orWhere('vendor_contacts.email', 'like', '%' . $filter . '%');
+                    ->orWhere('vendor_contacts.email', 'like', '%' . $filter . '%')
+                    ->orWhere('vendor_contacts.phone', 'like', '%' . $filter . '%');
             });
         }
 
@@ -138,8 +137,8 @@ class BillPaymentRepository extends BaseRepository
                 'bill_invitations.contact_id',
                 'bill_payments.public_id',
                 'bill_payments.transaction_reference',
-                DB::raw("COALESCE(NULLIF(vendors.name,''), NULLIF(CONCAT(vendor_contacts.first_name, ' ', vendor_contacts.last_name),''), NULLIF(vendor_contacts.email,'')) client_name"),
-                'vendors.public_id as client_public_id',
+                DB::raw("COALESCE(NULLIF(vendors.name,''), NULLIF(CONCAT(vendor_contacts.first_name, ' ', vendor_contacts.last_name),''), NULLIF(vendor_contacts.email,'')) vendor_name"),
+                'vendors.public_id as vendor_public_id',
                 'bill_payments.amount',
                 'bill_payments.payment_date',
                 'bill_payments.payment_type_id',
@@ -205,8 +204,8 @@ class BillPaymentRepository extends BaseRepository
             $payment->payment_status_id = $paymentStatusId;
         }
         if (!isset($input['exchange_currency_id'])) {
-            // $client = Vendor::scope()->where('id',$vendorId)->first();
-            // $payment->exchange_currency_id = ($client->currency_id)? $client->currency_id: null;
+            // $vendor = Vendor::scope()->where('id',$vendorId)->first();
+            // $payment->exchange_currency_id = ($vendor->currency_id)? $vendor->currency_id: null;
         }
         if (isset($input['payment_date_sql'])) {
             $payment->payment_date = $input['payment_date_sql'];

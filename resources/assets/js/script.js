@@ -525,7 +525,6 @@ function getClientDisplayName(client)
   return '';
 }
 
-
 var CONSTS = {};
 CONSTS.INVOICE_STATUS_DRAFT = 1;
 CONSTS.INVOICE_STATUS_SENT = 2;

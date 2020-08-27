@@ -25,22 +25,22 @@ class BillPaymentDatatable extends EntityDatatable
             [
                 'bill_number',
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_BILL]))
-                        return link_to("bills/{$model->invoice_public_id}/edit", $model->bill_number, ['class' => Utils::getEntityRowClass($model)])->toHtml();
-                    else
+                    if (Auth::user()->can('edit', [ENTITY_BILL])) {
+                        return link_to("bills/{$model->bill_public_id}/edit", $model->bill_number, ['class' => Utils::getEntityRowClass($model)])->toHtml();
+                    } else {
                         return $model->bill_number;
-
+                    }
                 },
             ],
             [
                 'vendor_name',
                 function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_VENDOR]))
-                        return $model->vendor_public_id ? link_to("clients/{$model->vendor_public_id}", Utils::getClientDisplayName($model))->toHtml() : '';
-                    else
-                        return Utils::getClientDisplayName($model);
+                    if (Auth::user()->can('edit', [ENTITY_VENDOR])) {
+                        return $model->vendor_public_id ? link_to("vendors/{$model->vendor_public_id}", Utils::getVendorDisplayName($model))->toHtml() : '';
+                    } else {
+                        return Utils::getVendorDisplayName($model);
+                    }
                 },
-                !$this->hideClient,
             ],
             [
                 'transaction_reference',
@@ -112,7 +112,7 @@ class BillPaymentDatatable extends EntityDatatable
                     if ($model->is_deleted) {
                         return Utils::dateToString($model->payment_date);
                     } else {
-                        return link_to("payments/{$model->public_id}/edit", Utils::dateToString($model->payment_date))->toHtml();
+                        return link_to("bill_payments/{$model->public_id}/edit", Utils::dateToString($model->payment_date))->toHtml();
                     }
                 },
             ],

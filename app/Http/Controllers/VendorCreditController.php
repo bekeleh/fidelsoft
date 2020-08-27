@@ -75,7 +75,7 @@ class VendorCreditController extends BaseController
             'credit' => $credit,
             'method' => 'PUT',
             'url' => 'vendor_credits/' . $publicId,
-            'title' => 'Edit VendorCredit',
+            'title' => 'Edit Credit',
             'vendors' => null,
         ];
 
@@ -118,7 +118,7 @@ class VendorCreditController extends BaseController
         $count = $this->creditService->bulk($ids, $action);
 
         if ($count > 0) {
-            $message = Utils::pluralize($action . 'd_credit', $count);
+            $message = Utils::pluralize($action . 'd_vendor_credit', $count);
             Session::flash('message', $message);
         }
 

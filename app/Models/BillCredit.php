@@ -115,7 +115,7 @@ class BillCredit extends EntityModel
 
     public function getEntityType()
     {
-        return ENTITY_BILL_CREDIT;
+        return ENTITY_VENDOR_CREDIT;
     }
 
     public function apply($amount)

@@ -240,7 +240,7 @@
         @endif
         {!! Form::tab_link('#bills', trans('texts.bills')) !!}
         {!! Form::tab_link('#payments', trans('texts.payments')) !!}
-        @if ($account->isModuleEnabled(ENTITY_BILL_CREDIT))
+        @if ($account->isModuleEnabled(ENTITY_VENDOR_CREDIT))
             {!! Form::tab_link('#credits', trans('texts.bill_credit')) !!}
         @endif
     </ul>
@@ -315,11 +315,11 @@
             ])
         </div>
 
-        @if ($account->isModuleEnabled(ENTITY_BILL_CREDIT))
+        @if ($account->isModuleEnabled(ENTITY_VENDOR_CREDIT))
             <div class="tab-pane" id="credits">
                 @include('list', [
-                'entityType' => ENTITY_BILL_CREDIT,
-                'datatable' => new \App\Ninja\Datatables\BillCreditDatatable(true, true),
+                'entityType' => ENTITY_VENDOR_CREDIT,
+                'datatable' => new \App\Ninja\Datatables\VendorCreditDatatable(true, true),
                 'vendorId' => $vendor->public_id,
                 'url' => url('api/bill_credits/' . $vendor->public_id),
                 ])

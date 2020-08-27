@@ -161,9 +161,10 @@ class BillPaymentService extends BaseService
     public function getDatatable($vendorPublicId, $search)
     {
         $datatable = new BillPaymentDatatable(true, $vendorPublicId);
+
         $query = $this->billPaymentRepo->find($vendorPublicId, $search);
 
-        if (!Utils::hasPermission('view_bill_payments')) {
+        if (!Utils::hasPermission('view_bill_payment')) {
             $query->where('bill_payments.user_id', Auth::user()->id);
         }
 
