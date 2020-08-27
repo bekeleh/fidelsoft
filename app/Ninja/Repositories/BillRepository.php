@@ -419,6 +419,7 @@ class BillRepository extends BaseRepository
 
             $bill = $account->createBill($entityType, $data['client_id']);
             $bill->bill_date = date_create()->format('Y-m-d');
+            $bill->due_date = date_create()->format('Y-m-d');
             $bill->custom_taxes1 = $account->custom_bill_taxes1 ?: false;
             $bill->custom_taxes2 = $account->custom_bill_taxes2 ?: false;
             $bill->created_by = Auth::user()->username;

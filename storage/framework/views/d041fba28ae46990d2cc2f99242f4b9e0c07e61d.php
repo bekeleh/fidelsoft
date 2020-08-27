@@ -132,7 +132,9 @@ $__env->startSection('head_css'); ?>
                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('view', $invoice->client)): ?>
                                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('edit', $invoice->client)): ?>
                                             <a id="editClientLink" class="pointer"
-                                               data-bind="click: $root.showClientForm"><?php echo e(trans('texts.edit_vendor')); ?></a>
+                                               data-bind="click: $root.showClientForm"><?php echo e(trans('texts.edit_vendor')); ?>
+
+                                            </a>
                                             |
                                         <?php endif; ?>
                                         <?php echo link_to('/vendors/'.$invoice->client->public_id, trans('texts.view_vendor'), ['target' => '_blank']); ?>
@@ -151,21 +153,21 @@ $__env->startSection('head_css'); ?>
                                 ->addGroupClass('client_select closer-row'); ?>
 
 
-                                <div class="form-group" style="margin-bottom: 8px">
-                                    <div class="col-lg-8 col-sm-8 col-lg-offset-4 col-sm-offset-4">
-                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create', $invoice->client)): ?>
-                                            <a id="createClientLink" class="pointer"
-                                               data-bind="click: $root.showClientForm, html: $root.clientLinkText"></a>
-                                        <?php endif; ?>
-                                        <span data-bind="visible: $root.invoice().client().public_id() > 0"
-                                              style="display:none">|
-<a data-bind="attr: {href: '<?php echo e(url('/vendors')); ?>/' + $root.invoice().client().public_id()}"
-   target="_blank"><?php echo e(trans('texts.view_vendor')); ?>
-
-</a>
-</span>
-                                    </div>
-                                </div>
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
                                 <?php if($invoice->id || $data): ?>
                             </div>
                         <?php endif; ?>

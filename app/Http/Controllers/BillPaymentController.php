@@ -6,10 +6,10 @@ use App\Http\Requests\CreatePaymentRequest;
 use App\Http\Requests\PaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
 use App\Libraries\Utils;
-use App\Models\Client;
-use App\Models\Invoice;
-use App\Models\Payment;
-use App\Ninja\Datatables\PaymentDatatable;
+use App\Models\Vendor;
+use App\Models\Bill;
+use App\Models\BillPayment;
+use App\Ninja\Datatables\BillPaymentDatatable;
 use App\Ninja\Mailers\ContactMailer;
 use App\Ninja\Repositories\PaymentRepository;
 use App\Services\PaymentService;
@@ -22,25 +22,25 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 
-class PaymentController extends BaseController
+class BillPaymentController extends BaseController
 {
 
-    protected $entityType = ENTITY_PAYMENT;
-    protected $paymentRepo;
+    protected $entityType = ENTITY_BILL_PAYMENT;
+    protected $billPaymentRepo;
     protected $contactMailer;
-    protected $paymentService;
+    protected $billPaymentService;
 
     /**
      * PaymentController constructor.
      *
-     * @param PaymentRepository $paymentRepo
-     * @param PaymentService $paymentService
+     * @param PaymentRepository $billPaymentRepo
+     * @param PaymentService $billPaymentService
      * @param ContactMailer $contactMailer
      */
-    public function __construct(PaymentRepository $paymentRepo, PaymentService $paymentService, ContactMailer $contactMailer)
+    public function __construct(PaymentRepository $billPaymentRepo, PaymentService $billPaymentService, ContactMailer $contactMailer)
     {
-        $this->paymentRepo = $paymentRepo;
-        $this->paymentService = $paymentService;
+        $this->billPaymentRepo = $billPaymentRepo;
+        $this->paymentService = $billPaymentService;
         $this->contactMailer = $contactMailer;
     }
 
@@ -50,21 +50,21 @@ class PaymentController extends BaseController
      */
     public function index()
     {
-        $this->authorize('view', ENTITY_PAYMENT);
+        $this->authorize('view', ENTITY_BILL_PAYMENT);
         return View::make('list_wrapper', [
-            'entityType' => ENTITY_PAYMENT,
-            'datatable' => new PaymentDatatable(),
+            'entityType' => ENTITY_BILL_PAYMENT,
+            'datatable' => new BillPaymentDatatable(),
             'title' => trans('texts.payments'),
         ]);
     }
 
     /**
-     * @param null $clientPublicId
+     * @param null $vendorPublicId
      * @return bool
      */
-    public function getDatatable($clientPublicId = null)
+    public function getDatatable($vendorPublicId = null)
     {
-        return $this->paymentService->getDatatable($clientPublicId, Input::get('sSearch'));
+        return $this->paymentService->getDatatable($vendorPublicId, Input::get('sSearch'));
     }
 
     /**
@@ -74,37 +74,37 @@ class PaymentController extends BaseController
      */
     public function create(PaymentRequest $request)
     {
-        $this->authorize('create', ENTITY_PAYMENT);
+        $this->authorize('create', ENTITY_BILL_PAYMENT);
         $user = auth()->user();
         $account = $user->account;
 
-        $invoices = Invoice::scope()->invoices()
-            ->where('invoices.invoice_status_id', '!=', INVOICE_STATUS_PAID)
-            ->with('client', 'invoice_status')
-            ->orderBy('invoice_number')->get();
+        $bills = Bill::scope()->bills()
+            ->where('bills.bill_status_id', '!=', INVOICE_STATUS_PAID)
+            ->with('vendor', 'bill_status')
+            ->orderBy('bill_number')->get();
 
-        $clientPublicId = Input::old('client') ? Input::old('client') : ($request->client_id ?: 0);
-        $invoicePublicId = Input::old('invoice') ? Input::old('invoice') : ($request->invoice_id ?: 0);
+        $vendorPublicId = Input::old('vendor') ? Input::old('vendor') : ($request->vendor_id ?: 0);
+        $billPublicId = Input::old('bill') ? Input::old('bill') : ($request->bill_id ?: 0);
 
         $totalCredit = false;
-        if ($clientPublicId && $client = Client::scope($clientPublicId)->first()) {
-            $totalCredit = $account->formatMoney($client->getTotalCredit(), $client);
-        } elseif ($invoicePublicId && $invoice = Invoice::scope($invoicePublicId)->first()) {
-            $totalCredit = $account->formatMoney($invoice->client->getTotalCredit(), $client);
+        if ($vendorPublicId && $vendor = Vendor::scope($vendorPublicId)->first()) {
+            $totalCredit = $account->formatMoney($vendor->getTotalCredit(), $vendor);
+        } elseif ($billPublicId && $bill = Bill::scope($billPublicId)->first()) {
+            $totalCredit = $account->formatMoney($bill->vendor->getTotalCredit(), $vendor);
         }
 
         $data = [
             'account' => Auth::user()->account,
-            'clientPublicId' => $clientPublicId,
-            'invoicePublicId' => $invoicePublicId,
-            'invoice' => null,
-            'payment' => null,
+            'vendorPublicId' => $vendorPublicId,
+            'billPublicId' => $billPublicId,
+            'bill' => null,
+            'billPayment' => null,
             'method' => 'POST',
             'url' => 'payments',
             'title' => trans('texts.new_payment'),
             'paymentTypeId' => Input::get('paymentTypeId'),
-            'invoices' => $invoices,
-            'clients' => Client::scope()->with('contacts')->orderBy('name')->get(),
+            'bills' => $bills,
+            'vendors' => Vendor::scope()->with('contacts')->orderBy('name')->get(),
             'totalCredit' => $totalCredit,
         ];
 
@@ -129,25 +129,25 @@ class PaymentController extends BaseController
      */
     public function edit(PaymentRequest $request)
     {
-        $this->authorize('edit', ENTITY_PAYMENT);
-        $payment = $request->entity();
-        $payment->payment_date = Utils::fromSqlDate($payment->payment_date);
+        $this->authorize('edit', ENTITY_BILL_PAYMENT);
+        $billPayment = $request->entity();
+        $billPayment->payment_date = Utils::fromSqlDate($billPayment->payment_date);
 
         $actions = [];
-        if ($payment->invoiceJsonBackup()) {
-            $actions[] = ['url' => url("/invoices/invoice_history/{$payment->invoice->public_id}?payment_id={$payment->public_id}"), 'label' => trans('texts.view_invoice')];
+        if ($billPayment->billJsonBackup()) {
+            $actions[] = ['url' => url("/bills/bill_history/{$billPayment->bill->public_id}?payment_id={$billPayment->public_id}"), 'label' => trans('texts.view_bill')];
         }
 
-        $actions[] = ['url' => url("/invoices/{$payment->invoice->public_id}/edit"), 'label' => trans('texts.edit_invoice')];
+        $actions[] = ['url' => url("/bills/{$billPayment->bill->public_id}/edit"), 'label' => trans('texts.edit_bill')];
         $actions[] = DropdownButton::DIVIDER;
         $actions[] = ['url' => 'javascript:submitAction("email")', 'label' => trans('texts.email_payment')];
 
-        if ($payment->canBeRefunded()) {
-            $actions[] = ['url' => "javascript:showRefundModal({$payment->public_id}, \"{$payment->getCompletedAmount()}\", \"{$payment->present()->completedAmount}\", \"{$payment->present()->currencySymbol}\")", 'label' => trans('texts.refund_payment')];
+        if ($billPayment->canBeRefunded()) {
+            $actions[] = ['url' => "javascript:showRefundModal({$billPayment->public_id}, \"{$billPayment->getCompletedAmount()}\", \"{$billPayment->present()->completedAmount}\", \"{$billPayment->present()->currencySymbol}\")", 'label' => trans('texts.refund_payment')];
         }
 
         $actions[] = DropdownButton::DIVIDER;
-        if (!$payment->trashed()) {
+        if (!$billPayment->trashed()) {
             $actions[] = ['url' => 'javascript:submitAction("archive")', 'label' => trans('texts.archive_payment')];
             $actions[] = ['url' => 'javascript:onDeleteClick()', 'label' => trans('texts.delete_payment')];
         } else {
@@ -155,12 +155,12 @@ class PaymentController extends BaseController
         }
 
         $data = [
-            'client' => null,
-            'invoice' => null,
-            'payment' => $payment,
-            'entity' => $payment,
+            'vendor' => null,
+            'bill' => null,
+            'payment' => $billPayment,
+            'entity' => $billPayment,
             'method' => 'PUT',
-            'url' => 'payments/' . $payment->public_id,
+            'url' => 'payments/' . $billPayment->public_id,
             'title' => trans('texts.edit_payment'),
             'actions' => $actions,
         ];
@@ -177,25 +177,25 @@ class PaymentController extends BaseController
     public function store(CreatePaymentRequest $request)
     {
         // check payment has been marked sent
-        $request->invoice->markSentIfUnsent();
+        $request->bill->markSentIfUnsent();
         $input = $request->input();
         $amount = Utils::parseFloat($input['amount']);
         $credit = false;
         // if the payment amount is more than the balance create a credit
-        if ($amount > $request->invoice->balance) {
+        if ($amount > $request->bill->balance) {
             $credit = true;
         }
 
-        $payment = $this->paymentService->save($input, null, $request->invoice);
-//       if client requires receipt via email
+        $billPayment = $this->paymentService->save($input, null, $request->bill);
+//       if vendor requires receipt via email
         if (Input::get('email_receipt')) {
-            $this->contactMailer->sendPaymentConfirmation($payment);
-            $message = trans($credit ? 'texts.created_payment_and_credit_emailed_client' : 'texts.created_payment_emailed_client');
+            $this->contactMailer->sendPaymentConfirmation($billPayment);
+            $message = trans($credit ? 'texts.created_payment_and_credit_emailed_vendor' : 'texts.created_payment_emailed_vendor');
         } else {
             $message = trans($credit ? 'texts.created_payment_and_credit' : 'texts.created_payment');
         }
 
-        $url = url($payment->client->getRoute());
+        $url = url($billPayment->vendor->getRoute());
 
         return redirect()->to($url)->with('success', $message);
     }
@@ -211,9 +211,9 @@ class PaymentController extends BaseController
             return self::bulk();
         }
 
-        $payment = $this->paymentRepo->save($request->input(), $request->entity());
+        $billPayment = $this->billPaymentRepo->save($request->input(), $request->entity());
 
-        return redirect()->to($payment->getRoute())->with('success', trans('texts.updated_payment'));
+        return redirect()->to($billPayment->getRoute())->with('success', trans('texts.updated_payment'));
     }
 
     /**
@@ -225,8 +225,8 @@ class PaymentController extends BaseController
         $ids = Input::get('public_id') ? Input::get('public_id') : Input::get('ids');
 
         if ($action === 'email') {
-            $payment = Payment::scope($ids)->withArchived()->first();
-            $this->contactMailer->sendPaymentConfirmation($payment);
+            $billPayment = BillPayment::scope($ids)->withArchived()->first();
+            $this->contactMailer->sendPaymentConfirmation($billPayment);
             $message = trans('texts.emailed_payment');
 //            Session::flash('message', trans('texts.emailed_payment'));
         } else {
@@ -240,7 +240,7 @@ class PaymentController extends BaseController
             }
         }
 
-        return $this->returnBulk(ENTITY_PAYMENT, $action, $ids)->with('success', $message);
+        return $this->returnBulk(ENTITY_BILL_PAYMENT, $action, $ids)->with('success', $message);
     }
 
     /**
@@ -252,8 +252,8 @@ class PaymentController extends BaseController
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
             'paymentTypes' => Cache::get('paymentTypes'),
-            'clients' => Client::scope()->with('contacts')->orderBy('name')->get(),
-            'invoices' => Invoice::scope()->invoices()->where('public_id', true)->with('client', 'invoice_status')->orderBy('invoice_number')->get(),
+            'vendors' => Vendor::scope()->with('contacts')->orderBy('name')->get(),
+            'bills' => Bill::scope()->bills()->where('is_public', true)->with('vendor', 'bill_status')->orderBy('bill_number')->get(),
         ];
     }
 

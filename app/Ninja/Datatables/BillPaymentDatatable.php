@@ -23,24 +23,22 @@ class BillPaymentDatatable extends EntityDatatable
     {
         return [
             [
-                'invoice_name',
+                'bill_number',
                 function ($model) {
-                    if (Auth::user()->can('view', [ENTITY_INVOICE, $model->invoice_user_id]))
-                        return link_to("invoices/{$model->invoice_public_id}/edit", $model->invoice_number, ['class' => Utils::getEntityRowClass($model)])->toHtml();
+                    if (Auth::user()->can('edit', [ENTITY_BILL]))
+                        return link_to("bills/{$model->invoice_public_id}/edit", $model->bill_number, ['class' => Utils::getEntityRowClass($model)])->toHtml();
                     else
-                        return $model->invoice_number;
+                        return $model->bill_number;
 
                 },
             ],
             [
-                'client_name',
+                'vendor_name',
                 function ($model) {
-                    if (Auth::user()->can('view', [ENTITY_CLIENT, ENTITY_CLIENT]))
-                        return $model->client_public_id ? link_to("clients/{$model->client_public_id}", Utils::getClientDisplayName($model))->toHtml() : '';
+                    if (Auth::user()->can('edit', [ENTITY_VENDOR]))
+                        return $model->vendor_public_id ? link_to("clients/{$model->vendor_public_id}", Utils::getClientDisplayName($model))->toHtml() : '';
                     else
                         return Utils::getClientDisplayName($model);
-
-
                 },
                 !$this->hideClient,
             ],
@@ -163,7 +161,7 @@ class BillPaymentDatatable extends EntityDatatable
             [
                 trans('texts.edit_payment'),
                 function ($model) {
-                    return URL::to("payments/{$model->public_id}/edit");
+                    return URL::to("bill_payments/{$model->public_id}/edit");
                 },
                 function ($model) {
                     return Auth::user()->can('edit', [ENTITY_BILL_PAYMENT, $model]);
@@ -172,7 +170,7 @@ class BillPaymentDatatable extends EntityDatatable
             [
                 trans('texts.clone_payment'),
                 function ($model) {
-                    return URL::to("payments/{$model->public_id}/clone");
+                    return URL::to("bill_payments/{$model->public_id}/clone");
                 },
                 function ($model) {
                     return Auth::user()->can('create', [ENTITY_BILL_PAYMENT, $model]);

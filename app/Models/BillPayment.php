@@ -48,7 +48,7 @@ class BillPayment extends EntityModel
 
     public function getEntityType()
     {
-        return ENTITY_bill_PAYMENT;
+        return ENTITY_BILL_PAYMENT;
     }
 
     public function getRoute()
@@ -62,7 +62,7 @@ class BillPayment extends EntityModel
     }
 
 
-    public function Bill_invitation()
+    public function bill_invitations()
     {
         return $this->belongsTo('App\Models\BillInvitation');
     }
@@ -86,7 +86,7 @@ class BillPayment extends EntityModel
     }
 
 
-    public function vendor_contact()
+    public function contact()
     {
         return $this->belongsTo('App\Models\VendorContact')->withTrashed();
     }

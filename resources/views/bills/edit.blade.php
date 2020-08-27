@@ -126,7 +126,8 @@
                                     @can('view', $invoice->client)
                                         @can('edit', $invoice->client)
                                             <a id="editClientLink" class="pointer"
-                                               data-bind="click: $root.showClientForm">{{ trans('texts.edit_vendor') }}</a>
+                                               data-bind="click: $root.showClientForm">{{ trans('texts.edit_vendor') }}
+                                            </a>
                                             |
                                         @endcan
                                         {!! link_to('/vendors/'.$invoice->client->public_id, trans('texts.view_vendor'), ['target' => '_blank']) !!}
@@ -143,20 +144,21 @@
                                 ->label(trans('texts.vendor'))
                                 ->addGroupClass('client_select closer-row') !!}
 
-                                <div class="form-group" style="margin-bottom: 8px">
-                                    <div class="col-lg-8 col-sm-8 col-lg-offset-4 col-sm-offset-4">
-                                        @can('create', $invoice->client)
-                                            <a id="createClientLink" class="pointer"
-                                               data-bind="click: $root.showClientForm, html: $root.clientLinkText"></a>
-                                        @endcan
-                                        <span data-bind="visible: $root.invoice().client().public_id() > 0"
-                                              style="display:none">|
-<a data-bind="attr: {href: '{{ url('/vendors') }}/' + $root.invoice().client().public_id()}"
-   target="_blank">{{ trans('texts.view_vendor') }}
-</a>
-</span>
-                                    </div>
-                                </div>
+                                {{--                                <div class="form-group" style="margin-bottom: 8px">--}}
+                                {{--                                    <div class="col-lg-8 col-sm-8 col-lg-offset-4 col-sm-offset-4">--}}
+                                {{--                                        @can('create', $invoice->client)--}}
+                                {{--                                            <a id="createClientLink" class="pointer"--}}
+                                {{--                                               data-bind="click: $root.showClientForm, html: $root.clientLinkText">--}}
+                                {{--                                            </a>--}}
+                                {{--                                        @endcan--}}
+                                {{--                                        <span data-bind="visible: $root.invoice().client().public_id() > 0"--}}
+                                {{--                                              style="display:none">|--}}
+                                {{--                                        <a data-bind="attr: {href: '{{ url('/vendors') }}/' + $root.invoice().client().public_id()}"--}}
+                                {{--                                           target="_blank">{{ trans('texts.view_vendor') }}--}}
+                                {{--                                        </a>--}}
+                                {{--                                        </span>--}}
+                                {{--                                    </div>--}}
+                                {{--                                </div>--}}
                                 @if ($invoice->id || $data)
                             </div>
                         @endif

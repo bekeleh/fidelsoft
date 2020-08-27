@@ -7,7 +7,7 @@ use App\Libraries\Utils;
 use App\Models\Activity;
 use App\Models\BillCredit;
 use App\Models\Bill;
-use App\Ninja\Datatables\PaymentDatatable;
+use App\Ninja\Datatables\BillPaymentDatatable;
 use App\Ninja\Repositories\AccountRepository;
 use App\Ninja\Repositories\BillPaymentRepository;
 use DateTime;
@@ -19,52 +19,52 @@ class BillPaymentService extends BaseService
 
 
     private $datatableService;
-    private $paymentRepo;
+    private $billPaymentRepo;
     private $accountRepo;
 
     public function __construct(
-        BillPaymentRepository $paymentRepo,
+        BillPaymentRepository $billPaymentRepo,
         AccountRepository $accountRepo,
         DatatableService $datatableService)
     {
         $this->datatableService = $datatableService;
-        $this->paymentRepo = $paymentRepo;
+        $this->billPaymentRepo = $billPaymentRepo;
         $this->accountRepo = $accountRepo;
     }
 
     protected function getRepo()
     {
-        return $this->paymentRepo;
+        return $this->billPaymentRepo;
     }
 
-    public function autoBillBill(Bill $Bill)
+    public function autoBill(Bill $bill)
     {
-        if (!$Bill->canBePaid()) {
+        if (!$bill->canBePaid()) {
             return false;
         }
 
-        $vendor = $Bill->vendor;
+        $vendor = $bill->vendor;
 
         $account = $vendor->account;
 
-        $invitation = $Bill->invitations->first();
+        $invitation = $bill->bill_invitations->first();
 
         if (!$invitation) {
             return false;
         }
 
-        $Bill->markSentIfUnsent();
+        $bill->markSentIfUnsent();
 
         if ($credits = $vendor->credits->sum('balance')) {
-            $balance = $Bill->balance;
+            $balance = $bill->balance;
             $amount = min($credits, $balance);
             $data = [
                 'payment_type_id' => PAYMENT_TYPE_CREDIT,
-                'bill_id' => $Bill->id,
+                'bill_id' => $bill->id,
                 'vendor_id' => $vendor->id,
                 'amount' => $amount,
             ];
-            $payment = $this->paymentRepo->save($data);
+            $payment = $this->billPaymentRepo->save($data);
             if ($amount == $balance) {
                 return $payment;
             }
@@ -89,8 +89,8 @@ class BillPaymentService extends BaseService
         }
 
         if ($paymentMethod->requiresDelayedAutoBill()) {
-            $BillDate = DateTime::createFromFormat('Y-m-d', $Bill->bill_date);
-            $minDueDate = clone $BillDate;
+            $billDate = DateTime::createFromFormat('Y-m-d', $bill->bill_date);
+            $minDueDate = clone $billDate;
             $minDueDate->modify('+10 days');
 
             if (date_create() < $minDueDate) {
@@ -98,25 +98,25 @@ class BillPaymentService extends BaseService
                 return false;
             }
 
-            if ($Bill->partial > 0) {
+            if ($bill->partial > 0) {
                 // The amount would be different than the amount in the email
                 return false;
             }
 
-            $firstUpdate = Activity::where('bill_id', '=', $Bill->id)
-                ->where('activity_type_id', '=', ACTIVITY_TYPE_UPDATE_INVOICE)
+            $firstUpdate = Activity::where('bill_id', $bill->id)
+                ->where('activity_type_id', ACTIVITY_TYPE_UPDATE_INVOICE)
                 ->first();
 
             if ($firstUpdate) {
                 $backup = json_decode($firstUpdate->json_backup);
 
-                if ($backup->balance != $Bill->balance || $backup->due_date != $Bill->due_date) {
+                if ($backup->balance != $bill->balance || $backup->due_date != $bill->due_date) {
                     // It's changed since we sent the email can't bill now
                     return false;
                 }
             }
 
-            if ($Bill->payments->count()) {
+            if ($bill->payments->count()) {
                 // ACH requirements are strict; don't auto bill this
                 return false;
             }
@@ -125,14 +125,14 @@ class BillPaymentService extends BaseService
         try {
             return $paymentDriver->completeOnsiteBill(false, $paymentMethod);
         } catch (Exception $exception) {
-            $subject = trans('texts.auto_bill_failed', ['bill_number' => $Bill->bill_number]);
+            $subject = trans('texts.auto_bill_failed', ['bill_number' => $bill->bill_number]);
             $message = sprintf('%s: %s', ucwords($paymentDriver->providerName()), $exception->getMessage());
             //$message .= $exception->getTraceAsString();
             Utils::logError($message, 'PHP', true);
             if (App::runningInConsole()) {
                 $mailer = app('App\Ninja\Mailers\UserMailer');
-                $mailer->sendMessage($Bill->user, $subject, $message, [
-                    'bill' => $Bill
+                $mailer->sendMessage($bill->user, $subject, $message, [
+                    'bill' => $bill
                 ]);
             }
 
@@ -140,26 +140,26 @@ class BillPaymentService extends BaseService
         }
     }
 
-    public function save($input, $payment = null, $Bill = null)
+    public function save($input, $payment = null, $bill = null)
     {
         // if the payment amount is more than the balance create a credit
-        if ($Bill && Utils::parseFloat($input['amount']) > $Bill->balance) {
+        if ($bill && Utils::parseFloat($input['amount']) > $bill->balance) {
             $credit = BillCredit::createNew();
-            $credit->vendor_id = $Bill->vendor_id;
+            $credit->vendor_id = $bill->vendor_id;
             $credit->credit_date = date_create()->format('Y-m-d');
-            $credit->amount = $credit->balance = $input['amount'] - $Bill->balance;
+            $credit->amount = $credit->balance = $input['amount'] - $bill->balance;
             $credit->private_notes = trans('texts.credit_created_by', ['transaction_reference' => isset($input['transaction_reference']) ? $input['transaction_reference'] : '']);
             $credit->save();
-            $input['amount'] = $Bill->balance;
+            $input['amount'] = $bill->balance;
         }
 
-        return $this->paymentRepo->save($input, $payment);
+        return $this->billPaymentRepo->save($input, $payment);
     }
 
     public function getDatatable($vendorPublicId, $search)
     {
-        $datatable = new PaymentDatatable(true, $vendorPublicId);
-        $query = $this->paymentRepo->find($vendorPublicId, $search);
+        $datatable = new BillPaymentDatatable(true, $vendorPublicId);
+        $query = $this->billPaymentRepo->find($vendorPublicId, $search);
 
         if (!Utils::hasPermission('view_payments')) {
             $query->where('payments.user_id', '=', Auth::user()->id);
