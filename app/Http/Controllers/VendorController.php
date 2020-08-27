@@ -96,11 +96,11 @@ class VendorController extends BaseController
         }
 
         if ($user->can('create', ENTITY_VENDOR_CREDIT)) {
-            $actionLinks[] = ['label' => trans('texts.enter_vendor'), 'url' => URL::to('/BILL_VENDORs/create/' . $vendor->public_id)];
+            $actionLinks[] = ['label' => trans('texts.enter_vendor'), 'url' => URL::to('/bill_vendors/create/' . $vendor->public_id)];
         }
 
         if ($user->can('create', ENTITY_BILL_EXPENSE)) {
-            $actionLinks[] = ['label' => trans('texts.enter_expense'), 'url' => URL::to('/BILL_EXPENSEs/create/' . $vendor->public_id)];
+            $actionLinks[] = ['label' => trans('texts.enter_expense'), 'url' => URL::to('/bill_expenses/create/' . $vendor->public_id)];
         }
 
         $token = $vendor->getGatewayToken();

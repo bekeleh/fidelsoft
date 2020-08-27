@@ -931,6 +931,7 @@ $LANG = array(
     'invoices' => 'Sale Invoices',
     'invoice_return' => 'Invoice Return',
     'payments' => 'Receive Payments',
+    'pay_payments' => 'Pay Payments',
     'credits' => 'Client Credits',
     'vendor_credits' => 'Vendor Credits',
     'bill_credits' => 'Vendor Credits',
@@ -978,7 +979,14 @@ $LANG = array(
     'average_invoice' => 'Average Invoice',
     'archive' => 'Archive',
     'delete' => 'Delete',
-//   Payments
+//   pay payments
+    'archive_vendor_payment' => 'Archive Payment',
+    'delete_vendor_payment' => 'Delete Payment',
+    'archive_vendor_credit' => 'Archive Credit',
+    'clone_vendor_credit' => 'Clone Credit',
+    'delete_vendor_credit' => 'Delete Credit',
+
+//   receive Payments
     'archive_payment' => 'Archive Payment',
     'delete_payment' => 'Delete Payment',
     'archive_credit' => 'Archive Credit',

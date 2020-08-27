@@ -34,7 +34,7 @@ class VendorCreditService extends BaseService
 
     public function getDatatable($vendorPublicId, $search)
     {
-        // we don't support bulk edit and hide the client on the individual client page
+        // we don't support bulk edit and hide the vendor on the individual client page
         $datatable = new VendorCreditDatatable(true, true);
 
         $query = $this->creditRepo->find($vendorPublicId, $search);

@@ -239,7 +239,7 @@
             {!! Form::tab_link('#recurring_bills', trans('texts.recurring')) !!}
         @endif
         {!! Form::tab_link('#bills', trans('texts.bills')) !!}
-        {!! Form::tab_link('#payments', trans('texts.payments')) !!}
+        {!! Form::tab_link('#payments', trans('texts.pay_payments')) !!}
         @if ($account->isModuleEnabled(ENTITY_VENDOR_CREDIT))
             {!! Form::tab_link('#credits', trans('texts.bill_credit')) !!}
         @endif
@@ -321,7 +321,7 @@
                 'entityType' => ENTITY_VENDOR_CREDIT,
                 'datatable' => new \App\Ninja\Datatables\VendorCreditDatatable(true, true),
                 'vendorId' => $vendor->public_id,
-                'url' => url('api/bill_credits/' . $vendor->public_id),
+                'url' => url('api/vendor_credits/' . $vendor->public_id),
                 ])
             </div>
         @endif

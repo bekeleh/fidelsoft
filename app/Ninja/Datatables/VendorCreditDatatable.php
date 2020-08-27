@@ -18,7 +18,7 @@ class VendorCreditDatatable extends EntityDatatable
                 'vendor_name',
                 function ($model) {
                     if (Auth::user()->can('view', [ENTITY_VENDOR, $model])) {
-                        $str = $model->vendor_public_id ? link_to("clients/{$model->vendor_public_id}", Utils::getVendorDisplayName($model))->toHtml() : '';
+                        $str = $model->vendor_public_id ? link_to("vendors/{$model->vendor_public_id}", Utils::getVendorDisplayName($model))->toHtml() : '';
                         return $this->addNote($str, $model->private_notes);
                     } else {
                         return Utils::getVendorDisplayName($model);
