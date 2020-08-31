@@ -545,7 +545,7 @@ class Vendor extends EntityModel
 
 Vendor::creating(function ($vendor) {
     $vendor->setNullValues();
-    $vendor->account->clientIncrementCounter($vendor);
+    $vendor->account->vendorIncrementCounter($vendor);
 });
 
 Vendor::updating(function ($vendor) {
