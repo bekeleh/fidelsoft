@@ -1,9 +1,8 @@
-<?php use App\Ninja\Datatables\CreditDatatable;
-use App\Ninja\Datatables\ExpenseDatatable;
-use App\Ninja\Datatables\InvoiceDatatable;
-use App\Ninja\Datatables\PaymentDatatable;
-use App\Ninja\Datatables\RecurringInvoiceDatatable;
-use App\Ninja\Datatables\TaskDatatable;
+<?php use App\Ninja\Datatables\BillDatatable;
+use App\Ninja\Datatables\BillExpenseDatatable;
+use App\Ninja\Datatables\BillPaymentDatatable;
+use App\Ninja\Datatables\RecurringBillDatatable;
+use App\Ninja\Datatables\VendorCreditDatatable;
 
 $__env->startSection('head'); ?>
     ##parent-placeholder-1a954628a960aaef81d7b2d4521929579f3541e6##
@@ -11,7 +10,7 @@ $__env->startSection('head'); ?>
     <script src="<?php echo e(asset('js/select2.min.js')); ?>" type="text/javascript"></script>
     <link href="<?php echo e(asset('css/select2.css')); ?>" rel="stylesheet" type="text/css"/>
 
-    <?php if($client->showMap()): ?>
+    <?php if($vendor->showMap()): ?>
         <style>
             #map {
                 width: 100%;
@@ -29,19 +28,19 @@ $__env->startSection('head'); ?>
     <div class="row">
         <div class="col-md-7">
             <ol class="breadcrumb">
-                <li><?php echo e(link_to('/clients', trans('texts.clients'))); ?></li>
-                <li class='active'><?php echo e($client->getDisplayName()); ?></li> <?php echo $client->present()->statusLabel; ?>
+                <li><?php echo e(link_to('/vendors', trans('texts.vendors'))); ?></li>
+                <li class='active'><?php echo e($vendor->getDisplayName()); ?></li> <?php echo $vendor->present()->statusLabel; ?>
 
             </ol>
         </div>
         <div class="col-md-5">
             <div class="pull-right">
-                <?php echo Former::open('clients/bulk')->autocomplete('off')->addClass('mainForm'); ?>
+                <?php echo Former::open('vendors/bulk')->autocomplete('off')->addClass('mainForm'); ?>
 
                 <div style="display:none">
                     <?php echo Former::text('action'); ?>
 
-                    <?php echo Former::text('public_id')->value($client->public_id); ?>
+                    <?php echo Former::text('public_id')->value($vendor->public_id); ?>
 
                 </div>
 
@@ -52,20 +51,20 @@ $__env->startSection('head'); ?>
 
                 <?php endif; ?>
 
-                <?php if(!$client->is_deleted): ?>
-                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('edit', $client)): ?>
-                        <?php echo DropdownButton::normal(trans('texts.edit_client'))
+                <?php if(!$vendor->is_deleted): ?>
+                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('edit', $vendor)): ?>
+                        <?php echo DropdownButton::normal(trans('texts.edit_vendor'))
                         ->withAttributes(['class'=>'normalDropDown'])
                         ->withContents([
-                        ($client->trashed() ? false : ['label' => trans('texts.archive_client'), 'url' => "javascript:onArchiveClick()"]),
-                        ['label' => trans('texts.delete_client'), 'url' => "javascript:onDeleteClick()"],
+                        ($vendor->trashed() ? false : ['label' => trans('texts.archive_vendor'), 'url' => "javascript:onArchiveClick()"]),
+                        ['label' => trans('texts.delete_vendor'), 'url' => "javascript:onDeleteClick()"],
                         auth()->user()->is_admin ? DropdownButton::DIVIDER : false,
                         ]
                         )->split(); ?>
 
                     <?php endif; ?>
-                    <?php if(!$client->trashed()): ?>
-                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create', ENTITY_INVOICE)): ?>
+                    <?php if(!$vendor->trashed()): ?>
+                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create', ENTITY_BILL)): ?>
                             <?php echo DropdownButton::primary(trans('texts.view_statement'))
                             ->withAttributes(['class'=>'primaryDropDown'])
                             ->withContents($actionLinks)->split(); ?>
@@ -73,9 +72,9 @@ $__env->startSection('head'); ?>
                         <?php endif; ?>
                     <?php endif; ?>
                 <?php endif; ?>
-                <?php if($client->trashed()): ?>
-                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('edit', $client)): ?>
-                        <?php echo Button::primary(trans('texts.restore_client'))
+                <?php if($vendor->trashed()): ?>
+                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('edit', $vendor)): ?>
+                        <?php echo Button::primary(trans('texts.restore_vendor'))
                         ->appendIcon(Icon::create('retweet'))
                         ->withAttributes(['onclick' => 'onRestoreClick()']); ?>
 
@@ -86,9 +85,9 @@ $__env->startSection('head'); ?>
             </div>
         </div>
     </div>
-    <?php if($client->last_login): ?>
+    <?php if($vendor->last_login): ?>
         <h3 style="margin-top:0px"><small>
-                <?php echo e(trans('texts.last_logged_in')); ?> <?php echo e(Utils::timestampToDateTimeString(strtotime($client->last_login))); ?>
+                <?php echo e(trans('texts.last_logged_in')); ?> <?php echo e(Utils::timestampToDateTimeString(strtotime($vendor->last_login))); ?>
 
             </small>
         </h3>
@@ -98,89 +97,87 @@ $__env->startSection('head'); ?>
             <div class="row">
                 <div class="col-md-3">
                     <h3><?php echo e(trans('texts.details')); ?></h3>
-                    <?php if($client->id_number): ?>
+                    <?php if($vendor->id_number): ?>
                         <p><i class="fa fa-id-number"
-                              style="width: 20px"></i><?php echo e(trans('texts.id_number').': '.$client->id_number); ?></p>
+                              style="width: 20px"></i><?php echo e(trans('texts.id_number').': '.$vendor->id_number); ?></p>
                     <?php endif; ?>
-                    <?php if($client->vat_number): ?>
+                    <?php if($vendor->vat_number): ?>
                         <p><i class="fa fa-vat-number"
-                              style="width: 20px"></i><?php echo e(trans('texts.vat_number').': '.$client->vat_number); ?></p>
+                              style="width: 20px"></i><?php echo e(trans('texts.vat_number').': '.$vendor->vat_number); ?></p>
                     <?php endif; ?>
 
-                    <?php if($client->account->customLabel('client1') && $client->custom_value1): ?>
-                        <?php echo e($client->account->present()->customLabel('client1') . ': '); ?> <?php echo nl2br(e($client->custom_value1)); ?>
-
-                        <br/>
-                    <?php endif; ?>
-                    <?php if($client->account->customLabel('client2') && $client->custom_value2): ?>
-                        <?php echo e($client->account->present()->customLabel('client2') . ': '); ?> <?php echo nl2br(e($client->custom_value2)); ?>
+                    <?php if($vendor->account->customLabel('vendor1') && $vendor->custom_value1): ?>
+                        <?php echo e($vendor->account->present()->customLabel('vendor1') . ': '); ?> <?php echo nl2br(e($vendor->custom_value1)); ?>
 
                         <br/>
                     <?php endif; ?>
+                    <?php if($vendor->account->customLabel('vendor2') && $vendor->custom_value2): ?>
+                        <?php echo e($vendor->account->present()->customLabel('vendor2') . ': '); ?> <?php echo nl2br(e($vendor->custom_value2)); ?>
 
-                    <?php if($client->work_phone): ?>
-                        <i class="fa fa-phone" style="width: 20px"></i><?php echo e($client->work_phone); ?>
+                        <br/>
+                    <?php endif; ?>
+
+                    <?php if($vendor->work_phone): ?>
+                        <i class="fa fa-phone" style="width: 20px"></i><?php echo e($vendor->work_phone); ?>
 
                     <?php endif; ?>
 
-                    <?php if(floatval($client->task_rate)): ?>
-                        <p><?php echo e(trans('texts.task_rate')); ?>: <?php echo e(Utils::roundSignificant($client->task_rate)); ?></p>
+                    <?php if(floatval($vendor->task_rate)): ?>
+                        <p><?php echo e(trans('texts.task_rate')); ?>: <?php echo e(Utils::roundSignificant($vendor->task_rate)); ?></p>
                     <?php endif; ?>
-                    <?php if($client->public_notes): ?>
-                        <p><i><?php echo nl2br(e($client->public_notes)); ?></i></p>
+                    <?php if($vendor->public_notes): ?>
+                        <p><i><?php echo nl2br(e($vendor->public_notes)); ?></i></p>
                     <?php endif; ?>
-                    <?php if($client->private_notes): ?>
-                        <p><i><?php echo nl2br(e($client->private_notes)); ?></i></p>
+                    <?php if($vendor->private_notes): ?>
+                        <p><i><?php echo nl2br(e($vendor->private_notes)); ?></i></p>
                     <?php endif; ?>
-                    <?php if($client->industry || $client->size): ?>
-                        <?php if($client->industry): ?>
-                            <?php echo e($client->industry->name); ?>
+                    <?php if($vendor->industry || $vendor->size): ?>
+                        <?php if($vendor->industry): ?>
+                            <?php echo e($vendor->industry->name); ?>
 
                         <?php endif; ?>
-                        <?php if($client->industry && $client->size): ?>
+                        <?php if($vendor->industry && $vendor->size): ?>
                             |
                         <?php endif; ?>
-                        <?php if($client->size): ?>
-                            <?php echo e($client->size->name); ?><br/>
+                        <?php if($vendor->size): ?>
+                            <?php echo e($vendor->size->name); ?><br/>
                         <?php endif; ?>
                     <?php endif; ?>
-                    <?php if($client->website): ?>
-                        <p><?php echo Utils::formatWebsite($client->website); ?></p>
+                    <?php if($vendor->website): ?>
+                        <p><?php echo Utils::formatWebsite($vendor->website); ?></p>
                     <?php endif; ?>
-                    <?php if($client->language): ?>
-                        <p><i class="fa fa-language" style="width: 20px"></i><?php echo e($client->language->name); ?></p>
+                    <?php if($vendor->language): ?>
+                        <p><i class="fa fa-language" style="width: 20px"></i><?php echo e($vendor->language->name); ?></p>
                     <?php endif; ?>
-                    <p><?php echo e(trans('texts.payment_terms').': '.trans('texts.payment_terms_net')); ?> <?php echo e($client->present()->paymentTerms); ?></p>
-                    <!--- client client type -->
-                    <p><?php echo e(trans('texts.client_type_name').': '); ?> <?php echo e($client->present()->clientType); ?></p>
-                    <!--- client sale type -->
-                    <p><?php echo e(trans('texts.sale_type_name').': '); ?> <?php echo e($client->present()->saleType); ?></p>
-                    <!--- client hold reason -->
-                    <p><?php echo e(trans('texts.hold_reason_name').': '); ?><?php echo e($client->present()->holdReason); ?></p>
+                    <p><?php echo e(trans('texts.payment_terms').': '.trans('texts.payment_terms_net')); ?> <?php echo e($vendor->present()->paymentTerms); ?></p>
+                    <!--- vendor vendor type -->
+                    <p><?php echo e(trans('texts.vendor_type_name').': '); ?> <?php echo e($vendor->present()->vendorType); ?></p>
+                    <!--- vendor hold reason -->
+                    <p><?php echo e(trans('texts.hold_reason_name').': '); ?><?php echo e($vendor->present()->holdReason); ?></p>
                     <div class="text-muted" style="padding-top:8px">
-                        <?php if($client->show_tasks_in_portal): ?>
+                        <?php if($vendor->show_tasks_in_portal): ?>
                             • <?php echo e(trans('texts.can_view_tasks')); ?><br/>
                         <?php endif; ?>
-                        <?php if($client->account->hasReminders() && ! $client->send_reminders): ?>
+                        <?php if($vendor->account->hasReminders() && ! $vendor->send_reminders): ?>
                             • <?php echo e(trans('texts.is_not_sent_reminders')); ?></br>
                         <?php endif; ?>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <h3><?php echo e(trans('texts.address')); ?></h3>
-                    <?php if($client->addressesMatch()): ?>
-                        <?php echo $client->present()->address(ADDRESS_BILLING); ?>
+                    <?php if($vendor->addressesMatch()): ?>
+                        <?php echo $vendor->present()->address(ADDRESS_BILLING); ?>
 
                     <?php else: ?>
-                        <?php echo $client->present()->address(ADDRESS_BILLING, true); ?><br/>
-                        <?php echo $client->present()->address(ADDRESS_SHIPPING, true); ?>
+                        <?php echo $vendor->present()->address(ADDRESS_BILLING, true); ?><br/>
+                        <?php echo $vendor->present()->address(ADDRESS_SHIPPING, true); ?>
 
                     <?php endif; ?>
                 </div>
 
                 <div class="col-md-3">
-                    <h3><?php echo e(trans('texts.client_contacts')); ?></h3>
-                    <?php $__currentLoopData = $client->contacts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $contact): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <h3><?php echo e(trans('texts.vendor_contacts')); ?></h3>
+                    <?php $__currentLoopData = $vendor->contacts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $contact): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <?php if($contact->first_name || $contact->last_name): ?>
                             <b><?php echo e($contact->first_name.' '.$contact->last_name); ?></b><br/>
                         <?php endif; ?>
@@ -192,18 +189,18 @@ $__env->startSection('head'); ?>
                             <i class="fa fa-phone" style="width: 20px"></i><?php echo e($contact->phone); ?><br/>
                         <?php endif; ?>
 
-                        <?php if($client->account->customLabel('contact1') && $contact->custom_value1): ?>
-                            <?php echo e($client->account->present()->customLabel('contact1') . ': ' . $contact->custom_value1); ?>
+                        <?php if($vendor->account->customLabel('contact1') && $contact->custom_value1): ?>
+                            <?php echo e($vendor->account->present()->customLabel('contact1') . ': ' . $contact->custom_value1); ?>
 
                             <br/>
                         <?php endif; ?>
-                        <?php if($client->account->customLabel('contact2') && $contact->custom_value2): ?>
-                            <?php echo e($client->account->present()->customLabel('contact2') . ': ' . $contact->custom_value2); ?>
+                        <?php if($vendor->account->customLabel('contact2') && $contact->custom_value2): ?>
+                            <?php echo e($vendor->account->present()->customLabel('contact2') . ': ' . $contact->custom_value2); ?>
 
                             <br/>
                         <?php endif; ?>
 
-                        <?php if(Auth::user()->confirmed && $client->account->enable_client_portal): ?>
+                        <?php if(Auth::user()->confirmed && $vendor->account->enable_vendor_portal): ?>
                             <i class="fa fa-dashboard" style="width: 20px"></i>
                             <a href="<?php echo e($contact->link); ?>"
                                onclick="window.open('<?php echo e($contact->link); ?>?silent=true', '_blank');return false;">
@@ -228,20 +225,20 @@ $__env->startSection('head'); ?>
                         <table class="table" style="width:100%">
                             <tr>
                                 <td><small><?php echo e(trans('texts.paid_to_date')); ?></small></td>
-                                <td style="text-align: left"><?php echo e(Utils::formatMoney($client->paid_to_date, $client->getCurrencyId())); ?>
+                                <td style="text-align: left"><?php echo e(Utils::formatMoney($vendor->paid_to_date, $vendor->getCurrencyId())); ?>
 
                                 </td>
                             </tr>
                             <tr>
                                 <td><small><?php echo e(trans('texts.balance')); ?></small></td>
-                                <td style="text-align: left"><?php echo e(Utils::formatMoney($client->balance, $client->getCurrencyId())); ?>
+                                <td style="text-align: left"><?php echo e(Utils::formatMoney($vendor->balance, $vendor->getCurrencyId())); ?>
 
                                 </td>
                             </tr>
                             <?php if($credit > 0): ?>
                                 <tr>
-                                    <td><small><?php echo e(trans('texts.credit')); ?></small></td>
-                                    <td style="text-align: left"><?php echo e(Utils::formatMoney($credit, $client->getCurrencyId())); ?>
+                                    <td><small><?php echo e(trans('texts.bill_credit')); ?></small></td>
+                                    <td style="text-align: left"><?php echo e(Utils::formatMoney($credit, $vendor->getCurrencyId())); ?>
 
                                     </td>
                                 </tr>
@@ -253,7 +250,7 @@ $__env->startSection('head'); ?>
         </div>
     </div>
 
-    <?php if($client->showMap()): ?>
+    <?php if($vendor->showMap()): ?>
         <div id="map"></div>
         <br/>
     <?php endif; ?>
@@ -261,10 +258,6 @@ $__env->startSection('head'); ?>
     <ul class="nav nav-tabs nav-justified">
         <?php echo Form::tab_link('#activity', trans('texts.activity'), true); ?>
 
-        <?php if($hasTasks): ?>
-            <?php echo Form::tab_link('#tasks', trans('texts.tasks')); ?>
-
-        <?php endif; ?>
         <?php if($hasExpenses): ?>
             <?php echo Form::tab_link('#expenses', trans('texts.expenses')); ?>
 
@@ -274,15 +267,15 @@ $__env->startSection('head'); ?>
 
         <?php endif; ?>
         <?php if($hasRecurringInvoices): ?>
-            <?php echo Form::tab_link('#recurring_invoices', trans('texts.recurring')); ?>
+            <?php echo Form::tab_link('#recurring_bills', trans('texts.recurring')); ?>
 
         <?php endif; ?>
-        <?php echo Form::tab_link('#invoices', trans('texts.invoices')); ?>
+        <?php echo Form::tab_link('#bills', trans('texts.bills')); ?>
 
-        <?php echo Form::tab_link('#payments', trans('texts.payments')); ?>
+        <?php echo Form::tab_link('#payments', trans('texts.pay_payments')); ?>
 
-        <?php if($account->isModuleEnabled(ENTITY_CREDIT)): ?>
-            <?php echo Form::tab_link('#credits', trans('texts.credits')); ?>
+        <?php if($account->isModuleEnabled(ENTITY_VENDOR_CREDIT)): ?>
+            <?php echo Form::tab_link('#credits', trans('texts.bill_credit')); ?>
 
         <?php endif; ?>
     </ul>
@@ -296,34 +289,24 @@ $__env->startSection('head'); ?>
                 trans('texts.message'),
                 trans('texts.balance'),
                 trans('texts.adjustment'))
-                ->setUrl(url('api/activities/'. $client->public_id))
+                ->setUrl(url('api/vendor/activities/'. $vendor->public_id))
                 ->setCustomValues('entityType', 'activity')
-                ->setCustomValues('clientId', $client->public_id)
+                ->setCustomValues('vendorId', $vendor->public_id)
                 ->setCustomValues('rightAlign', [2, 3])
                 ->setOptions('sPaginationType', 'bootstrap')
-                ->setOptions('bFilter', false)
+                ->setOptions('bFilter', true)
                 ->setOptions('aaSorting', [['0', 'desc']])
                 ->render('datatable'); ?>
 
         </div>
-        <?php if($hasTasks): ?>
-            <div class="tab-pane" id="tasks">
-                <?php echo $__env->make('list', [
-                'entityType' => ENTITY_TASK,
-                'datatable' => new TaskDatatable(true, true),
-                'clientId' => $client->public_id,
-                'url' => url('api/tasks/' . $client->public_id),
-                ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-            </div>
-        <?php endif; ?>
 
         <?php if($hasExpenses): ?>
             <div class="tab-pane" id="expenses">
                 <?php echo $__env->make('list', [
-                'entityType' => ENTITY_EXPENSE,
-                'datatable' => new ExpenseDatatable(true, true),
-                'clientId' => $client->public_id,
-                'url' => url('api/client_expenses/' . $client->public_id),
+                'entityType' => ENTITY_BILL_EXPENSE,
+                'datatable' => new BillExpenseDatatable(true, true),
+                'vendorId' => $vendor->public_id,
+                'url' => url('api/vendor_expenses/' . $vendor->public_id),
                 ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             </div>
         <?php endif; ?>
@@ -331,50 +314,50 @@ $__env->startSection('head'); ?>
         <?php if(Utils::hasFeature(FEATURE_QUOTES) && $hasQuotes): ?>
             <div class="tab-pane" id="quotes">
                 <?php echo $__env->make('list', [
-                'entityType' => ENTITY_QUOTE,
-                'datatable' => new InvoiceDatatable(true, true, ENTITY_QUOTE),
-                'clientId' => $client->public_id,
-                'url' => url('api/quotes/' . $client->public_id),
+                'entityType' => ENTITY_BILL_QUOTE,
+                'datatable' => new BillDatatable(true, true, ENTITY_BILL_QUOTE),
+                'vendorId' => $vendor->public_id,
+                'url' => url('api/bill_quotes/' . $vendor->public_id),
                 ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             </div>
         <?php endif; ?>
 
         <?php if($hasRecurringInvoices): ?>
-            <div class="tab-pane" id="recurring_invoices">
+            <div class="tab-pane" id="recurring_bills">
                 <?php echo $__env->make('list', [
-                'entityType' => ENTITY_RECURRING_INVOICE,
-                'datatable' => new RecurringInvoiceDatatable(true, true),
-                'clientId' => $client->public_id,
-                'url' => url('api/recurring_invoices/' . $client->public_id),
+                'entityType' => ENTITY_RECURRING_BILL,
+                'datatable' => new RecurringBillDatatable(true, true),
+                'vendorId' => $vendor->public_id,
+                'url' => url('api/recurring_bills/' . $vendor->public_id),
                 ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             </div>
         <?php endif; ?>
 
-        <div class="tab-pane" id="invoices">
+        <div class="tab-pane" id="bills">
             <?php echo $__env->make('list', [
-            'entityType' => ENTITY_INVOICE,
-            'datatable' => new InvoiceDatatable(true, true),
-            'clientId' => $client->public_id,
-            'url' => url('api/invoices/' . $client->public_id),
+            'entityType' => ENTITY_BILL,
+            'datatable' => new BillDatatable(true, true),
+            'vendorId' => $vendor->public_id,
+            'url' => url('api/bills/' . $vendor->public_id),
             ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
         </div>
 
         <div class="tab-pane" id="payments">
             <?php echo $__env->make('list', [
-            'entityType' => ENTITY_PAYMENT,
-            'datatable' => new PaymentDatatable(true, true),
-            'clientId' => $client->public_id,
-            'url' => url('api/payments/' . $client->public_id),
+            'entityType' => ENTITY_BILL_PAYMENT,
+            'datatable' => new BillPaymentDatatable(true, true),
+            'vendorId' => $vendor->public_id,
+            'url' => url('api/bill_payments/' . $vendor->public_id),
             ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
         </div>
 
-        <?php if($account->isModuleEnabled(ENTITY_CREDIT)): ?>
+        <?php if($account->isModuleEnabled(ENTITY_VENDOR_CREDIT)): ?>
             <div class="tab-pane" id="credits">
                 <?php echo $__env->make('list', [
-                'entityType' => ENTITY_CREDIT,
-                'datatable' => new CreditDatatable(true, true),
-                'clientId' => $client->public_id,
-                'url' => url('api/credits/' . $client->public_id),
+                'entityType' => ENTITY_VENDOR_CREDIT,
+                'datatable' => new VendorCreditDatatable(true, true),
+                'vendorId' => $vendor->public_id,
+                'url' => url('api/vendor_credits/' . $vendor->public_id),
                 ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             </div>
         <?php endif; ?>
@@ -409,10 +392,10 @@ $__env->startSection('head'); ?>
         var loadedTabs = {};
         $(function () {
             $('.normalDropDown:not(.dropdown-toggle)').click(function (event) {
-                openUrlOnClick('<?php echo e(URL::to('clients/' . $client->public_id . '/edit')); ?>', event);
+                openUrlOnClick('<?php echo e(URL::to('vendors/' . $vendor->public_id . '/edit')); ?>', event);
             });
             $('.primaryDropDown:not(.dropdown-toggle)').click(function (event) {
-                openUrlOnClick('<?php echo e(URL::to('clients/statement/' . $client->public_id )); ?>', event);
+                openUrlOnClick('<?php echo e(URL::to('vendors/statement/' . $vendor->public_id )); ?>', event);
             });
 
             // load datatable data when tab is shown and remember last tab selected
@@ -420,7 +403,7 @@ $__env->startSection('head'); ?>
                 var target = $(e.target).attr("href"); // activated tab
                 target = target.substring(1);
                 if (isStorageSupported()) {
-                    localStorage.setItem('client_tab', target);
+                    localStorage.setItem('vendor_tab', target);
                 }
                 if (!loadedTabs.hasOwnProperty(target) && window['load_' + target]) {
                     loadedTabs[target] = true;
@@ -428,14 +411,14 @@ $__env->startSection('head'); ?>
                 }
             });
 
-            var tab = window.location.hash || (localStorage.getItem('client_tab') || '');
+            var tab = window.location.hash || (localStorage.getItem('vendor_tab') || '');
             tab = tab.replace('#', '');
             var selector = '.nav-tabs a[href="#' + tab + '"]';
 
             if (tab && tab != 'activity' && $(selector).length && window['load_' + tab]) {
                 $(selector).tab('show');
             } else {
-                window['load_activity']();
+                // window['load_activity']();
             }
         });
 
@@ -460,7 +443,7 @@ $__env->startSection('head'); ?>
             sweetConfirm(function () {
                 $('#action').val('purge');
                 $('.mainForm').submit();
-            }, "<?php echo e(trans('texts.purge_client_warning') . "\\n\\n" . trans('texts.mobile_refresh_warning') . "\\n\\n" . trans('texts.no_undo')); ?>");
+            }, "<?php echo e(trans('texts.purge_vendor_warning') . "\\n\\n" . trans('texts.mobile_refresh_warning') . "\\n\\n" . trans('texts.no_undo')); ?>");
         }
 
         function showEmailHistory(email) {
@@ -482,7 +465,7 @@ $__env->startSection('head'); ?>
             })
         }
 
-        <?php if($client->showMap()): ?>
+        <?php if($vendor->showMap()): ?>
         function initialize() {
             var mapCanvas = document.getElementById('map');
             var mapOptions = {
@@ -492,7 +475,7 @@ $__env->startSection('head'); ?>
             };
 
             var map = new google.maps.Map(mapCanvas, mapOptions);
-            var address = <?php echo json_encode(e("{$client->address1} {$client->address2} {$client->city} {$client->state} {$client->postal_code} " . ($client->country ? $client->country->getName() : ''))); ?>;
+            var address = <?php echo json_encode(e("{$vendor->address1} {$vendor->address2} {$vendor->city} {$vendor->state} {$vendor->postal_code} " . ($vendor->country ? $vendor->country->getName() : ''))); ?>;
 
             geocoder = new google.maps.Geocoder();
             geocoder.geocode({'address': address}, function (results, status) {

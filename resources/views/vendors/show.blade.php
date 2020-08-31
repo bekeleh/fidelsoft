@@ -203,13 +203,11 @@
                                 <td style="text-align: left">{{ Utils::formatMoney($vendor->paid_to_date, $vendor->getCurrencyId()) }}
                                 </td>
                             </tr>
-                            @if ($balance > 0)
-                                <tr>
-                                    <td><small>{{ trans('texts.balance') }}</small></td>
-                                    <td style="text-align: left">{{ Utils::formatMoney($balance, $vendor->getCurrencyId()) }}
-                                    </td>
-                                </tr>
-                            @endif
+                            <tr>
+                                <td><small>{{ trans('texts.balance') }}</small></td>
+                                <td style="text-align: left">{{ Utils::formatMoney($vendor->balance, $vendor->getCurrencyId()) }}
+                                </td>
+                            </tr>
                             @if ($credit > 0)
                                 <tr>
                                     <td><small>{{ trans('texts.bill_credit') }}</small></td>

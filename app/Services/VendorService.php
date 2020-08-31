@@ -45,7 +45,7 @@ class VendorService extends BaseService
         $query = $this->vendorRepo->find($accountId, $search);
 
         if (!Utils::hasPermission('view_vendor')) {
-            $query->where('vendors.user_id', '=', Auth::user()->id);
+            $query->where('vendors.user_id', Auth::user()->id);
         }
 
         return $this->datatableService->createDatatable($datatable, $query);
