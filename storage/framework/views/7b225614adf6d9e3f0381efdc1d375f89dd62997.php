@@ -229,12 +229,14 @@ $__env->startSection('head'); ?>
 
                                 </td>
                             </tr>
-                            <tr>
-                                <td><small><?php echo e(trans('texts.balance')); ?></small></td>
-                                <td style="text-align: left"><?php echo e(Utils::formatMoney($vendor->balance, $vendor->getCurrencyId())); ?>
+                            <?php if($balance > 0): ?>
+                                <tr>
+                                    <td><small><?php echo e(trans('texts.balance')); ?></small></td>
+                                    <td style="text-align: left"><?php echo e(Utils::formatMoney($balance, $vendor->getCurrencyId())); ?>
 
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
                             <?php if($credit > 0): ?>
                                 <tr>
                                     <td><small><?php echo e(trans('texts.bill_credit')); ?></small></td>

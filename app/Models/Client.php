@@ -465,6 +465,14 @@ class Client extends EntityModel
             ->sum('balance');
     }
 
+    public function getTotalBalance()
+    {
+        return DB::table('invoices')
+            ->where('client_id', $this->id)
+            ->whereNull('deleted_at')
+            ->sum('balance');
+    }
+
     public function getName()
     {
         return $this->name;

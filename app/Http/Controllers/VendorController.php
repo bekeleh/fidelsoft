@@ -111,6 +111,7 @@ class VendorController extends BaseController
             'showBreadcrumbs' => false,
             'vendor' => $vendor,
             'credit' => $vendor->getTotalCredit(),
+            'balance' => $vendor->getTotalBalance(),
             'title' => trans('texts.view_vendor'),
             'hasRecurringInvoices' => $account->isModuleEnabled(ENTITY_RECURRING_INVOICE) && Bill::scope()->recurring()->withArchived()->where('vendor_id', $vendor->id)->count() > 0,
             'hasQuotes' => $account->isModuleEnabled(ENTITY_BILL_QUOTE) && Bill::scope()->quotes()->withArchived()->where('vendor_id', $vendor->id)->count() > 0,

@@ -304,7 +304,15 @@ class Vendor extends EntityModel
 
     public function getTotalCredit()
     {
-        return DB::table('bill_credits')
+        return DB::table('vendor_credits')
+            ->where('vendor_id', $this->id)
+            ->whereNull('deleted_at')
+            ->sum('balance');
+    }
+
+    public function getTotalBalance()
+    {
+        return DB::table('bills')
             ->where('vendor_id', $this->id)
             ->whereNull('deleted_at')
             ->sum('balance');
