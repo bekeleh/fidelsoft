@@ -301,6 +301,7 @@ class AccountRepository
             ENTITY_EXPENSE_CATEGORY,
             ENTITY_VENDOR,
             ENTITY_RECURRING_INVOICE,
+            ENTITY_BILL_PAYMENT,
             ENTITY_PAYMENT,
             ENTITY_CREDIT,
             ENTITY_COMPANY,

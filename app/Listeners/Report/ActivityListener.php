@@ -557,24 +557,24 @@ class ActivityListener
     public function createdBillQuote(BillQuoteWasCreatedEvent $event)
     {
         $this->activityRepo->createBill(
-            $event->quote,
-            ACTIVITY_TYPE_CREATE_bill_quote
+            $event->billQuote,
+            ACTIVITY_TYPE_CREATE_BILL_QUOTE
         );
     }
 
     public function updatedBillQuote(BillQuoteWasUpdatedEvent $event)
     {
-        if (!$event->quote->isChanged()) {
+        if (!$event->billQuote->isChanged()) {
             return;
         }
 
         $backupQuote = Bill::with('invoice_items', 'vendor.account', 'vendor.contacts')
             ->withTrashed()
-            ->find($event->quote->id);
+            ->find($event->billQuote->id);
 
         $activity = $this->activityRepo->createBill(
-            $event->quote,
-            ACTIVITY_TYPE_UPDATE_bill_quote
+            $event->billQuote,
+            ACTIVITY_TYPE_UPDATE_BILL_QUOTE
         );
 
         $activity->json_backup = $backupQuote->hidePrivateFields()->toJSON();
@@ -584,28 +584,28 @@ class ActivityListener
     public function deletedBillQuote(BillQuoteWasDeletedEvent $event)
     {
         $this->activityRepo->createBill(
-            $event->quote,
-            ACTIVITY_TYPE_DELETE_bill_quote
+            $event->billQuote,
+            ACTIVITY_TYPE_DELETE_BILL_QUOTE
         );
     }
 
     public function archivedBillQuote(BillQuoteWasArchivedEvent $event)
     {
-        if ($event->quote->is_deleted) {
+        if ($event->billQuote->is_deleted) {
             return;
         }
 
         $this->activityRepo->createBill(
-            $event->quote,
-            ACTIVITY_TYPE_ARCHIVE_bill_quote
+            $event->billQuote,
+            ACTIVITY_TYPE_ARCHIVE_BILL_QUOTE
         );
     }
 
     public function restoredBillQuote(BillQuoteWasRestoredEvent $event)
     {
         $this->activityRepo->createBill(
-            $event->quote,
-            ACTIVITY_TYPE_RESTORE_bill_quote
+            $event->billQuote,
+            ACTIVITY_TYPE_RESTORE_BILL_QUOTE
         );
     }
 
@@ -625,7 +625,7 @@ class ActivityListener
     {
         $this->activityRepo->createBill(
             $event->quote,
-            ACTIVITY_TYPE_VIEW_bill_quote,
+            ACTIVITY_TYPE_VIEW_BILL_QUOTE,
             false,
             false,
             $event->invitation
@@ -636,10 +636,10 @@ class ActivityListener
     {
         $this->activityRepo->createBill(
             $event->quote,
-            ACTIVITY_TYPE_APPROVE_bill_quote,
+            ACTIVITY_TYPE_APPROVE_BILL_QUOTE,
             false,
             false,
-            $event->invitation
+            $event->billInvitation
         );
     }
 
@@ -680,7 +680,7 @@ class ActivityListener
         );
     }
 
-//   invoice payment activities
+//   bill payment activities
     public function createdBillPayment(BillPaymentWasCreatedEvent $event)
     {
         $this->activityRepo->createBill(

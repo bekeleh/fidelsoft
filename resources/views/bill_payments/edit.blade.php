@@ -95,11 +95,13 @@
 
                     <div style="display:none" data-bind="visible: enableExchangeRate">
                         <br/>
-                        {!! Former::select('exchange_currency_id')->addOption('','')
-                        ->label(trans('texts.currency'))
-                        ->data_placeholder(Utils::getFromCache($account->getCurrencyId(), 'currencies')->name)
-                        ->data_bind('combobox: exchange_currency_id, disable: true')
-                        ->fromQuery($currencies, 'name', 'id') !!}
+                        <!-- currency -->
+                    {!! Former::select('exchange_currency_id')->addOption('','')
+                    ->label(trans('texts.currency'))
+                    ->data_placeholder(Utils::getFromCache($account->getCurrencyId(), 'currencies')->name)
+                    ->data_bind('combobox: exchange_currency_id, disable: true')
+                    ->fromQuery($currencies, 'name', 'id') !!}
+                    <!-- exchange rate -->
                         {!! Former::text('exchange_rate')
                         ->data_bind("value: exchange_rate, enable: enableExchangeRate, valueUpdate: 'afterkeydown'") !!}
                         {!! Former::text('')
@@ -111,7 +113,7 @@
                         {!! Former::checkbox('email_receipt')
                         ->onchange('onEmailReceiptChange()')
                         ->label('&nbsp;')
-                        ->text(trans('texts.email_receipt'))
+                        ->text(trans('texts.email_receipt_to_vendor'))
                         ->value(1) !!}
                     @endif
 
@@ -152,7 +154,7 @@
         var billsForVendorMap = {};
         var statuses = [];
 
-        @foreach (cache('billStatus') as $status)
+        @foreach (cache('invoiceStatus') as $status)
             statuses[{{ $status->id }}] = "{{ $status->getTranslatedName() }}";
                 @endforeach
 
@@ -383,11 +385,11 @@
             $vendorSelect.append(new Option('', ''));
             for (var i = 0; i < vendors.length; i++) {
                 var vendor = vendors[i];
-                var vendorName = getVendorDisplayName(vendor);
-                if (!vendorName) {
-                    continue;
-                }
-                $vendorSelect.append(new Option(vendorName, vendor.public_id));
+                // var vendorName = getVendorDisplayName(vendor);
+                // if (!vendorName) {
+                //     continue;
+                // }
+                $vendorSelect.append(new Option(vendor.name, vendor.public_id));
             }
 
             if (vendorId) {
@@ -411,10 +413,12 @@
                 for (var i = 0; i < list.length; i++) {
                     var bill = list[i];
                     var vendor = vendorMap[bill.vendor.public_id];
-                    if (!vendor || !getVendorDisplayName(vendor)) continue; // vendor is deleted/archived
+                    //|| !getVendorDisplayName(vendor)
+                    if (!vendor) continue; // vendor is deleted/archived
+                    // getVendorDisplayName(vendor)
                     $billCombobox.append(new Option(bill.bill_number + ' - ' + statuses[bill.bill_status.id] + ' - ' +
-                        getVendorDisplayName(vendor) + ' - ' + formatMoneyBill(bill.amount, bill) + ' | ' +
-                        formatMoneyBill(bill.balance, bill), bill.public_id));
+                        vendor.name + ' - ' + formatMoneyInvoice(bill.amount, bill) + ' | ' +
+                        formatMoneyInvoice(bill.balance, bill), bill.public_id));
                 }
                 $('select#bill').combobox('refresh');
                 $('#amount').val('');
@@ -439,7 +443,7 @@
                     var bill = billMap[billId];
                     var vendor = vendorMap[bill.vendor.public_id];
                     bill.vendor = vendor;
-                    setComboboxValue($('.vendor-select'), vendor.public_id, getVendorDisplayName(vendor));
+                    setComboboxValue($('.vendor-select'), vendor.public_id, vendor.name); //getVendorDisplayName(vendor)
                     var amount = parseFloat(bill.balance);
                     $('#amount').val(amount.toFixed(2));
                     model.amount(amount);
@@ -460,14 +464,16 @@
                 if (bill) {
                     var vendor = vendorMap[bill.vendor.public_id];
                     bill.vendor = vendor;
+                    //getVendorDisplayName(vendor)
                     setComboboxValue($('.bill-select'), bill.public_id, (bill.bill_number + ' - ' +
-                        bill.bill_status.name + ' - ' + getVendorDisplayName(vendor) + ' - ' +
-                        formatMoneyBill(bill.amount, bill) + ' | ' + formatMoneyBill(bill.balance, bill)));
+                        bill.bill_status.name + ' - ' + vendor.name + ' - ' +
+                        formatMoneyInvoice(bill.amount, bill) + ' | ' + formatMoneyInvoice(bill.balance, bill)));
                     $billSelect.trigger('change');
                 }
             } else if (vendorId) {
                 var vendor = vendorMap[vendorId];
-                setComboboxValue($('.vendor-select'), vendor.public_id, getVendorDisplayName(vendor));
+                //getVendorDisplayName(vendor)
+                setComboboxValue($('.vendor-select'), vendor.public_id, vendor.name);
                 $vendorSelect.trigger('change');
             } else {
                 $vendorSelect.trigger('change');

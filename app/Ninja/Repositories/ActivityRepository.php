@@ -61,9 +61,9 @@ class ActivityRepository extends BaseRepository
         if ($entity instanceof Vendor) {
             $vendor = $entity;
         } elseif ($entity instanceof BillInvitation) {
-            $vendor = $entity->invoice->client;
+            $vendor = $entity->bill->vendor;
         } else {
-            $vendor = $entity->client;
+            $vendor = $entity->vendor;
         }
 
         // init activity and copy over context

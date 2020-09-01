@@ -525,6 +525,17 @@ function getClientDisplayName(client)
   return '';
 }
 
+function getVendorDisplayName(vendor)
+{
+  var contact = vendor.contacts ? vendor.contacts[0] : false;
+  if (vendor.name) {
+    return vendor.name;
+  } else if (contact) {
+    return getContactDisplayName(contact);
+  }
+  return '';
+}
+
 var CONSTS = {};
 CONSTS.INVOICE_STATUS_DRAFT = 1;
 CONSTS.INVOICE_STATUS_SENT = 2;

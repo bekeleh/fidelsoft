@@ -155,7 +155,7 @@ class Payment extends EntityModel
 
     public function getRoute()
     {
-        return "/payments/{$this->public_id}/edit";
+        return "/payments/{$this->public_id}";
     }
 
     public function invoice()

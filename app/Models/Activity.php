@@ -202,7 +202,7 @@ class Activity extends EntityModel
         $payment = $this->payment;
         $billPayment = $this->bill_payment;
         $credit = $this->credit;
-        $BillCredit = $this->VENDOR_CREDIT;
+        $billCredit = $this->VENDOR_CREDIT;
         $expense = $this->expense;
         $isSystem = $this->is_system;
         $task = $this->task;
@@ -214,7 +214,7 @@ class Activity extends EntityModel
             'invoice' => $invoice ? link_to($invoice->getRoute(), $invoice->getDisplayName()) : null,
             'bill' => $bill ? link_to($bill->getRoute(), $bill->getDisplayName()) : null,
             'quote' => $invoice ? link_to($invoice->getRoute(), $invoice->getDisplayName()) : null,
-            'bill_quote' => $bill ? link_to($bill->getRoute(), $bill->getDisplayName()) : null,
+            'BILL_QUOTE' => $bill ? link_to($bill->getRoute(), $bill->getDisplayName()) : null,
             'contact' => $contactId ? link_to($client->getRoute(), $client->getDisplayName()) : e($user->getDisplayName()),
             'vendor_contact' => $vendorContactId ? link_to($vendor->getRoute(), $vendor->getDisplayName()) : e($user->getDisplayName()),
             'payment' => $payment ? e($payment->transaction_reference) : null,
@@ -222,7 +222,7 @@ class Activity extends EntityModel
             'payment_amount' => $payment ? $account->formatMoney($payment->amount, $payment) : null,
             'adjustment' => $this->adjustment ? $account->formatMoney($this->adjustment, $this) : null,
             'credit' => $credit ? $account->formatMoney($credit->amount, $client) : null,
-            'VENDOR_CREDIT' => $BillCredit ? $account->formatMoney($credit->amount, $client) : null,
+            'vendor_credit' => $billCredit ? $account->formatMoney($credit->amount, $client) : null,
             'task' => $task ? link_to($task->getRoute(), substr($task->description, 0, 30) . '...') : null,
             'expense' => $expense ? link_to($expense->getRoute(), substr($expense->public_notes, 0, 30) . '...') : null,
         ];
@@ -299,14 +299,14 @@ class Activity extends EntityModel
             case ACTIVITY_TYPE_APPROVE_QUOTE:
                 return ENTITY_QUOTE;
                 break;
-            case ACTIVITY_TYPE_CREATE_bill_quote:
-            case ACTIVITY_TYPE_UPDATE_bill_quote:
+            case ACTIVITY_TYPE_CREATE_BILL_QUOTE:
+            case ACTIVITY_TYPE_UPDATE_BILL_QUOTE:
             case ACTIVITY_TYPE_EMAIL_BILL_QUOTE:
-            case ACTIVITY_TYPE_VIEW_bill_quote:
-            case ACTIVITY_TYPE_ARCHIVE_bill_quote:
-            case ACTIVITY_TYPE_DELETE_bill_quote:
-            case ACTIVITY_TYPE_RESTORE_bill_quote:
-            case ACTIVITY_TYPE_APPROVE_bill_quote:
+            case ACTIVITY_TYPE_VIEW_BILL_QUOTE:
+            case ACTIVITY_TYPE_ARCHIVE_BILL_QUOTE:
+            case ACTIVITY_TYPE_DELETE_BILL_QUOTE:
+            case ACTIVITY_TYPE_RESTORE_BILL_QUOTE:
+            case ACTIVITY_TYPE_APPROVE_BILL_QUOTE:
                 return ENTITY_BILL_QUOTE;
                 break;
 //            case ACTIVITY_TYPE_CREATE_VENDOR:

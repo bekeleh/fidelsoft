@@ -306,11 +306,11 @@ class BillPayment extends EntityModel
     public function billJsonBackup()
     {
         $activity = Activity::where('bill_payment_id', $this->id)
-            ->where('activity_type_id', ACTIVITY_TYPE_CREATE_PAYMENT)
+            ->where('activity_type_id', ACTIVITY_TYPE_CREATE_BILL_PAYMENT)
             ->get(['json_backup'])
             ->first();
 
-        return $activity->json_backup;
+        return $activity->json_backup ?: null;
     }
 }
 

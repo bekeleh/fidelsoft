@@ -128,7 +128,7 @@ class Vendor extends EntityModel
 
     public function getRoute()
     {
-        return "/vendors/{$this->public_id}/edit";
+        return "/vendors/{$this->public_id}";
     }
 
     public function account()

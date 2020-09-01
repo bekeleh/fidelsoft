@@ -100,8 +100,11 @@ class BillPaymentController extends BaseController
             'title' => trans('texts.new_payment'),
             'paymentTypeId' => Input::get('paymentTypeId'),
             'bills' => $bills,
-            'vendors' => Vendor::scope()->with('contacts')->orderBy('name')->get(),
             'totalCredit' => $totalCredit,
+            'paymentStatuses' => Cache::get('paymentStatuses'),
+            'paymentTypes' => Cache::get('paymentTypes'),
+            'currencies' => Cache::get('currencies'),
+            'vendors' => Vendor::scope()->with('contacts')->orderBy('name')->get(),
         ];
 
         return View::make('bill_payments.edit', $data);
@@ -192,9 +195,11 @@ class BillPaymentController extends BaseController
             $message = trans($credit ? 'texts.created_payment_and_credit' : 'texts.created_payment');
         }
 
-        $url = url($payment->vendor->getRoute());
+        Session::flash('message', $message);
 
-        return redirect()->to($url)->with('success', $message);
+        $url = url($payment->getRoute());
+
+        return redirect()->to($url);
     }
 
 
@@ -207,10 +212,12 @@ class BillPaymentController extends BaseController
         if (in_array($request->action, ['archive', 'delete', 'restore', 'refund', 'email'])) {
             return self::bulk();
         }
+        $input = $request->input();
+        $payment = $this->paymentRepo->save($input, $request->entity());
 
-        $payment = $this->paymentRepo->save($request->input(), $request->entity());
+        Session::flash('message', trans('texts.updated_payment'));
 
-        return redirect()->to($payment->getRoute())->with('success', trans('texts.updated_payment'));
+        return redirect()->to($payment->getRoute());
     }
 
     /**
@@ -248,7 +255,9 @@ class BillPaymentController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account,
+            'paymentStatuses' => Cache::get('paymentStatuses'),
             'paymentTypes' => Cache::get('paymentTypes'),
+            'currencies' => Cache::get('currencies'),
             'vendors' => Vendor::scope()->with('contacts')->orderBy('name')->get(),
             'bills' => Bill::scope()->bills()->where('is_public', true)->with('vendor', 'bill_status')->orderBy('bill_number')->get(),
         ];
