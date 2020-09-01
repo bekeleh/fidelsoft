@@ -105,7 +105,7 @@ class DashboardRepository
                 $totals->invoices = array_sum($data);
                 $totals->average = $count ? round($totals->invoices / $count, 2) : 0;
                 $totals->balance = $balance;
-            } elseif ($entityType == ENTITY_PAYMENT) {
+            } elseif ($entityType == ENTITY_payment) {
                 $totals->revenue = array_sum($data);
             } elseif ($entityType == ENTITY_EXPENSE) {
 //                $totals->profit = $totals->revenue - array_sum($data);
@@ -156,7 +156,7 @@ class DashboardRepository
                 ->where('invoice_type_id', INVOICE_TYPE_STANDARD)
                 ->where('invoices.is_public', true)
                 ->where('is_recurring', false);
-        } elseif ($entityType == ENTITY_PAYMENT) {
+        } elseif ($entityType == ENTITY_payment) {
             $records->select(DB::raw('sum(payments.amount - payments.refunded) as total, count(payments.id) as count, ' . $timeframe . ' as ' . $groupBy))
                 ->leftJoin('invoices', 'invoices.id', '=', 'payments.invoice_id')
                 ->where('invoices.is_deleted', false)
@@ -295,7 +295,7 @@ class DashboardRepository
         }
 
         return $activities->orderBy('activities.created_at', 'desc')
-            ->with('client.contacts', 'vendor.contacts', 'user', 'invoice', 'BILL', 'payment', 'BILL_PAYMENT', 'credit', 'BILL_CREDIT', 'account', 'task', 'expense', 'contact')
+            ->with('client.contacts', 'vendor.contacts', 'user', 'invoice', 'bill', 'payment', 'bill_payment', 'credit', 'vendor_credit', 'account', 'task', 'expense', 'contact')
             ->take(100)
             ->get();
     }

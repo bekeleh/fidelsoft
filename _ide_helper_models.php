@@ -267,7 +267,7 @@ namespace App\Models{
  * @property int|null $payment_id
  * @property int|null $bill_payment_id
  * @property int|null $credit_id
- * @property int|null $bill_credit_id
+ * @property int|null $VENDOR_CREDIT_id
  * @property int|null $invitation_id
  * @property int|null $bill_invitation_id
  * @property int|null $task_id
@@ -288,7 +288,7 @@ namespace App\Models{
  * @property string|null $deleted_by
  * @property-read Account|null $account
  * @property-read Bill|null $bill
- * @property-read BillCredit|null $bill_credit
+ * @property-read BillCredit|null $VENDOR_CREDIT
  * @property-read BillPayment|null $bill_payment
  * @property-read Client|null $client
  * @property-read Contact|null $contact

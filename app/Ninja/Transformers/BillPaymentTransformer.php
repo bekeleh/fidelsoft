@@ -3,14 +3,14 @@
 namespace App\Ninja\Transformers;
 
 use App\Models\Common\Account;
-use App\Models\Client;
-use App\Models\Invoice;
+use App\Models\Vendor;
+use App\Models\Bill;
 use App\Models\BillPayment;
 
 /**
- * @SWG\Definition(definition="BillPayment", required={"invoice_id"}, @SWG\Xml(name="BillPayment"))
+ * @SWG\Definition(definition="BillPayment", required={"bill_id"}, @SWG\Xml(name="BillPayment"))
  */
-class BillBillPaymentTransformer extends EntityTransformer
+class BillPaymentTransformer extends EntityTransformer
 {
     /**
      * @SWG\Property(property="id", type="integer", example=1, readOnly=true)
@@ -21,31 +21,31 @@ class BillBillPaymentTransformer extends EntityTransformer
      * @SWG\Property(property="archived_at", type="integer", example=1451160233, readOnly=true)
      * @SWG\Property(property="is_deleted", type="boolean", example=false, readOnly=true)
      * @SWG\Property(property="payment_type_id", type="integer", example=1)
-     * @SWG\Property(property="invoice_id", type="integer", example=1)
+     * @SWG\Property(property="bill_id", type="integer", example=1)
      * @SWG\Property(property="private_notes", type="string", example="Notes...")
      */
     protected $defaultIncludes = [];
 
     protected $availableIncludes = [
         'vendor',
-        'invoice',
+        'bill',
     ];
 
-    public function __construct($account = null, $serializer = null, $invoice = null)
+    public function __construct($account = null, $serializer = null, $bill = null)
     {
         parent::__construct($account, $serializer);
 
-        $this->invoice = $invoice;
+        $this->bill = $bill;
     }
 
-    public function includeInvoice(BillPayment $payment)
+    public function includeBill(BillPayment $payment)
     {
-        $transformer = new InvoiceTransformer($this->account, $this->serializer);
+        $transformer = new BillTransformer($this->account, $this->serializer);
 
-        return $this->includeItem($payment->invoice, $transformer, 'invoice');
+        return $this->includeItem($payment->bill, $transformer, 'bill');
     }
 
-    public function includeClient(BillPayment $payment)
+    public function includeVendor(BillPayment $payment)
     {
         $transformer = new VendorTransformer($this->account, $this->serializer);
 
@@ -63,8 +63,8 @@ class BillBillPaymentTransformer extends EntityTransformer
             'archived_at' => $this->getTimestamp($payment->deleted_at),
             'is_deleted' => (bool)$payment->is_deleted,
             'payment_type_id' => (int)($payment->payment_type_id ?: 0),
-            'invoice_id' => (int)($this->invoice ? $this->invoice->public_id : $payment->invoice->public_id),
-            'invoice_number' => $this->invoice ? $this->invoice->invoice_number : $payment->invoice->invoice_number,
+            'bill_id' => (int)($this->bill ? $this->bill->public_id : $payment->bill->public_id),
+            'bill_number' => $this->bill ? $this->bill->bill_number : $payment->bill->bill_number,
             'private_notes' => $payment->private_notes ?: '',
             'exchange_rate' => (float)$payment->exchange_rate,
             'exchange_currency_id' => (int)$payment->exchange_currency_id,

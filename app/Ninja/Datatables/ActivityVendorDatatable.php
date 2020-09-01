@@ -46,7 +46,7 @@ class ActivityVendorDatatable extends EntityDatatable
                         'bill_quote' => $model->bill_number ? link_to('/bill_quotes/' . $model->bill_public_id, $model->bill_number)->toHtml() : null,
                         'vendor_contact' => $model->contact_id ? link_to('/vendors/' . $model->vendor_public_id, Utils::getPersonDisplayName($model->first_name, $model->last_name, $model->email))->toHtml() : Utils::getPersonDisplayName($model->user_first_name, $model->user_last_name, $model->user_email),
                         'bill_payment' => $model->payment ? e($model->payment) : '',
-                        'bill_credit' => $model->payment_amount ? Utils::formatMoney($model->credit, $model->currency_id, $model->country_id) : '',
+                        'VENDOR_CREDIT' => $model->payment_amount ? Utils::formatMoney($model->credit, $model->currency_id, $model->country_id) : '',
                         'payment_amount' => $model->payment_amount ? Utils::formatMoney($model->payment_amount, $model->currency_id, $model->country_id) : null,
                         'adjustment' => $model->adjustment ? Utils::formatMoney($model->adjustment, $model->currency_id, $model->country_id) : null,
                         'bill_expense' => $model->expense_public_id ? link_to('/bill_expenses/' . $model->expense_public_id, substr($model->expense_public_notes, 0, 30) . '...') : null,

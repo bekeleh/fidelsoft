@@ -1,6 +1,7 @@
 <div class="modal fade" id="paymentRefundModal" tabindex="-1" role="dialog" aria-labelledby="paymentRefundModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" style="min-width:150px">
+
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

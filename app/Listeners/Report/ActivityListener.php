@@ -496,13 +496,13 @@ class ActivityListener
 
     public function deletedBill(BillWasDeletedEvent $event)
     {
-        $Bill = $event->bill;
+        $bill = $event->bill;
 
         $this->activityRepo->createBill(
-            $Bill,
+            $bill,
             ACTIVITY_TYPE_DELETE_BILL,
-            $Bill->affectsBalance() ? $Bill->balance * -1 : 0,
-            $Bill->affectsBalance() ? $Bill->getAmountPaid() * -1 : 0
+            $bill->affectsBalance() ? $bill->balance * -1 : 0,
+            $bill->affectsBalance() ? $bill->getAmountPaid() * -1 : 0
         );
     }
 
@@ -520,13 +520,13 @@ class ActivityListener
 
     public function restoredBill(BillWasRestoredEvent $event)
     {
-        $Bill = $event->bill;
+        $bill = $event->bill;
 
         $this->activityRepo->createBill(
-            $Bill,
+            $bill,
             ACTIVITY_TYPE_RESTORE_INVOICE,
-            $Bill->affectsBalance() && $event->fromDeleted ? $Bill->balance : 0,
-            $Bill->affectsBalance() && $event->fromDeleted ? $Bill->getAmountPaid() : 0
+            $bill->affectsBalance() && $event->fromDeleted ? $bill->balance : 0,
+            $bill->affectsBalance() && $event->fromDeleted ? $bill->getAmountPaid() : 0
         );
     }
 
@@ -648,7 +648,7 @@ class ActivityListener
     {
         $this->activityRepo->createBill(
             $event->billCredit,
-            ACTIVITY_TYPE_CREATE_BILL_CREDIT
+            ACTIVITY_TYPE_CREATE_VENDOR_CREDIT
         );
     }
 
@@ -656,7 +656,7 @@ class ActivityListener
     {
         $this->activityRepo->createBill(
             $event->billCredit,
-            ACTIVITY_TYPE_DELETE_BILL_CREDIT
+            ACTIVITY_TYPE_DELETE_VENDOR_CREDIT
         );
     }
 
@@ -668,7 +668,7 @@ class ActivityListener
 
         $this->activityRepo->createBill(
             $event->billCredit,
-            ACTIVITY_TYPE_ARCHIVE_BILL_CREDIT
+            ACTIVITY_TYPE_ARCHIVE_VENDOR_CREDIT
         );
     }
 
@@ -676,7 +676,7 @@ class ActivityListener
     {
         $this->activityRepo->createBill(
             $event->billCredit,
-            ACTIVITY_TYPE_RESTORE_BILL_CREDIT
+            ACTIVITY_TYPE_RESTORE_VENDOR_CREDIT
         );
     }
 

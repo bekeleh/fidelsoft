@@ -23,7 +23,7 @@ use Laracasts\Presenter\PresentableTrait;
  * @property int|null $payment_id
  * @property int|null $bill_payment_id
  * @property int|null $credit_id
- * @property int|null $bill_credit_id
+ * @property int|null $VENDOR_CREDIT_id
  * @property int|null $invitation_id
  * @property int|null $bill_invitation_id
  * @property int|null $task_id
@@ -44,7 +44,7 @@ use Laracasts\Presenter\PresentableTrait;
  * @property string|null $deleted_by
  * @property-read Account|null $account
  * @property-read Bill|null $bill
- * @property-read BillCredit|null $bill_credit
+ * @property-read BillCredit|null $VENDOR_CREDIT
  * @property-read BillPayment|null $bill_payment
  * @property-read Client|null $client
  * @property-read Contact|null $contact
@@ -157,9 +157,9 @@ class Activity extends EntityModel
         return $this->belongsTo('App\Models\Credit')->withTrashed();
     }
 
-    public function bill_credit()
+    public function vendor_credit()
     {
-        return $this->belongsTo('App\Models\BillCredit')->withTrashed();
+        return $this->belongsTo('App\Models\VendorCredit')->withTrashed();
     }
 
     public function payment()
@@ -202,7 +202,7 @@ class Activity extends EntityModel
         $payment = $this->payment;
         $billPayment = $this->bill_payment;
         $credit = $this->credit;
-        $BillCredit = $this->bill_credit;
+        $BillCredit = $this->VENDOR_CREDIT;
         $expense = $this->expense;
         $isSystem = $this->is_system;
         $task = $this->task;
@@ -222,7 +222,7 @@ class Activity extends EntityModel
             'payment_amount' => $payment ? $account->formatMoney($payment->amount, $payment) : null,
             'adjustment' => $this->adjustment ? $account->formatMoney($this->adjustment, $this) : null,
             'credit' => $credit ? $account->formatMoney($credit->amount, $client) : null,
-            'bill_credit' => $BillCredit ? $account->formatMoney($credit->amount, $client) : null,
+            'VENDOR_CREDIT' => $BillCredit ? $account->formatMoney($credit->amount, $client) : null,
             'task' => $task ? link_to($task->getRoute(), substr($task->description, 0, 30) . '...') : null,
             'expense' => $expense ? link_to($expense->getRoute(), substr($expense->public_notes, 0, 30) . '...') : null,
         ];
@@ -247,10 +247,10 @@ class Activity extends EntityModel
             case ACTIVITY_TYPE_ARCHIVE_VENDOR:
             case ACTIVITY_TYPE_DELETE_VENDOR:
             case ACTIVITY_TYPE_RESTORE_VENDOR:
-            case ACTIVITY_TYPE_CREATE_BILL_CREDIT:
-            case ACTIVITY_TYPE_ARCHIVE_BILL_CREDIT:
-            case ACTIVITY_TYPE_DELETE_BILL_CREDIT:
-            case ACTIVITY_TYPE_RESTORE_BILL_CREDIT:
+            case ACTIVITY_TYPE_CREATE_VENDOR_CREDIT:
+            case ACTIVITY_TYPE_ARCHIVE_VENDOR_CREDIT:
+            case ACTIVITY_TYPE_DELETE_VENDOR_CREDIT:
+            case ACTIVITY_TYPE_RESTORE_VENDOR_CREDIT:
                 return ENTITY_VENDOR;
                 break;
             case ACTIVITY_TYPE_CREATE_INVOICE:

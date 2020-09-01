@@ -210,7 +210,7 @@
                             </tr>
                             @if ($credit > 0)
                                 <tr>
-                                    <td><small>{{ trans('texts.bill_credit') }}</small></td>
+                                    <td><small>{{ trans('texts.VENDOR_CREDIT') }}</small></td>
                                     <td style="text-align: left">{{ Utils::formatMoney($credit, $vendor->getCurrencyId()) }}
                                     </td>
                                 </tr>
@@ -241,7 +241,7 @@
         {!! Form::tab_link('#bills', trans('texts.bills')) !!}
         {!! Form::tab_link('#payments', trans('texts.pay_payments')) !!}
         @if ($account->isModuleEnabled(ENTITY_VENDOR_CREDIT))
-            {!! Form::tab_link('#credits', trans('texts.bill_credit')) !!}
+            {!! Form::tab_link('#credits', trans('texts.VENDOR_CREDIT')) !!}
         @endif
     </ul>
     <br/>

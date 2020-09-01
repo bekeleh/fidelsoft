@@ -44,10 +44,6 @@ class BillPaymentController extends BaseController
         $this->contactMailer = $contactMailer;
     }
 
-    /**
-     * @return mixed
-     * @throws AuthorizationException
-     */
     public function index()
     {
         $this->authorize('view', ENTITY_BILL_PAYMENT);
@@ -79,7 +75,7 @@ class BillPaymentController extends BaseController
         $account = $user->account;
 
         $bills = Bill::scope()->bills()
-            ->where('bills.bill_status_id', '!=', INVOICE_STATUS_PAID)
+            ->where('bills.bill_status_id', '!=', BILL_STATUS_PAID)
             ->with('vendor', 'bill_status')
             ->orderBy('bill_number')->get();
 

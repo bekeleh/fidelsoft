@@ -88,7 +88,7 @@
         ->withContents([
         ['label' => trans('texts.new_vendor'), 'url' => url('/vendors')],
         ['label' => trans('texts.new_quote'), 'url' => url('/bill_quotes')],
-        ['label' => trans('texts.new_credit'), 'url' => url('/bill_credits')],
+        ['label' => trans('texts.new_credit'), 'url' => url('/VENDOR_CREDITs')],
         ['label' => trans('texts.new_expense'), 'url' => url('/bill_expenses')],
         ])->split() !!}
     @endif
