@@ -372,7 +372,53 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\Purchase\SendBillNotification@approvedQuote',
             'App\Listeners\Purchase\BillQuoteListener@approvedQuote',
         ],
-//     Bill invoice payment and credit and others
+//      bill Payment
+        'App\Events\Purchase\BillPaymentWasCreatedEvent' => [
+            'App\Listeners\Report\ActivityListener@createdBillPayment',
+            'App\Listeners\Purchase\BillPaymentListener@createdBillPayment',
+            'App\Listeners\Purchase\BillListener@createdBillPayment',
+            'App\Listeners\Purchase\SendBillPaymentNotification@createdBillPayment',
+//            'App\Listeners\Report\AnalyticsListener@trackExpense',
+        ],
+        'App\Events\Purchase\BillPaymentWasArchivedEvent' => [
+            'App\Listeners\Report\ActivityListener@archivedBillPayment',
+        ],
+        'App\Events\Purchase\BillPaymentWasDeletedEvent' => [
+            'App\Listeners\Report\ActivityListener@deletedBillPayment',
+            'App\Listeners\Purchase\BillListener@deletedBillPayment',
+            'App\Listeners\Vendor\VendorCreditListener@deletedBillPayment',
+            'App\Listeners\Vendor\BillPaymentListener@deletedBillPayment',
+        ],
+        'App\Events\Purchase\BillPaymentWasRefundedEvent' => [
+            'App\Listeners\Report\ActivityListener@refundedBillPayment',
+            'App\Listeners\Purchase\BillListener@refundedBillPayment',
+        ],
+        'App\Events\Purchase\BillPaymentWasVoidedEvent' => [
+            'App\Listeners\Report\ActivityListener@voidedBillPayment',
+            'App\Listeners\Purchase\BillListener@voidedBillPayment',
+        ],
+        'App\Events\Purchase\BillPaymentFailedEvent' => [
+            'App\Listeners\Report\ActivityListener@failedBillPayment',
+            'App\Listeners\Purchase\BillListener@failedBillPayment',
+        ],
+        'App\Events\Purchase\BillPaymentWasRestoredEvent' => [
+            'App\Listeners\Report\ActivityListener@restoredBillPayment',
+            'App\Listeners\Purchase\BillListener@restoredBillPayment',
+        ],
+
+//    Vendor  Credits
+        'App\Events\Vendor\VendorCreditWasCreatedEvent' => [
+            'App\Listeners\Report\ActivityListener@createdVendorCredit',
+        ],
+        'App\Events\Vendor\VendorCreditWasArchivedEvent' => [
+            'App\Listeners\Report\ActivityListener@archivedVendorCredit',
+        ],
+        'App\Events\Vendor\VendorCreditWasDeletedEvent' => [
+            'App\Listeners\Report\ActivityListener@deletedVendorCredit',
+        ],
+        'App\Events\Vendor\VendorCreditWasRestoredEvent' => [
+            'App\Listeners\Report\ActivityListener@restoredVendorCredit',
+        ],
 
     ];
 

@@ -24,7 +24,7 @@ class BillQuoteListener extends EntityListener
 
     public function emailedQuote(BillQuoteWasEmailedEvent $event)
     {
-        $quote = $event->quote;
+        $quote = $event->billQuote;
         $quote->last_sent_date = date('Y-m-d');
 
         $quote->save();

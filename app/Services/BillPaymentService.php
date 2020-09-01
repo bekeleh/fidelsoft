@@ -5,7 +5,7 @@ namespace App\Services;
 use App;
 use App\Libraries\Utils;
 use App\Models\Activity;
-use App\Models\BillCredit;
+use App\Models\VendorCredit;
 use App\Models\Bill;
 use App\Ninja\Datatables\BillPaymentDatatable;
 use App\Ninja\Repositories\AccountRepository;
@@ -146,7 +146,7 @@ class BillPaymentService extends BaseService
     {
         // if the payment amount is more than the balance create a credit
         if ($bill && Utils::parseFloat($input['amount']) > $bill->balance) {
-            $credit = BillCredit::createNew();
+            $credit = VendorCredit::createNew();
             $credit->vendor_id = $bill->vendor_id;
             $credit->credit_date = date_create()->format('Y-m-d');
             $credit->amount = $credit->balance = $input['amount'] - $bill->balance;

@@ -6,16 +6,17 @@ use App\Events\Event;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class BillCreditWasUpdatedEvent extends Event
+/**
+ * Class BillPaymentWasVoidedEvent.
+ */
+class BillPaymentWasUpdatedEvent extends Event
 {
     use Dispatchable, SerializesModels;
 
+    public $billPayment;
 
-    public $billCredit;
-
-
-    public function __construct($billCredit)
+    public function __construct($billPayment)
     {
-        $this->billCredit = $billCredit;
+        $this->billPayment = $billPayment;
     }
 }

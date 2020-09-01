@@ -82,7 +82,7 @@ class BillListener
         $bill->save();
     }
 
-    public function createdPayment(BillPaymentWasCreatedEvent $event)
+    public function createdBillPayment(BillPaymentWasCreatedEvent $event)
     {
         $paymentBill = $event->billPayment;
         $bill = $paymentBill->bill;
@@ -93,7 +93,7 @@ class BillListener
         $bill->updatePaidStatus(true);
 
         // store a backup of the bill
-        $activity = Activity::where('payment_id', $paymentBill->id)
+        $activity = Activity::where('bill_payment_id', $paymentBill->id)
             ->where('activity_type_id', ACTIVITY_TYPE_CREATE_BILL_PAYMENT)
             ->first();
         $activity->json_backup = $bill->hidePrivateFields()->toJSON();
@@ -105,7 +105,7 @@ class BillListener
         }
     }
 
-    public function deletedPayment(BillPaymentWasDeletedEvent $event)
+    public function deletedBillPayment(BillPaymentWasDeletedEvent $event)
     {
         $paymentBill = $event->billPayment;
 
@@ -120,7 +120,7 @@ class BillListener
         $bill->updatePaidStatus();
     }
 
-    public function refundedPayment(BillPaymentWasRefundedEvent $event)
+    public function refundedBillPayment(BillPaymentWasRefundedEvent $event)
     {
         $paymentBill = $event->billPayment;
         $bill = $paymentBill->bill;
@@ -130,7 +130,7 @@ class BillListener
         $bill->updatePaidStatus();
     }
 
-    public function voidedPayment(BillPaymentWasVoidedEvent $event)
+    public function voidedBillPayment(BillPaymentWasVoidedEvent $event)
     {
         $paymentBill = $event->billPayment;
         $bill = $paymentBill->bill;
@@ -140,7 +140,7 @@ class BillListener
         $bill->updatePaidStatus();
     }
 
-    public function failedPayment(BillPaymentFailedEvent $event)
+    public function failedBillPayment(BillPaymentFailedEvent $event)
     {
         $paymentBill = $event->billPayment;
         $bill = $paymentBill->bill;
@@ -150,7 +150,7 @@ class BillListener
         $bill->updatePaidStatus();
     }
 
-    public function restoredPayment(BillPaymentWasRestoredEvent $event)
+    public function restoredBillPayment(BillPaymentWasRestoredEvent $event)
     {
         if (!$event->fromDeleted) {
             return;

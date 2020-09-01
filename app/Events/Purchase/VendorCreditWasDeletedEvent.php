@@ -6,10 +6,7 @@ use App\Events\Event;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-/**
- * Class BillCreditWasArchivedEvent.
- */
-class BillCreditWasArchivedEvent extends Event
+class VendorCreditWasDeletedEvent extends Event
 {
     use Dispatchable, SerializesModels;
 

@@ -16,10 +16,10 @@ use App\Events\Expense\ExpenseWasCreatedEvent;
 use App\Events\Expense\ExpenseWasDeletedEvent;
 use App\Events\Expense\ExpenseWasRestoredEvent;
 use App\Events\Expense\ExpenseWasUpdatedEvent;
-use App\Events\Purchase\BillCreditWasArchivedEvent;
-use App\Events\Purchase\BillCreditWasCreatedEvent;
-use App\Events\Purchase\BillCreditWasDeletedEvent;
-use App\Events\Purchase\BillCreditWasRestoredEvent;
+use App\Events\Purchase\VendorCreditWasArchivedEvent;
+use App\Events\Purchase\VendorCreditWasCreatedEvent;
+use App\Events\Purchase\VendorCreditWasDeletedEvent;
+use App\Events\Purchase\VendorCreditWasRestoredEvent;
 use App\Events\Purchase\BillInvitationWasEmailedEvent;
 use App\Events\Purchase\BillInvitationWasViewedEvent;
 use App\Events\Purchase\BillPaymentFailedEvent;
@@ -643,8 +643,8 @@ class ActivityListener
         );
     }
 
-//  invoice credit activities
-    public function createdBillCredit(BillCreditWasCreatedEvent $event)
+//  bill credit activities
+    public function createdVendorCredit(VendorCreditWasCreatedEvent $event)
     {
         $this->activityRepo->createBill(
             $event->billCredit,
@@ -652,7 +652,7 @@ class ActivityListener
         );
     }
 
-    public function deletedBillCredit(BillCreditWasDeletedEvent $event)
+    public function deletedVendorCredit(VendorCreditWasDeletedEvent $event)
     {
         $this->activityRepo->createBill(
             $event->billCredit,
@@ -660,7 +660,7 @@ class ActivityListener
         );
     }
 
-    public function archivedBillCredit(BillCreditWasArchivedEvent $event)
+    public function archivedVendorCredit(VendorCreditWasArchivedEvent $event)
     {
         if ($event->billCredit->is_deleted) {
             return;
@@ -672,7 +672,7 @@ class ActivityListener
         );
     }
 
-    public function restoredBillCredit(BillCreditWasRestoredEvent $event)
+    public function restoredVendorCredit(VendorCreditWasRestoredEvent $event)
     {
         $this->activityRepo->createBill(
             $event->billCredit,

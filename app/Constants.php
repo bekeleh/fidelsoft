@@ -564,6 +564,10 @@ if (!defined('APP_NAME')) {
     define('EVENT_DELETE_BILL_QUOTE', 33);
     define('EVENT_APPROVE_BILL_QUOTE', 34);
 
+    define('EVENT_CREATE_BILL_PAYMENT', 35);
+    define('EVENT_UPDATE_BILL_PAYMENT', 36);
+    define('EVENT_DELETE_BILL_PAYMENT', 37);
+
 //    others
     define('REQUESTED_PRO_PLAN', 'REQUESTED_PRO_PLAN');
     define('NINJA_ACCOUNT_KEY', env('NINJA_ACCOUNT_KEY', 'zg4ylmzDkdkPOT8yoKQw9LTWaoZJx79h'));

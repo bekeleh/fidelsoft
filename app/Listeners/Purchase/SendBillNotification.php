@@ -14,7 +14,7 @@ use App\Jobs\SendBillPaymentEmail;
 use App\Notifications\Purchase\NotifyBillPaymentCreated;
 
 /**
- * Class SendInvoiceNotification
+ * Class SendBillNotification
  */
 class SendBillNotification
 {

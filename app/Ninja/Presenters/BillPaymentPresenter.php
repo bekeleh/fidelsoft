@@ -5,7 +5,7 @@ namespace App\Ninja\Presenters;
 use Carbon\Carbon;
 use App\Libraries\Utils;
 
-class BillPayment extends EntityPresenter
+class BillPaymentPresenter extends EntityPresenter
 {
     public function amount()
     {
