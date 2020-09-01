@@ -275,7 +275,7 @@ $__env->startSection('head'); ?>
         <?php echo Form::tab_link('#payments', trans('texts.pay_payments')); ?>
 
         <?php if($account->isModuleEnabled(ENTITY_VENDOR_CREDIT)): ?>
-            <?php echo Form::tab_link('#credits', trans('texts.VENDOR_CREDIT')); ?>
+            <?php echo Form::tab_link('#credits', trans('texts.vendor_credit')); ?>
 
         <?php endif; ?>
     </ul>

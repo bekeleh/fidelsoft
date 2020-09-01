@@ -241,7 +241,7 @@
         {!! Form::tab_link('#bills', trans('texts.bills')) !!}
         {!! Form::tab_link('#payments', trans('texts.pay_payments')) !!}
         @if ($account->isModuleEnabled(ENTITY_VENDOR_CREDIT))
-            {!! Form::tab_link('#credits', trans('texts.VENDOR_CREDIT')) !!}
+            {!! Form::tab_link('#credits', trans('texts.vendor_credit')) !!}
         @endif
     </ul>
     <br/>
