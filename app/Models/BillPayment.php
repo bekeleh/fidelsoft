@@ -53,7 +53,7 @@ class BillPayment extends EntityModel
 
     public function getRoute()
     {
-        return "/bill_payments/{$this->public_id}/edit";
+        return "/bill_payments/{$this->public_id}";
     }
 
     public function bill()
@@ -303,7 +303,7 @@ class BillPayment extends EntityModel
         return static::calcStatusLabel($this->payment_status_id, $this->payment_status->name, $amount);
     }
 
-    public function invoiceJsonBackup()
+    public function billJsonBackup()
     {
         $activity = Activity::where('bill_payment_id', $this->id)
             ->where('activity_type_id', ACTIVITY_TYPE_CREATE_PAYMENT)

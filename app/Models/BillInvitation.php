@@ -85,10 +85,10 @@ class BillInvitation extends EntityModel
 
     public function getRoute()
     {
-        return "/invitations/{$this->public_id}/edit";
+        return "/invitations/{$this->public_id}";
     }
 
-    public function invoice()
+    public function bill()
     {
         return $this->belongsTo('App\Models\Bill')->withTrashed();
     }
