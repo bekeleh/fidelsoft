@@ -342,6 +342,7 @@ class EntityModel extends Eloquent
             'bill_quotes' => 'file-pdf-o',
             'vendor_credits' => 'credit-card',
             'payments' => 'credit-card',
+            'bill_payments' => 'credit-card',
             'recurring_invoices' => 'files-o',
             'recurring' => 'files-o',
             'recurring_expenses' => 'files-o',
