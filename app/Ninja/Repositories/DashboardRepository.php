@@ -105,7 +105,7 @@ class DashboardRepository
                 $totals->invoices = array_sum($data);
                 $totals->average = $count ? round($totals->invoices / $count, 2) : 0;
                 $totals->balance = $balance;
-            } elseif ($entityType == ENTITY_payment) {
+            } elseif ($entityType == ENTITY_PAYMENT) {
                 $totals->revenue = array_sum($data);
             } elseif ($entityType == ENTITY_EXPENSE) {
 //                $totals->profit = $totals->revenue - array_sum($data);
@@ -156,7 +156,7 @@ class DashboardRepository
                 ->where('invoice_type_id', INVOICE_TYPE_STANDARD)
                 ->where('invoices.is_public', true)
                 ->where('is_recurring', false);
-        } elseif ($entityType == ENTITY_payment) {
+        } elseif ($entityType == ENTITY_PAYMENT) {
             $records->select(DB::raw('sum(payments.amount - payments.refunded) as total, count(payments.id) as count, ' . $timeframe . ' as ' . $groupBy))
                 ->leftJoin('invoices', 'invoices.id', '=', 'payments.invoice_id')
                 ->where('invoices.is_deleted', false)
