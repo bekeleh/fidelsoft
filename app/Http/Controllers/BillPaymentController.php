@@ -164,7 +164,7 @@ class BillPaymentController extends BaseController
             'actions' => $actions,
         ];
 
-        array_merge($data, self::getViewModel());
+        $data = array_merge($data, self::getViewModel());
 
         return View::make('bill_payments.edit', $data);
     }

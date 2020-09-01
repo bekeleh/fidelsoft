@@ -110,7 +110,7 @@ class BillPayment extends EntityModel
 
     public function payment_status()
     {
-        return $this->belongsTo('App\Models\BillPaymentStatus');
+        return $this->belongsTo('App\Models\PaymentStatus');
     }
 
     public function scopeExcludeFailed($query)

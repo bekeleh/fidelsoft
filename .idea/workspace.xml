@@ -2,30 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Events/Purchase/BillPaymentWasUpdatedEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Listeners/Purchase/BillPaymentListener.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Listeners/Purchase/SendBillPaymentNotification.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/51c11c0a55ce0790430670f1e14174cdf958a62b.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/d05e21dc4052c9336e934f8d4491a36d174bad0e.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Constants.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Constants.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/Purchase/BillCreditWasArchivedEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/Purchase/VendorCreditWasArchivedEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/Purchase/BillCreditWasCreatedEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/Purchase/VendorCreditWasCreatedEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/Purchase/BillCreditWasDeletedEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/Purchase/VendorCreditWasDeletedEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/Purchase/BillCreditWasRestoredEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/Purchase/VendorCreditWasRestoredEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/Purchase/BillCreditWasUpdatedEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/Purchase/VendorCreditWasUpdatedEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/Purchase/BillListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/Purchase/BillListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/Purchase/BillQuoteListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/Purchase/BillQuoteListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/Purchase/SendBillNotification.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/Purchase/SendBillNotification.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/Report/ActivityListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/Report/ActivityListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Presenters/BillPayment.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Presenters/BillPaymentPresenter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Services/BillPaymentService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/BillPaymentService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BillPaymentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BillPaymentController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/BillPayment.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/BillPayment.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/en/texts.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/texts.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/sessions/pXxr1SejqYc7V6Sn42gGg5oJ73pa2UTvHEnlx8gg" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/pXxr1SejqYc7V6Sn42gGg5oJ73pa2UTvHEnlx8gg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/4e2ab5f4a468d3b9f9052d3716c7deee4de44366.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/4e2ab5f4a468d3b9f9052d3716c7deee4de44366.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/5a279825be94ef626588f64c9b0c4b73ebaa9e40.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/5a279825be94ef626588f64c9b0c4b73ebaa9e40.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/7e1d8871c2df57c46d5c7259d88099f78adc534e.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/7e1d8871c2df57c46d5c7259d88099f78adc534e.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/98d950c591c331bff3b70cbd31036fabe84191cf.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/98d950c591c331bff3b70cbd31036fabe84191cf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/d05e21dc4052c9336e934f8d4491a36d174bad0e.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/d05e21dc4052c9336e934f8d4491a36d174bad0e.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/db72111d53ed80bd61018ff586df638fb73fb9a9.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/db72111d53ed80bd61018ff586df638fb73fb9a9.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/e983185c042778ab51e00a8ca3167a19e3847605.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/e983185c042778ab51e00a8ca3167a19e3847605.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
@@ -584,14 +570,7 @@
       <workItem from="1598536284527" duration="5000" />
       <workItem from="1598546689878" duration="12399000" />
       <workItem from="1598889108301" duration="5293000" />
-      <workItem from="1598952646251" duration="18549000" />
-    </task>
-    <task id="LOCAL-00494" summary="2020-08-16 9:27">
-      <created>1597596374533</created>
-      <option name="number" value="00494" />
-      <option name="presentableId" value="LOCAL-00494" />
-      <option name="project" value="LOCAL" />
-      <updated>1597596374533</updated>
+      <workItem from="1598952646251" duration="19079000" />
     </task>
     <task id="LOCAL-00495" summary="2020-08-16 9:27">
       <created>1597608324810</created>
@@ -929,7 +908,14 @@
       <option name="project" value="LOCAL" />
       <updated>1598990708214</updated>
     </task>
-    <option name="localTasksCounter" value="543" />
+    <task id="LOCAL-00543" summary="2020-09-01 9:27">
+      <created>1598994536336</created>
+      <option name="number" value="00543" />
+      <option name="presentableId" value="LOCAL-00543" />
+      <option name="project" value="LOCAL" />
+      <updated>1598994536336</updated>
+    </task>
+    <option name="localTasksCounter" value="544" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1025,10 +1011,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1597344338612" />
-    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1598990706943">
+    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1598994535303">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1598990706943" />
+    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1598994535303" />
     <state x="159" y="0" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1598536287022" />
     <state x="109" y="31" key="DiffContextDialog" timestamp="1594902501485">
       <screen x="0" y="0" width="1280" height="680" />
@@ -1074,10 +1060,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="93" y="93" width="1095" height="495" key="dock-window-1/0.0.1280.680@0.0.1280.680" timestamp="1597566421634" />
-    <state x="333" y="33" width="906" height="638" key="find.popup" timestamp="1598990554425">
+    <state x="333" y="33" width="906" height="638" key="find.popup" timestamp="1598994796298">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="333" y="33" width="906" height="638" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1598990554425" />
+    <state x="333" y="33" width="906" height="638" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1598994796298" />
     <state x="375" y="42" width="1020" height="807" key="find.popup/0.0.1440.860@0.0.1440.860" timestamp="1598534736944" />
     <state x="282" y="67" width="700" height="530" key="recent.locations.popup" timestamp="1597406020338">
       <screen x="0" y="0" width="1280" height="680" />
@@ -1087,10 +1073,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="334" y="154" width="672" height="677" key="run.anything.popup/0.0.1280.680@0.0.1280.680" timestamp="1597659034597" />
-    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup" timestamp="1598994363748">
+    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup" timestamp="1598994950585">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1598994363748" />
+    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1598994950585" />
     <state x="414" y="119" width="756" height="680" key="search.everywhere.popup/0.0.1440.860@0.0.1440.860" timestamp="1598535660116" />
   </component>
 </project>

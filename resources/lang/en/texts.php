@@ -182,6 +182,7 @@ $LANG = array(
     'deleted_manufacturers' => 'Successfully Deleted :count Manufacturers',
     'manufacturer_help' => 'Sets the default <b>manufacturer</b>',
 //   Purchase bill
+    'view_bill' => 'View Bill',
     'bill_name' => 'Bill Name',
     'bill_number' => 'Bill Number',
     'bill' => 'Purchase Bill',
