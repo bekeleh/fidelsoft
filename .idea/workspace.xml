@@ -2,63 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Events/Purchase/BillCreditWasArchivedEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Events/Purchase/BillCreditWasCreatedEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Events/Purchase/BillCreditWasDeletedEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Events/Purchase/BillCreditWasRestoredEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Events/Purchase/BillCreditWasUpdatedEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Ninja/Datatables/BillCreditDatatable.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Ninja/Mailers/BillMailer.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Ninja/Presenters/BillPayment.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/cache/CSS/4.12.0,4114918a13a428a8482a8a449792a5a8747582b5,1.ser" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/cache/HTML/4.12.0,42d2529d2d2aa4f137a4d6d6292a92e3ee82eb86,1.ser" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/cache/URI/4.12.0,3478238e680361cd87bf880f5b3cc50a1e7abc6c,1.ser" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/2bef6c44fb21d9b4b8e14a725318d66229376507.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/40282c685961f6ddf89815b6d8f568c009ad2dc3.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/58ea5b304366e2511a2d18773d2db8272eb1cda5.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/5d5ac8469017dcb09acb8a1a3f09e414ee609c39.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/6ccb2866e8ded85eb86fab80547581825285bd38.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/769345709f3c7d13eb91c2a2527844ff306b76db.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/7fdb778b8ab51ba6de3bfac48ce5f036682fe29d.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/8497dfd801d96a0181fca5f51ca973fa5a1499c5.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/a47d7a2751d3ab1f541a3b75186b7c45c1a22a7a.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/fd6393c643fcc4771c3d0f3cd90bb98e15dfc778.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/Purchase/BillInvitationWasViewedEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/Purchase/BillInvitationWasViewedEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/Purchase/BillPaymentFailedEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/Purchase/BillPaymentFailedEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/Purchase/BillPaymentWasCreatedEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/Purchase/BillPaymentWasCreatedEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/Purchase/BillPaymentWasDeletedEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/Purchase/BillPaymentWasDeletedEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/Purchase/BillPaymentWasRefundedEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/Purchase/BillPaymentWasRefundedEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/Purchase/BillPaymentWasRestoredEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/Purchase/BillPaymentWasRestoredEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/Purchase/BillPaymentWasUpdatedEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/Purchase/BillPaymentWasUpdatedEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/Purchase/BillPaymentWasVoidedEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/Purchase/BillPaymentWasVoidedEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/Purchase/BillQuoteItemsWereCreatedEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/Purchase/BillQuoteItemsWereCreatedEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/Purchase/BillQuoteItemsWereDeletedEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/Purchase/BillQuoteItemsWereDeletedEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/Purchase/BillQuoteItemsWereUpdatedEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/Purchase/BillQuoteItemsWereUpdatedEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/Purchase/BillQuoteWasDeletedEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/Purchase/BillQuoteWasDeletedEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Events/Purchase/BillQuoteWasEmailedEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/Purchase/BillQuoteWasEmailedEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Jobs/SendBillEmail.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/SendBillEmail.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BillController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BillController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Jobs/SendBillNotificationEmail.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/SendBillNotificationEmail.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Jobs/SendBillPaymentEmail.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/SendBillPaymentEmail.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/Purchase/BillItemListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/Purchase/BillItemListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/Purchase/BillListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/Purchase/BillListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/Purchase/BillPaymentListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/Purchase/BillPaymentListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/Purchase/BillQuoteListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/Purchase/BillQuoteListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/Purchase/SendBillNotification.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/Purchase/SendBillNotification.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/Purchase/SendBillPaymentNotification.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/Purchase/SendBillPaymentNotification.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/Vendor/VendorListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/Vendor/VendorListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Mailers/BillContactMailer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Mailers/BillContactMailer.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/sessions/FTqVmYJaQl5sl3q6ZyTAlaOv96WAyxPWbnSroFca" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/FTqVmYJaQl5sl3q6ZyTAlaOv96WAyxPWbnSroFca" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/LjrhFefppTAs0zTcuts6qi0pkI2azgj7Toe8aMku" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/LjrhFefppTAs0zTcuts6qi0pkI2azgj7Toe8aMku" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/029ff1b83d4540237f7ba2370365a7966023941e.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/2bef6c44fb21d9b4b8e14a725318d66229376507.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/3d4796057765b5a7517531f2f8b487ab7f709a24.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/3d4796057765b5a7517531f2f8b487ab7f709a24.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/40282c685961f6ddf89815b6d8f568c009ad2dc3.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/48088ee6c46668f6d37601df3aaea9587070c48d.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/48088ee6c46668f6d37601df3aaea9587070c48d.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/6dcd1d5f1aa14ef39e4fff36c9391dd760543946.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/58ea5b304366e2511a2d18773d2db8272eb1cda5.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/5d5ac8469017dcb09acb8a1a3f09e414ee609c39.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/6ccb2866e8ded85eb86fab80547581825285bd38.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/769345709f3c7d13eb91c2a2527844ff306b76db.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/77cff8268ccf09519cd8515352e69c3bc16767dd.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/77cff8268ccf09519cd8515352e69c3bc16767dd.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/78e9d60e5e03b91904e56bc726c88b0e534825e8.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/78e9d60e5e03b91904e56bc726c88b0e534825e8.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/7fdb778b8ab51ba6de3bfac48ce5f036682fe29d.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/8497dfd801d96a0181fca5f51ca973fa5a1499c5.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/a47d7a2751d3ab1f541a3b75186b7c45c1a22a7a.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/ab409e5dc6346ea88348aeb65121486025dfad94.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/ab409e5dc6346ea88348aeb65121486025dfad94.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/b333d68d8131407c1a83803c03303577f0efa06a.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/b333d68d8131407c1a83803c03303577f0efa06a.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/d9de4565e57fbd52b1dabb5d564f858db50637f7.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/fd6393c643fcc4771c3d0f3cd90bb98e15dfc778.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
     </list>
@@ -617,14 +580,7 @@
       <workItem from="1598889108301" duration="5293000" />
       <workItem from="1598952646251" duration="20156000" />
       <workItem from="1599063021443" duration="3786000" />
-      <workItem from="1599122092778" duration="12832000" />
-    </task>
-    <task id="LOCAL-00500" summary="2020-08-18 9:27">
-      <created>1597732950500</created>
-      <option name="number" value="00500" />
-      <option name="presentableId" value="LOCAL-00500" />
-      <option name="project" value="LOCAL" />
-      <updated>1597732950501</updated>
+      <workItem from="1599122092778" duration="13717000" />
     </task>
     <task id="LOCAL-00501" summary="2020-08-18 9:27">
       <created>1597734903843</created>
@@ -962,7 +918,14 @@
       <option name="project" value="LOCAL" />
       <updated>1599137615118</updated>
     </task>
-    <option name="localTasksCounter" value="549" />
+    <task id="LOCAL-00549" summary="2020-09-03 9:27">
+      <created>1599140973260</created>
+      <option name="number" value="00549" />
+      <option name="presentableId" value="LOCAL-00549" />
+      <option name="project" value="LOCAL" />
+      <updated>1599140973260</updated>
+    </task>
+    <option name="localTasksCounter" value="550" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1058,11 +1021,11 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1597344338612" />
-    <state x="159" y="0" key="CommitChangelistDialog2" timestamp="1599137612103">
+    <state x="159" y="0" key="CommitChangelistDialog2" timestamp="1599140969735">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1599080209791" />
-    <state x="159" y="0" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1599137612103" />
+    <state x="159" y="0" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1599140969735" />
     <state x="109" y="31" key="DiffContextDialog" timestamp="1594902501485">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -1120,10 +1083,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="334" y="154" width="672" height="677" key="run.anything.popup/0.0.1280.680@0.0.1280.680" timestamp="1597659034597" />
-    <state x="414" y="119" width="756" height="680" key="search.everywhere.popup" timestamp="1599138875610">
+    <state x="414" y="119" width="756" height="680" key="search.everywhere.popup" timestamp="1599141061965">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="368" y="94" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1599068043146" />
-    <state x="414" y="119" width="756" height="680" key="search.everywhere.popup/0.0.1440.860@0.0.1440.860" timestamp="1599138875610" />
+    <state x="414" y="119" width="756" height="680" key="search.everywhere.popup/0.0.1440.860@0.0.1440.860" timestamp="1599141061965" />
   </component>
 </project>

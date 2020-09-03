@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Traits\SerialisesDeletedModels;
-use App\Ninja\Mailers\UserMailer;
+use App\Ninja\Mailers\BillMailer;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -46,14 +46,14 @@ class SendBillNotificationEmail extends Job implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @param UserMailer $userMailer
+     * @param BillMailer $billMailer
      */
-    public function handle(UserMailer $userMailer)
+    public function handle(BillMailer $billMailer)
     {
         if (config('queue.default') !== 'sync') {
             $this->user->account->loadLocalizationSettings();
         }
 
-        $userMailer->sendNotification($this->user, $this->bill, $this->type, $this->payment, $this->notes);
+        $billMailer->sendNotification($this->user, $this->bill, $this->type, $this->payment, $this->notes);
     }
 }

@@ -439,7 +439,6 @@ class BillController extends BaseController
 
     private function emailBill($bill)
     {
-        Log::info($bill);
         $reminder = Input::get('reminder');
         $template = Input::get('template');
         $pdfUpload = Utils::decodePDF(Input::get('pdfupload'));
