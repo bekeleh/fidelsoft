@@ -1,6 +1,6 @@
 <?php namespace App\Listeners\Purchase;
 
-use App\Ninja\Mailers\BillMailer;
+use App\Ninja\Mailers\BillUserMailer;
 use App\Ninja\Mailers\VendorContactMailer;
 use App\Events\Purchase\BillWasEmailedEvent;
 use App\Events\Purchase\BillQuoteWasEmailedEvent;
@@ -24,11 +24,11 @@ class SendBillNotification
 
     /**
      * SendInvoiceNotification constructor.
-     * @param BillMailer $billMailer
+     * @param BillUserMailer $billMailer
      * @param VendorContactMailer $contactMailer
      * @param PushService $pushService
      */
-    public function __construct(BillMailer $billMailer, VendorContactMailer $contactMailer, PushService $pushService)
+    public function __construct(BillUserMailer $billMailer, VendorContactMailer $contactMailer, PushService $pushService)
     {
         $this->billMailer = $billMailer;
         $this->contactMailer = $contactMailer;

@@ -159,7 +159,7 @@ class Bill extends EntityModel implements BalanceAffecting
             $entityType = $this->getEntityType();
         }
 
-        return "/{$entityType}s/{$this->public_id}/edit";
+        return "/{$entityType}s/{$this->public_id}";
     }
 
     public function getDisplayName()

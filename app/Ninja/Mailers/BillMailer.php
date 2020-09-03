@@ -2,194 +2,236 @@
 
 namespace App\Ninja\Mailers;
 
-use App\Models\BillInvitation;
-use App\Models\Bill;
-use App\Models\BillPayment;
-use App\Models\User;
+use App;
+use App\Libraries\Utils;
+use Exception;
+use Illuminate\Mail\TransportManager;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Postmark\Models\PostmarkAttachment;
+use Postmark\Models\PostmarkException;
+use Postmark\PostmarkClient;
+use Swift_Mailer;
 
-class BillMailer extends Mailer
+/**
+ * Class Mailer.
+ */
+class BillMailer
 {
-    public function sendConfirmation(User $user, User $invitor = null)
+    public function sendTo($toEmail, $fromEmail, $fromName, $subject, $view, $data = [])
     {
-        if (!$user->email) {
-            return;
+        // don't send emails to dummy addresses
+        if (stristr($toEmail, '@example.com')) {
+            return true;
         }
 
-        $view = 'confirm';
-        $subject = trans('texts.confirmation_subject');
-
-        $data = [
-            'user' => $user,
-            'invitationMessage' => $invitor ? trans('texts.invitation_message', ['invitor' => $invitor->getDisplayName()]) : '',
+        $views = [
+            'emails.' . $view . '_html',
+            'emails.' . $view . '_text',
         ];
 
-        if ($invitor) {
-            $fromEmail = $invitor->email;
-            $fromName = $invitor->getDisplayName();
+        $toEmail = strtolower($toEmail);
+        $replyEmail = $fromEmail;
+        $fromEmail = CONTACT_EMAIL;
+//       if it's in debugging mode/ development
+        if (Utils::isSelfHost() && config('app.debug')) {
+            Log::info("Sending email - To: {$toEmail} | Reply: {$replyEmail} | From: $fromEmail");
+        }
+
+        // Optionally send for alternate domain
+        if (!empty($data['fromEmail'])) {
+            $fromEmail = $data['fromEmail'];
+        }
+
+        if (config('services.postmark')) {
+            return $this->sendPostmarkMail($toEmail, $fromEmail, $fromName, $replyEmail, $subject, $views, $data);
         } else {
-            $fromEmail = CONTACT_EMAIL;
-            $fromName = CONTACT_NAME;
+            return $this->sendLaravelMail($toEmail, $fromEmail, $fromName, $replyEmail, $subject, $views, $data);
         }
-
-        $this->sendTo($user->email, $fromEmail, $fromName, $subject, $view, $data);
     }
 
-    public function sendEmailChanged(User $user)
+    /**
+     * @param $toEmail
+     * @param $fromEmail
+     * @param $fromName
+     * @param $replyEmail
+     * @param $subject
+     * @param $views
+     * @param array $data
+     * @return bool|mixed
+     */
+    private function sendLaravelMail($toEmail, $fromEmail, $fromName, $replyEmail, $subject, $views, $data = [])
     {
-        $oldEmail = $user->getOriginal('email');
-        $newEmail = $user->email;
+        if (Utils::isSelfHost()) {
+            if (isset($data['account'])) {
+                $account = $data['account'];
+                if (env($account->id . '_MAIL_FROM_ADDRESS')) {
+                    $fields = [
+                        'driver',
+                        'host',
+                        'port',
+                        'from.address',
+                        'from.name',
+                        'encryption',
+                        'username',
+                        'password',
+                    ];
+                    foreach ($fields as $field) {
+                        $envKey = strtoupper(str_replace('.', '_', $field));
+                        if ($value = env($account->id . '_MAIL_' . $envKey)) {
+                            config(['mail.' . $field => $value]);
+                        }
+                    }
 
-        if (!$oldEmail || !$newEmail) {
-            return;
+                    $fromEmail = config('mail.from.address');
+                    $app = App::getInstance();
+                    $app->singleton('swift.transport', function ($app) {
+                        return new TransportManager($app);
+                    });
+                    $mailer = new Swift_Mailer($app['swift.transport']->driver());
+                    Mail::setSwiftMailer($mailer);
+                }
+            }
         }
 
-        $view = 'user_message';
-        $subject = trans('texts.email_address_changed');
+        try {
+            $response = Mail::send($views, $data, function ($message) use ($toEmail, $fromEmail, $fromName, $replyEmail, $subject, $data) {
+                $message->to($toEmail)
+                    ->from($fromEmail, $fromName)
+                    ->replyTo($replyEmail, $fromName)
+                    ->subject($subject);
 
-        $data = [
-            'user' => $user,
-            'userName' => $user->getDisplayName(),
-            'primaryMessage' => trans('texts.email_address_changed_message', ['old_email' => $oldEmail, 'new_email' => $newEmail]),
-        ];
+                // Optionally BCC the email
+                if (!empty($data['bccEmail'])) {
+                    $message->bcc($data['bccEmail']);
+                }
 
-        $this->sendTo($oldEmail, CONTACT_EMAIL, CONTACT_NAME, $subject, $view, $data);
+                // Handle bill attachments
+                if (!empty($data['pdfString']) && !empty($data['pdfFileName'])) {
+                    $message->attachData($data['pdfString'], $data['pdfFileName']);
+                }
+                if (!empty($data['ublString']) && !empty($data['ublFileName'])) {
+                    $message->attachData($data['ublString'], $data['ublFileName']);
+                }
+                if (!empty($data['documents'])) {
+                    foreach ($data['documents'] as $document) {
+                        $message->attachData($document['data'], $document['name']);
+                    }
+                }
+            });
+
+            return $this->handleSuccess($data);
+
+        } catch (Exception $exception) {
+            return $this->handleFailure($data, $exception->getMessage());
+        }
     }
 
-    public function sendNotification(User $user, Bill $bill, $notificationType, BillPayment $payment = null, $notes = false)
+    private function sendPostmarkMail($toEmail, $fromEmail, $fromName, $replyEmail, $subject, $views, $data = [])
     {
-        if (!$user->shouldNotify($bill)) {
-            return;
+        $htmlBody = view($views[0], $data)->render();
+        $textBody = view($views[1], $data)->render();
+        $attachments = [];
+
+        if (isset($data['account'])) {
+            $account = $data['account'];
+            $logoName = $account->getLogoName();
+            if (strpos($htmlBody, 'cid:' . $logoName) !== false && $account->hasLogo()) {
+                $attachments[] = PostmarkAttachment::fromFile($account->getLogoPath(), $logoName, null, 'cid:' . $logoName);
+            }
         }
 
-        $entityType = $bill->getEntityType();
-        $view = ($notificationType == 'approved' ? ENTITY_BILL_QUOTE : ENTITY_BILL) . "_{$notificationType}";
-        $account = $user->account;
-        $vendor = $bill->vendor;
-        $link = $bill->present()->multiAccountLink;
-
-        $data = [
-            'entityType' => $entityType,
-            'vendorName' => $vendor->getDisplayName(),
-            'accountName' => $account->getDisplayName(),
-            'userName' => $user->getDisplayName(),
-            'billAmount' => $account->formatMoney($bill->getRequestedAmount(), $vendor),
-            'billNumber' => $bill->bill_number,
-            'billLink' => $link,
-            'account' => $account,
-        ];
-
-        if ($payment) {
-            $data['payment'] = $payment;
-            $data['paymentAmount'] = $account->formatMoney($payment->amount, $vendor);
+        if (strpos($htmlBody, 'cid:fidel-logo.png') !== false) {
+            $attachments[] = PostmarkAttachment::fromFile(public_path('images/fidel-logo.png'), 'fidel-logo.png', null, 'cid:fidel-logo.png');
+            $attachments[] = PostmarkAttachment::fromFile(public_path('images/emails/icon-facebook.png'), 'icon-facebook.png', null, 'cid:icon-facebook.png');
+            $attachments[] = PostmarkAttachment::fromFile(public_path('images/emails/icon-twitter.png'), 'icon-twitter.png', null, 'cid:icon-twitter.png');
+            $attachments[] = PostmarkAttachment::fromFile(public_path('images/emails/icon-github.png'), 'icon-github.png', null, 'cid:icon-github.png');
         }
 
-        $subject = trans("texts.notification_{$entityType}_{$notificationType}_subject", [
-            'bill' => $bill->bill_number,
-            'vendor' => $vendor->getDisplayName(),
-        ]);
-
-        if ($notes) {
-            $subject .= ' [' . trans('texts.notes_' . $notes) . ']';
+        // Handle bill attachments
+        if (!empty($data['pdfString']) && !empty($data['pdfFileName'])) {
+            $attachments[] = PostmarkAttachment::fromRawData($data['pdfString'], $data['pdfFileName']);
+        }
+        if (!empty($data['ublString']) && !empty($data['ublFileName'])) {
+            $attachments[] = PostmarkAttachment::fromRawData($data['ublString'], $data['ublFileName']);
+        }
+        if (!empty($data['documents'])) {
+            foreach ($data['documents'] as $document) {
+                $attachments[] = PostmarkAttachment::fromRawData($document['data'], $document['name']);
+            }
         }
 
-        $this->sendTo($user->email, CONTACT_EMAIL, CONTACT_NAME, $subject, $view, $data);
+        try {
+            $vendor = new PostmarkClient(config('services.postmark'));
+            $message = [
+                'To' => $toEmail,
+                'From' => sprintf('"%s" <%s>', addslashes($fromName), $fromEmail),
+                'ReplyTo' => $replyEmail,
+                'Subject' => $subject,
+                'TextBody' => $textBody,
+                'HtmlBody' => $htmlBody,
+                'Attachments' => $attachments,
+            ];
+
+            if (!empty($data['bccEmail'])) {
+                $message['Bcc'] = $data['bccEmail'];
+            }
+
+            if (!empty($data['tag'])) {
+                $message['Tag'] = $data['tag'];
+            }
+
+            $response = $vendor->sendEmailBatch([$message]);
+            if ($messageId = $response[0]->messageid) {
+                return $this->handleSuccess($data, $messageId);
+            } else {
+                return $this->handleFailure($data, $response[0]->message);
+            }
+        } catch (PostmarkException $exception) {
+            return $this->handleFailure($data, $exception->getMessage());
+        } catch (Exception $exception) {
+            Utils::logError(Utils::getErrorString($exception));
+            throw $exception;
+        }
     }
 
-    public function sendEmailBounced(BillInvitation $invitation)
+    /**
+     * @param $data
+     * @param bool $messageId
+     * @return bool
+     */
+    private function handleSuccess($data, $messageId = false)
     {
-        $user = $invitation->user;
-        $account = $user->account;
-        $bill = $invitation->bill;
-        $entityType = $bill->getEntityType();
+        if (isset($data['invitation'])) {
+            $invitation = $data['invitation'];
+            $bill = $invitation->bill;
+            $notes = isset($data['notes']) ? $data['notes'] : false;
 
-        if (!$user->email) {
-            return;
+            if (!empty($data['proposal'])) {
+                $invitation->markSent($messageId);
+            } else {
+                $bill->markInvitationSent($invitation, $messageId, true, $notes);
+            }
         }
 
-        $subject = trans("texts.notification_{$entityType}_bounced_subject", ['bill' => $bill->bill_number]);
-        $view = 'email_bounced';
-        $data = [
-            'userName' => $user->getDisplayName(),
-            'emailError' => $invitation->email_error,
-            'entityType' => $entityType,
-            'contactName' => $invitation->contact->getDisplayName(),
-            'billNumber' => $bill->bill_number,
-        ];
-
-        $this->sendTo($user->email, CONTACT_EMAIL, CONTACT_NAME, $subject, $view, $data);
+        return true;
     }
 
-    public function sendMessage($user, $subject, $message, $data = false)
+    /**
+     * @param $data
+     * @param $emailError
+     * @return mixed
+     */
+    private function handleFailure($data, $emailError)
     {
-        if (!$user->email) {
-            return;
+        if (isset($data['invitation'])) {
+            $invitation = $data['invitation'];
+            $invitation->email_error = $emailError;
+            $invitation->save();
+        } elseif (!Utils::isNinjaProd()) {
+            Utils::logError($emailError);
         }
 
-        $bill = $data && isset($data['bill']) ? $data['bill'] : false;
-        $view = 'user_message';
-
-        $data = $data ?: [];
-        $data += [
-            'userName' => $user->getDisplayName(),
-            'primaryMessage' => $message,
-            //'secondaryMessage' => $message,
-            'billLink' => $bill ? $bill->present()->multiAccountLink : false,
-        ];
-
-        $this->sendTo($user->email, CONTACT_EMAIL, CONTACT_NAME, $subject, $view, $data);
-    }
-
-    public function sendSecurityCode($user, $code)
-    {
-        if (!$user->email) {
-            return;
-        }
-
-        $subject = trans('texts.security_code_email_subject');
-        $view = 'security_code';
-        $data = [
-            'userName' => $user->getDisplayName(),
-            'code' => $code,
-        ];
-
-        $this->sendTo($user->email, CONTACT_EMAIL, CONTACT_NAME, $subject, $view, $data);
-    }
-
-    public function sendPasswordReset($user, $token)
-    {
-        if (!$user->email) {
-            return;
-        }
-
-        $subject = trans('texts.your_password_reset_link');
-        $view = 'password';
-        $data = [
-            'token' => $token,
-        ];
-
-        $this->sendTo($user->email, CONTACT_EMAIL, CONTACT_NAME, $subject, $view, $data);
-    }
-
-    public function sendScheduledReport($scheduledReport, $file)
-    {
-        $user = $scheduledReport->user;
-        $config = json_decode($scheduledReport->config);
-
-        if (!$user->email) {
-            return;
-        }
-
-        $subject = sprintf('%s - %s %s', APP_NAME, trans('texts.' . $config->report_type), trans('texts.report'));
-        $view = 'user_message';
-        $data = [
-            'userName' => $user->getDisplayName(),
-            'primaryMessage' => trans('texts.scheduled_report_attached', ['type' => trans('texts.' . $config->report_type)]),
-            'documents' => [[
-                'name' => $file->filename . '.' . $config->export_format,
-                'data' => $file->string($config->export_format),
-            ]]
-        ];
-
-        $this->sendTo($user->email, CONTACT_EMAIL, CONTACT_NAME, $subject, $view, $data);
+        return $emailError;
     }
 }

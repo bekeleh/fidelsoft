@@ -77,6 +77,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_PROPOSAL_SNIPPET', 'proposal_snippet');
     define('ENTITY_PROPOSAL_CATEGORY', 'proposal_category');
     define('ENTITY_PROPOSAL_INVITATION', 'proposal_invitation');
+    define('ENTITY_PROPOSAL_BILL_INVITATION', 'proposal_bill_invitation');
     define('ENTITY_MANUFACTURER', 'manufacturer');
     define('ENTITY_MANUFACTURER_PRODUCT_DETAIL', 'manufacturer_product_detail');
     define('ENTITY_DASHBOARD', 'dashboard');

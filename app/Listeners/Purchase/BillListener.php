@@ -24,6 +24,7 @@ use Illuminate\Queue\Events\JobExceptionOccurred;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
+use Log;
 
 /**
  * Class BillListener.
@@ -201,14 +202,15 @@ class BillListener
 
     public function jobFailed(JobExceptionOccurred $exception)
     {
-        if ($errorEmail = env('ERROR_EMAIL')) {
-            Mail::raw(print_r($exception->data, true), function ($message) use ($errorEmail) {
-                $message->to($errorEmail)
-                    ->from(CONTACT_EMAIL)
-                    ->subject('Job failed');
-            });
-        }
-
-        Utils::logError($exception->exception);
+        Log::info($exception->exception);
+//        if ($errorEmail = env('ERROR_EMAIL')) {
+//            Mail::raw(print_r($exception->data, true), function ($message) use ($errorEmail) {
+//                $message->to($errorEmail)
+//                    ->from(CONTACT_EMAIL)
+//                    ->subject('Job failed');
+//            });
+//        }
+//
+//        Utils::logError($exception->exception);
     }
 }

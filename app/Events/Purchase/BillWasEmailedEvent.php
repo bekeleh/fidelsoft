@@ -7,7 +7,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class BillBillWasEmailed.
+ * Class BillWasEmailedEvent.
  */
 class BillWasEmailedEvent extends Event
 {

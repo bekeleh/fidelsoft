@@ -267,9 +267,10 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ProposalWasDeletedEvent' => [
             'App\Listeners\Report\HistoryListener@deletedProposal',
         ],
-
+//      jobs failed
         'Illuminate\Queue\Events\JobExceptionOccurred' => [
-            'App\Listeners\Sale\InvoiceListener@jobFailed'
+//            'App\Listeners\Sale\InvoiceListener@jobFailed',
+            'App\Listeners\Purchase\BillListener@jobFailed'
         ],
 
 //      DNS Add A record to Cloudflare

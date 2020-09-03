@@ -60,7 +60,7 @@ trait SendsEmails
     public function getDefaultEmailTemplate($entityType, $message = false)
     {
         if (strpos($entityType, 'reminder') !== false) {
-            $entityType = ENTITY_INVOICE;
+            $entityType = ENTITY_INVOICE ?: ENTITY_BILL;
         }
 
         $template = '<div>$client,</div><br />';
@@ -163,6 +163,26 @@ trait SendsEmails
                     }
                 } else {
                     if ($invoice->invoice_date == $date) {
+                        return "reminder{$i}";
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public function getBillReminder($bill, $filterEnabled = true)
+    {
+        for ($i = 1; $i <= 3; $i++) {
+            if ($date = $this->getReminderDate($i, $filterEnabled)) {
+                if ($this->{"field_reminder{$i}"} == REMINDER_FIELD_DUE_DATE) {
+                    if (($bill->partial && $bill->partial_due_date == $date)
+                        || $bill->due_date == $date) {
+                        return "reminder{$i}";
+                    }
+                } else {
+                    if ($bill->bill_date == $date) {
                         return "reminder{$i}";
                     }
                 }

@@ -3508,6 +3508,7 @@ $LANG = array(
     'document' => 'Document',
     'invoice_or_expense' => 'Invoice/Expense',
     'invoice_pdfs' => 'Invoice PDFs',
+    'bill_pdfs' => 'Bill PDFs',
     'enable_sepa' => 'Accept SEPA',
     'enable_bitcoin' => 'Accept Bitcoin',
     'iban' => 'IBAN',

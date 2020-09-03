@@ -13,7 +13,7 @@ use Barracuda\ArchiveStream\Archive;
  *
  * Class DownloadBill.
  */
-//class DownloadInvoices extends Job implements ShouldQueue
+//class DownloadBill extends Job implements ShouldQueue
 class DownloadBill extends Job
 {
     //use InteractsWithQueue,
@@ -46,7 +46,7 @@ class DownloadBill extends Job
             die(trans('texts.gmp_required'));
         }
 
-        $zip = Archive::instance_by_useragent(date('Y-m-d') . '_' . str_replace(' ', '_', trans('texts.invoice_pdfs')));
+        $zip = Archive::instance_by_useragent(date('Y-m-d') . '_' . str_replace(' ', '_', trans('texts.bill_pdfs')));
 
         foreach ($this->bills as $invoice) {
             $zip->add_file($invoice->getFileName(), $invoice->getPDFString());

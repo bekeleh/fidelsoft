@@ -473,9 +473,9 @@ class Utils
         $data = static::prepareErrorData($context);
 
         if ($info) {
-            Log::info($error . "\n", $data);
+            \Log::info($error . "\n", $data);
         } else {
-            Log::error($error . "\n", $data);
+            \Log::error($error . "\n", $data);
         }
     }
 

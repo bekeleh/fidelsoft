@@ -17,26 +17,26 @@ class VendorTemplateService
 
         $account = !empty($data['account']) ? $data['account'] : $invitation->account;
 
-        $vendor = !empty($data['vendor']) ? $data['vendor'] : $invitation->invoice->vendor;
+        $vendor = !empty($data['vendor']) ? $data['vendor'] : $invitation->bill->vendor;
 
-        $amount = !empty($data['amount']) ? $data['amount'] : $invitation->invoice->getRequestedAmount();
+        $amount = !empty($data['amount']) ? $data['amount'] : $invitation->bill->getRequestedAmount();
 
         // check if it's a proposal
         if ($invitation->proposal) {
-            $invoice = $invitation->proposal->invoice;
+            $bill = $invitation->proposal->bill;
             $entityType = ENTITY_PROPOSAL;
         } else {
-            $invoice = $invitation->invoice;
-            $entityType = $invoice->getEntityType();
+            $bill = $invitation->bill;
+            $entityType = $bill->getEntityType();
         }
 
         $contact = $invitation->contact;
         $passwordHTML = isset($data['password']) ? '<p>' . trans('texts.password') . ': ' . $data['password'] . '<p>' : false;
         $documentsHTML = '';
 
-        if ($account->hasFeature(FEATURE_DOCUMENTS) && $invoice->hasDocuments()) {
+        if ($account->hasFeature(FEATURE_DOCUMENTS) && $bill->hasDocuments()) {
             $documentsHTML .= trans('texts.email_documents_header') . '<ul>';
-            foreach ($invoice->allDocuments() as $document) {
+            foreach ($bill->allDocuments() as $document) {
                 $documentsHTML .= '<li><a href="' . HTML::entities($document->getClientUrl($invitation)) . '">' . HTML::entities($document->name) . '</a></li>';
             }
             $documentsHTML .= '</ul>';
@@ -49,20 +49,20 @@ class VendorTemplateService
             '$idNumber' => $vendor->id_number,
             '$vatNumber' => $vendor->vat_number,
             '$account' => $account->getDisplayName(),
-            '$dueDate' => $account->formatDate($invoice->getOriginal('partial_due_date') ?: $invoice->getOriginal('due_date')),
-            '$invoiceDate' => $account->formatDate($invoice->getOriginal('invoice_date')),
+            '$dueDate' => $account->formatDate($bill->getOriginal('partial_due_date') ?: $bill->getOriginal('due_date')),
+            '$billDate' => $account->formatDate($bill->getOriginal('bill_date')),
             '$contact' => $contact->getDisplayName(),
             '$firstName' => $contact->first_name,
             '$amount' => $account->formatMoney($amount, $vendor),
-            '$total' => $invoice->present()->amount,
-            '$balance' => $invoice->present()->balance,
-            '$invoice' => $invoice->invoice_number,
-            '$quote' => $invoice->invoice_number,
-            '$number' => $invoice->invoice_number,
-            '$partial' => $invoice->present()->partial,
-            '$poNumber' => $invoice->po_number,
-            '$terms' => $invoice->terms,
-            '$notes' => $invoice->public_notes,
+            '$total' => $bill->present()->amount,
+            '$balance' => $bill->present()->balance,
+            '$bill' => $bill->bill_number,
+            '$quote' => $bill->bill_number,
+            '$number' => $bill->bill_number,
+            '$partial' => $bill->present()->partial,
+            '$poNumber' => $bill->po_number,
+            '$terms' => $bill->terms,
+            '$notes' => $bill->public_notes,
             '$link' => $invitation->getLink(),
             '$password' => $passwordHTML,
             '$viewLink' => $invitation->getLink() . '$password',
@@ -75,8 +75,8 @@ class VendorTemplateService
             '$customClient2' => $vendor->custom_value2,
             '$customContact1' => $contact->custom_value1,
             '$customContact2' => $contact->custom_value2,
-            '$customInvoice1' => $invoice->custom_text_value1,
-            '$customInvoice2' => $invoice->custom_text_value2,
+            '$customInvoice1' => $bill->custom_text_value1,
+            '$customInvoice2' => $bill->custom_text_value2,
             '$documents' => $documentsHTML,
             '$autoBill' => empty($data['autobill']) ? '' : $data['autobill'],
             '$portalLink' => $invitation->contact->link,

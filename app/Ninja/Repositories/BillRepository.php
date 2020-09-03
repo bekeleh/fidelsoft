@@ -31,11 +31,7 @@ class BillRepository extends BaseRepository
     protected $paymentService;
     protected $paymentRepo;
 
-    public function __construct(
-        Bill $model,
-        PaymentService $paymentService,
-        PaymentRepository $paymentRepo,
-        DocumentRepository $documentRepo)
+    public function __construct(Bill $model, PaymentService $paymentService, PaymentRepository $paymentRepo, DocumentRepository $documentRepo)
     {
         $this->model = $model;
         $this->paymentService = $paymentService;
@@ -51,9 +47,8 @@ class BillRepository extends BaseRepository
 
     public function all()
     {
-        return Bill::scope()
-            ->billType(BILL_TYPE_STANDARD)
-            ->with('user', 'vendor.contacts', 'bill_status')
+        return Bill::scope()->billType(BILL_TYPE_STANDARD)
+            ->with('user', 'vendor.contacts', 'invoice_status')
             ->withTrashed()->where('is_recurring', false)->get();
     }
 
@@ -802,7 +797,7 @@ class BillRepository extends BaseRepository
         }
 
         if (config('queue.default') === 'sync') {
-            app('App\Ninja\Mailers\ContactMailer')->sendBill($bill);
+            app('App\Ninja\Mailers\VendorContactMailer')->sendBill($bill);
         } else {
             dispatch(new SendBillEmail($bill));
         }
