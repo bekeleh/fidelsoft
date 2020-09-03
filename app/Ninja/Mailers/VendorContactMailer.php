@@ -31,7 +31,7 @@ class VendorContactMailer extends Mailer
             return false;
         }
 
-        $bill->load('invitations', 'vendor.language', 'account');
+        $bill->load('bill_invitations', 'vendor.language', 'account');
 
         if ($proposal) {
             $entityType = ENTITY_BILL_PROPOSAL;
@@ -103,7 +103,7 @@ class VendorContactMailer extends Mailer
         $account->loadLocalizationSettings();
 
         if ($sent === true && !$proposal) {
-            if ($bill->isType(INVOICE_TYPE_QUOTE)) {
+            if ($bill->isType(BILL_TYPE_QUOTE)) {
                 event(new BillQuoteWasEmailedEvent($bill, $reminder));
             } else {
                 event(new BillWasEmailedEvent($bill, $reminder));

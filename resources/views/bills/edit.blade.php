@@ -193,11 +193,11 @@
                                                 <span style="vertical-align:text-top;padding-top:2px"
                                                       class="fa fa-info-circle"
                                                       data-bind="visible: $data.invitation_status, tooltip: {title: $data.invitation_status, html: true},
-        style: {color: $data.info_color}"></span>
+style: {color: $data.info_color}"></span>
                                                 <span class="signature-wrapper">&nbsp;
-    <span style="vertical-align:text-top;color:#888" class="fa fa-user"
-          data-bind="visible: $data.invitation_signature_svg, tooltip: {title: $data.invitation_signature_svg, html: true}"></span>
-    </span>
+<span style="vertical-align:text-top;color:#888" class="fa fa-user"
+      data-bind="visible: $data.invitation_signature_svg, tooltip: {title: $data.invitation_signature_svg, html: true}"></span>
+</span>
                                             @endif
 </span>
                                     @endif
@@ -654,9 +654,9 @@ AUTO_BILL_ALWAYS => trans('texts.always'),
 @endif
 
                                                 {!! Former::text('client[id_number]')
-                                                    ->label('id_number')
-                                                    ->placeholder($account->clientNumbersEnabled() ? $account->getClientNextNumber() : ' ')
-                                                    ->data_bind("value: id_number, valueUpdate: 'afterkeydown'") !!}
+                                                ->label('id_number')
+                                                ->placeholder($account->clientNumbersEnabled() ? $account->getClientNextNumber() : ' ')
+                                                ->data_bind("value: id_number, valueUpdate: 'afterkeydown'") !!}
 
                                                 @if ( ! $account->client_number_counter)
 </span>
@@ -748,7 +748,7 @@ afterAdd: showContact }'>
                                                     'field' => 'custom_contact1',
                                                     'label' => $account->customLabel('contact1'),
                                                     'databind' => "value: custom_value1, valueUpdate: 'afterkeydown',
-                                                            attr: {name: 'client[contacts][' + \$index() + '][custom_value1]'}",
+                                                    attr: {name: 'client[contacts][' + \$index() + '][custom_value1]'}",
                                                     ])
                                                 @endif
                                                 @if ($account->customLabel('contact2'))
@@ -756,7 +756,7 @@ afterAdd: showContact }'>
                                                     'field' => 'custom_contact2',
                                                     'label' => $account->customLabel('contact2'),
                                                     'databind' => "value: custom_value2, valueUpdate: 'afterkeydown',
-                                                            attr: {name: 'client[contacts][' + \$index() + '][custom_value2]'}",
+                                                    attr: {name: 'client[contacts][' + \$index() + '][custom_value2]'}",
                                                     ])
                                                 @endif
                                             @endif

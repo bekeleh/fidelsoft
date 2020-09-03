@@ -75,6 +75,7 @@ class BillInvitation extends EntityModel
     use Inviteable;
 
     protected $table = 'bill_invitations';
+
     protected $dates = ['deleted_at', 'updated_at', 'deleted_at'];
     protected $hidden = ['deleted_at'];
 
@@ -85,7 +86,7 @@ class BillInvitation extends EntityModel
 
     public function getRoute()
     {
-        return "/invitations/{$this->public_id}";
+        return "/bill_invitations/{$this->public_id}";
     }
 
     public function bill()

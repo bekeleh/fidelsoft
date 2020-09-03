@@ -144,7 +144,7 @@ class BillDatatable extends EntityDatatable
                     return URL::to("bills/{$model->public_id}/edit");
                 },
                 function ($model) use ($entityType) {
-                    return $entityType == ENTITY_BILL && Auth::user()->can('edit', [ENTITY_BILL]) && $model->user_id === auth::user()->id;
+                    return $entityType == ENTITY_BILL && Auth::user()->can('edit', [ENTITY_BILL]) && $model->user_id == auth()->id();
                 },
             ],
             [
