@@ -7,18 +7,17 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class BillQuoteItemsWereDeletedEvent.
+ * Class BillCreditWasArchivedEvent.
  */
-class BillQuoteItemsWereDeletedEvent extends Event
+class BillCreditWasArchivedEvent extends Event
 {
-
     use Dispatchable, SerializesModels;
 
-    public $quote;
+    public $billCredit;
 
 
-    public function __construct($quote)
+    public function __construct($billCredit)
     {
-        $this->quote = $quote;
+        $this->billCredit = $billCredit;
     }
 }

@@ -1,13 +1,13 @@
 <?php namespace App\Listeners\Purchase;
 
-use App\Ninja\Mailers\UserMailer;
-use App\Ninja\Mailers\ContactMailer;
+use App\Ninja\Mailers\BillMailer;
+use App\Ninja\Mailers\VendorContactMailer;
 use App\Events\Purchase\BillWasEmailedEvent;
 use App\Events\Purchase\BillQuoteWasEmailedEvent;
 use App\Events\Purchase\BillInvitationWasViewedEvent;
 use App\Events\Purchase\BillQuoteInvitationWasViewedEvent;
 use App\Events\Purchase\BillQuoteInvitationWasApprovedEvent;
-use App\Events\Sale\PaymentWasCreatedEvent;
+use App\Events\Purchase\BillPaymentWasCreatedEvent;
 use App\Services\PushService;
 use App\Jobs\SendBillNotificationEmail;
 use App\Jobs\SendBillPaymentEmail;
@@ -18,22 +18,19 @@ use App\Notifications\Purchase\NotifyBillPaymentCreated;
  */
 class SendBillNotification
 {
-    protected $userMailer;
+    protected $billMailer;
     protected $contactMailer;
     protected $pushService;
 
     /**
      * SendInvoiceNotification constructor.
-     * @param UserMailer $userMailer
-     * @param ContactMailer $contactMailer
+     * @param BillMailer $billMailer
+     * @param VendorContactMailer $contactMailer
      * @param PushService $pushService
      */
-    public function __construct(
-        UserMailer $userMailer,
-        ContactMailer $contactMailer,
-        PushService $pushService)
+    public function __construct(BillMailer $billMailer, VendorContactMailer $contactMailer, PushService $pushService)
     {
-        $this->userMailer = $userMailer;
+        $this->billMailer = $billMailer;
         $this->contactMailer = $contactMailer;
         $this->pushService = $pushService;
     }
@@ -63,6 +60,7 @@ class SendBillNotification
     public function emailedInvoice(BillWasEmailedEvent $event)
     {
         $this->sendNotifications($event->bill, 'sent', null, $event->notes);
+
         $this->pushService->sendNotification($event->bill, 'sent');
     }
 
@@ -72,6 +70,7 @@ class SendBillNotification
     public function emailedQuote(BillQuoteWasEmailedEvent $event)
     {
         $this->sendNotifications($event->quote, 'sent', null, $event->notes);
+
         $this->pushService->sendNotification($event->quote, 'sent');
     }
 
@@ -85,6 +84,7 @@ class SendBillNotification
         }
 
         $this->sendNotifications($event->bill, 'viewed');
+
         $this->pushService->sendNotification($event->bill, 'viewed');
     }
 
@@ -98,6 +98,7 @@ class SendBillNotification
         }
 
         $this->sendNotifications($event->quote, 'viewed');
+
         $this->pushService->sendNotification($event->quote, 'viewed');
     }
 
@@ -107,13 +108,14 @@ class SendBillNotification
     public function approvedQuote(BillQuoteInvitationWasApprovedEvent $event)
     {
         $this->sendNotifications($event->quote, 'approved');
+
         $this->pushService->sendNotification($event->quote, 'approved');
     }
 
     /**
-     * @param PaymentWasCreatedEvent $event
+     * @param BillPaymentWasCreatedEvent $event
      */
-    public function createdPayment(PaymentWasCreatedEvent $event)
+    public function createdPayment(BillPaymentWasCreatedEvent $event)
     {
         // only send emails for online payments
         if (!$event->payment->account_gateway_id) {
@@ -121,6 +123,7 @@ class SendBillNotification
         }
 
         dispatch(new SendBillPaymentEmail($event->payment));
+
         $this->sendNotifications($event->payment->bill, 'paid', $event->payment);
 
         $this->pushService->sendNotification($event->payment->bill, 'paid');

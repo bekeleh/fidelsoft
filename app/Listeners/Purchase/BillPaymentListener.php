@@ -5,7 +5,7 @@ namespace App\Listeners\Purchase;
 use App\Events\Purchase\BillPaymentWasCreatedEvent;
 use App\Events\Purchase\BillPaymentWasDeletedEvent;
 use App\Events\Purchase\BillPaymentWasUpdatedEvent;
-use App\Ninja\Transformers\PaymentTransformer;
+use App\Ninja\Transformers\BillPaymentTransformer;
 use App\Listeners\EntityListener;
 
 /**
@@ -16,21 +16,23 @@ class BillPaymentListener extends EntityListener
 
     public function createdBillPayment(BillPaymentWasCreatedEvent $event)
     {
-        $transformer = new PaymentTransformer($event->billPayment->account);
+        $transformer = new BillPaymentTransformer($event->payment->account);
 
-        $this->checkSubscriptions(EVENT_CREATE_BILL_PAYMENT, $event->billPayment, $transformer);
+        $this->checkSubscriptions(EVENT_CREATE_BILL_PAYMENT, $event->payment, $transformer);
     }
 
     public function updatedBillPayment(BillPaymentWasUpdatedEvent $event)
     {
-        $transformer = new PaymentTransformer($event->billPayment->account);
-        $this->checkSubscriptions(EVENT_UPDATE_BILL_PAYMENT, $event->billPayment, $transformer);
+        $transformer = new BillPaymentTransformer($event->payment->account);
+
+        $this->checkSubscriptions(EVENT_UPDATE_BILL_PAYMENT, $event->payment, $transformer);
     }
 
     public function deletedBillPayment(BillPaymentWasDeletedEvent $event)
     {
-        $transformer = new PaymentTransformer($event->billPayment->account);
-        $this->checkSubscriptions(EVENT_DELETE_BILL_PAYMENT, $event->billPayment, $transformer);
+        $transformer = new BillPaymentTransformer($event->payment->account);
+
+        $this->checkSubscriptions(EVENT_DELETE_BILL_PAYMENT, $event->payment, $transformer);
     }
 
 }

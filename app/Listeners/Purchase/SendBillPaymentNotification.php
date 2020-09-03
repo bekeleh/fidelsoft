@@ -20,20 +20,23 @@ class SendBillPaymentNotification extends EntityListener
 
     public function createdBillPayment(BillPaymentWasCreatedEvent $event)
     {
-        $transformer = new PaymentTransformer($event->billPayment->account);
-        $this->checkSubscriptions(EVENT_CREATE_BILL_PAYMENT, $event->billPayment, $transformer, [ENTITY_CLIENT, ENTITY_INVOICE]);
+        $transformer = new PaymentTransformer($event->payment->account);
+
+        $this->checkSubscriptions(EVENT_CREATE_BILL_PAYMENT, $event->payment, $transformer, [ENTITY_VENDOR, ENTITY_BILL]);
     }
 
     public function updatedBillPayment(BillPaymentWasUpdatedEvent $event)
     {
-        $transformer = new PaymentTransformer($event->billPayment->account);
-        $this->checkSubscriptions(EVENT_CREATE_BILL_PAYMENT, $event->billPayment, $transformer, [ENTITY_CLIENT, ENTITY_INVOICE]);
+        $transformer = new PaymentTransformer($event->payment->account);
+
+        $this->checkSubscriptions(EVENT_CREATE_BILL_PAYMENT, $event->payment, $transformer, [ENTITY_VENDOR, ENTITY_BILL]);
     }
 
     public function deletedBillPayment(BillPaymentWasDeletedEvent $event)
     {
-        $transformer = new PaymentTransformer($event->billPayment->account);
-        $this->checkSubscriptions(EVENT_DELETE_BILL_PAYMENT, $event->billPayment, $transformer, [ENTITY_CLIENT, ENTITY_INVOICE]);
+        $transformer = new PaymentTransformer($event->payment->account);
+
+        $this->checkSubscriptions(EVENT_DELETE_BILL_PAYMENT, $event->payment, $transformer, [ENTITY_VENDOR, ENTITY_BILL]);
     }
 
 }

@@ -69,7 +69,7 @@ class BillListener
 
     public function viewedBill(BillInvitationWasViewedEvent $event)
     {
-        $invitation = $event->billInvitation;
+        $invitation = $event->invitation;
         $invitation->markViewed();
     }
 
@@ -84,7 +84,7 @@ class BillListener
 
     public function createdBillPayment(BillPaymentWasCreatedEvent $event)
     {
-        $paymentBill = $event->billPayment;
+        $paymentBill = $event->payment;
         $bill = $paymentBill->bill;
         $adjustment = $paymentBill->amount * -1;
         $partial = max(0, $bill->partial - $paymentBill->amount);
@@ -107,7 +107,7 @@ class BillListener
 
     public function deletedBillPayment(BillPaymentWasDeletedEvent $event)
     {
-        $paymentBill = $event->billPayment;
+        $paymentBill = $event->payment;
 
         if ($paymentBill->isFailedOrVoided()) {
             return;
@@ -122,7 +122,7 @@ class BillListener
 
     public function refundedBillPayment(BillPaymentWasRefundedEvent $event)
     {
-        $paymentBill = $event->billPayment;
+        $paymentBill = $event->payment;
         $bill = $paymentBill->bill;
         $adjustment = $event->refundAmount;
 
@@ -132,7 +132,7 @@ class BillListener
 
     public function voidedBillPayment(BillPaymentWasVoidedEvent $event)
     {
-        $paymentBill = $event->billPayment;
+        $paymentBill = $event->payment;
         $bill = $paymentBill->bill;
         $adjustment = $paymentBill->amount;
 
@@ -142,7 +142,7 @@ class BillListener
 
     public function failedBillPayment(BillPaymentFailedEvent $event)
     {
-        $paymentBill = $event->billPayment;
+        $paymentBill = $event->payment;
         $bill = $paymentBill->bill;
         $adjustment = $paymentBill->getCompletedAmount();
 
@@ -156,7 +156,7 @@ class BillListener
             return;
         }
 
-        $paymentBill = $event->billPayment;
+        $paymentBill = $event->payment;
 
         if ($paymentBill->isFailedOrVoided()) {
             return;

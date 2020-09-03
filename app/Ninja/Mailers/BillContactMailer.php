@@ -5,7 +5,7 @@ namespace App\Ninja\Mailers;
 use App;
 use App\Events\Purchase\BillWasEmailedEvent;
 use App\Events\Purchase\BillQuoteWasEmailedEvent;
-use App\Jobs\ConvertBillToUbl;
+use App\Jobs\ConvertbillToUbl;
 use App\Libraries\Utils;
 use App\Models\Bill;
 use App\Models\BillPayment;
@@ -14,7 +14,7 @@ use HTMLUtils;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 
-class BillContactMailer extends Mailer
+class billContactMailer extends Mailer
 {
 
     protected $templateService;
@@ -25,7 +25,7 @@ class BillContactMailer extends Mailer
         $this->templateService = $templateService;
     }
 
-    public function sendBill(Bill $bill, $reminder = false, $template = false, $proposal = false)
+    public function sendbill(Bill $bill, $reminder = false, $template = false, $proposal = false)
     {
         if ($bill->is_recurring) {
             return false;
@@ -58,7 +58,7 @@ class BillContactMailer extends Mailer
         $ublString = false;
 
         if ($account->attachUBL() && !$proposal) {
-            $ublString = dispatch(new ConvertBillToUbl($bill));
+            $ublString = dispatch(new ConvertbillToUbl($bill));
         }
 
         $documentStrings = [];
@@ -82,7 +82,7 @@ class BillContactMailer extends Mailer
         }
 
         $isFirst = true;
-        $invitations = $proposal ? $proposal->invitations : $bill->invitations;
+        $invitations = $proposal ? $proposal->invitations : $bill->bill_invitations;
         foreach ($invitations as $billInvitation) {
             if ($account->attachPDF() && !$proposal) {
                 $pdfString = $bill->getPDFString($billInvitation);
@@ -93,7 +93,7 @@ class BillContactMailer extends Mailer
                 'ublString' => $ublString,
                 'proposal' => $proposal,
             ];
-            $response = $this->sendBillInvitation($billInvitation, $bill, $emailTemplate, $emailSubject, $reminder, $isFirst, $data);
+            $response = $this->sendbillInvitation($billInvitation, $bill, $emailTemplate, $emailSubject, $reminder, $isFirst, $data);
             $isFirst = false;
             if ($response === true) {
                 $sent = true;
@@ -113,15 +113,7 @@ class BillContactMailer extends Mailer
         return $response;
     }
 
-    private function sendBillInvitation(
-        $billInvitation,
-        Bill $bill,
-        $body,
-        $subject,
-        $reminder,
-        $isFirst,
-        $extra
-    )
+    private function sendbillInvitation($billInvitation, Bill $bill, $body, $subject, $reminder, $isFirst, $extra)
     {
         $vendor = $bill->vendor;
         $account = $bill->account;
@@ -151,8 +143,8 @@ class BillContactMailer extends Mailer
 
         if (!$proposal) {
             // Let the vendor know they'll be billed later
-            if ($vendor->autoBillLater()) {
-                $variables['autobill'] = $bill->present()->autoBillEmailMessage();
+            if ($vendor->autobillLater()) {
+                $variables['autobill'] = $bill->present()->autobillEmailMessage();
             }
 
             if (empty($billInvitation->contact->password) && $account->isClientPortalPasswordEnabled() && $account->send_portal_password) {
@@ -239,8 +231,8 @@ class BillContactMailer extends Mailer
         $vendor = $billPayment->vendor;
 
         $account->loadLocalizationSettings($vendor);
-        $bill = $billPayment->BILL;
-        $billInvitation = $billPayment->invitation ?: $billPayment->BILL->invitations[0];
+        $bill = $billPayment->bill;
+        $billInvitation = $billPayment->bill_invitation ?: $billPayment->bill->bill_invitation[0];
         $accountName = $account->getDisplayName();
 
         if ($refunded > 0) {
@@ -250,12 +242,12 @@ class BillContactMailer extends Mailer
                 'bill_number' => $bill->bill_number,
             ]);
         } else {
-            $emailSubject = $bill->account->getEmailSubject(ENTITY_PAYMENT);
-            $emailTemplate = $account->getEmailTemplate(ENTITY_PAYMENT);
+            $emailSubject = $bill->account->getEmailSubject(ENTITY_BILL_PAYMENT);
+            $emailTemplate = $account->getEmailTemplate(ENTITY_BILL_PAYMENT);
         }
 
-        if ($billPayment->invitation) {
-            $user = $billPayment->invitation->user;
+        if ($billPayment->bill_invitation) {
+            $user = $billPayment->bill_invitation->user;
             $contact = $billPayment->contact;
         } else {
             $user = $billPayment->user;
@@ -289,7 +281,7 @@ class BillContactMailer extends Mailer
         }
 
         $subject = $this->templateService->processVariables($emailSubject, $variables);
-        $data['bill_id'] = $billPayment->Bill->id;
+        $data['bill_id'] = $billPayment->bill->id;
 
         $view = $account->getTemplateView('payment_confirmation');
         $fromEmail = $account->getReplyToEmail() ?: $user->email;

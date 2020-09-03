@@ -14,12 +14,12 @@ class BillInvitationWasViewedEvent extends Event
     use Dispatchable, SerializesModels;
 
     public $bill;
-    public $billInvitation;
+    public $invitation;
 
 
-    public function __construct($bill, $billInvitation)
+    public function __construct($bill, $invitation)
     {
         $this->bill = $bill;
-        $this->billInvitation = $billInvitation;
+        $this->invitation = $invitation;
     }
 }

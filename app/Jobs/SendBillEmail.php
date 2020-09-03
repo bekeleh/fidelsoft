@@ -36,12 +36,7 @@ class SendBillEmail implements ShouldQueue
      * @param bool $template
      * @param bool $proposal
      */
-    public function __construct(
-        Bill $bill,
-        $userId = false,
-        $reminder = false,
-        $template = false,
-        $proposal = false)
+    public function __construct(Bill $bill, $userId = false, $reminder = false, $template = false, $proposal = false)
     {
         $this->bill = $bill;
         $this->userId = $userId;

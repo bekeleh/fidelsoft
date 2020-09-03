@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Models\Payment;
-use App\Ninja\Mailers\ContactMailer;
+use App\Models\BillPayment;
+use App\Ninja\Mailers\VendorContactMailer;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -21,7 +21,7 @@ class SendBillPaymentEmail extends Job implements ShouldQueue
 
     /**
      * Create a new job instance.
-     * @param Payment $payment
+     * @param BillPayment $payment
      */
     public function __construct($payment)
     {
@@ -32,10 +32,10 @@ class SendBillPaymentEmail extends Job implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @param ContactMailer $contactMailer
+     * @param VendorContactMailer $contactMailer
      */
-    public function handle(ContactMailer $contactMailer)
+    public function handle(VendorContactMailer $contactMailer)
     {
-        $contactMailer->sendPaymentConfirmation($this->payment);
+        $contactMailer->sendBillPaymentConfirmation($this->payment);
     }
 }

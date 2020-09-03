@@ -13,13 +13,13 @@ class BillPaymentWasRestoredEvent extends Event
 {
     use Dispatchable, SerializesModels;
 
-    public $billPayment;
+    public $payment;
     public $fromDeleted;
 
 
-    public function __construct($billPayment, $fromDeleted)
+    public function __construct($payment, $fromDeleted)
     {
-        $this->billPayment = $billPayment;
+        $this->payment = $payment;
         $this->fromDeleted = $fromDeleted;
     }
 }

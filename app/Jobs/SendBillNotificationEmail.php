@@ -19,7 +19,7 @@ class SendBillNotificationEmail extends Job implements ShouldQueue
     }
 
     protected $user;
-    protected $invoice;
+    protected $bill;
     protected $type;
     protected $payment;
     protected $notes;
@@ -28,15 +28,15 @@ class SendBillNotificationEmail extends Job implements ShouldQueue
     /**
      * Create a new job instance.
      * @param mixed $user
-     * @param mixed $invoice
+     * @param mixed $bill
      * @param mixed $type
      * @param mixed $payment
      * @param $notes
      */
-    public function __construct($user, $invoice, $type, $payment, $notes)
+    public function __construct($user, $bill, $type, $payment, $notes)
     {
         $this->user = $user;
-        $this->invoice = $invoice;
+        $this->bill = $bill;
         $this->type = $type;
         $this->payment = $payment;
         $this->notes = $notes;
@@ -54,6 +54,6 @@ class SendBillNotificationEmail extends Job implements ShouldQueue
             $this->user->account->loadLocalizationSettings();
         }
 
-        $userMailer->sendNotification($this->user, $this->invoice, $this->type, $this->payment, $this->notes);
+        $userMailer->sendNotification($this->user, $this->bill, $this->type, $this->payment, $this->notes);
     }
 }
