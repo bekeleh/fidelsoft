@@ -3,27 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BillController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BillController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Jobs/SendBillNotificationEmail.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/SendBillNotificationEmail.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/FTqVmYJaQl5sl3q6ZyTAlaOv96WAyxPWbnSroFca" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/FTqVmYJaQl5sl3q6ZyTAlaOv96WAyxPWbnSroFca" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/2bef6c44fb21d9b4b8e14a725318d66229376507.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/3d4796057765b5a7517531f2f8b487ab7f709a24.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/3d4796057765b5a7517531f2f8b487ab7f709a24.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/40282c685961f6ddf89815b6d8f568c009ad2dc3.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/48088ee6c46668f6d37601df3aaea9587070c48d.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/48088ee6c46668f6d37601df3aaea9587070c48d.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/58ea5b304366e2511a2d18773d2db8272eb1cda5.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/5d5ac8469017dcb09acb8a1a3f09e414ee609c39.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/6ccb2866e8ded85eb86fab80547581825285bd38.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/769345709f3c7d13eb91c2a2527844ff306b76db.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/77cff8268ccf09519cd8515352e69c3bc16767dd.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/77cff8268ccf09519cd8515352e69c3bc16767dd.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/78e9d60e5e03b91904e56bc726c88b0e534825e8.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/78e9d60e5e03b91904e56bc726c88b0e534825e8.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/7fdb778b8ab51ba6de3bfac48ce5f036682fe29d.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/8497dfd801d96a0181fca5f51ca973fa5a1499c5.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/a47d7a2751d3ab1f541a3b75186b7c45c1a22a7a.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/ab409e5dc6346ea88348aeb65121486025dfad94.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/ab409e5dc6346ea88348aeb65121486025dfad94.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/b333d68d8131407c1a83803c03303577f0efa06a.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/b333d68d8131407c1a83803c03303577f0efa06a.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/fd6393c643fcc4771c3d0f3cd90bb98e15dfc778.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/stacktrace.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/stacktrace.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -580,14 +559,7 @@
       <workItem from="1598889108301" duration="5293000" />
       <workItem from="1598952646251" duration="20156000" />
       <workItem from="1599063021443" duration="3786000" />
-      <workItem from="1599122092778" duration="13717000" />
-    </task>
-    <task id="LOCAL-00501" summary="2020-08-18 9:27">
-      <created>1597734903843</created>
-      <option name="number" value="00501" />
-      <option name="presentableId" value="LOCAL-00501" />
-      <option name="project" value="LOCAL" />
-      <updated>1597734903843</updated>
+      <workItem from="1599122092778" duration="13809000" />
     </task>
     <task id="LOCAL-00502" summary="2020-08-18 9:27">
       <created>1597734971634</created>
@@ -925,7 +897,14 @@
       <option name="project" value="LOCAL" />
       <updated>1599140973260</updated>
     </task>
-    <option name="localTasksCounter" value="550" />
+    <task id="LOCAL-00550" summary="2020-09-03 9:27">
+      <created>1599141927608</created>
+      <option name="number" value="00550" />
+      <option name="presentableId" value="LOCAL-00550" />
+      <option name="project" value="LOCAL" />
+      <updated>1599141927608</updated>
+    </task>
+    <option name="localTasksCounter" value="551" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1021,11 +1000,11 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1597344338612" />
-    <state x="159" y="0" key="CommitChangelistDialog2" timestamp="1599140969735">
-      <screen x="0" y="0" width="1440" height="860" />
+    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1599152223851">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1599080209791" />
-    <state x="159" y="0" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1599140969735" />
+    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1599152223851" />
+    <state x="159" y="0" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1599141925804" />
     <state x="109" y="31" key="DiffContextDialog" timestamp="1594902501485">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -1056,10 +1035,10 @@
     </state>
     <state x="67" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1597907058780" />
     <state x="75" y="0" key="SettingsEditor/0.0.1440.860@0.0.1440.860" timestamp="1599129398220" />
-    <state x="423" y="154" key="com.intellij.ide.util.TipDialog" timestamp="1599122105933">
-      <screen x="0" y="0" width="1440" height="860" />
+    <state x="421" y="115" key="com.intellij.ide.util.TipDialog" timestamp="1599152135512">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="421" y="115" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1599063022605" />
+    <state x="421" y="115" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1599152135512" />
     <state x="423" y="154" key="com.intellij.ide.util.TipDialog/0.0.1440.860@0.0.1440.860" timestamp="1599122105933" />
     <state x="341" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1598362085078">
       <screen x="0" y="0" width="1440" height="860" />
