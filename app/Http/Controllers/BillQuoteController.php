@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\QuoteRequest;
+use App\Http\Requests\BillQuoteRequest;
 use App\Libraries\Utils;
 use App\Models\Vendor;
 use App\Models\BillInvitation;
@@ -48,7 +48,7 @@ class BillQuoteController extends BaseController
         $datatable->entityType = ENTITY_BILL_QUOTE;
 
         $data = [
-            'title' => trans('texts.quotes'),
+            'title' => trans('texts.bill_quotes'),
             'entityType' => ENTITY_BILL_QUOTE,
             'datatable' => $datatable,
         ];
@@ -64,7 +64,7 @@ class BillQuoteController extends BaseController
         return $this->billService->getDatatable($accountId, $vendorPublicId, ENTITY_BILL_QUOTE, $search);
     }
 
-    public function create(QuoteRequest $request, $vendorPublicId = 0)
+    public function create(BillQuoteRequest $request, $vendorPublicId = 0)
     {
         $this->authorize('create', ENTITY_BILL_QUOTE);
         if (!Utils::hasFeature(FEATURE_QUOTES)) {
@@ -85,12 +85,12 @@ class BillQuoteController extends BaseController
             'invoice' => $bill,
             'data' => Input::old('data'),
             'method' => 'POST',
-            'url' => 'bills',
-            'title' => trans('texts.new_quote'),
+            'url' => 'bill_quotes',
+            'title' => trans('texts.new_bill_quote'),
         ];
         $data = array_merge($data, self::getViewModel($bill));
 
-        return View::make('invoices.edit', $data);
+        return View::make('bills.edit', $data);
     }
 
     private static function getViewModel($bill = null)
@@ -110,7 +110,7 @@ class BillQuoteController extends BaseController
             'paymentTerms' => Cache::get('paymentTerms'),
             'invoiceDesigns' => InvoiceDesign::getDesigns(),
             'invoiceFonts' => Cache::get('fonts'),
-            'invoiceLabels' => Auth::user()->account->getBillLabels(),
+            'invoiceLabels' => Auth::user()->account->getInvoiceLabels(),
             'isRecurring' => false,
             'expenses' => collect(),
         ];

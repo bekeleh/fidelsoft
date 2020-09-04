@@ -201,7 +201,7 @@ class BillController extends BaseController
         $clients = Vendor::scope()->withTrashed()->with('contacts', 'country');
 
         if ($clone) {
-            $entityType = $clone == BILL_TYPE_STANDARD ? ENTITY_BILL : ENTITY_QUOTE;
+            $entityType = $clone == BILL_TYPE_STANDARD ? ENTITY_BILL : ENTITY_BILL_QUOTE;
             $bill->id = $bill->public_id = null;
             $bill->is_public = false;
             $bill->is_recurring = $bill->is_recurring && $clone == BILL_TYPE_STANDARD;

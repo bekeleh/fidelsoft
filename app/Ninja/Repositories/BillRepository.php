@@ -342,7 +342,7 @@ class BillRepository extends BaseRepository
             ->LeftJoin('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
             ->where('bill_invitations.contact_id', $contactId)
             ->where('bill_invitations.deleted_at', null)
-            ->where('bills.bill_type_id', $entityType == ENTITY_QUOTE ? BILL_TYPE_QUOTE : BILL_TYPE_STANDARD)
+            ->where('bills.bill_type_id', $entityType == ENTITY_BILL_QUOTE ? BILL_TYPE_QUOTE : BILL_TYPE_STANDARD)
             ->where('bills.is_deleted', false)
             ->where('vendors.deleted_at', null)
             ->where('vendor_contacts.deleted_at', null)
@@ -409,7 +409,7 @@ class BillRepository extends BaseRepository
                 } elseif ($model->bill_status_id == BILL_STATUS_PARTIAL) {
                     $label = trans('texts.status_partial');
                     $class = 'info';
-                } elseif ($entityType == ENTITY_QUOTE && ($model->bill_status_id >= BILL_STATUS_APPROVED || $model->quote_bill_id)) {
+                } elseif ($entityType == ENTITY_BILL_QUOTE && ($model->bill_status_id >= BILL_STATUS_APPROVED || $model->quote_bill_id)) {
                     $label = trans('texts.status_approved');
                     $class = 'success';
                 } elseif (Bill::calcIsOverdue($model->balance, $model->due_date)) {
@@ -452,7 +452,7 @@ class BillRepository extends BaseRepository
             if (!empty($data['is_recurring']) && filter_var($data['is_recurring'], FILTER_VALIDATE_BOOLEAN)) {
                 $entityType = ENTITY_RECURRING_BILL;
             } elseif (!empty($data['is_quote']) && filter_var($data['is_quote'], FILTER_VALIDATE_BOOLEAN)) {
-                $entityType = ENTITY_QUOTE;
+                $entityType = ENTITY_BILL_QUOTE;
             }
 
             $bill = $account->createBill($entityType, $data['client_id']);
