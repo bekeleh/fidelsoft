@@ -8,7 +8,7 @@ use App\Events\Purchase\BillInvitationWasViewedEvent;
 use App\Events\Purchase\BillQuoteInvitationWasViewedEvent;
 use App\Events\Purchase\BillQuoteInvitationWasApprovedEvent;
 use App\Events\Purchase\BillPaymentWasCreatedEvent;
-use App\Services\PushService;
+use App\Services\BillPushService;
 use App\Jobs\SendBillNotificationEmail;
 use App\Jobs\SendBillPaymentEmail;
 use App\Notifications\Purchase\NotifyBillPaymentCreated;
@@ -26,9 +26,9 @@ class SendBillNotification
      * SendBillNotification constructor.
      * @param BillMailer $billMailer
      * @param VendorMailer $contactMailer
-     * @param PushService $pushService
+     * @param BillPushService $pushService
      */
-    public function __construct(BillMailer $billMailer, VendorMailer $contactMailer, PushService $pushService)
+    public function __construct(BillMailer $billMailer, VendorMailer $contactMailer, BillPushService $pushService)
     {
         $this->billMailer = $billMailer;
         $this->contactMailer = $contactMailer;

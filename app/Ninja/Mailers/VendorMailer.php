@@ -12,6 +12,7 @@ use App\Services\VendorTemplateService;
 use HTMLUtils;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
+use Log;
 
 class VendorMailer extends BillSender
 {
@@ -94,6 +95,7 @@ class VendorMailer extends BillSender
             ];
 
             $response = $this->sendInvitation($invitation, $bill, $emailTemplate, $emailSubject, $reminder, $isFirst, $data);
+
             $isFirst = false;
             if ($response === true) {
                 $sent = true;
@@ -106,6 +108,7 @@ class VendorMailer extends BillSender
             if ($bill->isType(BILL_TYPE_QUOTE)) {
                 event(new BillQuoteWasEmailedEvent($bill, $reminder));
             } else {
+                Log::info('bill was emailed event is triggered.');
                 event(new BillWasEmailedEvent($bill, $reminder));
             }
         }

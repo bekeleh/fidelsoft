@@ -78,6 +78,7 @@ class BillListener
 
     public function emailedBill(BillWasEmailedEvent $event)
     {
+        Log::info('emailed bill');
         $bill = $event->bill;
         $bill->last_sent_date = date('Y-m-d');
 
@@ -206,15 +207,14 @@ class BillListener
 
     public function jobFailed(JobExceptionOccurred $exception)
     {
-        Log::info($exception->exception);
-//        if ($errorEmail = env('ERROR_EMAIL')) {
-//            Mail::raw(print_r($exception->data, true), function ($message) use ($errorEmail) {
-//                $message->to($errorEmail)
-//                    ->from(CONTACT_EMAIL)
-//                    ->subject('Job failed');
-//            });
-//        }
-//
-//        Utils::logError($exception->exception);
+        if ($errorEmail = env('ERROR_EMAIL')) {
+            Mail::raw(print_r($exception->data, true), function ($message) use ($errorEmail) {
+                $message->to($errorEmail)
+                    ->from(CONTACT_EMAIL)
+                    ->subject('Job failed');
+            });
+        }
+
+        Utils::logError($exception->exception);
     }
 }

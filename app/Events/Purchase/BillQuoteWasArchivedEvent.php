@@ -10,11 +10,11 @@ class BillQuoteWasArchivedEvent extends Event
 {
     use Dispatchable, SerializesModels;
 
-    public $billQuote;
+    public $quote;
 
 
-    public function __construct($billQuote)
+    public function __construct($quote)
     {
-        $this->billQuote = $billQuote;
+        $this->quote = $quote;
     }
 }

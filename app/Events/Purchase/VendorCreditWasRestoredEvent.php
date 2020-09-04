@@ -10,11 +10,11 @@ class VendorCreditWasRestoredEvent extends Event
 {
     use Dispatchable, SerializesModels;
 
-    public $billCredit;
+    public $credit;
 
 
-    public function __construct($billCredit)
+    public function __construct($credit)
     {
-        $this->billCredit = $billCredit;
+        $this->credit = $credit;
     }
 }

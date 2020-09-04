@@ -560,6 +560,26 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
         return true;
     }
 
+    public function shouldNotifyBill($bill)
+    {
+        if (!isset($bill)) {
+            return false;
+        }
+        if (!isset($this->email) || !isset($this->confirmed)) {
+            return false;
+        }
+
+        if ($this->cannot('view', $bill)) {
+            return false;
+        }
+
+        if ($this->only_notify_owned && !$this->ownsEntity($bill)) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function permissionsMap()
     {
         $data = [];

@@ -14,11 +14,11 @@ class BillPaymentWasArchivedEvent extends Event
     use Dispatchable, SerializesModels;
 
 
-    public $billPayment;
+    public $payment;
 
 
-    public function __construct($billPayment)
+    public function __construct($payment)
     {
-        $this->billPayment = $billPayment;
+        $this->payment = $payment;
     }
 }

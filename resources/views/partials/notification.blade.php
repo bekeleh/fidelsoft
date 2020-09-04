@@ -10,10 +10,10 @@
             @foreach($unreadMessages = auth()->user()->unreadnotifications as $unreadMessage)
                 <li>
                     <a href="{{$unreadMessage->data['link'] }}?mark=unread">
+                        {{$unreadMessage->data['title'] }}
+                        by <span class="fa fa-user"></span>&nbsp;&nbsp;
                         <span class="fa fa-clock-o "></span>
                         {{ \Carbon\Carbon::parse($unreadMessage->data['created_at']['date'])->diffForHumans()}}
-                        {{$unreadMessage->data['title'] }}
-                        by <span class="fa fa-user"></span>
                     </a>
                 </li>
             @endforeach

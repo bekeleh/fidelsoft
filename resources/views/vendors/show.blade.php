@@ -210,7 +210,7 @@
                             </tr>
                             @if ($credit > 0)
                                 <tr>
-                                    <td><small>{{ trans('texts.VENDOR_CREDIT') }}</small></td>
+                                    <td><small>{{ trans('texts.vendor_credit') }}</small></td>
                                     <td style="text-align: left">{{ Utils::formatMoney($credit, $vendor->getCurrencyId()) }}
                                     </td>
                                 </tr>

@@ -322,7 +322,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\Purchase\BillWasEmailedEvent' => [
             'App\Listeners\Purchase\BillListener@emailedBill',
-            'App\Listeners\Purchase\BillNotificationListener@emailedBill',
+            'App\Listeners\Purchase\SendBillNotification@emailedBill',
         ],
         'App\Events\Purchase\BillInvitationWasEmailedEvent' => [
             'App\Listeners\Report\ActivityListener@emailedBill',

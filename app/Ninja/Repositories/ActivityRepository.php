@@ -78,9 +78,14 @@ class ActivityRepository extends BaseRepository
         $activity->notes = $notes ?: '';
 
         $keyField = $entity->getKeyField();
-        $activity->$keyField = $entity->id;
 
+        if ($keyField == 'contact_id') {
+            $activity->vendor_contact_id = $entity->id;
+        } else {
+            $activity->$keyField = $entity->id;
+        }
         $activity->ip = Request::getClientIp();
+
         $activity->save();
 
         if ($vendor) {

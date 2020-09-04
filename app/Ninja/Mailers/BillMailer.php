@@ -6,6 +6,7 @@ use App\Models\BillInvitation;
 use App\Models\Bill;
 use App\Models\BillPayment;
 use App\Models\User;
+use Log;
 
 class BillMailer extends BillSender
 {
@@ -57,12 +58,13 @@ class BillMailer extends BillSender
 
     public function sendNotification(User $user, Bill $bill, $notificationType, BillPayment $payment = null, $notes = false)
     {
-        if (!$user->shouldNotify($bill)) {
+        if (!$user->shouldNotifyBill($bill)) {
             return;
         }
 
         $entityType = $bill->getEntityType();
         $view = ($notificationType == 'approved' ? ENTITY_BILL_QUOTE : ENTITY_BILL) . "_{$notificationType}";
+        Log::info('notification' . $view);
         $account = $user->account;
         $vendor = $bill->vendor;
         $link = $bill->present()->multiAccountLink;

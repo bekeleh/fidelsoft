@@ -24,7 +24,7 @@
                 @endif
                 <span style="font-size: 19px; color: #FFFFFF;">
                                 {{ trans("texts.{$entityType}") }} {{ $bill->bill_number }}
-                            </span>
+                </span>
             </p>
         </td>
         <td style="border-collapse: collapse; vertical-align: middle; line-height: 16px;" valign="middle">

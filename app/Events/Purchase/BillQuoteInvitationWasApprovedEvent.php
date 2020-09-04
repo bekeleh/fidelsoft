@@ -11,12 +11,12 @@ class BillQuoteInvitationWasApprovedEvent extends Event
     use Dispatchable, SerializesModels;
 
     public $quote;
-    public $billInvitation;
+    public $invitation;
 
 
-    public function __construct($quote, $billInvitation)
+    public function __construct($quote, $invitation)
     {
         $this->quote = $quote;
-        $this->billInvitation = $billInvitation;
+        $this->invitation = $invitation;
     }
 }

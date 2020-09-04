@@ -13,12 +13,12 @@ class BillQuoteInvitationWasEmailedEvent extends Event
 {
     use Dispatchable, SerializesModels;
 
-    public $billInvitation;
+    public $invitation;
     public $notes;
 
-    public function __construct($billInvitation, $notes)
+    public function __construct($invitation, $notes)
     {
-        $this->billInvitation = $billInvitation;
+        $this->invitation = $invitation;
         $this->notes = $notes;
     }
 }
