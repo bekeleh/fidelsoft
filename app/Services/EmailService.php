@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Models\Invitation;
-use App\Ninja\Mailers\UserMailer;
+use App\Ninja\Mailers\InvoiceMailer;
 use Carbon\Carbon;
 
 /**
@@ -14,7 +14,7 @@ class EmailService
 
     protected $userMailer;
 
-    public function __construct(UserMailer $userMailer)
+    public function __construct(InvoiceMailer $userMailer)
     {
         $this->userMailer = $userMailer;
     }

@@ -4,8 +4,7 @@ namespace App\Jobs;
 
 use App;
 use App\Models\Bill;
-use App\Ninja\Mailers\BillContactMailer;
-use App\Ninja\Mailers\VendorContactMailer;
+use App\Ninja\Mailers\VendorMailer;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -49,9 +48,9 @@ class SendBillEmail implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @param BillContactMailer $mailer
+     * @param VendorMailer $mailer
      */
-    public function handle(BillContactMailer $mailer)
+    public function handle(VendorMailer $mailer)
     {
         // send email as user
         if (App::runningInConsole() && $this->userId) {
@@ -68,15 +67,15 @@ class SendBillEmail implements ShouldQueue
     /*
      * Handle a job failure.
      *
-     * @param VendorContactMailer $mailer
+     * @param VendorMailer $mailer
      * @param Logger $logger
      */
 
     /**
-     * @param VendorContactMailer $mailer
+     * @param VendorMailer $mailer
      * @param Logger $logger
      */
-    public function failed(VendorContactMailer $mailer, Logger $logger)
+    public function failed(VendorMailer $mailer, Logger $logger)
     {
         $this->jobName = $this->job->getName();
 

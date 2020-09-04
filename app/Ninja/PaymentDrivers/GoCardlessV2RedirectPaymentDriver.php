@@ -142,7 +142,7 @@ class GoCardlessV2RedirectPaymentDriver extends BasePaymentDriver
                 if (! $payment->isFailed()) {
                     $payment->markFailed($event['details']['description']);
 
-                    $userMailer = app('App\Ninja\Mailers\UserMailer');
+                    $userMailer = app('App\Ninja\Mailers\InvoiceMailer');
                     $userMailer->sendNotification($payment->user, $payment->invoice, 'payment_failed', $payment);
                 }
             } elseif ($action == 'paid_out') {

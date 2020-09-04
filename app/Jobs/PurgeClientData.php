@@ -35,7 +35,7 @@ class PurgeClientData extends Job
             $client = $this->client;
             $contact = $client->getPrimaryContact();
 
-            if (!$user->is_admin) {
+            if (!auth()->check() || !$user->is_admin) {
                 return false;
             }
 

@@ -10,7 +10,7 @@ use App\Libraries\Utils;
 use App\Models\Currency;
 use App\Models\Invoice;
 use App\Models\ScheduledReport;
-use App\Ninja\Mailers\UserMailer;
+use App\Ninja\Mailers\InvoiceMailer;
 use App\Ninja\Repositories\AccountRepository;
 use App\Ninja\Repositories\InvoiceRepository;
 use App\Services\PaymentService;
@@ -58,13 +58,13 @@ class SendReminders extends Command
      * @param InvoiceRepository $invoiceRepo
      * @param PaymentService $paymentService
      * @param accountRepository $accountRepo
-     * @param UserMailer $userMailer
+     * @param InvoiceMailer $userMailer
      */
     public function __construct(
         InvoiceRepository $invoiceRepo,
         PaymentService $paymentService,
         AccountRepository $accountRepo,
-        UserMailer $userMailer)
+        InvoiceMailer $userMailer)
     {
         parent::__construct();
 

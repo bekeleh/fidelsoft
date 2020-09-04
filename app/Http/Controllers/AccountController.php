@@ -29,8 +29,8 @@ use App\Models\LookupUser;
 use App\Models\Product;
 use App\Models\TaxRate;
 use App\Models\User;
-use App\Ninja\Mailers\ContactMailer;
-use App\Ninja\Mailers\UserMailer;
+use App\Ninja\Mailers\ClientMailer;
+use App\Ninja\Mailers\InvoiceMailer;
 use App\Ninja\Repositories\AccountRepository;
 use App\Ninja\Repositories\ReferralRepository;
 use App\Services\AuthService;
@@ -69,15 +69,15 @@ class AccountController extends BaseController
      * AccountController constructor.
      *
      * @param AccountRepository $accountRepo
-     * @param UserMailer $userMailer
-     * @param ContactMailer $contactMailer
+     * @param InvoiceMailer $userMailer
+     * @param ClientMailer $contactMailer
      * @param ReferralRepository $referralRepository
      * @param PaymentService $paymentService
      */
     public function __construct(
         AccountRepository $accountRepo,
-        UserMailer $userMailer,
-        ContactMailer $contactMailer,
+        InvoiceMailer $userMailer,
+        ClientMailer $contactMailer,
         ReferralRepository $referralRepository,
         PaymentService $paymentService
     )

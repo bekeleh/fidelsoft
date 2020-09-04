@@ -158,7 +158,7 @@ class InvoiceItemApiController extends BaseAPIController
         if (config('queue.default') !== 'sync') {
             $this->dispatch(new SendInvoiceItemEmail($invoice, auth()->user()->id, $reminder, $template));
         } else {
-            $result = app('App\Ninja\Mailers\ContactMailer')->sendInvoiceItem($invoice, $reminder, $template);
+            $result = app('App\Ninja\Mailers\ClientMailer')->sendInvoiceItem($invoice, $reminder, $template);
             if ($result !== true) {
                 return $this->errorResponse($result, 500);
             }

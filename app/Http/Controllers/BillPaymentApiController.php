@@ -6,7 +6,7 @@ use App\Http\Requests\CreateBillPaymentAPIRequest;
 use App\Http\Requests\BillPaymentRequest;
 use App\Http\Requests\UpdateBillPaymentRequest;
 use App\Models\BillPayment;
-use App\Ninja\Mailers\VendorContactMailer;
+use App\Ninja\Mailers\VendorMailer;
 use App\Ninja\Repositories\BillPaymentRepository;
 use App\Services\BillPaymentService;
 use Input;
@@ -19,7 +19,7 @@ class BillPaymentApiController extends BaseAPIController
 
     protected $entityType = ENTITY_BILL_PAYMENT;
 
-    public function __construct(BillPaymentRepository $paymentRepo, BillPaymentService $paymentService, VendorContactMailer $contactMailer)
+    public function __construct(BillPaymentRepository $paymentRepo, BillPaymentService $paymentService, VendorMailer $contactMailer)
     {
         parent::__construct();
 

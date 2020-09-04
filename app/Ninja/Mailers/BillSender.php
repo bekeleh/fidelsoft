@@ -16,7 +16,7 @@ use Swift_Mailer;
 /**
  * Class Mailer.
  */
-class Mailer
+class BillSender
 {
     public function sendTo($toEmail, $fromEmail, $fromName, $subject, $view, $data = [])
     {
@@ -35,7 +35,7 @@ class Mailer
         $fromEmail = CONTACT_EMAIL;
 //       if it's in debugging mode/ development
         if (Utils::isSelfHost() && config('app.debug')) {
-            \Log::info("Sending email - To: {$toEmail} | Reply: {$replyEmail} | From: $fromEmail");
+            Log::info("Sending email - To: {$toEmail} | Reply: {$replyEmail} | From: $fromEmail");
         }
 
         // Optionally send for alternate domain
@@ -106,7 +106,7 @@ class Mailer
                     $message->bcc($data['bccEmail']);
                 }
 
-                // Handle invoice attachments
+                // Handle bill attachments
                 if (!empty($data['pdfString']) && !empty($data['pdfFileName'])) {
                     $message->attachData($data['pdfString'], $data['pdfFileName']);
                 }
@@ -148,7 +148,7 @@ class Mailer
             $attachments[] = PostmarkAttachment::fromFile(public_path('images/emails/icon-github.png'), 'icon-github.png', null, 'cid:icon-github.png');
         }
 
-        // Handle invoice attachments
+        // Handle bill attachments
         if (!empty($data['pdfString']) && !empty($data['pdfFileName'])) {
             $attachments[] = PostmarkAttachment::fromRawData($data['pdfString'], $data['pdfFileName']);
         }
@@ -162,7 +162,7 @@ class Mailer
         }
 
         try {
-            $client = new PostmarkClient(config('services.postmark'));
+            $vendor = new PostmarkClient(config('services.postmark'));
             $message = [
                 'To' => $toEmail,
                 'From' => sprintf('"%s" <%s>', addslashes($fromName), $fromEmail),
@@ -181,7 +181,7 @@ class Mailer
                 $message['Tag'] = $data['tag'];
             }
 
-            $response = $client->sendEmailBatch([$message]);
+            $response = $vendor->sendEmailBatch([$message]);
             if ($messageId = $response[0]->messageid) {
                 return $this->handleSuccess($data, $messageId);
             } else {
@@ -204,13 +204,13 @@ class Mailer
     {
         if (isset($data['invitation'])) {
             $invitation = $data['invitation'];
-            $invoice = $invitation->invoice;
+            $bill = $invitation->bill;
             $notes = isset($data['notes']) ? $data['notes'] : false;
 
             if (!empty($data['proposal'])) {
                 $invitation->markSent($messageId);
             } else {
-                $invoice->markInvitationSent($invitation, $messageId, true, $notes);
+                $bill->markInvitationSent($invitation, $messageId, true, $notes);
             }
         }
 

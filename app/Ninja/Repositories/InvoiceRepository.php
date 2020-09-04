@@ -816,7 +816,7 @@ class InvoiceRepository extends BaseRepository
         }
 
         if (config('queue.default') === 'sync') {
-            app('App\Ninja\Mailers\ContactMailer')->sendInvoice($invoice);
+            app('App\Ninja\Mailers\ClientMailer')->sendInvoice($invoice);
         } else {
             dispatch(new SendInvoiceEmail($invoice));
         }

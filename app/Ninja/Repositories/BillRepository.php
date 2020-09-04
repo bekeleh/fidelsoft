@@ -797,7 +797,7 @@ class BillRepository extends BaseRepository
         }
 
         if (config('queue.default') === 'sync') {
-            app('App\Ninja\Mailers\VendorContactMailer')->sendBill($bill);
+            app('App\Ninja\Mailers\VendorMailer')->sendBill($bill);
         } else {
             dispatch(new SendBillEmail($bill));
         }

@@ -23,6 +23,7 @@ class ConvertInvoiceToUbl extends Job
     const INVOICE_TYPE_STANDARD = 380;
     const INVOICE_TYPE_CREDIT = 381;
 
+    public $invoice;
 
     public function __construct($invoice)
     {

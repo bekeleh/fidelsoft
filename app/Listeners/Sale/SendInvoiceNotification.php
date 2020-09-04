@@ -8,8 +8,8 @@ use App\Events\Sale\QuoteInvitationWasViewedEvent;
 use App\Events\Sale\QuoteWasEmailedEvent;
 use App\Jobs\SendNotificationEmail;
 use App\Jobs\SendPaymentEmail;
-use App\Ninja\Mailers\ContactMailer;
-use App\Ninja\Mailers\UserMailer;
+use App\Ninja\Mailers\ClientMailer;
+use App\Ninja\Mailers\InvoiceMailer;
 use App\Notifications\Sale\NotifyInvoicePaymentCreated;
 use App\Services\PushService;
 
@@ -19,11 +19,11 @@ use App\Services\PushService;
 class SendInvoiceNotification
 {
     /**
-     * @var UserMailer
+     * @var InvoiceMailer
      */
     protected $userMailer;
     /**
-     * @var ContactMailer
+     * @var ClientMailer
      */
     protected $contactMailer;
     /**
@@ -33,13 +33,13 @@ class SendInvoiceNotification
 
     /**
      * SendInvoiceNotification constructor.
-     * @param UserMailer $userMailer
-     * @param ContactMailer $contactMailer
+     * @param InvoiceMailer $userMailer
+     * @param ClientMailer $contactMailer
      * @param PushService $pushService
      */
     public function __construct(
-        UserMailer $userMailer,
-        ContactMailer $contactMailer,
+        InvoiceMailer $userMailer,
+        ClientMailer $contactMailer,
         PushService $pushService)
     {
         $this->userMailer = $userMailer;

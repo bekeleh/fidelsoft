@@ -16,7 +16,7 @@ class EmailInvoiceIntent extends InvoiceIntent
             throw new Exception(trans('texts.not_allowed'));
         }
 
-        $contactMailer = app('App\Ninja\Mailers\ContactMailer');
+        $contactMailer = app('App\Ninja\Mailers\ClientMailer');
         $contactMailer->sendInvoice($invoice);
 
         $message = trans('texts.bot_emailed_' . $invoice->getEntityType());

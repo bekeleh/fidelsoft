@@ -8,7 +8,7 @@ use App\Libraries\Utils;
 use App\Models\SecurityCode;
 use App\Models\User;
 use App\Ninja\Intents\BaseIntent;
-use App\Ninja\Mailers\UserMailer;
+use App\Ninja\Mailers\InvoiceMailer;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -19,7 +19,7 @@ class BotController extends Controller
 {
     protected $userMailer;
 
-    public function __construct(UserMailer $userMailer)
+    public function __construct(InvoiceMailer $userMailer)
     {
         $this->userMailer = $userMailer;
     }

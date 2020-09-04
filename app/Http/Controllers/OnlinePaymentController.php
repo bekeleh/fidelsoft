@@ -10,7 +10,7 @@ use App\Models\GatewayType;
 use App\Models\Invitation;
 use App\Models\PaymentMethod;
 use App\Models\Product;
-use App\Ninja\Mailers\UserMailer;
+use App\Ninja\Mailers\InvoiceMailer;
 use App\Ninja\Repositories\ClientRepository;
 use App\Ninja\Repositories\InvoiceRepository;
 use App\Services\InvoiceService;
@@ -37,7 +37,7 @@ class OnlinePaymentController extends BaseController
     protected $paymentService;
 
     /**
-     * @var UserMailer
+     * @var InvoiceMailer
      */
     protected $userMailer;
 
@@ -50,9 +50,9 @@ class OnlinePaymentController extends BaseController
      * OnlinePaymentController constructor.
      *
      * @param PaymentService $paymentService
-     * @param UserMailer $userMailer
+     * @param InvoiceMailer $userMailer
      */
-    public function __construct(PaymentService $paymentService, UserMailer $userMailer, InvoiceRepository $invoiceRepo)
+    public function __construct(PaymentService $paymentService, InvoiceMailer $userMailer, InvoiceRepository $invoiceRepo)
     {
         $this->paymentService = $paymentService;
         $this->userMailer = $userMailer;

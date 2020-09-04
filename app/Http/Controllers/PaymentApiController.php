@@ -6,7 +6,7 @@ use App\Http\Requests\CreatePaymentAPIRequest;
 use App\Http\Requests\PaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
 use App\Models\Payment;
-use App\Ninja\Mailers\ContactMailer;
+use App\Ninja\Mailers\ClientMailer;
 use App\Ninja\Repositories\PaymentRepository;
 use App\Services\PaymentService;
 use Input;
@@ -19,7 +19,7 @@ class PaymentApiController extends BaseAPIController
 
     protected $entityType = ENTITY_PAYMENT;
 
-    public function __construct(PaymentRepository $paymentRepo, PaymentService $paymentService, ContactMailer $contactMailer)
+    public function __construct(PaymentRepository $paymentRepo, PaymentService $paymentService, ClientMailer $contactMailer)
     {
         parent::__construct();
 

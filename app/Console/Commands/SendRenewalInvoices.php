@@ -3,10 +3,11 @@
 namespace App\Console\Commands;
 
 use App\Models\Company;
-use App\Ninja\Mailers\ContactMailer as Mailer;
+use App\Ninja\Mailers\ClientMailer as Mailer;
 use App\Ninja\Repositories\AccountRepository;
 use Illuminate\Console\Command;
 use App\Libraries\Utils;
+use Mail;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -91,7 +92,7 @@ class SendRenewalInvoices extends Command
         $this->info('Done');
 
         if ($errorEmail = env('ERROR_EMAIL')) {
-            \Mail::raw('EOM', function ($message) use ($errorEmail, $database) {
+            Mail::raw('EOM', function ($message) use ($errorEmail, $database) {
                 $message->to($errorEmail)
                     ->from(CONTACT_EMAIL)
                     ->subject("SendRenewalInvoices [{$database}]: Finished successfully");

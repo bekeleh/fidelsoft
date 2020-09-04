@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Payment;
-use App\Ninja\Mailers\ContactMailer;
+use App\Ninja\Mailers\ClientMailer;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -33,9 +33,9 @@ class SendPaymentEmail extends Job implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @param ContactMailer $contactMailer
+     * @param ClientMailer $contactMailer
      */
-    public function handle(ContactMailer $contactMailer)
+    public function handle(ClientMailer $contactMailer)
     {
         $contactMailer->sendPaymentConfirmation($this->payment);
     }

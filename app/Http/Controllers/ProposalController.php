@@ -10,7 +10,7 @@ use App\Jobs\SendInvoiceEmail;
 use App\Models\Invoice;
 use App\Models\ProposalTemplate;
 use App\Ninja\Datatables\ProposalDatatable;
-use App\Ninja\Mailers\ContactMailer;
+use App\Ninja\Mailers\ClientMailer;
 use App\Ninja\Repositories\ProposalRepository;
 use App\Services\ProposalService;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +26,7 @@ class ProposalController extends BaseController
 
     protected $entityType = ENTITY_PROPOSAL;
 
-    public function __construct(ProposalRepository $proposalRepo, ProposalService $proposalService, ContactMailer $contactMailer)
+    public function __construct(ProposalRepository $proposalRepo, ProposalService $proposalService, ClientMailer $contactMailer)
     {
         $this->proposalRepo = $proposalRepo;
         $this->proposalService = $proposalService;

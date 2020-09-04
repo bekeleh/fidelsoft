@@ -11,8 +11,8 @@ use App\Models\Location;
 use App\Models\PermissionGroup;
 use App\Models\User;
 use App\Ninja\Datatables\UserDatatable;
-use App\Ninja\Mailers\ContactMailer;
-use App\Ninja\Mailers\UserMailer;
+use App\Ninja\Mailers\ClientMailer;
+use App\Ninja\Mailers\InvoiceMailer;
 use App\Ninja\Repositories\AccountRepository;
 use App\Ninja\Repositories\UserRepository;
 use App\Services\UserService;
@@ -38,8 +38,8 @@ class UserController extends BaseController
     public function __construct(
         UserRepository $userRepo,
         AccountRepository $accountRepo,
-        ContactMailer $contactMailer,
-        UserMailer $userMailer,
+        ClientMailer $contactMailer,
+        InvoiceMailer $userMailer,
         UserService $userService)
     {
         //parent::__construct();

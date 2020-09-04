@@ -4,7 +4,7 @@ namespace App\Jobs;
 
 use App;
 use App\Models\Invoice;
-use App\Ninja\Mailers\ContactMailer;
+use App\Ninja\Mailers\ClientMailer;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -48,9 +48,9 @@ class SendInvoiceEmail implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @param ContactMailer $mailer
+     * @param ClientMailer $mailer
      */
-    public function handle(ContactMailer $mailer)
+    public function handle(ClientMailer $mailer)
     {
         // send email as user
         if (App::runningInConsole() && $this->userId) {
@@ -67,11 +67,11 @@ class SendInvoiceEmail implements ShouldQueue
     /*
      * Handle a job failure.
      *
-     * @param ContactMailer $mailer
+     * @param ClientMailer $mailer
      * @param Logger $logger
      */
 
-    public function failed(ContactMailer $mailer, Logger $logger)
+    public function failed(ClientMailer $mailer, Logger $logger)
     {
         $this->jobName = $this->job->getName();
 

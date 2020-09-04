@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Common\Account;
 use App\Models\Invoice;
-use App\Ninja\Mailers\ContactMailer as Mailer;
+use App\Ninja\Mailers\ClientMailer as Mailer;
 use App\Ninja\Repositories\AccountRepository;
 use App\Services\PaymentService;
 use Illuminate\Console\Command;

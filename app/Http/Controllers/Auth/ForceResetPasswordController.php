@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Ninja\Mailers\UserMailer;
+use App\Ninja\Mailers\InvoiceMailer;
 use App\Services\UserService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -21,7 +21,7 @@ class ForceResetPasswordController extends Controller
     protected $userMailer;
     protected $userService;
 
-    public function __construct(UserMailer $userMailer, UserService $userService)
+    public function __construct(InvoiceMailer $userMailer, UserService $userService)
     {
         //parent::__construct();
 

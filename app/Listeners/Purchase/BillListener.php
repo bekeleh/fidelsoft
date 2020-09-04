@@ -74,7 +74,6 @@ class BillListener
         $invitation->markViewed();
     }
 
-
     public function emailedBill(BillWasEmailedEvent $event)
     {
         $bill = $event->bill;

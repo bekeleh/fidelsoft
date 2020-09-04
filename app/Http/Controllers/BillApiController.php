@@ -383,7 +383,7 @@ class BillApiController extends BaseAPIController
         if (config('queue.default') !== 'sync') {
             $this->dispatch(new SendBillEmail($bill, auth()->user()->id, $reminder, $template));
         } else {
-            $result = app('App\Ninja\Mailers\ContactMailer')->sendBill($bill, $reminder, $template);
+            $result = app('App\Ninja\Mailers\ClientMailer')->sendBill($bill, $reminder, $template);
             if ($result !== true) {
                 return $this->errorResponse($result, 500);
             }

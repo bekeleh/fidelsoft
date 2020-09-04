@@ -499,7 +499,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
     public function sendPasswordResetNotification($token)
     {
         //$this->notify(new ResetPasswordNotification($token));
-        app('App\Ninja\Mailers\UserMailer')->sendPasswordReset($this, $token);
+        app('App\Ninja\Mailers\InvoiceMailer')->sendPasswordReset($this, $token);
     }
 
     /**

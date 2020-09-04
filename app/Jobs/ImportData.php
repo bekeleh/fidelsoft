@@ -7,7 +7,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Monolog\Logger;
 use App\Services\ImportService;
-use App\Ninja\Mailers\UserMailer;
+use App\Ninja\Mailers\InvoiceMailer;
 use App\Models\User;
 use Auth;
 use App;
@@ -60,7 +60,7 @@ class ImportData extends Job implements ShouldQueue
      *
      * @param ContactMailer $mailer
      */
-    public function handle(ImportService $importService, UserMailer $userMailer)
+    public function handle(ImportService $importService, InvoiceMailer $userMailer)
     {
         $includeSettings = false;
 

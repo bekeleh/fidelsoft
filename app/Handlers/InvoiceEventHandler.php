@@ -2,15 +2,15 @@
 
 namespace App\Handlers;
 
-use App\Ninja\Mailers\ContactMailer;
-use App\Ninja\Mailers\UserMailer;
+use App\Ninja\Mailers\ClientMailer;
+use App\Ninja\Mailers\InvoiceMailer;
 
 class InvoiceEventHandler
 {
     protected $userMailer;
     protected $contactMailer;
 
-    public function __construct(UserMailer $userMailer, ContactMailer $contactMailer)
+    public function __construct(InvoiceMailer $userMailer, ClientMailer $contactMailer)
     {
         $this->userMailer = $userMailer;
         $this->contactMailer = $contactMailer;

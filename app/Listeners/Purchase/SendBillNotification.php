@@ -1,7 +1,7 @@
 <?php namespace App\Listeners\Purchase;
 
-use App\Ninja\Mailers\BillUserMailer;
-use App\Ninja\Mailers\VendorContactMailer;
+use App\Ninja\Mailers\BillMailer;
+use App\Ninja\Mailers\VendorMailer;
 use App\Events\Purchase\BillWasEmailedEvent;
 use App\Events\Purchase\BillQuoteWasEmailedEvent;
 use App\Events\Purchase\BillInvitationWasViewedEvent;
@@ -23,12 +23,12 @@ class SendBillNotification
     protected $pushService;
 
     /**
-     * SendInvoiceNotification constructor.
-     * @param BillUserMailer $billMailer
-     * @param VendorContactMailer $contactMailer
+     * SendBillNotification constructor.
+     * @param BillMailer $billMailer
+     * @param VendorMailer $contactMailer
      * @param PushService $pushService
      */
-    public function __construct(BillUserMailer $billMailer, VendorContactMailer $contactMailer, PushService $pushService)
+    public function __construct(BillMailer $billMailer, VendorMailer $contactMailer, PushService $pushService)
     {
         $this->billMailer = $billMailer;
         $this->contactMailer = $contactMailer;
@@ -57,7 +57,7 @@ class SendBillNotification
     /**
      * @param BillWasEmailedEvent $event
      */
-    public function emailedInvoice(BillWasEmailedEvent $event)
+    public function emailedBill(BillWasEmailedEvent $event)
     {
         $this->sendNotifications($event->bill, 'sent', null, $event->notes);
 
@@ -77,7 +77,7 @@ class SendBillNotification
     /**
      * @param BillInvitationWasViewedEvent $event
      */
-    public function viewedInvoice(BillInvitationWasViewedEvent $event)
+    public function viewedBill(BillInvitationWasViewedEvent $event)
     {
         if (!floatval($event->bill->balance)) {
             return;

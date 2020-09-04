@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Ninja\Mailers\ContactMailer;
+use App\Ninja\Mailers\ClientMailer;
 use Illuminate\Bus\Queueable;
 use Monolog\Logger;
 
@@ -15,11 +15,11 @@ abstract class Job
     /*
      * Handle a job failure.
      *
-     * @param ContactMailer $mailer
+     * @param ClientMailer $mailer
      * @param Logger $logger
      */
 
-    protected function failed(ContactMailer $mailer, Logger $logger)
+    protected function failed(ClientMailer $mailer, Logger $logger)
     {
         if (config('queue.failed.notify_email')) {
             $mailer->sendTo(

@@ -2,12 +2,12 @@
 
 namespace App\Ninja\Mailers;
 
-use App\Models\BillInvitation;
-use App\Models\Bill;
-use App\Models\BillPayment;
+use App\Models\Invitation;
+use App\Models\Invoice;
+use App\Models\Payment;
 use App\Models\User;
 
-class BillUserMailer extends Mailer
+class InvoiceMailer extends InvoiceSender
 {
     public function sendConfirmation(User $user, User $invitor = null)
     {
@@ -55,37 +55,37 @@ class BillUserMailer extends Mailer
         $this->sendTo($oldEmail, CONTACT_EMAIL, CONTACT_NAME, $subject, $view, $data);
     }
 
-    public function sendNotification(User $user, Bill $bill, $notificationType, BillPayment $payment = null, $notes = false)
+    public function sendNotification(User $user, Invoice $invoice, $notificationType, Payment $payment = null, $notes = false)
     {
-        if (!$user->shouldNotify($bill)) {
+        if (!$user->shouldNotify($invoice)) {
             return;
         }
 
-        $entityType = $bill->getEntityType();
-        $view = ($notificationType == 'approved' ? ENTITY_BILL_QUOTE : ENTITY_BILL) . "_{$notificationType}";
+        $entityType = $invoice->getEntityType();
+        $view = ($notificationType == 'approved' ? ENTITY_QUOTE : ENTITY_INVOICE) . "_{$notificationType}";
         $account = $user->account;
-        $vendor = $bill->vendor;
-        $link = $bill->present()->multiAccountLink;
+        $client = $invoice->client;
+        $link = $invoice->present()->multiAccountLink;
 
         $data = [
             'entityType' => $entityType,
-            'vendorName' => $vendor->getDisplayName(),
+            'clientName' => $client->getDisplayName(),
             'accountName' => $account->getDisplayName(),
             'userName' => $user->getDisplayName(),
-            'billAmount' => $account->formatMoney($bill->getRequestedAmount(), $vendor),
-            'billNumber' => $bill->bill_number,
-            'billLink' => $link,
+            'invoiceAmount' => $account->formatMoney($invoice->getRequestedAmount(), $client),
+            'invoiceNumber' => $invoice->invoice_number,
+            'invoiceLink' => $link,
             'account' => $account,
         ];
 
         if ($payment) {
             $data['payment'] = $payment;
-            $data['paymentAmount'] = $account->formatMoney($payment->amount, $vendor);
+            $data['paymentAmount'] = $account->formatMoney($payment->amount, $client);
         }
 
         $subject = trans("texts.notification_{$entityType}_{$notificationType}_subject", [
-            'bill' => $bill->bill_number,
-            'vendor' => $vendor->getDisplayName(),
+            'invoice' => $invoice->invoice_number,
+            'client' => $client->getDisplayName(),
         ]);
 
         if ($notes) {
@@ -95,25 +95,25 @@ class BillUserMailer extends Mailer
         $this->sendTo($user->email, CONTACT_EMAIL, CONTACT_NAME, $subject, $view, $data);
     }
 
-    public function sendEmailBounced(BillInvitation $invitation)
+    public function sendEmailBounced(Invitation $invitation)
     {
         $user = $invitation->user;
         $account = $user->account;
-        $bill = $invitation->bill;
-        $entityType = $bill->getEntityType();
+        $invoice = $invitation->invoice;
+        $entityType = $invoice->getEntityType();
 
         if (!$user->email) {
             return;
         }
 
-        $subject = trans("texts.notification_{$entityType}_bounced_subject", ['bill' => $bill->bill_number]);
+        $subject = trans("texts.notification_{$entityType}_bounced_subject", ['invoice' => $invoice->invoice_number]);
         $view = 'email_bounced';
         $data = [
             'userName' => $user->getDisplayName(),
             'emailError' => $invitation->email_error,
             'entityType' => $entityType,
             'contactName' => $invitation->contact->getDisplayName(),
-            'billNumber' => $bill->bill_number,
+            'invoiceNumber' => $invoice->invoice_number,
         ];
 
         $this->sendTo($user->email, CONTACT_EMAIL, CONTACT_NAME, $subject, $view, $data);
@@ -125,7 +125,7 @@ class BillUserMailer extends Mailer
             return;
         }
 
-        $bill = $data && isset($data['bill']) ? $data['bill'] : false;
+        $invoice = $data && isset($data['invoice']) ? $data['invoice'] : false;
         $view = 'user_message';
 
         $data = $data ?: [];
@@ -133,7 +133,7 @@ class BillUserMailer extends Mailer
             'userName' => $user->getDisplayName(),
             'primaryMessage' => $message,
             //'secondaryMessage' => $message,
-            'billLink' => $bill ? $bill->present()->multiAccountLink : false,
+            'invoiceLink' => $invoice ? $invoice->present()->multiAccountLink : false,
         ];
 
         $this->sendTo($user->email, CONTACT_EMAIL, CONTACT_NAME, $subject, $view, $data);

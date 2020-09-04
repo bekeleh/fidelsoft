@@ -525,7 +525,7 @@ class StripePaymentDriver extends BasePaymentDriver
                 if (!$payment->isFailed()) {
                     $payment->markFailed($source['failure_message']);
 
-                    $userMailer = app('App\Ninja\Mailers\UserMailer');
+                    $userMailer = app('App\Ninja\Mailers\InvoiceMailer');
                     $userMailer->sendNotification($payment->user, $payment->invoice, 'payment_failed', $payment);
                 }
             } elseif ($eventType == 'charge.succeeded') {

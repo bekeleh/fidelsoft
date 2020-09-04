@@ -233,7 +233,7 @@ class Contact extends EntityModel implements AuthenticatableContract, CanResetPa
     public function sendPasswordResetNotification($token)
     {
         //$this->notify(new ResetPasswordNotification($token));
-        app('App\Ninja\Mailers\ContactMailer')->sendPasswordReset($this, $token);
+        app('App\Ninja\Mailers\ClientMailer')->sendPasswordReset($this, $token);
     }
 }
 

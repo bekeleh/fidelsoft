@@ -11,7 +11,7 @@ use App\Models\InvoiceDesign;
 use App\Models\Product;
 use App\Models\TaxRate;
 use App\Ninja\Datatables\InvoiceDatatable;
-use App\Ninja\Mailers\ContactMailer as Mailer;
+use App\Ninja\Mailers\ClientMailer as Mailer;
 use App\Ninja\Repositories\ClientRepository;
 use App\Ninja\Repositories\InvoiceRepository;
 use App\Services\InvoiceService;

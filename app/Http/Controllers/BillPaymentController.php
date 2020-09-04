@@ -10,7 +10,7 @@ use App\Models\Vendor;
 use App\Models\Bill;
 use App\Models\BillPayment;
 use App\Ninja\Datatables\BillPaymentDatatable;
-use App\Ninja\Mailers\VendorContactMailer;
+use App\Ninja\Mailers\VendorMailer;
 use App\Ninja\Repositories\BillPaymentRepository;
 use App\Services\BillPaymentService;
 use DropdownButton;
@@ -35,9 +35,9 @@ class BillPaymentController extends BaseController
      *
      * @param BillPaymentRepository $paymentRepo
      * @param BillPaymentService $paymentService
-     * @param VendorContactMailer $contactMailer
+     * @param VendorMailer $contactMailer
      */
-    public function __construct(BillPaymentRepository $paymentRepo, BillPaymentService $paymentService, VendorContactMailer $contactMailer)
+    public function __construct(BillPaymentRepository $paymentRepo, BillPaymentService $paymentService, VendorMailer $contactMailer)
     {
         $this->paymentRepo = $paymentRepo;
         $this->paymentService = $paymentService;

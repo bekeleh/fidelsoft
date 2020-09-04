@@ -6,7 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Models\User;
-use App\Ninja\Mailers\UserMailer;
+use App\Ninja\Mailers\InvoiceMailer;
 use Barracuda\ArchiveStream\Archive;
 
 /**
@@ -38,9 +38,9 @@ class DownloadBill extends Job
     /**
      * Execute the job.
      *
-     * @param UserMailer $userMailer
+     * @param InvoiceMailer $userMailer
      */
-    public function handle(UserMailer $userMailer)
+    public function handle(InvoiceMailer $userMailer)
     {
         if (!extension_loaded('GMP')) {
             die(trans('texts.gmp_required'));

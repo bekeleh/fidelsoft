@@ -3,7 +3,7 @@
 namespace App\Listeners\Auth;
 
 use App\Events\Auth\UserSettingsChangedEvent;
-use App\Ninja\Mailers\UserMailer;
+use App\Ninja\Mailers\InvoiceMailer;
 use App\Ninja\Repositories\AccountRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -17,9 +17,9 @@ class UserSettingsChangedListener
      * Create the event handler.
      *
      * @param AccountRepository $accountRepo
-     * @param UserMailer $userMailer
+     * @param InvoiceMailer $userMailer
      */
-    public function __construct(AccountRepository $accountRepo, UserMailer $userMailer)
+    public function __construct(AccountRepository $accountRepo, InvoiceMailer $userMailer)
     {
         $this->accountRepo = $accountRepo;
         $this->userMailer = $userMailer;

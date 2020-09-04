@@ -132,7 +132,7 @@ class BillPaymentService extends BaseService
             //$message .= $exception->getTraceAsString();
             Utils::logError($message, 'PHP', true);
             if (App::runningInConsole()) {
-                $mailer = app('App\Ninja\Mailers\UserMailer');
+                $mailer = app('App\Ninja\Mailers\InvoiceMailer');
                 $mailer->sendMessage($bill->user, $subject, $message, [
                     'bill' => $bill
                 ]);
@@ -204,7 +204,7 @@ class BillPaymentService extends BaseService
                     }
 
                     if ($refunded && $sendEmail) {
-                        $mailer = app('App\Ninja\Mailers\VendorContactMailer');
+                        $mailer = app('App\Ninja\Mailers\VendorMailer');
                         $mailer->sendPaymentConfirmation($payment, $amount);
                     }
                 }

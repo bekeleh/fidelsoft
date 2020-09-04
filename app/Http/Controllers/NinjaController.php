@@ -7,7 +7,7 @@ use App\Libraries\Utils;
 use App\Models\Affiliate;
 use App\Models\Country;
 use App\Models\License;
-use App\Ninja\Mailers\ContactMailer;
+use App\Ninja\Mailers\ClientMailer;
 use App\Ninja\Repositories\AccountRepository;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +28,7 @@ class NinjaController extends BaseController
     protected $accountRepo;
 
     /**
-     * @var ContactMailer
+     * @var ClientMailer
      */
     protected $contactMailer;
 
@@ -36,9 +36,9 @@ class NinjaController extends BaseController
      * NinjaController constructor.
      *
      * @param AccountRepository $accountRepo
-     * @param ContactMailer $contactMailer
+     * @param ClientMailer $contactMailer
      */
-    public function __construct(AccountRepository $accountRepo, ContactMailer $contactMailer)
+    public function __construct(AccountRepository $accountRepo, ClientMailer $contactMailer)
     {
         $this->accountRepo = $accountRepo;
         $this->contactMailer = $contactMailer;
