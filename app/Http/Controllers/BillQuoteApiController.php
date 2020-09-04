@@ -6,7 +6,7 @@ use App\Models\Bill;
 
 class BillQuoteApiController extends BillApiController
 {
-    protected $BillRepo;
+    protected $billRepo;
 
     protected $entityType = ENTITY_BILL;
 
@@ -29,10 +29,8 @@ class BillQuoteApiController extends BillApiController
      */
     public function index()
     {
-        $invoices = Bill::scope()
-            ->withTrashed()
-            ->quotes()
-            ->with('Bill_items', 'vendor')
+        $invoices = Bill::scope()->withTrashed()
+            ->quotes()->with('invoice_items', 'vendor')
             ->orderBy('updated_at', 'desc');
 
         return $this->listResponse($invoices);

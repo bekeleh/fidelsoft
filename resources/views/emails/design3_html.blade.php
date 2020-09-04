@@ -12,7 +12,7 @@
     </tr>
     <tr>
         <td style="border-collapse: collapse;">
-            @if ($entityType == ENTITY_INVOICE)
+            @if ($entityType == ENTITY_INVOICE || $entityType == ENTITY_QUOTE)
                 @include('emails.partials.invoice_body')
             @else
                 @include('emails.partials.bill_body')

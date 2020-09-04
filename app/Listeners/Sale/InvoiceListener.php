@@ -209,7 +209,7 @@ class InvoiceListener
         $users = User::whereIn('id', $subscribers)->get();
         $this->title = trans('texts.updated_invoice');
         if ($users) {
-            Notification::send($users, new NotifyInvoiceUpdated($invoice,$this->title));
+            Notification::send($users, new NotifyInvoiceUpdated($invoice, $this->title));
         }
     }
 

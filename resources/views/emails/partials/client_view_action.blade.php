@@ -1,6 +1,6 @@
 <script type="application/ld+json">
 [
-@if ($entityType == ENTITY_INVOICE)
+@if ($entityType == ENTITY_INVOICE || $entityType == ENTITY_QUOTE)
 {
 "@context": "http://schema.org",
 "@type": "Invoice",

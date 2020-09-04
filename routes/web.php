@@ -240,13 +240,13 @@ Route::group(['middleware' => ['lookup:user', 'auth:user', 'banned:user']], func
     Route::get('recurring_expenses/{recurring_expenses}/edit', 'RecurringExpenseController@edit');
     Route::get('recurring_expenses/{recurring_expenses}', 'RecurringExpenseController@edit');
     Route::post('recurring_expenses/bulk', 'RecurringExpenseController@bulk');
-
+//  documentation
     Route::get('documents/{documents}/{filename?}', 'DocumentController@get');
     Route::get('documents/js/{documents}/{filename}', 'DocumentController@getVFSJS');
     Route::get('documents/preview/{documents}/{filename?}', 'DocumentController@getPreview');
     Route::post('documents', 'DocumentController@postUpload');
     Route::delete('documents/{documents}', 'DocumentController@delete');
-
+//   quote
     Route::get('quotes/create/{client_id?}', 'QuoteController@create');
     Route::get('quotes/{invoices}/clone', 'InvoiceController@cloneQuote');
     Route::get('quotes/{invoices}/edit', 'InvoiceController@edit');
@@ -256,6 +256,16 @@ Route::group(['middleware' => ['lookup:user', 'auth:user', 'banned:user']], func
     Route::get('quotes', 'QuoteController@index');
     Route::get('api/quotes/{client_id?}', 'QuoteController@getDatatable');
     Route::post('quotes/bulk', 'QuoteController@bulk');
+//    bill quote
+    Route::get('bill_quotes/create/{vendor_id?}', 'BillQuoteController@create');
+    Route::get('bill_quotes/{bills}/clone', 'BillController@cloneQuote');
+    Route::get('bill_quotes/{bills}/edit', 'BillController@edit');
+    Route::put('bill_quotes/{bills}', 'BillController@update');
+    Route::get('bill_quotes/{bills}', 'BillController@edit');
+    Route::post('bill_quotes', 'BillController@store');
+    Route::get('bill_quotes', 'BillQuoteController@index');
+    Route::get('api/bill_quotes/{vendor_id?}', 'BillQuoteController@getDatatable');
+    Route::post('bill_quotes/bulk', 'BillQuoteController@bulk');
 //       client type
     Route::get('client_types/{client_types}/clone', 'ClientTypeController@cloneClientType');
     Route::get('api/client_types', 'ClientTypeController@getDatatable');

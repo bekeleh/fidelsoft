@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Events\BillQuoteInvitationWasApprovedEvent;
+use App\Events\Purchase\BillQuoteInvitationWasApprovedEvent;
 use App\Jobs\DownloadBill;
 use App\Libraries\Utils;
 use App\Models\Vendor;
@@ -28,10 +28,7 @@ class BillService extends BaseService
      * @param BillRepository $billRepo
      * @param DatatableService $datatableService
      */
-    public function __construct(
-        VendorRepository $vendorRepo,
-        BillRepository $billRepo,
-        DatatableService $datatableService)
+    public function __construct(VendorRepository $vendorRepo, BillRepository $billRepo, DatatableService $datatableService)
     {
         $this->vendorRepo = $vendorRepo;
         $this->billRepo = $billRepo;
@@ -95,7 +92,7 @@ class BillService extends BaseService
         return $bill;
     }
 
-    public function approveQuote($quote, BillInvitation $billInvitation = null)
+    public function approveQuote($quote, BillInvitation $invitation = null)
     {
         $account = $quote->account;
 
@@ -103,14 +100,14 @@ class BillService extends BaseService
             return null;
         }
 
-        event(new BillQuoteInvitationWasApprovedEvent($quote, $billInvitation));
+        event(new BillQuoteInvitationWasApprovedEvent($quote, $invitation));
 
         if ($account->auto_convert_quote) {
             $bill = $this->convertQuote($quote);
 
             foreach ($bill->bill_invitations as $invitation) {
-                if ($billInvitation->contact_id == $invitation->contact_id) {
-                    $billInvitation = $invitation;
+                if ($invitation->contact_id == $invitation->contact_id) {
+                    $invitation = $invitation;
                 }
             }
         } else {
@@ -121,7 +118,7 @@ class BillService extends BaseService
             $this->billRepo->archive($quote);
         }
 
-        return $billInvitation->invitation_key;
+        return $invitation->invitation_key;
     }
 
     public function getDatatable($accountId, $vendorPublicId, $entityType, $search)

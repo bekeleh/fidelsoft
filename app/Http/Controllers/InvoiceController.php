@@ -339,6 +339,7 @@ class InvoiceController extends BaseController
 
         $entityType = $invoice->getEntityType();
         $message = trans("texts.updated_{$entityType}");
+
         Session::flash('message', $message);
 
         if ($action == 'clone_invoice') {
@@ -346,7 +347,7 @@ class InvoiceController extends BaseController
         } else if ($action == 'clone_quote') {
             return url(sprintf('quotes/%s/clone', $invoice->public_id));
         } elseif ($action == 'convert') {
-            return $this->convertQuote($request, $invoice->public_id);
+            return $this->convertQuote($request);
         } elseif ($action == 'email') {
             $this->emailInvoice($invoice);
         }
@@ -545,7 +546,9 @@ class InvoiceController extends BaseController
             } else {
                 $key = "{$action}d_{$entityType}";
             }
+
             $message = Utils::pluralize($key, $count);
+
             Session::flash('message', $message);
         }
 
