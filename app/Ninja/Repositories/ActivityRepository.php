@@ -9,20 +9,23 @@ use App\Models\Client;
 use App\Models\Invitation;
 use App\Models\BillInvitation;
 use App\Models\Vendor;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
-use Log;
 
 class ActivityRepository extends BaseRepository
 {
-    private $model;
 
-    public function __construct(Activity $model)
-    {
-        $this->model = $model;
-    }
-
+    /**
+     * @param $entity
+     * @param $activityTypeId
+     * @param int $balanceChange
+     * @param int $paidToDateChange
+     * @param null $altEntity
+     * @param bool $notes
+     * @return Activity|mixed
+     */
     public function create($entity, $activityTypeId, $balanceChange = 0, $paidToDateChange = 0, $altEntity = null, $notes = false)
     {
         if ($entity instanceof Client) {
@@ -57,6 +60,15 @@ class ActivityRepository extends BaseRepository
         return $activity;
     }
 
+    /**
+     * @param $entity
+     * @param $activityTypeId
+     * @param int $balanceChange
+     * @param int $paidToDateChange
+     * @param null $altEntity
+     * @param bool $notes
+     * @return Activity|mixed
+     */
     public function createBill($entity, $activityTypeId, $balanceChange = 0, $paidToDateChange = 0, $altEntity = null, $notes = false)
     {
         if ($entity instanceof Vendor) {
@@ -81,7 +93,6 @@ class ActivityRepository extends BaseRepository
         $keyField = $entity->getKeyField();
         $activity->$keyField = $entity->id;
         $activity->ip = Request::getClientIp();
-        Log::info($activity);
 
         $activity->save();
 
@@ -92,6 +103,10 @@ class ActivityRepository extends BaseRepository
         return $activity;
     }
 
+    /**
+     * @param $entity
+     * @return Activity
+     */
     private function getBlank($entity)
     {
         $activity = new Activity();
@@ -110,6 +125,11 @@ class ActivityRepository extends BaseRepository
         return $activity;
     }
 
+    /**
+     * @param $clientId
+     * @param null $filter
+     * @return Builder
+     */
     public function findByClientId($clientId, $filter = null)
     {
         $query = DB::table('activities')
@@ -165,6 +185,11 @@ class ActivityRepository extends BaseRepository
         return $query;
     }
 
+    /**
+     * @param $vendorId
+     * @param null $filter
+     * @return Builder
+     */
     public function findByVendorId($vendorId, $filter = null)
     {
         $query = DB::table('activities')

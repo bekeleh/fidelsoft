@@ -305,6 +305,11 @@ class Document extends EntityModel
         return url('client/documents/' . $invitation->invitation_key . '/' . $this->public_id . '/' . $this->name);
     }
 
+    public function getVendorUrl($invitation)
+    {
+        return url('vendor/documents/' . $invitation->invitation_key . '/' . $this->public_id . '/' . $this->name);
+    }
+
     public function getProposalUrl()
     {
         if (!$this->is_proposal || !$this->document_key) {

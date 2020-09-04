@@ -19,6 +19,10 @@ use App\Models\ItemStore;
 use App\Models\Vendor;
 use App\Services\PaymentService;
 use Datatable;
+use Exception;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -31,6 +35,13 @@ class BillRepository extends BaseRepository
     protected $paymentService;
     protected $paymentRepo;
 
+    /**
+     * BillRepository constructor.
+     * @param Bill $model
+     * @param PaymentService $paymentService
+     * @param PaymentRepository $paymentRepo
+     * @param DocumentRepository $documentRepo
+     */
     public function __construct(Bill $model, PaymentService $paymentService, PaymentRepository $paymentRepo, DocumentRepository $documentRepo)
     {
         $this->model = $model;
@@ -49,9 +60,17 @@ class BillRepository extends BaseRepository
     {
         return Bill::scope()->billType(BILL_TYPE_STANDARD)
             ->with('user', 'vendor.contacts', 'invoice_status')
-            ->withTrashed()->where('is_recurring', false)->get();
+            ->withTrashed()->where('is_recurring', false)
+            ->get();
     }
 
+    /**
+     * @param bool $accountId
+     * @param bool $vendorPublicId
+     * @param string $entityType
+     * @param bool $filter
+     * @return \Illuminate\Database\Query\Builder
+     */
     public function getBills($accountId = false, $vendorPublicId = false, $entityType = ENTITY_BILL, $filter = false)
     {
         $query = DB::table('bills')
@@ -153,6 +172,12 @@ class BillRepository extends BaseRepository
         return $query;
     }
 
+    /**
+     * @param bool $accountId
+     * @param bool $vendorPublicId
+     * @param bool $filter
+     * @return \Illuminate\Database\Query\Builder
+     */
     public function getRecurringBills($accountId = false, $vendorPublicId = false, $filter = false)
     {
         $query = DB::table('bills')
@@ -226,6 +251,12 @@ class BillRepository extends BaseRepository
         return $query;
     }
 
+    /**
+     * @param $contactId
+     * @param null $filter
+     * @return JsonResponse
+     * @throws Exception
+     */
     public function getVendorRecurringDatatable($contactId, $filter = null)
     {
         $query = DB::table('bill_invitations')
@@ -295,6 +326,13 @@ class BillRepository extends BaseRepository
         return $table->make();
     }
 
+    /**
+     * @param $contactId
+     * @param $entityType
+     * @param $search
+     * @return JsonResponse
+     * @throws Exception
+     */
     public function getVendorDatatable($contactId, $entityType, $search)
     {
         $query = DB::table('bill_invitations')
@@ -394,6 +432,11 @@ class BillRepository extends BaseRepository
             })->make();
     }
 
+    /**
+     * @param array $data
+     * @param Bill|null $bill
+     * @return Bill|EntityModel|Builder|Model
+     */
     public function save(array $data, Bill $bill = null)
     {
         $account = $bill ? $bill->account : Auth::user()->account;
@@ -590,7 +633,7 @@ class BillRepository extends BaseRepository
     private function saveInvitations($bill)
     {
         if (empty($bill)) {
-            return null;
+            return;
         }
 
         $vendor = $bill->vendor;
@@ -603,7 +646,7 @@ class BillRepository extends BaseRepository
         }
 
         foreach ($vendor->contacts as $contact) {
-            if ($contact->send_bill) {
+            if ($contact->send_invoice) {
                 $sendBillIds[] = $contact->id;
             }
         }
@@ -614,8 +657,11 @@ class BillRepository extends BaseRepository
         }
 
         foreach ($vendor->contacts as $contact) {
-            $invitation = BillInvitation::scope()->where('contact_id', $contact->id)
-                ->where('bill_id', $bill->id)->first();
+            $invitation = BillInvitation::scope()
+                ->where('contact_id', $contact->id)
+                ->where('bill_id', $bill->id)
+                ->first();
+
             if (in_array($contact->id, $sendBillIds) && empty($invitation)) {
                 $invitation = BillInvitation::createNew($bill);
                 $invitation->bill_id = $bill->id;

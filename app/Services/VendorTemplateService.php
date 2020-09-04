@@ -37,7 +37,7 @@ class VendorTemplateService
         if ($account->hasFeature(FEATURE_DOCUMENTS) && $bill->hasDocuments()) {
             $documentsHTML .= trans('texts.email_documents_header') . '<ul>';
             foreach ($bill->allDocuments() as $document) {
-                $documentsHTML .= '<li><a href="' . HTML::entities($document->getClientUrl($invitation)) . '">' . HTML::entities($document->name) . '</a></li>';
+                $documentsHTML .= '<li><a href="' . HTML::entities($document->getVendorUrl($invitation)) . '">' . HTML::entities($document->name) . '</a></li>';
             }
             $documentsHTML .= '</ul>';
         }
@@ -71,12 +71,12 @@ class VendorTemplateService
             '$paymentButton' => Form::emailPaymentButton($invitation->getLink('payment')) . '$password',
             '$approveLink' => $invitation->getLink('approve') . '$password',
             '$approveButton' => Form::emailPaymentButton($invitation->getLink('approve'), 'approve') . '$password',
-            '$customClient1' => $vendor->custom_value1,
-            '$customClient2' => $vendor->custom_value2,
+            '$customVendor1' => $vendor->custom_value1,
+            '$customVendor2' => $vendor->custom_value2,
             '$customContact1' => $contact->custom_value1,
             '$customContact2' => $contact->custom_value2,
-            '$customInvoice1' => $bill->custom_text_value1,
-            '$customInvoice2' => $bill->custom_text_value2,
+            '$customBill1' => $bill->custom_text_value1,
+            '$customBill2' => $bill->custom_text_value2,
             '$documents' => $documentsHTML,
             '$autoBill' => empty($data['autobill']) ? '' : $data['autobill'],
             '$portalLink' => $invitation->contact->link,

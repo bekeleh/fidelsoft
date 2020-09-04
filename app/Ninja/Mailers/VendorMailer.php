@@ -283,6 +283,7 @@ class VendorMailer extends BillSender
         }
 
         $subject = $this->templateService->processVariables($emailSubject, $variables);
+
         $data['bill_id'] = $billPayment->bill->id;
 
         $view = $account->getTemplateView('payment_confirmation');
@@ -370,6 +371,7 @@ class VendorMailer extends BillSender
                 });
             }
             Cache::put("throttle_notified:{$key}", true, 60 * 24);
+
             return true;
         }
 

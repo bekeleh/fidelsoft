@@ -150,6 +150,7 @@ trait SendsEmails
     /**
      * @param Invoice $invoice
      *
+     * @param bool $filterEnabled
      * @return bool|string
      */
     public function getInvoiceReminder($invoice, $filterEnabled = true)
