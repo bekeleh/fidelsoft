@@ -64,7 +64,6 @@ class BillMailer extends BillSender
 
         $entityType = $bill->getEntityType();
         $view = ($notificationType == 'approved' ? ENTITY_BILL_QUOTE : ENTITY_BILL) . "_{$notificationType}";
-        Log::info('notification' . $view);
         $account = $user->account;
         $vendor = $bill->vendor;
         $link = $bill->present()->multiAccountLink;

@@ -78,7 +78,7 @@ class BillPushService
     private function entitySentMessage(Bill $bill)
     {
         if ($bill->isType(BILL_TYPE_QUOTE)) {
-            return trans('texts.notification_quote_sent_subject', ['bill' => $bill->bill_number, 'vendor' => $bill->vendor->name]);
+            return trans('texts.notification_bill_quote_sent_subject', ['bill' => $bill->bill_number, 'vendor' => $bill->vendor->name]);
         } else {
             return trans('texts.notification_bill_sent_subject', ['bill' => $bill->bill_number, 'vendor' => $bill->vendor->name]);
         }
@@ -91,13 +91,13 @@ class BillPushService
 
     private function quoteApprovedMessage(Bill $bill)
     {
-        return trans('texts.notification_quote_approved_subject', ['bill' => $bill->bill_number, 'vendor' => $bill->vendor->name]);
+        return trans('texts.notification_bill_quote_approved_subject', ['bill' => $bill->bill_number, 'vendor' => $bill->vendor->name]);
     }
 
     private function entityViewedMessage(Bill $bill)
     {
         if ($bill->isType(BILL_TYPE_QUOTE)) {
-            return trans('texts.notification_quote_viewed_subject', ['bill' => $bill->bill_number, 'vendor' => $bill->vendor->name]);
+            return trans('texts.notification_bill_quote_viewed_subject', ['bill' => $bill->bill_number, 'vendor' => $bill->vendor->name]);
         } else {
             return trans('texts.notification_bill_viewed_subject', ['bill' => $bill->bill_number, 'vendor' => $bill->vendor->name]);
         }

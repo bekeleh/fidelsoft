@@ -1367,15 +1367,36 @@ class Utils
 
         $fields = [
             'contact_id',
-            'contact_id',
             'payment_id',
-            'bill_payment_id',
-            'invoice_id',
             'invoice_id',
             'credit_id',
-            'VENDOR_CREDIT_id',
             'invitation_id',
-            'Bill_invitation_id',
+        ];
+
+        $fields1 = $entity1->getAttributes();
+        $fields2 = $entity2->getAttributes();
+
+        foreach ($fields as $field) {
+            if (isset($fields2[$field]) && $fields2[$field]) {
+                $entity1->$field = $entity2->$field;
+            }
+        }
+
+        return $entity1;
+    }
+
+    public static function copyBillContext($entity1, $entity2)
+    {
+        if (!$entity2) {
+            return $entity1;
+        }
+
+        $fields = [
+            'vendor_contact_id',
+            'bill_payment_id',
+            'bill_id',
+            'vendor_credit_id',
+            'bill_invitation_id',
         ];
 
         $fields1 = $entity1->getAttributes();
@@ -1393,7 +1414,7 @@ class Utils
     public static function addHttp($url)
     {
         if (!preg_match('~^(?:f|ht)tps?://~i', $url)) {
-            $url = 'http://' . $url;
+            $url = 'https://' . $url;
         }
 
         return $url;

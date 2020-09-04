@@ -12,6 +12,7 @@ use App\Models\Vendor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
+use Log;
 
 class ActivityRepository extends BaseRepository
 {
@@ -68,8 +69,8 @@ class ActivityRepository extends BaseRepository
 
         // init activity and copy over context
         $activity = self::getBlank($altEntity ?: ($vendor ?: $entity));
-        $activity = Utils::copyContext($activity, $entity);
-        $activity = Utils::copyContext($activity, $altEntity);
+        $activity = Utils::copyBillContext($activity, $entity);
+        $activity = Utils::copyBillContext($activity, $altEntity);
 
         $activity->activity_type_id = $activityTypeId;
         $activity->adjustment = $balanceChange;
@@ -78,13 +79,9 @@ class ActivityRepository extends BaseRepository
         $activity->notes = $notes ?: '';
 
         $keyField = $entity->getKeyField();
-
-        if ($keyField == 'contact_id') {
-            $activity->vendor_contact_id = $entity->id;
-        } else {
-            $activity->$keyField = $entity->id;
-        }
+        $activity->$keyField = $entity->id;
         $activity->ip = Request::getClientIp();
+        Log::info($activity);
 
         $activity->save();
 

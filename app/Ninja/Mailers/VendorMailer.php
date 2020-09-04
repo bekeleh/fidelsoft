@@ -108,7 +108,6 @@ class VendorMailer extends BillSender
             if ($bill->isType(BILL_TYPE_QUOTE)) {
                 event(new BillQuoteWasEmailedEvent($bill, $reminder));
             } else {
-                Log::info('bill was emailed event is triggered.');
                 event(new BillWasEmailedEvent($bill, $reminder));
             }
         }

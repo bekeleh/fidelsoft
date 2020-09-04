@@ -36,25 +36,6 @@ class SendBillNotification
     }
 
     /**
-     * @param $bill
-     * @param $type
-     * @param null $billPayment
-     * @param bool $notes
-     */
-    private function sendNotifications($bill, $type, $billPayment = null, $notes = false)
-    {
-        foreach ($bill->account->users as $user) {
-            if ($user->{"notify_{$type}"}) {
-                dispatch(new SendBillNotificationEmail($user, $bill, $type, $billPayment, $notes));
-            }
-
-            if ($billPayment && $user->slack_webhook_url) {
-                $user->notify(new NotifyBillPaymentCreated($billPayment, $bill));
-            }
-        }
-    }
-
-    /**
      * @param BillWasEmailedEvent $event
      */
     public function emailedBill(BillWasEmailedEvent $event)
@@ -127,6 +108,25 @@ class SendBillNotification
         $this->sendNotifications($event->payment->bill, 'paid', $event->payment);
 
         $this->pushService->sendNotification($event->payment->bill, 'paid');
+    }
+
+    /**
+     * @param $bill
+     * @param $type
+     * @param null $billPayment
+     * @param bool $notes
+     */
+    private function sendNotifications($bill, $type, $billPayment = null, $notes = false)
+    {
+        foreach ($bill->account->users as $user) {
+            if ($user->{"notify_{$type}"}) {
+                dispatch(new SendBillNotificationEmail($user, $bill, $type, $billPayment, $notes));
+            }
+
+            if ($billPayment && $user->slack_webhook_url) {
+                $user->notify(new NotifyBillPaymentCreated($billPayment, $bill));
+            }
+        }
     }
 
 }

@@ -1172,7 +1172,20 @@ $LANG = array(
     'specify_colors_label' => 'Select the colors used in the invoice',
     'chart_builder' => 'Chart Builder',
     'ninja_email_footer' => 'Created by :site | Create. Send. Get Paid.',
-//   Quotes
+//   notification
+    'bill_quote_link_message' => 'To view your vendor quote click the link below:',
+    'notification_bill_quote_sent_subject' => 'Quote :bill was sent to :vendor',
+    'notification_bill_quote_viewed_subject' => 'Quote :bill was viewed by :vendor',
+    'notification_bill_quote_sent' => 'The following bill :bill was emailed Quote :bill for :amount.',
+    'notification_bill_quote_viewed' => 'The following vendor :vendor viewed Quote :bill for :amount.',
+    'bill_link_message' => 'To view the bill click the link below:',
+    'notification_bill_paid_subject' => 'Bill :bill was paid for :vendor',
+    'notification_bill_sent_subject' => 'Bill :vendor was sent to :vendor',
+    'notification_bill_viewed_subject' => 'Bill :vendor was viewed by :vendor',
+    'notification_bill_paid' => 'A payment of :amount was made by vendor :vendor towards Bill :bill.',
+    'notification_bill_sent' => 'The following vendor :vendor was emailed Bill :bill for :amount.',
+
+    //   Quotes
     'go_pro' => 'Go Pro',
     'quote' => 'Sale Quote',
     'quotes' => 'Sale Quotes',
@@ -1210,9 +1223,11 @@ $LANG = array(
     'quote_message' => 'To view your quote for :amount, click the link below.',
     'quote_link_message' => 'To view your client quote click the link below:',
     'notification_quote_sent_subject' => 'Quote :invoice was sent to :client',
+    'notification_viewed_subject' => 'Bill :invoice was viewed by :client',
     'notification_quote_viewed_subject' => 'Quote :invoice was viewed by :client',
     'notification_quote_sent' => 'The following client :client was emailed Quote :invoice for :amount.',
     'notification_quote_viewed' => 'The following client :client viewed Quote :invoice for :amount.',
+
     'session_expired' => 'Your session has expired.',
     'invoice_fields' => 'Invoice Fields',
     'invoice_options' => 'Invoice Options',
@@ -1389,7 +1404,9 @@ $LANG = array(
     'converted' => 'Converted',
     'email_approved' => 'Email me when a quote is <b>approved</b>',
     'notification_quote_approved_subject' => 'Quote :invoice was approved by :client',
+    'notification_bill_quote_approved_subject' => 'Quote :bill was approved by :vendor',
     'notification_quote_approved' => 'The following client :client approved Quote :invoice for :amount.',
+    'notification_bill_quote_approved' => 'The following vendor :vendor approved Quote :bill for :amount.',
     'resend_confirmation' => 'Resend confirmation email',
     'confirmation_resent' => 'The confirmation email was resent',
     'gateway_help_42' => ':link to sign up for BitPay.<br/>Note: use a Legacy API Key, not an API token.',

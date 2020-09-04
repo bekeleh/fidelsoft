@@ -78,7 +78,6 @@ class BillListener
 
     public function emailedBill(BillWasEmailedEvent $event)
     {
-        Log::info('emailed bill');
         $bill = $event->bill;
         $bill->last_sent_date = date('Y-m-d');
 
