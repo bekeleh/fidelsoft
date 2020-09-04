@@ -30,6 +30,8 @@ use Illuminate\Support\Facades\Notification;
  */
 class InvoiceListener
 {
+    public $title;
+
     public function createdInvoice(InvoiceWasCreatedEvent $event)
     {
         $invoice = $event->invoice;
@@ -191,8 +193,9 @@ class InvoiceListener
 //      get event subscriber
         $subscribers = Subscription::subscriber(EVENT_CREATE_INVOICE);
         $users = User::whereIn('id', $subscribers)->get();
+        $this->title = trans('texts.created_invoice');
         if ($users) {
-            Notification::send($users, new NotifyInvoiceCreated($invoice));
+            Notification::send($users, new NotifyInvoiceCreated($invoice, $this->title));
         }
     }
 
@@ -204,8 +207,9 @@ class InvoiceListener
 //      get event subscriber
         $subscribers = Subscription::subscriber(EVENT_UPDATE_INVOICE);
         $users = User::whereIn('id', $subscribers)->get();
+        $this->title = trans('texts.updated_invoice');
         if ($users) {
-            Notification::send($users, new NotifyInvoiceUpdated($invoice));
+            Notification::send($users, new NotifyInvoiceUpdated($invoice,$this->title));
         }
     }
 
@@ -217,8 +221,9 @@ class InvoiceListener
 //      get event subscriber
         $subscribers = Subscription::subscriber(EVENT_DELETE_INVOICE);
         $users = User::whereIn('id', $subscribers)->get();
+        $this->title = trans('texts.deleted_invoice');
         if ($users) {
-            Notification::send($users, new NotifyInvoiceDeleted($invoice));
+            Notification::send($users, new NotifyInvoiceDeleted($invoice, $this->title));
         }
     }
 }

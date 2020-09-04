@@ -5,7 +5,7 @@
 "@context": "http://schema.org",
 "@type": "Invoice",
 "paymentStatus": "{{ $invoice->present()->paymentStatus }}",
-@if ($invoice->due_date)
+@if (isset($invoice->due_date))
 "paymentDue": "{{ $invoice->due_date }}T00:00:00+00:00",
 @endif
 "provider": {
@@ -31,7 +31,7 @@
 "@context": "http://schema.org",
 "@type": "Bill",
 "paymentStatus": "{{ $bill->present()->paymentStatus }}",
-@if ($bill->due_date)
+@if (isset($bill->due_date))
 "paymentDue": "{{ $bill->due_date }}T00:00:00+00:00",
 @endif
 "provider": {
@@ -45,7 +45,7 @@
 },
 "totalPaymentDue": {
 "@type": "PriceSpecification",
-"price": "{{ $account->formatMoney(isset($payment) ? $payment->amount : $bill->getRequestedAmount(), $client) }}"
+"price": "{{ $account->formatMoney(isset($payment) ? $payment->amount : $bill->getRequestedAmount(), $vendor) }}"
 },
 "action": {
 "@type": "ViewAction",
@@ -63,5 +63,4 @@
 }
 }
 ]
-
 </script>

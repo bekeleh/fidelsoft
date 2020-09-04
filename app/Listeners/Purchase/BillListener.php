@@ -31,6 +31,8 @@ use Log;
  */
 class BillListener
 {
+    public $title;
+
     public function createdBill(BillWasCreatedEvent $event)
     {
         $bill = $event->bill;
@@ -174,8 +176,9 @@ class BillListener
 //      get event subscriber
         $subscribers = Subscription::subscriber(EVENT_UPDATE_BILL);
         $users = User::getNotifyUserId($subscribers);
+        $this->title = trans('texts.created_bill');
         if ($users) {
-            Notification::send($users, new NotifyBillCreated($bill));
+            Notification::send($users, new NotifyBillCreated($bill, $this->title));
         }
     }
 
@@ -184,8 +187,9 @@ class BillListener
 //      get event subscriber
         $subscribers = Subscription::subscriber(EVENT_UPDATE_BILL);
         $users = User::getNotifyUserId($subscribers);
+        $this->title = trans('texts.updated_bill');
         if ($users) {
-            Notification::send($users, new NotifyBillUpdated($bill));
+            Notification::send($users, new NotifyBillUpdated($bill, $this->title));
         }
     }
 
@@ -194,8 +198,9 @@ class BillListener
 //      get event subscriber
         $subscribers = Subscription::subscriber(EVENT_UPDATE_BILL);
         $users = User::getNotifyUserId($subscribers);
+        $this->title = trans('texts.delete_bill');
         if ($users) {
-            Notification::send($users, new NotifyBillDeleted($bill));
+            Notification::send($users, new NotifyBillDeleted($bill, $this->title));
         }
     }
 

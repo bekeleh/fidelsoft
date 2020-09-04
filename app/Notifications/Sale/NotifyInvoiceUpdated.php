@@ -15,15 +15,18 @@ class NotifyInvoiceUpdated extends Notification
     use Dispatchable, Queueable, SerializesModels;
 
     protected $invoice;
+    protected $title;
 
     /**
      * Create a new notification instance.
      *
      * @param $invoice
+     * @param $title
      */
-    public function __construct($invoice)
+    public function __construct($invoice, $title = null)
     {
         $this->invoice = $invoice;
+        $this->title = $title;
     }
 
     /**
@@ -48,7 +51,7 @@ class NotifyInvoiceUpdated extends Notification
         $url = "/invoices/{$this->invoice['public_id']}";
 
         return [
-            'title' => 'invoice was updated',
+            'title' => $this->title,
             'link' => $url,
             'user_id' => auth::id(),
             'created_at' => Carbon::now(),

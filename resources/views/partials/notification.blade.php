@@ -7,11 +7,13 @@
     </button>
     <ul class="dropdown-menu">
         @if($notif_cnt)
-            @foreach($links =Auth::user()->unreadnotifications as $link)
+            @foreach($unreadMessages = auth()->user()->unreadnotifications as $unreadMessage)
                 <li>
-                    <a href="{{$link->data['link'] }}">
-                        <span class="fa fa-file-pdf-o"></span>
-                        {{$link->data['title'] }} {{ \Carbon\Carbon::parse($link->posted_at)->diffForHumans()}}
+                    <a href="{{$unreadMessage->data['link'] }}?mark=unread">
+                        <span class="fa fa-clock-o "></span>
+                        {{ \Carbon\Carbon::parse($unreadMessage->data['created_at']['date'])->diffForHumans()}}
+                        {{$unreadMessage->data['title'] }}
+                        by <span class="fa fa-user"></span>
                     </a>
                 </li>
             @endforeach

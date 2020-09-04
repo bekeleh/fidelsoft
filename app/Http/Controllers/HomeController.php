@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Libraries\Utils;
 use App\Models\Common\Account;
-use App\Ninja\Mailers\Mailer;
+use App\Ninja\Mailers\InvoiceSender;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Mail;
@@ -24,9 +24,9 @@ class HomeController extends BaseController
     /**
      * HomeController constructor.
      *
-     * @param Mailer $mailer
+     * @param InvoiceSender $mailer
      */
-    public function __construct(Mailer $mailer)
+    public function __construct(InvoiceSender $mailer)
     {
         //parent::__construct();
 
@@ -135,9 +135,9 @@ class HomeController extends BaseController
             }
             $subject .= date('M jS, g:ia');
             $message->to(env('CONTACT_EMAIL', 'fidelinvoice@gmail.com'))
-            ->from(CONTACT_EMAIL, Auth::user()->present()->fullName)
-            ->replyTo(Auth::user()->email, Auth::user()->present()->fullName)
-            ->subject($subject);
+                ->from(CONTACT_EMAIL, Auth::user()->present()->fullName)
+                ->replyTo(auth()->user()->email, auth()->user()->present()->fullName)
+                ->subject($subject);
         });
 
         return RESULT_SUCCESS;

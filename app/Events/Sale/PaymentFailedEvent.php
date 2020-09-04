@@ -15,9 +15,16 @@ class PaymentFailedEvent extends Event
 
 
     public $payment;
+    public $title;
 
-    public function __construct($payment)
+    /**
+     * PaymentFailedEvent constructor.
+     * @param $payment
+     * @param null $title
+     */
+    public function __construct($payment, $title = null)
     {
         $this->payment = $payment;
+        $this->title = $title;
     }
 }

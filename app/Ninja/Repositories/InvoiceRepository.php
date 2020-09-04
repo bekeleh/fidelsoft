@@ -31,11 +31,7 @@ class InvoiceRepository extends BaseRepository
     protected $paymentService;
     protected $paymentRepo;
 
-    public function __construct(
-        Invoice $model,
-        PaymentService $paymentService,
-        PaymentRepository $paymentRepo,
-        DocumentRepository $documentRepo)
+    public function __construct(Invoice $model, PaymentService $paymentService, PaymentRepository $paymentRepo, DocumentRepository $documentRepo)
     {
         $this->model = $model;
         $this->paymentService = $paymentService;
@@ -50,8 +46,7 @@ class InvoiceRepository extends BaseRepository
 
     public function all()
     {
-        return Invoice::scope()
-            ->invoiceType(INVOICE_TYPE_STANDARD)
+        return Invoice::scope()->invoiceType(INVOICE_TYPE_STANDARD)
             ->with('user', 'client.contacts', 'invoice_status')
             ->withTrashed()->where('is_recurring', false)->get();
     }

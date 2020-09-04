@@ -15,15 +15,18 @@ class NotifyBillUpdated extends Notification
     use Dispatchable, Queueable, SerializesModels;
 
     protected $bill;
+    protected $title;
 
     /**
      * Create a new notification instance.
      *
      * @param $bill
+     * @param null $title
      */
-    public function __construct($bill)
+    public function __construct($bill, $title = null)
     {
         $this->bill = $bill;
+        $this->title = $title;
     }
 
     /**
@@ -47,8 +50,8 @@ class NotifyBillUpdated extends Notification
     {
 
         return (new MailMessage)
-            ->subject('Someone billed')
-            ->greeting('Someone billed!')
+            ->subject($this->title)
+            ->greeting($this->title)
             ->line($this->bill->bill)
             ->line($this->user->name . ' Said')
             ->line('"' . $this->bill['bill'] . '"')
@@ -64,7 +67,7 @@ class NotifyBillUpdated extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'Title' => 'Server Expenses',
+            'Title' => $this->title,
             'Amount' => $this->bill->amount,
             'Via' => 'American Express',
             'Was Overdue' => ':-1:',

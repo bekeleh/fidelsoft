@@ -7,7 +7,7 @@ use App\Libraries\Utils;
 use App\Models\Common\Account;
 use App\Models\Industry;
 use App\Models\Invoice;
-use App\Ninja\Mailers\Mailer;
+use App\Ninja\Mailers\InvoiceSender;
 use App\Ninja\Repositories\AccountRepository;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +29,7 @@ class AppController extends BaseController
     protected $mailer;
     protected $emailService;
 
-    public function __construct(AccountRepository $accountRepo, Mailer $mailer, EmailService $emailService)
+    public function __construct(AccountRepository $accountRepo, InvoiceSender $mailer, EmailService $emailService)
     {
         //parent::__construct();
 
