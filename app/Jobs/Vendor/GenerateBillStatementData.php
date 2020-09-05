@@ -31,15 +31,15 @@ class GenerateBillStatementData
         $account->load(['date_format', 'datetime_format']);
 
         $Bill = new Bill();
-        $Bill->invoice_date = Utils::today();
+        $Bill->bill_date = Utils::today();
         $Bill->account = $account;
         $Bill->vendor = $vendor;
 
-        $Bill->invoice_items = $this->getBills();
+        $Bill->bill_items = $this->getBills();
 
         if ($this->options['show_payments']) {
-            $payments = $this->getBillPayments($Bill->invoice_items);
-            $Bill->invoice_items = $Bill->invoice_items->merge($payments);
+            $payments = $this->getBillPayments($Bill->bill_items);
+            $Bill->bill_items = $Bill->bill_items->merge($payments);
         }
 
         $Bill->hidePrivateFields();
@@ -52,21 +52,21 @@ class GenerateBillStatementData
         $statusId = intval($this->options['status_id']);
 
         $bills = Bill::with(['vendor'])
-            ->invoices()
+            ->bills()
             ->whereClientId($this->vendor->id)
             ->whereIsPublic(true)
             ->withArchived()
-            ->orderBy('invoice_date', 'asc');
+            ->orderBy('bill_date', 'asc');
 
-        if ($statusId == INVOICE_STATUS_PAID) {
-            $bills->where('invoice_status_id', '=', INVOICE_STATUS_PAID);
-        } elseif ($statusId == INVOICE_STATUS_UNPAID) {
-            $bills->where('invoice_status_id', '!=', INVOICE_STATUS_PAID);
+        if ($statusId == BILL_STATUS_PAID) {
+            $bills->where('bill_status_id', '=', BILL_STATUS_PAID);
+        } elseif ($statusId == BILL_STATUS_UNPAID) {
+            $bills->where('bill_status_id', '!=', BILL_STATUS_PAID);
         }
 
-        if ($statusId == INVOICE_STATUS_PAID || !$statusId) {
-            $bills->where('invoice_date', '>=', $this->options['start_date'])
-                ->where('invoice_date', '<=', $this->options['end_date']);
+        if ($statusId == BILL_STATUS_PAID || !$statusId) {
+            $bills->where('bill_date', '>=', $this->options['start_date'])
+                ->where('bill_date', '<=', $this->options['end_date']);
         }
 
         if ($this->contact) {
@@ -82,13 +82,13 @@ class GenerateBillStatementData
             $Bill = $bills[$i];
             $item = new BillItem();
             $item->id = $Bill->id;
-            $item->product_key = $Bill->invoice_number;
-            $item->custom_value1 = $Bill->invoice_date;
+            $item->product_key = $Bill->bill_number;
+            $item->custom_value1 = $Bill->bill_date;
             $item->custom_value2 = $Bill->due_date;
             $item->notes = $Bill->amount;
             $item->cost = $Bill->balance;
             $item->qty = 1;
-            $item->invoice_item_type_id = 1;
+            $item->bill_item_type_id = 1;
             $data->push($item);
         }
 
@@ -102,7 +102,7 @@ class GenerateBillStatementData
 
     private function getBillPayments($bills)
     {
-        $payments = BillPayment::with('invoice', 'payment_type')
+        $payments = BillPayment::with('bill', 'payment_type')
             ->withArchived()
             ->whereClientId($this->vendor->id)
             //->excludeFailed()
@@ -110,7 +110,7 @@ class GenerateBillStatementData
             ->where('payment_date', '<=', $this->options['end_date']);
 
         if ($this->contact) {
-            $payments->whereIn('invoice_id', $bills->pluck('id'));
+            $payments->whereIn('bill_id', $bills->pluck('id'));
         }
 
         $payments = $payments->get();
@@ -119,11 +119,11 @@ class GenerateBillStatementData
         for ($i = 0; $i < $payments->count(); $i++) {
             $payment = $payments[$i];
             $item = new BillItem();
-            $item->product_key = $payment->invoice->invoice_number;
+            $item->product_key = $payment->bill->bill_number;
             $item->custom_value1 = $payment->payment_date;
             $item->custom_value2 = $payment->present()->payment_type;
             $item->cost = $payment->getCompletedAmount();
-            $item->invoice_item_type_id = 3;
+            $item->bill_item_type_id = 3;
             $item->notes = $payment->transaction_reference ?: ' ';
             $data->push($item);
         }
@@ -153,7 +153,7 @@ class GenerateBillStatementData
         $item->custom_value1 = $ageGroups['age_group_60'];
         $item->custom_value2 = $ageGroups['age_group_90'];
         $item->cost = $ageGroups['age_group_120'];
-        $item->invoice_item_type_id = 4;
+        $item->bill_item_type_id = 4;
         $data->push($item);
 
         return $data;

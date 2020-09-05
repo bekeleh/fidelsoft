@@ -379,7 +379,7 @@ class BillRepository extends BaseRepository
 
         $table = Datatable::query($query)
             ->addColumn('invoice_number', function ($model) use ($entityType) {
-                return link_to('/view/' . $model->invitation_key, $model->invoice_number)->toHtml();
+                return link_to('/vendor/view/' . $model->invitation_key, $model->invoice_number)->toHtml();
             })
             ->addColumn('bill_date', function ($model) {
                 return Utils::fromSqlDate($model->bill_date);

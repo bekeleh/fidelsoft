@@ -14,9 +14,9 @@ use App\Notifications\Sale\NotifyInvoicePaymentCreated;
 use App\Services\PushService;
 
 /**
- * Class SendInvoiceNotification
+ * Class SendInvoiceNotificationListener
  */
-class SendInvoiceNotification
+class SendInvoiceNotificationListener
 {
     /**
      * @var InvoiceMailer
@@ -32,7 +32,7 @@ class SendInvoiceNotification
     protected $pushService;
 
     /**
-     * SendInvoiceNotification constructor.
+     * SendInvoiceNotificationListener constructor.
      * @param InvoiceMailer $userMailer
      * @param ClientMailer $contactMailer
      * @param PushService $pushService

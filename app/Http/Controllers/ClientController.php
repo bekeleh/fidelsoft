@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ClientRequest;
 use App\Http\Requests\CreateClientRequest;
 use App\Http\Requests\UpdateClientRequest;
-use App\Jobs\Client\GenerateStatementData;
+use App\Jobs\Client\GenerateInvoiceStatementData;
 use App\Jobs\LoadPostmarkHistory;
 use App\Jobs\ReactivatePostmarkEmail;
 use App\Libraries\Utils;
@@ -270,7 +270,7 @@ class ClientController extends BaseController
         }
 
         if (request()->json) {
-            return dispatch_now(new GenerateStatementData($client, request()->all()));
+            return dispatch_now(new GenerateInvoiceStatementData($client, request()->all()));
         }
 
         $data = [

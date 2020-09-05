@@ -14,16 +14,16 @@ use App\Jobs\SendBillPaymentEmail;
 use App\Notifications\Purchase\NotifyBillPaymentCreated;
 
 /**
- * Class SendBillNotification
+ * Class SendBillNotificationListener
  */
-class SendBillNotification
+class SendBillNotificationListener
 {
     protected $billMailer;
     protected $contactMailer;
     protected $pushService;
 
     /**
-     * SendBillNotification constructor.
+     * SendBillNotificationListener constructor.
      * @param BillMailer $billMailer
      * @param VendorMailer $contactMailer
      * @param BillPushService $pushService

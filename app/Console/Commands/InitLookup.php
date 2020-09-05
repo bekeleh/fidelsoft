@@ -213,7 +213,7 @@ class InitLookup extends Command
                 foreach ($account['invitations'] as $invitation) {
                     $lookupInvitation = false;
                     if ($validate || $update) {
-                        $lookupInvitation = LookupInvitation::whereLookupAccountId($lookupAccount->id)->whereInvitationKey($invitation['invitation_key'])->first();
+                        $lookupInvitation = LookupInvitation::whereLookupAccountId($lookupAccount->id)->where('invitation_key', $invitation['invitation_key'])->first();
                     }
                     if ($validate) {
                         if (!$lookupInvitation) {

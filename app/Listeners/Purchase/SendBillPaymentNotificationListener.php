@@ -9,9 +9,9 @@ use App\Ninja\Transformers\BillPaymentTransformer;
 use App\Listeners\EntityListener;
 
 /**
- * Class SendBillPaymentNotification.
+ * Class SendBillPaymentNotificationListener.
  */
-class SendBillPaymentNotification extends EntityListener
+class SendBillPaymentNotificationListener extends EntityListener
 {
     public function __construct()
     {

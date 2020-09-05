@@ -114,14 +114,14 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\Sale\InvoiceWasEmailedEvent' => [
             'App\Listeners\Sale\InvoiceListener@emailedInvoice',
-            'App\Listeners\Sale\SendInvoiceNotification@emailedInvoice',
+            'App\Listeners\Sale\SendInvoiceNotificationListener@emailedInvoice',
         ],
         'App\Events\Sale\InvoiceInvitationWasEmailedEvent' => [
             'App\Listeners\Report\ActivityListener@emailedInvoice',
         ],
         'App\Events\Sale\InvoiceInvitationWasViewedEvent' => [
             'App\Listeners\Report\ActivityListener@viewedInvoice',
-            'App\Listeners\Sale\SendInvoiceNotification@viewedInvoice',
+            'App\Listeners\Sale\SendInvoiceNotificationListener@viewedInvoice',
             'App\Listeners\Sale\InvoiceListener@viewedInvoice',
         ],
 
@@ -151,7 +151,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\Sale\QuoteWasEmailedEvent' => [
             'App\Listeners\Sale\QuoteListener@emailedQuote',
-            'App\Listeners\Sale\SendInvoiceNotification@emailedQuote',
+            'App\Listeners\Sale\SendInvoiceNotificationListener@emailedQuote',
         ],
         'App\Events\Sale\QuoteInvitationWasEmailedEvent' => [
             'App\Listeners\Report\ActivityListener@emailedQuote',
@@ -159,7 +159,7 @@ class EventServiceProvider extends ServiceProvider
 //      sale quote viewed
         'App\Events\Sale\QuoteInvitationWasViewedEvent' => [
             'App\Listeners\Report\ActivityListener@viewedQuote',
-            'App\Listeners\Sale\SendInvoiceNotification@viewedQuote',
+            'App\Listeners\Sale\SendInvoiceNotificationListener@viewedQuote',
             'App\Listeners\Sale\QuoteListener@viewedQuote',
         ],
         'App\Events\Sale\QuoteInvitationWasApprovedEvent' => [
@@ -173,7 +173,7 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\Report\ActivityListener@createdPayment',
             'App\Listeners\Sale\PaymentListener@createdPayment',
             'App\Listeners\Sale\InvoiceListener@createdPayment',
-            'App\Listeners\Sale\SendInvoicePaymentNotification@createdPayment',
+            'App\Listeners\Sale\SendInvoicePaymentNotificationListener@createdPayment',
             'App\Listeners\Report\AnalyticsListener@trackRevenue',
         ],
         'App\Events\Sale\PaymentWasArchivedEvent' => [
@@ -322,14 +322,14 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\Purchase\BillWasEmailedEvent' => [
             'App\Listeners\Purchase\BillListener@emailedBill',
-            'App\Listeners\Purchase\SendBillNotification@emailedBill',
+            'App\Listeners\Purchase\SendBillNotificationListener@emailedBill',
         ],
         'App\Events\Purchase\BillInvitationWasEmailedEvent' => [
             'App\Listeners\Report\ActivityListener@emailedBill',
         ],
         'App\Events\Purchase\BillInvitationWasViewedEvent' => [
             'App\Listeners\Report\ActivityListener@viewedBill',
-            'App\Listeners\Purchase\SendBillNotification@viewedBill',
+            'App\Listeners\Purchase\SendBillNotificationListener@viewedBill',
             'App\Listeners\Purchase\BillListener@viewedBill',
         ],
 //     Bill quote
@@ -358,19 +358,19 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\Purchase\BillQuoteWasEmailedEvent' => [
             'App\Listeners\Purchase\BillQuoteListener@emailedQuote',
-            'App\Listeners\Purchase\SendBillNotification@emailedQuote',
+            'App\Listeners\Purchase\SendBillNotificationListener@emailedQuote',
         ],
         'App\Events\Purchase\BillQuoteInvitationWasEmailedEvent' => [
             'App\Listeners\Report\ActivityListener@emailedBillQuote',
         ],
         'App\Events\Purchase\BillQuoteInvitationWasViewedEvent' => [
             'App\Listeners\Report\ActivityListener@viewedBillQuote',
-            'App\Listeners\Purchase\SendBillNotification@viewedQuote',
+            'App\Listeners\Purchase\SendBillNotificationListener@viewedQuote',
             'App\Listeners\Purchase\BillQuoteListener@viewedQuote',
         ],
         'App\Events\Purchase\BillQuoteInvitationWasApprovedEvent' => [
             'App\Listeners\Report\ActivityListener@approvedBillQuote',
-            'App\Listeners\Purchase\SendBillNotification@approvedQuote',
+            'App\Listeners\Purchase\SendBillNotificationListener@approvedQuote',
             'App\Listeners\Purchase\BillQuoteListener@approvedQuote',
         ],
 //      bill Payment
@@ -378,7 +378,7 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\Report\ActivityListener@createdBillPayment',
             'App\Listeners\Purchase\BillPaymentListener@createdBillPayment',
             'App\Listeners\Purchase\BillListener@createdBillPayment',
-            'App\Listeners\Purchase\SendBillPaymentNotification@createdBillPayment',
+            'App\Listeners\Purchase\SendBillPaymentNotificationListener@createdBillPayment',
 //            'App\Listeners\Report\AnalyticsListener@trackExpense',
         ],
         'App\Events\Purchase\BillPaymentWasArchivedEvent' => [

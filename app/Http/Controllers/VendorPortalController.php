@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\Client\ClientWasUpdatedEvent;
+use App\Events\Vendor\VendorWasUpdatedEvent;
 use App\Events\Sale\InvoiceInvitationWasViewedEvent;
 use App\Events\Sale\QuoteInvitationWasViewedEvent;
-use App\Jobs\Client\GenerateInvoiceStatementData;
+use App\Jobs\Vendor\GenerateBillStatementData;
 use App\Libraries\Utils;
 use App\Models\Contact;
 use App\Models\Document;
@@ -32,9 +32,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Redirect;
 
-class ClientPortalController extends BaseController
+class VendorPortalController extends BaseController
 {
-    private $invoiceRepo;
+    private $billRepo;
     private $paymentRepo;
     private $documentRepo;
     private $activityRepo;
@@ -43,8 +43,8 @@ class ClientPortalController extends BaseController
     private $taskRepo;
 
     /**
-     * ClientPortalController constructor.
-     * @param InvoiceRepository $invoiceRepo
+     * VendorPortalController constructor.
+     * @param InvoiceRepository $billRepo
      * @param PaymentRepository $paymentRepo
      * @param ActivityRepository $activityRepo
      * @param DocumentRepository $documentRepo
@@ -53,7 +53,7 @@ class ClientPortalController extends BaseController
      * @param TaskRepository $taskRepo
      */
     public function __construct(
-        InvoiceRepository $invoiceRepo,
+        InvoiceRepository $billRepo,
         PaymentRepository $paymentRepo,
         ActivityRepository $activityRepo,
         DocumentRepository $documentRepo,
@@ -61,7 +61,7 @@ class ClientPortalController extends BaseController
         CreditRepository $creditRepo,
         TaskRepository $taskRepo)
     {
-        $this->invoiceRepo = $invoiceRepo;
+        $this->billRepo = $billRepo;
         $this->paymentRepo = $paymentRepo;
         $this->activityRepo = $activityRepo;
         $this->documentRepo = $documentRepo;
@@ -76,51 +76,51 @@ class ClientPortalController extends BaseController
      */
     public function viewInvoice($invitationKey)
     {
-        if (!$invitation = $this->invoiceRepo->findInvoiceByInvitation($invitationKey)) {
+        if (!$invitation = $this->billRepo->findInvoiceByInvitation($invitationKey)) {
             return $this->returnError();
         }
 
-        $invoice = $invitation->invoice;
-        $client = $invoice->client;
-        $account = $invoice->account;
+        $bill = $invitation->bill;
+        $vendor = $bill->vendor;
+        $account = $bill->account;
 
         if (request()->silent) {
-            session(['silent:' . $client->id => true]);
+            session(['silent:' . $vendor->id => true]);
             return redirect(request()->url() . (request()->borderless ? '?borderless=true' : ''));
         }
 
         if (!$account->checkSubdomain(Request::server('HTTP_HOST'))) {
             return response()->view('error', [
-                'error' => trans('texts.invoice_not_found'),
+                'error' => trans('texts.bill_not_found'),
             ]);
         }
 
-        if (!Input::has('phantomjs') && !session('silent:' . $client->id) && !Session::has($invitation->invitation_key)
-            && (!Auth::check() || Auth::user()->account_id != $invoice->account_id)) {
-            if ($invoice->isType(INVOICE_TYPE_QUOTE)) {
-                event(new QuoteInvitationWasViewedEvent($invoice, $invitation));
+        if (!Input::has('phantomjs') && !session('silent:' . $vendor->id) && !Session::has($invitation->invitation_key)
+            && (!Auth::check() || Auth::user()->account_id != $bill->account_id)) {
+            if ($bill->isType(INVOICE_TYPE_QUOTE)) {
+                event(new QuoteInvitationWasViewedEvent($bill, $invitation));
             } else {
-                event(new InvoiceInvitationWasViewedEvent($invoice, $invitation));
+                event(new InvoiceInvitationWasViewedEvent($bill, $invitation));
             }
         }
 
         Session::put($invitation->invitation_key, true); // track this invitation has been seen
         Session::put('contact_key', $invitation->contact->contact_key); // track current contact
 
-        $invoice->invoice_date = Utils::fromSqlDate($invoice->invoice_date);
-        $invoice->due_date = Utils::fromSqlDate($invoice->due_date);
-        $invoice->partial_due_date = Utils::fromSqlDate($invoice->partial_due_date);
-        $invoice->features = [
-            'customize_invoice_design' => $account->hasFeature(FEATURE_CUSTOMIZE_INVOICE_DESIGN),
+        $bill->bill_date = Utils::fromSqlDate($bill->bill_date);
+        $bill->due_date = Utils::fromSqlDate($bill->due_date);
+        $bill->partial_due_date = Utils::fromSqlDate($bill->partial_due_date);
+        $bill->features = [
+            'customize_bill_design' => $account->hasFeature(FEATURE_CUSTOMIZE_INVOICE_DESIGN),
             'remove_created_by' => $account->hasFeature(FEATURE_REMOVE_CREATED_BY),
-            'invoice_settings' => $account->hasFeature(FEATURE_INVOICE_SETTINGS),
+            'bill_settings' => $account->hasFeature(FEATURE_INVOICE_SETTINGS),
         ];
-        $invoice->invoice_fonts = $account->getFontsData();
+        $bill->bill_fonts = $account->getFontsData();
 
-        if ($design = $account->getCustomDesign($invoice->invoice_design_id)) {
-            $invoice->invoice_design->javascript = $design;
+        if ($design = $account->getCustomDesign($bill->bill_design_id)) {
+            $bill->bill_design->javascript = $design;
         } else {
-            $invoice->invoice_design->javascript = $invoice->invoice_design->pdfmake;
+            $bill->bill_design->javascript = $bill->bill_design->pdfmake;
         }
         $contact = $invitation->contact;
 
@@ -135,15 +135,15 @@ class ClientPortalController extends BaseController
         $account->load(['date_format', 'datetime_format']);
 
         // translate the country names
-        if ($invoice->client->country) {
-            $invoice->client->country->name = $invoice->client->country->getName();
+        if ($bill->vendor->country) {
+            $bill->vendor->country->name = $bill->vendor->country->getName();
         }
-        if ($invoice->account->country) {
-            $invoice->account->country->name = $invoice->account->country->getName();
+        if ($bill->account->country) {
+            $bill->account->country->name = $bill->account->country->getName();
         }
 
         $data = [];
-        $paymentTypes = $this->getPaymentTypes($account, $client, $invitation);
+        $paymentTypes = $this->getPaymentTypes($account, $vendor, $invitation);
         $paymentURL = '';
 
         if (count($paymentTypes) == 1) {
@@ -164,8 +164,8 @@ class ClientPortalController extends BaseController
             $data['enableStripeSources'] = true;
         }
 
-        $showApprove = $invoice->quote_invoice_id ? false : true;
-        if ($invoice->invoice_status_id >= INVOICE_STATUS_APPROVED) {
+        $showApprove = $bill->quote_bill_id ? false : true;
+        if ($bill->bill_status_id >= INVOICE_STATUS_APPROVED) {
             $showApprove = false;
         }
 
@@ -173,9 +173,9 @@ class ClientPortalController extends BaseController
             'account' => $account,
             'showApprove' => $showApprove,
             'showBreadcrumbs' => false,
-            'invoice' => $invoice->hidePrivateFields(),
+            'bill' => $bill->hidePrivateFields(),
             'invitation' => $invitation,
-            'invoiceLabels' => $account->getInvoiceLabels(),
+            'billLabels' => $account->getInvoiceLabels(),
             'contact' => $contact,
             'paymentTypes' => $paymentTypes,
             'paymentURL' => $paymentURL,
@@ -183,7 +183,7 @@ class ClientPortalController extends BaseController
             'gatewayTypeId' => count($paymentTypes) == 1 ? $paymentTypes[0]['gatewayTypeId'] : false,
         ];
 
-        if ($invoice->canBePaid()) {
+        if ($bill->canBePaid()) {
             if ($paymentDriver = $account->paymentDriver($invitation, GATEWAY_TYPE_CREDIT_CARD)) {
                 $data += [
                     'transactionToken' => $paymentDriver->createTransactionToken(),
@@ -193,18 +193,18 @@ class ClientPortalController extends BaseController
             }
         }
         if ($account->hasFeature(FEATURE_DOCUMENTS) && $this->canCreateZip()) {
-            $zipDocs = $this->getInvoiceZipDocuments($invoice, $size);
+            $zipDocs = $this->getInvoiceZipDocuments($bill, $size);
 
             if (count($zipDocs) > 1) {
-                $data['documentsZipURL'] = URL::to("client/documents/{$invitation->invitation_key}");
+                $data['documentsZipURL'] = URL::to("vendor/documents/{$invitation->invitation_key}");
                 $data['documentsZipSize'] = $size;
             }
         }
 
-        return View::make(request()->borderless ? 'invoices.view_borderless' : 'invoices.view', $data);
+        return View::make(request()->borderless ? 'bills.view_borderless' : 'bills.view', $data);
     }
 
-    private function getPaymentTypes($account, $client, $invitation)
+    private function getPaymentTypes($account, $vendor, $invitation)
     {
         $links = [];
 
@@ -219,20 +219,20 @@ class ClientPortalController extends BaseController
 
     public function download($invitationKey)
     {
-        if (!$invitation = $this->invoiceRepo->findInvoiceByInvitation($invitationKey)) {
+        if (!$invitation = $this->billRepo->findInvoiceByInvitation($invitationKey)) {
             return response()->view('error', [
-                'error' => trans('texts.invoice_not_found'),
+                'error' => trans('texts.bill_not_found'),
                 'hideHeader' => true,
             ]);
         }
 
-        $invoice = $invitation->invoice;
+        $bill = $invitation->bill;
         $decode = !request()->base64;
-        $pdfString = $invoice->getPDFString($invitation, $decode);
+        $pdfString = $bill->getPDFString($invitation, $decode);
 
         header('Content-Type: application/pdf');
         header('Content-Length: ' . strlen($pdfString));
-        header('Content-disposition: attachment; filename="' . $invoice->getFileName() . '"');
+        header('Content-disposition: attachment; filename="' . $bill->getFileName() . '"');
         header('Cache-Control: public, must-revalidate, max-age=0');
         header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 
@@ -241,7 +241,7 @@ class ClientPortalController extends BaseController
 
     public function authorizeInvoice($invitationKey)
     {
-        if (!$invitation = $this->invoiceRepo->findInvoiceByInvitation($invitationKey)) {
+        if (!$invitation = $this->billRepo->findInvoiceByInvitation($invitationKey)) {
             return RESULT_FAILURE;
         }
 
@@ -268,11 +268,11 @@ class ClientPortalController extends BaseController
             return $this->returnError();
         }
 
-        $client = $contact->client;
-        $account = $client->account;
+        $vendor = $contact->vendor;
+        $account = $vendor->account;
 
         if (request()->silent) {
-            session(['silent:' . $client->id => true]);
+            session(['silent:' . $vendor->id => true]);
 
             return redirect(request()->url());
         }
@@ -280,22 +280,22 @@ class ClientPortalController extends BaseController
         $color = $account->primary_color ? $account->primary_color : '#777';
         $customer = false;
 
-        if (!$account->enable_client_portal) {
+        if (!$account->enable_vendor_portal) {
             return $this->returnError();
-        } elseif (!$account->enable_client_portal_dashboard) {
+        } elseif (!$account->enable_vendor_portal_dashboard) {
             session()->reflash();
-            return redirect()->to('/client/invoices/');
+            return redirect()->to('/vendor/bills/');
         }
 
         if ($paymentDriver = $account->paymentDriver(false, GATEWAY_TYPE_TOKEN)) {
-            $customer = $paymentDriver->customer($client->id);
+            $customer = $paymentDriver->customer($vendor->id);
         }
 
         $data = [
             'color' => $color,
             'contact' => $contact,
             'account' => $account,
-            'client' => $client,
+            'vendor' => $vendor,
             'gateway' => $account->getTokenGateway(),
             'paymentMethods' => $customer ? $customer->payment_methods : false,
             'transactionToken' => $paymentDriver ? $paymentDriver->createTransactionToken() : false,
@@ -310,9 +310,9 @@ class ClientPortalController extends BaseController
             return $this->returnError();
         }
 
-        $client = $contact->client;
+        $vendor = $contact->vendor;
 
-        $query = $this->activityRepo->findByClientId($client->id);
+        $query = $this->activityRepo->findByVendorId($vendor->id);
         $query->where('activities.adjustment', '!=', 0);
 
         return Datatable::query($query)
@@ -321,10 +321,10 @@ class ClientPortalController extends BaseController
             })
             ->addColumn('activity_type_id', function ($model) {
                 $data = [
-                    'client' => Utils::getClientDisplayName($model),
+                    'vendor' => Utils::getVendorDisplayName($model),
                     'user' => $model->is_system ? ('<i>' . trans('texts.system') . '</i>') : ($model->account_name),
-                    'invoice' => $model->invoice,
-                    'contact' => Utils::getClientDisplayName($model),
+                    'bill' => $model->bill,
+                    'contact' => Utils::getVendorDisplayName($model),
                     'payment' => $model->payment ? ' ' . $model->payment : '',
                     'credit' => $model->payment_amount ? Utils::formatMoney($model->credit, $model->currency_id, $model->country_id) : '',
                     'payment_amount' => $model->payment_amount ? Utils::formatMoney($model->payment_amount, $model->currency_id, $model->country_id) : null,
@@ -350,23 +350,23 @@ class ClientPortalController extends BaseController
 
         $account = $contact->account;
 
-        if (!$account->enable_client_portal) {
+        if (!$account->enable_vendor_portal) {
             return $this->returnError();
         }
 
         $color = $account->primary_color ? $account->primary_color : '#777';
-        $columns = ['frequency', 'start_date', 'end_date', 'invoice_total'];
-        $client = $contact->client;
+        $columns = ['frequency', 'start_date', 'end_date', 'bill_total'];
+        $vendor = $contact->vendor;
 
-        if ($client->hasAutoBillConfigurableInvoices()) {
+        if ($vendor->hasAutoBillConfigurableInvoices()) {
             $columns[] = 'auto_bill';
         }
 
         $data = [
             'color' => $color,
             'account' => $account,
-            'client' => $client,
-            'title' => trans('texts.recurring_invoices'),
+            'vendor' => $vendor,
+            'title' => trans('texts.recurring_bills'),
             'entityType' => ENTITY_RECURRING_INVOICE,
             'columns' => Utils::trans($columns),
             'sortColumn' => 1,
@@ -375,7 +375,7 @@ class ClientPortalController extends BaseController
         return response()->view('public_list', $data);
     }
 
-    public function invoiceIndex()
+    public function billIndex()
     {
         if (!$contact = $this->getContact()) {
             return $this->returnError();
@@ -383,7 +383,7 @@ class ClientPortalController extends BaseController
 
         $account = $contact->account;
 
-        if (!$account->enable_client_portal) {
+        if (!$account->enable_vendor_portal) {
             return $this->returnError();
         }
 
@@ -392,23 +392,23 @@ class ClientPortalController extends BaseController
         $data = [
             'color' => $color,
             'account' => $account,
-            'client' => $contact->client,
-            'title' => trans('texts.invoices'),
+            'vendor' => $contact->vendor,
+            'title' => trans('texts.bills'),
             'entityType' => ENTITY_INVOICE,
-            'columns' => Utils::trans(['invoice_number', 'invoice_date', 'invoice_total', 'balance_due', 'due_date', 'status']),
+            'columns' => Utils::trans(['bill_number', 'bill_date', 'bill_total', 'balance_due', 'due_date', 'status']),
             'sortColumn' => 1,
         ];
 
         return response()->view('public_list', $data);
     }
 
-    public function invoiceDatatable()
+    public function billDatatable()
     {
         if (!$contact = $this->getContact()) {
             return '';
         }
 
-        return $this->invoiceRepo->getClientDatatable($contact->id, ENTITY_INVOICE, Input::get('sSearch'));
+        return $this->billRepo->getVendorDatatable($contact->id, ENTITY_INVOICE, Input::get('sSearch'));
     }
 
     public function recurringInvoiceDatatable()
@@ -417,7 +417,7 @@ class ClientPortalController extends BaseController
             return '';
         }
 
-        return $this->invoiceRepo->getClientRecurringDatatable($contact->id);
+        return $this->billRepo->getVendorRecurringDatatable($contact->id);
     }
 
     public function paymentIndex()
@@ -428,7 +428,7 @@ class ClientPortalController extends BaseController
 
         $account = $contact->account;
 
-        if (!$account->enable_client_portal) {
+        if (!$account->enable_vendor_portal) {
             return $this->returnError();
         }
 
@@ -439,7 +439,7 @@ class ClientPortalController extends BaseController
             'account' => $account,
             'entityType' => ENTITY_PAYMENT,
             'title' => trans('texts.payments'),
-            'columns' => Utils::trans(['invoice', 'transaction_reference', 'method', 'payment_amount', 'payment_date', 'status']),
+            'columns' => Utils::trans(['bill', 'transaction_reference', 'method', 'payment_amount', 'payment_date', 'status']),
             'sortColumn' => 4,
         ];
 
@@ -455,8 +455,8 @@ class ClientPortalController extends BaseController
         $payments = $this->paymentRepo->findForContact($contact->id, Input::get('sSearch'));
 
         return Datatable::query($payments)
-            ->addColumn('invoice_number', function ($model) {
-                return $model->invitation_key ? link_to('/view/' . $model->invitation_key, $model->invoice_number)->toHtml() : $model->invoice_number;
+            ->addColumn('bill_number', function ($model) {
+                return $model->invitation_key ? link_to('/view/' . $model->invitation_key, $model->bill_number)->toHtml() : $model->bill_number;
             })
             ->addColumn('transaction_reference', function ($model) {
                 return $model->transaction_reference ? e($model->transaction_reference) : '<i>' . trans('texts.manual_entry') . '</i>';
@@ -473,7 +473,7 @@ class ClientPortalController extends BaseController
             ->addColumn('status', function ($model) {
                 return $this->getPaymentStatusLabel($model);
             })
-            ->orderColumns('invoice_number', 'transaction_reference', 'payment_type', 'amount', 'payment_date')
+            ->orderColumns('bill_number', 'transaction_reference', 'payment_type', 'amount', 'payment_date')
             ->make();
     }
 
@@ -513,7 +513,7 @@ class ClientPortalController extends BaseController
 
         $account = $contact->account;
 
-        if (!$account->enable_client_portal) {
+        if (!$account->enable_vendor_portal) {
             return $this->returnError();
         }
 
@@ -537,7 +537,7 @@ class ClientPortalController extends BaseController
             return false;
         }
 
-        return $this->invoiceRepo->getClientDatatable($contact->id, ENTITY_QUOTE, Input::get('sSearch'));
+        return $this->billRepo->getVendorDatatable($contact->id, ENTITY_QUOTE, Input::get('sSearch'));
     }
 
     public function creditIndex()
@@ -548,7 +548,7 @@ class ClientPortalController extends BaseController
 
         $account = $contact->account;
 
-        if (!$account->enable_client_portal) {
+        if (!$account->enable_vendor_portal) {
             return $this->returnError();
         }
 
@@ -572,7 +572,7 @@ class ClientPortalController extends BaseController
             return false;
         }
 
-        return $this->creditRepo->getClientDatatable($contact->client_id);
+        return $this->creditRepo->getVendorDatatable($contact->vendor_id);
     }
 
     public function taskIndex()
@@ -583,11 +583,11 @@ class ClientPortalController extends BaseController
 
         $account = $contact->account;
 
-        if (!$contact->client->show_tasks_in_portal) {
-            return redirect()->to($account->enable_client_portal_dashboard ? '/client/dashboard' : '/client/payment_methods/');
+        if (!$contact->vendor->show_tasks_in_portal) {
+            return redirect()->to($account->enable_vendor_portal_dashboard ? '/vendor/dashboard' : '/vendor/payment_methods/');
         }
 
-        if (!$account->enable_client_portal) {
+        if (!$account->enable_vendor_portal) {
             return $this->returnError();
         }
 
@@ -611,7 +611,7 @@ class ClientPortalController extends BaseController
             return false;
         }
 
-        return $this->taskRepo->getClientDatatable($contact->client_id);
+        return $this->taskRepo->getVendorDatatable($contact->vendor_id);
     }
 
     public function documentIndex()
@@ -622,7 +622,7 @@ class ClientPortalController extends BaseController
 
         $account = $contact->account;
 
-        if (!$account->enable_client_portal) {
+        if (!$account->enable_vendor_portal) {
             return $this->returnError();
         }
 
@@ -633,7 +633,7 @@ class ClientPortalController extends BaseController
             'account' => $account,
             'title' => trans('texts.documents'),
             'entityType' => ENTITY_DOCUMENT,
-            'columns' => Utils::trans(['invoice_number', 'name', 'document_date', 'document_size']),
+            'columns' => Utils::trans(['bill_number', 'name', 'document_date', 'document_size']),
             'sortColumn' => 2,
         ];
 
@@ -646,7 +646,7 @@ class ClientPortalController extends BaseController
             return false;
         }
 
-        return $this->documentRepo->getClientDatatable($contact->id, ENTITY_DOCUMENT, Input::get('sSearch'));
+        return $this->documentRepo->getVendorDatatable($contact->id, ENTITY_DOCUMENT, Input::get('sSearch'));
     }
 
     private function returnError($error = false)
@@ -656,7 +656,7 @@ class ClientPortalController extends BaseController
         }
 
         return response()->view('error', [
-            'error' => $error ?: trans('texts.invoice_not_found'),
+            'error' => $error ?: trans('texts.bill_not_found'),
             'hideHeader' => true,
             'account' => $this->getContact() ? $this->getContact()->account : false,
         ]);
@@ -697,9 +697,9 @@ class ClientPortalController extends BaseController
         }
 
         $authorized = false;
-        if ($document->expense && $document->expense->client_id == $contact->client_id) {
+        if ($document->expense && $document->expense->vendor_id == $contact->vendor_id) {
             $authorized = true;
-        } elseif ($document->invoice && $document->invoice->client_id == $contact->client_id) {
+        } elseif ($document->bill && $document->bill->vendor_id == $contact->vendor_id) {
             $authorized = true;
         }
 
@@ -725,12 +725,12 @@ class ClientPortalController extends BaseController
         return function_exists('gmp_init');
     }
 
-    protected function getInvoiceZipDocuments($invoice, &$size = 0)
+    protected function getInvoiceZipDocuments($bill, &$size = 0)
     {
-        $documents = $invoice->documents;
+        $documents = $bill->documents;
 
-        foreach ($invoice->expenses as $expense) {
-            if ($expense->invoice_documents) {
+        foreach ($bill->expenses as $expense) {
+            if ($expense->bill_documents) {
                 $documents = $documents->merge($expense->documents);
             }
         }
@@ -775,21 +775,21 @@ class ClientPortalController extends BaseController
 
     public function getInvoiceDocumentsZip($invitationKey)
     {
-        if (!$invitation = $this->invoiceRepo->findInvoiceByInvitation($invitationKey)) {
+        if (!$invitation = $this->billRepo->findInvoiceByInvitation($invitationKey)) {
             return $this->returnError();
         }
 
         Session::put('contact_key', $invitation->contact->contact_key); // track current contact
 
-        $invoice = $invitation->invoice;
+        $bill = $invitation->bill;
 
-        $toZip = $this->getInvoiceZipDocuments($invoice);
+        $toZip = $this->getInvoiceZipDocuments($bill);
 
         if (!count($toZip)) {
             return Response::view('error', ['error' => 'No documents small enough'], 404);
         }
 
-        $zip = new ZipArchive($invitation->account->name . ' Invoice ' . $invoice->invoice_number . '.zip');
+        $zip = new ZipArchive($invitation->account->name . ' Invoice ' . $bill->bill_number . '.zip');
 
         return Response::stream(function () use ($toZip, $zip) {
             foreach ($toZip as $name => $document) {
@@ -816,21 +816,21 @@ class ClientPortalController extends BaseController
      */
     public function getDocument($invitationKey, $publicId)
     {
-        if (!$invitation = $this->invoiceRepo->findInvoiceByInvitation($invitationKey)) {
+        if (!$invitation = $this->billRepo->findInvoiceByInvitation($invitationKey)) {
             return $this->returnError();
         }
 
         Session::put('contact_key', $invitation->contact->contact_key); // track current contact
 
-        $clientId = $invitation->invoice->client_id;
+        $vendorId = $invitation->bill->vendor_id;
         $document = Document::scope($publicId, $invitation->account_id)->firstOrFail();
 
         $authorized = false;
         if ($document->is_default) {
             $authorized = true;
-        } elseif ($document->expense && $document->expense->invoice_documents && $document->expense->client_id == $invitation->invoice->client_id) {
+        } elseif ($document->expense && $document->expense->bill_documents && $document->expense->vendor_id == $invitation->bill->vendor_id) {
             $authorized = true;
-        } elseif ($document->invoice && $document->invoice->client_id == $invitation->invoice->client_id) {
+        } elseif ($document->bill && $document->bill->vendor_id == $invitation->bill->vendor_id) {
             $authorized = true;
         }
 
@@ -847,17 +847,17 @@ class ClientPortalController extends BaseController
             return $this->returnError();
         }
 
-        $client = $contact->client;
-        $account = $client->account;
+        $vendor = $contact->vendor;
+        $account = $vendor->account;
 
         $paymentDriver = $account->paymentDriver(false, GATEWAY_TYPE_TOKEN);
-        $customer = $paymentDriver->customer($client->id);
+        $customer = $paymentDriver->customer($vendor->id);
 
         $data = [
             'account' => $account,
             'contact' => $contact,
             'color' => $account->primary_color ? $account->primary_color : '#777',
-            'client' => $client,
+            'vendor' => $vendor,
             'paymentMethods' => $customer ? $customer->payment_methods : false,
             'gateway' => $account->getTokenGateway(),
             'title' => trans('texts.payment_methods'),
@@ -877,11 +877,11 @@ class ClientPortalController extends BaseController
             return $this->returnError();
         }
 
-        $client = $contact->client;
-        $account = $client->account;
+        $vendor = $contact->vendor;
+        $account = $vendor->account;
 
         $paymentDriver = $account->paymentDriver(null, GATEWAY_TYPE_BANK_TRANSFER);
-        $result = $paymentDriver->verifyBankAccount($client, $publicId, $amount1, $amount2);
+        $result = $paymentDriver->verifyBankAccount($vendor, $publicId, $amount1, $amount2);
 
         if (is_string($result)) {
             Session::flash('error', $result);
@@ -889,7 +889,7 @@ class ClientPortalController extends BaseController
             Session::flash('message', trans('texts.payment_method_verified'));
         }
 
-        return redirect()->to($account->enable_client_portal_dashboard ? '/client/dashboard' : '/client/payment_methods/');
+        return redirect()->to($account->enable_vendor_portal_dashboard ? '/vendor/dashboard' : '/vendor/payment_methods/');
     }
 
     public function removePaymentMethod($publicId)
@@ -898,11 +898,11 @@ class ClientPortalController extends BaseController
             return $this->returnError();
         }
 
-        $client = $contact->client;
+        $vendor = $contact->vendor;
         $account = $contact->account;
 
         $paymentDriver = $account->paymentDriver(false, GATEWAY_TYPE_TOKEN);
-        $paymentMethod = PaymentMethod::clientId($client->id)
+        $paymentMethod = PaymentMethod::vendorId($vendor->id)
             ->wherePublicId($publicId)
             ->firstOrFail();
 
@@ -913,7 +913,7 @@ class ClientPortalController extends BaseController
             Session::flash('error', $exception->getMessage());
         }
 
-        return redirect()->to($client->account->enable_client_portal_dashboard ? '/client/dashboard' : '/client/payment_methods/');
+        return redirect()->to($vendor->account->enable_vendor_portal_dashboard ? '/vendor/dashboard' : '/vendor/payment_methods/');
     }
 
     public function setDefaultPaymentMethod()
@@ -922,26 +922,26 @@ class ClientPortalController extends BaseController
             return $this->returnError();
         }
 
-        $client = $contact->client;
-        $account = $client->account;
+        $vendor = $contact->vendor;
+        $account = $vendor->account;
 
         $validator = Validator::make(Input::all(), ['source' => 'required']);
         if ($validator->fails()) {
-            return Redirect::to($client->account->enable_client_portal_dashboard ? '/client/dashboard' : '/client/payment_methods/');
+            return Redirect::to($vendor->account->enable_vendor_portal_dashboard ? '/vendor/dashboard' : '/vendor/payment_methods/');
         }
 
         $paymentDriver = $account->paymentDriver(false, GATEWAY_TYPE_TOKEN);
-        $paymentMethod = PaymentMethod::clientId($client->id)
+        $paymentMethod = PaymentMethod::vendorId($vendor->id)
             ->wherePublicId(Input::get('source'))
             ->firstOrFail();
 
-        $customer = $paymentDriver->customer($client->id);
+        $customer = $paymentDriver->customer($vendor->id);
         $customer->default_payment_method_id = $paymentMethod->id;
         $customer->save();
 
         Session::flash('message', trans('texts.payment_method_set_as_default'));
 
-        return redirect()->to($client->account->enable_client_portal_dashboard ? '/client/dashboard' : '/client/payment_methods/');
+        return redirect()->to($vendor->account->enable_vendor_portal_dashboard ? '/vendor/dashboard' : '/vendor/payment_methods/');
     }
 
     private function paymentMethodError($type, $error, $accountGateway = false, $exception = false)
@@ -962,24 +962,24 @@ class ClientPortalController extends BaseController
             return $this->returnError();
         }
 
-        $client = $contact->client;
+        $vendor = $contact->vendor;
 
         $validator = Validator::make(Input::all(), ['public_id' => 'required']);
 
         if ($validator->fails()) {
-            return Redirect::to('client/invoices/recurring');
+            return Redirect::to('vendor/bills/recurring');
         }
 
         $publicId = Input::get('public_id');
         $enable = Input::get('enable');
-        $invoice = $client->invoices()->where('public_id', intval($publicId))->first();
+        $bill = $vendor->bills()->where('public_id', intval($publicId))->first();
 
-        if ($invoice && $invoice->is_recurring && ($invoice->auto_bill == AUTO_BILL_OPT_IN || $invoice->auto_bill == AUTO_BILL_OPT_OUT)) {
-            $invoice->client_enable_auto_bill = $enable ? true : false;
-            $invoice->save();
+        if ($bill && $bill->is_recurring && ($bill->auto_bill == AUTO_BILL_OPT_IN || $bill->auto_bill == AUTO_BILL_OPT_OUT)) {
+            $bill->vendor_enable_auto_bill = $enable ? true : false;
+            $bill->save();
         }
 
-        return Redirect::to('client/invoices/recurring');
+        return Redirect::to('vendor/bills/recurring');
     }
 
     public function showDetails()
@@ -990,7 +990,7 @@ class ClientPortalController extends BaseController
 
         $data = [
             'contact' => $contact,
-            'client' => $contact->client,
+            'vendor' => $contact->vendor,
             'account' => $contact->account,
         ];
 
@@ -1003,10 +1003,10 @@ class ClientPortalController extends BaseController
             return $this->returnError();
         }
 
-        $client = $contact->client;
+        $vendor = $contact->vendor;
         $account = $contact->account;
 
-        if (!$account->enable_client_portal) {
+        if (!$account->enable_vendor_portal) {
             return $this->returnError();
         }
 
@@ -1019,7 +1019,7 @@ class ClientPortalController extends BaseController
             'country_id' => 'required',
         ];
 
-        if ($client->name) {
+        if ($vendor->name) {
             $rules['name'] = 'required';
         } else {
             $rules['first_name'] = 'required';
@@ -1034,13 +1034,13 @@ class ClientPortalController extends BaseController
         $contact->fill(request()->all());
         $contact->save();
 
-        $client->fill(request()->all());
-        $client->save();
+        $vendor->fill(request()->all());
+        $vendor->save();
 
-        event(new ClientWasUpdatedEvent($client));
+        event(new VendorWasUpdatedEvent($vendor));
 
-        return redirect($account->enable_client_portal_dashboard ? '/client/dashboard' : '/client/payment_methods')
-            ->withMessage(trans('texts.updated_client_details'));
+        return redirect($account->enable_vendor_portal_dashboard ? '/vendor/dashboard' : '/vendor/payment_methods')
+            ->withMessage(trans('texts.updated_vendor_details'));
     }
 
     public function statement()
@@ -1049,10 +1049,10 @@ class ClientPortalController extends BaseController
             return $this->returnError();
         }
 
-        $client = $contact->client;
+        $vendor = $contact->vendor;
         $account = $contact->account;
 
-        if (!$account->enable_client_portal || !$account->enable_client_portal_dashboard) {
+        if (!$account->enable_vendor_portal || !$account->enable_vendor_portal_dashboard) {
             return $this->returnError();
         }
 
@@ -1067,18 +1067,18 @@ class ClientPortalController extends BaseController
         }
 
         if (request()->json) {
-            return dispatch(new GenerateInvoiceStatementData($client, request()->all(), $contact));
+            return dispatch(new GenerateBillStatementData($vendor, request()->all(), $contact));
         }
 
         $data = [
             'extends' => 'public.header',
-            'client' => $client,
+            'vendor' => $vendor,
             'account' => $account,
             'startDate' => $startDate,
             'endDate' => $endDate,
         ];
 
-        return view('clients.statement', $data);
+        return view('vendors.statement', $data);
 
     }
 }

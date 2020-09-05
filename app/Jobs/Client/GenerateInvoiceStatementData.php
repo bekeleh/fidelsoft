@@ -8,7 +8,7 @@ use App\Models\InvoiceItem;
 use App\Models\Payment;
 use Utils;
 
-class GenerateStatementData
+class GenerateInvoiceStatementData
 {
     public function __construct($client, $options, $contact = false)
     {
