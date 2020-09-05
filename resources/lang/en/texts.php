@@ -992,7 +992,7 @@ $LANG = array(
     'powered_by' => 'Powered by',
     'team_source' => 'Fidelsoft Business Management Suit',
     'no_items' => 'No items',
-    //  Recurrring invoice
+    //  Recurring invoice
     'recurring_invoices' => 'Recurring Invoices',
     'isRecurring' => 'Is Recurring',
     'recurring_help' => '<p>Automatically send clients the same invoices weekly, bi-monthly, monthly, quarterly or annually. </p>
