@@ -184,7 +184,6 @@ $LANG = array(
 //   Purchase bill
     'view_bill' => 'View Bill',
     'bill_name' => 'Bill Name',
-    'invoice_number' => 'Bill Number',
     'bill' => 'Purchase Bill',
     'bills' => 'Purchase Bills',
     'bill_history' => 'Bill History',
@@ -249,6 +248,8 @@ $LANG = array(
     'bill_quotes' => 'Purchase Quotes',
     'bill_quote_return' => 'Bill Quote Return',
     'bill_quote_list' => 'Bill Quote Lists',
+    'bill_quote_history' => 'Bill Quote History',
+    'download_bill_quote' => 'Download Bill Quote',
     'list_bill_quotes' => 'List Bill Quote',
     'create_bill_quote' => 'Create Bill Quote',
     'new_bill_quote' => 'New Bill Quote',
