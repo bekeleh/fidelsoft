@@ -1746,8 +1746,8 @@ afterAdd: showContact }'>
             submitAction('clone_bill');
         }
 
-        function onCloneQuoteClick() {
-            submitAction('clone_quote');
+        function onCloneBillQuoteClick() {
+            submitAction('clone_bill_quote');
         }
 
         function onConvertClick() {

@@ -322,9 +322,9 @@ class BillController extends BaseController
         $message = trans("texts.updated_{$entityType}");
         Session::flash('message', $message);
 
-        if ($action == 'clone_invoice') {
+        if ($action == 'clone_bill') {
             return url(sprintf('bills/%s/clone', $bill->public_id));
-        } else if ($action == 'clone_quote') {
+        } else if ($action == 'clone_bill_quote') {
             return url(sprintf('bill_quotes/%s/clone', $bill->public_id));
         } elseif ($action == 'convert') {
             return $this->convertQuote($request, $bill->public_id);
