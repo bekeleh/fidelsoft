@@ -32,10 +32,10 @@ class RecurringBillDatatable extends EntityDatatable
             [
                 'vendor_name',
                 function ($model) {
-                    if (auth::user()->can('edit', [ENTITY_CLIENT])) {
-                        return link_to("vendors/{$model->client_public_id}", Utils::getClientDisplayName($model))->toHtml();
+                    if (auth::user()->can('edit', [ENTITY_VENDOR])) {
+                        return link_to("vendors/{$model->vendor_public_id}", Utils::getVendorDisplayName($model))->toHtml();
                     } else {
-                        return Utils::getClientDisplayName($model);
+                        return Utils::getVendorDisplayName($model);
                     }
                 },
             ],
@@ -145,7 +145,7 @@ class RecurringBillDatatable extends EntityDatatable
                 },
             ],
             [
-                trans("texts.clone_BILL"),
+                trans("texts.clone_bill"),
                 function ($model) {
                     return URL::to("bills/{$model->public_id}/clone");
                 },

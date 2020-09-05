@@ -314,7 +314,7 @@
                 'vendors',
                 'users',
                 'bills',
-                'recurring_bills' => 'recurring_bill',
+                'recurring_bills',
                 'bill_quotes',
                 'vendor_credits',
                 'bill_payments',

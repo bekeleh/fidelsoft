@@ -11,14 +11,14 @@ use App\Ninja\Repositories\BillRepository;
 class RecurringBillController extends BaseController
 {
 
-    protected $BillRepo;
+    protected $billRepo;
 
 
-    public function __construct(BillRepository $BillRepo)
+    public function __construct(BillRepository $billRepo)
     {
         //parent::__construct();
 
-        $this->BillRepo = $BillRepo;
+        $this->billRepo = $billRepo;
     }
 
     public function index()
