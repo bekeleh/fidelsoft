@@ -447,7 +447,7 @@ class ActivityListener
             return;
         }
 
-        $backupBill = Bill::with('invoice_items', 'vendor.account', 'vendor.contacts')
+        $backupBill = Bill::with('invoice_items', 'vendor.account', 'client.contacts')
             ->withTrashed()
             ->find($event->bill->id);
 

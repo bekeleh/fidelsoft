@@ -562,7 +562,7 @@ class BillController extends BaseController
 
         $paymentId = $request->payment_id ? BillPayment::getPrivateId($request->payment_id) : false;
 
-        $bill->load('user', 'invoice_items', 'documents', 'account.country', 'vendor.contacts', 'vendor.country');
+        $bill->load('user', 'invoice_items', 'documents', 'account.country', 'client.contacts', 'vendor.country');
         $bill->bill_date = Utils::fromSqlDate($bill->bill_date);
         $bill->due_date = Utils::fromSqlDate($bill->due_date);
         $bill->features = [
@@ -570,7 +570,7 @@ class BillController extends BaseController
             'remove_created_by' => Auth::user()->hasFeature(FEATURE_REMOVE_CREATED_BY),
             'invoice_settings' => Auth::user()->hasFeature(FEATURE_INVOICE_SETTINGS),
         ];
-        $bill->bill_type_id = intval($bill->bill_type_id);
+        $bill->invoice_type_id = intval($bill->bill_type_id);
 
         $activities = Activity::scope(false, $bill->account_id);
         if ($paymentId) {
@@ -589,14 +589,14 @@ class BillController extends BaseController
 
         foreach ($activities as $activity) {
             if ($backup = json_decode($activity->json_backup)) {
-                $backup->bill_date = Utils::fromSqlDate($backup->bill_date);
+                $backup->invoice_date = Utils::fromSqlDate($backup->bill_date);
                 $backup->due_date = Utils::fromSqlDate($backup->due_date);
                 $backup->features = [
                     'customize_invoice_design' => Auth::user()->hasFeature(FEATURE_CUSTOMIZE_INVOICE_DESIGN),
                     'remove_created_by' => Auth::user()->hasFeature(FEATURE_REMOVE_CREATED_BY),
                     'invoice_settings' => Auth::user()->hasFeature(FEATURE_INVOICE_SETTINGS),
                 ];
-                $backup->bill_type_id = isset($backup->bill_type_id) && intval($backup->bill_type_id) == INVOICE_TYPE_QUOTE;
+                $backup->invoice_type_id = isset($backup->bill_type_id) && intval($backup->bill_type_id) == INVOICE_TYPE_QUOTE;
                 $backup->account = $bill->account->toArray();
 
                 $versionsJson[$paymentId ? 0 : $activity->id] = $backup;
@@ -629,7 +629,7 @@ class BillController extends BaseController
     {
         $bill = $request->entity();
         $bill->load('user', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'account.country', 'vendor.contacts', 'vendor.country', 'vendor.shipping_country');
-        $bill->bill_date = Utils::fromSqlDate($bill->bill_date);
+        $bill->invoice_date = Utils::fromSqlDate($bill->bill_date);
         $bill->due_date = Utils::fromSqlDate($bill->due_date);
         $bill->features = [
             'customize_invoice_design' => Auth::user()->hasFeature(FEATURE_CUSTOMIZE_INVOICE_DESIGN),

@@ -4,49 +4,49 @@
     @parent
 
     @include('money_script')
-@foreach (Auth::user()->account->getFontFolders() as $font)
-  <script src="{{ asset('js/vfs_fonts/'.$font.'.js') }}" type="text/javascript"></script>
-@endforeach
-  <script src="{{ asset('pdf.built.js') }}?no_cache={{ NINJA_VERSION }}" type="text/javascript"></script>
+    @foreach (Auth::user()->account->getFontFolders() as $font)
+        <script src="{{ asset('js/vfs_fonts/'.$font.'.js') }}" type="text/javascript"></script>
+    @endforeach
+    <script src="{{ asset('pdf.built.js') }}?no_cache={{ NINJA_VERSION }}" type="text/javascript"></script>
 
-  <script>
+    <script>
 
-    var invoiceDesigns = {!! $invoiceDesigns !!};
-    var invoiceFonts = {!! $invoiceFonts !!};
-    var currentInvoice = {!! $invoice !!};
-    var versionsJson = {!! strip_tags($versionsJson) !!};
+        var invoiceDesigns = {!! $invoiceDesigns !!};
+        var invoiceFonts = {!! $invoiceFonts !!};
+        var currentInvoice = {!! $invoice !!};
+        var versionsJson = {!! strip_tags($versionsJson) !!};
 
-    function getPDFString(cb) {
+        function getPDFString(cb) {
 
-        var version = $('#version').val();
-        var invoice;
+            var version = $('#version').val();
+            var invoice;
 
-        @if ($paymentId)
-            invoice = versionsJson[0];
-        @else
+            @if ($paymentId)
+                invoice = versionsJson[0];
+            @else
             if (parseInt(version)) {
                 invoice = versionsJson[version];
             } else {
                 invoice = currentInvoice;
             }
-        @endif
+            @endif
 
-        invoice.image = window.accountLogo;
+                invoice.image = window.accountLogo;
 
-        var invoiceDesignId = parseInt(invoice.invoice_design_id);
-        var invoiceDesign = _.findWhere(invoiceDesigns, {id: invoiceDesignId});
-        if (!invoiceDesign) {
-            invoiceDesign = invoiceDesigns[0];
+            var invoiceDesignId = parseInt(invoice.invoice_design_id);
+            var invoiceDesign = _.findWhere(invoiceDesigns, {id: invoiceDesignId});
+            if (!invoiceDesign) {
+                invoiceDesign = invoiceDesigns[0];
+            }
+
+            generatePDF(invoice, invoiceDesign.javascript, true, cb);
         }
 
-        generatePDF(invoice, invoiceDesign.javascript, true, cb);
-    }
+        $(function () {
+            refreshPDF();
+        });
 
-    $(function() {
-      refreshPDF();
-    });
-
-  </script>
+    </script>
 
 @stop
 
@@ -73,20 +73,24 @@
         <br/>&nbsp;<br/>
     @endif
 
-    @include('invoices.pdf', ['account' => Auth::user()->account, 'pdfHeight' => 800])
+    @include('bills.pdf', ['account' => Auth::user()->account, 'pdfHeight' => 800])
 
     @if (Utils::hasFeature(FEATURE_DOCUMENTS) && $invoice->account->invoice_embed_documents)
-        @foreach ($invoice->documents as $document)
-            @if($document->isPDFEmbeddable())
-                <script src="{{ $document->getVFSJSUrl() }}" type="text/javascript" async></script>
-            @endif
-        @endforeach
-        @foreach ($invoice->expenses as $expense)
-            @foreach ($expense->documents as $document)
+        @if(isset($invoice->documents))
+            @foreach ($invoice->documents as $document)
                 @if($document->isPDFEmbeddable())
                     <script src="{{ $document->getVFSJSUrl() }}" type="text/javascript" async></script>
                 @endif
             @endforeach
-        @endforeach
+        @endif
+        @if(isset($invoice->expenses))
+            @foreach ($invoice->expenses as $expense)
+                @foreach ($expense->documents as $document)
+                    @if($document->isPDFEmbeddable())
+                        <script src="{{ $document->getVFSJSUrl() }}" type="text/javascript" async></script>
+                    @endif
+                @endforeach
+            @endforeach
+        @endif
     @endif
 @stop

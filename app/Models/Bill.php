@@ -778,6 +778,7 @@ class Bill extends EntityModel implements BalanceAffecting
     public function hidePrivateFields()
     {
         $this->setVisible([
+            'product_key',
             'invoice_number',
             'discount',
             'is_amount_discount',
@@ -792,7 +793,7 @@ class Bill extends EntityModel implements BalanceAffecting
             'invoice_items',
             'documents',
             'expenses',
-            'vendor',
+            'client',
             'bill_invitations',
             'tax_name1',
             'tax_rate1',
