@@ -4,8 +4,8 @@
         var self = this;
         self.showMore = ko.observable(false);
 
-        //self.invoice = data ? false : new InvoiceModel();
-        self.invoice = ko.observable(data ? false : new InvoiceModel());
+        //self.invoice = data ? false : new BillModel();
+        self.invoice = ko.observable(data ? false : new BillModel());
         self.expense_currency_id = ko.observable();
         self.products = <?php echo $products; ?>;
 
@@ -55,7 +55,7 @@
         self.mapping = {
             'invoice': {
                 create: function (options) {
-                    return new InvoiceModel(options.data);
+                    return new BillModel(options.data);
                 }
             },
         };
@@ -85,7 +85,7 @@
             return false;
         });
 
-        self.showClientForm = function () {
+        self.showVendorForm = function () {
             trackEvent('/activity', '/view_client_form');
             self.clientBackup = ko.mapping.toJS(self.invoice().client);
 
@@ -150,7 +150,7 @@
             if (self.invoice().client().public_id()) {
                 return "<?php echo e(trans('texts.edit_client')); ?>";
             } else {
-                if (clients.length > <?php echo e(Auth::user()->getMaxNumClients()); ?>) {
+                if (clients.length > <?php echo e(Auth::user()->getMaxNumVendors()); ?>) {
                     return '';
                 } else {
                     return "<?php echo e(trans('texts.create_new_client')); ?>";
@@ -195,12 +195,12 @@
         });
     }
 
-    function InvoiceModel(data) {
+    function BillModel(data) {
         if (data) {
             var clientModel = false;
         } else {
-            var clientModel = new ClientModel();
-            clientModel.id_number("<?php echo e($account->getClientNextNumber()); ?>");
+            var clientModel = new VendorModel();
+            clientModel.id_number("<?php echo e($account->getVendorNextNumber()); ?>");
         }
 
         var self = this;
@@ -237,7 +237,7 @@
         self.tax_rate2 = ko.observable();
         self.tax_rate2IsInclusive = ko.observable(0);
         self.is_recurring = ko.observable(0);
-        self.is_quote = ko.observable(<?php echo e($entityType == ENTITY_QUOTE ? '1' : '0'); ?>);
+        self.is_quote = ko.observable(<?php echo e($entityType == ENTITY_BILL_QUOTE ? '1' : '0'); ?>);
         self.auto_bill = ko.observable(0);
         self.client_enable_auto_bill = ko.observable(false);
         self.invoice_status_id = ko.observable(0);
@@ -282,7 +282,7 @@
         self.mapping = {
             'client': {
                 create: function (options) {
-                    return new ClientModel(options.data);
+                    return new VendorModel(options.data);
                 }
             },
             'documents': {
@@ -651,7 +651,7 @@
         });
     }
 
-    function ClientModel(data) {
+    function VendorModel(data) {
         var self = this;
         self.public_id = ko.observable(0);
         self.name = ko.observable('');

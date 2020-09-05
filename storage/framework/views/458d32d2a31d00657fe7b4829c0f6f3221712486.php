@@ -184,18 +184,18 @@ $__env->startSection('head_css'); ?>
                                         <input type="checkbox" value="1"
                                                data-bind="visible: email() || first_name() || last_name(), checked: send_invoice, attr: {id: $index() + '_check', name: 'client[contacts][' + $index() + '][send_invoice]'}">
                                         <span data-bind="visible: first_name || last_name">
-<span data-bind="text: (first_name() || '') + ' ' + (last_name() || '')"></span>
-<br/>
-</span>
+                                        <span data-bind="text: (first_name() || '') + ' ' + (last_name() || '')"></span>
+                                        <br/>
+                                        </span>
                                         <span data-bind="visible: email">
-<span data-bind="text: email"></span>
-<br/>
-</span>
+                                        <span data-bind="text: email"></span>
+                                        <br/>
+                                        </span>
                                     </label>
                                     <?php if( ! $invoice->is_deleted && ! $invoice->client->is_deleted): ?>
                                         <span data-bind="visible: !$root.invoice().is_recurring()">
-<span data-bind="html: $data.view_as_recipient"></span>&nbsp;&nbsp;
-<?php if(Utils::isConfirmed()): ?>
+                                            <span data-bind="html: $data.view_as_recipient"></span>&nbsp;&nbsp;
+                                            <?php if(Utils::isConfirmed()): ?>
                                                 <span style="vertical-align:text-top;color:red"
                                                       class="fa fa-exclamation-triangle"
                                                       data-bind="visible: $data.email_error, tooltip: {title: $data.email_error}"></span>
@@ -994,7 +994,7 @@ afterAdd: showContact }'>
 
     </div>
 
-    <?php echo $__env->make('invoices.knockout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('bills.knockout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
     <script type="text/javascript">
         Dropzone.autoDiscover = false;
@@ -1339,6 +1339,7 @@ afterAdd: showContact }'>
 
             };
             invoice.is_quote = <?php echo e($entityType == ENTITY_BILL_QUOTE ? 'true' : 'false'); ?>;
+
             invoice.contact = _.findWhere(invoice.client.contacts, {send_invoice: true});
 
             if (invoice.is_recurring) {
@@ -1765,7 +1766,7 @@ afterAdd: showContact }'>
         }
 
         function onCreditClick() {
-            window.location = '<?php echo e(URL::to('VENDOR_CREDITs/create/' . $invoice->client->public_id . '/' . $invoice->public_id )); ?>';
+            window.location = '<?php echo e(URL::to('vendor_credits/create/' . $invoice->client->public_id . '/' . $invoice->public_id )); ?>';
         }
 
         <?php endif; ?>

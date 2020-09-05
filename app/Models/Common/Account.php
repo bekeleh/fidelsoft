@@ -86,13 +86,9 @@ use DateTimeZone;
  * @property string|null $quote_number_pattern
  * @property string|null $recurring_invoice_number_prefix
  * @property int $share_counter
- * @property string|null $invoice_number_prefix
- * @property int|null $invoice_number_counter
- * @property string|null $invoice_number_pattern
  * @property string|null $bill_quote_number_prefix
  * @property int|null $bill_quote_number_counter
  * @property string|null $bill_quote_number_pattern
- * @property string|null $recurring_invoice_number_prefix
  * @property int $share_bill_counter
  * @property string|null $id_number
  * @property int $token_billing_type_id

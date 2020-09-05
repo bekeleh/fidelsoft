@@ -69,7 +69,7 @@ class BillQuoteController extends BaseController
     {
         $this->authorize('create', ENTITY_BILL_QUOTE);
         if (!Utils::hasFeature(FEATURE_QUOTES)) {
-            return Redirect::to('/bill_quotes/create');
+            return Redirect::to('/bills/create');
         }
 
         $account = Auth::user()->account;
@@ -92,7 +92,6 @@ class BillQuoteController extends BaseController
 
         $data = array_merge($data, self::getViewModel($bill));
 
-//        dd($data);
         return View::make('bills.edit', $data);
     }
 

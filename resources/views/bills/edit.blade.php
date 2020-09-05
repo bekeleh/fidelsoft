@@ -175,18 +175,18 @@
                                         <input type="checkbox" value="1"
                                                data-bind="visible: email() || first_name() || last_name(), checked: send_invoice, attr: {id: $index() + '_check', name: 'client[contacts][' + $index() + '][send_invoice]'}">
                                         <span data-bind="visible: first_name || last_name">
-<span data-bind="text: (first_name() || '') + ' ' + (last_name() || '')"></span>
-<br/>
-</span>
+                                        <span data-bind="text: (first_name() || '') + ' ' + (last_name() || '')"></span>
+                                        <br/>
+                                        </span>
                                         <span data-bind="visible: email">
-<span data-bind="text: email"></span>
-<br/>
-</span>
+                                        <span data-bind="text: email"></span>
+                                        <br/>
+                                        </span>
                                     </label>
                                     @if ( ! $invoice->is_deleted && ! $invoice->client->is_deleted)
                                         <span data-bind="visible: !$root.invoice().is_recurring()">
-<span data-bind="html: $data.view_as_recipient"></span>&nbsp;&nbsp;
-@if (Utils::isConfirmed())
+                                            <span data-bind="html: $data.view_as_recipient"></span>&nbsp;&nbsp;
+                                            @if (Utils::isConfirmed())
                                                 <span style="vertical-align:text-top;color:red"
                                                       class="fa fa-exclamation-triangle"
                                                       data-bind="visible: $data.email_error, tooltip: {title: $data.email_error}"></span>
@@ -899,7 +899,7 @@ afterAdd: showContact }'>
 
     </div>
 
-    @include('invoices.knockout')
+    @include('bills.knockout')
 
     <script type="text/javascript">
         Dropzone.autoDiscover = false;
@@ -1241,6 +1241,7 @@ afterAdd: showContact }'>
                 invoice_settings:{{ Auth::user()->hasFeature(FEATURE_INVOICE_SETTINGS) ? 'true' : 'false' }}
             };
             invoice.is_quote = {{ $entityType == ENTITY_BILL_QUOTE ? 'true' : 'false' }};
+
             invoice.contact = _.findWhere(invoice.client.contacts, {send_invoice: true});
 
             if (invoice.is_recurring) {
@@ -1667,7 +1668,7 @@ afterAdd: showContact }'>
         }
 
         function onCreditClick() {
-            window.location = '{{ URL::to('VENDOR_CREDITs/create/' . $invoice->client->public_id . '/' . $invoice->public_id ) }}';
+            window.location = '{{ URL::to('vendor_credits/create/' . $invoice->client->public_id . '/' . $invoice->public_id ) }}';
         }
 
         @endif

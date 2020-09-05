@@ -21,6 +21,7 @@ class Vendor extends EntityModel
     use HasCustomMessages;
 
     protected $presenter = 'App\Ninja\Presenters\VendorPresenter';
+
     protected $table = 'vendors';
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];

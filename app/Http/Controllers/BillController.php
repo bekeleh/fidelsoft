@@ -158,7 +158,6 @@ class BillController extends BaseController
 
         $entityType = Input::get('entityType');
 
-
         $bill = $this->billService->save($data);
 
         $entityType = $bill->getEntityType();
