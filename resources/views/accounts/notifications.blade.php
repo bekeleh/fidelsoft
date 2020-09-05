@@ -13,7 +13,8 @@
     {{ Former::populate($account) }}
     {{ Former::populateField('slack_webhook_url', auth()->user()->slack_webhook_url) }}
 
-    @include('accounts.partials.notifications')
+    @include('accounts.partials.invoice_notifications')
+    @include('accounts.partials.bill_notifications')
 
     <div class="panel panel-default">
         <div class="panel-heading" style="color:white;background-color: #777 !important;">

@@ -6,13 +6,13 @@
 
 <div class="panel panel-default">
     <div class="panel-heading" style="color:white;background-color: #777 !important;">
-        <h3 class="panel-title in-bold-white">{!! trans('texts.email_notifications') !!}</h3>
+        <h3 class="panel-title in-bold-white">{!! trans('texts.invoice_email_notifications') !!}</h3>
     </div>
     <div class="panel-body">
-        {!! Former::checkbox('notify_sent')->label('&nbsp;')->text(trans('texts.email_sent'))->value(1) !!}
-        {!! Former::checkbox('notify_viewed')->label('&nbsp;')->text(trans('texts.email_viewed'))->value(1) !!}
-        {!! Former::checkbox('notify_paid')->label('&nbsp;')->text(trans('texts.email_paid'))->value(1) !!}
-        {!! Former::checkbox('notify_approved')->label('&nbsp;')->text(trans('texts.email_approved'))->value(1) !!}
+        {!! Former::checkbox('notify_sent')->label('&nbsp;')->text(trans('texts.invoice_email_sent'))->value(1) !!}
+        {!! Former::checkbox('notify_viewed')->label('&nbsp;')->text(trans('texts.invoice_email_viewed'))->value(1) !!}
+        {!! Former::checkbox('notify_paid')->label('&nbsp;')->text(trans('texts.invoice_email_paid'))->value(1) !!}
+        {!! Former::checkbox('notify_approved')->label('&nbsp;')->text(trans('texts.invoice_email_approved'))->value(1) !!}
 
         @if (Auth()->user()->account->hasMultipleUsers())
             <br/>
