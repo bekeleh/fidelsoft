@@ -42,11 +42,11 @@ class HistoryUtils
             ACTIVITY_TYPE_EMAIL_BILL,
             ACTIVITY_TYPE_EMAIL_BILL_QUOTE,
             ACTIVITY_TYPE_VIEW_BILL,
-            ACTIVITY_TYPE_UPDATE_bill_quote,
-            ACTIVITY_TYPE_VIEW_bill_quote,
+            ACTIVITY_TYPE_UPDATE_BILL_QUOTE,
+            ACTIVITY_TYPE_VIEW_BILL_QUOTE,
         ];
 
-        $activities = Activity::with(['client.contacts', 'payment', 'invoice', 'BILL', 'vendor.contacts', 'task.project', 'expense'])
+        $activities = Activity::with(['client.contacts', 'payment', 'invoice', 'bill', 'vendor.contacts', 'task.project', 'expense'])
             ->whereIn('user_id', $userIds)
             ->whereIn('activity_type_id', $activityTypes)
             ->orderBy('id', 'desc')

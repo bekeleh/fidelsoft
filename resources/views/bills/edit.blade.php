@@ -1229,7 +1229,7 @@ afterAdd: showContact }'>
 
         }
 
-        function createBillModel() {
+        function createInvoiceModel() {
             var model = ko.toJS(window.model);
             if (!model) {
                 return;
@@ -1295,7 +1295,7 @@ afterAdd: showContact }'>
                 return;
                     @endif
 
-            var invoice = createBillModel();
+            var invoice = createInvoiceModel();
             var design = getDesignJavascript();
 
             if (!design) {
@@ -1339,7 +1339,7 @@ afterAdd: showContact }'>
 
         function onDownloadClick() {
             trackEvent('/activity', '/download_pdf');
-            var invoice = createBillModel();
+            var invoice = createInvoiceModel();
             var design = getDesignJavascript();
             if (!design) return;
             var doc = generatePDF(invoice, design, true);
@@ -1504,7 +1504,7 @@ afterAdd: showContact }'>
         }
 
         function preparePdfData(action) {
-            var invoice = createBillModel();
+            var invoice = createInvoiceModel();
             var design = getDesignJavascript();
             if (!design) return;
 

@@ -6,7 +6,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title"
-                    id="emailModalLabel">{{ trans($invoice->isQuote() ? 'texts.email_quote' : 'texts.email_invoice') }}</h4>
+                    id="emailModalLabel">{{ trans($invoice->isQuote() ? 'texts.email_quote' : 'texts.email_bill') }}</h4>
             </div>
 
             <div class="container" style="width: 100%; padding-bottom: 0px !important">
@@ -91,7 +91,7 @@
                                                 <td>{{ $activity->present()->notes }}</td>
                                                 <td>
                                     <span title="{{ trans('texts.sent_by', ['user' => $activity->present()->user]) }}">
-                                        {{ $activity->contact->getDisplayName() }}
+                                        {{ !empty($activity->contact) ? $activity->contact->getDisplayName():'' }}
                                     </span>
                                                 </td>
                                                 <td>

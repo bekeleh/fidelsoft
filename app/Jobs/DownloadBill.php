@@ -6,7 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Models\User;
-use App\Ninja\Mailers\InvoiceMailer;
+use App\Ninja\Mailers\BillMailer;
 use Barracuda\ArchiveStream\Archive;
 
 /**
@@ -38,9 +38,9 @@ class DownloadBill extends Job
     /**
      * Execute the job.
      *
-     * @param InvoiceMailer $userMailer
+     * @param BillMailer $userMailer
      */
-    public function handle(InvoiceMailer $userMailer)
+    public function handle(BillMailer $userMailer)
     {
         if (!extension_loaded('GMP')) {
             die(trans('texts.gmp_required'));
@@ -48,8 +48,8 @@ class DownloadBill extends Job
 
         $zip = Archive::instance_by_useragent(date('Y-m-d') . '_' . str_replace(' ', '_', trans('texts.bill_pdfs')));
 
-        foreach ($this->bills as $invoice) {
-            $zip->add_file($invoice->getFileName(), $invoice->getPDFString());
+        foreach ($this->bills as $bill) {
+            $zip->add_file($bill->getFileName(), $bill->getPDFString());
         }
 
         $zip->finish();
