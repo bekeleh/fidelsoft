@@ -701,7 +701,7 @@ class Bill extends EntityModel implements BalanceAffecting
         if (!empty($bill->bill_type_id)) {
             $linkPrefix = ($bill->bill_type_id == BILL_TYPE_QUOTE) ? 'bill_quotes/' : 'bills/';
         } else {
-            $linkPrefix = 'invoices/';
+            $linkPrefix = 'bills/';
         }
         return link_to($linkPrefix . $bill->public_id, $bill->invoice_number);
     }

@@ -581,6 +581,7 @@ class InvoiceController extends BaseController
     public function invoiceHistory(InvoiceRequest $request)
     {
         $invoice = $request->entity();
+
         $paymentId = $request->payment_id ? Payment::getPrivateId($request->payment_id) : false;
 
         $invoice->load('user', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'account.country', 'client.contacts', 'client.country');

@@ -149,7 +149,7 @@ class VendorMailer extends BillSender
                 $variables['autobill'] = $bill->present()->autoBillEmailMessage();
             }
 
-            if (empty($invitation->contact->password) && $account->isClientPortalPasswordEnabled() && $account->send_portal_password) {
+            if (empty($invitation->contact->password) && $account->isVendorPortalPasswordEnabled() && $account->send_portal_password) {
                 // The contact needs a password
                 $variables['password'] = $password = $this->generatePassword();
                 $invitation->contact->password = bcrypt($password);

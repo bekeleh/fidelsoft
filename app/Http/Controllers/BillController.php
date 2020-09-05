@@ -553,15 +553,16 @@ class BillController extends BaseController
 
     public function cloneQuote(BillRequest $request, $publicId)
     {
-        return self::edit($request, $publicId, INVOICE_TYPE_QUOTE);
+        return self::edit($request, $publicId, BILL_TYPE_QUOTE);
     }
 
-    public function billHistory(BillRequest $request)
+    public function billHistory(BillRequest $request, $publicId)
     {
         $bill = $request->entity();
+
         $paymentId = $request->payment_id ? BillPayment::getPrivateId($request->payment_id) : false;
 
-        $bill->load('user', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'account.country', 'vendor.contacts', 'vendor.country');
+        $bill->load('user', 'invoice_items', 'documents', 'account.country', 'vendor.contacts', 'vendor.country');
         $bill->bill_date = Utils::fromSqlDate($bill->bill_date);
         $bill->due_date = Utils::fromSqlDate($bill->due_date);
         $bill->features = [
