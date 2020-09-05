@@ -311,7 +311,7 @@ Route::group(['middleware' => ['lookup:user', 'auth:user', 'banned:user']], func
 // bill payment
     Route::resource('bill_payments', 'BillPaymentController');
     Route::get('bill_payments/create/{vendor_id?}/{bill_id?}', 'BillPaymentController@create');
-    Route::get('api/bill_payments/{client_id?}', 'BillPaymentController@getDatatable');
+    Route::get('api/bill_payments/{vendor_id?}', 'BillPaymentController@getDatatable');
     Route::post('bill_payments/bulk', 'BillPaymentController@bulk');
 // vendor credit
     Route::resource('vendor_credits', 'VendorCreditController');

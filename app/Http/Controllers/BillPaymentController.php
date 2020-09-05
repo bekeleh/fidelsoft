@@ -197,7 +197,7 @@ class BillPaymentController extends BaseController
 
         Session::flash('message', $message);
 
-        $url = url($payment->getRoute());
+        $url = url($payment->vendor->getRoute());
 
         return redirect()->to($url);
     }

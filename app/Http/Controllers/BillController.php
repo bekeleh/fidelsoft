@@ -522,7 +522,7 @@ class BillController extends BaseController
             } elseif ($action == 'markPaid') {
                 $key = 'created_payment';
             } elseif ($action == 'download') {
-                $key = 'downloaded_invoice';
+                $key = 'downloaded_bill';
             } else {
                 $key = "{$action}d_{$entityType}";
             }

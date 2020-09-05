@@ -3,6 +3,7 @@
 namespace App\Listeners\Sale;
 
 use App\Events\Sale\InvoiceInvitationWasViewedEvent;
+use App\Events\Sale\InvoiceWasArchivedEvent;
 use App\Events\Sale\InvoiceWasCreatedEvent;
 use App\Events\Sale\InvoiceWasDeletedEvent;
 use App\Events\Sale\InvoiceWasEmailedEvent;
@@ -103,8 +104,10 @@ class InvoiceListener
         $activity->save();
 
         if ($invoice->balance == 0 && $payment->account->auto_archive_invoice) {
-            $invoiceRepo = app('App\Ninja\Repositories\InvoiceRepository');
-            $invoiceRepo->archive($invoice);
+//          $invoiceRepo = app('App\Ninja\Repositories\InvoiceRepository');
+//          $invoiceRepo->archive($invoice);
+            $invoice->delete();
+            event(new InvoiceWasArchivedEvent($invoice));
         }
     }
 

@@ -23,9 +23,10 @@ class BaseRepository
         return new $className();
     }
 
+//   this function is deteriorated due to new directory structure
     private function getEventClass($entity, $type)
     {
-        return 'App\Events\\' . ucfirst($entity->getEntityType()) . 'Was' . $type;
+        return 'App\Events\\' . ucfirst($entity->getEntityType()) . 'Was' . $type . 'Event';
     }
 
     public function archive($entity)

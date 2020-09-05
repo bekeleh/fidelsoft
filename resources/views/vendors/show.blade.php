@@ -52,23 +52,23 @@
                         auth()->user()->is_admin ? DropdownButton::DIVIDER : false,
                         ]
                         )->split() !!}
-                    @endcan
-                    @if (!$vendor->trashed())
-                        @can('create', ENTITY_BILL)
-                            {!! DropdownButton::primary(trans('texts.view_statement'))
-                            ->withAttributes(['class'=>'primaryDropDown'])
-                            ->withContents($actionLinks)->split() !!}
+                        @endcan-
+                        {{--                    @if (!$vendor->trashed())--}}
+                        {{--                        @can('create', ENTITY_BILL)--}}
+                        {{--                            {!! DropdownButton::primary(trans('texts.view_statement'))--}}
+                        {{--                            ->withAttributes(['class'=>'primaryDropDown'])--}}
+                        {{--                            ->withContents($actionLinks)->split() !!}--}}
+                        {{--                        @endcan--}}
+                        {{--                    @endif--}}
+                    @endif
+                    @if ($vendor->trashed())
+                        @can('edit', $vendor)
+                            {!! Button::primary(trans('texts.restore_vendor'))
+                            ->appendIcon(Icon::create('retweet'))
+                            ->withAttributes(['onclick' => 'onRestoreClick()']) !!}
                         @endcan
                     @endif
-                @endif
-                @if ($vendor->trashed())
-                    @can('edit', $vendor)
-                        {!! Button::primary(trans('texts.restore_vendor'))
-                        ->appendIcon(Icon::create('retweet'))
-                        ->withAttributes(['onclick' => 'onRestoreClick()']) !!}
-                    @endcan
-                @endif
-                {!! Former::close() !!}
+                    {!! Former::close() !!}
             </div>
         </div>
     </div>
@@ -239,7 +239,7 @@
             {!! Form::tab_link('#recurring_bills', trans('texts.recurring')) !!}
         @endif
         {!! Form::tab_link('#bills', trans('texts.bills')) !!}
-        {!! Form::tab_link('#payments', trans('texts.pay_payments')) !!}
+        {!! Form::tab_link('#payments', trans('texts.bill_payments')) !!}
         @if ($account->isModuleEnabled(ENTITY_VENDOR_CREDIT))
             {!! Form::tab_link('#credits', trans('texts.vendor_credit')) !!}
         @endif

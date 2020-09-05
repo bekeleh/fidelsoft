@@ -214,7 +214,7 @@ class Activity extends EntityModel
             'invoice' => $invoice ? link_to($invoice->getRoute(), $invoice->getDisplayName()) : null,
             'bill' => $bill ? link_to($bill->getRoute(), $bill->getDisplayName()) : null,
             'quote' => $invoice ? link_to($invoice->getRoute(), $invoice->getDisplayName()) : null,
-            'BILL_QUOTE' => $bill ? link_to($bill->getRoute(), $bill->getDisplayName()) : null,
+            'bill_quote' => $bill ? link_to($bill->getRoute(), $bill->getDisplayName()) : null,
             'contact' => $contactId ? link_to($client->getRoute(), $client->getDisplayName()) : e($user->getDisplayName()),
             'vendor_contact' => $vendorContactId ? link_to($vendor->getRoute(), $vendor->getDisplayName()) : e($user->getDisplayName()),
             'payment' => $payment ? e($payment->transaction_reference) : null,

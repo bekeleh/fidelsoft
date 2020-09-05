@@ -226,7 +226,7 @@ class BillDatatable extends EntityDatatable
             [
                 trans('texts.enter_payment'),
                 function ($model) {
-                    return URL::to("payments/create/{$model->vendor_public_id}/{$model->public_id}");
+                    return URL::to("bill_payments/create/{$model->vendor_public_id}/{$model->public_id}");
                 },
                 function ($model) use ($entityType) {
                     return $entityType == ENTITY_BILL && $model->bill_status_id != BILL_STATUS_PAID && Auth::user()->can('create', ENTITY_PAYMENT);

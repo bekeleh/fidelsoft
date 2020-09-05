@@ -9,6 +9,7 @@ use App\Events\Purchase\BillPaymentWasDeletedEvent;
 use App\Events\Purchase\BillPaymentWasRefundedEvent;
 use App\Events\Purchase\BillPaymentWasRestoredEvent;
 use App\Events\Purchase\BillPaymentWasVoidedEvent;
+use App\Events\Purchase\BillWasArchivedEvent;
 use App\Events\Purchase\BillWasCreatedEvent;
 use App\Events\Purchase\BillWasDeletedEvent;
 use App\Events\Purchase\BillWasEmailedEvent;
@@ -102,8 +103,10 @@ class BillListener
         $activity->save();
 
         if ($bill->balance == 0 && $paymentBill->account->auto_archive_bill) {
-            $billRepo = app('App\Ninja\Repositories\BillRepository');
-            $billRepo->archive($bill);
+//            $billRepo = app('App\Ninja\Repositories\BillRepository');
+//            $billRepo->archive($bill);
+            $bill->delete();
+            event(new BillWasArchivedEvent($bill));
         }
     }
 
