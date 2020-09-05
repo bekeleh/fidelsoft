@@ -628,19 +628,19 @@ class BillController extends BaseController
     public function receiveNote(BillRequest $request)
     {
         $bill = $request->entity();
-        $bill->load('user', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'account.country', 'vendor.contacts', 'vendor.country', 'vendor.shipping_country');
+        $bill->load('user', 'invoice_items', 'documents', 'expenses', 'expenses.documents', 'account.country', 'client.contacts', 'vendor.country', 'vendor.shipping_country');
         $bill->invoice_date = Utils::fromSqlDate($bill->bill_date);
-        $bill->due_date = Utils::fromSqlDate($bill->due_date);
+        $bill->invoice_date = Utils::fromSqlDate($bill->due_date);
         $bill->features = [
             'customize_invoice_design' => Auth::user()->hasFeature(FEATURE_CUSTOMIZE_INVOICE_DESIGN),
             'remove_created_by' => Auth::user()->hasFeature(FEATURE_REMOVE_CREATED_BY),
             'invoice_settings' => Auth::user()->hasFeature(FEATURE_INVOICE_SETTINGS),
         ];
-        $bill->bill_type_id = intval($bill->bill_type_id);
+        $bill->invoice_type_id = intval($bill->bill_type_id);
 
-        if ($bill->vendor->shipping_address1) {
+        if ($bill->client->shipping_address1) {
             foreach (['address1', 'address2', 'city', 'state', 'postal_code', 'country_id'] as $field) {
-                $bill->vendor->$field = $bill->vendor->{'shipping_' . $field};
+                $bill->client->$field = $bill->client->{'shipping_' . $field};
             }
         }
 
@@ -650,7 +650,7 @@ class BillController extends BaseController
             'invoiceFonts' => Cache::get('fonts'),
         ];
 
-        return View::make('bills.delivery_note', $data);
+        return View::make('bills.receive_note', $data);
     }
 
     public function checkBillNumber($billPublicId = false)

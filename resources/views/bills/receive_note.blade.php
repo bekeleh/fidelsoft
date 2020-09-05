@@ -9,35 +9,35 @@
     @endforeach
     <script src="{{ asset('pdf.built.js') }}?no_cache={{ NINJA_VERSION }}" type="text/javascript"></script>
 
-  <script>
+    <script>
 
-    var invoice = {!! $invoice !!};
-    var invoiceDesign = false;
-    var invoiceDesigns = {!! $invoiceDesigns !!};
-    var invoiceFonts = {!! $invoiceFonts !!};
+        var invoice = {!! $invoice !!};
+        var invoiceDesign = false;
+        var invoiceDesigns = {!! $invoiceDesigns !!};
+        var invoiceFonts = {!! $invoiceFonts !!};
 
-    function getPDFString(cb) {
-        invoice.image = window.accountLogo;
-        invoice.is_delivery_note = true;
-        var invoiceDesignId = parseInt(invoice.invoice_design_id);
-        invoiceDesign = _.findWhere(invoiceDesigns, {id: invoiceDesignId});
-        if (!invoiceDesign) {
-            invoiceDesign = invoiceDesigns[0];
+        function getPDFString(cb) {
+            invoice.image = window.accountLogo;
+            invoice.is_delivery_note = true;
+            var invoiceDesignId = parseInt(invoice.invoice_design_id);
+            invoiceDesign = _.findWhere(invoiceDesigns, {id: invoiceDesignId});
+            if (!invoiceDesign) {
+                invoiceDesign = invoiceDesigns[0];
+            }
+            generatePDF(invoice, invoiceDesign.javascript, true, cb);
         }
-        generatePDF(invoice, invoiceDesign.javascript, true, cb);
-    }
 
-    function onDownloadClick() {
-		trackEvent('/activity', '/download_pdf');
-		var doc = generatePDF(invoice, invoiceDesign.javascript, true);
-        doc.save('{{ str_replace(' ', '_', trans('texts.delivery_note')) }}-{{ $invoice->invoice_number }}.pdf');
-	}
+        function onDownloadClick() {
+            trackEvent('/activity', '/download_pdf');
+            var doc = generatePDF(invoice, invoiceDesign.javascript, true);
+            doc.save('{{ str_replace(' ', '_', trans('texts.receive_note')) }}-{{ $invoice->invoice_number }}.pdf');
+        }
 
-    $(function() {
-        refreshPDF();
-    });
+        $(function () {
+            refreshPDF();
+        });
 
-  </script>
+    </script>
 
 @stop
 
