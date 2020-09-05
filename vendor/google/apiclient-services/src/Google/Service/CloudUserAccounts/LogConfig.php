@@ -30,7 +30,7 @@ class Google_Service_CloudUserAccounts_LogConfig extends Google_Model
   /**
    * @return Google_Service_CloudUserAccounts_LogConfigCounterOptions
    */
-  public function getClientCounter()
+  public function getInvoiceCounter()
   {
     return $this->counter;
   }

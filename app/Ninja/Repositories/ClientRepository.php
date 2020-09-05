@@ -173,7 +173,7 @@ class ClientRepository extends BaseRepository
 
         // auto-set the client id number
         if (Auth::check() && Auth::user()->account->client_number_counter && !$client->id_number && empty($data['id_number'])) {
-            $data['id_number'] = Auth::user()->account->getClientNextNumber();
+            $data['id_number'] = Auth::user()->account->getInvoiceNextNumber();
         }
 
         if ($client->is_deleted) {

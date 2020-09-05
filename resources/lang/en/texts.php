@@ -1225,7 +1225,7 @@ $LANG = array(
     //   Quotes
     'go_pro' => 'Go Pro',
     'quote' => 'Quote',
-    'quotes' => 'Quotes',
+    'quotes' => 'Sale Quotes',
     'quote_number' => 'Quote Number',
     'quote_number_short' => 'Quote #',
     'bill_quote_number' => 'Quote Number',

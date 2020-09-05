@@ -74,7 +74,7 @@ class Google_Service_Dfareporting_CreativeAssetMetadata extends Google_Collectio
   /**
    * @return Google_Service_Dfareporting_CreativeCustomEvent
    */
-  public function getClientCounterCustomEvents()
+  public function getInvoiceCounterCustomEvents()
   {
     return $this->counterCustomEvents;
   }

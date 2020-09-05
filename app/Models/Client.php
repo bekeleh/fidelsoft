@@ -646,7 +646,7 @@ class Client extends EntityModel
         return $this->account->country ? $this->account->country->iso_3166_2 : 'US';
     }
 
-    public function getClientCounter($isQuote)
+    public function getInvoiceCounter($isQuote)
     {
         return $isQuote ? $this->quote_number_counter : $this->invoice_number_counter;
     }

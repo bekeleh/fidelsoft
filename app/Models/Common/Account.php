@@ -10,8 +10,8 @@ use App\Models\Client;
 use App\Models\Invitation;
 use App\Models\Invoice;
 use App\Models\LookupAccount;
-use App\Models\Traits\GenerateClientNumbers;
-use App\Models\Traits\GenerateVendorNumbers;
+use App\Models\Traits\GenerateInvoiceNumbers;
+use App\Models\Traits\GenerateBillNumbers;
 use App\Models\Traits\HasCustomMessages;
 use App\Models\Traits\HasLogo;
 use App\Models\Traits\PresentsInvoice;
@@ -460,8 +460,8 @@ class Account extends Eloquent
     use PresentableTrait;
     use SoftDeletes;
     use PresentsInvoice;
-    use GenerateClientNumbers;
-    use GenerateVendorNumbers;
+    use GenerateInvoiceNumbers;
+    use GenerateBillNumbers;
     use SendsEmails;
     use HasLogo;
     use HasCustomMessages;
@@ -515,8 +515,8 @@ class Account extends Eloquent
         'quote_number_prefix',
         'quote_number_counter',
         'share_counter',
-        'invoice_number_prefix',
-        'invoice_number_counter',
+        'bill_number_prefix',
+        'bill_number_counter',
         'bill_quote_number_prefix',
         'bill_quote_number_counter',
         'share_bill_counter',
@@ -1375,7 +1375,7 @@ class Account extends Eloquent
             if ($this->hasClientNumberPattern($invoice) && !$clientId) {
                 // do nothing, we don't yet know the value
             } elseif (!$invoice->invoice_number) {
-                $invoice->invoice_number = $this->getClientNextNumber($invoice);
+                $invoice->invoice_number = $this->getInvoiceNextNumber($invoice);
             }
         }
 
@@ -1412,7 +1412,7 @@ class Account extends Eloquent
             if (isset($bill) && $this->hasVendorNumberPattern($bill) && !$vendorId) {
                 // do nothing, we don't yet know the value
             } elseif (!$bill->invoice_number) {
-                $bill->invoice_number = $this->getVendorNextNumber($bill);
+                $bill->invoice_number = $this->getBillNextNumber($bill);
             }
         }
 

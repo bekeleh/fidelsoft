@@ -43,7 +43,7 @@ class Google_Service_Storagetransfer_TransferOperation extends Google_Collection
   /**
    * @return Google_Service_Storagetransfer_TransferCounters
    */
-  public function getClientCounters()
+  public function getInvoiceCounters()
   {
     return $this->counters;
   }

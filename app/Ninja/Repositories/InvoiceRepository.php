@@ -744,7 +744,7 @@ class InvoiceRepository extends BaseRepository
             }
         }
 
-        $clone->invoice_number = $invoiceNumber ?: $account->getClientNextNumber($clone);
+        $clone->invoice_number = $invoiceNumber ?: $account->getInvoiceNextNumber($clone);
         $clone->invoice_date = date_create()->format('Y-m-d');
         $clone->due_date = $account->defaultDueDate($invoice->client);
         $clone->invoice_status_id = !empty($clone->invoice_status_id) ? $clone->invoice_status_id : INVOICE_STATUS_DRAFT;
@@ -950,7 +950,7 @@ class InvoiceRepository extends BaseRepository
         $invoice->invoice_type_id = INVOICE_TYPE_STANDARD;
         $invoice->client_id = $recurInvoice->client_id;
         $invoice->recurring_invoice_id = $recurInvoice->id;
-        $invoice->invoice_number = $recurInvoice->account->getClientNextNumber($invoice);
+        $invoice->invoice_number = $recurInvoice->account->getInvoiceNextNumber($invoice);
         $invoice->amount = $recurInvoice->amount;
         $invoice->balance = $recurInvoice->amount;
         $invoice->invoice_date = date_create()->format('Y-m-d');

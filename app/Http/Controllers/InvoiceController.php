@@ -229,7 +229,7 @@ class InvoiceController extends BaseController
             $invoice->is_public = false;
             $invoice->is_recurring = $invoice->is_recurring && $clone == INVOICE_TYPE_STANDARD;
             $invoice->invoice_type_id = $clone;
-            $invoice->invoice_number = $account->getClientNextNumber($invoice);
+            $invoice->invoice_number = $account->getInvoiceNextNumber($invoice);
             $invoice->due_date = null;
             $invoice->partial_due_date = null;
             $invoice->balance = $invoice->amount;

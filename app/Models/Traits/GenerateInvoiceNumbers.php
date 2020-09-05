@@ -8,19 +8,19 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * Class GenerateClientNumbers.
+ * Class GenerateInvoiceNumbers.
  */
-trait GenerateClientNumbers
+trait GenerateInvoiceNumbers
 {
 
 // get client next number
-    public function getClientNextNumber($entity = false)
+    public function getInvoiceNextNumber($entity = false)
     {
         $entity = $entity ?: new Client();
         $entityType = $entity->getEntityType();
 
-        $counter = $this->getClientCounter($entityType);
-        $prefix = $this->getClientNumberPrefix($entityType);
+        $counter = $this->getInvoiceCounter($entityType);
+        $prefix = $this->getInvoiceNumberPrefix($entityType);
         $counterOffset = 0;
         $check = false;
         $lastNumber = false;
@@ -32,7 +32,7 @@ trait GenerateClientNumbers
         // confirm the invoice number isn't already taken
         do {
             if ($this->hasClientIdentificationPattern($entityType)) {
-                $number = $this->applyClientNumberPattern($entity, $counter);
+                $number = $this->applyInvoiceNumberPattern($entity, $counter);
             } else {
                 $number = $prefix . str_pad($counter, $this->invoice_number_padding, '0', STR_PAD_LEFT);
             }
@@ -89,7 +89,7 @@ trait GenerateClientNumbers
      *
      * @return string
      */
-    public function getClientNumberPrefix($entityType)
+    public function getInvoiceNumberPrefix($entityType)
     {
         if (!$this->hasFeature(FEATURE_INVOICE_SETTINGS)) {
             return false;
@@ -127,10 +127,10 @@ trait GenerateClientNumbers
         return strstr($pattern, '$client') !== false || strstr($pattern, '$idNumber') !== false;
     }
 
-    public function applyClientNumberPattern($entity, $counter = 0)
+    public function applyInvoiceNumberPattern($entity, $counter = 0)
     {
         $entityType = $entity->getEntityType();
-        $counter = $counter ?: $this->getClientCounter($entityType);
+        $counter = $counter ?: $this->getInvoiceCounter($entityType);
         $pattern = $this->getClientNumberPattern($entityType);
 
         if (!$pattern) {
@@ -197,7 +197,7 @@ trait GenerateClientNumbers
         return str_replace($search, $replace, $pattern);
     }
 
-    public function getClientCounter($entityType)
+    public function getInvoiceCounter($entityType)
     {
         if ($entityType == ENTITY_CLIENT) {
             return $this->client_number_counter;
@@ -216,7 +216,7 @@ trait GenerateClientNumbers
 
         $invoice = $this->createInvoice($entityType, $client ? $client->id : 0);
 
-        return $this->getClientNextNumber($invoice);
+        return $this->getInvoiceNextNumber($invoice);
     }
 
     public function clientIncrementCounter($entity)

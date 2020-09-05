@@ -776,7 +776,7 @@ class BillRepository extends BaseRepository
             }
         }
 
-        $clone->invoice_number = $invoiceNumber ?: $account->getVendorNextNumber($clone);
+        $clone->invoice_number = $invoiceNumber ?: $account->getBillNextNumber($clone);
         $clone->bill_date = date_create()->format('Y-m-d');
         $clone->due_date = $account->defaultDueDate($bill->vendor);
         $clone->bill_status_id = !empty($clone->bill_status_id) ? $clone->bill_status_id : BILL_STATUS_DRAFT;
@@ -977,7 +977,7 @@ class BillRepository extends BaseRepository
         $bill->bill_type_id = BILL_TYPE_STANDARD;
         $bill->vendor_id = $recurBill->vendor_id;
         $bill->recurring_bill_id = $recurBill->id;
-        $bill->invoice_number = $recurBill->account->getVendorNextNumber($bill);
+        $bill->invoice_number = $recurBill->account->getBillNextNumber($bill);
         $bill->amount = $recurBill->amount;
         $bill->balance = $recurBill->amount;
         $bill->bill_date = date_create()->format('Y-m-d');

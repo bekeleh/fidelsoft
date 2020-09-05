@@ -55,7 +55,7 @@ class Vendor extends EntityModel
         'hold_reason_id',
         'payment_terms',
         'website',
-        'invoice_number_counter',
+        'bill_number_counter',
         'quote_number_counter',
         'credit_number_counter',
         'public_notes',
@@ -490,9 +490,9 @@ class Vendor extends EntityModel
         return $this->account->country ? $this->account->country->iso_3166_2 : 'US';
     }
 
-    public function getClientCounter($isQuote)
+    public function getBillCounter($isQuote)
     {
-        return $isQuote ? $this->quote_number_counter : $this->invoice_number_counter;
+        return $isQuote ? $this->quote_number_counter : $this->bill_number_counter;
     }
 
     public function markLoggedIn()

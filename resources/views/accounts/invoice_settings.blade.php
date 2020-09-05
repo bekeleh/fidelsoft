@@ -165,7 +165,7 @@
                                     ->label(trans('texts.counter'))
                                     ->addGroupClass('pad-checkbox')
                                     ->help(trans('texts.client_number_help') . ' ' .
-                                        trans('texts.next_client_number', ['number' => $account->getClientNextNumber() ?: '0001'])) !!}
+                                        trans('texts.next_client_number', ['number' => $account->getInvoiceNextNumber() ?: '0001'])) !!}
                         </div>
                     </div>
                 </div>
@@ -201,7 +201,7 @@
                                     ->label(trans('texts.counter'))
                                     ->addGroupClass('pad-checkbox')
                                     ->help(trans('texts.credit_number_help') . ' ' .
-                                        trans('texts.next_credit_number', ['number' => $account->getClientNextNumber(new \App\Models\Credit()) ?: '0001'])) !!}
+                                        trans('texts.next_credit_number', ['number' => $account->getInvoiceNextNumber(new \App\Models\Credit()) ?: '0001'])) !!}
                         </div>
                     </div>
                 </div>
@@ -354,7 +354,7 @@
                                 ->label(trans('texts.counter'))
                                 ->addGroupClass('pad-checkbox')
                                 ->help(trans('texts.vendor_number_help') . ' ' .
-                                    trans('texts.next_vendor_number', ['number' => $account->getVendorNextNumber() ?: '0001'])) !!}
+                                    trans('texts.next_vendor_number', ['number' => $account->getBillNextNumber() ?: '0001'])) !!}
 
                     </div>
                 </div>
@@ -391,7 +391,7 @@
                                 ->label(trans('texts.counter'))
                                 ->addGroupClass('pad-checkbox')
                                 ->help(trans('texts.vendor_number_help') . ' ' .
-                                    trans('texts.next_vendor_number', ['number' => $account->getVendorNextNumber(new \App\Models\VendorCredit()) ?: '0001'])) !!}
+                                    trans('texts.next_vendor_number', ['number' => $account->getBillNextNumber(new \App\Models\VendorCredit()) ?: '0001'])) !!}
                     </div>
                 </div>
             </div>

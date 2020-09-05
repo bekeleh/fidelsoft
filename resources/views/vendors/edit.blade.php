@@ -36,11 +36,11 @@
             {!! Former::populateField('send_reminders', intval($vendor->send_reminders)) !!}
             {!! Former::hidden('public_id') !!}
         @else
-            {!! Former::populateField('invoice_number_counter', 1) !!}
+            {!! Former::populateField('bill_number_counter', 1) !!}
             {!! Former::populateField('quote_number_counter', 1) !!}
             {!! Former::populateField('send_reminders', 1) !!}
             @if ($account->vendor_number_counter)
-                {!! Former::populateField('id_number', $account->getVendorNextNumber()) !!}
+                {!! Former::populateField('id_number', $account->getBillNextNumber()) !!}
             @endif
         @endif
         <div class="row">
@@ -52,7 +52,7 @@
                     <div class="panel-body">
                         <!-- company details -->
                     {!! Former::text('name')->label('texts.company_name')->data_bind("attr { placeholder: placeholderName }") !!}
-                    {!! Former::text('id_number')->placeholder($account->vendorNumbersEnabled() ? $account->getVendorNextNumber() : ' ') !!}
+                    {!! Former::text('id_number')->placeholder($account->vendorNumbersEnabled() ? $account->getBillNextNumber() : ' ') !!}
                     {!! Former::text('vat_number') !!}
                     {!! Former::text('website') !!}
                     {!! Former::text('work_phone') !!}
@@ -70,7 +70,7 @@
 
                         @include('partials/custom_fields', ['entityType' => ENTITY_VENDOR])
                         @if ($account->usesBillCounter())
-                            {!! Former::text('invoice_number_counter')->label('bill_counter') !!}
+                            {!! Former::text('bill_number_counter')->label('bill_counter') !!}
                             @if (! $account->share_counter)
                                 {!! Former::text('quote_number_counter')->label('quote_counter') !!}
                             @endif

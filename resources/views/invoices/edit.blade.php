@@ -654,7 +654,7 @@ AUTO_BILL_ALWAYS => trans('texts.always'),
 
                                                 {!! Former::text('client[id_number]')
                                                 ->label('id_number')
-                                                ->placeholder($account->clientNumbersEnabled() ? $account->getClientNextNumber() : ' ')
+                                                ->placeholder($account->clientNumbersEnabled() ? $account->getInvoiceNextNumber() : ' ')
                                                 ->data_bind("value: id_number, valueUpdate: 'afterkeydown'") !!}
 
                                                 @if ( ! $account->client_number_counter)
@@ -1274,7 +1274,7 @@ afterAdd: showContact }'>
                     @if (! $invoice->id && $account->credit_number_counter > 0)
             var total = model.invoice().totals.rawTotal();
             var invoiceNumber = model.invoice().invoice_number();
-            var creditNumber = "{{ $account->getClientNextNumber(new \App\Models\Credit()) }}";
+            var creditNumber = "{{ $account->getInvoiceNextNumber(new \App\Models\Credit()) }}";
             if (total < 0 && invoiceNumber != creditNumber) {
                 origInvoiceNumber = invoiceNumber;
                 model.invoice().invoice_number(creditNumber);
@@ -1770,7 +1770,7 @@ afterAdd: showContact }'>
             @if ($invoice->id || !$account->hasClientNumberPattern($invoice))
                 return;
                     @endif
-            var number = '{{ $account->applyClientNumberPattern($invoice) }}';
+            var number = '{{ $account->applyInvoiceNumberPattern($invoice) }}';
             number = number.replace('{$clientCustom1}', client.custom_value1 ? client.custom_value1 : '');
             number = number.replace('{$clientCustom2}', client.custom_value2 ? client.custom_value1 : '');
             number = number.replace('{$clientIdNumber}', client.id_number ? client.id_number : '');
