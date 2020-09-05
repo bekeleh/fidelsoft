@@ -23,7 +23,6 @@ if (!defined('APP_NAME')) {
     define('ENTITY_BILL_INVITATION', 'bill_invitation');
     define('ENTITY_RECURRING_INVOICE', 'recurring_invoice');
     define('ENTITY_RECURRING_BILL', 'recurring_bill');
-    define('ENTITY_BILL_RECURRING', 'recurring_bill');
     define('ENTITY_PAYMENT', 'payment');
     define('ENTITY_BILL_PAYMENT', 'bill_payment');
     define('ENTITY_CREDIT', 'credit');
@@ -136,7 +135,7 @@ if (!defined('APP_NAME')) {
         ENTITY_BILL_QUOTE,
         ENTITY_RECURRING_EXPENSE,
         ENTITY_RECURRING_INVOICE,
-        ENTITY_BILL_RECURRING,
+        ENTITY_RECURRING_BILL,
         ENTITY_REPORT,
         ENTITY_SALE_TYPE,
         ENTITY_SEARCH,

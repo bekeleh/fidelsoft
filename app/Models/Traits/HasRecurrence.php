@@ -5,6 +5,8 @@ namespace App\Models\Traits;
 use Carbon\Carbon;
 use DateTime;
 use App\Libraries\Utils;
+use Recurr\Exception\InvalidRRule;
+use Recurr\Exception\InvalidWeekday;
 use Recurr\Exception\MissingData;
 use Recurr\RecurrenceCollection;
 use Recurr\Rule;
@@ -130,8 +132,8 @@ trait HasRecurrence
 
     /**
      * @return bool|RecurrenceCollection
-     * @throws MissingData
-     *
+     * @throws InvalidRRule
+     * @throws InvalidWeekday
      */
     public function getSchedule()
     {
@@ -163,6 +165,8 @@ trait HasRecurrence
 
     /**
      * @return null
+     * @throws InvalidRRule
+     * @throws InvalidWeekday
      */
     public function getNextSendDate()
     {

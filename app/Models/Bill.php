@@ -145,7 +145,7 @@ class Bill extends EntityModel implements BalanceAffecting
     public function subEntityType()
     {
         if ($this->is_recurring) {
-            return ENTITY_BILL_RECURRING;
+            return ENTITY_RECURRING_BILL;
         } else {
             return $this->getEntityType();
         }

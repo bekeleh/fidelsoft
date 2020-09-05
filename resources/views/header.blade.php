@@ -275,7 +275,6 @@
                     'users' => false,
                     'permission_groups' => false,
                     'clients' => false,
-                    'point_of_sales' => false,
                     'products' => false,
                     'locations' => false,
                     'bills' => false,
