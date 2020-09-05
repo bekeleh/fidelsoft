@@ -913,8 +913,8 @@ class AccountController extends BaseController
                 $account->invoice_footer = Input::get('invoice_footer');
                 $account->quote_terms = Input::get('quote_terms');
 
-                $account->bill_number_padding = Input::get('bill_number_padding');
-                $account->bill_number_counter = Input::get('bill_number_counter');
+                $account->invoice_number_padding = Input::get('invoice_number_padding');
+                $account->invoice_number_counter = Input::get('invoice_number_counter');
                 $account->bill_quote_number_prefix = Input::get('bill_quote_number_prefix');
 
                 $account->share_bill_counter = Input::get('share_bill_counter') ? true : false;
@@ -933,7 +933,7 @@ class AccountController extends BaseController
                 $account->auto_email_bill = Input::get('auto_email_bill');
 
                 $account->recurring_invoice_number_prefix = Input::get('recurring_invoice_number_prefix');
-                $account->recurring_bill_number_prefix = Input::get('recurring_bill_number_prefix');
+                $account->recurring_invoice_number_prefix = Input::get('recurring_invoice_number_prefix');
 
                 $account->client_number_prefix = trim(Input::get('client_number_prefix'));
                 $account->client_number_pattern = trim(Input::get('client_number_pattern'));
@@ -989,8 +989,8 @@ class AccountController extends BaseController
                 }
 //              bill
                 if (!$account->share_bill_counter
-                    && $account->bill_number_prefix == $account->bill_quote_number_prefix
-                    && $account->bill_number_pattern == $account->bill_quote_number_pattern) {
+                    && $account->invoice_number_prefix == $account->bill_quote_number_prefix
+                    && $account->invoice_number_pattern == $account->bill_quote_number_pattern) {
                     Session::flash('error', trans('texts.invalid_counter'));
 
                     return Redirect::to('settings/' . ACCOUNT_INVOICE_SETTINGS)->withInput();

@@ -18,7 +18,7 @@ class BillCard
         $this->setTitle('test');
 
         $this->setTitle(trans('texts.bill_for_vendor', [
-            'bill' => link_to($bill->getRoute(), $bill->bill_number),
+            'bill' => link_to($bill->getRoute(), $bill->invoice_number),
             'vendor' => link_to($bill->vendor->getRoute(), $bill->vendor->getDisplayName()),
         ]));
 

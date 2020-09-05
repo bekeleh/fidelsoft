@@ -78,7 +78,7 @@ class Bill extends EntityModel implements BalanceAffecting
     ];
 
     public static $requestFields = [
-        'bill_number',
+        'invoice_number',
         'bill_date',
         'due_date',
         'po_number',
@@ -99,7 +99,7 @@ class Bill extends EntityModel implements BalanceAffecting
         return [
             'name',
             'email',
-            'bill_number',
+            'invoice_number',
             'po_number',
             'bill_date',
             'due_date',
@@ -119,7 +119,7 @@ class Bill extends EntityModel implements BalanceAffecting
     public static function getImportMap()
     {
         return [
-            'number^po' => 'bill_number',
+            'number^po' => 'invoice_number',
             'vendor|organization' => 'name',
             'email' => 'email',
             'paid^date' => 'paid',
@@ -164,7 +164,7 @@ class Bill extends EntityModel implements BalanceAffecting
 
     public function getDisplayName()
     {
-        return $this->is_recurring ? trans('texts.recurring') : $this->bill_number;
+        return $this->is_recurring ? trans('texts.recurring') : $this->invoice_number;
     }
 
 
@@ -201,7 +201,7 @@ class Bill extends EntityModel implements BalanceAffecting
             }
 
             foreach ([
-                         'bill_number',
+                         'invoice_number',
                          'po_number',
                          'bill_date',
                          'due_date',
@@ -625,14 +625,14 @@ class Bill extends EntityModel implements BalanceAffecting
 
     public function getName()
     {
-        return $this->is_recurring ? trans('texts.recurring') : $this->bill_number;
+        return $this->is_recurring ? trans('texts.recurring') : $this->invoice_number;
     }
 
     public function getFileName($extension = 'pdf')
     {
         $entityType = $this->getEntityType();
 
-        return trans("texts.$entityType") . '_' . $this->bill_number . '.' . $extension;
+        return trans("texts.$entityType") . '_' . $this->invoice_number . '.' . $extension;
     }
 
     public function getPDFPath()
@@ -703,7 +703,7 @@ class Bill extends EntityModel implements BalanceAffecting
         } else {
             $linkPrefix = 'invoices/';
         }
-        return link_to($linkPrefix . $bill->public_id, $bill->bill_number);
+        return link_to($linkPrefix . $bill->public_id, $bill->invoice_number);
     }
 
     public function getLink()
@@ -778,7 +778,7 @@ class Bill extends EntityModel implements BalanceAffecting
     public function hidePrivateFields()
     {
         $this->setVisible([
-            'bill_number',
+            'invoice_number',
             'discount',
             'is_amount_discount',
             'po_number',

@@ -416,7 +416,7 @@
                     //|| !getVendorDisplayName(vendor)
                     if (!vendor) continue; // vendor is deleted/archived
                     // getVendorDisplayName(vendor)
-                    $billCombobox.append(new Option(bill.bill_number + ' - ' + statuses[bill.bill_status.id] + ' - ' +
+                    $billCombobox.append(new Option(bill.invoice_number + ' - ' + statuses[bill.bill_status.id] + ' - ' +
                         vendor.name + ' - ' + formatMoneyInvoice(bill.amount, bill) + ' | ' +
                         formatMoneyInvoice(bill.balance, bill), bill.public_id));
                 }
@@ -465,7 +465,7 @@
                     var vendor = vendorMap[bill.vendor.public_id];
                     bill.vendor = vendor;
                     //getVendorDisplayName(vendor)
-                    setComboboxValue($('.bill-select'), bill.public_id, (bill.bill_number + ' - ' +
+                    setComboboxValue($('.bill-select'), bill.public_id, (bill.invoice_number + ' - ' +
                         bill.bill_status.name + ' - ' + vendor.name + ' - ' +
                         formatMoneyInvoice(bill.amount, bill) + ' | ' + formatMoneyInvoice(bill.balance, bill)));
                     $billSelect.trigger('change');

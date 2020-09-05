@@ -36,7 +36,7 @@
             {!! Former::populateField('send_reminders', intval($vendor->send_reminders)) !!}
             {!! Former::hidden('public_id') !!}
         @else
-            {!! Former::populateField('bill_number_counter', 1) !!}
+            {!! Former::populateField('invoice_number_counter', 1) !!}
             {!! Former::populateField('quote_number_counter', 1) !!}
             {!! Former::populateField('send_reminders', 1) !!}
             @if ($account->vendor_number_counter)
@@ -70,7 +70,7 @@
 
                         @include('partials/custom_fields', ['entityType' => ENTITY_VENDOR])
                         @if ($account->usesBillCounter())
-                            {!! Former::text('bill_number_counter')->label('bill_counter') !!}
+                            {!! Former::text('invoice_number_counter')->label('bill_counter') !!}
                             @if (! $account->share_counter)
                                 {!! Former::text('quote_number_counter')->label('quote_counter') !!}
                             @endif

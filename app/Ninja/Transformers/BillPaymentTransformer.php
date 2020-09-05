@@ -64,7 +64,7 @@ class BillPaymentTransformer extends EntityTransformer
             'is_deleted' => (bool)$payment->is_deleted,
             'payment_type_id' => (int)($payment->payment_type_id ?: 0),
             'bill_id' => (int)($this->bill ? $this->bill->public_id : $payment->bill->public_id),
-            'bill_number' => $this->bill ? $this->bill->bill_number : $payment->bill->bill_number,
+            'invoice_number' => $this->bill ? $this->bill->invoice_number : $payment->bill->invoice_number,
             'private_notes' => $payment->private_notes ?: '',
             'exchange_rate' => (float)$payment->exchange_rate,
             'exchange_currency_id' => (int)$payment->exchange_currency_id,

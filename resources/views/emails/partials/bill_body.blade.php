@@ -23,7 +23,7 @@
                                 </span><br/>
                 @endif
                 <span style="font-size: 19px; color: #FFFFFF;">
-                                {{ trans("texts.{$entityType}") }} {{ $bill->bill_number }}
+                                {{ trans("texts.{$entityType}") }} {{ $bill->invoice_number }}
                 </span>
             </p>
         </td>

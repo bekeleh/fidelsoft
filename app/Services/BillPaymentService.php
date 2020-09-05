@@ -127,7 +127,7 @@ class BillPaymentService extends BaseService
         try {
             return $paymentDriver->completeOnsiteBill(false, $paymentMethod);
         } catch (Exception $exception) {
-            $subject = trans('texts.auto_bill_failed', ['bill_number' => $bill->bill_number]);
+            $subject = trans('texts.auto_bill_failed', ['invoice_number' => $bill->invoice_number]);
             $message = sprintf('%s: %s', ucwords($paymentDriver->providerName()), $exception->getMessage());
             //$message .= $exception->getTraceAsString();
             Utils::logError($message, 'PHP', true);

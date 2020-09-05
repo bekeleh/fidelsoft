@@ -74,7 +74,7 @@ class BillMailer extends BillSender
             'accountName' => $account->getDisplayName(),
             'userName' => $user->getDisplayName(),
             'billAmount' => $account->formatMoney($bill->getRequestedAmount(), $vendor),
-            'billNumber' => $bill->bill_number,
+            'billNumber' => $bill->invoice_number,
             'billLink' => $link,
             'account' => $account,
         ];
@@ -85,7 +85,7 @@ class BillMailer extends BillSender
         }
 
         $subject = trans("texts.notification_{$entityType}_{$notificationType}_subject", [
-            'bill' => $bill->bill_number,
+            'bill' => $bill->invoice_number,
             'vendor' => $vendor->getDisplayName(),
         ]);
 
@@ -107,14 +107,14 @@ class BillMailer extends BillSender
             return;
         }
 
-        $subject = trans("texts.notification_{$entityType}_bounced_subject", ['bill' => $bill->bill_number]);
+        $subject = trans("texts.notification_{$entityType}_bounced_subject", ['bill' => $bill->invoice_number]);
         $view = 'email_bounced';
         $data = [
             'userName' => $user->getDisplayName(),
             'emailError' => $invitation->email_error,
             'entityType' => $entityType,
             'contactName' => $invitation->contact->getDisplayName(),
-            'billNumber' => $bill->bill_number,
+            'billNumber' => $bill->invoice_number,
         ];
 
         $this->sendTo($user->email, CONTACT_EMAIL, CONTACT_NAME, $subject, $view, $data);

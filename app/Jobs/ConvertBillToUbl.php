@@ -38,7 +38,7 @@ class ConvertBillToUbl extends Job
         $ublInvoice = new Invoice();
 
         // bill
-        $ublInvoice->setId($bill->bill_number);
+        $ublInvoice->setId($bill->invoice_number);
         $ublInvoice->setIssueDate(date_create($bill->bill_date));
         $ublInvoice->setInvoiceTypeCode($bill->amount < 0 ? self::BILL_TYPE_CREDIT : self::BILL_TYPE_STANDARD);
 

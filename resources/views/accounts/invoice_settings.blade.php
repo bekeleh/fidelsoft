@@ -246,8 +246,8 @@
             <div role="tabpanel">
                 <ul class="nav nav-tabs" role="tablist" style="border: none">
                     <li role="presentation" class="active">
-                        <a href="#bill_number" aria-controls="bill_number" role="tab"
-                           data-toggle="tab">{{ trans('texts.bill_number') }}</a>
+                        <a href="#invoice_number" aria-controls="invoice_number" role="tab"
+                           data-toggle="tab">{{ trans('texts.invoice_number') }}</a>
                     </li>
                     <li role="presentation">
                         <a href="#bill_quote_number" aria-controls="bill_quote_number" role="tab"
@@ -269,28 +269,28 @@
             </div>
         </div>
         <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="bill_number">
+            <div role="tabpanel" class="tab-pane active" id="invoice_number">
                 <div class="panel-body">
-                    {!! Former::inline_radios('bill_number_type')
+                    {!! Former::inline_radios('invoice_number_type')
                             ->onchange("onNumberTypeChange('bill')")
                             ->label(trans('texts.type'))
                             ->radios([
-                                trans('texts.prefix') => ['value' => 'prefix', 'name' => 'bill_number_type'],
-                                trans('texts.pattern') => ['value' => 'pattern', 'name' => 'bill_number_type'],
-                            ])->check($account->bill_number_pattern ? 'pattern' : 'prefix') !!}
+                                trans('texts.prefix') => ['value' => 'prefix', 'name' => 'invoice_number_type'],
+                                trans('texts.pattern') => ['value' => 'pattern', 'name' => 'invoice_number_type'],
+                            ])->check($account->invoice_number_pattern ? 'pattern' : 'prefix') !!}
 
-                    {!! Former::text('bill_number_prefix')
+                    {!! Former::text('invoice_number_prefix')
                             ->addGroupClass('bill-prefix')
                             ->label(trans('texts.prefix')) !!}
-                    {!! Former::text('bill_number_pattern')
+                    {!! Former::text('invoice_number_pattern')
                             ->appendIcon('question-sign')
                             ->addGroupClass('bill-pattern')
                             ->label(trans('texts.pattern'))
                             ->addGroupClass('number-pattern') !!}
-                    {!! Former::text('bill_number_counter')
+                    {!! Former::text('invoice_number_counter')
                             ->label(trans('texts.counter'))
-                            ->help(trans('texts.bill_number_help') . ' ' .
-                                trans('texts.next_bill_number', ['number' => $account->previewNextBillNumber()])) !!}
+                            ->help(trans('texts.invoice_number_help') . ' ' .
+                                trans('texts.next_invoice_number', ['number' => $account->previewNextBillNumber()])) !!}
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="bill_quote_number">
@@ -397,12 +397,12 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="bill_options">
                 <div class="panel-body">
-                    {!! Former::text('bill_number_padding')
+                    {!! Former::text('invoice_number_padding')
                             ->help('padding_help') !!}
 
-                    {!! Former::text('recurring_bill_number_prefix')
+                    {!! Former::text('recurring_invoice_number_prefix')
                             ->label(trans('texts.recurring_prefix'))
-                            ->help(trans('texts.recurring_bill_number_prefix_help')) !!}
+                            ->help(trans('texts.recurring_invoice_number_prefix_help')) !!}
 
                     {!! Former::select('reset_bill_counter_frequency_id')
                             ->onchange('onResetBillFrequencyChange()')

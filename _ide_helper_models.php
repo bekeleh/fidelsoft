@@ -5059,7 +5059,7 @@ namespace App\Models{
  * @property string|null $custom_value1
  * @property string|null $custom_value2
  * @property string|null $vat_number
- * @property int $bill_number_counter
+ * @property int $invoice_number_counter
  * @property int $quote_number_counter
  * @property int $credit_number_counter
  * @property float $task_rate

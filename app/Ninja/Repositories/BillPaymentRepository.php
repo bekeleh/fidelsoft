@@ -55,8 +55,8 @@ class BillPaymentRepository extends BaseRepository
                 'bill_payments.payment_type_id as source',
                 'bills.public_id as bill_public_id',
                 'bills.user_id as bill_user_id',
-                'bills.bill_number',
-                'bills.bill_number as bill_name',
+                'bills.invoice_number',
+                'bills.invoice_number as bill_name',
                 'vendor_contacts.first_name',
                 'vendor_contacts.last_name',
                 'vendor_contacts.email',
@@ -99,7 +99,7 @@ class BillPaymentRepository extends BaseRepository
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('vendors.name', 'like', '%' . $filter . '%')
-                    ->orWhere('bills.bill_number', 'like', '%' . $filter . '%')
+                    ->orWhere('bills.invoice_number', 'like', '%' . $filter . '%')
                     ->orWhere('bill_payments.transaction_reference', 'like', '%' . $filter . '%')
                     ->orWhere('gateways.name', 'like', '%' . $filter . '%')
                     ->orWhere('payment_types.name', 'like', '%' . $filter . '%')
@@ -143,7 +143,7 @@ class BillPaymentRepository extends BaseRepository
                 'bill_payments.payment_date',
                 'bill_payments.payment_type_id',
                 'bills.public_id as bill_public_id',
-                'bills.bill_number',
+                'bills.invoice_number',
                 'vendor_contacts.first_name',
                 'vendor_contacts.last_name',
                 'vendor_contacts.email',
@@ -162,7 +162,7 @@ class BillPaymentRepository extends BaseRepository
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('vendors.name', 'like', '%' . $filter . '%')
-                    ->orwhere('bills.bill_number', 'like', '%' . $filter . '%')
+                    ->orwhere('bills.invoice_number', 'like', '%' . $filter . '%')
                     ->orwhere('bill_payments.transaction_reference', 'like', '%' . $filter . '%')
                     ->orWhere('payment_types.name', 'like', '%' . $filter . '%')
                     ->orWhere('contacts.phone', 'like', '%' . $filter . '%')

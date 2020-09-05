@@ -61,14 +61,15 @@ class BillQuoteController extends BaseController
         $accountId = Auth::user()->account_id;
         $search = Input::get('sSearch');
 
-        return $this->billService->getDatatable($accountId, $vendorPublicId, ENTITY_BILL_QUOTE, $search);
+        return $this->billService
+            ->getDatatable($accountId, $vendorPublicId, ENTITY_BILL_QUOTE, $search);
     }
 
     public function create(BillQuoteRequest $request, $vendorPublicId = 0)
     {
         $this->authorize('create', ENTITY_BILL_QUOTE);
         if (!Utils::hasFeature(FEATURE_QUOTES)) {
-            return Redirect::to('/bills/create');
+            return Redirect::to('/bill_quotes/create');
         }
 
         $account = Auth::user()->account;
@@ -88,8 +89,10 @@ class BillQuoteController extends BaseController
             'url' => 'bill_quotes',
             'title' => trans('texts.new_bill_quote'),
         ];
+
         $data = array_merge($data, self::getViewModel($bill));
 
+//        dd($data);
         return View::make('bills.edit', $data);
     }
 
@@ -123,24 +126,26 @@ class BillQuoteController extends BaseController
 
         if ($action == 'convert') {
             $bill = Bill::with('invoice_items')->scope($ids)->firstOrFail();
+
             $clone = $this->billService->convertQuote($bill);
 
-            Session::flash('message', trans('texts.converted_to_invoice'));
+            Session::flash('message', trans('texts.converted_to_bill'));
 
-            return Redirect::to('bills/' . $clone->public_id);
+            return Redirect::to('bill_quotes/' . $clone->public_id);
         }
 
         $count = $this->billService->bulk($ids, $action);
 
         if ($count > 0) {
             if ($action == 'markSent') {
-                $key = 'updated_quote';
+                $key = 'updated_bill_quote';
             } elseif ($action == 'download') {
-                $key = 'downloaded_quote';
+                $key = 'downloaded_bill_quote';
             } else {
-                $key = "{$action}d_quote";
+                $key = "{$action}d_bill_quote";
             }
             $message = Utils::pluralize($key, $count);
+
             Session::flash('message', $message);
         }
 

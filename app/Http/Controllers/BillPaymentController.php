@@ -77,7 +77,7 @@ class BillPaymentController extends BaseController
         $bills = Bill::scope()->bills()
             ->where('bills.bill_status_id', '!=', BILL_STATUS_PAID)
             ->with('vendor', 'bill_status')
-            ->orderBy('bill_number')->get();
+            ->orderBy('invoice_number')->get();
 
         $vendorPublicId = Input::old('vendor') ? Input::old('vendor') : ($request->vendor_id ?: 0);
         $billPublicId = Input::old('bill') ? Input::old('bill') : ($request->bill_id ?: 0);
@@ -259,7 +259,7 @@ class BillPaymentController extends BaseController
             'paymentTypes' => Cache::get('paymentTypes'),
             'currencies' => Cache::get('currencies'),
             'vendors' => Vendor::scope()->with('contacts')->orderBy('name')->get(),
-            'bills' => Bill::scope()->bills()->where('is_public', true)->with('vendor', 'bill_status')->orderBy('bill_number')->get(),
+            'bills' => Bill::scope()->bills()->where('is_public', true)->with('vendor', 'bill_status')->orderBy('invoice_number')->get(),
         ];
     }
 

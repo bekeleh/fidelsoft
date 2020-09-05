@@ -72,8 +72,8 @@ class BillApiController extends BaseAPIController
             ->orderBy('updated_at', 'desc');
 
         // Filter by bill number
-        if ($billNumber = Input::get('bill_number')) {
-            $bills->where('bill_number', $billNumber);
+        if ($billNumber = Input::get('invoice_number')) {
+            $bills->where('invoice_number', $billNumber);
         }
 
         // Fllter by status

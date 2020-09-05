@@ -19,13 +19,13 @@ class BillDatatable extends EntityDatatable
 
         return [
             [
-                ENTITY_BILL ? 'bill_number' : 'quote_number',
+                ENTITY_BILL ? 'invoice_number' : 'quote_number',
                 function ($model) {
                     if (Auth::user()->can('edit', $this->entityType)) {
-                        $str = link_to("{$this->entityType}s/{$model->public_id}/edit", $model->bill_number, ['class' => Utils::getEntityRowClass($model)])->toHtml();
+                        $str = link_to("{$this->entityType}s/{$model->public_id}/edit", $model->invoice_number, ['class' => Utils::getEntityRowClass($model)])->toHtml();
                         return $this->addNote($str, $model->private_notes);
                     } else
-                        return $model->bill_number;
+                        return $model->invoice_number;
                 },
             ],
             [

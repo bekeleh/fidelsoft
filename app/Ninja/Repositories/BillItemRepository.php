@@ -67,7 +67,7 @@ class BillItemRepository extends BaseRepository
                 'Bill_items.updated_by',
                 'Bill_items.deleted_by',
                 'bills.public_id as bill_public_id',
-                'bills.bill_number',
+                'bills.invoice_number',
                 'products.public_id as product_public_id',
                 'products.product_key'
             );
@@ -77,7 +77,7 @@ class BillItemRepository extends BaseRepository
                 $query->where('Bill_items.product_key', 'like', '%' . $filter . '%')
                     ->orWhere('Bill_items.notes', 'like', '%' . $filter . '%')
                     ->orWhere('products.product_key', 'like', '%' . $filter . '%')
-                    ->orWhere('bills.bill_number', 'like', '%' . $filter . '%');
+                    ->orWhere('bills.invoice_number', 'like', '%' . $filter . '%');
             });
         }
 

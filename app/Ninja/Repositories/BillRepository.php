@@ -88,8 +88,8 @@ class BillRepository extends BaseRepository
                 DB::raw('COALESCE(vendors.country_id, accounts.country_id) country_id'),
                 'vendors.public_id as vendor_public_id',
                 'vendors.user_id as vendor_user_id',
-                'bills.bill_number',
-                'bills.bill_number as quote_number',
+                'bills.invoice_number',
+                'bills.invoice_number as quote_number',
                 'bills.bill_status_id',
                 DB::raw("COALESCE(NULLIF(vendors.name,''), NULLIF(CONCAT(vendor_contacts.first_name, ' ', vendor_contacts.last_name),''), NULLIF(vendor_contacts.email,'')) vendor_name"),
                 'bills.public_id',
@@ -128,7 +128,7 @@ class BillRepository extends BaseRepository
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('vendors.name', 'like', '%' . $filter . '%')
-                    ->orWhere('bills.bill_number', 'like', '%' . $filter . '%')
+                    ->orWhere('bills.invoice_number', 'like', '%' . $filter . '%')
                     ->orWhere('bill_statuses.name', 'like', '%' . $filter . '%')
                     ->orWhere('vendor_contacts.email', 'like', '%' . $filter . '%')
                     ->orWhere('vendor_contacts.first_name', 'like', '%' . $filter . '%')
@@ -237,7 +237,7 @@ class BillRepository extends BaseRepository
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->where('vendors.name', 'like', '%' . $filter . '%')
-                    ->orWhere('bills.bill_number', 'like', '%' . $filter . '%')
+                    ->orWhere('bills.invoice_number', 'like', '%' . $filter . '%')
                     ->orWhere('vendor_contacts.first_name', 'like', '%' . $filter . '%')
                     ->orWhere('vendor_contacts.last_name', 'like', '%' . $filter . '%')
                     ->orWhere('vendor_contacts.phone', 'like', '%' . $filter . '%')
@@ -277,7 +277,7 @@ class BillRepository extends BaseRepository
                 DB::raw('COALESCE(vendors.currency_id, accounts.currency_id) currency_id'),
                 DB::raw('COALESCE(vendors.country_id, accounts.country_id) country_id'),
                 'bill_invitations.invitation_key',
-                'bills.bill_number',
+                'bills.invoice_number',
                 'bills.due_date',
                 'vendors.public_id as vendor_public_id',
                 'vendors.name as vendor_name',
@@ -355,7 +355,7 @@ class BillRepository extends BaseRepository
                 DB::raw('COALESCE(vendors.currency_id, accounts.currency_id) currency_id'),
                 DB::raw('COALESCE(vendors.country_id, accounts.country_id) country_id'),
                 'bill_invitations.invitation_key',
-                'bills.bill_number',
+                'bills.invoice_number',
                 'bills.bill_date',
                 'bills.balance as balance',
                 'bills.due_date',
@@ -378,8 +378,8 @@ class BillRepository extends BaseRepository
             );
 
         $table = Datatable::query($query)
-            ->addColumn('bill_number', function ($model) use ($entityType) {
-                return link_to('/view/' . $model->invitation_key, $model->bill_number)->toHtml();
+            ->addColumn('invoice_number', function ($model) use ($entityType) {
+                return link_to('/view/' . $model->invitation_key, $model->invoice_number)->toHtml();
             })
             ->addColumn('bill_date', function ($model) {
                 return Utils::fromSqlDate($model->bill_date);
@@ -501,8 +501,8 @@ class BillRepository extends BaseRepository
 //      update account default template
         $this->saveAccountDefault($account, $bill, $data);
 
-        if (!empty($data['bill_number']) && !empty($bill->is_recurring)) {
-            $bill->bill_number = trim($data['bill_number']);
+        if (!empty($data['invoice_number']) && !empty($bill->is_recurring)) {
+            $bill->invoice_number = trim($data['invoice_number']);
         }
 
         if (isset($data['discount'])) {
@@ -714,22 +714,22 @@ class BillRepository extends BaseRepository
         $clone->balance = $bill->amount;
 
 // if the bill prefix is diff than quote prefix, use the same number for the bill (if it's available)
-        $billNumber = false;
+        $invoiceNumber = false;
         if ($account->hasBillPrefix() && $account->share_counter) {
-            $billNumber = $bill->bill_number;
-            if ($account->quote_number_prefix && strpos($billNumber, $account->quote_number_prefix) === 0) {
-                $billNumber = substr($billNumber, strlen($account->quote_number_prefix));
+            $invoiceNumber = $bill->invoice_number;
+            if ($account->quote_number_prefix && strpos($invoiceNumber, $account->quote_number_prefix) === 0) {
+                $invoiceNumber = substr($invoiceNumber, strlen($account->quote_number_prefix));
             }
-            $billNumber = $account->bill_number_prefix . $billNumber;
+            $invoiceNumber = $account->invoice_number_prefix . $invoiceNumber;
             $bill = Bill::scope(false, $account->id)
                 ->withTrashed()
-                ->where('bill_number', $billNumber)
+                ->where('invoice_number', $invoiceNumber)
                 ->first();
             if ($bill) {
-                $billNumber = false;
+                $invoiceNumber = false;
             } else {
 // since we aren't using the counter we need to offset it by one
-                $account->bill_number_counter -= 1;
+                $account->invoice_number_counter -= 1;
                 $account->save();
             }
         }
@@ -776,7 +776,7 @@ class BillRepository extends BaseRepository
             }
         }
 
-        $clone->bill_number = $billNumber ?: $account->getVendorNextNumber($clone);
+        $clone->invoice_number = $invoiceNumber ?: $account->getVendorNextNumber($clone);
         $clone->bill_date = date_create()->format('Y-m-d');
         $clone->due_date = $account->defaultDueDate($bill->vendor);
         $clone->bill_status_id = !empty($clone->bill_status_id) ? $clone->bill_status_id : BILL_STATUS_DRAFT;
@@ -947,7 +947,7 @@ class BillRepository extends BaseRepository
             ->where('balance', '>', 0);
 
         return $query->where('bill_status_id', '<', BILL_STATUS_PAID)
-            ->select(['public_id', 'bill_number'])
+            ->select(['public_id', 'invoice_number'])
             ->get();
     }
 
@@ -977,7 +977,7 @@ class BillRepository extends BaseRepository
         $bill->bill_type_id = BILL_TYPE_STANDARD;
         $bill->vendor_id = $recurBill->vendor_id;
         $bill->recurring_bill_id = $recurBill->id;
-        $bill->bill_number = $recurBill->account->getVendorNextNumber($bill);
+        $bill->invoice_number = $recurBill->account->getVendorNextNumber($bill);
         $bill->amount = $recurBill->amount;
         $bill->balance = $recurBill->amount;
         $bill->bill_date = date_create()->format('Y-m-d');
@@ -1235,17 +1235,17 @@ class BillRepository extends BaseRepository
         return true;
     }
 
-    public function findPhonetically($billNumber)
+    public function findPhonetically($invoiceNumber)
     {
         $map = [];
         $max = SIMILAR_MIN_THRESHOLD;
         $billId = 0;
 
-        $bills = Bill::scope()->get(['id', 'bill_number', 'public_id']);
+        $bills = Bill::scope()->get(['id', 'invoice_number', 'public_id']);
 
         foreach ($bills as $bill) {
             $map[$bill->id] = $bill;
-            $similar = similar_text($billNumber, $bill->bill_number, $percent);
+            $similar = similar_text($invoiceNumber, $bill->invoice_number, $percent);
             if ($percent > $max) {
                 $billId = $bill->id;
                 $max = $percent;

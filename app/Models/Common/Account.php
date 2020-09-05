@@ -86,13 +86,13 @@ use DateTimeZone;
  * @property string|null $quote_number_pattern
  * @property string|null $recurring_invoice_number_prefix
  * @property int $share_counter
- * @property string|null $bill_number_prefix
- * @property int|null $bill_number_counter
- * @property string|null $bill_number_pattern
+ * @property string|null $invoice_number_prefix
+ * @property int|null $invoice_number_counter
+ * @property string|null $invoice_number_pattern
  * @property string|null $bill_quote_number_prefix
  * @property int|null $bill_quote_number_counter
  * @property string|null $bill_quote_number_pattern
- * @property string|null $recurring_bill_number_prefix
+ * @property string|null $recurring_invoice_number_prefix
  * @property int $share_bill_counter
  * @property string|null $id_number
  * @property int $token_billing_type_id
@@ -151,7 +151,6 @@ use DateTimeZone;
  * @property string|null $page_size
  * @property int $live_preview
  * @property int $invoice_number_padding
- * @property int $bill_number_padding
  * @property int $enable_second_tax_rate
  * @property int $auto_invoice_on_due_date
  * @property int $auto_bill_on_due_date
@@ -520,8 +519,8 @@ class Account extends Eloquent
         'quote_number_prefix',
         'quote_number_counter',
         'share_counter',
-        'bill_number_prefix',
-        'bill_number_counter',
+        'invoice_number_prefix',
+        'invoice_number_counter',
         'bill_quote_number_prefix',
         'bill_quote_number_counter',
         'share_bill_counter',
@@ -553,7 +552,7 @@ class Account extends Eloquent
         'invoice_number_pattern',
         'quote_number_pattern',
         'quote_terms',
-        'bill_number_pattern',
+        'invoice_number_pattern',
         'bill_quote_number_pattern',
         'bill_quote_terms',
         'email_design_id',
@@ -577,7 +576,7 @@ class Account extends Eloquent
         'enable_portal_password',
         'send_portal_password',
         'recurring_invoice_number_prefix',
-        'recurring_bill_number_prefix',
+        'recurring_invoice_number_prefix',
         'enable_client_portal',
         'invoice_fields',
         'bill_fields',
@@ -588,7 +587,7 @@ class Account extends Eloquent
         'page_size',
         'live_preview',
         'invoice_number_padding',
-        'bill_number_padding',
+        'invoice_number_padding',
         'enable_second_tax_rate',
         'auto_invoice_on_due_date',
         'auto_bill_on_due_date',
@@ -1406,7 +1405,7 @@ class Account extends Eloquent
         $bill->custom_taxes2 = $this->custom_bill_taxes2;
 //      to generate bill number using micro time() carbon instance
         if ($entityType === ENTITY_RECURRING_BILL) {
-            $bill->bill_number = microtime(true);
+            $bill->invoice_number = microtime(true);
             $bill->is_recurring = true;
         } else {
             if ($entityType == ENTITY_BILL_QUOTE) {
@@ -1416,8 +1415,8 @@ class Account extends Eloquent
 
             if (isset($bill) && $this->hasVendorNumberPattern($bill) && !$vendorId) {
                 // do nothing, we don't yet know the value
-            } elseif (!$bill->bill_number) {
-                $bill->bill_number = $this->getVendorNextNumber($bill);
+            } elseif (!$bill->invoice_number) {
+                $bill->invoice_number = $this->getVendorNextNumber($bill);
             }
         }
 

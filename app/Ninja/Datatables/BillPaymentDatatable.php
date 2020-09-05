@@ -23,12 +23,12 @@ class BillPaymentDatatable extends EntityDatatable
     {
         return [
             [
-                'bill_number',
+                'invoice_number',
                 function ($model) {
                     if (Auth::user()->can('edit', [ENTITY_BILL])) {
-                        return link_to("bills/{$model->bill_public_id}/edit", $model->bill_number, ['class' => Utils::getEntityRowClass($model)])->toHtml();
+                        return link_to("bills/{$model->bill_public_id}/edit", $model->invoice_number, ['class' => Utils::getEntityRowClass($model)])->toHtml();
                     } else {
-                        return $model->bill_number;
+                        return $model->invoice_number;
                     }
                 },
             ],

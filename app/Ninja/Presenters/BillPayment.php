@@ -61,7 +61,7 @@ class BillPayment extends EntityPresenter
         $payment = $this->entity;
         $bill = $payment->bill;
 
-        $data->title = trans('texts.payment') . ' ' . $bill->bill_number . ' | ' . $this->completedAmount() . ' | ' . $this->vendor();
+        $data->title = trans('texts.payment') . ' ' . $bill->invoice_number . ' | ' . $this->completedAmount() . ' | ' . $this->vendor();
         $data->start = $payment->payment_date;
 
         if ($subColors) {

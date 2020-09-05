@@ -241,7 +241,7 @@ class VendorMailer extends BillSender
             $emailSubject = trans('texts.refund_subject');
             $emailTemplate = trans('texts.refund_body', [
                 'amount' => $account->formatMoney($refunded, $vendor),
-                'bill_number' => $bill->bill_number,
+                'invoice_number' => $bill->invoice_number,
             ]);
         } else {
             $emailSubject = $bill->account->getEmailSubject(ENTITY_BILL_PAYMENT);

@@ -368,7 +368,7 @@ class BillPresenter extends EntityPresenter
         $bill = $this->entity;
         $entityType = $bill->getEntityType();
 
-        $data->title = trans("texts.{$entityType}") . ' ' . $bill->bill_number . ' | ' . $this->amount() . ' | ' . $this->vendor();
+        $data->title = trans("texts.{$entityType}") . ' ' . $bill->invoice_number . ' | ' . $this->amount() . ' | ' . $this->vendor();
         $data->start = $bill->due_date ?: $bill->bill_date;
 
         if ($subColors) {

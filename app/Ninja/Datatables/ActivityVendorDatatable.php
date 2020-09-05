@@ -42,8 +42,8 @@ class ActivityVendorDatatable extends EntityDatatable
                     $data = [
                         'vendor' => link_to('/vendors/' . $model->vendor_public_id, Utils::getVendorDisplayName($model))->toHtml(),
                         'user' => $model->is_system ? '<i>' . trans('texts.system') . '</i>' : Utils::getPersonDisplayName($model->user_first_name, $model->user_last_name, $model->user_email),
-                        'bill' => $model->bill_number ? link_to('/bills/' . $model->bill_public_id, $model->is_recurring ? trans('texts.recurring_bill') : $model->bill_number)->toHtml() : null,
-                        'bill_quote' => $model->bill_number ? link_to('/bill_quotes/' . $model->bill_public_id, $model->bill_number)->toHtml() : null,
+                        'bill' => $model->invoice_number ? link_to('/bills/' . $model->bill_public_id, $model->is_recurring ? trans('texts.recurring_bill') : $model->invoice_number)->toHtml() : null,
+                        'bill_quote' => $model->invoice_number ? link_to('/bill_quotes/' . $model->bill_public_id, $model->invoice_number)->toHtml() : null,
                         'vendor_contact' => $model->contact_id ? link_to('/vendors/' . $model->vendor_public_id, Utils::getPersonDisplayName($model->first_name, $model->last_name, $model->email))->toHtml() : Utils::getPersonDisplayName($model->user_first_name, $model->user_last_name, $model->user_email),
                         'bill_payment' => $model->payment ? e($model->payment) : '',
                         'VENDOR_CREDIT' => $model->payment_amount ? Utils::formatMoney($model->credit, $model->currency_id, $model->country_id) : '',

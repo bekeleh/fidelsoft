@@ -54,7 +54,7 @@ class Vendor extends EntityModel
         'hold_reason_id',
         'payment_terms',
         'website',
-        'bill_number_counter',
+        'invoice_number_counter',
         'quote_number_counter',
         'credit_number_counter',
         'public_notes',

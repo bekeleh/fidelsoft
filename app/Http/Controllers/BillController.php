@@ -127,15 +127,15 @@ class BillController extends BaseController
         $bill->public_id = 0;
         $bill->loadFromRequest();
 
-        $clients = Vendor::scope()->with('contacts', 'country')->orderBy('name');
+        $vendors = Vendor::scope()->with('contacts', 'country')->orderBy('name');
 
         if (!Utils::hasPermission('view_vendor')) {
-            $clients = $clients->where('vendors.user_id', Auth::user()->id);
+            $vendors = $vendors->where('vendors.user_id', Auth::user()->id);
         }
 
         $data = [
-            'clients' => $clients->get(),
-            'vendors' => $clients->get(),
+            'clients' => $vendors->get(),
+            'vendors' => $vendors->get(),
             'entityType' => $bill->getEntityType(),
             'invoice' => $bill,
             'method' => 'POST',
@@ -177,7 +177,9 @@ class BillController extends BaseController
             $this->emailBill($bill);
         }
 
-        return url($bill->getRoute());
+        $url = $bill->getRoute();
+
+        return url($url);
     }
 
     public function edit(BillRequest $request, $publicId, $clone = false)
@@ -198,7 +200,7 @@ class BillController extends BaseController
             ->select('vendor_contacts.public_id')->pluck('public_id')
             ->where('bill_invitations.deleted_at', null);
 
-        $clients = Vendor::scope()->withTrashed()->with('contacts', 'country');
+        $vendors = Vendor::scope()->withTrashed()->with('contacts', 'country');
 
         if ($clone) {
             $entityType = $clone == BILL_TYPE_STANDARD ? ENTITY_BILL : ENTITY_BILL_QUOTE;
@@ -206,7 +208,7 @@ class BillController extends BaseController
             $bill->is_public = false;
             $bill->is_recurring = $bill->is_recurring && $clone == BILL_TYPE_STANDARD;
             $bill->bill_type_id = $clone;
-            $bill->bill_number = $account->getClientNextNumber($bill);
+            $bill->invoice_number = $account->getClientNextNumber($bill);
             $bill->due_date = null;
             $bill->partial_due_date = null;
             $bill->balance = $bill->amount;
@@ -224,7 +226,7 @@ class BillController extends BaseController
         } else {
             $method = 'PUT';
             $url = "{$entityType}s/{$bill->public_id}";
-            $clients->where('id', $bill->vendor_id);
+            $vendors->where('id', $bill->vendor_id);
         }
 
         $bill->bill_date = Utils::fromSqlDate($bill->bill_date);
@@ -244,11 +246,11 @@ class BillController extends BaseController
         $lastSent = ($bill->is_recurring && $bill->last_sent_date) ? $bill->recurring_bills->last() : null;
 
         if (!Auth::user()->hasPermission('view_vendor')) {
-            $clients = $clients->where('vendors.user_id', Auth::user()->id);
+            $vendors = $vendors->where('vendors.user_id', Auth::user()->id);
         }
 
         $data = [
-            'clients' => $clients->get(),
+            'clients' => $vendors->get(),
             'entityType' => $entityType,
             'showBreadcrumbs' => $clone,
             'invoice' => $bill,
@@ -272,8 +274,8 @@ class BillController extends BaseController
 
         // Set the invitation data on the vendor's contacts
         if (!$clone) {
-            $clients = $data['clients'];
-            foreach ($clients as $vendor) {
+            $vendors = $data['clients'];
+            foreach ($vendors as $vendor) {
 
                 if ($vendor->id != $bill->vendor->id) {
                     continue;
@@ -653,9 +655,9 @@ class BillController extends BaseController
 
     public function checkBillNumber($billPublicId = false)
     {
-        $billNumber = request()->bill_number;
+        $billNumber = request()->invoice_number;
 
-        $query = Bill::scope()->where('bill_number', $billNumber)->withTrashed();
+        $query = Bill::scope()->where('invoice_number', $billNumber)->withTrashed();
 
         if ($billPublicId) {
             $query->where('public_id', $billPublicId);
