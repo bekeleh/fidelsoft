@@ -22,10 +22,7 @@ class BillPaymentService extends BaseService
     private $billPaymentRepo;
     private $accountRepo;
 
-    public function __construct(
-        BillPaymentRepository $billPaymentRepo,
-        AccountRepository $accountRepo,
-        DatatableService $datatableService)
+    public function __construct(BillPaymentRepository $billPaymentRepo, AccountRepository $accountRepo, DatatableService $datatableService)
     {
         $this->datatableService = $datatableService;
         $this->billPaymentRepo = $billPaymentRepo;
@@ -132,7 +129,7 @@ class BillPaymentService extends BaseService
             //$message .= $exception->getTraceAsString();
             Utils::logError($message, 'PHP', true);
             if (App::runningInConsole()) {
-                $mailer = app('App\Ninja\Mailers\InvoiceMailer');
+                $mailer = app('App\Ninja\Mailers\BillMailer');
                 $mailer->sendMessage($bill->user, $subject, $message, [
                     'bill' => $bill
                 ]);

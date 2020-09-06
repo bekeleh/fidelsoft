@@ -21,7 +21,7 @@ use App\Ninja\Repositories\BillRepository;
 use App\Ninja\Repositories\VendorRepository;
 use App\Services\BillPaymentService;
 use App\Services\BillService;
-use App\Services\RecurringInvoiceService;
+use App\Services\RecurringBillService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Contracts\Translation\Translator;
@@ -54,7 +54,7 @@ class BillController extends BaseController
      * @param VendorRepository $vendorRepo
      * @param BillService $billService
      * @param DocumentRepository $documentRepo
-     * @param RecurringInvoiceService $recurringBillService
+     * @param RecurringBillService $recurringBillService
      * @param BillPaymentService $paymentService
      */
     public function __construct(
@@ -62,7 +62,7 @@ class BillController extends BaseController
         VendorRepository $vendorRepo,
         BillService $billService,
         DocumentRepository $documentRepo,
-        RecurringInvoiceService $recurringBillService,
+        RecurringBillService $recurringBillService,
         BillPaymentService $paymentService)
     {
         // parent::__construct();

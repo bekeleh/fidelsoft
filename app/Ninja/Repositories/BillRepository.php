@@ -17,7 +17,7 @@ use App\Models\EntityModel;
 use App\Models\Expense;
 use App\Models\ItemStore;
 use App\Models\Vendor;
-use App\Services\PaymentService;
+use App\Services\BillPaymentService;
 use Datatable;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -38,11 +38,11 @@ class BillRepository extends BaseRepository
     /**
      * BillRepository constructor.
      * @param Bill $model
-     * @param PaymentService $paymentService
+     * @param BillPaymentService $paymentService
      * @param PaymentRepository $paymentRepo
      * @param DocumentRepository $documentRepo
      */
-    public function __construct(Bill $model, PaymentService $paymentService, PaymentRepository $paymentRepo, DocumentRepository $documentRepo)
+    public function __construct(Bill $model, BillPaymentService $paymentService, PaymentRepository $paymentRepo, DocumentRepository $documentRepo)
     {
         $this->model = $model;
         $this->paymentService = $paymentService;
@@ -76,10 +76,10 @@ class BillRepository extends BaseRepository
         $query = DB::table('bills')
             ->LeftJoin('accounts', 'accounts.id', '=', 'bills.account_id')
             ->LeftJoin('vendors', 'vendors.id', '=', 'bills.vendor_id')
-            ->leftJoin('bill_statuses', 'bill_statuses.id', '=', 'bills.bill_status_id')
+            ->leftJoin('invoice_statuses', 'invoice_statuses.id', '=', 'bills.bill_status_id')
             ->LeftJoin('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
             ->where('bills.account_id', $accountId)
-            ->where('vendor_contacts.deleted_at', null)
+//            ->where('vendor_contacts.deleted_at', null)
             ->where('bills.is_recurring', false)
             ->where('vendor_contacts.is_primary', true)
 //->whereRaw('(vendors.name != "" or vendor_contacts.first_name != "" or vendor_contacts.last_name != "" or vendor_contacts.email != "")') // filter out buy now bills
@@ -102,8 +102,8 @@ class BillRepository extends BaseRepository
                 DB::raw("CONCAT(bills.bill_date, bills.created_at) as date"),
                 DB::raw("CONCAT(COALESCE(bills.partial_due_date, bills.due_date), bills.created_at) as due_date"),
                 DB::raw("CONCAT(COALESCE(bills.partial_due_date, bills.due_date), bills.created_at) as valid_until"),
-                'bill_statuses.name as status',
-                'bill_statuses.name as bill_status_name',
+                'invoice_statuses.name as status',
+                'invoice_statuses.name as bill_status_name',
                 'vendor_contacts.first_name',
                 'vendor_contacts.last_name',
                 'vendor_contacts.email',
@@ -129,7 +129,7 @@ class BillRepository extends BaseRepository
             $query->where(function ($query) use ($filter) {
                 $query->where('vendors.name', 'like', '%' . $filter . '%')
                     ->orWhere('bills.invoice_number', 'like', '%' . $filter . '%')
-                    ->orWhere('bill_statuses.name', 'like', '%' . $filter . '%')
+                    ->orWhere('invoice_statuses.name', 'like', '%' . $filter . '%')
                     ->orWhere('vendor_contacts.email', 'like', '%' . $filter . '%')
                     ->orWhere('vendor_contacts.first_name', 'like', '%' . $filter . '%')
                     ->orWhere('vendor_contacts.last_name', 'like', '%' . $filter . '%');
@@ -178,17 +178,17 @@ class BillRepository extends BaseRepository
      * @param bool $filter
      * @return \Illuminate\Database\Query\Builder
      */
-    public function getRecurringBills($accountId = false, $vendorPublicId = false, $filter = false)
+    public function getRecurringBills($accountId = false, $vendorPublicId = false, $entityType, $filter = false)
     {
         $query = DB::table('bills')
             ->LeftJoin('accounts', 'accounts.id', '=', 'bills.account_id')
             ->LeftJoin('vendors', 'vendors.id', '=', 'bills.vendor_id')
-            ->LeftJoin('bill_statuses', 'bill_statuses.id', '=', 'bills.bill_status_id')
+            ->LeftJoin('invoice_statuses', 'invoice_statuses.id', '=', 'bills.bill_status_id')
             ->leftJoin('frequencies', 'frequencies.id', '=', 'bills.frequency_id')
             ->LeftJoin('vendor_contacts', 'vendor_contacts.vendor_id', '=', 'vendors.id')
             ->where('bills.account_id', $accountId)
             ->where('bills.bill_type_id', BILL_TYPE_STANDARD)
-            ->where('vendor_contacts.deleted_at', null)
+//            ->where('vendor_contacts.deleted_at', null)
             ->where('bills.is_recurring', true)
             ->where('vendor_contacts.is_primary', true)
             ->select(
@@ -211,8 +211,8 @@ class BillRepository extends BaseRepository
                 'bills.deleted_at',
                 'bills.is_deleted',
                 'bills.user_id',
-                'bill_statuses.name as bill_status_name',
-                'bill_statuses.public as bill_status_public',
+                'bills.bill_status_id',
+                'invoice_statuses.name as bill_status_name',
                 'bills.balance',
                 'bills.due_date',
                 'bills.due_date as due_date_sql',
@@ -246,17 +246,11 @@ class BillRepository extends BaseRepository
         }
 
 //       don't remove the third parameter unless bill and recurring bill are separated
-        $this->applyFilters($query, ENTITY_RECURRING_BILL, 'bills');
+        $this->applyFilters($query, $entityType, 'bill');
 
         return $query;
     }
 
-    /**
-     * @param $contactId
-     * @param null $filter
-     * @return JsonResponse
-     * @throws Exception
-     */
     public function getVendorRecurringDatatable($contactId, $filter = null)
     {
         $query = DB::table('bill_invitations')
@@ -265,7 +259,7 @@ class BillRepository extends BaseRepository
             ->LeftJoin('vendors', 'vendors.id', '=', 'bills.vendor_id')
             ->LeftJoin('frequencies', 'frequencies.id', '=', 'bills.frequency_id')
             ->where('bill_invitations.contact_id', $contactId)
-            ->where('bill_invitations.deleted_at', null)
+//            ->where('bill_invitations.deleted_at', null)
             ->where('bills.bill_type_id', BILL_TYPE_STANDARD)
             ->where('bills.is_deleted', false)
             ->where('vendors.deleted_at', null)
@@ -990,7 +984,7 @@ class BillRepository extends BaseRepository
         $bill->tax_rate1 = $recurBill->tax_rate1;
         $bill->tax_name2 = $recurBill->tax_name2;
         $bill->tax_rate2 = $recurBill->tax_rate2;
-        $bill->bill_design_id = $recurBill->bill_design_id;
+        $bill->invoice_design_id = $recurBill->invoice_design_id;
         $bill->custom_value1 = $recurBill->custom_value1 ?: 0;
         $bill->custom_value2 = $recurBill->custom_value2 ?: 0;
         $bill->custom_taxes1 = $recurBill->custom_taxes1 ?: 0;
@@ -1036,7 +1030,7 @@ class BillRepository extends BaseRepository
 
         if ($recurBill->getAutoBillEnabled() && !$recurBill->account->auto_bill_on_due_date) {
 // autoBillBill will check for ACH, so we're not checking here
-            if ($this->paymentService->autoBillBill($bill)) {
+            if ($this->paymentService->autoBill($bill)) {
 // update the bill reference to match its actual state
 // this is to ensure a 'payment received' email is sent
                 $bill->bill_status_id = BILL_STATUS_PAID;

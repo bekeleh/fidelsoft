@@ -63,6 +63,7 @@ class Bill extends EntityModel implements BalanceAffecting
         'is_recurring' => 'boolean',
         'has_tasks' => 'boolean',
         'vendor_enable_auto_bill' => 'boolean',
+        'auto_bill' => 'boolean',
         'has_expenses' => 'boolean',
     ];
 

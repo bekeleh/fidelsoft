@@ -118,10 +118,10 @@ class RecurringBillDatatable extends EntityDatatable
 
     private function getStatusLabel($model)
     {
-        $class = Bill::calcStatusClass($model->invoice_status_id, $model->balance, $model->due_date_sql, $model->is_recurring);
-        $label = Bill::calcStatusLabel($model->invoice_status_name, $class, $this->entityType, $model->quote_invoice_id);
+        $class = Bill::calcStatusClass($model->bill_status_id, $model->balance, $model->due_date_sql, $model->is_recurring);
+        $label = Bill::calcStatusLabel($model->bill_status_name, $class, $this->entityType, $model->quote_bill_id);
 
-        if ($model->invoice_status_id == INVOICE_STATUS_SENT) {
+        if ($model->bill_status_id == INVOICE_STATUS_SENT) {
             if (!$model->last_sent_date_sql || $model->last_sent_date_sql == '0000-00-00') {
                 $label = trans('texts.pending');
             } else {
@@ -136,7 +136,7 @@ class RecurringBillDatatable extends EntityDatatable
     {
         return [
             [
-                trans('texts.edit_BILL'),
+                trans('texts.edit_bill'),
                 function ($model) {
                     return URL::to("bills/{$model->public_id}/edit");
                 },

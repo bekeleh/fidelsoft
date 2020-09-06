@@ -117,7 +117,7 @@ class VendorPortalController extends BaseController
         ];
         $bill->bill_fonts = $account->getFontsData();
 
-        if ($design = $account->getCustomDesign($bill->bill_design_id)) {
+        if ($design = $account->getCustomDesign($bill->invoice_design_id)) {
             $bill->bill_design->javascript = $design;
         } else {
             $bill->bill_design->javascript = $bill->bill_design->pdfmake;

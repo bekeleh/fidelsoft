@@ -498,7 +498,7 @@ class Account extends Eloquent
         'bill_item_taxes',
         'invoice_design_id',
         'quote_design_id',
-        'bill_design_id',
+        'invoice_design_id',
         'bill_quote_design_id',
         'work_phone',
         'work_email',

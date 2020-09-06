@@ -263,7 +263,7 @@ class BillApiController extends BaseAPIController
             'bill_footer' => '',
             'public_notes' => '',
             'po_number' => '',
-            'bill_design_id' => $account->bill_design_id,
+            'invoice_design_id' => $account->invoice_design_id,
             'bill_items' => [],
             'custom_taxes1' => false,
             'custom_taxes2' => false,
@@ -286,7 +286,7 @@ class BillApiController extends BaseAPIController
         }
 
         if (isset($data['is_quote']) && filter_var($data['is_quote'], FILTER_VALIDATE_BOOLEAN)) {
-            $fields['bill_design_id'] = $account->quote_design_id;
+            $fields['invoice_design_id'] = $account->quote_design_id;
         }
 
         foreach ($fields as $key => $val) {

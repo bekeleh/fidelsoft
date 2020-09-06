@@ -212,7 +212,7 @@ Route::group(['middleware' => ['lookup:user', 'auth:user', 'banned:user']], func
     Route::resource('invoice_items', 'InvoiceItemController');
     Route::post('invoice_items/bulk', 'InvoiceItemController@bulk');
 //    Bill
-    Route::get('api/recurring_invoices/{vendor_id?}', 'BillController@getRecurringDatatable');
+    Route::get('api/recurring_bills/{vendor_id?}', 'BillController@getRecurringDatatable');
     Route::get('bills/receive_note/{bill_id}', 'BillController@receiveNote');
     Route::get('bills/bill_history/{bill_id}', 'BillController@BillHistory');
     Route::get('quotes/quote_history/{bill_id}', 'BillController@BillHistory');
