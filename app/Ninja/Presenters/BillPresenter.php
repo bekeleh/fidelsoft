@@ -254,14 +254,14 @@ class BillPresenter extends EntityPresenter
             $actions[] = ['url' => url("bills/receive_note/{$bill->public_id}"), 'label' => trans('texts.receive_note')];
         }
 //    packing list
-        if ($entityType == ENTITY_BILL) {
-            $actions[] = ['url' => url("bills/packing_list/{$bill->public_id}"), 'label' => trans('texts.packing_list')];
-        }
+//        if ($entityType == ENTITY_BILL) {
+//            $actions[] = ['url' => url("bills/packing_list/{$bill->public_id}"), 'label' => trans('texts.packing_list')];
+//        }
 
 //      Return purchase Bill
-        if ($entityType == ENTITY_BILL) {
-            $actions[] = ['url' => url("bills/return_bill/{$bill->public_id}"), 'label' => trans('texts.return_bill')];
-        }
+//        if ($entityType == ENTITY_BILL) {
+//            $actions[] = ['url' => url("bills/return_bill/{$bill->public_id}"), 'label' => trans('texts.return_bill')];
+//        }
 
         $actions[] = DropdownButton::DIVIDER;
 

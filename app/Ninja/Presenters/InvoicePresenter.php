@@ -253,15 +253,15 @@ class InvoicePresenter extends EntityPresenter
         if ($entityType == ENTITY_INVOICE) {
             $actions[] = ['url' => url("invoices/delivery_note/{$invoice->public_id}"), 'label' => trans('texts.delivery_note')];
         }
-//    packing list
-        if ($entityType == ENTITY_INVOICE) {
-            $actions[] = ['url' => url("invoices/packing_list/{$invoice->public_id}"), 'label' => trans('texts.packing_list')];
-        }
+////    packing list
+//        if ($entityType == ENTITY_INVOICE) {
+//            $actions[] = ['url' => url("invoices/packing_list/{$invoice->public_id}"), 'label' => trans('texts.packing_list')];
+//        }
 
 //      Return sales
-        if ($entityType == ENTITY_INVOICE) {
-            $actions[] = ['url' => url("invoices/return_invoice/{$invoice->public_id}"), 'label' => trans('texts.return_invoice')];
-        }
+//        if ($entityType == ENTITY_INVOICE) {
+//            $actions[] = ['url' => url("invoices/return_invoice/{$invoice->public_id}"), 'label' => trans('texts.return_invoice')];
+//        }
 
         $actions[] = DropdownButton::DIVIDER;
 

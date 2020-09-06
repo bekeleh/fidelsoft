@@ -35,7 +35,7 @@ class InvoiceSender
         $fromEmail = CONTACT_EMAIL;
 //       if it's in debugging mode/ development
         if (Utils::isSelfHost() && config('app.debug')) {
-            \Log::info("Sending email - To: {$toEmail} | Reply: {$replyEmail} | From: $fromEmail");
+//            Log::info("Sending email - To: {$toEmail} | Reply: {$replyEmail} | From: $fromEmail");
         }
 
         // Optionally send for alternate domain
