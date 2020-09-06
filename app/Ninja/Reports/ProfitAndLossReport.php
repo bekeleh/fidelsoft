@@ -4,16 +4,16 @@ namespace App\Ninja\Reports;
 
 use App\Models\Expense;
 use App\Models\Payment;
-use Illuminate\Support\Facades\Auth;
+use Auth;
 
 class ProfitAndLossReport extends AbstractReport
 {
+//  table columns
     public function getColumns()
     {
         return [
             'type' => [],
             'client' => [],
-            'vendor' => [],
             'amount' => [],
             'date' => [],
             'notes' => [],
@@ -26,12 +26,12 @@ class ProfitAndLossReport extends AbstractReport
         $subgroup = $this->options['subgroup'];
 
         $payments = Payment::scope()
-        ->orderBy('payment_date', 'desc')
-        ->with(['client.contacts', 'invoice', 'user'])
-        ->withArchived()
-        ->excludeFailed()
-        ->where('payment_date', '>=', $this->startDate)
-        ->where('payment_date', '<=', $this->endDate);
+            ->orderBy('payment_date', 'desc')
+            ->with('client.contacts', 'invoice', 'user')
+            ->withArchived()
+            ->excludeFailed()
+            ->where('payment_date', '>=', $this->startDate)
+            ->where('payment_date', '<=', $this->endDate);
 
         foreach ($payments->get() as $payment) {
             $client = $payment->client;
@@ -39,10 +39,10 @@ class ProfitAndLossReport extends AbstractReport
             if ($client->is_deleted || $invoice->is_deleted) {
                 continue;
             }
+//          column data
             $this->data[] = [
                 trans('texts.payment'),
                 $client ? ($this->isExport ? $client->getDisplayName() : $client->present()->link) : '',
-                '',
                 $account->formatMoney($payment->getCompletedAmount(), $client),
                 $this->isExport ? $payment->payment_date : $payment->present()->payment_date,
                 $payment->present()->method,
@@ -61,11 +61,11 @@ class ProfitAndLossReport extends AbstractReport
         }
 
         $expenses = Expense::scope()
-        ->orderBy('expense_date', 'desc')
-        ->with('client.contacts', 'vendor')
-        ->withArchived()
-        ->where('expense_date', '>=', $this->startDate)
-        ->where('expense_date', '<=', $this->endDate);
+            ->orderBy('expense_date', 'desc')
+            ->with('client.contacts', 'vendor')
+            ->withArchived()
+            ->where('expense_date', '>=', $this->startDate)
+            ->where('expense_date', '<=', $this->endDate);
 
         foreach ($expenses->get() as $expense) {
             $client = $expense->client;
@@ -73,7 +73,6 @@ class ProfitAndLossReport extends AbstractReport
             $this->data[] = [
                 trans('texts.expense'),
                 $client ? ($this->isExport ? $client->getDisplayName() : $client->present()->link) : '',
-                $vendor ? ($this->isExport ? $vendor->name : $vendor->present()->link) : '',
                 '-' . $expense->present()->amount,
                 $this->isExport ? $expense->expense_date : $expense->present()->expense_date,
                 $expense->present()->category,
@@ -88,6 +87,7 @@ class ProfitAndLossReport extends AbstractReport
             } else {
                 $dimension = $this->getDimension($expense);
             }
+
             $this->addChartData($dimension, $expense->expense_date, $expense->amountWithTax());
         }
 
