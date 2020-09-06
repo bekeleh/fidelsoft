@@ -6,7 +6,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title"
-                    id="emailModalLabel"><?php echo e(trans($invoice->isQuote() ? 'texts.email_quote' : 'texts.email_invoice')); ?></h4>
+                    id="emailModalLabel"><?php echo e(trans($invoice->isQuote() ? 'texts.email_quote' : 'texts.email_bill')); ?></h4>
             </div>
 
             <div class="container" style="width: 100%; padding-bottom: 0px !important">
@@ -102,7 +102,7 @@
                                                 <td><?php echo e($activity->present()->notes); ?></td>
                                                 <td>
                                     <span title="<?php echo e(trans('texts.sent_by', ['user' => $activity->present()->user])); ?>">
-                                        <?php echo e($activity->contact->getDisplayName()); ?>
+                                        <?php echo e(!empty($activity->contact) ? $activity->contact->getDisplayName():''); ?>
 
                                     </span>
                                                 </td>

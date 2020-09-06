@@ -222,7 +222,7 @@ Route::group(['middleware' => ['lookup:user', 'auth:user', 'banned:user']], func
     Route::get('bills/create/{vendor_id?}', 'BillController@create');
     Route::get('bills/{bills}/clone', 'BillController@cloneBill');
     Route::post('bills/bulk', 'BillController@bulk');
-    Route::get('recurring_bills/create/{vendor_id?}', 'BillController@createBillRecurring');
+    Route::get('recurring_bills/create/{vendor_id?}', 'BillController@createRecurring');
     Route::get('recurring_bills', 'RecurringBillController@index');
     Route::get('recurring_bills/{bills}/edit', 'BillController@edit');
     Route::get('recurring_bills/{bills}', 'BillController@edit');

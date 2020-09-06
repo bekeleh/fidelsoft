@@ -8,9 +8,9 @@
 </div>
 <div class="row">
     <div class="pull-left">
-    @if (Auth::user()->can('create', $entityType || Utils::isAdmin()))
-        {{--        {!! Button::primary(trans('texts.invoice'))->withAttributes(['class'=>'invoice', 'onclick' =>'submitForm_'.$entityType.'("invoice")'])->appendIcon(Icon::create('check')) !!}--}}
-    @endif
+    {{--    @if (Auth::user()->can('create', $entityType || Utils::isAdmin()))--}}
+    {{--        {!! Button::primary(trans('texts.invoice'))->withAttributes(['class'=>'invoice', 'onclick' =>'submitForm_'.$entityType.'("invoice")'])->appendIcon(Icon::create('check')) !!}--}}
+    {{--    @endif--}}
     <!-- action buttons -->
         @if (Auth::user()->can('edit', $entityType) || Utils::isAdmin())
             {!! DropdownButton::normal(trans('texts.archive'))

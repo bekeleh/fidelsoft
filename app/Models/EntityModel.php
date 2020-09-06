@@ -209,8 +209,14 @@ class EntityModel extends Eloquent
             }
         }
 
+//     recurring invoice
         if ($entityType == ENTITY_QUOTE || $entityType == ENTITY_RECURRING_INVOICE) {
             $entityType = ENTITY_INVOICE;
+        }
+
+//     recurring bill
+        if ($entityType == ENTITY_BILL_QUOTE || $entityType == ENTITY_RECURRING_BILL) {
+            $entityType = ENTITY_BILL;
         }
 
         return 'App\\Models\\' . ucwords(Utils::toCamelCase($entityType));
@@ -387,9 +393,11 @@ class EntityModel extends Eloquent
     public static function getFormUrl($entityType)
     {
         if (in_array($entityType, [ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_TEMPLATE])) {
-            return str_replace('_', 's/', Utils::pluralizeEntityType($entityType));
+            $entityType = str_replace('_', 's/', Utils::pluralizeEntityType($entityType));
+            return $entityType;
         } else {
-            return Utils::pluralizeEntityType($entityType);
+            $entityType = Utils::pluralizeEntityType($entityType);
+            return $entityType;
         }
     }
 

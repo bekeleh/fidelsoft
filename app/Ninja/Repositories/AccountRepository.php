@@ -316,6 +316,7 @@ class AccountRepository
             ENTITY_PROJECT,
             ENTITY_PROPOSAL,
             ENTITY_QUOTE,
+            ENTITY_RECURRING_BILL,
             ENTITY_RECURRING_INVOICE,
             ENTITY_SCHEDULE,
             ENTITY_SCHEDULE_CATEGORY,

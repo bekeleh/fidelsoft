@@ -69,9 +69,9 @@ $__env->startSection('head_css'); ?>
     <?php if($invoice->id): ?>
         <ol class="breadcrumb">
             <?php if($invoice->is_recurring): ?>
-                <li><?php echo link_to('recurring_invoices', trans('texts.recurring_invoices')); ?></li>
+                <li><?php echo link_to('recurring_bills', trans('texts.recurring_bills')); ?></li>
             <?php else: ?>
-                <li><?php echo link_to(($entityType == ENTITY_QUOTE ? 'quotes' : 'invoices'), trans('texts.' . ($entityType == ENTITY_QUOTE ? 'quotes' : 'invoices'))); ?></li>
+                <li><?php echo link_to(($entityType == ENTITY_BILL_QUOTE ? 'bill_quotes' : 'bills'), trans('texts.' . ($entityType == ENTITY_BILL_QUOTE ? 'bill_quotes' : 'bills'))); ?></li>
                 <li class="active"><?php echo e($invoice->invoice_number); ?></li>
             <?php endif; ?>
             <?php if($invoice->is_recurring && $invoice->isSent()): ?>
@@ -101,7 +101,7 @@ $__env->startSection('head_css'); ?>
     ->rules(array(
     'client' => 'required',
     'invoice_number' => 'required',
-    'invoice_date' => 'required',
+    'bill_date' => 'required',
     'public_notes' => 'required',
     'product_key' => 'max:255'
     )); ?>
@@ -121,7 +121,7 @@ $__env->startSection('head_css'); ?>
                         <?php if($invoice->id || $data): ?>
                             <div class="form-group">
                                 <label for="client"
-                                       class="control-label col-lg-4 col-sm-4"><b><?php echo e(trans('texts.client')); ?></b></label>
+                                       class="control-label col-lg-4 col-sm-4"><b><?php echo e(trans('texts.vendor')); ?></b></label>
                                 <div class="col-lg-8 col-sm-8">
                                     <h4>
                                         <span data-bind="text: getClientDisplayName(ko.toJS(client()))"></span>
@@ -132,40 +132,42 @@ $__env->startSection('head_css'); ?>
                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('view', $invoice->client)): ?>
                                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('edit', $invoice->client)): ?>
                                             <a id="editClientLink" class="pointer"
-                                               data-bind="click: $root.showClientForm"><?php echo e(trans('texts.edit_client')); ?></a>
+                                               data-bind="click: $root.showClientForm"><?php echo e(trans('texts.edit_vendor')); ?>
+
+                                            </a>
                                             |
                                         <?php endif; ?>
-                                        <?php echo link_to('/clients/'.$invoice->client->public_id, trans('texts.view_client'), ['target' => '_blank']); ?>
+                                        <?php echo link_to('/vendors/'.$invoice->client->public_id, trans('texts.view_vendor'), ['target' => '_blank']); ?>
 
                                     <?php endif; ?>
                                 </div>
                             </div>
                             <div style="display:none">
-                                <?php endif; ?>
-
+                            <?php endif; ?>
+                            <!-- select vendor from dropdown list  -->
                                 <?php echo Former::select('client')
                                 ->addOption('', '')
                                 ->data_bind("dropdown: client, dropdownOptions: {highlighter: comboboxHighlighter}")
                                 ->addClass('client-input')
+                                ->label(trans('texts.vendor'))
                                 ->addGroupClass('client_select closer-row'); ?>
 
 
-                                <div class="form-group" style="margin-bottom: 8px">
-                                    <div class="col-lg-8 col-sm-8 col-lg-offset-4 col-sm-offset-4">
-                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create', $invoice->client)): ?>
-                                            <a id="createClientLink" class="pointer"
-                                               data-bind="click: $root.showClientForm, html: $root.clientLinkText"></a>
-                                        <?php endif; ?>
-                                        <span data-bind="visible: $root.invoice().client().public_id() > 0"
-                                              style="display:none">|
-                                    <a data-bind="attr: {href: '<?php echo e(url('/clients')); ?>/' + $root.invoice().client().public_id()}"
-                                       target="_blank"><?php echo e(trans('texts.view_client')); ?>
-
-                                    </a>
-                                    </span>
-                                    </div>
-                                </div>
-
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
                                 <?php if($invoice->id || $data): ?>
                             </div>
                         <?php endif; ?>
@@ -182,18 +184,18 @@ $__env->startSection('head_css'); ?>
                                         <input type="checkbox" value="1"
                                                data-bind="visible: email() || first_name() || last_name(), checked: send_invoice, attr: {id: $index() + '_check', name: 'client[contacts][' + $index() + '][send_invoice]'}">
                                         <span data-bind="visible: first_name || last_name">
-<span data-bind="text: (first_name() || '') + ' ' + (last_name() || '')"></span>
-<br/>
-</span>
+                                        <span data-bind="text: (first_name() || '') + ' ' + (last_name() || '')"></span>
+                                        <br/>
+                                        </span>
                                         <span data-bind="visible: email">
-<span data-bind="text: email"></span>
-<br/>
-</span>
+                                        <span data-bind="text: email"></span>
+                                        <br/>
+                                        </span>
                                     </label>
                                     <?php if( ! $invoice->is_deleted && ! $invoice->client->is_deleted): ?>
                                         <span data-bind="visible: !$root.invoice().is_recurring()">
-<span data-bind="html: $data.view_as_recipient"></span>&nbsp;&nbsp;
-<?php if(Utils::isConfirmed()): ?>
+                                            <span data-bind="html: $data.view_as_recipient"></span>&nbsp;&nbsp;
+                                            <?php if(Utils::isConfirmed()): ?>
                                                 <span style="vertical-align:text-top;color:red"
                                                       class="fa fa-exclamation-triangle"
                                                       data-bind="visible: $data.email_error, tooltip: {title: $data.email_error}"></span>
@@ -212,12 +214,11 @@ style: {color: $data.info_color}"></span>
                             </div>
                         </div>
                         <!--end of with client -->
-
                     </div>
                     <div class="col-md-4" id="col_2">
                         <div data-bind="visible: !is_recurring()">
-                            <?php echo Former::text('invoice_date')->data_bind("datePicker: invoice_date, valueUpdate: 'afterkeydown'")->label($account->getLabel("{$entityType}_date"))
-                            ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))->appendIcon('calendar')->addGroupClass('invoice_date'); ?>
+                            <?php echo Former::text('bill_date')->data_bind("datePicker: bill_date, valueUpdate: 'afterkeydown'")->label($account->getLabel("{$entityType}_date"))
+                            ->data_date_format(Session::get(SESSION_DATE_PICKER_FORMAT, DEFAULT_DATE_PICKER_FORMAT))->appendIcon('calendar')->addGroupClass('bill_date'); ?>
 
                             <?php echo Former::text('due_date')->data_bind("datePicker: due_date, valueUpdate: 'afterkeydown'")->label($account->getLabel($invoice->getDueDateLabel()))
                             ->placeholder($invoice->id || $invoice->isQuote() ? ' ' : $account->present()->dueDatePlaceholder())
@@ -247,7 +248,7 @@ style: {color: $data.info_color}"></span>
                                 </div>
                             </div>
                         </div>
-                        <?php if($entityType == ENTITY_INVOICE): ?>
+                        <?php if($entityType == ENTITY_BILL): ?>
                             <div data-bind="visible: is_recurring" style="display: none">
                                 <?php echo Former::select('frequency_id')->label('frequency')->options($frequencies)->data_bind("value: frequency_id")
                                 ->appendIcon('question-sign')->addGroupClass('frequency_id')->onchange('onFrequencyChange()'); ?>
@@ -333,11 +334,11 @@ AUTO_BILL_ALWAYS => trans('texts.always'),
                             ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                         <?php endif; ?>
 
-                        <?php if($entityType == ENTITY_INVOICE): ?>
+                        <?php if($entityType == ENTITY_BILL): ?>
                             <div class="form-group" style="margin-bottom: 8px">
                                 <div class="col-lg-8 col-sm-8 col-sm-offset-4 smaller" style="padding-top: 10px;">
-                                    <?php if($invoice->recurring_invoice_id && $invoice->recurring_invoice): ?>
-                                        <?php echo trans('texts.created_by_invoice', ['invoice' => link_to('/invoices/'.$invoice->recurring_invoice->public_id, trans('texts.recurring_invoice'))]); ?>
+                                    <?php if($invoice->recurring_bill_id && $invoice->recurring_bill): ?>
+                                        <?php echo trans('texts.created_by_invoice', ['invoice' => link_to('/invoices/'.$invoice->recurring_bill->public_id, trans('texts.recurring_bill'))]); ?>
 
                                         <p/>
                                     <?php elseif($invoice->id): ?>
@@ -460,7 +461,7 @@ AUTO_BILL_ALWAYS => trans('texts.always'),
                         <tr data-bind="style: { 'font-weight': partial() ? 'normal' : 'bold', 'font-size': partial() ? '1em' : '1.05em' }"
                             style="font-size:1.05em;font-weight:bold;">
                             <td class="hide-border" data-bind="css: {'hide-border': !partial()}"
-                                colspan="2"><?php echo e($entityType == ENTITY_INVOICE ? $invoiceLabels['balance_due'] : trans('texts.total')); ?></td>
+                                colspan="2"><?php echo e($entityType == ENTITY_BILL ? $invoiceLabels['balance_due'] : trans('texts.total')); ?></td>
                             <td class="hide-border" data-bind="css: {'hide-border': !partial()}"
                                 style="text-align: right"><span data-bind="text: totals.total"></span></td>
                         </tr>
@@ -630,8 +631,8 @@ AUTO_BILL_ALWAYS => trans('texts.always'),
 
         <?php endif; ?>
 
-        <?php if(Auth::user()->canCreateOrEdit(ENTITY_INVOICE, $invoice)): ?>
-            <?php if($invoice->isClientTrashed()): ?>
+        <?php if(Auth::user()->canCreateOrEdit(ENTITY_BILL, $invoice)): ?>
+            <?php if($invoice->isVendorTrashed()): ?>
                 <!-- do nothing -->
                 <?php elseif($invoice->isLocked()): ?>
                     <?php if(! $invoice->trashed()): ?>
@@ -717,7 +718,7 @@ AUTO_BILL_ALWAYS => trans('texts.always'),
 
                                                 <?php echo Former::text('client[id_number]')
                                                 ->label('id_number')
-                                                ->placeholder($account->clientNumbersEnabled() ? $account->getInvoiceNextNumber() : ' ')
+                                                ->placeholder($account->vendorNumbersEnabled() ? $account->getBillNextNumber() : ' ')
                                                 ->data_bind("value: id_number, valueUpdate: 'afterkeydown'"); ?>
 
 
@@ -858,36 +859,41 @@ afterAdd: showContact }'>
 </span>
 
                                         <?php echo Former::select('client[currency_id]')->addOption('','')
-                                        ->placeholder(trans('texts.select_currency'))
+                                        ->placeholder($account->currency ? trans('texts.currency_'.Str::slug($account->currency->name, '_')) : '')
                                         ->label(trans('texts.currency_id'))
                                         ->data_bind('value: currency_id')
                                         ->fromQuery($currencies, 'name', 'id'); ?>
 
 
                                         <span data-bind="visible: $root.showMore">
-                                            <?php echo Former::select('client[language_id]')->addOption('','')
-                                            ->placeholder($account->language ? trans('texts.lang_'.$account->language->name) : '')
-                                            ->label(trans('texts.language_id'))
-                                            ->data_bind('value: language_id')
-                                            ->fromQuery($languages, 'name', 'id'); ?>
+<?php echo Former::select('client[language_id]')->addOption('','')
+->placeholder($account->language ? trans('texts.lang_'.$account->language->name) : '')
+->label(trans('texts.language_id'))
+->data_bind('value: language_id')
+->fromQuery($languages, 'name', 'id'); ?>
+
+<!-- vendor payment -->
+<?php echo Former::select('client[payment_terms]')->addOption('','')->data_bind('value: payment_terms')
+->fromQuery(PaymentTerm::getSelectOptions(), 'name', 'num_days')
+->label(trans('texts.payment_terms'))
+->help(trans('texts.payment_terms_help')); ?>
+
+<!-- vendor size -->
+<?php echo Former::select('client[size_id]')->addOption('','')->data_bind('value: size_id')
+->label(trans('texts.size_id'))
+->fromQuery($sizes, 'name', 'id'); ?>
 
 
-                                            <?php echo Former::select('client[payment_terms]')->addOption('','')->data_bind('value: payment_terms')
-                                            ->fromQuery(PaymentTerm::getSelectOptions(), 'name', 'num_days')
-                                            ->label(trans('texts.payment_terms'))
-                                            ->help(trans('texts.payment_terms_help')); ?>
+<!-- vendor industry -->
+<?php echo Former::select('client[industry_id]')->addOption('','')->data_bind('value: industry_id')
+->label(trans('texts.industry_id'))
+->fromQuery($industries, 'name', 'id'); ?>
 
-                                            <?php echo Former::select('client[size_id]')->addOption('','')->data_bind('value: size_id')
-                                            ->label(trans('texts.size_id'))
-                                            ->fromQuery($sizes, 'name', 'id'); ?>
 
-                                            <?php echo Former::select('client[industry_id]')->addOption('','')->data_bind('value: industry_id')
-                                            ->label(trans('texts.industry_id'))
-                                            ->fromQuery($industries, 'name', 'id'); ?>
-
-                                            <?php echo Former::textarea('client_private_notes')
-                                            ->label(trans('texts.private_notes'))
-                                            ->data_bind("value: private_notes, attr:{ name: 'client[private_notes]'}"); ?>
+<!-- vendor private notes -->
+    <?php echo Former::textarea('client_private_notes')
+    ->label(trans('texts.private_notes'))
+    ->data_bind("value: private_notes, attr:{ name: 'client[private_notes]'}"); ?>
 
 </span>
                                     </div>
@@ -917,7 +923,7 @@ afterAdd: showContact }'>
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="recurringModalLabel"><?php echo e(trans('texts.recurring_invoices')); ?></h4>
+                        <h4 class="modal-title" id="recurringModalLabel"><?php echo e(trans('texts.recurring_bills')); ?></h4>
                     </div>
 
                     <div class="container" style="width: 100%; padding-bottom: 0px !important">
@@ -967,7 +973,8 @@ afterAdd: showContact }'>
         </div>
 
         <?php echo $__env->make('partials.email_templates', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-        <?php echo $__env->make('invoices.email', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        <?php echo $__env->make('bills.email', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
         <?php echo Former::close(); ?>
 
         </form>
@@ -987,7 +994,7 @@ afterAdd: showContact }'>
 
     </div>
 
-    <?php echo $__env->make('invoices.knockout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('bills.knockout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
     <script type="text/javascript">
         Dropzone.autoDiscover = false;
@@ -1162,7 +1169,7 @@ afterAdd: showContact }'>
 
             $('[rel=tooltip]').tooltip({'trigger': 'manual'});
 
-            $('#invoice_date, #due_date, #start_date, #end_date, #last_sent_date, #partial_due_date').datepicker();
+            $('#bill_date, #due_date, #start_date, #end_date, #last_sent_date, #partial_due_date').datepicker();
 
             <?php if($invoice->client && !$invoice->id): ?>
             $('input[name=client]').val(<?php echo e($invoice->client->public_id); ?>);
@@ -1178,7 +1185,7 @@ afterAdd: showContact }'>
 // we enable searching by contact but the selection must be the client
                     $('.client-input').val(getClientDisplayName(selected));
 // if there's an invoice number pattern we'll apply it now
-                    setInvoiceNumber(selected);
+                    setBillNumber(selected);
                     refreshPDF(true);
                 } else if (oldId) {
                     model.loadClient($.parseJSON(ko.toJSON(new ClientModel())));
@@ -1196,7 +1203,7 @@ afterAdd: showContact }'>
             }
             <?php endif; ?>
 
-            $('#invoice_footer, #terms, #public_notes, #invoice_number, #invoice_date, #due_date, #partial_due_date, #start_date, #po_number, #discount, #currency_id, #invoice_design_id, #recurring, #is_amount_discount, #partial, #custom_text_value1, #custom_text_value2, #taxRateSelect1, #taxRateSelect2').change(function () {
+            $('#invoice_footer, #terms, #public_notes, #invoice_number, #bill_date, #due_date, #partial_due_date, #start_date, #po_number, #discount, #currency_id, #invoice_design_id, #recurring, #is_amount_discount, #partial, #custom_text_value1, #custom_text_value2, #taxRateSelect1, #taxRateSelect2').change(function () {
                 $('#downloadPdfButton').attr('disabled', true);
                 setTimeout(function () {
                     refreshPDF(true);
@@ -1211,7 +1218,7 @@ afterAdd: showContact }'>
                 showRecurringDueDateLearnMore();
             });
 
-            var fields = ['invoice_date', 'due_date', 'start_date', 'end_date', 'last_sent_date'];
+            var fields = ['bill_date', 'due_date', 'start_date', 'end_date', 'last_sent_date'];
             for (var i = 0; i < fields.length; i++) {
                 var field = fields[i];
                 (function (_field) {
@@ -1331,16 +1338,17 @@ afterAdd: showContact }'>
                 invoice_settings:<?php echo e(Auth::user()->hasFeature(FEATURE_INVOICE_SETTINGS) ? 'true' : 'false'); ?>
 
             };
-            invoice.is_quote = <?php echo e($entityType == ENTITY_QUOTE ? 'true' : 'false'); ?>;
+            invoice.is_quote = <?php echo e($entityType == ENTITY_BILL_QUOTE ? 'true' : 'false'); ?>;
+
             invoice.contact = _.findWhere(invoice.client.contacts, {send_invoice: true});
 
             if (invoice.is_recurring) {
                 invoice.invoice_number = <?php echo json_encode(trans('texts.assigned_when_sent')); ?>;
                 invoice.due_date = <?php echo json_encode(trans('texts.assigned_when_sent')); ?>;
                 if (invoice.start_date) {
-                    invoice.invoice_date = invoice.start_date;
+                    invoice.bill_date = invoice.start_date;
                 } else {
-                    invoice.invoice_date = invoice.due_date;
+                    invoice.bill_date = invoice.due_date;
                 }
             }
 
@@ -1369,10 +1377,10 @@ afterAdd: showContact }'>
         var origInvoiceNumber = false;
 
         function getPDFString(cb, force) {
-                    <?php if(! $invoice->id && $account->credit_number_counter > 0): ?>
+                    <?php if(! $invoice->id && $account->vendor_credit_number_counter > 0): ?>
             var total = model.invoice().totals.rawTotal();
             var invoiceNumber = model.invoice().invoice_number();
-            var creditNumber = "<?php echo e($account->getInvoiceNextNumber(new Credit())); ?>";
+            var creditNumber = "<?php echo e($account->getBillNextNumber(new Credit())); ?>";
             if (total < 0 && invoiceNumber != creditNumber) {
                 origInvoiceNumber = invoiceNumber;
                 model.invoice().invoice_number(creditNumber);
@@ -1433,7 +1441,7 @@ afterAdd: showContact }'>
             var design = getDesignJavascript();
             if (!design) return;
             var doc = generatePDF(invoice, design, true);
-            var type = invoice.is_quote ? <?php echo json_encode(trans('texts.'.ENTITY_QUOTE)); ?> : <?php echo json_encode(trans('texts.'.ENTITY_INVOICE)); ?>;
+            var type = invoice.is_quote ? <?php echo json_encode(trans('texts.'.ENTITY_BILL_QUOTE)); ?> : <?php echo json_encode(trans('texts.'.ENTITY_BILL)); ?>;
             doc.save(type + '_' + $('#invoice_number').val() + '.pdf');
         }
 
@@ -1466,7 +1474,7 @@ afterAdd: showContact }'>
 
             var clientId = parseInt($('input[name=client]').val(), 10) || 0;
             if (clientId == 0) {
-                swal(<?php echo json_encode(trans('texts.no_client_selected')); ?>);
+                swal(<?php echo json_encode(trans('texts.no_vendor_selected')); ?>);
                 return;
             }
 
@@ -1627,14 +1635,14 @@ afterAdd: showContact }'>
                 return false;
             }
 
-            <?php if($invoice->is_deleted || $invoice->isClientTrashed()): ?>
+            <?php if($invoice->is_deleted || $invoice->isVendorTrashed()): ?>
             if ($('#bulk_action').val() != 'restore') {
                 return false;
             }
             <?php endif; ?>
 
             // check invoice number is unique
-            if ($('.invoice-number').hasClass('has-error')) {
+            if ($('.bill-number').hasClass('has-error')) {
                 return false;
             } else if ($('.partial').hasClass('has-error')) {
                 return false;
@@ -1653,7 +1661,7 @@ afterAdd: showContact }'>
                 return false;
             }
 
-            <?php if(Auth::user()->canCreateOrEdit(ENTITY_INVOICE, $invoice)): ?>
+            <?php if(Auth::user()->canCreateOrEdit(ENTITY_BILL, $invoice)): ?>
             if ($('#saveButton').is(':disabled')) {
                 return false;
             }
@@ -1682,7 +1690,7 @@ afterAdd: showContact }'>
             if (data) {
                 var error = firstJSONError(data.responseJSON) || data.statusText;
             }
-            swal(<?php echo json_encode(trans('texts.invoice_save_error')); ?>, error);
+            swal(<?php echo json_encode(trans('texts.bill_save_error')); ?>, error);
         }
 
         function submitBulkAction(value) {
@@ -1734,12 +1742,12 @@ afterAdd: showContact }'>
             return isValid;
         }
 
-        function onCloneInvoiceClick() {
-            submitAction('clone_invoice');
+        function onCloneBillClick() {
+            submitAction('clone_bill');
         }
 
-        function onCloneQuoteClick() {
-            submitAction('clone_quote');
+        function onCloneBillQuoteClick() {
+            submitAction('clone_bill_quote');
         }
 
         function onConvertClick() {
@@ -1750,15 +1758,15 @@ afterAdd: showContact }'>
         function onPaymentClick() {
             <?php if(!empty($autoBillChangeWarning)): ?>
             sweetConfirm(function () {
-                window.location = '<?php echo e(URL::to('payments/create/' . $invoice->client->public_id . '/' . $invoice->public_id )); ?>';
+                window.location = '<?php echo e(URL::to('bill_payments/create/' . $invoice->client->public_id . '/' . $invoice->public_id )); ?>';
             }, <?php echo json_encode(trans('texts.warn_change_auto_bill')); ?>);
             <?php else: ?>
-                window.location = '<?php echo e(URL::to('payments/create/' . $invoice->client->public_id . '/' . $invoice->public_id )); ?>';
+                window.location = '<?php echo e(URL::to('bill_payments/create/' . $invoice->client->public_id . '/' . $invoice->public_id )); ?>';
             <?php endif; ?>
         }
 
         function onCreditClick() {
-            window.location = '<?php echo e(URL::to('credits/create/' . $invoice->client->public_id . '/' . $invoice->public_id )); ?>';
+            window.location = '<?php echo e(URL::to('vendor_credits/create/' . $invoice->client->public_id . '/' . $invoice->public_id )); ?>';
         }
 
         <?php endif; ?>
@@ -1864,18 +1872,18 @@ afterAdd: showContact }'>
             $('#recurringDueDateModal').modal('show');
         }
 
-        function setInvoiceNumber(client) {
-            <?php if($invoice->id || !$account->hasClientNumberPattern($invoice)): ?>
+        function setBillNumber(client) {
+            <?php if($invoice->id || !$account->hasVendorNumberPattern($invoice)): ?>
                 return;
                     <?php endif; ?>
-            var number = '<?php echo e($account->applyInvoiceNumberPattern($invoice)); ?>';
-            number = number.replace('{$clientCustom1}', client.custom_value1 ? client.custom_value1 : '');
-            number = number.replace('{$clientCustom2}', client.custom_value2 ? client.custom_value1 : '');
-            number = number.replace('{$clientIdNumber}', client.id_number ? client.id_number : '');
-            <?php if($invoice->isQuote() && ! $account->share_counter): ?>
-                number = number.replace('{$clientCounter}', pad(client.quote_number_counter, <?php echo e($account->invoice_number_padding); ?>));
+            var number = '<?php echo e($account->applyVendorNumberPattern($invoice)); ?>';
+            number = number.replace('{$vendorCustom1}', client.custom_value1 ? client.custom_value1 : '');
+            number = number.replace('{$vendorCustom2}', client.custom_value2 ? client.custom_value1 : '');
+            number = number.replace('{$vendorIdNumber}', client.id_number ? client.id_number : '');
+            <?php if($invoice->isQuote() && ! $account->share_bill_counter): ?>
+                number = number.replace('{$vendorCounter}', pad(client.quote_number_counter, <?php echo e($account->invoice_number_padding); ?>));
             <?php else: ?>
-                number = number.replace('{$clientCounter}', pad(client.invoice_number_counter, <?php echo e($account->invoice_number_padding); ?>));
+                number = number.replace('{$vendorCounter}', pad(client.invoice_number_counter, <?php echo e($account->invoice_number_padding); ?>));
             <?php endif; ?>
             // backwards compatibility
             number = number.replace('{$custom1}', client.custom_value1 ? client.custom_value1 : '');
@@ -1891,7 +1899,7 @@ afterAdd: showContact }'>
 
         function addedDocument(file, response) {
             model.invoice().documents()[file.index].update(response.document);
-            <?php if($account->invoice_embed_documents): ?>
+            <?php if($account->bill_embed_documents): ?>
             refreshPDF(true);
             <?php endif; ?>
         }
@@ -1906,7 +1914,7 @@ afterAdd: showContact }'>
         }
 
     </script>
-    <?php if($account->hasFeature(FEATURE_DOCUMENTS) && $account->invoice_embed_documents): ?>
+    <?php if($account->hasFeature(FEATURE_DOCUMENTS) && $account->bill_embed_documents): ?>
         <?php $__currentLoopData = $invoice->documents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $document): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <?php if($document->isPDFEmbeddable()): ?>
                 <script src="<?php echo e($document->getVFSJSUrl()); ?>" type="text/javascript" async></script>

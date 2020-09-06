@@ -201,7 +201,7 @@ class ExportController extends BaseController
                 ->invoiceType(INVOICE_TYPE_STANDARD)
                 ->with('user', 'client.contacts', 'invoice_status', 'invoice_items')
                 ->withArchived()
-                ->where('is_recurring', '=', false)
+                ->where('is_recurring', false)
                 ->get();
         }
 
@@ -210,7 +210,7 @@ class ExportController extends BaseController
                 ->invoiceType(INVOICE_TYPE_QUOTE)
                 ->with('user', 'client.contacts', 'invoice_status', 'invoice_items')
                 ->withArchived()
-                ->where('is_recurring', '=', false)
+                ->where('is_recurring', false)
                 ->get();
         }
 
@@ -219,7 +219,7 @@ class ExportController extends BaseController
                 ->invoiceType(INVOICE_TYPE_STANDARD)
                 ->with('user', 'client.contacts', 'invoice_status', 'frequency', 'invoice_items')
                 ->withArchived()
-                ->where('is_recurring', '=', true)
+                ->where('is_recurring', true)
                 ->get();
         }
 
