@@ -1312,6 +1312,46 @@ class InvoiceRepository extends BaseRepository
         return true;
     }
 
+    public function adjustInvoiceItems($invoiceItems)
+    {
+        if (empty($invoiceItems)) {
+            return;
+        }
+
+        foreach ($invoiceItems as $invoiceItem) {
+            $qty = $invoiceItem['qty'];
+            $qoh = ItemStore::scope()->where('product_id', $invoiceItem['product_id'])
+                ->where('warehouse_id', $invoiceItem['warehouse_id'])
+                ->first();
+            if ($qoh) {
+                $stockQty = $qoh->qty;
+                $stockQty -= $qty;
+                $qoh->update(['qty' => $stockQty]);
+            }
+        }
+
+    }
+
+    public function restoreInvoiceItems($invoiceItems)
+    {
+        if (empty($invoiceItems)) {
+            return;
+        }
+
+        foreach ($invoiceItems as $invoiceItem) {
+            $qty = $invoiceItem['qty'];
+            $qoh = ItemStore::scope()->where('product_id', $invoiceItem['product_id'])
+                ->where('warehouse_id', $invoiceItem['warehouse_id'])
+                ->first();
+            if ($qoh) {
+                $stockQty = $qoh->qty;
+                $stockQty += $qty;
+                $qoh->update(['qty' => $stockQty]);
+            }
+        }
+
+    }
+
     private function stockAdjustment($itemStore, Invoice $invoice, $origLineItems, array $newLineItem, $isNew)
     {
         $qoh = !empty($itemStore) ? Utils::parseFloat($itemStore->qty) : 0;

@@ -15,6 +15,7 @@ use App\Models\Bill;
 use App\Models\InvoiceDesign;
 use App\Models\BillPayment;
 use App\Models\Product;
+use App\Models\Warehouse;
 use App\Ninja\Datatables\BillDatatable;
 use App\Ninja\Repositories\DocumentRepository;
 use App\Ninja\Repositories\BillRepository;
@@ -110,6 +111,15 @@ class BillController extends BaseController
             ->getDatatable($accountId, $vendorPublicId, ENTITY_RECURRING_BILL, $search);
     }
 
+    public function getBillReceivedDatatable($vendorPublicId = null)
+    {
+        $accountId = Auth::user()->account_id;
+        $search = Input::get('sSearch');
+
+        return $this->recurringBillService
+            ->getReceivedDatatable($accountId, $vendorPublicId, ENTITY_BILL_RECEIVE, $search);
+    }
+
     public function create(BillRequest $request, $vendorPublicId = 0, $isRecurring = false)
     {
         $this->authorize('create', ENTITY_BILL);
@@ -181,7 +191,7 @@ class BillController extends BaseController
         return url($url);
     }
 
-    public function edit(BillRequest $request, $publicId, $clone = false)
+    public function edit(BillRequest $request, $publicId, $clone = false, $isReceived = false)
     {
         $this->authorize('edit', ENTITY_BILL);
         $account = Auth::user()->account;
@@ -192,6 +202,9 @@ class BillController extends BaseController
 
         $entityType = $bill->getEntityType();
 
+        if ($isReceived) {
+            $warehouse = Warehouse::scope()->orderBy('name')->get();
+        }
         $contactIds = DB::table('bill_invitations')
             ->leftJoin('vendor_contacts', 'vendor_contacts.id', 'bill_invitations.contact_id')
             ->where('bill_invitations.bill_id', $bill->id)
@@ -222,6 +235,8 @@ class BillController extends BaseController
             }
             $method = 'POST';
             $url = "{$entityType}s";
+        } elseif ($isReceived) {
+            $bill->is_received = true;
         } else {
             $method = 'PUT';
             $url = "{$entityType}s/{$bill->public_id}";
@@ -338,6 +353,11 @@ class BillController extends BaseController
     public function createRecurring(BillRequest $request, $vendorPublicId = 0)
     {
         return self::create($request, $vendorPublicId, true);
+    }
+
+    public function createReceived(BillRequest $request, $publicId = 0)
+    {
+        return self::edit($request, $publicId, false, true);
     }
 
     private static function getViewModel($bill)

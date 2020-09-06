@@ -90,8 +90,8 @@ if (!defined('APP_NAME')) {
     define('ENTITY_SCHEDULE_SETTING', 'schedule_setting');
     define('ENTITY_SCHEDULED_REPORT', 'scheduled_report');
     define('ENTITY_BILL', 'bill');
+    define('ENTITY_BILL_RECEIVE', 'bill_receive');
     define('ENTITY_BILL_STATUS', 'bill_status');
-
 
     $permissionEntities = [
         ENTITY_ACTIVITY,

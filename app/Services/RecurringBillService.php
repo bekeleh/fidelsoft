@@ -30,4 +30,17 @@ class RecurringBillService extends BaseService
 
         return $this->datatableService->createDatatable($datatable, $query);
     }
+
+    public function getReceivedDatatable($accountId, $vendorPublicId, $entityType, $search)
+    {
+        $datatable = new ReceivedBillDatatable(true, true);
+
+        $query = $this->billRepo->getReceivedBills($accountId, $vendorPublicId, $entityType, $search);
+
+        if (!Utils::hasPermission('view_bill')) {
+            $query->where('bills.user_id', Auth::user()->id);
+        }
+
+        return $this->datatableService->createDatatable($datatable, $query);
+    }
 }

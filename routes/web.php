@@ -221,6 +221,7 @@ Route::group(['middleware' => ['lookup:user', 'auth:user', 'banned:user']], func
     Route::get('api/bills/{vendor_id?}', 'BillController@getDatatable');
     Route::get('bills/create/{vendor_id?}', 'BillController@create');
     Route::get('bills/{bills}/clone', 'BillController@cloneBill');
+    Route::get('api/bill_receives/{vendor_id?}', 'BillController@getBillReceivedDatatable');
     Route::post('bills/bulk', 'BillController@bulk');
     Route::get('recurring_bills/create/{vendor_id?}', 'BillController@createRecurring');
     Route::get('recurring_bills', 'RecurringBillController@index');

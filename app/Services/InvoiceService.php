@@ -38,7 +38,6 @@ class InvoiceService extends BaseService
         $this->datatableService = $datatableService;
     }
 
-
     protected function getRepo()
     {
         return $this->invoiceRepo;

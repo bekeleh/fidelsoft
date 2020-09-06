@@ -610,7 +610,7 @@ AUTO_BILL_ALWAYS => trans('texts.always'),
                         @endif
                     @endif
                     @if ($invoice->trashed())
-                        {!! Button::primary(trans('texts.restore'))->withAttributes(['onclick' => 'submitBulkAction("restore")'])->appendIcon(Icon::create('cloud-download')) !!}
+                        {!! Button::primary(trans('texts.restore'))->withAttributes(['onclick' => 'submitBulkAction("restore")'])->appendIcon(Icon::create('retweet')) !!}
                     @endif
                 @endif
             @endif

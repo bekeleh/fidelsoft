@@ -532,6 +532,7 @@ class InvoiceController extends BaseController
     {
         $action = Input::get('bulk_action') ?: Input::get('action');
         $ids = Input::get('bulk_public_id') ?: (Input::get('public_id') ?: Input::get('ids'));
+
         $count = $this->invoiceService->bulk($ids, $action);
 
         if ($count > 0) {

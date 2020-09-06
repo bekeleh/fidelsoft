@@ -39,10 +39,10 @@ class BillRepository extends BaseRepository
      * BillRepository constructor.
      * @param Bill $model
      * @param BillPaymentService $paymentService
-     * @param PaymentRepository $paymentRepo
+     * @param BillPaymentRepository $paymentRepo
      * @param DocumentRepository $documentRepo
      */
-    public function __construct(Bill $model, BillPaymentService $paymentService, PaymentRepository $paymentRepo, DocumentRepository $documentRepo)
+    public function __construct(Bill $model, BillPaymentService $paymentService, BillPaymentRepository $paymentRepo, DocumentRepository $documentRepo)
     {
         $this->model = $model;
         $this->paymentService = $paymentService;
@@ -64,13 +64,6 @@ class BillRepository extends BaseRepository
             ->get();
     }
 
-    /**
-     * @param bool $accountId
-     * @param bool $vendorPublicId
-     * @param string $entityType
-     * @param bool $filter
-     * @return \Illuminate\Database\Query\Builder
-     */
     public function getBills($accountId = false, $vendorPublicId = false, $entityType = ENTITY_BILL, $filter = false)
     {
         $query = DB::table('bills')
@@ -172,12 +165,6 @@ class BillRepository extends BaseRepository
         return $query;
     }
 
-    /**
-     * @param bool $accountId
-     * @param bool $vendorPublicId
-     * @param bool $filter
-     * @return \Illuminate\Database\Query\Builder
-     */
     public function getRecurringBills($accountId = false, $vendorPublicId = false, $entityType, $filter = false)
     {
         $query = DB::table('bills')
@@ -320,13 +307,6 @@ class BillRepository extends BaseRepository
         return $table->make();
     }
 
-    /**
-     * @param $contactId
-     * @param $entityType
-     * @param $search
-     * @return JsonResponse
-     * @throws Exception
-     */
     public function getVendorDatatable($contactId, $entityType, $search)
     {
         $query = DB::table('bill_invitations')
@@ -426,11 +406,6 @@ class BillRepository extends BaseRepository
             })->make();
     }
 
-    /**
-     * @param array $data
-     * @param Bill|null $bill
-     * @return Bill|EntityModel|Builder|Model
-     */
     public function save(array $data, Bill $bill = null)
     {
         $account = $bill ? $bill->account : Auth::user()->account;
@@ -1331,6 +1306,46 @@ class BillRepository extends BaseRepository
         }
 
         return true;
+    }
+
+    public function adjustBillItems($billItems)
+    {
+        if (empty($billItems)) {
+            return;
+        }
+
+        foreach ($billItems as $billItem) {
+            $qty = $billItem['qty'];
+            $qoh = ItemStore::scope()->where('product_id', $billItem['product_id'])
+                ->where('warehouse_id', $billItem['warehouse_id'])
+                ->first();
+            if ($qoh) {
+                $stockQty = $qoh->qty;
+                $stockQty -= $qty;
+                $qoh->update(['qty' => $stockQty]);
+            }
+        }
+
+    }
+
+    public function restoreBillItems($billItems)
+    {
+        if (empty($billItems)) {
+            return;
+        }
+
+        foreach ($billItems as $billItem) {
+            $qty = $billItem['qty'];
+            $qoh = ItemStore::scope()->where('product_id', $billItem['product_id'])
+                ->where('warehouse_id', $billItem['warehouse_id'])
+                ->first();
+            if ($qoh) {
+                $stockQty = $qoh->qty;
+                $stockQty += $qty;
+                $qoh->update(['qty' => $stockQty]);
+            }
+        }
+
     }
 
     private function stockAdjustment($itemStore, Bill $bill, $origLineItems, array $newLineItem, $isNew)

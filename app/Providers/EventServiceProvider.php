@@ -106,7 +106,7 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\Sale\InvoiceListener@deletedInvoice',
             'App\Listeners\Sale\InvoiceItemListener@deletedInvoice',
             'App\Listeners\Setting\TaskListener@deletedInvoice',
-            'App\Listeners\Expense\Expense\ExpenseListener@deletedInvoice',
+            'App\Listeners\Expense\ExpenseListener@deletedInvoice',
             'App\Listeners\Report\HistoryListener@deletedInvoice',
         ],
         'App\Events\Sale\InvoiceWasRestoredEvent' => [

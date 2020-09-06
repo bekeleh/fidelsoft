@@ -61,6 +61,7 @@ class Bill extends EntityModel implements BalanceAffecting
 
     protected $casts = [
         'is_recurring' => 'boolean',
+        'is_received' => 'boolean',
         'has_tasks' => 'boolean',
         'vendor_enable_auto_bill' => 'boolean',
         'auto_bill' => 'boolean',

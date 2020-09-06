@@ -23,10 +23,26 @@ class BaseRepository
         return new $className();
     }
 
-//   this function is deteriorated due to new directory structure
     private function getEventClass($entity, $type)
     {
-        return 'App\Events\\' . ucfirst($entity->getEntityType()) . 'Was' . $type . 'Event';
+        $entityType = $entity->getEntityType();
+
+        if (in_array($entityType, [ENTITY_USER])) {
+            return 'App\Events\User\\' . ucfirst($entityType) . 'Was' . $type . 'Event';
+        } elseif (in_array($entityType, [ENTITY_INVOICE, ENTITY_RECURRING_INVOICE, ENTITY_QUOTE, ENTITY_PAYMENT])) {
+            return 'App\Events\Sale\\' . ucfirst($entityType) . 'Was' . $type . 'Event';
+        } elseif (in_array($entityType, [ENTITY_CLIENT, ENTITY_CREDIT])) {
+            return 'App\Events\Client\\' . ucfirst($entityType) . 'Was' . $type . 'Event';
+        } elseif (in_array($entityType, [ENTITY_BILL, ENTITY_RECURRING_INVOICE, ENTITY_BILL_QUOTE, ENTITY_BILL_PAYMENT])) {
+            return 'App\Events\Purchase\\' . ucfirst($entityType) . 'Was' . $type . 'Event';
+        } elseif (in_array($entityType, [ENTITY_VENDOR, ENTITY_VENDOR_CREDIT])) {
+            return 'App\Events\Vendor\\' . ucfirst($entityType) . 'Was' . $type . 'Event';
+        } elseif (in_array($entityType, [ENTITY_EXPENSE])) {
+            return 'App\Events\Expense\\' . ucfirst($entityType) . 'Was' . $type . 'Event';
+        } else {
+            return 'App\Events\\' . ucfirst($entityType) . 'Was' . $type . 'Event';
+        }
+
     }
 
     public function archive($entity)
@@ -48,6 +64,14 @@ class BaseRepository
     {
         if (!$entity->trashed()) {
             return;
+        }
+
+        if ($entity->getEntityType() === ENTITY_INVOICE) {
+            $invoiceLineItems = isset($entity) ? $entity->invoice_items()->get()->toArray() : '';
+            $this->adjustInvoiceItems($invoiceLineItems);
+        } elseif ($entity->getEntityType() === ENTITY_BILL) {
+            $billLineItems = isset($entity) ? $entity->invoice_items()->get()->toArray() : '';
+            $this->restoreBillItems($billLineItems);
         }
 
         $fromDeleted = false;
@@ -72,6 +96,13 @@ class BaseRepository
             return;
         }
 
+        if ($entity->getEntityType() === ENTITY_INVOICE) {
+            $invoiceLineItems = isset($entity) ? $entity->invoice_items()->get()->toArray() : '';
+            $this->restoreInvoiceItems($invoiceLineItems);
+        } elseif ($entity->getEntityType() === ENTITY_BILL) {
+            $billLineItems = isset($entity) ? $entity->invoice_items()->get()->toArray() : '';
+            $this->adjustBillItems($billLineItems);
+        }
         $entity->is_deleted = true;
         $entity->save();
 
