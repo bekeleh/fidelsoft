@@ -106,8 +106,6 @@ class UserController extends BaseController
         }
 
         $data = [
-            'locationPublicId' => Input::old('location') ? Input::old('location') : $request->location_id,
-            'branchPublicId' => Input::old('branch') ? Input::old('branch') : $request->branch_id,
             'user' => null,
             'userGroups' => null,
             'method' => 'POST',
@@ -115,6 +113,8 @@ class UserController extends BaseController
             'title' => trans('texts.new_user'),
             'location' => $location,
             'branch' => $branch,
+            'locationPublicId' => Input::old('location') ? Input::old('location') : $request->location_id,
+            'branchPublicId' => Input::old('branch') ? Input::old('branch') : $request->branch_id,
         ];
 
         $data = array_merge($data, self::getViewModel());
@@ -304,7 +304,7 @@ class UserController extends BaseController
         $password = Input::get('new_password');
         $confirm = Input::get('confirm_password');
 
-        if (strlen($password) < 6 || $password != $confirm) {
+        if (strlen($password) < 8 || $password != $confirm) {
             return trans('texts.password_error_invalid');
         }
         $user = Auth::user();

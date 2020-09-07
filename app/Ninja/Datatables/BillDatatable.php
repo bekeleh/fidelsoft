@@ -191,10 +191,10 @@ class BillDatatable extends EntityDatatable
             [
                 trans('texts.convert_to_bill'),
                 function ($model) {
-                    return "javascript:submitForm_quote('convert', {$model->public_id})";
+                    return "javascript:submitForm_bill_quote('convert', {$model->public_id})";
                 },
                 function ($model) use ($entityType) {
-                    return $entityType == ENTITY_QUOTE && !$model->quote_bill_id && Auth::user()->can('edit', [ENTITY_BILL, $model]);
+                    return $entityType == ENTITY_BILL_QUOTE && empty($model->quote_bill_id) && Auth::user()->can('edit', [ENTITY_BILL, $model]);
                 },
             ],
             [

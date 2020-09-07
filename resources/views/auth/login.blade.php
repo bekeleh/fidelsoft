@@ -87,23 +87,23 @@
                     @if (Utils::isTimeTracker())
                         {!! link_to('#', trans('texts.self_host_login'), ['onclick' => 'setSelfHostUrl()']) !!}
                     @else
-                        {!! link_to(NINJA_WEB_URL.'/knowledge-base/', trans('texts.knowledge_base'), ['target' => '_blank']) !!}
+                        {!! link_to('#', trans('texts.knowledge_base'), ['target' => '_blank']) !!}
                     @endif
                 </div>
             @endif
         </div>
         {!! Former::close() !!}
-        @if (Utils::allowNewAccounts() && ! strstr(session('url.intended'), 'time_tracker'))
-            <div class="row sign-up">
-                <div class="col-md-3 col-md-offset-3 col-xs-12">
-                    <h3>{{trans('texts.not_a_member_yet')}}</h3>
-                    <p>{{trans('texts.login_create_an_account')}}</p>
-                </div>
-                <div class="col-md-3 col-xs-12">
-                    {!! Button::primary(trans('texts.sign_up_now'))->asLinkTo(URL::to('/invoice_now?sign_up=true'))->withAttributes(['class' => 'blue'])->large()->submit()->block() !!}
-                </div>
-            </div>
-        @endif
+        {{--        @if (Utils::allowNewAccounts() && ! strstr(session('url.intended'), 'time_tracker'))--}}
+        {{--            <div class="row sign-up">--}}
+        {{--                <div class="col-md-3 col-md-offset-3 col-xs-12">--}}
+        {{--                    <h3>{{trans('texts.not_a_member_yet')}}</h3>--}}
+        {{--                    <p>{{trans('texts.login_create_an_account')}}</p>--}}
+        {{--                </div>--}}
+        {{--                <div class="col-md-3 col-xs-12">--}}
+        {{--                    {!! Button::primary(trans('texts.sign_up_now'))->asLinkTo(URL::to('/invoice_now?sign_up=true'))->withAttributes(['class' => 'blue'])->large()->submit()->block() !!}--}}
+        {{--                </div>--}}
+        {{--            </div>--}}
+        {{--        @endif--}}
     </div>
 
     @include('footer')

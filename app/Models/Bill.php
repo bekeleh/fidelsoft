@@ -53,6 +53,7 @@ class Bill extends EntityModel implements BalanceAffecting
         'due_date',
         'invoice_design_id',
         'bill_status_id',
+        'warehouse_id',
         'branch_id',
         'created_by',
         'updated_by',
@@ -274,6 +275,11 @@ class Bill extends EntityModel implements BalanceAffecting
     public function vendor()
     {
         return $this->belongsTo('App\Models\Vendor')->withTrashed();
+    }
+
+    public function warehouse()
+    {
+        return $this->belongsTo('App\Models\Warehouse')->withTrashed();
     }
 
 //  to cheat the vendor model

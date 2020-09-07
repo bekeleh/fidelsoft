@@ -1037,6 +1037,15 @@ class Account extends Eloquent
         return $this->invoice_number_prefix != $this->quote_number_prefix;
     }
 
+    public function hasBillPrefix()
+    {
+        if (!$this->bill_number_prefix && !$this->bill_quote_number_prefix) {
+            return false;
+        }
+
+        return $this->bill_number_prefix != $this->bill_quote_number_prefix;
+    }
+
     public function getDisplayName()
     {
         if ($this->name) {

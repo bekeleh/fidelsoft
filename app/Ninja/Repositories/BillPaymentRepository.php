@@ -38,8 +38,8 @@ class BillPaymentRepository extends BaseRepository
             ->leftJoin('gateways', 'gateways.id', '=', 'account_gateways.gateway_id')
             ->where('bill_payments.account_id', Auth::user()->account_id)
             ->where('vendor_contacts.is_primary', true)
-            ->where('vendor_contacts.deleted_at', null)
-            ->where('bills.is_deleted', false)
+//            ->where('vendor_contacts.deleted_at', null)
+//            ->where('bills.is_deleted', false)
             ->select('bill_payments.public_id',
                 DB::raw('COALESCE(vendors.currency_id, accounts.currency_id) currency_id'),
                 DB::raw('COALESCE(vendors.country_id, accounts.country_id) country_id'),
@@ -125,11 +125,11 @@ class BillPaymentRepository extends BaseRepository
                     ->where('bill_invitations.contact_id', $contactId);
             })
             ->leftJoin('payment_types', 'payment_types.id', '=', 'bill_payments.payment_type_id')
-            ->where('vendors.is_deleted', false)
-            ->where('bill_payments.is_deleted', false)
-            ->where('bills.is_deleted', false)
             ->where('bills.is_public', true)
-            ->where('bill_invitations.deleted_at', null)
+//            ->where('vendors.is_deleted', false)
+//            ->where('bill_payments.is_deleted', false)
+//            ->where('bills.is_deleted', false)
+//            ->where('bill_invitations.deleted_at', null)
             ->select(
                 DB::raw('COALESCE(vendors.currency_id, accounts.currency_id) currency_id'),
                 DB::raw('COALESCE(vendors.country_id, accounts.country_id) country_id'),
@@ -195,14 +195,17 @@ class BillPaymentRepository extends BaseRepository
 
         $paymentTypeId = false;
         if (isset($input['payment_type_id'])) {
-            $paymentTypeId = $input['payment_type_id'] ? $input['payment_type_id'] : null;
-            $payment->payment_type_id = $paymentTypeId;
+            $payment->payment_type_id = $input['payment_type_id'] ? $input['payment_type_id'] : null;
+        } else {
+            $payment->payment_type_id = PAYMENT_TYPE_CASH;
         }
 
         if (isset($input['payment_status_id'])) {
-            $paymentStatusId = $input['payment_status_id'] ? $input['payment_status_id'] : null;
-            $payment->payment_status_id = $paymentStatusId;
+            $payment->payment_status_id = $input['payment_status_id'] ? $input['payment_status_id'] : null;
+        } else {
+            $payment->payment_status_id = PAYMENT_STATUS_COMPLETED;
         }
+
         if (!isset($input['exchange_currency_id'])) {
             // $vendor = Vendor::scope()->where('id',$vendorId)->first();
             // $payment->exchange_currency_id = ($vendor->currency_id)? $vendor->currency_id: null;

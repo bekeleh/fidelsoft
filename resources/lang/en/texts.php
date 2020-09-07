@@ -515,6 +515,7 @@ $LANG = array(
     'default_tax_rate_id' => 'Default Tax Rate',
     'tax_rate_settings' => 'Tax Rate Settings',
 //  Warehouse
+    'warehouse' => 'Warehouse',
     'warehouses' => 'Warehouses',
     'warehouse_name' => 'Warehouse Name',
     'new_warehouse' => 'New Warehouse',
@@ -534,6 +535,7 @@ $LANG = array(
     'deleted_warehouse' => 'Successfully Deleted Warehouse',
     'deleted_warehouses' => 'Successfully Deleted :count Warehouses',
     'warehouse_settings' => 'Warehouse Settings',
+    'select_warehouse' => 'Select warehouse',
     'warehouse_help' => 'Sets the default <b>warehouse</b>',
 //   Item transfers
     'new_item_transfer' => 'New Item Transfer',
@@ -3396,6 +3398,7 @@ $LANG = array(
     'clone_expense' => 'Clone Expense',
     'default_documents' => 'Default Documents',
     'send_email_to_client' => 'Send email to the client',
+    'send_email_to_vendor' => 'Send email to the vendor',
     'refund_subject' => 'Refund Processed',
     'refund_body' => 'You have been processed a refund of :amount for invoice :invoice_number.',
 

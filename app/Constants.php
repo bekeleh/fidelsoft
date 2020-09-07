@@ -660,6 +660,9 @@ if (!defined('APP_NAME')) {
     define('TOKEN_BILLING_ALWAYS', 4);
 
     define('PAYMENT_TYPE_CREDIT', 1);
+    define('PAYMENT_TYPE_BANK_TRANSFER', 2);
+    define('PAYMENT_TYPE_CASH', 3);
+    define('PAYMENT_TYPE_DEBIT', 4);
     define('PAYMENT_TYPE_ACH', 5);
     define('PAYMENT_TYPE_VISA', 6);
     define('PAYMENT_TYPE_MASTERCARD', 7);
@@ -682,8 +685,10 @@ if (!defined('APP_NAME')) {
     define('PAYMENT_TYPE_SEPA', 30);
     define('PAYMENT_TYPE_GOCARDLESS', 31);
     define('PAYMENT_TYPE_BITCOIN', 32);
+
     define('PAYMENT_TYPE_CBE', 33);
     define('PAYMENT_TYPE_Hello_Cash', 34);
+    define('PAYMENT_TYPE_BANK_TRANSFER', 35);
 
     define('PAYMENT_METHOD_STATUS_NEW', 'new');
     define('PAYMENT_METHOD_STATUS_VERIFICATION_FAILED', 'verification_failed');

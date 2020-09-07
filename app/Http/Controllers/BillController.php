@@ -59,11 +59,8 @@ class BillController extends BaseController
      * @param BillPaymentService $paymentService
      */
     public function __construct(
-        BillRepository $billRepo,
-        VendorRepository $vendorRepo,
-        BillService $billService,
-        DocumentRepository $documentRepo,
-        RecurringBillService $recurringBillService,
+        BillRepository $billRepo, VendorRepository $vendorRepo, BillService $billService,
+        DocumentRepository $documentRepo, RecurringBillService $recurringBillService,
         BillPaymentService $paymentService)
     {
         // parent::__construct();
@@ -138,7 +135,11 @@ class BillController extends BaseController
         $bill->loadFromRequest();
 
         $vendors = Vendor::scope()->with('contacts', 'country')->orderBy('name');
-
+        if ($request->warehouse_id != 0) {
+            $warehouse = Warehouse::scope($request->warehouse_id)->firstOrFail();
+        } else {
+            $warehouse = null;
+        }
         if (!Utils::hasPermission('view_vendor')) {
             $vendors = $vendors->where('vendors.user_id', Auth::user()->id);
         }
@@ -148,9 +149,11 @@ class BillController extends BaseController
             'vendors' => $vendors->get(),
             'entityType' => $bill->getEntityType(),
             'invoice' => $bill,
+            'warehouses' => $warehouse,
             'method' => 'POST',
             'url' => 'bills',
             'title' => trans('texts.new_bill'),
+            'warehousePublicId' => Input::old('warehouse') ? Input::old('warehouse') : $request->warehouse_id,
         ];
 
         $data = array_merge($data, self::getViewModel($bill));
@@ -202,9 +205,11 @@ class BillController extends BaseController
 
         $entityType = $bill->getEntityType();
 
-        if ($isReceived) {
-            $warehouse = Warehouse::scope()->orderBy('name')->get();
-        }
+//        if (isset($bill->warehouse_id)) {
+//            $warehouses = Warehouse::find($bill->warehouse_id);
+//        } else {
+//            $warehouses = null;
+//        }
         $contactIds = DB::table('bill_invitations')
             ->leftJoin('vendor_contacts', 'vendor_contacts.id', 'bill_invitations.contact_id')
             ->where('bill_invitations.bill_id', $bill->id)
@@ -265,6 +270,7 @@ class BillController extends BaseController
 
         $data = [
             'clients' => $vendors->get(),
+            'warehouse' => null,
             'entityType' => $entityType,
             'showBreadcrumbs' => $clone,
             'invoice' => $bill,
@@ -274,7 +280,9 @@ class BillController extends BaseController
             'title' => trans("texts.edit_{$entityType}"),
             'vendor' => $bill->vendor,
             'isRecurring' => $bill->is_recurring,
-            'lastSent' => $lastSent,];
+            'lastSent' => $lastSent,
+            'warehousePublicId' => $bill->warehouse ? $bill->warehouse->public_id : null,
+        ];
 
         $data = array_merge($data, self::getViewModel($bill));
 
@@ -455,6 +463,7 @@ class BillController extends BaseController
             'tasks' => Session::get('tasks') ? Session::get('tasks') : null,
             'expenseCurrencyId' => Session::get('expenseCurrencyId') ?: null,
             'expenses' => Expense::scope(Session::get('expenses'))->with('documents', 'expense_category')->get(),
+            'warehouses' => Warehouse::scope()->withActiveOrSelected(isset($bill) ? $bill->warehouse_id : false)->orderBy('name')->get(),
         ];
     }
 

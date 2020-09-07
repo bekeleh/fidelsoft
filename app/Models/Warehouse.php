@@ -76,6 +76,11 @@ class Warehouse extends EntityModel
         return $this->hasMany('App\Models\Branch')->withTrashed();
     }
 
+    public function bills()
+    {
+        return $this->hasMany('App\Models\Bill')->withTrashed();
+    }
+
     public function item_stores()
     {
         return $this->hasMany('App\Models\ItemStore')->withTrashed();
