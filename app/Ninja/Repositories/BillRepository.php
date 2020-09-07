@@ -691,9 +691,8 @@ class BillRepository extends BaseRepository
             }
             $invoiceNumber = $account->invoice_number_prefix . $invoiceNumber;
             $bill = Bill::scope(false, $account->id)
-                ->withTrashed()
-                ->where('invoice_number', $invoiceNumber)
-                ->first();
+                ->withTrashed()->where('invoice_number', $invoiceNumber)->first();
+
             if ($bill) {
                 $invoiceNumber = false;
             } else {
@@ -749,6 +748,7 @@ class BillRepository extends BaseRepository
         $clone->bill_date = date_create()->format('Y-m-d');
         $clone->due_date = $account->defaultDueDate($bill->vendor);
         $clone->bill_status_id = !empty($clone->bill_status_id) ? $clone->bill_status_id : BILL_STATUS_DRAFT;
+        $clone->created_by = auth()->user()->username;
         $clone->save();
 
         if ($quoteId) {
@@ -1351,12 +1351,12 @@ class BillRepository extends BaseRepository
     private function stockAdjustment($itemStore, Bill $bill, $origLineItems, array $newLineItem, $isNew)
     {
         $qoh = !empty($itemStore) ? Utils::parseFloat($itemStore->qty) : 0;
-        $demandQty = Utils::parseFloat(trim($newLineItem['qty']));
+        $receivedQty = Utils::parseFloat(trim($newLineItem['qty']));
 
 //        $Bill = Bill::whereName($productKey);
 //        $orderQty = Utils::parseFloat(0);
         if ($isNew) {
-            $this->updateItemStore($qoh, $demandQty, $itemStore);
+            $this->updateItemStore($qoh, $receivedQty, $itemStore);
         } else {
             $found = 0;
             $origLineItems = (array)$origLineItems;
@@ -1365,7 +1365,7 @@ class BillRepository extends BaseRepository
                     if ($newLineItem['product_key'] === $origLineItem['product_key']) {
                         if (($newLineItem['qty'] != $origLineItem['qty'])) {
                             $qoh += $origLineItem['qty'];
-                            $this->updateItemStore($qoh, $demandQty, $itemStore);
+                            $this->updateItemStore($qoh, $receivedQty, $itemStore);
                             $found += 1;
                             break;
                         } else {
@@ -1375,10 +1375,10 @@ class BillRepository extends BaseRepository
                     }
                 }
                 if ($found === 0) {
-                    $this->updateItemStore($qoh, $demandQty, $itemStore);
+                    $this->updateItemStore($qoh, $receivedQty, $itemStore);
                 }
             } else {
-                $this->updateItemStore($qoh, $demandQty, $itemStore);
+                $this->updateItemStore($qoh, $receivedQty, $itemStore);
             }
         }
 
@@ -1388,16 +1388,17 @@ class BillRepository extends BaseRepository
     private function saveBillLineItemAdjustment($product, $itemStore, Bill $bill, array $item)
     {
         $billQty = !empty($item['qty']) ? Utils::parseFloat(trim($item['qty'])) : 1;
-        $demandQty = !empty($item['qty']) ? Utils::parseFloat(trim($item['qty'])) : 1;
+        $receivedQty = !empty($item['qty']) ? Utils::parseFloat(trim($item['qty'])) : 1;
         $itemCost = !empty($item['cost']) ? Utils::parseFloat(trim($item['cost'])) : (isset($product->cost) ? $product->cost : 0);
         $billItem = BillItem::createNew($bill);
         $billItem->fill($item);
         $billItem->product_id = !empty($product->id) ? $product->id : null;
+        $billItem->warehouse_id = !empty($bill->warehouse_id) ? $bill->warehouse_id : null;
         $billItem->product_key = !empty($item['product_key']) ? trim($item['product_key']) : null;
         $billItem->notes = !empty($item['notes']) ? trim($item['notes']) : null;
         $billItem->cost = $itemCost;
         $billItem->qty = $billQty;
-        $billItem->demand_qty = $demandQty;
+        $billItem->received_qty = $receivedQty;
         $billItem->discount = $bill->discount;
         $billItem->created_by = auth::user()->username;
 
@@ -1493,15 +1494,15 @@ class BillRepository extends BaseRepository
         return $itemTax;
     }
 
-    private function updateItemStore($qoh, $demandQty, $itemStore)
+    private function updateItemStore($qoh, $receivedQty, $itemStore)
     {
         $qoh = Utils::parseFloat($qoh);
-        $demandQty = Utils::parseFloat($demandQty);
-        if ($qoh >= $demandQty) {
-            $itemStore->qty = ($qoh - $demandQty);
+        $receivedQty = Utils::parseFloat($receivedQty);
+        if ($qoh >= $receivedQty) {
+            $itemStore->qty = ($qoh - $receivedQty);
             $itemStore->save();
         } else {
-            if ($qoh < $demandQty) {
+            if ($qoh < $receivedQty) {
                 $itemStore->qty = 0;
                 $itemStore->save();
             }

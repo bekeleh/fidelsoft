@@ -87,6 +87,7 @@ class BillService extends BaseService
     public function convertQuote($quote)
     {
         $account = $quote->account;
+
         $bill = $this->billRepo->cloneBill($quote, $quote->id);
 
         if ($account->auto_archive_quote) {

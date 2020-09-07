@@ -10,6 +10,7 @@ use App\Models\Bill;
 use App\Models\InvoiceDesign;
 use App\Models\Product;
 use App\Models\TaxRate;
+use App\Models\Warehouse;
 use App\Ninja\Datatables\BillDatatable;
 use App\Ninja\Mailers\VendorMailer as Mailer;
 use App\Ninja\Repositories\VendorRepository;
@@ -77,17 +78,23 @@ class BillQuoteController extends BaseController
         if ($vendorPublicId) {
             $vendorId = Vendor::getPrivateId($vendorPublicId);
         }
-
+        if ($request->warehouse_id != 0) {
+            $warehouse = Warehouse::scope($request->warehouse_id)->firstOrFail();
+        } else {
+            $warehouse = null;
+        }
         $bill = $account->createBill(ENTITY_BILL_QUOTE, $vendorId);
         $bill->public_id = 0;
 
         $data = [
             'entityType' => $bill->getEntityType(),
             'invoice' => $bill,
+            'warehouses' => $warehouse,
             'data' => Input::old('data'),
             'method' => 'POST',
             'url' => 'bill_quotes',
             'title' => trans('texts.new_bill_quote'),
+            'warehousePublicId' => Input::old('warehouse') ? Input::old('warehouse') : $request->warehouse_id,
         ];
 
         $data = array_merge($data, self::getViewModel($bill));
@@ -115,6 +122,7 @@ class BillQuoteController extends BaseController
             'invoiceLabels' => Auth::user()->account->getInvoiceLabels(),
             'isRecurring' => false,
             'expenses' => collect(),
+            'warehouses' => Warehouse::scope()->withActiveOrSelected(isset($bill) ? $bill->warehouse_id : false)->orderBy('name')->get(),
         ];
     }
 

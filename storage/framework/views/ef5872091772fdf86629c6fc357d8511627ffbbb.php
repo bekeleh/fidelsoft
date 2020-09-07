@@ -669,7 +669,7 @@ AUTO_BILL_ALWAYS => trans('texts.always'),
                         <?php endif; ?>
                     <?php endif; ?>
                     <?php if($invoice->trashed()): ?>
-                        <?php echo Button::primary(trans('texts.restore'))->withAttributes(['onclick' => 'submitBulkAction("restore")'])->appendIcon(Icon::create('cloud-download')); ?>
+                        <?php echo Button::primary(trans('texts.restore'))->withAttributes(['onclick' => 'submitBulkAction("restore")'])->appendIcon(Icon::create('retweet')); ?>
 
                     <?php endif; ?>
                 <?php endif; ?>

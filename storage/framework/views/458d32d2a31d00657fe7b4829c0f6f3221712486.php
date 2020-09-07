@@ -101,6 +101,7 @@ $__env->startSection('head_css'); ?>
     ->rules(array(
     'client' => 'required',
     'invoice_number' => 'required',
+    'warehouse_id' => 'required',
     'bill_date' => 'required',
     'public_notes' => 'required',
     'product_key' => 'max:255'
@@ -184,18 +185,18 @@ $__env->startSection('head_css'); ?>
                                         <input type="checkbox" value="1"
                                                data-bind="visible: email() || first_name() || last_name(), checked: send_invoice, attr: {id: $index() + '_check', name: 'client[contacts][' + $index() + '][send_invoice]'}">
                                         <span data-bind="visible: first_name || last_name">
-                                        <span data-bind="text: (first_name() || '') + ' ' + (last_name() || '')"></span>
-                                        <br/>
-                                        </span>
+<span data-bind="text: (first_name() || '') + ' ' + (last_name() || '')"></span>
+<br/>
+</span>
                                         <span data-bind="visible: email">
-                                        <span data-bind="text: email"></span>
-                                        <br/>
-                                        </span>
+<span data-bind="text: email"></span>
+<br/>
+</span>
                                     </label>
                                     <?php if( ! $invoice->is_deleted && ! $invoice->client->is_deleted): ?>
                                         <span data-bind="visible: !$root.invoice().is_recurring()">
-                                            <span data-bind="html: $data.view_as_recipient"></span>&nbsp;&nbsp;
-                                            <?php if(Utils::isConfirmed()): ?>
+<span data-bind="html: $data.view_as_recipient"></span>&nbsp;&nbsp;
+<?php if(Utils::isConfirmed()): ?>
                                                 <span style="vertical-align:text-top;color:red"
                                                       class="fa fa-exclamation-triangle"
                                                       data-bind="visible: $data.email_error, tooltip: {title: $data.email_error}"></span>
@@ -246,6 +247,17 @@ style: {color: $data.info_color}"></span>
 
                                     </div>
                                 </div>
+                                <!-- default warehouse -->
+                                <?php if($entityType == ENTITY_BILL): ?>
+                                    <div class="col-md-12">
+                                        <?php echo Former::select('warehouse_id')
+                                        ->placeholder(trans('texts.select_warehouse'))
+                                        ->label(trans('texts.warehouse'))
+                                        ->addGroupClass('warehouse-select')
+                                          ->help(trans('texts.warehouse_help') . ' | ' . link_to('/warehouses/', trans('texts.customize_options'))); ?>
+
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                         <?php if($entityType == ENTITY_BILL): ?>
@@ -670,7 +682,7 @@ AUTO_BILL_ALWAYS => trans('texts.always'),
                         <?php endif; ?>
                     <?php endif; ?>
                     <?php if($invoice->trashed()): ?>
-                        <?php echo Button::primary(trans('texts.restore'))->withAttributes(['onclick' => 'submitBulkAction("restore")'])->appendIcon(Icon::create('cloud-download')); ?>
+                        <?php echo Button::primary(trans('texts.restore'))->withAttributes(['onclick' => 'submitBulkAction("restore")'])->appendIcon(Icon::create('retweet')); ?>
 
                     <?php endif; ?>
                 <?php endif; ?>
@@ -1001,16 +1013,19 @@ afterAdd: showContact }'>
 
         var products = <?php echo $products; ?>;
         var clients = <?php echo $clients; ?>;
+        var warehouses = <?php echo $warehouses; ?>;
         var account = <?php echo Auth::user()->account; ?>;
         var dropzone;
 
         var clientMap = {};
+        var warehouseMap = {};
         var $clientSelect = $('select#client');
+        var $warehouseSelect = $('select#warehouse');
         var invoiceDesigns = <?php echo $invoiceDesigns; ?>;
         var invoiceFonts = <?php echo $invoiceFonts; ?>;
 
         $(function () {
-// create client dictionary
+            // select client
             for (var i = 0; i < clients.length; i++) {
                 var client = clients[i];
                 clientMap[client.public_id] = client;
@@ -1032,6 +1047,23 @@ afterAdd: showContact }'>
                 }
                 $clientSelect.append(new Option(clientName, client.public_id));
             }
+            // select warehouse
+            <!-- user warehouse -->
+            var warehouseId = <?php echo e($warehousePublicId ?: 0); ?>;
+            var $warehouseSelect = $('select#warehouse_id');
+            <?php if(Auth::user()->can('create', ENTITY_WAREHOUSE)): ?>
+            $warehouseSelect.append(new Option("<?php echo e(trans('texts.create_warehouse')); ?>: $name", '-1'));
+                    <?php endif; ?>
+            for (var i = 0; i < warehouses.length; i++) {
+                var warehouse = warehouses[i];
+                warehouseMap[warehouse.public_id] = warehouse;
+                $warehouseSelect.append(new Option(warehouse.name, warehouse.public_id));
+            }
+            <?php echo $__env->make('partials/entity_combobox', ['entityType' => ENTITY_WAREHOUSE], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            if (warehouseId) {
+                var warehouse = warehouseMap[warehouseId];
+                setComboboxValue($('.warehouse-select'), warehouse.public_id, warehouse.name);
+            }<!-- /. warehouse  -->
 
             <?php if($data): ?>
             // this means we failed so we'll reload the previous state

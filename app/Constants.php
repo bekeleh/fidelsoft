@@ -688,7 +688,6 @@ if (!defined('APP_NAME')) {
 
     define('PAYMENT_TYPE_CBE', 33);
     define('PAYMENT_TYPE_Hello_Cash', 34);
-    define('PAYMENT_TYPE_BANK_TRANSFER', 35);
 
     define('PAYMENT_METHOD_STATUS_NEW', 'new');
     define('PAYMENT_METHOD_STATUS_VERIFICATION_FAILED', 'verification_failed');

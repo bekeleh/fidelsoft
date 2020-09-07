@@ -205,11 +205,6 @@ class BillController extends BaseController
 
         $entityType = $bill->getEntityType();
 
-//        if (isset($bill->warehouse_id)) {
-//            $warehouses = Warehouse::find($bill->warehouse_id);
-//        } else {
-//            $warehouses = null;
-//        }
         $contactIds = DB::table('bill_invitations')
             ->leftJoin('vendor_contacts', 'vendor_contacts.id', 'bill_invitations.contact_id')
             ->where('bill_invitations.bill_id', $bill->id)
@@ -240,9 +235,7 @@ class BillController extends BaseController
             }
             $method = 'POST';
             $url = "{$entityType}s";
-        } elseif ($isReceived) {
-            $bill->is_received = true;
-        } else {
+        }else {
             $method = 'PUT';
             $url = "{$entityType}s/{$bill->public_id}";
             $vendors->where('id', $bill->vendor_id);

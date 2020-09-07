@@ -251,7 +251,7 @@ $LANG = array(
 //   Bill quote
     'bill_quote' => 'Bill Quote',
     'bill_quotes' => 'Purchase Quotes',
-    'bill_receives' => 'Purchase Receives',
+    'bill_orders' => 'Purchase Orders',
     'bill_quote_return' => 'Bill Quote Return',
     'bill_quote_list' => 'Bill Quote Lists',
     'bill_quote_history' => 'Bill Quote History',

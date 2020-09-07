@@ -53,7 +53,6 @@ class InvoiceRepository extends BaseRepository
 
     public function getInvoices($accountId = false, $clientPublicId = false, $entityType = null, $filter = false)
     {
-
         $query = DB::table('invoices')
             ->LeftJoin('accounts', 'accounts.id', 'invoices.account_id')
             ->LeftJoin('clients', 'clients.id', 'invoices.client_id')
@@ -61,9 +60,9 @@ class InvoiceRepository extends BaseRepository
             ->LeftJoin('contacts', 'contacts.client_id', 'clients.id')
             ->LeftJoin('branches', 'branches.id', 'invoices.branch_id')
             ->where('invoices.account_id', $accountId)
-            ->where('contacts.deleted_at', null)
             ->where('invoices.is_recurring', false)
             ->where('contacts.is_primary', true)
+            ->where('contacts.deleted_at', null)
 //->whereRaw('(clients.name != "" or contacts.first_name != "" or contacts.last_name != "" or contacts.email != "")') // filter out buy now invoices
             ->select(
                 DB::raw('COALESCE(clients.currency_id, accounts.currency_id) currency_id'),
@@ -748,6 +747,7 @@ class InvoiceRepository extends BaseRepository
         $clone->invoice_date = date_create()->format('Y-m-d');
         $clone->due_date = $account->defaultDueDate($invoice->client);
         $clone->invoice_status_id = !empty($clone->invoice_status_id) ? $clone->invoice_status_id : INVOICE_STATUS_DRAFT;
+        $clone->created_by = auth()->user()->username;
         $clone->save();
 
         if ($quoteId) {
