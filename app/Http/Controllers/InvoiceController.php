@@ -229,7 +229,7 @@ class InvoiceController extends BaseController
             $invoice->is_public = false;
             $invoice->is_recurring = $invoice->is_recurring && $clone == INVOICE_TYPE_STANDARD;
             $invoice->invoice_type_id = $clone;
-            $invoice->invoice_number = $account->getInvoiceNextNumber($invoice);
+            $invoice->invoice_number = $account->getNextInvoiceNumber($invoice);
             $invoice->due_date = null;
             $invoice->partial_due_date = null;
             $invoice->balance = $invoice->amount;
@@ -444,7 +444,7 @@ class InvoiceController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account->load('country'),
-            'products' => Product::scope()->withActiveOrSelected(isset($invoice) ? $invoice->product_id : false)->stock(),
+            'products' => Product::stock(),
             'clients' => Client::scope()->with('contacts', 'country')->orderBy('name')->get(),
             'taxRateOptions' => $taxRateOptions,
             'sizes' => Cache::get('sizes'),

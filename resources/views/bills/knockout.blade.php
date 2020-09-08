@@ -200,7 +200,7 @@
             var clientModel = false;
         } else {
             var clientModel = new VendorModel();
-            clientModel.id_number("{{ $account->getBillNextNumber() }}");
+            clientModel.id_number("{{ $account->getNextBillNumber() }}");
         }
 
         var self = this;

@@ -1384,7 +1384,7 @@ class Account extends Eloquent
             if ($this->hasClientNumberPattern($invoice) && !$clientId) {
                 // do nothing, we don't yet know the value
             } elseif (!$invoice->invoice_number) {
-                $invoice->invoice_number = $this->getInvoiceNextNumber($invoice);
+                $invoice->invoice_number = $this->getNextInvoiceNumber($invoice);
             }
         }
 
@@ -1421,7 +1421,7 @@ class Account extends Eloquent
             if (isset($bill) && $this->hasVendorNumberPattern($bill) && !$vendorId) {
                 // do nothing, we don't yet know the value
             } elseif (!$bill->invoice_number) {
-                $bill->invoice_number = $this->getBillNextNumber($bill);
+                $bill->invoice_number = $this->getNextBillNumber($bill);
             }
         }
 

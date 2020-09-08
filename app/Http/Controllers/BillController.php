@@ -220,7 +220,7 @@ class BillController extends BaseController
             $bill->is_public = false;
             $bill->is_recurring = $bill->is_recurring && $clone == BILL_TYPE_STANDARD;
             $bill->bill_type_id = $clone;
-            $bill->invoice_number = $account->getBillNextNumber($bill);
+            $bill->invoice_number = $account->getNextBillNumber($bill);
             $bill->due_date = null;
             $bill->partial_due_date = null;
             $bill->balance = $bill->amount;
@@ -235,7 +235,7 @@ class BillController extends BaseController
             }
             $method = 'POST';
             $url = "{$entityType}s";
-        }else {
+        } else {
             $method = 'PUT';
             $url = "{$entityType}s/{$bill->public_id}";
             $vendors->where('id', $bill->vendor_id);
@@ -343,7 +343,7 @@ class BillController extends BaseController
         } else if ($action == 'clone_bill_quote') {
             return url(sprintf('bill_quotes/%s/clone', $bill->public_id));
         } elseif ($action == 'convert') {
-            return $this->convertQuote($request, $bill->public_id);
+            return $this->convertQuote($request);
         } elseif ($action == 'email') {
             $this->emailBill($bill);
         }
@@ -442,7 +442,7 @@ class BillController extends BaseController
         return [
             'data' => Input::old('data'),
             'account' => Auth::user()->account->load('country'),
-            'products' => Product::scope()->withActiveOrSelected(isset($bill) ? $bill->product_id : false)->orderBy('product_key')->get(),
+            'products' => Product::stock(),
             'clients' => Vendor::scope()->with('contacts', 'country')->orderBy('name')->get(),
             'taxRateOptions' => $taxRateOptions,
             'sizes' => Cache::get('sizes'),
@@ -559,7 +559,7 @@ class BillController extends BaseController
         return $this->returnBulk($entityType, $action, $ids);
     }
 
-    public function convertQuote(BillRequest $request)
+    public function convertQuote(UpdateBillRequest $request)
     {
         $clone = $this->billService->convertQuote($request->entity());
 

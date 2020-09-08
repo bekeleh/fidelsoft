@@ -3,6 +3,7 @@
 namespace App\Ninja\Repositories;
 
 use App\Libraries\Utils;
+use App\Models\ItemStore;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -21,6 +22,17 @@ class BaseRepository
         $className = $this->getClassName();
 
         return new $className();
+    }
+
+    public function getItemStoreInstance(array $data)
+    {
+        $itemStore = ItemStore::createNew();
+
+        $itemStore->product_id = $data['product_id'];
+        $itemStore->warehouse_id = $data['warehouse_id'];
+        $itemStore->created_by = auth()->user()->username;
+
+        return $itemStore;
     }
 
     private function getEventClass($entity, $type)

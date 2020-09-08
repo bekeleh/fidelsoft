@@ -163,7 +163,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 	function buildDialog( editor ) {
 		var element = CKEDITOR.dom.element.createFromHtml( CKEDITOR.addTemplate( 'dialog', templateSource ).output( {
-			id: CKEDITOR.tools.getInvoiceNextNumber(),
+			id: CKEDITOR.tools.getNextInvoiceNumber(),
 			editorId: editor.id,
 			langDir: editor.lang.dir,
 			langCode: editor.langCode,
@@ -1159,7 +1159,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			page.setAttribute( 'role', 'tabpanel' );
 
 			var env = CKEDITOR.env;
-			var tabId = 'cke_' + contents.id + '_' + CKEDITOR.tools.getInvoiceNextNumber(),
+			var tabId = 'cke_' + contents.id + '_' + CKEDITOR.tools.getNextInvoiceNumber(),
 				tab = CKEDITOR.dom.element.createFromHtml( [
 					'<a class="cke_dialog_tab"',
 					( this._.pageCount > 0 ? ' cke_last' : 'cke_first' ),

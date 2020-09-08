@@ -667,7 +667,7 @@ AUTO_BILL_ALWAYS => trans('texts.always'),
 
                                                 {!! Former::text('client[id_number]')
                                                 ->label('id_number')
-                                                ->placeholder($account->vendorNumbersEnabled() ? $account->getBillNextNumber() : ' ')
+                                                ->placeholder($account->vendorNumbersEnabled() ? $account->getNextBillNumber() : ' ')
                                                 ->data_bind("value: id_number, valueUpdate: 'afterkeydown'") !!}
 
                                                 @if ( ! $account->client_number_counter)
@@ -1314,7 +1314,7 @@ afterAdd: showContact }'>
                     @if (! $invoice->id && $account->vendor_credit_number_counter > 0)
             var total = model.invoice().totals.rawTotal();
             var invoiceNumber = model.invoice().invoice_number();
-            var creditNumber = "{{ $account->getBillNextNumber(new \App\Models\Credit()) }}";
+            var creditNumber = "{{ $account->getNextBillNumber(new \App\Models\Credit()) }}";
             if (total < 0 && invoiceNumber != creditNumber) {
                 origInvoiceNumber = invoiceNumber;
                 model.invoice().invoice_number(creditNumber);

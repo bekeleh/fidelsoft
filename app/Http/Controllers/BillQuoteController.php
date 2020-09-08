@@ -111,7 +111,7 @@ class BillQuoteController extends BaseController
         return [
             'entityType' => ENTITY_BILL_QUOTE,
             'account' => Auth::user()->account->load('country'),
-            'products' => Product::scope()->withActiveOrSelected(isset($bill) ? $bill->product_id : false)->stock(),
+            'products' => Product::stock(),
             'clients' => Vendor::scope()->with('contacts', 'country')->orderBy('name')->get(),
             'taxRateOptions' => $account->present()->taxRateOptions,
             'taxRates' => TaxRate::scope()->orderBy('name')->get(),

@@ -313,7 +313,6 @@
                 'clients',
                 'vendors',
                 'users',
-                'bill_orders',
                 'bills',
                 'bill_quotes',
                 'recurring_bills',

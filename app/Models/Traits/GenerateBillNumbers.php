@@ -14,7 +14,7 @@ trait GenerateBillNumbers
 {
 
 // get vendor next number
-    public function getBillNextNumber($entity = false)
+    public function getNextBillNumber($entity = false)
     {
         $entity = $entity ?: new Vendor();
         $entityType = $entity->getEntityType();
@@ -216,7 +216,7 @@ trait GenerateBillNumbers
 
         $bill = $this->createBill($entityType, $vendor ? $vendor->id : 0);
 
-        return $this->getBillNextNumber($bill);
+        return $this->getNextBillNumber($bill);
     }
 
     public function vendorIncrementCounter($entity)

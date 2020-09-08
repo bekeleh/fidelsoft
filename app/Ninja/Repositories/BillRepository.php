@@ -581,6 +581,7 @@ class BillRepository extends BaseRepository
 //            remove old bill line items
             $bill->invoice_items()->forceDelete();
         }
+
 //      update if any bill documents
         if (!empty($data['document_ids'])) {
             $document_ids = array_map('intval', $data['document_ids']);
@@ -589,9 +590,9 @@ class BillRepository extends BaseRepository
         }
 
 //      Bill bill line item detail
-        $this->saveLineItemDetail($account, $bill, $data);
+        $this->saveBillLineItemDetail($account, $bill, $data, $origLineItems, $isNew);
 
-        $this->saveInvitations($bill);
+        $this->saveBillInvitations($bill);
 
 //      finally dispatch events
         $this->dispatchEvents($bill);
@@ -599,7 +600,7 @@ class BillRepository extends BaseRepository
         return $bill->load('invoice_items');
     }
 
-    private function saveInvitations($bill)
+    private function saveBillInvitations($bill)
     {
         if (empty($bill)) {
             return;
@@ -636,7 +637,7 @@ class BillRepository extends BaseRepository
                 $invitation->bill_id = $bill->id;
                 $invitation->contact_id = $contact->id;
                 $invitation->invitation_key = strtolower(str_random(RANDOM_KEY_LENGTH));
-                $invitation->created_by = auth::user()->username;
+                $invitation->created_by = auth()->user()->username;
                 $invitation->save();
             } elseif (!in_array($contact->id, $sendBillIds) && !empty($invitation)) {
                 $invitation->delete();
@@ -744,7 +745,7 @@ class BillRepository extends BaseRepository
             }
         }
 
-        $clone->invoice_number = $invoiceNumber ?: $account->getBillNextNumber($clone);
+        $clone->invoice_number = $invoiceNumber ?: $account->getNextBillNumber($clone);
         $clone->bill_date = date_create()->format('Y-m-d');
         $clone->due_date = $account->defaultDueDate($bill->vendor);
         $clone->bill_status_id = !empty($clone->bill_status_id) ? $clone->bill_status_id : BILL_STATUS_DRAFT;
@@ -780,13 +781,12 @@ class BillRepository extends BaseRepository
 
             $product = $this->getProductDetail($account, $item->product_key);
             if (!empty($product)) {
-                $itemStore = $this->getItemStore($account, $product);
-                $qoh = $itemStore->qty;
-                $this->updateItemStore($qoh, $cloneItem->qty, $itemStore);
+                $itemStore = $this->getItemStore($account, $product, $cloneItem->warehouse_id);
+                $this->updateItemStore(0, $cloneItem->qty, $itemStore);
             }
 
             $clone->invoice_items()->save($cloneItem);
-        }
+        } //end of foreach loop
 
         foreach ($bill->documents as $document) {
             $cloneDocument = $document->cloneDocument();
@@ -882,16 +882,16 @@ class BillRepository extends BaseRepository
             ->where('deleted_at', null)
             ->first();
 
-        return !empty($product) ? $product : false;
+        return !empty($product) ? $product : null;
     }
 
-    public function getItemStore($account, $product = null)
+    public function getItemStore($account, $product = null, $warehouseId = false)
     {
         if (empty($account) || empty($product)) {
             return false;
         }
 
-        $warehouseId = !empty(auth::user()->branch->warehouse_id) ? auth::user()->branch->warehouse_id : null;
+        $warehouseId = !empty($warehouseId) ? $warehouseId : (isset(auth()->user()->branch) ? auth()->user()->branch->warehouse_id : '');
 
         $itemStore = ItemStore::scope()
             ->where('account_id', $account->id)
@@ -900,8 +900,19 @@ class BillRepository extends BaseRepository
             ->where('deleted_at', null)
             ->first();
 
-        return !empty($itemStore) ? $itemStore : false;
+        if ($itemStore) {
+            return $itemStore;
+        } else {
+            $data = [
+                'product_id' => $product->id,
+                'warehouse_id' => $warehouseId,
+            ];
+
+            return $this->getItemStoreInstance($data);
+        }
+
     }
+
 
     public function findOpenbills($vendorId)
     {
@@ -946,7 +957,7 @@ class BillRepository extends BaseRepository
         $bill->bill_type_id = BILL_TYPE_STANDARD;
         $bill->vendor_id = $recurBill->vendor_id;
         $bill->recurring_bill_id = $recurBill->id;
-        $bill->invoice_number = $recurBill->account->getBillNextNumber($bill);
+        $bill->invoice_number = $recurBill->account->getNextBillNumber($bill);
         $bill->amount = $recurBill->amount;
         $bill->balance = $recurBill->amount;
         $bill->bill_date = date_create()->format('Y-m-d');
@@ -1224,7 +1235,7 @@ class BillRepository extends BaseRepository
         return ($billId && !empty($map[$billId])) ? $map[$billId] : null;
     }
 
-    private function saveExpense(Bill $bill, array $item)
+    private function getExpense(Bill $bill, array $item)
     {
         if (empty($item['expense_public_id'])) {
             return false;
@@ -1243,24 +1254,24 @@ class BillRepository extends BaseRepository
         return false;
     }
 
-//    private function getTask(Bill $bill, array $item)
-//    {
-//        if (empty($item['task_public_id'])) {
-//            return false;
-//        }
-//
-//        $task = Task::scope(trim($item['task_public_id']))
-//            ->whereNull('bill_id')->firstOrFail();
-//        if (Auth::user()->can('edit', $task)) {
-//            $task->bill_id = $bill->id;
-//            $task->vendor_id = $bill->vendor_id;
-//            if ($task->save()) {
-//                return true;
-//            }
-//        }
-//
-//        return false;
-//    }
+    private function getTask(Bill $bill, array $item)
+    {
+        if (empty($item['task_public_id'])) {
+            return false;
+        }
+
+        $task = Task::scope(trim($item['task_public_id']))
+            ->whereNull('bill_id')->firstOrFail();
+        if (Auth::user()->can('edit', $task)) {
+            $task->bill_id = $bill->id;
+            $task->vendor_id = $bill->vendor_id;
+            if ($task->save()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
 
     private function saveBillDocuments(Bill $bill, array $document_ids)
@@ -1348,7 +1359,7 @@ class BillRepository extends BaseRepository
 
     }
 
-    private function stockAdjustment($itemStore, Bill $bill, $origLineItems, array $newLineItem, $isNew)
+    private function stockIn($itemStore, Bill $bill, $origLineItems, array $newLineItem, $isNew)
     {
         $qoh = !empty($itemStore) ? Utils::parseFloat($itemStore->qty) : 0;
         $receivedQty = Utils::parseFloat(trim($newLineItem['qty']));
@@ -1356,7 +1367,7 @@ class BillRepository extends BaseRepository
 //        $Bill = Bill::whereName($productKey);
 //        $orderQty = Utils::parseFloat(0);
         if ($isNew) {
-            $this->updateItemStore($qoh, $receivedQty, $itemStore);
+            $this->updateItemStore(0, $receivedQty, $itemStore);
         } else {
             $found = 0;
             $origLineItems = (array)$origLineItems;
@@ -1364,8 +1375,8 @@ class BillRepository extends BaseRepository
                 foreach ($origLineItems as $origLineItem) {
                     if ($newLineItem['product_key'] === $origLineItem['product_key']) {
                         if (($newLineItem['qty'] != $origLineItem['qty'])) {
-                            $qoh += $origLineItem['qty'];
-                            $this->updateItemStore($qoh, $receivedQty, $itemStore);
+                            $origQty = $origLineItem['qty'];
+                            $this->updateItemStore($origQty, $receivedQty, $itemStore);
                             $found += 1;
                             break;
                         } else {
@@ -1374,11 +1385,13 @@ class BillRepository extends BaseRepository
                         break;
                     }
                 }
-                if ($found === 0) {
-                    $this->updateItemStore($qoh, $receivedQty, $itemStore);
+//              new item
+                if ($found == 0) {
+                    $this->updateItemStore(0, $receivedQty, $itemStore);
                 }
             } else {
-                $this->updateItemStore($qoh, $receivedQty, $itemStore);
+//              if it's one item
+                $this->updateItemStore(0, $receivedQty, $itemStore);
             }
         }
 
@@ -1400,7 +1413,7 @@ class BillRepository extends BaseRepository
         $billItem->qty = $billQty;
         $billItem->received_qty = $receivedQty;
         $billItem->discount = $bill->discount;
-        $billItem->created_by = auth::user()->username;
+        $billItem->created_by = auth()->user()->username;
 
         if (!empty($item['custom_value1'])) {
             $billItem->custom_value1 = $item['custom_value1'];
@@ -1494,18 +1507,20 @@ class BillRepository extends BaseRepository
         return $itemTax;
     }
 
-    private function updateItemStore($qoh, $receivedQty, $itemStore)
+    private function updateItemStore($origQty, $receivedQty, $itemStore)
     {
-        $qoh = Utils::parseFloat($qoh);
+        $qoh = Utils::parseFloat($itemStore->qty);
+        $origQty = Utils::parseFloat($origQty);
         $receivedQty = Utils::parseFloat($receivedQty);
-        if ($qoh >= $receivedQty) {
-            $itemStore->qty = ($qoh - $receivedQty);
+        $qoh = Utils::parseFloat($itemStore->qty);
+        if ($origQty > $receivedQty) {
+            $diffQty = $origQty - $receivedQty;
+            $itemStore->qty = $qoh - $diffQty;
             $itemStore->save();
-        } else {
-            if ($qoh < $receivedQty) {
-                $itemStore->qty = 0;
-                $itemStore->save();
-            }
+        } else if ($receivedQty > $origQty) {
+            $diffQty = $receivedQty - $origQty;
+            $itemStore->qty = $qoh + $diffQty;
+            $itemStore->save();
         }
 
         return true;
@@ -1570,28 +1585,49 @@ class BillRepository extends BaseRepository
         return $itemTax;
     }
 
-    private function saveLineItemDetail($account, Bill $bill, array $data)
+    private function saveBillLineItemDetail($account, Bill $bill, array $data, $origLineItems, $isNew)
     {
-        if (empty($bill)) {
-            return false;
-        }
         $product = null;
         $itemStore = null;
         if (is_array($data)) {
             foreach ($data['invoice_items'] as $item) {
                 $item = (array)$item;
-                if (empty($item['product_key']) && empty($item['cost'])) {
+                if (empty($item['product_key']) || empty($item['cost'])) {
                     continue;
                 }
-                if (!empty($data['has_expenses'])) {
-                    $this->saveExpense($bill, $item);
-                }
+//                if (!empty($data['has_tasks'])) {
+//                    $this->getTask($bill, $item);
+//                }
+//                if (!empty($data['has_expenses'])) {
+//                    $this->getExpense($bill, $item);
+//                }
+//              item details
                 $product = $this->getProductDetail($account, $item['product_key']);
-                if (!empty($product)) {
-                    $itemStore = $this->getItemStore($account, $product);
+//              item if not service and labor
+                if (!empty($product) && $product->item_type_id !== SERVICE_OR_LABOUR) {
+                    if (isset($data['warehouse_id'])) {
+                        $itemStore = $this->getItemStore($account, $product, $data['warehouse_id']);
+                    } else {
+                        $itemStore = $this->getItemStore($account, $product, false);
+                    }
+                    if (!empty($itemStore)) {
+                        // i couldn't find efficient evaluation for false expression, $data['has_tasks']== false and empty value
+                        $is_quote = empty($data['is_quote']) ? $data['is_quote'] : null;
+                        //  has taks empty value cannot be evaluated
+                        $has_tasks = $data['has_tasks'] ? $data['has_tasks'] : null;
+//                  what if invoices, quotes, expenses and tasks
+                        if (empty($data['is_quote'])) {
+                            $this->stockIn($itemStore, $bill, $origLineItems, $item, $isNew);
+                        }
+                        $this->saveBillLineItemAdjustment($product, $itemStore, $bill, $item);
+                    }
+                } else {
                     $this->saveBillLineItemAdjustment($product, $itemStore, $bill, $item);
                 }
-            }
+
+
+            } // end of foreach loop
+
             return true;
         }
     }
@@ -1676,6 +1712,7 @@ class BillRepository extends BaseRepository
         }
 
         $bill->amount = $total;
+        $bill->is_received = true;
 
         $bill = $bill->save();
 

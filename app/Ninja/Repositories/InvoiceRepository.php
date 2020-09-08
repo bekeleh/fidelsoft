@@ -404,13 +404,13 @@ class InvoiceRepository extends BaseRepository
 
     public function save(array $data, Invoice $invoice = null)
     {
-        $account = $invoice ? $invoice->account : Auth::user()->account;
+        $account = $invoice ? $invoice->account : Auth()->user()->account;
         $publicId = !empty($data['public_id']) ? $data['public_id'] : false;
         $isNew = !$publicId || intval($publicId) < 0;
 
         if ($invoice) {
             $entityType = $invoice->getEntityType();
-            $invoice->updated_by = Auth::user()->username;
+            $invoice->updated_by = Auth()->user()->username;
         } elseif ($isNew) {
             $entityType = ENTITY_INVOICE;
             if (!empty($data['is_recurring']) && filter_var($data['is_recurring'], FILTER_VALIDATE_BOOLEAN)) {
@@ -422,8 +422,8 @@ class InvoiceRepository extends BaseRepository
             $invoice->invoice_date = date_create()->format('Y-m-d');
             $invoice->custom_taxes1 = $account->custom_invoice_taxes1 ?: false;
             $invoice->custom_taxes2 = $account->custom_invoice_taxes2 ?: false;
-            $invoice->created_by = Auth::user()->username;
-            $invoice->branch_id = !empty(Auth::user()->branch->id) ?: '';
+            $invoice->created_by = Auth()->user()->username;
+            $invoice->branch_id = !empty(Auth()->user()->branch->id) ?: '';
             // set the default due date
             if ($entityType == ENTITY_INVOICE && empty($data['partial_due_date'])) {
                 $client = Client::scope()->where('id', $data['client_id'])->first();
@@ -579,6 +579,7 @@ class InvoiceRepository extends BaseRepository
 //            remove old invoice line items
             $invoice->invoice_items()->forceDelete();
         }
+
 //      update if any invoice documents
         if (!empty($data['document_ids'])) {
             $document_ids = array_map('intval', $data['document_ids']);
@@ -588,7 +589,7 @@ class InvoiceRepository extends BaseRepository
         }
 
 //      sales invoice line item detail
-        $this->saveLineItemDetail($account, $invoice, $data, $origLineItems, $isNew);
+        $this->saveInvoiceLineItemDetail($account, $invoice, $data, $origLineItems, $isNew);
 
         $this->saveInvitations($invoice);
 
@@ -678,7 +679,7 @@ class InvoiceRepository extends BaseRepository
 
         $clone = Invoice::createNew($invoice);
         $clone->balance = $invoice->amount;
-        $clone->branch_id = !empty(Auth::user()->branch->id) ?: '';
+        $clone->branch_id = isset(Auth()->user()->branch->id) ?: '';
 
 // if the invoice prefix is diff than quote prefix, use the same number for the invoice (if it's available)
         $invoiceNumber = false;
@@ -688,8 +689,7 @@ class InvoiceRepository extends BaseRepository
                 $invoiceNumber = substr($invoiceNumber, strlen($account->quote_number_prefix));
             }
             $invoiceNumber = $account->invoice_number_prefix . $invoiceNumber;
-            $invoice = Invoice::scope(false, $account->id)
-                ->withTrashed()
+            $invoice = Invoice::scope(false, $account->id)->withTrashed()
                 ->where('invoice_number', $invoiceNumber)
                 ->first();
             if ($invoice) {
@@ -743,7 +743,7 @@ class InvoiceRepository extends BaseRepository
             }
         }
 
-        $clone->invoice_number = $invoiceNumber ?: $account->getInvoiceNextNumber($clone);
+        $clone->invoice_number = $invoiceNumber ?: $account->getNextInvoiceNumber($clone);
         $clone->invoice_date = date_create()->format('Y-m-d');
         $clone->due_date = $account->defaultDueDate($invoice->client);
         $clone->invoice_status_id = !empty($clone->invoice_status_id) ? $clone->invoice_status_id : INVOICE_STATUS_DRAFT;
@@ -785,7 +785,7 @@ class InvoiceRepository extends BaseRepository
             }
 
             $clone->invoice_items()->save($cloneItem);
-        }
+        } //end of foreach loop
 
         foreach ($invoice->documents as $document) {
             $cloneDocument = $document->cloneDocument();
@@ -891,11 +891,10 @@ class InvoiceRepository extends BaseRepository
     public function getItemStore($account, $product = null)
     {
         if (empty($account) || empty($product)) {
-            return;
+            return null;
         }
 
-        $warehouseId = !empty(auth::user()->branch->warehouse_id) ?
-            auth::user()->branch->warehouse_id : null;
+        $warehouseId = isset(auth()->user()->branch) ? auth()->user()->branch->warehouse_id : null;
 
         $itemStore = ItemStore::scope()
             ->where('account_id', $account->id)
@@ -904,7 +903,16 @@ class InvoiceRepository extends BaseRepository
             ->where('deleted_at', null)
             ->first();
 
-        return !empty($itemStore) ? $itemStore : null;
+        if ($itemStore) {
+            return $itemStore;
+        } else {
+            $data = [
+                'product_id' => $product->id,
+                'warehouse_id' => $warehouseId,
+            ];
+
+            return $this->getItemStoreInstance($data);
+        }
     }
 
     public function findOpenInvoices($clientId)
@@ -950,7 +958,7 @@ class InvoiceRepository extends BaseRepository
         $invoice->invoice_type_id = INVOICE_TYPE_STANDARD;
         $invoice->client_id = $recurInvoice->client_id;
         $invoice->recurring_invoice_id = $recurInvoice->id;
-        $invoice->invoice_number = $recurInvoice->account->getInvoiceNextNumber($invoice);
+        $invoice->invoice_number = $recurInvoice->account->getNextInvoiceNumber($invoice);
         $invoice->amount = $recurInvoice->amount;
         $invoice->balance = $recurInvoice->amount;
         $invoice->invoice_date = date_create()->format('Y-m-d');
@@ -1236,7 +1244,7 @@ class InvoiceRepository extends BaseRepository
 
         $expense = Expense::scope($item['expense_public_id'])
             ->where('invoice_id', null)->firstOrFail();
-        if (Auth::user()->can('edit', $expense)) {
+        if (Auth()->user()->can('edit', $expense)) {
             $expense->invoice_id = $invoice->id;
             $expense->client_id = $invoice->client_id;
             if ($expense->save()) {
@@ -1255,7 +1263,7 @@ class InvoiceRepository extends BaseRepository
 
         $task = Task::scope(trim($item['task_public_id']))
             ->where('invoice_id', null)->firstOrFail();
-        if (Auth::user()->can('edit', $task)) {
+        if (Auth()->user()->can('edit', $task)) {
             $task->invoice_id = $invoice->id;
             $task->client_id = $invoice->client_id;
             if ($task->save()) {
@@ -1275,7 +1283,7 @@ class InvoiceRepository extends BaseRepository
 
         foreach ($document_ids as $document_id) {
             $document = Document::scope($document_id)->first();
-            if ($document && Auth::user()->can('edit', $document)) {
+            if ($document && Auth()->user()->can('edit', $document)) {
                 if ($document->invoice_id && $document->invoice_id != $invoice->id) {
 // From a clone
                     $document = $document->cloneDocument();
@@ -1298,7 +1306,7 @@ class InvoiceRepository extends BaseRepository
         if (!$invoice->wasRecentlyCreated) {
             foreach ($invoice->documents as $document) {
                 if (!in_array($document->public_id, $document_ids)) {
-                    if (Auth::user()->can('delete', $document)) {
+                    if (Auth()->user()->can('delete', $document)) {
 // Not checking permissions; deleting a document is just editing the invoice
                         if ($document->invoice_id === $invoice->id) {
 // Make sure the document isn't on a clone
@@ -1352,7 +1360,7 @@ class InvoiceRepository extends BaseRepository
 
     }
 
-    private function stockAdjustment($itemStore, Invoice $invoice, $origLineItems, array $newLineItem, $isNew)
+    private function stockOut($itemStore, Invoice $invoice, $origLineItems, array $newLineItem, $isNew)
     {
         $qoh = !empty($itemStore) ? Utils::parseFloat($itemStore->qty) : 0;
         $demandQty = Utils::parseFloat(trim($newLineItem['qty']));
@@ -1597,17 +1605,14 @@ class InvoiceRepository extends BaseRepository
         return $itemTax;
     }
 
-    private function saveLineItemDetail($account, Invoice $invoice, array $data, $origLineItems, $isNew)
+    private function saveInvoiceLineItemDetail($account, Invoice $invoice, array $data, $origLineItems, $isNew)
     {
-        if (empty($invoice)) {
-            return false;
-        }
         $product = null;
         $itemStore = null;
         if (is_array($data)) {
             foreach ($data['invoice_items'] as $item) {
                 $item = (array)$item;
-                if (empty($item['product_key']) && empty($item['cost'])) {
+                if (empty($item['product_key']) || empty($item['cost'])) {
                     continue;
                 }
                 if (!empty($data['has_tasks'])) {
@@ -1619,6 +1624,7 @@ class InvoiceRepository extends BaseRepository
                 $product = $this->getProductDetail($account, $item['product_key']);
 //              item if not service and labor
                 if (!empty($product) && $product->item_type_id !== SERVICE_OR_LABOUR) {
+//                  stock quantity
                     $itemStore = $this->getItemStore($account, $product);
                     if (!empty($itemStore)) {
                         // i couldn't find efficient evaluation for false expression, $data['has_tasks']== false and empty value
@@ -1627,14 +1633,15 @@ class InvoiceRepository extends BaseRepository
                         $has_tasks = $data['has_tasks'] ? $data['has_tasks'] : null;
 //                  what if invoices, quotes, expenses and tasks
                         if (empty($data['is_quote'])) {
-                            $this->stockAdjustment($itemStore, $invoice, $origLineItems, $item, $isNew);
+                            $this->stockOut($itemStore, $invoice, $origLineItems, $item, $isNew);
                         }
                         $this->saveInvoiceLineItemAdjustment($product, $itemStore, $invoice, $item);
                     }
                 } else {
                     $this->saveInvoiceLineItemAdjustment($product, $itemStore, $invoice, $item);
                 }
-            }
+
+            } //end of foreach loop
         }
 
         return true;

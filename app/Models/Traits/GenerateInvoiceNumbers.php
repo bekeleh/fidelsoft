@@ -14,7 +14,7 @@ trait GenerateInvoiceNumbers
 {
 
 // get client next number
-    public function getInvoiceNextNumber($entity = false)
+    public function getNextInvoiceNumber($entity = false)
     {
         $entity = $entity ?: new Client();
         $entityType = $entity->getEntityType();
@@ -216,7 +216,7 @@ trait GenerateInvoiceNumbers
 
         $invoice = $this->createInvoice($entityType, $client ? $client->id : 0);
 
-        return $this->getInvoiceNextNumber($invoice);
+        return $this->getNextInvoiceNumber($invoice);
     }
 
     public function clientIncrementCounter($entity)

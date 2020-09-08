@@ -40,7 +40,7 @@
             {!! Former::populateField('quote_number_counter', 1) !!}
             {!! Former::populateField('send_reminders', 1) !!}
             @if ($account->vendor_number_counter)
-                {!! Former::populateField('id_number', $account->getBillNextNumber()) !!}
+                {!! Former::populateField('id_number', $account->getNextBillNumber()) !!}
             @endif
         @endif
         <div class="row">
@@ -52,7 +52,7 @@
                     <div class="panel-body">
                         <!-- company details -->
                     {!! Former::text('name')->label('texts.company_name')->data_bind("attr { placeholder: placeholderName }") !!}
-                    {!! Former::text('id_number')->placeholder($account->vendorNumbersEnabled() ? $account->getBillNextNumber() : ' ') !!}
+                    {!! Former::text('id_number')->placeholder($account->vendorNumbersEnabled() ? $account->getNextBillNumber() : ' ') !!}
                     {!! Former::text('vat_number') !!}
                     {!! Former::text('website') !!}
                     {!! Former::text('work_phone') !!}

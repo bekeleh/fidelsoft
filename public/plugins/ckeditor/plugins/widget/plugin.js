@@ -2692,7 +2692,7 @@
 			// To avoid conflicts between htmlDP#toDF calls done at the same time
 			// (e.g. nestedEditable#getData called during downcasting some widget)
 			// mark every toDataFormat event chain with the downcasting session id.
-			var id = CKEDITOR.tools.getInvoiceNextNumber(),
+			var id = CKEDITOR.tools.getNextInvoiceNumber(),
 				toBeDowncasted = [];
 			evt.data.downcastingSessionId = id;
 			downcastingSessions[ id ] = toBeDowncasted;

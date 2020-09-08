@@ -112,11 +112,11 @@ class PaymentRepository extends BaseRepository
     public function findForContact($contactId = null, $filter = null)
     {
         $query = DB::table('payments')
-            ->join('accounts', 'accounts.id', '=', 'payments.account_id')
-            ->join('clients', 'clients.id', '=', 'payments.client_id')
-            ->join('invoices', 'invoices.id', '=', 'payments.invoice_id')
-            ->join('contacts', 'contacts.client_id', '=', 'clients.id')
-            ->join('payment_statuses', 'payment_statuses.id', '=', 'payments.payment_status_id')
+            ->leftJoin('accounts', 'accounts.id', '=', 'payments.account_id')
+            ->leftJoin('clients', 'clients.id', '=', 'payments.client_id')
+            ->leftJoin('invoices', 'invoices.id', '=', 'payments.invoice_id')
+            ->leftJoin('contacts', 'contacts.client_id', '=', 'clients.id')
+            ->leftJoin('payment_statuses', 'payment_statuses.id', '=', 'payments.payment_status_id')
             ->leftJoin('invitations', function ($join) use ($contactId) {
                 $join->on('invitations.invoice_id', '=', 'invoices.id')
                     ->on('invitations.contact_id', '=', 'contacts.id')
