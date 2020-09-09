@@ -146,6 +146,7 @@ class PaymentService extends BaseService
             $credit->credit_date = date_create()->format('Y-m-d');
             $credit->amount = $credit->balance = $input['amount'] - $invoice->balance;
             $credit->private_notes = trans('texts.credit_created_by', ['transaction_reference' => isset($input['transaction_reference']) ? $input['transaction_reference'] : '']);
+            $credit->created_by = auth()->user()->username;
             $credit->save();
             $input['amount'] = $invoice->balance;
         }

@@ -917,14 +917,14 @@ afterAdd: showContact }'>
 
         var products = {!! $products !!};
         var clients = {!! $clients !!};
-        var warehouses = {!! $warehouses !!};
+                {{--var warehouses = {!! $warehouses !!};--}}
         var account = {!! Auth::user()->account !!};
         var dropzone;
 
         var clientMap = {};
         var warehouseMap = {};
         var $clientSelect = $('select#client');
-        var $warehouseSelect = $('select#warehouse');
+        // var $warehouseSelect = $('select#warehouse');
         var invoiceDesigns = {!! $invoiceDesigns !!};
         var invoiceFonts = {!! $invoiceFonts !!};
 
@@ -953,21 +953,22 @@ afterAdd: showContact }'>
             }
             // select warehouse
             <!-- user warehouse -->
-            var warehouseId = {{ $warehousePublicId ?: 0 }};
-            var $warehouseSelect = $('select#warehouse_id');
-            @if (Auth::user()->can('create', ENTITY_WAREHOUSE))
-            $warehouseSelect.append(new Option("{{ trans('texts.create_warehouse')}}: $name", '-1'));
-                    @endif
-            for (var i = 0; i < warehouses.length; i++) {
-                var warehouse = warehouses[i];
-                warehouseMap[warehouse.public_id] = warehouse;
-                $warehouseSelect.append(new Option(warehouse.name, warehouse.public_id));
-            }
-            @include('partials/entity_combobox', ['entityType' => ENTITY_WAREHOUSE])
-            if (warehouseId) {
-                var warehouse = warehouseMap[warehouseId];
-                setComboboxValue($('.warehouse-select'), warehouse.public_id, warehouse.name);
-            }<!-- /. warehouse  -->
+            {{--var warehouseId = {{ $warehousePublicId ?: 0 }};--}}
+            {{--var $warehouseSelect = $('select#warehouse_id');--}}
+            {{--@if (Auth::user()->can('create', ENTITY_WAREHOUSE))--}}
+            {{--$warehouseSelect.append(new Option("{{ trans('texts.create_warehouse')}}: $name", '-1'));--}}
+            {{--        @endif--}}
+            {{--for (var i = 0; i < warehouses.length; i++) {--}}
+            {{--    var warehouse = warehouses[i];--}}
+            {{--    warehouseMap[warehouse.public_id] = warehouse;--}}
+            {{--    $warehouseSelect.append(new Option(warehouse.name, warehouse.public_id));--}}
+            {{--}--}}
+            {{--@include('partials/entity_combobox', ['entityType' => ENTITY_WAREHOUSE])--}}
+            {{--if (warehouseId) {--}}
+            {{--    var warehouse = warehouseMap[warehouseId];--}}
+            {{--    setComboboxValue($('.warehouse-select'), warehouse.public_id, warehouse.name);--}}
+            {{--}--}}
+            <!-- /. warehouse  -->
 
             @if ($data)
             // this means we failed so we'll reload the previous state

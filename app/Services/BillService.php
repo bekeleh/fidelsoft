@@ -57,10 +57,9 @@ class BillService extends BaseService
 
     public function save(array $data, Bill $bill = null)
     {
-
-        if (isset($data['warehouse_id']) && $data['warehouse_id']) {
-            $data['warehouse_id'] = Warehouse::getPrivateId($data['warehouse_id']);
-        }
+//        if (isset($data['warehouse_id']) && $data['warehouse_id']) {
+//            $data['warehouse_id'] = Warehouse::getPrivateId($data['warehouse_id']);
+//        }
         if (!empty($data['client'])) {
             $canSaveVendor = false;
             $canViewVendor = false;

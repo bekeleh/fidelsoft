@@ -1012,14 +1012,14 @@ afterAdd: showContact }'>
 
         var products = <?php echo $products; ?>;
         var clients = <?php echo $clients; ?>;
-        var warehouses = <?php echo $warehouses; ?>;
+                
         var account = <?php echo Auth::user()->account; ?>;
         var dropzone;
 
         var clientMap = {};
         var warehouseMap = {};
         var $clientSelect = $('select#client');
-        var $warehouseSelect = $('select#warehouse');
+        // var $warehouseSelect = $('select#warehouse');
         var invoiceDesigns = <?php echo $invoiceDesigns; ?>;
         var invoiceFonts = <?php echo $invoiceFonts; ?>;
 
@@ -1048,21 +1048,22 @@ afterAdd: showContact }'>
             }
             // select warehouse
             <!-- user warehouse -->
-            var warehouseId = <?php echo e($warehousePublicId ?: 0); ?>;
-            var $warehouseSelect = $('select#warehouse_id');
-            <?php if(Auth::user()->can('create', ENTITY_WAREHOUSE)): ?>
-            $warehouseSelect.append(new Option("<?php echo e(trans('texts.create_warehouse')); ?>: $name", '-1'));
-                    <?php endif; ?>
-            for (var i = 0; i < warehouses.length; i++) {
-                var warehouse = warehouses[i];
-                warehouseMap[warehouse.public_id] = warehouse;
-                $warehouseSelect.append(new Option(warehouse.name, warehouse.public_id));
-            }
-            <?php echo $__env->make('partials/entity_combobox', ['entityType' => ENTITY_WAREHOUSE], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-            if (warehouseId) {
-                var warehouse = warehouseMap[warehouseId];
-                setComboboxValue($('.warehouse-select'), warehouse.public_id, warehouse.name);
-            }<!-- /. warehouse  -->
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <!-- /. warehouse  -->
 
             <?php if($data): ?>
             // this means we failed so we'll reload the previous state

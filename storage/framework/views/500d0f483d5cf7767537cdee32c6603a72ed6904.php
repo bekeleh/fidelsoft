@@ -98,7 +98,8 @@
         ->withContents([
         ['label' => trans('texts.new_vendor'), 'url' => url('/vendors')],
         ['label' => trans('texts.new_quote'), 'url' => url('/bill_quotes')],
-        ['label' => trans('texts.new_credit'), 'url' => url('/VENDOR_CREDITs')],
+        ['label' => trans('texts.new_credit'), 'url' => url('/vendor_credits')],
+        ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores')],
         ['label' => trans('texts.new_expense'), 'url' => url('/bill_expenses')],
         ])->split(); ?>
 
@@ -231,6 +232,8 @@
         ['label' => trans('texts.new_item_transfer'), 'url' => url('/item_transfers')],
         ['label' => trans('texts.list_item_movements'), 'url' => url('/item_movements')],
         ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices')],
+        ['label' => trans('texts.new_invoice'), 'url' => url('/invoices')],
+        ['label' => trans('texts.new_bill'), 'url' => url('/bills')],
         ])->split(); ?>
 
     <?php endif; ?>

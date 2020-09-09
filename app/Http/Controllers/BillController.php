@@ -153,7 +153,7 @@ class BillController extends BaseController
             'method' => 'POST',
             'url' => 'bills',
             'title' => trans('texts.new_bill'),
-            'warehousePublicId' => Input::old('warehouse') ? Input::old('warehouse') : $request->warehouse_id,
+//            'warehousePublicId' => Input::old('warehouse') ? Input::old('warehouse') : $request->warehouse_id,
         ];
 
         $data = array_merge($data, self::getViewModel($bill));
@@ -274,7 +274,7 @@ class BillController extends BaseController
             'vendor' => $bill->vendor,
             'isRecurring' => $bill->is_recurring,
             'lastSent' => $lastSent,
-            'warehousePublicId' => $bill->warehouse ? $bill->warehouse->public_id : null,
+//            'warehousePublicId' => $bill->warehouse ? $bill->warehouse->public_id : null,
         ];
 
         $data = array_merge($data, self::getViewModel($bill));
@@ -456,7 +456,7 @@ class BillController extends BaseController
             'tasks' => Session::get('tasks') ? Session::get('tasks') : null,
             'expenseCurrencyId' => Session::get('expenseCurrencyId') ?: null,
             'expenses' => Expense::scope(Session::get('expenses'))->with('documents', 'expense_category')->get(),
-            'warehouses' => Warehouse::scope()->withActiveOrSelected(isset($bill) ? $bill->warehouse_id : false)->orderBy('name')->get(),
+//            'warehouses' => Warehouse::scope()->withActiveOrSelected(isset($bill) ? $bill->warehouse_id : false)->orderBy('name')->get(),
         ];
     }
 

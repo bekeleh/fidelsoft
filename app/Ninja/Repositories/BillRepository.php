@@ -781,11 +781,11 @@ class BillRepository extends BaseRepository
                 $cloneItem->$field = $item->$field;
             }
 
-//            $product = $this->getProductDetail($account, $item->product_key);
-//            if (!empty($product)) {
-//                $itemStore = $this->getItemStore($account, $product, false, $cloneItem->warehouse_id);
-//                $this->updateItemStore(0, $cloneItem->qty, $itemStore);
-//            }
+            $product = $this->getProductDetail($account, $item->product_key);
+            if (!empty($product)) {
+                $itemStore = $this->getItemStore($account, $product);
+                $this->updateItemStore(0, $cloneItem->qty, $itemStore);
+            }
 
             $clone->invoice_items()->save($cloneItem);
         } //end of foreach loop
@@ -887,17 +887,14 @@ class BillRepository extends BaseRepository
         return !empty($product) ? $product : null;
     }
 
-    public function getItemStore($account, $product = null, $origWarehouseItem = false, $changeWarehouseId = false)
+    public function getItemStore($account, $product = null)
     {
         if (empty($account) || empty($product)) {
             return false;
         }
 
-        $changeWarehouseId = !empty($changeWarehouseId) ? $changeWarehouseId : auth()->user()->branch->warehouse_id;
-        $origWarehouseId = $origWarehouseItem[0]['warehouse_id'];
-        if ($origWarehouseId != $changeWarehouseId) {
-            return null;
-        }
+        $changeWarehouseId = !empty(auth()->user()->branch->warehouse_id) ? auth()->user()->branch->warehouse_id : 0;
+
         $itemStore = ItemStore::scope()
             ->where('account_id', $account->id)
             ->where('product_id', $product->id)
@@ -1608,27 +1605,22 @@ class BillRepository extends BaseRepository
 //                    $this->getExpense($bill, $item);
 //                }
 //              item if not service and labor
-//                if (!empty($product) && $product->item_type_id !== SERVICE_OR_LABOUR) {
-//                    if (isset($data['warehouse_id'])) {
-//                        $itemStore = $this->getItemStore($account, $product, $origLineItems, $data['warehouse_id']);
-//                    } else {
-//                        $itemStore = $this->getItemStore($account, $product, $origLineItems, false);
-//                    }
-//                    if (!empty($itemStore)) {
-                // i couldn't find efficient evaluation for false expression, $data['has_tasks']== false and empty value
+                if (!empty($product) && $product->item_type_id !== SERVICE_OR_LABOUR) {
+                    $itemStore = $this->getItemStore($account, $product);
+                    if (!empty($itemStore)) {
+                        // i couldn't find efficient evaluation for false expression, $data['has_tasks']== false and empty value
 //                    $is_quote = empty($data['is_quote']) ? $data['is_quote'] : null;
-                //  has taks empty value cannot be evaluated
+                        //  has taks empty value cannot be evaluated
 //                    $has_tasks = $data['has_tasks'] ? $data['has_tasks'] : null;
 //                  what if invoices, quotes, expenses and tasks
-//                        if (empty($data['is_quote'])) {
-//                            $this->stockIn($itemStore, $bill, $origLineItems, $item, $isNew);
-//                        }
-//                    }
-//                    $this->saveBillLineItemAdjustment($bill, $product, $item);
-//                } else {
-//                    $this->saveBillLineItemAdjustment($bill, $product, $item);
-//                }
-                $this->saveBillLineItemAdjustment($bill, $product, $item);
+                        if (empty($data['is_quote'])) {
+                            $this->stockIn($itemStore, $bill, $origLineItems, $item, $isNew);
+                        }
+                    }
+                    $this->saveBillLineItemAdjustment($bill, $product, $item);
+                } else {
+                    $this->saveBillLineItemAdjustment($bill, $product, $item);
+                }
 
             } // end of foreach loop
 
