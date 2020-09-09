@@ -98,6 +98,8 @@ class BillItem extends EntityModel
         'cost',
         'qty',
         'notes',
+        'product_id',
+        'warehouse_id',
         'bill_item_type_id',
         'tax_name1',
         'tax_rate1',

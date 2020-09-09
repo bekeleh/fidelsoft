@@ -50,6 +50,7 @@ class VendorCreditController extends BaseController
 
     public function create(VendorCreditRequest $request)
     {
+
         $this->authorize('create', ENTITY_VENDOR_CREDIT);
         $data = [
             'vendorPublicId' => Input::old('vendor') ? Input::old('vendor') : ($request->vendor_id ?: 0),

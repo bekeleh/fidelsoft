@@ -50,7 +50,8 @@
             {!! Button::primary(mtrans($entityType, "new_{$entityType}"))
             ->asLinkTo(url(
             (in_array($entityType, [ENTITY_PROPOSAL_SNIPPET, ENTITY_PROPOSAL_CATEGORY, ENTITY_PROPOSAL_TEMPLATE]) ? str_replace('_', 's/', Utils::pluralizeEntityType($entityType)) : Utils::pluralizeEntityType($entityType)) .
-            '/create/' . (isset($clientId) ? ($clientId . (isset($projectId) ? '/' . $projectId : '')) : '')
+            '/create/' . (isset($clientId) ?
+            ($clientId . (isset($projectId) ? '/' . $projectId : '')) : (isset($vendorId) ? $vendorId : ''))
             ))->appendIcon(Icon::create('plus-sign')) !!}
         @endif
 

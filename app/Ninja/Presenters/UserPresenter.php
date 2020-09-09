@@ -4,6 +4,7 @@ namespace App\Ninja\Presenters;
 
 use App\Libraries\Skype\HeroCard;
 use DropdownButton;
+use HTML;
 
 class UserPresenter extends EntityPresenter
 {
@@ -42,6 +43,7 @@ class UserPresenter extends EntityPresenter
             if (auth()->user()->can('create', ENTITY_USER)) {
                 $actions[] = ['url' => 'javascript:submitAction("clone")', 'label' => trans('texts.clone_user')];
             }
+
             if (count($actions)) {
                 $actions[] = DropdownButton::DIVIDER;
             }
@@ -95,6 +97,6 @@ class UserPresenter extends EntityPresenter
             return '';
         }
 
-        return \HTML::link('users/' . $user->groups->id, $user->groups->name);
+        return HTML::link('users/' . $user->groups->id, $user->groups->name);
     }
 }

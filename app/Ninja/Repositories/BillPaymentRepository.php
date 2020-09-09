@@ -193,7 +193,6 @@ class BillPaymentRepository extends BaseRepository
             return $payment;
         }
 
-        $paymentTypeId = false;
         if (isset($input['payment_type_id'])) {
             $payment->payment_type_id = $input['payment_type_id'] ? $input['payment_type_id'] : null;
         } else {
@@ -220,6 +219,7 @@ class BillPaymentRepository extends BaseRepository
 
         $payment->fill($input);
 
+        $paymentTypeId = $input['payment_type_id'];
         if (!$publicId) {
             $vendorId = $input['vendor_id'];
             $amount = round(Utils::parseFloat($input['amount']), 2);

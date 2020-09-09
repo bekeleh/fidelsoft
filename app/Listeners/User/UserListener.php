@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners\Report\User;
+namespace App\Listeners\User;
 
 use App\Events\User\UserWasCreatedEvent;
 use App\Events\User\UserWasDeletedEvent;

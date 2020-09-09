@@ -749,6 +749,7 @@ class BillRepository extends BaseRepository
         $clone->bill_date = date_create()->format('Y-m-d');
         $clone->due_date = $account->defaultDueDate($bill->vendor);
         $clone->bill_status_id = !empty($clone->bill_status_id) ? $clone->bill_status_id : BILL_STATUS_DRAFT;
+        $clone->warehouse_id = auth()->user()->branch->warehouse_id;
         $clone->created_by = auth()->user()->username;
         $clone->save();
 
@@ -767,6 +768,7 @@ class BillRepository extends BaseRepository
                          'notes',
                          'cost',
                          'qty',
+                         'warehouse_id',
                          'tax_name1',
                          'tax_rate1',
                          'tax_name2',
@@ -779,11 +781,11 @@ class BillRepository extends BaseRepository
                 $cloneItem->$field = $item->$field;
             }
 
-            $product = $this->getProductDetail($account, $item->product_key);
-            if (!empty($product)) {
-                $itemStore = $this->getItemStore($account, $product, $cloneItem->warehouse_id);
-                $this->updateItemStore(0, $cloneItem->qty, $itemStore);
-            }
+//            $product = $this->getProductDetail($account, $item->product_key);
+//            if (!empty($product)) {
+//                $itemStore = $this->getItemStore($account, $product, false, $cloneItem->warehouse_id);
+//                $this->updateItemStore(0, $cloneItem->qty, $itemStore);
+//            }
 
             $clone->invoice_items()->save($cloneItem);
         } //end of foreach loop
@@ -885,18 +887,21 @@ class BillRepository extends BaseRepository
         return !empty($product) ? $product : null;
     }
 
-    public function getItemStore($account, $product = null, $warehouseId = false)
+    public function getItemStore($account, $product = null, $origWarehouseItem = false, $changeWarehouseId = false)
     {
         if (empty($account) || empty($product)) {
             return false;
         }
 
-        $warehouseId = !empty($warehouseId) ? $warehouseId : (isset(auth()->user()->branch) ? auth()->user()->branch->warehouse_id : '');
-
+        $changeWarehouseId = !empty($changeWarehouseId) ? $changeWarehouseId : auth()->user()->branch->warehouse_id;
+        $origWarehouseId = $origWarehouseItem[0]['warehouse_id'];
+        if ($origWarehouseId != $changeWarehouseId) {
+            return null;
+        }
         $itemStore = ItemStore::scope()
             ->where('account_id', $account->id)
             ->where('product_id', $product->id)
-            ->where('warehouse_id', $warehouseId)
+            ->where('warehouse_id', $changeWarehouseId)
             ->where('deleted_at', null)
             ->first();
 
@@ -905,7 +910,7 @@ class BillRepository extends BaseRepository
         } else {
             $data = [
                 'product_id' => $product->id,
-                'warehouse_id' => $warehouseId,
+                'warehouse_id' => $changeWarehouseId,
             ];
 
             return $this->getItemStoreInstance($data);
@@ -1398,7 +1403,7 @@ class BillRepository extends BaseRepository
         return true;
     }
 
-    private function saveBillLineItemAdjustment($product, $itemStore, Bill $bill, array $item)
+    private function saveBillLineItemAdjustment(Bill $bill, $product, array $item)
     {
         $billQty = !empty($item['qty']) ? Utils::parseFloat(trim($item['qty'])) : 1;
         $receivedQty = !empty($item['qty']) ? Utils::parseFloat(trim($item['qty'])) : 1;
@@ -1406,7 +1411,7 @@ class BillRepository extends BaseRepository
         $billItem = BillItem::createNew($bill);
         $billItem->fill($item);
         $billItem->product_id = !empty($product->id) ? $product->id : null;
-        $billItem->warehouse_id = !empty($bill->warehouse_id) ? $bill->warehouse_id : null;
+        $billItem->warehouse_id = !empty($bill->warehouse_id) ? $bill->warehouse_id : auth()->user()->branch->warehouse_id;
         $billItem->product_key = !empty($item['product_key']) ? trim($item['product_key']) : null;
         $billItem->notes = !empty($item['notes']) ? trim($item['notes']) : null;
         $billItem->cost = $itemCost;
@@ -1595,36 +1600,35 @@ class BillRepository extends BaseRepository
                 if (empty($item['product_key']) || empty($item['cost'])) {
                     continue;
                 }
+                $product = $this->getProductDetail($account, $item['product_key']);
 //                if (!empty($data['has_tasks'])) {
 //                    $this->getTask($bill, $item);
 //                }
 //                if (!empty($data['has_expenses'])) {
 //                    $this->getExpense($bill, $item);
 //                }
-//              item details
-                $product = $this->getProductDetail($account, $item['product_key']);
 //              item if not service and labor
-                if (!empty($product) && $product->item_type_id !== SERVICE_OR_LABOUR) {
-                    if (isset($data['warehouse_id'])) {
-                        $itemStore = $this->getItemStore($account, $product, $data['warehouse_id']);
-                    } else {
-                        $itemStore = $this->getItemStore($account, $product, false);
-                    }
-                    if (!empty($itemStore)) {
-                        // i couldn't find efficient evaluation for false expression, $data['has_tasks']== false and empty value
-                        $is_quote = empty($data['is_quote']) ? $data['is_quote'] : null;
-                        //  has taks empty value cannot be evaluated
-                        $has_tasks = $data['has_tasks'] ? $data['has_tasks'] : null;
+//                if (!empty($product) && $product->item_type_id !== SERVICE_OR_LABOUR) {
+//                    if (isset($data['warehouse_id'])) {
+//                        $itemStore = $this->getItemStore($account, $product, $origLineItems, $data['warehouse_id']);
+//                    } else {
+//                        $itemStore = $this->getItemStore($account, $product, $origLineItems, false);
+//                    }
+//                    if (!empty($itemStore)) {
+                // i couldn't find efficient evaluation for false expression, $data['has_tasks']== false and empty value
+//                    $is_quote = empty($data['is_quote']) ? $data['is_quote'] : null;
+                //  has taks empty value cannot be evaluated
+//                    $has_tasks = $data['has_tasks'] ? $data['has_tasks'] : null;
 //                  what if invoices, quotes, expenses and tasks
-                        if (empty($data['is_quote'])) {
-                            $this->stockIn($itemStore, $bill, $origLineItems, $item, $isNew);
-                        }
-                        $this->saveBillLineItemAdjustment($product, $itemStore, $bill, $item);
-                    }
-                } else {
-                    $this->saveBillLineItemAdjustment($product, $itemStore, $bill, $item);
-                }
-
+//                        if (empty($data['is_quote'])) {
+//                            $this->stockIn($itemStore, $bill, $origLineItems, $item, $isNew);
+//                        }
+//                    }
+//                    $this->saveBillLineItemAdjustment($bill, $product, $item);
+//                } else {
+//                    $this->saveBillLineItemAdjustment($bill, $product, $item);
+//                }
+                $this->saveBillLineItemAdjustment($bill, $product, $item);
 
             } // end of foreach loop
 
@@ -1712,6 +1716,7 @@ class BillRepository extends BaseRepository
         }
 
         $bill->amount = $total;
+        $bill->warehouse_id = !empty($bill->warehouse_id) ? $bill->warehouse_id : auth()->user()->branch->warehouse_id;
         $bill->is_received = true;
 
         $bill = $bill->save();

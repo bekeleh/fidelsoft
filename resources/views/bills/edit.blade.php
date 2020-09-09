@@ -96,7 +96,6 @@
     ->rules(array(
     'client' => 'required',
     'invoice_number' => 'required',
-    'warehouse_id' => 'required',
     'bill_date' => 'required',
     'public_notes' => 'required',
     'product_key' => 'max:255'
@@ -235,16 +234,16 @@ style: {color: $data.info_color}"></span>
                                     </div>
                                 </div>
                                 <!-- default warehouse -->
-                                @if ($entityType == ENTITY_BILL)
-                                    <div class="col-md-12">
-                                        {!! Former::select('warehouse_id')
-                                        ->placeholder(trans('texts.select_warehouse'))
-                                        ->label(trans('texts.warehouse'))
-                                        ->addGroupClass('warehouse-select')
-                                          ->help(trans('texts.warehouse_help') . ' | ' . link_to('/warehouses/', trans('texts.customize_options')))
-                                        !!}
-                                    </div>
-                                @endif
+                                {{--                                @if ($entityType == ENTITY_BILL)--}}
+                                {{--                                    <div class="col-md-12">--}}
+                                {{--                                        {!! Former::select('warehouse_id')--}}
+                                {{--                                        ->placeholder(trans('texts.select_warehouse'))--}}
+                                {{--                                        ->label(trans('texts.warehouse'))--}}
+                                {{--                                        ->addGroupClass('warehouse-select')--}}
+                                {{--                                          ->help(trans('texts.warehouse_help') . ' | ' . link_to('/warehouses/', trans('texts.customize_options')))--}}
+                                {{--                                        !!}--}}
+                                {{--                                    </div>--}}
+                                {{--                                @endif--}}
                             </div>
                         </div>
                         @if ($entityType == ENTITY_BILL)

@@ -7,6 +7,7 @@ use App\Models\Credit;
 use App\Models\Payment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
 
 class PaymentRepository extends BaseRepository
 {
@@ -188,7 +189,6 @@ class PaymentRepository extends BaseRepository
             return $payment;
         }
 
-        $paymentTypeId = false;
         if (isset($input['payment_type_id'])) {
             $payment->payment_type_id = $input['payment_type_id'] ? $input['payment_type_id'] : null;
         } else {
@@ -214,7 +214,7 @@ class PaymentRepository extends BaseRepository
         }
 
         $payment->fill($input);
-
+        $paymentTypeId = $input['payment_type_id'];
         if (!$publicId) {
             $clientId = $input['client_id'];
             $amount = round(Utils::parseFloat($input['amount']), 2);
