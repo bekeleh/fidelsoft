@@ -999,6 +999,7 @@ $LANG = array(
     'provide_email' => 'Please provide a valid email address',
     'powered_by' => 'Powered by',
     'team_source' => 'Fidelsoft Business Management Suit',
+    'text_logo' => 'Fidelsoft',
     'no_items' => 'No items',
     //  Recurring invoice
     'recurring_invoices' => 'Recurring Invoices',

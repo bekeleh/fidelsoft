@@ -240,10 +240,10 @@
             </button>
             <a href="#" id="left-menu-toggle" class="menu-toggle" title="{{ trans('texts.toggle_navigation') }}"
                style="color:white;">
-                <div class="navbar-brand">
+                <div class="navbar-brand pull-left">
                     <i class="fa fa-bars hide-phone" style="width:32px;padding-top:2px;float:left"></i>
-                    <img src="{{ asset('images/round_logo.png') }}" width="25" height="25" style="float:left"/>
-                    {{trans('texts.team_source')}}
+                    <img src="{{ asset('images/round_logo.png') }}" width="25" height="20" style="float:left"/>
+                    {{trans('texts.text_logo')}}
                 </div>
             </a>
         </div>
@@ -273,27 +273,21 @@
                 @foreach ([
                     'dashboard' => false,
                     'users' => false,
-                    'permission_groups' => false,
                     'clients' => false,
-                    'products' => false,
-                    'locations' => false,
-                    'bills' => false,
-                    'bill_quotes' => false,
-                    'bill_orders' => false,
-                    'vendor_credits' => false,
-                    'bill_payments' => false,
-                    'recurring_bills' => false,
+                    'vendors' => false,
                     'invoices' => false,
                     'quotes' => false,
                     'payments' => false,
                     'recurring_invoices' => false,
                     'credits' => false,
-                    'proposals' => false,
-                    'projects' => false,
-                    'tasks' => false,
+                     'bills' => false,
+                    'bill_quotes' => false,
+                    'bill_orders' => false,
+                    'vendor_credits' => false,
+                    'bill_payments' => false,
+                    'recurring_bills' => false,
+                    'products' => false,
                     'expenses' => false,
-                    'vendors' => false,
-                    'manufacturers' => false,
                     'schedules' => false,
                     'reports' => false,
                     'settings' => false,

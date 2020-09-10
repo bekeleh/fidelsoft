@@ -286,7 +286,14 @@
 @endif
 
 @yield('body')
-{{--<script src="{{ asset('js/toastr.min.js') }}" type="text/javascript"></script>--}}
+
+<center>
+    <div class="bottom" style="color: #777 !important;">
+        Copyright &copy;{{ date('Y') }}
+        <a href="mailto:fidelinvoice@gmail.com" style=";text-decoration: none;">
+            <strong>{{trans('texts.team_source')}}</strong> </a>. All rights reserved.
+    </div>
+</center>
 
 <script type="text/javascript">
     NINJA.formIsChanged = {{ isset($formIsChanged) && $formIsChanged ? 'true' : 'false' }};

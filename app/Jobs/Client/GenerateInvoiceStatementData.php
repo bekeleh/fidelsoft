@@ -44,6 +44,8 @@ class GenerateInvoiceStatementData
 
         $invoice->hidePrivateFields();
 
+        dd($invoice);
+
         return json_encode($invoice);
     }
 

@@ -44,21 +44,17 @@ class ClientController extends BaseController
         $this->clientService = $clientService;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     * @throws AuthorizationException
-     */
     public function index()
     {
         $this->authorize('view', ENTITY_CLIENT);
-        return View::make('list_wrapper', [
+        $data = [
             'entityType' => ENTITY_CLIENT,
             'datatable' => new ClientDatatable(),
             'title' => trans('texts.clients'),
             'statuses' => Client::getStatuses(),
-        ]);
+        ];
+
+        return response()->view('list_wrapper', $data);
     }
 
     public function getDatatable()
@@ -69,12 +65,7 @@ class ClientController extends BaseController
         return $this->clientService->getDatatable($accountId, $search);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param CreateClientRequest $request
-     * @return Response
-     */
+
     public function store(CreateClientRequest $request)
     {
         $client = $this->clientService->save($request->input());

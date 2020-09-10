@@ -106,8 +106,7 @@
         {{--        @endif--}}
     </div>
 
-    @include('footer')
-
+    {{--    @include('footer')--}}
     <script type="text/javascript">
         $(function () {
             if ($('#email').val()) {
