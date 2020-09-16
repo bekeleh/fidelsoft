@@ -315,7 +315,7 @@ $__env->startSection('head_css'); ?>
                 'users',
                 'invoices',
                  'quotes',
-                'recurring_invoices' => 'recurring',
+                'recurring_invoices',
                 'payments',
                 'credits',
                  'bills',
@@ -335,7 +335,7 @@ $__env->startSection('head_css'); ?>
                     <?php echo e(''); ?>
 
                 <?php else: ?>
-                    <?php if(Auth::check() ||Utils::isAdmin() || Auth::user()->can('view', substr($option, 0, -1))): ?>
+                    <?php if(Utils::isAdmin() || Auth::user()->can('view', substr($option, 0, -1))): ?>
                         <?php echo $__env->make('partials.navigation_option', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                     <?php endif; ?>
                 <?php endif; ?>
@@ -420,7 +420,7 @@ $__env->startSection('head_css'); ?>
                         <?php endif; ?>
                     <?php else: ?>
                         <!-- In Dev  -->
-                            <?php echo $__env->make('partials.white_label', ['company' => Auth::user()->account->company], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                            
                         <?php endif; ?>
                     </div>
                 </div>

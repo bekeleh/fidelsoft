@@ -44,16 +44,6 @@ class ExpenseDatatable extends EntityDatatable
                 },
             ],
             [
-                'expense_date',
-                function ($model) {
-                    if (Auth::user()->can('edit', [ENTITY_EXPENSE, $model]))
-                        return $this->addNote(link_to("expenses/{$model->public_id}/edit", Utils::fromSqlDate($model->expense_date_sql))->toHtml(), $model->private_notes);
-                    else
-                        return Utils::fromSqlDate($model->expense_date_sql);
-
-                },
-            ],
-            [
                 'invoice_number',
                 function ($model) {
                     return $this->showWithTooltip($model->invoice_number);
@@ -72,6 +62,12 @@ class ExpenseDatatable extends EntityDatatable
                     }
 
                     return $str;
+                },
+            ],
+            [
+                'transaction_reference',
+                function ($model) {
+                    return $this->showWithTooltip($model->transaction_reference);
                 },
             ],
             [
@@ -95,6 +91,16 @@ class ExpenseDatatable extends EntityDatatable
                 'status',
                 function ($model) {
                     return self::getStatusLabel($model->invoice_id, $model->should_be_invoiced, $model->balance, $model->payment_date);
+                },
+            ],
+            [
+                'expense_date',
+                function ($model) {
+                    if (Auth::user()->can('edit', [ENTITY_EXPENSE, $model]))
+                        return $this->addNote(link_to("expenses/{$model->public_id}/edit", Utils::fromSqlDate($model->expense_date_sql))->toHtml(), $model->private_notes);
+                    else
+                        return Utils::fromSqlDate($model->expense_date_sql);
+
                 },
             ],
             [

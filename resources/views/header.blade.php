@@ -309,7 +309,7 @@
                 'users',
                 'invoices',
                  'quotes',
-                'recurring_invoices' => 'recurring',
+                'recurring_invoices',
                 'payments',
                 'credits',
                  'bills',
@@ -328,7 +328,7 @@
                 @if(!Auth::user()->account->isModuleEnabled(substr($option, 0, -1)))
                     {{ '' }}
                 @else
-                    @if (Auth::check() ||Utils::isAdmin() || Auth::user()->can('view', substr($option, 0, -1)))
+                    @if (Utils::isAdmin() || Auth::user()->can('view', substr($option, 0, -1)))
                         @include('partials.navigation_option')
                     @endif
                 @endif
@@ -407,7 +407,7 @@
                         @endif
                     @else
                         <!-- In Dev  -->
-                            @include('partials.white_label', ['company' => Auth::user()->account->company])
+                            {{--                            @include('partials.white_label', ['company' => Auth::user()->account->company])--}}
                         @endif
                     </div>
                 </div>

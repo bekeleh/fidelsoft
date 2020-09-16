@@ -335,11 +335,10 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
             if (is_array(json_decode($this->permissions, 1)) && in_array($permission, json_decode($this->permissions, 1))) {
                 return true;
             } else {
-                $this->hasPermissionThroughGroup();
+                return $this->hasPermissionThroughGroup($permission);
             }
 
         } elseif (is_array($permission)) {
-
             if ($requireAll)
                 return count(array_intersect($permission, json_decode($this->permissions, 1))) === count($permission);
             else {
@@ -347,7 +346,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
                 if ($count > 0) {
                     return true;
                 } else {
-                    $this->hasPermissionThroughGroup();
+                    return $this->hasPermissionThroughGroup($permission);
                 }
             }
         }
@@ -362,7 +361,6 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
         if ((count($user_groups) === 0)) {
             return false;
         }
-
         foreach ($this->groups as $user_group) {
             $group_permissions = json_decode($user_group->permissions, true);
             if (is_string($permission)) {
@@ -476,6 +474,11 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
     {
         return (!$entity && $this->can('create', $entityType)) ||
             ($entity && $this->can('edit', $entity));
+    }
+
+    public function canView($entityType, $entity = false)
+    {
+        return $entity && $this->can('view', $entity);
     }
 
     public function primaryAccount()

@@ -21,7 +21,7 @@ class ClientDatatable extends EntityDatatable
                         $str = link_to("clients/{$model->public_id}", $model->client_name ?: '')->toHtml();
                         return $this->addNote($str, $model->private_notes);
                     } else {
-                        $model->vendor_name;
+                        return $model->client_name;
                     }
                 },
             ],
@@ -52,6 +52,12 @@ class ClientDatatable extends EntityDatatable
                     return $model->id_number;
                 },
                 Auth::user()->account->clientNumbersEnabled()
+            ],
+            [
+                'balance',
+                function ($model) {
+                    return Utils::formatMoney($model->balance, $model->currency_id, $model->country_id);
+                },
             ],
             [
                 'client_type_name',
@@ -87,12 +93,6 @@ class ClientDatatable extends EntityDatatable
                 'last_login',
                 function ($model) {
                     return Utils::timestampToDateString(strtotime($model->last_login));
-                },
-            ],
-            [
-                'balance',
-                function ($model) {
-                    return Utils::formatMoney($model->balance, $model->currency_id, $model->country_id);
                 },
             ],
             [

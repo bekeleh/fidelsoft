@@ -178,7 +178,7 @@
             var result = rows.reduce(function (result, field, index) {
                 result[columns[index]] = field;
                 return result;
-            }, {})
+            }, {});
 
             return JSON.stringify(result);
         }
@@ -232,8 +232,9 @@
 
     });
 
-    $('#edit_client, #view_client, #create_client').change(function() {
+    $('#edit_client, #view_client, #create_client,#edit_vendor, #view_vendor, #create_vendor,#edit_permission, #view_permission, #create_permission').change(function() {
     switch($(this).val()) {
+
     case 'create_client':
     $('#create_contact').prop('disabled', false); //set state of edit checkbox
     $('#create_contact').prop('checked', $('#create_client').is(':checked') );
@@ -248,6 +249,38 @@
     $('#edit_contact').prop('disabled', false); //set state of edit checkbox
     $('#edit_contact').prop('checked', $('#edit_client').is(':checked') );
     break;
+
+    case 'create_vendor':
+    $('#create_vendor_contact').prop('disabled', false); //set state of edit checkbox
+    $('#create_vendor_contact').prop('checked', $('#create_vendor').is(':checked') );
+    break;
+
+    case 'view_vendor':
+    $('#view_vendor_contact').prop('disabled', false); //set state of edit checkbox
+    $('#view_vendor_contact').prop('checked', $('#view_vendor').is(':checked') );
+    break;
+
+    case 'edit_vendor':
+    $('#edit_vendor_contact').prop('disabled', false); //set state of edit checkbox
+    $('#edit_vendor_contact').prop('checked', $('#edit_vendor').is(':checked') );
+    break;
+
+
+    case 'create_permission':
+    $('#create_permission_group').prop('disabled', false); //set state of edit checkbox
+    $('#create_permission_group').prop('checked', $('#create_permission').is(':checked') );
+    break;
+
+    case 'view_permission':
+    $('#view_permission_group').prop('disabled', false); //set state of edit checkbox
+    $('#view_permission_group').prop('checked', $('#view_permission').is(':checked') );
+    break;
+
+    case 'edit_permission':
+    $('#edit_permission_group').prop('disabled', false); //set state of edit checkbox
+    $('#edit_permission_group').prop('checked', $('#edit_permission').is(':checked') );
+    break;
+
     }
 
     });

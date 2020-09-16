@@ -24,7 +24,7 @@ class UserDatatable extends EntityDatatable
                 'username',
                 function ($model) {
                     if (Auth::user()->can('view', [ENTITY_USER]))
-                        return $model->public_id ? link_to("users/{$model->public_id}", $model->username)->toHtml() : null;
+                        return $model->public_id ? link_to("users/{$model->public_id}/edit", $model->username)->toHtml() : null;
                     else
                         return $model->username;
                 },
@@ -33,7 +33,7 @@ class UserDatatable extends EntityDatatable
                 'email',
                 function ($model) {
                     if (Auth::user()->can('view', [ENTITY_USER]))
-                        return link_to("users/{$model->public_id}", $model->email ?: '')->toHtml();
+                        return link_to("users/{$model->public_id}/edit", $model->email ?: '')->toHtml();
                     else
                         return $model->email;
                 },
@@ -163,7 +163,7 @@ class UserDatatable extends EntityDatatable
                     return URL::to("users/{$model->public_id}");
                 },
                 function ($model) {
-                    return Auth::user()->can('edit', [ENTITY_PERMISSION]);
+                    return Utils::hasPermission('admin');
                 }
             ],
             [
@@ -172,7 +172,7 @@ class UserDatatable extends EntityDatatable
                     return URL::to("force_reset_password/{$model->public_id}");
                 },
                 function ($model) {
-                    return Utils::hasPermission('admin');
+                    return Utils::hasPermission('admin') && auth()->user()->isSuperUser();
                 },
             ],
             [
@@ -181,7 +181,7 @@ class UserDatatable extends EntityDatatable
                     return URL::to("send_confirmation/{$model->public_id}");
                 },
                 function ($model) {
-                    return Utils::hasPermission('admin');
+                    return Utils::hasPermission('admin') && !$model->confirmed;
                 },
             ],
             [

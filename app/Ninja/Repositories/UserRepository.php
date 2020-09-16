@@ -68,6 +68,7 @@ class UserRepository extends BaseRepository
             ->leftJoin('locations', 'locations.id', '=', 'users.location_id')
             ->leftJoin('branches', 'branches.id', '=', 'users.branch_id')
             ->where('users.account_id', $accountId)
+            ->whereNotNull('users.public_id')
 //            ->where('users.deleted_at', null)
             ->select(
                 'users.id',
@@ -172,7 +173,6 @@ class UserRepository extends BaseRepository
         $user->last_name = isset($data['last_name']) ? trim($data['last_name']) : null;
         $user->username = isset($data['username']) ? trim($data['username']) : null;
         $user->email = isset($data['email']) ? trim($data['email']) : null;
-        $user->confirmed = isset($data['confirmed']) ? boolval($data['confirmed']) : 0;
         $user->activated = isset($data['activated']) ? boolval($data['activated']) : 0;
 
         $user->save();

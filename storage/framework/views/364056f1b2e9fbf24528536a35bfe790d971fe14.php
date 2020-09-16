@@ -1,63 +1,62 @@
-@extends('header')
-
-@section('content')
-    @parent
+<?php $__env->startSection('content'); ?>
+    ##parent-placeholder-040f06fd774092478d450774f5ba30c5da78acc8##
     <!-- Group detail -->
     <div class="panel panel-default">
         <div class="panel-heading" style="background-color:#777 !important">
-            <h3 class="panel-title in-bold-white"> {!! trans('texts.group_details') !!} </h3>
+            <h3 class="panel-title in-bold-white"> <?php echo trans('texts.group_details'); ?> </h3>
         </div>
         <div class="panel-body">
-            @if ($userGroup)
+            <?php if($userGroup): ?>
                 <p><i class="fa fa-id-number"
-                      style="width: 20px"></i>{{ trans('texts.id_number').': '.$userGroup->id }}</p>
-            @endif
-            @if ($userGroup->name)
-                <p>{{ trans('texts.permission_group_name').': '}}
-                    <strong>{{ $userGroup->present()->displayName}}</strong></p>
-            @endif
-            @if ($userGroup->notes)
-                <p><i>{!! nl2br(e($userGroup->notes)) !!}</i></p>
-            @endif
+                      style="width: 20px"></i><?php echo e(trans('texts.id_number').': '.$userGroup->id); ?></p>
+            <?php endif; ?>
+            <?php if($userGroup->name): ?>
+                <p><?php echo e(trans('texts.permission_group_name').': '); ?>
+
+                    <strong><?php echo e($userGroup->present()->displayName); ?></strong></p>
+            <?php endif; ?>
+            <?php if($userGroup->notes): ?>
+                <p><i><?php echo nl2br(e($userGroup->notes)); ?></i></p>
+            <?php endif; ?>
         </div>
     </div>
     <div class="panel panel-default">
         <div class="panel-heading" style="background-color:#777 !important">
-            <h3 class="panel-title in-bold-white"> {!! trans('texts.permissions') !!} </h3>
+            <h3 class="panel-title in-bold-white"> <?php echo trans('texts.permissions'); ?> </h3>
         </div>
         <div class="panel-body">
             <div>
-                @if ( ! Utils::hasFeature(FEATURE_USER_PERMISSIONS))
-                    <div class="alert alert-warning">{{ trans('texts.upgrade_for_permissions') }}</div>
+                <?php if( ! Utils::hasFeature(FEATURE_USER_PERMISSIONS)): ?>
+                    <div class="alert alert-warning"><?php echo e(trans('texts.upgrade_for_permissions')); ?></div>
                     <script type="text/javascript">
                         $(function () {
                             $('input[type=checkbox]').prop('disabled', true);
                         })
                     </script>
-                @endif
+                <?php endif; ?>
             </div>
             <div>
                 <table class="table table-striped dataTable">
                     <thead>
-                    <th>{!! trans('texts.permissions') !!}</th>
-                    <th style="padding-bottom:0px">{!! Former::checkbox('create')
+                    <th><?php echo trans('texts.permissions'); ?></th>
+                    <th style="padding-bottom:0px"><?php echo Former::checkbox('create')
                                   ->text( trans('texts.create') )
                                   ->value('create_')
                                   ->label('&nbsp;')
-                                  ->id('create_all') !!}</th>
-                    <th style="padding-bottom:0px">{!! Former::checkbox('view')
+                                  ->id('create_all'); ?></th>
+                    <th style="padding-bottom:0px"><?php echo Former::checkbox('view')
                                   ->text( trans('texts.view') )
                                   ->value('view_')
                                   ->label('&nbsp;')
-                                  ->id('view_all') !!}</th>
-                    <th style="padding-bottom:0px">{!! Former::checkbox('edit')
+                                  ->id('view_all'); ?></th>
+                    <th style="padding-bottom:0px"><?php echo Former::checkbox('edit')
                                   ->text( trans('texts.edit') )
                                   ->value('edit_')
                                   ->label('&nbsp;')
-                                  ->id('edit_all') !!}</th>
+                                  ->id('edit_all'); ?></th>
                     </thead>
                     <tbody>
-                    @foreach (json_decode(PERMISSION_ENTITIES,1) as $permissionEntity)
+                    <?php $__currentLoopData = json_decode(PERMISSION_ENTITIES,1); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $permissionEntity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <?php
                         if (isset($userGroup->permissions))
                             $permissions = json_decode($userGroup->permissions, 1);
@@ -65,25 +64,25 @@
                             $permissions = [];
                         ?>
                         <tr>
-                            <td>{{ ucfirst($permissionEntity) }}</td>
+                            <td><?php echo e(ucfirst($permissionEntity)); ?></td>
 
-                            <td>{!! Former::checkbox('permissions[create_' . $permissionEntity . ']')
+                            <td><?php echo Former::checkbox('permissions[create_' . $permissionEntity . ']')
                                   ->label('&nbsp;')
                                   ->value('create_' . $permissionEntity . '')
                                   ->id('create_' . $permissionEntity . '')
-                                  ->check(is_array($permissions) && in_array('create_' . $permissionEntity, $permissions, FALSE) ? true : false) !!}</td>
-                            <td>{!! Former::checkbox('permissions[view_' . $permissionEntity . ']')
+                                  ->check(is_array($permissions) && in_array('create_' . $permissionEntity, $permissions, FALSE) ? true : false); ?></td>
+                            <td><?php echo Former::checkbox('permissions[view_' . $permissionEntity . ']')
                                   ->label('&nbsp;')
                                   ->value('view_' . $permissionEntity . '')
                                   ->id('view_' . $permissionEntity . '')
-                                  ->check(is_array($permissions) && in_array('view_' . $permissionEntity, $permissions, FALSE) ? true : false) !!}</td>
-                            <td>{!! Former::checkbox('permissions[edit_' . $permissionEntity . ']')
+                                  ->check(is_array($permissions) && in_array('view_' . $permissionEntity, $permissions, FALSE) ? true : false); ?></td>
+                            <td><?php echo Former::checkbox('permissions[edit_' . $permissionEntity . ']')
                                   ->label('&nbsp;')
                                   ->value('edit_' . $permissionEntity . '')
                                   ->id('edit_' . $permissionEntity . '')
-                                  ->check(is_array($permissions) && in_array('edit_' . $permissionEntity, $permissions, FALSE) ? true : false) !!}</td>
+                                  ->check(is_array($permissions) && in_array('edit_' . $permissionEntity, $permissions, FALSE) ? true : false); ?></td>
                         </tr>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     <tr>
                         <td><input type="checkbox" id="view_contact" value="view_contact"
                                    name="permissions[view_contact]" style="display:none">
@@ -98,25 +97,28 @@
         </div>
     </div>
     <center class="buttons">
-        {!! Button::normal(trans('texts.cancel'))->asLinkTo(URL::to('/permission_groups'))->appendIcon(Icon::create('remove-circle'))->large() !!}
-        {!! ($userGroup) ? Button::success(trans('texts.save'))->withAttributes(['onclick' => 'submitAction()'])->large()->appendIcon(Icon::create('floppy-disk')) : false !!}
+        <?php echo Button::normal(trans('texts.cancel'))->asLinkTo(URL::to('/permission_groups'))->appendIcon(Icon::create('remove-circle'))->large(); ?>
+
+        <?php echo ($userGroup) ? Button::success(trans('texts.save'))->withAttributes(['onclick' => 'submitAction()'])->large()->appendIcon(Icon::create('floppy-disk')) : false; ?>
+
     </center>
-    {!! Former::close() !!}
+    <?php echo Former::close(); ?>
+
     <script type="text/javascript">
         function submitAction() {
             var inputElements = document.querySelectorAll('input[type=checkbox]:checked');
             var permissions = getPermission(inputElements);
 
-            var $account_id ={{$userGroup->account_id}};
-            var $public_id ={{$userGroup->public_id}};
+            var $account_id =<?php echo e($userGroup->account_id); ?>;
+            var $public_id =<?php echo e($userGroup->public_id); ?>;
             $.ajax({
-                url: '{{ URL::to('/permission_groups/change_permission') }}',
+                url: '<?php echo e(URL::to('/permission_groups/change_permission')); ?>',
                 type: 'POST',
                 dataType: 'json',
                 data: 'permissions=' + permissions + '&account_id=' + $account_id + '&public_id=' + $public_id,
                 success: function (result) {
                     if (result.success) {
-                        swal("{{trans('texts.updated_user_permission')}}");
+                        swal("<?php echo e(trans('texts.updated_user_permission')); ?>");
                     }
                 }
             });
@@ -142,9 +144,9 @@
             return JSON.stringify(result);
         }
     </script>
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('onReady')
+<?php $__env->startSection('onReady'); ?>
 
     $('#first_name').focus();
 
@@ -284,4 +286,5 @@
     $('#create_contact').prop('checked', $('#create_client').is(':checked') );
 
     }
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
