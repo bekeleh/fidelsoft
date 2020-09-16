@@ -310,7 +310,7 @@ class BillPayment extends EntityModel
             ->get(['json_backup'])
             ->first();
 
-        return $activity->json_backup ?: null;
+        return isset($activity->json_backup) ? $activity->json_backup : null;
     }
 }
 

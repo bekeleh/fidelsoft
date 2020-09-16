@@ -29,7 +29,7 @@
                                 <label class="col-sm-offset-2 col-sm-2 control-label"></label>
                                 <div class="col-sm-6">
                                     <div class="input-group">
-                                        <?php echo Former::checkbox('refund_email')->text('send_email_to_client')->raw(); ?>
+                                        <?php echo Former::checkbox('refund_email')->text('send_email_to_vendor')->raw(); ?>
 
                                     </div>
                                 </div>
