@@ -45,6 +45,18 @@ class PaymentDatatable extends EntityDatatable
                 !$this->hideClient,
             ],
             [
+                'amount',
+                function ($model) {
+                    $amount = Utils::formatMoney($model->amount, $model->currency_id, $model->country_id);
+
+                    if ($model->exchange_currency_id && $model->exchange_rate != 1) {
+                        $amount .= ' | ' . Utils::formatMoney($model->amount * $model->exchange_rate, $model->exchange_currency_id, $model->country_id);
+                    }
+
+                    return $amount;
+                },
+            ],
+            [
                 'transaction_reference',
                 function ($model) {
                     $str = $model->transaction_reference ? e($model->transaction_reference) : '<i>' . trans('texts.manual_entry') . '</i>';
@@ -94,18 +106,6 @@ class PaymentDatatable extends EntityDatatable
                             return '<img height="22" src="' . URL::to('/images/credit_cards/ach.png') . '" alt="' . htmlentities($card_type) . '">&nbsp; &bull;&bull;&bull;' . $model->last4;
                         }
                     }
-                },
-            ],
-            [
-                'amount',
-                function ($model) {
-                    $amount = Utils::formatMoney($model->amount, $model->currency_id, $model->country_id);
-
-                    if ($model->exchange_currency_id && $model->exchange_rate != 1) {
-                        $amount .= ' | ' . Utils::formatMoney($model->amount * $model->exchange_rate, $model->exchange_currency_id, $model->country_id);
-                    }
-
-                    return $amount;
                 },
             ],
             [

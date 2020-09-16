@@ -2,6 +2,8 @@
 
 namespace App\Ninja\Repositories;
 
+use App\Events\Vendor\VendorWasCreatedEvent;
+use App\Events\Vendor\VendorWasUpdatedEvent;
 use App\Jobs\PurgeVendorData;
 use App\Models\Vendor;
 use Illuminate\Support\Facades\Auth;
@@ -138,6 +140,13 @@ class VendorRepository extends BaseRepository
                     $contact->delete();
                 }
             }
+        }
+
+
+        if (!$publicId || intval($publicId) < 0) {
+            event(new VendorWasCreatedEvent($vendor));
+        } else {
+            event(new VendorWasUpdatedEvent($vendor));
         }
 
         return $vendor;

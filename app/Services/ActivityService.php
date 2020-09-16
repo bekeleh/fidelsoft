@@ -61,7 +61,6 @@ class ActivityService extends BaseService
 
         $vendorId = Vendor::getPrivateId($vendorPublicId);
 
-
         $query = $this->activityRepo->findByVendorId($vendorId, $search);
 
         return $this->datatableService->createDatatable($datatable, $query);

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners\Report;
+namespace App\Listeners\Vendor;
 
 use App\Events\Vendor\VendorWasCreatedEvent;
 use App\Events\Vendor\VendorWasDeletedEvent;
