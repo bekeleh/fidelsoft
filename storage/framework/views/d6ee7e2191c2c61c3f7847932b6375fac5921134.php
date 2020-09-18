@@ -202,123 +202,123 @@
         }
     </style>
 
-{{--    <link rel='stylesheet' id='fancybox_css-css'--}}
-{{--          href='https://www.invoiceninja.com/wp-content/plugins/mxyoutuber/assets/fancybox/jquery.fancybox.min.css?ver=2.04'--}}
-{{--          type='text/css' media='all'/>--}}
-{{--    <link rel='stylesheet' id='wordpress-popular-posts-css-css'--}}
-{{--          href='https://www.invoiceninja.com/wp-content/plugins/wordpress-popular-posts/public/css/wpp.css?ver=4.1.2'--}}
-{{--          type='text/css' media='all'/>--}}
 
-{{--    <link rel='stylesheet' id='gforms_reset_css-css'--}}
-{{--          href='https://www.invoiceninja.com/wp-content/plugins/gravityforms/css/formreset.min.css?ver=2.2.6.5'--}}
-{{--          type='text/css' media='all'/>--}}
-{{--    <link rel='stylesheet' id='gforms_formsmain_css-css'--}}
-{{--          href='https://www.invoiceninja.com/wp-content/plugins/gravityforms/css/formsmain.min.css?ver=2.2.6.5'--}}
-{{--          type='text/css' media='all'/>--}}
 
-{{--    <link rel='stylesheet' id='gforms_ready_class_css-css'--}}
-{{--          href='https://www.invoiceninja.com/wp-content/plugins/gravityforms/css/readyclass.min.css?ver=2.2.6.5'--}}
-{{--          type='text/css' media='all'/>--}}
-{{--    <link rel='stylesheet' id='gforms_browsers_css-css'--}}
-{{--          href='https://www.invoiceninja.com/wp-content/plugins/gravityforms/css/browsers.min.css?ver=2.2.6.5'--}}
-{{--          type='text/css' media='all'/>--}}
 
-{{--    <link rel='stylesheet' id='font-awesome-5-all-css'--}}
-{{--          href='https://www.invoiceninja.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css?ver=3.5.1'--}}
-{{--          type='text/css' media='all'/>--}}
-{{--    <link rel='stylesheet' id='font-awesome-4-shim-css'--}}
-{{--          href='https://www.invoiceninja.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/v4-shims.min.css?ver=3.5.1'--}}
-{{--          type='text/css' media='all'/>--}}
 
-{{--    <link rel='stylesheet' id='ea-admin-bar-css'--}}
-{{--          href='https://www.invoiceninja.com/wp-content/plugins/essential-addons-for-elementor-lite/assets/admin/css/admin-bar.css?ver=3.5.1'--}}
-{{--          type='text/css' media='all'/>--}}
-{{--    <link rel='stylesheet' id='roboto-css'--}}
-{{--          href='https://fonts.googleapis.com/css?family=Roboto%3A400%2C400italic%2C900%2C900italic%2C300%2C300italic%2C500%2C500italic&#038;ver=4.9.10'--}}
-{{--          type='text/css' media='all'/>--}}
-{{--    <link rel='stylesheet' id='reset-css'--}}
-{{--          href='https://www.invoiceninja.com/wp-content/themes/invoice-ninja/css/reset.css?ver=4.9.10' type='text/css'--}}
-{{--          media='all'/>--}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- for header menu -->
-    {{--    <link rel='stylesheet' id='style-css'--}}
-    {{--          href='https://www.invoiceninja.com/wp-content/themes/invoice-ninja/style.css?ver=99.400000000000000000000048'--}}
-    {{--          type='text/css' media='all'/>--}}
+    
+    
+    
 
-    {{--    <link rel='stylesheet' id='jetpack-widget-social-icons-styles-css'--}}
-    {{--          href='https://www.invoiceninja.com/wp-content/plugins/jetpack/modules/widgets/social-icons/social-icons.css?ver=20170506'--}}
-    {{--          type='text/css' media='all'/>--}}
+    
+    
+    
 
-    {{--    <link rel='stylesheet' id='jetpack_css-css'--}}
-    {{--          href='https://www.invoiceninja.com/wp-content/plugins/jetpack/css/jetpack.css?ver=6.2.1' type='text/css'--}}
-    {{--          media='all'/>--}}
+    
+    
+    
 
-    {{--    <link rel='stylesheet' id='wppb_stylesheet-css'--}}
-    {{--          href='https://www.invoiceninja.com/wp-content/plugins/profile-builder/assets/css/style-front-end.css?ver=2.8.4'--}}
-    {{--          type='text/css' media='all'/>--}}
+    
+    
+    
 
     <link rel='stylesheet' id='bbp-default-css'
-          href='{{asset('css/bbpress.css?ver=2.5.14-6684')}}'
+          href='<?php echo e(asset('css/bbpress.css?ver=2.5.14-6684')); ?>'
           type='text/css' media='screen'/>
     <link rel='stylesheet' id='mxyoutuber_css-css'
-          href='{{asset('css/frontend.css?ver=2.04')}}'
+          href='<?php echo e(asset('css/frontend.css?ver=2.04')); ?>'
           type='text/css' media='all'/>
     <link rel='stylesheet' id='google_font_roboto-css'
-          href='{{asset('css/css?family=Roboto%3A400%2C400italic%2C500%2C500italic%2C700%2C700italic&#038;subset=latin%2Ccyrillic&#038;ver=4.9.10')}}'
+          href='<?php echo e(asset('css/css?family=Roboto%3A400%2C400italic%2C500%2C500italic%2C700%2C700italic&#038;subset=latin%2Ccyrillic&#038;ver=4.9.10')); ?>'
           type='text/css' media='all'/>
     <link rel='stylesheet' id='fancybox_css-css'
-          href='{{asset('css/jquery.fancybox.min.css?ver=2.04')}}'
+          href='<?php echo e(asset('css/jquery.fancybox.min.css?ver=2.04')); ?>'
           type='text/css' media='all'/>
 
     <link rel='stylesheet' id='wordpress-popular-posts-css-css'
-          href='{{asset('css/wpp.css')}}'
+          href='<?php echo e(asset('css/wpp.css')); ?>'
           type='text/css' media='all'/>
 
     <link rel='stylesheet' id='gforms_reset_css-css'
-          href='{{asset('css/formreset.min.css?ver=2.2.6.5')}}'
+          href='<?php echo e(asset('css/formreset.min.css?ver=2.2.6.5')); ?>'
           type='text/css' media='all'/>
     <link rel='stylesheet' id='gforms_formsmain_css-css'
-          href='{{asset('css/formsmain.min.css?ver=2.2.6.5')}}'
+          href='<?php echo e(asset('css/formsmain.min.css?ver=2.2.6.5')); ?>'
           type='text/css' media='all'/>
 
     <link rel='stylesheet' id='gforms_ready_class_css-css'
-          href='{{asset('css/readyclass.min.css?ver=2.2.6.5')}}'
+          href='<?php echo e(asset('css/readyclass.min.css?ver=2.2.6.5')); ?>'
           type='text/css' media='all'/>
     <link rel='stylesheet' id='gforms_browsers_css-css'
-          href='{{asset('css/browsers.min.css?ver=2.2.6.5')}}'
+          href='<?php echo e(asset('css/browsers.min.css?ver=2.2.6.5')); ?>'
           type='text/css' media='all'/>
 
     <link rel='stylesheet' id='font-awesome-5-all-css'
-          href='{{asset('css/all.min.css?ver=3.5.1')}}'
+          href='<?php echo e(asset('css/all.min.css?ver=3.5.1')); ?>'
           type='text/css' media='all'/>
     <link rel='stylesheet' id='font-awesome-4-shim-css'
-          href='{{asset('css/v4-shims.min.css?ver=3.5.1')}}'
+          href='<?php echo e(asset('css/v4-shims.min.css?ver=3.5.1')); ?>'
           type='text/css' media='all'/>
 
     <link rel='stylesheet' id='ea-admin-bar-css'
-          href='{{asset('css/admin-bar.css?ver=3.5.1')}}'
+          href='<?php echo e(asset('css/admin-bar.css?ver=3.5.1')); ?>'
           type='text/css' media='all'/>
     <link rel='stylesheet' id='roboto-css'
           href='https://fonts.googleapis.com/css?family=Roboto%3A400%2C400italic%2C900%2C900italic%2C300%2C300italic%2C500%2C500italic&#038;ver=4.9.10'
           type='text/css' media='all'/>
     <link rel='stylesheet' id='reset-css'
-          href='{{asset('css/reset.css?ver=4.9.10')}}' type='text/css'
+          href='<?php echo e(asset('css/reset.css?ver=4.9.10')); ?>' type='text/css'
           media='all'/>
     <!-- for header menu -->
     <link rel='stylesheet' id='style-css'
-          href='{{asset('css/style.css')}}'
+          href='<?php echo e(asset('css/style.css')); ?>'
           type='text/css' media='all'/>
 
 
     <link rel='stylesheet' id='jetpack-widget-social-icons-styles-css'
-          href='{{asset('css/social-icons.css?ver=20170506')}}'
+          href='<?php echo e(asset('css/social-icons.css?ver=20170506')); ?>'
           type='text/css' media='all'/>
 
     <link rel='stylesheet' id='jetpack_css-css'
-          href='{{asset('css/jetpack.css?ver=6.2.1')}}' type='text/css'
+          href='<?php echo e(asset('css/jetpack.css?ver=6.2.1')); ?>' type='text/css'
           media='all'/>
 
     <link rel='stylesheet' id='wppb_stylesheet-css'
-          href='{{asset('css/style-front-end.css?ver=2.8.4')}}'
+          href='<?php echo e(asset('css/style-front-end.css?ver=2.8.4')); ?>'
           type='text/css' media='all'/>
 
 
@@ -337,13 +337,13 @@
         /* ]]> */
     </script>
     <script type='text/javascript'
-            src='{{asset('js/frontend.min.js?ver=7.0.6')}}'></script>
+            src='<?php echo e(asset('js/frontend.min.js?ver=7.0.6')); ?>'></script>
     <script type='text/javascript'
-            src='{{asset('js/jquery.js?ver=1.12.4')}}'></script>
+            src='<?php echo e(asset('js/jquery.js?ver=1.12.4')); ?>'></script>
     <script type='text/javascript'
-            src='{{asset('js/jquery-migrate.min.js?ver=1.4.1')}}'></script>
+            src='<?php echo e(asset('js/jquery-migrate.min.js?ver=1.4.1')); ?>'></script>
     <script type='text/javascript'
-            src='{{asset('js/jquery.fancybox.min.js?ver=2.04')}}'></script>
+            src='<?php echo e(asset('js/jquery.fancybox.min.js?ver=2.04')); ?>'></script>
     <script type='text/javascript'>
         /* <![CDATA[ */
         var mxyt_ajax_object = {
@@ -353,7 +353,7 @@
         /* ]]> */
     </script>
     <script type='text/javascript'
-            src='{{asset('js/frontend.js?ver=2.04')}}'></script>
+            src='<?php echo e(asset('js/frontend.js?ver=2.04')); ?>'></script>
     <script type='text/javascript'>
         /* <![CDATA[ */
         var wpp_params = {
@@ -369,24 +369,24 @@
     </script>
 
     <script type='text/javascript'
-            src='{{asset('js/wpp-4.1.0.min.js?ver=4.1.2')}}'></script>
+            src='<?php echo e(asset('js/wpp-4.1.0.min.js?ver=4.1.2')); ?>'></script>
     <script type='text/javascript'
-            src='{{asset('js/jquery.json.min.js?ver=2.2.6.5')}}'></script>
+            src='<?php echo e(asset('js/jquery.json.min.js?ver=2.2.6.5')); ?>'></script>
     <script type='text/javascript'
-            src='{{asset('js/gravityforms.min.js?ver=2.2.6.5')}}'></script>
+            src='<?php echo e(asset('js/gravityforms.min.js?ver=2.2.6.5')); ?>'></script>
     <script type='text/javascript'
-            src='{{asset('js/placeholders.jquery.min.js?ver=2.2.6.5')}}'></script>
+            src='<?php echo e(asset('js/placeholders.jquery.min.js?ver=2.2.6.5')); ?>'></script>
     <script type='text/javascript'
-            src='{{asset('js/v4-shims.min.js?ver=3.5.1')}}'></script>
+            src='<?php echo e(asset('js/v4-shims.min.js?ver=3.5.1')); ?>'></script>
     <script type='text/javascript'
-            src='{{asset('js/admin-bar.js?ver=3.5.1')}}'></script>
+            src='<?php echo e(asset('js/admin-bar.js?ver=3.5.1')); ?>'></script>
     <script type='text/javascript'>
         /* <![CDATA[ */
         var sgr_recaptcha = {"site_key": "6Lflc8QUAAAAAKcvnn17IqoxHj5hVBJv8ylL8CyI"};
         /* ]]> */
     </script>
     <script type='text/javascript'
-            src='{{asset('js/main.js?v=3.0&#038;ver=4.9.10')}}'></script>
+            src='<?php echo e(asset('js/main.js?v=3.0&#038;ver=4.9.10')); ?>'></script>
     <script type='text/javascript'
             src='https://www.google.com/recaptcha/api.js?hl=en_US&#038;onload=sgr&#038;render=explicit&#038;ver=4.9.10'></script>
     <script type='text/javascript'>
@@ -394,31 +394,31 @@
         var the_ajax_script = {"ajaxurl": "https:\/\/www.fidel.com.et\/wp-admin\/admin-ajax.php"};
         /* ]]> */
     </script>
-    <script type='text/javascript' src='{{asset('js/bbpress-auto-subscription.js?ver=4.9.10')}}'>
+    <script type='text/javascript' src='<?php echo e(asset('js/bbpress-auto-subscription.js?ver=4.9.10')); ?>'>
     </script>
 
-{{--    <link rel='shortlink' href='https://wp.me/P67afv-5Ob'/>--}}
-{{--    <link rel="alternate" type="application/json+oembed"--}}
-{{--          href="https://www.invoiceninja.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.invoiceninja.com%2F"/>--}}
-{{--    <link rel="alternate" type="text/xml+oembed"--}}
-{{--          href="https://www.invoiceninja.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.invoiceninja.com%2F&#038;format=xml"/>--}}
 
-{{--    <script type="text/javascript">--}}
-{{--        PADO = {"base_url": "https:\/\/www.fidel.com.et"};--}}
-{{--    </script>--}}
-{{--    <style text="text/css" id="document-style-css">--}}
-{{--    </style>--}}
-{{--    <link rel="shortcut icon" href="https://www.invoiceninja.com/wp-content/uploads/2015/06/favicon2.png"/>--}}
-{{--    <link rel='dns-prefetch' href='//v0.wordpress.com'/>--}}
-{{--    <style type='text/css'>img#wpstats {--}}
-{{--            display: none--}}
-{{--        }</style>--}}
 
-{{--    <link rel="stylesheet" type="text/css" id="wp-custom-css"--}}
-{{--          href="https://www.invoiceninja.com/?custom-css=4982678388"/>--}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <!--[if lt IE 9]>
-<script src="{{asset('js/respond.js')}}"></script>
+<script src="<?php echo e(asset('js/respond.js')); ?>"></script>
 <![endif]-->
     <!-- Facebook Pixel Code -->
     <script>
@@ -721,7 +721,7 @@
             }
 
             .column-100.wsdSection.wsdquote {
-                background: url('{{asset('images/fidel-log.png')}}');
+                background: url('<?php echo e(asset('images/fidel-log.png')); ?>');
                 width: 100%;
                 float: left;
                 background-size: contain;
@@ -740,7 +740,7 @@
             }
 
             .wsd2018c .invoices-on-the-go.dark {
-                background: url('{{asset('images/fidel-log.png')}}') no-repeat top center;
+                background: url('<?php echo e(asset('images/fidel-log.png')); ?>') no-repeat top center;
                 background-size: cover;
             }
 
@@ -792,45 +792,45 @@
         <span class="wsd2018c">
 
 <header class="page-header"
-        style="background-image: url('{{asset('images/bg-home2018b.jpg')}}');">
-{{--    style="background-image: url(https://www.fidel.com.et/wp-content/uploads/2018/04/bg-home2018b.jpg);"--}}
+        style="background-image: url('<?php echo e(asset('images/bg-home2018b.jpg')); ?>');">
+
 <div class="title-strip all-apps-head">
 <div class="wrap">
 <div class="columns padding">
 <div class="half">
-{{--<h1 class="page-title">Ultimate Businesses Trust Fidelsoft </h1>--}}
-    {{--<ul>--}}
-    {{--<li>--}}
-    {{--<a href="https://www.fidel.com.et/clients/"><h2>--}}
-    {{--<img class="feature-icon"--}}
-    {{--     src="{{asset('images/icon-vendors2.png')}}"/>CRM</h2></a>--}}
-    {{--</li>--}}
-    {{--<li>--}}
-    {{--<a href="https://www.fidel.com.et/invoices/"><h2>--}}
-    {{--<img class="feature-icon"--}}
-    {{--     src="{{asset('images/icon-invoicingpayments.png')}}"/>Sales & Payments</h2></a>--}}
-    {{--</li>--}}
-    {{--<li>--}}
-    {{--<a href="https://www.fidel.com.et/bills/"><h2>--}}
-    {{--<img class="feature-icon"--}}
-    {{--     src="{{asset('images/icon-invoicingpayments.png')}}"/>Purchases & Payments</h2></a>--}}
-    {{--</li>--}}
-    {{--<li>--}}
-    {{--<a href="https://www.fidel.com.et/Products/"><h2>--}}
-    {{--<img class="feature-icon"--}}
-    {{--     src="{{asset('images/icon-invoicingpayments.png')}}"/>Inventory</h2></a>--}}
-    {{--</li>--}}
-    {{--<li>--}}
-    {{--<a href="https://www.fidel.com.et/expenses/"><h2>--}}
-    {{--<img class="feature-icon"--}}
-    {{--     src="{{asset('images/icon-invoicingpayments.png')}}"/>Expense</h2></a>--}}
-    {{--</li>--}}
-    {{--<li>--}}
-    {{--<a href="https://www.fidel.com.et/vendors/"><h2>--}}
-    {{--<img class="feature-icon"--}}
-    {{--     src="{{asset('images/icon-vendors2.png')}}"/>Vendor</h2></a>--}}
-    {{--</li>--}}
-    {{--</ul>--}}
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 </div>
 <div class="half">
@@ -844,15 +844,15 @@
 
 <main id="content" role="main">
 <div class="entry columns padding clearfix wsd">
-{{--<div class="column-100 wsdcenter">--}}
-    {{--<h2 class="column-70">CRM, Sales, Purchases, Inventory, Expense, and more... </h2>--}}
-    {{--</div>--}}
+
+    
+    
 <section class="wsdSection">
 <div class="row">
 <!-- sales -->
 <div class="wsdCard">
 <h4>Sales Invoices & Auto-Billing</h4>
-<img src="{{asset('images/invoice-and-quote-ninja-01.png')}}"
+<img src="<?php echo e(asset('images/invoice-and-quote-ninja-01.png')); ?>"
      alt="icon">
 <div class="items"><ul>
 <li>Custom Branded Invoice Design</li>
@@ -867,7 +867,7 @@
     <!-- sales payments -->
 <div class="wsdCard">
 <h4>Payments Methods</h4>
-<img src="{{asset('images/get-paid-ninja-01.png')}}"
+<img src="<?php echo e(asset('images/get-paid-ninja-01.png')); ?>"
      alt="icon">
 <div class="items"><ul>
 <li>Accept Deposits & Partial Payments on Invoices</li>
@@ -880,7 +880,7 @@
     <!-- quotations -->
 <div class="wsdCard">
 <h4>Quotations & Proposals</h4>
-<img src="{{asset('images/proposals-ninja-01.png')}}"
+<img src="<?php echo e(asset('images/proposals-ninja-01.png')); ?>"
      alt="icon">
 <div class="items"><ul>
 <li>Real-Time Quote & PDF Creation</li>
@@ -896,7 +896,7 @@
     <!-- purchases -->
 <div class="wsdCard">
 <h4>Purchases Bills & Auto-Billing</h4>
-<img src="{{asset('images/invoice-and-quote-ninja-01.png')}}"
+<img src="<?php echo e(asset('images/invoice-and-quote-ninja-01.png')); ?>"
      alt="icon">
 <div class="items"><ul>
 <li>Vendor Billing & Auto-Bill</li>
@@ -908,7 +908,7 @@
     <!-- Inventory management -->
 <div class="wsdCard">
 <h4>Products & Services</h4>
-<img src="{{asset('images/invoice-and-quote-ninja-01.png')}}"
+<img src="<?php echo e(asset('images/invoice-and-quote-ninja-01.png')); ?>"
      alt="icon">
 <div class="items"><ul>
 <li>Create Products & Services</li>
@@ -923,7 +923,7 @@
     <!-- Client Management -->
 <div class="wsdCard">
 <h4>CRM</h4>
-<img src="{{asset('images/icon-vendors2.png')}}"
+<img src="<?php echo e(asset('images/icon-vendors2.png')); ?>"
      alt="icon">
 <div class="items"><ul>
 <li>Easily Create, Import & View Clients</li>
@@ -936,7 +936,7 @@
     <!-- Vendor Management -->
 <div class="wsdCard">
 <h4>Vendor Management</h4>
-<img src="{{asset('images/icon-vendors2.png')}}"
+<img src="<?php echo e(asset('images/icon-vendors2.png')); ?>"
      alt="icon">
 <div class="items"><ul>
 <li>Easily Create, Import & View Vendors</li>
@@ -947,7 +947,7 @@
     <!-- Expense tracking -->
 <div class="wsdCard">
 <h4>Expenses & Reporting</h4>
-<img src="{{asset('images/expenses-ninja-01.png')}}"
+<img src="<?php echo e(asset('images/expenses-ninja-01.png')); ?>"
      alt="icon">
 <div class="items"><ul>
 <li>Easily Create, Import & View Expenses</li>
@@ -962,7 +962,7 @@
     <!-- work flows -->
 <div class="wsdCard">
 <h4>Project Workflows</h4>
-<img src="{{asset('images/workflow-ninja-01.png')}}"
+<img src="<?php echo e(asset('images/workflow-ninja-01.png')); ?>"
      alt="icon">
 <div class="items"><ul>
 <li>Organize Project Workflow with Kanban Boards</li>
@@ -975,19 +975,19 @@
 </div>
 
     <!-- time tracking activity -->
-{{--<div class="wsdCard">--}}
-    {{--<h4>Time-Track Work</h4>--}}
-    {{--<img src="{{asset('images/time-track-ninja-01.png')}}"--}}
-    {{--     alt="icon">--}}
-    {{--<div class="items"><ul>--}}
-    {{--<li>Track-Time Online via your Webapp Account</li>--}}
-    {{--<li>Launch a Time-Tracker via a Desktop app</li>--}}
-    {{--<li>Convert Timed Tasks to Invoices with 1-Click</li>--}}
-    {{--<li>Manually Set Task Time Durations</li>--}}
-    {{--<li>Easily Categorize & Search Tasks</li>--}}
-    {{--</ul></div>--}}
-    {{--<a href="#" class="cta">LEARN MORE ►</a>--}}
-    {{--</div>--}}
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 </div>
 </section>
@@ -997,10 +997,10 @@
 <div class="wrap wsdpricing">
 <h2 class="column-70">Choose Your Plan</h2>
 <div class="columns padding clearfix">
-{{--<a href="https://www.fidel.com.et/fidel-pricing-plans/">--}}
-    {{--    <img class="pricing-home" width="100%" --}}
-    {{--         src="{{asset('images/images/pic-pricing-homepage.jpg')}}"/>--}}
-    {{--</a>--}}
+
+    
+    
+    
 <main id="content" role="main">
 <article>
 <div class="entry pricing clearfix">
@@ -1019,7 +1019,7 @@
 </header>
 <div class="everything-plus">
 <p>
-<img width="21" src="{{asset('images/icon-toolbox.png')}}"/>
+<img width="21" src="<?php echo e(asset('images/icon-toolbox.png')); ?>"/>
 Fidelsoft Pro
 </p>
 </div>
@@ -1064,7 +1064,7 @@ Fidelsoft Pro
 </header>
 <div class="everything-plus">
 <p>
-<img width="21" src="{{asset('images/icon-toolbox.png')}}"/>Fidelsoft Enterprise
+<img width="21" src="<?php echo e(asset('images/icon-toolbox.png')); ?>"/>Fidelsoft Enterprise
 </p>
 </div>
 <ul>
@@ -1120,38 +1120,38 @@ Fidelsoft Pro
 </header>
 <div class="everything-plus">
     <p>
-        <img width="21" src="{{asset('images/icon-toolbox.png')}}"/> Free &amp; Pro Features + Enterprise
+        <img width="21" src="<?php echo e(asset('images/icon-toolbox.png')); ?>"/> Free &amp; Pro Features + Enterprise
     </p>
 </div>
 <ul>
 </ul>
 <ul class="premium-pricing">
 <li>
-<img width="101" height="99" src="{{asset('icon-permission.png')}}"
+<img width="101" height="99" src="<?php echo e(asset('icon-permission.png')); ?>"
      class="attachment-full size-full" alt=""/>
     <h4>Premium</h4>
 <h3>Multiple Users & Access Permissions</h3>
 </li>
 <li>
-<img width="99" height="100" src="{{asset('images/icon-clip.png')}}" class="attachment-full size-full" alt=""/>
+<img width="99" height="100" src="<?php echo e(asset('images/icon-clip.png')); ?>" class="attachment-full size-full" alt=""/>
     <h4>Premium</h4>
 <h3>Attach 3rd Party Files to Invoices & Quotes</h3>
 </li>
 <li>
-<img width="100" height="100" src="{{asset('images/icon-customlink-1.png')}}"
+<img width="100" height="100" src="<?php echo e(asset('images/icon-customlink-1.png')); ?>"
      class="attachment-full size-full" alt=""/>
     <h4>Premium</h4>
 <h3>Fully Branded Client Portals: "YourCompany.com/link"</h3>
 </li>
 <li>
-<img width="96" height="95" src="{{asset('images/icon-n-bg-images.png')}}"
+<img width="96" height="95" src="<?php echo e(asset('images/icon-n-bg-images.png')); ?>"
      class="attachment-full size-full" alt=""/>
     <h4>Premium</h4>
 <h3>Add a Custom Background Image to Invoices</h3>
 </li>
 </ul>
 <footer>
-{{--    https://www.fidel.com.et/invoice_now?sign_up=true--}}
+
 <a href="#" class="button button-grey">Sign Up!</a>
 </footer>
 </div><!-- .column -->
@@ -1177,15 +1177,15 @@ Fidelsoft Pro
                 <h2>Learning & Resources</h2>
                 <ul class="icons-4">
                     <li><img class="half-size"
-                             src="{{asset('images/icon-foot-userguide.png')}}"/><br/><a
+                             src="<?php echo e(asset('images/icon-foot-userguide.png')); ?>"/><br/><a
                                 href="#">Fidelsoft User Guide</a>
                     </li>
                     <li><img class="half-size"
-                             src="{{asset('images/icon-foot-videotutorials.png')}}"/><br/><a
+                             src="<?php echo e(asset('images/icon-foot-videotutorials.png')); ?>"/><br/><a
                                 href="#">Videos & Tutorials</a>
                     </li>
                     <li><img class="half-size"
-                             src="{{asset('images/icon-foot-knowledgebase.png')}}"/><br/><a
+                             src="<?php echo e(asset('images/icon-foot-knowledgebase.png')); ?>"/><br/><a
                                 href="#">Knowledgebase</a>
                     </li>
                 </ul>
@@ -1244,7 +1244,7 @@ Fidelsoft Pro
 
     <div class="foot-bottom">
         <div class="column-3">
-            <img class="half-size" src="{{asset('images/fidel-log.png')}}"/>
+            <img class="half-size" src="<?php echo e(asset('images/fidel-log.png')); ?>"/>
         </div>
         <div class="column-3">
             <div class="menu-footer-legal-container">
@@ -1279,7 +1279,7 @@ Fidelsoft Pro
 <div id="mobile-nav">
     <a href="#" class="close">Close</a>
     <header>
-        <img width="241" height="31" src="{{asset('images/fidel-logo.png')}}"
+        <img width="241" height="31" src="<?php echo e(asset('images/fidel-logo.png')); ?>"
              alt="fidelsoft" class="logo">
     </header>
 </div><!-- .mobile-nav -->
@@ -1287,21 +1287,21 @@ Fidelsoft Pro
 <div style="display:none">
 </div>
 <script type='text/javascript'
-        src='{{asset('js/editor.js?ver=2.5.14-6684')}}'></script>
-<script type='text/javascript' src='{{asset('js/devicepx-jetpack.js?ver=202037')}}'></script>
+        src='<?php echo e(asset('js/editor.js?ver=2.5.14-6684')); ?>'></script>
+<script type='text/javascript' src='<?php echo e(asset('js/devicepx-jetpack.js?ver=202037')); ?>'></script>
 <script type='text/javascript'
-        src='{{asset('js/jquery.rwdImageMaps.min.js?ver=4.9.10')}}'></script>
+        src='<?php echo e(asset('js/jquery.rwdImageMaps.min.js?ver=4.9.10')); ?>'></script>
 <script type='text/javascript'
-        src='{{asset('js/matchHeight.js?ver=4.9.10')}}'></script>
+        src='<?php echo e(asset('js/matchHeight.js?ver=4.9.10')); ?>'></script>
 <script type='text/javascript'
-        src='{{asset('js/fancybox.js?ver=4.9.10')}}'></script>
+        src='<?php echo e(asset('js/fancybox.js?ver=4.9.10')); ?>'></script>
 <script type='text/javascript'
-        src='{{asset('js/svgeezy.js?ver=4.9.10')}}'></script>
+        src='<?php echo e(asset('js/svgeezy.js?ver=4.9.10')); ?>'></script>
 <script type='text/javascript'
-        src='{{asset('js/modernizr.custom.js?ver=4.9.10')}}'></script>
+        src='<?php echo e(asset('js/modernizr.custom.js?ver=4.9.10')); ?>'></script>
 <script type='text/javascript'
-        src='{{asset('js/custom.js?ver=1.000000001')}}'></script>
-<script type='text/javascript' src='{{asset('js/wp-embed.min.js?ver=4.9.10')}}'></script>
+        src='<?php echo e(asset('js/custom.js?ver=1.000000001')); ?>'></script>
+<script type='text/javascript' src='<?php echo e(asset('js/wp-embed.min.js?ver=4.9.10')); ?>'></script>
 <!-- start Simple Custom CSS and JS -->
 <style type="text/css">
     .wsdCard {
@@ -1325,7 +1325,7 @@ Fidelsoft Pro
 
 
     .wsd2018c .invoices-on-the-go.dark {
-        background: url('{{asset('images/phone-new.jpg')}}') !important;
+        background: url('<?php echo e(asset('images/phone-new.jpg')); ?>') !important;
         background-repeat: no-repeat !important;
         background-size: cover !important;
     }

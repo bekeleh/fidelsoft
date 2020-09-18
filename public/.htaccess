@@ -19,7 +19,7 @@
 
     # In case of running InvoiceNinja in a Subdomain like invoiceninja.example.com,
     # you have to enable the following line:
-    # RewriteBase /
+    RewriteBase /
 </IfModule>
 
 <IfModule mod_headers.c>

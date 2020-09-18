@@ -5,7 +5,7 @@
   RewriteRule ^(.well-known)($|/) - [L]
   
   # https://coderwall.com/p/erbaig/laravel-s-htaccess-to-remove-public-from-url
-  # RewriteRule ^(.*)$ public/$1 [L]
+  RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
 
 # https://github.com/h5bp/server-configs-apache/blob/master/dist/.htaccess
