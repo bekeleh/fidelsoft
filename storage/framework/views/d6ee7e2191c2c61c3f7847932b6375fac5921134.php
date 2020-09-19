@@ -202,59 +202,9 @@
         }
     </style>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- for header menu -->
-    
-    
-    
-
-    
-    
-    
-
-    
-    
-    
-
-    
-    
-    
+    <link rel='stylesheet' id='roboto-css'
+          href='https://fonts.googleapis.com/css?family=Roboto%3A400%2C400italic%2C900%2C900italic%2C300%2C300italic%2C500%2C500italic&#038;ver=4.9.10'
+          type='text/css' media='all'/>
 
     <link rel='stylesheet' id='bbp-default-css'
           href='<?php echo e(asset('css/bbpress.css?ver=2.5.14-6684')); ?>'
@@ -262,9 +212,7 @@
     <link rel='stylesheet' id='mxyoutuber_css-css'
           href='<?php echo e(asset('css/frontend.css?ver=2.04')); ?>'
           type='text/css' media='all'/>
-    <link rel='stylesheet' id='google_font_roboto-css'
-          href='<?php echo e(asset('css/css?family=Roboto%3A400%2C400italic%2C500%2C500italic%2C700%2C700italic&#038;subset=latin%2Ccyrillic&#038;ver=4.9.10')); ?>'
-          type='text/css' media='all'/>
+
     <link rel='stylesheet' id='fancybox_css-css'
           href='<?php echo e(asset('css/jquery.fancybox.min.css?ver=2.04')); ?>'
           type='text/css' media='all'/>
@@ -396,26 +344,6 @@
     </script>
     <script type='text/javascript' src='<?php echo e(asset('js/bbpress-auto-subscription.js?ver=4.9.10')); ?>'>
     </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <!--[if lt IE 9]>
 <script src="<?php echo e(asset('js/respond.js')); ?>"></script>
@@ -721,7 +649,7 @@
             }
 
             .column-100.wsdSection.wsdquote {
-                background: url('<?php echo e(asset('images/fidel-log.png')); ?>');
+                background: url('<?php echo e(asset('/images/fidel-log.png')); ?>');
                 width: 100%;
                 float: left;
                 background-size: contain;
@@ -740,7 +668,7 @@
             }
 
             .wsd2018c .invoices-on-the-go.dark {
-                background: url('<?php echo e(asset('images/fidel-log.png')); ?>') no-repeat top center;
+                background: url('<?php echo e(asset('/images/fidel-log.png')); ?>') no-repeat top center;
                 background-size: cover;
             }
 
@@ -792,7 +720,7 @@
         <span class="wsd2018c">
 
 <header class="page-header"
-        style="background-image: url('<?php echo e(asset('images/bg-home2018b.jpg')); ?>');">
+        style="background-image: url('<?php echo e(asset('/images/bg-home2018b.jpg')); ?>');">
 
 <div class="title-strip all-apps-head">
 <div class="wrap">
@@ -1120,31 +1048,31 @@ Fidelsoft Pro
 </header>
 <div class="everything-plus">
     <p>
-        <img width="21" src="<?php echo e(asset('images/icon-toolbox.png')); ?>"/> Free &amp; Pro Features + Enterprise
+        <img width="21" src="<?php echo e(asset('/images/icon-toolbox.png')); ?>"/> Free &amp; Pro Features + Enterprise
     </p>
 </div>
 <ul>
 </ul>
 <ul class="premium-pricing">
 <li>
-<img width="101" height="99" src="<?php echo e(asset('icon-permission.png')); ?>"
+<img width="101" height="99" src="<?php echo e(asset('/images/icon-permission.png')); ?>"
      class="attachment-full size-full" alt=""/>
     <h4>Premium</h4>
 <h3>Multiple Users & Access Permissions</h3>
 </li>
 <li>
-<img width="99" height="100" src="<?php echo e(asset('images/icon-clip.png')); ?>" class="attachment-full size-full" alt=""/>
+<img width="99" height="100" src="<?php echo e(asset('/images/icon-clip.png')); ?>" class="attachment-full size-full" alt=""/>
     <h4>Premium</h4>
 <h3>Attach 3rd Party Files to Invoices & Quotes</h3>
 </li>
 <li>
-<img width="100" height="100" src="<?php echo e(asset('images/icon-customlink-1.png')); ?>"
+<img width="100" height="100" src="<?php echo e(asset('/images/icon-customlink-1.png')); ?>"
      class="attachment-full size-full" alt=""/>
     <h4>Premium</h4>
 <h3>Fully Branded Client Portals: "YourCompany.com/link"</h3>
 </li>
 <li>
-<img width="96" height="95" src="<?php echo e(asset('images/icon-n-bg-images.png')); ?>"
+<img width="96" height="95" src="<?php echo e(asset('/images/icon-n-bg-images.png')); ?>"
      class="attachment-full size-full" alt=""/>
     <h4>Premium</h4>
 <h3>Add a Custom Background Image to Invoices</h3>
@@ -1177,15 +1105,15 @@ Fidelsoft Pro
                 <h2>Learning & Resources</h2>
                 <ul class="icons-4">
                     <li><img class="half-size"
-                             src="<?php echo e(asset('images/icon-foot-userguide.png')); ?>"/><br/><a
+                             src="<?php echo e(asset('/images/icon-foot-userguide.png')); ?>"/><br/><a
                                 href="#">Fidelsoft User Guide</a>
                     </li>
                     <li><img class="half-size"
-                             src="<?php echo e(asset('images/icon-foot-videotutorials.png')); ?>"/><br/><a
+                             src="<?php echo e(asset('/images/icon-foot-videotutorials.png')); ?>"/><br/><a
                                 href="#">Videos & Tutorials</a>
                     </li>
                     <li><img class="half-size"
-                             src="<?php echo e(asset('images/icon-foot-knowledgebase.png')); ?>"/><br/><a
+                             src="<?php echo e(asset('/images/icon-foot-knowledgebase.png')); ?>"/><br/><a
                                 href="#">Knowledgebase</a>
                     </li>
                 </ul>
@@ -1244,7 +1172,8 @@ Fidelsoft Pro
 
     <div class="foot-bottom">
         <div class="column-3">
-            <img class="half-size" src="<?php echo e(asset('images/fidel-log.png')); ?>"/>
+            <img src="<?php echo e(asset('/images/fidel-logo.png')); ?>"
+                 alt="fidelsoft" class="logo">
         </div>
         <div class="column-3">
             <div class="menu-footer-legal-container">
@@ -1279,7 +1208,7 @@ Fidelsoft Pro
 <div id="mobile-nav">
     <a href="#" class="close">Close</a>
     <header>
-        <img width="241" height="31" src="<?php echo e(asset('images/fidel-logo.png')); ?>"
+        <img width="241" height="31" src="<?php echo e(asset('/images/fidel-logo.png')); ?>"
              alt="fidelsoft" class="logo">
     </header>
 </div><!-- .mobile-nav -->
@@ -1325,7 +1254,7 @@ Fidelsoft Pro
 
 
     .wsd2018c .invoices-on-the-go.dark {
-        background: url('<?php echo e(asset('images/phone-new.jpg')); ?>') !important;
+        background: url('<?php echo e(asset('/images/phone-new.jpg')); ?>') !important;
         background-repeat: no-repeat !important;
         background-size: cover !important;
     }

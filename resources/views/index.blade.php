@@ -202,59 +202,9 @@
         }
     </style>
 
-{{--    <link rel='stylesheet' id='fancybox_css-css'--}}
-{{--          href='https://www.invoiceninja.com/wp-content/plugins/mxyoutuber/assets/fancybox/jquery.fancybox.min.css?ver=2.04'--}}
-{{--          type='text/css' media='all'/>--}}
-{{--    <link rel='stylesheet' id='wordpress-popular-posts-css-css'--}}
-{{--          href='https://www.invoiceninja.com/wp-content/plugins/wordpress-popular-posts/public/css/wpp.css?ver=4.1.2'--}}
-{{--          type='text/css' media='all'/>--}}
-
-{{--    <link rel='stylesheet' id='gforms_reset_css-css'--}}
-{{--          href='https://www.invoiceninja.com/wp-content/plugins/gravityforms/css/formreset.min.css?ver=2.2.6.5'--}}
-{{--          type='text/css' media='all'/>--}}
-{{--    <link rel='stylesheet' id='gforms_formsmain_css-css'--}}
-{{--          href='https://www.invoiceninja.com/wp-content/plugins/gravityforms/css/formsmain.min.css?ver=2.2.6.5'--}}
-{{--          type='text/css' media='all'/>--}}
-
-{{--    <link rel='stylesheet' id='gforms_ready_class_css-css'--}}
-{{--          href='https://www.invoiceninja.com/wp-content/plugins/gravityforms/css/readyclass.min.css?ver=2.2.6.5'--}}
-{{--          type='text/css' media='all'/>--}}
-{{--    <link rel='stylesheet' id='gforms_browsers_css-css'--}}
-{{--          href='https://www.invoiceninja.com/wp-content/plugins/gravityforms/css/browsers.min.css?ver=2.2.6.5'--}}
-{{--          type='text/css' media='all'/>--}}
-
-{{--    <link rel='stylesheet' id='font-awesome-5-all-css'--}}
-{{--          href='https://www.invoiceninja.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css?ver=3.5.1'--}}
-{{--          type='text/css' media='all'/>--}}
-{{--    <link rel='stylesheet' id='font-awesome-4-shim-css'--}}
-{{--          href='https://www.invoiceninja.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/v4-shims.min.css?ver=3.5.1'--}}
-{{--          type='text/css' media='all'/>--}}
-
-{{--    <link rel='stylesheet' id='ea-admin-bar-css'--}}
-{{--          href='https://www.invoiceninja.com/wp-content/plugins/essential-addons-for-elementor-lite/assets/admin/css/admin-bar.css?ver=3.5.1'--}}
-{{--          type='text/css' media='all'/>--}}
-{{--    <link rel='stylesheet' id='roboto-css'--}}
-{{--          href='https://fonts.googleapis.com/css?family=Roboto%3A400%2C400italic%2C900%2C900italic%2C300%2C300italic%2C500%2C500italic&#038;ver=4.9.10'--}}
-{{--          type='text/css' media='all'/>--}}
-{{--    <link rel='stylesheet' id='reset-css'--}}
-{{--          href='https://www.invoiceninja.com/wp-content/themes/invoice-ninja/css/reset.css?ver=4.9.10' type='text/css'--}}
-{{--          media='all'/>--}}
-<!-- for header menu -->
-    {{--    <link rel='stylesheet' id='style-css'--}}
-    {{--          href='https://www.invoiceninja.com/wp-content/themes/invoice-ninja/style.css?ver=99.400000000000000000000048'--}}
-    {{--          type='text/css' media='all'/>--}}
-
-    {{--    <link rel='stylesheet' id='jetpack-widget-social-icons-styles-css'--}}
-    {{--          href='https://www.invoiceninja.com/wp-content/plugins/jetpack/modules/widgets/social-icons/social-icons.css?ver=20170506'--}}
-    {{--          type='text/css' media='all'/>--}}
-
-    {{--    <link rel='stylesheet' id='jetpack_css-css'--}}
-    {{--          href='https://www.invoiceninja.com/wp-content/plugins/jetpack/css/jetpack.css?ver=6.2.1' type='text/css'--}}
-    {{--          media='all'/>--}}
-
-    {{--    <link rel='stylesheet' id='wppb_stylesheet-css'--}}
-    {{--          href='https://www.invoiceninja.com/wp-content/plugins/profile-builder/assets/css/style-front-end.css?ver=2.8.4'--}}
-    {{--          type='text/css' media='all'/>--}}
+    <link rel='stylesheet' id='roboto-css'
+          href='https://fonts.googleapis.com/css?family=Roboto%3A400%2C400italic%2C900%2C900italic%2C300%2C300italic%2C500%2C500italic&#038;ver=4.9.10'
+          type='text/css' media='all'/>
 
     <link rel='stylesheet' id='bbp-default-css'
           href='{{asset('css/bbpress.css?ver=2.5.14-6684')}}'
@@ -262,9 +212,7 @@
     <link rel='stylesheet' id='mxyoutuber_css-css'
           href='{{asset('css/frontend.css?ver=2.04')}}'
           type='text/css' media='all'/>
-    <link rel='stylesheet' id='google_font_roboto-css'
-          href='{{asset('css/css?family=Roboto%3A400%2C400italic%2C500%2C500italic%2C700%2C700italic&#038;subset=latin%2Ccyrillic&#038;ver=4.9.10')}}'
-          type='text/css' media='all'/>
+
     <link rel='stylesheet' id='fancybox_css-css'
           href='{{asset('css/jquery.fancybox.min.css?ver=2.04')}}'
           type='text/css' media='all'/>
@@ -396,26 +344,6 @@
     </script>
     <script type='text/javascript' src='{{asset('js/bbpress-auto-subscription.js?ver=4.9.10')}}'>
     </script>
-
-{{--    <link rel='shortlink' href='https://wp.me/P67afv-5Ob'/>--}}
-{{--    <link rel="alternate" type="application/json+oembed"--}}
-{{--          href="https://www.invoiceninja.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.invoiceninja.com%2F"/>--}}
-{{--    <link rel="alternate" type="text/xml+oembed"--}}
-{{--          href="https://www.invoiceninja.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.invoiceninja.com%2F&#038;format=xml"/>--}}
-
-{{--    <script type="text/javascript">--}}
-{{--        PADO = {"base_url": "https:\/\/www.fidel.com.et"};--}}
-{{--    </script>--}}
-{{--    <style text="text/css" id="document-style-css">--}}
-{{--    </style>--}}
-{{--    <link rel="shortcut icon" href="https://www.invoiceninja.com/wp-content/uploads/2015/06/favicon2.png"/>--}}
-{{--    <link rel='dns-prefetch' href='//v0.wordpress.com'/>--}}
-{{--    <style type='text/css'>img#wpstats {--}}
-{{--            display: none--}}
-{{--        }</style>--}}
-
-{{--    <link rel="stylesheet" type="text/css" id="wp-custom-css"--}}
-{{--          href="https://www.invoiceninja.com/?custom-css=4982678388"/>--}}
 
 <!--[if lt IE 9]>
 <script src="{{asset('js/respond.js')}}"></script>
@@ -721,7 +649,7 @@
             }
 
             .column-100.wsdSection.wsdquote {
-                background: url('{{asset('images/fidel-log.png')}}');
+                background: url('{{asset('/images/fidel-log.png')}}');
                 width: 100%;
                 float: left;
                 background-size: contain;
@@ -740,7 +668,7 @@
             }
 
             .wsd2018c .invoices-on-the-go.dark {
-                background: url('{{asset('images/fidel-log.png')}}') no-repeat top center;
+                background: url('{{asset('/images/fidel-log.png')}}') no-repeat top center;
                 background-size: cover;
             }
 
@@ -792,7 +720,7 @@
         <span class="wsd2018c">
 
 <header class="page-header"
-        style="background-image: url('{{asset('images/bg-home2018b.jpg')}}');">
+        style="background-image: url('{{asset('/images/bg-home2018b.jpg')}}');">
 {{--    style="background-image: url(https://www.fidel.com.et/wp-content/uploads/2018/04/bg-home2018b.jpg);"--}}
 <div class="title-strip all-apps-head">
 <div class="wrap">
@@ -803,32 +731,32 @@
     {{--<li>--}}
     {{--<a href="https://www.fidel.com.et/clients/"><h2>--}}
     {{--<img class="feature-icon"--}}
-    {{--     src="{{asset('images/icon-vendors2.png')}}"/>CRM</h2></a>--}}
+    {{--     src="{{asset('/images/icon-vendors2.png')}}"/>CRM</h2></a>--}}
     {{--</li>--}}
     {{--<li>--}}
     {{--<a href="https://www.fidel.com.et/invoices/"><h2>--}}
     {{--<img class="feature-icon"--}}
-    {{--     src="{{asset('images/icon-invoicingpayments.png')}}"/>Sales & Payments</h2></a>--}}
+    {{--     src="{{asset('/images/icon-invoicingpayments.png')}}"/>Sales & Payments</h2></a>--}}
     {{--</li>--}}
     {{--<li>--}}
     {{--<a href="https://www.fidel.com.et/bills/"><h2>--}}
     {{--<img class="feature-icon"--}}
-    {{--     src="{{asset('images/icon-invoicingpayments.png')}}"/>Purchases & Payments</h2></a>--}}
+    {{--     src="{{asset('/images/icon-invoicingpayments.png')}}"/>Purchases & Payments</h2></a>--}}
     {{--</li>--}}
     {{--<li>--}}
     {{--<a href="https://www.fidel.com.et/Products/"><h2>--}}
     {{--<img class="feature-icon"--}}
-    {{--     src="{{asset('images/icon-invoicingpayments.png')}}"/>Inventory</h2></a>--}}
+    {{--     src="{{asset('/images/icon-invoicingpayments.png')}}"/>Inventory</h2></a>--}}
     {{--</li>--}}
     {{--<li>--}}
     {{--<a href="https://www.fidel.com.et/expenses/"><h2>--}}
     {{--<img class="feature-icon"--}}
-    {{--     src="{{asset('images/icon-invoicingpayments.png')}}"/>Expense</h2></a>--}}
+    {{--     src="{{asset('/images/icon-invoicingpayments.png')}}"/>Expense</h2></a>--}}
     {{--</li>--}}
     {{--<li>--}}
     {{--<a href="https://www.fidel.com.et/vendors/"><h2>--}}
     {{--<img class="feature-icon"--}}
-    {{--     src="{{asset('images/icon-vendors2.png')}}"/>Vendor</h2></a>--}}
+    {{--     src="{{asset('/images/icon-vendors2.png')}}"/>Vendor</h2></a>--}}
     {{--</li>--}}
     {{--</ul>--}}
 
@@ -1120,31 +1048,31 @@ Fidelsoft Pro
 </header>
 <div class="everything-plus">
     <p>
-        <img width="21" src="{{asset('images/icon-toolbox.png')}}"/> Free &amp; Pro Features + Enterprise
+        <img width="21" src="{{asset('/images/icon-toolbox.png')}}"/> Free &amp; Pro Features + Enterprise
     </p>
 </div>
 <ul>
 </ul>
 <ul class="premium-pricing">
 <li>
-<img width="101" height="99" src="{{asset('icon-permission.png')}}"
+<img width="101" height="99" src="{{asset('/images/icon-permission.png')}}"
      class="attachment-full size-full" alt=""/>
     <h4>Premium</h4>
 <h3>Multiple Users & Access Permissions</h3>
 </li>
 <li>
-<img width="99" height="100" src="{{asset('images/icon-clip.png')}}" class="attachment-full size-full" alt=""/>
+<img width="99" height="100" src="{{asset('/images/icon-clip.png')}}" class="attachment-full size-full" alt=""/>
     <h4>Premium</h4>
 <h3>Attach 3rd Party Files to Invoices & Quotes</h3>
 </li>
 <li>
-<img width="100" height="100" src="{{asset('images/icon-customlink-1.png')}}"
+<img width="100" height="100" src="{{asset('/images/icon-customlink-1.png')}}"
      class="attachment-full size-full" alt=""/>
     <h4>Premium</h4>
 <h3>Fully Branded Client Portals: "YourCompany.com/link"</h3>
 </li>
 <li>
-<img width="96" height="95" src="{{asset('images/icon-n-bg-images.png')}}"
+<img width="96" height="95" src="{{asset('/images/icon-n-bg-images.png')}}"
      class="attachment-full size-full" alt=""/>
     <h4>Premium</h4>
 <h3>Add a Custom Background Image to Invoices</h3>
@@ -1177,15 +1105,15 @@ Fidelsoft Pro
                 <h2>Learning & Resources</h2>
                 <ul class="icons-4">
                     <li><img class="half-size"
-                             src="{{asset('images/icon-foot-userguide.png')}}"/><br/><a
+                             src="{{asset('/images/icon-foot-userguide.png')}}"/><br/><a
                                 href="#">Fidelsoft User Guide</a>
                     </li>
                     <li><img class="half-size"
-                             src="{{asset('images/icon-foot-videotutorials.png')}}"/><br/><a
+                             src="{{asset('/images/icon-foot-videotutorials.png')}}"/><br/><a
                                 href="#">Videos & Tutorials</a>
                     </li>
                     <li><img class="half-size"
-                             src="{{asset('images/icon-foot-knowledgebase.png')}}"/><br/><a
+                             src="{{asset('/images/icon-foot-knowledgebase.png')}}"/><br/><a
                                 href="#">Knowledgebase</a>
                     </li>
                 </ul>
@@ -1244,7 +1172,8 @@ Fidelsoft Pro
 
     <div class="foot-bottom">
         <div class="column-3">
-            <img class="half-size" src="{{asset('images/fidel-log.png')}}"/>
+            <img src="{{asset('/images/fidel-logo.png')}}"
+                 alt="fidelsoft" class="logo">
         </div>
         <div class="column-3">
             <div class="menu-footer-legal-container">
@@ -1279,7 +1208,7 @@ Fidelsoft Pro
 <div id="mobile-nav">
     <a href="#" class="close">Close</a>
     <header>
-        <img width="241" height="31" src="{{asset('images/fidel-logo.png')}}"
+        <img width="241" height="31" src="{{asset('/images/fidel-logo.png')}}"
              alt="fidelsoft" class="logo">
     </header>
 </div><!-- .mobile-nav -->
@@ -1325,7 +1254,7 @@ Fidelsoft Pro
 
 
     .wsd2018c .invoices-on-the-go.dark {
-        background: url('{{asset('images/phone-new.jpg')}}') !important;
+        background: url('{{asset('/images/phone-new.jpg')}}') !important;
         background-repeat: no-repeat !important;
         background-size: cover !important;
     }
