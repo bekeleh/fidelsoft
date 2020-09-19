@@ -2,22 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/public/css.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/icon-close.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/icon-foot-users.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/icon-ft-facebook.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/icon-ft-git.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/icon-ft-twitter.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/icon-ft-youtube.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/li-star-grey.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/li-star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/bmNGURhHmvkhHau1mg4FaS1NZ2MvkFCSSlu2aBk8" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/7Nh2k23mzjm00LT1kAoETDCbSRVdyFIe7Cn9sxaJ" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/jScf83IhCoPcCFFyc2PXKwagQS3KFxE18UjfFGcx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/03efba010240a672126cb75903850efc2f6c5a42.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/164a304441f125a84b726bac92ff14e69906aa98.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/3a820e3699124697be10fafab1a304baae41f817.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/3c83481e25e3665f586f8dcf6abccfff4b8de92e.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/4e2ab5f4a468d3b9f9052d3716c7deee4de44366.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/58d214bc6a35d4d4a7d5e7711f8e782eba601406.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/5a279825be94ef626588f64c9b0c4b73ebaa9e40.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/8631eef0d79bb90c52d7e5e53c20fe5130fa29b5.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/91c182d0c259ac53866b38df85fffb074d0d4fb6.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/98d950c591c331bff3b70cbd31036fabe84191cf.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/ac84fbd078e74302cdb0375e82ab9e3748786d04.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/b673967645066c25ea299f7ef3c25c8f9f50f223.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/d05e21dc4052c9336e934f8d4491a36d174bad0e.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/db72111d53ed80bd61018ff586df638fb73fb9a9.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/d6ee7e2191c2c61c3f7847932b6375fac5921134.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/d6ee7e2191c2c61c3f7847932b6375fac5921134.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/DashboardController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/DashboardController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/dashboard.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/dashboard.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/rzfupJjTGRGz8pawrjKKHCYKCveLX47lbNjeEIWN" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/d6ee7e2191c2c61c3f7847932b6375fac5921134.php" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -601,14 +606,8 @@
       <workItem from="1600452178706" duration="4108000" />
       <workItem from="1600457448962" duration="5574000" />
       <workItem from="1600465299766" duration="1375000" />
-      <workItem from="1600493124427" duration="4811000" />
-    </task>
-    <task id="LOCAL-00542" summary="2020-09-01 9:27">
-      <created>1598990708214</created>
-      <option name="number" value="00542" />
-      <option name="presentableId" value="LOCAL-00542" />
-      <option name="project" value="LOCAL" />
-      <updated>1598990708214</updated>
+      <workItem from="1600493124427" duration="4851000" />
+      <workItem from="1600550127353" duration="1366000" />
     </task>
     <task id="LOCAL-00543" summary="2020-09-01 9:27">
       <created>1598994536336</created>
@@ -946,7 +945,14 @@
       <option name="project" value="LOCAL" />
       <updated>1600465245336</updated>
     </task>
-    <option name="localTasksCounter" value="591" />
+    <task id="LOCAL-00591" summary="2020-09-20 9:27">
+      <created>1600499391944</created>
+      <option name="number" value="00591" />
+      <option name="presentableId" value="LOCAL-00591" />
+      <option name="project" value="LOCAL" />
+      <updated>1600499391945</updated>
+    </task>
+    <option name="localTasksCounter" value="592" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -970,7 +976,6 @@
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="2020-08-13 9:27" />
     <MESSAGE value="2020-08-14 9:27" />
     <MESSAGE value="2020-08-15 9:27" />
     <MESSAGE value="2020-08-16 9:27" />
@@ -995,17 +1000,18 @@
     <MESSAGE value="2020-09-10 9:27" />
     <MESSAGE value="2020-09-16 9:27" />
     <MESSAGE value="2020-09-19 9:27" />
-    <option name="LAST_COMMIT_MESSAGE" value="2020-09-19 9:27" />
+    <MESSAGE value="2020-09-20 9:27" />
+    <option name="LAST_COMMIT_MESSAGE" value="2020-09-20 9:27" />
   </component>
   <component name="WindowStateProjectService">
     <state x="317" y="0" key="#Deployment" timestamp="1592045080985">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="317" y="0" key="#Deployment/0.0.1280.680@0.0.1280.680" timestamp="1592045080985" />
-    <state x="277" y="0" key="#Notifications" timestamp="1595919475448">
+    <state x="277" y="0" key="#Notifications" timestamp="1600550144873">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="277" y="0" key="#Notifications/0.0.1280.680@0.0.1280.680" timestamp="1595919475448" />
+    <state x="277" y="0" key="#Notifications/0.0.1280.680@0.0.1280.680" timestamp="1600550144873" />
     <state x="233" y="0" key="#Plugins" timestamp="1596910734635">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -1043,10 +1049,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1597344338612" />
-    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1600465243631">
+    <state x="141" y="0" key="CommitChangelistDialog2" timestamp="1600499388891">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1600465243631" />
+    <state x="141" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1600499388891" />
     <state x="159" y="0" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1599746303208" />
     <state x="109" y="31" key="DiffContextDialog" timestamp="1594902501485">
       <screen x="0" y="0" width="1280" height="680" />
@@ -1079,10 +1085,10 @@
     </state>
     <state x="67" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1599395123621" />
     <state x="75" y="0" key="SettingsEditor/0.0.1440.860@0.0.1440.860" timestamp="1599129398220" />
-    <state x="421" y="115" key="com.intellij.ide.util.TipDialog" timestamp="1600493127170">
+    <state x="421" y="115" key="com.intellij.ide.util.TipDialog" timestamp="1600550127311">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="421" y="115" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1600493127170" />
+    <state x="421" y="115" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1600550127311" />
     <state x="423" y="154" key="com.intellij.ide.util.TipDialog/0.0.1440.860@0.0.1440.860" timestamp="1600414439661" />
     <state x="341" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1598362085078">
       <screen x="0" y="0" width="1440" height="860" />

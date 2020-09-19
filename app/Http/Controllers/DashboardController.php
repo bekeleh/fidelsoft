@@ -27,7 +27,7 @@ class DashboardController extends BaseController
     {
 //        $this->authorize('view', ENTITY_DASHBOARD);
         if (!Auth::check()) {
-            return;
+            return null;
         }
 
         $user = Auth::user();
