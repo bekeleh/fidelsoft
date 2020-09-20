@@ -55,7 +55,6 @@ class BillRepository extends BaseRepository
         return 'App\Models\Bill';
     }
 
-
     public function all()
     {
         return Bill::scope()->billType(BILL_TYPE_STANDARD)
@@ -165,7 +164,7 @@ class BillRepository extends BaseRepository
         return $query;
     }
 
-    public function getRecurringBills($accountId = false, $vendorPublicId = false, $entityType, $filter = false)
+    public function getRecurringBills($accountId, $vendorPublicId, $entityType, $filter = false)
     {
         $query = DB::table('bills')
             ->LeftJoin('accounts', 'accounts.id', '=', 'bills.account_id')

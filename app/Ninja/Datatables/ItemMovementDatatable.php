@@ -47,12 +47,12 @@ class ItemMovementDatatable extends EntityDatatable
                 },
             ],
             [
-                'store_name',
+                'warehouse_name',
                 function ($model) {
-                    if ($model->store_name_public_id) {
-                        return link_to('item_movements/' . $model->public_id . '/edit', $model->store_name)->toHtml();
+                    if ($model->warehouse_name_public_id) {
+                        return link_to('item_movements/' . $model->public_id . '/edit', $model->warehouse_name)->toHtml();
                     } else {
-                        $model->store_name;
+                        $model->warehouse_name;
                     }
                 }
             ],
@@ -130,8 +130,8 @@ class ItemMovementDatatable extends EntityDatatable
             // ],
             [
                 '--divider--', function () {
-                    return false;
-                },
+                return false;
+            },
                 function ($model) {
                     return Auth::user()->can('edit', [ENTITY_ITEM_MOVEMENT]);
                 },

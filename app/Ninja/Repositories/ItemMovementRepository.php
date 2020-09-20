@@ -23,7 +23,7 @@ class ItemMovementRepository extends BaseRepository
 
     public function all()
     {
-        return ItemMovement::scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return ItemMovement::scope()->withTrashed()->where('is_deleted', false)->get();
     }
 
 
@@ -36,8 +36,8 @@ class ItemMovementRepository extends BaseRepository
             ->LeftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
             ->LeftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
             ->LeftJoin('warehouses', 'warehouses.id', '=', 'item_stores.warehouse_id')
-            ->where('item_movements.account_id', '=', $accountId)
-            //->where('item_movements.deleted_at', '=', null)
+            ->where('item_movements.account_id', $accountId)
+            //->where('item_movements.deleted_at', null)
             ->select(
                 'item_movements.id',
                 'item_movements.public_id',
@@ -58,13 +58,14 @@ class ItemMovementRepository extends BaseRepository
                 'item_brands.name as item_brand_name',
                 'item_categories.public_id as item_category_public_id',
                 'item_categories.name as item_category_name',
-                'warehouses.public_id as store_name_public_id',
-                'warehouses.name as store_name'
+                'warehouses.public_id as warehouse_name_public_id',
+                'warehouses.name as warehouse_name'
             );
 
         if ($filter) {
             $query->where(function ($query) use ($filter) {
                 $query->Where('item_movements.notes', 'like', '%' . $filter . '%')
+                    ->Where('warehouses.name', 'like', '%' . $filter . '%')
                     ->orWhere('item_movements.created_by', 'like', '%' . $filter . '%')
                     ->orWhere('item_movements.updated_by', 'like', '%' . $filter . '%')
                     ->orWhere('products.product_key', 'like', '%' . $filter . '%')
