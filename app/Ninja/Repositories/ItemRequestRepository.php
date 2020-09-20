@@ -65,7 +65,7 @@ class ItemRequestRepository extends BaseRepository
                 'products.public_id as product_public_id',
                 'departments.name as department_name',
                 'departments.public_id as department_public_id',
-                'warehouses.name as store_name',
+                'warehouses.name as warehouse_name',
                 'warehouses.public_id as store_public_id',
                 'statuses.name as status_name',
                 'statuses.public_id as status_public_id'

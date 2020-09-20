@@ -26,20 +26,20 @@ class VendorCreditDatatable extends EntityDatatable
                 },
             ],
             [
-                'amount',
+                'balance',
                 function ($model) {
                     if (Auth::user()->can('view', [ENTITY_VENDOR, $model])) {
-                        return Utils::formatMoney($model->amount, $model->currency_id, $model->country_id) . '<span ' . Utils::getEntityRowClass($model) . '/>';
+                        return Utils::formatMoney($model->balance, $model->currency_id, $model->country_id);
                     } else {
                         return '';
                     }
                 },
             ],
             [
-                'balance',
+                'amount',
                 function ($model) {
                     if (Auth::user()->can('view', [ENTITY_VENDOR, $model])) {
-                        return Utils::formatMoney($model->balance, $model->currency_id, $model->country_id);
+                        return Utils::formatMoney($model->amount, $model->currency_id, $model->country_id) . '<span ' . Utils::getEntityRowClass($model) . '/>';
                     } else {
                         return '';
                     }

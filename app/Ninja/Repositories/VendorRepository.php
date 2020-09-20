@@ -43,12 +43,15 @@ class VendorRepository extends BaseRepository
             ->select(
                 DB::raw('COALESCE(vendors.currency_id, accounts.currency_id) currency_id'),
                 DB::raw('COALESCE(vendors.country_id, accounts.country_id) country_id'),
+                DB::raw("CONCAT(COALESCE(vendor_contacts.first_name, ''), ' ', 
+                COALESCE(vendor_contacts.last_name, '')) contact"),
                 'vendors.public_id',
                 'vendors.name as vendor_name',
                 'vendor_contacts.first_name',
                 'vendor_contacts.last_name',
                 'vendors.private_notes',
                 'vendors.public_notes',
+                'vendors.balance',
                 'vendors.work_phone',
                 'vendors.id_number',
                 'vendors.city',
@@ -62,6 +65,7 @@ class VendorRepository extends BaseRepository
                 'vendors.created_by',
                 'vendors.updated_by',
                 'vendors.deleted_by',
+                'vendor_contacts.public_id as contact_public_id',
                 'warehouses.public_id as warehouse_public_id',
                 'warehouses.name as warehouse_name'
             );

@@ -42,6 +42,7 @@ if (!defined('APP_NAME')) {
     define('ENTITY_DEPARTMENT', 'department');
     define('ENTITY_BRANCH', 'branch');
     define('ENTITY_WAREHOUSE', 'warehouse');
+    define('ENTITY_WAREHOUSE_TO', 'warehouse_to');
     define('ENTITY_UNIT', 'unit');
     define('ENTITY_REPORT', 'report');
     define('ENTITY_ITEM_STORE', 'item_store');

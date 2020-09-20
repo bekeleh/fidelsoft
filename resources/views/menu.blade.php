@@ -163,7 +163,7 @@
         ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices')],
         ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores')],
         ['label' => trans('texts.new_item_transfer'), 'url' => url('/item_transfers')],
-        ['label' => trans('texts.list_item_movementss'), 'url' => url('/item_movements')],
+        ['label' => trans('texts.list_item_movements'), 'url' => url('/item_movements')],
         ['label' => trans('texts.new_warehouse'), 'url' => url('/warehouses')],
         ])->split() !!}
     @endif
@@ -177,7 +177,7 @@
         ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices')],
         ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores')],
         ['label' => trans('texts.new_item_transfer'), 'url' => url('/item_transfers')],
-        ['label' => trans('texts.list_item_movementss'), 'url' => url('/item_movements')],
+        ['label' => trans('texts.list_item_movements'), 'url' => url('/item_movements')],
         ['label' => trans('texts.new_warehouse'), 'url' => url('/warehouses')],
         ])->split() !!}
     @endif
@@ -188,7 +188,19 @@
         ->withContents([
         ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores')],
         ['label' => trans('texts.new_warehouse'), 'url' => url('/warehouses')],
-        ['label' => trans('texts.list_item_movementss'), 'url' => url('/item_movements')],
+        ['label' => trans('texts.list_item_movements'), 'url' => url('/item_movements')],
+                ['label' => trans('texts.new_item_request'), 'url' => url('/item_requests')],
+        ])->split() !!}
+    @endif
+@elseif($entityType == ENTITY_ITEM_REQUEST)
+    @if (Auth::user()->can('create', [ENTITY_ITEM_REQUEST]))
+        {!! DropdownButton::normal(trans('texts.maintenance'))
+        ->withAttributes(['class'=>'maintenanceDropdown'])
+        ->withContents([
+        ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores')],
+        ['label' => trans('texts.new_warehouse'), 'url' => url('/warehouses')],
+        ['label' => trans('texts.new_item_transfer'), 'url' => url('/item_transfers')],
+        ['label' => trans('texts.list_item_movements'), 'url' => url('/item_movements')],
         ])->split() !!}
     @endif
 @elseif($entityType == ENTITY_ITEM_MOVEMENT)
@@ -199,6 +211,7 @@
         ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores')],
         ['label' => trans('texts.new_warehouse'), 'url' => url('/warehouses')],
         ['label' => trans('texts.new_item_transfer'), 'url' => url('/item_transfers')],
+                ['label' => trans('texts.new_item_request'), 'url' => url('/item_requests')],
         ])->split() !!}
     @endif
 @elseif($entityType == ENTITY_ITEM_STORE)
@@ -210,6 +223,7 @@
         ['label' => trans('texts.new_warehouse'), 'url' => url('/warehouses')],
         ['label' => trans('texts.new_branch'), 'url' => url('/branches')],
         ['label' => trans('texts.new_item_transfer'), 'url' => url('/item_transfers')],
+        ['label' => trans('texts.new_item_request'), 'url' => url('/item_requests')],
         ['label' => trans('texts.list_item_movements'), 'url' => url('/item_movements')],
         ['label' => trans('texts.new_item_price'), 'url' => url('/item_prices')],
         ['label' => trans('texts.new_invoice'), 'url' => url('/invoices')],
@@ -238,7 +252,7 @@
         ['label' => trans('texts.new_item_store'), 'url' => url('/item_stores')],
         ['label' => trans('texts.new_item_transfer'), 'url' => url('/item_transfers')],
         ['label' => trans('texts.list_item_movements'), 'url' => url('/item_movements')],
-        ['label' => trans('texts.new_branch'), 'url' => url('/branches')],
+                ['label' => trans('texts.new_item_transfer'), 'url' => url('/item_transfers')],
         ])->split() !!}
     @endif
 @elseif($entityType == ENTITY_BRANCH)

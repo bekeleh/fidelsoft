@@ -84,7 +84,7 @@ class ItemRequestController extends BaseController
 
     public function checkDefaultWarehouse()
     {
-        $store = isset(Auth::user()->branch->store->name) ? Auth::user()->branch->store->name : null;
+        $store = isset(Auth::user()->branch->warehouse->name) ? Auth::user()->branch->warehouse->name : null;
         if (empty($store)) {
             session()->flash('warning', trans('texts.user_store_required', ['link' => link_to('/users/' . Auth::user()->public_id . '/edit', trans('texts.click_here'))]));
         }
@@ -121,7 +121,7 @@ class ItemRequestController extends BaseController
             'url' => 'item_requests',
             'title' => trans('texts.new_item_request'),
             'productPublicId' => Input::old('product') ? Input::old('product') : $request->product_id,
-            'storePublicId' => Input::old('store') ? Input::old('store') : $request->warehouse_id,
+            'warehousePublicId' => Input::old('store') ? Input::old('store') : $request->warehouse_id,
             'departmentPublicId' => Input::old('department') ? Input::old('department') : $request->department_id,
         ];
 
@@ -168,7 +168,7 @@ class ItemRequestController extends BaseController
             'url' => $url,
             'title' => trans('texts.edit_item_request'),
             'productPublicId' => $itemRequest->product ? $itemRequest->product->public_id : null,
-            'storePublicId' => $itemRequest->store ? $itemRequest->store->public_id : null,
+            'warehousePublicId' => $itemRequest->warehouse ? $itemRequest->warehouse->public_id : null,
             'departmentPublicId' => $itemRequest->department ? $itemRequest->department->public_id : null,
         ];
 
@@ -247,7 +247,7 @@ class ItemRequestController extends BaseController
             'url' => $url,
             'title' => trans('texts.edit_item_request'),
             'productPublicId' => $itemRequest->product ? $itemRequest->product->public_id : null,
-            'storePublicId' => $itemRequest->store ? $itemRequest->store->public_id : null,
+            'warehousePublicId' => $itemRequest->warehouse ? $itemRequest->warehouse->public_id : null,
             'departmentPublicId' => $itemRequest->department ? $itemRequest->department->public_id : null,
         ];
 

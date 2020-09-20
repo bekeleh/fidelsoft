@@ -163,37 +163,40 @@ class ItemTransferRepository extends BaseRepository
 
         $itemTransfers = ItemStore::where('warehouse_id', $data['previous_warehouse_id'])
             ->whereIn('product_id', $data['product_id'])->get();
-        if (count($itemTransfers)) {
-            $itemTransferDate = [];
-            foreach ($itemTransfers as $itemWarehouse) {
-                $qoh = Utils::parseFloat($itemWarehouse->qty);
-                $itemTransfer = $this->getInstanceOfItemTransfer($data, $update);
-                $itemTransfer->product_id = $itemWarehouse->product_id;
-                if (!empty($data['transfer_all_item'])) {
-                    $itemTransfer->qty = $qoh;
+        if (empty($itemTransfers)) {
+            $itemTransfers = ItemStore::createNew();
+            $itemTransfers->qty = 0;
+            $itemTransfers->created_by = auth()->user()->username;
+        }
+        $itemTransferDate = [];
+        foreach ($itemTransfers as $itemWarehouse) {
+            $qoh = Utils::parseFloat($itemWarehouse->qty);
+            $itemTransfer = $this->getInstanceOfItemTransfer($data, $update);
+            $itemTransfer->product_id = $itemWarehouse->product_id;
+            if (!empty($data['transfer_all_item'])) {
+                $itemTransfer->qty = $qoh;
+                $itemTransferDate['qty'] = 0;
+                if ($itemWarehouse->update($itemTransferDate)) {
+                    $itemTransfer->save();
+                }
+            } else {
+                if ($newQty >= $qoh) {
                     $itemTransferDate['qty'] = 0;
                     if ($itemWarehouse->update($itemTransferDate)) {
                         $itemTransfer->save();
                     }
                 } else {
-                    if ($newQty >= $qoh) {
-                        $itemTransferDate['qty'] = 0;
-                        if ($itemWarehouse->update($itemTransferDate)) {
-                            $itemTransfer->save();
-                        }
-                    } else {
-                        $qoh = $qoh - $newQty;
-                        $itemTransferDate['qty'] = $qoh;
-                        if ($itemWarehouse->update($itemTransferDate)) {
-                            $itemTransfer->save();
-                        }
+                    $qoh = $qoh - $newQty;
+                    $itemTransferDate['qty'] = $qoh;
+                    if ($itemWarehouse->update($itemTransferDate)) {
+                        $itemTransfer->save();
                     }
                 }
-                if ($update) {
-                    event(new ItemTransferWasUpdatedEvent($itemTransfer));
-                } else {
-                    event(new ItemTransferWasCreatedEvent($itemTransfer));
-                }
+            }
+            if ($update) {
+                event(new ItemTransferWasUpdatedEvent($itemTransfer));
+            } else {
+                event(new ItemTransferWasCreatedEvent($itemTransfer));
             }
         }
 
@@ -205,13 +208,13 @@ class ItemTransferRepository extends BaseRepository
         if ($update) {
             $itemTransfer = ItemTransfer::createNew();
             $itemTransfer->dispatch_date = Carbon::now();
-            $itemTransfer->updated_by = Auth::user()->username;
+            $itemTransfer->updated_by = auth()->user()->username;
             $itemTransfer->fill(collect($data)->except(['product_id'])->toArray());
         } else {
             $itemTransfer = ItemTransfer::createNew();
             $itemTransfer->dispatch_date = Carbon::now();
             $itemTransfer->fill(collect($data)->except(['product_id'])->toArray());
-            $itemTransfer->created_by = Auth::user()->username;
+            $itemTransfer->created_by = auth()->user()->username;
 
         }
 

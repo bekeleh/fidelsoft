@@ -38,12 +38,12 @@ class ItemRequestDatatable extends EntityDatatable
                 },
             ],
             [
-                'store_name',
+                'warehouse_name',
                 function ($model) {
                     if ($model->store_public_id) {
-                        return link_to("warehouses/{$model->store_public_id}", $model->store_name)->toHtml();
+                        return link_to("warehouses/{$model->store_public_id}", $model->warehouse_name)->toHtml();
                     } else {
-                        return $model->store_name;
+                        return $model->warehouse_name;
                     }
                 },
             ],
@@ -148,8 +148,8 @@ class ItemRequestDatatable extends EntityDatatable
             ],
             [
                 '--divider--', function () {
-                    return false;
-                },
+                return false;
+            },
                 function ($model) {
                     return Auth::user()->can('edit', [ENTITY_ITEM_REQUEST, $model]);
                 },

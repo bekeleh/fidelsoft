@@ -27,17 +27,17 @@ class CreditDatatable extends EntityDatatable
                 },
             ],
             [
-                'amount',
-                function ($model) {
-                    if (Auth::user()->can('view', [ENTITY_CLIENT, $model]))
-                        return Utils::formatMoney($model->amount, $model->currency_id, $model->country_id) . '<span ' . Utils::getEntityRowClass($model) . '/>';
-                },
-            ],
-            [
                 'balance',
                 function ($model) {
                     if (Auth::user()->can('view', [ENTITY_CLIENT, $model]))
                         return Utils::formatMoney($model->balance, $model->currency_id, $model->country_id);
+                },
+            ],
+            [
+                'amount',
+                function ($model) {
+                    if (Auth::user()->can('view', [ENTITY_CLIENT, $model]))
+                        return Utils::formatMoney($model->amount, $model->currency_id, $model->country_id) . '<span ' . Utils::getEntityRowClass($model) . '/>';
                 },
             ],
             [

@@ -5,8 +5,8 @@
     {!! Former::open($url)
         ->method($method)
         ->autocomplete('off')
-        ->rules(['product_id' => 'required',
-        'status_id' => 'required',
+        ->rules([
+            'product_id' => 'required',
         'warehouse_id' => 'required',
          'department_id' => 'required',
          'required_date' => 'required',
@@ -39,7 +39,7 @@
                 !!}
                 <!-- warehouse -->
                 {!! Former::select('warehouse_id')->addOption('', '')
-                ->label(trans('texts.from_warehouse_name'))->addGroupClass('warehouse-select')
+                ->label(trans('texts.from_warehouse'))->addGroupClass('warehouse-select')
                 ->help(trans('texts.warehouse_help') . ' | ' . link_to('/warehouses/', trans('texts.customize_options')))
                 !!}
                 <!-- qty -->
@@ -75,7 +75,7 @@
     <script type="text/javascript">
         var products = {!! isset($products)? $products: null !!};
         var departments = {!! isset($departments)? $departments: null !!};
-        var statuses = {!! isset($statuses)? $statuses: null !!};
+                {{--var statuses = {!! isset($statuses)? $statuses: null !!};--}}
         var warehouses = {!! isset($warehouses)? $warehouses: null  !!};
 
         var productMap = {};
@@ -133,21 +133,21 @@
                 setComboboxValue($('.warehouse-select'), warehouse.public_id, warehouse.name);
             }
             // status
-            var statusId = {{ $statusPublicId ?: 0 }};
-            var $statusSelect = $('select#status_id');
-            @if (Auth::user()->can('create', ENTITY_STATUS))
-            $statusSelect.append(new Option("{{ trans('texts.create_status')}}: $name", '-1'));
-                    @endif
-            for (var i = 0; i < statuses.length; i++) {
-                var status = statuses[i];
-                statusMap[status.public_id] = status;
-                $statusSelect.append(new Option(status.name, status.public_id));
-            }
-            @include('partials/entity_combobox', ['entityType' => ENTITY_STATUS])
-            if (statusId) {
-                var status = statusMap[statusId];
-                setComboboxValue($('.status-select'), status.public_id, status.name);
-            }
+            {{--var statusId = {{ $statusPublicId ?: 0 }};--}}
+            {{--var $statusSelect = $('select#status_id');--}}
+            {{--@if (Auth::user()->can('create', ENTITY_STATUS))--}}
+            {{--$statusSelect.append(new Option("{{ trans('texts.create_status')}}: $name", '-1'));--}}
+            {{--        @endif--}}
+            {{--for (var i = 0; i < statuses.length; i++) {--}}
+            {{--    var status = statuses[i];--}}
+            {{--    statusMap[status.public_id] = status;--}}
+            {{--    $statusSelect.append(new Option(status.name, status.public_id));--}}
+            {{--}--}}
+            {{--@include('partials/entity_combobox', ['entityType' => ENTITY_STATUS])--}}
+            {{--if (statusId) {--}}
+            {{--    var status = statusMap[statusId];--}}
+            {{--    setComboboxValue($('.status-select'), status.public_id, status.name);--}}
+            {{--}--}}
 
         });
 

@@ -45,12 +45,6 @@ class BillDatatable extends EntityDatatable
                 },
             ],
             [
-                'amount',
-                function ($model) {
-                    return Utils::formatMoney($model->amount, $model->currency_id, $model->country_id);
-                },
-            ],
-            [
                 'balance',
                 function ($model) {
                     return $model->partial > 0 ?
@@ -62,6 +56,12 @@ class BillDatatable extends EntityDatatable
                 },
 
                 $entityType == ENTITY_BILL,
+            ],
+            [
+                'amount',
+                function ($model) {
+                    return Utils::formatMoney($model->amount, $model->currency_id, $model->country_id);
+                },
             ],
             [
                 'discount',

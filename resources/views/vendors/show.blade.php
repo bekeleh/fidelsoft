@@ -239,7 +239,7 @@
             {!! Form::tab_link('#recurring_bills', trans('texts.recurring')) !!}
         @endif
         {!! Form::tab_link('#bills', trans('texts.bills')) !!}
-        {!! Form::tab_link('#payments', trans('texts.bill_payments')) !!}
+        {!! Form::tab_link('#payments', trans('texts.bill_paid')) !!}
         @if ($account->isModuleEnabled(ENTITY_VENDOR_CREDIT))
             {!! Form::tab_link('#credits', trans('texts.vendor_credit')) !!}
         @endif

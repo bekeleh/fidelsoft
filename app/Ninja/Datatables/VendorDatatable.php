@@ -15,6 +15,12 @@ class VendorDatatable extends EntityDatatable
     {
         return [
             [
+                'id_number',
+                function ($model) {
+                    return $model->id_number;
+                },
+            ],
+            [
                 'vendor_name',
                 function ($model) {
                     if (Auth::user()->can('edit', [ENTITY_VENDOR])) {
@@ -26,9 +32,20 @@ class VendorDatatable extends EntityDatatable
                 },
             ],
             [
-                'id_number',
+                'balance',
                 function ($model) {
-                    return $model->id_number;
+                    return Utils::formatMoney($model->balance, $model->currency_id, $model->country_id);
+                },
+            ],
+            [
+                'contact',
+                function ($model) {
+                    if (Auth::user()->can('edit', [ENTITY_VENDOR_CONTACT])) {
+                        return link_to("vendor_contacts/{$model->contact_public_id}",
+                            $model->contact ?: '')->toHtml();
+                    } else {
+                        return $model->contact;
+                    }
                 },
             ],
             [
@@ -41,20 +58,6 @@ class VendorDatatable extends EntityDatatable
                 'email',
                 function ($model) {
                     return link_to("vendors/{$model->public_id}", $model->email ?: '')->toHtml();
-                },
-            ],
-            [
-                'warehouse_name',
-                function ($model) {
-                    if ($model->warehouse_public_id) {
-                        if (auth::user()->can('edit', $model)) {
-                            link_to("warehouses/{$model->warehouse_public_id}", $model->warehouse_name ?: '')->toHtml();
-                        } else {
-                            return $model->warehouse_name;
-                        }
-                    } else {
-                        return '';
-                    }
                 },
             ],
             [

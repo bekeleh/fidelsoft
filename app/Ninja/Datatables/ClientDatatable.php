@@ -15,6 +15,13 @@ class ClientDatatable extends EntityDatatable
     {
         return [
             [
+                'id_number',
+                function ($model) {
+                    return $model->id_number;
+                },
+                Auth::user()->account->clientNumbersEnabled()
+            ],
+            [
                 'client_name',
                 function ($model) {
                     if (Auth::user()->can('edit', [ENTITY_CLIENT])) {
@@ -23,6 +30,12 @@ class ClientDatatable extends EntityDatatable
                     } else {
                         return $model->client_name;
                     }
+                },
+            ],
+            [
+                'balance',
+                function ($model) {
+                    return Utils::formatMoney($model->balance, $model->currency_id, $model->country_id);
                 },
             ],
             [
@@ -37,6 +50,12 @@ class ClientDatatable extends EntityDatatable
                 },
             ],
             [
+                'work_phone',
+                function ($model) {
+                    return $model->work_phone;
+                },
+            ],
+            [
                 'email',
                 function ($model) {
                     if (Auth::user()->can('edit', [ENTITY_CLIENT])) {
@@ -44,19 +63,6 @@ class ClientDatatable extends EntityDatatable
                     } else {
                         return $model->contact;
                     }
-                },
-            ],
-            [
-                'id_number',
-                function ($model) {
-                    return $model->id_number;
-                },
-                Auth::user()->account->clientNumbersEnabled()
-            ],
-            [
-                'balance',
-                function ($model) {
-                    return Utils::formatMoney($model->balance, $model->currency_id, $model->country_id);
                 },
             ],
             [
