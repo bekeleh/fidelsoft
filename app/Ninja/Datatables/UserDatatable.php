@@ -41,10 +41,10 @@ class UserDatatable extends EntityDatatable
             [
                 'phone',
                 function ($model) {
-//                    if (Auth::user()->can('view', [ENTITY_USER]))
-//                        return link_to("users/{$model->public_id}", $model->phone ?: '')->toHtml();
-//                    else
-                    return $model->phone;
+                    if (Auth::user()->can('view', [ENTITY_USER]))
+                        return link_to("users/{$model->public_id}", $model->phone ?: '')->toHtml();
+                    else
+                        return $model->phone;
                 },
             ],
             [
