@@ -537,6 +537,7 @@ $LANG = array(
     'warehouse_settings' => 'Warehouse Settings',
     'select_warehouse' => 'Select warehouse',
     'warehouse_help' => 'Sets the default <b>warehouse</b>',
+    'default_warehouse' => 'Default Warehouse',
 //   Item transfers
     'new_item_transfer' => 'New Item Transfer',
     'list_item_transfers' => 'List Item Transfer',
@@ -649,6 +650,7 @@ $LANG = array(
     'location_settings' => 'Location Settings',
     'location_help' => 'Sets the default <b>location</b>',
     'select_location' => 'Select Default Location',
+    'default_location' => 'Default Location',
 
 //   Item Brands
     'brand' => 'Brand',

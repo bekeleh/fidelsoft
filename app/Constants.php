@@ -593,7 +593,7 @@ if (!defined('APP_NAME')) {
     define('NINJA_GATEWAY_ID', GATEWAY_STRIPE);
     define('NINJA_GATEWAY_CONFIG', 'NINJA_GATEWAY_CONFIG');
     define('NINJA_WEB_URL', env('NINJA_WEB_URL', 'https://www.fidel.com.et'));
-    define('NINJA_APP_URL', env('NINJA_APP_URL', 'https://app.fidel.com'));
+    define('NINJA_APP_URL', env('NINJA_APP_URL', 'https://app.fidel.com.et'));
     define('NINJA_DOCS_URL', env('NINJA_DOCS_URL', 'https://fidel.readthedocs.io/en/latest'));
     define('NINJA_DATE', '2000-01-01');
     define('NINJA_VERSION', '4.5.7' . env('NINJA_VERSION_SUFFIX'));
@@ -614,7 +614,7 @@ if (!defined('APP_NAME')) {
     define('PDFMAKE_DOCS', env('PDFMAKE_DOCS', 'http://pdfmake.org/playground.html'));
     define('PHANTOMJS_CLOUD', env('PHANTOMJS_CLOUD', 'http://api.phantomjscloud.com/api/browser/v2/'));
     define('PHP_DATE_FORMATS', env('PHP_DATE_FORMATS', 'http://php.net/manual/en/function.date.php'));
-    define('REFERRAL_PROGRAM_URL', env('REFERRAL_PROGRAM_URL', 'https://www.fidel.erp/referral-program/'));
+    define('REFERRAL_PROGRAM_URL', env('REFERRAL_PROGRAM_URL', 'https://www.fidel.com.et/referral-program/'));
     define('EMAIL_MARKUP_URL', env('EMAIL_MARKUP_URL', 'https://developers.google.com/gmail/markup'));
     define('OFX_HOME_URL', env('OFX_HOME_URL', 'http://www.ofxhome.com/index.php/home/directory/all'));
     define('GOOGLE_ANALYITCS_URL', env('GOOGLE_ANALYITCS_URL', 'https://www.google-analytics.com/collect'));

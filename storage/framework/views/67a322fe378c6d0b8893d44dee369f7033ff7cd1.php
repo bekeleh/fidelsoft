@@ -1,106 +1,133 @@
-@extends('header')
-@section('content')
-    @parent
-    {!! Former::open_for_files()->addClass('warn-on-exit')->rules([
+<?php $__env->startSection('content'); ?>
+    ##parent-placeholder-040f06fd774092478d450774f5ba30c5da78acc8##
+    <?php echo Former::open_for_files()->addClass('warn-on-exit')->rules([
         'first_name' => 'required',
         'last_name' => 'required',
         'username' => 'required',
         'email' => 'required|email',
         'phone' => $user->google_2fa_secret ? 'required' : ''
-    ]) !!}
-    {{ Former::populate($account) }}
-    {{ Former::populateField('first_name', $user->first_name) }}
-    {{ Former::populateField('last_name', $user->last_name) }}
-    {{ Former::populateField('username', $user->username) }}
-    {{ Former::populateField('email', $user->email) }}
-    {{ Former::populateField('phone', $user->phone) }}
-    {{ Former::populateField('dark_mode', intval($user->dark_mode)) }}
-    {{ Former::populateField('enable_two_factor', $user->google_2fa_secret ? 1 : 0) }}
-    @if (Input::has('affiliate'))
-        {{ Former::populateField('referral_code', true) }}
-    @endif
-    @if (Utils::isAdmin())
-        @include('accounts.nav', ['selected' => ACCOUNT_USER_DETAILS])
-    @endif
+    ]); ?>
+
+    <?php echo e(Former::populate($account)); ?>
+
+    <?php echo e(Former::populateField('first_name', $user->first_name)); ?>
+
+    <?php echo e(Former::populateField('last_name', $user->last_name)); ?>
+
+    <?php echo e(Former::populateField('username', $user->username)); ?>
+
+    <?php echo e(Former::populateField('email', $user->email)); ?>
+
+    <?php echo e(Former::populateField('phone', $user->phone)); ?>
+
+    <?php echo e(Former::populateField('dark_mode', intval($user->dark_mode))); ?>
+
+    <?php echo e(Former::populateField('enable_two_factor', $user->google_2fa_secret ? 1 : 0)); ?>
+
+    <?php if(Input::has('affiliate')): ?>
+        <?php echo e(Former::populateField('referral_code', true)); ?>
+
+    <?php endif; ?>
+    <?php if(Utils::isAdmin()): ?>
+        <?php echo $__env->make('accounts.nav', ['selected' => ACCOUNT_USER_DETAILS], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php endif; ?>
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading" style="color:white;background-color: #777 !important;">
-                    <h3 class="panel-title in-bold-white">{!! trans('texts.user_details') !!}</h3>
+                    <h3 class="panel-title in-bold-white"><?php echo trans('texts.user_details'); ?></h3>
                 </div>
                 <div class="panel-body form-padding-right">
-                    {!! Former::text('first_name') !!}
-                    {!! Former::text('last_name') !!}
-                    {!! Former::text('username') !!}
-                    {!! Former::text('email') !!}
-                    {!! Former::text('phone') !!}
+                    <?php echo Former::text('first_name'); ?>
+
+                    <?php echo Former::text('last_name'); ?>
+
+                    <?php echo Former::text('username'); ?>
+
+                    <?php echo Former::text('email'); ?>
+
+                    <?php echo Former::text('phone'); ?>
+
                     <br/>
-                    {!! Former::text('branch')->label('texts.default_branch')->value(isset($user->branch)?$user->branch->name:'')->readonly() !!}
-                    {!! Former::text('location')->label('texts.default_location')->value(isset($user->location)?$user->location->name:'')->readonly() !!}
-                    {!! Former::text('warehouse')->label('texts.default_warehouse')->value(isset($user->branch->warehouse)?$user->branch->warehouse->name:'')->readonly() !!}
+                    <?php echo Former::text('branch')->label('texts.default_branch')->value(isset($user->branch)?$user->branch->name:'')->readonly(); ?>
+
+                    <?php echo Former::text('location')->label('texts.default_location')->value(isset($user->location)?$user->location->name:'')->readonly(); ?>
+
+                    <?php echo Former::text('warehouse')->label('texts.default_warehouse')->value(isset($user->branch->warehouse)?$user->branch->warehouse->name:'')->readonly(); ?>
+
                     <br/>
-                    @if (Utils::isOAuthEnabled())
-                        {!! Former::plaintext('oneclick_login')->value(
+                    <?php if(Utils::isOAuthEnabled()): ?>
+                        <?php echo Former::plaintext('oneclick_login')->value(
                                 $user->oauth_provider_id ?
                                     $oauthProviderName . ' - ' . link_to('#', trans('texts.disable'), ['onclick' => 'disableSocialLogin()']) :
                                     DropdownButton::primary(trans('texts.enable'))->withContents($oauthLoginUrls)->small()
-                            )->help('oneclick_login_help')
-                         !!}
-                    @endif
-                    @if ($user->confirmed)
-                        @if ($user->google_2fa_secret)
-                            {!! Former::checkbox('enable_two_factor')
+                            )->help('oneclick_login_help'); ?>
+
+                    <?php endif; ?>
+                    <?php if($user->confirmed): ?>
+                        <?php if($user->google_2fa_secret): ?>
+                            <?php echo Former::checkbox('enable_two_factor')
                                     ->help(trans('texts.enable_two_factor_help'))
                                     ->text(trans('texts.enable'))
-                                    ->value(1)  !!}
-                        @elseif ($user->phone)
-                            {!! Former::plaintext('enable_two_factor')->value(
+                                    ->value(1); ?>
+
+                        <?php elseif($user->phone): ?>
+                            <?php echo Former::plaintext('enable_two_factor')->value(
                                     Button::primary(trans('texts.enable'))->asLinkTo(url('settings/enable_two_factor'))->small()
-                                )->help('enable_two_factor_help') !!}
-                        @else
-                            {!! Former::plaintext('enable_two_factor')
-                                ->value('<span class="text-muted">' . trans('texts.set_phone_for_two_factor') . '</span>') !!}
-                        @endif
-                    @endif
-                    {!! Former::checkbox('dark_mode')
+                                )->help('enable_two_factor_help'); ?>
+
+                        <?php else: ?>
+                            <?php echo Former::plaintext('enable_two_factor')
+                                ->value('<span class="text-muted">' . trans('texts.set_phone_for_two_factor') . '</span>'); ?>
+
+                        <?php endif; ?>
+                    <?php endif; ?>
+                    <?php echo Former::checkbox('dark_mode')
                             ->help(trans('texts.dark_mode_help'))
                             ->text(trans('texts.enable'))
-                            ->value(1)  !!}
-                    @if (Utils::isNinja())
-                        @if ($user->referral_code)
-                            {{ Former::setOption('capitalize_translations', false) }}
-                            {!! Former::plaintext('referral_code')
+                            ->value(1); ?>
+
+                    <?php if(Utils::isNinja()): ?>
+                        <?php if($user->referral_code): ?>
+                            <?php echo e(Former::setOption('capitalize_translations', false)); ?>
+
+                            <?php echo Former::plaintext('referral_code')
                                     ->help($referralCounts['free'] . ' ' . trans('texts.free') . ' | ' .
                                         $referralCounts['pro'] . ' ' . trans('texts.pro') .
                                         '<a href="'.REFERRAL_PROGRAM_URL.'" target="_blank" title="'.trans('texts.learn_more').'">' . Icon::create('question-sign') . '</a> ')
-                                    ->value(NINJA_APP_URL . '/invoice_now?rc=' . $user->referral_code) !!}
-                        @else
-                            {!! Former::checkbox('referral_code')
+                                    ->value(NINJA_APP_URL . '/invoice_now?rc=' . $user->referral_code); ?>
+
+                        <?php else: ?>
+                            <?php echo Former::checkbox('referral_code')
                                     ->help(trans('texts.referral_code_help'))
                                     ->text(trans('texts.enable') . ' <a href="'.REFERRAL_PROGRAM_URL.'" target="_blank" title="'.trans('texts.learn_more').'">' . Icon::create('question-sign') . '</a>')
-                                    ->value(1)  !!}
-                        @endif
-                    @endif
+                                    ->value(1); ?>
+
+                        <?php endif; ?>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
     </div>
-    @if (!Auth::user()->is_admin)
-        @include('accounts.partials.notifications')
-    @endif
+    <?php if(!Auth::user()->is_admin): ?>
+        <?php echo $__env->make('accounts.partials.notifications', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php endif; ?>
     <center class="buttons">
-        @if (Auth::user()->confirmed)
-            {!! Button::primary(trans('texts.change_password'))
+        <?php if(Auth::user()->confirmed): ?>
+            <?php echo Button::primary(trans('texts.change_password'))
                     ->appendIcon(Icon::create('lock'))
-                    ->large()->withAttributes(['onclick'=>'showChangePassword()']) !!}
-        @elseif (Auth::user()->registered && Utils::isNinja())
-            {!! Button::primary(trans('texts.resend_confirmation'))
+                    ->large()->withAttributes(['onclick'=>'showChangePassword()']); ?>
+
+        <?php elseif(Auth::user()->registered && Utils::isNinja()): ?>
+            <?php echo Button::primary(trans('texts.resend_confirmation'))
                     ->appendIcon(Icon::create('send'))
-                    ->asLinkTo(URL::to('/resend_confirmation'))->large() !!}
-        @endif
-        {!! Button::success(trans('texts.save'))
+                    ->asLinkTo(URL::to('/resend_confirmation'))->large(); ?>
+
+        <?php endif; ?>
+        <?php echo Button::success(trans('texts.save'))
                 ->submit()->large()
-                ->appendIcon(Icon::create('floppy-disk')) !!}
+                ->appendIcon(Icon::create('floppy-disk')); ?>
+
     </center>
     <div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel"
          aria-hidden="true">
@@ -108,7 +135,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="passwordModalLabel">{{ trans('texts.change_password') }}</h4>
+                    <h4 class="modal-title" id="passwordModalLabel"><?php echo e(trans('texts.change_password')); ?></h4>
                 </div>
                 <div class="container" style="width: 100%; padding-bottom: 0px !important">
                     <div class="panel panel-default">
@@ -116,9 +143,12 @@
                             <div style="background-color: #fff" id="changePasswordDiv"
                                  onkeyup="validateChangePassword()" onclick="validateChangePassword()"
                                  onkeydown="checkForEnter(event)">
-                                &nbsp;{!! Former::password('current_password')->style('width:300px') !!}
-                                {!! Former::password('newer_password')->style('width:300px')->label(trans('texts.new_password')) !!}
-                                {!! Former::password('confirm_password')->style('width:300px')->help('<span id="passwordStrength">&nbsp;</span>') !!}
+                                &nbsp;<?php echo Former::password('current_password')->style('width:300px'); ?>
+
+                                <?php echo Former::password('newer_password')->style('width:300px')->label(trans('texts.new_password')); ?>
+
+                                <?php echo Former::password('confirm_password')->style('width:300px')->help('<span id="passwordStrength">&nbsp;</span>'); ?>
+
                                 &nbsp;<br/>
                                 <center>
                                     <div id="changePasswordError"></div>
@@ -127,7 +157,7 @@
                             </div>
                             <div style="padding-left:40px;padding-right:40px;display:none;min-height:130px"
                                  id="working">
-                                <h3>{{ trans('texts.working') }}...</h3>
+                                <h3><?php echo e(trans('texts.working')); ?>...</h3>
                                 <div class="progress progress-striped active">
                                     <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0"
                                          aria-valuemax="100" style="width: 100%"></div>
@@ -136,8 +166,9 @@
                             <div style="background-color: #fff; padding-right:20px;padding-left:20px; display:none"
                                  id="successDiv">
                                 <br/>
-                                <h3>{{ trans('texts.success') }}</h3>
-                                {{ trans('texts.updated_password') }}
+                                <h3><?php echo e(trans('texts.success')); ?></h3>
+                                <?php echo e(trans('texts.updated_password')); ?>
+
                                 <br/>
                             </div>
                         </div>
@@ -145,19 +176,22 @@
                 </div>
                 <div class="modal-footer" id="changePasswordFooter">
                     <button type="button" class="btn btn-default" id="cancelChangePasswordButton" data-dismiss="modal">
-                        {{ trans('texts.cancel') }}
+                        <?php echo e(trans('texts.cancel')); ?>
+
                         <i class="glyphicon glyphicon-remove-circle"></i>
                     </button>
                     <button type="button" class="btn btn-success" onclick="submitChangePassword()"
                             id="changePasswordButton" disabled>
-                        {{ trans('texts.save') }}
+                        <?php echo e(trans('texts.save')); ?>
+
                         <i class="glyphicon glyphicon-floppy-disk"></i>
                     </button>
                 </div>
             </div>
         </div>
     </div>
-    {!! Former::close() !!}
+    <?php echo Former::close(); ?>
+
     <script type="text/javascript">
         $(function () {
             $('#passwordModal').on('hidden.bs.modal', function () {
@@ -227,7 +261,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '{{ URL::to('/users/change_password') }}',
+                url: '<?php echo e(URL::to('/users/change_password')); ?>',
                 data: 'current_password=' + encodeURIComponent($('form #current_password').val()) +
                     '&new_password=' + encodeURIComponent($('form #newer_password').val()) +
                     '&confirm_password=' + encodeURIComponent($('form #confirm_password').val()),
@@ -236,7 +270,7 @@
                         NINJA.formIsChanged = false;
                         $('#changePasswordButton').hide();
                         $('#successDiv').show();
-                        $('#cancelChangePasswordButton').html('{{ trans('texts.close') }}');
+                        $('#cancelChangePasswordButton').html('<?php echo e(trans('texts.close')); ?>');
                     } else {
                         $('#changePasswordError').html(result);
                         $('#changePasswordDiv').show();
@@ -249,11 +283,13 @@
 
         function disableSocialLogin() {
             sweetConfirm(function () {
-                window.location = '{{ URL::to('/auth_unlink') }}';
+                window.location = '<?php echo e(URL::to('/auth_unlink')); ?>';
             });
         }
     </script>
-@stop
-@section('onReady')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('onReady'); ?>
     $('#first_name').focus();
-@stop
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
