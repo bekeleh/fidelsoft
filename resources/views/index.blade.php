@@ -807,7 +807,7 @@
 </div>
     <!-- quotations -->
 <div class="wsdCard">
-<h4>Quotations & Proposals</h4>
+<h4>Sale Quotations & Proposals</h4>
 <img src="{{asset('images/proposals-ninja-01.png')}}"
      alt="icon">
 <div class="items"><ul>
@@ -959,6 +959,8 @@ Fidelsoft Pro
 <li><span>Brand Invoices with your Company Logo</span></li>
 <li><span>Auto-Billing & Recurring Invoices</span></li>
 <li><span>Inventory Management</span></li>
+<li><span>Stock Transfer</span></li>
+<li><span>Stock Request</span></li>
 <li><span>Manage Project & Tasks with Kanban Boards</span></li>
 <li><span>Proposals Creation Tool & Design Template</span></li>
 <li><span>Setup Vendors & [Recurring] Expenses</span></li>
@@ -970,7 +972,7 @@ Fidelsoft Pro
 <li><span>Real-time Invoice & PDF Creation</span></li>
 <li><span>Track Client Invoice Views & Logins</span></li>
 <li><span>Support for Google Analytics Ecommerce</span></li>
-<li><span>Setup Credit Card Gateway Fees</span></li>
+<li><span>Setup Credit Card Gateway Fees Under Work</span></li>
 <li><span>Invoice & Quotation Emails Delivery Statistics</span></li>
 <li><span>Support Automatic Currency Conversions</span></li>
 </ul>
@@ -999,9 +1001,11 @@ Fidelsoft Pro
 <li><span>Unlimited Clients & Invoices & Quotes</span></li>
 <li><span>Unlimited Vendors & Bills & Quotes</span></li>
 <li><span>Professional Invoice & Quotation Templates</span></li>
+<li><span>Inventory Management</span></li>
+<li><span>Stock Transfer</span></li>
+<li><span>Stock Request</span></li>
 <li><span>Custom URL Option: "YourBrand".Fidel.com.et</span></li>
 <li><span>Custom URL option: "YourBrand".Fidel.Services</span></li>
-<li><span>Remove "Created by Fidelsoft" from Invoices</span></li>
 <li><span>Password Protected Client-Side Portal</span></li>
 <li><span>Customize Payment Auto-Reminder Emails</span></li>
 <li><span>Setup Multiple Custom Invoice Designs</span></li>

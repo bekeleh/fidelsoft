@@ -32,8 +32,7 @@ class ItemTransferRepository extends BaseRepository
     public function all()
     {
         return ItemTransfer::scope()
-            ->withTrashed()
-            ->where('is_deleted', '=', false)->get();
+            ->withTrashed()->where('is_deleted', false)->get();
     }
 
     public function find($accountId = false, $filter = null)
@@ -47,8 +46,8 @@ class ItemTransferRepository extends BaseRepository
             ->LeftJoin('warehouses as previousWarehouse', 'previousWarehouse.id', '=', 'item_transfers.previous_warehouse_id')
             ->LeftJoin('warehouses as currentWarehouse', 'currentWarehouse.id', '=', 'item_transfers.current_warehouse_id')
             ->LeftJoin('statuses', 'statuses.id', '=', 'item_transfers.status_id')
-            ->where('item_transfers.account_id', '=', $accountId)
-//->where('item_transfers.deleted_at', '=', null)
+            ->where('item_transfers.account_id', $accountId)
+//->where('item_transfers.deleted_at', null)
             ->select(
                 'item_transfers.id',
                 'item_transfers.public_id',
@@ -109,7 +108,7 @@ class ItemTransferRepository extends BaseRepository
         }
         $productId = Product::getPrivateId($productPublicId);
 
-        $query = $this->find()->where('item_transfers.product_id', '=', $productId);
+        $query = $this->find()->where('item_transfers.product_id', $productId);
 
         return $query;
     }
@@ -121,7 +120,7 @@ class ItemTransferRepository extends BaseRepository
         }
         $warehouseId = Warehouse::getPrivateId($warehousePublicId);
 
-        $query = $this->find()->where('item_transfers.warehouse_id', '=', $warehouseId);
+        $query = $this->find()->where('item_transfers.warehouse_id', $warehouseId);
 
         return $query;
     }
@@ -133,7 +132,7 @@ class ItemTransferRepository extends BaseRepository
         }
         $statusId = Status::getPrivateId($statusPublicId);
 
-        $query = $this->find()->where('item_transfers.warehouse_id', '=', $statusId);
+        $query = $this->find()->where('item_transfers.warehouse_id', $statusId);
 
         return $query;
     }
@@ -161,46 +160,73 @@ class ItemTransferRepository extends BaseRepository
 
         $newQty = isset($data['qty']) ? Utils::parseFloat($data['qty']) : 0;
 
-        $itemTransfers = ItemStore::where('warehouse_id', $data['previous_warehouse_id'])
+        $previous_warehouse = ItemStore::where('warehouse_id', $data['previous_warehouse_id'])
             ->whereIn('product_id', $data['product_id'])->get();
-        if (empty($itemTransfers)) {
-            $itemTransfers = ItemStore::createNew();
-            $itemTransfers->qty = 0;
-            $itemTransfers->created_by = auth()->user()->username;
-        }
-        $itemTransferDate = [];
-        foreach ($itemTransfers as $itemWarehouse) {
-            $qoh = Utils::parseFloat($itemWarehouse->qty);
-            $itemTransfer = $this->getInstanceOfItemTransfer($data, $update);
-            $itemTransfer->product_id = $itemWarehouse->product_id;
-            if (!empty($data['transfer_all_item'])) {
-                $itemTransfer->qty = $qoh;
-                $itemTransferDate['qty'] = 0;
-                if ($itemWarehouse->update($itemTransferDate)) {
-                    $itemTransfer->save();
-                }
-            } else {
-                if ($newQty >= $qoh) {
+
+        if (count($previous_warehouse)) {
+            $itemTransferDate = [];
+            foreach ($previous_warehouse as $itemWarehouse) {
+                $qoh = Utils::parseFloat($itemWarehouse->qty);
+                $itemTransfer = $this->getInstanceOfItemTransfer($data, $update);
+                $itemTransfer->product_id = $itemWarehouse->product_id;
+                if (!empty($data['transfer_all_item'])) {
+                    $itemTransfer->qty = $qoh;
                     $itemTransferDate['qty'] = 0;
                     if ($itemWarehouse->update($itemTransferDate)) {
+                        $this->updateCurrentWarehouse($qoh, $data, $itemWarehouse);
                         $itemTransfer->save();
                     }
                 } else {
-                    $qoh = $qoh - $newQty;
-                    $itemTransferDate['qty'] = $qoh;
-                    if ($itemWarehouse->update($itemTransferDate)) {
-                        $itemTransfer->save();
+                    if ($newQty >= $qoh) {
+                        $itemTransferDate['qty'] = 0;
+                        if ($itemWarehouse->update($itemTransferDate)) {
+                            $this->updateCurrentWarehouse($qoh, $data, $itemWarehouse);
+                            $itemTransfer->save();
+                        }
+                    } else {
+                        $qoh = $qoh - $newQty;
+                        $itemTransferDate['qty'] = $qoh;
+                        if ($itemWarehouse->update($itemTransferDate)) {
+                            $this->updateCurrentWarehouse($newQty, $data, $itemWarehouse);
+                            $itemTransfer->save();
+                        }
                     }
                 }
             }
-            if ($update) {
-                event(new ItemTransferWasUpdatedEvent($itemTransfer));
-            } else {
-                event(new ItemTransferWasCreatedEvent($itemTransfer));
-            }
         }
 
-        return $itemTransfer;
+        if ($update) {
+            event(new ItemTransferWasUpdatedEvent($itemTransfer));
+        } else {
+            event(new ItemTransferWasCreatedEvent($itemTransfer));
+        }
+    }
+
+    public function updateCurrentWarehouse($transferQty, $data, $itemTransfer = null)
+    {
+
+        $newQty = isset($transferQty) ? Utils::parseFloat($transferQty) : 0;
+
+        $current_warehouse = ItemStore::where('warehouse_id', $data['current_warehouse_id'])
+            ->where('product_id', $itemTransfer->product_id)->first();
+
+        if (empty($current_warehouse)) {
+            $current_warehouse = ItemStore::createNew();
+            $current_warehouse->bin = $itemTransfer->bin;
+            $current_warehouse->product_id = $itemTransfer->product_id;
+            $current_warehouse->warehouse_id = $data['current_warehouse_id'];
+            $current_warehouse->created_by = auth()->user()->username;
+            $current_warehouse->qty = $newQty;
+            $current_warehouse->notes = 'stock transfer';
+            $current_warehouse->created_by = auth()->user()->username;
+            $current_warehouse->save();
+        } else {
+            $qoh = isset($current_warehouse) ? Utils::parseFloat($current_warehouse->qty) : 0;
+            $current_data['qty'] = $qoh + $newQty;
+            $current_data['notes'] = 'stock transfer';
+            $current_data['updated_by'] = auth()->user()->username;
+            $current_warehouse->update($current_data);
+        }
     }
 
     public function getInstanceOfItemTransfer($data, $update = null)
@@ -221,33 +247,33 @@ class ItemTransferRepository extends BaseRepository
         return $itemTransfer;
     }
 
-    public function stockMovement($data, $itemTransfer = null, $update = false)
-    {
-        if (empty($data['qty'])) {
-            return;
-        }
-
-        $newQty = isset($data['qty']) ? Utils::parseFloat($data['qty']) : 0;
-        if ($update) {
-            $qoh = Utils::parseFloat($itemTransfer->qty);
-            $movable = ItemMovement::createNew();
-            $itemTransfer = $this->itemTransfer
-                ->where('warehouse_id', $itemTransfer->current_warehouse_id)
-                ->where('product_id', $itemTransfer->product_id)->first();
-            $movable->qty = $newQty;
-            $movable->qoh = $qoh + $newQty;
-            $movable->notes = 'stock transfer';
-            $movable->updated_by = auth::user()->username;
-            $itemTransfer->stockMovements()->save($movable);
-        } else {
-            $movable = ItemMovement::createNew();
-            $movable->qty = $newQty;
-            $movable->qoh = $newQty;
-            $movable->notes = 'stock transfer';
-            $movable->updated_by = auth::user()->username;
-            $itemTransfer->stockMovements()->save($movable);
-        }
-    }
+//    public function stockMovement($data, $itemTransfer = null, $update = false)
+//    {
+//        if (empty($data['qty'])) {
+//            return;
+//        }
+//
+//        $newQty = isset($data['qty']) ? Utils::parseFloat($data['qty']) : 0;
+//        if ($update) {
+//            $qoh = Utils::parseFloat($itemTransfer->qty);
+//            $movable = ItemMovement::createNew();
+//            $itemTransfer = $this->itemTransfer
+//                ->where('warehouse_id', $itemTransfer->current_warehouse_id)
+//                ->where('product_id', $itemTransfer->product_id)->first();
+//            $movable->qty = $newQty;
+//            $movable->qoh = $qoh + $newQty;
+//            $movable->notes = 'stock transfer';
+//            $movable->updated_by = auth()->user()->username;
+//            $itemTransfer->stockMovements()->save($movable);
+//        } else {
+//            $movable = ItemMovement::createNew();
+//            $movable->qty = $newQty;
+//            $movable->qoh = $newQty;
+//            $movable->notes = 'stock transfer';
+//            $movable->updated_by = auth()->user()->username;
+//            $itemTransfer->stockMovements()->save($movable);
+//        }
+//    }
 
     public function findPhonetically($itemTransferName)
     {

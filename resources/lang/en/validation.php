@@ -32,6 +32,7 @@ return array(
     "date_format" => "The :attribute does not match the format :format.",
     "different" => "The :attribute and :other must be different.",
     "digits" => "The :attribute must be :digits digits.",
+    "has_digit" => "The :attribute must be number not zero.",
     "digits_between" => "The :attribute must be between :min and :max digits.",
     "email" => "The :attribute format is invalid.",
     "exists" => "The selected :attribute is invalid.",

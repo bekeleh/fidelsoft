@@ -24,7 +24,7 @@ class UserDatatable extends EntityDatatable
                 'username',
                 function ($model) {
                     if (Auth::user()->can('view', [ENTITY_USER]))
-                        return $model->public_id ? link_to("users/{$model->public_id}/edit", $model->username)->toHtml() : null;
+                        return $model->public_id ? link_to("users/{$model->public_id}", $model->username)->toHtml() : null;
                     else
                         return $model->username;
                 },
@@ -33,7 +33,7 @@ class UserDatatable extends EntityDatatable
                 'email',
                 function ($model) {
                     if (Auth::user()->can('view', [ENTITY_USER]))
-                        return link_to("users/{$model->public_id}/edit", $model->email ?: '')->toHtml();
+                        return link_to("users/{$model->public_id}", $model->email ?: '')->toHtml();
                     else
                         return $model->email;
                 },
@@ -45,6 +45,24 @@ class UserDatatable extends EntityDatatable
                         return link_to("users/{$model->public_id}", $model->phone ?: '')->toHtml();
                     else
                         return $model->phone;
+                },
+            ],
+            [
+                'confirmed',
+                function ($model) {
+                    if (!$model->public_id) {
+                        return self::getStatusLabel(USER_STATE_OWNER);
+                    } elseif ($model->deleted_at) {
+                        return self::getStatusLabel(USER_STATE_DISABLED);
+                    } elseif ($model->confirmed) {
+                        if ($model->is_admin) {
+                            return self::getStatusLabel(USER_STATE_ADMIN);
+                        } else {
+                            return self::getStatusLabel(USER_STATE_ACTIVE);
+                        }
+                    } else {
+                        return self::getStatusLabel(USER_STATE_PENDING);
+                    }
                 },
             ],
             [
@@ -72,24 +90,6 @@ class UserDatatable extends EntityDatatable
                         return null;
                     }
                 }
-            ],
-            [
-                'confirmed',
-                function ($model) {
-                    if (!$model->public_id) {
-                        return self::getStatusLabel(USER_STATE_OWNER);
-                    } elseif ($model->deleted_at) {
-                        return self::getStatusLabel(USER_STATE_DISABLED);
-                    } elseif ($model->confirmed) {
-                        if ($model->is_admin) {
-                            return self::getStatusLabel(USER_STATE_ADMIN);
-                        } else {
-                            return self::getStatusLabel(USER_STATE_ACTIVE);
-                        }
-                    } else {
-                        return self::getStatusLabel(USER_STATE_PENDING);
-                    }
-                },
             ],
             [
                 'last_login',
