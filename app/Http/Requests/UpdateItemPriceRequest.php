@@ -27,7 +27,7 @@ class UpdateItemPriceRequest extends ItemPriceRequest
             $rules['product_id'] = 'required|unique:item_prices,product_id,' . $itemPrice->id . ',id,client_type_id,' . $itemPrice->client_type_id . ',account_id,' . $itemPrice->account_id;
         }
         $rules['client_type_id'] = 'required|numeric|exists:client_types,id';
-        $rules['unit_price'] = 'required|numeric';
+        $rules['unit_price'] = 'required|has_digit';
         $rules['qty'] = 'numeric';
         $rules['reorder_level'] = 'numeric';
         $rules['EOQ'] = 'numeric';

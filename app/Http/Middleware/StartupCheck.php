@@ -80,8 +80,8 @@ class StartupCheck
             }
         }
 
-        if (Auth::check()) {
-            $company = Auth::user()->account->company;
+        if (auth()->check()) {
+            $company = auth()->user()->account->company;
             $count = Session::get(SESSION_COUNTER, 0);
             Session::put(SESSION_COUNTER, ++$count);
 
@@ -131,7 +131,7 @@ class StartupCheck
                         Session::flash('news_feed_message', trans('texts.new_version_available', $params));
                     } else {
                         Session::put('news_feed_id', $data->id);
-                        if ($data->message && $data->id > Auth::user()->news_feed_id) {
+                        if ($data->message && $data->id > auth()->user()->news_feed_id) {
                             Session::flash('news_feed_message', $data->message);
                         }
                     }
@@ -147,22 +147,22 @@ class StartupCheck
             App::setLocale($locale);
             session([SESSION_LOCALE => $locale]);
 
-            if (Auth::check()) {
+            if (auth()->check()) {
                 if ($language = Language::whereLocale($locale)->first()) {
-                    $account = Auth::user()->account;
+                    $account = auth()->user()->account;
                     $account->language_id = $language->id;
                     $account->save();
                 }
             }
-        } elseif (Auth::check()) {
-            $locale = Auth::user()->account->language ? Auth::user()->account->language->locale : DEFAULT_LOCALE;
+        } elseif (auth()->check()) {
+            $locale = auth()->user()->account->language ? auth()->user()->account->language->locale : DEFAULT_LOCALE;
             App::setLocale($locale);
         } elseif (session(SESSION_LOCALE)) {
             App::setLocale(session(SESSION_LOCALE));
         }
 
         // Make sure the account/user localization settings are in the session
-        if (Auth::check() && !Session::has(SESSION_TIMEZONE)) {
+        if (auth()->check() && !Session::has(SESSION_TIMEZONE)) {
             Event::fire(new UserLoggedInEvent());
         }
 

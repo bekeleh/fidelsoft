@@ -154,10 +154,6 @@ class ItemTransferRepository extends BaseRepository
 
     public function stockAdjustment($data, $itemTransfer = null, $update = null)
     {
-        if (empty($data['qty'])) {
-            return;
-        }
-
         $newQty = isset($data['qty']) ? Utils::parseFloat($data['qty']) : 0;
 
         $previous_warehouse = ItemStore::where('warehouse_id', $data['previous_warehouse_id'])
@@ -177,18 +173,22 @@ class ItemTransferRepository extends BaseRepository
                         $itemTransfer->save();
                     }
                 } else {
-                    if ($newQty >= $qoh) {
-                        $itemTransferDate['qty'] = 0;
-                        if ($itemWarehouse->update($itemTransferDate)) {
-                            $this->updateCurrentWarehouse($qoh, $data, $itemWarehouse);
-                            $itemTransfer->save();
-                        }
+                    if (empty($data['qty'])) {
+                        continue;
                     } else {
-                        $qoh = $qoh - $newQty;
-                        $itemTransferDate['qty'] = $qoh;
-                        if ($itemWarehouse->update($itemTransferDate)) {
-                            $this->updateCurrentWarehouse($newQty, $data, $itemWarehouse);
-                            $itemTransfer->save();
+                        if ($newQty >= $qoh) {
+                            $itemTransferDate['qty'] = 0;
+                            if ($itemWarehouse->update($itemTransferDate)) {
+                                $this->updateCurrentWarehouse($qoh, $data, $itemWarehouse);
+                                $itemTransfer->save();
+                            }
+                        } else {
+                            $qoh = $qoh - $newQty;
+                            $itemTransferDate['qty'] = $qoh;
+                            if ($itemWarehouse->update($itemTransferDate)) {
+                                $this->updateCurrentWarehouse($newQty, $data, $itemWarehouse);
+                                $itemTransfer->save();
+                            }
                         }
                     }
                 }
@@ -204,7 +204,6 @@ class ItemTransferRepository extends BaseRepository
 
     public function updateCurrentWarehouse($transferQty, $data, $itemTransfer = null)
     {
-
         $newQty = isset($transferQty) ? Utils::parseFloat($transferQty) : 0;
 
         $current_warehouse = ItemStore::where('warehouse_id', $data['current_warehouse_id'])

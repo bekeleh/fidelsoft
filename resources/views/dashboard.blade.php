@@ -297,22 +297,23 @@
                         </div>
                     </div>
 
-                    <!-- total outstanding balance -->
+                    <!-- total average balance -->
                     <div class="col-md-4">
                         <div class="panel panel-default">
-                            <div class="panel-body outstanding-panel">
+                            <div class="panel-body average-panel">
                                 <div style="overflow:hidden">
                                     <div class="{{ $headerClass }}">
-                                        {{ trans('texts.outstanding') }}
+                                        {{ trans('texts.average_invoice') }}
                                     </div>
-                                    <div class="outstanding-div in-bold pull-right" style="color:#25a186">
+                                    <div class="average-div in-bold pull-right" style="color:#25a186">
                                     </div>
                                     <div class="in-bold">
-                                        @if (count($balances))
-                                            @foreach ($balances as $item)
+                                        @if (count($averageInvoice))
+                                            @foreach ($averageInvoice as $item)
                                                 <div class="currency currency_{{ $item->currency_id ?: $account->getCurrencyId() }}"
                                                      style="display:none">
-                                                    {{ Utils::formatMoney($item->value, $item->currency_id) }}<br/>
+                                                    {{ Utils::formatMoney($item->invoice_avg, $item->currency_id) }}
+                                                    <br/>
                                                 </div>
                                             @endforeach
                                         @else
@@ -333,24 +334,22 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- total average balance -->
+                    <!-- total outstanding balance -->
                     <div class="col-md-4">
                         <div class="panel panel-default">
-                            <div class="panel-body average-panel">
+                            <div class="panel-body outstanding-panel">
                                 <div style="overflow:hidden">
                                     <div class="{{ $headerClass }}">
-                                        {{ trans('texts.average_invoice') }}
+                                        {{ trans('texts.outstanding') }}
                                     </div>
-                                    <div class="average-div in-bold pull-right" style="color:#25a186">
+                                    <div class="outstanding-div in-bold pull-right" style="color:#25a186">
                                     </div>
                                     <div class="in-bold">
-                                        @if (count($averageInvoice))
-                                            @foreach ($averageInvoice as $item)
+                                        @if (count($balances))
+                                            @foreach ($balances as $item)
                                                 <div class="currency currency_{{ $item->currency_id ?: $account->getCurrencyId() }}"
                                                      style="display:none">
-                                                    {{ Utils::formatMoney($item->invoice_avg, $item->currency_id) }}
-                                                    <br/>
+                                                    {{ Utils::formatMoney($item->value, $item->currency_id) }}<br/>
                                                 </div>
                                             @endforeach
                                         @else

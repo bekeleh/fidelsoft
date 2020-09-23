@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ValidateTwoFactorRequest;
 use App\Libraries\Utils;
 use App\Models\User;
+use App\Ninja\Repositories\AccountRepository;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -29,6 +30,7 @@ class LoginController extends Controller
     use ThrottlesLogins;
 
     protected $username = 'username';
+    protected $accountRepository;
 
     protected $redirectTo = '/dashboard';
 
@@ -38,11 +40,13 @@ class LoginController extends Controller
 
     /**
      * LoginController constructor.
+     * @param AccountRepository $accountRepository
      */
-    public function __construct()
+    public function __construct(AccountRepository $accountRepository)
     {
         $this->middleware('guest', ['except' => 'getLogoutWrapper']);
         Session::put('backUrl', URL::previous());
+        $this->accountRepository = $accountRepository;
     }
 
     private function redirectTo()
@@ -61,7 +65,7 @@ class LoginController extends Controller
      */
     public function showLoginForm(Request $request)
     {
-        if (Auth::check()) {
+        if (auth()->check()) {
             return redirect()->intended('dashboard');
         }
 
@@ -165,7 +169,7 @@ class LoginController extends Controller
         $additionalInfo = ['activated' => 1];
         $data = array_merge($this->credentials($request), $additionalInfo);
 
-        $auth = Auth::attempt($data, $remember_me);
+        $auth = auth()->attempt($data, $remember_me);
 
         if (!$auth) {
             if (!$lockedOut) {
@@ -173,11 +177,16 @@ class LoginController extends Controller
             }
             return redirect()->back()->withInput()->with('error', trans('auth/message.account_not_found'));
         } else {
-            $this->clearLoginAttempts($request);
+            $checkAccount = $this->accountRepository->checkUserAccounts(auth()->user()->account_id);
+            if ($checkAccount) {
+                $this->clearLoginAttempts($request);
+            } else {
+                $request->session()->flush();
+                return redirect()->back()->withInput()->with('error', trans('auth/message.account_disabled'));
+            }
         }
-        if ($user = Auth::user()) {
+        if ($user = auth()->user()) {
             $user->last_login = Carbon::now();
-
             $user->save();
         }
 
@@ -313,7 +322,7 @@ class LoginController extends Controller
         $request->session()->flush();
         $request->session()->forget('2fa_authed');
 
-        Auth::logout();
+        auth()->logout();
 
         return redirect()->route('login')->with('success', trans('auth/message.logout.success'));
     }

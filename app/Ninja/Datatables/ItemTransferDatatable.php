@@ -7,15 +7,13 @@ use App\Models\ItemTransfer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 
-class ItemTransferDataTable extends EntityDatatable
+class ItemTransferDatatable extends EntityDatatable
 {
     public $entityType = ENTITY_ITEM_TRANSFER;
     public $sortCol = 1;
 
     public function columns()
     {
-        $account = Auth::user()->account;
-
         return [
             [
                 'product_key',
@@ -135,24 +133,14 @@ class ItemTransferDataTable extends EntityDatatable
     public function actions()
     {
         return [
-            // [
-            //     uctrans('texts.edit_item_transfer'),
-            //     function ($model) {
-            //         return URL::to("item_transfers/{$model->public_id}/edit");
-            //     },
-            //     function ($model) {
-            //         return Auth::user()->can('edit', ENTITY_ITEM_TRANSFER);
-            //     },
-            // ],
-//            [
-//                trans('texts.clone_item_transfer'),
-//                function ($model) {
-//                    return URL::to("item_transfers/{$model->public_id}/clone");
-//                },
-//                function ($model) {
-//                    return Auth::user()->can('create', ENTITY_ITEM_TRANSFER);
-//                },
-//            ],
+            [
+                '--divider--', function () {
+                return false;
+            },
+                function ($model) {
+                    return auth()->user()->canCreateOrEdit(ENTITY_ITEM_TRANSFER);
+                },
+            ],
         ];
     }
 

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 
+use App\Libraries\Utils;
 use App\Models\EntityModel;
 use Eloquent;
 use Illuminate\Database\Eloquent\Collection;
@@ -151,6 +152,9 @@ class ItemStore extends EntityModel
 
     public static function calcStatusClass($qoh, $reorderLevel)
     {
+        if (Utils::parseFloat($qoh) < 1) {
+            return 'danger';
+        }
         if (!empty($qoh) && !empty($reorderLevel)) {
             if (floatval($qoh) > floatval($reorderLevel)) {
 //                return 'default';

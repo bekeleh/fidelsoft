@@ -40,6 +40,9 @@ class AppController extends BaseController
 
     public function showSetup()
     {
+        if (!auth()->check() || !auth()->user()->isSuperUser()) {
+            return false;
+        }
         if (Utils::isNinjaProd() || (Utils::isDatabaseSetup() && Account::count() > 0)) {
             return Redirect::to('/');
         }
@@ -49,6 +52,9 @@ class AppController extends BaseController
 
     public function doSetup()
     {
+        if (!auth()->check() || !auth()->user()->isSuperUser()) {
+            return false;
+        }
         if (Utils::isNinjaProd()) {
             return Redirect::to('/');
         }
@@ -151,11 +157,14 @@ class AppController extends BaseController
 
     public function updateSetup()
     {
+        if (!auth()->check() || !auth()->user()->isSuperUser()) {
+            return false;
+        }
         if (Utils::isNinjaProd()) {
             return Redirect::to('/');
         }
 
-        if (!Auth::check() && Utils::isDatabaseSetup() && Account::count() > 0) {
+        if (!auth()->check() && Utils::isDatabaseSetup() && Account::count() > 0) {
             return Redirect::to('/');
         }
 
@@ -219,6 +228,9 @@ class AppController extends BaseController
 
     private function testDatabase($database)
     {
+        if (!auth()->check() || !auth()->user()->isSuperUser()) {
+            return false;
+        }
         $dbType = 'mysql'; // $database['default'];
         Config::set('database.default', $dbType);
         foreach ($database['connections'][$dbType] as $key => $val) {
@@ -237,6 +249,9 @@ class AppController extends BaseController
 
     private function testMail($mail)
     {
+        if (!auth()->check() || !auth()->user()->isSuperUser()) {
+            return false;
+        }
         $email = $mail['from']['address'];
         $fromName = $mail['from']['name'];
 
@@ -263,6 +278,10 @@ class AppController extends BaseController
 
     public function install()
     {
+        if (!auth()->check() || !auth()->user()->isSuperUser()) {
+            return false;
+        }
+
         if (!Utils::isNinjaProd() && !Utils::isDatabaseSetup()) {
             try {
                 set_time_limit(60 * 5); // shouldn't take this long but just in case
@@ -283,61 +302,66 @@ class AppController extends BaseController
 
     public function update()
     {
-        if (!Utils::isNinjaProd()) {
-            if ($password = env('UPDATE_SECRET')) {
-                if (!hash_equals($password, request('secret') ?: '')) {
-                    $message = 'Invalid secret: /update?secret=<value>';
-                    Utils::logError($message);
-                    echo $message;
-                    exit;
-                }
-            }
-
-            try {
-                set_time_limit(60 * 5);
-                $this->checkInnoDB();
-
-                $cacheCompiled = base_path('bootstrap/cache/compiled.php');
-                if (file_exists($cacheCompiled)) {
-                    unlink($cacheCompiled);
-                }
-                $cacheServices = base_path('bootstrap/cache/services.json');
-                if (file_exists($cacheServices)) {
-                    unlink($cacheServices);
-                }
-
-                Artisan::call('clear-compiled');
-                Artisan::call('cache:clear');
-                Artisan::call('debugbar:clear');
-                Artisan::call('route:clear');
-                Artisan::call('view:clear');
-                Artisan::call('config:clear');
-                Artisan::call('optimize', ['--force' => true]);
-                Auth::logout();
-                Cache::flush();
-                Session::flush();
-                Artisan::call('migrate', ['--force' => true]);
-                Artisan::call('db:seed', ['--force' => true, '--class' => 'UpdateSeeder']);
-                Event::fire(new UserSettingsChangedEvent());
-
-                // legacy fix: check cipher is in .env file
-                if (!env('APP_CIPHER')) {
-                    $fp = fopen(base_path() . '/.env', 'a');
-                    fwrite($fp, "\nAPP_CIPHER=AES-256-CBC");
-                    fclose($fp);
-                }
-
-                // show message with link to Trello board
-                $message = trans('texts.see_whats_new', ['version' => NINJA_VERSION]);
-                $message = link_to(RELEASES_URL, $message, ['target' => '_blank']);
-                $message = sprintf('%s - %s', trans('texts.processed_updates'), $message);
-                Session::flash('warning', $message);
-            } catch (Exception $e) {
-                Utils::logError($e);
-
-                return Response::make($e->getMessage(), 500);
+        if (!auth()->check() || !auth()->user()->isSuperUser()) {
+            return redirect('/');
+        }
+//        if (!Utils::isNinjaProd()) {
+        if ($password = env('UPDATE_SECRET')) {
+            if (!hash_equals($password, request('secret') ?: '')) {
+                $message = 'Invalid secret: /update?secret=<value>';
+                Utils::logError($message);
+                echo $message;
+                exit;
             }
         }
+        try {
+//            set_time_limit(60 * 5);
+//            $this->checkInnoDB();
+
+            $cacheCompiled = base_path('bootstrap/cache/compiled.php');
+            if (file_exists($cacheCompiled)) {
+                unlink($cacheCompiled);
+            }
+            $cacheServices = base_path('bootstrap/cache/services.json');
+            if (file_exists($cacheServices)) {
+                unlink($cacheServices);
+            }
+
+            Artisan::call('clear-compiled');
+            Artisan::call('cache:clear');
+            Artisan::call('debugbar:clear');
+            Artisan::call('route:clear');
+            Artisan::call('view:clear');
+            Artisan::call('config:cache');
+            Artisan::call('config:clear');
+            Artisan::call('optimize', ['--force' => true]);
+            auth()->logout();
+            Cache::flush();
+            Session::flush();
+
+//
+//                Artisan::call('migrate', ['--force' => true]);
+//                Artisan::call('db:seed', ['--force' => true, '--class' => 'UpdateSeeder']);
+//                Event::fire(new UserSettingsChangedEvent());
+
+            // legacy fix: check cipher is in .env file
+//                if (!env('APP_CIPHER')) {
+//                    $fp = fopen(base_path() . '/.env', 'a');
+//                    fwrite($fp, "\nAPP_CIPHER=AES-256-CBC");
+//                    fclose($fp);
+//                }
+
+            // show message with link to Trello board
+            $message = trans('texts.see_whats_new', ['version' => NINJA_VERSION]);
+            $message = link_to(RELEASES_URL, $message, ['target' => '_blank']);
+            $message = sprintf('%s - %s', trans('texts.processed_updates'), $message);
+            Session::flash('warning', $message);
+        } catch (Exception $e) {
+            Utils::logError($e);
+
+            return Response::make($e->getMessage(), 500);
+        }
+//        }
 
         return Redirect::to('/?clear_cache=true');
     }
@@ -402,7 +426,7 @@ class AppController extends BaseController
 
     public function errors()
     {
-        if (!auth::check() || !Utils::hasPermission('admin')) {
+        if (!auth()->check() || !Utils::hasPermission('admin')) {
             return redirect('/');
         }
 
@@ -431,8 +455,8 @@ class AppController extends BaseController
             $data = DB::table('accounts')
                 ->leftJoin('payments', 'payments.account_id', '=', 'accounts.id')
                 ->leftJoin('clients', 'clients.id', '=', 'payments.client_id')
-                ->where('accounts.account_key', '=', NINJA_ACCOUNT_KEY)
-                ->where('payments.is_deleted', '=', false)
+                ->where('accounts.account_key', NINJA_ACCOUNT_KEY)
+                ->where('payments.is_deleted', false)
                 ->get([
                     'clients.public_id as client_id',
                     'payments.public_id as payment_id',

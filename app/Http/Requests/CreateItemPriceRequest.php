@@ -24,7 +24,7 @@ class CreateItemPriceRequest extends ItemPriceRequest
         $rules = [];
         $rules['product_id'] = 'required|unique:item_prices,product_id,' . $this->id . ',id,client_type_id,' . $this->client_type_id . ',account_id,' . $this->account_id;
         $rules['client_type_id'] = 'required|numeric|exists:client_types,id';
-        $rules['unit_price'] = 'required|numeric';
+        $rules['unit_price'] = 'required|has_digit';
         $rules['qty'] = 'numeric';
         $rules['reorder_level'] = 'numeric';
         $rules['EOQ'] = 'numeric';

@@ -664,6 +664,17 @@ class AccountRepository
         return null;
     }
 
+    public function checkUserAccounts($accountId = null)
+    {
+        $query = Account::where('id', $accountId)->first();
+
+        if (!$query) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function findUserAccounts($userId1, $userId2 = null)
     {
         if (!Schema::hasTable('user_accounts')) {

@@ -4,6 +4,7 @@ return array(
 
     'account_already_exists' => 'An account with the this email already exists.',
     'account_not_found' => 'The user account or password is incorrect.',
+    'account_disabled' => 'The user account is disabled, Contact your IT Administrator',
     'account_not_activated' => 'This user account is not activated.',
     'account_suspended' => 'This user account is suspended.',
     'account_banned' => 'This user account is banned.',

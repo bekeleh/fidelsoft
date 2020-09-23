@@ -812,7 +812,7 @@ $LANG = array(
     'item_price_unique' => 'This item prices already had been taken.',
 //   Item Categories
     'movement' => 'Movement',
-    'item_movements' => 'Item Movement',
+    'item_movements' => 'Item Movements',
     'item_movement' => 'Item Movement',
     'item_movement_name' => 'Item Movement',
     'new_item_movement' => 'New Item Movement',

@@ -9,6 +9,7 @@ use App\Models\Expense;
 use App\Ninja\Repositories\DashboardRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
+use Illuminate\Http\Request;
 
 /**
  * Class DashboardController.
@@ -23,7 +24,7 @@ class DashboardController extends BaseController
         $this->dashboardRepo = $dashboardRepo;
     }
 
-    public function index()
+    public function index(Request $request)
     {
 //        $this->authorize('view', ENTITY_DASHBOARD);
         if (!Auth::check()) {

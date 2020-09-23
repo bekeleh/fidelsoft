@@ -35,7 +35,7 @@ class ItemMovementController extends BaseController
         return View::make('list_wrapper', [
             'entityType' => ENTITY_ITEM_MOVEMENT,
             'datatable' => new ItemMovementDatatable(),
-            'title' => trans('texts.item_movement'),
+            'title' => trans('texts.item_movements'),
         ]);
     }
 
