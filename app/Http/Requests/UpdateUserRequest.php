@@ -23,7 +23,7 @@ class UpdateUserRequest extends UserRequest
         $rules = [];
         $user = $this->entity();
         if ($user) {
-            $rules['username'] = 'required|max:50|unique:users,username,' . $user->id . ',id,account_id,' . $user->account_id;
+            $rules['username'] = 'required|max:50|unique:users,username,' . $user->id . ',id';
             $rules['email'] = 'required|email|max:50|unique:users,email,' . $user->id . ',id';
         }
         $rules['first_name'] = 'required|max:50';
