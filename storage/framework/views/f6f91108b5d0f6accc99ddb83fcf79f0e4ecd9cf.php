@@ -1,12 +1,15 @@
 <?php $__env->startSection('content'); ?>
     ##parent-placeholder-040f06fd774092478d450774f5ba30c5da78acc8##
-    <?php echo $__env->make('accounts.nav', ['selected' => ACCOUNT_API_TOKENS], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('accounts.nav', ['selected' => ACCOUNT_SUBSCRIPTION], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
-    <?php echo Former::open($url)->method($method)->addClass('warn-on-exit')->rules(array(
+    <?php echo Former::open($url)
+           ->method($method)
+           ->addClass('warn-on-exit')
+           ->rules(array(
         'event_id' => 'required',
-        'target_url' => 'required|url',
+        //'target_url' => 'required|url',
         //'format' => 'required',
-    ));; ?>
+    )); ?>
 
 
     <div class="panel panel-default">
@@ -76,6 +79,8 @@
                         SUBSCRIPTION_FORMAT_UBL => SUBSCRIPTION_FORMAT_UBL
                     ])
                     ->help('target_url_help'); ?>
+
+            <?php echo Former::textarea('notes')->rows(4); ?>
 
 
         </div>

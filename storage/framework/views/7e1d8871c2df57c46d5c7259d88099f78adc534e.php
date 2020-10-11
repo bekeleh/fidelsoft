@@ -40,7 +40,7 @@
     <?php if(isset($values['clientId']) && $values['clientId']): ?>
         window.load_<?php echo e($values['entityType']); ?> = function load_<?php echo e($values['entityType']); ?>() {
         load_<?php echo e($class); ?>();
-    };
+    }
     <?php else: ?>
     jQuery(document).ready(function () {
         load_<?php echo e($class); ?>();
@@ -79,14 +79,14 @@
                     'aTargets': <?php echo e(isset($values['rightAlign']) ? json_encode($values['rightAlign']) : '[]'); ?>
 
                 }
-            ],;
+            ],
         <?php $__currentLoopData = $options; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => $o): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <?php echo json_encode($k); ?>: <?php echo json_encode($o); ?>,
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         <?php $__currentLoopData = $callbacks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => $o): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <?php echo json_encode($k); ?>: <?php echo $o; ?>,
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            "fnDrawCallback";
+            "fnDrawCallback"
     :
 
         function (oSettings) {
@@ -104,7 +104,7 @@
         }
 
     ,
-        "stateLoadParams";
+        "stateLoadParams"
     :
 
         function (settings, data) {
@@ -114,6 +114,6 @@
             data.start = 0;
         }
     })
-
+        ;
     }
 </script>

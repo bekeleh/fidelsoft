@@ -499,10 +499,11 @@ Route::group([
     Route::get('/manage_companies', 'UserController@manageCompanies');
     Route::get('/errors', 'AppController@errors');
     Route::get('/test_headless', 'AppController@testHeadless');
-//   event subscription 
+//   event token
     Route::get('api/tokens', 'TokenController@getDatatable');
     Route::resource('tokens', 'TokenController');
     Route::post('tokens/bulk', 'TokenController@bulk');
+    //   event subscription
     Route::get('api/subscriptions', 'SubscriptionController@getDatatable');
     Route::resource('subscriptions', 'SubscriptionController');
     Route::post('subscriptions/bulk', 'SubscriptionController@bulk');

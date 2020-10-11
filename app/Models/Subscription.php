@@ -23,6 +23,7 @@ class Subscription extends EntityModel
         'event_id',
         'target_url',
         'format',
+        'notes',
         'created_by',
         'updated_by',
         'deleted_by',

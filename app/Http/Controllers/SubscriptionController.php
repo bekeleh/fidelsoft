@@ -39,7 +39,8 @@ class SubscriptionController extends BaseController
     public function index()
     {
         $this->authorize('view', ENTITY_SUBSCRIPTION);
-        return Redirect::to('settings/' . ACCOUNT_API_TOKENS);
+
+        return Redirect::to('settings/' . ACCOUNT_SUBSCRIPTION);
     }
 
     public function getDatatable()
@@ -53,6 +54,7 @@ class SubscriptionController extends BaseController
     public function create(SubscriptionRequest $request)
     {
         $this->authorize('create', ENTITY_SUBSCRIPTION);
+
         $data = [
             'subscription' => null,
             'method' => 'POST',
@@ -71,6 +73,7 @@ class SubscriptionController extends BaseController
     public function edit(SubscriptionRequest $request, $publicId)
     {
         $this->authorize('edit', ENTITY_SUBSCRIPTION);
+
         $subscription = Subscription::scope($publicId)->firstOrFail();
 
         $data = [
@@ -123,7 +126,6 @@ class SubscriptionController extends BaseController
 
             $subscription->fill(request()->all());
             $subscription->save();
-
             if ($subscriptionPublicId) {
                 $message = trans('texts.updated_subscription');
             } else {
@@ -133,7 +135,7 @@ class SubscriptionController extends BaseController
             Session::flash('message', $message);
         }
 
-        return redirect('/settings/api_tokens');
+        return redirect('/settings/subscriptions');
 
         /*
         if ($subscriptionPublicId) {

@@ -40,7 +40,7 @@
                     ->addGroupClass('location-select')
                     ->help(trans('texts.location_help') . ' | ' . link_to('/locations/', trans('texts.customize_options')))
                     !!}
-                    {!! Former::textarea('notes')->rows(6) !!}
+                    {!! Former::textarea('notes')->rows(4) !!}
                 </div>
             </div>
         </div>
