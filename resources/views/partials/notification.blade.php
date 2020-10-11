@@ -11,7 +11,7 @@
                 <li>
                     <a href="{{$unreadMessage->data['link'] }}?mark=unread">
                         {{$unreadMessage->data['title'] }}
-                        by <span class="fa fa-user"></span>&nbsp;&nbsp;
+                        by <span class="fa fa-user"></span>&nbsp;&nbsp;{{auth()->user()->username}}
                         <span class="fa fa-clock-o "></span>
                         {{ \Carbon\Carbon::parse($unreadMessage->data['created_at']['date'])->diffForHumans()}}
                     </a>

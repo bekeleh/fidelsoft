@@ -142,7 +142,7 @@ class User extends EntityModel implements AuthenticatableContract, CanResetPassw
 
     public function subscriptions()
     {
-        return $this->hasMany('App\Models\Common\Subscription');
+        return $this->hasMany('App\Models\Subscription');
     }
 
 //    public function getName()

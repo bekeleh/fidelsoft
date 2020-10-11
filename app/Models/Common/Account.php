@@ -17,6 +17,7 @@ use App\Models\Traits\HasLogo;
 use App\Models\Traits\PresentsInvoice;
 use App\Models\Traits\SendsEmails;
 use App\Models\Vendor;
+use App\Models\Subscription;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -639,6 +640,7 @@ class Account extends Eloquent
         ACCOUNT_TAX_RATES,
         ACCOUNT_PRODUCTS,
         ACCOUNT_NOTIFICATIONS,
+        ACCOUNT_SUBSCRIPTION,
         ACCOUNT_IMPORT_EXPORT,
         ACCOUNT_MANAGEMENT,
         ACCOUNT_USER_DETAILS,
@@ -962,7 +964,7 @@ class Account extends Eloquent
 
     public function subscriptions()
     {
-        return $this->hasMany('App\Models\Common\Subscription');
+        return $this->hasMany('App\Models\Subscription');
     }
 
     public function setIndustryIdAttribute($value)

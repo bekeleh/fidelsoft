@@ -12,7 +12,8 @@
                     <a href="<?php echo e($unreadMessage->data['link']); ?>?mark=unread">
                         <?php echo e($unreadMessage->data['title']); ?>
 
-                        by <span class="fa fa-user"></span>&nbsp;&nbsp;
+                        by <span class="fa fa-user"></span>&nbsp;&nbsp;<?php echo e(auth()->user()->username); ?>
+
                         <span class="fa fa-clock-o "></span>
                         <?php echo e(\Carbon\Carbon::parse($unreadMessage->data['created_at']['date'])->diffForHumans()); ?>
 

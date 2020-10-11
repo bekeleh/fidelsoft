@@ -273,6 +273,10 @@ class AccountController extends BaseController
             return self::showTemplates();
         } elseif ($section === ACCOUNT_PRODUCTS) {
             return self::showProducts();
+        } elseif ($section === ACCOUNT_NOTIFICATION) {
+            return self::notifications();
+        } elseif ($section === ACCOUNT_SUBSCRIPTION) {
+            return self::subscriptions();
         } elseif ($section === ACCOUNT_TAX_RATES) {
             return self::showTaxRates();
         } elseif ($section === ACCOUNT_PAYMENT_TERMS) {
@@ -280,6 +284,7 @@ class AccountController extends BaseController
         } elseif ($section === ACCOUNT_SYSTEM_SETTINGS) {
             return self::showSystemSettings();
         } else {
+
             $view = "accounts.{$section}";
             if (!view()->exists($view)) {
                 return redirect('/settings/company_details');
@@ -468,6 +473,29 @@ class AccountController extends BaseController
         ];
 
         return View::make('products.products', $data);
+    }
+
+    private function notifications()
+    {
+        $data = [
+            'account' => Auth::user()->account,
+            'title' => trans('texts.notifications'),
+        ];
+
+        return View::make('accounts.notifications', $data);
+    }
+
+    private function subscriptions()
+    {
+        $data = [
+            'account' => Auth::user()->account,
+            'title' => trans('texts.subscriptions'),
+            'subscription' => null,
+            'method' => 'POST',
+            'url' => 'subscriptions',
+        ];
+
+        return View::make('subscriptions.index', $data);
     }
 
     private function showTaxRates()

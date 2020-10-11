@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Libraries\Utils;
-use App\Models\Common\Subscription;
+use App\Models\Subscription;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Response;
 

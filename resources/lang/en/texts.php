@@ -706,7 +706,7 @@ $LANG = array(
     //   SUBSCRIPTION
     'subscription' => 'Subscription',
     'subscription_name' => 'Subscription of measure',
-    'subscriptions' => 'Subscription of measure',
+    'subscriptions' => 'Event Subscriptions',
     'new_subscription' => 'New Subscription',
     'list_subscriptions' => 'List Subscriptions',
     'create_subscription' => 'Create Subscription',

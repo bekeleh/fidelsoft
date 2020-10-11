@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Common\Subscription;
+use App\Http\Requests\SubscriptionRequest;
+use App\Http\Requests\CreateSubscriptionRequest;
+use App\Http\Requests\UpdateSubscriptionRequest;
+use App\Models\Subscription;
 use App\Services\SubscriptionService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -47,7 +50,7 @@ class SubscriptionController extends BaseController
         return $this->subscriptionService->getDatatable($accountId, $search);
     }
 
-    public function create()
+    public function create(SubscriptionRequest $request)
     {
         $this->authorize('create', ENTITY_SUBSCRIPTION);
         $data = [
@@ -57,15 +60,15 @@ class SubscriptionController extends BaseController
             'title' => trans('texts.add_subscription'),
         ];
 
-        return View::make('accounts.subscription', $data);
+        return View::make('accounts.subscriptions', $data);
     }
 
-    public function store()
+    public function store(CreateSubscriptionRequest $request)
     {
         return $this->save();
     }
 
-    public function edit($publicId)
+    public function edit(SubscriptionRequest $request, $publicId)
     {
         $this->authorize('edit', ENTITY_SUBSCRIPTION);
         $subscription = Subscription::scope($publicId)->firstOrFail();
@@ -77,10 +80,10 @@ class SubscriptionController extends BaseController
             'title' => trans('texts.edit_subscription'),
         ];
 
-        return View::make('accounts.subscription', $data);
+        return View::make('accounts.subscriptions', $data);
     }
 
-    public function update($publicId)
+    public function update(UpdateSubscriptionRequest $request, $publicId)
     {
         return $this->save($publicId);
     }

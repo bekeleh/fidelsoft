@@ -258,6 +258,8 @@ if (!defined('APP_NAME')) {
     define('ACTION_CONVERT', 'convert');
     define('ACTION_DELETE', 'delete');
     define('ACCOUNT_MANUFACTURER', 'manufacturers');
+    define('ACCOUNT_NOTIFICATION', 'notifications');
+    define('ACCOUNT_SUBSCRIPTION', 'subscriptions');
     define('ACCOUNT_MANUFACTURER_PRODUCT_DETAIL', 'manufacturer_product_details');
     define('ACCOUNT_POINT_OF_SALE', 'point_of_sales');
     define('ACCOUNT_SCHEDULE_CATEGORY', 'schedule_categories');

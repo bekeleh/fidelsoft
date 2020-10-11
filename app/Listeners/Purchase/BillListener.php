@@ -16,7 +16,7 @@ use App\Events\Purchase\BillWasEmailedEvent;
 use App\Events\Purchase\BillWasUpdatedEvent;
 use App\Libraries\Utils;
 use App\Models\Activity;
-use App\Models\Common\Subscription;
+use App\Models\Subscription;
 use App\Models\User;
 use App\Notifications\Purchase\NotifyBillCreated;
 use App\Notifications\Purchase\NotifyBillDeleted;

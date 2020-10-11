@@ -42,7 +42,7 @@ use App\Models\ScheduleCategory;
 use App\Models\ScheduledReport;
 use App\Models\Status;
 use App\Models\Warehouse;
-use App\Models\Common\Subscription;
+use App\Models\Subscription;
 use App\Models\Task;
 use App\Models\TaxRate;
 use App\Models\User;

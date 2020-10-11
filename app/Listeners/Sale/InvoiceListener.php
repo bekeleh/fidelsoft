@@ -16,7 +16,7 @@ use App\Events\Sale\PaymentWasRestoredEvent;
 use App\Events\Sale\PaymentWasVoidedEvent;
 use App\Libraries\Utils;
 use App\Models\Activity;
-use App\Models\Common\Subscription;
+use App\Models\Subscription;
 use App\Models\User;
 use App\Notifications\Sale\NotifyInvoiceCreated;
 use App\Notifications\Sale\NotifyInvoiceDeleted;
