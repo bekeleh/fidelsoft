@@ -80,7 +80,7 @@
 
     @if (Auth::user()->hasFeature(FEATURE_API))
         <center class="buttons">
-            {!! Button::normal(trans('texts.cancel'))->asLinkTo(URL::to('/settings/api_tokens'))->appendIcon(Icon::create('remove-circle'))->large() !!}
+            {!! Button::normal(trans('texts.cancel'))->asLinkTo(URL::to('/settings/subscriptions'))->appendIcon(Icon::create('remove-circle'))->large() !!}
             {!! Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')) !!}
         </center>
     @else

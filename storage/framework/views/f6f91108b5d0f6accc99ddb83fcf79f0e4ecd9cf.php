@@ -83,7 +83,7 @@
 
     <?php if(Auth::user()->hasFeature(FEATURE_API)): ?>
         <center class="buttons">
-            <?php echo Button::normal(trans('texts.cancel'))->asLinkTo(URL::to('/settings/api_tokens'))->appendIcon(Icon::create('remove-circle'))->large(); ?>
+            <?php echo Button::normal(trans('texts.cancel'))->asLinkTo(URL::to('/settings/subscriptions'))->appendIcon(Icon::create('remove-circle'))->large(); ?>
 
             <?php echo Button::success(trans('texts.save'))->submit()->large()->appendIcon(Icon::create('floppy-disk')); ?>
 
