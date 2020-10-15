@@ -3689,6 +3689,22 @@ $LANG = array(
     'subscription_event_21' => 'Approved Quote',
     'subscription_event_22' => 'Create Product',
     'subscription_event_23' => 'Update Product',
+//  purchase
+    'subscription_event_28' => 'Created Bill',
+    'subscription_event_29' => 'Update Bill',
+    'subscription_event_30' => 'Delete Bill',
+    'subscription_event_31' => 'Created Bill Quote',
+    'subscription_event_32' => 'Update Bill Quote',
+    'subscription_event_33' => 'Delete Bill Quote',
+    'subscription_event_34' => 'Approve Bill Quote',
+    'subscription_event_35' => 'Created Bill Payment',
+    'subscription_event_36' => 'Update Bill Payment',
+    'subscription_event_37' => 'Delete Bill Payment',
+
+    'subscription_event_25' => 'Created User',
+    'subscription_event_26' => 'Update User',
+    'subscription_event_27' => 'Delete User',
+
     'project_error_multiple_clients' => 'The projects can\'t belong to different clients',
     'invoice_project' => 'Invoice Project',
 //    modules list

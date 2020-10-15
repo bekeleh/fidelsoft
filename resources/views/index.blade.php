@@ -1200,8 +1200,7 @@ Fidelsoft Pro
                                 target="_blank" href="#">Twitter</a></li>
                     <li id="menu-item-6751"
                         class="youtube menu-item menu-item-type-custom menu-item-object-custom menu-item-6751"><a
-                                target="_blank"
-                                href="#">Youtube</a></li>
+                                target="_blank" href="#">Youtube</a></li>
                 </ul>
             </div>
         </div>
@@ -1263,7 +1262,6 @@ Fidelsoft Pro
         background-size: cover !important;
     }
 
-    }
     .pricing-plans .price-plan .column .button {
         background: #2d2d2d !important;
     }
@@ -1446,7 +1444,6 @@ Fidelsoft Pro
         });
     }
 </script>
-
 
 </body>
 
