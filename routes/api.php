@@ -1,4 +1,5 @@
 <?php
+Route::apiResource('checkpoint', 'LaptopController');
 Route::resource('users', 'UserApiController');
 Route::resource('permission_groups', 'permissionGroupApiController');
 Route::resource('permissions', 'PermissionApiController');
