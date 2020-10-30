@@ -35,7 +35,7 @@ class PaymentRepository extends BaseRepository
             ->leftJoin('payment_types', 'payment_types.id', '=', 'payments.payment_type_id')
             ->leftJoin('account_gateways', 'account_gateways.id', '=', 'payments.account_gateway_id')
             ->leftJoin('gateways', 'gateways.id', '=', 'account_gateways.gateway_id')
-            ->where('payments.account_id', Auth::user()->account_id)
+            ->where('payments.account_id', auth()->user()->account_id)
             ->where('contacts.is_primary', true)
 //            ->where('contacts.deleted_at', null)
 //            ->where('invoices.is_deleted', false)
@@ -179,8 +179,8 @@ class PaymentRepository extends BaseRepository
             $payment = Payment::scope($publicId)->firstOrFail();
         } else {
             $payment = Payment::createNew();
-            if (Auth::check() && Auth::user()->account->payment_type_id) {
-                $payment->payment_type_id = Auth::user()->account->payment_type_id;
+            if (auth()->check() && auth()->user()->account->payment_type_id) {
+                $payment->payment_type_id = auth()->user()->account->payment_type_id;
             }
             $payment->created_by = auth::user()->username;
         }
@@ -214,7 +214,9 @@ class PaymentRepository extends BaseRepository
         }
 
         $payment->fill($input);
-        $paymentTypeId = $input['payment_type_id'];
+        if (!empty($input['payment_type_id'])) {
+            $paymentTypeId = $input['payment_type_id'];
+        }
         if (!$publicId) {
             $clientId = $input['client_id'];
             $amount = round(Utils::parseFloat($input['amount']), 2);

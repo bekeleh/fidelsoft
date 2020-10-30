@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/invoiceninja.iml" filepath="$PROJECT_DIR$/.idea/invoiceninja.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/fidelsoft.iml" filepath="$PROJECT_DIR$/.idea/fidelsoft.iml" />
     </modules>
   </component>
 </project>
