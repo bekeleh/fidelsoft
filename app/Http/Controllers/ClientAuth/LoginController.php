@@ -43,8 +43,7 @@ class LoginController extends Controller
     {
         $subdomain = Utils::getSubdomain(\Request::server('HTTP_HOST'));
 
-//        $hasAccountIdentifier = request()->account_key || ($subdomain && !in_array($subdomain, ['www', 'app']));
-        $hasAccountIdentifier = request()->account_key;
+        $hasAccountIdentifier = request()->account_key || ($subdomain && !in_array($subdomain, ['app']));//['www', 'app']
 
         if (!session('contact_key')) {
             if (Utils::isNinja()) {

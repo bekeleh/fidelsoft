@@ -30,7 +30,7 @@ class ItemStoreRepository extends BaseRepository
 
     public function all()
     {
-        return ItemStore::scope()->withTrashed()->where('is_deleted', '=', false)->get();
+        return ItemStore::scope()->withTrashed()->where('is_deleted', false)->get();
     }
 
 
@@ -43,8 +43,8 @@ class ItemStoreRepository extends BaseRepository
             ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
             ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
             ->leftJoin('warehouses', 'warehouses.id', '=', 'item_stores.warehouse_id')
-            ->where('item_stores.account_id', '=', $accountId)
-            //->where('item_stores.deleted_at', '=', null)
+            ->where('item_stores.account_id', auth()->user()->account_id)
+            //->where('item_stores.deleted_at', null)
             ->select(
                 'item_stores.id',
                 'item_stores.public_id',
@@ -100,10 +100,10 @@ class ItemStoreRepository extends BaseRepository
             ->leftJoin('item_brands', 'item_brands.id', '=', 'products.item_brand_id')
             ->leftJoin('item_categories', 'item_categories.id', '=', 'item_brands.item_category_id')
             ->leftJoin('warehouses', 'warehouses.id', '=', 'item_stores.warehouse_id')
-            ->Where('item_stores.warehouse_id', '=', $filter)
-            ->where('item_stores.account_id', '=', $accountId)
+            ->Where('item_stores.warehouse_id', $filter)
+            ->where('item_stores.account_id', auth()->user()->account_id)
             ->where('item_stores.qty', '>', 0)
-            //->where('item_stores.deleted_at', '=', null)
+            //->where('item_stores.deleted_at', null)
             ->select(
                 'products.id as id',
                 'products.product_key as name',

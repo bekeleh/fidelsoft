@@ -28,7 +28,7 @@ class ProductRepository extends BaseRepository
     {
         return Product::scope()
             ->withTrashed()
-            ->where('is_deleted', '=', false)
+            ->where('is_deleted', false)
             ->get();
     }
 
@@ -43,7 +43,7 @@ class ProductRepository extends BaseRepository
             ->leftJoin('item_types', 'item_types.id', '=', 'products.item_type_id')
             ->leftJoin('tax_categories', 'tax_categories.id', '=', 'products.tax_category_id')
             ->leftJoin('units', 'units.id', '=', 'products.unit_id')
-            ->where('products.account_id', '=', $accountId)
+            ->where('products.account_id', auth()->user()->account_id)
             //->where('products.deleted_at', '=', null)
             ->select(
                 'products.id',

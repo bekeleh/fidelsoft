@@ -428,10 +428,13 @@ class Client extends EntityModel
         }
 
         if ($this->account->isClientPortalPasswordEnabled()) {
-            if (!empty($data['password']) && $data['password'] != '-%unchanged%-') {
+//            if (!empty($data['password']) && $data['password'] != '-%unchanged%-') {
+//                $contact->password = bcrypt($data['password']);
+//            } elseif (empty($data['password'])) {
+//                $contact->password = null;
+//            }
+            if (!empty($data['password'])) {
                 $contact->password = bcrypt($data['password']);
-            } elseif (empty($data['password'])) {
-                $contact->password = null;
             }
         }
 

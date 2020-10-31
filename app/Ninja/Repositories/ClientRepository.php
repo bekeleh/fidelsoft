@@ -222,6 +222,7 @@ class ClientRepository extends BaseRepository
         $client->fill($data);
         $client->name = isset($data['name']) ? trim($data['name']) : '';
         $client->save();
+
         /*
         if ( ! isset($data['contact']) && ! isset($data['contacts'])) {
             return $client;

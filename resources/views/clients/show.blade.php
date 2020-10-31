@@ -143,7 +143,7 @@
                             • {{ trans('texts.can_view_tasks') }}<br/>
                         @endif
                         @if ($client->account->hasReminders() && ! $client->send_reminders)
-                            • {{ trans('texts.is_not_sent_reminders') }}</br>
+                            • {{ trans('texts.is_not_sent_reminders') }}<br/>
                         @endif
                     </div>
                 </div>
@@ -159,42 +159,44 @@
 
                 <div class="col-md-3">
                     <h3>{{ trans('texts.client_contacts') }}</h3>
-                    @foreach ($client->contacts as $contact)
-                        @if ($contact->first_name || $contact->last_name)
-                            <b>{{ $contact->first_name.' '.$contact->last_name }}</b><br/>
-                        @endif
-                        @if ($contact->email)
-                            <i class="fa fa-envelope"
-                               style="width: 20px"></i>{!! HTML::mailto($contact->email, $contact->email) !!}<br/>
-                        @endif
-                        @if ($contact->phone)
-                            <i class="fa fa-phone" style="width: 20px"></i>{{ $contact->phone }}<br/>
-                        @endif
+                    @if(!empty($client->contacts ))
+                        @foreach ($client->contacts as $contact)
+                            @if ($contact->first_name || $contact->last_name)
+                                <b>{{ $contact->first_name.' '.$contact->last_name }}</b><br/>
+                            @endif
+                            @if ($contact->email)
+                                <i class="fa fa-envelope"
+                                   style="width: 20px"></i>{!! HTML::mailto($contact->email, $contact->email) !!}<br/>
+                            @endif
+                            @if ($contact->phone)
+                                <i class="fa fa-phone" style="width: 20px"></i>{{ $contact->phone }}<br/>
+                            @endif
 
-                        @if ($client->account->customLabel('contact1') && $contact->custom_value1)
-                            {{ $client->account->present()->customLabel('contact1') . ': ' . $contact->custom_value1 }}
-                            <br/>
-                        @endif
-                        @if ($client->account->customLabel('contact2') && $contact->custom_value2)
-                            {{ $client->account->present()->customLabel('contact2') . ': ' . $contact->custom_value2 }}
-                            <br/>
-                        @endif
+                            @if ($client->account->customLabel('contact1') && $contact->custom_value1)
+                                {{ $client->account->present()->customLabel('contact1') . ': ' . $contact->custom_value1 }}
+                                <br/>
+                            @endif
+                            @if ($client->account->customLabel('contact2') && $contact->custom_value2)
+                                {{ $client->account->present()->customLabel('contact2') . ': ' . $contact->custom_value2 }}
+                                <br/>
+                            @endif
 
-                        @if (Auth::user()->confirmed && $client->account->enable_client_portal)
-                            <i class="fa fa-dashboard" style="width: 20px"></i>
-                            <a href="{{ $contact->link }}"
-                               onclick="window.open('{{ $contact->link }}?silent=true', '_blank');return false;">
-                                {{ trans('texts.view_in_portal') }}
-                            </a>
-                            @if (config('services.postmark'))
-                                | <a href="#" onclick="showEmailHistory('{{ $contact->email }}')">
-                                    {{ trans('texts.email_history') }}
+                            @if (Auth::user()->confirmed && $client->account->enable_client_portal)
+                                <i class="fa fa-dashboard" style="width: 20px"></i>
+                                <a href="{{ $contact->link }}"
+                                   onclick="window.open('{{ $contact->link }}?silent=true', '_blank');return false;">
+                                    {{ trans('texts.view_in_portal') }}
                                 </a>
+                                @if (config('services.postmark'))
+                                    | <a href="#" onclick="showEmailHistory('{{ $contact->email }}')">
+                                        {{ trans('texts.email_history') }}
+                                    </a>
+                                @endif
+                                <br/>
                             @endif
                             <br/>
-                        @endif
-                        <br/>
-                    @endforeach
+                        @endforeach
+                    @endif
                 </div>
 
                 <div class="col-md-3">

@@ -155,15 +155,6 @@ class ClientDatatable extends EntityDatatable
                 },
             ],
             [
-                trans('texts.new_task'),
-                function ($model) {
-                    return URL::to("tasks/create/{$model->public_id}");
-                },
-                function ($model) {
-                    return Auth::user()->can('create', ENTITY_TASK);
-                },
-            ],
-            [
                 trans('texts.new_invoice'),
                 function ($model) {
                     return URL::to("invoices/create/{$model->public_id}");
@@ -179,6 +170,15 @@ class ClientDatatable extends EntityDatatable
                 },
                 function ($model) {
                     return Auth::user()->hasFeature(FEATURE_QUOTES) && Auth::user()->can('create', ENTITY_QUOTE);
+                },
+            ],
+            [
+                trans('texts.new_task'),
+                function ($model) {
+                    return URL::to("tasks/create/{$model->public_id}");
+                },
+                function ($model) {
+                    return Auth::user()->can('create', ENTITY_TASK);
                 },
             ],
             [

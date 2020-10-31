@@ -22,23 +22,18 @@ class FailedLoginListener
 
     public function handle(Failed $event)
     {
-        $now = new Carbon();
-        try {
+        if (!empty($event->credentials)) {
+            $now = new Carbon();
             DB::table('login_attempts')
                 ->insert(
                     [
-//                        'username' => $event->credentials['username'] ?: $event->credentials['email'],
+                        'username' => isset($event->credentials['username']) ?: $event->credentials['email'],
                         'user_agent' => request()->header('UserModel-Agent') ?: null,
                         'remote_ip' => request()->ip(),
-                        'successful' => 0,
+                        'successful' => false,
                         'created_at' => $now,
                     ]
                 );
-        } catch (Exception $e) {
-//            $user = $event->credentials['username'] ?: $event->credentials['email'];
-            $remote_ip = request()->ip();
-            $message = $remote_ip . ' can\'t logged in to the application.';
-            Storage::put('failed-logins.txt', $message);
         }
     }
 }
