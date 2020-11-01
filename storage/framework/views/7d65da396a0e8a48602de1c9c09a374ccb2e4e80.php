@@ -1,7 +1,4 @@
-<?php use App\Models\Credit;
-use App\Models\PaymentTerm;
-
-$__env->startSection('head_css'); ?>
+<?php $__env->startSection('head_css'); ?>
     ##parent-placeholder-65e7fa855b4f81a209a50c6e440870f25d0240e1##
 
     <link href="<?php echo e(asset('css/lightbox.css')); ?>" rel="stylesheet" type="text/css"/>
@@ -873,7 +870,7 @@ afterAdd: showContact }'>
 
 
                                             <?php echo Former::select('client[payment_terms]')->addOption('','')->data_bind('value: payment_terms')
-                                            ->fromQuery(PaymentTerm::getSelectOptions(), 'name', 'num_days')
+                                            ->fromQuery(\App\Models\PaymentTerm::getSelectOptions(), 'name', 'num_days')
                                             ->label(trans('texts.payment_terms'))
                                             ->help(trans('texts.payment_terms_help')); ?>
 
@@ -1372,7 +1369,7 @@ afterAdd: showContact }'>
                     <?php if(! $invoice->id && $account->credit_number_counter > 0): ?>
             var total = model.invoice().totals.rawTotal();
             var invoiceNumber = model.invoice().invoice_number();
-            var creditNumber = "<?php echo e($account->getNextInvoiceNumber(new Credit())); ?>";
+            var creditNumber = "<?php echo e($account->getNextInvoiceNumber(new \App\Models\Credit())); ?>";
             if (total < 0 && invoiceNumber != creditNumber) {
                 origInvoiceNumber = invoiceNumber;
                 model.invoice().invoice_number(creditNumber);

@@ -1,7 +1,5 @@
 <!-- navigation option  -->
-<li class="nav-<?php use App\Models\EntityModel;
-
-echo e($option); ?> <?php echo e(Request::is("{$option}*") ? 'active' : ''); ?>">
+<li class="nav-<?php echo e($option); ?> <?php echo e(Request::is("{$option}*") ? 'active' : ''); ?>">
     <?php if($option == 'settings'): ?>
         <a type="button" class="btn btn-default btn-sm pull-right"
            title="<?php echo e(Utils::getReadableUrl(request()->path())); ?>"
@@ -27,7 +25,7 @@ echo e($option); ?> <?php echo e(Request::is("{$option}*") ? 'active' : ''); ?>"
     <a href="<?php echo e(url($option == 'recurring' ? 'recurring_invoices' : $option)); ?>"
        style="padding-top:6px; padding-bottom:6px"
        class="nav-link <?php echo e(Request::is("{$option}*") ? 'active' : ''); ?>">
-        <i class="fa fa-<?php echo e(empty($icon) ? EntityModel::getIcon($option) : $icon); ?>"
+        <i class="fa fa-<?php echo e(empty($icon) ? \App\Models\EntityModel::getIcon($option) : $icon); ?>"
            style="width:46px; padding-right:10px"></i>
         <?php echo e(($option == 'recurring_invoices') ? trans('texts.recurring') : mtrans($option)); ?>
 
