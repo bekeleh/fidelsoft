@@ -159,8 +159,10 @@ class ActivityListener
 //  invoice activities
     public function createdInvoice(InvoiceWasCreatedEvent $event)
     {
-        $this->activityRepo->create($event->invoice,
-            ACTIVITY_TYPE_CREATE_INVOICE, $event->invoice->getAdjustment()
+        $this->activityRepo->create(
+            $event->invoice,
+            ACTIVITY_TYPE_CREATE_INVOICE,
+            $event->invoice->getAdjustment()
         );
     }
 
@@ -180,7 +182,6 @@ class ActivityListener
         );
 
         $activity->json_backup = $backupInvoice->hidePrivateFields()->toJSON();
-
         $activity->save();
     }
 

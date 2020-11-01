@@ -471,7 +471,7 @@ class Account extends Eloquent
     protected $presenter = 'App\Ninja\Presenters\AccountPresenter';
 
 
-    protected $dates = ['created_at', 'updated_at'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $hidden = ['ip', 'deleted_at'];
 
@@ -677,6 +677,7 @@ class Account extends Eloquent
         'total_revenue' => 1,
         'average_invoice' => 2,
         'outstanding' => 4,
+        'expense' => 3,
     ];
 
     public static $customFields = [

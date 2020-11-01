@@ -89,12 +89,15 @@ class InvoiceItem extends EntityModel
     protected $presenter = 'App\Ninja\Presenters\InvoiceItemPresenter';
     protected $table = 'invoice_items';
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+    protected $hidden = ['deleted_at'];
 
     protected $fillable = [
+        'product_key',
         'cost',
         'qty',
         'notes',
         'invoice_item_type_id',
+        'warehouse_id',
         'tax_name1',
         'tax_rate1',
         'tax_name2',
@@ -112,7 +115,7 @@ class InvoiceItem extends EntityModel
 
     public function getRoute()
     {
-        return "/invoice_items/{$this->public_id}/edit";
+        return "/invoice_items/{$this->public_id}";
     }
 
     public function invoice()

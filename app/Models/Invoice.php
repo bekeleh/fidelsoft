@@ -1012,17 +1012,18 @@ class Invoice extends EntityModel implements BalanceAffecting
         foreach ($this->invoice_items as $invoiceItem) {
             $invoiceItem->setVisible([
                 'name',
+                'product_key',
                 'notes',
-                'custom_value1',
-                'custom_value2',
                 'cost',
                 'qty',
                 'tax_name1',
                 'tax_rate1',
                 'tax_name2',
                 'tax_rate2',
-                'invoice_item_type_id',
                 'discount',
+                'invoice_item_type_id',
+                'custom_value1',
+                'custom_value2',
             ]);
         }
 

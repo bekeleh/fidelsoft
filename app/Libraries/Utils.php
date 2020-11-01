@@ -1345,7 +1345,7 @@ class Utils
 
         $title = $link;
         if (substr($link, 0, 4) != 'http') {
-            $link = 'http://' . $link;
+            $link = 'https://' . $link;
         }
 
         return link_to($link, $title, ['target' => '_blank']);
