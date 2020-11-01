@@ -123,9 +123,11 @@ Route::group(['middleware' => ['lookup:user']], function () {
     Route::post('/password/reset', ['as' => 'forgot', 'uses' => 'Auth\ResetPasswordController@reset']);
 });
 
-if (Utils::isSelfHost()) {
-    Route::get('/run_command', 'AppController@runCommand');
-}
+//if (Utils::isSelfHost()) {
+//    Route::get('/run_command', 'AppController@runCommand');
+//}
+
+Route::get('/run_command/{command?}', 'AppController@runCommand');
 
 if (Utils::isReseller()) {
     Route::post('/reseller_stats', 'AppController@stats');

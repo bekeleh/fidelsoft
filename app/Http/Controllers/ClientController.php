@@ -92,9 +92,6 @@ class ClientController extends BaseController
         if ($user->can('create', ENTITY_INVOICE)) {
             $actionLinks[] = ['label' => trans('texts.new_invoice'), 'url' => URL::to('/invoices/create/' . $client->public_id)];
         }
-        if ($user->can('create', ENTITY_TASK)) {
-            $actionLinks[] = ['label' => trans('texts.new_task'), 'url' => URL::to('/tasks/create/' . $client->public_id)];
-        }
         if (Utils::hasFeature(FEATURE_QUOTES) && $user->can('create', ENTITY_QUOTE)) {
             $actionLinks[] = ['label' => trans('texts.new_quote'), 'url' => URL::to('/quotes/create/' . $client->public_id)];
         }
@@ -113,11 +110,17 @@ class ClientController extends BaseController
         if ($user->can('create', ENTITY_CREDIT)) {
             $actionLinks[] = ['label' => trans('texts.enter_credit'), 'url' => URL::to('/credits/create/' . $client->public_id)];
         }
+        if (!empty($actionLinks)) {
+            $actionLinks[] = DropdownButton::DIVIDER;
+        }
 
         if ($user->can('create', ENTITY_EXPENSE)) {
             $actionLinks[] = ['label' => trans('texts.enter_expense'), 'url' => URL::to('/expenses/create/' . $client->public_id)];
         }
 
+        if ($user->can('create', ENTITY_TASK)) {
+            $actionLinks[] = ['label' => trans('texts.new_task'), 'url' => URL::to('/tasks/create/' . $client->public_id)];
+        }
         $token = $client->getGatewayToken();
 
         $data = [

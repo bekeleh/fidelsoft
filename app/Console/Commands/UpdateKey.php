@@ -27,7 +27,7 @@ class UpdateKey extends Command
      */
     protected $description = 'Update application key';
 
-    public function fire()
+    public function handle()
     {
         $this->info(date('r') . ' Running UpdateKey...');
 
@@ -35,7 +35,7 @@ class UpdateKey extends Command
             config(['database.default' => $database]);
         }
 
-        if (! env('APP_KEY') || ! env('APP_CIPHER')) {
+        if (!env('APP_KEY') || !env('APP_CIPHER')) {
             $this->info(date('r') . ' Error: app key and cipher are not set');
             exit;
         }

@@ -430,9 +430,9 @@ class AppController extends BaseController
             return redirect('/');
         }
 
-        if (Utils::isNinjaProd()) {
-            return redirect('/');
-        }
+//        if (Utils::isNinjaProd()) {
+//            return redirect('/');
+//        }
 
         // if (!Utils::isSuperUser()) {
         //     return redirect('/');
@@ -485,7 +485,9 @@ class AppController extends BaseController
 
     public function runCommand()
     {
-        if (Utils::isNinjaProd()) {
+
+//        if (Utils::isNinjaProd()) {
+        if (!auth()->check()) {
             abort(400, 'Not allowed');
         }
 
@@ -493,11 +495,11 @@ class AppController extends BaseController
         $options = request()->options ?: [];
         $secret = env('COMMAND_SECRET');
 
-        if (!$secret) {
-            exit('Set a value for COMMAND_SECRET in the .env file');
-        } elseif (!hash_equals($secret, request()->secret ?: '')) {
-            exit('Invalid secret');
-        }
+//        if (!$secret) {
+//            exit('Set a value for COMMAND_SECRET in the .env file');
+//        } elseif (!hash_equals($secret, request()->secret ?: '')) {
+//            exit('Invalid secret');
+//        }
 
         if (!$command || !in_array($command, ['send-invoices', 'send-reminders', 'update-key'])) {
             exit('Invalid command: Valid options are send-invoices, send-reminders or update-key');

@@ -7,8 +7,8 @@ use App\Models\Invoice;
 use App\Ninja\Mailers\ClientMailer as Mailer;
 use App\Ninja\Repositories\AccountRepository;
 use App\Services\PaymentService;
-use Illuminate\Console\Command;
 use Carbon\Carbon;
+use Illuminate\Console\Command;
 use Mail;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -58,17 +58,17 @@ class ChargeRenewalInvoices extends Command
         $this->paymentService = $paymentService;
     }
 
-    public function fire()
+    public function handle()
     {
-        $this->info(date('r') . ' ChargeRenewalInvoices...');
+        $this->info(date('r') . ' Charge Renewal Invoices...');
 
         if ($database = $this->option('database')) {
             config(['database.default' => $database]);
         }
 
         $ninjaAccount = $this->accountRepo->getNinjaAccount();
-        $invoices = Invoice::whereAccountId($ninjaAccount->id)
-            ->whereDueDate(date('Y-m-d'))
+        $invoices = Invoice::where('account_id', $ninjaAccount->id)
+            ->where('due_date', date('Y-m-d'))
             ->where('balance', '>', 0)
             ->with('client')
             ->orderBy('id')

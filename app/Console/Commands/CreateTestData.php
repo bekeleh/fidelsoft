@@ -41,10 +41,10 @@ class CreateTestData extends Command
     /**
      * CreateTestData constructor.
      *
-     * @param ClientRepository  $clientRepo
+     * @param ClientRepository $clientRepo
      * @param InvoiceRepository $invoiceRepo
      * @param PaymentRepository $paymentRepo
-     * @param VendorRepository  $vendorRepo
+     * @param VendorRepository $vendorRepo
      * @param ExpenseRepository $expenseRepo
      * @param TaskRepository $taskRepo
      * @param AccountRepository $accountRepo
@@ -76,14 +76,14 @@ class CreateTestData extends Command
     /**
      * @return bool
      */
-    public function fire()
+    public function handle()
     {
         if (Utils::isNinjaProd()) {
             $this->info('Unable to run in production');
             return false;
         }
 
-        $this->info(date('r').' Running CreateTestData...');
+        $this->info(date('r') . ' Running CreateTestData...');
         $this->count = $this->argument('count');
 
         if ($database = $this->option('database')) {
@@ -160,7 +160,7 @@ class CreateTestData extends Command
             $invoice = $this->invoiceRepo->save($data);
             $this->info('Invoice: ' . $invoice->invoice_number);
 
-            if (! $isQuote) {
+            if (!$isQuote) {
                 $this->createPayment($client, $invoice);
             }
         }
@@ -206,7 +206,6 @@ class CreateTestData extends Command
             $this->taskRepo->save(false, $data);
         }
     }
-
 
 
     private function createVendors()

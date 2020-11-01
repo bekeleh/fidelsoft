@@ -40,7 +40,7 @@ class SendRenewalInvoices extends Command
         $this->accountRepo = $accountRepo;
     }
 
-    public function fire()
+    public function handle()
     {
         $this->info(date('r') . ' Running Send Renewal Invoices Command ...');
 

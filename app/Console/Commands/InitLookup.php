@@ -47,7 +47,7 @@ class InitLookup extends Command
         config(['database.default' => DB_NINJA_LOOKUP]);
 
         $database = $this->option('database');
-        $dbServer = DbServer::whereName($database)->first();
+        $dbServer = DbServer::where('name', $database)->first();
 
         if ($this->option('subdomain')) {
             $this->logMessage('Updating subdomains...');

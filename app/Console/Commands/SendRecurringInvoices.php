@@ -30,15 +30,15 @@ class SendRecurringInvoices extends Command
      */
     protected $description = 'Send recurring invoices';
 
-    /**
-     * @var InvoiceRepository
-     */
+
     protected $invoiceRepo;
+    protected $recurringExpenseRepo;
 
     /**
      * SendRecurringInvoices constructor.
      *
      * @param InvoiceRepository $invoiceRepo
+     * @param RecurringExpenseRepository $recurringExpenseRepo
      */
     public function __construct(InvoiceRepository $invoiceRepo, RecurringExpenseRepository $recurringExpenseRepo)
     {
@@ -48,7 +48,7 @@ class SendRecurringInvoices extends Command
         $this->recurringExpenseRepo = $recurringExpenseRepo;
     }
 
-    public function fire()
+    public function handle()
     {
         $this->info(date('r') . ' Running SendRecurringInvoices...');
 
@@ -87,11 +87,11 @@ class SendRecurringInvoices extends Command
         foreach ($invoices as $recurInvoice) {
             $shouldSendToday = $recurInvoice->shouldSendToday();
 
-            if (! $shouldSendToday) {
+            if (!$shouldSendToday) {
                 continue;
             }
 
-            $this->info(date('r') . ' Processing Invoice: '. $recurInvoice->id);
+            $this->info(date('r') . ' Processing Invoice: ' . $recurInvoice->id);
 
             $account = $recurInvoice->account;
             $account->loadLocalizationSettings($recurInvoice->client);
@@ -99,7 +99,7 @@ class SendRecurringInvoices extends Command
 
             try {
                 $invoice = $this->invoiceRepo->createRecurringInvoice($recurInvoice);
-                if ($invoice && ! $invoice->isPaid() && $account->auto_email_invoice) {
+                if ($invoice && !$invoice->isPaid() && $account->auto_email_invoice) {
                     $this->info(date('r') . ' Not billed - Sending Invoice');
                     dispatch(new SendInvoiceEmail($invoice, $invoice->user_id));
                 } elseif ($invoice) {
@@ -119,19 +119,21 @@ class SendRecurringInvoices extends Command
         $today = new DateTime();
 
         $expenses = RecurringExpense::with('client')
-                        ->whereRaw('is_deleted IS FALSE AND deleted_at IS NULL AND start_date <= ? AND (end_date IS NULL OR end_date >= ?)', [$today, $today])
-                        ->orderBy('id', 'asc')
-                        ->get();
+            ->whereRaw('is_deleted IS FALSE AND deleted_at IS NULL AND expense_date <= ? AND (end_date IS NULL OR end_date >= ?)', [$today, $today])
+            ->orderBy('id', 'asc')
+            ->get();
+
         $this->info(date('r ') . $expenses->count() . ' recurring expenses(s) found');
 
         foreach ($expenses as $expense) {
             $shouldSendToday = $expense->shouldSendToday();
 
-            if (! $shouldSendToday) {
+            if (!$shouldSendToday) {
                 continue;
             }
 
-            $this->info(date('r') . ' Processing Expense: '. $expense->id);
+            $this->info(date('r') . ' Processing Expense: ' . $expense->id);
+
             $this->recurringExpenseRepo->createRecurringExpense($expense);
         }
     }

@@ -128,6 +128,7 @@ class Expense extends EntityModel
         'vendor_id',
         'expense_currency_id',
         'expense_date',
+        'end_date',
         'invoice_currency_id',
         'amount',
         'foreign_amount',

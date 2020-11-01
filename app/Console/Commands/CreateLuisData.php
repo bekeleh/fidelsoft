@@ -37,7 +37,7 @@ class CreateLuisData extends Command
     /**
      * @return bool
      */
-    public function fire()
+    public function handle()
     {
         $this->fakerField = $this->argument('faker_field');
 
@@ -156,7 +156,7 @@ class CreateLuisData extends Command
             ]);
             $intents[] = $this->createIntent('ListEntity', "show me {$client}'s active {$entityTypePlural}", [
                 $entityTypePlural => 'EntityType',
-                $client . '\'s'  => 'Name',
+                $client . '\'s' => 'Name',
                 'active' => 'Filter',
             ]);
         }
@@ -191,7 +191,7 @@ class CreateLuisData extends Command
 
         foreach ($entities as $value => $entity) {
             $startPos = strpos($text, (string)$value);
-            if (! $startPos) {
+            if (!$startPos) {
                 dd("Failed to find {$value} in {$text}");
             }
             $entityClass = new stdClass();

@@ -4,7 +4,7 @@ use App\Libraries\Utils;
 
 return [
 
-    'name' => env('APP_NAME', 'Fidelsoft Business Management Suit'),
+    'name' => env('APP_NAME', 'Fidelsoft Business Management Suite'),
 
     /*
     |--------------------------------------------------------------------------
