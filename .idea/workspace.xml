@@ -3,36 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Libraries/Utils.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Libraries/Utils.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Listeners/Report/ActivityListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Listeners/Report/ActivityListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Common/Account.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Common/Account.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Invoice.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Invoice.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/InvoiceItem.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/InvoiceItem.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Traits/PresentsInvoice.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Traits/PresentsInvoice.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/cache/URI/4.12.0,3478238e680361cd87bf880f5b3cc50a1e7abc6c,1.ser" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ScheduleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ScheduleController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/BillRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/BillRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/sessions/rGW8LScUSqEoCBv7BHTUecurICJkKuZNALLLq3sv" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/rGW8LScUSqEoCBv7BHTUecurICJkKuZNALLLq3sv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/049d6a5a10e0d19d764619b92104b2f0043d33a7.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/0dd77076c4ae7092071c0f25f1f449f93d6732cc.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/22f83d60bc85475fcf51fde82a00179ec7400723.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/2344e41aec670a85a8b6e80fd35706f43bcb0f35.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/27db1707377b4acecf75e8f316953e2d2b1ea128.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/3438e0a749fe8929d49d5a891ffed01a97d38d82.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/39db1ef23e7ad18db4a1cac9aa17743ab6446bda.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/484c63abfe14e57b3ed5664461672663c23b9a5c.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/4b48a4ebd76f2912045b79f96fdb9f75d9bf3669.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/4ba83ce311f1adc2f92f7a3d5a61a256d5d53490.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/6567a715b7dfc6d84b6849736e79da2d5aafc565.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/6ec24278ebf839583e867af254c389350faec13c.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/71934c9caea92054e0e818bdf7e5dbf16570cffe.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/9a338b553e34b7ec30c43ce53dbc691feeb63798.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/9db0c33b8251f2c1a8afd54940b2dc8910862e3e.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/b0b873810f528a28f18618b712b549676001efb4.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/cd147643fd8adc80fa393df0fffe395dee866440.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/d16ab5b5779af336f6b071801195bb262467326d.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/d4595b8d9dc1b4a277507c38ec3a7c9a684b7387.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/e09081fd444d26ef0b5a388e3a721270068c47dd.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/f1aa189d18e8ad35b903c92f3e3d13b1eae9ec18.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/f7d34ca9e316094ed022434d11ebcbb468b46732.php" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -639,14 +612,8 @@
       <workItem from="1603947525035" duration="3111000" />
       <workItem from="1604075640413" duration="10979000" />
       <workItem from="1604126556375" duration="8503000" />
-      <workItem from="1604212781948" duration="13489000" />
-    </task>
-    <task id="LOCAL-00560" summary="2020-09-05 9:27">
-      <created>1599300226906</created>
-      <option name="number" value="00560" />
-      <option name="presentableId" value="LOCAL-00560" />
-      <option name="project" value="LOCAL" />
-      <updated>1599300226907</updated>
+      <workItem from="1604212781948" duration="14287000" />
+      <workItem from="1604332644709" duration="65000" />
     </task>
     <task id="LOCAL-00561" summary="2020-09-05 9:27">
       <created>1599306185508</created>
@@ -984,7 +951,14 @@
       <option name="project" value="LOCAL" />
       <updated>1604231973220</updated>
     </task>
-    <option name="localTasksCounter" value="609" />
+    <task id="LOCAL-00609" summary="2021-11-01 9:27">
+      <created>1604259667831</created>
+      <option name="number" value="00609" />
+      <option name="presentableId" value="LOCAL-00609" />
+      <option name="project" value="LOCAL" />
+      <updated>1604259667832</updated>
+    </task>
+    <option name="localTasksCounter" value="610" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1093,10 +1067,10 @@
     </state>
     <state x="131" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1603947200863" />
     <state x="75" y="0" key="SettingsEditor/0.0.1440.860@0.0.1440.860" timestamp="1599129398220" />
-    <state x="421" y="115" width="639" height="382" key="com.intellij.ide.util.TipDialog" timestamp="1604212977393">
+    <state x="421" y="115" width="639" height="382" key="com.intellij.ide.util.TipDialog" timestamp="1604332644486">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="421" y="115" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1604212977393" />
+    <state x="421" y="115" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1604332644486" />
     <state x="422" y="117" width="639" height="382" key="com.intellij.ide.util.TipDialog/0.0.1440.860@0.0.1440.860" timestamp="1603887369018" />
     <state x="341" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1598362085078">
       <screen x="0" y="0" width="1440" height="860" />
@@ -1119,10 +1093,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="334" y="154" width="672" height="677" key="run.anything.popup/0.0.1280.680@0.0.1280.680" timestamp="1599597503870" />
-    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup" timestamp="1604256564141">
+    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup" timestamp="1604332705990">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1604256564141" />
+    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1604332705990" />
     <state x="492" y="101" width="756" height="680" key="search.everywhere.popup/0.0.1440.860@0.0.1440.860" timestamp="1602742874216" />
   </component>
 </project>

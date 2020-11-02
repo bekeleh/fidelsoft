@@ -57,9 +57,11 @@ class BillRepository extends BaseRepository
 
     public function all()
     {
-        return Bill::scope()->billType(BILL_TYPE_STANDARD)
+        return Bill::scope()
+            ->where('bill_type', BILL_TYPE_STANDARD)
+            ->where('is_recurring', false)
             ->with('user', 'vendor.contacts', 'invoice_status')
-            ->withTrashed()->where('is_recurring', false)
+            ->withTrashed()
             ->get();
     }
 

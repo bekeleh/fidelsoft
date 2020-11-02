@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreatescheduleRequest;
-use App\Http\Requests\scheduleRequest;
-use App\Http\Requests\UpdatescheduleRequest;
-use App\Ninja\Datatables\scheduleDatatable;
-use App\Ninja\Repositories\scheduleRepository;
-use App\Services\scheduleService;
+use App\Http\Requests\CreateScheduleRequest;
+use App\Http\Requests\ScheduleRequest;
+use App\Http\Requests\UpdateScheduleRequest;
+use App\Ninja\Datatables\ScheduleDatatable;
+use App\Ninja\Repositories\ScheduleRepository;
+use App\Services\ScheduleService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
@@ -19,7 +19,7 @@ class scheduleController extends BaseController
     protected $scheduleService;
     protected $entityType = ENTITY_SCHEDULE;
 
-    public function __construct(scheduleRepository $scheduleRepo, scheduleService $scheduleService)
+    public function __construct(ScheduleRepository $scheduleRepo, ScheduleService $scheduleService)
     {
         $this->scheduleRepo = $scheduleRepo;
         $this->scheduleService = $scheduleService;
@@ -30,7 +30,7 @@ class scheduleController extends BaseController
         $this->authorize('view', ENTITY_SCHEDULE);
         return View::make('list_wrapper', [
             'entityType' => ENTITY_SCHEDULE,
-            'datatable' => new scheduleDatatable(),
+            'datatable' => new ScheduleDatatable(),
             'title' => trans('texts.schedules'),
         ]);
     }
@@ -43,7 +43,7 @@ class scheduleController extends BaseController
         return $this->scheduleService->getDatatable($accountId, $search);
     }
 
-    public function create(scheduleRequest $request)
+    public function create(ScheduleRequest $request)
     {
         $this->authorize('create', ENTITY_SCHEDULE);
         $data = [
@@ -56,7 +56,7 @@ class scheduleController extends BaseController
         return View::make('schedules.edit', $data);
     }
 
-    public function edit(scheduleRequest $request)
+    public function edit(ScheduleRequest $request)
     {
         $this->authorize('edit', ENTITY_SCHEDULE);
         $schedule = $request->entity();
@@ -71,7 +71,7 @@ class scheduleController extends BaseController
         return View::make('schedules.edit', $data);
     }
 
-    public function store(CreatescheduleRequest $request)
+    public function store(CreateScheduleRequest $request)
     {
         $schedule = $this->scheduleRepo->save($request->input());
 
@@ -80,7 +80,7 @@ class scheduleController extends BaseController
         return redirect()->to($schedule->getRoute());
     }
 
-    public function update(UpdatescheduleRequest $request)
+    public function update(UpdateScheduleRequest $request)
     {
         $schedule = $this->scheduleRepo->save($request->input(), $request->entity());
 
@@ -89,7 +89,7 @@ class scheduleController extends BaseController
         return redirect()->to($schedule->getRoute());
     }
 
-    public function cloneSchedule(scheduleRequest $request, $publicId)
+    public function cloneSchedule(ScheduleRequest $request, $publicId)
     {
         return self::edit($request, $publicId, true);
     }
