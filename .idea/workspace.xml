@@ -2,10 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/0DI7npBDHknMQa5k2dDEnei0L41GEWGzv0tdpZH6" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/uUou5hFaI9KModGIgDPkpnfqO4eCLkwE0LS04skJ" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/0b34fd22c06ec62d7aad6827365130566c72441c.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/5bd0a526702eadaf3ed3a6b41774d87f5ab427fa.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/fa358fd39e781ab9a9c42659bdb7ee66b4820c2c.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ScheduleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ScheduleController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Ninja/Repositories/BillRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Ninja/Repositories/BillRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/rGW8LScUSqEoCBv7BHTUecurICJkKuZNALLLq3sv" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/rGW8LScUSqEoCBv7BHTUecurICJkKuZNALLLq3sv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/041759f7ce8fae5eece7a32e47636a4ccd924973.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/2318ba29b1cc5696339c862dcba957332ef5c6ee.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/39ed14505845d0a38458ae2e5a9a4757330f3ed1.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/3ef271aa11cb013a37b24c50d99702a6cb7edc1d.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/7d65da396a0e8a48602de1c9c09a374ccb2e4e80.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/914bd7b0aef7b714bc101dc19380abf8495d317e.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/bcb6d105d0ea8e353b0427c1ed0dedcf72739b52.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/c77171ffb265b47f0cccba9efad7ec2844a28b5c.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/d160aff190fb95f442b89007a18266dc9260efa1.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/d16ab5b5779af336f6b071801195bb262467326d.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/e6e7291339d996e87b6ac0f09f9ba6c9a71db7f7.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/f7d34ca9e316094ed022434d11ebcbb468b46732.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -613,14 +629,9 @@
       <workItem from="1604075640413" duration="10979000" />
       <workItem from="1604126556375" duration="8503000" />
       <workItem from="1604212781948" duration="14287000" />
-      <workItem from="1604332644709" duration="65000" />
-    </task>
-    <task id="LOCAL-00561" summary="2020-09-05 9:27">
-      <created>1599306185508</created>
-      <option name="number" value="00561" />
-      <option name="presentableId" value="LOCAL-00561" />
-      <option name="project" value="LOCAL" />
-      <updated>1599306185508</updated>
+      <workItem from="1604332644709" duration="2019000" />
+      <workItem from="1604382677521" duration="605000" />
+      <workItem from="1604771864788" duration="2631000" />
     </task>
     <task id="LOCAL-00562" summary="2020-09-05 9:27">
       <created>1599306264687</created>
@@ -958,7 +969,14 @@
       <option name="project" value="LOCAL" />
       <updated>1604259667832</updated>
     </task>
-    <option name="localTasksCounter" value="610" />
+    <task id="LOCAL-00610" summary="2021-11-02 9:27">
+      <created>1604332725068</created>
+      <option name="number" value="00610" />
+      <option name="presentableId" value="LOCAL-00610" />
+      <option name="project" value="LOCAL" />
+      <updated>1604332725069</updated>
+    </task>
+    <option name="localTasksCounter" value="611" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -985,7 +1003,6 @@
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="2020-08-27 9:27" />
     <MESSAGE value="2020-08-31 9:27" />
     <MESSAGE value="2020-09-1 9:27" />
     <MESSAGE value="2020-09-01 9:27" />
@@ -1010,7 +1027,8 @@
     <MESSAGE value="2021-10-27 9:27" />
     <MESSAGE value="2021-10-30 9:27" />
     <MESSAGE value="2021-11-01 9:27" />
-    <option name="LAST_COMMIT_MESSAGE" value="2021-11-01 9:27" />
+    <MESSAGE value="2021-11-02 9:27" />
+    <option name="LAST_COMMIT_MESSAGE" value="2021-11-02 9:27" />
   </component>
   <component name="WindowStateProjectService">
     <state x="277" y="0" key="#Notifications" timestamp="1602448417072">
@@ -1047,10 +1065,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1597344338612" />
-    <state x="141" y="0" width="1042" height="680" key="CommitChangelistDialog2" timestamp="1604259663760">
+    <state x="141" y="0" width="1042" height="680" key="CommitChangelistDialog2" timestamp="1604332722283">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="141" y="0" width="1042" height="680" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1604259663760" />
+    <state x="141" y="0" width="1042" height="680" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1604332722283" />
     <state x="159" y="0" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1603887414464" />
     <state x="444" y="140" key="FileChooserDialogImpl" timestamp="1603947197950">
       <screen x="0" y="0" width="1280" height="680" />
@@ -1067,10 +1085,10 @@
     </state>
     <state x="131" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1603947200863" />
     <state x="75" y="0" key="SettingsEditor/0.0.1440.860@0.0.1440.860" timestamp="1599129398220" />
-    <state x="421" y="115" width="639" height="382" key="com.intellij.ide.util.TipDialog" timestamp="1604332644486">
+    <state x="421" y="115" width="639" height="382" key="com.intellij.ide.util.TipDialog" timestamp="1604771899519">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="421" y="115" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1604332644486" />
+    <state x="421" y="115" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1604771899519" />
     <state x="422" y="117" width="639" height="382" key="com.intellij.ide.util.TipDialog/0.0.1440.860@0.0.1440.860" timestamp="1603887369018" />
     <state x="341" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1598362085078">
       <screen x="0" y="0" width="1440" height="860" />
@@ -1080,10 +1098,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="93" y="93" width="1095" height="495" key="dock-window-1/0.0.1280.680@0.0.1280.680" timestamp="1597566421634" />
-    <state x="332" y="34" width="906" height="638" key="find.popup" timestamp="1604134060271">
+    <state x="332" y="34" width="906" height="638" key="find.popup" timestamp="1604772649603">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="332" y="34" width="906" height="638" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1604134060271" />
+    <state x="332" y="34" width="906" height="638" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1604772649603" />
     <state x="225" y="72" width="1020" height="747" key="find.popup/0.0.1440.860@0.0.1440.860" timestamp="1602510006099" />
     <state x="282" y="67" width="700" height="530" key="recent.locations.popup" timestamp="1597406020338">
       <screen x="0" y="0" width="1280" height="680" />
@@ -1093,10 +1111,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="334" y="154" width="672" height="677" key="run.anything.popup/0.0.1280.680@0.0.1280.680" timestamp="1599597503870" />
-    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup" timestamp="1604332705990">
+    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup" timestamp="1604771916320">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1604332705990" />
+    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1604771916320" />
     <state x="492" y="101" width="756" height="680" key="search.everywhere.popup/0.0.1440.860@0.0.1440.860" timestamp="1602742874216" />
   </component>
 </project>
