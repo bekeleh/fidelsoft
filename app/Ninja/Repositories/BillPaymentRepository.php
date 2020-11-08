@@ -176,7 +176,8 @@ class BillPaymentRepository extends BaseRepository
     public function save($input, $payment = null)
     {
         $publicId = isset($input['public_id']) ? $input['public_id'] : false;
-
+//      default payment type
+        $paymentTypeId = PAYMENT_TYPE_CASH;
         if ($payment) {
             $payment->updated_by = auth::user()->username;
         } elseif ($publicId) {
@@ -219,7 +220,9 @@ class BillPaymentRepository extends BaseRepository
 
         $payment->fill($input);
 
-        $paymentTypeId = $input['payment_type_id'];
+        if (!empty($input['payment_type_id'])) {
+            $paymentTypeId = $input['payment_type_id'];
+        }
         if (!$publicId) {
             $vendorId = $input['vendor_id'];
             $amount = round(Utils::parseFloat($input['amount']), 2);

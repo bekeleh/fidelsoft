@@ -172,7 +172,8 @@ class PaymentRepository extends BaseRepository
     public function save($input, $payment = null)
     {
         $publicId = isset($input['public_id']) ? $input['public_id'] : false;
-
+//      default payment type
+        $paymentTypeId = PAYMENT_TYPE_CASH;
         if ($payment) {
             $payment->updated_by = auth::user()->username;
         } elseif ($publicId) {
