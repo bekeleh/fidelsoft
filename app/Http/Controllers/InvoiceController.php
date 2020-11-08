@@ -281,7 +281,8 @@ class InvoiceController extends BaseController
             'title' => trans("texts.edit_{$entityType}"),
             'client' => $invoice->client,
             'isRecurring' => $invoice->is_recurring,
-            'lastSent' => $lastSent,];
+            'lastSent' => $lastSent,
+        ];
 
         $data = array_merge($data, self::getViewModel($invoice));
 
