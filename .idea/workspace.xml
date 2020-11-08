@@ -2,26 +2,51 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ca27e67-9975-47eb-9c10-092eb497b5cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/0DI7npBDHknMQa5k2dDEnei0L41GEWGzv0tdpZH6" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/uUou5hFaI9KModGIgDPkpnfqO4eCLkwE0LS04skJ" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/0b34fd22c06ec62d7aad6827365130566c72441c.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/5bd0a526702eadaf3ed3a6b41774d87f5ab427fa.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/storage/framework/views/fa358fd39e781ab9a9c42659bdb7ee66b4820c2c.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/fidel-logoam.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/icon-login - Copy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/icon-login@2x - Copy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/invoiceninja-logo@2x - Copy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/invoiceninja-logo@2x1 - Copy.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/invoiceninja-logo@2x1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/invoiceninja-logox53 - Copy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/round_logo - Copy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/Lwp6gyha6f5AzndVe8QQSDRG9tjeJcNXBvsAGWld" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/sessions/RWu0v7hDMhXCChErE6mLvVJBtcXSZ03XTLdBJn7K" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/39db1ef23e7ad18db4a1cac9aa17743ab6446bda.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/4b48a4ebd76f2912045b79f96fdb9f75d9bf3669.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/547149918804f7815bc755f8250ddb3cef452bc6.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/c6af8a08c07fb418e13827673ab085b41b2f60c1.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/d160aff190fb95f442b89007a18266dc9260efa1.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/framework/views/d4595b8d9dc1b4a277507c38ec3a7c9a684b7387.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/041759f7ce8fae5eece7a32e47636a4ccd924973.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/2318ba29b1cc5696339c862dcba957332ef5c6ee.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/39ed14505845d0a38458ae2e5a9a4757330f3ed1.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/3ef271aa11cb013a37b24c50d99702a6cb7edc1d.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/7d65da396a0e8a48602de1c9c09a374ccb2e4e80.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/914bd7b0aef7b714bc101dc19380abf8495d317e.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/bcb6d105d0ea8e353b0427c1ed0dedcf72739b52.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/c77171ffb265b47f0cccba9efad7ec2844a28b5c.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/d160aff190fb95f442b89007a18266dc9260efa1.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/d16ab5b5779af336f6b071801195bb262467326d.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/e6e7291339d996e87b6ac0f09f9ba6c9a71db7f7.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/f7d34ca9e316094ed022434d11ebcbb468b46732.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/logs/laravel-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel-error.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SubscriptionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/SubscriptionController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Bill.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Bill.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/public/favicon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/favicon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/fidel-logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/fidel-logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/icon-login.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/icon-login.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/icon-login@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/icon-login@2x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/invoiceninja-logo@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/invoiceninja-logo@2x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/invoiceninja-logox53.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/invoiceninja-logox53.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/logo.gif" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/logo.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/report_logo1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/report_logo1.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/report_logo1.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/report_logo1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/report_logo2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/report_logo2.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/report_logo2.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/report_logo2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/report_logo3.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/report_logo3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/round_logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/round_logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/logo/5gpnzda0npct5cjenrlarlg48p0if4fq.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/logo/zg4ylmzDkdkPOT8yoKQw9LTWaoZJx79h.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/logo/zg4ylmzDkdkPOT8yoKQw9LTWaoZJx79h.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/cache/CSS/4.12.0,4114918a13a428a8482a8a449792a5a8747582b5,1.ser" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/cache/HTML/4.12.0,42d2529d2d2aa4f137a4d6d6292a92e3ee82eb86,1.ser" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/uUou5hFaI9KModGIgDPkpnfqO4eCLkwE0LS04skJ" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/sessions/uUou5hFaI9KModGIgDPkpnfqO4eCLkwE0LS04skJ" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/049d6a5a10e0d19d764619b92104b2f0043d33a7.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/0b34fd22c06ec62d7aad6827365130566c72441c.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/5bd0a526702eadaf3ed3a6b41774d87f5ab427fa.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/5bd0a526702eadaf3ed3a6b41774d87f5ab427fa.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/6567a715b7dfc6d84b6849736e79da2d5aafc565.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/9db0c33b8251f2c1a8afd54940b2dc8910862e3e.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/fa358fd39e781ab9a9c42659bdb7ee66b4820c2c.php" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -631,14 +656,8 @@
       <workItem from="1604212781948" duration="14287000" />
       <workItem from="1604332644709" duration="2019000" />
       <workItem from="1604382677521" duration="605000" />
-      <workItem from="1604771864788" duration="2631000" />
-    </task>
-    <task id="LOCAL-00562" summary="2020-09-05 9:27">
-      <created>1599306264687</created>
-      <option name="number" value="00562" />
-      <option name="presentableId" value="LOCAL-00562" />
-      <option name="project" value="LOCAL" />
-      <updated>1599306264687</updated>
+      <workItem from="1604771864788" duration="3867000" />
+      <workItem from="1604831527930" duration="696000" />
     </task>
     <task id="LOCAL-00563" summary="2020-09-05 9:27">
       <created>1599306596826</created>
@@ -976,7 +995,14 @@
       <option name="project" value="LOCAL" />
       <updated>1604332725069</updated>
     </task>
-    <option name="localTasksCounter" value="611" />
+    <task id="LOCAL-00611" summary="2021-11-07 9:27">
+      <created>1604774614810</created>
+      <option name="number" value="00611" />
+      <option name="presentableId" value="LOCAL-00611" />
+      <option name="project" value="LOCAL" />
+      <updated>1604774614810</updated>
+    </task>
+    <option name="localTasksCounter" value="612" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1003,7 +1029,6 @@
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="2020-08-31 9:27" />
     <MESSAGE value="2020-09-1 9:27" />
     <MESSAGE value="2020-09-01 9:27" />
     <MESSAGE value="2020-09-02 9:27" />
@@ -1028,7 +1053,8 @@
     <MESSAGE value="2021-10-30 9:27" />
     <MESSAGE value="2021-11-01 9:27" />
     <MESSAGE value="2021-11-02 9:27" />
-    <option name="LAST_COMMIT_MESSAGE" value="2021-11-02 9:27" />
+    <MESSAGE value="2021-11-07 9:27" />
+    <option name="LAST_COMMIT_MESSAGE" value="2021-11-07 9:27" />
   </component>
   <component name="WindowStateProjectService">
     <state x="277" y="0" key="#Notifications" timestamp="1602448417072">
@@ -1065,10 +1091,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="281" y="189" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1280.680@0.0.1280.680" timestamp="1597344338612" />
-    <state x="141" y="0" width="1042" height="680" key="CommitChangelistDialog2" timestamp="1604332722283">
+    <state x="141" y="0" width="1042" height="680" key="CommitChangelistDialog2" timestamp="1604774609904">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="141" y="0" width="1042" height="680" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1604332722283" />
+    <state x="141" y="0" width="1042" height="680" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1604774609904" />
     <state x="159" y="0" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1603887414464" />
     <state x="444" y="140" key="FileChooserDialogImpl" timestamp="1603947197950">
       <screen x="0" y="0" width="1280" height="680" />
@@ -1085,10 +1111,10 @@
     </state>
     <state x="131" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1603947200863" />
     <state x="75" y="0" key="SettingsEditor/0.0.1440.860@0.0.1440.860" timestamp="1599129398220" />
-    <state x="421" y="115" width="639" height="382" key="com.intellij.ide.util.TipDialog" timestamp="1604771899519">
+    <state x="421" y="115" width="639" height="382" key="com.intellij.ide.util.TipDialog" timestamp="1604831528102">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="421" y="115" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1604771899519" />
+    <state x="421" y="115" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1604831528102" />
     <state x="422" y="117" width="639" height="382" key="com.intellij.ide.util.TipDialog/0.0.1440.860@0.0.1440.860" timestamp="1603887369018" />
     <state x="341" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1598362085078">
       <screen x="0" y="0" width="1440" height="860" />
@@ -1111,10 +1137,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="334" y="154" width="672" height="677" key="run.anything.popup/0.0.1280.680@0.0.1280.680" timestamp="1599597503870" />
-    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup" timestamp="1604771916320">
+    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup" timestamp="1604832198594">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1604771916320" />
+    <state x="368" y="94" width="672" height="537" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1604832198594" />
     <state x="492" y="101" width="756" height="680" key="search.everywhere.popup/0.0.1440.860@0.0.1440.860" timestamp="1602742874216" />
   </component>
 </project>

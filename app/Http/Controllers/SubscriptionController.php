@@ -135,14 +135,20 @@ class SubscriptionController extends BaseController
             Session::flash('message', $message);
         }
 
-        return redirect('/settings/subscriptions');
+//        return redirect('/settings/subscriptions');
 
-        /*
         if ($subscriptionPublicId) {
             return Redirect::to('subscriptions/' . $subscriptionPublicId . '/edit');
         } else {
-            return redirect('/settings/api_tokens');
+            return redirect('/settings/subscriptions');
         }
-        */
+    }
+
+    public function show($publicId)
+    {
+        Session::reflash();
+
+        return Redirect::to('subscriptions/' . $publicId . '/edit');
+
     }
 }
